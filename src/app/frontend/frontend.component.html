@@ -1,0 +1,25 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">ZoDream</a>
+    <button class="navbar-toggler" type="button" (click)="navExpand = !navExpand" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [ngClass]="{show: navExpand}" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <ng-container *ngFor="let item of menus">
+                <li class="nav-item active">
+                    <a class="nav-link" [routerLink]="item.url">{{ item.name }}<span class="sr-only">(current)</span></a>
+                </li>
+          </ng-container>
+      </ul>
+    </div>
+  </nav>
+</header>
+<router-outlet></router-outlet>
+<footer>
+  <div class="copyright">
+    <p>Copyright ©zodream.cn, All Rights Reserved.</p>
+  </div>
+</footer>
