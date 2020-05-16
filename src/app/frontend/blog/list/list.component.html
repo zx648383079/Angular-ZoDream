@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="book-sidebar">
+    <div class="book-chapter">
+        <ul>
+            <li *ngFor="let item of categories">
+              <i class="fa fa-bookmark"></i><a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>
+              <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="book-new" *ngIf="newItems.length > 0">
+        <h3>最新日记</h3>
+        <ul>
+            <li *ngFor="let item of newItems">
+              <i class="fa fa-bookmark"></i><a routerLink="../{{ item.id }}">{{ item.title }}</a></li>
+            <li>
+        </ul>
+    </div>
+  </div>
+  <div class="book-body">
+    <div class="book-sort">
+        <a routerLink="../tag">标签</a>
+        <a  routerLink="../archives">归档</a>
+        <a >推荐</a>
+        <a class="active" >最新</a>
+        <a >最热</a>
+    </div>
+    <h2 class="book-header" *ngIf="false">vue</h2>
+    <div class="book-term" *ngIf="false">
+        <div class="term-info">
+            <img src="https://static.zodream.cn/banner.jpg" alt="编程技术">
+            <h3>编程技术</h3>
+        </div>
+        <div class="term-desc">学习一些编程语言的过程。</div>
+    </div>
+    <dl class="book-item" *ngFor="let item of items">
+        <dt>
+            <a href="https://zodream.cn/blog/id/137.html" [title]="item.title">{{ item.title }}</a>
+            <span class="book-time">{{ item.created_at }}</span></dt>
+        <dd>
+            <p></p>
+            <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="fa fa-edit"></i><b>zodream</b></a>
+            <a class="category" href="https://zodream.cn/blog/category/3.html"><i
+                    class="fa fa-bookmark"></i><b>编程技术</b></a>
+            <a class="language" href="https://zodream.cn/blog/0/programming_language/TypeScript.html"><i
+                    class="fa fa-code"></i><b>TypeScript</b></a>
+            <span class="comment"><i class="fa fa-comments"></i><b>0</b></span>
+            <span class="agree"><i class="fas fa-thumbs-up"></i><b>0</b></span>
+            <span class="click"><i class="fa fa-eye"></i><b>3</b></span>
+        </dd>
+    </dl>
+  </div>
+  <div class="book-footer">
+    <ngb-pagination [collectionSize]="70" [(page)]="page" [pageSize]="20" [directionLinks]="false"></ngb-pagination>
+  </div>
+</div>

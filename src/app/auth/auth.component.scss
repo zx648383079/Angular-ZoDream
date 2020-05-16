@@ -1,0 +1,117 @@
+.login-box {
+    max-width: 300px;
+    margin: 20vh auto 40vh;
+    overflow: hidden;
+    position: relative;
+}
+
+footer {
+    background-color: #a10000;
+    color: #fff;
+    padding: 20px 0;
+    .copyright {
+        text-align: center;
+    }
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+::ng-deep {
+    .btn {
+        padding: 0 30px;
+        border: none;
+        line-height: 30px;
+        vertical-align: middle;
+        background: #cc2525;
+        color: #fff;
+        width: 100%;
+        margin: 0;
+        &:hover {
+            background: #a10000;
+            color: #fff;
+        }
+    }
+    .input-box {
+        padding-top: 70px;
+    }
+    .form-ico {
+        .input-group {
+            position: relative;
+            line-height: 30px;
+            display: block;
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="password"],
+            input[type="url"] {
+                padding-left: 30px;
+                width: 100%;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                box-sizing: border-box;
+                border: none;
+                outline: none;
+                border-bottom: 1px solid #767676;
+                background-color: transparent;
+            }
+            .fa {
+                position: absolute;
+                left: 10px;
+                top: 9px;
+                transition: all .5s;
+            }
+            &.input-focus {
+                input {
+                    padding-left: 0;
+                    padding-right: 30px;
+                    border-bottom: 2px solid #a10000;
+                }
+                .fa {
+                    left: 280px;
+                    color: #767676;
+                }
+            }
+            &.error {
+                input {
+                    border: 1px solid red;
+                    border-bottom-color: red;
+                }
+                .fa {
+                    color: red;
+                }
+            }
+            .checkbox {
+                position: relative;
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                input[type=checkbox] {
+                    visibility: hidden;
+                    &:checked {
+                        &+label {
+                            &::before {
+                                content: "\f14a";
+                                color: red;
+                            }
+                        }
+                    }
+                }
+                label {
+                    &::before {
+                        font-family: "Font Awesome 5 Free";
+                        font-size: inherit;
+                        text-rendering: auto;
+                        -webkit-font-smoothing: antialiased;
+                        content: "\f0c8";
+                        position: absolute;
+                        left: 10px;
+                        top: 0;
+                    }
+                }
+            }
+        }
+    }
+}

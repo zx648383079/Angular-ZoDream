@@ -1,0 +1,34 @@
+<form class="form-ico login-form" method="POST">
+  <div class="input-group error">
+          <input type="text" name="name" placeholder="请输入昵称" required="">
+          <i class="fa fa-user" aria-hidden="true"></i>
+      </div>
+      <div class="input-group">
+          <input type="email" name="email" placeholder="请输入邮箱" required="">
+          <i class="fa fa-at" aria-hidden="true"></i>
+      </div>
+      <div class="input-group">
+          <input type="password" name="password" placeholder="请输入密码" required="">
+          <i class="fa fa-lock" aria-hidden="true"></i>
+      </div>
+      <div class="input-group">
+          <input type="password" name="rePassword" placeholder="请确认密码" required="">
+          <i class="fa fa-redo" aria-hidden="true"></i>
+      </div>
+
+      <div class="input-group">
+          <div class="checkbox">
+              <input type="checkbox" name="agree" value="1" id="checkboxInput">
+              <label for="checkboxInput"></label>
+          </div>
+          同意《
+          <a href="http://zodream.localhost/agreement">本站协议</a>
+          》
+      </div>
+
+      <button type="submit" class="btn">注册</button>
+      <div class="other-box">
+          <a routerLink="../">返回登录</a>
+      </div>
+      
+  </form>

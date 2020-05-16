@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" [ngClass]="{show: navExpand}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
           <ng-container *ngFor="let item of menus">
-                <li class="nav-item active">
+                <li class="nav-item" [ngClass]="{active: activeUri === item.url}">
                     <a class="nav-link" [routerLink]="item.url">{{ item.name }}<span class="sr-only">(current)</span></a>
                 </li>
           </ng-container>
@@ -19,7 +19,18 @@
 </header>
 <router-outlet></router-outlet>
 <footer>
-  <div class="copyright">
-    <p>Copyright ©zodream.cn, All Rights Reserved.</p>
-  </div>
+    <div class="container">
+        <div class="friend-link">
+            <div>友情链接</div>
+            <div>
+                <ng-container *ngFor="let item of friendLinks">
+                    <a [href]="item.url" target="_blank" rel="noopener" [title]="item.description || item.name">{{ item.name }}</a>
+                </ng-container>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright ©zodream.cn, All Rights Reserved.</p>
+        </div>
+    </div>
+  
 </footer>

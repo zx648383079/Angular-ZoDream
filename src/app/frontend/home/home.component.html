@@ -1,1 +1,18 @@
-<p>home works!</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" *ngFor="let item of links">
+            <ng-container *ngIf="!item.description; else elseTemplate">
+                <a class="metro-item" [routerLink]="item.url">
+                    <div class="name">{{ item.name }}</div>
+                </a>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <a class="metro-item metro-desc" [routerLink]="item.url">
+                    <div class="name">{{ item.name }}</div>
+                    <div class="desc">{{ item.description }}</div>
+                </a>
+            </ng-template>
+        </div>
+    </div>
+</div>

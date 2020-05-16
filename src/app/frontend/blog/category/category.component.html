@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="book-full-body">
+    <div class="book-sort">
+        <a class="active">分类</a>
+        <a routerLink="../tag">标签</a>
+        <a routerLink="../archives">归档</a>
+    </div>
+    <div class="cat-item" *ngFor="let item of items">
+      <a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>
+      <span class="count" *ngIf="item.blog_count > 0">({{ item.blog_count }})</span>
+    </div>
+  </div>
+
+</div>

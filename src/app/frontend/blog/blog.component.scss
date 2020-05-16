@@ -1,0 +1,43 @@
+::ng-deep {
+    .book-full-body,
+    .book-body {
+        margin: 50px 0;
+        background-color: #fff;
+        padding: 30px 15px;
+        min-height: 400px;
+        position: relative;
+    }
+    .book-body {
+        margin-right: 200px;
+    }
+    .book-sort {
+        position: absolute;
+        right: 25px;
+        top: -30px;
+        a {
+            display: inline-block;
+            width: 50px;
+            line-height: 30px;
+            text-align: center;
+            position: relative;
+            background: #fff;
+            &:after {
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 0;
+                left: 0;
+                bottom: -50px;
+                border: transparent 25px solid;
+                border-top-color: rgba(161,0,0,.6);
+            }
+            &.active {
+                background: #a10000;
+                color: #fff;
+                &:after {
+                    border-top-color: #a10000;
+                }
+            }
+        }
+    }
+}

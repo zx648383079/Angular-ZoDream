@@ -1,0 +1,162 @@
+.row {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.person-box {
+    background-color: #fff;
+    padding: 20px 10px;
+    color: #555;
+    .avatar {
+        text-align: center;
+        img {
+            padding: 2px;
+            max-width: 120px;
+            height: auto;
+            border: 1px solid #eee;
+        }
+    }
+    .name {
+        text-align: center;
+        color: #222;
+        line-height: 40px;
+        font-weight: 600;
+    }
+    .desc {
+        line-height: 30px;
+        text-align: center;
+        border-top: 1px dotted #ccc;
+        border-bottom: 1px dotted #ccc;
+    }
+    .links {
+        margin-top: 10px;
+        line-height: 30px;
+        a {
+            color: #333;
+            display: inline-block;
+            width: 45%;
+            padding: 0 10px;
+            &:hover {
+                border-radius: 4px;
+                background: #eee;
+            }
+        }
+    }
+}
+
+.contact-box {
+    padding: 20px;
+    margin-bottom: 50px;
+    .heading {
+        p {
+            color: rgb(179, 177, 177);
+            font-size: 15px;
+            margin: 1.2% 0px;
+            font-family: 'Play-Regular';
+            line-height: 1.6em;
+        }
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 100%;
+        padding: 12px 12px;
+        border: 1px solid #BDBCBC;
+        font-size: 15px;
+        margin-bottom: 1.5em;
+        color: #808080;
+        outline: none;
+        font-weight: 400;
+        font-family: 'Play-Regular';
+    }
+    textarea {
+        resize: none;
+        height: 192px;
+    }
+    button {
+        width: 100px;
+        border: 1px solid #a10000;
+        border-radius: 0;
+    }
+}
+
+.about-box,
+.contact-box {
+    background-color: #fff;
+    padding: 20px;
+    .heading {
+        h3, 
+        h1, 
+        h2 {
+            color: #333;
+            font-size: 2.1em;
+            font-weight: 500;
+            margin: 0;
+            text-transform: uppercase;
+        }
+    }
+    .row {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.btn-show {
+    background: 0 0;
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px transparent;
+    backface-visibility: hidden;
+    position: relative;
+    transition-property: color;
+    transition-duration: .3s;
+    &::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #a10000;
+        transform: scaleX(0);
+        transform-origin: 50%;
+        transition-property: transform;
+        transition-duration: .3s;
+        transition-timing-function: ease-out;
+    }
+    &:hover {
+        color: #fff;
+        &::before {
+            transform: scaleX(1);
+        }
+    }
+}
+
+.about-box {
+    .about-top {
+        text-align: center;
+    }
+    .about-bottom {
+        h4 {
+            color: rgb(34, 34, 34);
+            font-size: 1.2em;
+            margin: 2.1% 0px 0px;
+            line-height: 1.3em;
+            font-family: 'Play-Regular';
+        }
+        p {
+            color: #b3b1b1;
+            font-size: 15px;
+            margin: 5px 0px 0px;
+            font-family: 'Play-Regular';
+            line-height: 1.6em;
+        }
+    }
+    .autograph {
+        line-height: 30px;
+        color: #333;
+        text-align: right;
+    }
+}

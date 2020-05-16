@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="friend-box">
+                <div class="friend-link">
+                    <div>友情链接</div>
+                    <div>
+                        <ng-container *ngFor="let item of friendLinks">
+                            <a [href]="item.url" target="_blank" rel="noopener" [title]="item.description || item.name">{{ item.name }}</a>
+                        </ng-container>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel link-box">
+                <div class="panel-header">
+                    友链信息
+                </div>
+                <div class="panel-body">
+                    <p>
+                        名称：zodream
+                    </p>
+                    <p>
+                        地址：https://zodream.cn
+                    </p>
+                    <p>
+                        描述：zodream开发博客
+                    </p>
+                </div>
+            </div>
+            <div class="friend-apply">
+                <p>申请前请收录本站，接受新站，拒绝一切非法网站。</p>
+                <a href="javascript:;" class="btn btn-primary" (click)="openApply(content)">申请互换友链</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">申请互换友链</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form method="POST" >
+            <div class="form-group">
+                <label for="name">*站点名:</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="显示的网站名称" required="">
+            </div>
+            <div class="form-group">
+                <label for="url">*网址:</label>
+                <input type="text" name="url" class="form-control" id="url" placeholder="跳转的网站链接：例如:https://zodream.cn" required="">
+            </div>
+            <div class="form-group">
+                <label for="url">简介:</label>
+                <input type="text" name="brief" class="form-control" id="brief" placeholder="网站简介">
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱:</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="将发送结果到你的邮箱">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('apply')">申请</button>
+    </div>
+</ng-template>
+
