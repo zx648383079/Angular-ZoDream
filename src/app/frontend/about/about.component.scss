@@ -3,9 +3,11 @@
     margin-bottom: 30px;
 }
 
+
 .person-box {
     background-color: #fff;
     padding: 20px 10px;
+    margin-bottom: 20px;
     color: #555;
     .avatar {
         text-align: center;
@@ -36,6 +38,7 @@
             display: inline-block;
             width: 45%;
             padding: 0 10px;
+            text-decoration: none;
             &:hover {
                 border-radius: 4px;
                 background: #eee;

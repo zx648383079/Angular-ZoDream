@@ -8,6 +8,10 @@
       font-size: 30px;
       color: #cc2525;
       margin: 5px;
+      text-decoration: none;
+      .iconfont {
+        font-size: 30px;
+      }
   }
 }
 .find-link {
@@ -16,7 +20,7 @@
 
 .other-box {
   line-height: 30px;
-  .fa {
+  .iconfont {
       float: right;
       line-height: 30px;
       margin-right: 10px;

@@ -35,18 +35,18 @@
     </div>
     <dl class="book-item" *ngFor="let item of items">
         <dt>
-            <a href="https://zodream.cn/blog/id/137.html" [title]="item.title">{{ item.title }}</a>
+            <a routerLink="./{{ item.id }}" [title]="item.title">{{ item.title }}</a>
             <span class="book-time">{{ item.created_at }}</span></dt>
         <dd>
             <p></p>
-            <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="fa fa-edit"></i><b>zodream</b></a>
+            <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="iconfont icon-edit"></i><b>zodream</b></a>
             <a class="category" href="https://zodream.cn/blog/category/3.html"><i
-                    class="fa fa-bookmark"></i><b>编程技术</b></a>
+                    class="iconfont icon-bookmark"></i><b>编程技术</b></a>
             <a class="language" href="https://zodream.cn/blog/0/programming_language/TypeScript.html"><i
-                    class="fa fa-code"></i><b>TypeScript</b></a>
-            <span class="comment"><i class="fa fa-comments"></i><b>0</b></span>
-            <span class="agree"><i class="fas fa-thumbs-up"></i><b>0</b></span>
-            <span class="click"><i class="fa fa-eye"></i><b>3</b></span>
+                    class="iconfont icon-code"></i><b>TypeScript</b></a>
+            <span class="comment"><i class="iconfont icon-comments"></i><b>0</b></span>
+            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>0</b></span>
+            <span class="click"><i class="iconfont icon-eye"></i><b>3</b></span>
         </dd>
     </dl>
   </div>

@@ -24,8 +24,7 @@ const routes: Routes = [
                 component: FriendLinkComponent,
             }, {
                 path: '',
-                redirectTo: 'home',
-                pathMatch: 'full',
+                component: HomeComponent
             }, {
                 path: '**',
                 component: HomeComponent,

@@ -20,6 +20,7 @@ const routes: Routes = [
         redirectTo: 'frontend',
         pathMatch: 'full'
     },
+    { path: 'disk', loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule) },
     {
         path: '**',
         redirectTo: 'frontend'

@@ -22,6 +22,10 @@ const routes: Routes = [
         component: DetailComponent
       },
       {
+        path: ':id',
+        component: DetailComponent
+      },
+      {
         path: 'archives',
         component: ArchivesComponent
       },
@@ -35,8 +39,7 @@ const routes: Routes = [
       },
       {
           path: '',
-          redirectTo: 'home',
-          pathMatch: 'full',
+          component: ListComponent
       },
       {
           path: '**',

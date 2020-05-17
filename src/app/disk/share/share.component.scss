@@ -1,0 +1,108 @@
+.catalog-body {
+    padding: 0 10px;
+}
+
+.file-header {
+    display: grid;
+    grid-template-columns:40px 1fr 180px 64px 64px 64px;
+    line-height: 30px;
+    .name,
+    .times,
+    .time {
+        display: inline-block;
+        cursor: default;
+        position: relative;
+        border-right: 1px solid #ccc;
+        &:hover {
+            background-color: #eee;
+        }
+    }
+    .times {
+        font-size: 12px;
+    }
+    .sort-asc,
+    .sort-desc {
+        &::after {
+            content: '\e718';
+            font-family: 'iconfont';
+            position: absolute;
+            right: 10px;
+        }
+    }
+    .sort-desc {
+        &::after {
+            content: '\e719';
+        }
+    }
+}
+
+.file-item {
+    display: grid;
+    grid-template-columns: 30px 30px 1fr 372px;
+    line-height: 30px;
+    cursor: default;
+    .file-info {
+        display: grid;
+        grid-template-columns: 180px 64px 64px 64px;
+        .iconfont {
+            display: none;
+        }
+    }
+    &:hover {
+        background-color: #eee;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .nav-header {
+        .nav-item {
+            &.nav-hide {
+                display: none;
+            }
+        }
+        .nav-children {
+            .nav-hide {
+                display: block;
+            }
+        }
+    }
+    .file-header {
+        display: none;
+    }
+    .file-item {
+        display: block;
+        position: relative;
+        padding-left: 60px;
+        .check-box {
+            position: absolute;
+            left: 5px;
+            top: 11px;
+        }
+        .file-icon {
+            position: absolute;
+            left: 25px;
+            font-size: 30px;
+            top: 10px;
+        }
+        .file-info {
+            display: block;
+            text-align: left;
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+            text-align: right;
+            .file-time {
+                float: left;
+            }
+            .file-times {
+                display: inline-block;
+            }
+            .iconfont {
+                display: inline-block;
+            }
+        }
+    }
+}

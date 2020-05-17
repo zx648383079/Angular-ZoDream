@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/iconfont/iconfont.css",
+              "src/assets/iconfont/iconfont.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
@@ -97,7 +97,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/iconfont/iconfont.css",
+              "src/assets/iconfont/iconfont.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"

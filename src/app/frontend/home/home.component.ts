@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         },
         {
             name: 'Disk',
-            url: 'disk',
+            url: '/disk',
             description: 'ONLINE DISK'
         }
     ];

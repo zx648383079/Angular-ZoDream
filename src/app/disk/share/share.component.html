@@ -1,0 +1,35 @@
+<div class="catalog-body">
+  <div class="file-header">
+    <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+    <div class="name sort-asc">文件名</div>
+    <div class="time">分享时间</div>
+    <div class="times">浏览次数</div>
+    <div class="times">保存次数</div>
+    <div class="times">下载次数</div>
+  </div>
+  <ng-container *ngFor="let item of items">
+    <div class="file-item" (click)="tapFile(item)">
+      <div class="check-box" [ngClass]="{checked: item.checked}"></div>
+      <div class="file-icon">
+        <i class="iconfont" [ngClass]="item.icon"></i>
+      </div>
+      <div class="file-name">{{ item.name }}</div>
+      <div class="file-info">
+        <div class="file-time">{{ item.time }}</div>
+        <div class="file-times">
+          <i class="iconfont icon-eye"></i>
+          {{ item.size }}
+        </div>
+        <div class="file-times">
+          <i class="iconfont icon-floppy-o"></i>
+          {{ item.size }}
+        </div>
+        <div class="file-times">
+          <i class="iconfont icon-download"></i>
+          {{ item.size }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  
+</div>

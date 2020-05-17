@@ -15,7 +15,7 @@ export class ListComponent implements OnInit {
   public newItems = [];
 
   public items = [
-    {title: '1231231', created_at: '2019-09-01'}
+    {id: 1, title: '1231231', created_at: '2019-09-01'}
   ];
 
   public page = 1;

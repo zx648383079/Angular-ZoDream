@@ -57,10 +57,9 @@ footer {
                 border-bottom: 1px solid #767676;
                 background-color: transparent;
             }
-            .fa {
+            .iconfont {
                 position: absolute;
                 left: 10px;
-                top: 9px;
                 transition: all .5s;
             }
             &.input-focus {
@@ -69,7 +68,7 @@ footer {
                     padding-right: 30px;
                     border-bottom: 2px solid #a10000;
                 }
-                .fa {
+                .iconfont {
                     left: 280px;
                     color: #767676;
                 }
@@ -79,7 +78,7 @@ footer {
                     border: 1px solid red;
                     border-bottom-color: red;
                 }
-                .fa {
+                .iconfont {
                     color: red;
                 }
             }
@@ -93,7 +92,7 @@ footer {
                     &:checked {
                         &+label {
                             &::before {
-                                content: "\f14a";
+                                content: "\e646";
                                 color: red;
                             }
                         }
@@ -101,11 +100,10 @@ footer {
                 }
                 label {
                     &::before {
-                        font-family: "Font Awesome 5 Free";
+                        font-family: "iconfont";
                         font-size: inherit;
                         text-rendering: auto;
-                        -webkit-font-smoothing: antialiased;
-                        content: "\f0c8";
+                        content: "\e71e";
                         position: absolute;
                         left: 10px;
                         top: 0;
