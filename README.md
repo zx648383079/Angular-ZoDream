@@ -1,5 +1,26 @@
 # Angular-ZoDream
- 使用Angular实现界面
+使用Angular实现界面
+
+## 预览图
+
+1. 博客样式
+
+参考样式 [https://zodream.cn/](https://zodream.cn/)
+
+![](screen/blog.png)
+
+![](screen/archives.png)
+
+![](screen/detail.png)
+
+2. 网盘样式
+
+![](screen/nav.gif)
+
+## 当前状态
+
+页面制作中，未进行服务端数据对接
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
 

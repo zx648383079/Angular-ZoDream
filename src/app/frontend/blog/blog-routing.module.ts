@@ -18,14 +18,6 @@ const routes: Routes = [
         component: ListComponent
       },
       {
-        path: 'detail/:id',
-        component: DetailComponent
-      },
-      {
-        path: ':id',
-        component: DetailComponent
-      },
-      {
         path: 'archives',
         component: ArchivesComponent
       },
@@ -36,6 +28,14 @@ const routes: Routes = [
       {
         path: 'category',
         component: CategoryComponent
+      },
+      {
+        path: 'detail/:id',
+        component: DetailComponent
+      },
+      {
+        path: ':id',
+        component: DetailComponent
       },
       {
           path: '',
