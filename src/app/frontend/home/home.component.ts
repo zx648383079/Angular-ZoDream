@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit {
             name: 'Disk',
             url: '/disk',
             description: 'ONLINE DISK'
+        },
+        {
+            name: 'Chat',
+            url: '/chat'
         }
     ];
 

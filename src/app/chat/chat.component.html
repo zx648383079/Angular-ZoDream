@@ -1,0 +1,164 @@
+<div class="page-box" [ngClass]="{'room-mode': roomMode}">
+    <div class="chat-box" [ngClass]="{'search-mode': searchMode}">
+        <div class="nav-bar">
+            <a class="nav-item">
+                <i class="iconfont icon-ellipsis-h"></i>
+                <div class="nav-children">
+                    <a class="nav-item">
+                      <i class="iconfont icon-sign-out"></i>
+                      <span class="nav-name">退出</span>
+                    </a>
+                </div>
+            </a>
+        </div>
+        <div class="header">
+            <div class="avatar">
+                <img src="https://zodream.cn/assets/images/zx.jpg">
+                <i class="status-icon"></i>
+            </div>
+            <div class="name">zodream</div>
+            <div class="remark">开心就好</div>
+        </div>
+        <div class="search-input" (click)="searchMode = true">
+            <i class="iconfont icon-search"></i>
+            <span>用户、群组和消息</span>
+            <i class="iconfont icon-plus" (click)="tapAdd($event)"></i>
+        </div>
+        <div class="tab-box">
+            <div class="tab-header">
+                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                    <i class="iconfont icon-commenting"></i>
+                    <span>聊天</span>
+                </a>
+                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                    <i class="iconfont icon-user"></i>
+                    <span>联系人</span>
+                </a>
+                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                    <i class="iconfont icon-group"></i>
+                    <span>群组</span>
+                </a>
+            </div>
+            <div class="tab-body">
+                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                    <ng-container *ngFor="let item of lastFriends">
+                        <div class="user-item" (click)="tapUser(item)">
+                            <div class="user-avatar">
+                                <img src="https://zodream.cn/assets/images/zx.jpg" alt="">
+                            </div>
+                            <div class="user-info">
+                                <p>
+                                    <span class="name">zodream</span>
+                                    <span class="time">1 m</span>
+                                </p>
+                                <p>
+                                    <span class="content">34242</span>
+                                    <span class="count">9</span>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                    <ng-container *ngFor="let group of friends">
+                        <div class="expand-box" [ngClass]="{open: group.expand}">
+                            <div class="expand-header" (click)="group.expand = !group.expand">
+                                <i class="expand-icon"></i>
+                                <span>{{ group.name }} (0 / 2)</span>
+                            </div>
+                            <div class="expand-body">
+                                <ng-container *ngFor="let item of group.children">
+                                    <div class="user-item">
+                                        <div class="user-avatar">
+                                            <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                                        </div>
+                                        <div class="user-info">
+                                            <p>
+                                                <span class="name">zodream</span>
+                                            </p>
+                                            <p>
+                                                <span class="content"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <div class="search-input">
+                <input type="text" placeholder="搜索用户">
+                <i class="iconfont icon-close" (click)="searchMode = false"></i>
+            </div>
+            <div class="search-body">
+                <ng-container *ngFor="let item of lastFriends">
+                    <div class="user-item">
+                        <div class="user-avatar">
+                            <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                        </div>
+                        <div class="user-info">
+                            <p>
+                                <span class="name">zodream</span>
+                            </p>
+                            <p>
+                                <span class="content"></span>
+                            </p>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="chat-room">
+        <div class="title">
+            <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
+            <span>与 test 聊天中</span>
+        </div>
+        <div class="message-box">
+            <p class="message-more">加载更多</p>
+            <div class="message-right">
+                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
+                <div class="content">
+                    1
+
+
+                </div>
+            </div>
+            <div class="message-left">
+                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
+                <div class="content">
+                    2
+                </div>
+            </div>
+            <div class="message-right">
+                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
+                <div class="content">
+                    2
+
+
+                </div>
+            </div>
+        </div>
+        <div class="message-tools">
+            <i class="iconfont icon-smile-o"></i>
+            <i class="iconfont icon-image"></i>
+            <i class="iconfont icon-camera"></i>
+            <i class="iconfont icon-film"></i>
+            <i class="iconfont icon-file-o"></i>
+            <i class="iconfont icon-gift"></i>
+        </div>
+        <div class="message-editor">
+            <div class="message-text" contenteditable="true"></div>
+            <div class="message-action">
+                <button>发送</button>
+            </div>
+        </div>
+    </div>
+</div>

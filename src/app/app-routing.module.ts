@@ -21,6 +21,7 @@ const routes: Routes = [
         pathMatch: 'full'
     },
     { path: 'disk', loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule) },
+    { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) },
     {
         path: '**',
         redirectTo: 'frontend'
