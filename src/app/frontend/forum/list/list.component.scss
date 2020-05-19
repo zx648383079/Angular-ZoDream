@@ -1,0 +1,102 @@
+.thread-list {
+    .thread-item-header {
+        border-bottom: 1px solid;
+        display: grid;
+        grid-template-columns: 1fr 105px 60px 105px;
+        background-color: #fff;
+        line-height: 30px;
+        .count {
+            font-size: 12px;
+        }
+    }
+    .thread-item {
+        border-bottom: 1px solid;
+        display: grid;
+        grid-template-columns: 1fr 105px 60px 105px;
+        .name {
+            line-height: 40px;
+            .fa-fire {
+                color: red;
+            }
+        }
+        .time,
+        .count,
+        .reply {
+            em {
+                display: block;
+                font-style: normal;
+            }
+        }
+        &:hover {
+            background-color: rgba(#333, .2);
+        }
+    }
+}
+
+.thread-new-box {
+    margin: 30px 0;
+    .header {
+        line-height: 30px;
+        background-color: #fff;
+        padding-left: 20px;
+    }
+    .title {
+        select, 
+        input {
+            height: 30px;
+        }
+        input {
+            width: calc(100% - 150px);
+        }
+    }
+    textarea {
+        width: 100%;
+        height: 200px;
+        resize: none;
+    }
+    .btn {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .thread-list {
+        .thread-item-header {
+            display: none;
+        }
+        .thread-item {
+            display: block;
+            .time {
+                display: inline-block;
+                em {
+                    display: inline-block;
+                }
+            }
+            .reply {
+                display: none;
+            }
+            .count {
+                float: right;
+                em {
+                    display: inline-block;
+                    &::before {
+                        font-weight: 900;
+                        font-style: normal;
+                        font-family: "iconfont";
+                    }
+                    &:first-child {
+                        &::before {
+                            content: "\e65d";
+                        }
+                    }
+                    &:last-child {
+                        &::before {
+                            content: "\e680";
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

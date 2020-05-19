@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="micro-publish">
+        <div class="title">有什么新鲜事想告诉大家?
+            <div class="tip">
+                已输入<em>0</em>字
+            </div>
+        </div>
+        <form action="http://zodream.localhost/micro/create" method="post">
+            <div class="input">
+                <textarea name="content" required=""></textarea>
+            </div>
+            <div class="actions">
+                <div class="tools">
+                    <i class="iconfont icon-smile-o"></i>
+                    <i class="iconfont icon-image"></i>
+                    <i class="iconfont icon-file-movie-o"></i>
+                    <i class="iconfont icon-music"></i>
+                </div>
+                <div ngbDropdown class="d-inline-block">
+                    <button type="button" id="publish-btn" class="btn btn-danger" ngbDropdownToggle>
+                      公开
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="publish-btn">
+                      <a ngbDropdownItem>Action</a>
+                      <a ngbDropdownItem>Another action</a>
+                      <a ngbDropdownItem>Something else here</a>
+                      <a ngbDropdownItem>Separated link</a>
+                    </div>
+                  </div>
+                <button>发布</button>
+            </div>
+        </form>
+    </div>
+
+    <ng-container *ngFor="let item of items">
+        <div class="micro-item">
+            <div class="body">
+                <div class="avatar">
+                    <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                </div>
+                <div>
+                    <div class="name">zodream</div>
+                    <p><span class="time">2019-12-15 13:15:47</span> <span class="from">来自web</span>
+                        <a class="remove" href="javascript:;" data-action="remove">[删除]</a>
+                    </p>
+                    <div class="content">
+                        1111 </div>
+                </div>
+            </div>
+
+            <div class="ations">
+                <a class="" data-action="collect" href="javascript:;">收藏</a>
+                <a data-action="dialog" href="http://zodream.localhost/micro/forward_mini?id=1">转发1</a>
+                <a data-action="comment" href="javascript:;">评论</a>
+                <a class="active" data-action="recommend" href="javascript:;">赞1</a>
+            </div>
+            <div class="comment-box">
+
+            </div>
+        </div>
+    </ng-container>
+    
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+  <ul class="breadcrumb">
+      <li class="breadcrumb-item">
+          <a routerLink="/" class="iconfont icon-home"></a>
+      </li><li class="breadcrumb-item active">
+          圈子首页
+      </li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="forum-group" *ngFor="let group of items">
+      <div class="group-header">
+          <a routerLink="{{ group.id }}">{{ group.name }}</a>
+      </div>
+      <div class="group-body">
+          <ng-container *ngFor="let item of group.children">
+            <div class="forum-item">
+                <div class="thumb">
+                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                </div>
+                <div class="info">
+                    <div class="name">
+                        <a href="http://zodream.localhost/forum/forum?id=2">BUG反馈</a>
+                    </div>
+                    <div class="count">主题：0，帖数：0</div>
+                    <div class="last-thread">
+                        <a href="http://zodream.localhost/forum/thread?id=1">关于本程序开发方向建…</a>
+                        2019-09-28 zodream </div>
+                </div>
+            </div>
+          </ng-container>
+      </div>
+  </div>
+</div>

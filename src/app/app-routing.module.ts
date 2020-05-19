@@ -22,6 +22,7 @@ const routes: Routes = [
     },
     { path: 'disk', loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule) },
     { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) },
+    { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
     {
         path: '**',
         redirectTo: 'frontend'

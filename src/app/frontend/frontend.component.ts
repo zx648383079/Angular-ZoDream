@@ -15,7 +15,7 @@ interface IMenuItem {
 export class FrontendComponent implements OnInit {
 
     public menus: IMenuItem[] = [
-        {name: 'Home', url: 'home'},
+        {name: 'Home', url: '../'},
         {name: 'Blog', url: 'blog'},
         {name: 'Friend Link', url: 'friend_link'},
         {name: 'Abount', url: 'about'}

@@ -1,0 +1,119 @@
+<div class="container">
+  <ul  class="breadcrumb">
+      <li class="breadcrumb-item">
+          <a routerLink="/" class="iconfont icon-home"></a>
+      </li><li class="breadcrumb-item">
+          <a href="http://zodream.localhost/forum">圈子首页</a>
+      </li>
+              <li class="breadcrumb-item active">交流与讨论
+      </li>
+  </ul>
+</div>
+<div class="container">
+    <div class="forum-group">
+        <div class="group-header">
+            交流与讨论 </div>
+        <div class="group-body">
+            <div class="forum-item">
+                <div class="thumb">
+                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                </div>
+                <div class="info">
+                    <div class="name">
+                        <a href="http://zodream.localhost/forum/forum?id=2">BUG反馈</a>
+                        <span>(1)</span>
+                    </div>
+                    <div class="count">主题：0，帖数：0</div>
+                    <div class="last-thread">
+                        <a href="http://zodream.localhost/forum/thread?id=1">关于本程序开发方向建…</a>
+                        2019-09-28 zodream </div>
+                </div>
+            </div>
+            <div class="forum-item">
+                <div class="thumb">
+                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                </div>
+                <div class="info">
+                    <div class="name">
+                        <a href="http://zodream.localhost/forum/forum?id=3">测试专区</a>
+                        <span>(1)</span>
+                    </div>
+                    <div class="count">主题：6，帖数：0</div>
+                    <div class="last-thread">
+                        <a href="http://zodream.localhost/forum/thread?id=7">入口</a>
+                        2019-10-19 zodream </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="thread-list">
+        <div class="thread-item-header">
+            <div class="name">
+                标题
+            </div>
+            <div class="time">
+                作者
+            </div>
+            <div class="count">
+                回复/查看
+            </div>
+            <div class="reply">
+                最后发表
+            </div>
+        </div>
+        <ng-container *ngFor="let item of items">
+          <div class="thread-item">
+            <div class="name">
+                <i class="fa fa-file"></i>
+                <a class="title" routerLink="../thread/{{ item.id }}">入口</a>
+            </div>
+            <div class="time">
+                <em data-action="user" data-id="1">zodream</em>
+                <em>2019-10-19</em>
+            </div>
+            <div class="count">
+                <em>0</em>
+                <em>151</em>
+            </div>
+            <div class="reply">
+                <em>zodream</em>
+                <em>2019-10-19</em>
+            </div>
+        </div>
+        </ng-container>
+        
+        <div class="paging-box">
+        </div>
+
+
+    </div>
+    <div class="thread-new-box">
+        <div class="header">快速发帖</div>
+        <form data-type="ajax" action="http://zodream.localhost/forum/thread/create" method="post">
+            <div class="title">
+                <select name="classify_id">
+                    <option value="0">选择主题分类</option>
+                    <option value="1">功能</option>
+                    <option value="2">页面</option>
+                    <option value="3">建议</option>
+                </select>
+                <input type="text" name="title" required="">
+            </div>
+
+            <div class="editor">
+                <div class="editor-plugin"><i class="fa fa-code" data-name="fa-code" title="插入代码"></i><i
+                        class="fa fa-eye-slash" data-name="fa-eye-slash" title="插入隐藏内容"></i><i class="fa fa-download"
+                        data-name="fa-download" title="插入可下载内容"></i><i class="fa fa-image" data-name="fa-image"
+                        title="插入图片"></i><i class="fa fa-music" data-name="fa-music" title="插入音频"></i><i class="fa fa-video"
+                        data-name="fa-video" title="插入视频"></i><i class="fa fa-link" data-name="fa-link" title="插入链接"></i><i
+                        class="fa fa-trash" data-name="fa-trash" title="清空"></i></div>
+                <textarea name="content" required=""></textarea>
+            </div>
+            <div class="footer">
+                <button class="btn">发表帖子</button>
+                <input type="hidden" name="forum_id" value="2">
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detail',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  public content: SafeHtml;
+
+  constructor(
+    private sanitizer: DomSanitizer
+  ) {
+    this.content = this.sanitizer.bypassSecurityTrustHtml('1231');
+  }
 
   ngOnInit() {
   }

@@ -16,6 +16,8 @@ const routes: Routes = [
                 component: HomeComponent,
             },
             { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
+            { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
+            { path: 'micro', loadChildren: () => import('./micro/micro.module').then(m => m.MicroModule) },
             {
                 path: 'about',
                 component: AboutComponent,

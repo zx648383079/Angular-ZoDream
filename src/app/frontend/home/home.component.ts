@@ -21,6 +21,14 @@ export class HomeComponent implements OnInit {
             url: 'blog'
         },
         {
+            name: 'Micro',
+            url: 'micro'
+        },
+        {
+            name: 'Forum',
+            url: 'forum'
+        },
+        {
             name: 'Disk',
             url: '/disk',
             description: 'ONLINE DISK'
@@ -28,6 +36,14 @@ export class HomeComponent implements OnInit {
         {
             name: 'Chat',
             url: '/chat'
+        },
+        {
+            name: 'Shop',
+            url: '/shop',
+        },
+        {
+            name: 'Backend',
+            url: '/backend'
         }
     ];
 

@@ -1,0 +1,54 @@
+::ng-deep {
+    .forum-group {
+        background-color: #fff;
+        margin: 10px 0;
+        .group-header {
+            line-height: 50px;
+            border-bottom: 1px solid #333;
+            padding: 0 20px;
+        }
+        .group-body {
+            display: flex;
+            align-items: baseline;
+            justify-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .forum-item {
+                position: relative;
+                padding-left: 100px;
+                height: 100px;
+                width: 300px;
+                transition: all 1s;
+                border-bottom: 1px dotted;
+                margin: 5px;
+                .thumb {
+                    position: absolute;
+                    left: 0;
+                    width: 80px;
+                    height: 80px;
+                    img {
+                        max-width: 100%;
+                        height: 100px;
+                    }
+                }
+                .info {
+                    color: #888;
+                    .name {
+                        line-height: 30px;
+                        color: #333;
+                        font-weight: 700;
+                    }
+                }
+                .last-thread {
+                    a {
+                        color: #369;
+                    }
+                }
+                &:hover {
+                    box-shadow: rgba(#333, .7) 0 0 10px;
+                }
+            }
+        }
+    }
+    
+}

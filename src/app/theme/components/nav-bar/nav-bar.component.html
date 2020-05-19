@@ -1,0 +1,64 @@
+<div class="page-box" [ngClass]="{'nav-toggle': navToggle}">
+  <div class="nav-bar">
+      <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
+      <ul class="bar-top">
+        <ng-container *ngFor="let item of menu">
+          <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem(item)">
+            <ng-container *ngIf="item.url; else elseTemplate">
+              <a [routerLink]="item.url">
+                <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
+                <span class="bar-name">{{ item.name }}</span>
+              </a>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <a>
+                <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
+                <span class="bar-name">{{ item.name }}</span>
+              </a>
+            </ng-template>
+            
+            <ul class="bar-children" *ngIf="item.children && item.children.length > 0">
+              <ng-container *ngFor="let child of item.children">
+                <li class="bar-item" [ngClass]="{'active': child.active, 'open': child.expand}" (click)="tapItem(child)">
+                  <ng-container *ngIf="child.url; else elseChildTemplate">
+                    <a [routerLink]="child.url">
+                      <i class="iconfont" [ngClass]="child.icon || 'bar-icon'">{{ child.label }}</i>
+                      <span class="bar-name">{{ child.name }}</span>
+                    </a>
+                  </ng-container>
+                  <ng-template #elseChildTemplate>
+                    <a>
+                      <i class="iconfont" [ngClass]="child.icon || 'bar-icon'">{{ child.label }}</i>
+                      <span class="bar-name">{{ child.name }}</span>
+                    </a>
+                  </ng-template>
+                </li>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+      <ul class="bar-bottom">
+        <ng-container *ngFor="let item of bottomMenu">
+          <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem(item)">
+            <ng-container *ngIf="item.url; else elseTemplate">
+              <a [routerLink]="item.url">
+                <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
+                <span class="bar-name">{{ item.name }}</span>
+              </a>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <a>
+                <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
+                <span class="bar-name">{{ item.name }}</span>
+              </a>
+            </ng-template>
+          </li>
+        </ng-container>
+      </ul>
+  </div>
+
+  <div class="page-body">
+    <ng-content select="router-outlet"></ng-content>
+  </div>
+</div>
