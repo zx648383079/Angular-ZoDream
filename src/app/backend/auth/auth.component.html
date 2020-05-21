@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="search">
+        <form role="form">
+            <div class="form-row">
+                <div class="col-auto">
+                    <label class="sr-only" for="keywords">昵称</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="昵称">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary">新增用户</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table  table-bordered well">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th class="auto-hide">邮箱</th>
+            <th class="auto-hide">性别</th>
+            <th>余额</th>
+            <th>状态</th>
+            <th class="auto-hide">最近登陆时间</th>
+            <th class="auto-hide">注册时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>2</td>
+                <td>test体验官</td>
+                <td class="auto-hide">zx648383079@126.com</td>
+                <td class="auto-hide">女</td>
+                <td>0</td>
+                <td>10</td>
+                <td class="auto-hide"></td>
+                <td class="auto-hide">2017-10-16 20:54:57</td>
+                <td>
+                    <div class="btn-group  btn-group-xs">
+                        <a class="btn btn-default btn-xs" href="https://zodream.cn/auth/admin/user/account/id/2.html">明细</a>
+                                            <a class="btn btn-default btn-xs" href="https://zodream.cn/auth/admin/user/edit/id/2.html">编辑</a>
+                        <a class="btn btn-danger" data-type="del" href="https://zodream.cn/auth/admin/user/delete/id/2.html">删除</a>
+                                        </div>
+                </td>
+            </tr>
+            </tbody>
+    </table>
+</div>

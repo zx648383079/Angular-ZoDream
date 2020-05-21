@@ -1,0 +1,56 @@
+$tipBg: #F5FAFF;
+$tipFg: #666;
+$bg: #333;
+
+.page-tip {
+    border: 1px dashed $bg;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $tipBg;
+    position: relative;
+    .blue {
+        color: $bg;
+    }
+    .tip-body {
+        ul {
+            width: 100%;
+            padding: 0;
+            li {
+                padding-left: 10px;
+                list-style: inside;
+                a {
+                    color: $tipFg;
+                }
+            }
+        }
+    }
+    .toggle {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        height: 26px;
+        width: 26px;
+        &::before {
+            font-family: "iconfont";
+            font-size: 14px;
+            font-weight: 900;
+            font-size: inherit;
+            text-rendering: auto;
+            content: "\e6e2";
+        }
+    }
+    &.min {
+        width: 200px;
+        .blue {
+            margin-bottom: 0;
+        }
+        .tip-body {
+            display: none;
+        }
+        .toggle {
+            &::before {
+                content: "\e6fc";
+            }
+        }
+    }
+}

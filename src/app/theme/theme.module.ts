@@ -11,7 +11,7 @@ import {
   ResponseInterceptor
 } from './interceptors';
 import { CanActivateViaAuthGuard } from './guards';
-import { NavBarComponent, BarItemComponent, BarUlComponent } from './components';
+import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent } from './components';
 
 const BASE_MODULES = [
   CommonModule,
@@ -22,6 +22,7 @@ const COMPONENTS = [
   NavBarComponent,
   BarItemComponent,
   BarUlComponent,
+  PageTipComponent,
 ];
 
 const PIPES = [

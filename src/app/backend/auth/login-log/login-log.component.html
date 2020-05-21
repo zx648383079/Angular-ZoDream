@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="search">
+        <form  role="form">
+            <div class="form-row">
+                <div class="col-auto">
+                    <label class="sr-only" for="keywords">IP</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="IP">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>登陆账户</th>
+                <th>登陆IP</th>
+                <th>登陆状态</th>
+                <th>登陆方式</th>
+                <th>登陆时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>27</td>
+                <td>648383079@qq.com</td>
+                <td>::1</td>
+                <td>成功</td>
+                <td>web</td>
+                <td>2019-07-16 11:24:46</td>
+            </tr>
+        </tbody>
+    
+    </table>
+    
+    <ngb-pagination [collectionSize]="70" [(page)]="page" [pageSize]="20" [directionLinks]="false"></ngb-pagination>    
+</div>
+

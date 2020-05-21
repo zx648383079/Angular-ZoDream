@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="search">
+      <form role="form">
+          <div class="form-row">
+              <div class="col-auto">
+                  <label class="sr-only" for="keywords">标题</label>
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题">
+              </div>
+              <div class="col-auto">
+                  <button type="submit" class="btn btn-primary">搜索</button>
+              </div>
+              <div class="col-auto">
+                  <button type="button" class="btn btn-primary">全部已读</button>
+              </div>
+          </div>
+      </form>
+  </div>
+
+  <ng-container *ngFor="let item of items">
+    <div class="bulletin-item min">
+        <div class="title">
+            友情链接申请
+          </div>
+        <div class="content"><a href="https://zodream.cn/contact/admin/friend_link.html">马上查看</a></div>
+        <div class="footer">
+            <span>发送者：[系统通知]</span>
+            <span>发送时间：2020-04-26 14:18:52</span>
+            <span>状态：已阅</span>
+        </div>
+    </div>
+  </ng-container>
+  
+</div>

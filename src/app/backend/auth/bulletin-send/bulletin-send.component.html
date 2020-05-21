@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 tab users">
+        <div class="tab-head">
+            <div [ngClass]="{'active': !isList}" (click)="isList = false">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+            </div>
+            <div [ngClass]="{'active': isList}" (click)="isList = true">
+                <i class="fa fa-user"></i>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="list-view" [ngClass]="{'active': !isList}">
+                <ul>
+                    <li *ngFor="let user of lastUsers" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                        <div class="avatar">
+                            <img src="{{ user.avatar }}" alt="">
+                        </div>
+                        <div class="info">
+                            <p><span class="name">{{ user.username }} </span><span class="time">{{ user.create_at }}</span></p>
+                            <p><span class="content">{{ user.content }}</span> <span class="count" *ngIf="user.count">{{ user.count }}</span></p>
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-view" [ngClass]="{'active': isList}">
+                <ul>
+                    <li *ngFor="let user of users" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                        <div class="avatar">
+                            <img src="{{ user.avatar }}" alt="">
+                        </div>
+                        <div class="info">
+                            <p>{{ user.username }}</p>
+                            <p>{{ user.sign }}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" *ngIf="currentUser">
+        <div class="title">
+            {{ currentUser.username }}
+        </div>
+        <div>
+            <div #box class="message-box">
+                <p class="more" *ngIf="hasMore" (click)="getMore()">加载更多</p>
+                <div *ngFor="let message of messages" [ngClass]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
+                    <div *ngIf="message.type >= 0">
+                        <img class="avatar" *ngIf="message.type == 0" src="{{ message.avatar }}" alt="">
+                        <div class="content">
+                            {{ message.content }}
+                        </div>
+                        <img class="avatar" *ngIf="message.type == 1" src="{{ message.avatar }}" alt="">
+                        <div class="clean-both"></div>
+                    </div>
+                    <p *ngIf="message.type == -1">{{ message.create_at }}</p>
+                </div>
+            </div>
+            <div class="send-box">
+                <textarea [(ngModel)]="content"></textarea>
+                <button type="button" (click)="send()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

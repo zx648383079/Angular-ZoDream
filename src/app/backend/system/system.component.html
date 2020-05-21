@@ -1,0 +1,162 @@
+<div class="container-fluid">
+    <form class="form-table" action="https://zodream.cn/seo/admin/setting/save" method="POST" accept-charset="UTF-8"
+        data-type="ajax" role="form"><input type="hidden" name="_token">
+        <div class="zd-tab option-box">
+            <div class="zd-tab-head">
+                <div class="zd-tab-item active">
+                    基本 </div>
+                <div class="zd-tab-item">
+                    高级 </div>
+                <div class="zd-tab-item">
+                    新增设置
+                </div>
+            </div>
+            <div class="zd-tab-body">
+                <div class="zd-tab-item active">
+                    <div class="input-group">
+                        <label for="option_2"><i class="fa fa-edit" data-id="2"></i>站点名</label>
+                        <div class="">
+                            <input type="text" id="option_2" class="form-control " name="option[2]" value=""
+                                placeholder="请输入 站点名">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="option_3"><i class="fa fa-edit" data-id="3"></i>站点关键字</label>
+                        <div class="">
+                            <input type="text" id="option_3" class="form-control " name="option[3]" value=""
+                                placeholder="请输入 站点关键字">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="option_4"><i class="fa fa-edit" data-id="4"></i>站点介绍</label>
+                        <div class="">
+                            <textarea id="option_4" class="form-control " name="option[4]"
+                                placeholder="请输入 站点介绍"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="option_5"><i class="fa fa-edit" data-id="5"></i>站点LOGO</label>
+                        <div class="file-input">
+                            <input type="text" id="option_5" class="form-control " name="option[5]" value=""
+                                placeholder="请输入 站点LOGO">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="zd-tab-item">
+                    <div class="input-group">
+                        <label for="option_7"><i class="fa fa-edit" data-id="7"></i>关站</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="option_7"
+                                onchange="$(this).next().next().val(this.checked ? 1 : 0);">
+                            <label for="option_7"></label>
+                            <input type="hidden" name="option[7]" value="false">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="option_9"><i class="fa fa-edit" data-id="9"></i>开启灰度</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="option_9"
+                                onchange="$(this).next().next().val(this.checked ? 1 : 0);">
+                            <label for="option_9"></label>
+                            <input type="hidden" name="option[9]" value="0">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="option_8"><i class="fa fa-edit" data-id="8"></i>关站说明</label>
+                        <div class="">
+                            <input type="text" id="option_8" class="form-control " name="option[8]" value=""
+                                placeholder="请输入 关站说明">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="zd-tab-item">
+                    <div class="input-group">
+                        <label for="field_name">名称(必填)</label>
+                        <div class="">
+                            <input type="text" id="field_name" class="form-control " name="field[name]" value="">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="field_type">类型</label>
+                        <div class="">
+                            <select id="field_type" name="field[type]">
+                                <option value="group" selected="">分组</option>
+                                <option value="text">文本</option>
+                                <option value="textarea">多行文本</option>
+                                <option value="select">下拉选择</option>
+                                <option value="radio">单选</option>
+                                <option value="checkbox">多选</option>
+                                <option value="switch">开关</option>
+                                <option value="image">图片</option>
+                                <option value="file">文件</option>
+                                <option value="basic_editor">迷你编辑器</option>
+                                <option value="editor">编辑器</option>
+                                <option value="json">JSON</option>
+                                <option value="hide">隐藏</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="group-property" style="display: none;">
+                        <div class="input-group">
+                            <label for="field_parent_id">分组</label>
+                            <div class="">
+                                <select id="field_parent_id" name="field[parent_id]">
+                                    <option value="1">基本</option>
+                                    <option value="6">高级</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="field_code">别名(必填)</label>
+                            <div class="">
+                                <input type="text" id="field_code" class="form-control " name="field[code]" value="">
+
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="field_visibility">公开</label>
+                            <div class="">
+                                <span class="check-label">
+                                    <input type="checkbox" id="field_visibility0" name="field[visibility]" value="0">
+                                    <label for="field_visibility0">不可见</label>
+                                </span><span class="check-label">
+                                    <input type="checkbox" id="field_visibility1" name="field[visibility]" value="1"
+                                        checked="">
+                                    <label for="field_visibility1">可见</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="field_default_value">默认值</label>
+                            <div class="">
+                                <textarea id="field_default_value" class="form-control "
+                                    name="field[default_value]"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="field_position">排序</label>
+                        <div class="">
+                            <input type="text" id="field_position" class="form-control " name="field[position]"
+                                value="99">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-save">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        <a href="javascript:;" class="btn" data-action="edit">切换编辑模式</a>
+    </form>
+</div>

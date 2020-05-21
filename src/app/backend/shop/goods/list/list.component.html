@@ -1,0 +1,88 @@
+<div class="search">
+  <form class="form-inline" role="form">
+      <div class="form-group">
+          <label for="keywords">标题</label>
+          <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" >
+      </div>
+      <div class="form-group">
+          <label>分类</label>
+          <select name="cat_id"  class="form-control">
+              <option value="">请选择</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label>品牌</label>
+          <select name="brand_id"  class="form-control">
+              <option value="">请选择</option>
+          </select>
+      </div>
+      <button type="submit" class="btn btn-primary">搜索</button>
+      <a class="btn btn-success float-right" routerLink="../create">新增商品</a>
+      <a class="btn btn-dark float-right" href="">回收站</a>
+  </form>
+
+</div>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+      <th>ID</th>
+      <th>商品名</th>
+      <th class="auto-hide">分类</th>
+      <th class="auto-hide">品牌</th>
+      <th>价格</th>
+      <th class="auto-hide">推荐</th>
+      <th>库存</th>
+      <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let item of items">
+          <td>{{ item.id }}</td>
+          <td>
+              <div class="goods-info">
+                  <div class="thumb">
+                      <img [src]="item.thumb" alt="" width="60" height="60">
+                  </div>
+                  <a class="name" href="" target="_blank">
+                  {{ item.name }}</a>
+              </div>
+          </td>
+          <td class="auto-hide">
+              <ng-container *ngIf="item.category; else elseTemplate">
+                    {{ item.category.name }}
+              </ng-container>
+              <ng-template #elseTemplate>
+                    [未分类]
+              </ng-template>
+          </td>
+          <td class="auto-hide">
+                <ng-container *ngIf="item.brand; else elseBrandTemplate">
+                        {{ item.brand.name }}
+                  </ng-container>
+                  <ng-template #elseBrandTemplate>
+                        [无]
+                  </ng-template>
+          </td>
+          <td>
+              {{ item.price | price }}
+          </td>
+          <td class="auto-hide">
+                <div class="toggle-box" [ngClass]="{active: item.is_best}">精品<i class="fa"></i></div>
+                <div class="toggle-box" [ngClass]="{active: item.is_hot}">热门<i class="fa"></i></div>
+                <div class="toggle-box" [ngClass]="{active: item.is_new}">新品<i class="fa"></i></div>
+          </td>
+          <td>
+              {{ item.stock }}
+          </td>
+          <td>
+              <div class="btn-group  btn-group-xs">
+                  <a class="btn btn-default btn-xs" routerLink="../edit/{{ item.id }}">编辑</a>
+                  <a class="btn btn-danger" data-type="del" href="">删除</a>
+              </div>
+          </td>
+      </tr>
+  </tbody>
+</table>
+
+<pager [total]="pageTotal" [index]="page" (go)="tapGo($event)"></pager>

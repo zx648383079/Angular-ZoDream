@@ -1,1 +1,15 @@
-
+::ng-deep {
+    .page-search {
+        .form-horizontal {
+            display: inline-block;
+        }
+        .pull-right {
+            float: right;
+        }
+        &::after {
+            content: " ";
+            display: block;
+            clear: both;
+        }
+    }
+}

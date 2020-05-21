@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <app-page-tip>
+    <ul>
+      <li>Sitemap 主要用于搜索引擎检索站点</li>
+    </ul>
+  </app-page-tip>
+  <button type="button" class="btn btn-primary" (click)="tapMake()">生成SiteMap</button>
+  
+  <div class="cmd-box" #cmd>
+    <p *ngFor="let item of items">{{ item }} 已完成！</p>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+.tab-box {
+    .tab-header {
+        position: relative;
+        .tab-item {
+            &.active,
+            &:hover {
+                background: #333;
+                color: #fff;
+                .fa {
+                    display: block;
+                }
+            }
+            display: inline-block;
+            width: 150px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            position: relative;
+            .fa-close {
+                position: absolute;
+                right: 10px;
+                top: 6px;
+                display: none;
+            }
+        }
+        &.has-over {
+            >.fa {
+                position: absolute;
+                width: 30px;
+                text-align: center;
+                line-height: 30px;
+                &:last-child {
+                    right: 0;
+                    top: 0;
+                }
+            }
+            .zd-tab-head-content {
+                ul {
+                    padding: 0;
+                    margin: 0 30px;
+                }
+            }
+        }
+    }
+    .tab-body {
+        .tab-item {
+            &.active {
+                display: block;
+                background: transparent;
+                color: #767676;
+            }
+            display: none;
+            width: 100%;
+        }
+    }
+}

@@ -1,5 +1,10 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
 body {
     background-color: #f4f4f4;
 }
+
+@import './app/theme/styles/form';
+@import './app/theme/styles/grid';
+@import './app/theme/styles/tab';

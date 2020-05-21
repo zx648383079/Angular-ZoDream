@@ -1,0 +1,56 @@
+.search {
+    .input-group {
+        display: inline-block;
+        width: auto;
+    }
+    .form-horizontal {
+        display: inline-block;
+    }
+}
+
+table {
+	.goods-info {
+		text-align: left;
+		.thumb {
+			float: left;
+        }
+        .name {
+            max-width: 200px;
+        }
+	}
+}
+
+.auto-hide {
+    max-width: 80px;
+}
+
+.toggle-box {
+    cursor: pointer;
+    width: 80px;
+	.fa {
+		&::before {
+			content: "\f00d";
+		}
+	}
+	&.active {
+		color: #f00;
+		.fa {
+			&::before {
+				content: "\f00c";
+			}
+		}
+	}
+}
+
+@media (max-width: 767px){
+    .auto-hide {
+        display: none;
+    }
+    table,
+    .table {
+        .btn {
+            padding: 0 10px;
+            margin: 0;
+        }
+    }
+}

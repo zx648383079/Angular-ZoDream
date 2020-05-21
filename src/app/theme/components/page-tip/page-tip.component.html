@@ -1,0 +1,7 @@
+<div class="page-tip" [ngClass]="{min: isMin}">
+  <p class="blue">{{ title }}</p>
+  <div class="tip-body">
+    <ng-content></ng-content>
+  </div>
+  <span class="toggle" (click)="tapMin()"></span>
+</div>
