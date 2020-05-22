@@ -65,6 +65,11 @@ export class BackendComponent implements OnInit {
       icon: 'icon-file-text-o',
       url: './blog',
       children: [
+        {
+          name: '列表',
+          label: '列',
+          url: './blog/list',
+        },
           {
             name: '分类',
             label: '类',

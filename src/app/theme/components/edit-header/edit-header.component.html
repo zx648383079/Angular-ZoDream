@@ -1,0 +1,11 @@
+<div class="edit-header" [ngClass]="{min: min}">
+  <div class="title">{{ title }}</div>
+
+  <div class="remark">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="submit-btn" (click)="tapSubmit()">
+    <i class="iconfont icon-check"></i>
+  </div>
+</div>

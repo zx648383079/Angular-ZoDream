@@ -1,0 +1,82 @@
+<div class="page-box" [ngClass]="{'detail-mode': detailMode}">
+    <div class="master-box">
+        <div class="filter-box">
+            <div class="filter-item">
+                <ul>
+                    <ng-container *ngFor="let item of categories">
+                        <li [ngClass]="{active: item.checked}" (click)="tapCategory(item)">
+                            {{ item.name }}
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+            <div class="filter-item">
+                <ul>
+                    <ng-container *ngFor="let item of sortItems">
+                        <li [ngClass]="{active: item.checked}" (click)="tapSort(item)">
+                            {{ item.name }}
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+        <div class="items-box">
+            <ng-container *ngFor="let item of items">
+                <dl class="book-item" (click)="tapItem(item)">
+                    <dt>
+                        <a >1111</a>
+                        <span class="book-time">1019-07</span></dt>
+                    <dd>
+                        <p>565ftvchgvh</p>
+                        <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="iconfont icon-edit"></i><b>zodream</b></a>
+                        <a class="category" href="https://zodream.cn/blog/category/3.html"><i
+                                class="iconfont icon-bookmark"></i><b>编程技术</b></a>
+                        <a class="language" href="https://zodream.cn/blog/0/programming_language/TypeScript.html"><i
+                                class="iconfont icon-code"></i><b>TypeScript</b></a>
+                        <span class="comment"><i class="iconfont icon-comments"></i><b>0</b></span>
+                        <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>0</b></span>
+                        <span class="click"><i class="iconfont icon-eye"></i><b>3</b></span>
+                    </dd>
+                </dl>
+            </ng-container>
+        </div>
+    </div>
+    <div class="detail-box">
+        <div class="title">
+            <i class="iconfont icon-arrow-left" (click)="detailMode = false"></i>
+            <span>111</span>
+        </div>
+        <div class="detail-body">
+            <div class="info">
+                <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="iconfont icon-edit"></i><b>zodream</b></a>
+                <a class="category" href="https://zodream.cn/blog/category/3.html"><i class="iconfont icon-bookmark"></i><b>编程技术</b></a>
+                <a class="language" href="https://zodream.cn/blog/?programming_language=TypeScript"><i
+                        class="iconfont icon-code"></i><b>TypeScript</b></a>
+                <span class="time"><i class="iconfont icon-calendar-check"></i><b>23小时前</b></span>
+            </div>
+            <article id="content" class="content">
+              <div >11111</div>
+              <p class="book-copyright">转载请保留原文链接：
+                  <a href="https://zodream.cn/blog/id/137.html" title="angular 9 添加启动加载动画">https://zodream.cn/blog/id/137.html</a>
+              </p>
+            </article>
+            <div class="book-bottom">
+                  <div class="book-source">
+                      <span>转载于：</span>
+                      <a href="https://zodream.cn/to/0/url/aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veml5YW5kZXlhbmh1by9wLzkyNjczNTQuaHRtbA.html"
+                          target="_blank" title="本文为转载内容，点击查看原网页">
+                          https://www.cnblogs.com/ziyandeyanhuo/p/9267354.html </a>
+                  </div>
+                  <div class="book-tags">
+                      <span>标签：</span>
+                      <a href="https://zodream.cn/blog/0/tag/angular.html">angular</a>，
+                </div>
+            </div>
+            <div class="tools">
+                <span class="comment"><i class="iconfont icon-comments"></i><b>0</b></span>
+                <span class="click"><i class="iconfont icon-eye"></i><b>4</b></span>
+                <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>0</b></span>
+            </div>
+          </div>
+    </div>
+</div>

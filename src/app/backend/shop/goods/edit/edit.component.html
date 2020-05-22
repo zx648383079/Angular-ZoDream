@@ -1,5 +1,5 @@
 <h1>编辑商品</h1>
-<form class="form-table" method="POST" [formGroup]="goodsForm" (ngSubmit)="onSubmit()">
+<form class="form-table" method="POST" (ngSubmit)="onSubmit()">
   <div class="tab-box">
     <div class="tab-header">
       <ng-container *ngFor="let item of tabItems; let i = index">

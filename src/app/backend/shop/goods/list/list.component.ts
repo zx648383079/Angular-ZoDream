@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from 'src/app/@theme/models/product';
+import { IProduct } from '../model';
 import { GoodsService } from '../goods.service';
-import { ThemeService } from 'src/app/@theme/services';
 
 @Component({
-  selector: 'zo-list',
+  selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })

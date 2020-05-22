@@ -10,6 +10,7 @@ import { EditCategoryComponent } from './edit-category/edit-category.component';
 import { CommentComponent } from './comment/comment.component';
 import { EditComponent } from './edit/edit.component';
 import { ListComponent } from './list/list.component';
+import { ThemeModule } from '../../theme/theme.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ListComponent } from './list/list.component';
     CategoryComponent, EditCategoryComponent, CommentComponent, EditComponent, ListComponent],
   imports: [
     CommonModule,
+    ThemeModule,
     BlogRoutingModule
   ]
 })

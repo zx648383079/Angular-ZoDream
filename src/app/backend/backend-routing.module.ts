@@ -12,7 +12,7 @@ const routes: Routes = [
       { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
       { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },
-      { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },    
+      { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
       {
         path: '',
         component: HomeComponent

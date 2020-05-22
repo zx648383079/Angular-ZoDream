@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'zo-goods',
-  template: '<router-outlet></router-outlet>',
+  template: '',
 })
 export class GoodsComponent {
 
