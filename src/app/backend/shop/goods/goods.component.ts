@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'zo-goods',
+  selector: 'app-goods',
   template: '',
 })
 export class GoodsComponent {

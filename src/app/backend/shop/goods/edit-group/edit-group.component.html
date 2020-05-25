@@ -1,0 +1,19 @@
+<form class="form-table" action="http://zodream.localhost/shop/admin/attribute/save_group" method="POST"
+    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <div class="input-group">
+        <label for="name">名称</label>
+        <div class="">
+            <input type="text" id="name" class="form-control " name="name" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="attr_group">Attr Group</label>
+        <div class="">
+            <textarea id="attr_group" class="form-control " name="attr_group"></textarea>
+
+        </div>
+    </div> <button type="submit" class="btn btn-success">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <input type="hidden" name="id">
+</form>

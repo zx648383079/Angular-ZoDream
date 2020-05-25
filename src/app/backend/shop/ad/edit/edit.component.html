@@ -1,0 +1,73 @@
+<form class="form-table" action="http://zodream.localhost/shop/admin/ad/save_position" method="POST"
+    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <div class="input-group">
+        <label for="name">广告名</label>
+        <div class="">
+            <input type="text" id="name" class="form-control " name="name" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="position_id">广告位</label>
+        <div class="">
+            <select id="position_id" name="position_id">
+                <option value="2">移动端首页轮播广告</option>
+                <option value="1">pc banner</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="type">类型</label>
+        <div class="">
+            <select id="type" name="type">
+                <option value="0" selected="">文本</option>
+                <option value="1">图片</option>
+                <option value="2">代码</option>
+                <option value="3">视频</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="type-group">
+        <div class="input-group">
+            <label for="content">内容</label>
+            <div class="">
+                <textarea id="content" class="form-control " name="content"></textarea>
+
+            </div>
+        </div>
+        <div class="input-group" style="display: none;">
+            <label for="content_url">内容</label>
+            <div class="file-input">
+                <input type="text" id="content_url" class="form-control " name="content_url">
+                <button type="button" data-type="upload">上传</button>
+                <button type="button" data-type="preview">预览</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="url">链接</label>
+        <div class="">
+            <input type="text" id="url" class="form-control " name="url">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="start_at">开始时间</label>
+        <div class="">
+            <input type="text" id="start_at" class="form-control " name="start_at" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="end_at">结束时间</label>
+        <div class="">
+            <input type="text" id="end_at" class="form-control " name="end_at" required="">
+
+        </div>
+    </div> <button type="submit" class="btn btn-success">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <input type="hidden" name="id">
+</form>

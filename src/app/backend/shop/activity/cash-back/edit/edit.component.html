@@ -1,0 +1,73 @@
+<form class="form-table" action="http://zodream.localhost/shop/admin/activity/cash_back/save" method="POST"
+    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <div class="input-group">
+        <label for="name">名称</label>
+        <div class="">
+            <input type="text" id="name" class="form-control " name="name" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="description">说明</label>
+        <div class="">
+            <textarea id="description" class="form-control " name="description"></textarea>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="scope_type">活动范围</label>
+        <div class="">
+            <select id="scope_type" name="scope_type">
+                <option value="0" selected="">全部商品</option>
+                <option value="1">指定分类</option>
+                <option value="2">指定品牌</option>
+                <option value="3">指定商品</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="scope">范围区间</label>
+        <div class="">
+            <input type="text" id="scope" class="form-control " name="scope">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="configure_order_amount">订单金额满</label>
+        <div class="">
+            <input type="text" id="configure_order_amount" class="form-control " name="configure[order_amount]"
+                value="0" placeholder="请输入 订单金额满">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="configure_money">返现金额</label>
+        <div class="">
+            <input type="text" id="configure_money" class="form-control " name="configure[money]" value="0"
+                placeholder="请输入 返现金额">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="configure_star">是否要求5星好评</label>
+        <div class="check-toggle">
+            <input type="checkbox" id="configure_star_1" name="configure[star]" value="1">
+            <label for="configure_star_1"></label>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="start_at">起止时间</label>
+        <div class="">
+            <input type="text" id="start_at" class="form-control " name="start_at" autocomplete="off"
+                placeholder="请输入开始时间" value="">
+            ~
+            <input type="text" id="end_at" class="form-control " name="end_at" placeholder="请输入结束时间" autocomplete="off"
+                value="">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <input type="hidden" name="id">
+</form>

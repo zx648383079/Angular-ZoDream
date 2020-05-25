@@ -1,0 +1,45 @@
+<form class="form-table" action="http://zodream.localhost/shop/admin/activity/free_trial/save" method="POST"
+    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <div class="input-group">
+        <label for="name">名称</label>
+        <div class="">
+            <input type="text" id="name" class="form-control " name="name" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="description">说明</label>
+        <div class="">
+            <textarea id="description" class="form-control " name="description"></textarea>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="scope">商品</label>
+        <div class="">
+            <input type="text" id="scope" class="form-control " name="scope" placeholder="请输入 商品" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="configure_amount">试用数量</label>
+        <div class="">
+            <input type="text" id="configure_amount" class="form-control " name="configure[amount]"
+                placeholder="请输入 试用数量" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="start_at">起止时间</label>
+        <div class="">
+            <input type="text" id="start_at" class="form-control " name="start_at" autocomplete="off"
+                placeholder="请输入开始时间" value="">
+            ~
+            <input type="text" id="end_at" class="form-control " name="end_at" placeholder="请输入结束时间" autocomplete="off"
+                value="">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <input type="hidden" name="id">
+</form>

@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <table class="table table-bordered well">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>称呼</th>
+          <th>邮箱</th>
+          <th>联系方式</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of items">
+          <tr>
+            <td>42</td>
+            <td>Briancrito</td>
+            <td>
+                cbdle@gmail.com            </td>
+            <td>
+                84575652427            </td>
+            <td>
+                                待审核
+                            </td>
+            <td>
+            </td>
+          </tr>
+          <tr class="tr-child">
+            <td colspan="6">
+                buy 
+              </td>
+          </tr>
+        </ng-container>
+      </tbody>
+  </table>
+</div>

@@ -1,0 +1,55 @@
+<form class="form-table" action="http://zodream.localhost/shop/admin/payment/save" method="POST" accept-charset="UTF-8"
+    data-type="ajax" role="form"><input type="hidden" name="_token">
+    <div class="input-group">
+        <label for="name">名称</label>
+        <div class="">
+            <input type="text" id="name" class="form-control " name="name" required="">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="icon">图标</label>
+        <div class="file-input">
+            <input type="text" id="icon" class="form-control " name="icon">
+            <button type="button" data-type="upload">上传</button>
+            <button type="button" data-type="preview">预览</button>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="code">Code</label>
+        <div class="">
+            <select id="code" name="code" required="">
+                <option value="balance">余额支付</option>
+                <option value="boc">中行支付</option>
+                <option value="zo">Zo支付</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="fee">Fee</label>
+        <div class="">
+            <input type="text" id="fee" class="form-control " name="fee">
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="description">介绍</label>
+        <div class="">
+            <textarea id="description" class="form-control " name="description"></textarea>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <label>限定配送</label>
+        <div>
+            <select name="shipping[]" id="shipping-box" multiple="" >
+                <option value="0">不限</option>
+                <option value="1">顺丰速递</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <input type="hidden" name="id">
+</form>
