@@ -47,3 +47,10 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class BlogRoutingModule { }
+
+export const blogRoutedComponents = [
+  BlogComponent,
+  EditTagComponent,
+  TagComponent,
+  CategoryComponent, EditCategoryComponent, CommentComponent, EditComponent, ListComponent
+];

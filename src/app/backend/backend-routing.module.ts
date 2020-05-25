@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { BackendComponent } from './backend.component';
 import { HomeComponent } from './home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -27,3 +28,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class BackendRoutingModule { }
+
+export const backendRoutedComponents = [
+  BackendComponent, HomeComponent,
+  NotFoundComponent
+];

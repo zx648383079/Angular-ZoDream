@@ -27,3 +27,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class SystemRoutingModule { }
+
+export const systemRoutedComponents = [
+  SystemComponent, CacheComponent, SqlComponent, SitemapComponent
+];

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PluginComponent } from './plugin.component';
+import { pluginRoutedComponents, PluginRoutingModule } from './plugin-routing.routing';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    PluginRoutingModule
   ],
-  declarations: [PluginComponent]
+  declarations: [...pluginRoutedComponents]
 })
 export class PluginModule { }

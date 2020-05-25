@@ -27,3 +27,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class ContactRoutingModule { }
+
+export const contactRoutedComponents = [
+  ContactComponent, FeedbackComponent, FriendLinkComponent, SubscribeComponent
+];

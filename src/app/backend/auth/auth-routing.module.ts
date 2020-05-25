@@ -48,3 +48,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AuthRoutingModule { }
+
+export const authRoutedComponents = [
+  AuthComponent, ConnectComponent, LogComponent, LoginLogComponent, PasswordComponent, ProfileComponent, BulletinComponent
+];

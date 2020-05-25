@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivityComponent } from './activity.component';
+import { activityRoutedComponents, ActivityRoutingModule } from './activity-routing.routing';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ActivityRoutingModule
   ],
-  declarations: [ActivityComponent]
+  declarations: [...activityRoutedComponents]
 })
 export class ActivityModule { }

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <h1>订单详情</h1>
-    <div class="progress-bar">
+    <div class="progress-time-bar">
         <div>
             <span></span>
         </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <table class="table-hover">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>商品名称</th>
@@ -92,10 +92,9 @@
                     <i class="fa fa-edit"></i>
                     备注信息</div>
                 <div class="panel-body">
-                    <form class="form-table" action="http://zodream.localhost/shop/admin/order/save" method="POST"
-                        accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+                    <form class="form-table" >
                         <div class="remark-box">
-                            <textarea name="remark" required=""></textarea>
+                            <textarea name="remark" class="form-control" required></textarea>
                         </div>
                         <button type="button" class="btn" data-operate="remark">保存</button>
                         <button type="button" class="btn btn-danger" data-operate="pay">支付</button>
