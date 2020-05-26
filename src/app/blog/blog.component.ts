@@ -32,14 +32,17 @@ export class BlogComponent implements OnInit {
 
   public sortItems = [
     {
+      value: 'new',
       name: '最新',
       checked: true
     },
     {
-      name: '热门'
+      name: '热门',
+      value: 'hot',
     },
     {
-      name: '推荐'
+      name: '推荐',
+      value: 'best',
     }
   ];
 

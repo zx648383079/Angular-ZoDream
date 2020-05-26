@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from '../model';
+import { IProduct } from 'src/app/theme/models/shop';
 
 @Component({
   selector: 'app-trash',

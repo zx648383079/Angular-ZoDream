@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ITag, BlogService } from '../blog.service';
+import { BlogService } from '../blog.service';
+import { ITag } from 'src/app/theme/models/blog';
 
 
 @Component({

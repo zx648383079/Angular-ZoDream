@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IArchives, BlogService } from '../blog.service';
+import { BlogService } from '../blog.service';
+import { IArchives } from 'src/app/theme/models/blog';
 
 @Component({
   selector: 'app-archives',

@@ -7,6 +7,8 @@ import { AuthActions } from 'src/app/theme/actions';
 import { AuthService } from 'src/app/theme/services';
 import { tap } from 'rxjs/operators';
 import { getAuthStatus } from 'src/app/theme/reducers/selectors';
+import { FormBuilder, Validators } from '@angular/forms';
+import { passwordValidator } from 'src/app/theme/validators';
 
 @Component({
   selector: 'app-login',
@@ -18,18 +20,28 @@ export class LoginComponent implements OnInit {
   mode = 0;
   loginSubs: Subscription;
   redirectUri: string;
-  public input = {
-    email: '',
-    password: ''
-  };
+  public loginForm = this.fb.group({
+    email: ['', [Validators.email, Validators.required]],
+    password: ['', [Validators.required, passwordValidator]],
+    remember: [false]
+  });
 
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
+    private fb: FormBuilder,
     private router: Router,
     private actions: AuthActions,
     private authService: AuthService) {
       this.redirectIfUserLoggedIn();
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
   ngOnInit() {
@@ -44,10 +56,7 @@ export class LoginComponent implements OnInit {
 
   tapSignIn() {
     this.loginSubs = this.authService
-        .login({
-          email: this.input.email,
-          password: this.input.password
-        }).pipe(
+        .login(this.loginForm.value).pipe(
           tap(user => {
             //this.router.navigateByUrl(this.returnUrl)
           }, (user) => {

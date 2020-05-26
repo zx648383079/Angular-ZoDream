@@ -2,10 +2,14 @@
   <div class="book-sidebar">
     <div class="book-chapter">
         <ul>
-            <li *ngFor="let item of categories">
-              <i class="fa fa-bookmark"></i><a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>
+          <ng-container *ngFor="let item of categories">
+            <li [ngClass]="{active: category && category.id == item.id}" (click)="tapCategory(item)">
+              <i class="fa fa-bookmark"></i><a >{{ item.name }}</a>
               <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
             </li>
+          </ng-container>
+          
+           
         </ul>
     </div>
     <div class="book-new" *ngIf="newItems.length > 0">
@@ -21,36 +25,36 @@
     <div class="book-sort">
         <a routerLink="../tag">标签</a>
         <a  routerLink="../archives">归档</a>
-        <a >推荐</a>
-        <a class="active" >最新</a>
-        <a >最热</a>
+        <ng-container *ngFor="let item of sortItems">
+          <a [ngClass]="{active: item.checked}" (click)="tapSort(item)">{{ item.name }}</a>
+        </ng-container>
     </div>
-    <h2 class="book-header" *ngIf="false">vue</h2>
-    <div class="book-term" *ngIf="false">
+    <h2 class="book-header" *ngIf="!category && header">{{ header }}</h2>
+    <div class="book-term" *ngIf="category">
         <div class="term-info">
-            <img src="https://static.zodream.cn/banner.jpg" alt="编程技术">
-            <h3>编程技术</h3>
+            <img [src]="category.thumb" [alt]="category.name">
+            <h3>{{ category.name }}</h3>
         </div>
-        <div class="term-desc">学习一些编程语言的过程。</div>
+        <div class="term-desc">{{ category.description }}</div>
     </div>
     <dl class="book-item" *ngFor="let item of items">
         <dt>
             <a routerLink="./{{ item.id }}" [title]="item.title">{{ item.title }}</a>
             <span class="book-time">{{ item.created_at }}</span></dt>
         <dd>
-            <p></p>
-            <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="iconfont icon-edit"></i><b>zodream</b></a>
-            <a class="category" href="https://zodream.cn/blog/category/3.html"><i
-                    class="iconfont icon-bookmark"></i><b>编程技术</b></a>
-            <a class="language" href="https://zodream.cn/blog/0/programming_language/TypeScript.html"><i
-                    class="iconfont icon-code"></i><b>TypeScript</b></a>
-            <span class="comment"><i class="iconfont icon-comments"></i><b>0</b></span>
-            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>0</b></span>
-            <span class="click"><i class="iconfont icon-eye"></i><b>3</b></span>
+            <p>{{ item.description }}</p>
+            <a class="author" *ngIf="item.user" (click)="tapUser(item.user)"><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
+            <a class="category" *ngIf="item.term" (click)="tapCategory(item.term)"><i
+                    class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+            <a class="language" *ngIf="item.programming_language" (click)="tapLanguage(item.programming_language)"><i
+                    class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
+            <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
+            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
+            <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
         </dd>
     </dl>
   </div>
   <div class="book-footer">
-    <ngb-pagination [collectionSize]="70" [(page)]="page" [pageSize]="20" [directionLinks]="false"></ngb-pagination>
+    <ngb-pagination [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" [directionLinks]="false"></ngb-pagination>
   </div>
 </div>

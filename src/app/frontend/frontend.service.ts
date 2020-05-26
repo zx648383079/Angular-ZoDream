@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
-export interface ILink {
-    name: string;
-    url: string;
-    description?: string;
-}
+import { ILink } from '../theme/models/seo';
+import { mockLinks } from '../theme/mock/seo';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +14,6 @@ export class FrontendService {
      * friendLinks
      */
     public friendLinks(): Observable<ILink[]> {
-        return of<ILink[]>([
-            {name: 'zodream', url: 'https://zodream.cn'},
-        ]);
+        return of(mockLinks);
     }
 }

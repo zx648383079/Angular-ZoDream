@@ -1,24 +1,24 @@
-<form class="form-ico login-form" action="http://zodream.localhost/auth/home/login" method="POST">
+<form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()">
   <div class="input-box">
-      <div class="input-group">
-          <input type="email" name="email" placeholder="请输入账号" required="" autocomplete="off">
+      <div class="input-group" [class]="{error: email.invalid}">
+          <input type="email" formControlName="email" placeholder="请输入账号" required="" autocomplete="off">
           <i class="iconfont icon-user" aria-hidden="true"></i>
       </div>
-      <div class="input-group">
-          <input type="password" name="password" placeholder="请输入密码" required="" autocomplete="off">
+      <div class="input-group" [class]="{error: password.invalid}">
+          <input type="password" formControlName="password" placeholder="请输入密码" required="" autocomplete="off">
           <i class="iconfont icon-lock" aria-hidden="true"></i>
       </div>
 
       <div class="input-group">
           <div class="checkbox">
-              <input type="checkbox" name="rememberMe" value="1" id="checkboxInput">
+              <input type="checkbox" formControlName="remember" value="1" id="checkboxInput">
               <label for="checkboxInput"></label>
           </div>
           记住我
           <a class="find-link" routerLink="find">找回密码</a>
       </div>
 
-      <button type="submit" class="btn">登录</button>
+      <button type="submit" class="btn" [disabled]="loginForm.invalid">登录</button>
       <div class="other-box">
           <a routerLink="register">注册账号</a>
           <i class="iconfont icon-qrcode"></i>
@@ -49,8 +49,8 @@
 
 <div class="login-oauth-box">
   <div class="box-title">第三方登录</div>
-  <a href="http://zodream.localhost/auth/oauth?type=qq" title="QQ登录"><i class="iconfont icon-qq"></i></a>
-  <a href="http://zodream.localhost/auth/oauth?type=wechat" title="微信登录"><i class="iconfont icon-wechat"></i></a>
-  <a href="http://zodream.localhost/auth/oauth?type=weibo" title="微博登录"><i class="iconfont icon-weibo"></i></a>
-  <a href="http://zodream.localhost/auth/oauth?type=github" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+  <a href="./oauth?type=qq" title="QQ登录"><i class="iconfont icon-qq"></i></a>
+  <a href="./oauth?type=wechat" title="微信登录"><i class="iconfont icon-wechat"></i></a>
+  <a href="./oauth?type=weibo" title="微博登录"><i class="iconfont icon-weibo"></i></a>
+  <a href="./oauth?type=github" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
 </div>

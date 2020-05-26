@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { FrontendService, ILink } from './frontend.service';
+import { FrontendService } from './frontend.service';
+import { ILink } from '../theme/models/seo';
 
 interface IMenuItem {
   name: string;

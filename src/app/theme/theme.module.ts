@@ -12,6 +12,7 @@ import {
 } from './interceptors';
 import { CanActivateViaAuthGuard } from './guards';
 import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent } from './components';
+import { PasswordValidatorDirective } from './validators';
 
 const BASE_MODULES = [
   CommonModule,
@@ -40,6 +41,7 @@ const ACTIONS = [
 ];
 
 const DIRECTIVES = [
+  PasswordValidatorDirective
 ];
 
 @NgModule({

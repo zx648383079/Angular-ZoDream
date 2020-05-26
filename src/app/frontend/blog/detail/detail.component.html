@@ -1,70 +1,70 @@
-<div class="container">
+<div class="container" *ngIf="item">
   <div class="book-title">
-    标题
+    {{ item.title }}
   </div>
   <div class="book-full-body">
     <div class="info">
-        <a class="author" href="https://zodream.cn/blog/user/1.html"><i class="iconfont icon-edit"></i><b>zodream</b></a>
-        <a class="category" href="https://zodream.cn/blog/category/3.html"><i class="iconfont icon-bookmark"></i><b>编程技术</b></a>
-        <a class="language" href="https://zodream.cn/blog/?programming_language=TypeScript"><i
-                class="iconfont icon-code"></i><b>TypeScript</b></a>
-        <span class="time"><i class="iconfont icon-calendar-check"></i><b>23小时前</b></span>
+        <a class="author" *ngIf="item.user" routerLink="../" [queryParams]="{user: item.user.id}"><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
+        <a class="category" *ngIf="item.term" routerLink="../" [queryParams]="{category: item.term.id}"><i class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+        <a class="language" *ngIf="item.programming_language" routerLink="../" [queryParams]="{programming_language: item.programming_language}"><i
+                class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
+        <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ item.created_at }}</b></span>
     </div>
     <article id="content" class="content">
       <div [innerHTML]="content"></div>
-      <p class="book-copyright">转载请保留原文链接：
-          <a href="https://zodream.cn/blog/id/137.html" title="angular 9 添加启动加载动画">https://zodream.cn/blog/id/137.html</a>
+      <p class="book-copyright" *ngIf="item.url">转载请保留原文链接：
+          <a [href]="item.url" [title]="item.title">{{ item.url }}</a>
       </p>
     </article>
     <div class="book-bottom">
-          <div class="book-source">
+          <div class="book-source" *ngIf="item.type == 1">
               <span>转载于：</span>
-              <a href="https://zodream.cn/to/0/url/aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veml5YW5kZXlhbmh1by9wLzkyNjczNTQuaHRtbA.html"
+              <a [href]="item.source_url"
                   target="_blank" title="本文为转载内容，点击查看原网页">
-                  https://www.cnblogs.com/ziyandeyanhuo/p/9267354.html </a>
+                  {{item.source_url}} </a>
           </div>
-          <div class="book-tags">
+          <div class="book-tags" *ngIf="item.tags">
               <span>标签：</span>
-              <a href="https://zodream.cn/blog/0/tag/angular.html">angular</a>，
+              <ng-container *ngFor="let tag of item.tags">
+                <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>，
+              </ng-container>
         </div>
     </div>
     <div class="tools">
-        <span class="comment"><i class="iconfont icon-comments"></i><b>0</b></span>
-        <span class="click"><i class="iconfont icon-eye"></i><b>4</b></span>
-        <span class="agree recommend-blog"><i class="iconfont icon-thumbs-up"></i><b>0</b></span>
+        <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
+        <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+        <span class="agree recommend-blog"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
     </div>
   </div>
 
   <div class="book-navigation">
-      <a class="prev" href="https://zodream.cn/blog/id/135.html">
+      <a class="prev" *ngIf="item.previous" (click)="loadBlog(item.previous.id)">
           <i class="iconfont icon-chevron-left"></i>
           <div class="prev-text">
               <span class="prev-label">上一篇</span>
-              <span class="prev-title">angular 9 使用</span>
+              <span class="prev-title">{{ item.previous.title }}</span>
           </div>
       </a>
-      <a class="next" href="https://zodream.cn/blog/id/137.html">
+      <a class="next" *ngIf="item.next" (click)="loadBlog(item.next.id)">
           <div class="next-text">
               <span class="next-label">上一篇</span>
-              <span class="next-title">angular 9 添加启动加载动画</span>
+              <span class="next-title">{{ item.next.title }}</span>
           </div>
           <i class="iconfont icon-chevron-right"></i>
       </a>
   </div>
-  <div class="panel">
+  <div class="panel" *ngIf="item.relation && item.relation.length > 0">
       <div class="panel-header">
-          <a href="https://zodream.cn/blog/blog.html">相关文章</a>
+          <a routerLink="../">相关文章</a>
       </div>
       <div class="panel-body">
-          <div class="list-item"><a class="name" href="https://zodream.cn/blog/id/21.html">Angular CORS 跨域请求解决方法</a>
-              <div class="time">2018-12-06</div>
-          </div>
-          <div class="list-item"><a class="name" href="https://zodream.cn/blog/id/135.html">angular 9 使用</a>
-              <div class="time">23小时前</div>
-          </div>
-          <div class="list-item"><a class="name" href="https://zodream.cn/blog/id/137.html">angular 9 添加启动加载动画</a>
-              <div class="time">23小时前</div>
-          </div>
+          <ng-container *ngFor="let blog of item.relation">
+            <div class="list-item" (click)="loadBlog(blog.id)">
+                <a class="name" >{{ blog.title }}</a>
+                <div class="time">{{ blog.created_at }}</div>
+            </div>
+          </ng-container>
+          
       </div>
   </div>
 </div>

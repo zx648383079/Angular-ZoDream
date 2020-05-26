@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ILink, FrontendService } from '../frontend.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { FrontendService } from '../frontend.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ILink } from 'src/app/theme/models/seo';
 
 @Component({
   selector: 'app-friend-link',

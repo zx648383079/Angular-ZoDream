@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogService, ICategory } from '../blog.service';
+import { BlogService } from '../blog.service';
+import { ICategory } from 'src/app/theme/models/blog';
 
 @Component({
   selector: 'app-category',

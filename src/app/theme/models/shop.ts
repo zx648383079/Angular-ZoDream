@@ -1,3 +1,10 @@
+export interface IBrand {
+    id: number;
+    name: string;
+    keywords?: string;
+    description?: string;
+    url: string;
+}
 export interface ICategory {
     id: number;
     name: string;
@@ -9,16 +16,8 @@ export interface ICategory {
     level?: number;
 }
 
-export interface IBrand {
-    id: number;
-    name: string;
-    keywords?: string;
-    description?: string;
-    url: string;
-}
-
 export interface IProduct {
-    id: string;
+    id: number;
     name: string;
     thumb: string;
     price: string;
