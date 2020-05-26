@@ -15,14 +15,14 @@ export class PasswordValidatorDirective implements Validator {
 
 export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   return control.value && control.value.length < 6 ? {
-    'password is too simple': true
+    password_simple: true
   } : null;
 };
 
 export const confirmValidator = (key: string = 'password', confirmKey: string = 'confirm_password'): ValidatorFn => {
   return (control: FormGroup): ValidationErrors | null => {
     return control.get(key).value !== control.get(confirmKey).value ? {
-      ['confirm ' + key + ' is error'] : true
+      confirm : true
     } : null;
   };
 };

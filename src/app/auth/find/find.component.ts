@@ -16,7 +16,9 @@ export class FindComponent implements OnInit {
     code: [''],
     password: [''],
     confirm_password: ['']
-  }, confirmValidator());
+  }, {
+    validators: confirmValidator()
+  });
 
   constructor(
     private fb: FormBuilder

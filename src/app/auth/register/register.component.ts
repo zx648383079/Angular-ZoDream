@@ -15,7 +15,9 @@ export class RegisterComponent implements OnInit {
     password: ['', [Validators.required, passwordValidator]],
     confirm_password: ['', [Validators.required]],
     agree: [false, Validators.requiredTrue]
-  }, confirmValidator());
+  }, {
+    validators: confirmValidator()
+  });
 
   constructor(
     private fb: FormBuilder
@@ -24,8 +26,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
   public tapSignUp() {
-    
   }
 
 }
