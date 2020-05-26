@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     public links: ILink[] = [
         {
             name: 'Blog',
-            url: 'blog'
+            url: '/blog'
         },
         {
             name: 'Micro',

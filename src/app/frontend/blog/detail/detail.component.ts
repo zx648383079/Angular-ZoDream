@@ -20,9 +20,7 @@ export class DetailComponent implements OnInit {
     private service: BlogService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.content = this.sanitizer.bypassSecurityTrustHtml('');
-  }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(param => {

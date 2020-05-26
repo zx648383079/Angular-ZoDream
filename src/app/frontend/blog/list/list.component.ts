@@ -55,16 +55,16 @@ export class ListComponent implements OnInit {
 
   public tapRefresh() {
     this.goPage(1);
-}
+  }
 
-public tapMore() {
-    if (!this.hasMore) {
-        return;
-    }
-    this.goPage(this.page + 1);
-}
+  public tapMore() {
+      if (!this.hasMore) {
+          return;
+      }
+      this.goPage(this.page + 1);
+  }
 
-public goPage(page: number) {
+  public goPage(page: number) {
     if (this.isLoading) {
         return;
     }
