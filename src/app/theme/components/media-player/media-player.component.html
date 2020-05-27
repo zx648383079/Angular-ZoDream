@@ -1,0 +1,28 @@
+<div class="media-player" [ngClass]="boxStyle">
+  <div class="player-body">
+    <i class="previous-icon" (click)="tapPrevious()"></i>
+    <ng-container *ngIf="file.type === 'image'">
+      <img [src]="file.url" [alt]="file?.name">
+    </ng-container>
+    <video #playerVideo></video>
+    <i class="next-icon" (click)="tapNext()"></i>
+  </div>
+  <div class="player-bar">
+    <div class="cover">
+      <img [src]="file.thumb" [alt]="file?.name">
+    </div>
+    <div class="action">
+      <div class="progress-box">
+        <app-progress-bar [(progress)]="progress" (progressChange)="tapProgressChange()"></app-progress-bar>
+      </div>
+      <i class="play-btn" (click)="tapPlay()" [ngClass]="{toggle: isPlaying}"></i>
+      <i class="stop-btn" (click)="tapStop()"></i>
+      <i class="previous-btn" (click)="tapPrevious()"></i>
+      <i class="next-btn" (click)="tapNext()"></i>
+      <div class="volume-box">
+        <i class="volume-icon" [ngClass]="{off: volume === 0, min: volume > 0 && volume < 80}" (click)="tapVolumeToggle()"></i>
+        <app-progress-bar [(progress)]="volume" (progressChange)="tapVolumeChange()"></app-progress-bar>
+      </div>
+    </div>
+  </div>
+</div>

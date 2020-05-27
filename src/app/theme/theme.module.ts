@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssetPipe } from './pipes';
+import { AssetPipe, SizePipe, TimestampPipe } from './pipes';
 import { RouterModule } from '@angular/router';
 import { AuthService, TransferStateService, ThemeService} from './services';
 import { AuthActions } from './actions';
@@ -11,7 +11,7 @@ import {
   ResponseInterceptor
 } from './interceptors';
 import { CanActivateViaAuthGuard } from './guards';
-import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent } from './components';
+import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent, MediaPlayerComponent, ProgressBarComponent } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
 
@@ -25,11 +25,15 @@ const COMPONENTS = [
   BarItemComponent,
   BarUlComponent,
   PageTipComponent,
-  EditHeaderComponent
+  EditHeaderComponent,
+  MediaPlayerComponent,
+  ProgressBarComponent,
 ];
 
 const PIPES = [
   AssetPipe,
+  SizePipe,
+  TimestampPipe
 ];
 
 const SERVICES = [

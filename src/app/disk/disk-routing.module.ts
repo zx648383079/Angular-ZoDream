@@ -42,3 +42,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class DiskRoutingModule { }
+
+export const diskRoutingComponents = [
+  DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent
+];

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DiskService } from '../disk.service';
+import { IDisk } from 'src/app/theme/models/disk';
+import { MediaPlayerComponent } from 'src/app/theme/components';
 
 
 interface ICrumb {
@@ -14,31 +17,18 @@ interface ICrumb {
 })
 export class CatalogComponent implements OnInit {
 
+  @ViewChild(MediaPlayerComponent)
+  private player: MediaPlayerComponent;
+
+  public playerVisiable = false;
+
   public viewMode = false;
 
-  public editMode = true;
+  public editMode = false;
 
   public checkedAll = false;
 
-  public items = [
-    {
-      type: 'group',
-      name: '文件夹'
-    },
-    {
-      name: '文件',
-      icon: 'icon-folder-o',
-      size: '1M',
-      time: '2018-1-1 00:00:00'
-    },
-    {
-      name: '文件2',
-      icon: 'icon-file-o',
-      size: '1M',
-      time: '2018-1-4 00:00:00',
-      checked: true
-    }
-  ];
+  public items: IDisk[] = [];
 
   public crumbs: ICrumb[] = [
     {
@@ -46,17 +36,23 @@ export class CatalogComponent implements OnInit {
       icon: 'icon-desktop',
       disable: true
     },
-    {
-      name: '音乐'
-    }
   ];
 
-  constructor() {}
+  constructor(
+    private service: DiskService
+  ) {}
 
   ngOnInit() {
+    this.service.getCatalog(0).subscribe(res => {
+      this.items = res.map(i => {
+        i.icon = this.service.getIconByExt(i.file_id < 1 ? undefined : i.file?.extension);
+        return i;
+      });
+    });
   }
 
-  public tapFile(item: any) {
+  public tapFile(item: IDisk) {
+    this.playerVisiable = false;
     if (this.editMode) {
       item.checked = !item.checked;
       if (!item.checked) {
@@ -64,7 +60,19 @@ export class CatalogComponent implements OnInit {
       } else {
         this.checkedIfAll();
       }
+      return;
     }
+    if (item.file_id < 1 || !item.file) {
+      return;
+    }
+    this.playerVisiable = true;
+    this.player.play({
+      name: item.name,
+      type: this.service.getTypeByExt(item.file.extension),
+      size: item.file.size,
+      thumb: item.file.thumb,
+      url: item.file.url
+    });
   }
 
   public checkedIfAll() {

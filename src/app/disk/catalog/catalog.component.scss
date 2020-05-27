@@ -184,6 +184,13 @@
         }
     }
 }
+.player-box {
+    position: fixed;
+    left: 200px;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
 
 @media screen and (max-width: 769px) {
     .nav-header {
