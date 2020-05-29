@@ -2,14 +2,14 @@
   <ng-container *ngFor="let item of items">
     <div class="share-item">
       <div class="avatar">
-          <img src="https://zodream.cn/assets/images/zx.jpg">
+          <img [src]="item.user.avatar">
       </div>
       <div>
-          <h4 class="item-heading">zodream 分享了
-            <a routerLink="/disk/password">123123</a>
+          <h4 class="item-heading">{{ item.user.name }} 分享了
+            <a routerLink="/disk/password">{{ item.name }}</a>
           </h4>
           <p class="item-text">
-              分享时间: 2019-01-01
+              分享时间: {{ item.created_at }}
               <a href="">取消分享</a>
           </p>
       </div>

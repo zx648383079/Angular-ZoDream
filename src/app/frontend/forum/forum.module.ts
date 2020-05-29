@@ -6,6 +6,7 @@ import { ForumComponent } from './forum.component';
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
 import { ThreadComponent } from './thread/thread.component';
+import { ForumService } from './forum.service';
 
 
 @NgModule({
@@ -13,6 +14,9 @@ import { ThreadComponent } from './thread/thread.component';
   imports: [
     CommonModule,
     ForumRoutingModule
+  ],
+  providers: [
+    ForumService
   ]
 })
 export class ForumModule { }

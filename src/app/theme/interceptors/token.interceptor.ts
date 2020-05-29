@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import {Md5} from 'ts-md5';
+import { getCurrentTime } from '../utils';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -17,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const auth = this.injector.get(AuthService);
-    const timestamp = this.getCurrentTime();
+    const timestamp = getCurrentTime();
     const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
     const clonedRequest = request.clone({
       headers: auth.getTokenHeader(request),
@@ -35,16 +36,5 @@ export class TokenInterceptor implements HttpInterceptor {
       return url;
     }
     return environment.apiEndpoint + url;
-  }
-
-  private getCurrentTime() {
-    const now = new Date(),
-        format = i => i < 10 ? '0' + i : i;
-    return now.getFullYear() +
-            '-' + format(now.getMonth() + 1) +
-            '-' + format(now.getDate()) +
-            ' ' + format(now.getHours()) +
-            ':' + format(now.getMinutes()) +
-            ':' + format(now.getSeconds());
   }
 }

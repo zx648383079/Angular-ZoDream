@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
-import { mockDisks } from '../theme/mock/disk';
-import { IDisk } from '../theme/models/disk';
+import { mockDisks, mockShare, mockMyShare } from '../theme/mock/disk';
+import { IDisk, IShare, IShareFile } from '../theme/models/disk';
+import { IPage } from '../theme/models/page';
+import { mockPage } from '../theme/mock/page';
 
 @Injectable()
 export class DiskService {
@@ -10,6 +12,18 @@ export class DiskService {
 
     public getCatalog(parent_id: number): Observable<IDisk[]> {
         return of(mockDisks);
+    }
+
+    public getShareList(param: any): Observable<IPage<IShare>> {
+        return of(mockPage(mockShare));
+    }
+
+    public getMyShare(param: any): Observable<IPage<IShare>> {
+        return of(mockPage(mockShare));
+    }
+
+    public getTrash(param: any): Observable<IPage<IDisk>> {
+        return of(mockPage(mockDisks));
     }
 
     public getIconByExt(ext?: string): string {

@@ -17,16 +17,16 @@
           <ng-container *ngFor="let item of group.children">
             <div class="forum-item">
                 <div class="thumb">
-                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                    <img [src]="item.thumb" alt="">
                 </div>
                 <div class="info">
                     <div class="name">
-                        <a href="http://zodream.localhost/forum/forum?id=2">BUG反馈</a>
+                        <a routerLink="{{ item.id }}">{{ item.name }}</a>
                     </div>
-                    <div class="count">主题：0，帖数：0</div>
-                    <div class="last-thread">
-                        <a href="http://zodream.localhost/forum/thread?id=1">关于本程序开发方向建…</a>
-                        2019-09-28 zodream </div>
+                    <div class="count">主题：{{ item.thread_count }}，帖数：{{ item.post_count }}</div>
+                    <div class="last-thread" *ngIf="item.last_thread">
+                        <a routerLink="thread/{{ item.last_thread.id }}">{{ item.last_thread.title }}</a>
+                        {{ item.last_thread.created_at }} {{ item.last_thread.user.name }} </div>
                 </div>
             </div>
           </ng-container>

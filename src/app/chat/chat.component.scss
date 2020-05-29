@@ -157,6 +157,7 @@
         padding: 0.5rem;
         background-color: #fff;
         margin-bottom: 10px;
+        cursor: pointer;
         .user-avatar {
             display: inline-block;
             img {
@@ -299,6 +300,9 @@
         .message-line,
         .message-tip {
             text-align: center;
+        }
+        .message-more {
+            cursor: default;
         }
         .message-left, 
         .message-right {

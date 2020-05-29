@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IForum } from 'src/app/theme/models/forum';
+import { ForumService } from '../forum.service';
 
 @Component({
   selector: 'app-home',
@@ -7,20 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  public items = [
-    {
-      id: 1,
-      name: '1111',
-      children: [
-        1,
-        2
-      ]
-    }
-  ];
+  public items: IForum[] = [];
 
-  constructor() { }
+  constructor(
+    private service: ForumService
+  ) { }
 
   ngOnInit() {
+    this.service.getForumList().subscribe(res => {
+      this.items = res;
+    });
   }
 
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from './chat.service';
+import { IUser, IUserGroup, IMessage } from '../theme/models/chat';
 
 @Component({
   selector: 'app-chat',
@@ -21,31 +23,70 @@ export class ChatComponent implements OnInit {
    */
   public searchMode = false;
 
-  public lastFriends = [1, 2, 3, 4, 5, 6, 6, 7, 9, 0, 0, 0, 0];
+  public lastFriends: IUser[] = [];
 
-  public friends = [
-    {
-      name: '我的好友',
-      expand: true,
-      children: [
-        1,
-        2,
-        3
-      ]
-    }
-  ];
+  public friends: IUserGroup[] = [];
 
-  constructor() { }
+  public user: IUser;
+
+  public chatUser: IUser;
+
+  public page = 1;
+  public hasMore = true;
+  public isLoading = false;
+  public messages: IMessage[] = [];
+
+  constructor(
+    private service: ChatService
+  ) { }
 
   ngOnInit(): void {
+    this.service.getFriends().subscribe(res => {
+      if (res.length > 0) {
+        res[0].expand = true;
+      }
+      this.friends = res;
+      this.user = res[0].children[0];
+    });
   }
 
   public tapAdd(event: Event) {
     event.stopPropagation();
   }
 
-  public tapUser(user: any) {
+  public tapUser(user: IUser) {
+    if (user.id === this.user.id) {
+      return;
+    }
     this.roomMode = true;
+    this.chatUser = user;
+    this.tapRefresh();
+  }
+
+  public tapRefresh() {
+    this.goPage(1);
+  }
+
+  public tapMore() {
+      if (!this.hasMore) {
+          return;
+      }
+      this.goPage(this.page + 1);
+  }
+
+  public goPage(page: number) {
+    if (this.isLoading) {
+        return;
+    }
+    this.isLoading = true;
+    this.service.getMessages(this.chatUser.id).subscribe(res => {
+      this.page = page;
+      this.hasMore = res.paging.more;
+      this.isLoading = false;
+      this.messages = page < 2 ? res.data : [].concat(this.messages, res.data);
+    }, () => {
+      this.isLoading = false;
+    });
   }
 
 }

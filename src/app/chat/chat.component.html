@@ -13,11 +13,11 @@
         </div>
         <div class="header">
             <div class="avatar">
-                <img src="https://zodream.cn/assets/images/zx.jpg">
+                <img [src]="user.avatar">
                 <i class="status-icon"></i>
             </div>
-            <div class="name">zodream</div>
-            <div class="remark">开心就好</div>
+            <div class="name">{{ user.name }}</div>
+            <div class="remark">{{ user.signature }}</div>
         </div>
         <div class="search-input" (click)="searchMode = true">
             <i class="iconfont icon-search"></i>
@@ -44,16 +44,16 @@
                     <ng-container *ngFor="let item of lastFriends">
                         <div class="user-item" (click)="tapUser(item)">
                             <div class="user-avatar">
-                                <img src="https://zodream.cn/assets/images/zx.jpg" alt="">
+                                <img [src]="item.avatar" alt="">
                             </div>
                             <div class="user-info">
                                 <p>
-                                    <span class="name">zodream</span>
-                                    <span class="time">1 m</span>
+                                    <span class="name">{{ item.name }}</span>
+                                    <span class="time" *ngIf="item.last_at">{{ item.last_at | ago }}</span>
                                 </p>
-                                <p>
-                                    <span class="content">34242</span>
-                                    <span class="count">9</span>
+                                <p *ngIf="item.last_message">
+                                    <span class="content">{{ item.last_message.content }}</span>
+                                    <span class="count" *ngIf="item.unread > 0">{{ item.unread }}</span>
                                 </p>
                             </div>
                         </div>
@@ -64,20 +64,20 @@
                         <div class="expand-box" [ngClass]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
                                 <i class="expand-icon"></i>
-                                <span>{{ group.name }} (0 / 2)</span>
+                                <span>{{ group.name }} ({{ group.online }} / {{ group.count }})</span>
                             </div>
                             <div class="expand-body">
                                 <ng-container *ngFor="let item of group.children">
-                                    <div class="user-item">
+                                    <div class="user-item" (click)="tapUser(item)">
                                         <div class="user-avatar">
-                                            <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                                            <img [src]="item.avatar" alt="">
                                         </div>
                                         <div class="user-info">
                                             <p>
-                                                <span class="name">zodream</span>
+                                                <span class="name">{{ item.remark || item.name }}</span>
                                             </p>
                                             <p>
-                                                <span class="content"></span>
+                                                <span class="content">{{ item.signature }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -101,14 +101,14 @@
                 <ng-container *ngFor="let item of lastFriends">
                     <div class="user-item">
                         <div class="user-avatar">
-                            <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                            <img [src]="item.avatar" alt="">
                         </div>
                         <div class="user-info">
                             <p>
-                                <span class="name">zodream</span>
+                                <span class="name">{{ item.remark || item.name }}</span>
                             </p>
                             <p>
-                                <span class="content"></span>
+                                <span class="content">{{ item.signature }}</span>
                             </p>
                         </div>
                     </div>
@@ -117,36 +117,22 @@
         </div>
     </div>
     <div class="chat-room">
-        <div class="title">
+        <div class="title" *ngIf="chatUser">
             <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
-            <span>与 test 聊天中</span>
+            <span>与 {{ chatUser.remark || chatUser.name }} 聊天中</span>
         </div>
-        <div class="message-box">
-            <p class="message-more">加载更多</p>
-            <div class="message-right">
-                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
-                <div class="content">
-                    1
-
-
+        <div class="message-box" *ngIf="chatUser">
+            <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
+            <ng-container *ngFor="let item of messages">
+                <div  [ngClass]="item.user_id == user.id ? 'message-right' :  'message-left'">
+                    <img class="avatar" [src]="item.user_id == user.id ? user.avatar : chatUser.avatar">
+                    <div class="content">
+                        {{ item.content }}
+                    </div>
                 </div>
-            </div>
-            <div class="message-left">
-                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
-                <div class="content">
-                    2
-                </div>
-            </div>
-            <div class="message-right">
-                <img class="avatar" src="http://zodream.localhost/assets/images/avatar/18.png">
-                <div class="content">
-                    2
-
-
-                </div>
-            </div>
+            </ng-container>
         </div>
-        <div class="message-tools">
+        <div class="message-tools" *ngIf="chatUser">
             <i class="iconfont icon-smile-o"></i>
             <i class="iconfont icon-image"></i>
             <i class="iconfont icon-camera"></i>
@@ -154,7 +140,7 @@
             <i class="iconfont icon-file-o"></i>
             <i class="iconfont icon-gift"></i>
         </div>
-        <div class="message-editor">
+        <div class="message-editor" *ngIf="chatUser">
             <div class="message-text" contenteditable="true"></div>
             <div class="message-action">
                 <button>发送</button>

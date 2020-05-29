@@ -1,3 +1,5 @@
+import { IUser } from './user';
+
 export interface IFile {
     id?: number;
     name?: string;
@@ -19,4 +21,22 @@ export interface IDisk {
     type?: string;
     icon?: string;
     checked?: boolean;
+}
+
+export interface IShare {
+    id: number;
+    name: string;
+    mode?: number;
+    user: IUser;
+    death_at?: number;
+    view_count?: number;
+    save_count?: number;
+    down_count?: number;
+    created_at: string;
+    checked?: boolean;
+}
+
+export interface IShareFile {
+    id: number;
+    file: IDisk;
 }

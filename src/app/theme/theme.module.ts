@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssetPipe, SizePipe, TimestampPipe } from './pipes';
+import { AssetPipe, SizePipe, TimestampPipe, AgoPipe } from './pipes';
 import { RouterModule } from '@angular/router';
 import { AuthService, TransferStateService, ThemeService} from './services';
 import { AuthActions } from './actions';
@@ -33,7 +33,8 @@ const COMPONENTS = [
 const PIPES = [
   AssetPipe,
   SizePipe,
-  TimestampPipe
+  TimestampPipe,
+  AgoPipe
 ];
 
 const SERVICES = [

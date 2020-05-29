@@ -1,49 +1,35 @@
-<div class="container">
+<div class="container" *ngIf="forum">
   <ul  class="breadcrumb">
       <li class="breadcrumb-item">
           <a routerLink="/" class="iconfont icon-home"></a>
       </li><li class="breadcrumb-item">
-          <a href="http://zodream.localhost/forum">圈子首页</a>
+          <a routerLink="../">圈子首页</a>
       </li>
-              <li class="breadcrumb-item active">交流与讨论
+              <li class="breadcrumb-item active">{{ forum.name }}
       </li>
   </ul>
 </div>
 <div class="container">
     <div class="forum-group">
         <div class="group-header">
-            交流与讨论 </div>
-        <div class="group-body">
+            {{ forum.name }}</div>
+        <div class="group-body" *ngIf="forum.children && forum.children.length > 0">
+            <ng-container *ngFor="let item of forum.children">
             <div class="forum-item">
                 <div class="thumb">
-                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                    <img [src]="item.thumb" alt="">
                 </div>
                 <div class="info">
                     <div class="name">
-                        <a href="http://zodream.localhost/forum/forum?id=2">BUG反馈</a>
-                        <span>(1)</span>
+                        <a routerLink="{{ item.id }}">{{ item.name }}</a>
                     </div>
-                    <div class="count">主题：0，帖数：0</div>
-                    <div class="last-thread">
-                        <a href="http://zodream.localhost/forum/thread?id=1">关于本程序开发方向建…</a>
-                        2019-09-28 zodream </div>
+                    <div class="count">主题：{{ item.thread_count }}，帖数：{{ item.post_count }}</div>
+                    <div class="last-thread" *ngIf="item.last_thread">
+                        <a routerLink="thread/{{ item.last_thread.id }}">{{ item.last_thread.title }}</a>
+                        {{ item.last_thread.created_at }} {{ item.last_thread.user.name }} </div>
                 </div>
             </div>
-            <div class="forum-item">
-                <div class="thumb">
-                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
-                </div>
-                <div class="info">
-                    <div class="name">
-                        <a href="http://zodream.localhost/forum/forum?id=3">测试专区</a>
-                        <span>(1)</span>
-                    </div>
-                    <div class="count">主题：6，帖数：0</div>
-                    <div class="last-thread">
-                        <a href="http://zodream.localhost/forum/thread?id=7">入口</a>
-                        2019-10-19 zodream </div>
-                </div>
-            </div>
+            </ng-container>
         </div>
     </div>
 
@@ -66,15 +52,15 @@
           <div class="thread-item">
             <div class="name">
                 <i class="fa fa-file"></i>
-                <a class="title" routerLink="../thread/{{ item.id }}">入口</a>
+                <a class="title" routerLink="../thread/{{ item.id }}">{{ item.title }}</a>
             </div>
             <div class="time">
-                <em data-action="user" data-id="1">zodream</em>
-                <em>2019-10-19</em>
+                <em data-action="user" data-id="1">{{ item.user.name }}</em>
+                <em>{{ item.created_at }}</em>
             </div>
             <div class="count">
-                <em>0</em>
-                <em>151</em>
+                <em>{{ item.post_count }}</em>
+                <em>{{ item.view_count }}</em>
             </div>
             <div class="reply">
                 <em>zodream</em>

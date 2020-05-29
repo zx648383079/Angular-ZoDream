@@ -36,23 +36,24 @@
         <div class="micro-item">
             <div class="body">
                 <div class="avatar">
-                    <img src="http://zodream.localhost/assets/images/avatar/18.png" alt="">
+                    <img [src]="item.user.avatar" alt="">
                 </div>
                 <div>
-                    <div class="name">zodream</div>
-                    <p><span class="time">2019-12-15 13:15:47</span> <span class="from">来自web</span>
+                    <div class="name">{{ item.user.name }}</div>
+                    <p><span class="time">{{ item.created_at }}</span> <span class="from">来自web</span>
                         <a class="remove" href="javascript:;" data-action="remove">[删除]</a>
                     </p>
                     <div class="content">
-                        1111 </div>
+                        {{ item.content }}
+                    </div>
                 </div>
             </div>
 
             <div class="ations">
                 <a class="" data-action="collect" href="javascript:;">收藏</a>
-                <a data-action="dialog" href="http://zodream.localhost/micro/forward_mini?id=1">转发1</a>
+                <a data-action="dialog" href="http://zodream.localhost/micro/forward_mini?id=1">转发 {{ item.forward_count }}</a>
                 <a data-action="comment" href="javascript:;">评论</a>
-                <a class="active" data-action="recommend" href="javascript:;">赞1</a>
+                <a class="active" data-action="recommend" href="javascript:;">赞{{ item.recommend_count }}</a>
             </div>
             <div class="comment-box">
 

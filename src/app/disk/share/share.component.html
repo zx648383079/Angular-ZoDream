@@ -11,22 +11,22 @@
     <div class="file-item" (click)="tapFile(item)">
       <div class="check-box" [ngClass]="{checked: item.checked}"></div>
       <div class="file-icon">
-        <i class="iconfont" [ngClass]="item.icon"></i>
+        <i class="iconfont icon-folder-o"></i>
       </div>
       <div class="file-name">{{ item.name }}</div>
       <div class="file-info">
-        <div class="file-time">{{ item.time }}</div>
+        <div class="file-time">{{ item.created_at }}</div>
         <div class="file-times">
           <i class="iconfont icon-eye"></i>
-          {{ item.size }}
+          {{ item.view_count }}
         </div>
         <div class="file-times">
           <i class="iconfont icon-floppy-o"></i>
-          {{ item.size }}
+          {{ item.save_count }}
         </div>
         <div class="file-times">
           <i class="iconfont icon-download"></i>
-          {{ item.size }}
+          {{ item.down_count }}
         </div>
       </div>
     </div>

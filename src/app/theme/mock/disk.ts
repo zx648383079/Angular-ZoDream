@@ -1,4 +1,5 @@
-import { IDisk } from '../models/disk';
+import { IDisk, IShare, IShareFile } from '../models/disk';
+import { mockUser } from './auth';
 
 export const mockDisks: IDisk[] = [
     {
@@ -49,4 +50,36 @@ export const mockDisks: IDisk[] = [
             url: 'http://zodream.localhost/assets/upload/2008.mp4',
         }
     },
+];
+
+export const mockShare: IShare[] = [
+    {
+        id: 1,
+        name: '分享好动i下',
+        user: mockUser,
+        created_at: '2108-08-1',
+        view_count: 999,
+        save_count: 199,
+        down_count: 88
+    },
+    {
+        id: 2,
+        name: '分享好的',
+        user: mockUser,
+        created_at: '2108-08-1',
+        view_count: 999,
+        save_count: 199,
+        down_count: 88
+    }
+];
+
+export const mockMyShare: IShareFile[] = [
+    {
+        id: 1,
+        file: mockDisks[0]
+    },
+    {
+        id: 2,
+        file: mockDisks[1]
+    }
 ];
