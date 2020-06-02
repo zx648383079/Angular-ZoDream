@@ -39,7 +39,7 @@ export class SitemapComponent implements OnInit {
             }
             this.items.push(lines[i++]);
             this.box.nativeElement.scrollTop = this.box.nativeElement.scrollHeight;
-        }, Math.floor(1 + Math.random() * 400));
+        }, Math.max(16, Math.floor(Math.min(lines.length * 100, 10000) / lines.length)));
   }
 
 }

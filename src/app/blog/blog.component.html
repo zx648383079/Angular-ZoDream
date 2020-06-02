@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <div class="items-box" appInfiniteScroll (scrollEnd)="tapMore()" [offset]="100" [debounce]="100" [disabled]="isLoading">
+        <app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore" [loading]="isLoading">
             <ng-container *ngFor="let item of items">
                 <dl class="book-item" (click)="tapItem(item)">
                     <dt>
@@ -39,7 +39,7 @@
                     </dd>
                 </dl>
             </ng-container>
-        </div>
+        </app-pull-to-refresh>
     </div>
     <div class="detail-box">
         <ng-container *ngIf="!blog; else elseTemplate">

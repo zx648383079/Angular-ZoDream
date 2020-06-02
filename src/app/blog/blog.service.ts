@@ -23,6 +23,6 @@ export class BlogService {
   }
 
   public getPage(param: ISearchForm): Observable<IPage<IBlog>> {
-    return of(mockPage<IBlog>([mockBlog]));
+    return of(mockPage<IBlog>([mockBlog], param.page));
   }
 }

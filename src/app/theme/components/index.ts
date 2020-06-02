@@ -5,3 +5,4 @@ export * from './page-tip/page-tip.component';
 export * from './edit-header/edit-header.component';
 export * from './media-player/media-player.component';
 export * from './progress-bar/progress-bar.component';
+export * from './pull-to-refresh/pull-to-refresh.component';

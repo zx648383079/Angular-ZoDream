@@ -11,7 +11,7 @@ import {
   ResponseInterceptor
 } from './interceptors';
 import { CanActivateViaAuthGuard } from './guards';
-import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent, MediaPlayerComponent, ProgressBarComponent } from './components';
+import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent, MediaPlayerComponent, ProgressBarComponent, PullToRefreshComponent } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
 
@@ -28,6 +28,7 @@ const COMPONENTS = [
   EditHeaderComponent,
   MediaPlayerComponent,
   ProgressBarComponent,
+  PullToRefreshComponent,
 ];
 
 const PIPES = [

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BlogService } from './blog.service';
 import { ICategory, IBlog } from '../theme/models/blog';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { IUser } from '../theme/models/user';
+import { PullToRefreshComponent } from '../theme/components';
 
 @Component({
   selector: 'app-blog',
@@ -10,6 +11,9 @@ import { IUser } from '../theme/models/user';
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
+
+  @ViewChild(PullToRefreshComponent)
+  public pullBox: PullToRefreshComponent;
 
   public detailMode = false;
 
@@ -58,10 +62,10 @@ export class BlogComponent implements OnInit {
   }
 
   public tapMore() {
-      if (!this.hasMore) {
-          return;
-      }
-      this.goPage(this.page + 1);
+    if (!this.hasMore) {
+        return;
+    }
+    this.goPage(this.page + 1);
   }
 
   public goPage(page: number) {
@@ -69,6 +73,7 @@ export class BlogComponent implements OnInit {
         return;
     }
     this.isLoading = true;
+    this.pullBox?.startLoad();
     this.service.getPage({
       category: this.category,
       sort: this.sort,
@@ -78,8 +83,10 @@ export class BlogComponent implements OnInit {
       this.hasMore = res.paging.more;
       this.isLoading = false;
       this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+      this.pullBox?.endLoad();
     }, () => {
       this.isLoading = false;
+      this.pullBox?.endLoad();
     });
   }
 
