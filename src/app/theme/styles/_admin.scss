@@ -1,0 +1,103 @@
+.page-search {
+    .form-horizontal {
+        display: inline-block;
+    }
+    .btn {
+        vertical-align: top;
+    }
+    .pull-right {
+        float: right;
+    }
+    &::after {
+        content: " ";
+        display: block;
+        clear: both;
+    }
+}
+
+.list-table {
+    .item {
+        position: relative;
+        background-color: #fff;
+        margin-bottom: 20px;
+        .stamp {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: rotate(30deg);
+            color: rgba($color: #ccc, $alpha: .4);
+            border: 2px solid;
+            display: block;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 20px;
+            border-radius: 50%;
+            transition: transform 2s;
+        }
+        .header {
+            line-height: 40px;
+            font-weight: 700;
+            .no {
+                display: inline-block;
+                background-color: #ccc;
+                padding: 0 5px;
+                line-height: 30px;
+                margin-right: 10px;
+                position: relative;
+                &::after {
+                    content: "";
+                    border: 6px solid transparent;
+                    border-left-color: #ccc;
+                    position: absolute;
+                    right: -12px;
+                    top: 9px;
+                }
+            }
+        }
+        .body {
+            color: #777;
+            padding: 5px;
+        }
+        .footer {
+            text-align: right;
+            line-height: 30px;
+            .status {
+                float: left;
+            }
+            .btn {
+                padding: 0 10px;
+                margin-left: 10px;
+                line-height: 30px;
+            }
+        }
+        &.thumb-item {
+            padding-left: 80px;
+            .thumb {
+                img {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+        &:hover {
+            .header {
+                .no {
+                    background-color: red;
+                    color: #fff;
+                    &::after {
+                        border-left-color: red;
+                    }
+                }
+            }
+            .stamp {
+                color: rgba($color: green, $alpha: .4);
+                transform: rotate(390deg);
+            }
+            .body {
+                background-color: rgb(253, 253, 253);
+            }
+        }
+    }
+}

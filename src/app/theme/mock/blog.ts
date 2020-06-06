@@ -1,4 +1,4 @@
-import { ICategory, IArchives, ITag, IBlog } from '../models/blog';
+import { ICategory, IArchives, ITag, IBlog, ISubtotal } from '../models/blog';
 import { mockUser } from './auth';
 
 export const mockCategories: ICategory[] = [
@@ -37,3 +37,33 @@ export const mockBlog: IBlog = {
     user: mockUser,
     tags: mockTags,
 };
+
+export const mockBlogs: IBlog[] = [
+    mockBlog,
+    mockBlog,
+    mockBlog,
+    mockBlog,
+];
+
+export const mockSubtotal: ISubtotal[] = [
+    {
+        name: '分类',
+        count: 99,
+        icon: 'icon-folder-o',
+    },
+    {
+        name: '文章',
+        count: 99,
+        icon: 'icon-file-o',
+    },
+    {
+        name: '评论',
+        count: 99,
+        icon: 'icon-commenting',
+    },
+    {
+        name: '浏览量',
+        count: 99,
+        icon: 'icon-eye',
+    },
+];

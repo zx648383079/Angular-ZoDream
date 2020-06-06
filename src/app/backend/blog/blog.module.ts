@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { BlogRoutingModule, blogRoutedComponents } from './blog-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
+import { BlogService } from './blog.service';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -10,7 +12,11 @@ import { ThemeModule } from '../../theme/theme.module';
   imports: [
     CommonModule,
     ThemeModule,
-    BlogRoutingModule
+    BlogRoutingModule,
+    NgbPaginationModule
+  ],
+  providers: [
+    BlogService
   ]
 })
 export class BlogModule { }

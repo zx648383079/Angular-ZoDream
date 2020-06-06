@@ -1,5 +1,11 @@
 import { IUser } from './user';
 
+export interface ISubtotal {
+    name: string;
+    icon: string;
+    count: number;
+}
+
 export interface IBlog {
     id: number;
     title: string;

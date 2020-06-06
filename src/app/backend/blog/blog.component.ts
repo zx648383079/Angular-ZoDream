@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BlogService } from './blog.service';
 
 @Component({
   selector: 'app-blog',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogComponent implements OnInit {
 
-  constructor() { }
+  public items = [];
+
+  constructor(
+    private service: BlogService
+  ) { }
 
   ngOnInit(): void {
+    this.service.getSubtotal().subscribe(res => {
+      this.items = res;
+    });
   }
 
 }
