@@ -2,6 +2,19 @@
   <div class="nav-bar">
       <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
       <ul class="bar-top">
+        <ng-container *ngIf="hasSuggest">
+          <li class="search-item">
+            <div class="search-input">
+              <input type="text" [(ngModel)]="suggestText" (keydown)="suggestKeyPress($event)">
+              <i class="iconfont icon-search" (click)="tapSuggest()"></i>
+            </div>
+            <ul class="search-suggestion" *ngIf="suggestItems && suggestItems.length > 0">
+              <ng-container *ngFor="let item of suggestItems">
+                <li>{{ item }}</li>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
         <ng-container *ngFor="let item of menu">
           <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem(item)">
             <ng-container *ngIf="item.url; else elseTemplate">

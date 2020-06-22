@@ -1,0 +1,87 @@
+.book-list {
+    li {
+        position: relative;
+        @for $var from 0 to 15 {
+            .top-#{$var} {
+                color: #666;
+                background: #ededed;
+                width: 16px;
+                font-size: 14px;
+                height: 16px;
+                display: inline-block;
+                line-height: 16px;
+                text-align: center;
+                position: absolute;
+                left: 18px;
+                top: 8px;
+                font-weight: 700;
+                padding: 0;
+            }
+        }
+        .top-1,
+        .top-2 {
+            color: #fff;
+            background: #e67225;
+        }
+        .top-0 {
+            color: #fff;
+            background: #bf2c24;
+        }
+    }
+}
+
+.book-list-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-gap: 10px;
+    padding: 20px 30px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    .thumb {
+        width: 160px;
+        height: 120px;
+        position: relative;
+        img {
+            position: absolute;
+            width: 84px;
+            height: 110px;
+            top: 5px;
+            left: 26px;
+            z-index: 66;
+            &:first-of-type,
+            &:last-of-type {
+                width: 68px;
+                height: 90px;
+                top: 15px;
+                z-index: 1;
+            }
+            &:first-of-type {
+                left: 0;
+            }
+            &:last-of-type {
+                left: 68px;
+            }
+        }
+    }
+    .info {
+        .title {
+            color: #333;
+            display: block;
+            font-weight: 700;
+            line-height: 1em;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .desc {
+            color: #777;
+            height: 70px;
+            overflow-y: hidden;
+        }
+        .info-footer {
+
+        }
+        .info-count {
+            float: right;
+        }
+    }
+}

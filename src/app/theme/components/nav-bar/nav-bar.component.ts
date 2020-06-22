@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface INav {
   name: string;
@@ -23,9 +23,32 @@ export class NavBarComponent implements OnInit {
 
   @Input() public bottomMenu: INav[] = [];
 
+  @Input() public hasSuggest = false;
+
+  @Input() public suggestItems: string[] = [];
+
+  @Output() public suggestSubmited = new EventEmitter<string>();
+
+  public suggestText = '';
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public tapSuggest() {
+    const isOpen = document.body.clientWidth <= 769;
+    if (this.navToggle !== isOpen) {
+      this.navToggle = isOpen;
+      return;
+    }
+    this.suggestSubmited.emit(this.suggestText);
+  }
+
+  public suggestKeyPress(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.suggestSubmited.emit(this.suggestText);
+    }
   }
 
   public tapItem(item: INav) {

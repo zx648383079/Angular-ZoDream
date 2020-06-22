@@ -11,12 +11,23 @@ import {
   ResponseInterceptor
 } from './interceptors';
 import { CanActivateViaAuthGuard } from './guards';
-import { NavBarComponent, PageTipComponent, BarItemComponent, BarUlComponent, EditHeaderComponent, MediaPlayerComponent, ProgressBarComponent, PullToRefreshComponent } from './components';
+import {
+  NavBarComponent,
+  PageTipComponent,
+  BarItemComponent,
+  BarUlComponent,
+  EditHeaderComponent,
+  MediaPlayerComponent,
+  ProgressBarComponent,
+  PullToRefreshComponent
+} from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
+import { FormsModule } from '@angular/forms';
 
 const BASE_MODULES = [
   CommonModule,
+  FormsModule,
   RouterModule,
 ];
 

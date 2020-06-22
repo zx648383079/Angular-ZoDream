@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    
+    <ng-container *ngFor="let item of items">
+        <div class="book-item">
+            <div class="cover">
+                <img :src="item.cover">
+            </div>
+            <div class="info">
+                <div class="name">{{ item.name }}</div>
+                <div class="tag">{{ item.author_name }}</div>
+                <div class="desc">{{ item.read_at | ago }}· {{ item.chapter_title }}</div>
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,10 @@
+<div class="container-fluid">
+    <div class="box">
+        <ng-container *ngFor="let item of categories">
+            <div (click)="tapCategory(item)">
+                {{ item.name }}
+            </div>
+        </ng-container>
+        
+    </div>
+</div>

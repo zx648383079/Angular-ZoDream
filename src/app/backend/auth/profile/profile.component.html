@@ -1,18 +1,17 @@
+<app-edit-header [title]="'编辑个人资料'"></app-edit-header>
 <div class="container-fluid">
-    <h1>个人资料</h1>
-    <form class="form-table" method="POST" accept-charset="UTF-8" data-type="ajax" role="form">
+    <form class="form-table" [formGroup]="form">
         <div class="input-group">
             <label for="name">昵称</label>
             <div class="">
-                <input type="text" id="name" class="form-control " name="name" value="zodream" placeholder="请输入 昵称"
-                    required="">
+                <input type="text" id="name" class="form-control " formControlName="name" placeholder="请输入 昵称">
             </div>
         </div>
         <div class="input-group">
             <label for="email">邮箱</label>
             <div class="">
-                <input type="email" id="email" class="form-control " name="email" value="648383079@qq.com"
-                    placeholder="请输入 邮箱" required="">
+                <input type="email" id="email" class="form-control " formControlName="email" 
+                    placeholder="请输入 邮箱">
             </div>
         </div>
         <div class="input-group">
@@ -33,12 +32,11 @@
         <div class="input-group">
             <label for="avatar">头像</label>
             <div class="file-input">
-                <input type="text" id="avatar" class="form-control " name="avatar" value="/assets/images/avatar/18.png"
+                <input type="text" id="avatar" class="form-control " formControlName="avatar" 
                     placeholder="请输入 头像">
                 <button type="button" data-type="upload">上传</button>
                 <button type="button" data-type="preview">预览</button>
             </div>
-        </div> <button type="submit" class="btn btn-success">确认保存</button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
     </form>
 </div>

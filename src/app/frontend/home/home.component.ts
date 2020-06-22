@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
             url: '/blog'
         },
         {
+            name: 'Book',
+            url: '/book'
+        },
+        {
             name: 'Micro',
             url: 'micro'
         },

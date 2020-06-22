@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="header">
+    <ng-container *ngIf="!isSort;else templateName">
+      <a class="right" (click)="tapSort()" >
+        <i class="fa fa-arrow-up"></i>
+        正序
+    </a>
+    </ng-container>
+    <ng-container #templateName>
+      <a class="right" (click)="tapSort()">
+        <i class="fa fa-arrow-down"></i>
+        倒序
+    </a>
+    </ng-container>
+    
+  </div>
+  <div class="box">
+    <ng-container *ngFor="let item of items">
+        <div (click)="tapChapter(item)" :class="['item', activeChapter == item.id ? 'active' : '']">
+          <div class="title">{{ item.title }}</div>
+          <div class="time">{{ item.created_at }}</div>
+      </div>
+    </ng-container>
+      
+  </div>
+</div>

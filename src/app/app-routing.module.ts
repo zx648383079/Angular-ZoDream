@@ -24,6 +24,7 @@ const routes: Routes = [
     { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) },
     { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
     { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
+    { path: 'book', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
     {
         path: '**',
         redirectTo: 'frontend'
