@@ -27,8 +27,7 @@ export class AuthService {
     return this.http.post<IUser>('auth/login', data).pipe(
       map(user => {
         this.setTokenInLocalStorage(user, USER_KEY);
-        this.store.dispatch(this.actions.getCurrentUserSuccess(JSON.parse(localStorage.getItem(USER_KEY))));
-        this.store.dispatch(this.actions.loginSuccess());
+        this.authenticateUser(user);
         return user;
       }),
       tap(
@@ -87,16 +86,14 @@ export class AuthService {
     if (this.getUserToken()) {
       return new HttpHeaders({
         'Content-Type': 'application/vnd.api+json',
-        'Authorization': `Bearer ${this.getUserToken()}`,
-        'Accept': '*/*'
-      });
-    } else {
-      return new HttpHeaders({
-        'Content-Type': 'application/vnd.api+json',
-        'Accept': '*/*'
+        Authorization: `Bearer ${this.getUserToken()}`,
+        Accept: '*/*'
       });
     }
-
+    return new HttpHeaders({
+      'Content-Type': 'application/vnd.api+json',
+      Accept: '*/*'
+    });
   }
 
   private setTokenInLocalStorage(user: any, keyName: string): void {
@@ -106,7 +103,7 @@ export class AuthService {
     }
   }
 
-  getUserToken() {
+  public getUserToken() {
     if (isPlatformBrowser(this.platformId)) {
       const user: IUser = JSON.parse(localStorage.getItem(USER_KEY));
       return user ? user.token : null;
@@ -115,13 +112,18 @@ export class AuthService {
     }
   }
 
-  loginFromStorage() {
+  public loginFromStorage() {
     let user: any = localStorage.getItem(USER_KEY);
     if (!user) {
-      return;
+      return false;
     }
     user = JSON.parse(user);
+    return this.authenticateUser(user);
+  }
+
+  private authenticateUser(user: IUser) {
     this.store.dispatch(this.actions.getCurrentUserSuccess(user as IUser));
     this.store.dispatch(this.actions.loginSuccess());
+    return true;
   }
 }

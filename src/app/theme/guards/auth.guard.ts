@@ -4,7 +4,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Store } from '@ngrx/store';
 import { AppState } from '../interfaces';
 import { getAuthStatus } from '../reducers/selectors';
-import { ThemeService } from '../services';
+import { ThemeService, AuthService } from '../services';
 
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CanActivateViaAuthGuard implements CanActivate, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private theme: ThemeService
+    private theme: ThemeService,
   ) {
   }
 

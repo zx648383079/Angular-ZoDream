@@ -16,19 +16,9 @@ export function reducer(state = initialState, { type, payload }: Action & { payl
       }) as AuthState;
 
     case AuthActions.GET_CURRENT_USER_SUCCESS:
-      const _currentUser = payload;
+      const currentUser = payload;
       return state.merge({
-        currentUser: _currentUser,
-      }) as AuthState;
-
-    case AuthActions.GET_RATING_CATEGEORY_SUCCESS:
-      const ratingCategoryList = payload;
-      const _ratingCategories = {};
-      ratingCategoryList.forEach(element => {
-        _ratingCategories[element.code] = element.id;
-      });
-      return state.merge({
-        ratingCategories: _ratingCategories
+        currentUser,
       }) as AuthState;
 
     default:

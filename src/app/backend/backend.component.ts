@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { INav } from '../theme/components';
+import { AppState } from '../theme/interfaces';
+import { Store } from '@ngrx/store';
+import { getCurrentUser } from '../theme/reducers/selectors';
 
 
 
@@ -201,7 +204,11 @@ export class BackendComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private store: Store<AppState>) {
+    this.store.select(getCurrentUser).subscribe(user => {
+      this.bottomNavs[0].name = user.name;
+    });
+  }
 
   ngOnInit(): void {
   }
