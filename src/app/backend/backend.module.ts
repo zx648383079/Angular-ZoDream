@@ -9,7 +9,10 @@ import { ThemeModule } from '../theme/theme.module';
   imports: [
     CommonModule,
     ThemeModule,
-    BackendRoutingModule
+    BackendRoutingModule,
+    // NgxEchartsModule.forRoot({
+    //   echarts: () => import('echarts'),
+    // }),
   ]
 })
 export class BackendModule { }

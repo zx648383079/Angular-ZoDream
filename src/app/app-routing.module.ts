@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CanActivateViaAuthGuard } from './theme/guards';
 
 
 const routes: Routes = [
     {
         path: 'backend',
+        canActivate: [CanActivateViaAuthGuard],
         loadChildren: () => import('./backend/backend.module').then(m => m.BackendModule)
     },
     {

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditComponent implements OnInit {
 
+  public tabIndex = 0;
+
   constructor() { }
 
   ngOnInit() {

@@ -4,14 +4,14 @@
   <form class="form-table" action="https://zodream.cn/blog/admin/blog/save" method="POST" accept-charset="UTF-8" data-type="ajax" role="form" ><input type="hidden" name="_token">
     <div class="tab-box">
         <div class="tab-header">
-            <div class="tab-item active">
+            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
                 基本
-            </div><div class="tab-item">
+            </div><div class="tab-item"  [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
                 详情
             </div>
         </div>
         <div class="tab-body">
-            <div class="tab-item active">
+            <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                 <div class="input-group">
     <label for="title">标题</label>
     <div class="">
@@ -181,8 +181,8 @@
                     </div>
                 </div>
                             </div>
-            <div class="tab-item">
-                <textarea style="height: 0px; width: 100%;" name="content" class="form-control " required="" id="editor-container"></textarea>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <textarea name="content" class="form-control " required="" id="editor-container"></textarea>
             </div>
         </div>
     </div>
