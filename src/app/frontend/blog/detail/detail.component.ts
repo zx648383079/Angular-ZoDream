@@ -24,8 +24,8 @@ export class DetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(param => {
-      if (param.id) {
-        this.router.navigate(['./list']);
+      if (!param.id) {
+        this.router.navigate(['../']);
         return;
       }
       this.loadBlog(param.id);

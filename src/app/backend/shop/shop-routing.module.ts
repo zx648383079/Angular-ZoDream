@@ -43,5 +43,16 @@ export class ShopRoutingModule { }
 
 export const shopRoutedComponents = [
   ShopComponent,
-  AdComponent
+  AdComponent,
+  EditAdComponent,
+  EditPositionComponent,
+  PositionComponent,
+  EditArticleComponent,
+  EditCategoryComponent,
+  CategoryComponent,
+  ArticleComponent,
+  EditPaymentComponent,
+  PaymentComponent,
+  EditShippingComponent,
+  ShippingComponent
 ];

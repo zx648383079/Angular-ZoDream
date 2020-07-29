@@ -1,48 +1,59 @@
 <div class="container-fluid">
-  <div class="page-search">
-  <a class="btn btn-success pull-right" routerLink="./create">新增分类</a>
-</div>
+    <app-page-tip>
+        <ul>
+            <li>商品分类列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="page-search-bar">
+        <a class="btn btn-success pull-right" routerLink="./create">新增分类</a>
+    </div>
 
-<table class="table table-hover">
-  <thead>
-  <tr>
-      <th>ID</th>
-      <th>分类名</th>
-      <th>统计</th>
-      <th>操作</th>
-  </tr>
-  </thead>
-  <tbody>
-          <tr>
-          <td>1</td>
-          <td class="tree-item">
-                              <a href="http://zodream.localhost/shop/admin/goods?cat_id=1">居家</a>
-          </td>
-          <td></td>
-          <td>
-              <div class="btn-group  btn-group-xs">
-                  <a class="btn btn-default btn-xs" href="http://zodream.localhost/shop/admin/goods?cat_id=1">查看</a>
-                  <a class="btn btn-default btn-xs" href="http://zodream.localhost/shop/admin/category/edit?id=1">编辑</a>
-                  <a class="btn btn-danger" data-type="del" href="http://zodream.localhost/shop/admin/category/delete?id=1">删除</a>
-              </div>
-          </td>
-      </tr>
-          <tr>
-          <td>11</td>
-          <td class="tree-item">
-                              <span>ￂ</span>
-                              <a href="http://zodream.localhost/shop/admin/goods?cat_id=11">布艺软装</a>
-          </td>
-          <td></td>
-          <td>
-              <div class="btn-group  btn-group-xs">
-                  <a class="btn btn-default btn-xs" href="http://zodream.localhost/shop/admin/goods?cat_id=11">查看</a>
-                  <a class="btn btn-default btn-xs" href="http://zodream.localhost/shop/admin/category/edit?id=11">编辑</a>
-                  <a class="btn btn-danger" data-type="del" href="http://zodream.localhost/shop/admin/category/delete?id=11">删除</a>
-              </div>
-          </td>
-      </tr>
-          
-      </tbody>
-</table>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>分类名</th>
+                <th>统计</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="tree-item">
+                    <a href="http://zodream.localhost/shop/admin/goods?cat_id=1">居家</a>
+                </td>
+                <td></td>
+                <td>
+                    <div class="btn-group  btn-group-xs">
+                        <a class="btn btn-default btn-xs"
+                            href="http://zodream.localhost/shop/admin/goods?cat_id=1">查看</a>
+                        <a class="btn btn-default btn-xs"
+                            href="http://zodream.localhost/shop/admin/category/edit?id=1">编辑</a>
+                        <a class="btn btn-danger" data-type="del"
+                            href="http://zodream.localhost/shop/admin/category/delete?id=1">删除</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td class="tree-item">
+                    <span>ￂ</span>
+                    <a href="http://zodream.localhost/shop/admin/goods?cat_id=11">布艺软装</a>
+                </td>
+                <td></td>
+                <td>
+                    <div class="btn-group  btn-group-xs">
+                        <a class="btn btn-default btn-xs"
+                            href="http://zodream.localhost/shop/admin/goods?cat_id=11">查看</a>
+                        <a class="btn btn-default btn-xs"
+                            href="http://zodream.localhost/shop/admin/category/edit?id=11">编辑</a>
+                        <a class="btn btn-danger" data-type="del"
+                            href="http://zodream.localhost/shop/admin/category/delete?id=11">删除</a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </div>

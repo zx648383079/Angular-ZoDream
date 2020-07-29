@@ -37,7 +37,6 @@
 }
 .content {
     margin-bottom: 40px;
-    max-height: 300px;
     overflow-y: hidden;
     a {
         color: #06a;
@@ -158,3 +157,9 @@
         box-shadow: rgba(51,51,51,.7) 0 0 10px;
     }
 }
+
+.loading-box {
+    min-height: 300px;
+}
+
+@import "../../../theme/styles/markdown";

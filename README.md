@@ -23,7 +23,7 @@
 
 ## 当前状态
 
-页面制作中，未进行服务端数据对接
+页面制作中，已进行服务端数据对接
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.

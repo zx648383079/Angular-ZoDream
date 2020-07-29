@@ -38,17 +38,21 @@ export class ListComponent implements OnInit {
    * tapRefresh
    */
   public tapRefresh() {
-    this.tapGo(1);
+    this.goPage(1);
+  }
+
+  public tapPage() {
+    this.goPage(this.page);
   }
 
   public tapMore() {
-    this.tapGo(this.page + 1);
+    this.goPage(this.page + 1);
   }
 
   /**
-   * tapGo
+   * goPage
    */
-  public tapGo(page: number) {
+  public goPage(page: number) {
     if (this.isLoading) {
         return;
     }

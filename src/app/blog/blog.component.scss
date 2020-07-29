@@ -170,7 +170,6 @@ $leftWidth: 400px;
     }
     .content {
         margin-bottom: 40px;
-        max-height: 300px;
         overflow-y: hidden;
         a {
             color: #06a;
@@ -190,7 +189,6 @@ $leftWidth: 400px;
     .tools {
         border-top: 1px dotted #a10000;
         line-height: 40px;
-        position: absolute;
         bottom: 0;
         right: 15px;
         left: 15px;

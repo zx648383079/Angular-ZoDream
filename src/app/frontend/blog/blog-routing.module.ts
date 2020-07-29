@@ -45,7 +45,7 @@ const routes: Routes = [
           path: '**',
           component: ListComponent,
       }
-    ]
+    ],
   }
 ];
 
@@ -54,3 +54,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class BlogRoutingModule { }
+
+export const blogRoutingComponents = [
+  BlogComponent, TagComponent, ListComponent, DetailComponent, CategoryComponent, ArchivesComponent
+];
