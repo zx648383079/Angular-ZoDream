@@ -1,17 +1,25 @@
 import { deserialize } from 'jsonapi-deserializer';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
+import { Injectable, Injector } from '@angular/core';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
 
+  constructor(private injector: Injector) { }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     return next.handle(req).pipe(map((event: HttpEvent<any>) => {
-      if (event instanceof HttpResponse) {
-        //event = event.clone({ body: this.modifyBody(event) });
+      return event;
+    }), map(event => {
+      if (event instanceof HttpErrorResponse) {
+        if (event.status === 401) {
+          const auth = this.injector.get(AuthService);
+          auth.logoutUser();
+        }
       }
       return event;
     }));

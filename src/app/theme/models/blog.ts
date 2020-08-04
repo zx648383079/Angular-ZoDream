@@ -55,6 +55,7 @@ export interface IComment {
 }
 
 export interface ITag {
+    id?: number;
     name: string;
     count: number;
     style?: string;

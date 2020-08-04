@@ -9,23 +9,14 @@
     <div class="input-group">
     <label for="store_">缓存区</label>
     <div class="">
-        <span class="check-label">
-    <input type="checkbox" id="store_0" name="store[]" value="default">
-    <label for="store_0">默认</label>
-</span><span class="check-label">
-    <input type="checkbox" id="store_1" name="store[]" value="auth">
-    <label for="store_1">用户</label>
-</span><span class="check-label">
-    <input type="checkbox" id="store_2" name="store[]" value="pages">
-    <label for="store_2">页面</label>
-</span><span class="check-label">
-    <input type="checkbox" id="store_3" name="store[]" value="nodes">
-    <label for="store_3">部件</label>
-</span>
+        <span class="check-label" *ngFor="let item of items, index as i">
+            <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value">
+            <label [for]="'store_' + i">{{ item.name }}</label>
+        </span>
     </div>
 </div>
     <button type="submit" class="btn btn-success">清除选中</button>
     <input type="hidden" name="store[]" value="">
-    <a href="https://zodream.cn/seo/admin/cache/clear.html" data-type="del" data-tip="确认清除全部缓存" class="btn btn-danger">清除全部缓存</a>
+    <a  data-type="del" data-tip="确认清除全部缓存" class="btn btn-danger">清除全部缓存</a>
 </form>
 </div>

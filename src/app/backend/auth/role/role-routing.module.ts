@@ -26,3 +26,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class RoleRoutingModule { }
+
+
+export const roleRoutedComponents = [
+  RoleComponent, EditComponent, PermissionComponent, EditPermissionComponent
+];

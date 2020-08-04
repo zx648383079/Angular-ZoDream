@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IItem } from '../../../theme/models/seo';
+import { SystemService } from '../system.service';
 
 @Component({
   selector: 'app-cache',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CacheComponent implements OnInit {
 
-  constructor() { }
+  public items: IItem[] = [];
+
+  constructor(
+    private service: SystemService
+  ) {
+    this.service.cacheStore().subscribe(res => {
+      this.items = res;
+    });
+  }
 
   ngOnInit() {
   }

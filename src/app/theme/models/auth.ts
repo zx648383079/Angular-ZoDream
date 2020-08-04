@@ -37,6 +37,27 @@ export interface IDriver {
     created_at: string;
 }
 
+export interface IAccountLog {
+    id?: number;
+    type?: number;
+    item_id?: number;
+    money?: number;
+    status?: number;
+    remark: string;
+    created_at?: string;
+}
+
+export interface ILoginLog {
+    id: number;
+    ip: string;
+    user_id: number;
+    user: string;
+    status: number;
+    mode: string;
+    created_at: string;
+}
+
+
 export interface ILogin {
     email?: string;
     password?: string;
@@ -52,5 +73,23 @@ export interface IRegister {
     code?: string;
     confirm_password?: string;
     agree: boolean;
+}
+
+export interface IRole {
+    id: number;
+    name: string;
+    display_name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IPermission {
+    id: number;
+    name: string;
+    display_name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
 }
 

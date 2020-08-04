@@ -1,16 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoleComponent } from './role.component';
-import { RoleRoutingModule } from './role-routing.module';
-import { EditPermissionComponent } from './edit-permission/edit-permission.component';
-import { PermissionComponent } from './permission/permission.component';
-import { EditComponent } from './edit/edit.component';
+import { RoleRoutingModule, roleRoutedComponents } from './role-routing.module';
+import { RoleService } from './role.service';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ThemeModule } from '../../../theme/theme.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    NgbPaginationModule,
+    ReactiveFormsModule,
+    ThemeModule,
     RoleRoutingModule
   ],
-  declarations: [RoleComponent, EditPermissionComponent, PermissionComponent, EditComponent]
+  declarations: [...roleRoutedComponents],
+  providers: [
+    RoleService,
+  ],
 })
 export class RoleModule { }

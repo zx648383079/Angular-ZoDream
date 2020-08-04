@@ -15,11 +15,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of items">
-          <td>ID</td>
-          <td>邮箱</td>
-          <td>状态</td>
-          <td>操作</td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.status }}</td>
+          <td></td>
         </tr>
       </tbody>
   </table>
+
+  <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
 </div>

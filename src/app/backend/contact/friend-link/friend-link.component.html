@@ -17,21 +17,21 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of items">
-          <td>4</td>
-            <td>FINTHON</td>
+          <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
             <td>
-                <code>https://finthon.com</code>
-                <a href="https://finthon.com" target="_blank" rel="noopener noreferrer" class="fa fa-globe"></a>
+                <code>{{ item.url }}</code>
+                <a [href]="item.url" target="_blank" rel="noopener noreferrer" class="fa fa-globe"></a>
+            </td>
+            <td>{{ item.brief }}</td>
+            <td>
+               {{item.status}}
             </td>
             <td>
-                一个学习分享python相关知识的平台            </td>
-            <td>
-                                待审核
-                            </td>
-            <td>
-                                <a class="btn btn-danger" data-type="del" data-tip="确认审核通过此友情链接？" href="https://zodream.cn/contact/admin/friend_link/verify/id/4.html">审核</a>
+                <a class="btn btn-danger" data-type="del" data-tip="确认审核通过此友情链接？" href="">审核</a>
             </td>
         </tr>
       </tbody>
   </table>
+  <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
 </div>

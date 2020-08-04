@@ -1,16 +1,21 @@
 <div class="container-fluid">
-  <div class="search">
+    <app-page-tip>
+        <ul>
+            <li>权限列表</li>
+        </ul>
+    </app-page-tip>
+  <div class="page-search-bar">
       <form role="form">
           <div class="form-row">
               <div class="col-auto">
-                  <label class="sr-only" for="keywords">角色</label>
-                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="角色">
+                  <label class="sr-only" for="keywords">权限</label>
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="权限">
               </div>
               <div class="col-auto">
                   <button type="submit" class="btn btn-primary">搜索</button>
               </div>
               <div class="col-auto">
-                  <button type="button" class="btn btn-primary">新增角色</button>
+                  <button type="button" class="btn btn-primary">新增权限</button>
               </div>
           </div>
       </form>
@@ -19,16 +24,16 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>角色名</th>
+        <th>权限名</th>
         <th>别名</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
         <tr *ngFor="let item of items">
-            <td>1</td>
-            <td>administrator</td>
-            <td>超级管理员</td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.display_name }}</td>
             <td>
                 <div class="btn-group  btn-group-xs">
                     <a class="btn btn-default btn-xs" href="https://zodream.cn/auth/admin/role/edit/id/1.html">编辑</a>
@@ -38,4 +43,6 @@
         </tr>
     </tbody>
 </table>
+
+<ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
 </div>

@@ -19,11 +19,11 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of items">
-            <td>1</td>
+            <td>{{ item.id }}</td>
             <td>
-                <a href="">123</a>
+                <a href="">{{ item.name }}</a>
             </td>
-            <td>1</td>
+            <td>{{ item.blog_count }}</td>
             <td>
                 <div class="btn-group  btn-group-xs">
                     <a class="btn btn-default btn-xs" href="">查看</a>

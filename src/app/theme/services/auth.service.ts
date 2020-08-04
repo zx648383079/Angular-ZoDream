@@ -68,13 +68,20 @@ export class AuthService {
   public logout() {
     return this.http.post('auth/logout', {}).pipe(
       map((res: Response) => {
-        if (isPlatformBrowser(this.platformId)) {
-          localStorage.clear();
-        }
-        this.store.dispatch(this.actions.logoutSuccess());
+        this.logoutUser();
         return res;
       })
     );
+  }
+
+  /**
+   * 清除本地的token
+   */
+  public logoutUser() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.clear();
+    }
+    this.store.dispatch(this.actions.logoutSuccess());
   }
 
   /**

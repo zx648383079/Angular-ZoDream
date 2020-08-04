@@ -2,6 +2,8 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { ILoginLog } from '../../../theme/models/auth';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-login-log',
@@ -10,7 +12,7 @@ import {
 })
 export class LoginLogComponent implements OnInit {
 
-  public items: any[] = [1];
+  public items: ILoginLog[] = [];
 
   public hasMore = true;
 
@@ -22,7 +24,11 @@ export class LoginLogComponent implements OnInit {
 
   public total = 0;
 
-  constructor() {}
+  constructor(
+    private service: AccountService,
+  ) {
+    this.tapRefresh();
+  }
 
   ngOnInit() {}
 
@@ -34,19 +40,34 @@ export class LoginLogComponent implements OnInit {
    * tapRefresh
    */
   public tapRefresh() {
-    this.tapGo(1);
+    this.goPage(1);
+  }
+
+  public tapPage() {
+    this.goPage(this.page);
   }
 
   public tapMore() {
-    this.tapGo(this.page + 1);
+    this.goPage(this.page + 1);
   }
 
   /**
-   * tapGo
+   * goPage
    */
-  public tapGo(page: number) {
+  public goPage(page: number) {
     if (this.isLoading) {
-      return;
+        return;
     }
+    this.isLoading = true;
+    this.service.loginLog({
+      page,
+      per_page: this.perPage
+    }).subscribe(res => {
+        this.isLoading = false;
+        this.items = res.data;
+        this.hasMore = res.paging.more;
+        this.total = res.paging.total;
+    });
   }
+
 }

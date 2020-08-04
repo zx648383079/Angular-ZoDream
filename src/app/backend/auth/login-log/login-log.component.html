@@ -4,7 +4,7 @@
             <li>这是所有的登录历史列表</li>
         </ul>
     </app-page-tip>
-    <div class="search">
+    <div class="page-search-bar">
         <form  role="form">
             <div class="form-row">
                 <div class="col-auto">
@@ -30,17 +30,17 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of items">
-                <td>27</td>
-                <td>648383079@qq.com</td>
-                <td>::1</td>
-                <td>成功</td>
-                <td>web</td>
-                <td>2019-07-16 11:24:46</td>
+                <td>{{ item.id }}</td>
+                <td>{{ item.user }}</td>
+                <td>{{ item.ip }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.mode }}</td>
+                <td>{{ item.created_at }}</td>
             </tr>
         </tbody>
     
     </table>
     
-    <ngb-pagination [collectionSize]="70" [(page)]="page" [pageSize]="20" [directionLinks]="false"></ngb-pagination>    
+    <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"></ngb-pagination>    
 </div>
 
