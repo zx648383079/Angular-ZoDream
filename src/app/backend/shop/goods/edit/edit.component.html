@@ -1,193 +1,200 @@
-<h1>编辑商品</h1>
-<form class="form-table" method="POST" (ngSubmit)="onSubmit()">
-  <div class="tab-box">
-    <div class="tab-header">
-      <ng-container *ngFor="let item of tabItems; let i = index">
-          <div class="tab-item" [ngClass]="{active: i == tabIndex}" (click)="tabIndex = i">
-              {{ item }}
-          </div>
-      </ng-container>
-    </div>
-    <div class="tab-body">
-      <div class="tab-item" [ngClass]="{active: 0 == tabIndex}">
-        <div class="input-group">
-          <label for="name">商品名</label>
-          <div class="">
-            <input type="text" id="name" class="form-control " name="name" placeholder="请输入 商品名" formControlName="name">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="series_number">货号</label>
-          <div class="">
-            <input type="text" id="series_number" class="form-control " name="series_number" placeholder="请输入 货号">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label>分类</label>
-          <select name="cat_id" required="">
-
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="brand_id">品牌</label>
-          <div class="">
-            <select id="brand_id" name="brand_id" required="">
-            </select>
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="price">价格</label>
-          <div class="">
-            <input type="text" id="price" class="form-control " name="price" placeholder="请输入 价格" required="">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="market_price">市场价</label>
-          <div class="">
-            <input type="text" id="market_price" class="form-control " name="market_price" placeholder="请输入 市场价">
-
-          </div>
-        </div>
-      </div>
-      <div class="tab-item"  [ngClass]="{active: 1 == tabIndex}">
-        <div class="input-group">
-          <label for="thumb">缩略图</label>
-          <div class="file-input">
-            <input type="text" id="thumb" class="form-control " name="thumb" placeholder="请输入 缩略图">
-            <button type="button" data-type="upload">上传</button>
-            <button type="button" data-type="preview">预览</button>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="picture">主图</label>
-          <div class="file-input">
-            <input type="text" id="picture" class="form-control " name="picture" placeholder="请输入 主图">
-            <button type="button" data-type="upload">上传</button>
-            <button type="button" data-type="preview">预览</button>
-          </div>
-        </div>
-        <div class="multi-image-box">
-          <div class="add-item">
-            <i class="fa fa-plus"></i>
-          </div>
-        </div>
-      </div>
-      <div class="tab-item" [ngClass]="{active: 2 == tabIndex}">
-
-      </div>
-      <div class="tab-item" [ngClass]="{active: 3 == tabIndex}">
-        <div class="input-group">
-          <label for="weight">重量</label>
-          <div class="">
-            <input type="text" id="weight" class="form-control " name="weight" placeholder="请输入 重量">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="stock">库存</label>
-          <div class="">
-            <input type="text" id="stock" class="form-control " name="stock" placeholder="请输入 库存">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="keywords">关键字</label>
-          <div class="">
-            <input type="text" id="keywords" class="form-control " name="keywords" placeholder="请输入 关键字">
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="description">说明</label>
-          <div class="">
-            <textarea id="description" class="form-control " name="description" placeholder="请输入 说明"></textarea>
-
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="is_best">精品</label>
-          <div class="check-toggle">
-            <input type="checkbox" id="is_best_1" name="is_best" value="1">
-            <label for="is_best_1"></label>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="is_hot">热门</label>
-          <div class="check-toggle">
-            <input type="checkbox" id="is_hot_1" name="is_hot" value="1">
-            <label for="is_hot_1"></label>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="is_new">最新</label>
-          <div class="check-toggle">
-            <input type="checkbox" id="is_new_1" name="is_new" value="1">
-            <label for="is_new_1"></label>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="status">状态</label>
-          <div class="">
-            <span class="radio-label">
-              <input type="radio" id="status0" name="status" value="10">
-              <label for="status0">上架</label>
-            </span><span class="radio-label">
-              <input type="radio" id="status1" name="status" value="0" checked="">
-              <label for="status1">下架</label>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="tab-item" [ngClass]="{active: 4 == tabIndex}">
-        <div class="input-group">
-          <label for="attribute_group_id">类型</label>
-          <div class="">
-            <select id="attribute_group_id" name="attribute_group_id">
-
-            </select>
-
-          </div>
-        </div>
-        <div class="attribute-box">
-          <div class="attr-box"></div>
-          <div class="product-box">
-            <hr>
-            <div class="form-horizontal batch-box">
-              <label class="am-form-label">批量设置</label>
-              <div class="input-group">
-                <input type="text" data-type="series_number" placeholder="商家编码">
-              </div>
-              <div class="input-group">
-                <input type="number" data-type="price" placeholder="销售价"
-                  pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
-              </div>
-              <div class="input-group">
-                <input type="number" data-type="market_price" placeholder="划线价"
-                  pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
-              </div>
-              <div class="input-group">
-                <input type="number" data-type="stock" placeholder="库存数量"
-                  pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
-              </div>
-              <div class="input-group">
-                <input type="number" data-type="weight" placeholder="重量"
-                  pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
-              </div>
-              <button type="button" class="btn">确定</button>
+<app-edit-header [title]="data && data.id > 0 ? '编辑商品' : '新增商品'"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table" method="POST" (ngSubmit)="onSubmit()">
+        <div class="tab-box">
+            <div class="tab-header">
+                <ng-container *ngFor="let item of tabItems; let i = index">
+                    <div class="tab-item" [ngClass]="{active: i == tabIndex}" (click)="tabIndex = i">
+                        {{ item }}
+                    </div>
+                </ng-container>
             </div>
-            <table class="product-table">
+            <div class="tab-body">
+                <div class="tab-item" [ngClass]="{active: 0 == tabIndex}">
+                    <div class="input-group">
+                        <label for="name">商品名</label>
+                        <div class="">
+                            <input type="text" id="name" class="form-control " name="name" placeholder="请输入 商品名">
 
-            </table>
-          </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="series_number">货号</label>
+                        <div class="">
+                            <input type="text" id="series_number" class="form-control " name="series_number"
+                                placeholder="请输入 货号">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>分类</label>
+                        <select name="cat_id" required="">
+
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="brand_id">品牌</label>
+                        <div class="">
+                            <select id="brand_id" name="brand_id" required="">
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="price">价格</label>
+                        <div class="">
+                            <input type="text" id="price" class="form-control " name="price" placeholder="请输入 价格"
+                                required="">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="market_price">市场价</label>
+                        <div class="">
+                            <input type="text" id="market_price" class="form-control " name="market_price"
+                                placeholder="请输入 市场价">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-item" [ngClass]="{active: 1 == tabIndex}">
+                    <div class="input-group">
+                        <label for="thumb">缩略图</label>
+                        <div class="file-input">
+                            <input type="text" id="thumb" class="form-control " name="thumb" placeholder="请输入 缩略图">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="picture">主图</label>
+                        <div class="file-input">
+                            <input type="text" id="picture" class="form-control " name="picture" placeholder="请输入 主图">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="multi-image-box">
+                        <div class="add-item">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-item" [ngClass]="{active: 2 == tabIndex}">
+
+                </div>
+                <div class="tab-item" [ngClass]="{active: 3 == tabIndex}">
+                    <div class="input-group">
+                        <label for="weight">重量</label>
+                        <div class="">
+                            <input type="text" id="weight" class="form-control " name="weight" placeholder="请输入 重量">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="stock">库存</label>
+                        <div class="">
+                            <input type="text" id="stock" class="form-control " name="stock" placeholder="请输入 库存">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="keywords">关键字</label>
+                        <div class="">
+                            <input type="text" id="keywords" class="form-control " name="keywords"
+                                placeholder="请输入 关键字">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">说明</label>
+                        <div class="">
+                            <textarea id="description" class="form-control " name="description"
+                                placeholder="请输入 说明"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_best">精品</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="is_best_1" name="is_best" value="1">
+                            <label for="is_best_1"></label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_hot">热门</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="is_hot_1" name="is_hot" value="1">
+                            <label for="is_hot_1"></label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_new">最新</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="is_new_1" name="is_new" value="1">
+                            <label for="is_new_1"></label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="status">状态</label>
+                        <div class="">
+                            <span class="radio-label">
+                                <input type="radio" id="status0" name="status" value="10">
+                                <label for="status0">上架</label>
+                            </span><span class="radio-label">
+                                <input type="radio" id="status1" name="status" value="0" checked="">
+                                <label for="status1">下架</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-item" [ngClass]="{active: 4 == tabIndex}">
+                    <div class="input-group">
+                        <label for="attribute_group_id">类型</label>
+                        <div class="">
+                            <select id="attribute_group_id" name="attribute_group_id">
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="attribute-box">
+                        <div class="attr-box"></div>
+                        <div class="product-box">
+                            <hr>
+                            <div class="form-horizontal batch-box">
+                                <label class="am-form-label">批量设置</label>
+                                <div class="input-group">
+                                    <input type="text" data-type="series_number" placeholder="商家编码">
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" data-type="price" placeholder="销售价"
+                                        pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" data-type="market_price" placeholder="划线价"
+                                        pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" data-type="stock" placeholder="库存数量"
+                                        pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" data-type="weight" placeholder="重量"
+                                        pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                                </div>
+                                <button type="button" class="btn">确定</button>
+                            </div>
+                            <table class="product-table">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <button type="submit" class="btn btn-success">确认保存</button>
-  <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-</form>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

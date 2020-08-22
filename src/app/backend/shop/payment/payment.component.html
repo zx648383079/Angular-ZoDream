@@ -4,8 +4,8 @@
             <li>支付方式列表</li>
         </ul>
     </app-page-tip>
-    <div class="page-search">
-        <a class="btn btn-success pull-right" href="http://zodream.localhost/shop/admin/payment/create">新增支付方式</a>
+    <div class="page-search-bar">
+        <a class="btn btn-success pull-right" routerLink="create">新增支付方式</a>
     </div>
 
     <table class="table table-hover">
@@ -18,16 +18,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>余额支付</td>
+            <tr *ngFor="let item of items">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
                 <td></td>
                 <td>
                     <div class="btn-group  btn-group-xs">
                         <a class="btn btn-default btn-xs"
-                            href="http://zodream.localhost/shop/admin/payment/edit?id=1">编辑</a>
+                            >编辑</a>
                         <a class="btn btn-danger" data-type="del"
-                            href="http://zodream.localhost/shop/admin/payment/delete?id=1">删除</a>
+                            >删除</a>
                     </div>
                 </td>
             </tr>

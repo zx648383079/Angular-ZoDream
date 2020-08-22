@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { IProduct } from '../../../../theme/models/shop';
 
 @Component({
   selector: 'app-edit',
@@ -17,6 +18,8 @@ export class EditComponent implements OnInit {
     ];
 
     public tabIndex = 0;
+
+    public data: IProduct;
 
     public goodsForm: FormGroup;
 

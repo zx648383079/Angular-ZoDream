@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditGroupComponent implements OnInit {
 
+  public data: any;
+
   constructor() { }
 
   ngOnInit() {

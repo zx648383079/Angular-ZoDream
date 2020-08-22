@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IBrand } from '../../../../theme/models/shop';
 
 @Component({
   selector: 'app-edit-brand',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-brand.component.scss']
 })
 export class EditBrandComponent implements OnInit {
+
+  public data: IBrand;
 
   constructor() { }
 

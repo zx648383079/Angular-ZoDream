@@ -1,33 +1,35 @@
-<form class="form-table" action="http://zodream.localhost/shop/admin/ad/save_position" method="POST"
-    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
-    <div class="input-group">
-        <label for="name">名称</label>
-        <div class="">
-            <input type="text" id="name" class="form-control " name="name" required="">
+<app-edit-header [title]="data && data.id > 0 ? '编辑广告位' : '新增广告位'"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div class="">
+                <input type="text" id="name" class="form-control " name="name" required="">
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="width">宽</label>
-        <div class="">
-            <input type="text" id="width" class="form-control " name="width" required="100%">
+        <div class="input-group">
+            <label for="width">宽</label>
+            <div class="">
+                <input type="text" id="width" class="form-control " name="width" required="100%">
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="height">高</label>
-        <div class="">
-            <input type="text" id="height" class="form-control " name="height" required="100%">
+        <div class="input-group">
+            <label for="height">高</label>
+            <div class="">
+                <input type="text" id="height" class="form-control " name="height" required="100%">
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="template">模板</label>
-        <div class="">
-            <textarea id="template" class="form-control " name="template"></textarea>
+        <div class="input-group">
+            <label for="template">模板</label>
+            <div class="">
+                <textarea id="template" class="form-control " name="template"></textarea>
 
-        </div>
-    </div> <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <input type="hidden" name="id">
-</form>
+            </div>
+        </div> <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        <input type="hidden" name="id">
+    </form>
+</div>

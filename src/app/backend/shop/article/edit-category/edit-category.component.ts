@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditCategoryComponent implements OnInit {
 
+  public data: any;
+
   constructor() { }
 
   ngOnInit() {

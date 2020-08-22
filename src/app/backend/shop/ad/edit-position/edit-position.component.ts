@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditPositionComponent implements OnInit {
 
+  public data: any;
+
   constructor() { }
 
   ngOnInit() {

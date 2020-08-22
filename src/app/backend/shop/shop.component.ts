@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ISubtotal, ShopService } from './shop.service';
 
 @Component({
   selector: 'app-shop',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShopComponent implements OnInit {
 
-  constructor() { }
+  public items: ISubtotal[];
+
+  constructor(
+    private service: ShopService
+  ) {
+    this.service.statistics().subscribe(res => {
+      this.items = res;
+    });
+  }
 
   ngOnInit(): void {
   }

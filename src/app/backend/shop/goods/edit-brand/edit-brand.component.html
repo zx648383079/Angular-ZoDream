@@ -1,34 +1,36 @@
-<form class="form-table" action="http://zodream.localhost/shop/admin/brand/save" method="POST" accept-charset="UTF-8"
-    data-type="ajax" role="form"><input type="hidden" name="_token">
-    <div class="input-group">
-        <label for="name">名称</label>
-        <div class="">
-            <input type="text" id="name" class="form-control " name="name" required="">
+<app-edit-header [title]="data && data.id > 0 ? '编辑品牌' : '新增品牌'"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table" >
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div class="">
+                <input type="text" id="name" class="form-control " name="name" required="">
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="logo">Logo</label>
-        <div class="file-input">
-            <input type="text" id="logo" class="form-control " name="logo">
-            <button type="button" data-type="upload">上传</button>
-            <button type="button" data-type="preview">预览</button>
+        <div class="input-group">
+            <label for="logo">Logo</label>
+            <div class="file-input">
+                <input type="text" id="logo" class="form-control " name="logo">
+                <button type="button" data-type="upload">上传</button>
+                <button type="button" data-type="preview">预览</button>
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="keywords">关键字</label>
-        <div class="">
-            <input type="text" id="keywords" class="form-control " name="keywords">
+        <div class="input-group">
+            <label for="keywords">关键字</label>
+            <div class="">
+                <input type="text" id="keywords" class="form-control " name="keywords">
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="description">简介</label>
-        <div class="">
-            <textarea id="description" class="form-control " name="description"></textarea>
+        <div class="input-group">
+            <label for="description">简介</label>
+            <div class="">
+                <textarea id="description" class="form-control " name="description"></textarea>
 
-        </div>
-    </div> <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <input type="hidden" name="id">
-</form>
+            </div>
+        </div> <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        <input type="hidden" name="id">
+    </form>
+</div>

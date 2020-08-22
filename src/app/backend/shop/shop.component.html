@@ -1,1 +1,18 @@
-<p>shop works!</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>商城统计</li>
+        </ul>
+    </app-page-tip>
+    <ng-container *ngFor="let item of items">
+        <div class="column-item">
+            <div class="icon">
+                <div class="iconfont icon-file-o"></div>
+            </div>
+            <div class="content">
+                <h3>{{ item.label }}</h3>
+                <p>{{ item.count }}</p>
+            </div>
+        </div>
+    </ng-container>
+</div>
