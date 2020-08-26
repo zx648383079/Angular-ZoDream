@@ -5,6 +5,7 @@ import { AccountService } from '../account.service';
 import { AppState } from 'src/app/theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from 'src/app/theme/reducers/selectors';
+import { IUser } from '../../../theme/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,8 @@ export class ProfileComponent implements OnInit {
     birthday: [''],
   });
 
+  public data: IUser;
+
   public sexItems = ['未知', '男', '女'];
 
   constructor(
@@ -30,6 +33,7 @@ export class ProfileComponent implements OnInit {
     private store: Store<AppState>
   ) {
     this.store.select(getCurrentUser).subscribe(user => {
+      this.data = user;
       this.form.setValue({
         name: user.name,
         email: user.email,

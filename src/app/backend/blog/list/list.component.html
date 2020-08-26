@@ -43,12 +43,11 @@
                         <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
                         <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
                     </div>
-                    <a class="btn btn-default btn-xs" href="https://zodream.cn/blog/id/2.html"
-                        target="_blank">预览</a>
+                    <a class="btn btn-default btn-xs" [routerLink]="'/blog/' + item.id">预览</a>
                     <a class="btn btn-default btn-xs"
-                        href="https://zodream.cn/blog/admin/blog/edit/id/2.html">编辑</a>
-                    <a class="btn btn-danger" data-type="del"
-                        href="https://zodream.cn/blog/admin/blog/delete/id/2.html">删除</a>
+                    [routerLink]="'../edit/' + item.id">编辑</a>
+                    <a class="btn btn-danger" (click)="tapRemove(item)"
+                        >删除</a>
                 </div>
             </div>
         </ng-container>

@@ -21,6 +21,10 @@ const routes: Routes = [
     component: EditComponent
   },
   {
+    path: 'edit/:id',
+    component: EditComponent
+  },
+  {
     path: 'category',
     component: CategoryComponent
   },
@@ -29,11 +33,19 @@ const routes: Routes = [
     component: EditCategoryComponent
   },
   {
+    path: 'category/edit/:id',
+    component: EditCategoryComponent
+  },
+  {
     path: 'tag',
     component: TagComponent
   },
   {
     path: 'tag/create',
+    component: EditTagComponent
+  },
+  {
+    path: 'tag/edit/:id',
     component: EditTagComponent
   },
   {

@@ -4,6 +4,7 @@ import { ICategory, IBlog } from '../theme/models/blog';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { IUser } from '../theme/models/user';
 import { PullToRefreshComponent } from '../theme/components';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
@@ -47,7 +48,8 @@ export class BlogComponent implements OnInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private service: BlogService) {
+    private service: BlogService,
+    private route: ActivatedRoute) {
     this.service.getCategories().subscribe(res => {
       this.categories = res;
     });
@@ -55,6 +57,13 @@ export class BlogComponent implements OnInit {
 
   ngOnInit(): void {
     this.tapRefresh();
+    this.route.params.subscribe(params => {
+      if (!params.id && params.id > 0) {
+        return;
+      }
+      this.detailMode = true;
+      this.loadBlog(params.id);
+    });
   }
 
   public tapRefresh() {

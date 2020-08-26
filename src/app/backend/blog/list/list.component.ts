@@ -64,4 +64,11 @@ export class ListComponent implements OnInit {
     this.goPage(this.page);
   }
 
+  public tapRemove(item: IBlog) {
+    if (!confirm('确定要删除《' + item.title +  '》?')) {
+      return;
+    }
+    
+  }
+
 }

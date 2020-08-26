@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth.service';
 import { Injectable, Injector } from '@angular/core';
 import { map, catchError } from 'rxjs/operators';
-import { of, scheduled } from 'rxjs';
+import { of, scheduled, throwError } from 'rxjs';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
@@ -19,7 +19,7 @@ export class ResponseInterceptor implements HttpInterceptor {
           auth.logoutUser();
         }
       }
-      return of(event);
+      return throwError(event);
     }));
 
   }
