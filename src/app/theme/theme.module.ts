@@ -19,7 +19,7 @@ import {
   EditHeaderComponent,
   MediaPlayerComponent,
   ProgressBarComponent,
-  PullToRefreshComponent
+  PullToRefreshComponent, PanelComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
@@ -40,6 +40,7 @@ const COMPONENTS = [
   MediaPlayerComponent,
   ProgressBarComponent,
   PullToRefreshComponent,
+  PanelComponent,
 ];
 
 const PIPES = [

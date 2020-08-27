@@ -1,75 +1,86 @@
+<app-edit-header [title]="'修改密码'"></app-edit-header>
 <div class="container-fluid">
-  <form class="form-table" action="https://zodream.cn/auth/admin/user/save" method="POST" accept-charset="UTF-8"
-      data-type="ajax" role="form"><input type="hidden" name="_token">
-      <div class="input-group">
-          <label for="name">昵称</label>
-          <div class="">
-              <input type="text" id="name" class="form-control " name="name" required="">
+    <form class="form-table">
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="基本信息">
+                    <div class="input-group">
+                        <label for="name">昵称</label>
+                        <div class="">
+                            <input type="text" id="name" class="form-control " name="name" required="">
 
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="email">邮箱</label>
-          <div class="">
-              <input type="email" id="email" class="form-control " name="email" required="">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">邮箱</label>
+                        <div class="">
+                            <input type="email" id="email" class="form-control " name="email" required="">
 
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="sex">性别</label>
-          <div class="">
-              <span class="radio-label">
-                  <input type="radio" id="sex0" name="sex" value="0" checked="">
-                  <label for="sex0">未知</label>
-              </span><span class="radio-label">
-                  <input type="radio" id="sex1" name="sex" value="1">
-                  <label for="sex1">男</label>
-              </span><span class="radio-label">
-                  <input type="radio" id="sex2" name="sex" value="2">
-                  <label for="sex2">女</label>
-              </span>
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="avatar">头像</label>
-          <div class="file-input">
-              <input type="text" id="avatar" class="form-control " name="avatar">
-              <button type="button" data-type="upload">上传</button>
-              <button type="button" data-type="preview">预览</button>
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="birthday">生日</label>
-          <div class="">
-              <input type="text" id="birthday" class="form-control " name="birthday">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="sex">性别</label>
+                        <div class="">
+                            <span class="radio-label">
+                                <input type="radio" id="sex0" name="sex" value="0" checked="">
+                                <label for="sex0">未知</label>
+                            </span><span class="radio-label">
+                                <input type="radio" id="sex1" name="sex" value="1">
+                                <label for="sex1">男</label>
+                            </span><span class="radio-label">
+                                <input type="radio" id="sex2" name="sex" value="2">
+                                <label for="sex2">女</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="avatar">头像</label>
+                        <div class="file-input">
+                            <input type="text" id="avatar" class="form-control " name="avatar">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="birthday">生日</label>
+                        <div class="">
+                            <input type="text" id="birthday" class="form-control " name="birthday">
 
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="password">密码</label>
-          <div class="">
-              <input type="password" id="password" class="form-control " name="password" placeholder="输入密码">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>角色</label>
+                        <div>
+                            <select name="roles[]" id="role-box" multiple="" style="width: 100%" class="form-control ">
+                                <option value="1">超级管理员</option>
+                            </select>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="修改密码">
+                    <div class="input-group">
+                        <label for="password">密码</label>
+                        <div class="">
+                            <input type="password" id="password" class="form-control " name="password"
+                                placeholder="输入密码">
 
-          </div>
-      </div>
-      <div class="input-group">
-          <label for="confirm_password">确认密码</label>
-          <div class="">
-              <input type="password" id="confirm_password" class="form-control " name="confirm_password"
-                  placeholder="输入确认密码">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm_password">确认密码</label>
+                        <div class="">
+                            <input type="password" id="confirm_password" class="form-control " name="confirm_password"
+                                placeholder="输入确认密码">
 
-          </div>
-      </div>
-      <div class="input-group">
-          <label>角色</label>
-          <div>
-              <select name="roles[]" id="role-box" multiple="" style="width: 100%" class="form-control ">
-                  <option value="1">超级管理员</option>
-              </select>
-          </div>
-      </div>
-      <button type="submit" class="btn btn-success">确认保存</button>
-      <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-      <input type="hidden" name="id">
-  </form>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
 </div>

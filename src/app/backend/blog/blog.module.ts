@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { BlogRoutingModule, blogRoutedComponents } from './blog-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { BlogService } from './blog.service';
@@ -13,10 +13,11 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     ThemeModule,
     BlogRoutingModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    EditorModule,
   ],
   providers: [
-    BlogService
+    BlogService,
   ]
 })
 export class BlogModule { }

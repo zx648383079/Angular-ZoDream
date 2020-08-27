@@ -4,35 +4,38 @@
             <li>分类列表</li>
         </ul>
     </app-page-tip>
-  <div class="page-search">
-    <a class="btn btn-success pull-right" routerLink="./create">新增分类</a>
-</div>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <a class="btn btn-success pull-right" routerLink="./create">新增分类</a>
+        </div>
 
-<table class="table  table-bordered well">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>分类名</th>
-        <th>统计</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of items">
-            <td>{{ item.id }}</td>
-            <td>
-                <a href="">{{ item.name }}</a>
-            </td>
-            <td>{{ item.blog_count }}</td>
-            <td>
-                <div class="btn-group  btn-group-xs">
-                    <a class="btn btn-default btn-xs" href="">查看</a>
-                    <a class="btn btn-default btn-xs" href="">编辑</a>
-                    <a class="btn btn-danger" data-type="del" href="">删除</a>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        <table class="table  table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>分类名</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <a href="">{{ item.name }}</a>
+                    </td>
+                    <td>{{ item.blog_count }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" href="">查看</a>
+                            <a class="btn btn-light btn-xs" href="">编辑</a>
+                            <a class="btn btn-danger" data-type="del" href="">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 
 </div>

@@ -1,13 +1,13 @@
 <app-edit-header [title]="'编辑个人资料'" (submited)="tapSubmit()"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form">
+    <form class="form-table panel-container" [formGroup]="form">
         <div class="input-group avatar-input">
             <label for="avatar">头像</label>
             <div>
                 <div class="avatar">
                     <img [src]="data.avatar">
                 </div>
-                <button type="button" class="btn btn-default">更改头像</button>
+                <button type="button" class="btn btn-light">更改头像</button>
             </div>
         </div>
         <div class="input-group">

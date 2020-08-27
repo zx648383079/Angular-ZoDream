@@ -4,39 +4,37 @@
             <li>这是所有的操作列表</li>
         </ul>
     </app-page-tip>
-    <div class="page-search-bar">
-        <form  role="form">
-            <div class="form-row">
-                <div class="col-auto">
-                    <label class="sr-only" for="keywords">IP</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="IP">
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form  class="form-horizontal">
+                <div class="input-group">
+                    <label for="keywords">IP</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索IP" value="">
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">搜索</button>
-                </div>
-            </div>
-        </form>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>操作</th>
+                    <th>备注</th>
+                    <th>IP</th>
+                    <th>操作时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.remark }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.created_at }}</td>
+                </tr>
+            </tbody>
+          </table>
+          
+          <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>操作</th>
-                <th>备注</th>
-                <th>IP</th>
-                <th>操作时间</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of items">
-                <td>{{ item.id }}</td>
-                <td>{{ item.type }}</td>
-                <td>{{ item.remark }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.created_at }}</td>
-            </tr>
-        </tbody>
-      </table>
-      
-      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
 </div>

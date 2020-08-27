@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { ThemeModule } from 'src/app/theme/theme.module';
+import { ThemeModule } from '../../theme/theme.module';
 import { AccountService } from './account.service';
 import { ReactiveFormsModule } from '@angular/forms';
 

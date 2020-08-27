@@ -1,193 +1,156 @@
 <app-edit-header [title]="'编辑文章'"></app-edit-header>
 
 <div class="container-fluid">
-  <form class="form-table">
-    <div class="tab-box">
-        <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
-                基本
-            </div><div class="tab-item"  [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
-                详情
+    <form class="form-table">
+        <div class="panel-container">
+            <div class="title-input">
+                <label for="title">标题</label>
+                <input type="text" id="title" class="form-control " name="title">
             </div>
+            
+            <textarea name="content" class="form-control " required="" id="editor-container"></textarea>
         </div>
-        <div class="tab-body">
-            <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                <div class="input-group">
-    <label for="title">标题</label>
-    <div class="">
-        <input type="text" id="title" class="form-control " name="title" required="">
 
-    </div>
-</div>                                <div class="input-group">
-    <label for="term_id">分类</label>
-    <div class="">
-        <select id="term_id" name="term_id" required=""><option value="1">DEBUG问题集</option>
-<option value="2">zodream框架</option>
-<option value="3">编程技术</option>
-<option value="4">其他技术</option>
-<option value="5">闲聊</option>
-<option value="6">游戏</option>
-<option value="7">帮助文档</option>
-<option value="8">算法</option>
-<option value="9">SEO</option>
-</select>
-
-    </div>
-</div>                <div class="input-group">
-    <label for="programming_language">编程语言</label>
-    <div class="">
-        <select id="programming_language" name="programming_language"><option value="" selected="">请选择</option>
-<option value="Html">Html</option>
-<option value="Css">Css</option>
-<option value="Sass">Sass</option>
-<option value="Less">Less</option>
-<option value="TypeScript">TypeScript</option>
-<option value="JavaScript">JavaScript</option>
-<option value="PHP">PHP</option>
-<option value="Go">Go</option>
-<option value="C#">C#</option>
-<option value="ASP.NET">ASP.NET</option>
-<option value=".NET Core">.NET Core</option>
-<option value="Python">Python</option>
-<option value="C">C</option>
-<option value="C++">C++</option>
-<option value="Java">Java</option>
-<option value="Kotlin">Kotlin</option>
-<option value="Swift">Swift</option>
-<option value="Objective-C">Objective-C</option>
-<option value="Dart">Dart</option>
-<option value="Flutter">Flutter</option>
-</select>
-
-    </div>
-</div>                <div class="input-group">
-    <label for="type">类型</label>
-    <div class="">
-        <select id="type" name="type"><option value="0" selected="">原创</option>
-<option value="1">转载</option>
-</select>
-
-    </div>
-</div>                <div class="input-group" style="display: none;">
-    <label for="source_url">来源</label>
-    <div class="">
-        <input type="text" id="source_url" class="form-control " name="source_url">
-
-    </div>
-</div>                <div class="input-group">
-    <label for="thumb">图片</label>
-    <div class="file-input">
-        <input type="text" id="thumb" class="form-control " name="thumb">
-<button type="button" data-type="upload">上传</button>
-<button type="button" data-type="preview">预览</button>
-    </div>
-</div>                <div class="input-group">
-    <label for="open_type">公开类型</label>
-    <div class="">
-        <select id="open_type" name="open_type"><option value="0" selected="">公开</option>
-<option value="1">仅登录</option>
-<option value="5">密码</option>
-<option value="6">购买</option>
-<option value="2">草稿</option>
-</select>
-
-    </div>
-</div>                <div class="input-group" style="display: none;">
-    <label for="open_rule">公开规则</label>
-    <div class="">
-        <input type="text" id="open_rule" class="form-control " name="open_rule">
-
-    </div>
-</div>                                <div class="input-group">
-    <label for="edit_type">编辑器</label>
-    <div class="">
-        <select id="edit_type" name="edit_type"><option value="0" selected="">Ueditor</option>
-<option value="1">MarkDown</option>
-</select>
-
-    </div>
-</div>                <div class="input-group">
-    <label for="weather">天气</label>
-    <div class="">
-        <select id="weather" name="weather"><option value="" selected="">请选择</option>
-<option value="cloudy">多云</option>
-<option value="sunny">晴</option>
-<option value="overcast">阴</option>
-<option value="drizzle">毛毛雨</option>
-<option value="shower">阵雨</option>
-<option value="thunder storm">雷雨</option>
-<option value="thunder shower">雷阵雨</option>
-<option value="light rain">小雨</option>
-<option value="moderate">中雨</option>
-<option value="heavy rain">大雨</option>
-<option value="snow shower">阵雨</option>
-<option value="sleet">雨夹雪</option>
-<option value="hail">冰雹</option>
-<option value="blizzard">大风雪</option>
-<option value="snowstorm">暴风雪</option>
-<option value="light snow">小雪</option>
-<option value="moderate snow">中雪</option>
-<option value="heavy snow">大雪</option>
-<option value="windy">有风</option>
-<option value="breeze">微风</option>
-<option value="gale">大风</option>
-<option value="typhoon">台风</option>
-<option value="hurricane">飓风</option>
-<option value="haze">霾</option>
-<option value="foggy">雾</option>
-<option value="frosty">霜冻</option>
-<option value="lightning">闪电</option>
-<option value="sandstorm">沙尘暴</option>
-</select>
-
-    </div>
-</div>                <div class="input-group">
-    <label for="keywords">关键字</label>
-    <div class="">
-        <input type="text" id="keywords" class="form-control " name="keywords">
-
-    </div>
-</div>                <div class="input-group">
-    <label for="description">说明</label>
-    <div class="">
-        <textarea id="description" class="form-control " name="description"></textarea>
-
-    </div>
-</div>                <div class="input-group">
-    <label for="audio_url">音频</label>
-    <div class="file-input">
-        <input type="text" id="audio_url" class="form-control " name="audio_url">
-<button type="button" data-type="upload" data-allow="audio/*">上传</button>
-<button type="button" data-type="preview">预览</button>
-    </div>
-</div>                <div class="input-group">
-    <label for="video_url">视频</label>
-    <div class="file-input">
-        <input type="text" id="video_url" class="form-control " name="video_url" isfile="video/*">
-<button type="button" data-type="upload">上传</button>
-<button type="button" data-type="preview">预览</button>
-    </div>
-</div>                                <div class="input-group">
-    <label for="comment_status">评论状态</label>
-    <div class="check-toggle">
-        <input type="checkbox" id="comment_status_1" name="comment_status" value="1">
-<label for="comment_status_1"></label>
-    </div>
-</div>                <div class="input-group">
-                    <label>标签</label>
-                    <div>
-                        <select name="tag[]" id="tag-box" multiple="" style="width: 100%" class="form-control ">
-                        </select>
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="高级属性">
+                    <div class="input-group">
+                        <label for="term_id">分类</label>
+                        <div class="">
+                            <select id="term_id" class="form-control" name="term_id" required="">
+                                <option value="1">DEBUG问题集</option>
+                            </select>
+        
+                        </div>
                     </div>
-                </div>
-                            </div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                <textarea name="content" class="form-control " required="" id="editor-container"></textarea>
+                    <div class="input-group">
+                        <label for="programming_language">编程语言</label>
+                        <div class="">
+                            <select id="programming_language" class="form-control" name="programming_language">
+                                <option value="" selected="">请选择</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="type">类型</label>
+                        <div class="">
+                            <select id="type" class="form-control" name="type">
+                                <option value="0" selected="">原创</option>
+                                <option value="1">转载</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                   
+                    <div class="input-group">
+                        <label for="thumb">图片</label>
+                        <div class="file-input">
+                            <input type="text" id="thumb" class="form-control " name="thumb">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="open_type">公开类型</label>
+                        <div class="">
+                            <select id="open_type" class="form-control" name="open_type">
+                                <option value="0" selected="">公开</option>
+                                <option value="1">仅登录</option>
+                                <option value="5">密码</option>
+                                <option value="6">购买</option>
+                                <option value="2">草稿</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="open_rule">公开规则</label>
+                        <div class="">
+                            <input type="text" id="open_rule" class="form-control " name="open_rule">
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit_type">编辑器</label>
+                        <div class="">
+                            <select id="edit_type" class="form-control" name="edit_type">
+                                <option value="0" selected="">Ueditor</option>
+                                <option value="1">MarkDown</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="keywords">关键字</label>
+                        <div class="">
+                            <input type="text" id="keywords" class="form-control " name="keywords">
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">说明</label>
+                        <div class="">
+                            <textarea id="description" class="form-control " name="description"></textarea>
+        
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>标签</label>
+                        <div>
+                            <select name="tag[]" id="tag-box" multiple="" style="width: 100%" class="form-control ">
+                            </select>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="附加属性">
+                    <div class="input-group">
+                        <label for="source_url">来源</label>
+                        <div class="">
+                            <input type="text" id="source_url" class="form-control" name="source_url">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="weather">天气</label>
+                        <div class="">
+                            <select id="weather" class="form-control" name="weather">
+                                <option value="" selected="">请选择</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="audio_url">音频</label>
+                        <div class="file-input">
+                            <input type="text" id="audio_url" class="form-control " name="audio_url">
+                            <button type="button" data-type="upload" data-allow="audio/*">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="video_url">视频</label>
+                        <div class="file-input">
+                            <input type="text" id="video_url" class="form-control " name="video_url" isfile="video/*">
+                            <button type="button" data-type="upload">上传</button>
+                            <button type="button" data-type="preview">预览</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="comment_status">评论状态</label>
+                        <div class="check-toggle">
+                            <input type="checkbox" id="comment_status_1" name="comment_status" value="1">
+                            <label for="comment_status_1"></label>
+                        </div>
+                    </div>
+                </app-panel>
             </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-</form>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
 </div>

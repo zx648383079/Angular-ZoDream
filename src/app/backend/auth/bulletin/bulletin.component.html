@@ -4,37 +4,36 @@
             <li>这是通知列表</li>
         </ul>
     </app-page-tip>
-  <div class="page-search-bar">
-      <form role="form">
-          <div class="form-row">
-              <div class="col-auto">
-                  <label class="sr-only" for="keywords">标题</label>
-                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题">
-              </div>
-              <div class="col-auto">
-                  <button type="submit" class="btn btn-primary">搜索</button>
-              </div>
-              <div class="col-auto">
-                  <button type="button" class="btn btn-primary">全部已读</button>
-              </div>
-          </div>
-      </form>
-  </div>
 
-  <ng-container *ngFor="let item of items">
-    <div class="bulletin-item min">
-        <div class="title">
-            {{ item.bulletin.title }}
-          </div>
-        <div class="content">{{ item.bulletin.content }}</div>
-        <div class="footer">
-            <span>发送者：{{ item.bulletin.user_name }}</span>
-            <span>发送时间：{{ item.created_at }}</span>
-            <span>状态：{{ item.status > 0 ? '已阅' : '未读' }}</span>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" value="">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-danger pull-right" >全部已读</a>
+            </form>
         </div>
-    </div>
-  </ng-container>
-  
 
-  <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+        <ng-container *ngFor="let item of items">
+            <div class="bulletin-item min">
+                <div class="title">
+                    {{ item.bulletin.title }}
+                </div>
+                <div class="content">{{ item.bulletin.content }}</div>
+                <div class="footer">
+                    <span>发送者：{{ item.bulletin.user_name }}</span>
+                    <span>发送时间：{{ item.created_at }}</span>
+                    <span>状态：{{ item.status > 0 ? '已阅' : '未读' }}</span>
+                </div>
+            </div>
+        </ng-container>
+
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+
 </div>

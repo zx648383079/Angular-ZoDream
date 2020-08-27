@@ -4,16 +4,18 @@
             <li>第三方账户绑定</li>
         </ul>
     </app-page-tip>
-    <div class="connect-item" *ngFor="let item of items">
-        <div class="nmae">
-            <i class="fab" [ngClass]="item.icon"></i>
-            {{ item.name }}
-            <ng-container *ngIf="item.id">
-                ({{ item.nickname }})
-            </ng-container>
-        </div>
-        <div class="action">
-            <a data-type="del" *ngIf="item.id">解绑</a>
+    <div class="panel-container">
+        <div class="connect-item" *ngFor="let item of items">
+            <div class="name">
+                <i class="fab" [ngClass]="item.icon"></i>
+                {{ item.name }}
+                <ng-container *ngIf="item.id">
+                    ({{ item.nickname }})
+                </ng-container>
+            </div>
+            <div class="action">
+                <a data-type="del" *ngIf="item.id">解绑</a>
+            </div>
         </div>
     </div>
 </div>

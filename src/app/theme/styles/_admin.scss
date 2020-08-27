@@ -99,3 +99,23 @@
         }
     }
 }
+
+.panel-container {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    background-color: #fff;
+    padding: 1.25rem;
+
+    .list-table {
+        .item {
+            background-color: #f4f4f4;
+            &:hover {
+                background-color: #f0f0f0;
+                .body {
+                    background-color: #f0f0f0;
+                }
+            }
+        }
+    }
+}
