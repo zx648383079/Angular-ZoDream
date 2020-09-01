@@ -28,31 +28,33 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td>1</td>
+                    <td>{{ item.id }}</td>
                     <td>
                         <a href="url" target="_blank">
-                            ss
+                            {{ item.name }}
                         </a>
                     </td>
                     <td>
                         <a href="eamil">
-                            121312@1312.com
+                            {{ item.email }}
                         </a>
                     </td>
-                    <td>213123</td>
+                    <td>{{ item.content }}</td>
                     <td>
-                        <a href="blog_id">
-                            blog_title
+                        <a *ngIf="item.blog" href="blog_id">
+                            {{ item.blog.title }}
                         </a>
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-danger" data-type="del" href="">删除</a>
+                            <a class="btn btn-danger" >删除</a>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
     </div>
     
 </div>

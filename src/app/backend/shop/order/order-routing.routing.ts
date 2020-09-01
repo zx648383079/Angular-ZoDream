@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 import { OrderComponent } from './order.component';
 import { CreateComponent } from './create/create.component';
 import { DetailComponent } from './detail/detail.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import { EditDeliveryComponent } from './edit-delivery/edit-delivery.component';
 
 const routes: Routes = [
   { path: '', component: OrderComponent },
   { path: 'create', component: CreateComponent },
+  { path: 'delivery/create', component: EditDeliveryComponent },
+  { path: 'delivery', component: DeliveryComponent },
   { path: ':id', component: DetailComponent },
 ];
 
@@ -19,5 +23,7 @@ export class OrderRoutingModule {}
 export const orderRoutedComponents = [
   OrderComponent,
   CreateComponent,
-  DetailComponent
+  DetailComponent,
+  DeliveryComponent,
+  EditDeliveryComponent,
 ];

@@ -1,27 +1,30 @@
 <div class="container-fluid">
-  <app-page-tip>
-    <ul>
-        <li>订阅</li>
-    </ul>
-</app-page-tip>
-  <table class="table table-bordered well">
-      <thead>
-      <tr>
-          <th>ID</th>
-          <th>邮箱</th>
-          <th>状态</th>
-          <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of items">
-          <td>{{ item.id }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{ item.status }}</td>
-          <td></td>
-        </tr>
-      </tbody>
-  </table>
+    <app-page-tip>
+        <ul>
+            <li>订阅</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.status }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
 
-  <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
 </div>

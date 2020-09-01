@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ISubtotal, ICategory, ITag, IArchives, IBlog, ISearchForm } from '../../theme/models/blog';
+import { ISubtotal, ICategory, ITag, IArchives, IBlog, ISearchForm, IComment } from '../../theme/models/blog';
 import { mockSubtotal, mockCategories, mockTags, mockArchives, mockBlog, mockBlogs } from '../../theme/mock/blog';
 import { IPage, IData } from '../../theme/models/page';
 import { mockPage } from '../../theme/mock/page';
@@ -44,6 +44,12 @@ export class BlogService {
 
     public getPage(param: ISearchForm): Observable<IPage<IBlog>> {
         return this.http.get<IPage<IBlog>>('blog', {
+            params: param as any
+          });
+    }
+
+    public getComment(param: ISearchForm): Observable<IPage<IComment>> {
+        return this.http.get<IPage<IComment>>('blog/admin/comment', {
             params: param as any
           });
     }

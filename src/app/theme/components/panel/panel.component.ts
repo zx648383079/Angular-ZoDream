@@ -5,17 +5,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss']
 })
-export class PanelComponent implements OnInit, OnChanges {
+export class PanelComponent implements OnChanges {
 
   @Input() public title = '提示';
   @Input() public theme = '';
   @Input() public min = false;
   public isOpen = true;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.min) {

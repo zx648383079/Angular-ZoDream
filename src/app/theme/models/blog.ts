@@ -52,6 +52,9 @@ export interface IComment {
     content?: string;
     recommend_count: number;
     user: IUser;
+    blog?: IBlog;
+    name: string;
+    email: string;
 }
 
 export interface ITag {

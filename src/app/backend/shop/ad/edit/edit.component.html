@@ -1,6 +1,6 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table">
+    <form class="form-table panel-container">
         <div class="input-group">
             <label for="name">广告名</label>
             <div class="">
@@ -11,7 +11,7 @@
         <div class="input-group">
             <label for="position_id">广告位</label>
             <div class="">
-                <select id="position_id" name="position_id">
+                <select id="position_id" name="position_id" class="form-control ">
                     <option value="2">移动端首页轮播广告</option>
                     <option value="1">pc banner</option>
                 </select>
@@ -21,7 +21,7 @@
         <div class="input-group">
             <label for="type">类型</label>
             <div class="">
-                <select id="type" name="type">
+                <select id="type" name="type" class="form-control ">
                     <option value="0" selected="">文本</option>
                     <option value="1">图片</option>
                     <option value="2">代码</option>

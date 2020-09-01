@@ -19,7 +19,8 @@ import {
   EditHeaderComponent,
   MediaPlayerComponent,
   ProgressBarComponent,
-  PullToRefreshComponent, PanelComponent
+  PullToRefreshComponent,
+  PanelComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';

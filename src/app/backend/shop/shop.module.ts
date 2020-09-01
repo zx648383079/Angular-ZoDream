@@ -6,6 +6,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ShopService } from './shop.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NgSelectModule,
     ThemeModule,
-    ShopRoutingModule
+    ShopRoutingModule,
+    EditorModule,
   ],
   providers: [
     ShopService,

@@ -1,22 +1,22 @@
 <div class="container-fluid">
-  <app-page-tip>
-    <ul>
-      <li>选择请除全部缓存</li>
-    </ul>
-  </app-page-tip>
-  <form class="form-table" action="https://zodream.cn/seo/admin/cache/clear" method="POST" accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <app-page-tip>
+        <ul>
+            <li>选择请除全部缓存</li>
+        </ul>
+    </app-page-tip>
+    <form class="form-table panel-container">
 
-    <div class="input-group">
-    <label for="store_">缓存区</label>
-    <div class="">
-        <span class="check-label" *ngFor="let item of items, index as i">
-            <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value">
-            <label [for]="'store_' + i">{{ item.name }}</label>
-        </span>
-    </div>
-</div>
-    <button type="submit" class="btn btn-success">清除选中</button>
-    <input type="hidden" name="store[]" value="">
-    <a  data-type="del" data-tip="确认清除全部缓存" class="btn btn-danger">清除全部缓存</a>
-</form>
+        <div class="input-group">
+            <label for="store_">缓存区</label>
+            <div class="">
+                <span class="check-label" *ngFor="let item of items, index as i">
+                    <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value">
+                    <label [for]="'store_' + i">{{ item.name }}</label>
+                </span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">清除选中</button>
+        <input type="hidden" name="store[]" value="">
+        <a data-type="del" data-tip="确认清除全部缓存" class="btn btn-danger">清除全部缓存</a>
+    </form>
 </div>

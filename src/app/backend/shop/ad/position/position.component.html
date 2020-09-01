@@ -4,35 +4,37 @@
             <li>广告位列表</li>
         </ul>
     </app-page-tip>
-    <div class="page-search-bar">
-        <a class="btn btn-success pull-right" routerLink="./create">新增广告位</a>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <a class="btn btn-success pull-right" routerLink="./create">新增广告位</a>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>广告位</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>移动端首页轮播广告</td>
+                    <td>0</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs"
+                                href="http://zodream.localhost/shop/admin/ad?position_id=2">查看</a>
+                            <a class="btn btn-light btn-xs"
+                                href="http://zodream.localhost/shop/admin/ad/edit_position?id=2">编辑</a>
+                            <a class="btn btn-danger" data-type="del"
+                                href="http://zodream.localhost/shop/admin/ad/delete_position?id=2">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>广告位</th>
-                <th>统计</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2</td>
-                <td>移动端首页轮播广告</td>
-                <td>0</td>
-                <td>
-                    <div class="btn-group  btn-group-xs">
-                        <a class="btn btn-light btn-xs"
-                            href="http://zodream.localhost/shop/admin/ad?position_id=2">查看</a>
-                        <a class="btn btn-light btn-xs"
-                            href="http://zodream.localhost/shop/admin/ad/edit_position?id=2">编辑</a>
-                        <a class="btn btn-danger" data-type="del"
-                            href="http://zodream.localhost/shop/admin/ad/delete_position?id=2">删除</a>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>

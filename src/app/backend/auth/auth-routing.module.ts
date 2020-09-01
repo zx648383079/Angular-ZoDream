@@ -50,5 +50,5 @@ const routes: Routes = [
 export class AuthRoutingModule { }
 
 export const authRoutedComponents = [
-  AuthComponent, ConnectComponent, LogComponent, LoginLogComponent, PasswordComponent, ProfileComponent, BulletinComponent
+  AuthComponent, ConnectComponent, LogComponent, LoginLogComponent, PasswordComponent, ProfileComponent, BulletinComponent, EditComponent,
 ];
