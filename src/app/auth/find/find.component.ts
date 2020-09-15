@@ -10,6 +10,7 @@ import { confirmValidator } from 'src/app/theme/validators';
 export class FindComponent implements OnInit {
 
   public sended = false;
+  public isObserve = false;
 
   public findForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],

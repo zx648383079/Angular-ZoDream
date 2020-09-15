@@ -14,3 +14,28 @@
         }
     }
 }
+
+.btn-line {
+    display: block;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.tip {
+    line-height: 30px;
+    padding: 10px;
+}
+.item {
+    background-color: #fff;
+    position: relative;
+    line-height: 40px;
+    cursor: pointer;
+    .fa {
+        position: absolute;
+        top: 2px;
+        left: 20px;
+    }
+}

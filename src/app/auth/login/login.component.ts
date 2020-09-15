@@ -17,9 +17,11 @@ import { passwordValidator } from 'src/app/theme/validators';
 })
 export class LoginComponent implements OnInit {
 
-  mode = 0;
-  loginSubs: Subscription;
-  redirectUri: string;
+  public mode = 0;
+  public loginSubs: Subscription;
+  public redirectUri: string;
+  public isObserve = false;
+
   public loginForm = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.required, passwordValidator]],

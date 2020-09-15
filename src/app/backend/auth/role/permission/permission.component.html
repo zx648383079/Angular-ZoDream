@@ -6,19 +6,13 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form role="form">
-                <div class="form-row">
-                    <div class="col-auto">
-                        <label class="sr-only" for="keywords">权限</label>
+            <form class="form-horizontal">
+                    <div class="input-group">
+                        <label for="keywords">权限</label>
                         <input type="text" class="form-control" name="keywords" id="keywords" placeholder="权限">
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">搜索</button>
-                    </div>
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-primary">新增权限</button>
-                    </div>
-                </div>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                    <a routerLink="./create" class="pull-right btn btn-primary">新增角色</a>
             </form>
         </div>
         <table class="table  table-bordered well">

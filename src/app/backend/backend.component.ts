@@ -57,8 +57,8 @@ export class BackendComponent implements OnInit {
       url: './auth',
       children: [
         {
-          name: '权限',
-          label: '限',
+          name: '角色权限',
+          label: '角',
           url: './auth/role'
         }
       ]

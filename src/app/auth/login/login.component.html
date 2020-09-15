@@ -5,8 +5,9 @@
           <i class="iconfont icon-user" aria-hidden="true"></i>
       </div>
       <div class="input-group" [class]="{error: password.invalid}">
-          <input type="password" formControlName="password" placeholder="请输入密码" required="" autocomplete="off">
+          <input [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" required="" autocomplete="off">
           <i class="iconfont icon-lock" aria-hidden="true"></i>
+          <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
       </div>
 
       <div class="input-group">

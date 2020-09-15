@@ -118,16 +118,16 @@ i {
     &.checkbox {
         text-align: center;
         line-height: 30px;
+        font-style: normal;
         &::before {
             font-family: "iconfont";
             font-size: inherit;
             text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-            content: "\f0c8";
+            content: "\e71e";
         }
         &.checked {
             &::before {
-                content: "\f14a";
+                content: "\e646";
                 color: #ff77ff;
             }
         }

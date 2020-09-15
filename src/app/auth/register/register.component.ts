@@ -9,6 +9,8 @@ import { passwordValidator, confirmValidator } from 'src/app/theme/validators';
 })
 export class RegisterComponent implements OnInit {
 
+  public isObserve = false;
+
   public registerForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
