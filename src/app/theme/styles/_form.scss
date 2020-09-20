@@ -134,6 +134,20 @@ i {
     }
 }
 
+.input-group {
+    .input-tip {
+        color: #767676;
+        font-size: 12px;
+        padding: 0 0 10px 10px;
+    }
+    &.error {
+        input {
+            border: 1px solid red;
+            border-bottom-color: red;
+        }
+    }
+}
+
 .form-table {
     .input-group {
         input[type="text"],
@@ -195,13 +209,29 @@ i {
         }
     }
     .file-input {
-        button {
-            padding: 0 10px;
-            line-height: 40px;
-            border: none;
-            background: #000;
-            color: #fff;
-            margin-right: 10px;
+        .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        input[type='file'] {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        .btn {
+            vertical-align: top;
+            border-radius: 0;
+        }
+    }
+    .calendar-input {
+        .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            vertical-align: top;
         }
     }
     .actions {

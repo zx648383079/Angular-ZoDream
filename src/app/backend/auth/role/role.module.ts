@@ -5,6 +5,7 @@ import { RoleService } from './role.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../../theme/theme.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { ThemeModule } from '../../../theme/theme.module';
     NgbPaginationModule,
     ReactiveFormsModule,
     ThemeModule,
+    NgSelectModule,
     RoleRoutingModule
   ],
   declarations: [...roleRoutedComponents],

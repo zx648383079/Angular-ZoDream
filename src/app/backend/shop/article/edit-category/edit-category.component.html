@@ -1,20 +1,19 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">名称</label>
             <div class="">
-                <input type="text" id="name" class="form-control " name="name" required="">
-
+                <input type="text" id="name" class="form-control " formControlName="name">
+                <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
         <div class="input-group">
             <label for="parent_id">上级</label>
             <div class="">
-                <select id="parent_id" name="parent_id" required="">
-                    <option value="0" selected="">-- 无上级分类 --</option>
-                    <option value="2">帮助中心</option>
-                    <option value="1">通知中心</option>
+                <select id="parent_id" class="form-control" formControlName="parent_id">
+                    <option value="0">-- 无上级分类 --</option>
+                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
 
             </div>
@@ -22,26 +21,27 @@
         <div class="input-group">
             <label for="thumb">Thumb</label>
             <div class="file-input">
-                <input type="text" id="thumb" class="form-control " name="thumb">
-                <button type="button" data-type="upload">上传</button>
-                <button type="button" data-type="preview">预览</button>
+                <input type="text" id="thumb" class="form-control" formControlName="thumb">
+                <label for="fileUpload" class="btn btn-primary">上传</label>
+                <button type="button" class="btn btn-info">预览</button>
+                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
             </div>
         </div>
         <div class="input-group">
             <label for="keywords">关键字</label>
             <div class="">
-                <input type="text" id="keywords" class="form-control " name="keywords">
+                <input type="text" id="keywords" class="form-control " formControlName="keywords">
 
             </div>
         </div>
         <div class="input-group">
             <label for="description">说明</label>
             <div class="">
-                <textarea id="description" class="form-control " name="description"></textarea>
+                <textarea id="description" class="form-control " formControlName="description"></textarea>
 
             </div>
-        </div> <button type="submit" class="btn btn-success">确认保存</button>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-        <input type="hidden" name="id">
     </form>
 </div>

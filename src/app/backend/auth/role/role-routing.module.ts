@@ -12,11 +12,19 @@ const routes: Routes = [
     component: EditComponent
   },
   {
+    path: 'edit/:id',
+    component: EditComponent
+  },
+  {
     path: 'permission',
     component: PermissionComponent,
   },
   {
     path: 'permission/create',
+    component: EditPermissionComponent,
+  },
+  {
+    path: 'permission/edit/:id',
     component: EditPermissionComponent,
   }
 ];

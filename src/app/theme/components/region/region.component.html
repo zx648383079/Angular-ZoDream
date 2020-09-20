@@ -1,0 +1,12 @@
+<div class="selector" data-type="selector">
+  <ul class="selector-header"><li *ngFor="let item of paths; let i = index;" [ngClass]="{active: i == activeIndex}" (click)="touchIndex(i)">{{ item.name }}</li></ul>
+  <div class="selector-body">
+    <ul class="active">
+      <li *ngFor="let item of regionItems" (click)="touchSelect(item)" [ngClass]="{selected: isSelected(item)}">{{ item.name }}</li>
+    </ul>
+  </div>
+  <div class="selector-footer" *ngIf="canYes">
+      <button class="selector-yes" (click)="touchYes()">确定</button>
+    </div>
+  <i class="fa fa-close" (click)="touchClose()"></i>
+</div>

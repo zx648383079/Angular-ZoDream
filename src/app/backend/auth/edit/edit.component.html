@@ -1,59 +1,60 @@
-<app-edit-header title="修改密码"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table">
+    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
+                    <div class="input-group avatar-input" *ngIf="data">
+                        <label for="avatar">头像</label>
+                        <div>
+                            <div class="avatar">
+                                <img [src]="data.avatar">
+                            </div>
+                            <button type="button" class="btn btn-light">更改头像</button>
+                        </div>
+                    </div>
                     <div class="input-group">
                         <label for="name">昵称</label>
                         <div class="">
-                            <input type="text" id="name" class="form-control " name="name" required="">
-
+                            <input type="text" id="name" class="form-control " formControlName="name" placeholder="例如:zodream">
+                            <div class="input-tip" *ngIf="name.invalid">请输入昵称</div>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">邮箱</label>
                         <div class="">
-                            <input type="email" id="email" class="form-control " name="email" required="">
-
+                            <input type="email" id="email" class="form-control " formControlName="email">
+                            <div class="input-tip" *ngIf="email.invalid">请输入邮箱</div>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="sex">性别</label>
                         <div class="">
                             <span class="radio-label">
-                                <input type="radio" id="sex0" name="sex" value="0" checked="">
+                                <input type="radio" id="sex0" formControlName="sex" value="0">
                                 <label for="sex0">未知</label>
                             </span><span class="radio-label">
-                                <input type="radio" id="sex1" name="sex" value="1">
+                                <input type="radio" id="sex1" formControlName="sex" value="1">
                                 <label for="sex1">男</label>
                             </span><span class="radio-label">
-                                <input type="radio" id="sex2" name="sex" value="2">
+                                <input type="radio" id="sex2" formControlName="sex" value="2">
                                 <label for="sex2">女</label>
                             </span>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="avatar">头像</label>
-                        <div class="file-input">
-                            <input type="text" id="avatar" class="form-control " name="avatar">
-                            <button type="button" data-type="upload">上传</button>
-                            <button type="button" data-type="preview">预览</button>
-                        </div>
-                    </div>
-                    <div class="input-group">
                         <label for="birthday">生日</label>
-                        <div class="">
-                            <input type="text" id="birthday" class="form-control " name="birthday">
-
+                        <div class="calendar-input">
+                            <input type="text" id="birthday" class="form-control " ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                <i class="iconfont icon-calendar"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="input-group">
                         <label>角色</label>
                         <div>
-                            <select name="roles[]" id="role-box" multiple="" style="width: 100%" class="form-control ">
-                                <option value="1">超级管理员</option>
-                            </select>
+                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色"></ng-select>
                         </div>
                     </div>
                 </app-panel>
@@ -63,7 +64,7 @@
                     <div class="input-group">
                         <label for="password">密码</label>
                         <div class="">
-                            <input type="password" id="password" class="form-control " name="password"
+                            <input type="password" id="password" class="form-control " formControlName="password"
                                 placeholder="输入密码">
 
                         </div>
@@ -71,9 +72,9 @@
                     <div class="input-group">
                         <label for="confirm_password">确认密码</label>
                         <div class="">
-                            <input type="password" id="confirm_password" class="form-control " name="confirm_password"
+                            <input type="password" id="confirm_password" class="form-control " formControlName="confirm_password"
                                 placeholder="输入确认密码">
-
+                            <div class="input-tip" *ngIf="form.getError('confirm')">两次密码不一致</div>
                         </div>
                     </div>
                 </app-panel>

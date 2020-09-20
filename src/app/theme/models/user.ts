@@ -12,5 +12,6 @@ export interface IUser {
     created_at?: string;
     updated_at?: string;
     sex_label?: string;
+    roles?: number[];
 }
 

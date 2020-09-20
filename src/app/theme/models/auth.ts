@@ -82,6 +82,7 @@ export interface IRole {
     description: string;
     created_at: string;
     updated_at: string;
+    permissions?: number[];
 }
 
 export interface IPermission {
@@ -91,5 +92,11 @@ export interface IPermission {
     description: string;
     created_at: string;
     updated_at: string;
+}
+
+export interface IUserRole {
+    role?: IRole;
+    roles: string[];
+    permissions: string[];
 }
 

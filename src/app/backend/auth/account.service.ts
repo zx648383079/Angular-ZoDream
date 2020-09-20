@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAccountLog, ILoginLog, IBulletinUser, IConnect } from '../../theme/models/auth';
-import { IPage, IData } from '../../theme/models/page';
+import { IAccountLog, ILoginLog, IBulletinUser, IConnect, IRole } from '../../theme/models/auth';
+import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { map } from 'rxjs/operators';
 import { IUser } from '../../theme/models/user';
 
@@ -40,5 +40,29 @@ export class AccountService {
     });
   }
 
-  
+  public user(id: any) {
+    return this.http.get<IUser>('auth/admin/user/detail', {
+      params: {id},
+    });
+  }
+
+  public userSave(data: any) {
+    return this.http.post<IUser>('auth/admin/user/save', data);
+  }
+
+  public userRemove(id: any) {
+    return this.http.delete<IDataOne<true>>('auth/admin/user/delete', {
+      params: {id}
+    });
+  }
+
+  public roleAll() {
+    return this.http.get<IData<IRole>>('auth/admin/role/all');
+  }
+
+  public uploadAvatar(file: File) {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<IUser>('auth/user/avatar', form);
+  }
 }

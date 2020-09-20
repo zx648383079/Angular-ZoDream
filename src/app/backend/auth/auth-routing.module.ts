@@ -37,6 +37,10 @@ const routes: Routes = [
     component: EditComponent
   },
   {
+    path: 'edit/:id',
+    component: EditComponent
+  },
+  {
     path: 'bulletin',
     component: BulletinComponent
   },

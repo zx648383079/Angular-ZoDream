@@ -7,3 +7,4 @@ export * from './media-player/media-player.component';
 export * from './progress-bar/progress-bar.component';
 export * from './pull-to-refresh/pull-to-refresh.component';
 export * from './panel/panel.component';
+export * from './datepicker/datepicker.component';

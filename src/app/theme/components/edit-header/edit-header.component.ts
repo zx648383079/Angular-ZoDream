@@ -11,6 +11,8 @@ export class EditHeaderComponent implements OnChanges {
 
   @Input() min = false;
 
+  @Input() disabled = false;
+
   @Output() submited = new EventEmitter();
 
   constructor() { }
@@ -22,6 +24,9 @@ export class EditHeaderComponent implements OnChanges {
   }
 
   public tapSubmit() {
+    if (this.disabled) {
+      return;
+    }
     this.submited.emit();
   }
 

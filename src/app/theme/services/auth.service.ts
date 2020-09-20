@@ -90,17 +90,17 @@ export class AuthService {
    * @returns HttpHeaders
    */
   getTokenHeader(request: HttpRequest<any>): HttpHeaders {
-    if (this.getUserToken()) {
-      return new HttpHeaders({
-        'Content-Type': 'application/vnd.api+json',
-        Authorization: `Bearer ${this.getUserToken()}`,
-        Accept: '*/*'
-      });
-    }
-    return new HttpHeaders({
+    const headers: any = {
       'Content-Type': 'application/vnd.api+json',
       Accept: '*/*'
-    });
+    };
+    if (typeof request.body === 'object' && request.body instanceof FormData) {
+      delete headers['Content-Type'];
+    }
+    if (this.getUserToken()) {
+      headers.Authorization = `Bearer ${this.getUserToken()}`;
+    }
+    return new HttpHeaders(headers);
   }
 
   private setTokenInLocalStorage(user: any, keyName: string): void {

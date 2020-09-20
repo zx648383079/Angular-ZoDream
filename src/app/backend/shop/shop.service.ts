@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IPage } from '../../theme/models/page';
-import { IShipping, IPayment } from '../../theme/models/shop';
+import { IShipping, IPayment} from '../../theme/models/shop';
 import { map } from 'rxjs/operators';
 import { IItem } from '../../theme/models/seo';
 
@@ -17,6 +17,7 @@ export class ShopService {
     constructor(
         private http: HttpClient
     ) { }
+
 
     public shippingList(params: any) {
         return this.http.get<IPage<IShipping>>('shop/admin/shipping', {

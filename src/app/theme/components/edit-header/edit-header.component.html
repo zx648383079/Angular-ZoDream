@@ -5,7 +5,7 @@
     <ng-content></ng-content>
   </div>
 
-  <div class="submit-btn" (click)="tapSubmit()">
+  <div class="submit-btn" [ngClass]="{'btn-disable': disabled}" (click)="tapSubmit()">
     <i class="iconfont icon-check"></i>
   </div>
 </div>

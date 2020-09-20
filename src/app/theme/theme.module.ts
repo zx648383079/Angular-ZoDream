@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssetPipe, SizePipe, TimestampPipe, AgoPipe } from './pipes';
+import { AssetPipe, SizePipe, TimestampPipe, AgoPipe, TwoPadPipe, TreeLevelPipe } from './pipes';
 import { RouterModule } from '@angular/router';
 import { AuthService, TransferStateService, ThemeService} from './services';
 import { AuthActions } from './actions';
@@ -20,7 +20,7 @@ import {
   MediaPlayerComponent,
   ProgressBarComponent,
   PullToRefreshComponent,
-  PanelComponent
+  PanelComponent, DatepickerComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
@@ -42,13 +42,16 @@ const COMPONENTS = [
   ProgressBarComponent,
   PullToRefreshComponent,
   PanelComponent,
+  DatepickerComponent,
 ];
 
 const PIPES = [
   AssetPipe,
   SizePipe,
   TimestampPipe,
-  AgoPipe
+  AgoPipe,
+  TwoPadPipe,
+  TreeLevelPipe,
 ];
 
 const SERVICES = [

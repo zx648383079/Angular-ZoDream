@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BackendRoutingModule, backendRoutedComponents } from './backend-routing.module';
 import { ThemeModule } from '../theme/theme.module';
+import { BackendService } from './backend.service';
 
 
 @NgModule({
@@ -13,6 +14,9 @@ import { ThemeModule } from '../theme/theme.module';
     // NgxEchartsModule.forRoot({
     //   echarts: () => import('echarts'),
     // }),
+  ],
+  providers: [
+    BackendService,
   ]
 })
 export class BackendModule { }

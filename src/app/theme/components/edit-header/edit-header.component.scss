@@ -27,6 +27,14 @@
             color: red;
         }
     }
+    .btn-disable {
+        box-shadow: none;
+        cursor: not-allowed;
+        color: #ccc;
+        &:hover {
+            color: #ccc;
+        }
+    }
     &.min {
         padding: 0;
         .remark {

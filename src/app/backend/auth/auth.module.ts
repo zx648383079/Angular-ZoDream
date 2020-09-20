@@ -2,18 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from '../../theme/theme.module';
 import { AccountService } from './account.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
   declarations: [...authRoutedComponents],
   imports: [
     CommonModule,
-    NgbPaginationModule,
+    NgbModule,
     ReactiveFormsModule,
+    NgSelectModule,
     ThemeModule,
     AuthRoutingModule
   ],

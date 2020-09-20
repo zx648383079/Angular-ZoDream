@@ -3,8 +3,8 @@ import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '../theme/reducers/selectors';
-
-
+import { BackendService } from './backend.service';
+import { IUserRole } from '../theme/models/auth';
 
 @Component({
   selector: 'app-backend',
@@ -204,9 +204,15 @@ export class BackendComponent implements OnInit {
     }
   ];
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private service: BackendService) {
     this.store.select(getCurrentUser).subscribe(user => {
       this.bottomNavs[0].name = user.name;
+    });
+    this.service.roles().subscribe(res => {
+      this.navItems = this.service.filterNavByRole(this.navItems, res);
+      this.bottomNavs = this.service.filterNavByRole(this.bottomNavs, res);
     });
   }
 

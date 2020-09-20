@@ -1,6 +1,6 @@
 .avatar-input {
     margin-bottom: 40px;
-    label {
+    >label {
         line-height: 80px;
     }
     .avatar {
@@ -13,8 +13,12 @@
             border-radius: 50%;
         }
     }
+    input[type="file"] {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
 }
-
 .btn-line {
     display: block;
     line-height: 40px;

@@ -6,13 +6,13 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal">
-                    <div class="input-group">
-                        <label for="keywords">权限</label>
-                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="权限">
-                    </div>
-                    <button type="submit" class="btn btn-primary">搜索</button>
-                    <a routerLink="./create" class="pull-right btn btn-primary">新增角色</a>
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">权限</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords" placeholder="权限">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a routerLink="./create" class="pull-right btn btn-primary">新增权限</a>
             </form>
         </div>
         <table class="table  table-bordered well">
@@ -32,9 +32,8 @@
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs"
-                                href="https://zodream.cn/auth/admin/role/edit/id/1.html">编辑</a>
-                            <a class="btn btn-danger" data-type="del"
-                                href="https://zodream.cn/auth/admin/role/delete/id/1.html">删除</a>
+                                [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

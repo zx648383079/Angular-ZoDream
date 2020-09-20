@@ -10,7 +10,8 @@
                             <div class="avatar">
                                 <img [src]="data.avatar">
                             </div>
-                            <button type="button" class="btn btn-light">更改头像</button>
+                            <label for="fileUpload" class="btn btn-light">更改头像</label>
+                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>
                     <div class="input-group">

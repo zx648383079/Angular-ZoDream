@@ -76,4 +76,13 @@ export class ProfileComponent implements OnInit {
       this.router.navigateByUrl('/auth/logout');
     }, 2000);
   }
+
+  public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.service.uploadAvatar(files[0]).subscribe(res => {
+      this.data = res;
+      this.form.get('avatar').setValue(res.avatar);
+      this.toastrService.success('头像已更换');
+    });
+  }
 }

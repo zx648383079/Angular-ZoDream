@@ -100,4 +100,50 @@ export interface IPayment {
     description: string;
 }
 
+export interface IArticle {
+    id: number;
+    title: string;
+    description: string;
+    thumb: string;
+    cat_id: number;
+    created_at: string;
+    updated_at: string;
+    category: IArticleCategory;
+}
+
+export interface IArticleCategory {
+    id: number;
+    name: string;
+    keywords: string;
+    description: string;
+    parent_id: number;
+    position: number;
+    level?: number;
+}
+
+export interface IAd {
+    id: number;
+    name: string;
+    position_id: number;
+    type: number;
+    url: string;
+    content: string;
+    start_at: string;
+    end_at: string;
+    created_at: string;
+    updated_at: string;
+    position?: IAdPosition;
+}
+
+export interface IAdPosition {
+    id: number;
+    name: string;
+    width: number;
+    height: number;
+    template: string;
+    created_at: string;
+    updated_at: string;
+}
+
+
 

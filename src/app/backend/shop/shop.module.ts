@@ -5,23 +5,27 @@ import { ShopRoutingModule, shopRoutedComponents } from './shop-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { ShopService } from './shop.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ArticleService } from './article.service';
+import { AdService } from './ad.service';
 
 
 @NgModule({
   declarations: [...shopRoutedComponents],
   imports: [
     CommonModule,
-    NgbPaginationModule,
     ReactiveFormsModule,
     NgSelectModule,
+    NgbModule,
     ThemeModule,
     ShopRoutingModule,
     EditorModule,
   ],
   providers: [
     ShopService,
+    ArticleService,
+    AdService,
   ],
 })
 export class ShopModule { }

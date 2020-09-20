@@ -6,7 +6,14 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <a class="btn btn-success pull-right" routerLink="./create">新增广告位</a>
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords" placeholder="标题">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a routerLink="./create" class="pull-right btn btn-primary">新增广告</a>
+            </form>
         </div>
     
         <table class="table table-hover">
@@ -19,18 +26,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2</td>
-                    <td>移动端首页轮播广告</td>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
                     <td>0</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs"
+                                routerLink="../" [queryParams]="{category: item.id}">查看</a>
                             <a class="btn btn-light btn-xs"
-                                href="http://zodream.localhost/shop/admin/ad?position_id=2">查看</a>
-                            <a class="btn btn-light btn-xs"
-                                href="http://zodream.localhost/shop/admin/ad/edit_position?id=2">编辑</a>
-                            <a class="btn btn-danger" data-type="del"
-                                href="http://zodream.localhost/shop/admin/ad/delete_position?id=2">删除</a>
+                                [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

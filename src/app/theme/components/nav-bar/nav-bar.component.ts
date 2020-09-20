@@ -8,6 +8,7 @@ export interface INav {
   children?: INav[];
   expand?: boolean;
   active?: boolean;
+  role?: string;
 }
 
 @Component({
