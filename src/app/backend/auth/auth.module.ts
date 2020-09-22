@@ -7,6 +7,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { AccountService } from './account.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { OpenModule } from '../open/open.module';
 
 
 @NgModule({
@@ -17,10 +18,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     NgSelectModule,
     ThemeModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    OpenModule,
   ],
   providers: [
-    AccountService
+    AccountService,
   ]
 })
 export class AuthModule { }

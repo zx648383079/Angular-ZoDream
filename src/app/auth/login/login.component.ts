@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/theme/interfaces';
@@ -15,7 +15,7 @@ import { passwordValidator } from 'src/app/theme/validators';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   public mode = 0;
   public loginSubs: Subscription;
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     this.loginSubs = this.authService
         .login(this.loginForm.value).pipe(
           tap(user => {
-            //this.router.navigateByUrl(this.returnUrl)
+            // this.router.navigateByUrl(this.returnUrl)
           }, (user) => {
             const errors = user.error.error || 'Something went wrong';
             // keys.forEach(val => {
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
 
 
   private pushErrorFor(ctrl_name: string, msg: string) {
-    //this.signInForm.controls[ctrl_name].setErrors({ 'msg': msg });
+    // this.signInForm.controls[ctrl_name].setErrors({ 'msg': msg });
   }
 
 
@@ -87,6 +87,13 @@ export class LoginComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.loginSubs) { this.loginSubs.unsubscribe(); }
+  }
+
+  keyDown(event: KeyboardEvent) {
+    if (event.code !== 'Enter') {
+      return;
+    }
+    ((event.target as HTMLInputElement).parentNode.nextSibling as HTMLDivElement).querySelector('input').focus();
   }
 
 }

@@ -1,7 +1,7 @@
 <form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()">
   <div class="input-box">
       <div class="input-group" [class]="{error: email.invalid}">
-          <input type="email" formControlName="email" placeholder="请输入账号" required="" autocomplete="off">
+          <input type="email" formControlName="email" placeholder="请输入账号" required="" autocomplete="off" (keypress)="keyDown($event)">
           <i class="iconfont icon-user" aria-hidden="true"></i>
       </div>
       <div class="input-group" [class]="{error: password.invalid}">

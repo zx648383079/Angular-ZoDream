@@ -60,6 +60,11 @@ export class BackendComponent implements OnInit {
           name: '角色权限',
           label: '角',
           url: './auth/role'
+        },
+        {
+          name: '第三方管理',
+          label: '三',
+          url: './auth/oauth'
         }
       ]
     },
@@ -151,6 +156,23 @@ export class BackendComponent implements OnInit {
           url: './shop/shipping'
         }
       ]
+    },
+    {
+      name: '开放平台',
+      icon: 'icon-th-large',
+      url: './open',
+      children: [
+        {
+          name: '应用管理',
+          label: '应',
+          url: './open/platform',
+        },
+        {
+          name: '授权管理',
+          label: '授',
+          url: './open/authorize',
+        },
+      ],
     },
     {
       name: '系统设置',

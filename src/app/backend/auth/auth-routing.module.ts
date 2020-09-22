@@ -9,6 +9,7 @@ import { LoginLogComponent } from './login-log/login-log.component';
 import { LogComponent } from './log/log.component';
 import { EditComponent } from './edit/edit.component';
 import { BulletinComponent } from './bulletin/bulletin.component';
+import { OauthComponent } from './oauth/oauth.component';
 
 const routes: Routes = [
   { path: '', component: AuthComponent },
@@ -44,6 +45,10 @@ const routes: Routes = [
     path: 'bulletin',
     component: BulletinComponent
   },
+  {
+    path: 'oauth',
+    component: OauthComponent
+  },
   { path: 'role', loadChildren: () => import('./role/role.module').then(m => m.RoleModule) },
 ];
 
@@ -55,4 +60,5 @@ export class AuthRoutingModule { }
 
 export const authRoutedComponents = [
   AuthComponent, ConnectComponent, LogComponent, LoginLogComponent, PasswordComponent, ProfileComponent, BulletinComponent, EditComponent,
+  OauthComponent,
 ];

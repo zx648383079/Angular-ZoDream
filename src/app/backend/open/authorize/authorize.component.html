@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <app-page-tip>
+      <ul>
+          <li>这是所有的授权列表</li>
+      </ul>
+  </app-page-tip>
+  <div class="panel-container">
+      <div class="page-search-bar">
+          <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+              <div class="input-group">
+                  <label for="keywords">应用</label>
+                  <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords" placeholder="搜索应用" value="">
+              </div>
+              <button type="submit" class="btn btn-primary">搜索</button>
+              <a class="pull-right btn btn-danger">清除所有</a>
+              <a class="pull-right btn btn-primary">生成</a>
+          </form>
+      </div>
+      <table class="table table-hover">
+          <thead>
+          <tr>
+              <th>ID</th>
+              <th>应用名</th>
+              <th>Token</th>
+              <th>状态</th>
+              <th>过期时间</th>
+              <th>授权时间</th>
+              <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.platform.name }}</td>
+                  <td>{{ item.token }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.expired_at }}</td>
+                  <td>{{ item.created_at }}</td>
+                  <td>
+                    <div class="btn-group btn-group-xs">
+                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                    </div>
+                  </td>
+              </tr>
+          </tbody>
+      
+      </table>
+      
+      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"></ngb-pagination>    
+  </div>
+</div>
+
