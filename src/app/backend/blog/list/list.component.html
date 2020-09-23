@@ -7,17 +7,17 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" value="">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [value]="keywords">
                 </div>
                 <div class="input-group">
                     <label>分类</label>
-                    <select name="term_id">
+                    <select name="cat_id">
                         <option value="0">请选择</option>
                         <ng-container *ngFor="let item of categories">
-                            <option [value]="item.id">{{ item.name }}</option>
+                            <option [value]="item.id" [selected]="category == item.id">{{ item.name }}</option>
                         </ng-container>
                     </select>
                 </div>
@@ -45,7 +45,7 @@
                             <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
                             <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
                         </div>
-                        <a class="btn btn-light btn-xs" [routerLink]="'/blog/' + item.id">预览</a>
+                        <a class="btn btn-info btn-xs" [routerLink]="'/blog/' + item.id">预览</a>
                         <a class="btn btn-light btn-xs"
                         [routerLink]="'../edit/' + item.id">编辑</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)"

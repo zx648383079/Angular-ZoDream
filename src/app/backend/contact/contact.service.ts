@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IPage } from '../../theme/models/page';
+import { IDataOne, IPage } from '../../theme/models/page';
 import { IFriendLink, IFeedback, ISubscribe } from '../../theme/models/seo';
 
 @Injectable()
@@ -13,6 +13,18 @@ export class ContactService {
     public friendLinkList(params: any) {
         return this.http.get<IPage<IFriendLink>>('contact/admin/friend_link', {
             params
+        });
+    }
+
+    public friendLinkRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('auth/admin/friend_link/remove', {
+          params: {id}
+        });
+    }
+
+    public friendLinkVerify(id: any) {
+        return this.http.delete<IFriendLink>('auth/admin/friend_link/verify', {
+          params: {id}
         });
     }
 

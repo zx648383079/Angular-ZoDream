@@ -19,17 +19,20 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td [title]="item.created_at">{{ item.name }}</td>
                     <td>
                         <code>{{ item.url }}</code>
-                        <a [href]="item.url" target="_blank" rel="noopener noreferrer" class="fa fa-globe"></a>
+                        <a [href]="item.url" target="_blank" rel="noopener noreferrer" class="iconfont icon-globe"></a>
                     </td>
                     <td>{{ item.brief }}</td>
                     <td>
-                        {{item.status}}
+                        {{item.status < 1 ? '待审核' : '已通过'}}
                     </td>
                     <td>
-                        <a class="btn btn-danger" data-type="del" data-tip="确认审核通过此友情链接？" href="">审核</a>
+                        <div class="btn-group btn-group-xs">
+                            <a class="btn btn-danger" *ngIf="item.status < 1" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
+                            <a class="btn btn-info"  *ngIf="item.status == 1"  (click)="tapOff(item)">下架</a>
+                        </div>
                     </td>
                 </tr>
             </tbody>

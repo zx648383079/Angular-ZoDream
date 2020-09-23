@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { IBlog, ICategory } from 'src/app/theme/models/blog';
 import { BlogService } from '../blog.service';
 
@@ -17,9 +19,13 @@ export class ListComponent implements OnInit {
   public isLoading = false;
   public total = 0;
   public perPage = 20;
+  public keywords = '';
+  public category = 0;
 
   constructor(
-    private service: BlogService
+    private service: BlogService,
+    private toastrService: ToastrService,
+    private route: ActivatedRoute,
   ) {
     this.service.getCategories().subscribe(res => {
       this.categories = res;
@@ -27,7 +33,12 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tapRefresh();
+    this.route.queryParams.subscribe(res => {
+      if (res.category) {
+        this.category = parseInt(res.category, 10) || 0;
+      }
+      this.tapRefresh();
+    });
   }
 
   public tapRefresh() {
@@ -60,6 +71,12 @@ export class ListComponent implements OnInit {
     });
   }
 
+  public tapSearch(form: any) {
+    this.keywords = form.keywords;
+    this.category = form.cat_id;
+    this.tapRefresh();
+  }
+
   public tapPage() {
     this.goPage(this.page);
   }
@@ -68,7 +85,15 @@ export class ListComponent implements OnInit {
     if (!confirm('确定要删除《' + item.title +  '》?')) {
       return;
     }
-    
+    this.service.blogRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('删除成功');
+      this.items = this.items.filter(it => {
+        return it.id !== item.id;
+      });
+    });
   }
 
 }

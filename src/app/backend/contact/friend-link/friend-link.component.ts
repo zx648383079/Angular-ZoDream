@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { IFriendLink } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 
@@ -23,6 +24,7 @@ export class FriendLinkComponent implements OnInit {
 
   constructor(
     private service: ContactService,
+    private toastrService: ToastrService,
   ) {
     this.tapRefresh();
   }
@@ -64,6 +66,32 @@ export class FriendLinkComponent implements OnInit {
         this.items = res.data;
         this.hasMore = res.paging.more;
         this.total = res.paging.total;
+    });
+  }
+
+  public tapPass(item: IFriendLink) {
+    if (!confirm('确认审核通过此友情链接？')) {
+      return;
+    }
+    this.service.friendLinkVerify(item.id).subscribe(res => {
+      if (!res) {
+        return;
+      }
+      this.toastrService.success('已审核通过！');
+      item.status = res.status;
+    });
+  }
+
+  public tapOff(item: IFriendLink) {
+    if (!confirm('确认下架此友情链接？')) {
+      return;
+    }
+    this.service.friendLinkRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('已下架！');
+      item.status = 0;
     });
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ISubtotal, ICategory, ITag, IArchives, IBlog, ISearchForm, IComment } from '../../theme/models/blog';
 import { mockSubtotal, mockCategories, mockTags, mockArchives, mockBlog, mockBlogs } from '../../theme/mock/blog';
-import { IPage, IData } from '../../theme/models/page';
+import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { mockPage } from '../../theme/mock/page';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -52,5 +52,21 @@ export class BlogService {
         return this.http.get<IPage<IComment>>('blog/admin/comment', {
             params: param as any
           });
+    }
+
+    public blog(id: any) {
+        return this.http.get<IBlog>('blog/publish/detail', {
+          params: {id},
+        });
+    }
+
+    public blogSave(data: any) {
+        return this.http.post<IBlog>('blog/publish/save', data);
+    }
+
+    public blogRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('blog/publish/delete', {
+          params: {id}
+        });
     }
 }
