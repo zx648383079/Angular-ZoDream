@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IPayment } from '../../../theme/models/shop';
-import { ShopService } from '../shop.service';
+import { PaymentService } from '../payment.service';
 
 @Component({
   selector: 'app-payment',
@@ -22,7 +22,7 @@ export class PaymentComponent implements OnInit {
   public total = 0;
 
   constructor(
-    private service: ShopService,
+    private service: PaymentService,
   ) {
     this.tapRefresh();
   }

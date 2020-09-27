@@ -21,7 +21,7 @@ export class ArticleService {
     }
 
     public article(id: any) {
-        return this.http.get<IArticle>('auth/admin/article/detail', {
+        return this.http.get<IArticle>('shop/admin/article/detail', {
             params: {
                 id
             },
@@ -29,11 +29,11 @@ export class ArticleService {
     }
 
     public articleSave(data: any) {
-        return this.http.post<IArticle>('auth/admin/article/save', data);
+        return this.http.post<IArticle>('shop/admin/article/save', data);
     }
 
     public articleRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('auth/admin/article/delete', {
+        return this.http.delete<IDataOne<true>>('shop/admin/article/delete', {
             params: {
                 id
             }
@@ -47,7 +47,7 @@ export class ArticleService {
     }
 
     public category(id: any) {
-        return this.http.get<IArticleCategory>('auth/admin/article/detail_category', {
+        return this.http.get<IArticleCategory>('shop/admin/article/detail_category', {
             params: {
                 id
             },
@@ -55,11 +55,11 @@ export class ArticleService {
     }
 
     public categorySave(data: any) {
-        return this.http.post<IArticleCategory>('auth/admin/article/save_category', data);
+        return this.http.post<IArticleCategory>('shop/admin/article/save_category', data);
     }
 
     public categoryRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('auth/admin/article/delete_category', {
+        return this.http.delete<IDataOne<true>>('shop/admin/article/delete_category', {
             params: {
                 id
             }

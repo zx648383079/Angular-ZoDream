@@ -15,7 +15,7 @@ export class AdService {
   }
 
   public ad(id: any) {
-      return this.http.get<IAd>('auth/admin/ad/detail', {
+      return this.http.get<IAd>('shop/admin/ad/detail', {
           params: {
               id
           },
@@ -23,11 +23,11 @@ export class AdService {
   }
 
   public adSave(data: any) {
-      return this.http.post<IAd>('auth/admin/ad/save', data);
+      return this.http.post<IAd>('shop/admin/ad/save', data);
   }
 
   public adRemove(id: any) {
-      return this.http.delete<IDataOne<true>>('auth/admin/ad/delete', {
+      return this.http.delete<IDataOne<true>>('shop/admin/ad/delete', {
           params: {
               id
           }
@@ -41,7 +41,7 @@ export class AdService {
   }
 
   public position(id: any) {
-      return this.http.get<IAdPosition>('auth/admin/ad/detail_position', {
+      return this.http.get<IAdPosition>('shop/admin/ad/detail_position', {
           params: {
               id
           },
@@ -49,11 +49,11 @@ export class AdService {
   }
 
   public positionSave(data: any) {
-      return this.http.post<IAdPosition>('auth/admin/ad/save_position', data);
+      return this.http.post<IAdPosition>('shop/admin/ad/save_position', data);
   }
 
   public positionRemove(id: any) {
-      return this.http.delete<IDataOne<true>>('auth/admin/ad/delete_position', {
+      return this.http.delete<IDataOne<true>>('shop/admin/ad/delete_position', {
           params: {
               id
           }

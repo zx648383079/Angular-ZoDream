@@ -9,6 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
+import { RegionService } from './region.service';
+import { PaymentService } from './payment.service';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { AdService } from './ad.service';
     ShopService,
     ArticleService,
     AdService,
+    RegionService,
+    PaymentService,
   ],
 })
 export class ShopModule { }

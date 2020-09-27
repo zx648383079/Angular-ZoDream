@@ -14,6 +14,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { EditPaymentComponent } from './payment/edit/edit.component';
 import { ShippingComponent } from './shipping/shipping.component';
 import { EditShippingComponent } from './shipping/edit/edit.component';
+import { RegionComponent } from './region/region.component';
 
 const routes: Routes = [
   { path: '', component: ShopComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'ad/position/create', component: EditPositionComponent },
   { path: 'ad/position', component: PositionComponent },
   { path: 'ad', component: AdComponent },
+  { path: 'region', component: RegionComponent },
   { path: 'article/edit/:id', component: EditArticleComponent },
   { path: 'article/create', component: EditArticleComponent },
   { path: 'article/category/edit/:id', component: EditCategoryComponent },
@@ -60,5 +62,6 @@ export const shopRoutedComponents = [
   EditPaymentComponent,
   PaymentComponent,
   EditShippingComponent,
-  ShippingComponent
+  ShippingComponent,
+  RegionComponent,
 ];

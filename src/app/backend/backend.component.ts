@@ -141,6 +141,11 @@ export class BackendComponent implements OnInit {
           url: './shop/ad'
         },
         {
+          name: '地区管理',
+          label: '区',
+          url: './shop/region'
+        },
+        {
           name: '插件管理',
           label: '插',
           url: './shop/plugin'
