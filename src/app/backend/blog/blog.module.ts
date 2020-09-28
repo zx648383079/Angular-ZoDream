@@ -5,6 +5,8 @@ import { BlogRoutingModule, blogRoutedComponents } from './blog-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { BlogService } from './blog.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     ThemeModule,
     BlogRoutingModule,
     NgbPaginationModule,
+    ReactiveFormsModule,
+    NgSelectModule,
     EditorModule,
   ],
   providers: [

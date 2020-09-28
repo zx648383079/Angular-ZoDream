@@ -62,6 +62,7 @@ export interface IRegion {
     name: string;
     parent_id?: number;
     full_name?: string;
+    children?: IRegion[];
 }
 
 export interface IOrderGoods {

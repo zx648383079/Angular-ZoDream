@@ -4,12 +4,14 @@ import { GoodsService } from './goods.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     ThemeModule,
     NgbPaginationModule,
     GoodsRoutingModule,
+    ReactiveFormsModule,
     EditorModule,
   ],
   declarations: [

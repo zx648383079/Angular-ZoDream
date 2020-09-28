@@ -1,0 +1,36 @@
+
+.place-box {
+    font-weight: 400;
+    font-size: 1.4rem;
+    padding-bottom: 300px;
+    .checkbtn {
+        background-color: #fbfbfb;
+        text-align: right;
+    }
+    .city-item {
+        &:hover {
+            >.sub-city-box {
+                display: block;
+            }
+        }
+    }
+    .sub-city-box {
+        display: none;
+        position: absolute;
+        z-index: 88;
+        border: 1px solid #777;
+        background-color: white;
+        padding: 10px;
+        min-width: 200px;
+        &::before {
+            content: " ";
+            width: 0;
+            height: 0;
+            border-right: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-bottom: 10px solid #767676;
+            position: absolute;
+            top: -10px;
+        }
+    }
+}

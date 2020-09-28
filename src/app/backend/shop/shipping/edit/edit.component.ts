@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../../theme/models/seo';
-import { IShipping } from '../../../../theme/models/shop';
+import { IRegion, IShipping } from '../../../../theme/models/shop';
 import { PaymentService } from '../../payment.service';
 
 @Component({
@@ -18,10 +19,47 @@ export class EditShippingComponent implements OnInit {
 
   public items: IItem[] = [];
 
+  public regionItems: IRegion[] = [
+    {
+      id: 1,
+      name: '北京',
+      children: [
+        {
+          id: 2,
+          name: '市区'
+        },
+        {
+          id: 2,
+          name: '市区'
+        },
+      ]
+    },
+    {
+      id: 1,
+      name: '北京',
+      children: [
+        {
+          id: 2,
+          name: '市区'
+        },
+      ]
+    },
+    {
+      id: 1,
+      name: '北京',
+      children: [
+        {
+          id: 2,
+          name: '市区'
+        },
+      ]
+    },
+  ];
+
   public form = this.fb.group({
     name: ['', Validators.required],
     code: ['', Validators.required],
-    method: [0],
+    method: ['0'],
     icon: [''],
     description: [''],
     position: [99],
@@ -32,6 +70,7 @@ export class EditShippingComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private toastrService: ToastrService,
+    private modalService: NgbModal,
   ) {
     this.service.shippingPlugin().subscribe(res => {
       this.items = res;
@@ -70,6 +109,12 @@ export class EditShippingComponent implements OnInit {
 
   public uploadFile(event: any) {
 
+  }
+
+  public open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
+
+    });
   }
 
 }

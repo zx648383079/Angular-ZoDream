@@ -54,6 +54,12 @@ export class BlogService {
           });
     }
 
+    public commentRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('blog/admin/comment/delete', {
+            params: {id}
+          });
+    }
+
     public blog(id: any) {
         return this.http.get<IBlog>('blog/publish/detail', {
           params: {id},
@@ -66,6 +72,38 @@ export class BlogService {
 
     public blogRemove(id: any) {
         return this.http.delete<IDataOne<true>>('blog/publish/delete', {
+          params: {id}
+        });
+    }
+
+    public category(id: any) {
+        return this.http.get<ICategory>('blog/admin/category/detail', {
+          params: {id},
+        });
+    }
+
+    public categorySave(data: any) {
+        return this.http.post<ICategory>('blog/admin/category/save', data);
+    }
+
+    public categoryRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('blog/admin/category/delete', {
+          params: {id}
+        });
+    }
+
+    public tag(id: any) {
+        return this.http.get<ITag>('blog/admin/tag/detail', {
+          params: {id},
+        });
+    }
+
+    public tagSave(data: any) {
+        return this.http.post<ITag>('blog/admin/tag/save', data);
+    }
+
+    public tagRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('blog/admin/tag/delete', {
           params: {id}
         });
     }

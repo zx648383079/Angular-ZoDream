@@ -1,17 +1,17 @@
-<app-edit-header [title]="'编辑标签'"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑标签' : '新增标签'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table panel-container">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">标签</label>
             <div class="">
-                <input type="text" id="name" class="form-control " name="name" required="">
+                <input type="text" id="name" class="form-control " formControlName="name">
             </div>
         </div>
         <div class="input-group">
             <label for="description">说明</label>
             <div class="">
-                <textarea id="description" class="form-control " name="description"></textarea>
+                <textarea id="description" class="form-control " formControlName="description"></textarea>
             </div>
         </div>
         <button type="submit" class="btn btn-success">确认保存</button>

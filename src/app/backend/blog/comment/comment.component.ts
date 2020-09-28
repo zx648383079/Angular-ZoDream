@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { IComment } from '../../../theme/models/blog';
 import { BlogService } from '../blog.service';
 
@@ -15,9 +16,11 @@ export class CommentComponent implements OnInit {
   public isLoading = false;
   public total = 0;
   public perPage = 20;
+  public keywords = '';
 
   constructor(
-    private service: BlogService
+    private service: BlogService,
+    private toastrService: ToastrService,
   ) {
   }
 
@@ -57,6 +60,26 @@ export class CommentComponent implements OnInit {
 
   public tapPage() {
     this.goPage(this.page);
+  }
+
+  public tapSearch(form: any) {
+    this.keywords = form.keywords;
+    this.tapRefresh();
+  }
+
+  public tapRemove(item: IComment) {
+    if (!confirm('确定删除“' + item.content + '”评论？')) {
+      return;
+    }
+    this.service.commentRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('删除成功');
+      this.items = this.items.filter(it => {
+        return it.id !== item.id;
+      });
+    });
   }
 
 }

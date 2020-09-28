@@ -77,15 +77,15 @@
                                         class="delete" href="javascript:;">删除</a> </p> <input type="hidden"
                                     name="shipping[region][]" value="32"> <input type="hidden" name="shipping[id][]">
                             </td>
-                            <td> <input type="number" name="shipping[first_step][]" value="1" required=""></td>
-                            <td> <input type="number" name="shipping[first_fee][]" value="0.00" required=""></td>
-                            <td> <input type="number" name="shipping[additional][]" value="0"></td>
-                            <td> <input type="number" name="shipping[additional_fee][]" value="0.00"></td>
-                            <td> <input type="number" name="shipping[free_step][]" value="0.00"></td>
+                            <td> <input type="number" name="shipping[first_step][]" class="form-control"></td>
+                            <td> <input type="number" name="shipping[first_fee][]" class="form-control"></td>
+                            <td> <input type="number" name="shipping[additional][]" class="form-control"></td>
+                            <td> <input type="number" name="shipping[additional_fee][]" class="form-control"></td>
+                            <td> <input type="number" name="shipping[free_step][]" class="form-control"></td>
                         </tr>
                         <tr>
                             <td colspan="6" class="am-text-left">
-                                <a class="btn btn-info add-region" href="javascript:;">
+                                <a class="btn btn-info add-region" (click)="open(content)">
                                     <i class="iconfont icon-dingwei"></i>
                                     点击添加可配送区域和运费
                                 </a>
@@ -101,3 +101,55 @@
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
     </form>
 </div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">选择可配送区域</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="place-box">
+            <div class="checkbtn">
+                <label><input type="checkbox"> 全国</label>
+                <a class="clearCheck">清空</a>
+            </div>
+            <div class="city-box row">
+                <div class="col-sm-3 city-item" *ngFor="let item of regionItems">
+                    <label>
+                        <input type="checkbox">
+                        <span class="city-name">{{ item.name }}</span>
+                        <span class="selected-amount"></span>
+                    </label>
+                    <div class="sub-city-box" *ngIf="item.children && item.children.length > 0">
+                        <div class="row">
+                            <div class="city-item col-sm-6" *ngFor="let it of item.children">
+                                <label>
+                                    <input type="checkbox">
+                                    <span class="city-name">{{ it.name }}</span>
+                                    <span class="selected-amount"></span>
+                                </label>
+                                <div class="sub-city-box" *ngIf="it.children && it.children.length > 0">
+                                    <div class="row">
+                                        <div class="city-item col-sm-6" *ngFor="let i of it.children">
+                                            <label>
+                                                <input type="checkbox">
+                                                <span class="city-name">{{ i.name }}</span>
+                                                <span class="selected-amount"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>
