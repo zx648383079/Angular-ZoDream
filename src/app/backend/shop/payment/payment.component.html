@@ -7,6 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <a class="btn btn-success pull-right" routerLink="create">新增支付方式</a>
+            <a class="btn btn-info pull-right" routerLink="option">配置支付</a>
         </div>
     
         <table class="table table-hover">
@@ -26,9 +27,8 @@
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs"
-                                >编辑</a>
-                            <a class="btn btn-danger" data-type="del"
-                                >删除</a>
+                                [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

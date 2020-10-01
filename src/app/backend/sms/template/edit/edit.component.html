@@ -1,0 +1,43 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑短信模板' : '新增短信模板'"(submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+            <div class="input-group">
+                <label for="name">名称</label>
+                <div class="">
+                    <input type="text" id="name" class="form-control" formControlName="name">
+                    <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="type">类型</label>
+                <div class="">
+                    <select id="type" formControlName="type" class="form-control" >
+                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+              <label for="signature_id">签名</label>
+              <div class="">
+                  <select id="signature_id" formControlName="signature_id" class="form-control" >
+                      <option [value]="0">默认签名</option>
+                      <option *ngFor="let item of signatureItems" [value]="item.id">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+            <div class="input-group">
+                <label for="content">模板内容</label>
+                <div class="">
+                    <textarea id="content" class="form-control" formControlName="content"></textarea>
+                </div>
+          </div>
+          <div class="input-group">
+            <label for="sign">外部编号</label>
+            <div class="">
+                <input type="text" id="sign" class="form-control" formControlName="sign_no">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IPayment } from '../../../theme/models/shop';
-import { PaymentService } from '../payment.service';
+import { ITemplate } from '../../../theme/models/sms';
+import { SmsService } from '../sms.service';
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  selector: 'app-template',
+  templateUrl: './template.component.html',
+  styleUrls: ['./template.component.scss']
 })
-export class PaymentComponent implements OnInit {
+export class TemplateComponent {
 
-  public items: IPayment[] = [];
+  public items: ITemplate[] = [];
 
   public hasMore = true;
 
@@ -22,14 +22,21 @@ export class PaymentComponent implements OnInit {
 
   public total = 0;
 
+  public keywords = '';
+
+  public type = 0;
+
+  public typeItems = [];
+
   constructor(
-    private service: PaymentService,
+    private service: SmsService,
     private toastrService: ToastrService,
   ) {
+    this.service.typeItems().subscribe(res => {
+      this.typeItems = res;
+    });
     this.tapRefresh();
   }
-
-  ngOnInit() {}
 
   public get pageTotal(): number {
     return Math.ceil(this.total / this.perPage);
@@ -58,7 +65,9 @@ export class PaymentComponent implements OnInit {
         return;
     }
     this.isLoading = true;
-    this.service.paymentList({
+    this.service.templateList({
+      keywords: this.keywords,
+      type: this.type,
       page,
       per_page: this.perPage
     }).subscribe(res => {
@@ -69,11 +78,17 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  public tapRemove(item: IPayment) {
-    if (!confirm('确定删除“' + item.name + '”支付方式？')) {
+  public tapSearch(form: any) {
+    this.keywords = form.keywords;
+    this.type = form.type;
+    this.tapRefresh();
+  }
+
+  public tapRemove(item: ITemplate) {
+    if (!confirm('确定删除本条短信记录？')) {
       return;
     }
-    this.service.paymentRemove(item.id).subscribe(res => {
+    this.service.templateRemove(item.id).subscribe(res => {
       if (!res.data) {
         return;
       }

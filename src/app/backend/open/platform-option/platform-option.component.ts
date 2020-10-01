@@ -46,12 +46,13 @@ export class PlatformOptionComponent implements OnInit {
           children: []
         };
         this.each(item, (val, i) => {
-          if (i.indexOf('_label') >= 0) {
+          if (i.indexOf('_label') >= 0 || i.indexOf('_tip') >= 0) {
             return;
           }
           group.children.push({
             name: i,
             label: Object.prototype.hasOwnProperty.call(item, i + '_label') ? item[i + '_label'] : this.studly(i),
+            tip: Object.prototype.hasOwnProperty.call(item, i + '_tip') ? item[i + '_tip'] : undefined,
             value: val
           });
         });

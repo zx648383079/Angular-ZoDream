@@ -92,6 +92,10 @@ export class BlogService {
         });
     }
 
+    public categoryAll() {
+        return this.http.get<IData<ICategory>>('blog/term/all').pipe(map(res => res.data));
+    }
+
     public tag(id: any) {
         return this.http.get<ITag>('blog/admin/tag/detail', {
           params: {id},

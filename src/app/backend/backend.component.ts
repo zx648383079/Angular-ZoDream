@@ -180,6 +180,33 @@ export class BackendComponent implements OnInit {
       ],
     },
     {
+      name: '短信管理',
+      icon: 'icon-mail',
+      url: './sms',
+      children: [
+        {
+          name: '签名管理',
+          label: '签',
+          url: './sms/signature',
+        },
+        {
+          name: '模板管理',
+          label: '模',
+          url: './sms/template',
+        },
+        {
+          name: '记录管理',
+          label: '录',
+          url: './sms/log',
+        },
+        {
+          name: '短信配置',
+          label: '置',
+          url: './sms/option',
+        },
+      ],
+    },
+    {
       name: '系统设置',
       icon: 'icon-cog',
       url: './system',

@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
     private toastrService: ToastrService,
     private route: ActivatedRoute,
   ) {
-    this.service.getCategories().subscribe(res => {
+    this.service.categoryAll().subscribe(res => {
       this.categories = res;
     });
   }

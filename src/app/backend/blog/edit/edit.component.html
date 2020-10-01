@@ -18,7 +18,9 @@
                         <label for="term_id">分类</label>
                         <div class="">
                             <select id="term_id" class="form-control" formControlName="term_id">
-                                <option value="1">DEBUG问题集</option>
+                                <ng-container *ngFor="let item of categories">
+                                    <option [value]="item.id">{{ item.name }}</option>
+                                </ng-container>
                             </select>
         
                         </div>
@@ -129,9 +131,22 @@
             <div class="col-md-6">
                 <app-panel title="附加属性">
                     <div class="input-group">
-                        <label for="source_url">来源</label>
+                        <label for="meta_source_author">原文作者</label>
+                        <div class="">
+                            <input type="text" id="meta_source_author" class="form-control " formControlName="source_author">
+                    
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="source_url">原文链接</label>
                         <div class="">
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_is_hide">是否隐藏</label>
+                        <div>
+                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
                         </div>
                     </div>
                     <div class="input-group">
@@ -204,9 +219,8 @@
                     </div>
                     <div class="input-group">
                         <label for="comment_status">评论状态</label>
-                        <div class="check-toggle">
-                            <input type="checkbox" id="comment_status_1" formControlName="comment_status" value="1">
-                            <label for="comment_status_1"></label>
+                        <div>
+                            <app-switch id="comment_status" formControlName="comment_status"></app-switch>
                         </div>
                     </div>
                 </app-panel>

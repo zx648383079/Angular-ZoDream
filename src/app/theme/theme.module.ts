@@ -20,7 +20,7 @@ import {
   MediaPlayerComponent,
   ProgressBarComponent,
   PullToRefreshComponent,
-  PanelComponent, DatepickerComponent
+  PanelComponent, DatepickerComponent, SwitchComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
@@ -43,6 +43,7 @@ const COMPONENTS = [
   PullToRefreshComponent,
   PanelComponent,
   DatepickerComponent,
+  SwitchComponent,
 ];
 
 const PIPES = [

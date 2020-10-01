@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <app-page-tip>
+      <ul>
+          <li>管理短信签名列表</li>
+      </ul>
+  </app-page-tip>
+  <div class="panel-container">
+      <div class="page-search-bar">
+          <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+              <div class="input-group">
+                  <label for="keywords">签名</label>
+                  <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords" placeholder="签名">
+              </div>
+              <button type="submit" class="btn btn-primary">搜索</button>
+              <a (click)="open(content)" class="pull-right btn btn-primary">新增签名</a>
+          </form>
+      </div>
+  
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>签名</th>
+                  <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>
+                      <div class="btn-group  btn-group-xs">
+                          <a class="btn btn-info btn-xs" *ngIf="item.is_default < 1" (click)="tapDefault(item)">设为默认</a>
+                          <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                          <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                      </div>
+                  </td>
+              </tr>
+              
+          </tbody>
+      </table>
+
+      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑签名' : '新增签名' }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+          <label for="name-input">签名</label>
+          <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入签名">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sign-input">外部编号</label>
+          <div class="input-group">
+            <input class="form-control" id="sign-input" [(ngModel)]="editData.sign_no" placeholder="请输入外部编号">
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

@@ -15,6 +15,7 @@ import { EditPaymentComponent } from './payment/edit/edit.component';
 import { ShippingComponent } from './shipping/shipping.component';
 import { EditShippingComponent } from './shipping/edit/edit.component';
 import { RegionComponent } from './region/region.component';
+import { PaymentOptionComponent } from './payment/option/option.component';
 
 const routes: Routes = [
   { path: '', component: ShopComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'article', component: ArticleComponent },
   { path: 'payment/edit/:id', component: EditPaymentComponent },
   { path: 'payment/create', component: EditPaymentComponent },
+  { path: 'payment/option', component: PaymentOptionComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'shipping/edit/:id', component: EditShippingComponent },
   { path: 'shipping/create', component: EditShippingComponent },
@@ -60,6 +62,7 @@ export const shopRoutedComponents = [
   CategoryComponent,
   ArticleComponent,
   EditPaymentComponent,
+  PaymentOptionComponent,
   PaymentComponent,
   EditShippingComponent,
   ShippingComponent,

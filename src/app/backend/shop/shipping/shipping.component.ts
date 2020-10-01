@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { IShipping } from '../../../theme/models/shop';
 import { PaymentService } from '../payment.service';
 
@@ -23,6 +24,7 @@ export class ShippingComponent implements OnInit {
 
   constructor(
     private service: PaymentService,
+    private toastrService: ToastrService,
   ) {
     this.tapRefresh();
   }
@@ -64,6 +66,21 @@ export class ShippingComponent implements OnInit {
         this.items = res.data;
         this.hasMore = res.paging.more;
         this.total = res.paging.total;
+    });
+  }
+
+  public tapRemove(item: IShipping) {
+    if (!confirm('确定删除“' + item.name + '”配送方式？')) {
+      return;
+    }
+    this.service.shippingRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('删除成功');
+      this.items = this.items.filter(it => {
+        return it.id !== item.id;
+      });
     });
   }
 

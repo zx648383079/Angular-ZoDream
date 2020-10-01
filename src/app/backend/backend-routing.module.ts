@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
       { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) },
       { path: 'open', loadChildren: () => import('./open/open.module').then(m => m.OpenModule) },
+      { path: 'sms', loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule) },
       {
         path: '',
         component: HomeComponent

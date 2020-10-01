@@ -11,6 +11,7 @@ import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
 import { RegionService } from './region.service';
 import { PaymentService } from './payment.service';
+import { OpenModule } from '../open/open.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { PaymentService } from './payment.service';
     ThemeModule,
     ShopRoutingModule,
     EditorModule,
+    OpenModule,
   ],
   providers: [
     ShopService,

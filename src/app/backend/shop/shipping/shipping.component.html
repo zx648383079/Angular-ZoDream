@@ -26,9 +26,8 @@
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs"
-                                >编辑</a>
-                            <a class="btn btn-danger" data-type="del"
-                                >删除</a>
+                            [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

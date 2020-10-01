@@ -1,0 +1,29 @@
+.input-group {
+    input[type='text'] {
+        width: 100%;
+    }
+    .tip {
+        color: #777;
+        font-size: 12px;
+        padding: 5px 0 10px;
+    }
+}
+
+.expand-box {
+    border: 1px dotted #ccc;
+    margin-bottom: 20px;
+    .expand-header {
+        line-height: 50px;
+        padding: 0 10px;
+        font-size: 30px;
+        .iconfont {
+            float: right;
+            font-size: 16px;
+        }
+    }
+    &.min {
+        .expand-body {
+            display: none;
+        }
+    }
+}

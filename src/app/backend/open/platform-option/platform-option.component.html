@@ -9,11 +9,19 @@
     </div>
     <div class="edit-view">
         <ng-container *ngFor="let group of items">
-            <h4>{{ group.label }}</h4>
-            <div class="input-group" *ngFor="let item of group.children">
-                <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
-                <div class="">
-                    <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [(ngModel)]="item.value">
+            <div class="expand-box" [ngClass]="{min: group.expanded}">
+                <div class="expand-header" (click)="group.expanded = !group.expanded">
+                    {{ group.label }}
+                    <i class="iconfont" [ngClass]="group.expanded ? 'icon-chevron-down' : 'icon-chevron-up'"></i>
+                </div>
+                <div class="expand-body">
+                    <div class="input-group" *ngFor="let item of group.children">
+                        <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
+                        <div class="">
+                            <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [(ngModel)]="item.value">
+                            <div class="tip" *ngIf="item.tip">{{ item.tip }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </ng-container>
