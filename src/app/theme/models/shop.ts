@@ -3,6 +3,8 @@ export interface IBrand {
     name: string;
     keywords?: string;
     description?: string;
+    logo?: string;
+    app_logo?: string;
     url: string;
 }
 export interface ICategory {
@@ -10,8 +12,11 @@ export interface ICategory {
     name: string;
     icon: string;
     banner: string;
+    keywords?: string;
+    description?: string;
     app_banner: string;
     parent_id?: number;
+    position?: number;
     expanded?: boolean;
     level?: number;
 }
@@ -30,6 +35,42 @@ export interface IProduct {
     is_best?: boolean;
     is_hot?: boolean;
 }
+
+export interface IGoods {
+    id: number;
+    cat_id: number;
+    brand_id: number;
+    name: string;
+    series_number: string;
+    keywords: string;
+    thumb: string;
+    picture: string;
+    description: string;
+    brief: string;
+    content: string;
+    price: number;
+    market_price: number;
+    stock: number;
+    attribute_group_id: number;
+    weight: number;
+    shipping_id: number;
+    sales: string;
+    is_best: number;
+    is_hot: number;
+    is_new: number;
+    status: number;
+    admin_note: string;
+    type: number;
+    position: number;
+    dynamic_position: string;
+    deleted_at: number;
+    created_at: string;
+    updated_at: string;
+    shop: string;
+    category?: ICategory;
+    brand?: IBrand;
+}
+
 
 export interface IOrder {
     id: number;
@@ -146,5 +187,23 @@ export interface IAdPosition {
     updated_at: string;
 }
 
+export interface IAttributeGroup {
+    id: number;
+    name: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface IAttribute {
+    id: number;
+    name: string;
+    group_id: number;
+    type: number;
+    search_type: number;
+    input_type: number;
+    default_value: string;
+    position: number;
+    group?: IAttributeGroup;
+}
 
 

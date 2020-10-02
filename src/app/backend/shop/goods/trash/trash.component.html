@@ -6,7 +6,7 @@
     </app-page-tip>
   <div class="panel-container">
     <div class="page-search-bar">
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal"  (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="input-group">
                 <label for="keywords">标题</label>
                 <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" >
@@ -14,18 +14,21 @@
             <div class="input-group">
                 <label>分类</label>
                 <select name="cat_id"  class="form-control">
-                    <option value="">请选择</option>
+                    <option value="0">请选择</option>
+                    <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
             </div>
             <div class="input-group">
                 <label>品牌</label>
                 <select name="brand_id"  class="form-control">
-                    <option value="">请选择</option>
+                    <option value="0">请选择</option>
+                    <option *ngFor="let item of brandItems" [value]="item.id" [selected]="item.id === brand">{{ item.name }}</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">搜索</button>
-            <a class="btn btn-success pull-right" >全部清空</a>
-            <a class="btn btn-dark pull-right" >全部还原</a>
+            <a class="btn btn-success pull-right" (click)="tapClear()">全部清空</a>
+            <a class="btn btn-dark pull-right" (click)="tapRestore()">全部还原</a>
+            <a class="btn btn-info pull-right" routerLink="../list">返回商品列表</a>
         </form>
       
       </div>
@@ -84,8 +87,8 @@
                 </td>
                 <td>
                     <div class="btn-group  btn-group-xs">
-                        <a class="btn btn-light btn-xs" routerLink="../edit/{{ item.id }}">编辑</a>
-                        <a class="btn btn-danger" data-type="del" href="">删除</a>
+                        <a class="btn btn-info btn-xs" (click)="tapRestore(item)">还原</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                     </div>
                 </td>
             </tr>

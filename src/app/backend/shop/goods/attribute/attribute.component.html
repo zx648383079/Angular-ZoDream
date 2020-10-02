@@ -2,12 +2,21 @@
     <app-page-tip>
         <ul>
             <li>商品属性列表</li>
+            <li *ngIf="group">当前属性分组：{{ group.name }}</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <a class="btn btn-success pull-right"
-                routerLink="./create">新增属性</a>
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                        placeholder="名称">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a [routerLink]="'../create/' + group.id" class="pull-right btn btn-primary">新增属性</a>
+                <a routerLink="../../group" class="pull-right btn btn-info">返回分组</a>
+            </form>
         </div>
     
         <table class="table table-hover">
@@ -24,24 +33,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>16</td>
-                    <td>规格</td>
-                    <td>布艺软装</td>
-                    <td>唯一属性</td>
-                    <td>列表选择</td>
-                    <td></td>
-                    <td>99</td>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.group?.name }}</td>
+                    <td>{{ item.type | attributeType }}</td>
+                    <td>{{ item.input_type < 1 ? '手工录入' : '列表选择' }}</td>
+                    <td>{{ item.default_value }}</td>
+                    <td>{{ item.position }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs"
-                                href="http://zodream.localhost/shop/admin/attribute/edit?id=16">编辑</a>
-                            <a class="btn btn-danger" data-type="del"
-                                href="http://zodream.localhost/shop/admin/attribute/delete?id=16">删除</a>
+                            [routerLink]="'../edit/' + item.id ">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>
-    
             </tbody>
         </table>
     </div>

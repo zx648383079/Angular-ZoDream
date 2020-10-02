@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { IAttribute, IAttributeGroup } from '../../../../theme/models/shop';
+import { AttributeService } from '../attribute.service';
 
 @Component({
   selector: 'app-edit-attribute',
@@ -7,11 +12,71 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditAttributeComponent implements OnInit {
 
-  public data: any;
+    public form = this.fb.group({
+        name: ['', Validators.required],
+        group_id: ['0'],
+        search_type: ['0'],
+        input_type: ['0'],
+        default_value: [''],
+        position: [99],
+        type: ['0'],
+    });
 
-  constructor() { }
+    public data: IAttribute;
+    public groupItems: IAttributeGroup[] = [];
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: AttributeService,
+        private fb: FormBuilder,
+        private route: ActivatedRoute,
+        private toastrService: ToastrService,
+    ) {
+        this.service.groupAll().subscribe(res => {
+            this.groupItems = res.data;
+        });
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (!params.id) {
+                this.form.get('group_id').setValue(params.group);
+                return;
+            }
+            this.service.attr(params.id).subscribe(res => {
+                this.data = res;
+                this.form.setValue({
+                    name: res.name,
+                    search_type: res.search_type,
+                    input_type: res.input_type,
+                    default_value: res.default_value,
+                    position: res.position,
+                    type: res.type,
+                });
+            });
+        });
+    }
+
+    get isInput() {
+        return this.form.get('input_type').value > 0;
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapSubmit() {
+        if (this.form.invalid) {
+            this.toastrService.warning('表单填写不完整');
+            return;
+        }
+        const data: IAttribute = this.form.value;
+        if (this.data && this.data.id > 0) {
+            data.id = this.data.id;
+        }
+        this.service.groupSave(data).subscribe(_ => {
+            this.toastrService.success('保存成功');
+            this.tapBack();
+        });
+    }
 
 }

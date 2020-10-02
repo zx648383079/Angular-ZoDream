@@ -1,41 +1,34 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑属性' : '新增属性'"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑属性' : '新增属性'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">名称</label>
             <div class="">
-                <input type="text" id="name" class="form-control " name="name" required="">
-
+                <input type="text" id="name" class="form-control" formControlName="name">
+                <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
         <div class="input-group">
             <label for="group_id">分组</label>
             <div class="">
-                <select id="group_id" name="group_id">
-                    <option value="1" selected="">布艺软装</option>
-                    <option value="7">被枕</option>
-                    <option value="8">床品件套</option>
-                    <option value="15">灯具</option>
-                    <option value="3003">家饰</option>
-                    <option value="6999">家具</option>
-                    <option value="8999">宠物</option>
-                    <option value="27999">夏凉</option>
-                    <option value="28000">手机</option>
+                <select id="group_id" class="form-control" formControlName="group_id">
+                    <ng-container *ngFor="let item of groupItems">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
                 </select>
-
             </div>
         </div>
         <div class="input-group">
             <label for="search_type">搜索类型</label>
             <div class="">
                 <span class="radio-label">
-                    <input type="radio" id="search_type0" name="search_type" value="0" checked="">
+                    <input type="radio" id="search_type0" formControlName="search_type" value="0">
                     <label for="search_type0">不需要检索</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="search_type1" name="search_type" value="1">
+                    <input type="radio" id="search_type1" formControlName="search_type" value="1">
                     <label for="search_type1">关键字检索</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="search_type2" name="search_type" value="2">
+                    <input type="radio" id="search_type2" formControlName="search_type" value="2">
                     <label for="search_type2">范围检索</label>
                 </span>
             </div>
@@ -44,13 +37,13 @@
             <label for="type">类型</label>
             <div class="">
                 <span class="radio-label">
-                    <input type="radio" id="type0" name="type" value="0" checked="">
+                    <input type="radio" id="type0" formControlName="type" value="0" checked="">
                     <label for="type0">唯一属性</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="type1" name="type" value="1">
+                    <input type="radio" id="type1" formControlName="type" value="1">
                     <label for="type1">单选属性</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="type2" name="type" value="2">
+                    <input type="radio" id="type2" formControlName="type" value="2">
                     <label for="type2">复选属性</label>
                 </span>
                 <div class="input-tip">
@@ -62,29 +55,27 @@
             <label for="input_type">输入类型</label>
             <div class="">
                 <span class="radio-label">
-                    <input type="radio" id="input_type0" name="input_type" value="0" checked="">
+                    <input type="radio" id="input_type0" formControlName="input_type" value="0" checked="">
                     <label for="input_type0">手工录入</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="input_type1" name="input_type" value="1">
+                    <input type="radio" id="input_type1" formControlName="input_type" value="1">
                     <label for="input_type1">从下面的列表中选择（一行代表一个可选值）</label>
                 </span>
             </div>
         </div>
-        <div class="input-group">
+        <div class="input-group" *ngIf="isInput">
             <label for="default_value">默认值</label>
             <div class="">
-                <textarea id="default_value" class="form-control " name="default_value"></textarea>
-
+                <textarea id="default_value" class="form-control" formControlName="default_value"></textarea>
             </div>
         </div>
         <div class="input-group">
             <label for="position">排序</label>
             <div class="">
-                <input type="text" id="position" class="form-control " name="position" value="99">
-
+                <input type="text" id="position" class="form-control" formControlName="position">
             </div>
-        </div> <button type="submit" class="btn btn-success">确认保存</button>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-        <input type="hidden" name="id">
     </form>
 </div>

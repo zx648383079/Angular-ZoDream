@@ -12,6 +12,8 @@ import { GroupComponent } from './group/group.component';
 import { EditGroupComponent } from './edit-group/edit-group.component';
 import { AttributeComponent } from './attribute/attribute.component';
 import { EditAttributeComponent } from './edit-attribute/edit-attribute.component';
+import { SearchTypePipe } from './search-type.pipe';
+import { AttributeTypePipe } from './attribute-type.pipe';
 
 const routes: Routes = [
     {
@@ -43,8 +45,16 @@ const routes: Routes = [
         component: EditBrandComponent,
     },
     {
+        path: 'brand/edit/:id',
+        component: EditBrandComponent,
+    },
+    {
         path: 'category',
         component: CategoryComponent,
+    },
+    {
+        path: 'category/edit/:id',
+        component: EditCategoryComponent,
     },
     {
         path: 'category/create',
@@ -59,11 +69,19 @@ const routes: Routes = [
         component: EditGroupComponent,
     },
     {
-        path: 'attribute',
+        path: 'group/edit/:id',
+        component: EditGroupComponent,
+    },
+    {
+        path: 'attribute/:group',
         component: AttributeComponent,
     },
     {
-        path: 'attribute/create',
+        path: 'attribute/create/:group',
+        component: EditAttributeComponent,
+    },
+    {
+        path: 'attribute/edit/:id',
         component: EditAttributeComponent,
     },
 ];
@@ -92,5 +110,10 @@ export const goodsRoutedComponents = [
     GroupComponent,
     EditGroupComponent,
     AttributeComponent,
-    EditAttributeComponent
+    EditAttributeComponent,
+];
+
+export const goodsPipes = [
+    SearchTypePipe,
+    AttributeTypePipe,
 ];

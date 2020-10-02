@@ -3,6 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IArticleCategory } from '../../../../theme/models/shop';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
+import { filterTree } from '../../../../theme/utils';
 import { ArticleService } from '../../article.service';
 
 @Component({
@@ -28,6 +30,7 @@ export class EditCategoryComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
+    private uploadService: FileUploadService,
   ) {
     this.service.categoryTree().subscribe(res => {
       this.categories = res.data;
@@ -41,6 +44,7 @@ export class EditCategoryComponent implements OnInit {
       }
       this.service.category(params.id).subscribe(res => {
         this.data = res;
+        this.categories = filterTree(this.categories, res.id);
         this.form.setValue({
           name: res.name,
           parent_id: res.parent_id,
@@ -72,7 +76,14 @@ export class EditCategoryComponent implements OnInit {
   }
 
   public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadImage(files[0]).subscribe(res => {
+      this.form.get('thumb').setValue(res.url);
+    });
+  }
 
+  public tapPreview(name: string) {
+    window.open(this.form.get(name).value, '_blank');
   }
 
 }

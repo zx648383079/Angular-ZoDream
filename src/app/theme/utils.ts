@@ -23,3 +23,29 @@ export function randomInt(min: number = 0, max: number = 1): number {
     }
     return min + Math.floor(Math.random() * (max - min + 1));
 }
+
+/**
+ * tree 中排除当前和子后代的节点
+ * @param items 数组
+ * @param id 当前id
+ */
+export function filterTree(items: any[], id: number) {
+    const data = [];
+    let level: number;
+    for (const item of items) {
+        if (item.id === id) {
+            level = item.level;
+            continue;
+        }
+        if (!level) {
+            data.push(item);
+            continue;
+        }
+        if (item.level > level) {
+            continue;
+        }
+        level = undefined;
+        data.push(item);
+    }
+    return data;
+}

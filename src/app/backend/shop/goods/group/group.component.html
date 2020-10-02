@@ -1,37 +1,43 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>属性类型列表</li>
+            <li>属性类型分组列表</li>
         </ul>
     </app-page-tip>
    <div class="panel-container">
     <div class="page-search-bar">
-        <a class="btn btn-success pull-right" routerLink="./create">新增类型</a>
+        <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <div class="input-group">
+                <label for="keywords">分组名</label>
+                <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                    placeholder="分组名">
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+            <a routerLink="./create" class="pull-right btn btn-primary">新增分组</a>
+        </form>
     </div>
 
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>商品类型名称</th>
-                <th>类型分组</th>
+                <th>类型分组名称</th>
                 <th>属性数</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>布艺软装</td>
+            <tr *ngFor="let item of items">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
                 <td></td>
                 <td>
                     <div class="btn-group  btn-group-xs">
+                        <a class="btn btn-info btn-xs"
+                            [routerLink]="'../attribute/' + item.id ">属性列表</a>
                         <a class="btn btn-light btn-xs"
-                            href="http://zodream.localhost/shop/admin/attribute?group_id=1">属性列表</a>
-                        <a class="btn btn-light btn-xs"
-                            href="http://zodream.localhost/shop/admin/attribute/edit_group?id=1">编辑</a>
-                        <a class="btn btn-danger" data-type="del"
-                            href="http://zodream.localhost/shop/admin/attribute/delete_group?id=1">删除</a>
+                        [routerLink]="'./edit/' + item.id ">编辑</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                     </div>
                 </td>
             </tr>
