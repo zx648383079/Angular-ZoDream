@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IAd, IAdPosition } from '../../../../theme/models/shop';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AdService } from '../../ad.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { AdService } from '../../ad.service';
 export class EditAdComponent implements OnInit {
 
   public form = this.fb.group({
-    title: ['', Validators.required],
+    name: ['', Validators.required],
     position_id: ['0'],
     type: ['0'],
     url: [''],
@@ -30,6 +31,7 @@ export class EditAdComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
+    private uploadService: FileUploadService,
   ) {
     this.service.positionAll().subscribe(res => {
       this.positionItems = res.data;
@@ -56,6 +58,21 @@ export class EditAdComponent implements OnInit {
     });
   }
 
+  get typeInput() {
+    return this.form.get('type');
+  }
+
+  get uploadType() {
+    const val = parseInt(this.typeInput.value, 10);
+    if (val < 1 || val === 2) {
+      return 0;
+    }
+    if (val < 2) {
+      return 1;
+    }
+    return 2;
+  }
+
   public tapBack() {
     history.back();
   }
@@ -76,7 +93,21 @@ export class EditAdComponent implements OnInit {
   }
 
   public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadImage(files[0]).subscribe(res => {
+      this.form.get('content').setValue(res.url);
+    });
+  }
 
+  public tapPreview(name: string) {
+    window.open(this.form.get(name).value, '_blank');
+  }
+
+  public uploadVideo(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadVideo(files[0]).subscribe(res => {
+      this.form.get('content').setValue(res.url);
+    });
   }
 
 }

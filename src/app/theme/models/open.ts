@@ -29,3 +29,17 @@ export interface IPlatform {
     created_at: string;
     updated_at: string;
 }
+
+
+export interface IUploadResult {
+    url: string;
+    size: number;
+    title: string;
+    original: string;
+    type: string;
+}
+
+export interface IUploadFile {
+    url: string;
+    mtime: number;
+}

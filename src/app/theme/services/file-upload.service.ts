@@ -1,81 +1,128 @@
 import { Injectable } from '@angular/core';
 import { FILE_UPLOAD } from '../constants/file-upload.constant';
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
+import { IUploadFile, IUploadResult } from '../models/open';
+import { IPage } from '../models/page';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class FileUploadService {
 
-    public uploadFile(file: File): Promise<Object> {
-        const type = file.type ? file.type.split('/')[1] : '',
-            returnFile: any = {
-                name: file.name,
-                type: file.type
-            };
+    constructor(private http: HttpClient) {
+    }
 
-        return new Promise((resolve, reject) => {
-            this.getContent(type, file)
-                .then((response: any) => {
-                    returnFile.preview = FileUploadService.buildPreviewContent(response.preview);
-                    returnFile.thumbnail = response.preview ? '' : this.getThumbnail(type);
-                    returnFile.content = response.content;
+    /**
+     * 上传文件
+     * @param file 文件
+     */
+    public uploadFile(file: File) {
+        return this.upload<IUploadResult>('open/file', file);
+    }
 
-                    resolve(returnFile);
-                })
-                .catch(() => {
-                    reject();
-                })
+    /**
+     * 上传图片
+     * @param file 文件
+     */
+    public uploadImage(file: File) {
+        return this.upload<IUploadResult>('open/file/image', file);
+    }
+
+    /**
+     * 上传视频
+     * @param file 文件
+     */
+    public uploadVideo(file: File) {
+        return this.upload<IUploadResult>('open/file/video', file);
+    }
+
+    /**
+     * 上传音频
+     * @param file 文件
+     */
+    public uploadAudio(file: File) {
+        const form = new FormData();
+        form.append('file', file);
+        return this.upload<IUploadResult>('open/file/audio', file);
+    }
+
+    /**
+     * 上传base64编码的图片
+     * @param file 文件
+     */
+    public uploadBase64(file: string) {
+        const form = new FormData();
+        form.append('file', file);
+        return this.http.post<IUploadResult>('open/file/base64', form);
+    }
+
+    /**
+     * 获取图片列表
+     * @param params 格式 {page: number, per_page: number}
+     */
+    public images(params: any) {
+        return this.http.get<IPage<IUploadFile>>('open/file/images', {
+            params
         });
     }
 
-    private getContent(type: string, file: File): Promise<Object> {
-        const isPreview = true;
-
-        if (FILE_UPLOAD.TYPES.JPG.indexOf(type) >= 0) {
-            return new Promise(resolve => {
-                this.readFile(file, isPreview).then(file => {
-                    resolve({preview: file});
-                });
-            });
-        } else {
-            return new Promise(resolve => {
-                this.readFile(file).then(content => {
-                    resolve({content});
-                });
-            });
-        }
+    /**
+     * 获取文件列表包括视频、图片
+     * @param params 格式 {page: number, per_page: number}
+     */
+    public files(params: any) {
+        return this.http.get<IPage<IUploadFile>>('open/file/files', {
+            params
+        });
     }
 
-    private readFile(file: File, isPreview?: boolean): Promise<void> {
+    /**
+     * 获取本地预览图
+     * @param file 路径
+     */
+    public preview(file: File): Promise<string> {
         const reader = new FileReader();
-
         return new Promise(resolve => {
-            reader.onload = function() {
-                resolve(reader.result);
+            reader.onload = () => {
+                resolve(reader.result as string);
             };
+            reader.readAsDataURL(file);
+        });
+    }
 
-            if (isPreview) {
-                reader.readAsDataURL(file);
-            } else {
-                reader.readAsArrayBuffer(file);
+    /**
+     * upload
+     */
+    public upload<T>(
+        url: string,
+        image: File,
+        headers?: Headers | { [name: string]: any },
+        partName: string = 'file',
+        customFormData?: { [name: string]: any },
+        withCredentials?: boolean): Observable<T> {
+        if (!url || url === '') {
+            throw new Error('Url is not set! Please set it before doing queries');
+        }
+
+        const options: any = {};
+
+        if (withCredentials) {
+            options.withCredentials = withCredentials;
+        }
+
+        if (headers) {
+            options.headers = new Headers(headers);
+        }
+
+        // add custom form data
+        const formData = new FormData();
+        for (const key in customFormData) {
+            if (customFormData.hasOwnProperty(key)) {
+                formData.append(key, customFormData[key]);
             }
-        });
-    }
-
-    static buildPreviewContent(content: string): string|Object {
-        return content ? {backgroundImage: content} : '';
-    }
-
-    private getThumbnail(type: string): string {
-        const resultType = _.find(_.keys(FILE_UPLOAD.TYPES), key => {
-            return !!this.isTypeOfFileExist(FILE_UPLOAD.TYPES[key], type);
-        });
-
-        return FILE_UPLOAD.ICONS[resultType] || FILE_UPLOAD.ICONS.DEFAULT;
-    }
-
-    private isTypeOfFileExist(fileTypes: Array<string>, type: String): String {
-        return _.find(fileTypes, file => {
-            return type.indexOf(file) >= 0;
-        });
+        }
+        formData.append(partName, image);
+        return this.http.post<T>(url, formData, options).pipe(map((res: any) => res));
     }
 }

@@ -46,7 +46,7 @@ export class AdService {
     }
 
     public positionList(params: any) {
-        return this.http.get < IPage < IAdPosition >> ('shop/admin/position', {
+        return this.http.get < IPage < IAdPosition >> ('shop/admin/ad/position', {
             params,
         });
     }
@@ -72,6 +72,6 @@ export class AdService {
     }
 
     public positionAll() {
-        return this.http.get < IData < IAdPosition >> ('shop/admin/position_all');
+        return this.http.get < IData < IAdPosition >> ('shop/admin/ad/position_all');
     }
 }

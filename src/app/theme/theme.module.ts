@@ -25,6 +25,7 @@ import {
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
 import { FormsModule } from '@angular/forms';
+import { FileUploadService } from './services/file-upload.service';
 
 const BASE_MODULES = [
   CommonModule,
@@ -58,6 +59,7 @@ const PIPES = [
 const SERVICES = [
   AuthService,
   ThemeService,
+  FileUploadService,
 ];
 
 const ACTIONS = [

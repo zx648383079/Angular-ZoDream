@@ -84,7 +84,7 @@ export class AdComponent implements OnInit {
   }
 
   public tapSearch(form: any) {
-    this.keywords = form.keywords;
+    this.keywords = form.keywords || '';
     this.position = 0;
     this.tapRefresh();
   }

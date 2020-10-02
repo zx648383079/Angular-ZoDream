@@ -1,6 +1,6 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">广告名</label>
             <div class="">
@@ -30,19 +30,27 @@
             </div>
         </div>
         <div class="type-group">
-            <div class="input-group">
+            <div class="input-group" *ngIf="uploadType === 0">
                 <label for="content">内容</label>
                 <div class="">
                     <textarea id="content" class="form-control " formControlName="content"></textarea>
-
                 </div>
             </div>
-            <div class="input-group" style="display: none;">
-                <label for="content_url">内容</label>
+            <div class="input-group"  *ngIf="uploadType === 1">
+                <label for="content_url">图片</label>
                 <div class="file-input">
-                    <input type="text" id="content_url" class="form-control " name="content_url">
-                    <button type="button" data-type="upload">上传</button>
-                    <button type="button" data-type="preview">预览</button>
+                    <input type="text" id="content_url" class="form-control" formControlName="content">
+                    <label for="fileUpload" class="btn btn-primary">上传</label>
+                    <button type="button" class="btn btn-info" (click)="tapPreview('content')">预览</button>
+                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+                </div>
+            </div>
+            <div class="input-group"  *ngIf="uploadType === 2">
+                <label for="file_url">视频</label>
+                <div class="file-input">
+                    <input type="text" id="file_url" class="form-control" formControlName="content">
+                    <label for="videoUpload" class="btn btn-primary">上传</label>
+                    <input type="file" name="file" id="videoUpload" (change)="uploadVideo($event)" accept="video/*"/>
                 </div>
             </div>
         </div>
@@ -51,7 +59,7 @@
             <label for="url">链接</label>
             <div class="">
                 <input type="text" id="url" class="form-control " formControlName="url">
-
+                <div class="input-tip">链接格式：deeplink://goto/</div>
             </div>
         </div>
         <div class="input-group">
