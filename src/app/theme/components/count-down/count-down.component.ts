@@ -67,7 +67,7 @@ export class CountDownComponent implements OnChanges {
 
     public reset() {
         if (this.disable) {
-            this.disable = true;
+            this.disable = false;
         }
         if (this.handle > 0) {
             clearInterval(this.handle);
