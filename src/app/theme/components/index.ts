@@ -9,3 +9,4 @@ export * from './pull-to-refresh/pull-to-refresh.component';
 export * from './panel/panel.component';
 export * from './datepicker/datepicker.component';
 export * from './switch/switch.component';
+export * from './count-down/count-down.component';

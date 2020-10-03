@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
 import { getAuthStatus } from 'src/app/theme/reducers/selectors';
 import { FormBuilder, Validators } from '@angular/forms';
 import { passwordValidator } from 'src/app/theme/validators';
+import { CountDownComponent } from '../../theme/components';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.required, passwordValidator]],
+    code: [''],
     remember: [false]
   });
 
@@ -57,6 +59,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   tapSignIn() {
+    if (!this.loginForm.valid) {
+      return;
+    }
     this.loginSubs = this.authService
         .login(this.loginForm.value).pipe(
           tap(user => {
@@ -94,6 +99,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     ((event.target as HTMLInputElement).parentNode.nextSibling as HTMLDivElement).querySelector('input').focus();
+  }
+
+  public tapSendCode(event: CountDownComponent) {
+    event.start(120);
   }
 
 }

@@ -5,9 +5,6 @@ import {
     HttpClient
 } from '@angular/common/http';
 import {
-    Observable
-} from 'rxjs';
-import {
     IData,
     IDataOne,
     IPage
@@ -15,8 +12,7 @@ import {
 import {
     IBrand,
     ICategory,
-    IGoods,
-    IProduct
+    IGoods
 } from '../../../theme/models/shop';
 
 @Injectable({
@@ -49,12 +45,20 @@ export class GoodsService {
         return this.http.post < IGoods > ('shop/admin/goods/save', data);
     }
 
+    public goodsToggle(data: any) {
+        return this.http.post < IDataOne < true > > ('shop/admin/goods/toggle', data);
+    }
+
     public goodsRemove(id: any) {
         return this.http.delete < IDataOne < true >> ('shop/admin/goods/delete', {
             params: {
                 id
             }
         });
+    }
+
+    public createSn() {
+        return this.http.get < IDataOne < string > > ('shop/admin/goods/generate_sn');
     }
 
     public trashRemove(id: any) {

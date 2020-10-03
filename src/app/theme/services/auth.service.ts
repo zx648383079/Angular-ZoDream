@@ -49,10 +49,11 @@ export class AuthService {
    * @returns Observable<User>
    *
    */
-  public register(data: IUser): Observable<IUser> {
-    const params = { data: { type: 'user', attributes: data } };
-    return this.http.post<IUser>('auth/register', params).pipe(
+  public register(data: any): Observable<IUser> {
+    return this.http.post<IUser>('auth/register', data).pipe(
       map(user => {
+        this.setTokenInLocalStorage(user, USER_KEY);
+        this.authenticateUser(user);
         return user;
       }),
       tap(

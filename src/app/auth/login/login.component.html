@@ -1,14 +1,20 @@
 <form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()">
   <div class="input-box">
-      <div class="input-group" [class]="{error: email.invalid}">
-          <input type="email" formControlName="email" placeholder="请输入账号" required="" autocomplete="off" (keypress)="keyDown($event)">
-          <i class="iconfont icon-user" aria-hidden="true"></i>
-      </div>
-      <div class="input-group" [class]="{error: password.invalid}">
-          <input [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" required="" autocomplete="off">
-          <i class="iconfont icon-lock" aria-hidden="true"></i>
-          <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
-      </div>
+        <div class="input-group" [class]="{error: email.invalid}">
+            <input type="email" formControlName="email" placeholder="请输入账号" autocomplete="off" (keypress)="keyDown($event)">
+            <i class="iconfont icon-user" aria-hidden="true"></i>
+        </div>
+        <div class="input-group" [class]="{error: password.invalid}">
+            <input [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" autocomplete="off">
+            <i class="iconfont icon-lock" aria-hidden="true"></i>
+            <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
+        </div>
+
+        <div class="input-group code-input" [class]="{error: password.invalid}">
+            <input type="text" formControlName="code" placeholder="请输入验证码">
+            <i class="iconfont icon-lock" aria-hidden="true"></i>
+            <app-count-down class="send-btn" (tapped)="tapSendCode($event)"></app-count-down>
+        </div>
 
       <div class="input-group">
           <div class="checkbox">

@@ -125,4 +125,11 @@ export class FileUploadService {
         formData.append(partName, image);
         return this.http.post<T>(url, formData, options).pipe(map((res: any) => res));
     }
+
+
+    public uploadForm<T>(
+        url: string,
+        form: FormData): Observable<T> {
+        return this.http.post<T>(url, form);
+    }
 }

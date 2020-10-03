@@ -1,0 +1,9 @@
+.count-down {
+    line-height: 40px;
+    background-color: aquamarine;
+    cursor: pointer;
+    text-align: center;
+    &.disable {
+        background-color: #ccc;
+    }
+}

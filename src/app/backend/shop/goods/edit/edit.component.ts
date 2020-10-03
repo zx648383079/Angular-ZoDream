@@ -1,35 +1,174 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { IProduct } from '../../../../theme/models/shop';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { IAttributeGroup, IBrand, ICategory, IGoods } from '../../../../theme/models/shop';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
+import { AttributeService } from '../attribute.service';
+import { GoodsService } from '../goods.service';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, AfterViewInit {
 
-    public data: IProduct;
+    public data: IGoods;
 
-    public goodsForm: FormGroup;
+    public form = this.fb.group({
+        name: ['', Validators.required],
+        cat_id: [0],
+        brand_id: [0],
+        series_number: [''],
+        keywords: [''],
+        thumb: [''],
+        picture: [''],
+        description: [''],
+        brief: [''],
+        content: [''],
+        price: [''],
+        market_price: [0],
+        stock: [1],
+        attribute_group_id: [0],
+        weight: [0],
+        shipping_id: [0],
+        is_best: [0],
+        is_hot: [0],
+        is_new: [0],
+        status: ['10'],
+        admin_note: [''],
+        type: ['0'],
+        position: ['99'],
+    });
+
+    public categories: ICategory[] = [];
+    public brandItems: IBrand[] = [];
+    public typeItems: IAttributeGroup[] = [];
+
+    @ViewChild('imageBox') imageElement: ElementRef;
 
     constructor(
-        private fb: FormBuilder
+        private service: GoodsService,
+        private fb: FormBuilder,
+        private route: ActivatedRoute,
+        private toastrService: ToastrService,
+        private uploadService: FileUploadService,
+        private attrService: AttributeService,
     ) {
-        this.goodsForm = this.fb.group({
-            name: ['', Validators.required]
+        this.service.categoryAll().subscribe(res => {
+            this.categories = res.data;
+        });
+        this.service.brandAll().subscribe(res => {
+            this.brandItems = res.data;
+        });
+        this.attrService.groupAll().subscribe(res => {
+            this.typeItems = res.data;
         });
     }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (!params.id) {
+                return;
+            }
+            this.service.goods(params.id).subscribe(res => {
+                this.data = res;
+                this.form.setValue({
+                    cat_id: res.cat_id,
+                    brand_id: res.brand_id,
+                    name: res.name,
+                    series_number: res.series_number,
+                    keywords: res.keywords,
+                    thumb: res.thumb,
+                    picture: res.picture,
+                    description: res.description,
+                    brief: res.brief,
+                    content: res.content,
+                    price: res.price,
+                    market_price: res.market_price,
+                    stock: res.stock,
+                    attribute_group_id: res.attribute_group_id,
+                    weight: res.weight,
+                    shipping_id: res.shipping_id,
+                    is_best: res.is_best,
+                    is_hot: res.is_hot,
+                    is_new: res.is_new,
+                    status: res.status,
+                    admin_note: res.admin_note,
+                    type: res.type,
+                    position: res.position,
+                });
+            });
+        });
     }
 
-    public onSubmit() {
-        if (this.goodsForm.valid) {
-            
+    get imageBox() {
+        return this.imageElement.nativeElement as HTMLDivElement;
+    }
+
+    ngAfterViewInit() {
+        this.imageBox.ondrop = (ev) => {
+            this.fileDrog(ev.dataTransfer.files);
+            return false;
+        };
+        this.imageBox.ondragover = () => false;
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapCreateSn() {
+        this.service.createSn().subscribe(res => {
+            this.form.get('series_number').setValue(res.data);
+        });
+    }
+
+    public tapSubmit() {
+        if (this.form.invalid) {
+            this.toastrService.warning('表单填写不完整');
+            return;
         }
-        
-        console.log(this.goodsForm.errors, this.goodsForm.value, arguments);
+        const data: IGoods = this.form.value;
+        if (this.data && this.data.id > 0) {
+            data.id = this.data.id;
+        }
+        this.service.categorySave(data).subscribe(_ => {
+            this.toastrService.success('保存成功');
+            this.tapBack();
+        });
+    }
+
+    public uploadFile(event: any, name: string = 'thumb') {
+        const files = event.target.files as FileList;
+        this.uploadService.uploadImage(files[0]).subscribe(res => {
+            this.form.get(name).setValue(res.url);
+        });
+    }
+
+    public tapPreview(name: string) {
+        window.open(this.form.get(name).value, '_blank');
+    }
+
+    public uploadImages(event: any) {
+        this.fileDrog(event.target.files as FileList);
+    }
+
+    public fileDrog(files: FileList) {
+        const form = new FormData();
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file.type.indexOf('image/') < 0) {
+                continue;
+            }
+            form.append('file[]', file, file.name);
+        }
+        // 这样就可以多文件上传
+        this.uploadService.uploadForm('open/file', form).subscribe(res => {
+
+        });
     }
 
 }

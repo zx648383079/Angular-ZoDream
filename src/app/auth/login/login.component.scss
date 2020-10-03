@@ -105,3 +105,15 @@
         }
     }
 }
+
+.code-input {
+    input {
+        padding-right: 80x;
+    }
+    .send-btn {
+        width: 80px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}

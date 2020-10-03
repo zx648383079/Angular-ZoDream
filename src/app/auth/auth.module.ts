@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ThemeModule } from '../theme/theme.module';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    ThemeModule,
   ]
 })
 export class AuthModule { }
