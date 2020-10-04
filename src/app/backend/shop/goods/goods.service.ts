@@ -12,7 +12,8 @@ import {
 import {
     IBrand,
     ICategory,
-    IGoods
+    IGoods,
+    IGoodsAttribute
 } from '../../../theme/models/shop';
 
 @Injectable({
@@ -78,6 +79,11 @@ export class GoodsService {
         return this.http.post< IDataOne < true >> ('shop/admin/goods/restore', {id});
     }
 
+    public goodsAttribute(groupId: number, goodsId = 0) {
+        return this.http.get<IGoodsAttribute>('shop/admin/goods/attribute', {
+            params: {group_id: groupId.toString(), goods_id: goodsId.toString()}
+        });
+    }
 
     public category(id: any) {
         return this.http.get < ICategory > ('shop/admin/category/detail', {

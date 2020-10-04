@@ -71,8 +71,8 @@
                     <div class="input-group">
                         <label for="attribute_group_id">类型</label>
                         <div class="">
-                            <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control">
-        
+                            <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (ngModelChange)="tapGroupChange()">
+                                <option *ngFor="let item of typeItems" [value]="item.id">{{ item.name }}</option>
                             </select>
         
                         </div>
@@ -146,6 +146,10 @@
 
         <app-panel title="图片">
             <div class="multi-image-box" #imageBox>
+                <div class="image-item" *ngFor="let item of gallaryItems; let i = index">
+                    <img [src]="item">
+                    <i class="iconfont icon-close" (click)="tapRemoveGallary(i)"></i>
+                </div>
                 <div class="add-item">
                     <label for="imagesUpload" class="iconfont icon-plus"></label>
                     <input type="file" name="files" id="imagesUpload" (change)="uploadImages($event)" accept="image/*" multiple/>
@@ -159,9 +163,47 @@
         </div>
 
         <app-panel title="规格">
-            
             <div class="attribute-box">
-                <div class="attr-box"></div>
+                <div class="attr-box">
+                    <div class="input-group" *ngFor="let item of attrItems">
+                        <label for="">{{ item.name }}</label>
+                        <div>
+                            <ng-container *ngIf="item.type < 1">
+                                <ng-container *ngFor="let attr of item.attr_items">
+                                    <ng-container *ngIf="item.input_type < 1">
+                                        <input type="text" class="form-control" [(ngModel)]="attr.value" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                                    </ng-container>
+                                    <ng-container *ngIf="item.input_type == 1">
+                                        <select class="form-control" [(ngModel)]="attr.value" [ngModelOptions]="{standalone: true}">
+                                            <option *ngFor="let val of item.default_value" [value]="val">{{ val }}</option>
+                                        </select>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="item.type == 1">
+                                <div class="check-label" *ngFor="let attr of item.attr_items">
+                                    <input type="text" class="form-control" [(ngModel)]="attr.value" [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                                    <i class="iconfont icon-close"></i>
+                                </div>
+                                <div class="add-box" *ngIf="item.input_type < 1">
+                                    <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                                    <button type="button" class="btn">添加</button>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="item.type == 2">
+                                <div class="check-label" *ngFor="let attr of item.attr_items">
+                                    <input type="text" class="form-control" [(ngModel)]="attr.value" [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" class="form-control" [(ngModel)]="attr.price" placeholder="价格" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="add-box" *ngIf="item.input_type < 1">
+                                    <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" class="form-control" [(ngModel)]="item.new_price" placeholder="价格" [ngModelOptions]="{standalone: true}">
+                                    <button type="button" class="btn">添加</button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
                 <div class="product-box">
                     <hr>
                     <div class="form-horizontal batch-box">

@@ -23,17 +23,17 @@ export interface ICategory {
 
 export interface IProduct {
     id: number;
-    name: string;
-    thumb: string;
-    price: string;
-    market_price: string;
-    shop: string;
-    category?: ICategory;
-    brand?: IBrand;
-    stock?: number;
-    is_new?: boolean;
-    is_best?: boolean;
-    is_hot?: boolean;
+    goods_id: number;
+    price: number;
+    market_price: number;
+    stock: number;
+    series_number: string;
+    attributes: string;
+}
+
+export interface IGoodsAttribute {
+    attr_list: IAttribute[];
+    product_list: IProduct[];
 }
 
 export interface IGoods {
@@ -113,7 +113,7 @@ export interface IOrderGoods {
     amount: number;
     price: number;
     goods_id: number;
-    goods: IProduct;
+    goods: IGoods;
 }
 
 export interface ILogistics {
@@ -201,9 +201,21 @@ export interface IAttribute {
     type: number;
     search_type: number;
     input_type: number;
-    default_value: string;
+    default_value: string|string[];
     position: number;
     group?: IAttributeGroup;
+    attr_items?: IGoodsAttr[];
+    new_value?: string;
+    new_price?: number;
+}
+
+export interface IGoodsAttr {
+    id?: number;
+    goods_id?: number;
+    attribute_id?: number;
+    value: string;
+    price?: number;
+    checked?: boolean;
 }
 
 

@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -27,6 +27,15 @@ export class FileUploadService {
      */
     public uploadImage(file: File) {
         return this.upload<IUploadResult>('open/file/image', file);
+    }
+
+    public uploadImages(form: FormData): Observable<IUploadResult[]> {
+        return this.http.post<any>('open/file/image', form).pipe(map(res => {
+            if (res.data && typeof res.data === 'object' && res.data instanceof Array) {
+                return res.data;
+            }
+            return [res];
+        }));
     }
 
     /**
@@ -124,12 +133,5 @@ export class FileUploadService {
         }
         formData.append(partName, image);
         return this.http.post<T>(url, formData, options).pipe(map((res: any) => res));
-    }
-
-
-    public uploadForm<T>(
-        url: string,
-        form: FormData): Observable<T> {
-        return this.http.post<T>(url, form);
     }
 }

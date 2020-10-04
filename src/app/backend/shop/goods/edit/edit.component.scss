@@ -1,3 +1,6 @@
+select.form-control {
+    width: auto;
+}
 .multi-image-box {
 	border: 1px dotted;
 	padding: 5px;
@@ -5,7 +8,8 @@
 		display: inline-block;
 		position: relative;
 		background-color: #fff;
-		.fa {
+		box-sizing: border-box;
+		.iconfont {
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -16,6 +20,9 @@
 			height: 20px;
 			text-align: center;
 			line-height: 20px;
+			background-color: red;
+			color: white;
+			cursor: pointer;
 		}
 		img {
 			width: 120px;
@@ -39,4 +46,80 @@
             overflow: hidden;
         }
 	}
+}
+
+.product-box {
+    .input-group {
+        input[type="text"],
+        input[type="number"] {
+            min-width: 0;
+            width: 100px;
+        }
+    }
+    input[type="text"],
+    input[type="number"] {
+        min-width: 0;
+        width: 100px;
+    }
+}
+
+
+.add-box {
+	display: inline-block;
+	input {
+		min-width: 0;
+		width: 100px;
+	}
+	.btn {
+		margin: 0;
+	}
+}
+
+.attr-box {
+	.input-group {
+		input {
+			min-width: 0;
+		}
+	}
+	.check-label {
+		margin-right: 8px;
+		position: relative;
+		label {
+			padding-right: 0;
+		}
+		input {
+			width: 60px;
+			text-align: center;
+			background: rgba($color: #fff, $alpha: .3);
+			border: none;
+			border-bottom: 1px solid;
+			color: #fff;
+		}
+		.icon-close {
+			position: absolute;
+			display: block;
+			cursor: pointer;
+			text-align: center;
+			background: #ababab;
+			border-radius: 50%;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			top: -9px;
+			right: -9px;
+		}
+		&.attr-block {
+			.icon-close {
+				top: 0;
+				right: 0px;
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+			}
+		}
+	}
+}
+
+.attr-block {
+    display: block;
 }

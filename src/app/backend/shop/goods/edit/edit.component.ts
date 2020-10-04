@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAttributeGroup, IBrand, ICategory, IGoods } from '../../../../theme/models/shop';
+import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IProduct } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
 import { GoodsService } from '../goods.service';
@@ -45,6 +45,9 @@ export class EditComponent implements OnInit, AfterViewInit {
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
     public typeItems: IAttributeGroup[] = [];
+    public gallaryItems: string[] = [];
+    public attrItems: IAttribute[] = [];
+    public productItems: IProduct[] = [];
 
     @ViewChild('imageBox') imageElement: ElementRef;
 
@@ -99,6 +102,7 @@ export class EditComponent implements OnInit, AfterViewInit {
                     type: res.type,
                     position: res.position,
                 });
+                this.tapGroupChange();
             });
         });
     }
@@ -140,6 +144,61 @@ export class EditComponent implements OnInit, AfterViewInit {
         });
     }
 
+    public tapGroupChange() {
+        const groupId = this.form.get('attribute_group_id').value;
+        if (groupId < 1) {
+            this.attrItems = [];
+            this.productItems = [];
+            return;
+        }
+        this.service.goodsAttribute(groupId, this.data?.id).subscribe(res => {
+            this.attrItems = res.attr_list.map(item => {
+                if (item.input_type === 1) {
+                    item.default_value = this.strToArr(item.default_value);
+                }
+                if (!item.attr_items || item.attr_items.length < 1) {
+                    item.attr_items.push({value: item.input_type === 1 ? item.default_value[0] : ''});
+                }
+                if (item.type > 0 && item.input_type === 1 && item.attr_items.length < item.default_value.length){
+                    for (const val of item.default_value) {
+                        if (!this.inArr(val, item.attr_items)) {
+                            item.attr_items.push({value: val});
+                        }
+                    }
+                }
+                return item;
+            });
+            this.productItems = res.product_list;
+        });
+    }
+
+    private inArr(val: string, items: any[]): boolean {
+        for (const item of items) {
+            if (val === item.value.trim()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private strToArr(val: any): string[] {
+        if (typeof val === 'object') {
+            return val;
+        }
+        const items: string[] = [];
+        val.toString().split('\n').forEach((item: string) => {
+            item = item.replace('\r', '').trim();
+            if (!item || item.length < 1) {
+                return;
+            }
+            if (items.indexOf(item) >= 0) {
+                return;
+            }
+            items.push(item);
+        });
+        return items;
+    }
+
     public uploadFile(event: any, name: string = 'thumb') {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
@@ -149,6 +208,10 @@ export class EditComponent implements OnInit, AfterViewInit {
 
     public tapPreview(name: string) {
         window.open(this.form.get(name).value, '_blank');
+    }
+
+    public tapRemoveGallary(i: number) {
+        this.gallaryItems.splice(i, 1);
     }
 
     public uploadImages(event: any) {
@@ -165,9 +228,14 @@ export class EditComponent implements OnInit, AfterViewInit {
             }
             form.append('file[]', file, file.name);
         }
+        if (!form.has('file[]')) {
+            return;
+        }
         // 这样就可以多文件上传
-        this.uploadService.uploadForm('open/file', form).subscribe(res => {
-
+        this.uploadService.uploadImages(form).subscribe(res => {
+            for (const file of res) {
+                this.gallaryItems.push(file.url);
+            }
         });
     }
 
