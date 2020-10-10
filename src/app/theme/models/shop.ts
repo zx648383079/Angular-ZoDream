@@ -148,6 +148,7 @@ export interface IArticle {
     description: string;
     thumb: string;
     cat_id: number;
+    content: string;
     created_at: string;
     updated_at: string;
     category: IArticleCategory;

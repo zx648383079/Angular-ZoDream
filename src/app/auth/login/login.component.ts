@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/theme/interfaces';
+import { AppState } from '../../theme/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthActions } from 'src/app/theme/actions';
-import { AuthService } from 'src/app/theme/services';
+import { AuthActions } from '../../theme/actions';
+import { AuthService } from '../../theme/services';
 import { tap } from 'rxjs/operators';
-import { getAuthStatus } from 'src/app/theme/reducers/selectors';
+import { getAuthStatus } from '../../theme/reducers/selectors';
 import { FormBuilder, Validators } from '@angular/forms';
-import { passwordValidator } from 'src/app/theme/validators';
+import { passwordValidator } from '../../theme/validators';
 import { CountDownComponent } from '../../theme/components';
 
 @Component({

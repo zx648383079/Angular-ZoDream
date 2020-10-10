@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssetPipe, SizePipe, TimestampPipe, AgoPipe, TwoPadPipe, TreeLevelPipe } from './pipes';
 import { RouterModule } from '@angular/router';
-import { AuthService, TransferStateService, ThemeService} from './services';
+import { AuthService, TransferStateService, ThemeService, DateAdapter} from './services';
 import { AuthActions } from './actions';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
@@ -61,6 +61,7 @@ const SERVICES = [
   AuthService,
   ThemeService,
   FileUploadService,
+  DateAdapter,
 ];
 
 const ACTIONS = [

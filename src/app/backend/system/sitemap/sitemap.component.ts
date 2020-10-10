@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { SystemService } from '../system.service';
 
 @Component({
   selector: 'app-sitemap',
@@ -11,7 +12,9 @@ export class SitemapComponent implements OnInit {
 
   @ViewChild('cmd', {static: false}) box: ElementRef<HTMLDivElement>;
 
-  constructor(private renderer2: Renderer2) { }
+  constructor(
+    private renderer2: Renderer2,
+    private service: SystemService,) { }
 
   ngOnInit() {
   }
@@ -20,11 +23,9 @@ export class SitemapComponent implements OnInit {
    * tapMake
    */
   public tapMake() {
-    const data = [];
-    for (let i = 0; i < 100; i++) {
-      data.push(i);
-    }
-    this.renderCMD(data);
+    this.service.sitemap().subscribe(res => {
+      this.renderCMD(res.data.map(item => item.url));
+    });
   }
 
   /**

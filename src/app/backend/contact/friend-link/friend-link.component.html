@@ -30,8 +30,9 @@
                     </td>
                     <td>
                         <div class="btn-group btn-group-xs">
-                            <a class="btn btn-danger" *ngIf="item.status < 1" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
+                            <a class="btn btn-success" *ngIf="item.status < 1" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
                             <a class="btn btn-info"  *ngIf="item.status == 1"  (click)="tapOff(item)">下架</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

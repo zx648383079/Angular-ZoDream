@@ -65,4 +65,8 @@ export class AccountService {
     form.append('file', file);
     return this.http.post<IUser>('auth/user/avatar', form);
   }
+
+  public uploadProfile(data: any) {
+    return this.http.post<IUser>('auth/user/update', data);
+  }
 }

@@ -16,8 +16,14 @@ export class ContactService {
         });
     }
 
-    public friendLinkRemove(id: any) {
+    public friendLinkOff(id: any) {
         return this.http.delete<IDataOne<true>>('auth/admin/friend_link/remove', {
+          params: {id}
+        });
+    }
+
+    public friendLinkRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('auth/admin/friend_link/delete', {
           params: {id}
         });
     }
@@ -31,6 +37,26 @@ export class ContactService {
     public feedbackList(params: any) {
         return this.http.get<IPage<IFeedback>>('contact/admin/feedback', {
             params
+        });
+    }
+
+    public feedback(id: any) {
+        return this.http.get < IFeedback > ('contact/admin/feedback/detail', {
+            params: {
+                id
+            },
+        });
+    }
+
+    public feedbackSave(data: any) {
+        return this.http.post < IFeedback > ('contact/admin/feedback/change', data);
+    }
+
+    public feedbackRemove(id: any) {
+        return this.http.delete < IDataOne < true >> ('contact/admin/feedback/delete', {
+            params: {
+                id
+            }
         });
     }
 

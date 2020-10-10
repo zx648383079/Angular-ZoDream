@@ -86,12 +86,27 @@ export class FriendLinkComponent implements OnInit {
     if (!confirm('确认下架此友情链接？')) {
       return;
     }
-    this.service.friendLinkRemove(item.id).subscribe(res => {
+    this.service.friendLinkOff(item.id).subscribe(res => {
       if (!res.data) {
         return;
       }
       this.toastrService.success('已下架！');
       item.status = 0;
+    });
+  }
+
+  public tapRemove(item: IFriendLink) {
+    if (!confirm('确认删除此友情链接？')) {
+      return;
+    }
+    this.service.friendLinkRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('删除成功');
+      this.items = this.items.filter(it => {
+        return it.id !== item.id;
+      });
     });
   }
 }

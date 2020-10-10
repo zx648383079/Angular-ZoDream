@@ -8,6 +8,7 @@ import { getCurrentUser } from 'src/app/theme/reducers/selectors';
 import { IUser } from '../../../theme/models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DateAdapter } from '../../../theme/services';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,7 @@ export class ProfileComponent implements OnInit {
     email: ['', [Validators.email, Validators.required]],
     sex: [0],
     avatar: [''],
-    birthday: [''],
+    birthday: [this.dateAdapter.fromModel()],
   });
 
   public data: IUser;
@@ -44,6 +45,7 @@ export class ProfileComponent implements OnInit {
     private store: Store<AppState>,
     private modalService: NgbModal,
     private toastrService: ToastrService,
+    private dateAdapter: DateAdapter
   ) {
     this.store.select(getCurrentUser).subscribe(user => {
       this.data = user;
@@ -52,7 +54,7 @@ export class ProfileComponent implements OnInit {
         email: user.email,
         sex: user.sex,
         avatar: user.avatar,
-        birthday: user.birthday,
+        birthday: this.dateAdapter.fromModel(user.birthday),
       });
     });
   }
@@ -61,7 +63,20 @@ export class ProfileComponent implements OnInit {
   }
 
   public tapSubmit() {
-    console.log(this.form.value);
+    if (this.form.invalid) {
+      this.toastrService.warning('表单填写不完整');
+      return;
+    }
+    const data: any = this.form.value;
+    if (this.data && this.data.id > 0) {
+      data.id = this.data.id;
+    }
+    data.birthday = this.dateAdapter.toModel(data.birthday);
+    this.service.uploadProfile(data).subscribe(_ => {
+      this.toastrService.success('保存成功');
+    }, err => {
+      this.toastrService.warning(err.error.message);
+    });
   }
 
   public openCancel(content) {

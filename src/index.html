@@ -8,6 +8,91 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>Loading...</app-root>
+  <style>
+    .loading-theme {
+    width: 100px;
+    height: 100px;
+    background: #2c3e50;
+    position: fixed;
+    left: 50vW;
+    top: 50vh;
+    margin-top: -50px;
+    margin-left: -50px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+    .loading-theme .belt {
+      position: absolute;
+      top: 60%;
+      left: 0%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 5px;
+      background: #fff;
+      animation: belt 2s linear infinite;
+      z-index: 2; }
+      .loading-theme .belt .t {
+        width: 5px;
+        height: 2px;
+        background: #fff;
+        position: absolute;
+        top: -2px;
+        left: calc(20px * var(--index)); }
+      .loading-theme .box {
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      position: absolute;
+      left: 50%;
+      top: -10%;
+      transform: translate(-50%, -50%);
+      animation: box 2s infinite;
+      animation-delay: calc(1s + (1s * var(--index)));
+      z-index: 1; }
+  
+  @keyframes belt {
+    to {
+      left: 100%; } }
+  @keyframes box {
+    25% {
+      top: 52%;
+      animation-timing-function: cubuc-bezier(0.27, 0.37, 0.43, 0.07); }
+    35% {
+      top: 52%;
+      left: 52%;
+      animation-timing-function: cubic-bezier(0.33, 0.9, 0.86, 0.62); }
+    50% {
+      top: 52%;
+      left: 55%;
+      animation-timing-function: linear; }
+    75% {
+      top: 52%;
+      left: 75%;
+      animation-timing-function: linear; }
+    100% {
+      top: 52%;
+      left: 120%;
+      animation-timing-function: linear; } }
+  </style>
+  <div class="loading-theme">
+    <div class="belt">
+      <div class="t" style='--index: 0'></div>
+      <div class="t" style='--index: 1'></div>
+      <div class="t" style='--index: 2'></div>
+      <div class="t" style='--index: 3'></div>
+      <div class="t" style='--index: 4'></div>
+      <div class="t" style='--index: 5'></div>
+      <div class="t" style='--index: 6'></div>
+      <div class="t" style='--index: 7'></div>
+      <div class="t" style='--index: 8'></div>
+      <div class="t" style='--index: 9'></div>
+    </div>
+    <div class="box" style='--index: 0'></div>
+    <div class="box" style='--index: 1'></div>
+    <div class="box" style='--index: 2'></div>
+    <div class="box" style='--index: 3'></div>
+    <div class="box" style='--index: 4'></div>
+  </div>
 </body>
 </html>

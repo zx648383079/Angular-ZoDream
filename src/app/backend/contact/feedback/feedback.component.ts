@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { IFeedback } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
 
@@ -21,8 +23,12 @@ export class FeedbackComponent implements OnInit {
 
   public total = 0;
 
+  public editData: IFeedback;
+
   constructor(
     private service: ContactService,
+    private toastrService: ToastrService,
+    private modalService: NgbModal,
   ) {
     this.tapRefresh();
   }
@@ -64,6 +70,34 @@ export class FeedbackComponent implements OnInit {
         this.items = res.data;
         this.hasMore = res.paging.more;
         this.total = res.paging.total;
+    });
+  }
+
+  public tapView(content: any, item: IFeedback) {
+    this.editData = item;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+      this.service.feedbackSave({
+        status: value,
+        id: this.editData?.id
+      }).subscribe(res => {
+        this.toastrService.success('保存成功');
+        this.tapPage();
+      });
+    });
+  }
+
+  public tapRemove(item: IFeedback) {
+    if (!confirm('确认删除此反馈？')) {
+      return;
+    }
+    this.service.feedbackRemove(item.id).subscribe(res => {
+      if (!res.data) {
+        return;
+      }
+      this.toastrService.success('删除成功');
+      this.items = this.items.filter(it => {
+        return it.id !== item.id;
+      });
     });
   }
 

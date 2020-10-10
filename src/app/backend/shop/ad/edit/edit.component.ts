@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IAd, IAdPosition } from '../../../../theme/models/shop';
+import { DateAdapter } from '../../../../theme/services';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AdService } from '../../ad.service';
 
@@ -19,8 +20,8 @@ export class EditAdComponent implements OnInit {
     type: ['0'],
     url: [''],
     content: [''],
-    start_at: [''],
-    end_at: [''],
+    start_at: [this.dateAdapter.fromModel()],
+    end_at: [this.dateAdapter.fromModel()],
   });
 
   public data: IAd;
@@ -32,6 +33,7 @@ export class EditAdComponent implements OnInit {
     private route: ActivatedRoute,
     private toastrService: ToastrService,
     private uploadService: FileUploadService,
+    private dateAdapter: DateAdapter
   ) {
     this.service.positionAll().subscribe(res => {
       this.positionItems = res.data;
@@ -51,8 +53,8 @@ export class EditAdComponent implements OnInit {
           type: res.type,
           url: res.url,
           content: res.content,
-          start_at: res.start_at,
-          end_at: res.start_at,
+          start_at: this.dateAdapter.fromModel(res.start_at),
+          end_at: this.dateAdapter.fromModel(res.start_at),
         });
       });
     });
@@ -86,6 +88,8 @@ export class EditAdComponent implements OnInit {
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }
+    data.start_at = this.dateAdapter.toModel(data.start_at as any);
+    data.end_at = this.dateAdapter.toModel(data.end_at as any);
     this.service.adSave(data).subscribe(_ => {
       this.toastrService.success('保存成功');
       this.tapBack();

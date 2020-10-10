@@ -7,6 +7,7 @@ export interface ILink {
 export interface IItem {
     name: string;
     value: string;
+    checked?: boolean;
 }
 
 export interface IFriendLink {
@@ -39,3 +40,19 @@ export interface ISubscribe {
     created_at: string;
     updated_at: string;
 }
+
+export interface IOption {
+    id?: number;
+    name: string;
+    code: string;
+    parent_id: number;
+    type: string;
+    visibility: number;
+    default_value: string;
+    value: string;
+    position: number;
+    items?: string[];
+    values?: string[];
+    children?: IOption[];
+}
+

@@ -5,6 +5,7 @@ import { ContactComponent } from './contact.component';
 import { FriendLinkComponent } from './friend-link/friend-link.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { StatusPipe } from './status.pipe';
 
 const routes: Routes = [
   { path: '', component: ContactComponent },
@@ -29,5 +30,7 @@ const routes: Routes = [
 export class ContactRoutingModule { }
 
 export const contactRoutedComponents = [
-  ContactComponent, FeedbackComponent, FriendLinkComponent, SubscribeComponent
+  ContactComponent, FeedbackComponent, FriendLinkComponent, SubscribeComponent,
+
+  StatusPipe,
 ];

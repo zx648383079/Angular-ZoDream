@@ -26,13 +26,13 @@
                         <td>
                             {{ item.phone }}
                         </td>
-                        <td>{{ item.status }}</td>
+                        <td>{{ item.status | status }}</td>
                         <td>
-                        </td>
-                    </tr>
-                    <tr class="tr-child">
-                        <td colspan="6">
-                            {{ item.content }}
+                            <div class="btn-group  btn-group-xs">
+                                <a class="btn btn-info btn-xs"
+                                    (click)="tapView(content, item)">查看</a>
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                            </div>
                         </td>
                     </tr>
                 </ng-container>
@@ -43,3 +43,35 @@
             (pageChange)="tapPage()"></ngb-pagination>
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">反馈详情({{ editData.id }})</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="line-item">
+            <span class="label">称呼：</span>
+            <span class="value">{{ editData.name }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">邮箱：</span>
+            <span class="value">{{ editData.email }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">联系方式：</span>
+            <span class="value">{{ editData.phone }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">反馈内容：</span>
+            <span class="value">{{ editData.content }}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>
+      <button type="button" class="btn btn-info" (click)="modal.close(2)">已处理</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close(3)">已忽略</button>
+    </div>
+</ng-template>

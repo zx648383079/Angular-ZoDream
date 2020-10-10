@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IRole } from '../../../theme/models/auth';
 import { IUser } from '../../../theme/models/user';
+import { DateAdapter } from '../../../theme/services';
+import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { confirmValidator } from '../../../theme/validators';
 import { AccountService } from '../account.service';
 
@@ -18,7 +20,7 @@ export class EditComponent implements OnInit {
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     sex: ['0'],
-    birthday: [''],
+    birthday: [this.dateAdapter.fromModel()],
     roles: [[]],
     password: [''],
     confirm_password: [''],
@@ -35,6 +37,8 @@ export class EditComponent implements OnInit {
     private service: AccountService,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
+    private dateAdapter: DateAdapter,
+    private uploadService: FileUploadService,
   ) {}
 
   ngOnInit() {
@@ -51,7 +55,7 @@ export class EditComponent implements OnInit {
           name: res.name,
           sex: res.sex,
           email: res.email,
-          birthday: res.birthday,
+          birthday: this.dateAdapter.fromModel(res.birthday),
           roles: res.roles,
           password: '',
           confirm_password: '',
@@ -81,9 +85,17 @@ export class EditComponent implements OnInit {
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }
+    data.birthday = this.dateAdapter.toModel(data.birthday);
     this.service.userSave(data).subscribe(_ => {
       this.toastrService.success('保存成功');
       this.tapBack();
+    });
+  }
+
+  public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadImage(files[0]).subscribe(res => {
+      this.form.get('avatar').setValue(res.url);
     });
   }
 

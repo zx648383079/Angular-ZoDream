@@ -5,18 +5,16 @@
         </ul>
     </app-page-tip>
     <form class="form-table panel-container">
-
         <div class="input-group">
             <label for="store_">缓存区</label>
             <div class="">
                 <span class="check-label" *ngFor="let item of items, index as i">
-                    <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value">
+                    <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value" [checked]="item.checked" (change)="item.checked = $event.target.checked">
                     <label [for]="'store_' + i">{{ item.name }}</label>
                 </span>
             </div>
         </div>
-        <button type="submit" class="btn btn-success">清除选中</button>
-        <input type="hidden" name="store[]" value="">
-        <a data-type="del" data-tip="确认清除全部缓存" class="btn btn-danger">清除全部缓存</a>
+        <button type="submit" class="btn btn-success" (click)="tapSubmit()">清除选中</button>
+        <a (click)="tapClear()" class="btn btn-danger">清除全部缓存</a>
     </form>
 </div>

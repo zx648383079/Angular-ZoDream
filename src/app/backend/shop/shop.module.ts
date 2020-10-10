@@ -6,7 +6,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ShopService } from './shop.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
 import { RegionService } from './region.service';
@@ -32,6 +32,7 @@ import { OpenModule } from '../open/open.module';
     AdService,
     RegionService,
     PaymentService,
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
   ],
 })
 export class ShopModule { }
