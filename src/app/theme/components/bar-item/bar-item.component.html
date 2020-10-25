@@ -1,12 +1,12 @@
 <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem()">
   <ng-container *ngIf="item.url; else elseTemplate">
-    <a [routerLink]="item.url">
+    <a [routerLink]="item.url" [title]="item.name">
       <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
       <span class="bar-name">{{ item.name }}</span>
     </a>
   </ng-container>
   <ng-template #elseTemplate>
-    <a>
+    <a [title]="item.name">
       <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
       <span class="bar-name">{{ item.name }}</span>
     </a>

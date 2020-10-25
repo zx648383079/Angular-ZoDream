@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <app-page-tip>
+      <ul>
+          <li>用户列表</li>
+      </ul>
+  </app-page-tip>
+  <div class="panel-container">
+      <div class="page-search-bar">
+          <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+              <div class="input-group">
+                  <label for="keywords">昵称</label>
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索昵称" [value]="keywords">
+              </div>
+              <button type="submit" class="btn btn-primary">搜索</button>
+              <a class="btn btn-info pull-right" routerLink="./create">新增用户</a>
+          </form>
+      </div>
+      <table class="table  table-bordered well">
+          <thead>
+          <tr>
+              <th (click)="tapSort('id')">
+                  ID
+                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': sortKey == 'id' && !orderAsc, 'icon-sort-alpha-asc': sortKey == 'id' && orderAsc}"></i>
+              </th>
+              <th (click)="tapSort('name')">用户名
+                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': sortKey == 'name' && !orderAsc, 'icon-sort-alpha-asc': sortKey == 'name' && orderAsc}"></i>
+              </th>
+              <th class="auto-hide">邮箱</th>
+              <th class="auto-hide">性别</th>
+              <th>余额</th>
+              <th>状态</th>
+              <th class="auto-hide">最近登陆时间</th>
+              <th class="auto-hide">注册时间</th>
+              <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td class="auto-hide">{{ item.email }}</td>
+                  <td class="auto-hide">{{ item.sex }}</td>
+                  <td>{{ item.money }}</td>
+                  <td>{{ item.status }}</td>
+                  <td class="auto-hide">{{ item.last_at }}</td>
+                  <td class="auto-hide">{{ item.created_at }}</td>
+                  <td>
+                      <div class="btn-group  btn-group-xs">
+                          <a class="btn btn-info btn-xs"
+                          routerLink="./account/log" [queryParams]="{user: item.id}">明细</a>
+                          <a class="btn btn-light btn-xs"
+                              [routerLink]="'./edit/' + item.id">编辑</a>
+                          <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+      </table>
+  
+      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+  </div>
+</div>

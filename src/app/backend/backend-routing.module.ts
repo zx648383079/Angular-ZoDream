@@ -10,6 +10,7 @@ const routes: Routes = [
     path: '',
     component: BackendComponent,
     children: [
+      { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
       { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
       { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },

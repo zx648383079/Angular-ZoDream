@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IRole } from '../../../theme/models/auth';
-import { IUser } from '../../../theme/models/user';
-import { DateAdapter } from '../../../theme/services';
-import { FileUploadService } from '../../../theme/services/file-upload.service';
-import { confirmValidator } from '../../../theme/validators';
-import { AccountService } from '../account.service';
+import { IRole } from '../../../../theme/models/auth';
+import { IUser } from '../../../../theme/models/user';
+import { DateAdapter } from '../../../../theme/services';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
+import { confirmValidator } from '../../../../theme/validators';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   public form = this.fb.group({
     name: ['', Validators.required],
@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: AccountService,
+    private service: AuthService,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
     private dateAdapter: DateAdapter,
@@ -49,7 +49,7 @@ export class EditComponent implements OnInit {
       if (!params.id) {
         return;
       }
-      this.service.user(params.id).subscribe(res => {
+      this.service.userDetail(params.id).subscribe(res => {
         this.data = res;
         this.form.setValue({
           name: res.name,

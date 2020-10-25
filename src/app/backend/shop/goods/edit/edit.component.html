@@ -182,23 +182,25 @@
                             </ng-container>
                             <ng-container *ngIf="item.type == 1">
                                 <div class="check-label" *ngFor="let attr of item.attr_items">
+                                    <i class="iconfont" [ngClass]="{'icon-square-o': !attr.checked, 'icon-check-square-o': attr.checked}" (click)="tapAttrCheck(item, attr)"></i>
                                     <input type="text" class="form-control" [(ngModel)]="attr.value" [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
-                                    <i class="iconfont icon-close"></i>
+                                    <i class="iconfont icon-close" *ngIf="item.input_type < 1" (click)="tapAttrRemove(item, attr)"></i>
                                 </div>
                                 <div class="add-box" *ngIf="item.input_type < 1">
                                     <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值" [ngModelOptions]="{standalone: true}">
-                                    <button type="button" class="btn">添加</button>
+                                    <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="item.type == 2">
-                                <div class="check-label" *ngFor="let attr of item.attr_items">
+                                <div class="attr-block" *ngFor="let attr of item.attr_items">
                                     <input type="text" class="form-control" [(ngModel)]="attr.value" [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
-                                    <input type="text" class="form-control" [(ngModel)]="attr.price" placeholder="价格" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" class="form-control" [(ngModel)]="attr.price" size="10" placeholder="价格" [ngModelOptions]="{standalone: true}">
+                                    <i class="iconfont icon-close" *ngIf="item.input_type < 1" (click)="tapAttrRemove(item, attr)"></i>
                                 </div>
                                 <div class="add-box" *ngIf="item.input_type < 1">
                                     <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值" [ngModelOptions]="{standalone: true}">
                                     <input type="text" class="form-control" [(ngModel)]="item.new_price" placeholder="价格" [ngModelOptions]="{standalone: true}">
-                                    <button type="button" class="btn">添加</button>
+                                    <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
                                 </div>
                             </ng-container>
                         </div>
@@ -212,20 +214,16 @@
                             <input type="text" data-type="series_number" placeholder="商家编码">
                         </div>
                         <div class="input-group">
-                            <input type="number" data-type="price" placeholder="销售价"
-                                pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                            <input type="number" data-type="price" placeholder="销售价">
                         </div>
                         <div class="input-group">
-                            <input type="number" data-type="market_price" placeholder="划线价"
-                                pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                            <input type="number" data-type="market_price" placeholder="划线价">
                         </div>
                         <div class="input-group">
-                            <input type="number" data-type="stock" placeholder="库存数量"
-                                pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                            <input type="number" data-type="stock" placeholder="库存数量">
                         </div>
                         <div class="input-group">
-                            <input type="number" data-type="weight" placeholder="重量"
-                                pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$">
+                            <input type="number" data-type="weight" placeholder="重量">
                         </div>
                         <button type="button" class="btn">确定</button>
                     </div>

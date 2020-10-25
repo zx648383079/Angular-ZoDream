@@ -45,6 +45,7 @@ export interface IAccountLog {
     status?: number;
     remark: string;
     created_at?: string;
+    user?: IUser;
 }
 
 export interface ILoginLog {
@@ -99,4 +100,42 @@ export interface IUserRole {
     roles: string[];
     permissions: string[];
 }
+
+export interface IApplyLog {
+    user?: IUser;
+    id: number;
+    user_id: number;
+    type: number;
+    money: number;
+    remark: string;
+    status: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IAdminLog {
+    user?: IUser;
+    id: number;
+    ip: string;
+    user_id: number;
+    item_type: number;
+    item_id: number;
+    action: string;
+    remark: string;
+    created_at: string;
+}
+
+export interface IActionLog {
+    user?: IUser;
+    id: number;
+    ip: string;
+    user_id: number;
+    action: string;
+    remark: string;
+    created_at: string;
+}
+
+
+
+
 

@@ -1,18 +1,15 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { IAccountLog } from '../../../theme/models/auth';
-import { AccountService } from '../account.service';
+import { Component, OnInit } from '@angular/core';
+import { IBulletinUser } from 'src/app/theme/models/auth';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+  selector: 'app-bulletin',
+  templateUrl: './bulletin.component.html',
+  styleUrls: ['./bulletin.component.scss']
 })
-export class LogComponent implements OnInit {
+export class BulletinComponent implements OnInit {
 
-  public items: IAccountLog[] = [];
+  public items: IBulletinUser[] = [];
 
   public hasMore = true;
 
@@ -25,7 +22,7 @@ export class LogComponent implements OnInit {
   public total = 0;
 
   constructor(
-    private service: AccountService,
+    private service: UserService,
   ) {
     this.tapRefresh();
   }
@@ -59,7 +56,7 @@ export class LogComponent implements OnInit {
         return;
     }
     this.isLoading = true;
-    this.service.accountLog({
+    this.service.bulletinList({
       page,
       per_page: this.perPage
     }).subscribe(res => {

@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <app-page-tip>
+      <ul>
+          <li>会员申请记录列表</li>
+      </ul>
+  </app-page-tip>
+  <div class="panel-container">
+      <div class="page-search-bar">
+          <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+              <div class="input-group">
+                  <label for="keywords">关键字</label>
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [value]="keywords">
+              </div>
+              <button type="submit" class="btn btn-primary">搜索</button>
+          </form>
+      </div>
+      <table class="table  table-bordered well">
+          <thead>
+          <tr>
+              <th>ID</th>
+              <th>用户</th>
+              <th>类型</th>
+              <th>金额</th>
+              <th>备注</th>
+              <th>状态</th>
+              <th>操作时间</th>
+              <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.user?.name }}</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.money }}</td>
+                  <td>{{ item.remark }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.created_at }}</td>
+                  <td>
+                      <div class="btn-group  btn-group-xs">
+                          <a class="btn btn-info btn-xs"
+                            (click)="tapView(content, item)">明细</a>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+      </table>
+  
+      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">申请记录详情({{ editData.id }})</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="line-item">
+            <span class="label">用户：</span>
+            <span class="value">{{ editData.user?.name }}</span>
+        </div>
+        <div class="line-item" *ngIf="editData.user">
+            <span class="label">账户余额：</span>
+            <span class="value">{{ editData.user.money }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">类型：</span>
+            <span class="value">{{ editData.type }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">金额：</span>
+            <span class="value">{{ editData.money }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">备注：</span>
+            <span class="value">{{ editData.remark }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">状态：</span>
+            <span class="value">{{ editData.status }}</span>
+        </div>
+    </div>
+    <div class="modal-footer" *ngIf="editData.status < 1">
+        <button type="button" class="btn btn-success" (click)="modal.close(2)">处理申请</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close(9)">拒绝申请</button>
+      </div>
+</ng-template>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IConnect } from '../../../theme/models/auth';
-import { AccountService } from '../account.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-connect',
@@ -12,7 +12,7 @@ export class ConnectComponent implements OnInit {
   public items: IConnect[] = [];
 
   constructor(
-    private service: AccountService
+    private service: UserService
   ) {
     this.tapRefresh();
   }

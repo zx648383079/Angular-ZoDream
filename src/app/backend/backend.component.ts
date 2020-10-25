@@ -22,40 +22,45 @@ export class BackendComponent implements OnInit {
     {
       name: '我的',
       icon: 'icon-user',
-      url: './auth/profile',
+      url: './user/profile',
       children: [
         {
           name: '消息',
           label: '消',
-          url: './auth/bulletin'
+          url: './user/bulletin'
         },
         {
           name: '账户关联',
           label: '联',
-          url: './auth/connect'
+          url: './user/connect'
         },
         {
           name: '操作记录',
           label: '操',
-          url: './auth/log'
+          url: './user/log'
         },
         {
           name: '登录记录',
           label: '登',
-          url: './auth/login-log'
+          url: './user/login-log'
         },
         {
           name: '修改密码',
           label: '密',
-          url: './auth/password'
+          url: './user/password'
         }
       ]
     },
     {
-      name: '用户',
+      name: '会员管理',
       icon: 'icon-group',
       url: './auth',
       children: [
+        {
+          name: '会户列表',
+          label: '会',
+          url: './auth/users'
+        },
         {
           name: '角色权限',
           label: '角',
@@ -65,7 +70,27 @@ export class BackendComponent implements OnInit {
           name: '第三方管理',
           label: '三',
           url: './auth/oauth'
-        }
+        },
+        {
+          name: '账户申请日志',
+          label: '申',
+          url: './auth/users/apply/log'
+        },
+        {
+          name: '账户日志',
+          label: '账',
+          url: './auth/users/account/log'
+        },
+        {
+          name: '会员操作日志',
+          label: '操',
+          url: './auth/users/action/log'
+        },
+        {
+          name: '管理员日志',
+          label: '管',
+          url: './auth/admin/log'
+        },
       ]
     },
     {

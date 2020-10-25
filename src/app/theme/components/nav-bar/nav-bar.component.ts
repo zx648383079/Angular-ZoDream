@@ -52,24 +52,31 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-  public tapItem(item: INav) {
-    item.active = !item.active;
-    if (item.children) {
-      item.expand = !item.expand;
-    }
-    this.menu.forEach(i => {
-      i.active = item === i;
-      i.expand = item === i && i.children && i.children.length > 0;
-      if (!i.children) {
-        return;
+  public tapItem(item: INav, e: MouseEvent) {
+    e.stopPropagation();
+    this.isActive(this.menu, item);
+    this.isActive(this.bottomMenu, item);
+  }
+
+  private isActive(items: INav[], current: INav) {
+    let res = false;
+    for (const item of items) {
+      item.active = false;
+      item.expand = false;
+      if (item === current) {
+        item.active = true;
+        item.expand = item.children && item.children.length > 0;
+        res = true;
       }
-      i.children.forEach(j => {
-        j.active = item === j;
-      });
-    });
-    this.bottomMenu.forEach(i => {
-      i.active = item === i;
-      i.expand = item === i && i.children && i.children.length > 0;
-    });
+      if (!item.children || item.children.length < 1) {
+        continue;
+      }
+      if (this.isActive(item.children, current)) {
+        item.expand = true;
+        res = true;
+        continue;
+      }
+    }
+    return res;
   }
 }

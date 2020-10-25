@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AccountService } from '../account.service';
 import { AppState } from 'src/app/theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from 'src/app/theme/reducers/selectors';
@@ -9,6 +8,7 @@ import { IUser } from '../../../theme/models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateAdapter } from '../../../theme/services';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-profile',
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private service: AccountService,
+    private service: UserService,
     private store: Store<AppState>,
     private modalService: NgbModal,
     private toastrService: ToastrService,

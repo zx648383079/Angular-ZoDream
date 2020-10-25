@@ -1,0 +1,34 @@
+<app-edit-header [title]="'账户充值'"></app-edit-header>
+<div class="container-fluid">
+  <form class="form-table panel-container" method="POST">
+    <div class="input-group">
+        <label>账号</label>
+        <div class="label-input">
+            {{ data.name }}</div>
+    </div>
+    <div class="input-group">
+        <label>账户余额</label>
+        <div class="label-input">
+            {{ data.money }}
+        </div>
+    </div>
+    <div class="input-group">
+        <label>金额</label>
+        <div>
+            <select formControlName="type" class="form-control">
+                <option value="0">+</option>
+                <option value="1">-</option>
+            </select>
+            <input type="text" formControlName="money" class="form-control" placeholder="选择金额">
+        </div>
+    </div>
+    <div class="input-group">
+        <label>备注</label>
+        <div>
+            <textarea rows="10" formControlName="remark" class="form-control"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">确认更改</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+  </form>
+</div>

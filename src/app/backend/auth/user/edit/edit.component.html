@@ -17,14 +17,14 @@
                     <div class="input-group">
                         <label for="name">昵称</label>
                         <div class="">
-                            <input type="text" id="name" class="form-control " formControlName="name" placeholder="例如:zodream">
+                            <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:zodream">
                             <div class="input-tip" *ngIf="name.invalid">请输入昵称</div>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">邮箱</label>
                         <div class="">
-                            <input type="email" id="email" class="form-control " formControlName="email">
+                            <input type="email" id="email" class="form-control" formControlName="email">
                             <div class="input-tip" *ngIf="email.invalid">请输入邮箱</div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="input-group">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
-                            <input type="text" id="birthday" class="form-control " ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                            <input type="text" id="birthday" class="form-control" ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
                             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                                 <i class="iconfont icon-calendar"></i>
                             </button>
@@ -65,7 +65,7 @@
                     <div class="input-group">
                         <label for="password">密码</label>
                         <div class="">
-                            <input type="password" id="password" class="form-control " formControlName="password"
+                            <input type="password" id="password" class="form-control" formControlName="password"
                                 placeholder="输入密码">
 
                         </div>
@@ -73,7 +73,7 @@
                     <div class="input-group">
                         <label for="confirm_password">确认密码</label>
                         <div class="">
-                            <input type="password" id="confirm_password" class="form-control " formControlName="confirm_password"
+                            <input type="password" id="confirm_password" class="form-control" formControlName="confirm_password"
                                 placeholder="输入确认密码">
                             <div class="input-tip" *ngIf="form.getError('confirm')">两次密码不一致</div>
                         </div>

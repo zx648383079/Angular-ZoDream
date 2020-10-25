@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IProduct } from '../../../../theme/models/shop';
+import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IProduct } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
 import { GoodsService } from '../goods.service';
@@ -102,7 +102,6 @@ export class EditComponent implements OnInit, AfterViewInit {
                     type: res.type,
                     position: res.position,
                 });
-                this.tapGroupChange();
             });
         });
     }
@@ -153,11 +152,17 @@ export class EditComponent implements OnInit, AfterViewInit {
         }
         this.service.goodsAttribute(groupId, this.data?.id).subscribe(res => {
             this.attrItems = res.attr_list.map(item => {
+                if (typeof item.input_type === 'string') {
+                    item.input_type = parseInt(item.input_type, 10);
+                }
+                if (typeof item.type === 'string') {
+                    item.type = parseInt(item.type, 10);
+                }
                 if (item.input_type === 1) {
                     item.default_value = this.strToArr(item.default_value);
                 }
-                if (!item.attr_items || item.attr_items.length < 1) {
-                    item.attr_items.push({value: item.input_type === 1 ? item.default_value[0] : ''});
+                if ((!item.attr_items || item.attr_items.length < 1) && item.type < 1) {
+                    item.attr_items = [{value: item.input_type === 1 ? item.default_value[0] : ''}];
                 }
                 if (item.type > 0 && item.input_type === 1 && item.attr_items.length < item.default_value.length){
                     for (const val of item.default_value) {
@@ -170,6 +175,48 @@ export class EditComponent implements OnInit, AfterViewInit {
             });
             this.productItems = res.product_list;
         });
+    }
+
+    public tapAttrAdd(item: IAttribute) {
+        if (item.input_type === 1) {
+            return;
+        }
+        if (!item.new_value) {
+            this.toastrService.warning('请输入属性内容');
+            return;
+        }
+        if (this.inArr(item.new_value, item.attr_items)) {
+            this.toastrService.warning('属性已存在');
+            return;
+        }
+        item.attr_items.push(item.type > 1 ? {
+            value: item.new_value,
+            price: parseFloat(item.new_price.toString()) || 0,
+        } : {
+            value: item.new_value
+        });
+        item.new_value = '';
+        if (item.type > 1) {
+            item.new_price = 0;
+        }
+    }
+
+    public tapAttrRemove(item: IAttribute, attr: IGoodsAttr) {
+        if (item.type < 1 || item.input_type > 0) {
+            return;
+        }
+        for (let i = item.attr_items.length - 1; i >= 0; i --) {
+            if (item.attr_items[i].value === attr.value) {
+                item.attr_items.splice(i, 1);
+            }
+        }
+    }
+
+    public tapAttrCheck(item: IAttribute, attr: IGoodsAttr) {
+        if (item.type !== 1) {
+            return;
+        }
+        attr.checked = !attr.checked;
     }
 
     private inArr(val: string, items: any[]): boolean {

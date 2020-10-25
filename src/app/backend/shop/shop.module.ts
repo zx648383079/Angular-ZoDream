@@ -12,7 +12,8 @@ import { AdService } from './ad.service';
 import { RegionService } from './region.service';
 import { PaymentService } from './payment.service';
 import { OpenModule } from '../open/open.module';
-
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 @NgModule({
   declarations: [...shopRoutedComponents],
@@ -24,6 +25,7 @@ import { OpenModule } from '../open/open.module';
     ThemeModule,
     ShopRoutingModule,
     EditorModule,
+    NgxEchartsModule.forRoot({ echarts }),
     OpenModule,
   ],
   providers: [
