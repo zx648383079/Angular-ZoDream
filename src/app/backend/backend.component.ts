@@ -274,7 +274,7 @@ export class BackendComponent implements OnInit {
     {
       name: 'zodream',
       icon: 'icon-user',
-      url: './auth/profile'
+      url: './user/profile'
     },
     {
       name: '设置',

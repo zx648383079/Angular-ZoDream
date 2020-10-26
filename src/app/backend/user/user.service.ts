@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/models/auth';
-import { IData, IPage } from '../../theme/models/page';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
 @Injectable({
@@ -38,6 +38,10 @@ export class UserService {
         const form = new FormData();
         form.append('file', file);
         return this.http.post<IUser>('auth/user/avatar', form);
+    }
+
+    public passwordUpdate(data: any) {
+      return this.http.post<IDataOne<boolean>>('auth/password/update', data);
     }
 
     public uploadProfile(data: any) {
