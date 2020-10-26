@@ -4,7 +4,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Store } from '@ngrx/store';
 import { AppState } from '../interfaces';
 import { getAuthStatus } from '../reducers/selectors';
-import { ThemeService, AuthService } from '../services';
+import { ThemeService } from '../services';
 
 
 @Injectable()

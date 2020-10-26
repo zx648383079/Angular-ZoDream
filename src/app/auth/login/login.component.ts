@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    private actions: AuthActions,
     private authService: AuthService) {
       this.redirectIfUserLoggedIn();
   }
@@ -72,11 +71,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             //   this.pushErrorFor(val, errors);
             // });
           })).subscribe();
-  }
-
-
-  private pushErrorFor(ctrl_name: string, msg: string) {
-    // this.signInForm.controls[ctrl_name].setErrors({ 'msg': msg });
   }
 
 

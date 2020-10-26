@@ -8,16 +8,21 @@ function getAuthState(state: AppState): AuthState {
     return state.auth;
 }
 
-// ******************** Individual selectors ***************************
+
 function fetchAuthStatus(state: AuthState): boolean {
-    return state.isAuthenticated;
+    return !state.guest;
 }
 
 function fetchCurrentUser(state: AuthState): IUser {
-    return state.currentUser;
+    return state.user;
+}
+
+function fetchRole(state: AuthState): string[] {
+    return state.roles;
 }
 
 
-// *************************** PUBLIC API's ****************************
+// *************************** 获取store值 ****************************
 export const getAuthStatus = createSelector(getAuthState, fetchAuthStatus);
 export const getCurrentUser = createSelector(getAuthState, fetchCurrentUser);
+export const getUserRole = createSelector(getAuthState, fetchRole);

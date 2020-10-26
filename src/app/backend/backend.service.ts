@@ -16,13 +16,14 @@ export class BackendService {
     return this.http.get<IUserRole>('auth/user/role');
   }
 
-  public filterNavByRole(items: INav[], role: IUserRole): INav[] {
+  public filterNavByRole(items: INav[], roles: string[], parentRole?: string): INav[] {
     const data: INav[] = [];
     items.forEach(item => {
       if (item.children) {
-        item.children = this.filterNavByRole(item.children, role);
+        item.children = this.filterNavByRole(item.children, roles, item.role);
       }
-      if (!item.role || role.permissions.indexOf(item.role) >= 0) {
+      const current = item.role || parentRole;
+      if (!current || roles.indexOf(current) >= 0) {
         data.push(item);
         return;
       }

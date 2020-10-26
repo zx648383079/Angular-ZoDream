@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
+import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
+import { getUserRole } from '../../../theme/reducers/selectors';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -28,11 +31,17 @@ export class UserComponent implements OnInit {
 
   public orderAsc = true;
 
+  public editable = false;
+
   constructor(
     private service: AuthService,
     private toastrService: ToastrService,
+    private store: Store < AppState > ,
   ) {
     this.tapRefresh();
+    this.store.select(getUserRole).subscribe(roles => {
+      this.editable = roles.indexOf('edit_user') >= 0;
+    });
   }
 
   ngOnInit() {}
@@ -95,6 +104,9 @@ export class UserComponent implements OnInit {
   }
 
   public tapRemove(item: IUser) {
+    if (!this.editable) {
+      return;
+    }
     if (!confirm('确定删除“' + item.name + '”用户？')) {
       return;
     }

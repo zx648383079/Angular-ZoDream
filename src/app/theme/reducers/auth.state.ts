@@ -1,15 +1,17 @@
-import { Map, Record, List } from 'immutable';
+import { Map, Record } from 'immutable';
 import { IUser } from '../models/user';
 
 interface IAuthState {
-  isAuthenticated: boolean;
-  currentUser: IUser;
+    guest: boolean;
+    user: IUser;
+    roles: string[];
 }
 
 export interface AuthState extends Map<string, any>, IAuthState {
 }
 
 export const AuthStateRecord = Record({
-  isAuthenticated: false,
-  currentUser: Map({}),
+    guest: true,
+    user: Map({}),
+    roles: [],
 });

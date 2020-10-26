@@ -12,7 +12,7 @@
                   <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索昵称" [value]="keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
-              <a class="btn btn-info pull-right" routerLink="./create">新增用户</a>
+              <a class="btn btn-info pull-right" routerLink="./create" *ngIf="editable">新增用户</a>
           </form>
       </div>
       <table class="table  table-bordered well">
@@ -49,8 +49,8 @@
                           <a class="btn btn-info btn-xs"
                           routerLink="./account/log" [queryParams]="{user: item.id}">明细</a>
                           <a class="btn btn-light btn-xs"
-                              [routerLink]="'./edit/' + item.id">编辑</a>
-                          <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                              [routerLink]="'./edit/' + item.id" *ngIf="editable">编辑</a>
+                          <a class="btn btn-danger" (click)="tapRemove(item)" *ngIf="editable">删除</a>
                       </div>
                   </td>
               </tr>

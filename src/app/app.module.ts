@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     NgbModule,
     ThemeModule.forRoot(),
+    // 加载store
     StoreModule.forRoot(reducers, { metaReducers }),
     ToastrModule.forRoot({
       timeOut: 1500,

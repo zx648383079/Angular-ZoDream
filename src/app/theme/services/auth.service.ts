@@ -82,7 +82,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();
     }
-    this.store.dispatch(this.actions.logoutSuccess());
+    this.store.dispatch(this.actions.logout());
   }
 
   /**
@@ -130,8 +130,7 @@ export class AuthService {
   }
 
   private authenticateUser(user: IUser) {
-    this.store.dispatch(this.actions.getCurrentUserSuccess(user as IUser));
-    this.store.dispatch(this.actions.loginSuccess());
+    this.store.dispatch(this.actions.login(user));
     return true;
   }
 }

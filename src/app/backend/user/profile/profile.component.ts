@@ -7,7 +7,7 @@ import { getCurrentUser } from 'src/app/theme/reducers/selectors';
 import { IUser } from '../../../theme/models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { DateAdapter } from '../../../theme/services';
+import { AuthService, DateAdapter } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
@@ -45,7 +45,8 @@ export class ProfileComponent implements OnInit {
     private store: Store<AppState>,
     private modalService: NgbModal,
     private toastrService: ToastrService,
-    private dateAdapter: DateAdapter
+    private dateAdapter: DateAdapter,
+    private authService: AuthService,
   ) {
     this.store.select(getCurrentUser).subscribe(user => {
       this.data = user;
@@ -88,7 +89,7 @@ export class ProfileComponent implements OnInit {
   public quiteUser() {
     this.toastrService.info('您即将退出此账户。。。');
     setTimeout(() => {
-      this.router.navigateByUrl('/auth/logout');
+      this.authService.logout();
     }, 2000);
   }
 
