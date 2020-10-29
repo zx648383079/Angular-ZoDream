@@ -1,3 +1,5 @@
+import { from } from 'rxjs';
+
 export * from './bar-item/bar-item.component';
 export * from './bar-ul/bar-ul.component';
 export * from './nav-bar/nav-bar.component';
@@ -10,3 +12,4 @@ export * from './panel/panel.component';
 export * from './datepicker/datepicker.component';
 export * from './switch/switch.component';
 export * from './count-down/count-down.component';
+export * from './markdown-editor/markdown-editor.component';

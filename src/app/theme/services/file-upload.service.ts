@@ -29,7 +29,17 @@ export class FileUploadService {
         return this.upload<IUploadResult>('open/file/image', file);
     }
 
-    public uploadImages(form: FormData): Observable<IUploadResult[]> {
+    public uploadImages(files: FormData | FileList): Observable<IUploadResult[]> {
+        let form: FormData;
+        if (files instanceof FormData) {
+            form = files;
+        } else {
+            form = new FormData();
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < files.length; i++) {
+                form.append('file[]', files[i], files[i].name);
+            }
+        }
         return this.http.post<any>('open/file/image', form).pipe(map(res => {
             if (res.data && typeof res.data === 'object' && res.data instanceof Array) {
                 return res.data;

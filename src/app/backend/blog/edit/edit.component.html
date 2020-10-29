@@ -8,7 +8,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <textarea formControlName="content" class="form-control" id="editor-container"></textarea>
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)"></app-markdown-editor>
         </div>
 
         <div class="row">
@@ -68,9 +68,9 @@
                     <div class="input-group">
                         <label for="thumb">图片</label>
                         <div class="file-input">
-                            <input type="text" id="thumb" class="form-control" name="thumb">
+                            <input type="text" id="thumb" class="form-control" formControlName="thumb">
                             <label for="fileUpload" class="btn btn-primary">上传</label>
-                            <button type="button" class="btn btn-info">预览</button>
+                            <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
                             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>

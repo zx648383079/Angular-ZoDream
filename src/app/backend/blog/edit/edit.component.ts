@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IImageUploadEvent } from '../../../theme/components';
 import { IBlog, ICategory, ITag } from '../../../theme/models/blog';
+import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -46,6 +48,7 @@ export class EditComponent implements OnInit {
     private service: BlogService,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
+    private uploadService: FileUploadService,
   ) {
     this.service.categoryAll().subscribe(res => {
       this.categories = res;
@@ -104,16 +107,37 @@ export class EditComponent implements OnInit {
     });
   }
 
-  public uploadFile(event: any) {
+  public editorImageUpload(event: IImageUploadEvent) {
+    this.uploadService.uploadImages(event.files).subscribe(res => {
+      for (const item of res) {
+        event.target.insertImage(item.url, item.original);
+      }
+    });
+  }
 
+  public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadImage(files[0]).subscribe(res => {
+      this.form.get('thumb').setValue(res.url);
+    });
+  }
+
+  public tapPreview() {
+    window.open(this.form.get('thumb').value, '_blank');
   }
 
   public uploadAudio(event: any) {
-
+    const files = event.target.files as FileList;
+    this.uploadService.uploadAudio(files[0]).subscribe(res => {
+      this.form.get('audio_url').setValue(res.url);
+    });
   }
 
   public uploadVideo(event: any) {
-
+    const files = event.target.files as FileList;
+    this.uploadService.uploadVideo(files[0]).subscribe(res => {
+      this.form.get('video_url').setValue(res.url);
+    });
   }
 
 }

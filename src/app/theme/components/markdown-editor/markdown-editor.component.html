@@ -1,0 +1,12 @@
+<div class="editor-box">
+    <div class="editor-tool-bar">
+        <label for="editor-img" class="tool-item" title="上传图片">
+            <i class="iconfont icon-image"></i>
+            <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
+        </label>
+    </div>
+    <div class="editor-area">
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"></textarea>
+        <div class="editor-footer">共 {{ size }} 字</div>
+    </div>
+</div>
