@@ -50,6 +50,20 @@ export function filterTree(items: any[], id: number) {
     return data;
 }
 
+export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean) {
+    const result = [];
+    for (const name in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, name)) {
+            const value = obj[name];
+            result.push(name + '=' + (unEncodeURI ? value : encodeURIComponent(value)));
+        }
+    }
+    if (result.length < 1) {
+        return path;
+    }
+    return path + (path.indexOf('?') > 0 ? '&' : '?') + result.join('&');
+}
+
 const OTHER_WORD_CODE = [8220, 8221, 8216, 8217, 65281, 12290, 65292, 12304, 12305, 12289, 65311, 65288, 65289, 12288, 12298, 12299, 65306];
 export function wordLength(val: string): number {
     if (!val) {

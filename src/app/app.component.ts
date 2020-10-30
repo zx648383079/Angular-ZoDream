@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
       loading.style.display = 'none';
     }
     this.auth.loginFromStorage();
+    this.auth.loginFromCookie();
   }
 
   ngOnInit() {

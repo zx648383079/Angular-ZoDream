@@ -55,9 +55,9 @@
 </form>
 
 <div class="login-oauth-box">
-  <div class="box-title">第三方登录</div>
-  <a href="./oauth?type=qq" title="QQ登录"><i class="iconfont icon-qq"></i></a>
-  <a href="./oauth?type=wechat" title="微信登录"><i class="iconfont icon-wechat"></i></a>
-  <a href="./oauth?type=weibo" title="微博登录"><i class="iconfont icon-weibo"></i></a>
-  <a href="./oauth?type=github" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+    <div class="box-title">第三方登录</div>
+    <a (click)="tapOAuth('qq')" title="QQ登录"><i class="iconfont icon-qq"></i></a>
+    <a  (click)="tapOAuth('wechat')" title="微信登录"><i class="iconfont icon-wechat"></i></a>
+    <a  (click)="tapOAuth('weibo')" title="微博登录"><i class="iconfont icon-weibo"></i></a>
+    <a  (click)="tapOAuth('github')" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
 </div>

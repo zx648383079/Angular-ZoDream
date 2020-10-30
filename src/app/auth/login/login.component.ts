@@ -3,13 +3,15 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthActions } from '../../theme/actions';
 import { AuthService } from '../../theme/services';
 import { tap } from 'rxjs/operators';
 import { getAuthStatus } from '../../theme/reducers/selectors';
 import { FormBuilder, Validators } from '@angular/forms';
 import { passwordValidator } from '../../theme/validators';
 import { CountDownComponent } from '../../theme/components';
+import { environment } from '../../../environments/environment';
+import { getCurrentTime, uriEncode } from '../../theme/utils';
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-login',
@@ -86,6 +88,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.loginSubs) { this.loginSubs.unsubscribe(); }
+  }
+
+  public tapOAuth(type: string) {
+    const timestamp = getCurrentTime();
+    const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
+    window.location.href = uriEncode(environment.apiEndpoint + 'auth/oauth', {
+      appid: environment.appid,
+      timestamp,
+      sign,
+      type,
+      redirect_uri: window.location.href,
+    }, true);
   }
 
   keyDown(event: KeyboardEvent) {
