@@ -67,7 +67,7 @@ export class BlogService {
     }
 
     public blogSave(data: any) {
-        return this.http.post<IBlog>('blog/publish/save', data);
+        return this.http.post<IBlog>('blog/publish', data);
     }
 
     public blogRemove(id: any) {
@@ -110,5 +110,9 @@ export class BlogService {
         return this.http.delete<IDataOne<true>>('blog/admin/tag/delete', {
           params: {id}
         });
+    }
+
+    public tagAll() {
+        return this.http.get<IData<ITag>>('blog/admin/tag/all').pipe(map(res => res.data));
     }
 }

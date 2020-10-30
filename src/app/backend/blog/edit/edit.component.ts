@@ -25,7 +25,7 @@ export class EditComponent implements OnInit {
     thumb: [''],
     open_type: ['0'],
     open_rule: [''],
-    edit_type: ['0'],
+    edit_type: ['1'],
     source_url: [''],
     source_author: [''],
     is_hide: [0],
@@ -52,6 +52,9 @@ export class EditComponent implements OnInit {
   ) {
     this.service.categoryAll().subscribe(res => {
       this.categories = res;
+    });
+    this.service.tagAll().subscribe(res => {
+      this.tagItems = res;
     });
   }
 
@@ -88,6 +91,28 @@ export class EditComponent implements OnInit {
     });
   }
 
+  public get typeInput() {
+    return this.form.get('type');
+  }
+
+  public get openType() {
+    return this.form.get('open_type');
+  }
+
+  public get ruleLabel() {
+    const val = parseInt(this.openType.value, 10);
+    if (val < 5) {
+      return '';
+    }
+    if (val === 5) {
+      return '阅读密码';
+    }
+    if (val === 6) {
+      return '购买价格';
+    }
+    return '规则';
+  }
+
   public tapBack() {
     history.back();
   }
@@ -101,7 +126,7 @@ export class EditComponent implements OnInit {
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }
-    this.service.categorySave(data).subscribe(_ => {
+    this.service.blogSave(data).subscribe(_ => {
       this.toastrService.success('保存成功');
       this.tapBack();
     });

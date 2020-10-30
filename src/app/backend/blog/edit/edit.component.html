@@ -8,7 +8,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)"></app-markdown-editor>
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400"></app-markdown-editor>
         </div>
 
         <div class="row">
@@ -78,7 +78,7 @@
                         <label for="open_type">公开类型</label>
                         <div class="">
                             <select id="open_type" class="form-control" formControlName="open_type">
-                                <option value="0" >公开</option>
+                                <option value="0">公开</option>
                                 <option value="1">仅登录</option>
                                 <option value="5">密码</option>
                                 <option value="6">购买</option>
@@ -87,8 +87,8 @@
         
                         </div>
                     </div>
-                    <div class="input-group" style="display: none;">
-                        <label for="open_rule">公开规则</label>
+                    <div class="input-group" *ngIf="openType.value > 4">
+                        <label for="open_rule">{{ ruleLabel }}</label>
                         <div class="">
                             <input type="text" id="open_rule" class="form-control" formControlName="open_rule">
         
@@ -98,7 +98,7 @@
                         <label for="edit_type">编辑器</label>
                         <div class="">
                             <select id="edit_type" class="form-control" formControlName="edit_type">
-                                <option value="0" >Ueditor</option>
+                                <option value="0">Ueditor</option>
                                 <option value="1">MarkDown</option>
                             </select>
         
@@ -130,20 +130,20 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="附加属性">
-                    <div class="input-group">
+                    <div class="input-group" *ngIf="typeInput.value > 0">
                         <label for="meta_source_author">原文作者</label>
                         <div class="">
                             <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
                     
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" *ngIf="typeInput.value > 0">
                         <label for="source_url">原文链接</label>
                         <div class="">
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" *ngIf="typeInput.value > 0">
                         <label for="meta_is_hide">是否隐藏</label>
                         <div>
                             <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>

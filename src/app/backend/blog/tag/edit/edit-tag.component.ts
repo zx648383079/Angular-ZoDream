@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ITag } from '../../../theme/models/blog';
-import { BlogService } from '../blog.service';
+import { ITag } from '../../../../theme/models/blog';
+import { BlogService } from '../../blog.service';
 
 @Component({
   selector: 'app-edit-tag',
@@ -58,7 +58,7 @@ export class EditTagComponent implements OnInit {
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }
-    this.service.categorySave(data).subscribe(_ => {
+    this.service.tagSave(data).subscribe(_ => {
       this.toastrService.success('保存成功');
       this.tapBack();
     });

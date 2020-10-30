@@ -47,6 +47,8 @@ export interface ICategory {
     thumb: string;
     description: string;
     blog_count: number;
+    keywords?: string;
+    styles?: string;
 }
 
 

@@ -6,7 +6,7 @@
         </label>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
     </div>
 </div>

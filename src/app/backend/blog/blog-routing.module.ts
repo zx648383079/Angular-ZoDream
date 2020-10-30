@@ -5,9 +5,9 @@ import { BlogComponent } from './blog.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { CategoryComponent } from './category/category.component';
-import { EditCategoryComponent } from './edit-category/edit-category.component';
+import { EditCategoryComponent } from './category/edit/edit-category.component';
 import { TagComponent } from './tag/tag.component';
-import { EditTagComponent } from './edit-tag/edit-tag.component';
+import { EditTagComponent } from './tag/edit/edit-tag.component';
 import { CommentComponent } from './comment/comment.component';
 
 const routes: Routes = [

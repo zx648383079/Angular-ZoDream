@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ICategory } from '../../../theme/models/blog';
-import { BlogService } from '../blog.service';
+import { ICategory } from '../../../../theme/models/blog';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
+import { BlogService } from '../../blog.service';
 
 @Component({
   selector: 'app-edit-category',
@@ -27,6 +28,7 @@ export class EditCategoryComponent implements OnInit {
     private service: BlogService,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
+    private uploadService: FileUploadService,
   ) { }
 
   ngOnInit() {
@@ -39,7 +41,9 @@ export class EditCategoryComponent implements OnInit {
         this.form.setValue({
           name: res.name,
           thumb: res.thumb,
-          description: res.description
+          keywords: res.keywords,
+          description: res.description,
+          styles: res.styles,
         });
       });
     });
@@ -69,6 +73,13 @@ export class EditCategoryComponent implements OnInit {
   }
 
   public uploadFile(event: any) {
+    const files = event.target.files as FileList;
+    this.uploadService.uploadImage(files[0]).subscribe(res => {
+      this.form.get('thumb').setValue(res.url);
+    });
+  }
 
+  public tapPreview() {
+    window.open(this.form.get('thumb').value, '_blank');
   }
 }
