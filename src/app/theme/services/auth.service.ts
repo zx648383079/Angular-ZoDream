@@ -127,14 +127,14 @@ export class AuthService {
      * @returns HttpHeaders
      */
     public getTokenHeader(request: HttpRequest < any > ): HttpHeaders {
-        const headers = request.headers || new HttpHeaders({});
-        headers.set('Accept', '*/*');
+        let headers = request.headers || new HttpHeaders({});
+        headers = headers.set('Accept', '*/*');
         if (typeof request.body !== 'object' || !(request.body instanceof FormData)) {
-            headers.set('Content-Type', 'application/vnd.api+json');
+            headers = headers.set('Content-Type', 'application/vnd.api+json');
         }
         const token = this.getUserToken();
         if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
+            headers = headers.set('Authorization', `Bearer ${token}`);
         }
         return headers;
     }

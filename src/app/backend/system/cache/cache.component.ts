@@ -29,7 +29,7 @@ export class CacheComponent implements OnInit {
     const store: string[] = [];
     for (const item of this.items) {
         if (item.checked) {
-          store.push(item.value);
+          store.push(item.value as string);
         }
     }
     if (store.length < 1) {

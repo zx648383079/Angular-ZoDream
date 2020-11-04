@@ -1,0 +1,69 @@
+<div class="container-fluid" *ngIf="data">
+    <div class="detail-box">
+        <div class="timer-box">
+            {{ time }}
+        </div>
+        <div class="timer-name">{{ data.task.name }}</div>
+        <app-circle-progress class="timer-desc" [progress]="10">{{ data.task.description }}</app-circle-progress>
+    </div>
+
+    <div class="expand-box" [ngClass]="{'open': expanded}">
+        <div class="expand-header" (click)="expanded = !expanded">
+            <i class="iconfont icon-chevron-down"></i>
+        </div>
+        <div class="expand-body">
+            <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
+                <div class="name">{{ item.name }}</div>
+                <div class="desc">{{ item.description }}</div>
+                <div class="time">{{ item.time_format }}</div>
+                <div class="action">
+                    <i class="iconfont icon-play"></i>
+                    <i class="iconfont icon-pause"></i>
+                    <i class="iconfont icon-stop"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-box">
+        <div class="timer-play" title="开始计时" *ngIf="data.status == 5 || data.status == 8" (click)="tapPlay()">
+            <i class="iconfont icon-play"></i>
+            <div class="label">开始计时</div>
+        </div>
+        <div class="timer-pause" title="暂停计时" *ngIf="data.status == 9" (click)="tapPause()">
+            <i class="iconfont icon-pause"></i>
+            <div class="label">暂停计时</div>
+        </div>
+        <div class="timer-close" title="停止计时" *ngIf="data.status == 9" (click)="tapStop()">
+            <i class="iconfont icon-stop"></i>
+            <div class="label">停止计时</div>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-panel">
+    <div class="panel-header">
+        <i class="iconfont icon-close"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text">
+        <i class="iconfont icon-paper-plane"></i>
+        <i class="iconfont icon-upload"></i>
+    </div>
+    <div class="panel-body">
+        <div class="comment-item">
+            <div class="content">内容</div>
+            <div class="time">1分种前</div>
+        </div>
+        <div class="comment-item">
+            <div class="content">内容</div>
+            <div class="time">1分种前</div>
+        </div>
+        <div class="comment-item">
+            <div class="content">
+                <img src="https://zodream.cn/assets/images/site1.jpg" alt="">
+            </div>
+            <div class="time">1分种前</div>
+        </div>
+    </div>
+</div>

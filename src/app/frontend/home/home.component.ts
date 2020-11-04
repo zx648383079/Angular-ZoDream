@@ -46,6 +46,10 @@ export class HomeComponent implements OnInit {
             url: '/shop',
         },
         {
+            name: 'Task',
+            url: '/task'
+        },
+        {
             name: 'Backend',
             url: '/backend'
         }

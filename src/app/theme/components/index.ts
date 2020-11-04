@@ -13,3 +13,4 @@ export * from './datepicker/datepicker.component';
 export * from './switch/switch.component';
 export * from './count-down/count-down.component';
 export * from './markdown-editor/markdown-editor.component';
+export * from './circle-progress/circle-progress.component';

@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>这是今日任务列表</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="add-btn">
+        <i class="iconfont icon-plus"></i>
+        添加
+    </div>
+
+    <div class="task-item" *ngFor="let item of items" (click)="tapView(item)">
+        <div class="name">{{ item.task.name }}</div>
+        <div class="desc">{{ item.task.description }}</div>
+        <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
+        <div class="tip" *ngIf="item.status === 9">进行中</div>
+        <div class="tip" *ngIf="item.status === 8">暂停中</div>
+        <div class="action">
+            <i class="iconfont icon-play"></i>
+            <i class="iconfont icon-pause"></i>
+            <i class="iconfont icon-stop"></i>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-panel">
+    <div class="panel-header">
+        <i class="iconfont icon-close"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text">
+        <i class="iconfont icon-search"></i>
+    </div>
+    <div class="panel-body">
+        <div class="task-item" *ngFor="let item of items" (click)="tapView(item)">
+            <div class="name">{{ item.task.name }}</div>
+            <div class="desc">{{ item.task.description }}</div>
+            <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
+            <div class="tip" *ngIf="item.status === 9">进行中</div>
+            <div class="tip" *ngIf="item.status === 8">暂停中</div>
+            <div class="action">
+                <i class="iconfont icon-play"></i>
+                <i class="iconfont icon-pause"></i>
+                <i class="iconfont icon-stop"></i>
+            </div>
+        </div>
+    </div>
+</div>

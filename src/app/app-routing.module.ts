@@ -10,6 +10,11 @@ const routes: Routes = [
         loadChildren: () => import('./backend/backend.module').then(m => m.BackendModule)
     },
     {
+        path: 'task',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./task/task.module').then(m => m.TaskModule)
+    },
+    {
         path: 'auth',
         loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
@@ -22,8 +27,16 @@ const routes: Routes = [
         redirectTo: 'frontend',
         pathMatch: 'full'
     },
-    { path: 'disk', loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule) },
-    { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) },
+    {
+        path: 'disk',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule)
+    },
+    {
+        path: 'chat',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
+    },
     { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
     { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
     { path: 'book', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },

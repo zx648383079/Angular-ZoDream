@@ -6,7 +6,7 @@ export interface ILink {
 
 export interface IItem {
     name: string;
-    value: string;
+    value: string | number;
     checked?: boolean;
 }
 

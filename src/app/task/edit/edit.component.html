@@ -1,0 +1,72 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑任务' : '新增任务'" (submited)="tapSubmit()" [disabled]="form.invalid">
+</app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div class="">
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">说明</label>
+            <div class="">
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="input-group time-box">
+            <label for="every_time">单次时间：</label>
+            <div>
+                <input type="number" id="every_time" class="form-control" formControlName="every_time" placeholder="请输入单次时间">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+
+
+    <div class="add-btn" (click)="openDialog(content)">
+        <i class="iconfont icon-plus"></i>
+        添加
+    </div>
+
+
+    <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
+        <div class="name">{{ item.name }}</div>
+        <div class="desc">{{ item.description }}</div>
+        <div class="time">{{ item.time_format }}</div>
+        <div class="action">
+            <i class="iconfont icon-edit" (click)="openDialog(content, item)"></i>
+            <i class="iconfont icon-trash"></i>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑子任务' : '新增子任务' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name-input">名称</label>
+            <div class="input-group">
+                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description-input">说明</label>
+            <div class="input-group">
+                <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>
