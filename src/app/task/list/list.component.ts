@@ -83,6 +83,7 @@ export class ListComponent {
             page,
             status: this.status,
             keywords: this.keywords,
+            parent_id: 0,
         }).subscribe(res => {
             this.page = page;
             this.hasMore = res.paging.more;

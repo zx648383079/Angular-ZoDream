@@ -9,6 +9,19 @@ export interface ITask {
     time_length?: number;
     time_format?: string;
     checked?: boolean;
+    children?: ITask[];
+    space_time?: number;
+    duration?: number;
+    start_at?: string;
+}
+
+export interface ITaskComment {
+    id?: number;
+    task_id?: number;
+    content: string;
+    type: number;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface ITaskDay {

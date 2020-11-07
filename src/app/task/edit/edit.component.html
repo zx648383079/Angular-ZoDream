@@ -18,7 +18,30 @@
         <div class="input-group time-box">
             <label for="every_time">单次时间：</label>
             <div>
-                <input type="number" id="every_time" class="form-control" formControlName="every_time" placeholder="请输入单次时间">
+                <input type="number" id="every_time" class="form-control" formControlName="every_time" placeholder="请输入单次时长（/分钟）">
+            </div>
+        </div>
+        <div class="input-group time-box">
+            <label for="space_time">单次间隔：</label>
+            <div>
+                <input type="number" id="space_time" class="form-control" formControlName="space_time" placeholder="请输入单次间隔（/分钟）">
+            </div>
+        </div>
+        <div class="input-group time-box">
+            <label for="duration">每日次数：</label>
+            <div>
+                <input type="number" id="duration" class="form-control" formControlName="duration" placeholder="请输入每日次数">
+                <div class="input-tip">大于0表示每天会自动增加</div>
+            </div>
+        </div>
+        <div class="input-group time-box">
+            <label for="start_at">开始时间：</label>
+            <div>
+                <input type="number" id="start_at" class="form-control" formControlName="start_at" placeholder="请输入开始时间" ngbDatepicker placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="iconfont icon-calendar"></i>
+                </button>
+                <div class="input-tip">从哪一天开始自动增加次数</div>
             </div>
         </div>
 
@@ -29,7 +52,7 @@
 
     <div class="add-btn" (click)="openDialog(content)">
         <i class="iconfont icon-plus"></i>
-        添加
+        添加子任务
     </div>
 
 
@@ -39,7 +62,7 @@
         <div class="time">{{ item.time_format }}</div>
         <div class="action">
             <i class="iconfont icon-edit" (click)="openDialog(content, item)"></i>
-            <i class="iconfont icon-trash"></i>
+            <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
         </div>
     </div>
 

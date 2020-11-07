@@ -1,13 +1,18 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ITaskDay } from '../../theme/models/task';
+import { PanelAnimation } from '../../theme/constants/panel-animation';
+import { ITask, ITaskDay } from '../../theme/models/task';
 import { TaskService } from '../task.service';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    animations: [
+        PanelAnimation
+    ],
 })
 export class HomeComponent {
 
@@ -17,6 +22,9 @@ export class HomeComponent {
     public isLoading = false;
     public total = 0;
     public perPage = 20;
+    public panelOpen = false;
+    public taskItems: ITask[] = [];
+    public keywords = '';
 
     constructor(
         private service: TaskService,
@@ -57,6 +65,38 @@ export class HomeComponent {
             this.perPage = res.paging.limit;
         }, () => {
             this.isLoading = false;
+        });
+    }
+
+    public tapAddTo(item: ITask) {
+        this.service.daySave({
+            task_id: item.id,
+        }).subscribe(res => {
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].id === res.id) {
+                    this.items[i] = res;
+                    return;
+                }
+            }
+            this.items.push(res);
+        });
+    }
+
+    public searchEnter(event: KeyboardEvent) {
+        if (event.code !== 'Enter') {
+            return;
+        }
+        this.tapSearch();
+    }
+
+    public tapSearch() {
+        this.service.taskList({
+            page: 1,
+            parent_id: 0,
+            status: 1,
+            keywords: this.keywords,
+        }).subscribe(res => {
+            this.taskItems = res.data;
         });
     }
 

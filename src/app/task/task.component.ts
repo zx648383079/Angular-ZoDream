@@ -17,9 +17,82 @@ export class TaskComponent implements OnInit {
             url: './'
         },
         {
-            name: '我的任务',
+            name: '任务管理',
+            icon: 'icon-desktop',
+            url: './list',
+            children: [
+                {
+                    name: '今日任务',
+                    icon: 'icon-calendar-o',
+                    url: './'
+                },
+                {
+                    name: '任务列表',
+                    icon: 'icon-th-list',
+                    url: './list'
+                },
+                {
+                    name: '添加任务',
+                    icon: 'icon-plus',
+                    url: './create'
+                },
+            ],
+        },
+        {
+            name: '工作统计',
+            icon: 'icon-line-chart',
+            url: './list',
+            children: [
+                {
+                    name: '周视图',
+                    icon: 'icon-bar-chart',
+                    url: './'
+                },
+                {
+                    name: '月视图',
+                    icon: 'icon-area-chart',
+                    url: './list'
+                },
+            ],
+        },
+        {
+            name: '工作记录',
+            icon: 'icon-history',
+            url: './list',
+            children: [
+                {
+                    name: '日视图',
+                    icon: 'icon-clock-o',
+                    url: './'
+                },
+                {
+                    name: '周视图',
+                    icon: 'icon-th-list',
+                    url: './'
+                },
+                {
+                    name: '月视图',
+                    icon: 'icon-calendar',
+                    url: './list'
+                },
+            ],
+        },
+        {
+            name: '分享',
             icon: 'icon-share-alt',
-            url: './list'
+            url: './list',
+            children: [
+                {
+                    name: '我的分享',
+                    icon: 'icon-paper-plane',
+                    url: './'
+                },
+                {
+                    name: '参与的分享',
+                    icon: 'icon-gift',
+                    url: './'
+                },
+            ],
         },
     ];
 

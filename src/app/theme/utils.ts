@@ -8,6 +8,22 @@ export function formatTime(date: Date): string {
     return [year, month, day].map(twoPad).join('-') + ' ' + [hour, minute, second].map(twoPad).join(':')
 }
 
+export function formatHour(time: number, format?: string, isSecond = false): string {
+    if (isNaN(time)) {
+        time = 0;
+    }
+    if (!isSecond) {
+        time = Math.floor(time / 1000);
+    }
+    const s = time % 60;
+    const m = format && format.indexOf('h') < 0 ? Math.floor(time / 60) : (Math.floor(time / 60) % 60);
+    const h = Math.floor(time / 3600);
+    if (!format) {
+        return (h !== 0 ? twoPad(h) + ':' : '') + twoPad(m) + ':' + twoPad(s);
+    }
+    return format.replace(/h+/, twoPad(h)).replace(/i+/, twoPad(m)).replace(/s+/, twoPad(s));
+}
+
 export function getCurrentTime() {
     return formatTime(new Date());
 }

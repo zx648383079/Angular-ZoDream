@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../theme/models/page';
-import { ITask, ITaskDay } from '../theme/models/task';
+import { ITask, ITaskComment, ITaskDay } from '../theme/models/task';
 
 @Injectable()
 export class TaskService {
@@ -16,6 +16,10 @@ export class TaskService {
 
     public day(id: any) {
         return this.http.get<ITaskDay>('task/home/detail_day', {params: {id}});
+    }
+
+    public daySave(params: any) {
+        return this.http.post<ITaskDay>('task/home/save_day', params);
     }
 
     public taskList(params: any) {
@@ -34,19 +38,27 @@ export class TaskService {
         return this.http.delete<IDataOne<boolean>>('task/home/delete', {params: {id}});
     }
 
-    public taskPlay(id: any) {
-        return this.http.post<ITask>('task/home/play', {id});
+    public taskPlay(params: any) {
+        return this.http.post<ITaskDay>('task/home/play', params);
     }
 
     public taskPause(id: any) {
-        return this.http.post<ITask>('task/home/pause', {id});
+        return this.http.post<ITaskDay>('task/home/pause', {id});
     }
 
     public taskStop(id: any) {
-        return this.http.post<ITask>('task/home/stop', {id});
+        return this.http.post<ITaskDay>('task/home/stop', {id});
     }
 
     public taskCheck(id: any) {
-        return this.http.post<ITask>('task/home/check', {id});
+        return this.http.post<ITaskDay>('task/home/check', {id});
+    }
+
+    public commentList(params: any) {
+        return this.http.get<IPage<ITaskComment>>('task/comment', {params});
+    }
+
+    public commenSave(params: any) {
+        return this.http.post<ITaskComment>('task/comment/save', params);
     }
 }

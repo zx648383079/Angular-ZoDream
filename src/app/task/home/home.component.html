@@ -5,7 +5,7 @@
         </ul>
     </app-page-tip>
 
-    <div class="add-btn">
+    <div class="add-btn" (click)="panelOpen = true">
         <i class="iconfont icon-plus"></i>
         添加
     </div>
@@ -24,25 +24,20 @@
     </div>
 </div>
 
-<div class="dialog-panel">
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
     <div class="panel-header">
-        <i class="iconfont icon-close"></i>
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
     <div class="panel-search">
-        <input type="text">
-        <i class="iconfont icon-search"></i>
+        <input type="text" [(ngModel)]="keywords" (keypress)="searchEnter($event)">
+        <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">
-        <div class="task-item" *ngFor="let item of items" (click)="tapView(item)">
-            <div class="name">{{ item.task.name }}</div>
-            <div class="desc">{{ item.task.description }}</div>
-            <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
-            <div class="tip" *ngIf="item.status === 9">进行中</div>
-            <div class="tip" *ngIf="item.status === 8">暂停中</div>
+        <div class="task-item" *ngFor="let item of taskItems">
+            <div class="name">{{ item.name }}</div>
+            <div class="desc">{{ item.description }}</div>
             <div class="action">
-                <i class="iconfont icon-play"></i>
-                <i class="iconfont icon-pause"></i>
-                <i class="iconfont icon-stop"></i>
+                <i class="iconfont icon-plus" (click)="tapAddTo(item)"></i>
             </div>
         </div>
     </div>

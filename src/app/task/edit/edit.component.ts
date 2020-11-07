@@ -16,6 +16,7 @@ import {
 import {
     ITask
 } from '../../theme/models/task';
+import { DateAdapter } from '../../theme/services';
 import {
     TaskService
 } from '../task.service';
@@ -30,7 +31,10 @@ export class EditComponent implements OnInit {
     public form = this.fb.group({
         name: ['', Validators.required],
         description: [''],
-        every_time: [0],
+        every_time: [25],
+        space_time: [5],
+        duration: [0],
+        start_at: [''],
     });
 
     public data: ITask;
@@ -45,6 +49,7 @@ export class EditComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: ToastrService,
         private modalService: NgbModal,
+        private dateAdapter: DateAdapter,
     ) {}
 
     ngOnInit() {
@@ -57,8 +62,14 @@ export class EditComponent implements OnInit {
                 this.form.setValue({
                     name: res.name,
                     description: res.description,
-                    every_time: res.every_time
+                    every_time: res.every_time,
+                    space_time: res.space_time,
+                    duration: res.duration,
+                    start_at: res.start_at ? this.dateAdapter.fromModel(res.start_at) : '',
                 });
+                if (res.children) {
+                    this.items = res.children;
+                }
             });
         });
     }
@@ -72,9 +83,12 @@ export class EditComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: ITask = this.form.value;
+        const data: any = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
+        }
+        if (data.start_at) {
+            data.start_at = this.dateAdapter.toModel(data.start_at);
         }
         this.service.taskSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
@@ -83,6 +97,10 @@ export class EditComponent implements OnInit {
     }
 
     openDialog(content: any, item ?: ITask) {
+        if (!this.data || this.data.id < 1) {
+            this.toastrService.warning('请先保存主任务');
+            return;
+        }
         this.editData = item || {
             id: undefined,
             name: '',
@@ -90,8 +108,11 @@ export class EditComponent implements OnInit {
             every_time: 0,
         };
         this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title'
+            ariaLabelledBy: 'modal-basic-title',
         }).result.then(_ => {
+            if (!this.editData.name) {
+                return;
+            }
             this.service.taskSave({
                 name: this.editData.name,
                 parent_id: this.data?.id,
@@ -100,6 +121,24 @@ export class EditComponent implements OnInit {
                 every_time: this.data?.every_time,
             }).subscribe(res => {
                 this.toastrService.success('保存成功');
+                this.items.push(res);
+            }, err => {
+                this.toastrService.warning(err.message);
+            });
+        }, _ => {});
+    }
+
+    public tapRemove(item: ITask) {
+        if (!confirm('确定要删除《' + item.name + '》?')) {
+            return;
+        }
+        this.service.taskRemove(item.id).subscribe(res => {
+            if (!res.data) {
+                return;
+            }
+            this.toastrService.success('删除成功');
+            this.items = this.items.filter(it => {
+                return it.id !== item.id;
             });
         });
     }

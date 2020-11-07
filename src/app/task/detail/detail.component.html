@@ -1,13 +1,12 @@
 <div class="container-fluid" *ngIf="data">
+    
     <div class="detail-box">
-        <div class="timer-box">
-            {{ time }}
-        </div>
-        <div class="timer-name">{{ data.task.name }}</div>
-        <app-circle-progress class="timer-desc" [progress]="10">{{ data.task.description }}</app-circle-progress>
+        <app-circle-progress class="timer-desc" (finished)="tapStop()"></app-circle-progress>
+        <div class="timer-name">{{ current.name }}</div>
+        <div class="timer-desc">{{ current.description }}</div>
     </div>
 
-    <div class="expand-box" [ngClass]="{'open': expanded}">
+    <div class="expand-box" *ngIf="items.length > 0" [ngClass]="{'open': expanded}">
         <div class="expand-header" (click)="expanded = !expanded">
             <i class="iconfont icon-chevron-down"></i>
         </div>
@@ -18,8 +17,6 @@
                 <div class="time">{{ item.time_format }}</div>
                 <div class="action">
                     <i class="iconfont icon-play"></i>
-                    <i class="iconfont icon-pause"></i>
-                    <i class="iconfont icon-stop"></i>
                 </div>
             </div>
         </div>
@@ -39,31 +36,35 @@
             <div class="label">停止计时</div>
         </div>
     </div>
+    <div class="fixed-icon">
+        <i class="iconfont icon-comments" (click)="panelOpen = true"></i>
+    </div>
 </div>
 
-<div class="dialog-panel">
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
     <div class="panel-header">
-        <i class="iconfont icon-close"></i>
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
     <div class="panel-search">
-        <input type="text">
-        <i class="iconfont icon-paper-plane"></i>
-        <i class="iconfont icon-upload"></i>
+        <input type="text" [(ngModel)]="comment" (keypress)="commentEnter($event)">
+        <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
+        <label for="file-upload" class="file-btn">
+            <i class="iconfont icon-upload"></i>
+            <input type="file" name="file" id="file-upload" (change)="uploadFile($event)" accept="image/*"/>
+        </label>
     </div>
     <div class="panel-body">
-        <div class="comment-item">
-            <div class="content">内容</div>
-            <div class="time">1分种前</div>
-        </div>
-        <div class="comment-item">
-            <div class="content">内容</div>
-            <div class="time">1分种前</div>
-        </div>
-        <div class="comment-item">
+        <div class="comment-item" *ngFor="let item of commentItems">
             <div class="content">
-                <img src="https://zodream.cn/assets/images/site1.jpg" alt="">
+                <ng-container *ngIf="item.type == 1; else elseTemplate">
+                    <img [src]="item.content" alt="">
+                </ng-container>
+                <ng-template #elseTemplate>
+                    {{ item.content }}
+                </ng-template>
+                
             </div>
-            <div class="time">1分种前</div>
+            <div class="time">{{ item.created_at }}</div>
         </div>
     </div>
 </div>
