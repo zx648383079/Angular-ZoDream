@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="scroll-nav">
+        <div class="item" [ngClass]="{active: category < 1}" (click)="tapCat()">
+            全部
+        </div>
+        <ng-container *ngFor="let item of categories">
+          <div class="item" [ngClass]="{active: category === item.id}" (click)="tapCat(item)">
+              {{ item.name }}
+          </div>
+        </ng-container>
+    </div>
+    <div class="bar-panel">
+        <div class="bar-container">
+            <ng-container *ngFor="let item of barItems;let i = index">
+                <div class="item" [ngClass]="{active: barIndex === i}" (click)="tapBar(i)">
+                    {{ item }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="body-container">
+            <ng-container *ngFor="let item of items">
+                <div class="book-item book-thumb" (click)="tapBook(item)">
+                  <div class="cover">
+                      <img [src]="item.cover">
+                      <div class="tip" *ngIf="item.click_count > 0">{{ item.click_count | size }}人气</div>
+                  </div>
+                  <div class="info">
+                      <div class="name">{{ item.name }}</div>
+                      <div class="tag">{{ item.author.name}}·{{ item.category.name }}·
+                        <ng-container *ngIf="item.over_at">
+                            {{ item.over_at }}·
+                        </ng-container>
+                          
+                        {{ item.size | size }}字</div>
+                      <div class="desc">{{ item.description }}</div>
+                  </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

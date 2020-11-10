@@ -9,8 +9,8 @@
               <i class="iconfont icon-search" (click)="tapSuggest()"></i>
             </div>
             <ul class="search-suggestion" *ngIf="suggestItems && suggestItems.length > 0">
-              <ng-container *ngFor="let item of suggestItems">
-                <li>{{ item }}</li>
+              <ng-container *ngFor="let item of suggestItems; let i = index;">
+                <li (click)="tapSuggestion(i)">{{ item }}</li>
               </ng-container>
             </ul>
           </li>

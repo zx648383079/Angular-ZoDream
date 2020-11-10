@@ -38,6 +38,12 @@ export class BookService {
         }));
     }
 
+    public categories(): Observable<ICategory[]> {
+        return this.http.get<IData<ICategory>>('book/category/all').pipe(map(item => {
+            return item.data;
+        }));
+    }
+
     public getAuthors(): Observable<IAuthor[]> {
         return this.http.get<IData<IAuthor>>('book/author').pipe(map(item => {
             return item.data;

@@ -28,7 +28,9 @@ export class NavBarComponent implements OnInit {
 
   @Input() public suggestItems: string[] = [];
 
-  @Output() public suggestSubmited = new EventEmitter<string>();
+  @Output() public textChanged = new EventEmitter<string>();
+  @Output() public querySubmitted = new EventEmitter<string>();
+  @Output() public suggestionChosen = new EventEmitter<number>();
 
   public suggestText = '';
 
@@ -43,13 +45,19 @@ export class NavBarComponent implements OnInit {
       this.navToggle = isOpen;
       return;
     }
-    this.suggestSubmited.emit(this.suggestText);
+    this.querySubmitted.emit(this.suggestText);
   }
 
   public suggestKeyPress(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      this.suggestSubmited.emit(this.suggestText);
+      this.querySubmitted.emit(this.suggestText);
+      return;
     }
+    this.textChanged.emit(this.suggestText);
+  }
+
+  public tapSuggestion(i: number) {
+    this.suggestionChosen.emit(i);
   }
 
   public tapItem(item: INav, e: MouseEvent) {

@@ -16,7 +16,7 @@
   </div>
   <div class="box">
     <ng-container *ngFor="let item of items">
-        <div (click)="tapChapter(item)" :class="['item', activeChapter == item.id ? 'active' : '']">
+        <div (click)="tapChapter(item)" class="item" [ngClass]="{active: activeChapter == item.id}">
           <div class="title">{{ item.title }}</div>
           <div class="time">{{ item.created_at }}</div>
       </div>

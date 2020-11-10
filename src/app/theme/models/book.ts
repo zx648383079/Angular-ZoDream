@@ -2,6 +2,7 @@ export interface ICategory {
     id: number;
     name: string;
     book_count?: number;
+    thumb?: string;
 }
 
 export interface IAuthor {

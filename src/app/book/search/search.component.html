@@ -1,18 +1,22 @@
 <div class="container-fluid">
-  
 
+    <ng-container *ngFor="let item of items">
+        <div class="book-item" (click)="tapBook(item)">
+            <div class="cover">
+                <img [src]="item.cover">
+                <div class="tip" *ngIf="item.click_count > 0">{{ item.click_count | size }}人气</div>
+            </div>
+            <div class="info">
+                <div class="name">{{ item.name }}</div>
+                <div class="tag">{{ item.author.name}}·{{ item.category.name }}·
+                  <ng-container *ngIf="item.over_at">
+                      {{ item.over_at }}·
+                  </ng-container>
+                    
+                  {{ item.size | size }}字</div>
+                <div class="desc">{{ item.description }}</div>
+            </div>
+        </div>
+    </ng-container>
 
-  <ng-container *ngFor="let item of items">
-    <div class="book-item" (click)="tapBook(item)">
-      <div class="cover">
-          <img :src="book.cover">
-          <div class="tip" v-if="book.click_count > 0">{{ item.click_count | size }}人气</div>
-      </div>
-      <div class="info">
-          <div class="name">{{ item.name }}</div>
-          <div class="tag">{{ item.author.name}}·{{ item.category.name }}·{{ item.over_at }}·{{ item.size | size }}字</div>
-          <div class="desc">{{ item.description }}</div>
-      </div>
-    </div>
-  </ng-container>
 </div>

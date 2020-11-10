@@ -3,7 +3,7 @@
     <ng-container *ngFor="let item of items">
         <div class="book-item">
             <div class="cover">
-                <img :src="item.cover">
+                <img [src]="item.cover">
             </div>
             <div class="info">
                 <div class="name">{{ item.name }}</div>

@@ -18,15 +18,17 @@ export class CategoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.service.getCategories().subscribe(res => {
+      this.categories = res;
+    });
   }
 
   public tapCategory(item: ICategory) {
-    this.router.navigate([{
-        name: 'bang',
-        query: {
-            category: item.id + '',
-            title: item.name,
-        },
-    }]);
+    this.router.navigate(['/book/top'], {
+      queryParams: {
+        category: item.id,
+        title: item.name,
+      }
+    });
   }
 }

@@ -1,10 +1,15 @@
 <div class="container-fluid">
-    <div class="box">
+    <div class="row">
         <ng-container *ngFor="let item of categories">
-            <div (click)="tapCategory(item)">
-                {{ item.name }}
+            <div class="col-md-4">
+                <div class="cat-item" (click)="tapCategory(item)">
+                    <div class="thumb">
+                        <img [src]="item.thumb" alt="">
+                    </div>
+                    <div class="name">{{ item.name }}</div>
+                    <div class="amount">{{ item.book_count }}部</div>
+                </div>
             </div>
         </ng-container>
-        
     </div>
 </div>
