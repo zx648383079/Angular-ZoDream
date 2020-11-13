@@ -1,116 +1,179 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../theme/interfaces';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../theme/services';
-import { tap } from 'rxjs/operators';
-import { getAuthStatus } from '../../theme/reducers/selectors';
-import { FormBuilder, Validators } from '@angular/forms';
-import { passwordValidator } from '../../theme/validators';
-import { CountDownComponent } from '../../theme/components';
-import { environment } from '../../../environments/environment';
-import { getCurrentTime, uriEncode } from '../../theme/utils';
-import { Md5 } from 'ts-md5';
+import {
+    Component,
+    OnDestroy,
+    OnInit
+} from '@angular/core';
+import {
+    Subscription
+} from 'rxjs';
+import {
+    Store
+} from '@ngrx/store';
+import {
+    AppState
+} from '../../theme/interfaces';
+import {
+    ActivatedRoute,
+    Router
+} from '@angular/router';
+import {
+    AuthService
+} from '../../theme/services';
+import {
+    tap
+} from 'rxjs/operators';
+import {
+    getAuthStatus
+} from '../../theme/reducers/selectors';
+import {
+    FormBuilder,
+    Validators
+} from '@angular/forms';
+import {
+    passwordValidator
+} from '../../theme/validators';
+import {
+    CountDownComponent
+} from '../../theme/components';
+import {
+    environment
+} from '../../../environments/environment';
+import {
+    getCurrentTime,
+    uriEncode
+} from '../../theme/utils';
+import {
+    Md5
+} from 'ts-md5';
+import {
+    ToastrService
+} from 'ngx-toastr';
+import {
+    IErrorResponse
+} from '../../theme/models/page';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  public mode = 0;
-  public loginSubs: Subscription;
-  public redirectUri: string;
-  public isObserve = false;
+    public mode = 0;
+    public loginSubs: Subscription;
+    public redirectUri: string;
+    public isObserve = false;
 
-  public loginForm = this.fb.group({
-    email: ['', [Validators.email, Validators.required]],
-    password: ['', [Validators.required, passwordValidator]],
-    code: [''],
-    remember: [false]
-  });
-
-  constructor(
-    private store: Store<AppState>,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService) {
-      this.redirectIfUserLoggedIn();
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  ngOnInit() {
-    this.route.queryParams.subscribe(res => {
-      this.redirectUri = res.redirect_uri || '/';
+    public loginForm = this.fb.group({
+        email: ['', [Validators.email, Validators.required]],
+        password: ['', [Validators.required, passwordValidator]],
+        code: [''],
+        remember: [false],
+        captcha: [''],
     });
-  }
 
-  tapMode(i: number) {
-    this.mode = i;
-  }
+    private captchaToken = '';
+    public captchaImage = '';
 
-  tapSignIn() {
-    if (!this.loginForm.valid) {
-      return;
+    constructor(
+        private store: Store < AppState > ,
+        private route: ActivatedRoute,
+        private fb: FormBuilder,
+        private router: Router,
+        private toastrService: ToastrService,
+        private authService: AuthService) {
+        this.redirectIfUserLoggedIn();
     }
-    this.loginSubs = this.authService
-        .login(this.loginForm.value).pipe(
-          tap(user => {
-            // this.router.navigateByUrl(this.returnUrl)
-          }, (user) => {
-            const errors = user.error.error || 'Something went wrong';
-            // keys.forEach(val => {
-            //   this.pushErrorFor(val, errors);
-            // });
-          })).subscribe();
-  }
 
+    get email() {
+        return this.loginForm.get('email');
+    }
 
-  redirectIfUserLoggedIn() {
-    this.store.select(getAuthStatus).subscribe(
-      data => {
-        if (data === true) {
-          this.router.navigateByUrl(this.redirectUri);
+    get password() {
+        return this.loginForm.get('password');
+    }
+
+    get captcha() {
+        return this.loginForm.get('captcha');
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(res => {
+            this.redirectUri = res.redirect_uri || '/';
+        });
+    }
+
+    tapMode(i: number) {
+        this.mode = i;
+    }
+
+    tapSignIn() {
+        if (!this.loginForm.valid) {
+            return;
         }
-      }
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.loginSubs) { this.loginSubs.unsubscribe(); }
-  }
-
-  public tapOAuth(type: string) {
-    const timestamp = getCurrentTime();
-    const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
-    window.location.href = uriEncode(environment.apiEndpoint + 'auth/oauth', {
-      appid: environment.appid,
-      timestamp,
-      sign,
-      type,
-      redirect_uri: window.location.href,
-    }, true);
-  }
-
-  keyDown(event: KeyboardEvent) {
-    if (event.code !== 'Enter') {
-      return;
+        const data = Object.assign({}, this.loginForm.value);
+        if (this.captchaToken) {
+            data.captcha_token = this.captchaToken;
+        }
+        this.loginSubs = this.authService
+            .login(data)
+            .subscribe(_ => {},
+                err => {
+                    const res = err.error as IErrorResponse;
+                    this.toastrService.warning(res.message);
+                    if (res.captcha_token) {
+                        this.captchaToken = res.captcha_token;
+                    }
+                    this.tapCaptcha();
+                });
     }
-    ((event.target as HTMLInputElement).parentNode.nextSibling as HTMLDivElement).querySelector('input').focus();
-  }
 
-  public tapSendCode(event: CountDownComponent) {
-    event.start(120);
-  }
+
+    redirectIfUserLoggedIn() {
+        this.store.select(getAuthStatus).subscribe(
+            data => {
+                if (data === true) {
+                    this.router.navigateByUrl(this.redirectUri);
+                }
+            }
+        );
+    }
+
+    ngOnDestroy() {
+        if (this.loginSubs) {
+            this.loginSubs.unsubscribe();
+        }
+    }
+
+    public tapOAuth(type: string) {
+        const timestamp = getCurrentTime();
+        const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
+        window.location.href = uriEncode(environment.apiEndpoint + 'auth/oauth', {
+            appid: environment.appid,
+            timestamp,
+            sign,
+            type,
+            redirect_uri: window.location.href,
+        }, true);
+    }
+
+    public keyDown(event: KeyboardEvent) {
+        if (event.code !== 'Enter') {
+            return;
+        }
+        ((event.target as HTMLInputElement).parentNode.nextSibling as HTMLDivElement).querySelector('input').focus();
+    }
+
+    public tapCaptcha() {
+        if (!this.captchaToken) {
+            this.captchaImage = '';
+            return;
+        }
+        this.captchaImage = environment.assetUri + '/auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random();
+    }
+
+    public tapSendCode(event: CountDownComponent) {
+        event.start(120);
+    }
 
 }

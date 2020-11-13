@@ -25,3 +25,9 @@ export interface IData<T> extends IBaseResponse {
 export interface IDataOne<T> extends IBaseResponse {
     data?: T;
 }
+
+export interface IErrorResponse {
+    [key: string]: any;
+    code: number;
+    message: string;
+}

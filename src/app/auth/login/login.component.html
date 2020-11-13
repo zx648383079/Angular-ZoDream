@@ -10,6 +10,14 @@
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
+        <div class="input-group captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
+            <input type="text" formControlName="captcha" placeholder="请输入验证码" autocomplete="off">
+            <i class="iconfont icon-key" aria-hidden="true"></i>
+            <a (click)="tapCaptcha()" class="btn" title="点击刷新">
+                <img [src]="captchaImage" alt="刷新重试">
+            </a>
+        </div>
+
         <!-- <div class="input-group code-input" [class]="{error: password.invalid}">
             <input type="text" formControlName="code" placeholder="请输入验证码">
             <i class="iconfont icon-lock" aria-hidden="true"></i>

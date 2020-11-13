@@ -66,15 +66,6 @@ export class AuthService {
                 this.authenticateUser(user);
                 return user;
             }),
-            tap(
-                _ => _ /*this.router.navigate(['/'])*/ ,
-                error => {
-                    this.toastrService.error(error.error.message, 'ERROR!');
-                }
-            ),
-            catchError(error => {
-                return of(error);
-            })
         );
     }
 
@@ -92,13 +83,6 @@ export class AuthService {
                 this.authenticateUser(user);
                 return user;
             }),
-            tap(
-                _ => {
-                    this.toastrService.success('You are successfully registerd!', 'Success!!');
-                    this.router.navigate(['auth', 'login']);
-                },
-                _ => this.toastrService.error('Invalid/Existing data', 'ERROR!!')
-            )
         );
     }
 
