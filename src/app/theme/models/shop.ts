@@ -22,13 +22,14 @@ export interface ICategory {
 }
 
 export interface IProduct {
-    id: number;
-    goods_id: number;
-    price: number;
-    market_price: number;
-    stock: number;
-    series_number: string;
-    attributes: string;
+    id?: number;
+    goods_id?: number;
+    price?: number;
+    market_price?: number;
+    stock?: number;
+    weight?: number;
+    series_number?: string;
+    attributes?: string;
 }
 
 export interface IGoodsAttribute {

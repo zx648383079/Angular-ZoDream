@@ -17,6 +17,7 @@ import { ChapterComponent } from './chapter/chapter.component';
 import { ReaderComponent } from './reader/reader.component';
 import { DetailComponent } from './list/detail/detail.component';
 import { TopComponent } from './top/top.component';
+import { BookDetailComponent } from './detail/book-detail.component';
 
 const routes: Routes = [{
     path: '',
@@ -31,6 +32,10 @@ const routes: Routes = [{
             component: SearchComponent
         },
         {
+            path: 'list/:id',
+            component: DetailComponent
+        },
+        {
             path: 'list',
             component: ListComponent
         },
@@ -43,12 +48,12 @@ const routes: Routes = [{
             component: ChapterComponent
         },
         {
-            path: 'reader/:id',
+            path: 'reader/:book/:id',
             component: ReaderComponent
         },
         {
             path: ':id',
-            component: DetailComponent
+            component: BookDetailComponent
         },
         {
             path: '',
@@ -73,5 +78,6 @@ export const bookRoutingComponents = [
     ListComponent,
     ChapterComponent,
     ReaderComponent,
-    TopComponent
+    TopComponent,
+    BookDetailComponent
 ];

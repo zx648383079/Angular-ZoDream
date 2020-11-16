@@ -2,24 +2,16 @@ import {
     Component,
     OnInit
 } from '@angular/core';
-import {
-    IBook,
-    IChapter
-} from 'src/app/theme/models/book';
-import {
-    BookService
-} from '../book.service';
-import {
-    Router,
-    ActivatedRoute
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IBook, IChapter } from '../../theme/models/book';
+import { BookService } from '../book.service';
 
 @Component({
-    selector: 'app-chapter',
-    templateUrl: './chapter.component.html',
-    styleUrls: ['./chapter.component.scss']
+    selector: 'app-book-detail',
+    templateUrl: './book-detail.component.html',
+    styleUrls: ['./book-detail.component.scss']
 })
-export class ChapterComponent implements OnInit {
+export class BookDetailComponent implements OnInit {
 
     public data: IBook;
     public chapterItems: IChapter[] = [];
@@ -43,7 +35,6 @@ export class ChapterComponent implements OnInit {
             });
         });
     }
-
 
     public tapChapter(item: IChapter) {
         this.router.navigate(['/book/reader/' + this.data.id + '/' + item.id]);

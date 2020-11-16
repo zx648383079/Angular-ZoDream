@@ -6,6 +6,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AttributeService } from './attribute.service';
+import { SkuFormComponent } from './sku-form/sku-form.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { AttributeService } from './attribute.service';
   declarations: [
     ...goodsRoutedComponents,
     ...goodsPipes,
+    SkuFormComponent,
   ],
   providers: [
     GoodsService,

@@ -1,0 +1,114 @@
+<div class="attribute-box">
+    <div class="attr-box">
+        <div class="input-group" *ngFor="let item of attrItems">
+            <label for="">{{ item.name }}</label>
+            <div>
+                <ng-container *ngIf="item.type < 1">
+                    <ng-container *ngFor="let attr of item.attr_items">
+                        <ng-container *ngIf="item.input_type < 1">
+                            <input type="text" class="form-control" [(ngModel)]="attr.value" placeholder="属性值"
+                                [ngModelOptions]="{standalone: true}">
+                        </ng-container>
+                        <ng-container *ngIf="item.input_type == 1">
+                            <select class="form-control" [(ngModel)]="attr.value" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let val of item.default_value" [value]="val">{{ val }}</option>
+                            </select>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="item.type == 1">
+                    <div class="check-label" *ngFor="let attr of item.attr_items">
+                        <i class="iconfont"
+                            [ngClass]="{'icon-square-o': !attr.checked, 'icon-check-square-o': attr.checked}"
+                            (click)="tapAttrCheck(item, attr)"></i>
+                        <input type="text" class="form-control" [(ngModel)]="attr.value"
+                            [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                        <i class="iconfont icon-close" *ngIf="item.input_type < 1"
+                            (click)="tapAttrRemove(item, attr)"></i>
+                    </div>
+                    <div class="add-box" *ngIf="item.input_type < 1">
+                        <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值"
+                            [ngModelOptions]="{standalone: true}">
+                        <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="item.type == 2">
+                    <div class="attr-block" *ngFor="let attr of item.attr_items">
+                        <input type="text" class="form-control" [(ngModel)]="attr.value"
+                            [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(ngModel)]="attr.price" size="10" placeholder="价格"
+                            [ngModelOptions]="{standalone: true}">
+                        <i class="iconfont icon-close" *ngIf="item.input_type < 1"
+                            (click)="tapAttrRemove(item, attr)"></i>
+                    </div>
+                    <div class="add-box" *ngIf="item.input_type < 1">
+                        <input type="text" class="form-control" [(ngModel)]="item.new_value" placeholder="属性值"
+                            [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(ngModel)]="item.new_price" placeholder="价格"
+                            [ngModelOptions]="{standalone: true}">
+                        <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="product-box" *ngIf="specItems && specItems.length > 0">
+        <hr>
+        <div class="form-horizontal batch-box">
+            <label class="am-form-label">批量设置</label>
+            <div class="input-group">
+                <input type="text" [(ngModel)]="batchData.series_number" placeholder="商家编码">
+            </div>
+            <div class="input-group">
+                <input type="number"  [(ngModel)]="batchData.price" placeholder="销售价">
+            </div>
+            <div class="input-group">
+                <input type="number"  [(ngModel)]="batchData.market_price" placeholder="划线价">
+            </div>
+            <div class="input-group">
+                <input type="number"  [(ngModel)]="batchData.stock" placeholder="库存数量">
+            </div>
+            <div class="input-group">
+                <input type="number"  [(ngModel)]="batchData.weight" placeholder="重量">
+            </div>
+            <button type="button" class="btn btn-info" (click)="tapBatch()">确定</button>
+        </div>
+        <table class="table table-hover product-table">
+            <thead>
+                <tr>
+                    <th *ngFor="let item of radioItems">
+                        {{ item.name }}
+                    </th>
+                    <th>商家编码</th>
+                    <th>销售价</th>
+                    <th>划线价</th>
+                    <th>库存</th>
+                    <th>重量(kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of specItems">
+                    <td *ngFor="let row of item.rows" class="td-spec-value am-text-middle" [rowSpan]="row.rowspan">
+                        {{ row.value }}
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="series_number" [ngModel]="item.form.series_number">
+                    </td>
+                    <td>
+                        <input type="number" name="price" [ngModel]="item.form.price">
+                    </td>
+                    <td>
+                        <input type="number" name="market_price" [ngModel]="item.form.market_price">
+                    </td>
+                    <td>
+                        <input type="number" name="stock" [ngModel]="item.form.stock">
+                    </td>
+                    <td>
+                        <input type="number" name="weight" [ngModel]="item.form.weight">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

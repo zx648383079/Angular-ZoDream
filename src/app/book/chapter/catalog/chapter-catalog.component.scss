@@ -1,0 +1,31 @@
+.catalog-header {
+    min-height: 60px;
+    .right {
+        float: right;
+        font-size: 18px;
+    }
+}
+.catalog-box {
+    .item {
+        display: flex;
+        line-height: 50px;
+        border-bottom: 1px dotted #ccc;
+        cursor: pointer;
+        .title {
+            flex: 1;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+        .time {
+        }
+        &:hover {
+            background-color: rgba($color: #b8b6b6, $alpha: .1);
+        }
+        &.active {
+            color: orange;
+            .title {
+                font-weight: 700;
+            }
+        }
+    }
+}

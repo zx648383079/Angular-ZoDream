@@ -48,7 +48,7 @@ export class TopComponent implements OnInit {
     }
 
     public tapBook(item: IBook) {
-
+        this.router.navigate(['/book/' + item.id]);
     }
 
     public tapRefresh() {

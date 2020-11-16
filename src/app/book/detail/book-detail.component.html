@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="book-box" *ngIf="data">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="cover">
+                    <img [src]="data.cover" alt="">
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="title">{{ data.name }}</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="line-item">作者：{{ data.author?.name }}</div>
+                        <div class="line-item">最后更新：{{ data.updated_at }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="line-item">动作：
+                            <a href="">加入书架</a>
+                        </div>
+                        <div class="line-item">最新章节：{{ data.updated_at }}</div>
+                    </div>
+                </div>
+
+                <div class="content">{{ data.description }}</div>
+                <div class="action-bar">
+                    <div class="btn btn-primary">立即阅读</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chapter-box">
+        <app-chapter-catalog [items]="chapterItems" (selected)="tapChapter($event)"></app-chapter-catalog>
+    </div>
+</div>

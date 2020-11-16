@@ -6,6 +6,7 @@ import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IPr
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
 import { GoodsService } from '../goods.service';
+import { SkuFormComponent } from '../sku-form/sku-form.component';
 
 @Component({
   selector: 'app-edit',
@@ -13,6 +14,9 @@ import { GoodsService } from '../goods.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit, AfterViewInit {
+
+    @ViewChild(SkuFormComponent)
+    public skuForm: SkuFormComponent;
 
     public data: IGoods;
 
@@ -133,10 +137,12 @@ export class EditComponent implements OnInit, AfterViewInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IGoods = this.form.value;
+        const data: any = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        data.attr = this.skuForm.attrFormData();
+        data.product = this.skuForm.productFormData();
         this.service.categorySave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
@@ -151,99 +157,9 @@ export class EditComponent implements OnInit, AfterViewInit {
             return;
         }
         this.service.goodsAttribute(groupId, this.data?.id).subscribe(res => {
-            this.attrItems = res.attr_list.map(item => {
-                if (typeof item.input_type === 'string') {
-                    item.input_type = parseInt(item.input_type, 10);
-                }
-                if (typeof item.type === 'string') {
-                    item.type = parseInt(item.type, 10);
-                }
-                if (item.input_type === 1) {
-                    item.default_value = this.strToArr(item.default_value);
-                }
-                if ((!item.attr_items || item.attr_items.length < 1) && item.type < 1) {
-                    item.attr_items = [{value: item.input_type === 1 ? item.default_value[0] : ''}];
-                }
-                if (item.type > 0 && item.input_type === 1 && item.attr_items.length < item.default_value.length){
-                    for (const val of item.default_value) {
-                        if (!this.inArr(val, item.attr_items)) {
-                            item.attr_items.push({value: val});
-                        }
-                    }
-                }
-                return item;
-            });
+            this.attrItems = res.attr_list;
             this.productItems = res.product_list;
         });
-    }
-
-    public tapAttrAdd(item: IAttribute) {
-        if (item.input_type === 1) {
-            return;
-        }
-        if (!item.new_value) {
-            this.toastrService.warning('请输入属性内容');
-            return;
-        }
-        if (this.inArr(item.new_value, item.attr_items)) {
-            this.toastrService.warning('属性已存在');
-            return;
-        }
-        item.attr_items.push(item.type > 1 ? {
-            value: item.new_value,
-            price: parseFloat(item.new_price.toString()) || 0,
-        } : {
-            value: item.new_value
-        });
-        item.new_value = '';
-        if (item.type > 1) {
-            item.new_price = 0;
-        }
-    }
-
-    public tapAttrRemove(item: IAttribute, attr: IGoodsAttr) {
-        if (item.type < 1 || item.input_type > 0) {
-            return;
-        }
-        for (let i = item.attr_items.length - 1; i >= 0; i --) {
-            if (item.attr_items[i].value === attr.value) {
-                item.attr_items.splice(i, 1);
-            }
-        }
-    }
-
-    public tapAttrCheck(item: IAttribute, attr: IGoodsAttr) {
-        if (item.type !== 1) {
-            return;
-        }
-        attr.checked = !attr.checked;
-    }
-
-    private inArr(val: string, items: any[]): boolean {
-        for (const item of items) {
-            if (val === item.value.trim()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private strToArr(val: any): string[] {
-        if (typeof val === 'object') {
-            return val;
-        }
-        const items: string[] = [];
-        val.toString().split('\n').forEach((item: string) => {
-            item = item.replace('\r', '').trim();
-            if (!item || item.length < 1) {
-                return;
-            }
-            if (items.indexOf(item) >= 0) {
-                return;
-            }
-            items.push(item);
-        });
-        return items;
     }
 
     public uploadFile(event: any, name: string = 'thumb') {

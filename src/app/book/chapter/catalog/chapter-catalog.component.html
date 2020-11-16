@@ -1,0 +1,25 @@
+<div class="catalog-header">
+    <ng-container *ngIf="!orderAsc; else elseTemplate">
+        <a class="right" (click)="tapOrder()">
+            <i class="iconfont icon-arrow-up"></i>
+            正序
+        </a>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <a class="right" (click)="tapOrder()">
+            <i class="iconfont icon-arrow-down"></i>
+            倒序
+        </a>
+    </ng-template>
+</div>
+<div class="catalog-box">
+    <div class="row">
+        <ng-container *ngFor="let item of filterItems">
+            <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
+                <div class="title">{{ item.title }}</div>
+                <div class="time">{{ item.created_at }}</div>
+            </div>
+        </ng-container>
+    </div>
+    
+</div>
