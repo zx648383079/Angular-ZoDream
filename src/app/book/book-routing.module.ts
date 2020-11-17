@@ -18,6 +18,7 @@ import { ReaderComponent } from './reader/reader.component';
 import { DetailComponent } from './list/detail/detail.component';
 import { TopComponent } from './top/top.component';
 import { BookDetailComponent } from './detail/book-detail.component';
+import { EditListComponent } from './list/edit/edit-list.component';
 
 const routes: Routes = [{
     path: '',
@@ -30,6 +31,14 @@ const routes: Routes = [{
         {
             path: 'search',
             component: SearchComponent
+        },
+        {
+            path: 'list/edit/:id',
+            component: EditListComponent,
+        },
+        {
+            path: 'list/create',
+            component: EditListComponent,
         },
         {
             path: 'list/:id',
@@ -79,5 +88,6 @@ export const bookRoutingComponents = [
     ChapterComponent,
     ReaderComponent,
     TopComponent,
-    BookDetailComponent
+    BookDetailComponent,
+    EditListComponent,
 ];

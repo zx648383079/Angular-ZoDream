@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface ICategory {
     id: number;
     name: string;
@@ -37,6 +39,33 @@ export interface IChapter {
     previous?: IChapter;
     next?: IChapter;
     created_at: string;
+}
+
+export interface IBookList {
+    user: IUser;
+    items: IBookListItem[];
+    id: number;
+    user_id: number;
+    title: string;
+    description: string;
+    book_count: number;
+    click_count: number;
+    collect_count: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IBookListItem {
+    book: IBook;
+    id?: number;
+    list_id?: number;
+    book_id: number;
+    remark: string;
+    star: number;
+    agree?: number;
+    disagree?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface IBookRecord extends IBook {

@@ -1,0 +1,13 @@
+<div class="color-picker">
+    <div (click)="showPicker()" class="color-input-container">
+        <ng-content></ng-content>
+    </div>
+    <div class="color-picker-calendar" [hidden]="!visibility" (click)="stopPropagation($event)">
+        <div class="color-picker-sv" (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" (touchend)="touchEnd($event)" [ngStyle]="{'background-color': background}">
+            <i [ngStyle]="svStyle"></i>
+        </div>
+        <div class="color-picker-h" (touchstart)="touchHStart($event)" (touchmove)="touchHMove($event)">
+            <i [ngStyle]="hStyle"></i>
+        </div>
+    </div>
+</div>

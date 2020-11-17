@@ -17,6 +17,23 @@ export class ReaderComponent implements OnInit {
     @ViewChild(FlipPagerComponent)
     public flipPager: FlipPagerComponent;
     public chapterId = 0;
+    public fontItems = ['雅黑', '宋体', '楷书', '启体'];
+    public flipItems = ['无', '覆盖', '仿真', '滚屏'];
+    public configs: any = {
+        font: 3,
+        background: '#fff',
+        oldTheme: '', // 记录夜间模式切换
+        size: 18,
+        line: 10,
+        letter: 4,
+        color: '#333',
+        flip: 0,
+    };
+    public sizeRound: {[key: string]: number[]} = {
+        size: [12, 2, 40],
+        line: [2, 1, 40],
+        letter: [1, 1, 40],
+    };
 
     constructor(
         private route: ActivatedRoute,
@@ -40,6 +57,38 @@ export class ReaderComponent implements OnInit {
         this.service.getChapter(id).subscribe(res => {
             this.flipPager.append(res);
         });
+    }
+
+    public tapPrev() {
+
+    }
+
+    public tapNext() {
+
+    }
+
+    public tapBackgroundImg() {
+
+    }
+
+    public tapMinus(key: string) {
+
+    }
+
+    public tapPlus(key: string) {
+
+    }
+
+    public tapChapter() {
+
+    }
+
+    public tapEye() {
+
+    }
+
+    public tapSetting() {
+
     }
 
 }

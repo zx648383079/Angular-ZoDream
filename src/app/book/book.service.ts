@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IData, IPage } from '../theme/models/page';
 import { map } from 'rxjs/operators';
-import { IBook, ICategory, IAuthor, IChapter } from '../theme/models/book';
+import { IBook, ICategory, IAuthor, IChapter, IBookList } from '../theme/models/book';
 
 @Injectable()
 export class BookService {
@@ -88,5 +88,17 @@ export class BookService {
 
     public saveTheme(params: any): Observable<any>{
         return this.http.post<any>('book/theme/save', params);
+    }
+
+    public list(params: any) {
+        return this.http.get<IPage<IBookList>>('book/list', {params});
+    }
+
+    public listDetail(id: any) {
+        return this.http.get<IBookList>('book/list/detail', {params: {id}});
+    }
+
+    public listSave(data: any) {
+        return this.http.post<IBookList>('book/list/save', data);
     }
 }

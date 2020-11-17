@@ -20,7 +20,7 @@ import {
   MediaPlayerComponent,
   ProgressBarComponent,
   PullToRefreshComponent,
-  PanelComponent, DatepickerComponent, SwitchComponent, CountDownComponent, MarkdownEditorComponent, CircleProgressComponent
+  PanelComponent, DatepickerComponent, SwitchComponent, CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';
@@ -48,6 +48,8 @@ const COMPONENTS = [
   CountDownComponent,
   MarkdownEditorComponent,
   CircleProgressComponent,
+  ColorPickerComponent,
+  StarComponent,
 ];
 
 const PIPES = [

@@ -1,9 +1,6 @@
 .book-list-info {
     display: grid;
     grid-template-columns: 1fr 200px;
-    background-color: #fff;
-    margin-bottom: 20px;
-    padding: 20px 0 20px 30px;
     .title {
         color: #333;
         font-size: 22px;
@@ -13,11 +10,28 @@
         min-height: 80px;
     }
     .info-count {
-
+        display: flex;
+        span {
+            flex: 1;
+            font-size: 13px;
+            text-align: center;
+            &:not(:last-of-type) {
+                border-right: 1px solid #ccc;
+            }
+        }
+    }
+    .collect-btn {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 12px;
+        .iconfont {
+            font-size: 30px;
+            display: block;
+        }
     }
 }
 .list-book-item {
-    padding: 20px 30px 0;
+    padding: 20px 0 0;
     position: relative;
     background-color: #fff;
     .thumb {
@@ -35,6 +49,12 @@
             font-size: 18px;
             font-weight: bold;
         }
+    }
+    p {
+        margin-bottom: 0;
+    }
+    app-star {
+        display: inline-block;
     }
     .remark {
         min-height: 80px;
@@ -58,11 +78,5 @@
                 color: #f00;
             }
         }
-    }
-}
-
-.star-box {
-    .light {
-        color: red;
     }
 }

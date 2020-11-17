@@ -1,27 +1,30 @@
 <div class="container-fluid">
-  <ng-container *ngFor="let item of items">
-    <div class="book-list-item">
-        <div class="thumb">
-            <a href="">
-                <img src="/assets/images/book_default.jpg" alt="">
-                <img src="/assets/images/book_default.jpg" alt="">
-                <img src="/assets/images/book_default.jpg" alt="">
-            </a>
-        </div>
-        <div class="info">
-            <a href="" class="title">213123</a>
-            <p class="desc">12312</p>
-            <div class="info-footer">
-                <a href="">zodream</a>
-                <span>2019</span>
-    
-                <div class="info-count">
-                    <span>1本书</span>
-                    <span>1浏览</span>
-                    <span>1收藏</span>
+    <div class="add-btn" (click)="tapAdd()">
+        <i class="iconfont icon-plus"></i>
+        添加
+    </div>
+    <ng-container *ngFor="let item of items">
+        <div class="book-list-item" (click)="tapView(item)">
+            <div class="thumb">
+                <ng-container *ngFor="let it of item.items">
+                    <img [src]="it.book.cover" alt="">
+                </ng-container>
+                
+            </div>
+            <div class="info">
+                <a class="title">{{ item.title }}</a>
+                <p class="desc">{{ item.description }}</p>
+                <div class="info-footer">
+                    <a *ngIf="item.user">{{ item.user.name }}</a>
+                    <span>{{ item.created_at }}</span>
+
+                    <div class="info-count">
+                        <span>{{ item.book_count }}本书</span>
+                        <span>{{ item.click_count }}浏览</span>
+                        <span>{{ item.collect_count }}收藏</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-  </ng-container>
+    </ng-container>
 </div>

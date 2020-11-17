@@ -82,6 +82,34 @@
         }
         .info-count {
             float: right;
+            span {
+                font-size: 13px;
+                padding: 0 10px;
+                &:not(:last-of-type) {
+                    border-right: 1px solid #ccc;
+                }
+            }
         }
+    }
+}
+
+.add-btn {
+    min-height: 80px;
+    padding: 10px 10px;
+    margin: 5px;
+    border: 1px dashed aquamarine;
+    border-radius: 5px;
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    .iconfont {
+        display: block;
+        font-size: 30px;
+    }
+    &:hover {
+        color: #333;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 }

@@ -14,3 +14,5 @@ export * from './switch/switch.component';
 export * from './count-down/count-down.component';
 export * from './markdown-editor/markdown-editor.component';
 export * from './circle-progress/circle-progress.component';
+export * from './color-picker/color-picker.component';
+export * from './star/star.component';

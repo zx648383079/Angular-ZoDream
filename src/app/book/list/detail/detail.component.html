@@ -1,60 +1,62 @@
 <div class="container-fluid">
-  <div class="book-list-info">
-      <div class="info-main">
-          <div class="title">121</div>
-          <p class="desc">12312</p>
-          <div class="info-footer">
-              <a href="">zodream</a>
-              <span>2019</span>
-          </div>
-      </div>
-      <div class="info-action">
-          <div class="info-count">
-              <span>1本书</span>
-              <span>1浏览</span>
-              <span>1收藏</span>
-          </div>
-          <a href="" class="btn">收藏</a>
-      </div>
-  </div>
-  <ng-container *ngFor="let item of items">
-      <div class="list-book-item">
-        <div class="thumb">
-            <a href="">
-                <img src="/assets/images/book_default.jpg" alt="">
-            </a>
+    <div class="panel-container book-list-info" *ngIf="data">
+        <div class="info-main">
+            <div class="title">{{ data.title }}</div>
+            <p class="desc">{{ data.description }}</p>
+            <div class="info-footer">
+                <a href="">{{ data.user?.name }}</a>
+                <span>{{ data.created_at }}</span>
+            </div>
         </div>
-        <div class="info">
-            <a href="" class="title">12321</a>
-            <p>
-                <a href="">作者</a>
-                <span>1w</span>
-                <span>完结</span>
-            </p>
-            <p>
-            更新时间：4 年前
-            </p>
-            <p>
-            单主评分：
-                <span class="star-box">
-                
-                </span>
-            </p>
-        </div>
-        <p class="remark">
-            12312321
-        </p>
-        <div class="action-box">
-            <a href="">
-                赞
-            </a>
-            <a href="">
-                踩
-            </a>
-            <a href="">
-                加入书架
-            </a>
+        <div class="info-action">
+            <div class="info-count">
+                <span>{{ data.book_count }}本书</span>
+                <span>{{ data.click_count }}浏览</span>
+                <span>{{ data.collect_count }}收藏</span>
+            </div>
+            <div class="collect-btn">
+                <i class="iconfont icon-heart"></i>
+                收藏
+            </div>
         </div>
     </div>
-  </ng-container>
+    <div class="panel-container">
+        <ng-container *ngFor="let item of items">
+            <div class="list-book-item">
+                <div class="thumb">
+                    <img [src]="item.book?.cover" alt="">
+                </div>
+                <div class="info">
+                    <a class="title">{{ item.book.name }}</a>
+                    <p>
+                        <a>{{ item.book.author.name }}</a>
+                        <span>1w</span>
+                        <span>完结</span>
+                    </p>
+                    <p>
+                        更新时间：{{ item.book.updated_at }}
+                    </p>
+                    <p>
+                        单主评分：
+                        <app-star [ngModel]="item.star"></app-star>
+                    </p>
+                </div>
+                <p class="remark">
+                    {{ item.remark }}
+                </p>
+                <div class="action-box">
+                    <a href="">
+                        赞
+                    </a>
+                    <a href="">
+                        踩
+                    </a>
+                    <a href="">
+                        加入书架
+                    </a>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
 </div>
