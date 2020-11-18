@@ -3,7 +3,10 @@ import {
     OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../theme/interfaces';
 import { IBookList } from '../../theme/models/book';
+import { getAuthStatus } from '../../theme/reducers/selectors';
 import { BookService } from '../book.service';
 
 @Component({
@@ -19,11 +22,15 @@ export class ListComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public perPage = 20;
+    public isLogin = true;
 
     constructor(
         private service: BookService,
         private router: Router,
-    ) {
+        private store: Store < AppState > ) {
+        this.store.select(getAuthStatus).subscribe(isLogin => {
+            this.isLogin  = isLogin;
+        });
         this.tapRefresh();
     }
 

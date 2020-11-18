@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IData, IPage } from '../theme/models/page';
+import { IData, IDataOne, IPage } from '../theme/models/page';
 import { map } from 'rxjs/operators';
-import { IBook, ICategory, IAuthor, IChapter, IBookList } from '../theme/models/book';
+import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord } from '../theme/models/book';
 
 @Injectable()
 export class BookService {
@@ -66,16 +66,19 @@ export class BookService {
         });
     }
 
-    public getChapter(id: number): Observable<IChapter>{
-        return this.http.get<IChapter>('book/chapter', {
+    public getChapter(id: any, book?: any): Observable<IChapter>{
+        return this.http.get<IChapter>('book/chapter/detail', {
             params: {
-                id: id.toString()
+                id,
+                book,
             }
         });
     }
 
-    public getHistory(): Observable<any>{
-        return this.http.get<IData<any>>('book/history');
+    public getHistory(params: any) {
+        return this.http.get<IPage<IBookRecord>>('book/history', {
+            params
+        });
     }
 
     public recordHistory(book: number, chapter: number, progress: number): Observable<any> {
@@ -100,5 +103,21 @@ export class BookService {
 
     public listSave(data: any) {
         return this.http.post<IBookList>('book/list/save', data);
+    }
+
+    public listRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('book/list/delete', {params: {id}});
+    }
+
+    public listCollect(id: any) {
+        return this.http.post<IBookList>('book/list/collect', {id});
+    }
+
+    public listAgree(id: any) {
+        return this.http.post<IBookListItem>('book/list/agree', {id});
+    }
+
+    public listDisagree(id: any) {
+        return this.http.post<IBookListItem>('book/list/disagree', {id});
     }
 }

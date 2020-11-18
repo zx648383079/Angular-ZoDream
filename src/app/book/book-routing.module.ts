@@ -19,11 +19,16 @@ import { DetailComponent } from './list/detail/detail.component';
 import { TopComponent } from './top/top.component';
 import { BookDetailComponent } from './detail/book-detail.component';
 import { EditListComponent } from './list/edit/edit-list.component';
+import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [{
     path: '',
     component: BookComponent,
     children: [
+        {
+            path: 'setting',
+            component: SettingComponent,
+        },
         {
             path: 'category',
             component: CategoryComponent
@@ -90,4 +95,5 @@ export const bookRoutingComponents = [
     TopComponent,
     BookDetailComponent,
     EditListComponent,
+    SettingComponent,
 ];

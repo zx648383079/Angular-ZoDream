@@ -277,7 +277,7 @@ export class BackendComponent implements OnInit {
     ];
 
     public bottomNavs: INav[] = [{
-            name: 'zodream',
+            name: '登录',
             icon: 'icon-user',
             url: './user/profile'
         },

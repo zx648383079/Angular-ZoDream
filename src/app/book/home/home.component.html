@@ -1,14 +1,14 @@
 <div class="container-fluid">
     
     <ng-container *ngFor="let item of items">
-        <div class="book-item">
+        <div class="book-item" (click)="tapRead(item)">
             <div class="cover">
-                <img [src]="item.cover">
+                <img [src]="item.book.cover">
             </div>
             <div class="info">
-                <div class="name">{{ item.name }}</div>
-                <div class="tag">{{ item.author_name }}</div>
-                <div class="desc">{{ item.read_at | ago }}· {{ item.chapter_title }}</div>
+                <div class="name">{{ item.book.name }}</div>
+                <div class="tag">{{ item.book.author?.name }}</div>
+                <div class="desc">{{ item.updated_at | ago }}· {{ item.chapter ? item.chapter.title : '未读' }}</div>
             </div>
         </div>
     </ng-container>

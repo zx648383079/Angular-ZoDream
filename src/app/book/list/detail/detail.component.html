@@ -5,7 +5,7 @@
             <p class="desc">{{ data.description }}</p>
             <div class="info-footer">
                 <a href="">{{ data.user?.name }}</a>
-                <span>{{ data.created_at }}</span>
+                <span class="time">{{ data.created_at }}</span>
             </div>
         </div>
         <div class="info-action">
@@ -14,8 +14,8 @@
                 <span>{{ data.click_count }}浏览</span>
                 <span>{{ data.collect_count }}收藏</span>
             </div>
-            <div class="collect-btn">
-                <i class="iconfont icon-heart"></i>
+            <div class="collect-btn" (click)="tapCollect()">
+                <i class="iconfont icon-heart" [ngClass]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
                 收藏
             </div>
         </div>
@@ -45,14 +45,14 @@
                     {{ item.remark }}
                 </p>
                 <div class="action-box">
-                    <a href="">
-                        赞
+                    <a (click)="tapAgree(item)">
+                        <i class="iconfont" [ngClass]="{'icon-thumbs-o-up': item.is_agree != 1, 'icon-thumbs-up': item.is_agree == 1}"></i>{{ item.agree_count }}
                     </a>
-                    <a href="">
-                        踩
+                    <a (click)="tapDisagree(item)">
+                        <i class="iconfont" [ngClass]="{'icon-thumbs-o-down': item.is_agree != 2, 'icon-thumbs-down': item.is_agree == 2}"></i>{{ item.disagree_count }}
                     </a>
-                    <a href="">
-                        加入书架
+                    <a (click)="tapAddBook(item)">
+                        {{ item.on_shelf ? '已在书架' : '加入书架' }}
                     </a>
                 </div>
             </div>

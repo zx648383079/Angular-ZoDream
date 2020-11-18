@@ -3,10 +3,10 @@
         <ng-content></ng-content>
     </div>
     <div class="color-picker-calendar" [hidden]="!visibility" (click)="stopPropagation($event)">
-        <div class="color-picker-sv" (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" (touchend)="touchEnd($event)" [ngStyle]="{'background-color': background}">
+        <div class="color-picker-sv" (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" (touchend)="touchEnd($event)" (click)="tapNotTouch($event)" [ngStyle]="{'background-color': background}">
             <i [ngStyle]="svStyle"></i>
         </div>
-        <div class="color-picker-h" (touchstart)="touchHStart($event)" (touchmove)="touchHMove($event)">
+        <div class="color-picker-h" (touchstart)="touchHStart($event)" (touchmove)="touchHMove($event)" (click)="tapHNotTouch($event)">
             <i [ngStyle]="hStyle"></i>
         </div>
     </div>

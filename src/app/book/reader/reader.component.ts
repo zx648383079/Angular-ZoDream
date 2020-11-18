@@ -3,7 +3,8 @@ import {
     OnInit,
     ViewChild
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IChapter } from '../../theme/models/book';
 import { BookService } from '../book.service';
 import { FlipPagerComponent } from './flip-pager/flip-pager.component';
 
@@ -17,6 +18,7 @@ export class ReaderComponent implements OnInit {
     @ViewChild(FlipPagerComponent)
     public flipPager: FlipPagerComponent;
     public chapterId = 0;
+    public mode = 0;
     public fontItems = ['雅黑', '宋体', '楷书', '启体'];
     public flipItems = ['无', '覆盖', '仿真', '滚屏'];
     public configs: any = {
@@ -34,9 +36,11 @@ export class ReaderComponent implements OnInit {
         line: [2, 1, 40],
         letter: [1, 1, 40],
     };
+    private bookId = 0;
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private service: BookService,
     ) {}
 
@@ -45,26 +49,36 @@ export class ReaderComponent implements OnInit {
             if (!params.id) {
                 return;
             }
+            this.bookId = params.book;
             this.chapterId = params.id;
+            if (this.chapterId < 1 && this.bookId > 0) {
+                this.onRequest(0);
+            }
         });
     }
 
     public onProgressChange(event) {
-
+        const chapter: IChapter = event.chapter;
+        if (event.progress === 0) {
+            history.pushState(null, chapter.title,
+                window.location.href.replace(/\/\d+\/\d+.*/, '/' + chapter.book_id + '/' + chapter.id));
+        }
+        this.chapterId = chapter.id;
+        this.service.recordHistory(chapter.book_id, chapter.id, event.progress).subscribe(_ => {});
     }
 
     public onRequest(id: number) {
-        this.service.getChapter(id).subscribe(res => {
+        this.service.getChapter(id, this.bookId).subscribe(res => {
             this.flipPager.append(res);
         });
     }
 
     public tapPrev() {
-
+        this.flipPager.tapPrevious();
     }
 
     public tapNext() {
-
+        this.flipPager.tapNext();
     }
 
     public tapBackgroundImg() {
@@ -80,7 +94,7 @@ export class ReaderComponent implements OnInit {
     }
 
     public tapChapter() {
-
+        this.router.navigate(['/book/chapter/' + this.flipPager.current?.book_id]);
     }
 
     public tapEye() {

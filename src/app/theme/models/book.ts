@@ -28,6 +28,7 @@ export interface IBook {
     author?: IAuthor;
     last_chapter?: IChapter;
     first_chapter?: IChapter;
+    on_shelf?: boolean;
 }
 
 export interface IChapter {
@@ -53,6 +54,7 @@ export interface IBookList {
     collect_count: number;
     created_at: string;
     updated_at: string;
+    is_collected: boolean;
 }
 
 export interface IBookListItem {
@@ -62,8 +64,10 @@ export interface IBookListItem {
     book_id: number;
     remark: string;
     star: number;
-    agree?: number;
-    disagree?: number;
+    agree_count?: number;
+    disagree_count?: number;
+    is_agree?: number;
+    on_shelf?: boolean;
     created_at?: string;
     updated_at?: string;
 }
@@ -71,7 +75,9 @@ export interface IBookListItem {
 export interface IBookRecord extends IBook {
     author_name: string;
     read_at: number;
+    book?: IBook,
+    chapter?: IChapter;
     chapter_id: number;
-    chapter_title: string;
+    book_id: number;
     process: number;
 }

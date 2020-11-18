@@ -1,11 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.scss']
+  styleUrls: ['./color-picker.component.scss'],
+  providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => ColorPickerComponent),
+        multi: true
+      }
+  ]
 })
-export class ColorPickerComponent {
+export class ColorPickerComponent  {
+
 
     public disable = true;
     public value = '';
@@ -20,6 +29,12 @@ export class ColorPickerComponent {
 
     onChange: any = () => { };
     onTouch: any = () => { };
+
+    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+        if (!event.target.closest('.color-picker') && !this.hasElementByClass(event.path, 'color-picker-calendar')) {
+            this.visibility = false;
+        }
+    }
 
     constructor() { }
 
@@ -48,6 +63,35 @@ export class ColorPickerComponent {
     }
     setDisabledState?(isDisabled: boolean): void {
         this.disable = isDisabled;
+    }
+
+    public tapNotTouch(e: MouseEvent) {
+        if ('ontouchstart' in document.documentElement) {
+            return;
+        }
+        const clientX = e.clientX + document.body.scrollLeft;
+        const clientY = e.clientY + document.body.scrollTop;
+        this.touchMove({
+            target: e.target,
+            targetTouches: [
+                {clientX, clientY}
+            ]
+        } as any);
+        this.output();
+    }
+
+    public tapHNotTouch(e: MouseEvent) {
+        if ('ontouchstart' in document.documentElement) {
+            return;
+        }
+        const clientX = e.clientX + document.body.scrollLeft;
+        const clientY = e.clientY + document.body.scrollTop;
+        this.touchHMove({
+            target: e.target,
+            targetTouches: [
+                {clientX, clientY}
+            ]
+        } as any);
     }
 
     public showPicker() {
@@ -229,5 +273,19 @@ export class ColorPickerComponent {
     }
     private round(i: number) {
         return Math.round(i);
+    }
+
+    private hasElementByClass(path: Array<Element>, className: string): boolean {
+        let hasClass = false;
+        for (const item of path) {
+            if (!item || !item.className) {
+                continue;
+            }
+            hasClass = item.className.indexOf(className) >= 0;
+            if (hasClass) {
+                return true;
+            }
+        }
+        return hasClass;
     }
 }

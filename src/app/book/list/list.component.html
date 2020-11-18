@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="add-btn" (click)="tapAdd()">
+    <div class="add-btn" *ngIf="isLogin" (click)="tapAdd()">
         <i class="iconfont icon-plus"></i>
         添加
     </div>
@@ -16,7 +16,7 @@
                 <p class="desc">{{ item.description }}</p>
                 <div class="info-footer">
                     <a *ngIf="item.user">{{ item.user.name }}</a>
-                    <span>{{ item.created_at }}</span>
+                    <span class="time">{{ item.created_at }}</span>
 
                     <div class="info-count">
                         <span>{{ item.book_count }}本书</span>

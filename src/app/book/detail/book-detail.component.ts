@@ -40,4 +40,10 @@ export class BookDetailComponent implements OnInit {
         this.router.navigate(['/book/reader/' + this.data.id + '/' + item.id]);
     }
 
+    public tapAddBook() {
+        this.service.recordHistory(this.data.id, 0, 0).subscribe(_ => {
+            this.data.on_shelf = true;
+        });
+    }
+
 }

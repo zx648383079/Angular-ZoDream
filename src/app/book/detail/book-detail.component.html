@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="line-item">动作：
-                            <a href="">加入书架</a>
+                            <a (click)="tapAddBook()">{{ data.on_shelf ? '已在书架' : '加入书架' }}</a>
                         </div>
                         <div class="line-item">最新章节：{{ data.updated_at }}</div>
                     </div>

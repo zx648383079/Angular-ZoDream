@@ -1,6 +1,14 @@
 <div class="flip-pager-box">
     <ng-container *ngIf="flipMode == 0">
-        <p *ngFor="let item of lineItems">{{ item }}</p>
+        <div class="panel-container" *ngFor="let item of blockItems">
+            <div class="title">{{ item.title }}</div>
+            <div class="tag-box">
+                <span *ngFor="let tag of item.tags">{{ tag }}</span>
+            </div>
+            <div class="content">
+                <p *ngFor="let it of item.lines">{{ it }}</p>
+            </div>
+        </div>
     </ng-container>
     
 </div>

@@ -6,11 +6,18 @@ import {
     Output,
     SimpleChanges
 } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { IChapter } from '../../../theme/models/book';
 
 interface IFlipProgress {
     chapter: IChapter;
     progress: number;
+}
+
+interface IBlockItem {
+    title: string;
+    tags: string[];
+    lines: string[];
 }
 
 @Component({
@@ -26,17 +33,53 @@ export class FlipPagerComponent implements OnChanges {
     @Output() progressChanged = new EventEmitter<IFlipProgress>();
     @Output() previewRequest = new EventEmitter<number>();
 
-    public lineItems = [];
+    public blockItems: IBlockItem[] = [];
 
     private chapterItems: IChapter[] = [];
     private currentIndex = -1;
 
-    constructor() {}
+    constructor(
+        private toastrService: ToastrService,
+    ) {}
 
     public ngOnChanges(changes: SimpleChanges) {
         if (changes.initChapter && changes.initChapter.currentValue > 0) {
             this.init();
         }
+    }
+
+    get current(): IChapter {
+        return this.currentIndex >= 0 && this.currentIndex < this.chapterItems.length ? this.chapterItems[this.currentIndex] : undefined;
+    }
+
+    public tapPrevious() {
+        const previous = this.current?.previous;
+        if (!previous) {
+            this.toastrService.warning('已到第一章节，无法前进了');
+            return;
+        }
+        this.showChanpter(previous.id);
+    }
+
+    public tapNext() {
+        const next = this.current?.next;
+        if (!next) {
+            this.toastrService.warning('已到最新章节，没有更多了');
+            return;
+        }
+        this.showChanpter(next.id);
+    }
+
+    public showChanpter(id: number) {
+        for (let i = 0; i < this.chapterItems.length; i++) {
+            if (this.chapterItems[i].id === id) {
+                this.currentIndex = i;
+                this.refreshView();
+                return;
+            }
+        }
+        this.currentIndex = this.chapterItems.length;
+        this.previewRequest.emit(id);
     }
 
     public append(item: IChapter) {
@@ -49,12 +92,30 @@ export class FlipPagerComponent implements OnChanges {
         if (this.currentIndex < 0) {
             this.currentIndex = 0;
             this.refreshView();
+            return;
+        }
+        if (this.currentIndex === this.chapterItems.length - 1) {
+            this.refreshView();
         }
     }
 
     private refreshView() {
         const item = this.chapterItems[this.currentIndex];
-        this.lineItems = item.content.split('\n');
+        this.blockItems = [{
+            title: item.title,
+            tags: [
+                '字数：' + item.size,
+                '更新时间：' + item.created_at,
+            ],
+            lines: item.content.split('\n')
+        }];
+        if (this.blockItems.length < 2) {
+            document.documentElement.scrollTop = 0;
+        }
+        this.progressChanged.emit({
+            chapter: item,
+            progress: 0,
+        });
     }
 
     private init() {

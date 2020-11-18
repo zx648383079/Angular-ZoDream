@@ -1,6 +1,6 @@
 <div class="container-fluid">
   
-    <div class="panel-container reader-box">
+    <div class="reader-box">
         <app-flip-pager [initChapter]="chapterId" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
     </div>
     
@@ -11,23 +11,23 @@
             <app-progress-bar></app-progress-bar>
             <a (click)="tapNext()">下一章</a>
         </div>
-        <div class="setting" v-if="readMode == 2">
+        <div class="setting" *ngIf="mode == 2">
             <div class="line-item">
                 <span>字体颜色</span>
                 <div class="color-box">
-                    <app-color-picker v-model="configs.color">
-                        <span class="color" :style="'background-color: ' + configs.color"></span>
+                    <app-color-picker [(ngModel)]="configs.color">
+                        <span class="color" [ngStyle]="{'background-color': configs.color}"></span>
                     </app-color-picker>
                 </div>
             </div>
             <div class="line-item">
                 <span>背景颜色</span>
                 <div class="color-box">
-                    <app-color-picker v-model="configs.background">
-                        <span class="color" :style="'background-color: ' + configs.background"></span>
+                    <app-color-picker [(ngModel)]="configs.background">
+                        <span class="color" [ngStyle]="{'background-color': configs.background}"></span>
                     </app-color-picker>
                     <span class="add-img" (click)="tapBackgroundImg()">
-                        <i class="fa fa-image"></i>
+                        <i class="iconfont icon-image"></i>
                     </span>
                 </div>
             </div>
@@ -51,39 +51,39 @@
             <div class="line-item">
                 <span>字体大小</span>
                 <div class="size-box">
-                    <i class="fa fa-minus" (click)="tapMinus('size')"></i>
+                    <i class="iconfont icon-minus" (click)="tapMinus('size')"></i>
                     <span class="lang">{{ configs.size }}</span>
-                    <i class="fa fa-plus" (click)="tapPlus('size')"></i>
+                    <i class="iconfont icon-plus" (click)="tapPlus('size')"></i>
                 </div>
             </div>
             <div class="line-item">
                 <span>行距</span>
                 <div class="size-box">
-                    <i class="fa fa-minus" (click)="tapMinus('line')"></i>
+                    <i class="iconfont icon-minus" (click)="tapMinus('line')"></i>
                     <span class="lang">{{ configs.line }}</span>
-                    <i class="fa fa-plus" (click)="tapPlus('line')"></i>
+                    <i class="iconfont icon-plus" (click)="tapPlus('line')"></i>
                 </div>
             </div>
             <div class="line-item">
                 <span>间距</span>
                 <div class="size-box">
-                    <i class="fa fa-minus" (click)="tapMinus('letter')"></i>
+                    <i class="iconfont icon-minus" (click)="tapMinus('letter')"></i>
                     <span class="lang">{{ configs.letter }}</span>
-                    <i class="fa fa-plus" (click)="tapPlus('letter')"></i>
+                    <i class="iconfont icon-plus" (click)="tapPlus('letter')"></i>
                 </div>
             </div>
         </div>
         <div class="tab-bar">
             <a (click)="tapChapter()">
-                <i class="fa fa-bars"></i>
+                <i class="iconfont icon-bars"></i>
                 目录
             </a>
             <a (click)="tapEye()" :class="configs.theme == 7 ? 'active' : ''">
-                <i class="fa fa-eye"></i>
+                <i class="iconfont icon-eye"></i>
                 夜间
             </a>
             <a (click)="tapSetting()"  :class="readMode == 2 ? 'active' : ''">
-                <i class="fa fa-cog"></i>
+                <i class="iconfont icon-cog"></i>
                 设置
             </a>
         </div>

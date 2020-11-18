@@ -1,22 +1,20 @@
 
 .reader-footer {
-    position: fixed;
     bottom: 0;
     left: auto;
     right: 0;
     z-index: 99;
-    background-color: #333;
-    color: #fff;
-
-    a {
-        color: #fff;
-    }
-
+    background-color: #fff;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
     .pager {
         display: grid;
         grid-template-columns: 60px 1fr 60px;
         padding: 10px 0;
         text-align: center;
+        line-height: 40px;
+        app-progress-bar {
+            margin-top: 15px;
+        }
     }
 
     .tab-bar {
@@ -24,8 +22,7 @@
         display: flex;
         justify-content: space-around;
         flex-flow: row nowrap;
-        height: 3rem;
-
+        height: 4rem;
         a {
             width: 33.333%;
             text-align: center;
@@ -38,7 +35,7 @@
             position: relative;
             text-align: center;
 
-            .fa {
+            .iconfont {
                 font-size: 1.5rem;
                 display: block;
             }
@@ -46,7 +43,7 @@
             &.active {
                 color: #b4282d;
 
-                .fa {
+                .iconfont {
                     color: #b4282d;
                 }
             }
