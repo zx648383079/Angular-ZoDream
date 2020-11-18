@@ -5,7 +5,7 @@
 .file-header {
     display: grid;
     grid-template-columns:40px 1fr 180px 64px 64px 64px;
-    line-height: 30px;
+    line-height: 40px;
     .name,
     .times,
     .time {
@@ -16,6 +16,10 @@
         &:hover {
             background-color: #eee;
         }
+    }
+    .times,
+    .time {
+        text-align: center;
     }
     .times {
         font-size: 12px;
@@ -39,7 +43,7 @@
 .file-item {
     display: grid;
     grid-template-columns: 30px 30px 1fr 372px;
-    line-height: 30px;
+    line-height: 40px;
     cursor: default;
     .file-info {
         display: grid;
@@ -47,6 +51,10 @@
         .iconfont {
             display: none;
         }
+    }
+    .file-times,
+    .file-time {
+        text-align: center;
     }
     &:hover {
         background-color: #eee;

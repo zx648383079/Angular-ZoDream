@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataOne, IPage } from '../theme/models/page';
-import { ITask, ITaskComment, ITaskDay } from '../theme/models/task';
+import { IData, IDataOne, IPage } from '../theme/models/page';
+import { ITask, ITaskComment, ITaskDay, ITaskReview } from '../theme/models/task';
 
 @Injectable()
 export class TaskService {
@@ -60,5 +60,36 @@ export class TaskService {
 
     public commenSave(params: any) {
         return this.http.post<ITaskComment>('task/comment/save', params);
+    }
+
+    public review(params: any) {
+        return this.http.get<IData<ITaskReview>>('task/review', {params});
+    }
+
+    /**
+     * record
+     */
+    public record(params: any) {
+        return this.http.get<IPage<any>>('task/record', {params});
+    }
+
+    public shareList(params: any) {
+        return this.http.get<IPage<any>>('task/share', {params});
+    }
+
+    public myShareList(params: any) {
+        return this.http.get<IPage<any>>('task/share/my', {params});
+    }
+
+    public share(id: any) {
+        return this.http.get<any>('task/share/detail', {params: {id}});
+    }
+
+    public shareCreate(params: any) {
+        return this.http.post<any>('task/share/create', params);
+    }
+
+    public shareRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('task/share/delete', {params: {id}});
     }
 }

@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>这是任务执行记录列表</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">日期</label>
+                    <input type="text" class="form-control" name="date" id="keywords" placeholder="选择日期" [value]="date">
+                </div>
+                <div class="input-group">
+                    <label>区间</label>
+                    <select name="type">
+                        <ng-container *ngFor="let item of typeItems;let i = index">
+                            <option [value]="i" [selected]="type == i">{{ item }}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="review-box">
+        <ng-container *ngIf="type < 1">
+            <div class="time-box">
+                <div class="time-header">
+                    <section *ngFor="let item of dayItems">{{ item.label }}</section>
+                </div>
+                <div class="time-body">
+                    
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="type == 1">
+            <div class="week-box">
+                <div class="week-header">
+                    <section *ngFor="let item of weekItems">{{ item.label }}</section>
+                </div>
+                <div class="week-body">
+                    
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="type == 2">
+            <div class="month-box">
+                <div class="month-header">
+                    <section>周一</section>
+                    <section>周二</section>
+                    <section>周三</section>
+                    <section>周四</section>
+                    <section>周五</section>
+                    <section>周六</section>
+                    <section>周日</section>
+                </div>
+                <div class="month-body">
+                    <div class="day-item" *ngFor="let item of monthItems">
+                        <span class="day-label">{{ item.label }}</span>
+                        <ul class="day-box">
+                            <li *ngFor="let it of item.items">
+                                {{ it.name }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

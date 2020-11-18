@@ -41,56 +41,56 @@ export class TaskComponent implements OnInit {
         {
             name: '工作统计',
             icon: 'icon-line-chart',
-            url: './list',
+            url: './review',
             children: [
                 {
                     name: '周视图',
                     icon: 'icon-bar-chart',
-                    url: './'
+                    url: './review'
                 },
                 {
                     name: '月视图',
                     icon: 'icon-area-chart',
-                    url: './list'
+                    url: './review'
                 },
             ],
         },
         {
             name: '工作记录',
             icon: 'icon-history',
-            url: './list',
+            url: './record',
             children: [
                 {
                     name: '日视图',
                     icon: 'icon-clock-o',
-                    url: './'
+                    url: './record'
                 },
                 {
                     name: '周视图',
                     icon: 'icon-th-list',
-                    url: './'
+                    url: './record'
                 },
                 {
                     name: '月视图',
                     icon: 'icon-calendar',
-                    url: './list'
+                    url: './record'
                 },
             ],
         },
         {
             name: '分享',
             icon: 'icon-share-alt',
-            url: './list',
+            url: './share',
             children: [
                 {
                     name: '我的分享',
                     icon: 'icon-paper-plane',
-                    url: './'
+                    url: './share/my'
                 },
                 {
                     name: '参与的分享',
                     icon: 'icon-gift',
-                    url: './'
+                    url: './share'
                 },
             ],
         },

@@ -1,9 +1,9 @@
 <div class="nav-header">
   <div class="nav-left">
-    <a class="nav-item">
+    <a class="nav-item" [ngClass]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
       <i class="iconfont icon-chevron-left"></i>
     </a>
-    <a class="nav-item disable">
+    <a class="nav-item disable" (click)="tapForward()">
       <i class="iconfont icon-chevron-right"></i>
     </a>
     <a class="nav-item nav-hide">
@@ -46,7 +46,7 @@
         </a>
       </div>
     </a>
-    <a class="nav-item nav-hide">
+    <a class="nav-item nav-hide" (click)="tapRefresh()">
       <i class="iconfont icon-refresh"></i>
     </a>
     <a class="nav-item" [ngClass]="{active: viewMode}" (click)="viewMode = true">
@@ -69,7 +69,7 @@
           <i class="iconfont icon-plus"></i>
           <span class="nav-name">新建文件夹</span>
         </a>
-        <a class="nav-item nav-hide">
+        <a class="nav-item nav-hide" (click)="tapRefresh()">
           <i class="iconfont icon-refresh"></i>
           <span class="nav-name">刷新</span>
         </a>

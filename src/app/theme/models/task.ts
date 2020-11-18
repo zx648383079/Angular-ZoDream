@@ -52,3 +52,15 @@ export interface ITaskLog {
     time_format: string;
     task: ITask;
 }
+
+export interface ITaskReview {
+    amount: number;
+    complete_amount: number;
+    day: string;
+    failure_amount: number;
+    pause_amount: number;
+    success_amount: number;
+    total_time: number;
+    valid_time: number;
+    week: string;
+}

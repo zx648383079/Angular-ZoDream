@@ -9,7 +9,7 @@
 .file-header {
     display: grid;
     grid-template-columns: 30px 1fr 100px 180px;
-    line-height: 30px;
+    line-height: 40px;
     .name,
     .size,
     .time {
@@ -20,6 +20,10 @@
         &:hover {
             background-color: #eee;
         }
+    }
+    .size,
+    .time {
+        text-align: center;
     }
     .sort-asc,
     .sort-desc {
@@ -40,11 +44,15 @@
 .file-item {
     display: grid;
     grid-template-columns: 30px 30px 1fr 280px;
-    line-height: 30px;
+    line-height: 40px;
     cursor: default;
     .file-info {
         display: grid;
         grid-template-columns: 100px 180px;
+    }
+    .file-size,
+    .file-time {
+        text-align: center;
     }
     &:hover {
         background-color: #eee;

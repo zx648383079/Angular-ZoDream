@@ -4,13 +4,16 @@ import { mockDisks, mockShare, mockMyShare } from '../theme/mock/disk';
 import { IDisk, IShare, IShareFile } from '../theme/models/disk';
 import { IPage } from '../theme/models/page';
 import { mockPage } from '../theme/mock/page';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class DiskService {
 
-    constructor() { }
+    constructor(
+        private http: HttpClient,
+    ) { }
 
-    public getCatalog(parent_id: number): Observable<IDisk[]> {
+    public getCatalog(params: any): Observable<IDisk[]> {
         return of(mockDisks);
     }
 
