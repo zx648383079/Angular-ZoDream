@@ -10,8 +10,9 @@ import {
     IDisk
 } from 'src/app/theme/models/disk';
 import {
-    MediaPlayerComponent
+    MediaPlayerComponent, PullToRefreshComponent
 } from 'src/app/theme/components';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 interface ICrumb {
@@ -28,6 +29,9 @@ interface ICrumb {
 })
 export class CatalogComponent implements OnInit {
 
+    @ViewChild(PullToRefreshComponent)
+    public pullBox: PullToRefreshComponent;
+
     @ViewChild(MediaPlayerComponent)
     private player: MediaPlayerComponent;
 
@@ -40,6 +44,9 @@ export class CatalogComponent implements OnInit {
     public checkedAll = false;
 
     public items: IDisk[] = [];
+    public page = 1;
+    public hasMore = true;
+    public isLoading = false;
 
     public crumbs: ICrumb[] = [
         {
@@ -49,8 +56,11 @@ export class CatalogComponent implements OnInit {
         },
     ];
 
+    public editData: any;
+
     constructor(
-        private service: DiskService
+        private service: DiskService,
+        private modalService: NgbModal,
     ) {}
 
     ngOnInit() {
@@ -60,11 +70,16 @@ export class CatalogComponent implements OnInit {
     get path() {
         const items = [];
         for (const item of this.crumbs) {
-            if (item.id) {
-                items.push(item.id);
-            }
+            items.push(item.id || '');
         }
-        return items;
+        return items.join('/');
+    }
+
+    get lastFolder() {
+        if (this.crumbs.length < 2) {
+            return 0;
+        }
+        return this.crumbs[this.crumbs.length - 1].id;
     }
 
     public tapBack() {
@@ -93,13 +108,21 @@ export class CatalogComponent implements OnInit {
             this.tapFolder(item);
             return;
         }
-        this.playerVisiable = true;
-        this.player.play({
-            name: item.name,
-            type: this.service.getTypeByExt(item.file.extension),
-            size: item.file.size,
-            thumb: item.file.thumb,
-            url: item.file.url
+        if (!item.file.url) {
+            return;
+        }
+        this.service.allowUrl([
+            item.file.thumb,
+            item.file.url
+        ]).subscribe(res => {
+            this.playerVisiable = true;
+            this.player.play({
+                name: item.name,
+                type: this.service.getTypeByExt(item.file.extension),
+                size: item.file.size,
+                thumb: res.data[0],
+                url: res.data[1]
+            });
         });
     }
 
@@ -137,16 +160,46 @@ export class CatalogComponent implements OnInit {
         }
     }
 
+    public tapOpenEdit(content: any) {
+        this.editData = {name: ''};
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
+        });
+    }
+
     public tapRefresh() {
-        const path = this.path;
+        this.goPage(1);
+    }
+
+    public tapMore() {
+        if (!this.hasMore) {
+            return;
+        }
+        this.goPage(this.page + 1);
+    }
+
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        this.pullBox?.startLoad();
         this.service.getCatalog({
-            parent_id: path.length > 0 ? path[path.length - 1] : 0,
-            path,
+            id: this.lastFolder,
+            path: this.path,
+            page
         }).subscribe(res => {
-            this.items = res.map(i => {
+            this.page = page;
+            this.hasMore = res.paging.more;
+            this.isLoading = false;
+            const items = res.data.map(i => {
                 i.icon = this.service.getIconByExt(i.file_id < 1 ? undefined : i.file?.extension);
                 return i;
             });
+            this.items = page < 2 ? items : [].concat(this.items, items);
+            this.pullBox?.endLoad();
+        }, () => {
+            this.isLoading = false;
+            this.pullBox?.endLoad();
         });
     }
 }

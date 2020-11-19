@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DiskRoutingModule, diskRoutingComponents } from './disk-routing.module';
 import { ThemeModule } from '../theme/theme.module';
 import { DiskService } from './disk.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { DiskService } from './disk.service';
   imports: [
     CommonModule,
     ThemeModule,
+    NgbModule,
     DiskRoutingModule
   ],
   providers: [

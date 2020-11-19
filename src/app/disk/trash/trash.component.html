@@ -1,25 +1,24 @@
 <div class="nav-header">
-  <button type="button" class="btn btn-danger">清空回收站</button>
+    <button type="button" class="btn btn-danger">清空回收站</button>
 </div>
 <div class="catalog-body">
-  <div class="file-header">
-    <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
-    <div class="name sort-asc">文件名</div>
-    <div class="size">大小</div>
-    <div class="time">删除日期</div>
-  </div>
-  <ng-container *ngFor="let item of items">
-    <div class="file-item" (click)="tapFile(item)">
-      <div class="check-box" [ngClass]="{checked: item.checked}"></div>
-      <div class="file-icon">
-        <i class="iconfont" [ngClass]="item.icon"></i>
-      </div>
-      <div class="file-name">{{ item.name }}</div>
-      <div class="file-info">
-        <div class="file-size">{{ item.file?.size | size }}</div>
-        <div class="file-time">{{ item.deleted_at | timestamp }}</div>
-      </div>
+    <div class="file-header">
+        <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+        <div class="name sort-asc">文件名</div>
+        <div class="size">大小</div>
+        <div class="time">删除日期</div>
     </div>
-  </ng-container>
-  
+    <ng-container *ngFor="let item of items">
+        <div class="file-item" (click)="tapFile(item)">
+            <div class="check-box" [ngClass]="{checked: item.checked}"></div>
+            <div class="file-icon">
+                <i class="iconfont" [ngClass]="item.icon"></i>
+            </div>
+            <div class="file-name">{{ item.name }}</div>
+            <div class="file-info">
+                <div class="file-size">{{ item.file?.size | size }}</div>
+                <div class="file-time">{{ item.deleted_at | timestamp }}</div>
+            </div>
+        </div>
+    </ng-container>
 </div>

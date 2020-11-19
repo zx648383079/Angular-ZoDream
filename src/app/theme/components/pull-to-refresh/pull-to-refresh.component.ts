@@ -1,145 +1,159 @@
-import { Component, OnInit, Input, ViewChild, ElementRef,
-  OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter, HostListener } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    ViewChild,
+    ElementRef,
+    OnDestroy,
+    OnChanges,
+    SimpleChanges,
+    Output,
+    EventEmitter,
+    HostListener,
+    Renderer2
+} from '@angular/core';
 
 export enum ESTATE {
-  NONE = 0,
-  PULL = 1,
-  PULLED = 2,
-  CANCEL = 3,
-  REFRESHING = 4,
-  REFRESHED = 5,
-  MORE = 6,
-  LOADING = 7,
-  LOADED = 8,
+    NONE = 0,
+    PULL = 1,
+    PULLED = 2,
+    CANCEL = 3,
+    REFRESHING = 4,
+    REFRESHED = 5,
+    MORE = 6,
+    LOADING = 7,
+    LOADED = 8,
 }
 
 enum EDIRECTION {
-  NONE = 0,
-  DOWN = 1,
-  UP = 2,
+    NONE = 0,
+    DOWN = 1,
+    UP = 2,
 }
 
 @Component({
-  selector: 'app-pull-to-refresh',
-  templateUrl: './pull-to-refresh.component.html',
-  styleUrls: ['./pull-to-refresh.component.scss']
+    selector: 'app-pull-to-refresh',
+    templateUrl: './pull-to-refresh.component.html',
+    styleUrls: ['./pull-to-refresh.component.scss']
 })
 export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() public refresh = true;
-  @Input() public more = true;
-  @Input() public distance = 10;
-  @Input() public loading = false;
-  @Input() public maxHeight = 100;
-  public ESTATE = ESTATE;
-  public state: ESTATE = ESTATE.NONE;
-  public startY = 0;
-  public startUp: EDIRECTION = EDIRECTION.NONE; // 一开始滑动的方向
-  @ViewChild('pullScroll')
-  public boxRef: ElementRef;
-  public scrollTop = 0;
-  public topHeight = 0;
+    @Input() public refresh = true;
+    @Input() public more = true;
+    @Input() public distance = 10;
+    @Input() public loading = false;
+    @Input() public maxHeight = 100;
+    public ESTATE = ESTATE;
+    public state: ESTATE = ESTATE.NONE;
+    public startY = 0;
+    public startUp: EDIRECTION = EDIRECTION.NONE; // 一开始滑动的方向
+    @ViewChild('pullScroll')
+    public boxRef: ElementRef;
+    public scrollTop = 0;
+    public topHeight = 0;
 
-  @Output() public stateChange = new EventEmitter<ESTATE>();
-  @Output() public moreChange = new EventEmitter<boolean>();
-  @Output() public topHeightChange = new EventEmitter<number>();
-  @Output() public refreshChange = new EventEmitter<boolean>();
+    @Output() public stateChange = new EventEmitter < ESTATE > ();
+    @Output() public moreChange = new EventEmitter < boolean > ();
+    @Output() public topHeightChange = new EventEmitter < number > ();
+    @Output() public refreshChange = new EventEmitter < boolean > ();
 
-  constructor() { }
+    constructor(
+        private renderer: Renderer2,
+    ) {}
 
-  ngOnInit() {
-    window.addEventListener('scroll', this.onScroll);
-  }
-
-  ngOnDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
-  }
-
-  @HostListener('scroll', [
-    '$event.target.scrollTop',
-    '$event.target.scrollHeight',
-    '$event.target.offsetHeight',
-  ])
-  public onDivScroll(
-    scrollY: number,
-    scrollheight: number,
-    offsetHeight: number,
-  ): void {
-    const height = scrollheight;
-    const y = scrollY + offsetHeight;
-    if (this.more && y + this.distance > height) {
-      this.state = ESTATE.MORE;
-      this.moreChange.emit(this.more);
+    ngOnInit() {
+        this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
     }
-  }
 
-  get box(): HTMLDivElement {
-    return this.boxRef.nativeElement as HTMLDivElement;
-  }
+    ngOnDestroy() {
+        // window.removeEventListener('scroll', this.onScroll);
+    }
 
-  get style(): string {
-    return 'height: ' + this.topHeight + 'px';
-  }
+    @HostListener('scroll', [
+        '$event.target.scrollTop',
+        '$event.target.scrollHeight',
+        '$event.target.offsetHeight',
+    ])
+    public onDivScroll(
+        scrollY: number,
+        scrollheight: number,
+        offsetHeight: number,
+    ): void {
+        const height = scrollheight;
+        const y = scrollY + offsetHeight;
+        if (this.more && y + this.distance > height) {
+            this.state = ESTATE.MORE;
+            this.moreChange.emit(this.more);
+        }
+    }
 
-  ngOnChanges(current: SimpleChanges) {
-    if (current.state) {
-      this.stateChange.emit(current.statte.currentValue);
+    get box(): HTMLDivElement {
+        return this.boxRef.nativeElement as HTMLDivElement;
     }
-    if (current.more) {
-      if (!current.more.currentValue && this.state === ESTATE.MORE) {
-          this.state = ESTATE.NONE;
-      }
+
+    get style(): string {
+        return 'height: ' + this.topHeight + 'px';
     }
-    if (current.topHeight) {
-      this.topHeightChange.emit(current.topHeight.currentValue);
+
+    ngOnChanges(current: SimpleChanges) {
+        if (current.state) {
+            this.stateChange.emit(current.statte.currentValue);
+        }
+        if (current.more) {
+            if (!current.more.currentValue && this.state === ESTATE.MORE) {
+                this.state = ESTATE.NONE;
+            }
+        }
+        if (current.topHeight) {
+            this.topHeightChange.emit(current.topHeight.currentValue);
+        }
+        if (current.loading) {
+            this.onLoadingChanged(current.loading.currentValue, current.loading.previousValue);
+        }
     }
-    if (current.loading) {
-      this.onLoadingChanged(current.loading.currentValue, current.loading.previousValue);
-    }
-  }
 
     public onLoadingChanged(val: boolean, oldVal: boolean) {
-      if (val && !oldVal) {
-          if (this.state === ESTATE.PULLED) {
-              this.state =  ESTATE.REFRESHING;
-              return;
-          }
-          if (this.state === ESTATE.MORE) {
-              this.state =  ESTATE.LOADING;
-              return;
-          }
-      }
+        if (val && !oldVal) {
+            if (this.state === ESTATE.PULLED) {
+                this.state = ESTATE.REFRESHING;
+                return;
+            }
+            if (this.state === ESTATE.MORE) {
+                this.state = ESTATE.LOADING;
+                return;
+            }
+        }
 
-      if (oldVal && !val) {
-          if (this.state === ESTATE.LOADING) {
-              this.state = ESTATE.LOADED;
-              this.reset();
-              return;
-          }
-          if (this.state === ESTATE.REFRESHING) {
-              this.state = ESTATE.REFRESHED;
-              this.reset();
-              return;
-          }
-          if (this.state === ESTATE.MORE) {
-              this.state =  ESTATE.NONE;
-              return;
-          }
-      }
+        if (oldVal && !val) {
+            if (this.state === ESTATE.LOADING) {
+                this.state = ESTATE.LOADED;
+                this.reset();
+                return;
+            }
+            if (this.state === ESTATE.REFRESHING) {
+                this.state = ESTATE.REFRESHED;
+                this.reset();
+                return;
+            }
+            if (this.state === ESTATE.MORE) {
+                this.state = ESTATE.NONE;
+                return;
+            }
+        }
     }
 
     /**
      * 开始加载
      */
     public startLoad() {
-      this.onLoadingChanged(true, false);
+        this.onLoadingChanged(true, false);
     }
 
     /**
      * 加载完成
      */
     public endLoad() {
-      this.onLoadingChanged(false, true);
+        this.onLoadingChanged(false, true);
     }
 
     public onScroll(event: any) {
@@ -209,11 +223,11 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public animation(
-        start: number, end: number, endHandle?: () => void) {
+        start: number, end: number, endHandle ?: () => void) {
         const diff = start > end ? -1 : 1;
         let step = 1;
         const handle = setInterval(() => {
-            start += (step ++) * diff;
+            start += (step++) * diff;
             if ((diff > 0 && start >= end) || (diff < 0 && start <= end)) {
                 clearInterval(handle);
                 this.topHeight = end;

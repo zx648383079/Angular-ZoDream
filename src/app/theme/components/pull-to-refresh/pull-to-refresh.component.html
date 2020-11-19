@@ -1,45 +1,42 @@
-<div class="pull-to-refresh-scroll" 
-      #pullScroll
-      (touchstart)="touchStart($event)" 
-      (touchmove)="touchMove($event)" 
-      (touchend)="touchEnd($event)">
-      <div class="scroll-top" [style]="style">
-              <div *ngIf="state == ESTATE.PULL">
-                  <i class="iconfont icon-arrow-down"></i>
-                  下拉刷新
-              </div>
-                <div *ngIf="state == ESTATE.PULLED">
-                  <i class="iconfont icon-arrow-up"></i>
-                  松开刷新
-              </div>
-              <div *ngIf="state == ESTATE.REFRESHING">
-                  <i class="iconfont icon-refresh"></i>
-                  刷新中
-              </div>
-                <div *ngIf="state == ESTATE.REFRESHED">
-                  <i class="iconfont icon-check"></i>
-                  刷新完成
-              </div>
-              <div *ngIf="state == ESTATE.CANCEL">
-                  <i class="iconfont icon-arrow-up"></i>
-                  停止刷新
-              </div>
-      </div>
-      <div class="scroll-body">
+<div class="pull-to-refresh-scroll" #pullScroll (touchstart)="touchStart($event)" (touchmove)="touchMove($event)"
+    (touchend)="touchEnd($event)">
+    <div class="scroll-top" [style]="style">
+        <div *ngIf="state == ESTATE.PULL">
+            <i class="iconfont icon-arrow-down"></i>
+            下拉刷新
+        </div>
+        <div *ngIf="state == ESTATE.PULLED">
+            <i class="iconfont icon-arrow-up"></i>
+            松开刷新
+        </div>
+        <div *ngIf="state == ESTATE.REFRESHING">
+            <i class="iconfont icon-refresh"></i>
+            刷新中
+        </div>
+        <div *ngIf="state == ESTATE.REFRESHED">
+            <i class="iconfont icon-check"></i>
+            刷新完成
+        </div>
+        <div *ngIf="state == ESTATE.CANCEL">
+            <i class="iconfont icon-arrow-up"></i>
+            停止刷新
+        </div>
+    </div>
+    <div class="scroll-body">
         <ng-content></ng-content>
-      </div>
-      <div class="scroll-bottom">
-              <div *ngIf="state == ESTATE.MORE">
-                  <i class="iconfont icon-refresh"></i>
-                  加载更多
-              </div>
-                <div *ngIf="state == ESTATE.LOADING">
-                  <i class="iconfont icon-check"></i>
-                  加载中
-              </div>
-              <div *ngIf="state == ESTATE.LOADED">
-                  <i class="iconfont icon-arrow-up"></i>
-                  加载完成
-              </div>
-      </div>
-  </div>
+    </div>
+    <div class="scroll-bottom">
+        <div *ngIf="state == ESTATE.MORE">
+            <i class="iconfont icon-refresh"></i>
+            加载更多
+        </div>
+        <div *ngIf="state == ESTATE.LOADING">
+            <i class="iconfont icon-check"></i>
+            加载中
+        </div>
+        <div *ngIf="state == ESTATE.LOADED">
+            <i class="iconfont icon-arrow-up"></i>
+            加载完成
+        </div>
+    </div>
+</div>

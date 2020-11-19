@@ -1,19 +1,19 @@
 <div class="share-box">
-  <ng-container *ngFor="let item of items">
-    <div class="share-item">
-      <div class="avatar">
-          <img [src]="item.user.avatar">
-      </div>
-      <div>
-          <h4 class="item-heading">{{ item.user.name }} 分享了
-            <a routerLink="/disk/password">{{ item.name }}</a>
-          </h4>
-          <p class="item-text">
-              分享时间: {{ item.created_at }}
-              <a href="">取消分享</a>
-          </p>
-      </div>
-  </div>
-  </ng-container>
-  
+    <ng-container *ngFor="let item of items">
+        <div class="share-item">
+            <div class="avatar">
+                <img [src]="item.user.avatar">
+            </div>
+            <div>
+                <h4 class="item-heading">{{ item.user.name }} 分享了
+                    <a routerLink="/disk/password">{{ item.name }}</a>
+                </h4>
+                <p class="item-text">
+                    分享时间: {{ item.created_at }}
+                    <a href="">取消分享</a>
+                </p>
+            </div>
+        </div>
+    </ng-container>
+
 </div>

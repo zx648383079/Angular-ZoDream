@@ -1,115 +1,137 @@
 <div class="nav-header">
-  <div class="nav-left">
-    <a class="nav-item" [ngClass]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
-      <i class="iconfont icon-chevron-left"></i>
-    </a>
-    <a class="nav-item disable" (click)="tapForward()">
-      <i class="iconfont icon-chevron-right"></i>
-    </a>
-    <a class="nav-item nav-hide">
-      <i class="iconfont icon-upload"></i>
-    </a>
-    <a class="nav-item nav-hide">
-      <i class="iconfont icon-plus"></i>
-    </a>
-  </div>
-
-  <div class="nav-crumbs">
-    <ng-container *ngFor="let item of crumbs">
-      <a class="crumb-item" [ngClass]="{disable: item.disable}">
-          <i class="iconfont" *ngIf="item.icon" [ngClass]="item.icon"></i>
-          <span class="name">{{ item.name }}</span>
-      </a>
-    </ng-container>
-  </div>
-
-  <div class="nav-right">
-    <a class="nav-item">
-      <span class="nav-name">排序</span>
-      <i class="iconfont icon-chevron-down"></i>
-      <div class="nav-children">
-        <a class="nav-item">
-          <i class="iconfont icon-sort-alpha-asc"></i>
-          <span class="nav-name">名称</span>
+    <div class="nav-left">
+        <a class="nav-item" [ngClass]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
         </a>
-        <a class="nav-item">
-          <i class="iconfont icon-sort-alpha-desc"></i>
-          <span class="nav-name">名称</span>
-        </a>
-        <a class="nav-item">
-          <i class="iconfont icon-sort-alpha-asc"></i>
-          <span class="nav-name">修改日期</span>
-        </a>
-        <a class="nav-item">
-          <i class="iconfont icon-sort-alpha-desc"></i>
-          <span class="nav-name">修改日期</span>
-        </a>
-      </div>
-    </a>
-    <a class="nav-item nav-hide" (click)="tapRefresh()">
-      <i class="iconfont icon-refresh"></i>
-    </a>
-    <a class="nav-item" [ngClass]="{active: viewMode}" (click)="viewMode = true">
-      <i class="iconfont icon-th-large"></i>
-    </a>
-    <a class="nav-item" [ngClass]="{active: !viewMode}" (click)="viewMode = false">
-      <i class="iconfont icon-th-list"></i>
-    </a>
-    <a class="nav-item nav-hide">
-      <i class="iconfont icon-search"></i>
-    </a>
-    <a class="nav-item">
-      <i class="iconfont icon-ellipsis-v"></i>
-      <div class="nav-children">
-        <a class="nav-item nav-hide">
-          <i class="iconfont icon-upload"></i>
-          <span class="nav-name">上传</span>
+        <a class="nav-item disable" (click)="tapForward()">
+            <i class="iconfont icon-chevron-right"></i>
         </a>
         <a class="nav-item nav-hide">
-          <i class="iconfont icon-plus"></i>
-          <span class="nav-name">新建文件夹</span>
+            <i class="iconfont icon-upload"></i>
+        </a>
+        <a class="nav-item nav-hide" (click)="tapOpenEdit(editFile)">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+
+    <div class="nav-crumbs">
+        <ng-container *ngFor="let item of crumbs">
+            <a class="crumb-item" [ngClass]="{disable: item.disable}">
+                <i class="iconfont" *ngIf="item.icon" [ngClass]="item.icon"></i>
+                <span class="name">{{ item.name }}</span>
+            </a>
+        </ng-container>
+    </div>
+
+    <div class="nav-right">
+        <a class="nav-item">
+            <span class="nav-name">排序</span>
+            <i class="iconfont icon-chevron-down"></i>
+            <div class="nav-children">
+                <a class="nav-item">
+                    <i class="iconfont icon-sort-alpha-asc"></i>
+                    <span class="nav-name">名称</span>
+                </a>
+                <a class="nav-item">
+                    <i class="iconfont icon-sort-alpha-desc"></i>
+                    <span class="nav-name">名称</span>
+                </a>
+                <a class="nav-item">
+                    <i class="iconfont icon-sort-alpha-asc"></i>
+                    <span class="nav-name">修改日期</span>
+                </a>
+                <a class="nav-item">
+                    <i class="iconfont icon-sort-alpha-desc"></i>
+                    <span class="nav-name">修改日期</span>
+                </a>
+            </div>
         </a>
         <a class="nav-item nav-hide" (click)="tapRefresh()">
-          <i class="iconfont icon-refresh"></i>
-          <span class="nav-name">刷新</span>
+            <i class="iconfont icon-refresh"></i>
+        </a>
+        <a class="nav-item" [ngClass]="{active: viewMode}" (click)="viewMode = true">
+            <i class="iconfont icon-th-large"></i>
+        </a>
+        <a class="nav-item" [ngClass]="{active: !viewMode}" (click)="viewMode = false">
+            <i class="iconfont icon-th-list"></i>
         </a>
         <a class="nav-item nav-hide">
-          <i class="iconfont icon-search"></i>
-          <span class="nav-name">搜索</span>
+            <i class="iconfont icon-search"></i>
         </a>
-      </div>
-    </a>
-  </div>
+        <a class="nav-item">
+            <i class="iconfont icon-ellipsis-v"></i>
+            <div class="nav-children">
+                <a class="nav-item nav-hide">
+                    <i class="iconfont icon-upload"></i>
+                    <span class="nav-name">上传</span>
+                </a>
+                <a class="nav-item nav-hide" (click)="tapOpenEdit(editFile)">
+                    <i class="iconfont icon-plus"></i>
+                    <span class="nav-name">新建文件夹</span>
+                </a>
+                <a class="nav-item nav-hide" (click)="tapRefresh()">
+                    <i class="iconfont icon-refresh"></i>
+                    <span class="nav-name">刷新</span>
+                </a>
+                <a class="nav-item nav-hide">
+                    <i class="iconfont icon-search"></i>
+                    <span class="nav-name">搜索</span>
+                </a>
+            </div>
+        </a>
+    </div>
 </div>
-<div class="catalog-body" [ngClass]="{'file-view': viewMode, 'file-edit': editMode}">
-  <div class="file-header">
-    <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
-    <div class="name sort-asc">文件名</div>
-    <div class="size">大小</div>
-    <div class="time">修改日期</div>
-  </div>
-  <ng-container *ngFor="let item of items">
-    <ng-container *ngIf="item.type === 'group'; else elseTemplate">
-      <div class="file-group">
-        {{ item.name }}
-      </div>
-    </ng-container>
-    <ng-template #elseTemplate>
-      <div class="file-item" (click)="tapFile(item)">
-        <div class="check-box" [ngClass]="{checked: item.checked}"></div>
-        <div class="file-icon">
-          <i class="iconfont" [ngClass]="item.icon"></i>
+<app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore"
+    [loading]="isLoading">
+    <div class="catalog-body" [ngClass]="{'file-view': viewMode, 'file-edit': editMode}">
+        <div class="file-header">
+            <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="name sort-asc">文件名</div>
+            <div class="size">大小</div>
+            <div class="time">修改日期</div>
         </div>
-        <div class="file-name">{{ item.name }}</div>
-        <div class="file-info">
-          <div class="file-size">{{ item.file?.size | size }}</div>
-          <div class="file-time">{{ item.updated_at | timestamp }}</div>
-        </div>
-      </div>
-    </ng-template>
-  </ng-container>
-  
-</div>
+        <ng-container *ngFor="let item of items">
+            <ng-container *ngIf="item.type === 'group'; else elseTemplate">
+                <div class="file-group">
+                    {{ item.name }}
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div class="file-item" (click)="tapFile(item)">
+                    <div class="check-box" [ngClass]="{checked: item.checked}"></div>
+                    <div class="file-icon">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </div>
+                    <div class="file-name">{{ item.name }}</div>
+                    <div class="file-info">
+                        <div class="file-size">{{ item.file?.size | size }}</div>
+                        <div class="file-time">{{ item.updated_at | timestamp }}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-container>
+    </div>
+</app-pull-to-refresh>
 <div class="player-box" [hidden]="!playerVisiable">
-  <app-media-player></app-media-player>
+    <app-media-player></app-media-player>
 </div>
+
+<ng-template #editFile let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑文件名' : '新增文件夹' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="region-input">文件名</label>
+            <div class="input-group">
+                <input class="form-control" id="region-input" [(ngModel)]="editData.name" placeholder="请输入文件名">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

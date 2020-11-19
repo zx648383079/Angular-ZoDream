@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import { mockDisks, mockShare, mockMyShare } from '../theme/mock/disk';
-import { IDisk, IShare, IShareFile } from '../theme/models/disk';
-import { IPage } from '../theme/models/page';
-import { mockPage } from '../theme/mock/page';
+import { Observable } from 'rxjs';
+import { IDisk, IShare } from '../theme/models/disk';
+import { IDataOne, IPage } from '../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -13,20 +11,26 @@ export class DiskService {
         private http: HttpClient,
     ) { }
 
-    public getCatalog(params: any): Observable<IDisk[]> {
-        return of(mockDisks);
+    public getCatalog(params: any) {
+        return this.http.get<IPage<IDisk>>('disk', {params});
     }
 
-    public getShareList(param: any): Observable<IPage<IShare>> {
-        return of(mockPage(mockShare));
+    public shareList(params: any) {
+        return this.http.get<IPage<IShare>>('disk/share', {params});
     }
 
-    public getMyShare(param: any): Observable<IPage<IShare>> {
-        return of(mockPage(mockShare));
+    public myShare(params: any) {
+        return this.http.get<IPage<IShare>>('disk/share/my', {params});
     }
 
-    public getTrash(param: any): Observable<IPage<IDisk>> {
-        return of(mockPage(mockDisks));
+    public trashList(params: any) {
+        return this.http.get<IPage<IDisk>>('disk/trash', {params});
+    }
+
+    public allowUrl(url: string): Observable<IDataOne<string>>;
+    public allowUrl(url: string[]): Observable<IDataOne<string[]>>;
+    public allowUrl(url: string|string[]) {
+        return this.http.post<IDataOne<string|string[]>>('disk/home/allow', {url});
     }
 
     public getIconByExt(ext?: string): string {

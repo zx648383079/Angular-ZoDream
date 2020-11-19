@@ -1,35 +1,35 @@
 <div class="catalog-body">
-  <div class="file-header">
-    <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
-    <div class="name sort-asc">文件名</div>
-    <div class="time">分享时间</div>
-    <div class="times">浏览次数</div>
-    <div class="times">保存次数</div>
-    <div class="times">下载次数</div>
-  </div>
-  <ng-container *ngFor="let item of items">
-    <div class="file-item" (click)="tapFile(item)">
-      <div class="check-box" [ngClass]="{checked: item.checked}"></div>
-      <div class="file-icon">
-        <i class="iconfont icon-folder-o"></i>
-      </div>
-      <div class="file-name">{{ item.name }}</div>
-      <div class="file-info">
-        <div class="file-time">{{ item.created_at }}</div>
-        <div class="file-times">
-          <i class="iconfont icon-eye"></i>
-          {{ item.view_count }}
-        </div>
-        <div class="file-times">
-          <i class="iconfont icon-floppy-o"></i>
-          {{ item.save_count }}
-        </div>
-        <div class="file-times">
-          <i class="iconfont icon-download"></i>
-          {{ item.down_count }}
-        </div>
-      </div>
+    <div class="file-header">
+        <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+        <div class="name sort-asc">文件名</div>
+        <div class="time">分享时间</div>
+        <div class="times">浏览次数</div>
+        <div class="times">保存次数</div>
+        <div class="times">下载次数</div>
     </div>
-  </ng-container>
-  
+    <ng-container *ngFor="let item of items">
+        <div class="file-item" (click)="tapFile(item)">
+            <div class="check-box" [ngClass]="{checked: item.checked}"></div>
+            <div class="file-icon">
+                <i class="iconfont icon-folder-o"></i>
+            </div>
+            <div class="file-name">{{ item.name }}</div>
+            <div class="file-info">
+                <div class="file-time">{{ item.created_at }}</div>
+                <div class="file-times">
+                    <i class="iconfont icon-eye"></i>
+                    {{ item.view_count }}
+                </div>
+                <div class="file-times">
+                    <i class="iconfont icon-floppy-o"></i>
+                    {{ item.save_count }}
+                </div>
+                <div class="file-times">
+                    <i class="iconfont icon-download"></i>
+                    {{ item.down_count }}
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
 </div>
