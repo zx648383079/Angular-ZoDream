@@ -1,7 +1,7 @@
 <div class="container-fluid">
   
     <div class="reader-box">
-        <app-flip-pager [initChapter]="chapterId" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
+        <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
     </div>
     
 
@@ -23,7 +23,7 @@
             <div class="line-item">
                 <span>背景颜色</span>
                 <div class="color-box">
-                    <app-color-picker [(ngModel)]="configs.background">
+                    <app-color-picker [(ngModel)]="configs.background" (ngModelChange)="onBackgroundChange()">
                         <span class="color" [ngStyle]="{'background-color': configs.background}"></span>
                     </app-color-picker>
                     <span class="add-img" (click)="tapBackgroundImg()">
@@ -78,11 +78,11 @@
                 <i class="iconfont icon-bars"></i>
                 目录
             </a>
-            <a (click)="tapEye()" :class="configs.theme == 7 ? 'active' : ''">
+            <a (click)="tapEye()" [ngClass]="{active: configs.theme == 7}">
                 <i class="iconfont icon-eye"></i>
                 夜间
             </a>
-            <a (click)="tapSetting()"  :class="readMode == 2 ? 'active' : ''">
+            <a (click)="tapSetting()" [ngClass]="{active: mode == 2}">
                 <i class="iconfont icon-cog"></i>
                 设置
             </a>

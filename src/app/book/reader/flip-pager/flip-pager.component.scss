@@ -44,17 +44,22 @@
 }
 
 .title {
-    font-size: 20px;
+    font-size: 1.5;
     font-weight: 700;
-    line-height: 40px;
+    line-height: 2.5;
     text-align: center;
 }
 .tag-box {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 12px;
+    font-size: .6;
     color: #ccc;
     span {
         margin-right: 10px;
     }
+}
+
+.panel-container {
+    background-repeat: no-repeat;
+    background-size: cover;
 }

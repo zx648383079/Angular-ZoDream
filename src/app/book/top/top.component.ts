@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, ICategory } from '../../theme/models/book';
 import { BookService } from '../book.service';
 
@@ -29,18 +29,25 @@ export class TopComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            if (params.category) {
+                this.category = params.category;
+            }
+            this.tapRefresh();
+        });
         this.service.categories().subscribe(res => {
             this.categories = res;
         });
-        this.tapRefresh();
     }
 
     public tapCat(item ?: ICategory) {
         this.category = item ? item.id : 0;
+        this.tapRefresh();
     }
 
     public tapBar(i: number) {
@@ -68,6 +75,7 @@ export class TopComponent implements OnInit {
         }
         this.isLoading = true;
         this.service.getBookList({
+            category: this.category,
             page
         }).subscribe(res => {
             this.page = page;

@@ -30,6 +30,7 @@ export class FlipPagerComponent implements OnChanges {
     @Input() public initChapter = 0;
     @Input() public maxCache = 5;
     @Input() public flipMode = 0;
+    @Input() public options: any = {};
     @Output() progressChanged = new EventEmitter<IFlipProgress>();
     @Output() previewRequest = new EventEmitter<number>();
 
@@ -46,6 +47,26 @@ export class FlipPagerComponent implements OnChanges {
         if (changes.initChapter && changes.initChapter.currentValue > 0) {
             this.init();
         }
+    }
+
+    get pageStyle() {
+        const style: any = {};
+        if (this.options.size) {
+            style['font-size'] = this.options.size + 'px';
+        }
+        if (this.options.font) {
+            const fontItems = ['Microsoft YaHei', 'PingFangSC-Regular', 'Kaiti', '方正启体简体'];
+            style['font-family'] = typeof this.options.font === 'number' ? fontItems[this.options.font] : this.options.font;
+        }
+        if (this.options.backgroundImage) {
+            style['background-image'] = 'url(' + this.options.backgroundImage + ')';
+        } else if (this.options.background) {
+            style['background-color'] = this.options.background;
+        }
+        if (this.options.color) {
+            style.color = this.options.color;
+        }
+        return style;
     }
 
     get current(): IChapter {

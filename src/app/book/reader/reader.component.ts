@@ -24,6 +24,7 @@ export class ReaderComponent implements OnInit {
     public configs: any = {
         font: 3,
         background: '#fff',
+        backgroundImage: null,
         oldTheme: '', // 记录夜间模式切换
         size: 18,
         line: 10,
@@ -81,16 +82,57 @@ export class ReaderComponent implements OnInit {
         this.flipPager.tapNext();
     }
 
+    public onBackgroundChange() {
+        this.configs.backgroundImage = null;
+    }
+
     public tapBackgroundImg() {
-
+        const name = 'file-input';
+        let fileELment: HTMLInputElement = document.querySelector('.' + name) as HTMLInputElement;
+        const that = this;
+        const changeEventHandle = function(this: GlobalEventHandlers) {
+                const files = (this as HTMLInputElement).files;
+                if (!files || files.length < 1) {
+                    return;
+                }
+                that.configs.backgroundImage = window.URL.createObjectURL(files[0]);
+            };
+        if (!fileELment) {
+            fileELment = document.createElement('input');
+            fileELment.type = 'file';
+            fileELment.className = name;
+            fileELment.multiple = false;
+            fileELment.accept = 'image/*';
+            document.body.appendChild(fileELment);
+            fileELment.onchange = changeEventHandle;
+        } else {
+            fileELment.value = '';
+            fileELment.multiple = false;
+            fileELment.accept = 'image/*';
+            fileELment.onchange = changeEventHandle;
+        }
+        fileELment.dispatchEvent(new MouseEvent('click'));
     }
 
-    public tapMinus(key: string) {
-
+    public tapMinus(name: 'size' | 'line' | 'letter') {
+        if (!this.configs.hasOwnProperty(name)) {
+            return;
+        }
+        const round = {
+            size: [12, 2, 40],
+            line: [2, 1, 40],
+            letter: [1, 1, 40],
+        };
+        this.configs[name] = Math.min(Math.max(this.configs[name] as number - this.sizeRound[name][1],
+        this.sizeRound[name][0]), this.sizeRound[name][2]);
     }
 
-    public tapPlus(key: string) {
-
+    public tapPlus(name: 'size' | 'line' | 'letter') {
+        if (!this.configs.hasOwnProperty(name)) {
+            return;
+        }
+        this.configs[name] = Math.min(Math.max(this.configs[name] as number + this.sizeRound[name][1],
+        this.sizeRound[name][0]), this.sizeRound[name][2]);
     }
 
     public tapChapter() {
@@ -98,11 +140,19 @@ export class ReaderComponent implements OnInit {
     }
 
     public tapEye() {
-
+        if (this.configs.theme === 7) {
+            this.configs.theme = 1;
+            [this.configs.background, this.configs.color] = this.configs.oldTheme.split('|');
+            return;
+        }
+        this.configs.oldTheme = [this.configs.background, this.configs.color].join('|');
+        this.configs.background = '#000';
+        this.configs.color = '#fff';
+        this.configs.theme = 7;
     }
 
     public tapSetting() {
-
+        this.mode = this.mode === 2 ? 0 : 2;
     }
 
 }
