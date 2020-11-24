@@ -48,7 +48,7 @@ export class ThreadComponent implements OnInit {
     }
     this.isLoading = true;
     this.service.getPostList({
-      forum: this.thread.id,
+      thread: this.thread.id,
       page
     }).subscribe(res => {
       this.page = page;

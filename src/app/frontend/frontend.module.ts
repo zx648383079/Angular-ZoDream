@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FrontendRoutingModule } from './frontend-routing.module';
-import { HomeComponent } from './home/home.component';
-import { FrontendComponent } from './frontend.component';
-import { AboutComponent } from './about/about.component';
+import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-routing.module';
 import { FrontendService } from './frontend.service';
-import { FriendLinkComponent } from './friend-link/friend-link.component';
 
 
 @NgModule({
-    declarations: [HomeComponent, AboutComponent, FrontendComponent, FriendLinkComponent],
+    declarations: [...frontendRoutedComponents],
     imports: [
         CommonModule,
         FrontendRoutingModule

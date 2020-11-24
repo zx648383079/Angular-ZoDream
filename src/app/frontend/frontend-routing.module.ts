@@ -40,3 +40,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class FrontendRoutingModule { }
+
+export const frontendRoutedComponents = [
+    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent
+];

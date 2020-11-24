@@ -32,3 +32,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class ForumRoutingModule { }
+
+export const forumRoutedComponents = [
+  ForumComponent, ThreadComponent, ListComponent, HomeComponent
+];

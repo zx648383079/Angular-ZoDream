@@ -2,31 +2,41 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IForum, IThread, IThreadPost } from 'src/app/theme/models/forum';
 import { mockForum, mockThread, mockThreadPost } from 'src/app/theme/mock/forum';
-import { IPage } from 'src/app/theme/models/page';
+import { IData, IPage } from 'src/app/theme/models/page';
 import { mockPage } from 'src/app/theme/mock/page';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ForumService {
 
-    constructor() { }
+    constructor(private http: HttpClient) { }
 
     public getForumList(): Observable<IForum[]> {
-        return of(mockForum);
+        return this.http.get<IData<IForum>>('forum').pipe(map(res => res.data));
     }
 
-    public getForum(id: number): Observable<IForum> {
-        return of(mockForum[0]);
+    public getForum(id: any): Observable<IForum> {
+        return this.http.get<IForum>('forum/home/detail', {
+            params: {id}
+        });
     }
 
-    public getThreadList(param: any): Observable<IPage<IThread>> {
-        return of(mockPage(mockThread));
+    public getThreadList(params: any): Observable<IPage<IThread>> {
+        return this.http.get<IPage<IThread>>('forum/thread', {
+            params
+        });
     }
 
-    public getThread(id: number): Observable<IThread> {
-        return of(mockThread[0]);
+    public getThread(id: any): Observable<IThread> {
+        return this.http.get<IThread>('forum/thread/detail', {
+            params: {id}
+        });
     }
 
-    public getPostList(param: any): Observable<IPage<IThreadPost>> {
-        return of(mockPage(mockThreadPost));
+    public getPostList(params: any): Observable<IPage<IThreadPost>> {
+        return this.http.get<IPage<IThreadPost>>('forum/thread/post', {
+            params
+        });
     }
 }

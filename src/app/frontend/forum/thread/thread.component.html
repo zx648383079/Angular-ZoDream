@@ -18,7 +18,7 @@
 
 <div class="container">
     <div class="thread-box">
-        <div class="thread-title">
+        <div class="thread-title" *ngIf="thread">
             <div class="count">
                 <span>查看：{{ thread.view_count }}</span>
                 <span>回复：{{ thread.post_count }}</span>
