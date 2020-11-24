@@ -76,6 +76,7 @@ export class AttributeComponent implements OnInit {
     this.isLoading = true;
     this.service.attrList({
       keywords: this.keywords,
+      group_id: this.group.id,
       page,
       per_page: this.perPage
     }).subscribe(res => {

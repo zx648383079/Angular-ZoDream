@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAttribute, IAttributeGroup } from '../../../../theme/models/shop';
-import { AttributeService } from '../attribute.service';
+import { IAttribute, IAttributeGroup } from '../../../../../theme/models/shop';
+import { AttributeService } from '../../attribute.service';
 
 @Component({
   selector: 'app-edit-attribute',
@@ -46,11 +46,12 @@ export class EditAttributeComponent implements OnInit {
                 this.data = res;
                 this.form.setValue({
                     name: res.name,
-                    search_type: res.search_type,
-                    input_type: res.input_type,
+                    search_type: res.search_type.toString(),
+                    group_id: res.group_id,
+                    input_type: res.input_type.toString(),
                     default_value: res.default_value,
                     position: res.position,
-                    type: res.type,
+                    type: res.type.toString(),
                 });
             });
         });
@@ -69,7 +70,7 @@ export class EditAttributeComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IAttribute = this.form.value;
+        const data: IAttribute = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

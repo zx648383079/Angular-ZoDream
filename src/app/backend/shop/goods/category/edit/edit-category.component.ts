@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ICategory } from '../../../../theme/models/shop';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
-import { filterTree } from '../../../../theme/utils';
-import { GoodsService } from '../goods.service';
+import { ICategory } from '../../../../../theme/models/shop';
+import { FileUploadService } from '../../../../../theme/services/file-upload.service';
+import { filterTree } from '../../../../../theme/utils';
+import { GoodsService } from '../../goods.service';
 
 @Component({
   selector: 'app-edit-category',
@@ -71,7 +71,7 @@ export class EditCategoryComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: ICategory = this.form.value;
+    const data: ICategory = Object.assign({}, this.form.value);
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

@@ -65,7 +65,7 @@ export class EditTemplateComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: ITemplate = this.form.value;
+    const data: ITemplate = Object.assign({}, this.form.value);
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

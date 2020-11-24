@@ -93,7 +93,7 @@ export class EditArticleComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: IArticle = this.form.value;
+    const data: IArticle = Object.assign({}, this.form.value);
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

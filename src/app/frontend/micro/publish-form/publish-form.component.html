@@ -1,0 +1,28 @@
+<div class="micro-publish-box">
+    <div class="title">有什么新鲜事想告诉大家?
+        <div class="tip" [hidden]="!content">
+            已输入<em>{{ content.length }}</em>字
+        </div>
+    </div>
+    <div class="input-box">
+        <textarea class="form-control" [(ngModel)]="content"></textarea>
+    </div>
+    <div class="actions">
+        <div class="tools">
+            <i class="iconfont icon-smile-o"></i>
+            <i class="iconfont icon-image"></i>
+            <i class="iconfont icon-file-movie-o"></i>
+            <i class="iconfont icon-music"></i>
+        </div>
+        <select class="form-control">
+            <option value="">公开</option>
+        </select>
+        <button class="btn btn-primary">发布</button>
+    </div>
+    <div class="multi-image-box" *ngIf="fileItems.length > 0">
+        <div class="image-item" *ngFor="let item of fileItems; let i = index">
+            <img [src]="item">
+            <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
+        </div>
+    </div>
+</div>

@@ -62,7 +62,7 @@ export class EditCategoryComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: ICategory = this.form.value;
+    const data: ICategory = Object.assign({}, this.form.value);
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

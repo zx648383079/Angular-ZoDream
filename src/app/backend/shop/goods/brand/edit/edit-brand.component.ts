@@ -7,9 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
     IBrand
-} from '../../../../theme/models/shop';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
-import { GoodsService } from '../goods.service';
+} from '../../../../../theme/models/shop';
+import { FileUploadService } from '../../../../../theme/services/file-upload.service';
+import { GoodsService } from '../../goods.service';
 
 @Component({
     selector: 'app-edit-brand',
@@ -64,7 +64,7 @@ export class EditBrandComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IBrand = this.form.value;
+        const data: IBrand = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

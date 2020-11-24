@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAttributeGroup } from '../../../../theme/models/shop';
-import { AttributeService } from '../attribute.service';
+import { IAttributeGroup } from '../../../../../theme/models/shop';
+import { AttributeService } from '../../attribute.service';
 
 @Component({
   selector: 'app-edit-group',
@@ -52,7 +52,7 @@ export class EditGroupComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IAttributeGroup = this.form.value;
+        const data: IAttributeGroup = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

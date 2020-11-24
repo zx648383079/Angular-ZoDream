@@ -33,6 +33,10 @@ export class OrderComponent implements OnInit {
     return Math.ceil(this.total / this.perPage);
   }
 
+  public tapSearch(form: any) {
+    this.tapRefresh();
+  }
+
   /**
    * tapRefresh
    */

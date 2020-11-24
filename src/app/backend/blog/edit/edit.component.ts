@@ -122,7 +122,7 @@ export class EditComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: IBlog = this.form.value;
+    const data: IBlog = Object.assign({}, this.form.value);
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

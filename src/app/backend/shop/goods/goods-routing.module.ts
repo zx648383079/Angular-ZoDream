@@ -5,13 +5,13 @@ import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { TrashComponent } from './trash/trash.component';
 import { BrandComponent } from './brand/brand.component';
-import { EditBrandComponent } from './edit-brand/edit-brand.component';
+import { EditBrandComponent } from './brand/edit/edit-brand.component';
 import { CategoryComponent } from './category/category.component';
-import { EditCategoryComponent } from './edit-category/edit-category.component';
+import { EditCategoryComponent } from './category/edit/edit-category.component';
 import { GroupComponent } from './group/group.component';
-import { EditGroupComponent } from './edit-group/edit-group.component';
+import { EditGroupComponent } from './group/edit/edit-group.component';
 import { AttributeComponent } from './attribute/attribute.component';
-import { EditAttributeComponent } from './edit-attribute/edit-attribute.component';
+import { EditAttributeComponent } from './attribute/edit/edit-attribute.component';
 import { SearchTypePipe } from './search-type.pipe';
 import { AttributeTypePipe } from './attribute-type.pipe';
 
