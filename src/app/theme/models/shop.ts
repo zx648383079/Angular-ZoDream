@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface IBrand {
     id: number;
     name: string;
@@ -83,9 +85,17 @@ export interface IOrder {
     payment_name: string;
     shipping_id: number;
     shipping_name: string;
+    shipping_fee: number;
+    order_amount: number;
+    user?: IUser;
     goods?: IOrderGoods[];
     address?: IAddress;
     checked?: boolean;
+    created_at?: string;
+    finish_at?: string;
+    receive_at?: string;
+    shipping_at?: string;
+    pay_at?: string;
 }
 
 export interface IAddress {
@@ -110,11 +120,15 @@ export interface IRegion {
 export interface IOrderGoods {
     id: number;
     name?: string;
+    series_number?: string;
     status?: number;
+    thumb?: string;
+    type_remark: string;
     amount: number;
     price: number;
     goods_id: number;
     goods: IGoods;
+    status_label?: string;
 }
 
 export interface ILogistics {

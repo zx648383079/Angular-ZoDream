@@ -18,56 +18,54 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a href="./create" class="btn btn-success pull-right">新增订单</a>
+                <a routerLink="./create" class="btn btn-success pull-right">新增订单</a>
                 <a routerLink="./delivery" class="btn btn-info pull-right">发货单</a>
             </form>
-            
         </div>
         <div class="order-box">
-            <div class="order-item">
+            <div class="order-item" *ngFor="let item of items">
                 <div class="item-header">
-                    <span>2020-05-08 12:51:22</span>
-                    <span>订单号：1588913482</span>
-                    <span>订单总额：899</span>
-                    <span>状态：待支付</span>
+                    <span>{{ item.created_at }}</span>
+                    <span>订单号：{{ item.series_number }}</span>
+                    <span>订单总额：{{ item.order_amount }}</span>
+                    <span>状态：{{ item.status_label }}</span>
                     <span>售后：无</span>
                 </div>
                 <div class="item-body">
                     <div class="item-goods">
-                        <div class="goods-item">
+                        <div class="goods-item" *ngFor="let goods of item.goods">
                             <div class="goods-img">
-                                <img src="https://yanxuan.nosdn.127.net/a334a554a79ccd8d97c2bbc908402d62.jpg?imageView&amp;quality=95&amp;thumbnail=355x355"
-                                    alt="">
+                                <img [src]="goods.thumb">
                             </div>
                             <div class="goods-info">
-                                <h4>轻奢纯棉刺绣水洗四件套</h4>
-                                <p>属性</p>
-                                <span class="price">899</span>
-                                <span class="amount"> x 1</span>
+                                <h4>{{ goods.name }}</h4>
+                                <p>{{ goods.type_remark }}</p>
+                                <span class="price">{{ goods.price }}</span>
+                                <span class="amount"> x {{ goods.amount }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="item-subtotal">
                         <p>应付：
-                            <span>899</span>
+                            <span>{{ item.order_amount }}</span>
                         </p>
-                        <p>运费：0</p>
+                        <p>运费：{{ item.shipping_fee }}</p>
                     </div>
                     <div class="item-user">
-                        <p>用户名：zodream</p>
-                        <p>收货人：zzz</p>
-                        <p>13412341234</p>
+                        <p>用户名：{{ item.user.name }}</p>
+                        <p>收货人：{{ item.address.name }}</p>
+                        <p>{{ item.address.tel }}</p>
                     </div>
                     <div class="item-actions">
                         <a routerLink="4">订单详情</a>
-                        <a href="http://zodream.localhost/shop/admin/order/info?id=4">修改运费</a>
-                        <a class="btn-danger" data-type="del"
-                            href="http://zodream.localhost/shop/admin/order/delete?id=4">删除</a>
+                        <a >修改运费</a>
+                        <a class="btn btn-danger btn-xs" >删除</a>
                     </div>
                 </div>
             </div>
         </div>
-    
-        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
     </div>
 </div>

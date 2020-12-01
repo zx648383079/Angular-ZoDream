@@ -16,4 +16,10 @@ export class OrderService {
         });
     }
 
+    public order(id: any) {
+        return this.http.get<IOrder>('shop/admin/order/detail', {
+            params: {id}
+        });
+    }
+
 }

@@ -4,7 +4,7 @@ import { OrderComponent } from './order.component';
 import { CreateComponent } from './create/create.component';
 import { DetailComponent } from './detail/detail.component';
 import { DeliveryComponent } from './delivery/delivery.component';
-import { EditDeliveryComponent } from './edit-delivery/edit-delivery.component';
+import { EditDeliveryComponent } from './delivery/edit/edit-delivery.component';
 
 const routes: Routes = [
   { path: '', component: OrderComponent },
