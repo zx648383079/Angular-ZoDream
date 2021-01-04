@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ForumEditorComponent } from './forum-editor/forum-editor.component';
 
 import { ForumComponent } from './forum.component';
 import { HomeComponent } from './home/home.component';
@@ -34,5 +35,5 @@ const routes: Routes = [
 export class ForumRoutingModule { }
 
 export const forumRoutedComponents = [
-  ForumComponent, ThreadComponent, ListComponent, HomeComponent
+  ForumComponent, ThreadComponent, ListComponent, HomeComponent, ForumEditorComponent
 ];

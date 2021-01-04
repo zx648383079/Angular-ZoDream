@@ -7,9 +7,13 @@
         line-height: 30px;
         height: 30px;
         width: 200px;
+        min-height: 40px;
+        margin: 0;
         border: 1px solid #ccc;
         transition: all 1s;
+        text-align: center;
         border-radius: 2px;
+        padding: 0;
         overflow: hidden;
         cursor: pointer;
         &:nth-child(2n) {

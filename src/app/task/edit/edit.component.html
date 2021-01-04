@@ -3,6 +3,9 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="share-icon" *ngIf="data && data.id > 0">
+            <i class="iconfont icon-paper-plane" title="分享" (click)="tapShare(shareModal)"></i>
+        </div>
         <div class="input-group">
             <label for="name">名称</label>
             <div class="">
@@ -59,7 +62,7 @@
     <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
-        <div class="time">{{ item.time_format }}</div>
+        <div class="time">{{ item.time_length | hour }}</div>
         <div class="action">
             <i class="iconfont icon-edit" (click)="openDialog(content, item)"></i>
             <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
@@ -87,6 +90,33 @@
             <div class="input-group">
                 <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
             </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>
+
+<ng-template #shareModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">分享</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group" *ngIf="shareData.id < 1">
+            <label for="share-type-input">分享类型</label>
+            <div class="input-group">
+                <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
+                    <option value="0">公开分享</option>
+                    <option value="1">密码分享</option>
+                </select>
+            </div>
+        </div>
+        <div class="code-label" *ngIf="shareData.id > 0">
+            <p>分享链接：</p>
+            <code>{{ shareUrl }}</code>
         </div>
     </div>
     <div class="modal-footer">

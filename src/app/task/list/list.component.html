@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>这是今日任务列表</li>
+            <li>这是所有任务列表</li>
         </ul>
     </app-page-tip>
 
@@ -10,11 +10,11 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [value]="keywords">
+                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="搜索标题" [value]="keywords">
                 </div>
                 <div class="input-group">
                     <label>状态</label>
-                    <select name="status">
+                    <select name="status" ngModel>
                         <option value="0">请选择</option>
                         <ng-container *ngFor="let item of statusItems">
                             <option [value]="item.value" [selected]="status == item.value">{{ item.name }}</option>
@@ -28,12 +28,12 @@
     </div>
 
     <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
-        <i class="fa check-box" [ngClass]="{active: item.checked}"></i>
+        <i class="checkbox" [ngClass]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
-        <div class="time">{{ item.time_format }}</div>
+        <div class="time">{{ item.time_length | hour }}</div>
         <div class="action">
-            <i class="iconfont icon-plus" title="添加到今日任务"></i>
+            <i class="iconfont icon-plus" title="添加到今日任务" (click)="addToday(item)"></i>
             <a [routerLink]="'../edit/' + item.id" title="编辑"><i class="iconfont icon-edit"></i></a>
             <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
         </div>

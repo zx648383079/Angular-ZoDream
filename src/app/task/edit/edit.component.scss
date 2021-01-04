@@ -18,3 +18,21 @@
         box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 }
+
+.panel-container {
+    position: relative;
+}
+
+.share-icon {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    .iconfont {
+        display: inline-block;
+        font-size: 30px;
+        color: #777;
+        &:hover {
+            color: red;
+        }
+    }
+}

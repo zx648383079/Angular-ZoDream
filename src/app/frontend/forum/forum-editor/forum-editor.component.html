@@ -1,0 +1,33 @@
+<div class="editor-box">
+    <div class="editor-tool-bar">
+        <div class="tool-item" title="插入代码">
+            <i class="iconfont icon-code"></i>
+        </div>
+        <div class="tool-item" title="插入隐藏内容">
+            <i class="iconfont icon-eye-slash"></i>
+        </div>
+        <div class="tool-item" title="插入可下载内容">
+            <i class="iconfont icon-download"></i>
+        </div>
+        <label for="editor-img" class="tool-item" title="插入图片">
+            <i class="iconfont icon-image"></i>
+            <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
+        </label>
+        <div class="tool-item" title="插入音频">
+            <i class="iconfont icon-music"></i>
+        </div>
+        <div class="tool-item" title="插入视频">
+            <i class="iconfont icon-film"></i>
+        </div>
+        <div class="tool-item" title="插入链接">
+            <i class="iconfont icon-chain"></i>
+        </div>
+        <div class="tool-item" title="清空">
+            <i class="iconfont icon-trash"></i>
+        </div>
+    </div>
+    <div class="editor-area">
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
+        <div class="editor-footer">共 {{ size }} 字</div>
+    </div>
+</div>

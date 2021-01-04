@@ -5,6 +5,8 @@ import { TaskService } from './task.service';
 import { ThemeModule } from '../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 @NgModule({
   imports: [
@@ -13,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     ThemeModule,
     TaskRoutingModule,
+    NgxEchartsModule.forRoot({ echarts }),
   ],
   declarations: [...taskRoutingComponents],
   providers: [

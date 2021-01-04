@@ -51,7 +51,10 @@ export class TaskComponent implements OnInit {
                 {
                     name: '月视图',
                     icon: 'icon-area-chart',
-                    url: './review'
+                    url: './review',
+                    urlQuery: {
+                        type: 1
+                    }
                 },
             ],
         },
@@ -68,12 +71,18 @@ export class TaskComponent implements OnInit {
                 {
                     name: '周视图',
                     icon: 'icon-th-list',
-                    url: './record'
+                    url: './record',
+                    urlQuery: {
+                        type: 1
+                    }
                 },
                 {
                     name: '月视图',
                     icon: 'icon-calendar',
-                    url: './record'
+                    url: './record',
+                    urlQuery: {
+                        type: 2
+                    }
                 },
             ],
         },

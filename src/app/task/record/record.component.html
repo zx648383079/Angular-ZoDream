@@ -7,14 +7,14 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm)" #searchForm="ngForm">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">日期</label>
-                    <input type="text" class="form-control" name="date" id="keywords" placeholder="选择日期" [value]="date">
+                    <input type="text" class="form-control" name="date" ngModel id="keywords" placeholder="选择日期" [value]="date">
                 </div>
                 <div class="input-group">
                     <label>区间</label>
-                    <select name="type">
+                    <select name="type" ngModel>
                         <ng-container *ngFor="let item of typeItems;let i = index">
                             <option [value]="i" [selected]="type == i">{{ item }}</option>
                         </ng-container>
@@ -32,7 +32,13 @@
                     <section *ngFor="let item of dayItems">{{ item.label }}</section>
                 </div>
                 <div class="time-body">
-                    
+                    <ng-container *ngFor="let item of dayItems">
+                        <ng-container *ngFor="let it of item.items">
+                            <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
+                                {{ it.task.name }}
+                            </div>
+                        </ng-container>
+                    </ng-container>
                 </div>
             </div>
         </ng-container>
@@ -42,7 +48,13 @@
                     <section *ngFor="let item of weekItems">{{ item.label }}</section>
                 </div>
                 <div class="week-body">
-                    
+                    <ng-container *ngFor="let item of weekItems">
+                        <ng-container *ngFor="let it of item.items">
+                            <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
+                                {{ it.task.name }}
+                            </div>
+                        </ng-container>
+                    </ng-container>
                 </div>
             </div>
         </ng-container>
@@ -62,7 +74,7 @@
                         <span class="day-label">{{ item.label }}</span>
                         <ul class="day-box">
                             <li *ngFor="let it of item.items">
-                                {{ it.name }}
+                                {{ it.task.name }}
                             </li>
                         </ul>
                     </div>

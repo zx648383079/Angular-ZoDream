@@ -5,6 +5,7 @@ export interface INav {
   icon?: string;
   label?: string;
   url?: string;
+  urlQuery?: any;
   children?: INav[];
   expand?: boolean;
   active?: boolean;

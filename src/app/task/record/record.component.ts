@@ -27,6 +27,9 @@ export class RecordComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
+            if (params.type) {
+                this.type = parseInt(params.type, 10) || 0;
+            }
             this.tapRefresh();
         });
     }
@@ -39,6 +42,18 @@ export class RecordComponent implements OnInit {
                 items: []
             });
         }
+        let i = 0;
+        for (const item of this.items) {
+            const date = new Date(item.created_at);
+            items[0].items.push(Object.assign({
+                style: {
+                    left: (date.getHours() * 50 + date.getMinutes() * 5 / 6) + 'px',
+                    top: i * 40 + 'px',
+                    width: item.time / 60 * 5 / 6 + 'px',
+                }
+            }, item));
+            i ++;
+        }
         return items;
     }
 
@@ -50,14 +65,25 @@ export class RecordComponent implements OnInit {
                 items: []
             });
         });
+        for (const item of this.items) {
+            const date = new Date(item.created_at);
+            const w = date.getDay() - 1;
+            items[w].items.push(Object.assign({
+                style: {
+                    left: w * 200 + 'px',
+                    top: items[w].items.length * 40 + 'px',
+                }
+            }, item));
+        }
         return items;
     }
 
     get monthItems() {
-        const date = new Date();
+        const now = new Date();
+        const date = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         const count = date.getDate();
         date.setDate(1);
-        const start = date.getDay();
+        const start = date.getDay() - 1;
         const items = [];
         for (let i = 0; i < start; i++) {
             items.push({
@@ -71,11 +97,18 @@ export class RecordComponent implements OnInit {
                 items: []
             });
         }
+        for (const item of this.items) {
+            const d = new Date(item.created_at);
+            const i = d.getDate() + start - 1;
+            items[i].items.push(Object.assign({}, item));
+        }
         return items;
     }
 
     public tapSearch(form: any) {
-        console.log(form);
+        this.date = form.date || '';
+        this.type = parseInt(form.type, 10) || 0;
+        this.tapRefresh();
     }
 
     public tapRefresh() {

@@ -20,7 +20,9 @@ import {
   MediaPlayerComponent,
   ProgressBarComponent,
   PullToRefreshComponent,
-  PanelComponent, DatepickerComponent, SwitchComponent, CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent
+  PanelComponent,
+  DatepickerComponent, SwitchComponent,
+  CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective } from './directives';

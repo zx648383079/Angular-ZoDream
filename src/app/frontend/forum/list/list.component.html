@@ -10,7 +10,7 @@
   </ul>
 </div>
 <div class="container">
-    <div class="forum-group">
+    <div class="forum-group" *ngIf="forum">
         <div class="group-header">
             {{ forum.name }}</div>
         <div class="group-body" *ngIf="forum.children && forum.children.length > 0">
@@ -51,7 +51,7 @@
         <ng-container *ngFor="let item of items">
           <div class="thread-item">
             <div class="name">
-                <i class="fa fa-file"></i>
+                <i class="iconfont icon-file"></i>
                 <a class="title" routerLink="../thread/{{ item.id }}">{{ item.title }}</a>
             </div>
             <div class="time">
@@ -87,15 +87,8 @@
                 <input type="text" name="title" required="">
             </div>
 
-            <div class="editor">
-                <div class="editor-plugin"><i class="fa fa-code" data-name="fa-code" title="插入代码"></i><i
-                        class="fa fa-eye-slash" data-name="fa-eye-slash" title="插入隐藏内容"></i><i class="fa fa-download"
-                        data-name="fa-download" title="插入可下载内容"></i><i class="fa fa-image" data-name="fa-image"
-                        title="插入图片"></i><i class="fa fa-music" data-name="fa-music" title="插入音频"></i><i class="fa fa-video"
-                        data-name="fa-video" title="插入视频"></i><i class="fa fa-link" data-name="fa-link" title="插入链接"></i><i
-                        class="fa fa-trash" data-name="fa-trash" title="清空"></i></div>
-                <textarea name="content" required=""></textarea>
-            </div>
+            <app-forum-editor></app-forum-editor>
+            
             <div class="footer">
                 <button class="btn">发表帖子</button>
                 <input type="hidden" name="forum_id" value="2">

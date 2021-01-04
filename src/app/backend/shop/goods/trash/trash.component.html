@@ -9,18 +9,18 @@
         <form class="form-horizontal"  (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="input-group">
                 <label for="keywords">标题</label>
-                <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" >
+                <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" >
             </div>
             <div class="input-group">
                 <label>分类</label>
-                <select name="cat_id"  class="form-control">
+                <select name="cat_id" ngModel class="form-control">
                     <option value="0">请选择</option>
                     <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
             </div>
             <div class="input-group">
                 <label>品牌</label>
-                <select name="brand_id"  class="form-control">
+                <select name="brand_id" ngModel class="form-control">
                     <option value="0">请选择</option>
                     <option *ngFor="let item of brandItems" [value]="item.id" [selected]="item.id === brand">{{ item.name }}</option>
                 </select>

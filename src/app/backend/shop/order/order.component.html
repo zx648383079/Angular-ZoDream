@@ -9,11 +9,11 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="series_number">订单号</label>
-                    <input type="text" class="form-control" name="series_number" id="series_number" placeholder="订单号">
+                    <input type="text" class="form-control" name="series_number" ngModel id="series_number" placeholder="订单号">
                 </div>
                 <div class="input-group">
                     <label for="status">状态</label>
-                    <select name="status" id="status">
+                    <select name="status" ngModel id="status">
                         <option value="0">全部</option>
                     </select>
                 </div>

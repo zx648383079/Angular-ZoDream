@@ -9,11 +9,11 @@
           <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
               <div class="input-group">
                   <label for="keywords">关键字</label>
-                  <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords" placeholder="关键字">
+                  <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键字">
               </div>
               <div class="input-group">
                 <label for="type">类型</label>
-                <select name="type">
+                <select name="type" ngModel class="form-control">
                   <option value="0">请选择</option>
                   <ng-container *ngFor="let item of typeItems">
                       <option [value]="item.value" [selected]="type == item.value">{{ item.name }}</option>

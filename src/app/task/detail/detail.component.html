@@ -14,7 +14,7 @@
             <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.description }}</div>
-                <div class="time">{{ item.time_format }}</div>
+                <div class="time">{{ item.time_length | hour }}</div>
                 <div class="action">
                     <i class="iconfont icon-play"></i>
                 </div>

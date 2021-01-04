@@ -47,6 +47,14 @@ export class ListComponent {
         this.goPage(this.page);
     }
 
+    public addToday(item: ITask) {
+        this.service.daySave({
+            task_id: item.id,
+        }).subscribe(_ => {
+            this.toastrService.success('已添加今日任务');
+        });
+    }
+
     public tapRemove(item: ITask) {
         if (!confirm('确定要删除《' + item.name + '》?')) {
             return;

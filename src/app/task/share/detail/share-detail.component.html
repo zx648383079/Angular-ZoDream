@@ -1,3 +1,71 @@
-<p>
-  share-detail works!
-</p>
+<div class="container-fluid" *ngIf="data">
+    
+    <div class="fixed-icon">
+        <i class="iconfont icon-cog" (click)="panelOpen = true"></i>
+    </div>
+
+    <div class="detail-box">
+        <div class="timer-box">{{ timeLength }}</div>
+        <div class="timer-name">{{ data.name }}</div>
+        <div class="timer-desc">{{ data.description }}</div>
+    </div>
+
+    <div class="scroll-box" *ngIf="items.length > 0">
+        <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
+            <div class="name">{{ item.name }}</div>
+            <div class="desc">{{ item.description }}</div>
+            <div class="time">{{ item.time_length | hour }}</div>
+        </div>
+    </div>
+
+
+    <div class="panel-container comment-box">
+        <div class="comment-search">
+            <input type="text" [(ngModel)]="comment" (keypress)="commentEnter($event)">
+            <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
+            <label for="file-upload" class="file-btn">
+                <i class="iconfont icon-upload"></i>
+                <input type="file" name="file" id="file-upload" (change)="uploadFile($event)" accept="image/*"/>
+            </label>
+        </div>
+        <div class="comment-item" *ngFor="let item of commentItems">
+            <div class="avatar" *ngIf="item.user">
+                <img [src]="item.user.avatar" [alt]="item.user.name">
+            </div>
+            <div class="name" *ngIf="item.user">{{ item.user.name }}
+
+                <div class="time">{{ item.created_at }}</div>
+            </div>
+            <div class="content">
+                <ng-container *ngIf="item.type == 1; else elseTemplate">
+                    <img [src]="item.content" alt="">
+                </ng-container>
+                <ng-template #elseTemplate>
+                    {{ item.content }}
+                </ng-template>
+            </div>
+            
+        </div>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+    </div>
+</div>
+
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text" [(ngModel)]="userKeywords">
+    </div>
+    <div class="panel-body">
+        <div class="user-item" *ngFor="let item of userFilterItems">
+            <div class="avatar">
+                <img [src]="item.avatar" alt="">
+            </div>
+            <div class="name">{{ item.name }}</div>
+            <div class="desc">{{ item.role_name }}</div>
+            <i class="iconfont icon-close" *ngIf="item.editable" (click)="tapRemoveUser(item)"></i>
+        </div>
+    </div>
+</div>

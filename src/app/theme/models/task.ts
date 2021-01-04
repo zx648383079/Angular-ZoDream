@@ -1,3 +1,4 @@
+import { IUser } from "./user";
 
 export interface ITask {
     id?: number;
@@ -22,6 +23,7 @@ export interface ITaskComment {
     type: number;
     created_at: string;
     updated_at: string;
+    user: IUser;
 }
 
 export interface ITaskDay {
@@ -63,4 +65,14 @@ export interface ITaskReview {
     total_time: number;
     valid_time: number;
     week: string;
+}
+
+export interface IShare {
+    id: number;
+    user_id?: number;
+    task_id: number;
+    share_type: number;
+    share_rule: string;
+    task: ITask;
+    user?: IUser;
 }

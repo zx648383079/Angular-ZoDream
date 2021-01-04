@@ -14,6 +14,7 @@ import {
     ToastrService
 } from 'ngx-toastr';
 import {
+    IShare,
     ITask
 } from '../../theme/models/task';
 import { DateAdapter } from '../../theme/services';
@@ -42,6 +43,8 @@ export class EditComponent implements OnInit {
     public items: ITask[] = [];
 
     public editData: ITask;
+
+    public shareData: IShare;
 
     constructor(
         private fb: FormBuilder,
@@ -72,6 +75,10 @@ export class EditComponent implements OnInit {
                 }
             });
         });
+    }
+
+    get shareUrl() {
+        return 'http://' + location.host + '/task/share/' + this.shareData.id;
     }
 
     public tapBack() {
@@ -139,6 +146,30 @@ export class EditComponent implements OnInit {
             this.toastrService.success('删除成功');
             this.items = this.items.filter(it => {
                 return it.id !== item.id;
+            });
+        });
+    }
+
+    public tapShare(modal: any) {
+        if (!this.data || this.data.id < 1) {
+            return;
+        }
+        if (!this.shareData) {
+            this.shareData = {id: 0, task: this.data, task_id: this.data.id, share_type: 0, share_rule: ''};
+        }
+        this.modalService.open(modal, {
+            ariaLabelledBy: 'modal-basic-title',
+        }).result.then(_ => {
+            if (this.shareData.id > 0) {
+                return;
+            }
+            this.service.shareCreate({
+                task_id: this.shareData.task_id,
+                share_type: this.shareData.share_type,
+                share_rule: this.shareData.share_rule,
+            }).subscribe(res => {
+                this.shareData = res;
+                this.tapShare(modal);
             });
         });
     }

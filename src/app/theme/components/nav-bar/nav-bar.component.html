@@ -18,7 +18,7 @@
         <ng-container *ngFor="let item of menu">
           <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem(item, $event)">
             <ng-container *ngIf="item.url; else elseTemplate">
-              <a [routerLink]="item.url" [title]="item.name">
+              <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}" [title]="item.name">
                 <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
                 <span class="bar-name">{{ item.name }}</span>
               </a>
@@ -34,7 +34,7 @@
               <ng-container *ngFor="let child of item.children">
                 <li class="bar-item" [ngClass]="{'active': child.active, 'open': child.expand}" (click)="tapItem(child, $event)">
                   <ng-container *ngIf="child.url; else elseChildTemplate">
-                    <a [routerLink]="child.url" [title]="child.name">
+                    <a [routerLink]="child.url"  [queryParams]="child.urlQuery || {}" [title]="child.name">
                       <i class="iconfont" [ngClass]="child.icon || 'bar-icon'">{{ child.label }}</i>
                       <span class="bar-name">{{ child.name }}</span>
                     </a>
@@ -55,7 +55,7 @@
         <ng-container *ngFor="let item of bottomMenu">
           <li class="bar-item" [ngClass]="{'active': item.active, 'open': item.expand}" (click)="tapItem(item, $event)">
             <ng-container *ngIf="item.url; else elseTemplate">
-              <a [routerLink]="item.url">
+              <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
                 <i class="iconfont" [ngClass]="item.icon || 'bar-icon'">{{ item.label }}</i>
                 <span class="bar-name">{{ item.name }}</span>
               </a>

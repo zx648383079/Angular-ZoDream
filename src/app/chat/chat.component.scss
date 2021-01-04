@@ -1,5 +1,7 @@
 @import '../theme/styles/scrollbar';
 
+
+
 .chat-box {
     position: fixed;
     left: 0;
@@ -12,6 +14,9 @@
         position: absolute;
         right: 0;
         z-index: 20;
+        a {
+            text-decoration: none;
+        }
         .nav-item {
             font-size: 20px;
             display: inline-block;
@@ -47,6 +52,7 @@
             box-shadow: rgba(51,51,51,.7) 0 0 10px;
             .nav-item {
                 display: block;
+                cursor: pointer;
             }
         }
     }
