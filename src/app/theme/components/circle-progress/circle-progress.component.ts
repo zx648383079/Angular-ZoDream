@@ -11,8 +11,10 @@ export class CircleProgressComponent implements AfterViewInit {
     @ViewChild('drawerBox')
     private drawerElement: ElementRef;
 
-    @Input() public outline = 'gray';
-    @Input() public inline = 'red';
+    @Input() public outline = 'rgba(38,129,215,0.3)';
+    @Input() public inline = '#51eb3e';
+    @Input() public inlineBackground = 'rgba(255,255,255,0.3)';
+    @Input() public lineWidth = 3;
     @Output() public finished: EventEmitter<CircleProgressComponent> = new EventEmitter();
     @Output() public valueChange: EventEmitter<number> = new EventEmitter();
 
@@ -43,7 +45,7 @@ export class CircleProgressComponent implements AfterViewInit {
         this.drawer.width = 200;
         this.drawer.height = 200;
         this.ctx = this.drawer.getContext('2d');
-        this.drawProgress(0);
+        this.drawProgress(this.ctx, 0);
     }
 
     public start(value = 0, max = 0) {
@@ -76,33 +78,45 @@ export class CircleProgressComponent implements AfterViewInit {
     private computed(value = this.value, max = this.max) {
         if (max > 0) {
             this.label = formatHour(Math.max(max - value, 0), undefined, true);
-            this.drawProgress(100 - value * 100 / max);
+            this.drawProgress(this.ctx, 100 - value * 100 / max);
             return;
         }
         max = Math.ceil(Math.max(value, 1) / 3600) * 3600;
         this.label = formatHour(value, undefined, true);
-        this.drawProgress(value * 100 / max);
+        this.drawProgress(this.ctx, value * 100 / max);
     }
 
-    private drawProgress(progress: number, centerX: number = 100, centerY: number = 100) {
-        const ctx = this.ctx;
+    private drawProgress(ctx: CanvasRenderingContext2D, progress: number, centerX = 100, centerY = 100, radius = 100) {
         if (!ctx) {
             return;
         }
-        ctx.clearRect(0, 0, 200, 200);
+        // 线圈的内半径
+        const lineRadius = radius - this.lineWidth;
+        // 内圈的半径
+        const inlineRadius = lineRadius - 5;
+        ctx.clearRect(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
         ctx.beginPath();
+        ctx.arc(centerX, centerY, inlineRadius, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.inlineBackground;
+        ctx.fill();
+        ctx.lineWidth = this.lineWidth;	// 圆环的粗细
+        ctx.lineCap = 'butt';
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, lineRadius, 0, Math.PI * 2, false);
+        ctx.strokeStyle = this.outline;
+        ctx.stroke();
         const deg = (2 * Math.PI / 100 * progress)
                     - 0.5 * Math.PI; // 圆环的绘制
-        const radius = centerX - 8;
-        ctx.lineWidth = 16;	// 圆环的粗细
-        ctx.lineCap = 'butt';	// 圆环结束断点的样式  butt为平直边缘 round为圆形线帽  square为正方形线帽
-        ctx.strokeStyle = this.outline; // 圆环线条的颜色
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.stroke();
         ctx.beginPath();
+        ctx.arc(centerX, centerY, lineRadius, - 0.5 * Math.PI, deg, false);
         ctx.strokeStyle = this.inline;
-        ctx.arc(centerX, centerY, radius, - 0.5 * Math.PI, deg); // 绘制的动作
         ctx.stroke();
+        const x = centerX + Math.cos(Math.PI * 2 * (progress - 25) / 100) * lineRadius;
+        const y = centerY + Math.sin(Math.PI * 2  * (progress - 25) / 100) * lineRadius;
+        ctx.beginPath();
+        ctx.arc(x, y, this.lineWidth, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.inline;
+        ctx.fill();
     }
 
 }

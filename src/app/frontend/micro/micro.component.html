@@ -1,5 +1,5 @@
 <div class="container">
-    <app-publish-form></app-publish-form>
+    <app-publish-form (published)="onPublish($event)"></app-publish-form>
 
     <ng-container *ngFor="let item of items">
         <div class="micro-item">
@@ -11,8 +11,8 @@
                     <div class="name">{{ item.user.name }}</div>
                     <p>
                         <span class="time">{{ item.created_at }}</span>
-                        <span class="from">来自web</span>
-                        <a class="remove" href="javascript:;">[删除]</a>
+                        <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
+                        <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
                     </p>
                     <div class="content">
                         {{ item.content }}
@@ -21,12 +21,12 @@
             </div>
 
             <div class="ations">
-                <a class="" data-action="collect" href="javascript:;">收藏</a>
+                <a [ngClass]="{active: item.is_collected}">{{ item.is_collected ? '已' : '' }}收藏</a>
                 <a >转发 {{ item.forward_count }}</a>
-                <a data-action="comment" href="javascript:;">评论</a>
-                <a class="active" data-action="recommend" href="javascript:;">赞{{ item.recommend_count }}</a>
+                <a (click)="tapToggleComment(item)">评论</a>
+                <a [ngClass]="{active: item.is_recommended}">{{ item.is_recommended ? '已' : '' }}赞 {{ item.recommend_count }}</a>
             </div>
-            <div class="comment-box">
+            <div class="comment-box" *ngIf="item.comment_open">
                 <div class="comment-publish">
                     <div class="avatar">
                         <img [src]="item.user.avatar" alt="">

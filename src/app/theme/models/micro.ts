@@ -11,6 +11,8 @@ export interface IMicro {
     source?: string;
     is_recommended?: boolean;
     is_collected?: boolean;
+    editable?: boolean;
+    comment_open?: boolean;
     forward?: IMicro;
     attachment?: IAttachment[];
     user: IUser;

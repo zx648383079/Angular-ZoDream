@@ -106,3 +106,13 @@
         flex: none;
     }
 }
+
+.on-running {
+    .fixed-icon,
+    .expand-box {
+        display: none;
+    }
+    .action-box {
+        padding-top: 30vh;
+    }
+}

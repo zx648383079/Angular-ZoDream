@@ -17,9 +17,9 @@
         <div class="tip" *ngIf="item.status === 9">进行中</div>
         <div class="tip" *ngIf="item.status === 8">暂停中</div>
         <div class="action">
-            <i class="iconfont icon-play"></i>
-            <i class="iconfont icon-pause"></i>
-            <i class="iconfont icon-stop"></i>
+            <i class="iconfont icon-play" *ngIf="item.status == 5 || item.status == 8"></i>
+            <i class="iconfont icon-pause" *ngIf="item.status === 9"></i>
+            <i class="iconfont icon-stop" *ngIf="item.status === 9"></i>
         </div>
     </div>
 </div>
