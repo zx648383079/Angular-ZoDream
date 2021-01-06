@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理屏蔽词列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a (click)="open(content)" class="pull-right btn btn-primary">新增屏蔽词</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>关键字</th>
+                    <th>替换词</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.words }}</td>
+                    <td>{{ item.replace_words }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+  
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+  </div>
+  
+  <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑屏蔽词' : '新增屏蔽词' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="name-input">关键词</label>
+            <div class="input-group">
+              <input class="form-control" id="name-input" [(ngModel)]="editData.words" placeholder="请输入关键词">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="replace-input">替换词</label>
+            <div class="input-group">
+              <input class="form-control" id="replace-input" [(ngModel)]="editData.replace_words" placeholder="请输入替换词">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+      </div>
+  </ng-template>

@@ -1,0 +1,117 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>表情包列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                        placeholder="名称">
+                </div>
+                <div class="input-group">
+                    <label>分类</label>
+                    <select name="cat_id" ngModel class="form-control">
+                        <option value="0">请选择</option>
+                        <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.name }}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a (click)="tapView(content)" class="pull-right btn btn-primary">新增表情包</a>
+                <a routerLink="./category" class="pull-right btn btn-info">管理分组</a>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>值</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <ng-container *ngIf="item.type < 1; else elseTemplate">
+                            <img [src]="item.content" alt="">
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            {{ item.content }}
+                        </ng-template>
+                    </td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="tapView(content, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑表情' : '新增表情' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name-input">名称</label>
+            <div class="input-group">
+                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cat-input">分组</label>
+            <div class="input-group">
+                <select [(ngModel)]="editData.cat_id" id="cat-input" class="form-control">
+                    <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="type-input">类型</label>
+            <div class="input-group">
+                <select [(ngModel)]="editData.type" id="type-input" class="form-control">
+                    <option [value]="0">图片</option>
+                    <option [value]="1">文字</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="editData.type < 1">
+            <label for="content-input">图片</label>
+            <div class="input-group">
+                <div class="file-input">
+                    <input type="text" id="content-input" class="form-control" [(ngModel)]="editData.content">
+                    <label for="fileUpload" class="btn btn-primary">上传</label>
+                    <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
+                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="editData.type == 1">
+            <label for="con-input">内容</label>
+            <div class="input-group">
+                <input class="form-control" id="con-input" [(ngModel)]="editData.content" placeholder="请输入内容">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

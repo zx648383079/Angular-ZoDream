@@ -197,6 +197,22 @@ export class BackendComponent implements OnInit {
             ]
         },
         {
+            name: '圈子管理',
+            icon: 'icon-th-large',
+            url: './forum',
+            children: [{
+                    name: '屏蔽词管理',
+                    label: '词',
+                    url: './forum/setting/word',
+                },
+                {
+                    name: '表情包管理',
+                    label: '表',
+                    url: './forum/setting/emoji',
+                },
+            ],
+        },
+        {
             name: '开放平台',
             icon: 'icon-th-large',
             url: './open',
