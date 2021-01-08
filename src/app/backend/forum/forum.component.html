@@ -15,7 +15,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a routerLink="./create" [queryParams]="{parent: parent?.id}"
-                    class="pull-right btn btn-primary">新增地区</a>
+                    class="pull-right btn btn-primary">新增板块</a>
                 <a *ngIf="parent && parent.parent_id > 0" class="pull-right btn btn-info"
                     (click)="tapParent()">返回上一级</a>
                 <a *ngIf="parent" class="pull-right btn btn-light" (click)="tapViewChild()">返回顶级</a>

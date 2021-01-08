@@ -10,6 +10,11 @@ export interface IForum {
     post_count: number;
     children?: IForum[];
     last_thread?: IThread;
+    type?: number;
+    position?: number;
+    level?: number;
+    classifies?: IForumClassify[];
+    moderators?: IUser[];
 }
 
 export interface IThread {
@@ -33,6 +38,14 @@ export interface IThreadPost {
     grade: number;
     created_at: string;
     updated_at?: string;
+}
+
+export interface IForumClassify {
+    id: number;
+    icon: string;
+    name: string;
+    position?: number;
+    forum_id?: number;
 }
 
 export interface IBlackWord {

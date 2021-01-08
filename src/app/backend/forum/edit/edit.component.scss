@@ -1,0 +1,71 @@
+.add-item {
+    height: 7rem;
+    width: 5rem;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px dotted;
+    text-align: center;
+    margin: 5px;
+    vertical-align: bottom;
+    .iconfont {
+        font-size: 2rem;
+    }
+}
+
+.card-item {
+    height: 7rem;
+    width: 5rem;
+    position: relative;
+    border: 1px dotted;
+    display: inline-block;
+    margin: 5px;
+    vertical-align: bottom;
+    overflow: hidden;
+    .card-action {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 1.5rem;
+        z-index: 9;
+    }
+    .thumb {
+        img {
+            width: 5rem;
+            height: 5rem;
+        }
+        .no-image {
+            width:  5rem;
+            height: 5rem;
+            text-align: center;
+            font-size: 2rem;
+            color: #ccc;
+            line-height: 5rem;
+        }
+    }
+    .name {
+        text-align: center;
+    }
+    &.active {
+        border-color: red;
+        background-color: rgba(56, 248, 56, 0.329);
+    }
+}
+
+.file-input {
+    .form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        display: inline-block;
+        width: auto;
+    }
+    input[type='file'] {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+    .btn {
+        vertical-align: top;
+        border-radius: 0;
+    }
+}

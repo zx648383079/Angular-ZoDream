@@ -13,5 +13,6 @@ export interface IUser {
     updated_at?: string;
     sex_label?: string;
     roles?: number[];
+    checked?: boolean;
 }
 
