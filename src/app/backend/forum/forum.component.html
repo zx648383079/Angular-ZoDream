@@ -1,3 +1,55 @@
-<p>
-  forum works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理板块列表</li>
+            <li *ngIf="parent">当前父板块：{{ parent.name }}</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords"
+                        placeholder="关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a routerLink="./create" [queryParams]="{parent: parent?.id}"
+                    class="pull-right btn btn-primary">新增地区</a>
+                <a *ngIf="parent && parent.parent_id > 0" class="pull-right btn btn-info"
+                    (click)="tapParent()">返回上一级</a>
+                <a *ngIf="parent" class="pull-right btn btn-light" (click)="tapViewChild()">返回顶级</a>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>上一级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ parent ? parent.name  : '[-]' }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs" (click)="tapViewChild(item)">子板块</a>
+                            <a class="btn btn-primary btn-xs" routerLink="./thread" [queryParams]="{forum: item.id}">查看</a>
+                            <a class="btn btn-light btn-xs" [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>

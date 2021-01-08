@@ -4,6 +4,7 @@ export interface IForum {
     id: number;
     name: string;
     thumb: string;
+    parent_id?: number;
     description: string;
     thread_count: number;
     post_count: number;
@@ -22,6 +23,7 @@ export interface IThread {
     created_at: string;
     updated_at: string;
     user: IUser;
+    forum?: IForum;
 }
 
 export interface IThreadPost {

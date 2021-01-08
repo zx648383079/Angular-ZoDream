@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { EditComponent } from './edit/edit.component';
 
 import { ForumComponent } from './forum.component';
 import { EmojiCategoryComponent } from './setting/emoji/category/emoji-category.component';
 import { EmojiComponent } from './setting/emoji/emoji.component';
 import { WordComponent } from './setting/word/word.component';
+import { ThreadComponent } from './thread/thread.component';
 
 const routes: Routes = [
     {
@@ -20,6 +22,18 @@ const routes: Routes = [
         component: EmojiComponent,
     },
     {
+        path: 'thread',
+        component: ThreadComponent,
+    },
+    {
+        path: 'create',
+        component: EditComponent,
+    },
+    {
+        path: 'edit/:id',
+        component: EditComponent,
+    },
+    {
         path: '',
         component: ForumComponent,
     }
@@ -32,5 +46,5 @@ const routes: Routes = [
 export class ForumRoutingModule { }
 
 export const forumRoutedComponents = [
-  ForumComponent, WordComponent, EmojiCategoryComponent, EmojiComponent
+  ForumComponent, WordComponent, EmojiCategoryComponent, EmojiComponent, ThreadComponent, EditComponent
 ];
