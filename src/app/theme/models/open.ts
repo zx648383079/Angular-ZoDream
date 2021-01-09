@@ -37,9 +37,11 @@ export interface IUploadResult {
     title: string;
     original: string;
     type: string;
+    thumb: string;
 }
 
 export interface IUploadFile {
     url: string;
     mtime: number;
+    thumb: string;
 }

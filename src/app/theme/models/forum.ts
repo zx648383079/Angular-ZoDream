@@ -15,6 +15,7 @@ export interface IForum {
     level?: number;
     classifies?: IForumClassify[];
     moderators?: IUser[];
+    path?: IForum[];
 }
 
 export interface IThread {
@@ -29,6 +30,10 @@ export interface IThread {
     updated_at: string;
     user: IUser;
     forum?: IForum;
+    path?: IForum[];
+    digestable?: boolean;
+    highlightable?: boolean;
+    closeable?: boolean;
 }
 
 export interface IThreadPost {
@@ -38,6 +43,7 @@ export interface IThreadPost {
     grade: number;
     created_at: string;
     updated_at?: string;
+    deleteable?: boolean;
 }
 
 export interface IForumClassify {

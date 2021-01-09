@@ -9,10 +9,21 @@
     </div>
     <div class="actions">
         <div class="tools">
-            <i class="iconfont icon-smile-o"></i>
-            <i class="iconfont icon-image"></i>
-            <i class="iconfont icon-file-movie-o"></i>
-            <i class="iconfont icon-music"></i>
+            <div class="tool-item">
+                <i class="iconfont icon-smile-o"></i>
+            </div>
+            <label for="editor-img" class="tool-item" title="上传图片">
+                <i class="iconfont icon-image"></i>
+                <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" multiple/>
+            </label>
+            <label for="editor-video" class="tool-item" title="上传视频">
+                <i class="iconfont icon-file-movie-o"></i>
+                <input type="file" name="file" id="editor-video" (change)="uploadVideo($event)" accept="video/*"/>
+            </label>
+            <label for="editor-audio" class="tool-item" title="上传音频">
+                <i class="iconfont icon-music"></i>
+                <input type="file" name="file" id="editor-audio" (change)="uploadAudio($event)" accept="audio/*"/>
+            </label>
         </div>
         <select class="form-control" [(ngModel)]="openType">
             <ng-container *ngFor="let item of typeItems;let i = index;">

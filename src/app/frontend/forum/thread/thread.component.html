@@ -3,14 +3,11 @@
       <li class="breadcrumb-item">
           <a routerLink="/" class="iconfont icon-home"></a>
       </li><li class="breadcrumb-item">
-          <a routerLink="../">圈子首页</a>
+          <a routerLink="../../">圈子首页</a>
       </li>
-              <li class="breadcrumb-item">
-          <a routerLink="../">交流与讨论</a>
-      </li>
-              <li class="breadcrumb-item">
-          <a routerLink="../">测试专区</a>
-      </li>
+      <li class="breadcrumb-item" *ngFor="let item of thread.path">
+        <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
+        </li>
       <li class="breadcrumb-item active">{{ thread.title }}
       </li>
   </ul>
@@ -53,9 +50,9 @@
                         </div>
                         <div class="footer">
                             <a href="javascript:;" data-action="reply">回复</a>
-                            <a href="http://zodream.localhost/forum/thread/digest?id=2" data-action="toggle">设为精华</a>
-                            <a href="http://zodream.localhost/forum/thread/highlight?id=2" data-action="toggle">设为高亮</a>
-                            <a href="http://zodream.localhost/forum/thread/close?id=2" data-action="toggle">设为关闭</a>
+                            <a *ngIf="thread.digestable">设为精华</a>
+                            <a *ngIf="thread.highlightable">设为高亮</a>
+                            <a *ngIf="thread.closeable">设为关闭</a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +77,7 @@
                           </div>
                         <div class="footer">
                             <a href="javascript:;" data-action="reply">回复</a>
-                            <a href="http://zodream.localhost/forum/thread/remove_post?id=8" data-action="toggle">删除</a>
+                            <a *ngIf="item.deleteable">删除</a>
                         </div>
                     </div>
                 </div>
@@ -91,28 +88,18 @@
         </div>
         <div class="paging-box">
         </div>
-        <div class="post-item post-new">
+        <div class="post-item post-new" *ngIf="user">
             <div class="post-user">
-                <div class="name">zodream</div>
+                <div class="name">{{ user.name }}</div>
                 <div class="avatar">
-                    <img src="http://zodream.localhost/assets/images/zd.jpg" alt="">
+                    <img [src]="user.avatar" alt="">
                 </div>
             </div>
             <div class="post-content">
-                <form data-type="ajax" action="http://zodream.localhost/forum/thread/reply" method="post">
-                    <div class="editor">
-                        <div class="editor-plugin"><i class="fa fa-code" data-name="fa-code" title="插入代码"></i><i
-                                class="fa fa-eye-slash" data-name="fa-eye-slash" title="插入隐藏内容"></i><i
-                                class="fa fa-download" data-name="fa-download" title="插入可下载内容"></i><i
-                                class="fa fa-image" data-name="fa-image" title="插入图片"></i><i class="fa fa-music"
-                                data-name="fa-music" title="插入音频"></i><i class="fa fa-video" data-name="fa-video"
-                                title="插入视频"></i><i class="fa fa-link" data-name="fa-link" title="插入链接"></i><i
-                                class="fa fa-trash" data-name="fa-trash" title="清空"></i></div>
-                        <textarea name="content" required=""></textarea>
-                    </div>
+                <form>
+                    <app-forum-editor></app-forum-editor>
                     <div class="footer">
                         <button class="btn">发表回复</button>
-                        <input type="hidden" name="thread_id" value="2">
                     </div>
                 </form>
             </div>

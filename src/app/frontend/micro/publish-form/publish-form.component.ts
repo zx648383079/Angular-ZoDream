@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IMicro } from '../../../theme/models/micro';
 import { IErrorResponse } from '../../../theme/models/page';
+import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { MicroService } from '../micro.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class PublishFormComponent {
     constructor(
         private service: MicroService,
         private toastrService: ToastrService,
+        private uploadService: FileUploadService,
     ) { }
 
     public tapRemoveFile(i: number) {
@@ -49,6 +51,27 @@ export class PublishFormComponent {
         }, err => {
             const res = err.error as IErrorResponse;
             this.toastrService.warning(res.message);
+        });
+    }
+
+    public uploadImage(event: any) {
+        const files = event.target.files as FileList;
+        this.uploadService.uploadImages(files).subscribe(res => {
+            this.fileItems.push(... res.map(i => i.url));
+        });
+    }
+
+    public uploadAudio(event: any) {
+        const files = event.target.files as FileList;
+        this.uploadService.uploadAudio(files[0]).subscribe(res => {
+            this.fileItems.push(res.url);
+        });
+    }
+
+    public uploadVideo(event: any) {
+        const files = event.target.files as FileList;
+        this.uploadService.uploadVideo(files[0]).subscribe(res => {
+            this.fileItems.push(res.url);
         });
     }
 }

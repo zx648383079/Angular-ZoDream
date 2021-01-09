@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { IThread } from 'src/app/theme/models/forum';
 import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../theme/interfaces';
+import { getCurrentUser } from '../../../theme/reducers/selectors';
+import { IUser } from '../../../theme/models/user';
 
 @Component({
   selector: 'app-thread',
@@ -17,10 +21,17 @@ export class ThreadComponent implements OnInit {
   public hasMore = true;
   public isLoading = false;
 
+  public user: IUser;
+
   constructor(
+    private store: Store<AppState>,
     private service: ForumService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.store.select(getCurrentUser).subscribe(user => {
+      this.user = user;
+    });
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

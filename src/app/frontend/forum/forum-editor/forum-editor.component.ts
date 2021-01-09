@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, Output, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { wordLength } from '../../../theme/utils';
 
 interface IRange {
@@ -32,7 +33,9 @@ export class ForumEditorComponent implements AfterViewInit {
     onChange: any = () => { };
     onTouch: any = () => { };
 
-    constructor() { }
+    constructor(
+        private uploadService: FileUploadService,
+    ) { }
 
     get size() {
         return wordLength(this.value);

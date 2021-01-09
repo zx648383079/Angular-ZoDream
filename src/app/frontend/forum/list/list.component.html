@@ -5,7 +5,10 @@
       </li><li class="breadcrumb-item">
           <a routerLink="../">圈子首页</a>
       </li>
-              <li class="breadcrumb-item active">{{ forum.name }}
+      <li class="breadcrumb-item" *ngFor="let item of forum.path">
+        <a routerLink="{{ item.id }}">{{ item.name }}</a>
+        </li>
+      <li class="breadcrumb-item active">{{ forum.name }}
       </li>
   </ul>
 </div>
@@ -74,17 +77,17 @@
 
 
     </div>
-    <div class="thread-new-box">
+    <div class="thread-new-box" *ngIf="forum">
         <div class="header">快速发帖</div>
-        <form data-type="ajax" action="http://zodream.localhost/forum/thread/create" method="post">
+        <form >
             <div class="title">
                 <select name="classify_id">
                     <option value="0">选择主题分类</option>
-                    <option value="1">功能</option>
-                    <option value="2">页面</option>
-                    <option value="3">建议</option>
+                    <ng-container *ngFor="let item of forum.classifies">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
                 </select>
-                <input type="text" name="title" required="">
+                <input type="text" name="title" >
             </div>
 
             <app-forum-editor></app-forum-editor>
