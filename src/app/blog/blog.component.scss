@@ -13,6 +13,25 @@ $leftWidth: 400px;
     z-index: 99;
 }
 
+.search-box {
+    .search-input {
+        position: relative;
+        input {
+            height: 40px;
+            border: none;
+            width: 100%;
+            padding-left: 30px;
+        }
+        .iconfont {
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            color: #777;
+            font-size: 20px;
+        }
+    }
+}
+
 .filter-box {
     background-color: #fff;
     margin-bottom: 10px;

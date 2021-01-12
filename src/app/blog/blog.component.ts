@@ -58,6 +58,7 @@ export class BlogComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public keywords = '';
 
     public blog: IBlog;
 
@@ -103,6 +104,7 @@ export class BlogComponent implements OnInit {
         this.pullBox?.startLoad();
         this.service.getPage({
             category: this.category,
+            keywords: this.keywords,
             sort: this.sort,
             page
         }).subscribe(res => {

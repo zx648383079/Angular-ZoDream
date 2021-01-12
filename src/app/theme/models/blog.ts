@@ -69,6 +69,9 @@ export interface IComment {
     blog?: IBlog;
     name: string;
     email: string;
+    created_at?: string;
+    agree?: number;
+    disagree?: number;
 }
 
 export interface ITag {

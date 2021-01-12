@@ -1,68 +1,68 @@
 <div class="container loading-box">
-    <div *ngIf="item">
+    <div *ngIf="data">
         <div class="book-title">
-            {{ item.title }}
+            {{ data.title }}
         </div>
         <div class="book-full-body">
             <div class="info">
-                <a class="author" *ngIf="item.user" routerLink="../" [queryParams]="{user: item.user.id}"><i
-                        class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
-                <a class="category" *ngIf="item.term" routerLink="../" [queryParams]="{category: item.term.id}"><i
-                        class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
-                <a class="language" *ngIf="item.programming_language" routerLink="../"
-                    [queryParams]="{programming_language: item.programming_language}"><i
-                        class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
-                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ item.created_at }}</b></span>
+                <a class="author" *ngIf="data.user" routerLink="../" [queryParams]="{user: data.user.id}"><i
+                        class="iconfont icon-edit"></i><b>{{ data.user.name }}</b></a>
+                <a class="category" *ngIf="data.term" routerLink="../" [queryParams]="{category: data.term.id}"><i
+                        class="iconfont icon-bookmark"></i><b>{{ data.term.name }}</b></a>
+                <a class="language" *ngIf="data.programming_language" routerLink="../"
+                    [queryParams]="{programming_language: data.programming_language}"><i
+                        class="iconfont icon-code"></i><b>{{ data.programming_language }}</b></a>
+                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at }}</b></span>
             </div>
             <article id="content" class="content style-markdown">
                 <div [innerHTML]="content"></div>
-                <p class="book-copyright" *ngIf="item.url">转载请保留原文链接：
-                    <a [href]="item.url" [title]="item.title">{{ item.url }}</a>
+                <p class="book-copyright" *ngIf="data.url">转载请保留原文链接：
+                    <a [href]="data.url" [title]="data.title">{{ data.url }}</a>
                 </p>
             </article>
             <div class="book-bottom">
-                <div class="book-source" *ngIf="item.type == 1">
+                <div class="book-source" *ngIf="data.type == 1">
                     <span>转载于：</span>
-                    <a [href]="item.source_url" target="_blank" title="本文为转载内容，点击查看原网页">
-                        {{item.source_url}} </a>
+                    <a [href]="data.source_url" target="_blank" title="本文为转载内容，点击查看原网页">
+                        {{data.source_url}} </a>
                 </div>
-                <div class="book-tags" *ngIf="item.tags">
+                <div class="book-tags" *ngIf="data.tags">
                     <span>标签：</span>
-                    <ng-container *ngFor="let tag of item.tags">
+                    <ng-container *ngFor="let tag of data.tags">
                         <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>，
                     </ng-container>
                 </div>
             </div>
             <div class="tools">
-                <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
-                <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
+                <span class="click"><i class="iconfont icon-eye"></i><b>{{ data.click_count }}</b></span>
                 <span class="agree recommend-blog"><i
-                        class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
+                        class="iconfont icon-thumbs-up"></i><b>{{ data.recommend }}</b></span>
             </div>
         </div>
 
         <div class="book-navigation">
-            <a class="prev" *ngIf="item.previous" (click)="loadBlog(item.previous.id)">
+            <a class="prev" *ngIf="data.previous" (click)="loadBlog(data.previous.id)">
                 <i class="iconfont icon-chevron-left"></i>
                 <div class="prev-text">
                     <span class="prev-label">上一篇</span>
-                    <span class="prev-title">{{ item.previous.title }}</span>
+                    <span class="prev-title">{{ data.previous.title }}</span>
                 </div>
             </a>
-            <a class="next" *ngIf="item.next" (click)="loadBlog(item.next.id)">
+            <a class="next" *ngIf="data.next" (click)="loadBlog(data.next.id)">
                 <div class="next-text">
                     <span class="next-label">上一篇</span>
-                    <span class="next-title">{{ item.next.title }}</span>
+                    <span class="next-title">{{ data.next.title }}</span>
                 </div>
                 <i class="iconfont icon-chevron-right"></i>
             </a>
         </div>
-        <div class="panel" *ngIf="item.relation && item.relation.length > 0">
+        <div class="panel" *ngIf="data.relation && data.relation.length > 0">
             <div class="panel-header">
                 <a routerLink="../">相关文章</a>
             </div>
             <div class="panel-body">
-                <ng-container *ngFor="let blog of item.relation">
+                <ng-container *ngFor="let blog of data.relation">
                     <div class="list-item" (click)="loadBlog(blog.id)">
                         <a class="name">{{ blog.title }}</a>
                         <div class="time">{{ blog.created_at }}</div>
@@ -73,6 +73,62 @@
         </div>
 
 
-        
+        <div id="comments" class="book-footer comment">
+            <div class="book-comment-form">
+                <div class="title">
+                    发表评论 </div>
+                <form id="comment-form" method="post" action="http://zodream.localhost/blog/comment/save">
+                    <input type="hidden" name="blog_id" value="181">
+                    <input type="hidden" name="parent_id">
+                    <div class="form-table">
+                        <div class="form-group">
+                            <label>称呼</label>
+                            <input type="text" name="name" placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" name="email" placeholder="请输入邮箱">
+                        </div>
+                        <div class="form-group">
+                            <label>网址</label>
+                            <input type="url" name="url" placeholder="请输入网址">
+                        </div>
+                    </div>
+                    <textarea name="content" placeholder="请输入内容"></textarea>
+                    <button class="btn-submit">评论</button>
+                    <button type="button" class="btn-cancel">取消</button>
+                </form>
+            </div>
+            <div class="book-comments">
+                <div class="title">
+                    全部评论 <div class="order">
+                        <span class="active">最新</span>
+                        <span>最早</span>
+                    </div>
+                </div>
+                <div id="comment-box">
+                    <div class="comment-item" *ngFor="let item of commentItems">
+                        <div class="info">
+                            <span class="user">{{ item.name }}</span>
+                            <span class="time">{{ item.created_at }}</span>
+                            <span class="floor">1楼</span>
+                        </div>
+                        <div class="content">
+                            <p>{{ item.content }}</p>
+                            <span>&nbsp;</span>
+                            <span class="comment" data-type="reply"><i class="fa fa-comment"></i></span>
+                            <span class="report">举报</span>
+                            <div class="actions">
+                                <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.agree }}</b></span>
+                                <span class="disagree"><i class="iconfont icon-thumbs-down"></i><b>{{ item.disagree }}</b></span>
+                            </div>
+                        </div>
+
+                        <div class="comments reply-hide">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

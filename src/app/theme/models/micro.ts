@@ -16,6 +16,8 @@ export interface IMicro {
     forward?: IMicro;
     attachment?: IAttachment[];
     user: IUser;
+    attachment_open?: boolean;
+    attachment_current?: number;
 }
 
 export interface IAttachment {

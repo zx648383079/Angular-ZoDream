@@ -17,6 +17,19 @@
                     <div class="content">
                         {{ item.content }}
                     </div>
+                    <div class="attachment" *ngIf="item.attachment && item.attachment.length > 0" [ngClass]="{'media-slider': item.attachment_open}">
+                        <i class="iconfont icon-close" (click)="item.attachment_open = false"></i>
+                        <div class="media-large">
+                            <img [src]="item.attachment[item.attachment_current].thumb" alt="">
+                            <div class="media-prev" (click)="tapPrevious(item)"></div>
+                            <div class="media-next" (click)="tapNext(item)"></div>
+                        </div>
+                        <ul [ngClass]="{'media-min': item.attachment.length > 1}">
+                            <li *ngFor="let it of item.attachment;let i = index" (click)="tapAttachment(i, item)">
+                                <img [src]="it.thumb" alt="">
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

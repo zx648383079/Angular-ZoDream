@@ -46,7 +46,7 @@
                 }
             }
         }
-        .fa-times {
+        .icon-close {
             display: none;
             position: absolute;
             right: 5px;
@@ -62,7 +62,7 @@
         &.media-slider {
             background-color: #f2f2f5;
             padding-top: 30px;
-            .fa-times {
+            .icon-close {
                 display: block;
             }
             .media-large {

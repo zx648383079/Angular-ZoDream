@@ -61,6 +61,27 @@ export class MicroComponent implements OnInit {
         });
     }
 
+    public tapPrevious(item: IMicro) {
+        if (item.attachment_current === 0) {
+            item.attachment_current = item.attachment.length - 1;
+            return;
+        }
+        item.attachment_current --;
+    }
+
+    public tapNext(item: IMicro) {
+        if (item.attachment_current === item.attachment.length - 1) {
+            item.attachment_current = 0;
+            return;
+        }
+        item.attachment_current ++;
+    }
+
+    public tapAttachment(i: number, item: IMicro) {
+        item.attachment_open = true;
+        item.attachment_current = i;
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -83,6 +104,10 @@ export class MicroComponent implements OnInit {
             this.page = page;
             this.hasMore = res.paging.more;
             this.isLoading = false;
+            res.data = res.data.map(i => {
+                i.attachment_current = 0;
+                return i;
+            });
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);
         }, () => {
             this.isLoading = false;

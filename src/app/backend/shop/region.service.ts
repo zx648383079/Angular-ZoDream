@@ -9,9 +9,9 @@ export class RegionService {
     constructor(private http: HttpClient) { }
 
     public regionList(params: any) {
-      return this.http.get<IPage<IRegion>>('shop/admin/region', {
-          params,
-      });
+        return this.http.get<IPage<IRegion>>('shop/admin/region', {
+            params,
+        });
     }
 
     public region(id: any) {
@@ -31,6 +31,12 @@ export class RegionService {
             params: {
                 id
             }
+        });
+    }
+
+    public regionSearch(params: any) {
+        return this.http.get<IPage<IRegion>>('shop/admin/region/search', {
+            params,
         });
     }
 

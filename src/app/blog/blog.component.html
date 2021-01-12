@@ -1,5 +1,11 @@
 <div class="page-box" [ngClass]="{'detail-mode': detailMode}">
     <div class="master-box">
+        <div class="search-box">
+            <div class="search-input">
+                <i class="iconfont icon-search"></i>
+                <input type="text" [(ngModel)]="keywords" placeholder="搜索相关文章" (ngModelChange)="tapRefresh()">
+            </div>
+        </div>
         <div class="filter-box">
             <div class="filter-item">
                 <ul>

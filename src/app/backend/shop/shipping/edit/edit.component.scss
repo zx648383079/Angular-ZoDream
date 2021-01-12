@@ -34,3 +34,28 @@
         }
     }
 }
+
+.search-box {
+    display: flex;
+    .form-control {
+        flex: 1;
+    }
+}
+
+.selected-box {
+    .title {
+        line-height: 30px;
+    }
+    .item {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: inline-block;
+    }
+}
+
+.search-result,
+.selected-box {
+    .item {
+        line-height: 30px;
+    }
+}
