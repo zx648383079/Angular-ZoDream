@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../../theme/models/seo';
 import { IPayment, IShipping } from '../../../../theme/models/shop';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { PaymentService } from '../../payment.service';
 
 @Component({
@@ -34,6 +35,7 @@ export class EditPaymentComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private toastrService: ToastrService,
+    private uploadService: FileUploadService,
   ) {
     this.service.paymentPlugin().subscribe(res => {
       this.items = res;
@@ -74,7 +76,9 @@ export class EditPaymentComponent implements OnInit {
   }
 
   public uploadFile(event: any) {
-
+    this.uploadService.uploadImage(event.files[0]).subscribe(res => {
+      this.form.get('icon').setValue(res.url);
+    });
   }
 
 }

@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../../theme/models/seo';
-import { IRegion, IShipping } from '../../../../theme/models/shop';
+import { IRegion, IShipping, IShippingGroup } from '../../../../theme/models/shop';
+import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { PaymentService } from '../../payment.service';
 import { RegionService } from '../../region.service';
 
@@ -23,7 +24,7 @@ export class EditShippingComponent implements OnInit {
   public regionItems: IRegion[] = [];
   public selectedItems: IRegion[] = [];
   public selectedAll = false;
-  public groupItems = [];
+  public groupItems: IShippingGroup[] = [];
   public regionKeywords = '';
 
   public form = this.fb.group({
@@ -42,6 +43,7 @@ export class EditShippingComponent implements OnInit {
     private toastrService: ToastrService,
     private modalService: NgbModal,
     private regionService: RegionService,
+    private uploadService: FileUploadService,
   ) {
     this.service.shippingPlugin().subscribe(res => {
       this.items = res;
@@ -55,12 +57,33 @@ export class EditShippingComponent implements OnInit {
       }
       this.service.shipping(params.id).subscribe(res => {
         this.data = res;
+        this.groupItems = res.groups.map(item => {
+          if (!item.region_label) {
+            item.region_label = this.formatRegion(item);
+          }
+          return item;
+        });
+        this.form.setValue({
+          name: res.name,
+          code: res.code,
+          method: res.method.toString(),
+          icon: res.icon,
+          description: res.description,
+          position: res.position,
+        });
       });
     });
   }
 
   get method() {
     return this.form.get('method').value;
+  }
+
+  private formatRegion(item: IShippingGroup): string {
+    if (item.is_all) {
+      return '全部地区';
+    }
+    return item.regions.map(i => i.name).join('、');
   }
 
   public tapBack() {
@@ -76,6 +99,7 @@ export class EditShippingComponent implements OnInit {
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }
+    data.groups = this.groupItems;
     this.service.paymentSave(data).subscribe(_ => {
       this.toastrService.success('保存成功');
       this.tapBack();
@@ -83,17 +107,38 @@ export class EditShippingComponent implements OnInit {
   }
 
   public uploadFile(event: any) {
-
+    this.uploadService.uploadImage(event.files[0]).subscribe(res => {
+      this.form.get('icon').setValue(res.url);
+    });
   }
 
-  public open(content: any, item?: any) {
+  public open(content: any, item?: IShippingGroup) {
+    const isNew = !item;
+    if (!item) {
+      item = {
+        regions: [],
+        is_all: false,
+        first_step: 0,
+        first_fee: 0,
+        additional: 0,
+        additional_fee: 0,
+        free_step: 0,
+      };
+    }
+    this.selectedItems = item.regions;
+    this.selectedAll = item.is_all;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
-
+      item.regions = this.selectedAll ? [] : this.selectedItems;
+      item.is_all = this.selectedAll;
+      item.region_label = this.formatRegion(item);
+      if (isNew) {
+        this.groupItems.push(item);
+      }
     });
   }
 
   public removeGroup(item: any) {
-
+    this.groupItems = this.groupItems.filter(i => i !== item);
   }
 
   public tapSelectAll() {

@@ -147,7 +147,22 @@ export interface IShipping {
     position: number;
     created_at: string;
     updated_at: string;
+    groups?: IShippingGroup[];
 }
+
+export interface IShippingGroup {
+    regions: IRegion[];
+    region_label?: string;
+    id?: number;
+    shipping_id?: number;
+    first_step: number;
+    first_fee: number;
+    additional: number;
+    additional_fee: number;
+    free_step: number;
+    is_all: boolean;
+}
+
 
 export interface IPayment {
     id: number;
