@@ -10,7 +10,7 @@ import {
     ShopService
 } from './shop.service';
 import {
-    EChartOption
+    EChartsOption
 } from 'echarts';
 import {
     map
@@ -25,7 +25,7 @@ export class ShopComponent implements OnInit {
 
     public items: ISubtotal[];
 
-    public options: Observable < EChartOption > ;
+    public options: Observable < EChartsOption > ;
 
     constructor(
         private service: ShopService
@@ -33,7 +33,7 @@ export class ShopComponent implements OnInit {
         this.service.statistics().subscribe(res => {
             this.items = res;
         });
-        this.options = this.service.order().pipe(map<any[], EChartOption>(data => {
+        this.options = this.service.order().pipe(map<any[], EChartsOption>(data => {
             return {
                 title: {
                     text: '订单月统计',

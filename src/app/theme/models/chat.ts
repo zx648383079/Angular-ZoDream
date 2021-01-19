@@ -1,16 +1,19 @@
-export interface IUserGroup {
+import { IUser } from "./user";
+
+export interface IFriendGroup {
     name: string;
-    children: IUser[];
+    children: IFriend[];
+    users?: IFriend[];
     online: number;
     count: number;
     expand?: boolean;
 }
 
-export interface IUser {
+export interface IFriend {
     id: number;
     name: string;
     remark: string;
-    avatar: string;
+    user: IUser;
     signature: string;
     last_at?: number;
     status?: number;
@@ -23,5 +26,5 @@ export interface IMessage {
     type: number;
     created_at: number;
     user_id: number;
-    user?: IUser;
+    user?: IFriend;
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITaskReview } from '../../theme/models/task';
 import { TaskService } from '../task.service';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 @Component({
     selector: 'app-review',
@@ -21,7 +21,7 @@ export class ReviewComponent implements OnInit {
     public typeItems = ['按周', '按月'];
     public chartItems = ['表格', '图表'];
 
-    public chartOption: EChartOption = {
+    public chartOption: EChartsOption = {
         title: {
             text: '工作统计'
         },
@@ -75,7 +75,7 @@ export class ReviewComponent implements OnInit {
     }
 
     private refreshChart(items: ITaskReview[]) {
-        const option = Object.assign({}, this.chartOption);
+        const option: any = Object.assign({}, this.chartOption);
         const maps = {
             amount: '估计番茄钟总数',
             success_amount: '实际完成番茄钟总数',
