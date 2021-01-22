@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
-import { IMusic } from '../../video';
+import { IMusic } from '../../../../theme/models/video';
 import { VideoService } from '../../video.service';
 
 @Component({
@@ -18,9 +18,12 @@ export class EditMusicComponent implements OnInit {
         name: ['', Validators.required],
         singer: [''],
         path: ['', Validators.required],
+        duration: [0],
     });
 
     public data: IMusic;
+
+    private audioElement: HTMLAudioElement;
 
     constructor(
         private fb: FormBuilder,
@@ -42,9 +45,17 @@ export class EditMusicComponent implements OnInit {
                     name: res.name,
                     singer: res.singer,
                     path: res.path,
+                    duration: res.duration,
                 });
             });
         });
+    }
+
+    get audio(): HTMLAudioElement {
+        if (!this.audioElement) {
+            this.audioElement = document.createElement('audio');
+        }
+        return this.audioElement;
     }
 
     public tapBack() {
@@ -73,10 +84,31 @@ export class EditMusicComponent implements OnInit {
         const files = event.target.files as FileList;
         this.uploadService.uploadAudio(files[0]).subscribe(res => {
             this.form.get(name).setValue(res.url);
+            this.loadDuration(res);
+            this.loadName(res);
         }, err => {
             const res = err.error as IErrorResponse;
             this.toastrService.warning(res.message);
         });
+    }
+
+    private loadName(res: any) {
+        const name = this.form.get('name');
+        if (name.valid) {
+            return;
+        }
+        name.setValue(res.original);
+    }
+
+    private loadDuration(res: any) {
+        this.audio.src = res.url;
+        this.audio.load();
+        this.audio.oncanplay = () => {
+            if (!this.audio.duration) {
+                return;
+            }
+            this.form.get('duration').setValue(Math.floor(this.audio.duration));
+        };
     }
 
 }

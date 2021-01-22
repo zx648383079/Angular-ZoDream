@@ -1,4 +1,4 @@
-import { IUser } from "../../theme/models/user";
+import { IUser } from "./user";
 
 export interface IMusic {
     id: number;
@@ -26,6 +26,7 @@ export interface IVideo {
     status: number;
     created_at: string;
     updated_at: string;
+    user?: IUser;
 }
 
 export interface IComment {

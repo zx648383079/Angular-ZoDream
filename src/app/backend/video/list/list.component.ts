@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IVideo } from '../../../theme/models/video';
 import { VideoService } from '../video.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { VideoService } from '../video.service';
 export class ListComponent implements OnInit {
 
 
-  public items: any[] = [];
+  public items: IVideo[] = [];
 
   public hasMore = true;
   public page = 1;
@@ -31,8 +32,12 @@ export class ListComponent implements OnInit {
     this.tapRefresh();
   }
 
-  public tapPlay(item: any) {
-
+  public tapPlay(item: IVideo) {
+    if (!item.video_path) {
+      this.toastrService.warning('文件不存在');
+      return;
+    }
+    window.open(item.video_path, '_blank');
   }
 
   public get pageTotal(): number {
@@ -79,8 +84,8 @@ export class ListComponent implements OnInit {
     this.tapRefresh();
   }
 
-  public tapRemove(item: any) {
-    if (!confirm('确定删除“' + item.title + '”帖子？')) {
+  public tapRemove(item: IVideo) {
+    if (!confirm('确定删除“' + item.content + '”视频？')) {
       return;
     }
     this.service.videoRemove(item.id).subscribe(res => {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../../theme/models/page';
-import { IComment, IMusic, IVideo } from './video';
+import { IComment, IMusic, IVideo } from '../../theme/models/video';
 
 @Injectable({
   providedIn: 'root'

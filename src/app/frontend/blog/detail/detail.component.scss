@@ -199,6 +199,7 @@
             }
         }
         .content {
+            margin-bottom: 0;
             p {
                 margin: 5px 0;
             }
@@ -248,7 +249,17 @@
     .book-comment-form {
         .btn-cancel {
             display: inline-block;
+            margin-left: 10px;
         }
+    }
+}
+
+.book-footer {
+    &.comment {
+        margin-top: 50px;
+        background: #fff;
+        padding: 15px;
+        position: relative;
     }
 }
 

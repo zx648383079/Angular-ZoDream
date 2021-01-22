@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BlogRoutingModule, blogRoutingComponents } from './blog-routing.module';
 import { BlogService } from './blog.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     NgbPaginationModule,
+    ReactiveFormsModule,
+    FormsModule,
     BlogRoutingModule
   ],
   providers: [

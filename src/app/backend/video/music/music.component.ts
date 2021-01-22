@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IMusic } from '../video';
+import { IMusic } from '../../../theme/models/video';
 import { VideoService } from '../video.service';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IComment } from '../../../theme/models/video';
 import { VideoService } from '../video.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { VideoService } from '../video.service';
 export class CommentComponent implements OnInit {
 
 
-  public items: any[] = [];
+  public items: IComment[] = [];
 
   public hasMore = true;
   public page = 1;
@@ -75,8 +76,8 @@ export class CommentComponent implements OnInit {
     this.tapRefresh();
   }
 
-  public tapRemove(item: any) {
-    if (!confirm('确定删除“' + item.title + '”帖子？')) {
+  public tapRemove(item: IComment) {
+    if (!confirm('确定删除“' + item.content + '”评论？')) {
       return;
     }
     this.service.commentRemove(item.id).subscribe(res => {

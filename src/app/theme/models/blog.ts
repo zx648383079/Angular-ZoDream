@@ -72,6 +72,8 @@ export interface IComment {
     created_at?: string;
     agree?: number;
     disagree?: number;
+    position?: number;
+    replies?: IComment[];
 }
 
 export interface ITag {
