@@ -5,7 +5,7 @@ export function formatTime(date: Date): string {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const second = date.getSeconds();
-    return [year, month, day].map(twoPad).join('-') + ' ' + [hour, minute, second].map(twoPad).join(':')
+    return [year, month, day].map(twoPad).join('-') + ' ' + [hour, minute, second].map(twoPad).join(':');
 }
 
 export function formatHour(time: number, format?: string, isSecond = false): string {

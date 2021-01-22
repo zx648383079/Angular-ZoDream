@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: 'open', loadChildren: () => import('./open/open.module').then(m => m.OpenModule) },
       { path: 'sms', loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule) },
       { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
+      { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
       {
         path: '',
         component: HomeComponent
