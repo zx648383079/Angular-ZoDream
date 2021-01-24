@@ -26,10 +26,12 @@ export interface IAttachment {
 }
 
 export interface IComment {
+    id?: number;
     content: string;
     agree: number;
     disagree: number;
     created_at: string;
     agree_type?: 0 | 3 | 4;
     user: IUser;
+    replies?: IComment[];
 }

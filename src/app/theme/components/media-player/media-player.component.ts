@@ -7,6 +7,7 @@ import {
     Output,
     EventEmitter
 } from '@angular/core';
+import videojs, { VideoJsPlayer } from 'video.js';
 
 interface IFile {
     name?: string;
@@ -27,6 +28,8 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
     private videoElement: ElementRef;
 
     private audioElement: HTMLAudioElement;
+
+    private videoPlayer: VideoJsPlayer;
 
     public progress = 0;
 
@@ -59,8 +62,11 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
         return this.audioElement;
     }
 
-    get video(): HTMLVideoElement {
-        return this.videoElement.nativeElement as HTMLVideoElement;
+    get video(): VideoJsPlayer {
+        if (!this.videoPlayer) {
+            this.videoPlayer = videojs(this.videoElement.nativeElement);
+        }
+        return this.videoPlayer;
     }
 
     ngOnInit() {}
@@ -77,15 +83,15 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
         if (this.audioElement) {
             this.audioElement.volume = this.volume / 100;
         }
-        this.video.volume = this.volume / 100;
+        this.video.volume(this.volume / 100);
     }
 
     public tapProgressChange() {
         if (this.file.type === 'music' && !isNaN(this.audio.duration) && this.audio.duration > 0) {
             this.audioElement.currentTime = this.progress * this.audio.duration / 100;
         }
-        if (this.file.type === 'movie' && !isNaN(this.video.duration) && this.video.duration > 0) {
-            this.video.currentTime = this.progress * this.video.duration / 100;
+        if (this.file.type === 'movie' && !isNaN(this.video.duration()) && this.video.duration() > 0) {
+            this.video.currentTime(this.progress * this.video.duration() / 100);
         }
     }
 
@@ -129,7 +135,10 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
         }
         if (this.file.type === 'movie') {
             if (file) {
-                this.video.src = this.file.url;
+                this.video.src({
+                    src: this.file.url,
+                    type: 'application/x-mpegURL'
+                });
             }
             this.video.play();
             return;
@@ -152,7 +161,7 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
             return;
         }
         if (this.file.type === 'movie') {
-            this.video.src = '';
+            this.video.src('');
         }
     }
 
@@ -164,17 +173,17 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
 
     private bindVideoEvent() {
         const video = this.video;
-        video.addEventListener('timeupdate', () => {
-            this.progress = isNaN(video.duration) || video.duration <= 0 ? 0 :
-                video.currentTime * 100 / video.duration;
+        video.on('timeupdate', () => {
+            this.progress = isNaN(video.duration()) || video.duration() <= 0 ? 0 :
+                video.currentTime() * 100 / video.duration();
         });
-        video.addEventListener('ended', () => {
+        video.on('ended', () => {
             this.isPlaying = false;
         });
-        video.addEventListener('pause', () => {
+        video.on('pause', () => {
             this.isPlaying = false;
         });
-        video.addEventListener('play', () => {
+        video.on('play', () => {
             this.isPlaying = true;
         });
     }

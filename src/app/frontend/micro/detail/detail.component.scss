@@ -116,6 +116,84 @@
     }
 }
 
+.comment-box {
+    padding: 10px 20px 0;
+    background-color: rgb(247, 240, 240);
+    .comment-publish {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        grid-gap: 10px;
+        .avatar {
+            img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+    .reply-input {
+        .input {
+            textarea {
+                width: 100%;
+                height: 30px;
+                resize: none;
+                padding: 6px 2px;
+                line-height: 18px;
+                font-size: 14px;
+            }
+        }
+        .input-actions {
+            text-align: right;
+            .tools {
+                float: left;
+            }
+            .btn {
+                line-height: 25px;
+                padding: 0 10px;
+                &.btn-disable {
+                    background-color: #ccc;
+                }
+            }
+        }
+    }
+    .comment-item {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        grid-gap: 10px;
+        padding: 10px;
+        .avatar {
+            img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .text {
+            a {
+                color: #eb7350;
+            }
+        }
+        .actions {
+            .time {
+                color: #777;
+                font-size: 12px;
+            }
+            .tools {
+                float: right;
+                a {
+                    padding: 0 10px;
+                    &:not(:last-child) {
+                        border-right: 1px solid #333;
+                    }
+                }
+            }
+        }
+        &:not(:last-child) {
+            border-bottom: 1px solid #333;
+        }
+    }
+    .reply-box {
+        background-color: #eaeaec;
+    }
+}
 .forward-box {
     max-width: 400px;
     width: 100%;

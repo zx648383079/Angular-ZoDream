@@ -36,6 +36,7 @@
               "src/assets/iconfont/iconfont.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/video.js/dist/video-js.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -105,6 +106,7 @@
               "src/assets/iconfont/iconfont.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/video.js/dist/video-js.css",
               "src/styles.scss"
             ],
             "scripts": [

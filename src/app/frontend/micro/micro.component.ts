@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
 import { IMicro } from 'src/app/theme/models/micro';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-micro',
@@ -18,6 +19,8 @@ export class MicroComponent implements OnInit {
     constructor(
         private service: MicroService,
         private toastrService: ToastrService,
+        private router: Router,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
@@ -25,7 +28,7 @@ export class MicroComponent implements OnInit {
     }
 
     public tapToggleComment(item: IMicro) {
-        item.comment_open = !item.comment_open;
+        this.router.navigate(['detail', item.id], {relativeTo: this.route});
     }
 
     public tapCollect(item: IMicro) {

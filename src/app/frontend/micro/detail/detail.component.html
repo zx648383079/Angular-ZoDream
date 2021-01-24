@@ -1,0 +1,94 @@
+<div class="container">
+    <div class="micro-item" *ngIf="data">
+        <div class="body">
+            <div class="avatar">
+                <img [src]="data.user.avatar" alt="">
+            </div>
+            <div>
+                <div class="name">{{ data.user.name }}</div>
+                <p>
+                    <span class="time">{{ data.created_at }}</span>
+                    <span class="from" *ngIf="data.source">来自{{ data.source }}</span>
+                    <a class="remove" *ngIf="data.editable" (click)="tapRemove(data)">[删除]</a>
+                </p>
+                <div class="content">
+                    {{ data.content }}
+                </div>
+                <div class="attachment" *ngIf="data.attachment && data.attachment.length > 0" [ngClass]="{'media-slider': data.attachment_open}">
+                    <i class="iconfont icon-close" (click)="data.attachment_open = false"></i>
+                    <div class="media-large">
+                        <img [src]="data.attachment[data.attachment_current].thumb" alt="">
+                        <div class="media-prev" (click)="tapPrevious(data)"></div>
+                        <div class="media-next" (click)="tapNext(data)"></div>
+                    </div>
+                    <ul [ngClass]="{'media-min': data.attachment.length > 1}">
+                        <li *ngFor="let it of data.attachment;let i = index" (click)="tapAttachment(i, data)">
+                            <img [src]="it.thumb" alt="">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="ations">
+            <a [ngClass]="{active: data.is_collected}">{{ data.is_collected ? '已' : '' }}收藏</a>
+            <a >转发 {{ data.forward_count }}</a>
+            <a >评论</a>
+            <a [ngClass]="{active: data.is_recommended}">{{ data.is_recommended ? '已' : '' }}赞 {{ data.recommend_count }}</a>
+        </div>
+    </div>
+
+    <div class="comment-box" *ngIf="data">
+        <div class="comment-publish" *ngIf="user">
+            <div class="avatar">
+                <img [src]="user.avatar" alt="">
+            </div>
+            <div class="reply-input">
+                <div class="input">
+                    <textarea class="form-control" [(ngModel)]="commentData.content" (ngModelChange)="onCommentChange()"></textarea>
+                </div>
+                <div class="input-actions">
+                    <div class="tools">
+                        <i class="iconfont icon-smile-o"></i>
+                        <i class="iconfont icon-image"></i>
+                    </div>
+                    <input type="checkbox" name="is_forward">同时转发到我的微博
+                    <a class="btn btn-primary" (click)="tapComment()">评论</a>
+                </div>
+            </div>
+        </div>
+        <div class="comment-item" *ngFor="let item of commentItems">
+            <div class="avatar">
+                <img [src]="item.user.avatar" alt="">
+            </div>
+            <div>
+                <div class="text">
+                    <a href="">{{ item.user.name }}</a>：
+                    {{ item.content }}
+                </div>
+                <div class="actions">
+                    <span class="time">{{ item.created_at }}</span>
+                    <div class="tools">
+                        <a (click)="tapCommenting(item)">回复</a>
+                        <a href="">赞</a>
+                    </div>
+                </div>
+                <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
+                    <div class="reply-item" *ngFor="let it of item.replies">
+                        <div class="text">
+                            <a href="">{{ it.user.name }}</a>：
+                            {{ it.content }}
+                        </div>
+                        <div class="actions">
+                            <span class="time">{{ it.created_at }}</span>
+                            <div class="tools">
+                                <a  (click)="tapCommenting(item)">回复</a>
+                                <a href="">赞</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
