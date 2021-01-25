@@ -8,14 +8,7 @@ import {
     EventEmitter
 } from '@angular/core';
 import videojs, { VideoJsPlayer } from 'video.js';
-
-interface IFile {
-    name?: string;
-    type?: string;
-    size?: number;
-    thumb?: string;
-    url?: string;
-}
+import { IFile } from '../../models/disk';
 
 @Component({
     selector: 'app-media-player',
@@ -40,7 +33,7 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
     public file: IFile = {
         name: '未知',
         thumb: 'http://zodream.localhost/assets/images/favicon.png',
-    };
+    } as any;
 
     @Output() public nextFile = new EventEmitter();
     @Output() public previousFile = new EventEmitter();
@@ -139,6 +132,15 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
                     src: this.file.url,
                     type: 'application/x-mpegURL'
                 });
+                if (this.file.subtitles && this.file.subtitles.length > 0) {
+                    const subtitle = this.file.subtitles[0];
+                    this.video.addRemoteTextTrack({
+                        src: subtitle.url,
+                        srclang: subtitle.lang,
+                        default: true,
+                        kind: 'subtitles',
+                    }, false);
+                }
             }
             this.video.play();
             return;

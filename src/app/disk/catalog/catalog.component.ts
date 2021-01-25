@@ -111,18 +111,12 @@ export class CatalogComponent implements OnInit {
         if (!item.file.url) {
             return;
         }
-        this.service.allowUrl([
-            item.file.thumb,
-            item.file.url
+        this.service.file([
+            item.id,
         ]).subscribe(res => {
             this.playerVisiable = true;
-            this.player.play({
-                name: item.name,
-                type: this.service.getTypeByExt(item.file.extension),
-                size: item.file.size,
-                thumb: res.data[0],
-                url: res.data[1]
-            });
+            res.type = this.service.getTypeByExt(res.extension);
+            this.player.play(res);
         });
     }
 

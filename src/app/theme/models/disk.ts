@@ -1,5 +1,12 @@
 import { IUser } from './user';
 
+export interface ISubtitle {
+    id: string;
+    lang: string;
+    label: string;
+    url: string;
+}
+
 export interface IFile {
     id?: number;
     name?: string;
@@ -7,6 +14,8 @@ export interface IFile {
     size: number;
     thumb: string;
     url: string;
+    type?: string;
+    subtitles?: ISubtitle[];
 }
 
 export interface IDisk {

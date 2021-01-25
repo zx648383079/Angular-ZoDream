@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IDisk, IShare } from '../theme/models/disk';
+import { IDisk, IFile, IShare } from '../theme/models/disk';
 import { IDataOne, IPage } from '../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,6 +13,12 @@ export class DiskService {
 
     public getCatalog(params: any) {
         return this.http.get<IPage<IDisk>>('disk', {params});
+    }
+
+    public file(id: any) {
+        return this.http.get<IFile>('disk/home/file', {
+            params: {id}
+        });
     }
 
     public shareList(params: any) {
