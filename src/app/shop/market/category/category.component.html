@@ -1,0 +1,62 @@
+<div class="category-page" *ngIf="category">
+  <div class="container">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" routerLink="../">Home</a>
+            <span class="breadcrumb-item active">{{ category.name }}</span>
+        </nav>
+
+      <div class="banner" *ngIf="category.banner">
+          <img [src]="category.banner" alt="">
+      </div>
+
+      <div class="goods-area">
+          <div class="filter-box">
+              <div>
+                  分类
+              </div>
+              <div>
+                  <a href="" class="active">全部</a>
+                  <a href="">全部</a>
+                  <a href="">全部</a>
+                  <a href="">全部</a>
+              </div>
+              <div>
+                  分类
+              </div>
+              <div>
+                  <a href="" class="active">全部</a>
+                  <a href="">全部</a>
+                  <a href="">全部</a>
+                  <a href="">全部</a>
+              </div>
+              <div>
+                  排序
+              </div>
+              <div>
+                  <a href="" class="active">默认</a>
+                  <a href="">价格</a>
+                  <a href="">全部</a>
+                  <a href="">全部</a>
+              </div>
+          </div>
+          <div class="category-header">
+              <div class="title">
+                {{ category.name }}
+              </div>
+              <p class="desc">{{ category.description }}</p>
+          </div>
+          <div class="goods-list">
+              <a class="goods-item item-hover" *ngFor="let item of items" [routerLink]="'../../goods/' + item.id">
+                  <div class="thumb">
+                      <img [src]="item.thumb" alt="">
+                  </div>
+                  <div class="name">{{ item.name }}</div>
+                  <div class="price">{{ item.price }}</div>
+                  <div class="desc">
+                    {{ item.brief }}
+                  </div>
+              </a>
+          </div>
+      </div>
+  </div>
+</div>

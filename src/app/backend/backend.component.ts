@@ -14,7 +14,7 @@ import {
 import {
     getCurrentUser,
     getUserRole
-} from '../theme/reducers/selectors';
+} from '../theme/reducers/auth.selectors';
 import {
     BackendService
 } from './backend.service';
@@ -342,6 +342,9 @@ export class BackendComponent implements OnInit {
         private actions: AuthActions,
         private service: BackendService) {
         this.store.select(getCurrentUser).subscribe(user => {
+            if (!user) {
+                return;
+            }
             this.bottomNavs[0].name = user.name;
         });
         // 订阅 roles 变化

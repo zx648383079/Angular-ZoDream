@@ -1,1 +1,224 @@
-<p>market works!</p>
+<header>
+    <div class="header-top">
+        <div class="container">
+            <div class="top-left">
+                <a routerLink="./">
+                    Easy Life
+                </a>
+                <div class="top-notice">
+                    <i class="iconfont icon-volume-up"></i>
+                    <ul class="notice-list">
+                        <li *ngFor="let item of noticeItems">
+                            <a [routerLink]="'./article/' + item.id">{{ item.title }}</a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="top-right">
+                <div class="top-item">
+                    <ng-container *ngIf="user; else elseTemplate">
+                        <a routerLink="../member">{{ user.name }}</a>
+                        <a (click)="tapLogout()">Sign out</a>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <a routerLink="./auth">Sign in</a>
+                        <a routerLink="./auth">Sign up</a>
+                    </ng-template>
+                </div>
+                <div class="top-item">
+                    <a routerLink="../member/order">Orders</a>
+                </div>
+                <div class="top-item">
+                    Account
+                </div>
+                <!-- <div class="top-item">
+                    甄选家
+                </div>
+                <div class="top-item">
+                    企业采购
+                </div> -->
+                <div class="top-item">
+                    <div class="drop-header">
+                        Customer Service
+                        <i class="iconfont icon-chevron-down"></i>
+                    </div>
+                    <div class="drop-menu">
+                        <ul>
+                            <li>
+                                在线客服
+                            </li>
+                            <li>
+                                <a routerLink="./article/help">帮助中心</a>
+                            </li>
+                            <li>商务合作</li>
+                            <li>开发平台</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="top-item">
+                    <i class="iconfont icon-mobile"></i>
+                    App
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-main">
+        <div class="container">
+            <div class="header-logo">
+                <img [src]="site.logo" alt="">
+            </div>
+            
+            <ul class="header-nav">
+                <li>
+                    <a routerLink="./">Home</a>
+                </li>
+                <li *ngFor="let item of categories">
+                    <a [routerLink]="'./category/' + item.id">{{ item.name }}</a>
+                    <div class="nav-dropdown" *ngIf="item.children">
+                        <div class="nav-column" *ngFor="let column of item.children">
+                            <div class="nav-title">
+                                <a >{{ column.name }}</a>
+                            </div>
+                            <div *ngIf="column.children">
+                                <div class="nav-item" *ngFor="let child of column.children">
+                                    <img src="https://yanxuan.nosdn.127.net/785a1507ce654746875063805c6c4235.png" alt="">
+                                    <span><a >{{ child.name }}</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="header-search">
+                <input type="text" placeholder="Search ..." [(ngModel)]="keywords" (ngModelChange)="onKeywordsChange()" (keypress)="onSearchKeyDown($event)">
+                <i class="iconfont icon-search" (click)="tapSearch()"></i>
+                <div class="search-hot" *ngIf="hotItems.length > 0">
+                    <ul>
+                        <li *ngFor="let item of hotItems" (click)="tapSearch(item)">
+                            {{ item }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="search-tip" *ngIf="tipItems.length > 0">
+                    <ul>
+                        <li *ngFor="let item of tipItems" (click)="tapSearch(item)">
+                            {{ item }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header-cart">
+                <a (click)="tapCart()">
+                    <i class="iconfont icon-shopping-cart"></i>
+                    <i class="cart-num">{{ cart ? cart.subtotal.count : 0 }}</i>
+                </a>
+                <div class="cart-dialog" *ngIf="cart && cartOpen">
+                    <div class="dialog-body">
+                        <ng-container *ngFor="let group of cart.data">
+                            <div class="cart-item" *ngFor="let item of group.goods_list">
+                                <div class="thumb">
+                                    <img [src]="item.goods.thumb" alt="">
+                                </div>
+                                <div>
+                                    <div class="name">{{ item.goods.name }}</div>
+                                    <span class="attr">雾白 </span>
+                                    <span class="count">x {{ item.amount }}</span>
+                                </div>
+                                <div class="price">
+                                    {{ item.price }}
+                                </div>
+                                <div class="action">
+                                    <i class="iconfont icon-close"></i>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="dialog-footer">
+                        <div class="total">
+                            <span>SUBTOTAL:</span>
+                            <span>{{ cart.subtotal.total }}</span>
+                        </div>
+                        <a routerLink="cart" class="btn">VIEW CART</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<router-outlet></router-outlet>
+
+<footer>
+    <div class="footer-top">
+        <div class="container">
+            <div class="top-item">
+                <h4>Customer Service</h4>
+                <a>
+                    <i class="iconfont icon-service"></i>
+                    <p>Online Service</p>
+                </a>
+                <a>
+                    <i class="iconfont icon-comments" aria-hidden="true"></i>
+                    <p>Feedback</p>
+                </a>
+            </div>
+            <div class="top-item">
+                <h4>About Us</h4>
+                <p>
+                    
+                </p>
+            </div>
+            <div class="top-item">
+                <h4>Contact</h4>
+                <img [src]="site.qr" width="104" height="104">
+            </div>
+        </div>
+    </div>
+    <div class="back-to-top">
+        Back To Top
+    </div>
+    <div class="footer-main">
+        <div class="container">
+            <div class="top-grid">
+                <div class="top-item">
+                    <i class="iconfont icon-recycle"></i>
+                    <span>Worldwide Delivery</span>
+                </div>
+                <div class="top-item">
+                    <i class="iconfont icon-rocket"></i>
+                    <span>Shipping Rates & Policies</span>
+                </div>
+                <div class="top-item">
+                    <i class="iconfont icon-shield"></i>
+                    <span>Quality Assurance</span>
+                </div>
+            </div>
+            <div class="footer-hr"></div>
+            <div class="footer-info">
+                <div class="nav-list">
+                    <a>About</a>
+                    <b>|</b>
+                    <a routerLink="./article/help">Help</a>
+                    <b>|</b>
+                    <a>Service</a>
+                    <b>|</b>
+                    <a>Shipping</a>
+                    <b>|</b>
+                    <a>Business</a>
+                    <b>|</b>
+                    <!-- <a >企业采购</a>
+                    <b>|</b> -->
+                    <a>Develop</a>
+                    <b>|</b>
+                    <a>Search</a>
+                    <b>|</b>
+                    <a>Friend Links</a>
+                </div>
+                <div class="copyright">
+                        © 2020-2021 ZoDream.cn. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

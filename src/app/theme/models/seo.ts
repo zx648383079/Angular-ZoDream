@@ -56,3 +56,13 @@ export interface IOption {
     children?: IOption[];
 }
 
+export interface ISite {
+    name: string;
+    version: string;
+    logo: string;
+    qr: string;
+    goods: number;
+    category: number;
+    brand: number;
+    currency: string;
+}

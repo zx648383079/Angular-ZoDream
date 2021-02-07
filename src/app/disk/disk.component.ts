@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
-import { getCurrentUser } from '../theme/reducers/selectors';
+import { getCurrentUser } from '../theme/reducers/auth.selectors';
 
 @Component({
     selector: 'app-disk',
@@ -88,10 +88,10 @@ export class DiskComponent implements OnInit {
   ];
 
   constructor(
-      private store: Store < AppState > ) {
-      this.store.select(getCurrentUser).subscribe(user => {
-          this.bottomNavs[0].name = user.name;
-      });
+        private store: Store < AppState > ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.bottomNavs[0].name = user.name;
+        });
   }
 
   ngOnInit(): void {

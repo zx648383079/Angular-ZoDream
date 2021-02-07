@@ -25,7 +25,7 @@ import {
   CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
-import { InfiniteScrollDirective } from './directives';
+import { InfiniteScrollDirective, LazyLoadDirective } from './directives';
 import { FormsModule } from '@angular/forms';
 import { FileUploadService } from './services/file-upload.service';
 
@@ -72,12 +72,13 @@ const SERVICES = [
 ];
 
 const ACTIONS = [
-  AuthActions
+  AuthActions,
 ];
 
 const DIRECTIVES = [
   PasswordValidatorDirective,
-  InfiniteScrollDirective
+  InfiniteScrollDirective,
+  LazyLoadDirective,
 ];
 
 @NgModule({

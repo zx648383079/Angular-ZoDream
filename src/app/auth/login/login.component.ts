@@ -20,11 +20,8 @@ import {
     AuthService
 } from '../../theme/services';
 import {
-    tap
-} from 'rxjs/operators';
-import {
     getAuthStatus
-} from '../../theme/reducers/selectors';
+} from '../../theme/reducers/auth.selectors';
 import {
     FormBuilder,
     Validators

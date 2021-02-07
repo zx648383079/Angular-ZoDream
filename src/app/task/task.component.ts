@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
-import { getCurrentUser } from '../theme/reducers/selectors';
+import { getCurrentUser } from '../theme/reducers/auth.selectors';
 
 @Component({
     selector: 'app-task',

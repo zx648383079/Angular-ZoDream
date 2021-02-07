@@ -1,0 +1,60 @@
+<div class="login-page" style="background-image: url(https://yanxuan.nosdn.127.net/6c20940c7b36612b0ed4d7b0a8a4aafe.jpg);">
+  <div class="container">
+      <div class="page-box">
+          <div class="login-box">
+              <div class="box-main">
+                    <div class="box-header">
+                        <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">手机号登录</a>
+                        <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">邮箱登录</a>
+                    </div>
+                    <div class="box-tab">
+                          <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                                <form [formGroup]="mobileForm" (ngSubmit)="tapSignIn()">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入手机号" formControlName="mobile" autocomplete="off">
+                                        <i class="iconfont icon-user" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-hr"></div>
+                                    <div class="input-group code-input">
+                                        <input type="text" formControlName="code" placeholder="请输入验证码">
+                                        <i class="iconfont icon-lock" aria-hidden="true"></i>
+                                        <app-count-down class="send-btn" (tapped)="tapSendCode($event)"></app-count-down>
+                                    </div>
+                                    <button class="btn">登录</button>
+                                </form>
+                          </div>
+                          <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                                <form [formGroup]="emailForm" (ngSubmit)="tapSignIn()">
+                                    <div class="input-group">
+                                        <input type="email" formControlName="email" placeholder="请输入邮箱" autocomplete="off">
+                                        <i class="iconfont icon-user" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-hr"></div>
+                                    <div class="input-group">
+                                        <input type="password" formControlName="password" placeholder="请输入密码" autocomplete="off">
+                                        <i class="iconfont icon-lock" aria-hidden="true" ></i>
+                                    </div>
+                                    <button class="btn">登录</button>
+                                </form>
+                          </div>
+                          <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                              
+                          </div>
+                    </div>
+                  
+              </div>
+              <div class="box-footer">
+                  <div class="login-oauth-box">
+                    <a (click)="tapOAuth('qq')" title="QQ登录"><i class="iconfont icon-qq"></i></a>
+                    <a  (click)="tapOAuth('wechat')" title="微信登录"><i class="iconfont icon-wechat"></i></a>
+                    <a  (click)="tapOAuth('weibo')" title="微博登录"><i class="iconfont icon-weibo"></i></a>
+                    <a  (click)="tapOAuth('github')" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+                  </div>
+              </div>
+          </div>
+          <div class="register-box">
+
+          </div>
+      </div>
+  </div>
+</div>

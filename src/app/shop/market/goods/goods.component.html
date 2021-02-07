@@ -1,0 +1,178 @@
+<div class="goods-page" *ngIf="data">
+  <div class="container">
+      <nav class="breadcrumb">
+          <a class="breadcrumb-item" routerLink="../../">Home</a>
+          <a class="breadcrumb-item" *ngIf="data.category" [routerLink]="'../../category/' + data.cat_id">{{ data.category.name }}</a>
+          <span class="breadcrumb-item active">{{ data.name }}</span>
+      </nav>
+
+      <div class="info-box">
+          <div class="picture-box">
+              <div class="view">
+                  <ng-container *ngIf="galleryItems.length > 0">
+                      <img [src]="galleryItems[galleryIndex].image" alt="">
+                  </ng-container>
+              </div>
+              <ul>
+                    <li *ngFor="let item of galleryItems; let i = index" [ngClass]="{active: i == galleryIndex}" (click)="galleryIndex = i">
+                      <img [src]="item.thumb" alt="">
+                    </li>
+              </ul>
+          </div>
+          <div class="bg-white">
+              <div class="intro">
+                  <div class="name">
+                      {{ data.name }}
+                      <a class="comment">
+                          <span>98%</span>
+                          <span>好评率</span>
+                      </a>
+                  </div>
+                  <div class="desc">
+                      {{ data.brief }}
+                  </div>
+              </div>
+              <div class="price-box">
+                  <div>活动价</div>
+                  <div class="price">￥{{ data.price }}</div>
+                  <div>领券</div>
+                  <div></div>
+                  <div>促销</div>
+                  <div></div>
+                  <div>积分</div>
+                  <div>购买最高得42积分</div>
+                  <div>配送</div>
+                  <div>至</div>
+                  <hr>
+                  <div>服务</div>
+                  <div>
+                      ･ 支持30天无忧退换货    
+                      ･ 48小时快速退款    
+                      ･ 满88元免邮费    
+                      ･ 自营品牌    
+                      ･ 国内部分地区无法配送 
+                  </div>
+              </div>
+              <div class="property-box">
+                  <ng-container *ngFor="let item of data.properties;let i = index">
+                    <div class="group" [ngClass]="{'multi-group': item.type == 2}">
+                        <div class="group-header">{{ item.name }}</div>
+                        <div class="group-body">
+                            <ng-container *ngFor="let attr of item.attr_items">
+                                <span>{{ attr.value }}</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                  </ng-container>
+                  <div class="group">
+                      <div class="group-header">
+                        Amount
+                      </div>
+                      <div class="group-body">
+                        <div class="number-box">
+                            <i class="iconfont icon-minus" (click)="tapAmountMinus()"></i>
+                            <input type="text" class="number-input" [(ngModel)]="amount" (change)="onAmountChange()">
+                            <i class="iconfont icon-plus" (click)="tapAmountPlus()"></i>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="actions">
+                    <ng-container *ngIf="stock > 0; else elseTemplate">
+                        <a (click)="tapBuy()" class="btn btn-danger">
+                            BUY NOW
+                        </a>
+                        <a (click)="tapAddToCart()" class="btn btn-primary">
+                            <i class="iconfont icon-shopping-cart"></i>
+                            ADD TO CART
+                        </a>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <a href="javascript:;" class="btn btn-secondary">
+                            Insufficient inventory cannot be purchased 
+                        </a>
+                    </ng-template>
+                    <a  href="javascript:;" data-type="collect" class="btn btn-collect">
+                        <i class="iconfont icon-star"></i>
+                        LIKE
+                    </a>
+              </div>
+          </div>
+      </div>
+
+      <div class="template-lazy" appLazyLoad (lazyLoading)="loadRecommend()">
+        <div class="panel" *ngIf="recommendItems.length > 0">
+            <div class="panel-header">
+                People who viewed this also viewed
+            </div>
+            <div class="panel-body">
+                <div class="slider slider-goods">
+                    <div class="slider-previous">&lt;</div>
+                    <div class="slider-box">
+                        <ul>
+                            <li class="goods-item" *ngFor="let item of recommendItems">
+                                <div class="thumb">
+                                    <a [routerLink]="'../' + item.id">
+                                        <img [src]="item.thumb" alt="">
+                                    </a>
+                                </div>
+                                <div class="name">{{ item.name }}</div>
+                                <div class="price">{{ item.price }}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="slider-next">&gt;</div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="detail-box">
+          <div class="tab-box">
+              <div class="tab-header">
+                  <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                  Product details
+                  </div>
+                  <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                  Comments
+                  </div>
+                  <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                  Issues
+                  </div>
+              </div>
+              <div class="tab-body bg-white">
+                  <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                      <div class="content-box" [innerHTML]="content">
+                      </div>
+                  </div>
+                  <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                      
+                  </div>
+                  <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
+                      
+                  </div>
+              </div>
+          </div>
+
+          <div class="template-lazy" appLazyLoad (lazyLoading)="loadHot()">
+            <div class="panel" *ngIf="hotItems.length > 0">
+                <div class="panel-header">
+                    TOP/24
+                </div>
+                <div class="panel-body">
+                    <div  class="goods-item" *ngFor="let item of hotItems">
+                        <div class="thumb">
+                            <a [routerLink]="'../' + item.id">
+                                <img [src]="item.thumb" alt="">
+                            </a>
+                        </div>
+                        <div class="name">{{ item.name }}</div>
+                        <div class="price">{{ item.price }}</div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+      </div>
+  </div>
+</div>

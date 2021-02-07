@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MarketRoutingModule } from './market-routing.module';
-import { MarketComponent } from './market.component';
-
+import { marketRoutingComponents, MarketRoutingModule } from './market-routing.module';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ThemeModule } from '../../theme/theme.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [MarketComponent],
+  declarations: [...marketRoutingComponents],
   imports: [
     CommonModule,
-    MarketRoutingModule
+    MarketRoutingModule,
+    ThemeModule,
+    ReactiveFormsModule,
+    LazyLoadImageModule,
   ]
 })
 export class MarketModule { }

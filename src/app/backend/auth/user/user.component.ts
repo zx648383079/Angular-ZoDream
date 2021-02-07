@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
-import { getUserRole } from '../../../theme/reducers/selectors';
+import { getUserRole } from '../../../theme/reducers/auth.selectors';
 import { AuthService } from '../auth.service';
 
 @Component({

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from 'src/app/theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getCurrentUser } from 'src/app/theme/reducers/selectors';
+import { getCurrentUser } from 'src/app/theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';

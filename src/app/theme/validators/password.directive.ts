@@ -15,7 +15,13 @@ export class PasswordValidatorDirective implements Validator {
 
 export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   return control.value && control.value.length < 6 ? {
-    password_simple: true
+    password: true
+  } : null;
+};
+
+export const mobileValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  return control.value && !/^1[3456789]\d{9}$/.test(control.value) ? {
+    mobile: true
   } : null;
 };
 

@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './theme/theme.reducers';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    LazyLoadImageModule,
     ThemeModule.forRoot(),
     // 加载store
     StoreModule.forRoot(reducers, { metaReducers }),

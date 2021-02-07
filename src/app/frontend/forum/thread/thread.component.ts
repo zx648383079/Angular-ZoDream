@@ -4,7 +4,7 @@ import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
-import { getCurrentUser } from '../../../theme/reducers/selectors';
+import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 
 @Component({

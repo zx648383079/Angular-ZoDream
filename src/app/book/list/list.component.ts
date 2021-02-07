@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IBookList } from '../../theme/models/book';
-import { getAuthStatus } from '../../theme/reducers/selectors';
+import { getAuthStatus } from '../../theme/reducers/auth.selectors';
 import { BookService } from '../book.service';
 
 @Component({

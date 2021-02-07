@@ -6,7 +6,7 @@ import { AppState } from '../../../theme/interfaces';
 import { IComment, IMicro } from '../../../theme/models/micro';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
-import { getCurrentUser } from '../../../theme/reducers/selectors';
+import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 
 @Component({

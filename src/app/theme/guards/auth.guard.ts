@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../interfaces';
-import { getAuthStatus } from '../reducers/selectors';
+import { getAuthStatus } from '../reducers/auth.selectors';
 import { ThemeService } from '../services';
 
 

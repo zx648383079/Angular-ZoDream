@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 
 export interface IBrand {
     id: number;
@@ -21,6 +21,7 @@ export interface ICategory {
     position?: number;
     expanded?: boolean;
     level?: number;
+    children?: ICategory[];
 }
 
 export interface IProduct {
@@ -37,6 +38,12 @@ export interface IProduct {
 export interface IGoodsAttribute {
     attr_list: IAttribute[];
     product_list: IProduct[];
+}
+
+export interface IHomeProduct {
+    hot_products?: IGoods[];
+    new_products?: IGoods[];
+    best_products?: IGoods[];
 }
 
 export interface IGoods {
@@ -72,8 +79,14 @@ export interface IGoods {
     shop: string;
     category?: ICategory;
     brand?: IBrand;
+    gallery?: IGoodsGallery[];
+    properties?: any[];
 }
 
+export interface IGoodsGallery {
+    thumb: string;
+    image: string;
+}
 
 export interface IOrder {
     id: number;
@@ -192,6 +205,7 @@ export interface IArticleCategory {
     parent_id: number;
     position: number;
     level?: number;
+    children?: IArticle[];
 }
 
 export interface IAd {
@@ -247,6 +261,69 @@ export interface IGoodsAttr {
     value: string;
     price?: number;
     checked?: boolean;
+}
+
+
+export interface IStore {
+    id: number;
+    name: string;
+    logo: string;
+    collect_count?: number;
+    is_collected?: boolean;
+}
+
+export interface ICartItem {
+    id?: number;
+    amount: number;
+    price?: number;
+    is_checked?: boolean;
+    goods_id: number;
+    product_id?: number;
+    goods?: IGoods;
+}
+
+export interface ICartGroup {
+    shop?: IStore;
+    name: string;
+    checked?: boolean;
+    goods_list: ICartItem[];
+}
+
+export interface IButton {
+    action: string;
+    text: string;
+    reason?: any;
+}
+
+export interface ILink {
+    text: string;
+    url: string;
+}
+
+export interface ICartCell {
+    popup_tip: string;
+    link?: ILink;
+}
+
+export interface ICartSubtotal {
+    total: number;
+    total_weight: number;
+    original_total: number;
+    discount_amount: number;
+    count: number;
+}
+
+export interface ICartDialog {
+    dialog: boolean; // 需要弹窗选择属性
+    data: IProduct;
+}
+
+export interface ICart {
+    dialog?: boolean; // 需要弹窗选择属性
+    checkout_button?: IButton;
+    data: ICartGroup[];
+    promotion_cell?: ICartCell[];
+    subtotal: ICartSubtotal;
 }
 
 
