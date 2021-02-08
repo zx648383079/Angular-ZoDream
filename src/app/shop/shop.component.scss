@@ -99,6 +99,12 @@
         border: 1px solid #eaeaea;
         padding-top: 24px;
         width: 180px;
+        background-color: white;
+        ul, li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
         .menu-group {
             color: #333;
             margin-bottom: 40px;

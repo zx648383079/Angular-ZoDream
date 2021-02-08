@@ -129,7 +129,7 @@
                                     {{ item.price }}
                                 </div>
                                 <div class="action">
-                                    <i class="iconfont icon-close"></i>
+                                    <i class="iconfont icon-close" (click)="tapRemoveCart(item)"></i>
                                 </div>
                             </div>
                         </ng-container>
@@ -139,7 +139,7 @@
                             <span>SUBTOTAL:</span>
                             <span>{{ cart.subtotal.total }}</span>
                         </div>
-                        <a routerLink="cart" class="btn">VIEW CART</a>
+                        <a (click)="tapViewCart()" class="btn">VIEW CART</a>
                     </div>
                 </div>
             </div>

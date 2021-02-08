@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IData, IPage } from '../theme/models/page';
+import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ISite } from '../theme/models/seo';
-import { IArticle, IArticleCategory, ICart, ICartDialog, ICartItem, ICategory, IGoods, IHomeProduct, IOrder, IPayment, IShipping } from '../theme/models/shop';
+import { IAd, IAddress, IArticle, IArticleCategory, IBrand, ICart, ICartDialog, ICartItem, ICategory, IComment, ICommentSubtotal, IGoods, IHomeProduct, IOrder, IOrderCount, IPayment, IShipping } from '../theme/models/shop';
+import { IUser } from '../theme/models/user';
 
 @Injectable()
 export class ShopService {
@@ -41,6 +42,13 @@ export class ShopService {
         return this.http.get<IGoods>('shop/goods', {
             params: {id}
         });
+    }
+
+    /**
+     * toggleCollect
+     */
+    public toggleCollect(id: any) {
+        return this.http.post<IDataOne<boolean>>('shop/collect/toggle', {id});
     }
 
     public homeList() {
@@ -124,8 +132,8 @@ export class ShopService {
         return this.http.post<IOrder>('shop/cashier/checkout', {goods, address, shipping, payment, type});
     }
 
-    public site(id: any) {
-        return this.http.get<ISite>('shop/store', {params: {id}});
+    public site() {
+        return this.http.get<ISite>('shop');
     }
 
     public articleList(params: any) {
@@ -146,5 +154,57 @@ export class ShopService {
 
     public articleCategories(parentId: any) {
         return this.http.get<IData<IArticleCategory>>('shop/article/category', {params: {parent_id: parentId}});
+    }
+
+    public adList(position: any) {
+        return this.http.get<IData<IAd>>('shop/ad', {params: {position}});
+    }
+
+    public banners() {
+        return this.http.get<IData<IAd>>('shop/ad/banner');
+    }
+
+    public brandList(params: any) {
+        return this.http.get<IPage<IBrand>>('shop/brand', {params});
+    }
+
+    public brandRecommend() {
+        return this.http.get<IData<IBrand>>('shop/brand/recommend');
+    }
+
+    public categoryfloor() {
+        return this.http.get<IData<ICategory>>('shop/category/floor');
+    }
+
+    public commentList(params: any) {
+        return this.http.get<IPage<IComment>>('shop/comment', {params});
+    }
+
+    public commentSubtotal(itemId: number, itemType?: number) {
+        return this.http.get<ICommentSubtotal>('shop/comment/count', {params: {item_id: itemId as any, item_type: itemType as any}});
+    }
+
+    public commentRecommend() {
+        return this.http.get<IData<IComment>>('shop/comment/recommend');
+    }
+
+    public profile() {
+        return this.http.get<IUser>('auth/user');
+    }
+
+    public orderList(params: any) {
+        return this.http.get<IPage<IOrder>>('shop/order', {params});
+    }
+
+    public order(id: any) {
+        return this.http.get<IOrder>('shop/order', {params: {id}});
+    }
+
+    public orderSubtotal() {
+        return this.http.get<IOrderCount>('shop/order/count');
+    }
+
+    public addressList(params: any) {
+        return this.http.get<IPage<IAddress>>('shop/address', {params});
     }
 }

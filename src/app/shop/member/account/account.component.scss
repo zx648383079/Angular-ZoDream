@@ -1,0 +1,24 @@
+.account-box {
+    .account-tip {
+        padding-top: 25px;
+        color: #999;
+        font-size: 12px;
+        text-align: right;
+    }
+    .account-header {
+        padding: 25px;
+        display: grid;
+        grid-template-columns: 1fr 150px 150px;
+        .money {
+            font-size: 50px;
+        }
+        p {
+            font-size: 12px;
+            line-height: 26px;
+        }
+        .btn {
+            display: block;
+            text-align: center
+        }
+    }
+}

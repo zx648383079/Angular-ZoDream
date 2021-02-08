@@ -1,0 +1,37 @@
+.history-panel {
+    .panel-header {
+        padding: 0 20px;
+        .pull-right {
+            float: right;
+        }
+    }
+    .panel-body {
+        padding: 20px 30px 0;
+    }
+    .date-header {
+        margin-bottom: 23px;
+        line-height: 28px;
+        color: #b4a078;
+        .day {
+            font-size: 26px;
+        }
+        .time {
+            font-size: 18px;
+            vertical-align: bottom;
+            margin-left: 6px;
+        }
+        .day-box {
+            padding-right: 6px;
+            background-color: #fff;
+            display: inline-block;
+        }
+        .line {
+            position: absolute;
+            z-index: -1;
+            width: 828px;
+            margin-top: -7px;
+            border-bottom: 1px solid #ddd;
+        }
+    }
+    
+}

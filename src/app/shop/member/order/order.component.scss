@@ -1,0 +1,51 @@
+.order-item-header {
+    display: grid;
+    grid-template-columns: 300px 1fr 40px;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 130px 130px 130px;
+    padding: 20px 0;
+    text-align: center;
+    .goods-img {
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    .name {
+        margin-top: 20px;
+        text-align: left;
+    }
+    .status,
+    .actions {
+        a {
+            display: block;
+        }
+    }
+}
+
+
+.order-tab {
+    border-bottom: 2px solid #eaeaea;
+    display: inline-block;
+    a {
+        display: inline-block;
+        padding: 10px 0;
+        height: 40px;
+        font-weight: 900;
+        font-size: 18px;
+        color: #333;
+        margin-bottom: -2px;
+        width: 110px;
+        text-align: center;
+        em {
+            font-style: normal;
+            font-size: 12px;
+        }
+        &.active {
+            border-bottom: 2px solid #b4a078;
+        }
+    }
+}

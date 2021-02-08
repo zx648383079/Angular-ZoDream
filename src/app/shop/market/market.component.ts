@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { ISite } from '../../theme/models/seo';
-import { IArticle, ICart } from '../../theme/models/shop';
+import { IArticle, ICart, ICartItem } from '../../theme/models/shop';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { AuthService } from '../../theme/services';
@@ -55,9 +55,6 @@ export class MarketComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.service.site(0).subscribe(site => {
-            this.store.dispatch(setSite({site}));
-        });
         this.service.cart().subscribe(cart => {
             this.store.dispatch(setCart({cart}));
         });
@@ -105,11 +102,31 @@ export class MarketComponent implements OnInit {
     }
 
     public tapCart() {
-        if (this.cart) {
+        if (this.cart && this.cart.data.length > 0) {
             this.cartOpen = !this.cartOpen;
             return;
         }
+        this.tapViewCart();
+    }
+
+    /**
+     * tapViewCart
+     */
+    public tapViewCart() {
+        this.cartOpen = false;
         this.router.navigate(['cart'], {relativeTo: this.route});
+    }
+
+    /**
+     * tapRemoveCart
+     */
+    public tapRemoveCart(item: ICartItem) {
+        this.service.cartDeleteItem(item.id).subscribe(cart => {
+            this.store.dispatch(setCart({cart}));
+            if (cart.data.length < 1) {
+                this.cartOpen = false;
+            }
+        });
     }
 
     public tapLogout() {

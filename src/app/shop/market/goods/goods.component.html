@@ -92,8 +92,8 @@
                             Insufficient inventory cannot be purchased 
                         </a>
                     </ng-template>
-                    <a  href="javascript:;" data-type="collect" class="btn btn-collect">
-                        <i class="iconfont icon-star"></i>
+                    <a class="btn btn-collect" [ngClass]="{active: data.is_collect}" (click)="tapCollect()">
+                        <i class="iconfont" [ngClass]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
                         LIKE
                     </a>
               </div>

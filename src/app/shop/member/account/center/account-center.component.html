@@ -1,0 +1,31 @@
+<div class="user-page">
+    <div class="container side-box">
+        <div>
+            <app-user-menu currentUrl="member/account/center"></app-user-menu>
+        </div>
+        <div class="panel history-panel">
+            <div class="panel-header">
+                <span>帐号安全</span>
+            </div>
+            <div class="panel-body">
+                <div class="connect-item" *ngFor="let item of items">
+                    <div class="name">
+                        <i class="fab" [ngClass]="item.icon"></i>
+                        {{ item.name }}
+                        <ng-container *ngIf="item.nickname">
+                            ({{ item.nickname }})
+                        </ng-container>
+                    </div>
+                    <div class="action">
+                        <ng-container *ngIf="item.id; else elseTemplate">
+                            <a >解绑</a>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <a >绑定</a>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

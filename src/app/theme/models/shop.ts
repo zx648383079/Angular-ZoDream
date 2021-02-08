@@ -8,6 +8,8 @@ export interface IBrand {
     logo?: string;
     app_logo?: string;
     url: string;
+    image?: string;
+    price?: number;
 }
 export interface ICategory {
     id: number;
@@ -22,6 +24,7 @@ export interface ICategory {
     expanded?: boolean;
     level?: number;
     children?: ICategory[];
+    goods_list?: IGoods[];
 }
 
 export interface IProduct {
@@ -81,6 +84,7 @@ export interface IGoods {
     brand?: IBrand;
     gallery?: IGoodsGallery[];
     properties?: any[];
+    is_collect?: boolean;
 }
 
 export interface IGoodsGallery {
@@ -109,6 +113,19 @@ export interface IOrder {
     receive_at?: string;
     shipping_at?: string;
     pay_at?: string;
+}
+
+
+export interface IOrderCount {
+    un_pay?: number;
+    shipped?: number;
+    finish?: number;
+    cancel?: number;
+    invalid?: number;
+    paid_un_ship?: number;
+    received?: number;
+    uncomment?: number;
+    refunding?: number;
 }
 
 export interface IAddress {
@@ -327,3 +344,43 @@ export interface ICart {
 }
 
 
+export interface ICommentSubtotal {
+    total: number;
+    good: number;
+    middle: number;
+    bad: number;
+    avg: number;
+    favorable_rate: number;
+    tags: ITag[];
+    comments: IComment[];
+}
+
+export interface IImage {
+    image: string;
+}
+
+export interface IComment {
+    id?: number;
+    title: string;
+    content: string;
+    rank: number;
+    user?: IUser;
+    images?: IImage[];
+    goods?: IGoods;
+    created_at: string;
+}
+
+export interface ITag {
+    label: string;
+    count: number;
+}
+
+export enum ORDER_STATUS {
+    CANCEL = 1,
+    INVALID = 2,
+    UN_PAY = 10,
+    PAID_UN_SHIP = 20,
+    SHIPPED = 40,
+    RECEIVED = 60,
+    FINISH = 80,
+}

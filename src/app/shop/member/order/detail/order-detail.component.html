@@ -1,0 +1,91 @@
+<div class="user-page">
+    <div class="container side-box">
+        <div>
+            <app-user-menu currentUrl="member/order"></app-user-menu>
+        </div>
+        <div *ngIf="data">
+            <div class="panel">
+               <div class="panel-header order-item-header">
+                    <span class="time">下单时间：{{ data.created_at }}</span>
+                    <span class="number">订单号：{{ data.series_number }}</span>
+               </div>
+                <div class="panel-body">
+                    <div class="order-address">
+                        <div class="address-box" *ngIf="data.address">
+                            <div>
+                                <span>收 件 人</span>
+                                <span>{{ data.address.name }}</span>
+                            </div>
+                            <div>
+                                <span>联系方式</span>
+                                <span>{{ data.address.tel }}</span>
+                            </div>
+                            <div>
+                                <span>收货地址</span>
+                                <span>{{ data.address.region_name }} {{ data.address.address }}</span>
+                            </div>
+                            <div class="tip">* 确认收货得0积分</div>
+                        </div>
+                        <div class="order-total">
+                            <div>
+                            商品合计：
+                            </div>
+                            <div>{{ data.goods_amount }}</div>
+                            <div>
+                            运费：
+                            </div>
+                            <div>{{ data.shipping_fee }}</div>
+                            <div class="hr"></div>
+                            <div>
+                            应付：
+                            </div>
+                            <div>{{ data.order_amount }}</div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+           <div class="panel un-order-box">
+               <div class="panel-header">
+                    <span class="time">包裹 1{{ data.status_label }}</span>
+                    
+                    <a href="" class="btn">再次购买</a>
+               </div>
+                <div class="panel-body">
+                    <div class="order-goods-header has-bottom-border">
+                        <div>
+                        商品信息
+                        </div>
+                        <div>
+                        单价
+                        </div>
+                        <div>
+                        数量
+                        </div>
+                        <div>
+                        小计
+                        </div>
+                        <div>
+                        实付
+                        </div>
+                    </div>
+                    <div class="order-goods-item" *ngFor="let item of data.goods">
+                        <div class="goods-info">
+                            <div class="thumb">
+                                <img [src]="item.thumb" alt="">
+                            </div>
+                            <div>
+                                <div class="name">{{ item.name }}</div>
+                                <div class="attr">{{ item.type_remark }}</div>
+                            </div>
+                        </div> 
+                        <div>{{ item.price }}</div>
+                        <div>{{ item.amount }}</div>
+                        <div>{{ item.price * item.amount }}</div>
+                        <div>{{ data.status > 10 ? item.price * item.amount : 0 }}</div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </div>
+</div>
+

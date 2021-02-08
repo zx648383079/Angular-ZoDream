@@ -147,6 +147,9 @@
                         font-size: 20px;
                         line-height: 30px;
                     }
+                    &.active {
+                        color: #b4a078;
+                    }
                 }
                 &.btn-secondary {
                     cursor: not-allowed;

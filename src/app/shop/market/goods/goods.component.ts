@@ -101,4 +101,13 @@ export class GoodsComponent implements OnInit {
         });
     }
 
+    /**
+     * tapCollect
+     */
+    public tapCollect() {
+        this.service.toggleCollect(this.data.id).subscribe(res => {
+            this.data.is_collect = res.data;
+        });
+    }
+
 }

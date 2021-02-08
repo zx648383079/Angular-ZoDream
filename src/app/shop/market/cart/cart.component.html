@@ -5,11 +5,11 @@
             <div class="empty-cart-box">
                 <ng-container *ngIf="guest; else elseGuestTemplate">
                     <p>After login, you can synchronize the products in the shopping cart</p>
-                    <a class="btn btn-primary">Sign up now</a>
+                    <a class="btn btn-primary" routerLink="../auth">Sign up now</a>
                 </ng-container>
                 <ng-template #elseGuestTemplate>
                     <p>Your cart is empty</p>
-                <a class="btn btn-primary">Go Shopping</a>
+                <a class="btn btn-primary" routerLink="../">Go Shopping</a>
                 </ng-template>
             </div>
         </ng-container>

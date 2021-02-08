@@ -5,6 +5,7 @@ import { marketRoutingComponents, MarketRoutingModule } from './market-routing.m
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [...marketRoutingComponents],
@@ -12,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     MarketRoutingModule,
     ThemeModule,
+    NgbModule,
     ReactiveFormsModule,
     LazyLoadImageModule,
   ]
