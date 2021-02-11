@@ -1,5 +1,3 @@
-import { from } from 'rxjs';
-
 export * from './bar-item/bar-item.component';
 export * from './bar-ul/bar-ul.component';
 export * from './nav-bar/nav-bar.component';
@@ -16,3 +14,4 @@ export * from './markdown-editor/markdown-editor.component';
 export * from './circle-progress/circle-progress.component';
 export * from './color-picker/color-picker.component';
 export * from './star/star.component';
+export * from './region/region.component';

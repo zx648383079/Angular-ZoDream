@@ -60,8 +60,8 @@
                         <span>{{ item.price * item.amount }}</span>
                     </div>
                     <div class="actions">
-                        <a href="">移入收藏夹</a>
-                        <a href="">删除</a>
+                        <a (click)="tapCollect(item)">移入收藏夹</a>
+                        <a (click)="tapRemove(item)">删除</a>
                     </div>
                 </div>
             </div>
@@ -70,11 +70,11 @@
                 <div class="chkbox">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}" (click)="toggleCheckAll()"></i>
                     <span>
-                        <span>已选（</span><span class="cart-checked-count">0</span>
+                        <span>已选（</span><span class="cart-checked-count">{{ checkedCount }}</span>
                         <span>）</span>
                     </span>
-                    <a>批量删除</a>
-                    <a>清空失效商品</a>
+                    <a (click)="tapRemoveChecked()">批量删除</a>
+                    <a (click)="tapClearInvalid()">清空失效商品</a>
                 </div>
                 <div class="total">
                     <span>SUBTOTAL : </span>
@@ -88,7 +88,7 @@
                     <div class="tip" *ngIf="cart.promotion_cell.length > 0">{{ cart.promotion_cell[0].popup_tip }}></div>
                 </div>
                 <div class="checkout">
-                    <a class="btn">CHECKOUT</a>
+                    <a class="btn" (click)="tapCashier()">CHECKOUT</a>
                 </div>
             </div>
         </ng-template>

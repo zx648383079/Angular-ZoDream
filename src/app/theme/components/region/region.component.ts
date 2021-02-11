@@ -1,94 +1,275 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, forwardRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IDataOne } from '../../models/page';
+import { cloneObject, eachObject } from '../../utils';
 
 @Component({
-    selector: 'region',
+    selector: 'app-region',
     styleUrls: ['./region.component.scss'],
-    templateUrl: 'region.component.html'
+    templateUrl: 'region.component.html',
+    providers: [
+        {
+          provide: NG_VALUE_ACCESSOR,
+          useExisting: forwardRef(() => RegionComponent),
+          multi: true
+        }
+    ]
 })
-export class RegionComponent {
+export class RegionComponent<T extends object> implements ControlValueAccessor, OnChanges {
 
-    @Input() url: string;
+    @Input() public url: string;
+    @Input() public range: {
+        [key: number]: T
+    } | T[];
+    @Input() public canYes = false;
+    @Input() public placeholder = '请选择';
+    @Input() public rangeKey = 'id';
+    @Input() public rangeLabel = 'name';
+    @Input() public rangeChildren = 'children';
+    @Output() public columnChange = new EventEmitter<{column: number, value: T}>();
 
-    @Input() canYes: boolean = false;
+    public value: T[] | T;
+    public disabled = false;
 
-    @Input() region: any;
+    public paths: Array<T> = [];
+    public items: Array<T> = [];
+    public activeColumn = 0;
+    public panelVisible = false;
 
-    @Output() regionChange = new EventEmitter<any>();
+    private data: {
+        [key: number]: T
+    } | T[];
+    private booted = false;
 
-    paths: Array<any> = [{
-        name: '请选择'
-    }];
-
-    regionItems: Array<any> = [];
-
-    data: any;
-
-    activeIndex: number = 0;
+    private onChange: any = () => { };
+    private onTouch: any = () => { };
 
     constructor(private http: HttpClient) {
 
     }
 
-    ngOnInit() {
-        this.http.get(this.url).subscribe((data: any) => {
-            this.data = data.data;
-            this.regionItems = this._toArray(this.data[1].children);
-            this.activeIndex = 0;
+    get pathLabel() {
+        const items = this.paths.filter(i => i[this.rangeKey]);
+        if (items.length < 1) {
+            return this.placeholder;
+        }
+        return items.map(i => i[this.rangeLabel]).join('/');
+    }
+
+    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+        if (!event.target.closest('.selector') && !this.hasElementByClass(event.path, 'selector-panel-container')) {
+            this.panelVisible = false;
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.url) {
+            this.initByUrl(changes.url.currentValue);
+        }
+        if (changes.range) {
+            this.init(changes.range.currentValue);
+        }
+    }
+
+    public showPanel() {
+        if (this.disabled) {
+            return;
+        }
+        this.panelVisible = true;
+    }
+
+    private initByUrl(url?: string) {
+        if (!url) {
+            return;
+        }
+        this.http.get<IDataOne<any>>(url).subscribe(res => {
+            this.init(res.data);
         });
     }
 
-    touchIndex(index) {
-        this.activeIndex = index;
-        this.regionItems = this._getRegionList();
+    private init(data: any) {
+        if (!data) {
+            return;
+        }
+        this.data = data;
+        this.booted = false;
+        this.formatPath();
+        this.tapColumn(this.paths.length - 1);
     }
 
-    private _toArray(data: any) {
-        let args = [];
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                args.push(data[key]);
+    public tapColumn(column: number) {
+        this.items = this.coloumnItems(column);
+        this.activeColumn = column;
+    }
+
+    public isSelected(item: T): boolean {
+        const id = this.paths[this.activeColumn][this.rangeKey];
+        return id && item[this.rangeKey] === id;
+    }
+
+    public tapClose() {
+        this.panelVisible = false;
+    }
+
+    public tapYes() {
+        this.panelVisible = false;
+        this.output();
+    }
+
+    private coloumnItems(column: number): T[] {
+        let items = this.data;
+        for (let i = 0; i < column; i++) {
+            const id = this.paths[i][this.rangeKey];
+            if (!id) {
+                return;
+            }
+            if (eachObject(items, (item) => {
+                if (item[this.rangeKey] === id) {
+                    items = item[this.rangeChildren];
+                    return false;
+                }
+            }) !== false) {
+                items = [];
             }
         }
-        return args;
+        return this.toArr(items);
     }
 
-    private _getRegionList() {
-        if (this.activeIndex <= 0) {
-            return this._toArray(this.data[1].children);
-        }
-        return this._toArray(this.paths[this.activeIndex - 1].children);
-    }
-
-    isSelected(item) {
-        return item.id == this.paths[this.activeIndex].id;
-    }
-
-    touchYes() {
-        let item = this.paths[this.activeIndex];
-        if (!item.id && this.paths.length > 0) {
-            item = this.paths[this.paths.length - 1]
-        }
-        this.regionChange.emit({
-            id: item.id,
-            name: item.name
+    public tapCheckedItem(item: T) {
+        this.paths[this.activeColumn] = item;
+        this.columnChange.emit({
+            column: this.activeColumn,
+            value: {...item, children: undefined}
         });
-    }
-
-    touchSelect(item) {
-        this.paths[this.activeIndex] = item;
-        this.paths.splice(this.activeIndex + 1);
-        if (!item.children || this.activeIndex > 0) {
-            this.regionChange.emit({
-                id: item.id,
-                name: item.name
-            });
+        this.paths.splice(this.activeColumn + 1);
+        const items = this.coloumnItems(this.activeColumn + 1);
+        if (items.length < 1) {
+            this.tapYes();
             return;
         }
         this.paths.push({
-            name: '请选择'
+            [this.rangeLabel]: this.placeholder
+        } as any);
+        this.items = items;
+        this.activeColumn ++;
+    }
+
+    private toArr(data: any): T[] {
+        if (typeof data !== 'object') {
+            return [];
+        }
+        if (data instanceof Array) {
+            return data;
+        }
+        return Object.values(data);
+    }
+
+    /**
+     * 根据ID查找无限树的路径
+     */
+     public getPath(id: string|number): T[] {
+        if (!id) {
+            return [];
+        }
+        const findPath = (data: any): any[] => {
+            let res = [];
+            eachObject(data, (item) => {
+                if (item[this.rangeKey] === id) {
+                    res = [item];
+                    return false;
+                }
+                if (!Object.prototype.hasOwnProperty.call(item, this.rangeChildren)) {
+                    return [];
+                }
+                const args = findPath(item[this.rangeChildren]);
+                if (args.length > 0) {
+                    res = [item, ...args];
+                    return false;
+                }
+            });
+            return res;
+        };
+        return findPath(this.data);
+    }
+
+    private formatPath() {
+        if (!this.data || this.booted) {
+            return;
+        }
+        let path = [];
+        if (!this.value) {
+            path = [];
+        } else if (typeof this.value !== 'object') {
+            path = this.getPath(this.value);
+        } else if (this.value instanceof Array) {
+            path = cloneObject(this.value);
+        } else {
+            path = this.getPath(this.value[this.rangeKey]);
+        }
+        if (path.length < 1) {
+            path = [
+                {
+                    [this.rangeLabel]: this.placeholder
+                }
+            ];
+        }
+        this.paths = path;
+        this.booted = true;
+    }
+
+    private output() {
+        const path = this.paths.filter(i => {
+            return i[this.rangeKey];
+        }).map(i => {
+            return {
+                ...i,
+                [this.rangeChildren]: undefined
+            };
         });
-        this.activeIndex += 1;
-        this.regionItems = this._toArray(item.children);
+        if (path.length < 1) {
+            return;
+        }
+        if (!this.value) {
+            this.value = path[path.length - 1];
+        } else if (typeof this.value !== 'object') {
+            this.value = path[path.length - 1][this.rangeKey];
+        } else if (this.value instanceof Array) {
+            this.value = path;
+        } else {
+            this.value = path[path.length - 1];
+        }
+        this.onChange(this.value);
+    }
+
+    private hasElementByClass(path: Array<Element>, className: string): boolean {
+        let hasClass = false;
+        for (const item of path) {
+            if (!item || !item.className) {
+                continue;
+            }
+            hasClass = item.className.indexOf(className) >= 0;
+            if (hasClass) {
+                return true;
+            }
+        }
+        return hasClass;
+    }
+
+    writeValue(obj: any): void {
+        this.value = obj;
+        this.booted = false;
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        this.onTouch = fn;
+    }
+
+    setDisabledState?(isDisabled: boolean): void {
+        this.disabled = isDisabled;
     }
 }

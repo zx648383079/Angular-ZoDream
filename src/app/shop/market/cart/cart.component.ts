@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { ICart, ICartGroup, ICartItem, IGoods } from '../../../theme/models/shop';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
-import { setCheckoutCart } from '../../shop.actions';
+import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCart } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
@@ -37,7 +37,18 @@ export class CartComponent implements OnInit {
             if (!cart) {
                 return;
             }
-            this.items = cart.data;
+            this.items = cart.data.map(g => {
+                return {
+                    ...g,
+                    goods_list: g.goods_list.map(i => {
+                        return {
+                            ...i,
+                            is_checked: false,
+                        };
+                    }),
+                    checked: false,
+                };
+            });
             this.cart = cart;
         });
     }
@@ -54,6 +65,21 @@ export class CartComponent implements OnInit {
             for (const cart of item.goods_list) {
                 if (cart.is_checked && cart.price) {
                     total += cart.amount * cart.price;
+                }
+            }
+        }
+        return total;
+    }
+
+    get checkedCount() {
+        let total = 0;
+        if (!this.items || this.items.length < 1) {
+            return total;
+        }
+        for (const item of this.items) {
+            for (const cart of item.goods_list) {
+                if (cart.is_checked) {
+                    total ++;
                 }
             }
         }
@@ -98,8 +124,10 @@ export class CartComponent implements OnInit {
                 }
             }
             if (items.length > 0) {
-                item.goods_list = items;
-                data.push(item);
+                data.push({
+                    ...item,
+                    goods_list: items,
+                });
             }
         }
         if (data.length < 1) {
@@ -107,7 +135,7 @@ export class CartComponent implements OnInit {
             return;
         }
         this.store.dispatch(setCheckoutCart({items: data}));
-        this.router.navigate(['./cashier'], {relativeTo: this.route});
+        this.router.navigate(['../cashier'], {relativeTo: this.route});
     }
 
     public loadLike() {
@@ -116,4 +144,37 @@ export class CartComponent implements OnInit {
         });
     }
 
+    public tapCollect(item: ICartItem) {
+
+    }
+
+    public tapRemove(item: ICartItem) {
+        this.service.cartDeleteItem(item.id).subscribe(cart => {
+            this.store.dispatch(setCart({cart}));
+        });
+    }
+
+    public tapRemoveChecked() {
+        const items = [];
+        for (const group of this.items) {
+            for (const item of group.goods_list) {
+                if (item.is_checked) {
+                    items.push(item.id);
+                }
+            }
+        }
+        if (items.length < 1) {
+            this.toastrService.warning('请选择要删除的商品');
+            return;
+        }
+        this.service.cartDeleteItem(items).subscribe(cart => {
+            this.store.dispatch(setCart({cart}));
+        });
+    }
+
+    public tapClearInvalid() {
+        this.service.cartDeleteInvalid().subscribe(cart => {
+            this.store.dispatch(setCart({cart}));
+        });
+    }
 }

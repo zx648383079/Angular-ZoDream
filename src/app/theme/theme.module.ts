@@ -22,7 +22,7 @@ import {
   PullToRefreshComponent,
   PanelComponent,
   DatepickerComponent, SwitchComponent,
-  CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent
+  CountDownComponent, MarkdownEditorComponent, CircleProgressComponent, ColorPickerComponent, StarComponent, RegionComponent
 } from './components';
 import { PasswordValidatorDirective } from './validators';
 import { InfiniteScrollDirective, LazyLoadDirective } from './directives';
@@ -52,6 +52,7 @@ const COMPONENTS = [
   CircleProgressComponent,
   ColorPickerComponent,
   StarComponent,
+  RegionComponent,
 ];
 
 const PIPES = [

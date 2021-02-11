@@ -1,12 +1,30 @@
-<div class="selector" data-type="selector">
-  <ul class="selector-header"><li *ngFor="let item of paths; let i = index;" [ngClass]="{active: i == activeIndex}" (click)="touchIndex(i)">{{ item.name }}</li></ul>
-  <div class="selector-body">
-    <ul class="active">
-      <li *ngFor="let item of regionItems" (click)="touchSelect(item)" [ngClass]="{selected: isSelected(item)}">{{ item.name }}</li>
-    </ul>
-  </div>
-  <div class="selector-footer" *ngIf="canYes">
-      <button class="selector-yes" (click)="touchYes()">确定</button>
+<div class="selector" data-type="selector" [ngClass]="{disabled: disabled}">
+    <div (click)="showPanel()" class="selector-input-container">
+        <div class="select-header" [ngClass]="{open: panelVisible}">
+            {{ pathLabel }}
+            <i class="iconfont icon-chevron-down"></i>
+        </div>
+    </div> 
+    <div class="selector-panel-container" *ngIf="panelVisible">
+        <ul class="selector-header">
+            <ng-container *ngFor="let item of paths; let i = index;">
+                <li class="select-header"  [ngClass]="{open: i == activeColumn}" (click)="tapColumn(i)">
+                    {{ item[rangeLabel] }}
+                    <i class="iconfont icon-chevron-down"></i>
+                </li>
+            </ng-container>
+        </ul>
+        <div class="selector-body">
+            <ul>
+                <ng-container *ngFor="let item of items">
+                    <li (click)="tapCheckedItem(item)" [ngClass]="{selected: isSelected(item)}">
+                        {{ item[rangeLabel] }}</li>
+                </ng-container>
+            </ul>
+        </div>
+        <div class="selector-footer" *ngIf="canYes">
+            <button class="selector-yes" (click)="tapYes()">确定</button>
+        </div>
+        <i class="iconfont icon-close" (click)="tapClose()"></i>
     </div>
-  <i class="fa fa-close" (click)="touchClose()"></i>
 </div>

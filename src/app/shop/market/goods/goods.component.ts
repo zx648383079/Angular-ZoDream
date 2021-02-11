@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StateChange } from 'ng-lazyload-image';
 import { ToastrService } from 'ngx-toastr';
-import { IGoods, IGoodsGallery } from '../../../theme/models/shop';
-import { setCart } from '../../shop.actions';
+import { ICartGroup, IGoods, IGoodsGallery } from '../../../theme/models/shop';
+import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
 
@@ -88,7 +88,23 @@ export class GoodsComponent implements OnInit {
     }
 
     public tapBuy() {
-
+        const data: ICartGroup[] = [
+            {
+                name: this.data.shop + '',
+                goods_list: [
+                    {
+                        goods_id: this.data.id,
+                        amount: this.amount,
+                        goods: this.data,
+                        price: this.data.price,
+                    },
+                ],
+            },
+        ];
+        this.store.dispatch(setCheckoutCart({
+            items: data
+        }));
+        this.router.navigate(['../../cashier'], {relativeTo: this.route});
     }
 
     public tapAddToCart() {

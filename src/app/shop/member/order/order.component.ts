@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IItem } from '../../../theme/models/seo';
 import { IOrder } from '../../../theme/models/shop';
 import { ShopService } from '../../shop.service';
@@ -42,6 +43,8 @@ export class OrderComponent implements OnInit {
 
     constructor(
         private service: ShopService,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.tapRefresh();
     }
@@ -55,6 +58,14 @@ export class OrderComponent implements OnInit {
     public tapTab(item: IItem) {
         this.tabSelected = item.value as number;
         this.tapRefresh();
+    }
+
+    public tapDetail(item: IOrder) {
+        this.router.navigate([item.id], {relativeTo: this.route});
+    }
+
+    public tapPay(item: IOrder) {
+        this.router.navigate(['../../market/cashier/pay', item.id], {relativeTo: this.route});
     }
 
     public tapSearch(form: any) {

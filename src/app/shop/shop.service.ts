@@ -114,6 +114,10 @@ export class ShopService {
         return this.http.post<ICart>('shop/cart/clear', {});
     }
 
+    public cartDeleteInvalid() {
+        return this.http.post<ICart>('shop/cart/delete_invalid', {});
+    }
+
     public paymentList(goods?: number[], shipping?: number) {
         return this.http.post<IData<IPayment>>('shop/cashier/payment', {goods, shipping});
     }

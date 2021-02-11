@@ -20,6 +20,8 @@ import {
 import {
     CartComponent
 } from './cart/cart.component';
+import { CashierComponent } from './cashier/cashier.component';
+import { PayComponent } from './cashier/pay/pay.component';
 import {
     CategoryComponent
 } from './category/category.component';
@@ -73,6 +75,14 @@ const routes: Routes = [{
             component: ArticleComponent
         },
         {
+            path: 'cashier/pay/:id',
+            component: PayComponent,
+        },
+        {
+            path: 'cashier',
+            component: CashierComponent,
+        },
+        {
             path: '',
             component: HomeComponent
         }
@@ -88,5 +98,5 @@ export class MarketRoutingModule {}
 export const marketRoutingComponents = [
     MarketComponent, HomeComponent, AuthComponent,
     CategoryComponent, SearchComponent, GoodsComponent,
-    CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent
+    CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent, PayComponent, CashierComponent
 ];

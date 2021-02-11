@@ -1,98 +1,108 @@
-@mixin scrollbar() {
-    &::-webkit-scrollbar{
-        height:6px;
-        width:6px;
-        margin-right:5px;
-        background: #f5f5f5;
-        transition:all 0.3s ease-in-out;
-        border-radius:0px
+@import '../../styles/scrollbar';
+.selector {
+    position: relative;
+    * {
+        margin: 0;
+        padding: 0;
     }
-    &::-webkit-scrollbar-track { 
-        -webkit-border-radius: 0px;
-        border-radius: 0px;
+    .select-header {
+        position: relative;
+        border: 1px solid #ccc;
+        line-height: 2rem;
+        display: inline-block;
+        padding: 0 5px;
+        z-index: 2;
+        background-color: white;
+        cursor: pointer;
+        user-select: none;
+        .iconfont {
+            color: #ccc;
+        }
+        &.open {
+            border-bottom: none;
+        }
     }
-    &::-webkit-scrollbar-thumb{
-        -webkit-border-radius: 0px;
-        border-radius: 0px;
-        background: rgba(0,0,0,0.5); 
-        &:hover{
-            background:rgba(0,0,0,0.6);
+    .selector-panel-container {
+        position: absolute;
+        width: 400px;
+        background-color: white;
+        box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+        padding: 10px;
+        z-index: 1;
+        .select-header {
+            &.open {
+                border-color: #0275d8;
+                border-width: 2px;
+                border-bottom: none;
+                transform: scaleY(1.1);
+            }
         }
-        &:active{
-            background:rgba(0,0,0,0.8);
+    }
+    .selector-header {
+        border-bottom: 2px solid #0275d8;
+        li {
+            list-style: none;
+            display: inline-block;
+            line-height: 30px;
+            padding: 0 5px;
+            text-align: center;
+            min-width: 78px;
+
+            &.active {
+                background: #0275d8;
+                color: #fff;
+            }
         }
-        &:window-inactive {
-            background: rgba(0,0,0,0.4);
+    }
+
+    .selector-body {
+        overflow-y: auto;
+        height: 200px;
+        @include scrollbar();
+        ul {
+            li {
+                list-style: none;
+                display: inline-block;
+                line-height: 30px;
+                padding: 0 8px;
+                text-align: center;
+                min-width: 60px;
+                cursor: default;
+                user-select: none;
+                &.selected,
+                &:hover {
+                    background: #0275d8;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .selector-footer {
+        text-align: right;
+        .selector-yes {
+            width: 30%;
+            background: #0275d8;
+            color: #fff;
+            padding: 0 8px;
+            border: none;
+            line-height: 30px;
+            display: inline-block;
+        }
+    }
+
+    .icon-close {
+        position: absolute;
+        top: 10px;
+        line-height: 30px;
+        font-size: 16px;
+        right: 10px;
+        color: #ccc;
+    }
+    &.disabled {
+        cursor: not-allowed;
+        .select-header {
+            color: #ccc;
         }
     }
 }
- .selector {
-     width: 300px;
-     background: #fff;
-     border: 1px solid #0275d8;
-     color: #333;
-     box-sizing: border-box;
-     z-index: 999;
-     * {
-         margin: 0;
-         padding: 0;
-     }
-     .selector-header {
-         border-bottom: 2px solid #0275d8;
-         li {
-             list-style: none;
-             display: inline-block;
-             line-height: 30px;
-             padding: 0 5px;
-             text-align: center;
-             min-width: 78px;
-             
-             &.active {
-                 background: #0275d8;
-                 color: #fff;
-             }
-         }
-     }
-     .selector-body {
-         overflow-y: auto;
-         height: 160px;
-         @include scrollbar();
-         ul {
-             display: none;
-             &.active {
-                 display: block;
-             }
-             li {
-                 list-style: none;
-                 display: inline-block;
-                 line-height: 25px;
-                 padding: 0 8px;
-                 text-align: center;
-                 min-width: 60px;
-                 &.selected,
-                 &:hover {
-                     background: #0275d8;
-                     color: #fff;
-                 }
-             }
-         }
-     }
-     .selector-footer {
-         text-align: right;
-         .selector-yes {
-             width:30%;
-             background: #0275d8;
-             color: #fff;
-             padding: 0 8px;
-             border: none;
-             line-height: 25px;
-             display: inline-block;
-         }
-     }
-     .fa-close {
-         position: absolute;
-         top: 0;
-         line-height: 30px;
-         right: 5px;
-     }
- }

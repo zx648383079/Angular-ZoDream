@@ -110,11 +110,11 @@ export class UserMenuComponent implements OnChanges {
 
     private checkRoute(route: ActivatedRoute) {
         route.url.subscribe(res => {
-            this.checkUrl(res.map(i => i.path).join('/'));
+            this.checkUrl(res.map(i => i.path).join('/'), false);
         });
     }
 
-    private checkUrl(url: string) {
+    private checkUrl(url: string, secret = true) {
         if (url.length < 0) {
             return;
         }
@@ -123,7 +123,7 @@ export class UserMenuComponent implements OnChanges {
         }
         this.items = this.items.map(group => {
             group.children = group.children.map(i => {
-                i.active = url.startsWith(i.url);
+                i.active = secret ? url === i.url : url.startsWith(i.url);
                 return i;
             });
             return group;

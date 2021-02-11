@@ -34,7 +34,7 @@ export class MemberComponent implements OnInit {
         private authService: AuthService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
-            if (!user) {
+            if (!user || !user.id) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;
             }

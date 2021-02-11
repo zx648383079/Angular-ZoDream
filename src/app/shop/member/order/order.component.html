@@ -41,9 +41,9 @@
                                 <p>（含运费：¥0.00元）</p>
                             </div>
                             <div class="actions">
-                                <a *ngIf="item.status == 10" class="btn">付款</a>
+                                <a *ngIf="item.status == 10" class="btn" (click)="tapPay(item)">付款</a>
                                 <a *ngIf="item.status == 40" class="btn">签收</a>
-                                <a >查看详情</a>
+                                <a (click)="tapDetail(item)">查看详情</a>
                                 <a *ngIf="item.status == 10">取消订单</a>
                             </div>
                         </div>

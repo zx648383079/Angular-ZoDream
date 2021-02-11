@@ -81,6 +81,9 @@ export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean) {
 }
 
 const OTHER_WORD_CODE = [8220, 8221, 8216, 8217, 65281, 12290, 65292, 12304, 12305, 12289, 65311, 65288, 65289, 12288, 12298, 12299, 65306];
+/**
+ * 计算内容的长度，排除空格符号等特殊字符
+ */
 export function wordLength(val: string): number {
     if (!val) {
         return 0;
@@ -100,4 +103,48 @@ export function wordLength(val: string): number {
         length ++;
     }
     return length;
+}
+
+/**
+ * 深层次复制对象
+ */
+export function cloneObject<T>(val: T): T {
+    if (typeof val !== 'object') {
+        return val;
+    }
+    if (val instanceof Array) {
+        return val.map(item => {
+            return cloneObject(item);
+        }) as any;
+    }
+    const res: any = {};
+    for (const key in val) {
+        if (Object.prototype.hasOwnProperty.call(val, key)) {
+            res[key] = cloneObject(val[key]);
+        }
+    }
+    return res;
+}
+
+/**
+ * 遍历对象属性或数组
+ */
+export function eachObject(obj: any, cb: (val: any, key?: string|number) => any): any {
+    if (typeof obj !== 'object') {
+        return cb(obj, undefined);
+    }
+    if (obj instanceof Array) {
+        for (let i = 0; i < obj.length; i++) {
+            if (cb(obj[i], i) === false) {
+                return false;
+            }
+        }
+    }
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            if (cb(obj[key], key) === false) {
+                return false;
+            }
+        }
+    }
 }

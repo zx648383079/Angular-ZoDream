@@ -1,0 +1,33 @@
+<div class="cashier-page" *ngIf="data">
+    <div class="container">
+        <div class="order-pay-tip">
+            <div class="primary-tip">
+                <i class="fa fa-check"></i>
+                订单提交成功，请尽快支付
+            </div>
+            <div>
+                <span>交易号：{{ data.id }}</span>
+                <span>实付: {{ data.order_amount }}</span>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-header">
+            选择付款方式
+            </div>
+            <div class="pannel-body payment-box">
+                <ng-container *ngFor="let item of paymentItems">
+                    <span class="radio-label">
+                        {{ item.name }}
+                    </span>
+                </ng-container>
+            </div>
+        </div>
+        
+        <div class="pay-btn">
+            <button class="btn">立即付款</button>
+            <div>剩余付款时间 :   
+                <span>00分00秒</span>
+            </div>
+        </div>
+    </div>
+</div>
