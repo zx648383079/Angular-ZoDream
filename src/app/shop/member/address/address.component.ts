@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
+import { IErrorResponse } from '../../../theme/models/page';
 import { IAddress } from '../../../theme/models/shop';
 import { ShopService } from '../../shop.service';
 
@@ -20,10 +22,11 @@ export class AddressComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public dialogOpen = false;
-    public editData: IAddress = {} as any;
+    public editData: IAddress = {region_id: 0} as any;
 
     constructor(
         private service: ShopService,
+        private toastrService: ToastrService,
     ) {
         this.tapRefresh();
     }
@@ -35,8 +38,54 @@ export class AddressComponent implements OnInit {
     }
 
     public tapEdit(item?: IAddress) {
-        this.editData = item ? {...item} : {} as any;
+        this.editData = item ? {...item} : {region_id: 0} as any;
         this.dialogOpen = true;
+    }
+
+    public tapSave() {
+        const data = Object.assign({}, this.editData);
+        if (!data.name || data.name.length < 1) {
+            this.toastrService.warning('请输入收货人姓名');
+            return;
+        }
+        this.service.addressSave(data).subscribe(res => {
+            this.dialogOpen = false;
+            this.toastrService.success(data.id > 0 ? '地址已修改' : '地址已增加');
+            if (!data.id) {
+                this.items.push(res);
+                return;
+            }
+            this.items = this.items.map(i => {
+                return i.id === res.id ? res : i;
+            });
+        }, err => {
+            const res = err.error as IErrorResponse;
+            this.toastrService.warning(res.message);
+        });
+    }
+
+    public tapRemove(item: IAddress) {
+        if (!confirm('确定删除“' + item.region_name + item.address + '”收获地址？')) {
+          return;
+        }
+        this.service.addressRemove(item.id).subscribe(res => {
+          if (!res.data) {
+            return;
+          }
+          this.toastrService.success('删除成功');
+          this.items = this.items.filter(it => {
+            return it.id !== item.id;
+          });
+        });
+      }
+
+    public tapDefault(item: IAddress) {
+        this.service.addressDefault(item.id).subscribe(res => {
+            this.items = this.items.map(i => {
+                i.is_default = i.id === item.id;
+                return i;
+            });
+        });
     }
 
     public tapSearch(form: any) {

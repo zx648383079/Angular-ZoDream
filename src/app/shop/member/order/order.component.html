@@ -12,10 +12,10 @@
                         </ng-container>
                     </div>
                </div>
-               <div class="search-box">
-                   <input type="text">
+               <form class="search-box"  (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                   <input type="text" name="keywords" [value]="keywords" ngModel>
                    <button>搜索</button>
-               </div>
+               </form>
            </div>
            <div class="order-page-box">
                 <div class="panel" *ngFor="let item of items">

@@ -27,12 +27,19 @@ export class PayComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.loadOrder(params.id);
         });
+        this.service.paymentList().subscribe(res => {
+            this.paymentItems = res.data;
+        });
     }
 
     public loadOrder(id: any) {
         this.service.order(id).subscribe(res => {
             this.data = res;
         });
+    }
+
+    public paymentChanged(item: IPayment) {
+        this.payment = item;
     }
 
 }

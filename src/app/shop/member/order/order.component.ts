@@ -40,6 +40,7 @@ export class OrderComponent implements OnInit {
         },
     ];
     public tabSelected = 0;
+    public keywords = '';
 
     constructor(
         private service: ShopService,
@@ -69,6 +70,7 @@ export class OrderComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
+        this.keywords = form.keywords || '';
         this.tapRefresh();
     }
 
@@ -96,6 +98,8 @@ export class OrderComponent implements OnInit {
         }
         this.isLoading = true;
         this.service.orderList({
+            keywords: this.keywords,
+            status: this.tabSelected,
             page,
             per_page: this.perPage
         }).subscribe(res => {

@@ -1,4 +1,14 @@
 ::ng-deep {
+    .btn-primary {
+        color: #fff;
+        border-color:  #b4a078;
+        background-color: #b4a078;
+        &:hover {
+            color: #fff;
+            border-color:  #b4a078;
+            background-color: #b4a078;
+        }
+    }
     .tab-box {
         .tab-header {
             background-color: #f5f5f5;
@@ -113,11 +123,12 @@
                 font-size: 16px;
                 color: #333;
                 font-weight: 700;
-                line-height: 18px;
+                line-height: 20px;
                 margin: 16px 0;
                 &.active {
                     color: #b4a078;
-                    border-left-color: #BEA988;
+                    border-left: 2px solid #BEA988;
+                    border-right: 2px solid #BEA988;
                 }
             }
             li {
@@ -143,5 +154,18 @@
         display: grid;
         grid-template-columns: 180px 1fr;
         grid-gap: 20px;
+    }
+    .radio-label {
+        background-color: transparent;
+        color: #333;
+        border: 1px solid #333;
+        min-width: 150px;
+        line-height: 40px;
+        display: inline-block;
+        padding: 0 10px;
+        &.checked {
+            background-color: #3498db;
+            color: #fff;
+        }
     }
 }

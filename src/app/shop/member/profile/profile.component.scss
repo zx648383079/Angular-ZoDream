@@ -1,0 +1,27 @@
+.form-table {
+    .input-group {
+        margin-bottom: 20px;
+        .avatar-input {
+            cursor: pointer;
+            width: 70px;
+            height: 70px;
+            position: relative;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            .iconfont {
+                position: absolute;
+                bottom: 5px;
+                right: 5px;
+            }
+        }
+    }
+    .radio-label {
+        min-width: 60px;
+    }
+}
+
+.panel {
+    background-color: white;
+}

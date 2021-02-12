@@ -16,13 +16,14 @@
                 <div>地址</div>
                 <div>联系方式</div>
                 <div>操作</div>
+                <div></div>
             </div>
             <div class="address-page-box">
                 <div class="address-row" *ngFor="let item of items">
                     <div>{{ item.name }}</div>
-                    <div>{{ item.region_name }} {{ item.address }}</div>
+                    <div>{{ item.region.full_name }} {{ item.address }}</div>
                     <div>{{ item.tel }}</div>
-                    <div>
+                    <div class="action">
                         <a  (click)="tapEdit(item)">编辑</a>
                         <a >删除</a>
                     </div>
@@ -31,7 +32,7 @@
                             <span class="btn">默认地址</span>
                         </ng-container>
                         <ng-template #elseTemplate>
-                            <a >设为默认地址</a> 
+                            <a (click)="tapDefault(item)">设为默认地址</a> 
                         </ng-template>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [(ngModel)]="editData.region"></app-region>
+                <app-region url="shop/region/tree" [(ngModel)]="editData.region_id"></app-region>
             </div>
             <div>*详细地址:</div>
             <div>
@@ -73,7 +74,7 @@
             </div>
             设为默认
         </div>
-        <button type="button" class="btn btn-primary">确认</button>
+        <button type="button" class="btn btn-primary" (click)="tapSave()">确认</button>
         <button type="button" class="btn btn-danger" (click)="dialogOpen = false">取消</button>
     </div>
 </div>

@@ -175,12 +175,12 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
         const findPath = (data: any): any[] => {
             let res = [];
             eachObject(data, (item) => {
-                if (item[this.rangeKey] === id) {
+                if (this.eq(item[this.rangeKey], id)) {
                     res = [item];
                     return false;
                 }
                 if (!Object.prototype.hasOwnProperty.call(item, this.rangeChildren)) {
-                    return [];
+                    return;
                 }
                 const args = findPath(item[this.rangeChildren]);
                 if (args.length > 0) {
@@ -191,6 +191,19 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
             return res;
         };
         return findPath(this.data);
+    }
+
+    private eq(val: any, next: any): boolean {
+        if (val === next) {
+            return true;
+        }
+        if (!val || !next) {
+            return false;
+        }
+        if (typeof val === typeof next) {
+            return false;
+        }
+        return val.toString() === next.toString();
     }
 
     private formatPath() {
@@ -230,7 +243,7 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
         if (path.length < 1) {
             return;
         }
-        if (!this.value) {
+        if (typeof this.value === 'undefined' || typeof this.value === 'boolean' || this.value === null) {
             this.value = path[path.length - 1];
         } else if (typeof this.value !== 'object') {
             this.value = path[path.length - 1][this.rangeKey];
@@ -259,6 +272,7 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
     writeValue(obj: any): void {
         this.value = obj;
         this.booted = false;
+        this.formatPath();
     }
 
     registerOnChange(fn: any): void {

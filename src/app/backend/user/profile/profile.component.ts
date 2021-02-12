@@ -69,9 +69,6 @@ export class ProfileComponent implements OnInit {
       return;
     }
     const data: any = Object.assign({}, this.form.value);
-    if (this.data && this.data.id > 0) {
-      data.id = this.data.id;
-    }
     data.birthday = this.dateAdapter.toModel(data.birthday);
     this.service.uploadProfile(data).subscribe(_ => {
       this.toastrService.success('保存成功');

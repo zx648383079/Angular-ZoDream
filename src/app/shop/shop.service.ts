@@ -211,4 +211,20 @@ export class ShopService {
     public addressList(params: any) {
         return this.http.get<IPage<IAddress>>('shop/address', {params});
     }
+
+    public address(id: any) {
+        return this.http.get<IAddress>('shop/address', {params: {id}});
+    }
+
+    public addressSave(data: any) {
+        return this.http.post<IAddress>('shop/address/update', data);
+    }
+
+    public addressRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('shop/address/delete', {params: {id}});
+    }
+
+    public addressDefault(id: any) {
+        return this.http.put<IDataOne<boolean>>('shop/address/default', {params: {id}});
+    }
 }
