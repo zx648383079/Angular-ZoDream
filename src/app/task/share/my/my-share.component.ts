@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../theme/models/seo';
 import { IShare } from '../../../theme/models/task';
@@ -35,6 +35,7 @@ export class MyShareComponent {
         private service: TaskService,
         private toastrService: ToastrService,
         private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.tapRefresh();
     }
@@ -46,7 +47,7 @@ export class MyShareComponent {
     }
 
     public tapView(item: IShare) {
-        this.router.navigateByUrl('task/share/' + item.id);
+        this.router.navigate(['../', item.id], {relativeTo: this.route});
     }
 
     public tapPage() {

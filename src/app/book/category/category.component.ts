@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICategory } from '../../../app/theme/models/book';
 import { BookService } from '../book.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-category',
@@ -14,7 +14,8 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private service: BookService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -24,11 +25,12 @@ export class CategoryComponent implements OnInit {
   }
 
   public tapCategory(item: ICategory) {
-    this.router.navigate(['/book/top'], {
+    this.router.navigate(['../top'], {
       queryParams: {
         category: item.id,
         title: item.name,
-      }
+      },
+      relativeTo: this.route,
     });
   }
 }

@@ -37,7 +37,7 @@ export class BookDetailComponent implements OnInit {
     }
 
     public tapChapter(item: IChapter) {
-        this.router.navigate(['/book/reader/' + this.data.id + '/' + item.id]);
+        this.router.navigate(['../reader/' + this.data.id + '/' + item.id], {relativeTo: this.route});
     }
 
     public tapAddBook() {

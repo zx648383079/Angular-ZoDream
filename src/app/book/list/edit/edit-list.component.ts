@@ -71,7 +71,7 @@ export class EditListComponent implements OnInit {
         }
         this.service.listSave(data).subscribe(res => {
             this.toastrService.success('保存成功');
-            this.router.navigate(['/book/list']);
+            this.router.navigate([data.id > 0 ? '../../' : '../'], {relativeTo: this.route});
         });
     }
 

@@ -3,6 +3,7 @@ import {
     OnInit
 } from '@angular/core';
 import {
+    ActivatedRoute,
     Router
 } from '@angular/router';
 import {
@@ -28,7 +29,8 @@ export class SearchComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit() {
@@ -36,7 +38,7 @@ export class SearchComponent implements OnInit {
     }
 
     public tapBook(item: IBook) {
-        this.router.navigate(['/book/' + item.id]);
+        this.router.navigate(['../' + item.id], {relativeTo: this.route});
     }
 
     public tapRefresh() {

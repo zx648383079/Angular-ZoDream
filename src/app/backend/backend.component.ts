@@ -19,6 +19,10 @@ import {
     BackendService
 } from './backend.service';
 import { AuthActions } from '../theme/actions';
+import { LegworkBackendMenu } from '../legwork/backend/menu';
+import { VideoBackendMenu } from './video/menu';
+import { ShopBackendMenu } from './shop/menu';
+import { BlogBackendMenu } from './blog/menu';
 
 @Component({
     selector: 'app-backend',
@@ -104,98 +108,8 @@ export class BackendComponent implements OnInit {
                 },
             ]
         },
-        {
-            name: '博客',
-            icon: 'icon-file-text-o',
-            url: './blog',
-            children: [{
-                    name: '列表',
-                    label: '列',
-                    url: './blog/list',
-                },
-                {
-                    name: '分类',
-                    label: '类',
-                    url: './blog/category',
-                },
-                {
-                    name: '标签',
-                    label: '签',
-                    url: './blog/tag',
-                },
-                {
-                    name: '评论',
-                    label: '评',
-                    url: './blog/comment',
-                }
-            ]
-        },
-        {
-            name: '商城',
-            icon: 'icon-desktop',
-            url: './shop',
-            children: [{
-                    name: '商品列表',
-                    label: '商',
-                    url: './shop/goods/list'
-                },
-                {
-                    name: '分类列表',
-                    label: '类',
-                    url: './shop/goods/category'
-                },
-                {
-                    name: '品牌列表',
-                    label: '品',
-                    url: './shop/goods/brand'
-                },
-                {
-                    name: '商品类型',
-                    label: '型',
-                    url: './shop/goods/group'
-                },
-                {
-                    name: '营销管理',
-                    label: '营',
-                    url: './shop/activity'
-                },
-                {
-                    name: '订单管理',
-                    label: '单',
-                    url: './shop/order'
-                },
-                {
-                    name: '文章管理',
-                    label: '文',
-                    url: './shop/article'
-                },
-                {
-                    name: '广告管理',
-                    label: '告',
-                    url: './shop/ad'
-                },
-                {
-                    name: '地区管理',
-                    label: '区',
-                    url: './shop/region'
-                },
-                {
-                    name: '插件管理',
-                    label: '插',
-                    url: './shop/plugin'
-                },
-                {
-                    name: '支付管理',
-                    label: '付',
-                    url: './shop/payment'
-                },
-                {
-                    name: '配送管理',
-                    label: '配',
-                    url: './shop/shipping'
-                }
-            ]
-        },
+        ...BlogBackendMenu,
+        ...ShopBackendMenu,
         {
             name: '圈子管理',
             icon: 'icon-smile-o',
@@ -223,28 +137,8 @@ export class BackendComponent implements OnInit {
                 },
             ],
         },
-        {
-            name: '短视频管理',
-            icon: 'icon-film',
-            url: './video',
-            children: [
-                {
-                    name: '视频列表',
-                    label: '视',
-                    url: './video/list',
-                },
-                {
-                    name: '评论管理',
-                    label: '评',
-                    url: './video/comment',
-                },
-                {
-                    name: '背景音乐管理',
-                    label: '音',
-                    url: './video/music',
-                },
-            ],
-        },
+        ...VideoBackendMenu,
+        ...LegworkBackendMenu,
         {
             name: '开放平台',
             icon: 'icon-th-large',

@@ -20,6 +20,7 @@ const routes: Routes = [
       { path: 'sms', loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule) },
       { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
       { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
+      { path: 'legwork', loadChildren: () => import('../legwork/backend/legwork-backend.module').then(m => m.LegworkBackendModule) },
       {
         path: '',
         component: HomeComponent

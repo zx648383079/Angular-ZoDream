@@ -18,6 +18,7 @@ const routes: Routes = [
             { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
             { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
             { path: 'micro', loadChildren: () => import('./micro/micro.module').then(m => m.MicroModule) },
+            { path: 'legwork', loadChildren: () => import('../legwork/legwork.module').then(m => m.LegworkModule) },
             {
                 path: 'about',
                 component: AboutComponent,

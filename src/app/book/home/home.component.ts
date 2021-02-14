@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookRecord } from '../../../app/theme/models/book';
 import { BookService } from '../book.service';
 
@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private service: BookService,
         private router: Router,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapRead(item: IBookRecord) {
-        this.router.navigate(['/book/reader/' + item.book_id + '/' + item.chapter_id]);
+        this.router.navigate(['./reader/' + item.book_id + '/' + item.chapter_id], {relativeTo: this.route});
     }
 
     public tapRefresh() {

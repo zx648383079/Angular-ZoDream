@@ -2,7 +2,7 @@ import {
     Component,
     OnInit
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IBookList } from '../../theme/models/book';
@@ -27,6 +27,7 @@ export class ListComponent implements OnInit {
     constructor(
         private service: BookService,
         private router: Router,
+        private route: ActivatedRoute,
         private store: Store < AppState > ) {
         this.store.select(getAuthStatus).subscribe(isLogin => {
             this.isLogin  = isLogin;
@@ -37,11 +38,11 @@ export class ListComponent implements OnInit {
     ngOnInit() {}
 
     public tapView(item: any) {
-        this.router.navigate(['/book/list/' + item.id]);
+        this.router.navigate([item.id], {relativeTo: this.route});
     }
 
     public tapAdd() {
-        this.router.navigate(['/book/list/create']);
+        this.router.navigate(['create'], {relativeTo: this.route});
     }
 
     public tapRefresh() {

@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { ITask, ITaskDay } from '../../theme/models/task';
@@ -30,12 +30,13 @@ export class HomeComponent {
         private service: TaskService,
         private toastrService: ToastrService,
         private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.tapRefresh();
     }
 
     public tapView(item: ITaskDay) {
-        this.router.navigateByUrl('/task/detail/' + item.id);
+        this.router.navigate(['./detail', item.id], {relativeTo: this.route});
     }
 
     public tapRefresh() {
