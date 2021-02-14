@@ -10,7 +10,7 @@
             <div class="panel-body">
                 <div class="connect-item" *ngFor="let item of items">
                     <div class="name">
-                        <i class="fab" [ngClass]="item.icon"></i>
+                        <i class="iconfont" [ngClass]="item.icon"></i>
                         {{ item.name }}
                         <ng-container *ngIf="item.nickname">
                             ({{ item.nickname }})

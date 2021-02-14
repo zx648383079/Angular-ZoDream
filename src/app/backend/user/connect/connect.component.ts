@@ -9,21 +9,21 @@ import { UserService } from '../user.service';
 })
 export class ConnectComponent implements OnInit {
 
-  public items: IConnect[] = [];
+    public items: IConnect[] = [];
 
-  constructor(
-    private service: UserService
-  ) {
-    this.tapRefresh();
-  }
+    constructor(
+        private service: UserService
+    ) {
+        this.tapRefresh();
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  public tapRefresh() {
-    this.service.connect().subscribe(res => {
-      this.items = res;
-    });
-  }
+    public tapRefresh() {
+        this.service.connect().subscribe(res => {
+            this.items = res;
+        });
+    }
 
 }

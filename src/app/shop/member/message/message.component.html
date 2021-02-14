@@ -5,36 +5,49 @@
         </div>
         <div class="message-box">
             <div class="message-menu">
-                <a href="" class="menu-item">
-                    <div class="icon">
-                        <i class="fa fa-mobile"></i>
+                <ng-container *ngFor="let item of navItems; let i = index">
+                    <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
+                        <div class="icon">
+                            <i class="iconfont" [ngClass]="item.icon"></i>
+                        </div>
+                        <div class="info">
+                            <div class="name">{{ item.name }}</div>
+                            <p>{{ item.remark }}</p>
+                        </div>
                     </div>
-                    <div class="info">
-                        <div class="name">系统通知</div>
-                        <p>无未读消息</p>
-                    </div>
-                </a>
-                <a href="" class="menu-item active">
-                    <div class="icon">
-                        <i class="fa fa-mobile"></i>
-                    </div>
-                    <div class="info">
-                        <div class="name">系统通知</div>
-                        <p>无未读消息</p>
-                    </div>
-                </a>
-                <a href="" class="menu-item">
-                    <div class="icon">
-                        <i class="fa fa-mobile"></i>
-                    </div>
-                    <div class="info">
-                        <div class="name">系统通知</div>
-                        <p>无未读消息</p>
-                    </div>
-                </a>
+                </ng-container>
+                
             </div>
             <div class="message-body">
-
+                <div class="title-bar">
+                    <span>聊天</span>
+                    <div class="drop-menu-box">
+                        <i class="iconfont icon-ellipsis-v"></i>
+                        <div class="menu-body">
+                            <ul>
+                                <li>最顶聊天</li>
+                                <li>开启免打扰</li>
+                                <li>加入黑名单</li>
+                                <li>举报该用户</li>
+                                <li>不接受推送</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-chat-box">
+                    <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
+                </div>
+                <div class="message-tools">
+                    <i class="iconfont icon-smile-o"></i>
+                    <i class="iconfont icon-image"></i>
+                </div>
+                <div class="message-editor">
+                    <textarea placeholder="回复一下吧~"></textarea>
+                    <div class="message-action">
+                        <div class="size-tip">0/500</div>
+                        <button class="btn btn-primary">发送</button>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ThemeModule } from '../../theme/theme.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
@@ -14,6 +15,7 @@ import { ThemeModule } from '../../theme/theme.module';
         MemberRoutingModule,
         ReactiveFormsModule,
         FormsModule,
+        NgbModule,
         LazyLoadImageModule,
         ThemeModule,
     ],

@@ -14,24 +14,24 @@ export class UserService {
 
     public accountLog(params: any) {
         return this.http.get<IPage<IAccountLog>>('auth/account/log', {
-          params,
+            params,
         });
     }
 
     public loginLog(params: any) {
         return this.http.get<IPage<ILoginLog>>('auth/account/login_log', {
-          params,
+            params,
         });
     }
 
     public bulletinList(params: any) {
-      return this.http.get<IPage<IBulletinUser>>('auth/bulletin', {
-        params,
-      });
+        return this.http.get<IPage<IBulletinUser>>('auth/bulletin', {
+            params,
+        });
     }
 
     public connect() {
-      return this.http.get<IData<IConnect>>('auth/account/connect').pipe(map(res => res.data));
+        return this.http.get<IData<IConnect>>('auth/account/connect').pipe(map(res => res.data));
     }
 
     public uploadAvatar(file: File) {
@@ -41,7 +41,7 @@ export class UserService {
     }
 
     public passwordUpdate(data: any) {
-      return this.http.post<IDataOne<boolean>>('auth/password/update', data);
+        return this.http.post<IDataOne<boolean>>('auth/password/update', data);
     }
 
     public uploadProfile(data: any) {

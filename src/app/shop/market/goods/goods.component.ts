@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StateChange } from 'ng-lazyload-image';
 import { ToastrService } from 'ngx-toastr';
-import { ICartGroup, IGoods, IGoodsGallery } from '../../../theme/models/shop';
+import { ICartGroup, IComment, IGoods, IGoodsGallery } from '../../../theme/models/shop';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
@@ -25,6 +25,8 @@ export class GoodsComponent implements OnInit {
     public hotItems: IGoods[] = [];
     public amount = 1;
     public stock = 0;
+    public commentSubtotal: any;
+    public commentItems: IComment[] = [];
 
     constructor(
         private route: ActivatedRoute,

@@ -8,26 +8,26 @@
                 <span>帐号信息</span>
             </div>
             <div class="panel-body" *ngIf="user">
-                <div class="form-table">
+                <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
                     <div class="input-group">
-                        <label for="avatar">用户头像</label>
+                        <label for="fileUpload">用户头像</label>
                         <div class="avatar-input">
-                            <img [src]="user.avatar" alt="">
-                            <i class="iconfont icon-camera"></i>
+                            <img [src]="user.avatar">
+                            <label class="iconfont icon-camera" for="fileUpload"></label>
+                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="帐　　号">帐　　号</label>
+                        <label for="name">昵　　称</label>
                         <div class="">
-                            <input type="text" id="帐　　号" class="form-control " name="帐　　号" required="">
-    
+                            <input type="text" id="name" class="form-control " formControlName="name">
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="昵　　称">昵　　称</label>
+                        <label for="email">邮　　箱</label>
                         <div class="">
-                            <input type="text" id="昵　　称" class="form-control " name="昵　　称" required="">
-    
+                            <input type="email" id="email" class="form-control" formControlName="email" 
+                                placeholder="请输入 邮箱">
                         </div>
                     </div>
                     <div class="input-group">
@@ -42,24 +42,25 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="手机号码">手机号码</label>
+                        <label for="mobile">手机号码</label>
                         <div class="">
-                            <input type="text" id="手机号码" class="form-control " name="手机号码" required="">
+                            <input type="text" id="mobile" class="form-control " formControlName="mobile">
     
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="出生日期">出生日期</label>
-                        <div class="">
-                            <input type="text" id="出生日期" class="form-control " name="出生日期" required="">
-    
+                        <label for="birthday">出生日期</label>
+                        <div class="calendar-input">
+                            <input type="text" id="birthday" class="form-control" ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                <i class="iconfont icon-calendar"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="offset-md-3">
-                    <button class="btn btn-primary">保存</button>
-                </div>
+                    <div class="offset-md-3">
+                        <button class="btn btn-primary">保存</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
             this.user = res;
         }, err => {
             const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+            this.toastrService.warning(res.message || '登录令牌失效，请重新登录');
         });
         this.service.orderSubtotal().subscribe(res => {
             this.orderSutotal = res;

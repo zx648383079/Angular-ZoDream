@@ -11,19 +11,21 @@
                                 <img [src]="data.avatar">
                             </div>
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
-                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)"
+                                accept="image/*" />
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="name">昵称</label>
                         <div class="">
-                            <input type="text" id="name" class="form-control" formControlName="name" placeholder="请输入 昵称">
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="请输入 昵称">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">邮箱</label>
                         <div class="">
-                            <input type="email" id="email" class="form-control" formControlName="email" 
+                            <input type="email" id="email" class="form-control" formControlName="email"
                                 placeholder="请输入 邮箱">
                         </div>
                     </div>
@@ -36,7 +38,7 @@
                             </span>
                         </div>
                     </div>
-                    
+
                 </form>
             </app-panel>
         </div>
@@ -47,25 +49,25 @@
             </app-panel>
         </div>
     </div>
-    
+
 </div>
 
 <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">确认注销此账户</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h4 class="modal-title" id="modal-basic-title">确认注销此账户</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
-      <p class="tip">账户注销后，您所有的记录将永远消失。 <br/>请选择注销原因：</p>
-      <div class="item" *ngFor="let item of reasonItems; index as i"  (click)="reasonSelected = i">
-        <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
-        {{ item }}
-    </div>
+        <p class="tip">账户注销后，您所有的记录将永远消失。 <br />请选择注销原因：</p>
+        <div class="item" *ngFor="let item of reasonItems; index as i" (click)="reasonSelected = i">
+            <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
+            {{ item }}
+        </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">确定注销</button>
-      <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">暂不注销</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">确定注销</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">暂不注销</button>
     </div>
-  </ng-template>
+</ng-template>

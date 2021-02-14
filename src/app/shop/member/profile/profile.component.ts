@@ -17,6 +17,10 @@ export class ProfileComponent implements OnInit {
 
     public sexItems: IItem[] = [
         {
+            name: '未知',
+            value: 0,
+        },
+        {
             name: '男',
             value: 1,
         },
@@ -30,8 +34,8 @@ export class ProfileComponent implements OnInit {
     public form = this.fb.group({
         name: ['', Validators.required],
         email: ['', [Validators.email, Validators.required]],
+        mobile: [''],
         sex: [0],
-        avatar: [''],
         birthday: [this.dateAdapter.fromModel()],
       });
 
@@ -49,8 +53,8 @@ export class ProfileComponent implements OnInit {
             this.form.setValue({
                 name: user.name,
                 email: user.email,
+                mobile: '',
                 sex: user.sex,
-                avatar: user.avatar,
                 birthday: this.dateAdapter.fromModel(user.birthday),
               });
         }, err => {
@@ -63,28 +67,28 @@ export class ProfileComponent implements OnInit {
     public tapSex(item: IItem) {
         this.user.sex = item.value as number;
         this.user.sex_label = item.name;
+        this.form.get('sex').setValue(item.value);
     }
 
     public tapSubmit() {
         if (this.form.invalid) {
-          this.toastrService.warning('表单填写不完整');
-          return;
+            this.toastrService.warning('表单填写不完整');
+            return;
         }
         const data: any = Object.assign({}, this.form.value);
         data.birthday = this.dateAdapter.toModel(data.birthday);
-        // this.service.uploadProfile(data).subscribe(_ => {
-        //   this.toastrService.success('保存成功');
-        // }, err => {
-        //   this.toastrService.warning(err.error.message);
-        // });
+        this.service.uploadProfile(data).subscribe(_ => {
+            this.toastrService.success('保存成功');
+        }, err => {
+            this.toastrService.warning(err.error.message);
+        });
     }
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
-        // this.service.uploadAvatar(files[0]).subscribe(res => {
-        //   this.data = res;
-        //   this.form.get('avatar').setValue(res.avatar);
-        //   this.toastrService.success('头像已更换');
-        // });
+        this.service.uploadAvatar(files[0]).subscribe(res => {
+            this.user = res;
+            this.toastrService.success('头像已更换');
+        });
       }
 }

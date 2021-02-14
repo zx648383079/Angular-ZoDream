@@ -3,6 +3,8 @@
         color: #fff;
         border-color:  #b4a078;
         background-color: #b4a078;
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
         &:hover {
             color: #fff;
             border-color:  #b4a078;

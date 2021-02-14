@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IConnect } from '../../../../theme/models/auth';
+import { ShopService } from '../../../shop.service';
 
 @Component({
   selector: 'app-account-center',
@@ -10,9 +11,26 @@ export class AccountCenterComponent implements OnInit {
 
     public items: IConnect[] = [];
 
-    constructor() { }
+    constructor(
+        private service: ShopService,
+    ) { }
 
     ngOnInit() {
+        this.service.connect().subscribe(res => {
+            this.items = res.data.map(i => {
+                i.icon = this.converterIcon(i.icon);
+                return i;
+            });
+        });
     }
 
+
+    private converterIcon(icon: string): string {
+        if (!icon) {
+            return '';
+        }
+        const map = {
+        };
+        return Object.prototype.hasOwnProperty.call(map, icon) ? map[icon] : icon.replace('fa-', 'icon-');
+    }
 }

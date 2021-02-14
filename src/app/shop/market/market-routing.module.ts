@@ -22,9 +22,11 @@ import {
 } from './cart/cart.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { PayComponent } from './cashier/pay/pay.component';
+import { PayResultComponent } from './cashier/pay/result/pay-result.component';
 import {
     CategoryComponent
 } from './category/category.component';
+import { CouponComponent } from './coupon/coupon.component';
 import {
     GoodsComponent
 } from './goods/goods.component';
@@ -75,12 +77,20 @@ const routes: Routes = [{
             component: ArticleComponent
         },
         {
+            path: 'cashier/pay/result/:id',
+            component: PayResultComponent,
+        },
+        {
             path: 'cashier/pay/:id',
             component: PayComponent,
         },
         {
             path: 'cashier',
             component: CashierComponent,
+        },
+        {
+            path: 'coupon',
+            component: CouponComponent,
         },
         {
             path: '',
@@ -98,5 +108,6 @@ export class MarketRoutingModule {}
 export const marketRoutingComponents = [
     MarketComponent, HomeComponent, AuthComponent,
     CategoryComponent, SearchComponent, GoodsComponent,
-    CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent, PayComponent, CashierComponent
+    CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent,
+    PayComponent, CashierComponent, CouponComponent, PayResultComponent
 ];
