@@ -46,7 +46,7 @@ import {
     ToastrService
 } from 'ngx-toastr';
 import {
-    IErrorResponse
+    IErrorResponse, IErrorResult
 } from '../../theme/models/page';
 
 @Component({
@@ -71,6 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private captchaToken = '';
     public captchaImage = '';
+    private qrToken = '';
+    public qrImage = '';
 
     constructor(
         private store: Store < AppState > ,
@@ -94,17 +96,55 @@ export class LoginComponent implements OnInit, OnDestroy {
         return this.loginForm.get('captcha');
     }
 
+    public tapQr() {
+        this.authService.qrRefresh().subscribe(res => {
+            this.qrImage = res.qr;
+            this.qrToken = res.token;
+            this.mode = 1;
+            this.loopCheckQr();
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
+    }
+
+    private loopCheckQr() {
+        if (this.mode < 1 || this.mode > 2) {
+            return;
+        }
+        window.setTimeout(() => {
+            this.authService.qrCheck(this.qrToken).subscribe(
+                _ => {},
+                (err: IErrorResult) => {
+                    if (err.error.code === 201) {
+                        this.loopCheckQr();
+                        return;
+                    }
+                    if (err.error.code === 204) {
+                        this.mode = 3;
+                        return;
+                    }
+                    if (err.error.code === 202) {
+                        this.mode = 2;
+                        this.loopCheckQr();
+                        return;
+                    }
+                    this.mode = 4;
+                }
+            );
+        }, 500);
+    }
+
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.redirectUri = res.redirect_uri || '/';
         });
     }
 
-    tapMode(i: number) {
+    public tapMode(i: number) {
         this.mode = i;
     }
 
-    tapSignIn() {
+    public tapSignIn() {
         if (!this.loginForm.valid) {
             return;
         }
@@ -126,7 +166,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
 
-    redirectIfUserLoggedIn() {
+    private redirectIfUserLoggedIn() {
         this.store.select(getAuthStatus).subscribe(
             data => {
                 if (data === true) {

@@ -1,0 +1,26 @@
+<div class="order-item" *ngFor="let item of items">
+    <div class="order-header">
+        <span>{{ item.id }}</span>
+        <span class="status">{{ item.status_label }}</span>
+    </div>
+    <div class="order-amount">
+        <span>【{{ item.service.name }}】</span>
+        <span class="amount">x {{ item.amount }}</span>
+        <span class="price">
+            服务费：￥{{ item.order_amount }}
+        </span>
+    </div>
+    <div class="order-remark" *ngIf="item.remark">
+        <p class="line-item" *ngFor="let line of item.remark" >
+            <span>{{ line.label }}</span>
+            <span class="val">{{ line.value }}</span>
+        </p>
+    </div>
+    <div class="order-footer">
+        <div class="order-actions">
+            <a *ngIf="item.status == 10">支付</a>
+            <a data-action="comment"  *ngIf="item.status == 60">评价</a>
+            <a  *ngIf="item.status == 10">取消</a>
+        </div>
+    </div>
+</div>

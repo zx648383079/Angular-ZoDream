@@ -1,0 +1,40 @@
+.order-item {
+    background-color: #fff;
+    margin-bottom: 10px;
+    .order-header {
+        line-height: 30px;
+
+        .status {
+            float: right;
+        }
+    }
+    .line-item {
+        margin-bottom: 0;
+    }
+
+    .order-amount {
+        background-color: #fafafa;
+        .amount {
+            font-weight: 700;
+            color: red;
+        }
+        .price {
+            float: right;
+        }
+    }
+    .order-actions {
+        text-align: right;
+        text {
+            margin-left: 5px;
+        }
+    }
+    .order-remark {
+        border: 1px double #ccc;
+        .line-item {
+            color: #777;
+            .val {
+                float: right;
+            }
+        }
+    }
+}

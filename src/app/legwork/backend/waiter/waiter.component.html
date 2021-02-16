@@ -1,3 +1,76 @@
-<p>
-  waiter works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>订阅</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                        placeholder="名称">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>称呼</th>
+                    <th>电话</th>
+                    <th>地址</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.tel }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">服务员详情({{ editData.id }})</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="line-item">
+            <span class="label">称呼：</span>
+            <span class="value">{{ editData.name }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">联系方式：</span>
+            <span class="value">{{ editData.tel }}</span>
+        </div>
+        <div class="line-item">
+            <span class="label">联系地址：</span>
+            <span class="value">{{ editData.address }}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close(1)">同意</button>
+      <button type="button" class="btn btn-info" (click)="modal.close(2)">拒绝</button>
+    </div>
+</ng-template>

@@ -1,0 +1,55 @@
+.tab-bar {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    a {
+        display: inline-block;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        &:hover {
+            background-color: #f4f4f4;
+        }
+        &.active {
+            background-color: green;
+            color: #fff;
+        }
+    }
+}
+.service-item {
+    margin-bottom: 10px;
+    background-color: #fff;
+    display: block;
+    position: relative;
+    padding-right: 80px;
+    min-height: 80px;
+    .title {
+        line-height: 40px;
+        font-weight: 700;
+        .tag {
+            font-weight: 400;
+        }
+    }
+    .brief {
+        color: #777;
+    }
+    .btn {
+        position: absolute;
+        right: 0;
+        width: 80px;
+        top: 0;
+        bottom: 0;
+        background-color: red;
+        color: #fff;
+        line-height: 20px;
+        display: flex;
+        padding: 0 20px;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+    &:hover {
+        .btn {
+            font-weight: 700;
+        }
+    }
+}

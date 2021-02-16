@@ -44,6 +44,7 @@ import {
 import {
     environment
 } from '../../../environments/environment';
+import { IDataOne } from '../models/page';
 
 const USER_KEY = 'user';
 
@@ -92,6 +93,28 @@ export class AuthService {
                 this.logoutUser();
                 return res;
             })
+        );
+    }
+
+    public sendFindEmail(email: string) {
+        return this.http.post<IDataOne<boolean>>('auth/password/send_find_email', {email});
+    }
+
+    public resetPassword(data: any) {
+        return this.http.post<IDataOne<boolean>>('auth/password/reset', data);
+    }
+
+    public qrRefresh() {
+        return this.http.get<{token: string; qr: string}>('auth/qr/refresh');
+    }
+
+    public qrCheck(token: string) {
+        return this.http.post<IUser>('auth/qr/check', {token}).pipe(
+            map(user => {
+                this.setTokenInLocalStorage(user, USER_KEY);
+                this.authenticateUser(user);
+                return user;
+            }),
         );
     }
 

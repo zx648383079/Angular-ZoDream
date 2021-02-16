@@ -4,6 +4,7 @@ import { FrontendComponent } from './frontend.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { FriendLinkComponent } from './friend-link/friend-link.component';
+import { CanActivateViaAuthGuard } from '../theme/guards';
 
 
 const routes: Routes = [
@@ -18,7 +19,11 @@ const routes: Routes = [
             { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
             { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
             { path: 'micro', loadChildren: () => import('./micro/micro.module').then(m => m.MicroModule) },
-            { path: 'legwork', loadChildren: () => import('../legwork/legwork.module').then(m => m.LegworkModule) },
+            {
+                path: 'legwork',
+                canActivate: [CanActivateViaAuthGuard],
+                loadChildren: () => import('../legwork/legwork.module').then(m => m.LegworkModule)
+            },
             {
                 path: 'about',
                 component: AboutComponent,

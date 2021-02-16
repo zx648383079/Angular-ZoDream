@@ -1,0 +1,14 @@
+<ng-container *ngFor="let item of items">
+    <div class="service-item">
+        <div class="title">
+            <span class="tag">[{{ item.category.name }}]</span>
+            {{ item.name }}
+        </div>
+        <div class="brief">
+            {{ item.brief }}
+        </div>
+        <a class="btn">
+            <span>我要下单</span>
+        </a>
+    </div>
+</ng-container>

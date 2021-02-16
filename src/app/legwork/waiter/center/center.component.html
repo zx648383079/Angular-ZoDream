@@ -1,0 +1,18 @@
+<div class="order-item" *ngFor="let item of items">
+    <div class="order-header">
+        <span>{{ item.id }}</span>
+        <span class="status">{{ item.status_label }}</span>
+    </div>
+    <div class="order-amount">
+        <span>【{{ item.service.name }}】</span>
+        <span class="amount">x {{ item.amount }}</span>
+        <span class="price">
+            服务费：￥{{ item.order_amount }}
+        </span>
+    </div>
+    <div class="order-footer">
+        <div class="order-actions">
+            <a >接单</a>
+        </div>
+    </div>
+</div>

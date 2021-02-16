@@ -1,25 +1,41 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>订阅</li>
+            <li>分类</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                        placeholder="名称">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="pull-right btn btn-primary" (click)="open(content)">新增分类</a>
+            </form>
+        </div>
         <table class="table table-bordered well">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>邮箱</th>
-                    <th>状态</th>
+                    <th>名称</th>
+                    <th>简介</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.status }}</td>
-                    <td></td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs"  (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -28,3 +44,40 @@
             (pageChange)="tapPage()"></ngb-pagination>
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑分类' : '新增分类' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name-input">名称</label>
+            <div class="input-group">
+                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="content-input">图片</label>
+            <div class="input-group">
+                <div class="file-input">
+                    <input type="text" id="content-input" class="form-control" [(ngModel)]="editData.icon">
+                    <label for="fileUpload" class="btn btn-primary">上传</label>
+                    <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
+                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="con-input">简介</label>
+            <div class="input-group">
+                <textarea class="form-control" id="con-input" [(ngModel)]="editData.description" placeholder="请输入内容"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

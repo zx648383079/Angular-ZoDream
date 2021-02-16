@@ -1,3 +1,10 @@
+.login-form {
+    &.slided {
+        transform: translate(-300px, 0);
+        min-height: 300px;
+    }
+}
+
 .login-oauth-box {
     text-align: center;
     margin-top: 20px;

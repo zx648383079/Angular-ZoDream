@@ -1,3 +1,21 @@
-<p>
-  home works!
-</p>
+<div class="tab-bar">
+    <a [ngClass]="{active: category < 1}" (click)="tapCategory()">全部</a>
+    <ng-container *ngFor="let item of categories">
+        <a  [ngClass]="{active: category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
+    </ng-container>
+</div>
+
+<ng-container *ngFor="let item of items">
+    <div class="service-item">
+        <div class="title">
+            <span class="tag">[{{ item.category.name }}]</span>
+            {{ item.name }}
+        </div>
+        <div class="brief">
+            {{ item.brief }}
+        </div>
+        <a class="btn">
+            <span>我要下单</span>
+        </a>
+    </div>
+</ng-container>

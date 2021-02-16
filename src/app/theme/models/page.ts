@@ -17,6 +17,7 @@ export interface IBaseResponse {
     timestamp?: string;
     encrypt?: string;
     encrypt_type?: string;
+    message?: string;
 }
 export interface IData<T> extends IBaseResponse {
     data?: T[];
@@ -30,4 +31,8 @@ export interface IErrorResponse {
     [key: string]: any;
     code: number;
     message: string;
+}
+
+export interface IErrorResult {
+    error: IErrorResponse;
 }

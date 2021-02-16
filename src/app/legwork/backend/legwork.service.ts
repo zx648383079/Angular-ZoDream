@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../../theme/models/page';
-import { ICategory } from '../model';
+import { ICategory, IOrder, IProvider, IService, IWaiter } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,34 @@ export class LegworkService {
 
     public categoryRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('legwork/admin/category/delete', {params: {id}});
+    }
+
+    public orderList(params: any) {
+        return this.http.get<IPage<IOrder>>('legwork/admin/order', {params});
+    }
+
+    public providerList(params: any) {
+        return this.http.get<IPage<IProvider>>('legwork/admin/provider', {params});
+    }
+
+    public providerChange(id: number, status: number) {
+        return this.http.post<IProvider>('legwork/admin/provider/change', {id, status});
+    }
+
+    public providerCategoryChange(id: number, category: number|number[], status: number) {
+        return this.http.post<IDataOne<boolean>>('legwork/admin/provider/change_category', {id, category, status});
+    }
+
+    public waiterList(params: any) {
+        return this.http.get<IPage<IWaiter>>('legwork/admin/waiter', {params});
+    }
+
+    public waiterChange(id: number, status: number) {
+        return this.http.post<IWaiter>('legwork/admin/waiter/change', {id, status});
+    }
+
+    public serviceList(params: any) {
+        return this.http.get<IPage<IService>>('legwork/admin/service', {params});
     }
 
 }
