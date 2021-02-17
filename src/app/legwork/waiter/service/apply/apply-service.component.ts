@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { LegworkService } from '../legwork.service';
-import { ICategory, IService } from '../model';
+import { ToastrService } from 'ngx-toastr';
+import { IErrorResult } from '../../../../theme/models/page';
+import { LegworkService } from '../../../legwork.service';
+import { ICategory, IService } from '../../../model';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-apply-service',
+  templateUrl: './apply-service.component.html',
+  styleUrls: ['./apply-service.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class ApplyServiceComponent implements OnInit {
 
     public categories: ICategory[] = [];
     public category = 0;
@@ -19,6 +21,7 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private service: LegworkService,
+        private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
@@ -26,6 +29,14 @@ export class HomeComponent implements OnInit {
             this.categories = res.data;
         });
         this.tapRefresh();
+    }
+
+    public tapApply(item: IService) {
+        this.service.waiterServiceApply(item.id).subscribe(_ => {
+            this.toastrService.success('已提交申请，等待审核');
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
     }
 
     public tapSearch(form: any) {
@@ -54,9 +65,10 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.serviceList({
+        this.service.waiterServiceList({
             keywords: this.keywords,
             category: this.category,
+            all: true,
             page
         }).subscribe(res => {
             this.page = page;

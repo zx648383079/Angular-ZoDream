@@ -24,6 +24,10 @@ const routes: Routes = [{
             component: provider.EditServiceComponent
         },
         {
+            path: 'provider/service/waiter/:id',
+            component: provider.WaiterComponent
+        },
+        {
             path: 'provider/service/:id',
             component: provider.EditServiceComponent
         },
@@ -46,6 +50,14 @@ const routes: Routes = [{
         {
             path: 'waiter/order',
             component: waiter.OrderComponent
+        },
+        {
+            path: 'waiter/service/apply',
+            component: waiter.ApplyServiceComponent
+        },
+        {
+            path: 'waiter/service',
+            component: waiter.ServiceComponent
         },
         {
             path: 'waiter',
@@ -74,5 +86,7 @@ export class LegworkRoutingModule {}
 
 export const legworkRoutingComponents = [
     LegworkComponent, HomeComponent, provider.EditServiceComponent, provider.OrderComponent, provider.ProfileComponent,
-    provider.ServiceComponent, waiter.ProfileComponent, waiter.CenterComponent, waiter.OrderComponent, DetailComponent, OrderComponent
+    provider.ServiceComponent, waiter.ProfileComponent, waiter.CenterComponent, waiter.OrderComponent, DetailComponent, OrderComponent,
+    waiter.ApplyServiceComponent, waiter.ServiceComponent,
+    provider.WaiterComponent
 ];

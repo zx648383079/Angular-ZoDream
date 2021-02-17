@@ -1,4 +1,7 @@
-<form class="panel-container" *ngIf="data">
+<div class="title-bar">
+    <span>服务详情</span>
+</div>
+<div class="panel-container" *ngIf="data">
     <div class="line-item">
         <span>服务</span>
         <span class="name">[{{ data.category.name }}]{{ data.name }}</span>
@@ -6,17 +9,17 @@
     <div class="line-tip">
         {{ data.brief }}
     </div>
-    <div class="line-item" *ngFor="let item of data.form">
+    <div class="line-item" *ngFor="let item of remark">
         <label [for]="'form_' + item.name">{{ item.label }}</label>
-        <input type="text" [id]="'form_' + item.name" [required]="item.required">
+        <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [(ngModel)]="item.value">
     </div>
     <div class="line-item">
         <span>数量</span>
-        <input type="number" name="amount" value="1" min="1">
+        <input type="number" class="form-control" name="amount" [(ngModel)]="amount" min="1" (ngModelChange)="onAmountChange()">
     </div>
     <div class="line-item">
         <span>服务费</span>
-        <span class="name">{{ data.price }}</span>
+        <span class="name">{{ total }}</span>
     </div>
-    <button class="btn btn-primary">下单</button>
-</form>
+    <button class="btn btn-primary" (click)="tapSubmit()">下单</button>
+</div>

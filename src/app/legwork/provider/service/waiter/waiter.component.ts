@@ -1,42 +1,53 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LegworkService } from '../../legwork.service';
-import { IService } from '../../model';
+import { IUser } from '../../../../theme/models/user';
+import { LegworkService } from '../../../legwork.service';
+import { IService } from '../../../model';
 
 @Component({
-  selector: 'app-service',
-  templateUrl: './service.component.html',
-  styleUrls: ['./service.component.scss']
+  selector: 'app-waiter',
+  templateUrl: './waiter.component.html',
+  styleUrls: ['./waiter.component.scss']
 })
-export class ServiceComponent implements OnInit {
+export class WaiterComponent implements OnInit {
 
-    public items: IService[] = [];
+    public items: IUser[] = [];
     public page = 1;
     public hasMore = true;
     public isLoading = false;
     public keywords = '';
+    public data: IService;
 
     constructor(
         private service: LegworkService,
+        private route: ActivatedRoute,
         private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
-    }
-
-    public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”分类？')) {
-            return;
-        }
-        this.service.providerServiceRemove(item.id).subscribe(res => {
-            if (!res.data) {
+        this.route.params.subscribe(params => {
+            if (!params.id) {
                 return;
             }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
-            });
+            this.loadService(params.id);
+        });
+    }
+
+    private loadService(id: any) {
+        this.service.providerService(id).subscribe(res => {
+            this.data = res;
+            this.tapRefresh();
+        });
+    }
+
+    public tapChange(item: IUser, status = 1) {
+        this.service.providerWaiterChange({
+            id: this.data.id,
+            user_id: item.id,
+            status
+        }).subscribe(_ => {
+            this.toastrService.success('已修改');
         });
     }
 
@@ -61,7 +72,8 @@ export class ServiceComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.providerServiceList({
+        this.service.providerWaiterList({
+            id: this.data.id,
             keywords: this.keywords,
             page
         }).subscribe(res => {

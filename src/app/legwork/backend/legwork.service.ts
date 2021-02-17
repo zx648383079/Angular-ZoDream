@@ -54,4 +54,8 @@ export class LegworkService {
         return this.http.get<IPage<IService>>('legwork/admin/service', {params});
     }
 
+    public serviceChange(id: number, status: number) {
+        return this.http.post<IWaiter>('legwork/admin/service/change', {id, status});
+    }
+
 }

@@ -9,13 +9,14 @@ import {
     LegworkRoutingModule
 } from './legwork-routing.module';
 import { LegworkService } from './legwork.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
         CommonModule,
         LegworkRoutingModule,
+        FormsModule,
         NgSelectModule,
         ReactiveFormsModule,
     ],

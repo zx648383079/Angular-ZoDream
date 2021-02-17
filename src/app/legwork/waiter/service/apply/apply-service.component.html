@@ -16,14 +16,22 @@
 <ng-container *ngFor="let item of items">
     <div class="service-item">
         <div class="title">
-            <span class="tag">[{{ item.category.name }}]</span>
             {{ item.name }}
         </div>
         <div class="brief">
             {{ item.brief }}
         </div>
-        <a class="btn btn-info" [routerLink]="'service/' + item.id">
-            <span>我要下单</span>
-        </a>
+        <ng-container *ngIf="item.status < 0; else elseTemplate">
+            <a class="btn btn-info" (click)="tapApply(item)">
+                <span>申请</span>
+            </a>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <a class="btn btn-success">
+                <span>已申请</span>
+            </a>
+        </ng-template>
+        
+        
     </div>
 </ng-container>

@@ -1,11 +1,11 @@
 <div class="title-bar">
     <span>编辑服务</span>
 </div>
-<form class="panel-container">
+<form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
     <div class="form-group row">
-        <label for="name" class="col-md-3 col-form-label">称呼</label>
+        <label for="name" class="col-md-3 col-form-label">服务名</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="name" id="name" placeholder="请输入称呼">
+            <input type="text" class="form-control" formControlName="name" id="name" placeholder="请输入服务名">
         </div>
     </div>
     <div class="form-group row">
@@ -27,7 +27,7 @@
     <div class="form-group row">
         <label for="thumb" class="col-md-3 col-form-label">图片</label>
         <div class="col-md-9 file-input">
-            <input type="text" class="form-control" formControlName="thumb" id="thumb" placeholder="请选择LOGO">
+            <input type="text" class="form-control" formControlName="thumb" id="thumb" placeholder="请选择图片">
             <label for="fileUpload" class="btn btn-primary">上传</label>
             <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
@@ -56,28 +56,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <input type="text" name="form[name][]" class="form-control">
-                </td>
-                <td>
-                    <input type="text" name="form[label][]" class="form-control">
-                </td>
-                <td>
-                    <input type="checkbox" name="form[required][]" value="1"  >
-                </td>
-                <td>
-                    <input type="checkbox" name="form[only][]" value="1" >
-                </td>
-                <td>
-                    <i class="iconfont icon-close"></i>
-                </td>
-            </tr>
+            <ng-container *ngFor="let item of formItems.controls; let i = index">
+                <tr [formGroup]="item">
+                    <td>
+                        <input type="text" formControlName="name" class="form-control">
+                    </td>
+                    <td>
+                        <input type="text" formControlName="label" class="form-control">
+                    </td>
+                    <td>
+                        <input type="checkbox" formControlName="required" value="1"  >
+                    </td>
+                    <td>
+                        <input type="checkbox" formControlName="only" value="1" >
+                    </td>
+                    <td>
+                        <i class="iconfont icon-close" (click)="removeForm(i)"></i>
+                    </td>
+                </tr>
+            </ng-container>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="5">
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-plus" (click)="addForm()"></i>
                 </td>
             </tr>
         </tfoot>

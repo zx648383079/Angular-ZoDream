@@ -1,0 +1,13 @@
+.service-item {
+    height: 80px;
+    padding-left: 80px;
+    .avatar {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+}

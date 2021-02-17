@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { IService } from '../../model';
 import { LegworkService } from '../legwork.service';
@@ -17,10 +18,12 @@ export class ServiceComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public keywords = '';
+    public editData: IService;
 
     constructor(
       private service: LegworkService,
       private toastrService: ToastrService,
+      private modalService: NgbModal,
     ) {
         this.tapRefresh();
     }
@@ -29,6 +32,16 @@ export class ServiceComponent implements OnInit {
 
     public get pageTotal(): number {
         return Math.ceil(this.total / this.perPage);
+    }
+
+    public open(content: any, item: IService) {
+        this.editData = item;
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+            this.service.serviceChange(this.editData?.id, value).subscribe(res => {
+                this.toastrService.success('修改成功');
+                this.tapPage();
+            });
+        });
     }
 
     public tapSearch(form: any) {

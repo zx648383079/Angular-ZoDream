@@ -1,31 +1,23 @@
 <div class="row">
-    <div class="offset-md-7 col-md-5">
+    <div class="offset-md-8 col-md-4">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" ngModel [value]="keywords">
             <button class="btn btn-primary">搜索</button>
-            <a class="btn btn-info" routerLink="create">新增服务</a>
+            <a class="btn btn-info" routerLink="apply">申请服务</a>
         </form>
     </div>
 </div>
+
 <ng-container *ngFor="let item of items">
     <div class="service-item">
         <div class="title">
-            <span class="tag">[{{ item.category.name }}]</span>
             {{ item.name }}
         </div>
         <div class="brief">
             {{ item.brief }}
         </div>
-        <div class="action">
-            <a class="btn btn-light" [routerLink]="'waiter/' + item.id">
-                <span>服务员</span>
-            </a>
-            <a class="btn btn-info" [routerLink]="item.id">
-                <span>编辑</span>
-            </a>
-            <a class="btn btn-danger" (click)="tapRemove(item)">
-                <span>删除</span>
-            </a>
-        </div>
+        <a class="btn">
+            <span>已申请</span>
+        </a>
     </div>
 </ng-container>

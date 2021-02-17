@@ -18,7 +18,7 @@
     </div>
     <div class="order-footer">
         <div class="order-actions">
-            <a *ngIf="item.status == 40">结单</a>
+            <a *ngIf="item.status == 40" (click)="tapTaken(item)">结单</a>
         </div>
     </div>
 </div>

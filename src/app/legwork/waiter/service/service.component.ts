@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { LegworkService } from '../legwork.service';
-import { ICategory, IService } from '../model';
+import { LegworkService } from '../../legwork.service';
+import { IService } from '../../model';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-service',
+  templateUrl: './service.component.html',
+  styleUrls: ['./service.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class ServiceComponent implements OnInit {
 
-    public categories: ICategory[] = [];
-    public category = 0;
     public items: IService[] = [];
     public page = 1;
     public hasMore = true;
@@ -22,19 +20,11 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.service.categoryList().subscribe(res => {
-            this.categories = res.data;
-        });
         this.tapRefresh();
     }
 
     public tapSearch(form: any) {
         this.keywords = form.keywords || '';
-        this.tapRefresh();
-    }
-
-    public tapCategory(item?: ICategory) {
-        this.category = item ? item.id : 0;
         this.tapRefresh();
     }
 
@@ -54,9 +44,8 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.serviceList({
+        this.service.waiterServiceList({
             keywords: this.keywords,
-            category: this.category,
             page
         }).subscribe(res => {
             this.page = page;

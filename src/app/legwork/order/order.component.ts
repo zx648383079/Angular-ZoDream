@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { IErrorResult } from '../../theme/models/page';
 import { LegworkService } from '../legwork.service';
 import { IOrder } from '../model';
 
@@ -15,10 +17,32 @@ export class OrderComponent implements OnInit {
     public isLoading = false;
 
     constructor(
-        private service: LegworkService
+        private service: LegworkService,
+        private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
+        this.tapRefresh();
+    }
+
+    public tapPay(item: IOrder) {
+
+    }
+
+    public tapComment(item: IOrder) {
+
+    }
+
+    public tapCancel(item: IOrder) {
+        if (!confirm('请确认取消此订单？')) {
+            return;
+        }
+        this.service.orderCancel(item.id).subscribe(_ => {
+            this.toastrService.success('取消成功');
+            this.tapRefresh();
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
     }
 
     public tapRefresh() {

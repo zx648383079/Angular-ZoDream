@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
+        this.service.providerOrderList({
             page
         }).subscribe(res => {
             this.page = page;

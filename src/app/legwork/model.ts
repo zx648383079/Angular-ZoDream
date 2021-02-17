@@ -68,10 +68,17 @@ export interface IService {
     brief: string;
     price: number;
     content: string;
-    form: any;
+    form?: IServiceForm[];
     status: number;
     created_at: string;
     updated_a: string;
+}
+
+export interface IServiceForm {
+    name: string;
+    label: string;
+    required: boolean|number;
+    only: boolean|number;
 }
 
 export interface IUserRole {

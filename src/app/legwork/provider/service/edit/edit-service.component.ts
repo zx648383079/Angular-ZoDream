@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -21,6 +21,7 @@ export class EditServiceComponent implements OnInit {
         price: [0, Validators.required],
         brief: [''],
         content: [''],
+        form: this.fb.array([])
     });
     public categories: ICategory[] = [];
 
@@ -38,16 +39,34 @@ export class EditServiceComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
+                this.addForm();
                 return;
             }
             this.loadService(params.id);
         });
     }
 
+    get formItems() {
+        return this.form.get('form') as FormArray;
+    }
+
+    public addForm() {
+        this.formItems.push(this.fb.group({
+            name: ['', Validators.required],
+            label: ['', Validators.required],
+            required: [false],
+            only: [false],
+        }));
+    }
+
+    public removeForm(i: number) {
+        this.formItems.removeAt(i);
+    }
+
     private loadService(id: any) {
         this.service.providerService(id).subscribe(res => {
             this.data = res;
-            this.form.setValue({
+            this.form.patchValue({
                 name: res.name,
                 thumb: res.thumb,
                 cat_id: res.cat_id,
@@ -55,6 +74,31 @@ export class EditServiceComponent implements OnInit {
                 brief: res.brief,
                 content: res.content,
             });
+            if (res.form) {
+                for (const item of res.form) {
+                    this.formItems.push(this.fb.group(item));
+                }
+            }
+        });
+    }
+
+    public tapSubmit() {
+        if (this.form.invalid) {
+            return;
+        }
+        const data: IService = Object.assign({}, this.form.value);
+        if (this.data) {
+            data.id = this.data.id;
+        }
+        data.form = data.form.filter(i => !!i.name).map(i => {
+            if (!i.label) {
+                i.label = i.name;
+            }
+            return i;
+        });
+        this.service.providerServiceSave(data).subscribe(res => {
+            this.toastrService.success('保存成功');
+            history.back();
         });
     }
 
