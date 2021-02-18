@@ -15,6 +15,7 @@ export class OrderComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public keywords = '';
 
     constructor(
         private service: LegworkService,
@@ -22,6 +23,11 @@ export class OrderComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.tapRefresh();
+    }
+
+    public tapSearch(form: any) {
+        this.keywords = form.keywords || '';
         this.tapRefresh();
     }
 
@@ -54,6 +60,7 @@ export class OrderComponent implements OnInit {
         }
         this.isLoading = true;
         this.service.waiterOrderList({
+            keywords: this.keywords,
             page
         }).subscribe(res => {
             this.page = page;

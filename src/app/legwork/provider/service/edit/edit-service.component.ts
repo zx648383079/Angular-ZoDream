@@ -35,7 +35,10 @@ export class EditServiceComponent implements OnInit {
 
     ngOnInit() {
         this.service.providerCategory().subscribe(res => {
-            this.categories = res.data;
+            this.categories = res.data.filter(i => i.status === 1);
+            if (this.categories.length < 1) {
+                this.toastrService.warning('您还没有审核通过的分类，无法发布服务');
+            }
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

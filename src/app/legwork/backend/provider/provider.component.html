@@ -80,7 +80,7 @@
                 <div class="line-item" *ngFor="let item of editData.categories">
                     <span class="label">{{ item.name }}</span>
                     <span class="value">
-                        <button type="button" class="btn btn-primary" (click)="tapAllowCategory(item)">允许</button>
+                        <button type="button" class="btn btn-primary" (click)="tapAllowCategory(item)" *ngIf="item.status < 1">允许</button>
                     </span>
                 </div>
             </div>

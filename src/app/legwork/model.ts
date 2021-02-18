@@ -5,6 +5,7 @@ export interface ICategory {
     name: string;
     icon: string;
     description: string;
+    status?: number;
 }
 
 export interface IOrder {
@@ -30,6 +31,7 @@ export interface IOrder {
 
 export interface IProvider {
     id: number;
+    user_id: number;
     name: string;
     user: IUser;
     logo: string;
@@ -47,6 +49,7 @@ export interface IProvider {
 export interface IWaiter {
     id: number;
     name: string;
+    user_id: number;
     user: IUser;
     tel: string;
     address: string;

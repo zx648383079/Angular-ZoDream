@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataOne, IPage } from '../../theme/models/page';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ICategory, IOrder, IProvider, IService, IWaiter } from '../model';
 
 @Injectable({
@@ -37,6 +37,11 @@ export class LegworkService {
     public providerChange(id: number, status: number) {
         return this.http.post<IProvider>('legwork/admin/provider/change', {id, status});
     }
+
+    public providerCategories(id: any) {
+        return this.http.get<IData<ICategory>>('legwork/admin/provider/category', {params: {id}});
+    }
+
 
     public providerCategoryChange(id: number, category: number|number[], status: number) {
         return this.http.post<IDataOne<boolean>>('legwork/admin/provider/change_category', {id, category, status});

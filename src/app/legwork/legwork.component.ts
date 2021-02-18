@@ -58,6 +58,10 @@ export class LegworkComponent implements OnInit {
                         name: '我的订单',
                         url: './waiter/order'
                     },
+                    {
+                        name: '我的信息',
+                        url: './waiter'
+                    },
                 ] : [
                     {
                         name: '申请成为服务员',
@@ -77,8 +81,8 @@ export class LegworkComponent implements OnInit {
                         url: './provider/order'
                     },
                     {
-                        name: '我的员工',
-                        url: './provider/waiter'
+                        name: '我的信息',
+                        url: './provider'
                     },
                 ] : [
                     {

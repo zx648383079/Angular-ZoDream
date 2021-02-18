@@ -1,3 +1,29 @@
-<p>
-  order works!
-</p>
+<div class="row">
+    <div class="offset-md-8 col-md-4">
+        <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" ngModel [value]="keywords">
+            <button class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+</div>
+<div class="order-item" *ngFor="let item of items">
+    <div class="order-header">
+        <span>客户: {{ item.user.name }}</span>
+        <span>接单人: {{ item.waiter.name }}</span>
+        <span>订单: {{ item.id }}</span>
+        <span class="status">{{ item.status_label }}</span>
+    </div>
+    <div class="order-amount">
+        <span>【{{ item.service.name }}】</span>
+        <span class="amount">x {{ item.amount }}</span>
+        <span class="price">
+            服务费：￥{{ item.order_amount }}
+        </span>
+    </div>
+    <div class="order-remark" *ngIf="item.remark">
+        <p class="line-item" *ngFor="let line of item.remark" >
+            <span>{{ line.label }}</span>
+            <span class="val">{{ line.value }}</span>
+        </p>
+    </div>
+</div>

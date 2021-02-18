@@ -36,6 +36,9 @@ export class ProviderComponent implements OnInit {
 
     public open(content: any, item: IProvider) {
         this.editData = item;
+        this.service.providerCategories(item.user_id).subscribe(res => {
+            this.editData.categories = res.data;
+        });
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
             this.service.providerChange(this.editData?.id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
