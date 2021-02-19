@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, forwardRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IDataOne } from '../../models/page';
-import { cloneObject, eachObject } from '../../utils';
+import { cloneObject, eachObject, hasElementByClass } from '../../utils';
 
 @Component({
     selector: 'app-region',
@@ -16,7 +16,7 @@ import { cloneObject, eachObject } from '../../utils';
         }
     ]
 })
-export class RegionComponent<T extends object> implements ControlValueAccessor, OnChanges {
+export class RegionComponent<T> implements ControlValueAccessor, OnChanges {
 
     @Input() public url: string;
     @Input() public range: {
@@ -58,7 +58,7 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
     }
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.selector') && !this.hasElementByClass(event.path, 'selector-panel-container')) {
+        if (!event.target.closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
             this.panelVisible = false;
         }
     }
@@ -214,7 +214,7 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
         if (!this.value) {
             path = [];
         } else if (typeof this.value !== 'object') {
-            path = this.getPath(this.value);
+            path = this.getPath(this.value as any);
         } else if (this.value instanceof Array) {
             path = cloneObject(this.value);
         } else {
@@ -253,20 +253,6 @@ export class RegionComponent<T extends object> implements ControlValueAccessor, 
             this.value = path[path.length - 1];
         }
         this.onChange(this.value);
-    }
-
-    private hasElementByClass(path: Array<Element>, className: string): boolean {
-        let hasClass = false;
-        for (const item of path) {
-            if (!item || !item.className) {
-                continue;
-            }
-            hasClass = item.className.indexOf(className) >= 0;
-            if (hasClass) {
-                return true;
-            }
-        }
-        return hasClass;
     }
 
     writeValue(obj: any): void {

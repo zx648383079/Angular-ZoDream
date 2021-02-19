@@ -14,7 +14,7 @@
                 </div>
                 <div class="input-group">
                     <label>分类</label>
-                    <select name="cat_id">
+                    <select name="cat_id" ngModel class="form-control">
                         <option value="0">请选择</option>
                         <ng-container *ngFor="let item of categories">
                             <option [value]="item.id" [selected]="category == item.id">{{ item.name }}</option>

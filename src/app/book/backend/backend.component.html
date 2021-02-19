@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>书籍列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label class="sr-only" for="keywords">内容</label>
+                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" [value]="keywords">
+                </div>
+                <div class="input-group">
+                    <label>分类</label>
+                    <select name="cat_id" ngModel class="form-control">
+                        <option value="0">请选择</option>
+                        <ng-container *ngFor="let item of categories">
+                            <option [value]="item.id" [selected]="category == item.id">{{ item.name }}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>分级</label>
+                    <select name="classify" ngModel class="form-control">
+                        <ng-container *ngFor="let item of classifyItems">
+                            <option [value]="item.value" [selected]="classify == item.value">{{ item.name }}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" routerLink="./book/create">新增书籍</a>
+            </form>
+        </div>
+    
+        <table class="table  table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>分类</th>
+                    <th>作者</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <a target="_blank">
+                            {{ item.name }}
+                        </a>
+                    </td>
+                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.author.name }}</td>
+                    <td>{{ item.size }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs"
+                                [routerLink]="'./chapter/' + item.id">目录</a>
+                            <a class="btn btn-light btn-xs"
+                                [routerLink]="'./book/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+    </div>
+    
+</div>

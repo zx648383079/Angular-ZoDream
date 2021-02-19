@@ -148,3 +148,18 @@ export function eachObject(obj: any, cb: (val: any, key?: string|number) => any)
         }
     }
 }
+
+
+export function hasElementByClass(path: Array<Element>, className: string): boolean {
+    let hasClass = false;
+    for (const item of path) {
+        if (!item || !item.className) {
+            continue;
+        }
+        hasClass = item.className.indexOf(className) >= 0;
+        if (hasClass) {
+            return true;
+        }
+    }
+    return hasClass;
+}

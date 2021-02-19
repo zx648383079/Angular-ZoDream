@@ -55,8 +55,7 @@ export class SwitchComponent implements ControlValueAccessor {
     registerOnTouched(fn: any): void {
         this.onTouch = fn;
     }
-    setDisabledState ? (isDisabled: boolean) : void {
+    setDisabledState ?(isDisabled: boolean): void {
         this.disable = isDisabled;
     }
-
 }

@@ -23,6 +23,7 @@ import { LegworkBackendMenu } from '../legwork/backend/menu';
 import { VideoBackendMenu } from './video/menu';
 import { ShopBackendMenu } from './shop/menu';
 import { BlogBackendMenu } from './blog/menu';
+import { BookBackendMenu } from '../book/backend/menu';
 
 @Component({
     selector: 'app-backend',
@@ -137,6 +138,7 @@ export class BackendComponent implements OnInit {
                 },
             ],
         },
+        ...BookBackendMenu,
         ...VideoBackendMenu,
         ...LegworkBackendMenu,
         {

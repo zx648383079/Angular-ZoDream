@@ -15,3 +15,5 @@ export * from './circle-progress/circle-progress.component';
 export * from './color-picker/color-picker.component';
 export * from './star/star.component';
 export * from './region/region.component';
+export * from './select-input/select-input.component';
+export * from './file-input/file-input.component';

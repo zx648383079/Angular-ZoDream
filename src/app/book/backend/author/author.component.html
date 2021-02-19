@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>作者列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label class="sr-only" for="keywords">内容</label>
+                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" [value]="keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" routerLink="create">新增作者</a>
+            </form>
+        </div>
+    
+        <table class="table  table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>笔名</th>
+                    <th>状态</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    <td>
+                        {{ item.status }}
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs"
+                                [routerLink]="item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+    </div>
+    
+</div>

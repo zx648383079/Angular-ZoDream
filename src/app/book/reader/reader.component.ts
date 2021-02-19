@@ -1,6 +1,7 @@
 import {
     Component,
     OnInit,
+    Renderer2,
     ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,15 +38,20 @@ export class ReaderComponent implements OnInit {
         line: [2, 1, 40],
         letter: [1, 1, 40],
     };
+    public progress = 0;
     private bookId = 0;
+    private scrollTop = 0;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private service: BookService,
+        private renderer: Renderer2,
     ) {}
 
     ngOnInit() {
+        this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
+        this.scrollTop = this.getScrollTop();
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -66,6 +72,12 @@ export class ReaderComponent implements OnInit {
         }
         this.chapterId = chapter.id;
         this.service.recordHistory(chapter.book_id, chapter.id, event.progress).subscribe(_ => {});
+    }
+
+    public onScrollChange() {
+        window.scrollTo({
+            top: this.progress * this.getPageHeight() / 100 - this.getWindowHeight()
+        });
     }
 
     public onRequest(id: number) {
@@ -153,6 +165,50 @@ export class ReaderComponent implements OnInit {
 
     public tapSetting() {
         this.mode = this.mode === 2 ? 0 : 2;
+    }
+
+    private onScroll(_: any) {
+        this.progress = (this.getScrollTop() + this.getWindowHeight()) * 100 / this.getPageHeight();
+    }
+
+     // 滚动条到底部的距离
+     private getScrollBottomHeight() {
+        const scrollTop = this.getScrollTop();
+        return this.getPageHeight() - scrollTop - this.getWindowHeight();
+    }
+
+    // 页面高度
+    private getPageHeight() {
+        const box = document.querySelector('html');
+        if (!box) {
+            return 0;
+        }
+        return box.scrollHeight;
+    }
+
+    // 滚动条顶 高度
+    private getScrollTop() {
+        let scrollTop = 0;
+        let bodyScrollTop = 0;
+        let documentScrollTop = 0;
+        if (document.body) {
+            bodyScrollTop = document.body.scrollTop;
+        }
+        if (document.documentElement) {
+            documentScrollTop = document.documentElement.scrollTop;
+        }
+        scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+        return scrollTop;
+    }
+
+    private getWindowHeight() {
+        let windowHeight = 0;
+        if (document.compatMode === 'CSS1Compat') {
+            windowHeight = document.documentElement.clientHeight;
+        } else {
+            windowHeight = document.body.clientHeight;
+        }
+        return windowHeight;
     }
 
 }

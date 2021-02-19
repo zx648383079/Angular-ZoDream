@@ -30,28 +30,10 @@
                         <div class="">
                             <select id="programming_language" class="form-control" formControlName="programming_language">
                                 <option value="">请选择</option>
-                                <option value="Html">Html</option>
-                                <option value="Css">Css</option>
-                                <option value="Sass">Sass</option>
-                                <option value="Less">Less</option>
-                                <option value="TypeScript">TypeScript</option>
-                                <option value="JavaScript">JavaScript</option>
-                                <option value="PHP">PHP</option>
-                                <option value="Go">Go</option>
-                                <option value="C#">C#</option>
-                                <option value="ASP.NET">ASP.NET</option>
-                                <option value=".NET Core">.NET Core</option>
-                                <option value="Python">Python</option>
-                                <option value="C">C</option>
-                                <option value="C++">C++</option>
-                                <option value="Java">Java</option>
-                                <option value="Kotlin">Kotlin</option>
-                                <option value="Swift">Swift</option>
-                                <option value="Objective-C">Objective-C</option>
-                                <option value="Dart">Dart</option>
-                                <option value="Flutter">Flutter</option>
+                                <ng-container *ngFor="let item of languages">
+                                    <option [value]="item">{{ item }}</option>
+                                </ng-container>
                             </select>
-        
                         </div>
                     </div>
                     <div class="input-group">
@@ -67,11 +49,8 @@
                    
                     <div class="input-group">
                         <label for="thumb">图片</label>
-                        <div class="file-input">
-                            <input type="text" id="thumb" class="form-control" formControlName="thumb">
-                            <label for="fileUpload" class="btn btn-primary">上传</label>
-                            <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
-                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+                        <div>
+                            <app-file-input formControlName="thumb"></app-file-input>
                         </div>
                     </div>
                     <div class="input-group">
@@ -154,34 +133,9 @@
                         <div class="">
                             <select id="weather" class="form-control" formControlName="weather">
                                 <option value="">请选择</option>
-                                <option value="cloudy">多云</option>
-                                <option value="sunny">晴</option>
-                                <option value="overcast">阴</option>
-                                <option value="drizzle">毛毛雨</option>
-                                <option value="shower">阵雨</option>
-                                <option value="thunder storm">雷雨</option>
-                                <option value="thunder shower">雷阵雨</option>
-                                <option value="light rain">小雨</option>
-                                <option value="moderate">中雨</option>
-                                <option value="heavy rain">大雨</option>
-                                <option value="snow shower">阵雨</option>
-                                <option value="sleet">雨夹雪</option>
-                                <option value="hail">冰雹</option>
-                                <option value="blizzard">大风雪</option>
-                                <option value="snowstorm">暴风雪</option>
-                                <option value="light snow">小雪</option>
-                                <option value="moderate snow">中雪</option>
-                                <option value="heavy snow">大雪</option>
-                                <option value="windy">有风</option>
-                                <option value="breeze">微风</option>
-                                <option value="gale">大风</option>
-                                <option value="typhoon">台风</option>
-                                <option value="hurricane">飓风</option>
-                                <option value="haze">霾</option>
-                                <option value="foggy">雾</option>
-                                <option value="frosty">霜冻</option>
-                                <option value="lightning">闪电</option>
-                                <option value="sandstorm">沙尘暴</option>
+                                <ng-container *ngFor="let item of weathers">
+                                    <option [value]="item.value">{{ item.name }}</option>
+                                </ng-container>
                             </select>
         
                         </div>
@@ -189,17 +143,13 @@
                     <div class="input-group">
                         <label for="audio_url">音频</label>
                         <div class="file-input">
-                            <input type="text" id="audio_url" class="form-control" formControlName="audio_url">
-                            <label for="audioUpload" class="btn btn-primary">上传</label>
-                            <input type="file" name="file" id="audioUpload" (change)="uploadAudio($event)" accept="audio/*"/>
+                            <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="video_url">视频</label>
-                        <div class="file-input">
-                            <input type="text" id="video_url" class="form-control" formControlName="video_url">
-                            <label for="videoUpload" class="btn btn-primary">上传</label>
-                            <input type="file" name="file" id="videoUpload" (change)="uploadVideo($event)" accept="video/*"/>
+                        <div>
+                            <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
                         </div>
                     </div>
                     <div class="input-group">
@@ -207,13 +157,9 @@
                         <div class="">
                             <select id="meta_cc_license" class="form-control" formControlName="cc_license">
                                 <option value="">请选择</option>
-                                <option value="CC BY">署名BY</option>
-                                <option value="CC BY-SA">署名相同方法同享BY-SA</option>
-                                <option value="CC BY-NC">署名非商业性运用BY-NC</option>
-                                <option value="CC BY-NC-SA">署名非商业性运用相同方法同享BY-NC-SA</option>
-                                <option value="CC BY-ND">署名制止演绎BY-ND</option>
-                                <option value="CC BY-NC-ND">署名非商业性运用制止演绎BY-NC-ND</option>
-                                <option value="CC0">放弃版权无任何条件0</option>
+                                <ng-container *ngFor="let item of licenses">
+                                    <option [value]="item.value">{{ item.name }}</option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>

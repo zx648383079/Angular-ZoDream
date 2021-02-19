@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>书单列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label class="sr-only" for="keywords">内容</label>
+                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" [value]="keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    
+        <table class="table  table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>简介</th>
+                    <th>书籍数</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        {{ item.title }}
+                    </td>
+                    <td>
+                        {{ item.description }}
+                    </td>
+                    <td>{{ item.book_count }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+    </div>
+    
+</div>

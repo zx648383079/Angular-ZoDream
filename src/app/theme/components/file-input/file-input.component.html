@@ -1,0 +1,6 @@
+<div class="file-input">
+    <input type="text" class="form-control" [(ngModel)]="value" [disabled]="disabled" [placeholder]="placeholder">
+    <label [for]="'_file_' + uniqueId" class="btn btn-primary">上传</label>
+    <label class="btn btn-info" *ngIf="canPreview" (click)="tapPreview()">预览</label>
+    <input type="file" name="file" [id]="'_file_' + uniqueId" (change)="uploadFile($event)" [accept]="accept"  [disabled]="disabled"/>
+</div>

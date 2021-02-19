@@ -16,7 +16,7 @@ export class BlogService {
      * getCategories
      */
     public getCategories(): Observable<ICategory[]> {
-        return this.http.get<IData<ICategory>>('blog/term').pipe(map(res => res.data));
+        return this.http.get<IData<ICategory>>('blog/category').pipe(map(res => res.data));
     }
 
     public getTags(): Observable<ITag[]> {

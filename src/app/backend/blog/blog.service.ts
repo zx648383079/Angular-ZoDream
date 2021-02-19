@@ -6,6 +6,7 @@ import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { mockPage } from '../../theme/mock/page';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { IItem } from '../../theme/models/seo';
 
 @Injectable()
 export class BlogService {
@@ -22,7 +23,7 @@ export class BlogService {
      * getCategories
      */
     public getCategories(): Observable<ICategory[]> {
-        return this.http.get<IData<ICategory>>('blog/term').pipe(map(res => res.data));
+        return this.http.get<IData<ICategory>>('blog/category').pipe(map(res => res.data));
     }
 
     public getTags(): Observable<ITag[]> {
@@ -93,7 +94,7 @@ export class BlogService {
     }
 
     public categoryAll() {
-        return this.http.get<IData<ICategory>>('blog/term/all').pipe(map(res => res.data));
+        return this.http.get<IData<ICategory>>('blog/category/all').pipe(map(res => res.data));
     }
 
     public tag(id: any) {
@@ -114,5 +115,15 @@ export class BlogService {
 
     public tagAll() {
         return this.http.get<IData<ITag>>('blog/admin/tag/all').pipe(map(res => res.data));
+    }
+
+    public editOption() {
+        return this.http.get<{
+            languages: string[];
+            weathers: IItem[];
+            licenses: IItem[];
+            tags: ITag[];
+            categories: ICategory[];
+        }>('blog/home/edit_option');
     }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges } from '@angular/core';
+import { hasElementByClass } from '../../utils';
 import { IDay, DayMode } from './datepicker.base';
 
 @Component({
@@ -50,7 +51,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
     gridMode: DayMode = DayMode.Day;
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.datepicker') && !this.hasElementByClass(event.path, 'datepicker__calendar')) {
+        if (!event.target.closest('.datepicker') && !hasElementByClass(event.path, 'datepicker__calendar')) {
             this.calendarVisible = false;
         }
     }
@@ -368,20 +369,5 @@ export class DatepickerComponent implements OnInit, OnChanges {
             }
         }
         return fmt;
-    }
-
-
-    hasElementByClass(path: Array<Element>, className: string): boolean {
-        let hasClass = false;
-        for (const item of path) {
-            if (!item || !item.className) {
-                continue;
-            }
-            hasClass = item.className.indexOf(className) >= 0;
-            if (hasClass) {
-                return true;
-            }
-        }
-        return hasClass;
     }
 }

@@ -21,6 +21,7 @@ const routes: Routes = [
       { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
       { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
       { path: 'legwork', loadChildren: () => import('../legwork/backend/legwork-backend.module').then(m => m.LegworkBackendModule) },
+      { path: 'book', loadChildren: () => import('../book/backend/backend.module').then(m => m.BackendModule) },
       {
         path: '',
         component: HomeComponent

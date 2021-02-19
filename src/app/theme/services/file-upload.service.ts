@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FILE_UPLOAD } from '../constants/file-upload.constant';
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()

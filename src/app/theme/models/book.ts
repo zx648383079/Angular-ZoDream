@@ -11,11 +11,16 @@ export interface IAuthor {
     id: number;
     name: string;
     book_count?: number;
+    avatar?: string;
+    description?: string;
 }
 
 export interface IBook {
     id: number;
     name?: string;
+    source?: string;
+    cat_id?: number;
+    author_id?: number;
     cover?: number;
     description?: string;
     size?: number;
@@ -36,6 +41,9 @@ export interface IChapter {
     title?: string;
     size?: number;
     content?: string;
+    price?: number;
+    source?: string;
+    position?: number;
     book_id?: number;
     previous?: IChapter;
     next?: IChapter;
