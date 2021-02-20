@@ -12,9 +12,9 @@ const routes: Routes = [
     children: [
       { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
       { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-      { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
+      { path: 'shop', loadChildren: () => import('../shop/backend/shop.module').then(m => m.ShopBackendModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },
-      { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
+      { path: 'blog', loadChildren: () => import('../blog/backend/blog.module').then(m => m.BlogBackendModule) },
       { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) },
       { path: 'open', loadChildren: () => import('./open/open.module').then(m => m.OpenModule) },
       { path: 'sms', loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule) },

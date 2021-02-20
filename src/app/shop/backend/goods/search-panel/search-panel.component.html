@@ -1,0 +1,27 @@
+<div class="search-panel">
+    <div class="search-input">
+        <input type="text" [(ngModel)]="keywords" (keypress)="onKeyDown($event)" placeholder="请输入关键词或货号">
+        <i class="iconfont icon-search" (click)="tapSearch()"></i>
+    </div>
+    <div class="search-body">
+        <div class="panel-body">
+            <ng-container *ngFor="let item of items">
+                <div class="item-option" [ngClass]="{selected: selected && selected.id === item.id}" (click)="tapSelected(item)">
+                    <div class="thumb">
+                        <img [src]="item.thumb">
+                    </div>
+                    <div class="name">{{ item.name }}</div>
+                    <div class="price">￥{{ item.price }}</div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="child-body" *ngIf="childVisible">
+            <ng-container *ngFor="let item of children">
+                <div class="item-option" [ngClass]="{selected: selectedChild && selectedChild.id === item.id}" (click)="tapSelectedChild(item)">
+                    <div class="name">{{ item.name }}</div>
+                    <div class="price">￥{{ item.price }}</div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

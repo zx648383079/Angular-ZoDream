@@ -21,8 +21,8 @@ import {
 import { AuthActions } from '../theme/actions';
 import { LegworkBackendMenu } from '../legwork/backend/menu';
 import { VideoBackendMenu } from './video/menu';
-import { ShopBackendMenu } from './shop/menu';
-import { BlogBackendMenu } from './blog/menu';
+import { ShopBackendMenu } from '../shop/backend/menu';
+import { BlogBackendMenu } from '../blog/backend/menu';
 import { BookBackendMenu } from '../book/backend/menu';
 
 @Component({

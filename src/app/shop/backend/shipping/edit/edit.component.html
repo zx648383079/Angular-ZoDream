@@ -1,0 +1,137 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑配送方式' : '新增配送方式'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    
+        <app-panel title="基本信息">
+            <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+            <div class="input-group">
+                <label for="name">名称</label>
+                <div class="">
+                    <input type="text" id="name" class="form-control" formControlName="name">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="icon">图标</label>
+                <div>
+                    <app-file-input id="icon" formControlName="icon"></app-file-input>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="code">Code</label>
+                <div class="">
+                    <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code"></ng-select>
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="method">计费方式</label>
+                <div class="">
+                    <span class="radio-label">
+                        <input type="radio" id="method0" formControlName="method" value="0">
+                        <label for="method0">按件数</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="method1" formControlName="method" value="1">
+                        <label for="method1">按重量</label>
+                    </span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="description">介绍</label>
+                <div class="">
+                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="position">排序</label>
+                <div class="">
+                    <input type="text" id="position" class="form-control" formControlName="position">
+    
+                </div>
+            </div>
+        </form>
+        </app-panel>
+        
+        <div class="panel-container">
+            <div class="group-box">
+                <p class="text-center">配送区域及运费</p>
+                <table class="regional-table">
+                    <tbody>
+                        <tr>
+                            <th width="42%">可配送区域</th>
+                            <th>
+                                <span class="first">首件 ({{ method < 1 ? '个' : 'KG' }})</span>
+                            </th>
+                            <th>运费 (元)</th>
+                            <th>
+                                <span class="additional">续件 ({{ method < 1 ? '个' : 'KG' }})</span>
+                            </th>
+                            <th>续费 (元)</th>
+                            <th>免费标准</th>
+                        </tr>
+                        <tr *ngFor="let item of groupItems">
+                            <td class="am-text-left">
+                                <p class="selected-content am-margin-bottom-xs">{{ item.region_label }}</p>
+                                <p class="operation am-margin-bottom-xs"> <a class="edit" (click)="open(content, item)">编辑</a> <a
+                                        class="delete" (click)="removeGroup(item)">删除</a>
+                                </p>
+                            </td>
+                            <td> <input type="number" [(ngModel)]="item.first_step" class="form-control"></td>
+                            <td> <input type="number" [(ngModel)]="item.first_fee" class="form-control"></td>
+                            <td> <input type="number" [(ngModel)]="item.additional" class="form-control"></td>
+                            <td> <input type="number" [(ngModel)]="item.additional_fee" class="form-control"></td>
+                            <td> <input type="number" [(ngModel)]="item.free_step" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="am-text-left">
+                                <a class="btn btn-info add-region" (click)="open(content)">
+                                    <i class="iconfont icon-dingwei"></i>
+                                    点击添加可配送区域和运费
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <button type="button" class="btn btn-success" (click)="tapSubmit()">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">选择可配送区域</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="selected-box" *ngIf="!selectedAll">
+            <div class="title">已选择地区</div>
+            <div class="item" *ngFor="let item of selectedItems" [title]="item.full_name">
+                {{ item.name }}
+                <i class="iconfont icon-close" (click)="removeRegion(item)"></i>
+            </div>
+        </div>
+        <div class="selected-box" *ngIf="selectedAll">
+            <div class="title">已选择全部地区</div>
+        </div>
+        <div class="search-box">
+            <input type="text" class="form-control" [(ngModel)]="regionKeywords" *ngIf="!selectedAll">
+            <button class="btn btn-primary" *ngIf="!selectedAll" (click)="tapRegionSearch()">搜索</button>
+            <button class="btn btn-info" [ngClass]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>
+        </div>
+        <div class="search-result" *ngIf="!selectedAll">
+            <div class="item" *ngFor="let item of regionItems" [title]="item.full_name">
+                {{ item.name }}
+                <i class="iconfont icon-plus" (click)="tapAddRegion(item)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

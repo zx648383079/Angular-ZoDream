@@ -1,0 +1,57 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div class="">
+                <input type="text" id="name" class="form-control" formControlName="name">
+                <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>上级</label>
+            <select id="parent_id" class="form-control" formControlName="parent_id">
+                <option value="0">-- 无上级分类 --</option>
+                <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="thumb">Banner</label>
+            <div>
+                <app-file-input id="thumb" formControlName="banner"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="app_thumb">App Banner</label>
+            <div>
+                <app-file-input id="app_thumb" formControlName="app_banner"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="icon">图标</label>
+            <div>
+                <app-file-input id="icon" formControlName="icon"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="keywords">关键字</label>
+            <div class="">
+                <input type="text" id="keywords" class="form-control" formControlName="keywords">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">简介</label>
+            <div class="">
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="position">排序</label>
+            <div class="">
+                <input type="text" id="position" class="form-control" formControlName="position">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

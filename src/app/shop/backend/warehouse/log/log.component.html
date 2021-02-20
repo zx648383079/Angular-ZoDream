@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>仓库日志列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="标题">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>仓库名</th>
+                    <th>商品</th>
+                    <th>变化数量</th>
+                    <th>备注</th>
+                    <th>操作员</th>
+                    <th>操作时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.warehouse.name }}</td>
+                    <td>
+                        {{ item.goods.name }}
+                    </td>
+                    <td>
+                        {{ item.amount }}
+                    </td>
+                    <td>
+                        {{ item.remark }}
+                    </td>
+                    <td>
+                        {{ item.user.name }}
+                    </td>
+                    <td>
+                        {{ item.created_at }}
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>

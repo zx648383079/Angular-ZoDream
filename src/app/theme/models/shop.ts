@@ -410,6 +410,43 @@ export interface IInvoiceTitle {
     updated_at?: string;
 }
 
+export interface IWarehouse {
+    id: number;
+    name: string;
+    tel: string;
+    link_user: string;
+    address: string;
+    remark: string;
+    created_at?: string;
+    updated_at?: string;
+    region?: IRegion[];
+}
+
+export interface IWarehouseGoods {
+    id: number;
+    warehouse_id: number;
+    goods_id: number;
+    product_id: number;
+    amount: number;
+    warehouse?: IWarehouse;
+    goods?: IGoods;
+    product?: IProduct;
+}
+
+export interface IWarehouseLog {
+    id: number;
+    warehouse_id: number;
+    goods_id: number;
+    product_id: number;
+    amount: number;
+    order_id: number;
+    remark: string;
+    created_at: string;
+    warehouse?: IWarehouse;
+    goods?: IGoods;
+    user?: IUser;
+}
+
 export enum ORDER_STATUS {
     CANCEL = 1,
     INVALID = 2,

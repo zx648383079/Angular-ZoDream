@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, forwardRef, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IData } from '../../models/page';
-import { hasElementByClass } from '../../utils';
+import { cloneObject, hasElementByClass } from '../../utils';
 
 @Component({
     selector: 'app-select-input',
@@ -68,7 +68,7 @@ export class SelectInputComponent<T> implements ControlValueAccessor, OnChanges 
             return;
         }
         for (let i = 0; i < this.selectedItems.length; i++) {
-            if (item[this.rangeKey] !== this.selectedItems[i][this.rangeKey]) {
+            if (item[this.rangeKey] === this.selectedItems[i][this.rangeKey]) {
                 this.selectedItems.splice(i, 1);
                 this.output();
                 return;
@@ -127,7 +127,13 @@ export class SelectInputComponent<T> implements ControlValueAccessor, OnChanges 
     }
 
     private formatSelected(obj: any) {
-        if (!obj || !this.url || !this.valueTypeT) {
+        if (!obj) {
+            return;
+        }
+        if (!this.valueTypeT) {
+            this.selectedItems = obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)];
+        }
+        if (!this.url || !this.valueTypeT) {
             return;
         }
         this.http.get<IData<T>>(this.url, {params: {[this.rangeKey]: obj}}).subscribe(res => {

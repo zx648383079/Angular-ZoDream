@@ -1,0 +1,81 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">广告名</label>
+            <div class="">
+                <input type="text" id="name" class="form-control" formControlName="name">
+                <div class="input-tip" *ngIf="form.get('name').invalid">请输入广告名</div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="position_id">广告位</label>
+            <div class="">
+                <select id="position_id" formControlName="position_id" class="form-control">
+                    <option *ngFor="let item of positionItems" [value]="item.id">{{ item.name }}</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="type">类型</label>
+            <div class="">
+                <select id="type" formControlName="type" class="form-control">
+                    <option value="0">文本</option>
+                    <option value="1">图片</option>
+                    <option value="2">代码</option>
+                    <option value="3">视频</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="type-group">
+            <div class="input-group" *ngIf="uploadType === 0">
+                <label for="content">内容</label>
+                <div class="">
+                    <textarea id="content" class="form-control" formControlName="content"></textarea>
+                </div>
+            </div>
+            <div class="input-group"  *ngIf="uploadType === 1">
+                <label for="content_url">图片</label>
+                <div>
+                    <app-file-input id="content_url" formControlName="content"></app-file-input>
+                </div>
+            </div>
+            <div class="input-group"  *ngIf="uploadType === 2">
+                <label for="file_url">视频</label>
+                <div>
+                    <app-file-input id="file_url" formControlName="content" accept="video/*"></app-file-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="url">链接</label>
+            <div class="">
+                <input type="text" id="url" class="form-control" formControlName="url">
+                <div class="input-tip">链接格式：deeplink://goto/</div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="start_at">开始时间</label>
+            <div class="calendar-input">
+                <input type="text" id="start_at" class="form-control" ngbDatepicker formControlName="start_at" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="iconfont icon-calendar"></i>
+                </button>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="end_at">结束时间</label>
+            <div class="calendar-input">
+                <input type="text" id="end_at" class="form-control" ngbDatepicker formControlName="end_at" placeholder="yyyy-mm-dd" #e="ngbDatepicker">
+                <button class="btn btn-outline-secondary" (click)="e.toggle()" type="button">
+                    <i class="iconfont icon-calendar"></i>
+                </button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>
