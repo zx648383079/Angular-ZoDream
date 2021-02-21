@@ -31,6 +31,7 @@
     }
     .search-body {
         position: relative;
+        overflow: hidden;
     }
     .item-option {
         position: relative;
@@ -72,6 +73,7 @@
         bottom: 0;
         background-color: white;
         border-left: 1px solid #eaeaea;
+        box-shadow:-3px 0 8px -4px #000;
         .item-option {
             padding: 5px;
             display: flex;

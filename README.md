@@ -1,6 +1,11 @@
 # Angular-ZoDream
 使用Angular实现界面
 
+强制更新安装依赖
+```
+npm i --legacy-peer-deps
+```
+
 ## 预览图
 
 1. 博客样式

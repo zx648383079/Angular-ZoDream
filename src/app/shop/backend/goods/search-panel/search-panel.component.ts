@@ -47,15 +47,17 @@ export class SearchPanelComponent {
     public tapSelected(item: IGoods) {
         this.selected = item;
         this.selectedChild = undefined;
+        this.children = item.products ? item.products : [];
+        if (this.children.length < 1) {
+            this.output();
+            return;
+        }
         this.childVisible = true;
-        this.children = this.items as any;
-        // if (!item.product) {
-        //     return;
-        // }
     }
 
     public tapSelectedChild(item: IProduct) {
         this.selectedChild = item;
+        this.output();
     }
 
     private output() {

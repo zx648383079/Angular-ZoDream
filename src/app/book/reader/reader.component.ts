@@ -1,5 +1,6 @@
 import {
     Component,
+    ElementRef,
     OnInit,
     Renderer2,
     ViewChild
@@ -7,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../../theme/models/book';
 import { BookService } from '../book.service';
-import { FlipPagerComponent } from './flip-pager/flip-pager.component';
+import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
 
 @Component({
     selector: 'app-reader',
@@ -15,6 +16,9 @@ import { FlipPagerComponent } from './flip-pager/flip-pager.component';
     styleUrls: ['./reader.component.scss']
 })
 export class ReaderComponent implements OnInit {
+
+    @ViewChild('container')
+    public containerElement: ElementRef<HTMLDivElement>;
 
     @ViewChild(FlipPagerComponent)
     public flipPager: FlipPagerComponent;
@@ -39,8 +43,13 @@ export class ReaderComponent implements OnInit {
         letter: [1, 1, 40],
     };
     public progress = 0;
+    public isLoading = false;
+    public scrollToUp = false;
     private bookId = 0;
     private scrollTop = 0;
+    private booted = false;
+    private lastProgress = -30;
+    private cacheChapters: {[id: number]: IChapter} = {};
 
     constructor(
         private route: ActivatedRoute,
@@ -59,30 +68,66 @@ export class ReaderComponent implements OnInit {
             this.bookId = params.book;
             this.chapterId = params.id;
             if (this.chapterId < 1 && this.bookId > 0) {
-                this.onRequest(0);
+                this.onRequest({id: 0, callback: (item) => {
+                    this.chapterId = item.id;
+                    this.booted = false;
+                }});
             }
         });
     }
 
-    public onProgressChange(event) {
-        const chapter: IChapter = event.chapter;
-        if (event.progress === 0) {
-            history.pushState(null, chapter.title,
-                window.location.href.replace(/\/\d+\/\d+.*/, '/' + chapter.book_id + '/' + chapter.id));
+    get container() {
+        return this.containerElement.nativeElement;
+    }
+
+    get footerStyle() {
+        if (!this.scrollToUp) {
+            return {};
         }
-        this.chapterId = chapter.id;
-        this.service.recordHistory(chapter.book_id, chapter.id, event.progress).subscribe(_ => {});
+        const bound = this.container.getBoundingClientRect();
+        return {
+            width: bound.width + 'px'
+        };
+    }
+
+    public onProgressChange(event: IFlipProgress) {
+        if (event.progress === 0) {
+            history.pushState(null, event.item.title,
+                window.location.href.replace(/\/\d+\/\d+.*/, '/' + event.item.book + '/' + event.item.id));
+        }
+        this.chapterId = event.item.id;
+        const progress = Math.floor(event.progress);
+        if (progress !== this.progress) {
+            this.progress = progress;
+        }
+        if (Math.abs(this.progress - this.lastProgress) > 20) {
+            this.service.recordHistory(event.item.book, event.item.id, event.progress).subscribe(_ => {});
+            this.lastProgress = this.progress;
+        }
     }
 
     public onScrollChange() {
-        window.scrollTo({
-            top: this.progress * this.getPageHeight() / 100 - this.getWindowHeight()
-        });
+        this.flipPager.scrollTo(this.flipPager.current, this.progress);
     }
 
-    public onRequest(id: number) {
-        this.service.getChapter(id, this.bookId).subscribe(res => {
-            this.flipPager.append(res);
+    public onRequest(event: IRequestEvent) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        if (Object.prototype.hasOwnProperty.call(this.cacheChapters, event.id)) {
+            event.callback(this.cacheChapters[event.id]);
+            this.isLoading = false;
+            this.booted = true;
+            return;
+        }
+        this.service.getChapter(event.id, this.bookId).subscribe(res => {
+            this.cacheChapters[event.id] = res;
+            event.callback(res);
+            this.isLoading = false;
+            this.booted = true;
+        }, _ => {
+            this.isLoading = false;
         });
     }
 
@@ -148,7 +193,7 @@ export class ReaderComponent implements OnInit {
     }
 
     public tapChapter() {
-        this.router.navigate(['/book/chapter/' + this.flipPager.current?.book_id]);
+        this.router.navigate(['../../../chapter/' + this.flipPager.current?.book], {relativeTo: this.route});
     }
 
     public tapEye() {
@@ -168,7 +213,14 @@ export class ReaderComponent implements OnInit {
     }
 
     private onScroll(_: any) {
-        this.progress = (this.getScrollTop() + this.getWindowHeight()) * 100 / this.getPageHeight();
+        const oldTop = this.scrollTop;
+        this.scrollTop = this.getScrollTop();
+        const scrollWindowBottom = this.scrollTop + this.getWindowHeight();
+        this.scrollToUp = this.scrollTop < oldTop;
+        if (this.booted && !this.isLoading && this.getScrollBottomHeight() < 30) {
+            this.tapNext();
+        }
+        this.flipPager.onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);
     }
 
      // 滚动条到底部的距离

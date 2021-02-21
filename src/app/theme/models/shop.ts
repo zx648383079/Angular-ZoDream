@@ -84,6 +84,7 @@ export interface IGoods {
     brand?: IBrand;
     gallery?: IGoodsGallery[];
     properties?: any[];
+    products?: IProduct[];
     is_collect?: boolean;
 }
 

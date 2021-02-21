@@ -47,7 +47,7 @@ export class WarehouseService {
     }
 
     public goodsChange(data: any) {
-        return this.http.post<IWarehouseGoods>('shop/admin/warehouse/goods_change', data);
+        return this.http.post<IWarehouseLog>('shop/admin/warehouse/goods_change', data);
     }
 
 }

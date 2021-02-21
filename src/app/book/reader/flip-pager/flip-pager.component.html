@@ -1,6 +1,6 @@
 <div class="flip-pager-box">
     <ng-container *ngIf="flipMode == 0">
-        <div class="panel-container" *ngFor="let item of blockItems" [ngStyle]="pageStyle">
+        <div class="panel-container" #filpPage *ngFor="let item of blockItems" [ngStyle]="pageStyle">
             <div class="title">{{ item.title }}</div>
             <div class="tag-box">
                 <span *ngFor="let tag of item.tags">{{ tag }}</span>

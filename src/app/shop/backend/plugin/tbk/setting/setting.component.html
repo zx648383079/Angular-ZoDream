@@ -1,21 +1,16 @@
+<app-edit-header title="淘宝客设置" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <h1>淘宝客设置</h1>
-    <form class="form-table" action="http://zodream.localhost/shop/admin/plugin/tbk/setting" method="POST"
-        accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="option_taobaoke_app_key">APP KEY</label>
             <div class="">
-                <input type="text" id="option_taobaoke_app_key" class="form-control" name="option[taobaoke][app_key]"
-                    value="" placeholder="" required="">
-
+                <input type="text" id="option_taobaoke_app_key"class="form-control"  formControlName="app_key">
             </div>
         </div>
         <div class="input-group">
             <label for="option_taobaoke_secret">Secret</label>
             <div class="">
-                <input type="text" id="option_taobaoke_secret" class="form-control" name="option[taobaoke][secret]"
-                    value="" placeholder="" required="">
-
+                <input type="text" id="option_taobaoke_secret" class="form-control" formControlName="secret">
             </div>
         </div>
         <button type="submit" class="btn btn-success">确认保存</button>

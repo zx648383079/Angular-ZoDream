@@ -54,6 +54,7 @@ export class ProductComponent implements OnInit {
 
     open(content: any, item?: IWarehouseGoods) {
         this.editData = item ? {
+            id: 1,
             goods_id: item.goods_id,
             product_id: item.product_id,
             amount: 0,
@@ -63,9 +64,10 @@ export class ProductComponent implements OnInit {
         }).result.then(_ => {
             this.service.goodsChange({
                 warehouse_id: this.data.id,
-                goods_id: item.goods_id,
-                product_id: item.product_id,
-                amount: 0,
+                goods_id: this.editData.goods_id,
+                product_id: this.editData.product_id,
+                amount: this.editData.amount,
+                remark: this.editData.remark,
             }).subscribe(_ => {
                 this.toastrService.success('库存调整成功');
                 this.tapPage();
