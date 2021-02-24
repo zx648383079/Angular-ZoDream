@@ -448,6 +448,11 @@ export interface IWarehouseLog {
     user?: IUser;
 }
 
+export interface IActivity {
+    id: number;
+    name: string;
+}
+
 export enum ORDER_STATUS {
     CANCEL = 1,
     INVALID = 2,

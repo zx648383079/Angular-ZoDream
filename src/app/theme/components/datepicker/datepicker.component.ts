@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges, ElementRef } from '@angular/core';
 import { hasElementByClass } from '../../utils';
 import { IDay, DayMode } from './datepicker.base';
 
@@ -56,7 +56,24 @@ export class DatepickerComponent implements OnInit, OnChanges {
         }
     }
 
-    constructor() {}
+    constructor(
+        private elementRef: ElementRef<HTMLDivElement>
+    ) {
+    }
+
+    get calendarStyle() {
+        if (window.innerWidth < 400) {
+            return;
+        }
+        const bound = this.elementRef.nativeElement.getBoundingClientRect();
+        const diff = window.innerWidth - bound.left - 300;
+        if (diff > 0) {
+            return;
+        }
+        return {
+            'margin-left': diff + 'px'
+        };
+    }
 
     ngOnInit() {
         this.refresh();
@@ -67,7 +84,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
             this.initMinutes();
             this.initSeconds();
         }
-        this.output();
+        // this.output();
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -100,7 +117,6 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     /**
      * 转化date
-     * @param date
      */
     parseDate(date: any): Date {
         if (!date) {
@@ -116,9 +132,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
     }
 
     /**
-      * 验证Date
-      * @param date
-      */
+     * 验证Date
+     */
      checkDate(date: Date): boolean {
         const min = this.min;
         if (min && date <= min) {
@@ -179,7 +194,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     initYears() {
         this.yearItems = [];
-        for(let i = this.minYear; i <= this.maxYear; i++) {
+        for (let i = this.minYear; i <= this.maxYear; i++) {
             this.yearItems.push(i);
         }
     }
@@ -203,7 +218,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
         let i: number;
         if (f > 0) {
             const yc = this.getLastOfMonth(y, m - 1);
-            for (i = yc - f + 2; i <= yc; i ++) {
+            for (i = yc - f + 1; i <= yc; i ++) {
                 days.push({
                     disable: true,
                     val: i
@@ -217,7 +232,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
             });
         }
         if (f + c < 43) {
-            const l = 42 - f - c + 1;
+            const l = 42 - f - c;
             for (i = 1; i <= l; i ++) {
                 days.push({
                     disable: true,
@@ -230,8 +245,6 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     /**
      * 获取月中最后一天
-     * @param y
-     * @param m
      */
     private getLastOfMonth(y: number, m: number): number {
         const date = new Date(y, m, 0);
@@ -240,8 +253,6 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     /**
      * 获取第一天和最后一天
-     * @param y
-     * @param m
      */
     private getFirtAndLastOfMonth(y: number, m: number): [number, number] {
         const date = new Date(y, m, 0);
@@ -363,9 +374,9 @@ export class DatepickerComponent implements OnInit, OnChanges {
             'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
             'S': date.getMilliseconds() // 毫秒
         };
-        for (let k in o) {
+        for (const k in o) {
             if (new RegExp('(' + k + ')').test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
             }
         }
         return fmt;

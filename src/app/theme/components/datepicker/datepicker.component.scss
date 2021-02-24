@@ -1,7 +1,8 @@
-$size: 50px;
+@import '../../styles/scrollbar';
+$size: 40px;
 $boxWidth: $size * 7;
 
-$minSize: 45px;
+$minSize: 35px;
 $minBoxWidth: $size * 7;
 
 @mixin prefix-animation($animation-name){
@@ -34,36 +35,6 @@ $minBoxWidth: $size * 7;
     -o-#{$content-name}: $content-txt;
 }
 
-
-@mixin scrollbar() {
-    &::-webkit-scrollbar{
-        height:6px;
-        width:6px;
-        margin-right:5px;
-        background: #f5f5f5;
-        transition:all 0.3s ease-in-out;
-        border-radius:0px
-    }
-    &::-webkit-scrollbar-track { 
-        -webkit-border-radius: 0px;
-        border-radius: 0px;
-    }
-    &::-webkit-scrollbar-thumb{
-        -webkit-border-radius: 0px;
-        border-radius: 0px;
-        background: rgba(0,0,0,0.5); 
-        &:hover{
-            background:rgba(0,0,0,0.6);
-        }
-        &:active{
-            background:rgba(0,0,0,0.8);
-        }
-        &:window-inactive {
-            background: rgba(0,0,0,0.4);
-        }
-    }
-}
-
 .datepicker {
     position: relative;
     .datepicker__calendar {
@@ -73,6 +44,7 @@ $minBoxWidth: $size * 7;
         user-select: none;
         background: #fff;
         color: #333;
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
         @include prefix-content(user-select, none);
         .header {
             position: relative;

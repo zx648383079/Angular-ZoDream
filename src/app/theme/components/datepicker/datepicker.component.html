@@ -2,13 +2,13 @@
     <div (click)="showCalendar()" class="datepicker__input-container">
         <ng-content></ng-content>
     </div>
-    <div class="datepicker__calendar datepicker__calendar_animate_slide-in" *ngIf="calendarVisible">
+    <div class="datepicker__calendar datepicker__calendar_animate_slide-in" *ngIf="calendarVisible" [ngStyle]="calendarStyle">
         <div class="header">
-            <i class="fa fa-backward previousYear" (click)="previousYear()"></i>
-            <i class="fa fa-chevron-left previousMonth" (click)="previousMonth()"></i>
+            <i class="iconfont icon-backward previousYear" (click)="previousYear()"></i>
+            <i class="iconfont icon-chevron-left previousMonth" (click)="previousMonth()"></i>
             <span (click)="toggleYear()">{{ title }}</span>
-            <i class="fa fa-chevron-right nextMonth" (click)="nextMonth()"></i>
-            <i class="fa fa-forward nextYear" (click)="nextYear()"></i>
+            <i class="iconfont icon-chevron-right nextMonth" (click)="nextMonth()"></i>
+            <i class="iconfont icon-forward nextYear" (click)="nextYear()"></i>
         </div>
         <div class="body">
             <div class="month-grid" *ngIf="gridMode == 0">
@@ -28,7 +28,7 @@
                     <li *ngFor="let item of monthItems" [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ item | twoPad }}</li>
                 </ul>
                 </div>
-                <i class="fa fa-close" (click)="toggleYear()"></i>
+                <i class="iconfont icon-close" (click)="toggleYear()"></i>
             </div>
             <div class="day-grid" *ngIf="hasTime && gridMode == 2">
                 <div class="list-group hour">
@@ -49,7 +49,7 @@
                     <li *ngFor="let item of secondItems" [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ item | twoPad }}</li>
                 </ul>
                 </div>
-                <i class="fa fa-close"></i>
+                <i class="iconfont icon-close"></i>
             </div>
         </div>
         <div class="footer" *ngIf="hasTime">

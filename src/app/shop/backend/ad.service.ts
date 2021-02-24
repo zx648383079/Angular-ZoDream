@@ -20,13 +20,13 @@ export class AdService {
     constructor(private http: HttpClient) {}
 
     public adList(params: any) {
-        return this.http.get < IPage < IAd >> ('shop/admin/ad', {
+        return this.http.get<IPage<IAd>>('shop/admin/ad', {
             params,
         });
     }
 
     public ad(id: any) {
-        return this.http.get < IAd > ('shop/admin/ad/detail', {
+        return this.http.get<IAd>('shop/admin/ad/detail', {
             params: {
                 id
             },
@@ -34,11 +34,11 @@ export class AdService {
     }
 
     public adSave(data: any) {
-        return this.http.post < IAd > ('shop/admin/ad/save', data);
+        return this.http.post<IAd>('shop/admin/ad/save', data);
     }
 
     public adRemove(id: any) {
-        return this.http.delete < IDataOne < true >> ('shop/admin/ad/delete', {
+        return this.http.delete<IDataOne<true>>('shop/admin/ad/delete', {
             params: {
                 id
             }
@@ -46,13 +46,13 @@ export class AdService {
     }
 
     public positionList(params: any) {
-        return this.http.get < IPage < IAdPosition >> ('shop/admin/ad/position', {
+        return this.http.get<IPage<IAdPosition>>('shop/admin/ad/position', {
             params,
         });
     }
 
     public position(id: any) {
-        return this.http.get < IAdPosition > ('shop/admin/ad/detail_position', {
+        return this.http.get<IAdPosition>('shop/admin/ad/detail_position', {
             params: {
                 id
             },
@@ -60,11 +60,11 @@ export class AdService {
     }
 
     public positionSave(data: any) {
-        return this.http.post < IAdPosition > ('shop/admin/ad/save_position', data);
+        return this.http.post<IAdPosition>('shop/admin/ad/save_position', data);
     }
 
     public positionRemove(id: any) {
-        return this.http.delete < IDataOne < true >> ('shop/admin/ad/delete_position', {
+        return this.http.delete<IDataOne<true>>('shop/admin/ad/delete_position', {
             params: {
                 id
             }
@@ -72,6 +72,6 @@ export class AdService {
     }
 
     public positionAll() {
-        return this.http.get < IData < IAdPosition >> ('shop/admin/ad/position_all');
+        return this.http.get<IData<IAdPosition>>('shop/admin/ad/position_all');
     }
 }

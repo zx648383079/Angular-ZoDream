@@ -17,3 +17,4 @@ export * from './star/star.component';
 export * from './region/region.component';
 export * from './select-input/select-input.component';
 export * from './file-input/file-input.component';
+export * from './date-input/date-input.component';
