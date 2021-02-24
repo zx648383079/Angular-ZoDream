@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { ValidatorFn, AbstractControl, ValidationErrors, NG_VALIDATORS, Validator, FormGroup } from '@angular/forms';
+import { mobileValidate, passwordValidate } from '.';
 
 @Directive({
   selector: '[appPassword]',
@@ -14,13 +15,13 @@ export class PasswordValidatorDirective implements Validator {
 }
 
 export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  return control.value && control.value.length < 6 ? {
+  return control.value && !passwordValidate(control.value) ? {
     password: true
   } : null;
 };
 
 export const mobileValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  return control.value && !/^1[3456789]\d{9}$/.test(control.value) ? {
+  return control.value && !mobileValidate(control.value) ? {
     mobile: true
   } : null;
 };

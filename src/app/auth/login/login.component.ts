@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public qrImage = '';
 
     constructor(
-        private store: Store < AppState > ,
+        private store: Store<AppState>,
         private route: ActivatedRoute,
         private fb: FormBuilder,
         private router: Router,

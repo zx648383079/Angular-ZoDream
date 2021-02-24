@@ -54,6 +54,10 @@ export class HomeComponent implements OnInit {
             url: 'legwork'
         },
         {
+            name: 'Catering',
+            url: '/catering'
+        },
+        {
             name: 'Backend',
             url: '/backend'
         }

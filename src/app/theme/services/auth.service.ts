@@ -100,6 +100,10 @@ export class AuthService {
         return this.http.post<IDataOne<boolean>>('auth/password/send_find_email', {email});
     }
 
+    public sendMobileCode(mobile: string, type = 'login') {
+        return this.http.post<IDataOne<boolean>>('auth/password/send_mobile_code', {mobile, type});
+    }
+
     public resetPassword(data: any) {
         return this.http.post<IDataOne<boolean>>('auth/password/reset', data);
     }

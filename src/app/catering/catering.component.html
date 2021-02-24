@@ -1,0 +1,10 @@
+<p>
+  catering works!
+</p>
+
+<div class="dialog-mask" *ngIf="dialogOpen">
+</div>
+<div class="dialog-box"  [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
+    <app-login-panel></app-login-panel>
+    <i class="iconfont icon-close" (click)="dialogOpen = false"></i>
+</div>

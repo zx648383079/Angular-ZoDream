@@ -40,6 +40,7 @@ const routes: Routes = [
     { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
     { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
     { path: 'book', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
+    { path: 'catering', loadChildren: () => import('./catering/catering.module').then(m => m.CateringModule) },
     {
         path: '**',
         redirectTo: 'frontend'

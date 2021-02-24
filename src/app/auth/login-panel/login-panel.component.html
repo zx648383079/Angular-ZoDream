@@ -1,0 +1,101 @@
+<div class="login-panel">
+    <div class="tab-bar">
+        <a [ngClass]="{active: tabIndex < 2}" (click)="tapTab(0)">手机号登录</a>
+        <a [ngClass]="{active: tabIndex == 2}" (click)="tapTab(2)">邮箱登录</a>
+    </div>
+    <div class="mobile-body" [hidden]="tabIndex > 0">
+        <a class="mobile-toggle" (click)="tapTab(1)">使用密码验证登录</a>
+        <div class="icon-input">
+            <i class="iconfont icon-mobile" aria-hidden="true"></i>
+            <input type="text" [(ngModel)]="mobile">
+            <i class="iconfont icon-close-circle" *ngIf="mobile.length > 0" (click)="tapClearMobile()"></i>
+        </div>
+        <div class="code-input">
+            <input type="text" [(ngModel)]="code" placeholder="请输入短信验证码">
+            <app-count-down class="send-btn" (tapped)="tapSendCode($event)"></app-count-down>
+        </div>
+        <div class="captcha-input" *ngIf="captchaImage">
+            <input type="text" [(ngModel)]="captcha" placeholder="请输入图形验证码">
+            <a (click)="tapCaptcha()" class="img-btn" title="点击刷新">
+                <img [src]="captchaImage" alt="刷新重试">
+            </a>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="tapMobileCodeLogin()">手机号快捷登录</button>
+        <div class="agree-bar">
+            <i class="iconfont" [ngClass]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
+            我同意<a href="">《服务条款》</a>
+        </div>
+    </div>
+    <div class="mobile-body" [hidden]="tabIndex != 1">
+        <a class="mobile-toggle" (click)="tapTab(0)">短信快捷登录</a>
+        <div class="icon-input">
+            <i class="iconfont icon-mobile" aria-hidden="true"></i>
+            <input type="text" [(ngModel)]="mobile">
+            <i class="iconfont icon-close-circle" *ngIf="mobile.length > 0" (click)="tapClearMobile()"></i>
+        </div>
+        <div class="icon-input">
+            <i class="iconfont icon-lock" aria-hidden="true"></i>
+            <input [type]="passwordObserve ? 'text' : 'password'" [(ngModel)]="password">
+            <i class="iconfont" *ngIf="password.length > 0" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
+        </div>
+        <div class="captcha-input" *ngIf="captchaImage">
+            <input type="text" [(ngModel)]="captcha" placeholder="请输入图形验证码">
+            <a (click)="tapCaptcha()" class="btn" title="点击刷新">
+                <img [src]="captchaImage" alt="刷新重试">
+            </a>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="tapMobileLogin()">登录</button>
+    </div>
+    <div class="email-body" [hidden]="tabIndex != 2">
+        <div class="icon-input">
+            <i class="iconfont icon-user" aria-hidden="true"></i>
+            <input type="text" [(ngModel)]="email">
+            <i class="iconfont icon-close-circle" *ngIf="email.length > 0" (click)="tapClearEmail()"></i>
+        </div>
+        <div class="icon-input">
+            <i class="iconfont icon-lock" aria-hidden="true"></i>
+            <input [type]="passwordObserve ? 'text' : 'password'" [(ngModel)]="password">
+            <i class="iconfont" *ngIf="password.length > 0" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
+        </div>
+        <div class="captcha-input" *ngIf="captchaImage">
+            <input type="text" [(ngModel)]="captcha" placeholder="请输入验证码">
+            <a (click)="tapCaptcha()" class="btn" title="点击刷新">
+                <img [src]="captchaImage" alt="刷新重试">
+            </a>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="tapEmailLogin()">登录</button>
+    </div>
+    <div class="qr-body" *ngIf="tabIndex == 3">
+        <div class="qr-img">
+            <img [src]="qrImage">
+            <div class="failure-box" *ngIf="qrStatus == 2">
+                <i class="iconfont icon-sync" (click)="tapRefreshQr()"></i>
+                <p>二维码已失效</p>
+            </div>
+            <div class="scan-box"  *ngIf="qrStatus == 1">
+                <i class="iconfont icon-check-circle"></i>
+                <p>扫描成功，等待确认</p>
+            </div>
+            <div class="success-box"  *ngIf="qrStatus == 3">
+                <i class="iconfont icon-check-circle"></i>
+                <p>登录成功</p>
+            </div>
+            <div class="failure-box"  *ngIf="qrStatus == 4">
+                <i class="iconfont icon-sync" (click)="tapRefreshQr()"></i>
+                <p>登录失败</p>
+            </div>
+        </div>
+        <div class="qr-label">打开app，扫描二维码</div>
+    </div>
+
+    <div class="oauth-bar">
+        <a (click)="tapOAuth('qq')" title="QQ登录"><i class="iconfont icon-qq"></i></a>
+        <a  (click)="tapOAuth('wechat')" title="微信登录"><i class="iconfont icon-wechat"></i></a>
+        <a  (click)="tapOAuth('weibo')" title="微博登录"><i class="iconfont icon-weibo"></i></a>
+        <a  (click)="tapOAuth('github')" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+
+        <a class="help-btn" *ngIf="tabIndex < 2">遇到问题？</a>
+        <a class="help-btn" *ngIf="tabIndex == 2">邮箱注册</a>
+        <a class="help-btn" *ngIf="tabIndex == 2">忘记密码？</a>
+    </div>
+</div>
