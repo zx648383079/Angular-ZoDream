@@ -47,7 +47,7 @@ export class BookComponent implements OnInit {
         }
     ];
 
-    constructor(private store: Store < AppState > ) {
+    constructor(private store: Store<AppState>) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;
         });

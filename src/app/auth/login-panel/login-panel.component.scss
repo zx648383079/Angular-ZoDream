@@ -97,15 +97,43 @@ a {
     .mobile-body {
         padding: 0 20px 20px;
     }
-    
     .email-body,
     .qr-body {
         padding: 18px 20px 20px;
     }
+    .qr-body {
+        .qr-img {
+            text-align: center;
+            position: relative;
+        }
+        .qr-label {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+        .scan-box,
+        .failure-box,
+        .success-box,
+        .failure-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            .iconfont {
+                font-size: 30px;
+            }
+        }
+    }
+    
     .oauth-bar {
         height: 60px;
         background: #F5F3EF;
-        padding: 14px 20px 0;
+        padding: 14px 10px 0;
         .iconfont {
             font-size: 23px;
             width: 25px;

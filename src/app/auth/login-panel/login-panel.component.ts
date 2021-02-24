@@ -5,7 +5,7 @@ import { Md5 } from 'ts-md5';
 import { environment } from '../../../environments/environment';
 import { CountDownComponent } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
-import { IErrorResult } from '../../theme/models/page';
+import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { AuthService } from '../../theme/services';
@@ -188,22 +188,26 @@ export class LoginPanelComponent {
                     this.qrStatus = 3;
                 },
                 (err: IErrorResult) => {
-                    if (err.error.code === 201) {
-                        this.loopCheckQr();
-                        return;
-                    }
-                    if (err.error.code === 204) {
-                        this.qrStatus = 2;
-                        return;
-                    }
-                    if (err.error.code === 202) {
-                        this.qrStatus = 1;
-                        this.loopCheckQr();
-                        return;
-                    }
-                    this.qrStatus = 4;
+                    this.checkHttp(err.error);
                 }
             );
-        }, 500);
+        }, 2000);
+    }
+
+    private checkHttp(err: IErrorResponse) {
+        if (err.code === 201) {
+            this.loopCheckQr();
+            return;
+        }
+        if (err.code === 204) {
+            this.qrStatus = 2;
+            return;
+        }
+        if (err.code === 202) {
+            this.qrStatus = 1;
+            this.loopCheckQr();
+            return;
+        }
+        this.qrStatus = 4;
     }
 }

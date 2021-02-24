@@ -1,6 +1,46 @@
+.header-bar {
+    background-color: #fff;
+    a {
+        text-decoration: none;
+    }
+    .tab-bar {
+        display: inline-block;
+        margin-top: 30px;
+        a {
+            color: #999;
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-block;
+            &:hover {
+                color: #b4a078;
+            }
+            &.active {
+                color: #333;
+                border-bottom: 2px solid red;
+            }
+        }
+    }
+    .user-icon {
+        float: right;
+        .avatar {
+            padding: 5px;
+            img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+            }
+            &:hover {
+                background-color: #ccc;
+            }
+        }
+    }
+}
+
 .dialog-box {
     width: 320px;
     margin-left: -160px;
+    margin-top: -200px;
     .icon-close {
         position: absolute;
         font-size: 30px;

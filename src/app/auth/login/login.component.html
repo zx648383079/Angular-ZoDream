@@ -44,7 +44,7 @@
   <div class="login-qr-box" [ngClass]="{'waiting_confirm': mode == 2, 'qr_expired': mode == 3, 'qr_reject': mode == 4, 'qr_success': mode == 5}">
       <div class="qr-box">
           <img [src]="qrImage" alt="">
-          <i class="iconfont icon-sync"></i>
+          <i class="iconfont icon-refresh"></i>
       </div>
       <div class="scan-box">
           <i class="iconfont icon-check-circle"></i>
@@ -55,7 +55,7 @@
           <p>登陆成功</p>
       </div>
       <div class="failure-box">
-          <i class="iconfont icon-sync"></i>
+          <i class="iconfont icon-refresh"></i>
           <p>登陆失败</p>
       </div>
       <button type="button" class="btn" (click)="tapMode(0)">返回登录</button>

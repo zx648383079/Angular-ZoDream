@@ -22,7 +22,8 @@ import {
 } from '../interfaces';
 import {
     Observable,
-    of
+    of,
+    throwError
 } from 'rxjs';
 import {
     IUser

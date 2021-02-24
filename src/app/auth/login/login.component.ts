@@ -113,7 +113,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         window.setTimeout(() => {
             this.authService.qrCheck(this.qrToken).subscribe(
-                _ => {},
+                _ => {
+                    this.mode = 5;
+                },
                 (err: IErrorResult) => {
                     if (err.error.code === 201) {
                         this.loopCheckQr();
@@ -131,7 +133,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.mode = 4;
                 }
             );
-        }, 500);
+        }, 2000);
     }
 
     ngOnInit() {

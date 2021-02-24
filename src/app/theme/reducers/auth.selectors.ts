@@ -13,7 +13,7 @@ function fetchAuthStatus(state: AuthState): boolean {
     return !state.guest;
 }
 
-function fetchCurrentUser(state: AuthState): IUser {
+function fetchCurrentUser(state: AuthState): IUser|null {
     return state.user;
 }
 
