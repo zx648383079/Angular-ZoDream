@@ -40,7 +40,7 @@ export class EditComponent implements OnInit {
       }
       this.service.role(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           display_name: res.display_name,
           description: res.description,

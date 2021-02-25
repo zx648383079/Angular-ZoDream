@@ -1,5 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { formatDate } from '../../utils';
 
 @Component({
     selector: 'app-date-input',
@@ -43,7 +44,7 @@ export class DateInputComponent {
     }
 
     writeValue(obj: any): void {
-        this.value = obj;
+        this.value = obj && /^\d{10}$/.test(obj) ? formatDate(obj, this.format) : obj;
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

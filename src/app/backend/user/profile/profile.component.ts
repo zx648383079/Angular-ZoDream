@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
   ) {
     this.store.select(getCurrentUser).subscribe(user => {
       this.data = user;
-      this.form.setValue({
+      this.form.patchValue({
         name: user.name,
         email: user.email,
         sex: user.sex,

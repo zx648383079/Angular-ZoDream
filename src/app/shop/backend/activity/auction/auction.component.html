@@ -29,6 +29,35 @@
                 </tr>
             </thead>
             <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <ng-container *ngIf="item.goods; else elseTemplate">
+                            {{ item.goods.name }}
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            [-]
+                        </ng-template>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td class="auto-hide">{{ item.start_at | timestamp }}</td>
+                    <td class="auto-hide">{{ item.end_at | timestamp }}</td>
+                    <td class="auto-hide">{{ item.configure.begin_price }}</td>
+                    <td>
+                        <ng-container *ngIf="item.configure.fixed_price > 0; else elseTemplate">
+                            {{ item.configure.fixed_price }}
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            -
+                        </ng-template>
+                    </td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 

@@ -1,4 +1,5 @@
 {
+    "files.autoSave": "off",
     "editor.detectIndentation": false,
     "javascript.preferences.importModuleSpecifier": "relative",
     "javascript.preferences.quoteStyle": "single",

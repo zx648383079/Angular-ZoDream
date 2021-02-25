@@ -36,7 +36,7 @@ export class EditPositionComponent implements OnInit {
       }
       this.service.position(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           width: res.width,
           height: res.height,

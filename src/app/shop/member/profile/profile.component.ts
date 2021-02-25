@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.service.profile().subscribe(user => {
             this.user = user;
-            this.form.setValue({
+            this.form.patchValue({
                 name: user.name,
                 email: user.email,
                 mobile: '',

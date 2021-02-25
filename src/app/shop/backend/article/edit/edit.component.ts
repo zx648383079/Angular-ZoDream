@@ -72,7 +72,7 @@ export class EditArticleComponent implements OnInit {
       }
       this.service.article(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           title: res.title,
           cat_id: res.cat_id,
           thumb: res.thumb,

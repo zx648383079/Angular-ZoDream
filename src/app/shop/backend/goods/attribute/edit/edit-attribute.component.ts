@@ -44,7 +44,7 @@ export class EditAttributeComponent implements OnInit {
             }
             this.service.attr(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     search_type: res.search_type.toString(),
                     group_id: res.group_id,

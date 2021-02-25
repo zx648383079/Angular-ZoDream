@@ -41,7 +41,7 @@ export class EditMusicComponent implements OnInit {
             }
             this.service.music(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     singer: res.singer,
                     path: res.path,

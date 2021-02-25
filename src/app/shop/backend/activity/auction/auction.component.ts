@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IActivity, IAuctionConfigure } from '../../../../theme/models/shop';
 import { ActivityService } from '../activity.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { ActivityService } from '../activity.service';
 })
 export class AuctionComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IActivity<IAuctionConfigure>[] = [];
     public hasMore = true;
     public page = 1;
     public perPage = 20;

@@ -24,7 +24,7 @@ export class SettingComponent implements OnInit {
 
     ngOnInit() {
         this.service.option().subscribe(res => {
-            this.form.setValue({
+            this.form.patchValue({
                 app_key: res.app_key,
                 secret: res.secret
             });

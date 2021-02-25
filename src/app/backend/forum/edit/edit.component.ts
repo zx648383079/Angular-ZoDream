@@ -65,7 +65,7 @@ export class EditComponent implements OnInit {
                 if (res.moderators) {
                     this.userItems = res.moderators;
                 }
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     parent_id: res.parent_id,
                     thumb: res.thumb,

@@ -63,7 +63,7 @@ export class EditShippingComponent implements OnInit {
           }
           return item;
         });
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           code: res.code,
           method: res.method.toString(),

@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
             if (!res.name) {
                 return;
             }
-            this.form.setValue({
+            this.form.patchValue({
                 name: res.name,
                 logo: res.logo,
                 tel: res.tel,

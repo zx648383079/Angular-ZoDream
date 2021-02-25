@@ -3,78 +3,75 @@
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">名称</label>
-            <div class="">
-                <input type="text" id="name" class="form-control" name="name" required="">
-
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
         <div class="input-group">
             <label for="description">说明</label>
-            <div class="">
+            <div>
                 <textarea id="description" class="form-control" name="description"></textarea>
 
             </div>
         </div>
         <div class="input-group">
             <label for="scope">商品</label>
-            <div class="">
-                <input type="text" id="scope" class="form-control" name="scope" placeholder="请输入 商品" required="">
-
+            <div>
+                <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
             </div>
         </div>
         <div class="input-group">
             <label for="start_at">起止时间</label>
-            <div class="">
-                <app-date-input placeholder="请输入开始时间"></app-date-input>
+            <div>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
                 ~
-                <input type="text" id="end_at" class="form-control" name="end_at" placeholder="请输入结束时间" autocomplete="off"
-                    value="">
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
             </div>
         </div>
 
-        <div class="input-group">
-            <label for="configure_mode">拍卖模式</label>
-            <div class="">
-                <span class="radio-label">
-                    <input type="radio" id="configure_mode0" name="configure[mode]" value="0" checked="">
-                    <label for="configure_mode0">普通拍卖</label>
-                </span><span class="radio-label">
-                    <input type="radio" id="configure_mode1" name="configure[mode]" value="1">
-                    <label for="configure_mode1">荷兰式拍卖</label>
-                </span>
-                <div class="input-tip">普通拍卖为加价拍卖，荷兰式拍卖为先降价直到有人拍，如果两个同时拍则开始加价</div>
+        <div formGroupName="configure">
+            <div class="input-group">
+                <label for="configure_mode">拍卖模式</label>
+                <div>
+                    <span class="radio-label">
+                        <input type="radio" id="configure_mode0" formControlName="mode" value="0">
+                        <label for="configure_mode0">普通拍卖</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="configure_mode1" formControlName="mode" value="1">
+                        <label for="configure_mode1">荷兰式拍卖</label>
+                    </span>
+                    <div class="input-tip">普通拍卖为加价拍卖，荷兰式拍卖为先降价直到有人拍，如果两个同时拍则开始加价</div>
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="configure_begin_price">起拍价</label>
-            <div class="">
-                <input type="text" id="configure_begin_price" class="form-control" name="configure[begin_price]"
-                    placeholder="请输入 起拍价">
-
+            <div class="input-group">
+                <label for="configure_begin_price">起拍价</label>
+                <div>
+                    <input type="text" id="configure_begin_price" class="form-control" formControlName="begin_price"
+                        placeholder="请输入 起拍价">
+    
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="configure_fixed_price">一口价</label>
-            <div class="">
-                <input type="text" id="configure_fixed_price" class="form-control" name="configure[fixed_price]"
-                    placeholder="请输入 一口价">
-
+            <div class="input-group">
+                <label for="configure_fixed_price">一口价</label>
+                <div>
+                    <input type="text" id="configure_fixed_price" class="form-control" formControlName="fixed_price"
+                        placeholder="请输入 一口价">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="configure_step_price">加价幅度</label>
-            <div class="">
-                <input type="text" id="configure_step_price" class="form-control" name="configure[step_price]"
-                    placeholder="请输入 加价幅度">
-
+            <div class="input-group">
+                <label for="configure_step_price">加价幅度</label>
+                <div>
+                    <input type="text" id="configure_step_price" class="form-control" formControlName="step_price"
+                        placeholder="请输入 加价幅度">
+    
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="configure_deposit">保证金</label>
-            <div class="">
-                <input type="text" id="configure_deposit" class="form-control" name="configure[deposit]"
-                    placeholder="请输入 保证金">
-
+            <div class="input-group">
+                <label for="configure_deposit">保证金</label>
+                <div>
+                    <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"
+                        placeholder="请输入 保证金">
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-success">确认保存</button>

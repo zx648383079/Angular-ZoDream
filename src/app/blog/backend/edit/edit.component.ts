@@ -90,7 +90,7 @@ export class EditComponent implements OnInit {
             }
             this.service.blog(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     title: res.title,
                     content: res.content,
                     keywords: res.keywords,

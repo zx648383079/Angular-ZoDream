@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges, ElementRef } from '@angular/core';
-import { hasElementByClass } from '../../utils';
+import { formatDate, hasElementByClass } from '../../utils';
 import { IDay, DayMode } from './datepicker.base';
 
 @Component({
@@ -161,7 +161,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
             this.currentMinute = this.currentDate.getMinutes();
             this.currentSecond = this.currentDate.getSeconds();
         }
-        this.title = this.formatDate(this.currentDate, this.titleFormat);
+        this.title = formatDate(this.currentDate, this.titleFormat);
     }
 
     initHours() {
@@ -291,7 +291,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
         if (this.hasTime) {
             this.currentDate.setHours(this.currentHour, this.currentMinute, this.currentSecond);
         }
-        this.title = this.formatDate(this.currentDate, this.titleFormat);
+        this.title = formatDate(this.currentDate, this.titleFormat);
     }
 
     changeYear(year: number) {
@@ -352,33 +352,11 @@ export class DatepickerComponent implements OnInit, OnChanges {
     }
 
     output() {
-        this.valueChange.emit(this.formatDate(this.currentDate, this.format));
+        this.valueChange.emit(formatDate(this.currentDate, this.format));
     }
 
     showCalendar() {
         this.calendarVisible = true;
         this.refresh();
-    }
-
-    /**
-     * 格式化日期
-     */
-    public formatDate(date: Date, fmt: string = 'y年mm月dd日'): string {
-        const o = {
-            'y+': date.getFullYear(),
-            'm+': date.getMonth() + 1, // 月份
-            'd+': date.getDate(), // 日
-            'h+': date.getHours(), // 小时
-            'i+': date.getMinutes(), // 分
-            's+': date.getSeconds(), // 秒
-            'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
-            'S': date.getMilliseconds() // 毫秒
-        };
-        for (const k in o) {
-            if (new RegExp('(' + k + ')').test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
-            }
-        }
-        return fmt;
     }
 }

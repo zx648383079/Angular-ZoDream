@@ -51,7 +51,7 @@ export class EditUserComponent implements OnInit {
       }
       this.service.userDetail(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           sex: res.sex,
           email: res.email,

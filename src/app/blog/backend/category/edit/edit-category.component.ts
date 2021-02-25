@@ -38,7 +38,7 @@ export class EditCategoryComponent implements OnInit {
       }
       this.service.category(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           thumb: res.thumb,
           keywords: res.keywords,

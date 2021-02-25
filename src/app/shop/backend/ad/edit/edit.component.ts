@@ -66,7 +66,7 @@ export class EditAdComponent implements OnInit {
             }
             this.service.ad(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     position_id: res.position_id,
                     type: res.type,

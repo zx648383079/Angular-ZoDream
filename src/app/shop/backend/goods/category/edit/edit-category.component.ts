@@ -48,7 +48,7 @@ export class EditCategoryComponent implements OnInit {
       this.service.category(params.id).subscribe(res => {
         this.data = res;
         this.categories = filterTree(this.categories, res.id);
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           parent_id: res.parent_id,
           keywords: res.keywords,

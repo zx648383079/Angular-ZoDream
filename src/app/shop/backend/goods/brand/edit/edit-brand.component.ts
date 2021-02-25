@@ -44,7 +44,7 @@ export class EditBrandComponent implements OnInit {
             }
             this.service.brand(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     keywords: res.keywords,
                     description: res.description,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IActivity } from '../../../../../theme/models/shop';
+import { IActivity, IAuctionConfigure } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
 
 @Component({
@@ -14,15 +14,20 @@ export class EditAuctionComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
-        position_id: ['0'],
-        type: ['0'],
-        url: [''],
-        content: [''],
-        start_at: [0],
-        end_at: [0],
+        description: [''],
+        scope: [0, Validators.required],
+        start_at: [''],
+        end_at: [],
+        configure: this.fb.group({
+            mode: '0',
+            begin_price: 0,
+            fixed_price: 0,
+            step_price: 0,
+            deposit: 0,
+        }),
     });
 
-    public data: IActivity;
+    public data: IActivity<IAuctionConfigure>;
 
     constructor(
         private service: ActivityService,
@@ -38,8 +43,13 @@ export class EditAuctionComponent implements OnInit {
             }
             this.service.auction(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
+                    description: res.description,
+                    scope: res.scope,
+                    start_at: res.start_at,
+                    end_at: res.end_at,
+                    configure: this.fb.group(res.configure),
                 });
             });
         });
@@ -54,7 +64,7 @@ export class EditAuctionComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IActivity = Object.assign({}, this.form.value);
+        const data: IActivity<IAuctionConfigure> = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

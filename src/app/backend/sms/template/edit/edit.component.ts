@@ -45,7 +45,7 @@ export class EditTemplateComponent implements OnInit {
       }
       this.service.template(params.id).subscribe(res => {
         this.data = res;
-        this.form.setValue({
+        this.form.patchValue({
           name: res.name,
           signature_id: res.signature_id,
           content: res.content,

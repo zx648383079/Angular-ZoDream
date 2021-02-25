@@ -448,9 +448,43 @@ export interface IWarehouseLog {
     user?: IUser;
 }
 
-export interface IActivity {
+export interface IActivity<T extends object> {
     id: number;
     name: string;
+    thumb: string;
+    description: string;
+    type: number;
+    scope_type: number;
+    scope: string;
+    configure: T;
+    status: number;
+    start_at: number|string;
+    end_at: number|string;
+    created_at: string;
+    updated_at: string;
+    goods?: IGoods;
+}
+
+export interface IAuctionConfigure {
+    mode: number;
+    begin_price: number;
+    fixed_price: number;
+    step_price: number;
+    deposit: number;
+}
+
+export interface IBargainConfigure {
+    min: number;
+    max: number;
+    times: number;
+    amount: number;
+    shipping_fee: number;
+}
+
+export interface ICashBackConfigure {
+    order_amount: number;
+    star: number;
+    money: number;
 }
 
 export enum ORDER_STATUS {

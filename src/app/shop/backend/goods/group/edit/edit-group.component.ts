@@ -35,7 +35,7 @@ export class EditGroupComponent implements OnInit {
             }
             this.service.group(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     attr_group: '',
                 });

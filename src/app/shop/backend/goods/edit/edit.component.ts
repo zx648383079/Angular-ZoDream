@@ -81,7 +81,7 @@ export class EditComponent implements OnInit, AfterViewInit {
             }
             this.service.goods(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     cat_id: res.cat_id,
                     brand_id: res.brand_id,
                     name: res.name,

@@ -62,7 +62,7 @@ export class EditComponent implements OnInit {
             }
             this.service.task(params.id).subscribe(res => {
                 this.data = res;
-                this.form.setValue({
+                this.form.patchValue({
                     name: res.name,
                     description: res.description,
                     every_time: res.every_time,
