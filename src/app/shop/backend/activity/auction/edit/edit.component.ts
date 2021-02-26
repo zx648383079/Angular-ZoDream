@@ -14,6 +14,7 @@ export class EditAuctionComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
+        thumb: [''],
         description: [''],
         scope: [0, Validators.required],
         start_at: [''],
@@ -45,6 +46,7 @@ export class EditAuctionComponent implements OnInit {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
+                    thumb: res.thumb,
                     description: res.description,
                     scope: res.scope,
                     start_at: res.start_at,

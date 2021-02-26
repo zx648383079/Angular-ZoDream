@@ -170,6 +170,29 @@ export function eachObject(obj: any, cb: (val: any, key?: string|number) => any)
     }
 }
 
+/**
+ * 生成一系列连串数字
+ * @param start 包括开始
+ * @param end 包含结束
+ * @param step 每次相隔
+ * @param format 可以对每一项格式化
+ * @returns 数字组合
+ */
+export function rangeStep<T = number>(start: number, end: number, step = 1, format?: (i: number) => T): T[] {
+    const items: T[] = [];
+    step = step === 0 ? 1 : Math.abs(step);
+    if (start > end) {
+        step = - step;
+    }
+    while (true) {
+        items.push(format ? format(start) : start as any);
+        start += step;
+        if ((step > 0 && start > end) || (step < 0 && start < end)) {
+            break;
+        }
+    }
+    return items;
+}
 
 export function hasElementByClass(path: Array<Element>, className: string): boolean {
     let hasClass = false;

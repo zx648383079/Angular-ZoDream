@@ -3,14 +3,14 @@
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">名称</label>
-            <div class="">
+            <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
         <div class="input-group">
             <label for="group_id">分组</label>
-            <div class="">
+            <div>
                 <select id="group_id" class="form-control" formControlName="group_id">
                     <ng-container *ngFor="let item of groupItems">
                         <option [value]="item.id">{{ item.name }}</option>
@@ -20,7 +20,7 @@
         </div>
         <div class="input-group">
             <label for="search_type">搜索类型</label>
-            <div class="">
+            <div>
                 <span class="radio-label">
                     <input type="radio" id="search_type0" formControlName="search_type" value="0">
                     <label for="search_type0">不需要检索</label>
@@ -35,7 +35,7 @@
         </div>
         <div class="input-group">
             <label for="type">类型</label>
-            <div class="">
+            <div>
                 <span class="radio-label">
                     <input type="radio" id="type0" formControlName="type" value="0" checked="">
                     <label for="type0">唯一属性</label>
@@ -53,7 +53,7 @@
         </div>
         <div class="input-group">
             <label for="input_type">输入类型</label>
-            <div class="">
+            <div>
                 <span class="radio-label">
                     <input type="radio" id="input_type0" formControlName="input_type" value="0" checked="">
                     <label for="input_type0">手工录入</label>
@@ -65,13 +65,13 @@
         </div>
         <div class="input-group" *ngIf="isInput">
             <label for="default_value">默认值</label>
-            <div class="">
+            <div>
                 <textarea id="default_value" class="form-control" formControlName="default_value"></textarea>
             </div>
         </div>
         <div class="input-group">
             <label for="position">排序</label>
-            <div class="">
+            <div>
                 <input type="text" id="position" class="form-control" formControlName="position">
             </div>
         </div>

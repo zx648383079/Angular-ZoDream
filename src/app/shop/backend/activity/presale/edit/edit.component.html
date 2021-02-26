@@ -1,109 +1,126 @@
-<form class="form-table" action="http://zodream.localhost/shop/admin/activity/presale/save" method="POST"
-    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
-    <div class="input-group">
-        <label for="goods_id">Goods Id</label>
-        <div class="">
-            <input type="text" id="goods_id" class="form-control" name="goods_id" required="">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="name">名称</label>
-        <div class="">
-            <input type="text" id="name" class="form-control" name="name">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="start_at">定金时间</label>
-        <div class="">
-            <input type="text" id="start_at" class="form-control" name="start_at" placeholder="请输入开始时间" value="">
-            ~
-            <input type="text" id="end_at" class="form-control" name="end_at" placeholder="请输入结束时间" value="">
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="configure_start_at">尾款时间</label>
-        <div class="">
-            <input type="text" id="configure_start_at" class="form-control" name="configure[final_start_at]"
-                placeholder="请输入开始时间" value="">
-            ~
-            <input type="text" id="configure_end_at" class="form-control" name="configure[final_end_at]"
-                placeholder="请输入结束时间" value="">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <label for="configure_ship_at">发货时间</label>
-        <div class="">
-            <input type="text" id="configure_ship_at" class="form-control" name="configure[ship_at]"
-                placeholder="请输入 发货时间">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="configure_price_type">预算模式</label>
-        <div class="">
-            <span class="radio-label">
-                <input type="radio" id="configure_price_type0" name="configure[price_type]" value="0" checked="">
-                <label for="configure_price_type0">一口价</label>
-            </span><span class="radio-label">
-                <input type="radio" id="configure_price_type1" name="configure[price_type]" value="1">
-                <label for="configure_price_type1">阶梯价</label>
-            </span>
-        </div>
-    </div>
-    <div class="price_type_0">
+<app-edit-header [title]="data && data.id > 0 ? '编辑预售' : '新增预售'" (submited)="tapSubmit()"
+    [disabled]="form.invalid">
+</app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
-            <label for="configure_price">预售价格</label>
-            <div class="">
-                <input type="text" id="configure_price" class="form-control" name="configure[price]"
-                    placeholder="请输入 预售价格">
-
+            <label for="goods_id">商品</label>
+            <div>
+                <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
             </div>
         </div>
-    </div>
-    <div class="input-group price_type_1" style="display: none">
-        <label>预售价格</label>
-        <div class="">
-            <p class="step-item">
-                满<input type="text" name="configure[step][amount]" value="1" size="10">人，预售价<input type="text"
-                    name="configure[step][price]" size="10">元
-            </p>
-            <a href="javascript:;" class="btn" data-action="add">
-                <i class="fa fa-plus"></i>
-            </a>
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
         </div>
-    </div>
+        <div class="input-group">
+            <label for="thumb">图片</label>
+            <div>
+                <app-file-input formControlName="thumb"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">说明</label>
+            <div>
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="start_at">定金时间</label>
+            <div>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                ~
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+            </div>
+        </div>
+        <div formGroupName="configure">
+            <div class="input-group">
+                <label for="configure_start_at">尾款时间</label>
+                <div>
+                    <app-date-input formControlName="final_start_at" placeholder="请输入开始时间"></app-date-input>
+                    ~
+                    <app-date-input formControlName="final_end_at" placeholder="请输入结束时间"></app-date-input>
+                </div>
+            </div>
+    
+            <div class="input-group">
+                <label for="configure_ship_at">发货时间</label>
+                <div>
+                    <app-date-input formControlName="ship_at" placeholder="请输入发货时间"></app-date-input>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="configure_price_type">预算模式</label>
+                <div>
+                    <span class="radio-label">
+                        <input type="radio" id="configure_price_type0" formControlName="price_type" [value]="0">
+                        <label for="configure_price_type0">一口价</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="configure_price_type1" formControlName="price_type" [value]="1">
+                        <label for="configure_price_type1">阶梯价</label>
+                    </span>
+                </div>
+            </div>
+            <div class="price_type_0" [hidden]="priceType > 0">
+                <div class="input-group">
+                    <label for="configure_price">预售价格</label>
+                    <div>
+                        <input type="text" id="configure_price" class="form-control" name="price"
+                            placeholder="请输入 预售价格">
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input-group price_type_1" [hidden]="priceType < 1">
+            <label>预售价格</label>
+            <div>
+                <ng-container *ngFor="let item of stepItems.controls;let i = index">
+                    <p class="step-item">
+                        满<input type="text" class="form-control" formControlName="amount" size="10">人，预售价<input type="text"
+                            formControlName="price" class="form-control" size="10">元
+                        <i class="iconfont icon-close" (click)="tapRemoveStep(i)"></i>
+                    </p>
+                </ng-container>
+                
+                <a class="btn btn-primary" (click)="tapAddStep()">
+                    <i class="iconfont icon-plus"></i>
+                </a>
+            </div>
+        </div>
 
-    <div class="input-group">
-        <label for="configure_deposit">定金</label>
-        <div class="">
-            <input type="text" id="configure_deposit" class="form-control" name="configure[deposit]"
-                placeholder="请输入 定金">
-
+        <div formGroupName="configure">
+            <div class="input-group">
+                <label for="configure_deposit">定金</label>
+                <div>
+                    <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"
+                        placeholder="请输入 定金">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="configure_deposit_scale">定金膨胀系数</label>
+                <div>
+                    <span class="radio-label">
+                        <input type="radio" id="configure_deposit_scale0" formControlName="deposit_scale" [value]="1">
+                        <label for="configure_deposit_scale0">无</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="configure_deposit_scale1" formControlName="deposit_scale" [value]="1.5">
+                        <label for="configure_deposit_scale1">1.5倍</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="configure_deposit_scale2" formControlName="deposit_scale" [value]="2">
+                        <label for="configure_deposit_scale2">2倍</label>
+                    </span><span class="radio-label">
+                        <input type="radio" id="configure_deposit_scale3" formControlName="deposit_scale" [value]="0">
+                        <label for="configure_deposit_scale3">自定义</label>
+                    </span><input type="text" class="form-control" formControlName="deposit_scale_other" placeholder="自定义"
+                        [hidden]="depositScale > 0">
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="configure_deposit_scale">定金膨胀系数</label>
-        <div class="">
-            <span class="radio-label">
-                <input type="radio" id="configure_deposit_scale0" name="configure[deposit_scale]" value="1">
-                <label for="configure_deposit_scale0">无</label>
-            </span><span class="radio-label">
-                <input type="radio" id="configure_deposit_scale1" name="configure[deposit_scale]" value="1.5">
-                <label for="configure_deposit_scale1">1.5倍</label>
-            </span><span class="radio-label">
-                <input type="radio" id="configure_deposit_scale2" name="configure[deposit_scale]" value="2">
-                <label for="configure_deposit_scale2">2倍</label>
-            </span><span class="radio-label">
-                <input type="radio" id="configure_deposit_scale3" name="configure[deposit_scale]" value="99">
-                <label for="configure_deposit_scale3">自定义</label>
-            </span><input type="text" class="form-control" name="configure[deposit_scale_other]" placeholder="自定义"
-                style="display: none">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <input type="hidden" name="id">
-</form>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

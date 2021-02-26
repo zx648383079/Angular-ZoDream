@@ -57,7 +57,8 @@ import {
     RegionComponent,
     SelectInputComponent,
     FileInputComponent,
-    DateInputComponent
+    DateInputComponent,
+    TimeInputComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -100,6 +101,7 @@ const COMPONENTS = [
     SelectInputComponent,
     FileInputComponent,
     DateInputComponent,
+    TimeInputComponent,
 ];
 
 const PIPES = [

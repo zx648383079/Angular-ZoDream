@@ -1,98 +1,95 @@
-<form class="form-table" action="http://zodream.localhost/shop/admin/activity/coupon/save" method="POST"
-    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
-    <div class="input-group">
-        <label for="name">优惠券名称</label>
-        <div class="">
-            <input type="text" id="name" class="form-control" name="name" required="">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="thumb">优惠券图片</label>
-        <div class="file-input">
-            <input type="text" id="thumb" class="form-control" name="thumb">
-            <button type="button" data-type="upload">上传</button>
-            <button type="button" data-type="preview">预览</button>
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="type">优惠券类型</label>
-        <div class="">
-            <select id="type" name="type">
-                <option value="0" selected="">优惠</option>
-                <option value="1">折扣</option>
-            </select>
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="rule">使用规则</label>
-        <div class="">
-            <select id="rule" name="rule">
-                <option value="0" selected="">全场通用</option>
-                <option value="1">指定商品</option>
-                <option value="2">指定分类</option>
-                <option value="3">指定品牌</option>
-                <option value="4">指定店铺</option>
-            </select>
-
-        </div>
-    </div>
-    <div>
-
-    </div>
-    <div class="input-group">
-        <label for="min_money">使用门槛</label>
-        <div class="">
-            <input type="text" id="min_money" class="form-control" name="min_money">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="money">面值</label>
-        <div class="">
-            <input type="text" id="money" class="form-control" name="money">
-
-        </div>
-    </div>
-    <div class="input-group">
-        <label for="send_type">发放类型</label>
-        <div class="">
-            <select id="send_type" name="send_type">
-                <option value="0" selected="">前台领取</option>
-                <option value="1">购买商品</option>
-                <option value="2">订单金额</option>
-                <option value="3">签到</option>
-                <option value="4">按用户</option>
-            </select>
-
-        </div>
-    </div>
-    <div>
+<app-edit-header [title]="data && data.id > 0 ? '编辑优惠券' : '新增优惠券'" (submited)="tapSubmit()" [disabled]="form.invalid">
+</app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
-            <label for="send_value">发送数量</label>
-            <div class="">
-                <input type="text" id="send_value" class="form-control" name="send_value">
+            <label for="name">优惠券名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name" >
 
             </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="every_amount">每人限领</label>
-        <div class="">
-            <input type="text" id="every_amount" class="form-control" name="every_amount">
+        <div class="input-group">
+            <label for="thumb">优惠券图片</label>
+            <div>
+                <app-file-input formControlName="thumb"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="type">优惠券类型</label>
+            <div>
+                <select id="type" class="form-control" formControlName="type">
+                    <option [value]="0">优惠</option>
+                    <option [value]="1">折扣</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="rule">使用规则</label>
+            <div>
+                <select id="rule" class="form-control" formControlName="rule">
+                    <option [value]="0">全场通用</option>
+                    <option [value]="1">指定商品</option>
+                    <option [value]="2">指定分类</option>
+                    <option [value]="3">指定品牌</option>
+                    <!-- <option [value]="4">指定店铺</option> -->
+                </select>
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="start_at">有效期</label>
-        <div class="">
-            <input type="text" id="start_at" class="form-control" name="start_at" placeholder="请输入开始时间" value="">
-            ~
-            <input type="text" id="end_at" class="form-control" name="end_at" placeholder="请输入结束时间" value="">
+        <div class="input-group" [hidden]="ruleType < 1">
+            <label for="scope">使用范围</label>
+            <div>
+                <app-select-input [url]="selectUrl" formControlName="rule_value" [multiple]="true"></app-select-input>
+            </div>
         </div>
-    </div>
-    <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <input type="hidden" name="id">
-</form>
+        <div class="input-group">
+            <label for="min_money">使用门槛</label>
+            <div>
+                <input type="text" id="min_money" class="form-control" formControlName="min_money">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="money">{{ typeValue < 1 ? '面值' : '折扣' }}</label>
+            <div>
+                <input type="text" id="money" class="form-control" formControlName="money">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="send_type">发放类型</label>
+            <div>
+                <select id="send_type" class="form-control" formControlName="send_type">
+                    <option [value]="0">前台领取</option>
+                    <option [value]="1">购买商品</option>
+                    <option [value]="2">订单金额</option>
+                    <option [value]="3">签到</option>
+                    <option [value]="4">按用户</option>
+                </select>
+            </div>
+        </div>
+        <div [hidden]="sendType > 0">
+            <div class="input-group">
+                <label for="send_value">发送数量</label>
+                <div>
+                    <input type="text" id="send_value" class="form-control" formControlName="send_value">
+                </div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="every_amount">每人限领</label>
+            <div>
+                <input type="text" id="every_amount" class="form-control" formControlName="every_amount">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="start_at">有效期</label>
+            <div>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                ~
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

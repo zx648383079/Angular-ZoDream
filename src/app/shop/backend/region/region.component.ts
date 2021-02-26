@@ -26,21 +26,13 @@ import {
 export class RegionComponent implements OnInit {
 
     public items: IRegion[] = [];
-
     public hasMore = true;
-
     public page = 1;
-
     public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
     public keywords = '';
-
     public parent: IRegion;
-
     public editData: IRegion;
 
     constructor(

@@ -4,21 +4,21 @@
   <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
       <div class="input-group">
           <label for="name">权限名</label>
-          <div class="">
+          <div>
               <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:edit_user">
               <div class="input-tip" *ngIf="name.invalid">请输入权限名</div>
           </div>
       </div>
       <div class="input-group">
           <label for="display_name">别名</label>
-          <div class="">
+          <div>
               <input type="text" id="display_name" class="form-control" formControlName="display_name" placeholder="例如: 编辑用户">
               <div class="input-tip" *ngIf="displayName.invalid">请输入别名</div>
           </div>
       </div>
       <div class="input-group">
           <label for="description">说明</label>
-          <div class="">
+          <div>
               <textarea id="description" class="form-control" formControlName="description"></textarea>
 
           </div>

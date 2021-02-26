@@ -1,11 +1,11 @@
 <form class="form-ico login-form" [formGroup]="findForm" (ngSubmit)="tapSubmit()">
     <div class="input-group">
-        <input type="email" formControlName="email" placeholder="请输入邮箱" required="">
+        <input type="email" formControlName="email" placeholder="请输入邮箱" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
     <ng-container *ngIf="sended">
         <div class="input-group">
-            <input type="text" formControlName="code" placeholder="请输入安全代码" required="">
+            <input type="text" formControlName="code" placeholder="请输入安全代码" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
         </div>
         <div class="input-group">

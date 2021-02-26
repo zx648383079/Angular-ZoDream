@@ -19,20 +19,20 @@
                     </div>
                     <div class="input-group">
                         <label for="name">昵　　称</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="name" class="form-control " formControlName="name">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">邮　　箱</label>
-                        <div class="">
+                        <div>
                             <input type="email" id="email" class="form-control" formControlName="email" 
                                 placeholder="请输入 邮箱">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="性　　别">性　　别</label>
-                        <div class="">
+                        <div>
                             <ng-container *ngFor="let item of sexItems">
                                 <span class="radio-label" [ngClass]="{checked: item.value == user.sex}" (click)="tapSex(item)">
                                     <i class="iconfont" [ngClass]="{'icon-check': item.value == user.sex, 'icon-circle': item.value != user.sex}"></i>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="input-group">
                         <label for="mobile">手机号码</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="mobile" class="form-control " formControlName="mobile">
     
                         </div>

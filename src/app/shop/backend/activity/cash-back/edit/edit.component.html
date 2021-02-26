@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑砍价' : '新增砍价'" (submited)="tapSubmit()" [disabled]="form.invalid">
+<app-edit-header [title]="data && data.id > 0 ? '编辑返现' : '新增返现'" (submited)="tapSubmit()" [disabled]="form.invalid">
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -7,6 +7,12 @@
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" >
 
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="thumb">图片</label>
+            <div>
+                <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
         <div class="input-group">
@@ -28,10 +34,10 @@
 
             </div>
         </div>
-        <div class="input-group" [hidden]="form.get('scope_type').value < 1">
+        <div class="input-group" [hidden]="scopeType < 1">
             <label for="scope">范围区间</label>
             <div>
-                <input type="text" id="scope" class="form-control" name="scope">
+                <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true"></app-select-input>
             </div>
         </div>
         <div formGroupName="configure">

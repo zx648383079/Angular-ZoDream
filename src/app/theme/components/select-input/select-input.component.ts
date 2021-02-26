@@ -14,7 +14,7 @@ import { cloneObject, hasElementByClass } from '../../utils';
         multi: true
     }]
 })
-export class SelectInputComponent<T> implements ControlValueAccessor, OnChanges {
+export class SelectInputComponent<T = any> implements ControlValueAccessor, OnChanges {
 
     @Input() public url: string;
     @Input() public placeholder = '请选择';

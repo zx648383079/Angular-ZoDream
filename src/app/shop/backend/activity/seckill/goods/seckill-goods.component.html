@@ -1,0 +1,88 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>秒杀商品列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="标题">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right">新增秒杀商品</a>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名称</th>
+                    <th class="auto-hide">商品价格</th>
+                    <th>秒杀价格</th>
+                    <th>秒杀数量</th>
+                    <th>限购数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.goods.name }}</td>
+                    <td class="auto-hide">{{ item.goods.price }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.every_amount }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑商品' : '新增商品' }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group" *ngIf="editData.goods_id < 1">
+            <label for="goods">选择商品</label>
+            <div class="input-group">
+                <app-select-input url="shop/admin/goods/search" [(ngModel)]="editData.goods_id"></app-select-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price">秒杀价格</label>
+            <div class="input-group">
+                <input class="form-control" id="price" [(ngModel)]="editData.price" placeholder="请输入价格">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="amount">秒杀数量</label>
+            <div class="input-group">
+                <input class="form-control" id="amount" [(ngModel)]="editData.amount" placeholder="请输入数量">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="every_amount">限购数量</label>
+            <div class="input-group">
+                <input class="form-control" id="every_amount" [(ngModel)]="editData.every_amount" placeholder="请输入数量">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

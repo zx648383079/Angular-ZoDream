@@ -5,7 +5,7 @@
             <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="input-group">
                 <label for="name">名称</label>
-                <div class="">
+                <div>
                     <input type="text" id="name" class="form-control" formControlName="name">
     
                 </div>
@@ -18,14 +18,14 @@
             </div>
             <div class="input-group">
                 <label for="code">Code</label>
-                <div class="">
+                <div>
                     <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code"></ng-select>
     
                 </div>
             </div>
             <div class="input-group">
                 <label for="method">计费方式</label>
-                <div class="">
+                <div>
                     <span class="radio-label">
                         <input type="radio" id="method0" formControlName="method" value="0">
                         <label for="method0">按件数</label>
@@ -37,14 +37,14 @@
             </div>
             <div class="input-group">
                 <label for="description">介绍</label>
-                <div class="">
+                <div>
                     <textarea id="description" class="form-control" formControlName="description"></textarea>
     
                 </div>
             </div>
             <div class="input-group">
                 <label for="position">排序</label>
-                <div class="">
+                <div>
                     <input type="text" id="position" class="form-control" formControlName="position">
     
                 </div>

@@ -1,75 +1,85 @@
-<form class="form-table" action="http://zodream.localhost/shop/admin/activity/mix/save" method="POST"
-    accept-charset="UTF-8" data-type="ajax" role="form"><input type="hidden" name="_token">
-    <div class="input-group">
-        <label for="name">名称</label>
-        <div class="">
-            <input type="text" id="name" class="form-control" name="name" required="">
+<app-edit-header [title]="data && data.id > 0 ? '编辑组合' : '新增组合'" (submited)="tapSubmit()"
+    [disabled]="form.invalid">
+</app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name" >
 
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="description">说明</label>
-        <div class="">
-            <textarea id="description" class="form-control" name="description"></textarea>
+        <div class="input-group">
+            <label for="thumb">图片</label>
+            <div>
+                <app-file-input formControlName="thumb"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">说明</label>
+            <div>
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="group-box">
+            <p class="text-center">组合明细</p>
+            <table class="regional-table">
+                <thead>
+                    <tr>
+                        <th width="42%">商品名称</th>
+                        <th>
+                            组合数量
+                        </th>
+                        <th>分摊价格</th>
+                        <th>
+                            成本价
+                        </th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of goodsItems;let i = index">
+                        <tr [formGroup]="item">
+                            <td>
+                                <span>名称</span>
+                            </td>
+                            <td><input type="text" name="configure[amount][]" value="1"></td>
+                            <td><input type="text" name="configure[price][]" value="18888"></td>
+                            <td>18888</td>
+                            <td class="subtotal">18888</td>
+                            <td>
+                                <a (click)="tapRemoveItem(i)">删除</a>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="text-left">
+                            <a href="javascript:;" class="btn btn-primary" (click)="tapAddItem()">添加</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
+        <div class="input-group" formGroupName="configure">
+            <label for="price">组合价格</label>
+            <div>
+                <input type="text" id="price" class="form-control" formControlName="price" value="0" placeholder="请输入 组合价格">
+            </div>
         </div>
-    </div>
-    <div class="group-box">
-        <p class="text-center">组合明细</p>
-        <table class="regional-table">
-            <thead>
-                <tr>
-                    <th width="42%">商品名称</th>
-                    <th>
-                        组合数量
-                    </th>
-                    <th>分摊价格</th>
-                    <th>
-                        成本价
-                    </th>
-                    <th>小计</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span>2019新款Apple/苹果 MacBook Pro MV902CH/A国行笔记本16寸可定制</span><input type="hidden"
-                            name="configure[goods_id][]" value="10470"></td>
-                    <td><input type="text" name="configure[amount][]" value="1"></td>
-                    <td><input type="text" name="configure[price][]" value="18888"></td>
-                    <td>18888</td>
-                    <td class="subtotal">18888</td>
-                    <td><a href="javascript:;" data-action="del">删除</a></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6" class="text-left">
-                        <a href="javascript:;" class="btn" data-action="add">添加</a>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-
-    <div class="input-group">
-        <label for="price">组合价格</label>
-        <div class="">
-            <input type="text" id="price" class="form-control" name="price" value="0" placeholder="请输入 组合价格">
-
+        <div class="input-group">
+            <label for="start_at">起止时间</label>
+            <div>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                ~
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+            </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="start_at">起止时间</label>
-        <div class="">
-            <input type="text" id="start_at" class="form-control" name="start_at" autocomplete="off"
-                placeholder="请输入开始时间" value="">
-            ~
-            <input type="text" id="end_at" class="form-control" name="end_at" placeholder="请输入结束时间" autocomplete="off"
-                value="">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <input type="hidden" name="id">
-</form>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

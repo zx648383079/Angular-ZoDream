@@ -7,7 +7,7 @@
     <form class="form-table panel-container">
         <div class="input-group">
             <label for="store_">缓存区</label>
-            <div class="">
+            <div>
                 <span class="check-label" *ngFor="let item of items, index as i">
                     <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value" [checked]="item.checked" (change)="item.checked = $event.target.checked">
                     <label [for]="'store_' + i">{{ item.name }}</label>

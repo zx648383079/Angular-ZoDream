@@ -382,7 +382,7 @@ export interface ICoupon {
     thumb: string;
     type: number;
     rule: number;
-    rule_value: number;
+    rule_value: string;
     min_money: number;
     money: number;
     send_type: number;
@@ -485,6 +485,87 @@ export interface ICashBackConfigure {
     order_amount: number;
     star: number;
     money: number;
+}
+
+export interface IDiscountConfigure {
+    type: number;
+    amount: number;
+    discount_type: number;
+    discount_value: number;
+    discount_money: number;
+    discount_goods: number;
+}
+
+export interface IFreeTrialConfigure {
+    amount: number;
+}
+
+export interface IGroupBuyConfigure {
+    deposit: number;
+    amount: number;
+    send_point: number;
+    step: IGroupBuyStep[];
+}
+
+export interface IGroupBuyStep {
+    amount: number;
+    price: number;
+}
+
+export interface ILotteryConfigure {
+    time_price: number;
+    buy_times: number;
+    start_times: number;
+    btn_text: string;
+    over_text: string;
+    items: ILotteryGift[];
+}
+
+export interface ILotteryGift {
+    name: string;
+    chance: number;
+    color: string;
+}
+
+export interface IMixConfigure {
+    price: number;
+    goods: IMixGoods[];
+}
+
+export interface IMixGoods {
+    goods_id: number;
+    amount: number;
+    price: number;
+}
+
+export interface IPreSaleConfigure {
+    final_start_at: string;
+    final_end_at: string;
+    ship_at: string;
+    price_type: number;
+    price: number;
+    step: IGroupBuyStep[];
+    deposit: number;
+    deposit_scale: number;
+    deposit_scale_other: number;
+}
+
+export interface IActivityTime {
+    id: number;
+    title: string;
+    start_at: number|string;
+    end_at: number|string;
+}
+
+export interface ISeckillGoods {
+    id: number;
+    act_id: number;
+    time_id: number;
+    goods_id: number;
+    price: number;
+    amount: number;
+    every_amount: number;
+    goods?: IGoods;
 }
 
 export enum ORDER_STATUS {

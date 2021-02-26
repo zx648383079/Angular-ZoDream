@@ -17,21 +17,21 @@
                     </div>
                     <div class="input-group">
                         <label for="name">昵称</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="name" class="form-control" formControlName="name"
                                 placeholder="请输入 昵称">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">邮箱</label>
-                        <div class="">
+                        <div>
                             <input type="email" id="email" class="form-control" formControlName="email"
                                 placeholder="请输入 邮箱">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="sex">性别</label>
-                        <div class="">
+                        <div>
                             <span class="radio-label" *ngFor="let item of sexItems; index as i">
                                 <input type="radio" [id]="'sex_' + i" name="sex" [value]="i" formControlName="sex">
                                 <label [for]="'sex_' + i">{{ item }}</label>

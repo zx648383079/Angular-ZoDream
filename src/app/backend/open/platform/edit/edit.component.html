@@ -4,14 +4,14 @@
   <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
       <div class="input-group">
           <label for="name">应用名</label>
-          <div class="">
+          <div>
               <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如: xx应用">
               <div class="input-tip" *ngIf="name.invalid">请输入应用名</div>
           </div>
       </div>
       <div class="input-group">
           <label for="type">类型</label>
-          <div class="">
+          <div>
               <select id="type" class="form-control" formControlName="type">
                   <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
               </select>
@@ -19,13 +19,13 @@
       </div>
       <div class="input-group">
           <label for="domain">域名</label>
-          <div class="">
+          <div>
               <input type="text" id="domain" class="form-control" formControlName="domain">
           </div>
       </div>
       <div class="input-group">
           <label for="description">介绍</label>
-          <div class="">
+          <div>
               <textarea id="description" class="form-control" formControlName="description"></textarea>
 
           </div>
@@ -33,14 +33,14 @@
       <ng-container *ngIf="data && data.id > 0">
         <div class="input-group">
           <label for="appid">App Id</label>
-          <div class="">
+          <div>
               <input type="text" id="appid" class="form-control" name="appid" [value]="data.appid" readonly>
 
           </div>
       </div>
       <div class="input-group">
           <label for="secret">Secret</label>
-          <div class="">
+          <div>
               <input type="text" id="secret" class="form-control" name="secret"
                   [value]="data.secret" readonly size="40">
 
@@ -48,7 +48,7 @@
       </div>
       <div class="input-group">
           <label for="sign_type">签名方式</label>
-          <div class="">
+          <div>
               <select id="sign_type" class="form-control" formControlName="sign_type">
                 <option *ngFor="let item of signItems; let i = index" [value]="i">{{ item }}</option>
               </select>
@@ -57,14 +57,14 @@
       </div>
       <div class="input-group">
           <label for="sign_key">签名密钥</label>
-          <div class="">
+          <div>
               <textarea id="sign_key" class="form-control" formControlName="sign_key"></textarea>
               <div class="input-tip">请输入签名密钥或签名组成字段请用“+”链接,例如：appid+timestamp+secret</div>
           </div>
       </div>
       <div class="input-group">
           <label for="encrypt_type">加密方式</label>
-          <div class="">
+          <div>
               <select id="encrypt_type" class="form-control" formControlName="encrypt_type">
                 <option *ngFor="let item of encryptItems; let i = index" [value]="i">{{ item }}</option>
               </select>
@@ -73,7 +73,7 @@
       </div>
       <div class="input-group">
           <label for="public_key">加密公钥</label>
-          <div class="">
+          <div>
               <textarea id="public_key" class="form-control" formControlName="public_key"></textarea>
           </div>
       </div>
@@ -81,7 +81,7 @@
       
       <div class="input-group">
           <label for="allow_self">允许手动生成</label>
-          <div class="">
+          <div>
               <span class="radio-label">
                   <input type="radio" id="allow_self0" formControlName="allow_self" value="0">
                   <label for="allow_self0">不允许</label>

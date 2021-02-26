@@ -74,6 +74,8 @@ import {
 import {
     SeckillComponent
 } from './seckill/seckill.component';
+import { SeckillGoodsComponent } from './seckill/goods/seckill-goods.component';
+import { TimeComponent } from './seckill/time/time.component';
 
 const routes: Routes = [{
         path: 'auction/create',
@@ -196,6 +198,18 @@ const routes: Routes = [{
         component: PresaleComponent,
     },
     {
+        path: 'seckill/goods/:activity/:time',
+        component: SeckillGoodsComponent,
+    },
+    {
+        path: 'seckill/goods/:activity',
+        component: TimeComponent,
+    },
+    {
+        path: 'seckill/time',
+        component: TimeComponent,
+    },
+    {
         path: 'seckill/create',
         component: EditSeckillComponent,
     },
@@ -233,4 +247,6 @@ export const activityRoutedComponents = [
     EditPresaleComponent,
     SeckillComponent,
     EditSeckillComponent,
+    SeckillGoodsComponent,
+    TimeComponent
 ];

@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>商品名称</th>
+                    <th>活动名称</th>
                     <th class="auto-hide">开始时间</th>
                     <th class="auto-hide">结束时间</th>
                     <th>状态</th>
@@ -29,14 +29,6 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>
-                        <ng-container *ngIf="item.goods; else elseTemplate">
-                            {{ item.goods.name }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
-                            [-]
-                        </ng-template>
-                    </td>
                     <td>{{ item.name }}</td>
                     <td class="auto-hide">{{ item.start_at | timestamp }}</td>
                     <td class="auto-hide">{{ item.end_at | timestamp }}</td>

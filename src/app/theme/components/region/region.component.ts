@@ -16,7 +16,7 @@ import { cloneObject, eachObject, hasElementByClass } from '../../utils';
         }
     ]
 })
-export class RegionComponent<T> implements ControlValueAccessor, OnChanges {
+export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges {
 
     @Input() public url: string;
     @Input() public range: {

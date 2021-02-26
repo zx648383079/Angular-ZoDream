@@ -6,7 +6,7 @@
                 <app-panel title="基本信息">
                     <div class="input-group">
                         <label for="name">商品名</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="name" class="form-control" formControlName="name" placeholder="请输入 商品名">
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="input-group">
                         <label for="brand_id">品牌</label>
-                        <div class="">
+                        <div>
                             <select id="brand_id" formControlName="brand_id" class="form-control">
                                 <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
                             </select>
@@ -37,14 +37,14 @@
                     </div>
                     <div class="input-group">
                         <label for="price">价格</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="price" class="form-control" formControlName="price" placeholder="请输入 价格">
         
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="market_price">市场价</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="market_price" class="form-control" formControlName="market_price"
                                 placeholder="请输入 市场价">
         
@@ -64,7 +64,7 @@
                     </div>
                     <div class="input-group">
                         <label for="attribute_group_id">类型</label>
-                        <div class="">
+                        <div>
                             <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (ngModelChange)="tapGroupChange()">
                                 <option *ngFor="let item of typeItems" [value]="item.id">{{ item.name }}</option>
                             </select>
@@ -77,20 +77,20 @@
                 <app-panel title="其他属性">
                     <div class="input-group">
                         <label for="weight">重量</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="weight" class="form-control" formControlName="weight" placeholder="请输入 重量">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="stock">库存</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="stock" class="form-control" formControlName="stock" placeholder="请输入 库存">
 
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="keywords">关键字</label>
-                        <div class="">
+                        <div>
                             <input type="text" id="keywords" class="form-control" formControlName="keywords"
                                 placeholder="请输入 关键字">
 
@@ -98,7 +98,7 @@
                     </div>
                     <div class="input-group">
                         <label for="description">说明</label>
-                        <div class="">
+                        <div>
                             <textarea id="description" class="form-control" formControlName="description"
                                 placeholder="请输入 说明"></textarea>
 
@@ -124,7 +124,7 @@
                     </div>
                     <div class="input-group">
                         <label for="status">状态</label>
-                        <div class="">
+                        <div>
                             <span class="radio-label">
                                 <input type="radio" id="status0" formControlName="status" value="10">
                                 <label for="status0">上架</label>

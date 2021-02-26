@@ -73,13 +73,13 @@
         <div class="form-table">
             <div class="input-group">
                 <label for="field_name">名称(必填)</label>
-                <div class="">
+                <div>
                     <input type="text" id="field_name" class="form-control" [(ngModel)]="editData.name">
                 </div>
             </div>
             <div class="input-group">
                 <label for="field_type">类型</label>
-                <div class="">
+                <div>
                     <select id="field_type" class="form-control" [(ngModel)]="editData.type">
                         <option value="group">分组</option>
                         <option value="text">文本</option>
@@ -101,7 +101,7 @@
             <div class="group-property" *ngIf="editData.type !== 'group'">
                 <div class="input-group">
                     <label for="field_parent_id">分组</label>
-                    <div class="">
+                    <div>
                         <select id="field_parent_id" class="form-control" [(ngModel)]="editData.parent_id">
                             <option *ngFor="let item of groups" [value]="item.id">{{ item.name }}</option>
                         </select>
@@ -109,27 +109,27 @@
                 </div>
                 <div class="input-group">
                     <label for="field_code">别名(必填)</label>
-                    <div class="">
+                    <div>
                         <input type="text" id="field_code" class="form-control" [(ngModel)]="editData.code">
                 
                     </div>
                 </div>
                 <div class="input-group">
                     <label for="field_visibility">公开</label>
-                    <div class="">
+                    <div>
                         <app-switch [(ngModel)]="editData.visibility"></app-switch>
                     </div>
                 </div>
                 <div class="input-group">
                     <label for="field_default_value">默认值</label>
-                    <div class="">
+                    <div>
                         <textarea id="field_default_value" class="form-control" [(ngModel)]="editData.default_value"></textarea>
                     </div>
                 </div>
             </div>
             <div class="input-group">
                 <label for="field_position">排序</label>
-                <div class="">
+                <div>
                     <input type="text" id="field_position" class="form-control" [(ngModel)]="editData.position">
                 </div>
             </div>

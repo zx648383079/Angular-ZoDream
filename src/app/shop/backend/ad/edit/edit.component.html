@@ -3,14 +3,14 @@
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">广告名</label>
-            <div class="">
+            <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入广告名</div>
             </div>
         </div>
         <div class="input-group">
             <label for="position_id">广告位</label>
-            <div class="">
+            <div>
                 <select id="position_id" formControlName="position_id" class="form-control">
                     <option *ngFor="let item of positionItems" [value]="item.id">{{ item.name }}</option>
                 </select>
@@ -19,7 +19,7 @@
         </div>
         <div class="input-group">
             <label for="type">类型</label>
-            <div class="">
+            <div>
                 <select id="type" formControlName="type" class="form-control">
                     <option value="0">文本</option>
                     <option value="1">图片</option>
@@ -32,7 +32,7 @@
         <div class="type-group">
             <div class="input-group" *ngIf="uploadType === 0">
                 <label for="content">内容</label>
-                <div class="">
+                <div>
                     <textarea id="content" class="form-control" formControlName="content"></textarea>
                 </div>
             </div>
@@ -52,7 +52,7 @@
 
         <div class="input-group">
             <label for="url">链接</label>
-            <div class="">
+            <div>
                 <input type="text" id="url" class="form-control" formControlName="url">
                 <div class="input-tip">链接格式：deeplink://goto/</div>
             </div>

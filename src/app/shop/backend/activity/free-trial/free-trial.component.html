@@ -4,21 +4,52 @@
             <li>免费试用列表</li>
         </ul>
     </app-page-tip>
-    <div class="page-search">
-        <a class="btn btn-success pull-right" routerLink="create">新增免费试用</a>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="标题">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a routerLink="./create" class="pull-right btn btn-primary">新增免费试用</a>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名称</th>
+                    <th class="auto-hide">开始时间</th>
+                    <th class="auto-hide">结束时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <ng-container *ngIf="item.goods; else elseTemplate">
+                            {{ item.goods.name }}
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            [-]
+                        </ng-template>
+                    </td>
+                    <td class="auto-hide">{{ item.start_at | timestamp }}</td>
+                    <td class="auto-hide">{{ item.end_at | timestamp }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>商品名称</th>
-                <th class="auto-hide">开始时间</th>
-                <th class="auto-hide">结束时间</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
 </div>

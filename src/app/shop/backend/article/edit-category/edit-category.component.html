@@ -3,14 +3,14 @@
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="name">名称</label>
-            <div class="">
+            <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
         <div class="input-group">
             <label for="parent_id">上级</label>
-            <div class="">
+            <div>
                 <select id="parent_id" class="form-control" formControlName="parent_id">
                     <option value="0">-- 无上级分类 --</option>
                     <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -26,14 +26,14 @@
         </div>
         <div class="input-group">
             <label for="keywords">关键字</label>
-            <div class="">
+            <div>
                 <input type="text" id="keywords" class="form-control" formControlName="keywords">
 
             </div>
         </div>
         <div class="input-group">
             <label for="description">说明</label>
-            <div class="">
+            <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
