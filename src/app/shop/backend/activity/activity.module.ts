@@ -5,6 +5,7 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { ActivityService } from './activity.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GoodsModule } from '../goods/goods.module';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         ActivityRoutingModule,
         NgbModule,
         ReactiveFormsModule,
+        GoodsModule,
     ],
     declarations: [...activityRoutedComponents],
     providers: [

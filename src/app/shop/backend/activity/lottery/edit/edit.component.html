@@ -80,22 +80,22 @@
             <p>最少添加2项，最多添加8项，所有奖项概率之和需为100%</p>
             <table class="table table-hover">
                 <tbody>
-                   <ng-container *ngFor="let item of giftItems.controls;let i = index">
-                    <tr [formGroup]="item">
-                        <td>未中奖
-                            <input type="text" class="form-control" formControlName="name">
+                   <ng-container *ngFor="let item of giftItems;let i = index">
+                    <tr>
+                        <td>{{ item.goods_id > 0 ? item.goods.name : '未中奖' }}
+                            <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
                             获奖概率
-                            <input type="text" class="form-control" formControlName="chance" size="10">%
+                            <input type="text" class="form-control"  [(ngModel)]="item.chance" [ngModelOptions]="{standalone: true}" size="10">%
                         </td>
                         <td>
-                            <input type="color" formControlName="color">
+                            <input type="color" [(ngModel)]="item.color" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
-                            <i class="iconfont icon-arrow-up" data-action="up"></i>
-                            <i class="iconfont icon-arrow-down" data-action="down"></i>
-                            <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+                            <i class="iconfont icon-arrow-up" (click)="tapUpItem(i)"></i>
+                            <i class="iconfont icon-arrow-down"  (click)="tapDownItem(i)"></i>
+                            <i class="iconfont icon-close" *ngIf="item.goods_id > 0" (click)="tapRemoveItem(i)"></i>
                         </td>
                     </tr>
                    </ng-container>
@@ -114,4 +114,8 @@
         <button type="submit" class="btn btn-success">确认保存</button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
     </form>
+</div>
+<div class="dialog-box goods-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
+    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
+    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
 </div>

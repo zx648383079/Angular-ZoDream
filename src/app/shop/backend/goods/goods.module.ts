@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AttributeService } from './attribute.service';
 import { SkuFormComponent } from './sku-form/sku-form.component';
 import { SearchPanelComponent } from './search-panel/search-panel.component';
+import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 
 @NgModule({
     imports: [
@@ -22,13 +23,15 @@ import { SearchPanelComponent } from './search-panel/search-panel.component';
         ...goodsPipes,
         SkuFormComponent,
         SearchPanelComponent,
+        SearchDialogComponent,
     ],
     providers: [
         GoodsService,
         AttributeService,
     ],
     exports: [
-        SearchPanelComponent
+        SearchPanelComponent,
+        SearchDialogComponent,
     ],
 })
 export class GoodsModule { }

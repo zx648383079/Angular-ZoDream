@@ -24,7 +24,7 @@
         </div>
         <div class="group-box">
             <p class="text-center">组合明细</p>
-            <table class="regional-table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th width="42%">商品名称</th>
@@ -41,14 +41,14 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of goodsItems;let i = index">
-                        <tr [formGroup]="item">
+                        <tr>
                             <td>
-                                <span>名称</span>
+                                <span>{{ item.goods.name }}</span>
                             </td>
-                            <td><input type="text" name="configure[amount][]" value="1"></td>
-                            <td><input type="text" name="configure[price][]" value="18888"></td>
-                            <td>18888</td>
-                            <td class="subtotal">18888</td>
+                            <td><input type="text" class="form-control" [(ngModel)]="item.amount" [ngModelOptions]="{standalone: true}"></td>
+                            <td><input type="text" class="form-control" [(ngModel)]="item.price" [ngModelOptions]="{standalone: true}"></td>
+                            <td>{{ item.goods.price }}</td>
+                            <td class="subtotal">{{ item.amount * item.price }}</td>
                             <td>
                                 <a (click)="tapRemoveItem(i)">删除</a>
                             </td>
@@ -68,7 +68,7 @@
         <div class="input-group" formGroupName="configure">
             <label for="price">组合价格</label>
             <div>
-                <input type="text" id="price" class="form-control" formControlName="price" value="0" placeholder="请输入 组合价格">
+                <input type="text" id="price" class="form-control" formControlName="price" placeholder="请输入 组合价格">
             </div>
         </div>
         <div class="input-group">
@@ -82,4 +82,8 @@
         <button type="submit" class="btn btn-success">确认保存</button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
     </form>
+</div>
+<div class="dialog-box goods-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
+    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
+    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
 </div>

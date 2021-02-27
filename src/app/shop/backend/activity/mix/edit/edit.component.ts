@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IActivity, IMixConfigure } from '../../../../../theme/models/shop';
+import { DialogAnimation } from '../../../../../theme/constants/dialog-animation';
+import { IActivity, IGoods, IMixConfigure, IMixGoods } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
+    animations: [
+        DialogAnimation
+    ]
 })
 export class EditMixComponent implements OnInit {
 
@@ -16,17 +20,17 @@ export class EditMixComponent implements OnInit {
         name: ['', Validators.required],
         thumb: [''],
         description: [''],
-        scope: [[], Validators.required],
         scope_type: [0],
         start_at: [''],
         end_at: [],
         configure: this.fb.group({
             price: 0
         }),
-        items: this.fb.array([]),
     });
 
     public data: IActivity<IMixConfigure>;
+    public dialogOpen = false;
+    public goodsItems: IMixGoods[] = [];
 
     constructor(
         private service: ActivityService,
@@ -35,8 +39,9 @@ export class EditMixComponent implements OnInit {
         private toastrService: ToastrService,
     ) { }
 
-    get goodsItems() {
-        return this.form.get('items') as FormArray;
+
+    public get configure() {
+        return this.form.get('configure');
     }
 
     ngOnInit() {
@@ -46,6 +51,7 @@ export class EditMixComponent implements OnInit {
             }
             this.service.mix(params.id).subscribe(res => {
                 this.data = res;
+                this.goodsItems = res.configure.goods;
                 this.form.patchValue({
                     name: res.name,
                     thumb: res.thumb,
@@ -53,8 +59,8 @@ export class EditMixComponent implements OnInit {
                     scope_type: res.scope_type,
                     start_at: res.start_at,
                     end_at: res.end_at,
-                    configure: this.fb.group(res.configure),
                 });
+                this.configure.get('price').setValue(res.configure.price);
             });
         });
     }
@@ -72,6 +78,23 @@ export class EditMixComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        let total = 0;
+        data.configure.goods = this.goodsItems.map(i => {
+            total += i.amount * i.price;
+            return {
+                goods_id: i.goods_id,
+                amount: i.amount,
+                price: i.price
+            };
+        });
+        if (data.configure.goods.length < 2) {
+            this.toastrService.warning('组合中商品至少两种');
+            return;
+        }
+        if (parseFloat(data.configure.price) !== total) {
+            this.toastrService.warning('组合中商品总价与组合价不一致');
+            return;
+        }
         this.service.mixSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
@@ -79,15 +102,37 @@ export class EditMixComponent implements OnInit {
     }
 
     public tapRemoveItem(i: number) {
-        this.goodsItems.removeAt(i);
+        this.goodsItems.splice(i, 1);
     }
 
     public tapAddItem() {
-        this.goodsItems.push(this.fb.group({
-            goods_id: 0,
-            amount: 0,
-            price: 0,
-        }));
+        this.dialogOpen = true;
     }
 
+    public onGoodsSelected(event: IGoods[]) {
+        this.dialogOpen = false;
+        if (event.length < 1) {
+            return;
+        }
+        for (const item of event) {
+            if (this.indexOf(item.id) >= 0) {
+                continue;
+            }
+            this.goodsItems.push({
+                goods_id: item.id,
+                goods: item,
+                price: item.price,
+                amount: 1,
+            });
+        }
+    }
+
+    private indexOf(goodsId: number): number {
+        for (let i = this.goodsItems.length - 1; i >= 0; i--) {
+            if (this.goodsItems[i].goods_id === goodsId) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

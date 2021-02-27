@@ -523,6 +523,8 @@ export interface ILotteryConfigure {
 
 export interface ILotteryGift {
     name: string;
+    goods?: IGoods;
+    goods_id: number;
     chance: number;
     color: string;
 }
@@ -533,6 +535,7 @@ export interface IMixConfigure {
 }
 
 export interface IMixGoods {
+    goods?: IGoods;
     goods_id: number;
     amount: number;
     price: number;

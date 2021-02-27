@@ -5,3 +5,16 @@
         min-width: auto;
     }
 }
+
+.goods-dialog {
+    height: 420px;
+    margin-top: -210px;
+    padding: 10px;
+    .dialog-close {
+        position: absolute;
+        font-size: 30px;
+        right: 0;
+        top: 0;
+        color: #ccc;
+    }
+}
