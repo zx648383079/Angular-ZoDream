@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     public isLoading = false;
     public messages: IMessage[] = [];
 
-    private request: IRequest;
+    public request: IRequest;
 
     constructor(
         private service: ChatService
