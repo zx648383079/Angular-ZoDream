@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'app-count-down',
-    templateUrl: './count-down.component.html',
-    styleUrls: ['./count-down.component.scss']
+  selector: 'app-countdown-button',
+  templateUrl: './countdown-button.component.html',
+  styleUrls: ['./countdown-button.component.scss']
 })
-export class CountDownComponent implements OnChanges {
+export class CountdownButtonComponent implements OnChanges {
 
     @Input() public time = 60;
 
@@ -20,7 +20,7 @@ export class CountDownComponent implements OnChanges {
 
     @Input() public againLabel = '重新获取';
 
-    @Output() public tapped: EventEmitter<CountDownComponent> = new EventEmitter();
+    @Output() public tapped: EventEmitter<CountdownButtonComponent> = new EventEmitter();
 
     public text = this.label;
 

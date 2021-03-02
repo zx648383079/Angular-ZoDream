@@ -12,7 +12,7 @@
         </div>
         <div class="code-input">
             <input type="text" [(ngModel)]="code" placeholder="请输入短信验证码">
-            <app-count-down class="send-btn" (tapped)="tapSendCode($event)"></app-count-down>
+            <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div>
         <div class="captcha-input" *ngIf="captchaImage">
             <input type="text" [(ngModel)]="captcha" placeholder="请输入图形验证码">

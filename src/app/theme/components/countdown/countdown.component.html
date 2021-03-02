@@ -1,0 +1,10 @@
+<div class="countdown">
+    <p class="label" *ngIf="label">{{ label }}</p>
+    <p class="time">
+        <span>{{ hour | twoPad }}</span>
+        :
+        <span>{{ minute | twoPad }}</span>
+        :
+        <span>{{ second | twoPad }}</span>
+    </p>
+</div>

@@ -571,6 +571,11 @@ export interface ISeckillGoods {
     goods?: IGoods;
 }
 
+export interface ICollect {
+    goods_id: number;
+    goods?: IGoods;
+}
+
 export enum ORDER_STATUS {
     CANCEL = 1,
     INVALID = 2,

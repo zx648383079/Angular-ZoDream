@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { CountDownComponent } from './count-down.component';
+import { GuaComponent } from './gua.component';
 
-describe('CountDownComponent', () => {
-  let component: CountDownComponent;
-  let fixture: ComponentFixture<CountDownComponent>;
+describe('GuaComponent', () => {
+  let component: GuaComponent;
+  let fixture: ComponentFixture<GuaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CountDownComponent ]
+      declarations: [ GuaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CountDownComponent);
+    fixture = TestBed.createComponent(GuaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

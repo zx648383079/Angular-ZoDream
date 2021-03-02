@@ -49,7 +49,6 @@ import {
     PanelComponent,
     DatepickerComponent,
     SwitchComponent,
-    CountDownComponent,
     MarkdownEditorComponent,
     CircleProgressComponent,
     ColorPickerComponent,
@@ -58,7 +57,9 @@ import {
     SelectInputComponent,
     FileInputComponent,
     DateInputComponent,
-    TimeInputComponent
+    TimeInputComponent,
+    CountdownButtonComponent,
+    CountdownComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -92,7 +93,8 @@ const COMPONENTS = [
     PanelComponent,
     DatepickerComponent,
     SwitchComponent,
-    CountDownComponent,
+    CountdownButtonComponent,
+    CountdownComponent,
     MarkdownEditorComponent,
     CircleProgressComponent,
     ColorPickerComponent,

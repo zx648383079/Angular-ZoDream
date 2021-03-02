@@ -30,9 +30,6 @@ import {
     passwordValidator
 } from '../../theme/validators';
 import {
-    CountDownComponent
-} from '../../theme/components';
-import {
     environment
 } from '../../../environments/environment';
 import {
@@ -48,6 +45,7 @@ import {
 import {
     IErrorResponse, IErrorResult
 } from '../../theme/models/page';
+import { CountdownButtonComponent } from '../../theme/components';
 
 @Component({
     selector: 'app-login',
@@ -211,7 +209,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.captchaImage = environment.assetUri + '/auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random();
     }
 
-    public tapSendCode(event: CountDownComponent) {
+    public tapSendCode(event: CountdownButtonComponent) {
         event.start(120);
     }
 

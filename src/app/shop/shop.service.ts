@@ -5,7 +5,7 @@ import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ISite } from '../theme/models/seo';
 import {
     IAd, IAddress, IArticle, IArticleCategory,
-    IBrand, ICart, ICartDialog, ICartItem, ICategory, IComment,
+    IBrand, ICart, ICartDialog, ICartItem, ICategory, ICollect, IComment,
     ICommentSubtotal, IGoods, IHomeProduct, IOrder, IOrderCount,
     IPayment, IShipping
 } from '../theme/models/shop';
@@ -268,5 +268,13 @@ export class ShopService {
 
     public uploadProfile(data: any) {
         return this.http.post<IUser>('auth/user/update', data);
+    }
+
+    public collectList(params: any) {
+        return this.http.get<IPage<ICollect>>('shop/collect', {params});
+    }
+
+    public collectRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('shop/collect/delete', {params: {id}});
     }
 }

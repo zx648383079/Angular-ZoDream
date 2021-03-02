@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../../environments/environment';
-import { CountDownComponent } from '../../../theme/components';
+import { CountdownButtonComponent } from '../../../theme/components';
 import { IErrorResponse } from '../../../theme/models/page';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../theme/services';
@@ -88,7 +88,7 @@ export class AuthComponent implements OnInit {
         }, true);
     }
 
-    public tapSendCode(event: CountDownComponent) {
+    public tapSendCode(event: CountdownButtonComponent) {
         event.start(120);
     }
 

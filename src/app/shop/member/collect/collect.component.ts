@@ -53,7 +53,7 @@ export class CollectComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
+        this.service.collectList({
             page,
             per_page: this.perPage
         }).subscribe(res => {
