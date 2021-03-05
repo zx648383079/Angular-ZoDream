@@ -1,0 +1,95 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>订阅</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索">
+                </div>
+                <div class="expand-box open">
+                    <div class="expand-header">会话中（0）</div>
+                    <div class="expand-body">
+                        <div class="user-item">
+                            <div class="avatar">
+                                <img src="" alt="">
+                            </div>
+                            <div class="name">用户</div>
+                            <div class="time">09-09</div>
+                            <div class="content">最近消息</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="expand-box">
+                    <div class="expand-header">排队中（0）</div>
+                    <div class="expand-body">
+                    </div>
+                </div>
+                <div class="expand-box">
+                    <div class="expand-header">会话结束（0）</div>
+                    <div class="expand-body">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="title-bar">
+                    <div class="title">标题</div>
+
+                    <select>
+                        <option value="">无自动回复</option>
+                    </select>
+                    <div class="btn btn-danger">转接</div>
+                    <div class="btn btn-danger">备注</div>
+                    <div class="btn btn-danger">关闭</div>
+                </div>
+                <app-message-container></app-message-container>
+                <div class="message-tools">
+                    <i class="iconfont icon-smile-o"></i>
+                    <i class="iconfont icon-image"></i>
+                    <i class="iconfont icon-film"></i>
+                    <i class="iconfont icon-file-o"></i>
+                </div>
+                <div class="message-editor">
+                    <div class="message-text" contenteditable="true"></div>
+                    <div class="message-action">
+                        <button>发送</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="tab-box">
+                    <div class="tab-header">
+                        <div class="tab-item active">用户信息</div>
+                        <div class="tab-item">常用语</div>
+                    </div>
+                    <div class="tab-body">
+                        <div class="tab-item active">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>参数</th>
+                                        <th>值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tree-box">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

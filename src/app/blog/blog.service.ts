@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ICategory, IBlog, ISearchForm, IComment } from '../theme/models/blog';
-import { mockCategories, mockBlog } from '../theme/mock/blog';
 import { IPage, IData, IDataOne } from '../theme/models/page';
-import { mockPage } from '../theme/mock/page';
 import { map } from 'rxjs/operators';
 
 @Injectable()

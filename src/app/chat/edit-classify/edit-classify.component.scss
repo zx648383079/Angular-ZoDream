@@ -1,0 +1,26 @@
+.dialog-box {
+    margin-top: -100px;
+    margin-left: -16rem;
+    width: 32rem;
+    transform: translate3d(0, 0, 0);
+    .dialog-header {
+        position: relative;
+        .icon-close {
+            position: absolute;
+            left: 10px;
+            top: 0px;
+            font-size: 2rem;
+        }
+    }
+    .dialog-body {
+        height: 100px;
+        overflow-y: auto;
+    }
+    .dialog-footer {
+        text-align: right;
+        .btn {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
+}

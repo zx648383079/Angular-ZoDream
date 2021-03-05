@@ -16,9 +16,9 @@ const routes: Routes = [
                 path: 'home',
                 component: HomeComponent,
             },
-            { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
-            { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
-            { path: 'micro', loadChildren: () => import('./micro/micro.module').then(m => m.MicroModule) },
+            { path: 'blog', loadChildren: () => import('../blog/frontend/blog.module').then(m => m.BlogModule) },
+            { path: 'forum', loadChildren: () => import('../forum/forum.module').then(m => m.ForumModule) },
+            { path: 'micro', loadChildren: () => import('../micro/micro.module').then(m => m.MicroModule) },
             {
                 path: 'legwork',
                 canActivate: [CanActivateViaAuthGuard],

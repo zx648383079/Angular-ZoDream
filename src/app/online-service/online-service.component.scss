@@ -1,0 +1,71 @@
+.mini-online-service {
+    a {
+        color: #333;
+        text-decoration: none;
+    }
+    .fixed-icon {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 88;
+        display: block;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background-color: white;
+        border-radius: 50%;
+        font-size: 40px;
+    }
+    .chat-dialog {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 320px;
+        background-color: white;
+        z-index: 99;
+    }
+    .dialog-header {
+        line-height: 40px;
+        padding: 0 10px;
+        .title {
+            display: inline-block;
+        }
+        .pull-right {
+            float: right;
+        }
+    }
+    .dialog-footer {
+        display: flex;
+        input {
+            flex: 1;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #777;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+        .iconfont {
+            display: inline-block;
+            width: 2rem;
+            text-align: center;
+            line-height: 40px;
+            &:hover {
+                background-color: #ccc;
+            }
+        }
+        .file-btn {
+            display: inline-block;
+            cursor: pointer;
+            margin-bottom: 0;
+            height: 40px;
+            input[type='file'] {
+                width: 0;
+                height: 0;
+                overflow: hidden;
+                flex: none;
+            }
+        }
+    }
+}

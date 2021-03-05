@@ -1,7 +1,8 @@
 import {
     Component,
     OnDestroy,
-    OnInit
+    OnInit,
+    ViewChild
 } from '@angular/core';
 import {
     ChatService
@@ -12,7 +13,7 @@ import {
     IFriendGroup
 } from '../theme/models/chat';
 import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest } from './http';
-import { IUser } from '../theme/models/user';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 @Component({
     selector: 'app-chat',
@@ -20,6 +21,9 @@ import { IUser } from '../theme/models/user';
     styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+
+    @ViewChild(ContextMenuComponent)
+    public contextMenu: ContextMenuComponent;
 
     /**
      * 在小尺寸下进入聊天界面
@@ -49,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     public messages: IMessage[] = [];
 
     public request: IRequest;
+    public dialogMode = 0;
 
     constructor(
         private service: ChatService
@@ -86,6 +91,19 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapAdd(event: Event) {
         event.stopPropagation();
+        this.dialogMode = 1;
+    }
+
+    public tapContextMenu(e: MouseEvent) {
+        this.contextMenu.show(e.clientX, e.clientY, [
+            {
+                name: '新建分组',
+                icon: 'icon-plus'
+            }
+        ], item => {
+            this.dialogMode = 2;
+        });
+        return false;
     }
 
     public tapUser(item: IFriend) {

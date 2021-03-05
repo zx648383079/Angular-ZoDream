@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-routing.module';
 import { FrontendService } from './frontend.service';
+import { OnlineServiceModule } from '../online-service/online-service.module';
 
 
 @NgModule({
     declarations: [...frontendRoutedComponents],
     imports: [
         CommonModule,
-        FrontendRoutingModule
+        FrontendRoutingModule,
+        OnlineServiceModule,
     ],
     providers: [
         FrontendService

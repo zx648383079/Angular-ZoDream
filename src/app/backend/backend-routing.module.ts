@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) },
       { path: 'open', loadChildren: () => import('./open/open.module').then(m => m.OpenModule) },
       { path: 'sms', loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule) },
-      { path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule) },
+      { path: 'forum', loadChildren: () => import('../forum/backend/forum.module').then(m => m.ForumModule) },
       { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
       { path: 'legwork', loadChildren: () => import('../legwork/backend/legwork-backend.module').then(m => m.LegworkBackendModule) },
       { path: 'book', loadChildren: () => import('../book/backend/backend.module').then(m => m.BackendModule) },

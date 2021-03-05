@@ -59,7 +59,7 @@
                         </div>
                     </ng-container>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (contextmenu)="tapContextMenu($event)">
                     <ng-container *ngFor="let group of friends">
                         <div class="expand-box" [ngClass]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
@@ -148,4 +148,7 @@
         </div>
     </div>
 </div>
-<app-search [request]="request"></app-search>
+<app-search [request]="request" [hidden]="dialogMode != 1" (closed)="dialogMode = 0"></app-search>
+<app-edit-classify *ngIf="dialogMode == 2" (closed)="dialogMode = 0"></app-edit-classify>
+<app-context-menu></app-context-menu>
+<app-profile [value]="user" *ngIf="dialogMode == 3"></app-profile>

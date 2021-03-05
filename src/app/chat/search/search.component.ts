@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { IPage } from '../../theme/models/page';
+import { IUser } from '../../theme/models/user';
 import { COMMAND_FRIEND_SEARCH, IRequest } from '../http';
 
 @Component({
@@ -18,8 +20,8 @@ export class SearchComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.request) {
-            this.request.on(COMMAND_FRIEND_SEARCH, res => {
-                console.log(res);
+            this.request.on(COMMAND_FRIEND_SEARCH, (res: IPage<IUser>) => {
+                this.items = res.data;
             });
         }
     }

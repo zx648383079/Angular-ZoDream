@@ -1,0 +1,16 @@
+<div #messageBox class="message-container">
+    <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
+    <ng-container *ngFor="let item of formatItems">
+        <ng-container *ngIf="item.type === 99; else elseTemplate">
+            <p class="message-line">{{ item.content }}</p>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <div [ngClass]="item.user.id == currentId ? 'message-right' :  'message-left'">
+                <img class="avatar" [src]="item.user.avatar">
+                <div class="content">
+                    {{ item.content }}
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+</div>
