@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ICategory } from '../../model';
-import { OnlineService } from '../online.service';
+import { OnlineBackendService } from '../online.service';
 
 @Component({
     selector: 'app-category',
@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
     public editData: ICategory;
 
     constructor(
-        private service: OnlineService,
+        private service: OnlineBackendService,
         private toastrService: ToastrService,
         private modalService: NgbModal,
     ) {

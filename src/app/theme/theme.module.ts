@@ -59,7 +59,8 @@ import {
     DateInputComponent,
     TimeInputComponent,
     CountdownButtonComponent,
-    CountdownComponent
+    CountdownComponent,
+    EmojiPickerComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -104,6 +105,7 @@ const COMPONENTS = [
     FileInputComponent,
     DateInputComponent,
     TimeInputComponent,
+    EmojiPickerComponent,
 ];
 
 const PIPES = [

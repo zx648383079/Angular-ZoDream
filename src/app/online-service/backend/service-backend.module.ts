@@ -4,7 +4,7 @@ import { onlineServiceBackendRoutingComponents, OnlineServiceBackendRoutingModul
 import { ThemeModule } from '../../theme/theme.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { OnlineService } from './online.service';
+import { OnlineBackendService } from './online.service';
 import { OnlineServiceModule } from '../online-service.module';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { OnlineServiceModule } from '../online-service.module';
     ],
     declarations: [...onlineServiceBackendRoutingComponents],
     providers: [
-        OnlineService,
+        OnlineBackendService,
     ]
 })
 export class ServiceBackendModule { }

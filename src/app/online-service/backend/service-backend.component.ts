@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { OnlineBackendService } from './online.service';
 
 @Component({
   selector: 'app-service-backend',
@@ -7,9 +10,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServiceBackendComponent implements OnInit {
 
-  constructor() { }
+    public tabIndex = 0;
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: OnlineBackendService,
+        private toastrService: ToastrService,
+        private modalService: NgbModal,
+    ) { }
+
+    ngOnInit() {
+    }
+
+    public onReplyChange(event: any) {
+
+    }
+
+    public openTransfer(modal: any) {
+
+    }
+
+    public openRemark(modal: any) {
+
+    }
+
+    public tapClose() {
+
+    }
+
+    public tapEmoji(item: any) {
+
+    }
+
+    public uploadImage(event: any) {
+
+    }
+
+    public uploadVideo(event: any) {
+
+    }
+
+    public uploadFile(event: any) {
+
+    }
 
 }

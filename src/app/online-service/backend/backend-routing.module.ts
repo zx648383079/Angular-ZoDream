@@ -35,5 +35,5 @@ const routes: Routes = [
 export class OnlineServiceBackendRoutingModule {}
 
 export const onlineServiceBackendRoutingComponents = [
-    ServiceBackendComponent, UserComponent, WordComponent
+    ServiceBackendComponent, UserComponent, WordComponent, CategoryComponent
 ];

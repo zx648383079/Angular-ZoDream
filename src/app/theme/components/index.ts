@@ -20,3 +20,4 @@ export * from './file-input/file-input.component';
 export * from './date-input/date-input.component';
 export * from './time-input/time-input.component';
 export * from './countdown/countdown.component';
+export * from './emoji-picker/emoji-picker.component';

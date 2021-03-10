@@ -1,0 +1,33 @@
+<div class="emoji-picker">
+    <div (click)="tapButton()" class="emoji-picker__button">
+        <ng-content></ng-content>
+    </div>
+    <div class="emoji-picker_container" *ngIf="panelVisible" [ngStyle]="panelStyle">
+        <div class="picker-header">
+            {{ navTitle }}
+            <i class="iconfont icon-close" (click)="panelVisible = false"></i>
+        </div>
+        <div class="picker-body">
+            <ng-container *ngFor="let item of fiterItems">
+                <ng-container *ngIf="item.type > 0; else elseTemplate">
+                    <div class="item-text" [title]="item.name" (click)="tapItem(item)">
+                        {{ item.content }}
+                    </div>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="item-image" [title]="item.name" (click)="tapItem(item)">
+                        <img [src]="item.content" [alt]="item.name">
+                    </div>
+                </ng-template>
+                
+            </ng-container>
+        </div>
+        <div class="nav-bar">
+            <ng-container *ngFor="let item of navItems; let i = index">
+                <div class="item" [ngClass]="{active: i === navIndex}" (click)="navIndex = i">
+                    {{ item.name }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

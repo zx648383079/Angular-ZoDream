@@ -1,3 +1,67 @@
-<p>
-  word works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>快捷语</li>
+            <li>从分类下进入可以进行添加</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键词</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" id="keywords"
+                        placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="pull-right btn btn-primary" *ngIf="category > 0" (click)="open(content)">新增快捷语</a>
+            </form>
+        </div>
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>分类</th>
+                    <th style="width: 50%;">内容</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.category.name }}</td>
+                    <td style="width: 50%;">{{ item.content }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
+            (pageChange)="tapPage()"></ngb-pagination>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑快捷语' : '新增快捷语' }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name-input">内容</label>
+            <div class="input-group">
+                <input class="form-control" id="name-input" [(ngModel)]="editData.content" placeholder="请输入内容">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

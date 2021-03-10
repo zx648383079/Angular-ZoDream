@@ -12,7 +12,9 @@
         </div>
         <div class="dialog-footer">
             <input type="text" placeholder="请输入咨询内容" [(ngModel)]="content" (keydown)="onKeyDown($event)">
-            <i class="iconfont icon-smile-o"></i>
+            <app-emoji-picker class="file-btn">
+                <i class="iconfont icon-smile-o"></i>
+            </app-emoji-picker>
             <label for="file-upload" class="file-btn">
                 <i class="iconfont icon-image"></i>
                 <input type="file" name="file" id="file-upload" (change)="tapUploadImage($event)" accept="image/*"/>

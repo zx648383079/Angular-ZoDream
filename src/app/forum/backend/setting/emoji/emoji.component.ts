@@ -28,7 +28,6 @@ export class EmojiComponent implements OnInit {
         private service: ForumService,
         private toastrService: ToastrService,
         private modalService: NgbModal,
-        private uploadService: FileUploadService,
     ) {
         this.tapRefresh();
         this.service.emojiCategoryList({}).subscribe(res => {
@@ -115,20 +114,18 @@ export class EmojiComponent implements OnInit {
         });
     }
 
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.editData.content = res.url;
-            if (!this.editData.name) {
-                this.editData.name = res.original;
-            }
-        }, err => {
-            this.toastrService.warning(err.error.message);
+    public tapImport(content: any) {
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
         });
     }
 
-    public tapPreview() {
-        window.open(this.editData.content, '_blank');
+    public uploadFile(event: any) {
+        const files = event.target.files as FileList;
+        const form = new FormData();
+        form.append('file', files[0]);
+        this.service.emojiImport(form).subscribe(_ => {
+            this.tapRefresh();
+        });
     }
 
 }

@@ -22,6 +22,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a (click)="tapView(content)" class="pull-right btn btn-primary">新增表情包</a>
                 <a routerLink="./category" class="pull-right btn btn-info">管理分组</a>
+                <a (click)="tapImport(importModal)" class="pull-right btn btn-success">导入表情包</a>
             </form>
         </div>
 
@@ -29,6 +30,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>分类</th>
                     <th>名称</th>
                     <th>值</th>
                     <th>操作</th>
@@ -37,6 +39,7 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
+                    <td>{{ item.category?.name }}</td>
                     <td>{{ item.name }}</td>
                     <td>
                         <ng-container *ngIf="item.type < 1; else elseTemplate">
@@ -96,12 +99,7 @@
         <div class="form-group" *ngIf="editData.type < 1">
             <label for="content-input">图片</label>
             <div class="input-group">
-                <div class="file-input">
-                    <input type="text" id="content-input" class="form-control" [(ngModel)]="editData.content">
-                    <label for="fileUpload" class="btn btn-primary">上传</label>
-                    <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
-                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*" />
-                </div>
+                <app-file-input [(ngModel)]="editData.content"></app-file-input>
             </div>
         </div>
         <div class="form-group" *ngIf="editData.type == 1">
@@ -113,5 +111,25 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>
+
+<ng-template #importModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">导入表情包</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="content-input">选择文件</label>
+            <div class="input-group">
+                <div class="file-input">
+                    <label for="fileUpload" class="btn btn-primary">上传</label>
+                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="application/x-zip-compressed" />
+                </div>
+            </div>
+        </div>
     </div>
 </ng-template>

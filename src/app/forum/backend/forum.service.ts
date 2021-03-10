@@ -79,6 +79,10 @@ export class ForumService {
         return this.http.post<IEmoji>('forum/admin/emoji/save', data);
     }
 
+    public emojiImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('forum/admin/emoji/import', data);
+    }
+
     public emojiRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('forum/admin/emoji/delete', {params: {id}});
     }
