@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { OnlineService } from './online.service';
 
 const LOOP_SPACE_TIME = 20;
+const SESSION_KEY = 'session_token';
 
 @Component({
   selector: 'app-online-service',
   templateUrl: './online-service.component.html',
   styleUrls: ['./online-service.component.scss']
 })
-export class OnlineServiceComponent {
+export class OnlineServiceComponent implements OnDestroy {
 
     public dialogOpen = false;
     public content = '';
     public items: any[] = [];
-    public currentId = 0;
     private sessionToken = '';
     private nextTime = 0;
     private startTime = 0;
@@ -25,7 +25,20 @@ export class OnlineServiceComponent {
     constructor(
         private service: OnlineService,
         private toastrService: ToastrService,
-    ) { }
+    ) {
+        this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
+    }
+
+    ngOnDestroy() {
+        this.stopTimer();
+    }
+
+    public tapOpenChat() {
+        this.dialogOpen = true;
+        if (this.sessionToken.length > 0) {
+            this.tapNext();
+        }
+    }
 
     public tapSend() {
         const content = this.content;
@@ -34,6 +47,7 @@ export class OnlineServiceComponent {
             return;
         }
         this.send({content});
+        this.content = '';
     }
 
     public tapUploadImage(event: any) {
@@ -44,6 +58,13 @@ export class OnlineServiceComponent {
             form.append('file[]', files[i], files[i].name);
         }
         this.send(form);
+    }
+
+    public tapEmoji(item: any) {
+        this.send({
+            content: item.content,
+            type: item.type < 1 ? 1 : 0
+        });
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -75,6 +96,7 @@ export class OnlineServiceComponent {
             this.sessionToken = res.session_token;
             this.spaceTime = LOOP_SPACE_TIME;
             this.isLoading = false;
+            this.saveToken();
             this.startTimer();
         }, _ => {
             this.isLoading = false;
@@ -98,12 +120,17 @@ export class OnlineServiceComponent {
     }
 
     private tapNext() {
+        if (this.isLoading) {
+            return;
+        }
         this.isLoading = true;
         this.service.getList({
             session_token: this.sessionToken,
             start_time: this.nextTime,
         }).subscribe((res: any) => {
-            this.items = [].concat(this.items, res.data);
+            if (res.data.length > 0) {
+                this.items = [].concat(this.items, res.data);
+            }
             this.nextTime = res.next_time;
             if (!this.startTime) {
                 this.startTime = this.nextTime;
@@ -115,5 +142,19 @@ export class OnlineServiceComponent {
         }, _ => {
             this.isLoading = false;
         });
+    }
+
+    private stopTimer() {
+        if (this.timer > 0) {
+            window.clearInterval(this.timer);
+            this.timer = 0;
+        }
+    }
+
+    private saveToken() {
+        if (this.sessionToken.length < 1) {
+            return;
+        }
+        window.localStorage.setItem(SESSION_KEY, this.sessionToken);
     }
 }

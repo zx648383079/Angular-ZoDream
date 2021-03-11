@@ -211,7 +211,7 @@ export class BackendComponent implements OnInit {
     ];
 
     constructor(
-        private store: Store < AppState > ,
+        private store: Store<AppState>,
         private actions: AuthActions,
         private service: BackendService) {
         this.store.select(getCurrentUser).subscribe(user => {

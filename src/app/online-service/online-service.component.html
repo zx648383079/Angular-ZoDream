@@ -1,5 +1,5 @@
 <div class="mini-online-service">
-    <div class="fixed-icon" (click)="dialogOpen = true">
+    <div class="fixed-icon" (click)="tapOpenChat()">
         <i class="iconfont icon-service"></i>
     </div>
     <div class="chat-dialog" [hidden]="!dialogOpen">
@@ -8,11 +8,11 @@
             <a class="pull-right" (click)="dialogOpen = false">返回</a>
         </div>
         <div class="dialog-body">
-            <app-message-container [items]="items" [currentId]="currentId" (loadMore)="tapMore()"></app-message-container>
+            <app-message-container [items]="items" (loadMore)="tapMore()"></app-message-container>
         </div>
         <div class="dialog-footer">
             <input type="text" placeholder="请输入咨询内容" [(ngModel)]="content" (keydown)="onKeyDown($event)">
-            <app-emoji-picker class="file-btn">
+            <app-emoji-picker class="file-btn" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
             </app-emoji-picker>
             <label for="file-upload" class="file-btn">

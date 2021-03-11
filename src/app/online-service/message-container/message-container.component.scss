@@ -36,6 +36,9 @@
             line-height: 2.5rem;
             padding: 0 0.625rem;
             word-break: break-word;
+            img {
+                max-width: 300px;
+            }
             &::before {
                 content: '';
                 position: absolute;

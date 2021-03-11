@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataOne, IPage } from '../../theme/models/page';
-import { ICategory, ICategoryUser, IWord } from '../model';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { ICategory, ICategoryUser, IMessage, ISession, IWord } from '../model';
 
 @Injectable()
 export class OnlineBackendService {
@@ -48,6 +48,41 @@ export class OnlineBackendService {
 
     public wordRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('os/admin/category/word_delete', {params: {id}});
+    }
+
+    public wordAll() {
+        return this.http.get<IData<ICategory>>('os/admin/category/word_all');
+    }
+
+    public sessionList(params: any) {
+        return this.http.get<IPage<ISession>>('os/admin/session', {params});
+    }
+
+    public sessionMy() {
+        return this.http.get<IData<ISession>>('os/admin/session/my');
+    }
+
+    public messageList(params: any) {
+        return this.http.get<IPage<IMessage>>('os/admin/session/message', {params});
+    }
+
+    public send(data: any) {
+        return this.http.post<IData<IMessage>>('os/admin/session/send', data);
+    }
+
+    public sessionRemark(data: any) {
+        return this.http.post<ISession>('os/admin/session/remark', data);
+    }
+
+    public sessionTransfer(data: any) {
+        return this.http.post<ISession>('os/admin/session/transfer', data);
+    }
+
+    /**
+     * 设置自动回复
+     */
+    public sessionReply(data: any) {
+        return this.http.post<ISession>('os/admin/session/reply', data);
     }
 
 }

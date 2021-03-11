@@ -1,4 +1,10 @@
 @import '../../theme/styles/scrollbar';
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 .tab-box {
     .tab-header {
         display: flex;
@@ -16,7 +22,10 @@
         line-height: 40px;
     }
     .expand-body {
+        @include scrollbar();
         display: none;
+        min-height: 200px;
+        max-height: 500px;
     }
     &.open {
         .expand-header {
@@ -89,6 +98,7 @@
     .form-control {
         width: auto;
         min-width: auto;
+        max-width: 150px;
     }
 }
 
@@ -130,5 +140,42 @@
         line-height: 2.25rem;
         background-color: #7676;
         border: 0;
+    }
+}
+
+.tree-box {
+    .tree-item {
+        .tree-name {
+            user-select: none;
+            line-height: 30px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+        .tree-body {
+            .tree-name {
+                padding-left: 30px;
+                cursor: pointer;
+            }
+        }
+        &.active {
+            >.tree-name {
+                color: #fff;
+                background: #337ab7;
+            }
+        }
+        &.active {
+            .tree-body {
+                display: block;
+            }
+        }
+    }
+}
+
+.line-item {
+    line-height: 30px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    &.active {
+        background-color: rgba(124, 175, 173, 0.479);
     }
 }

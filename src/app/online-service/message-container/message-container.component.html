@@ -5,10 +5,16 @@
             <p class="message-line">{{ item.content }}</p>
         </ng-container>
         <ng-template #elseTemplate>
-            <div [ngClass]="item.user.id == currentId ? 'message-right' :  'message-left'">
+            <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
                 <img class="avatar" [src]="item.user.avatar">
                 <div class="content">
-                    {{ item.content }}
+                    <ng-container *ngIf="item.type == 1; else elseTemplate">
+                        <img [src]="item.content">
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        {{ item.content }}
+                    </ng-template>
+                    
                 </div>
             </div>
         </ng-template>

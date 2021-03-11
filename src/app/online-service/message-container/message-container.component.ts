@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { IMessage } from '../model';
 
 @Component({
   selector: 'app-message-container',
@@ -23,8 +24,7 @@ export class MessageContainerComponent implements OnChanges {
         const items = [];
         let lastTime: Date;
         const now = new Date();
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            const item = this.items[i];
+        for (const item of this.items) {
             const time = this.formatTime(item[this.timeKey]);
             if (!lastTime || this.diffTime(time, lastTime) > this.maxTime) {
                 lastTime = time;
@@ -35,13 +35,20 @@ export class MessageContainerComponent implements OnChanges {
             }
             items.push(item);
         }
-        return [];
+        return items;
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.items) {
             this.scrollBottom();
         }
+    }
+
+    public messageIsUser(item: IMessage) {
+        if (!this.currentId || this.currentId < 1) {
+            return item.send_type < 1;
+        }
+        return this.currentId === item.user_id;
     }
 
     public tapMore() {
