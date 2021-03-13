@@ -4,10 +4,11 @@ import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../theme/models
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ISite } from '../theme/models/seo';
 import {
+    IActivityTime,
     IAd, IAddress, IArticle, IArticleCategory,
     IBrand, ICart, ICartDialog, ICartItem, ICategory, ICollect, IComment,
-    ICommentSubtotal, IGoods, IHomeProduct, IOrder, IOrderCount,
-    IPayment, IShipping
+    ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IOrder, IOrderCount,
+    IPayment, ISeckillGoods, IShipping
 } from '../theme/models/shop';
 import { IUser } from '../theme/models/user';
 
@@ -276,5 +277,25 @@ export class ShopService {
 
     public collectRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('shop/collect/delete', {params: {id}});
+    }
+
+    public couponList(params: any) {
+        return this.http.get<IPage<ICoupon>>('shop/coupon', {params});
+    }
+
+    public couponMyList(params: any) {
+        return this.http.get<IPage<ICoupon>>('shop/coupon/my', {params});
+    }
+
+    public couponReceive(id: number) {
+        return this.http.post<IDataOne<boolean>>('shop/coupon/receive', {id});
+    }
+
+    public seckillTime() {
+        return this.http.get<IData<IActivityTime>>('shop/activity/seckill/time');
+    }
+
+    public seckillList(params: any) {
+        return this.http.get<IPage<ISeckillGoods>>('shop/activity/seckill/goods', {params});
     }
 }

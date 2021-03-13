@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { IData } from '../../theme/models/page';
 import { map } from 'rxjs/operators';
 
 export interface ISubtotal {

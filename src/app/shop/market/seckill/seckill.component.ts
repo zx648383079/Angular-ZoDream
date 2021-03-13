@@ -1,40 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { IErrorResult } from '../../../theme/models/page';
-import { ICoupon } from '../../../theme/models/shop';
+import { IActivityTime, ISeckillGoods } from '../../../theme/models/shop';
 import { ShopService } from '../../shop.service';
 
 @Component({
-  selector: 'app-coupon',
-  templateUrl: './coupon.component.html',
-  styleUrls: ['./coupon.component.scss']
+  selector: 'app-seckill',
+  templateUrl: './seckill.component.html',
+  styleUrls: ['./seckill.component.scss']
 })
-export class CouponComponent implements OnInit {
+export class SeckillComponent implements OnInit {
 
-    public items: ICoupon[] = [];
+    public timeItems: IActivityTime[] = [];
+    public items: ISeckillGoods[] = [];
     public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public tabIndex = 0;
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private service: ShopService,
-        private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.service.seckillTime().subscribe(res => {
+            this.timeItems = res.data;
+            if (this.timeItems.length > 0) {
+                this.tapTab(0);
+            }
+        });
     }
 
-    public tapReceive(item: ICoupon) {
-        this.service.couponReceive(item.id).subscribe(_ => {
-            item.can_receive = false;
-            this.toastrService.success('领取成功');
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
-        });
+    public tapTab(i: number) {
+        this.tabIndex = i;
+        this.tapRefresh();
     }
 
     public tapRefresh() {
@@ -53,7 +50,7 @@ export class CouponComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.couponList({
+        this.service.seckillList({
             page
         }).subscribe(res => {
             this.page = page;
@@ -64,4 +61,5 @@ export class CouponComponent implements OnInit {
             this.isLoading = false;
         });
     }
+
 }

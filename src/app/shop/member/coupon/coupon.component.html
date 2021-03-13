@@ -18,9 +18,9 @@
             </div>
             <div class="tab-box">
                 <div class="tab-header">
-                    <div class="tab-item active">可使用</div>
-                    <div class="tab-item">已使用</div>
-                    <div class="tab-item">已失效</div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">可使用</div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">已使用</div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex > 1}" (click)="tapTab(2)">已失效</div>
                 </div>
                 <div class="tab-body">
                     <div class="tab-item active">

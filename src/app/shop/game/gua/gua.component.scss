@@ -1,0 +1,19 @@
+.gua-box {
+    position: relative;
+    width: 300px;
+    height: 180px;
+    user-select: none;
+    .gua-body {
+        line-height: 180px;
+        user-select: none;
+        cursor: default;
+        font-size: 30px;
+        text-align: center;
+    }
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 8;
+    }
+}

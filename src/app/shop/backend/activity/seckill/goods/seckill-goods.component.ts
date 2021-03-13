@@ -116,7 +116,7 @@ export class SeckillGoodsComponent implements OnInit {
         this.modalService.open(content, {
             ariaLabelledBy: 'modal-basic-title'
         }).result.then(_ => {
-            this.service.timeSave(this.editData).subscribe(_ => {
+            this.service.goodsSave(this.editData).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapRefresh();
             });

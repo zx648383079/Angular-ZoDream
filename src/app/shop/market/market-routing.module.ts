@@ -40,6 +40,7 @@ import {
 import {
     SearchComponent
 } from './search/search.component';
+import { SeckillComponent } from './seckill/seckill.component';
 
 const routes: Routes = [{
     path: '',
@@ -93,6 +94,10 @@ const routes: Routes = [{
             component: CouponComponent,
         },
         {
+            path: 'seckill',
+            component: SeckillComponent,
+        },
+        {
             path: '',
             component: HomeComponent
         }
@@ -109,5 +114,6 @@ export const marketRoutingComponents = [
     MarketComponent, HomeComponent, AuthComponent,
     CategoryComponent, SearchComponent, GoodsComponent,
     CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent,
-    PayComponent, CashierComponent, CouponComponent, PayResultComponent
+    PayComponent, CashierComponent, CouponComponent, PayResultComponent,
+    SeckillComponent
 ];

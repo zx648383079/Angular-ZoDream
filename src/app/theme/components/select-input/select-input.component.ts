@@ -143,10 +143,7 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
 
     writeValue(obj: any): void {
         this.value = obj;
-        if (!this.booted) {
-            this.readerType(obj);
-            this.booted = true;
-        }
+        this.readerType(obj);
         if (this.selectedItems.length < 1) {
             this.formatSelected(obj);
         }

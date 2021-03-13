@@ -1,0 +1,13 @@
+<div class="lattice-box" [ngStyle]="boxStyle">
+    <ng-container *ngFor="let item of formatItems; let i = index">
+        <div class="item" [ngClass]="{active: currentIndex == i}" [ngStyle]="item.style">
+            <div class="thumb" *ngIf="item.image">
+                <img [src]="item.image">
+            </div>
+            <div class="text" *ngIf="item.text">{{ item.text }}</div>
+        </div>
+    </ng-container>
+    <div class="btn btn-primary" [ngClass]="{disabled: isRunning}" [ngStyle]="buttonStyle" (click)="tapStart()">
+        {{ buttonText }}
+    </div>
+</div>

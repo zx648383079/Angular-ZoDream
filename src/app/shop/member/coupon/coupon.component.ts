@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ICoupon } from '../../../theme/models/shop';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -9,12 +10,13 @@ import { ShopService } from '../../shop.service';
 })
 export class CouponComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: ICoupon[] = [];
     public hasMore = true;
     public page = 1;
     public perPage = 20;
     public isLoading = false;
     public total = 0;
+    public tabIndex = 0;
 
     constructor(
         private service: ShopService,
@@ -28,6 +30,11 @@ export class CouponComponent implements OnInit {
 
     public get pageTotal(): number {
         return Math.ceil(this.total / this.perPage);
+    }
+
+    public tapTab(i: number) {
+        this.tabIndex = i;
+        this.tapRefresh();
     }
 
     /**
@@ -53,7 +60,8 @@ export class CouponComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
+        this.service.couponMyList({
+            status: this.tabIndex,
             page,
             per_page: this.perPage
         }).subscribe(res => {

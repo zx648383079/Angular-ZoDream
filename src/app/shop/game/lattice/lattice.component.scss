@@ -1,0 +1,20 @@
+.lattice-box {
+    position: relative;
+    .item {
+        position: absolute;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        &.active {
+            border: 2px solid rgb(50, 167, 235);
+        }
+    }
+    .btn {
+        position: absolute;
+        padding: 0;
+        &.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+}

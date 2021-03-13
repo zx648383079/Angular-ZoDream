@@ -3,7 +3,7 @@ import { INav } from '../../theme/components';
 export const ShopBackendMenu: INav[] = [
     {
         name: '商城',
-        icon: 'icon-desktop',
+        icon: 'icon-shopping-cart',
         url: './shop',
         children: [{
                 name: '商品列表',
