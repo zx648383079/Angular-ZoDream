@@ -55,9 +55,6 @@ export class EditComponent implements OnInit {
         video_url: [''],
         cc_license: [''],
         comment_status: [''],
-        tags: [
-            []
-        ],
     });
 
     public data: IBlog;
@@ -66,6 +63,7 @@ export class EditComponent implements OnInit {
     public languages: string[] = [];
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
+    public tags: ITag[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -90,6 +88,7 @@ export class EditComponent implements OnInit {
             }
             this.service.blog(params.id).subscribe(res => {
                 this.data = res;
+                this.tags = res.tags || [];
                 this.form.patchValue({
                     title: res.title,
                     content: res.content,
@@ -110,7 +109,6 @@ export class EditComponent implements OnInit {
                     video_url: res.video_url,
                     cc_license: res.cc_license,
                     comment_status: res.comment_status,
-                    tags: res.tags,
                 });
             });
         });
@@ -138,6 +136,10 @@ export class EditComponent implements OnInit {
         return '规则';
     }
 
+    public addTagFn(name: string) {
+        return {name};
+    }
+
     public tapBack() {
         history.back();
     }
@@ -151,6 +153,7 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        data.tags = this.tags;
         this.service.blogSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();

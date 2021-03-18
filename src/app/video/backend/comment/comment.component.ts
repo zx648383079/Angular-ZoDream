@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IVideo } from '../../../theme/models/video';
+import { IComment } from '../../model';
 import { VideoService } from '../video.service';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss']
 })
-export class ListComponent implements OnInit {
+export class CommentComponent implements OnInit {
 
 
-  public items: IVideo[] = [];
+  public items: IComment[] = [];
 
   public hasMore = true;
   public page = 1;
@@ -30,14 +30,6 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.tapRefresh();
-  }
-
-  public tapPlay(item: IVideo) {
-    if (!item.video_path) {
-      this.toastrService.warning('文件不存在');
-      return;
-    }
-    window.open(item.video_path, '_blank');
   }
 
   public get pageTotal(): number {
@@ -67,7 +59,7 @@ export class ListComponent implements OnInit {
         return;
     }
     this.isLoading = true;
-    this.service.videoList({
+    this.service.commentList({
       keywords: this.keywords,
       page,
       per_page: this.perPage
@@ -84,11 +76,11 @@ export class ListComponent implements OnInit {
     this.tapRefresh();
   }
 
-  public tapRemove(item: IVideo) {
-    if (!confirm('确定删除“' + item.content + '”视频？')) {
+  public tapRemove(item: IComment) {
+    if (!confirm('确定删除“' + item.content + '”评论？')) {
       return;
     }
-    this.service.videoRemove(item.id).subscribe(res => {
+    this.service.commentRemove(item.id).subscribe(res => {
       if (!res.data) {
         return;
       }
@@ -98,5 +90,4 @@ export class ListComponent implements OnInit {
       });
     });
   }
-
 }

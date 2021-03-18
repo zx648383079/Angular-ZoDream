@@ -37,7 +37,7 @@
                 <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
                 <span class="click"><i class="iconfont icon-eye"></i><b>{{ data.click_count }}</b></span>
                 <span class="agree recommend-blog"><i
-                        class="iconfont icon-thumbs-up"></i><b>{{ data.recommend }}</b></span>
+                        class="iconfont icon-thumbs-up"></i><b>{{ data.recommend_count }}</b></span>
             </div>
         </div>
 
@@ -113,8 +113,8 @@
                             <span class="comment" (click)="tapCommenting(item)"><i class="iconfont icon-commenting"></i></span>
                             <span class="report">举报</span>
                             <div class="actions">
-                                <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.agree }}</b></span>
-                                <span class="disagree"><i class="iconfont icon-thumbs-down"></i><b>{{ item.disagree }}</b></span>
+                                <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.agree_count }}</b></span>
+                                <span class="disagree"><i class="iconfont icon-thumbs-down"></i><b>{{ item.disagree_count }}</b></span>
                             </div>
                             <div class="book-comment-form" *ngIf="commentData.parent_id > 0">
                                 <div class="title"> 回复评论 </div>
@@ -150,8 +150,8 @@
                                     <span>&nbsp;</span>
                                     <span class="report">举报</span>
                                     <div class="actions">
-                                        <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ it.agree }}</b></span>
-                                        <span class="disagree"><i class="iconfont icon-thumbs-down"></i><b>{{ it.disagree }}</b></span>
+                                        <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ it.agree_count }}</b></span>
+                                        <span class="disagree"><i class="iconfont icon-thumbs-down"></i><b>{{ it.disagree_count }}</b></span>
                                     </div>
                                 </div>
                             </div>

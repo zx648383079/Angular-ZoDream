@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <div class="player-box">
+        <video #player></video>
+        <div class="info-box" *ngIf="data">
+            <div class="title">@{{ data.user.name }}</div>
+            <div class="content">{{ data.content }}</div>
+            <div class="music" *ngIf="data.music">
+                <i class="iconfont icon-music"></i>
+                <div class="loop-box">
+                    {{ data.music.name }}
+                </div>
+            </div>
+        </div>
+        <div class="action-bar" *ngIf="data">
+            <div class="avatar" (click)="tapUser()">
+                <img [src]="data.user.avatar" alt="">
+                <div class="follow-icon">
+                    <i class="iconfont icon-plus"></i>
+                </div>
+            </div>
+            <div class="btn-item" [ngClass]="{active: data.is_liked}" (click)="tapToggleLike()">
+                <i class="iconfont icon-heart"></i>
+                <span class="label">{{ data.like_count }}</span>
+            </div>
+            <div class="btn-item" (click)="tapShowComment()">
+                <i class="iconfont icon-commenting"></i>
+                <span class="label">{{ data.comment_count }}</span>
+            </div>
+            <div class="btn-item">
+                <i class="iconfont icon-share-alt"></i>
+                <span class="label">分享</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="comment-panel">
+    <div class="commtent-form">
+        <input type="text" [(ngModel)]="commentData.content" placeholder="请输入评论内容">
+        <i class="iconfont icon-paper-plane" (click)="tapCommentSubmit"></i>
+    </div>
+
+    <div class="comment-item" *ngFor="let item of commentData.items">
+        <div class="avatar" (click)="tapCommenting(item)">
+            <img [src]="item.user.avatar" alt="">
+        </div>
+        <div class="name" (click)="tapCommenting(item)">{{ item.user.name }}</div>
+        <div class="content" (click)="tapCommenting(item)">{{ item.content }}</div>
+        <div class="action">
+            <span class="time">{{ item.created_at }}</span>
+        </div>
+        <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
+            <div class="comment-item" *ngFor="let it of item.replies">
+                <div class="name" (click)="tapCommenting(it)">{{ it.user.name }}</div>
+                <div class="content" (click)="tapCommenting(it)">{{ it.content }}</div>
+                <div class="action">
+                    <span class="time">{{ it.created_at }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

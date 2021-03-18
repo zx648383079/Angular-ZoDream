@@ -8,6 +8,8 @@ npm i --legacy-peer-deps
 
 ## 预览图
 
+👉【[DEMO](https://job.zodream.cn/)】
+
 1. 博客样式
 
 参考样式 [https://zodream.cn/](https://zodream.cn/)

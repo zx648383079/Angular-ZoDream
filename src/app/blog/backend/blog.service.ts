@@ -43,16 +43,16 @@ export class BlogService {
         });
     }
 
-    public getPage(param: ISearchForm): Observable<IPage<IBlog>> {
+    public getPage(params: any): Observable<IPage<IBlog>> {
         return this.http.get<IPage<IBlog>>('blog', {
-            params: param as any
-          });
+            params
+        });
     }
 
-    public getComment(param: ISearchForm): Observable<IPage<IComment>> {
+    public getComment(params: any): Observable<IPage<IComment>> {
         return this.http.get<IPage<IComment>>('blog/admin/comment', {
-            params: param as any
-          });
+            params
+        });
     }
 
     public commentRemove(id: any) {
@@ -63,7 +63,7 @@ export class BlogService {
 
     public blog(id: any) {
         return this.http.get<IBlog>('blog/publish/detail', {
-          params: {id},
+            params: {id},
         });
     }
 

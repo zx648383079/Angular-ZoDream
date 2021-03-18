@@ -33,6 +33,10 @@ export class HomeComponent implements OnInit {
             url: 'forum'
         },
         {
+            name: 'Video',
+            url: '/video'
+        },
+        {
             name: 'Disk',
             url: '/disk',
             description: 'ONLINE DISK'

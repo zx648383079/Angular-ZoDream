@@ -20,7 +20,7 @@ import {
 } from './backend.service';
 import { AuthActions } from '../theme/actions';
 import { LegworkBackendMenu } from '../legwork/backend/menu';
-import { VideoBackendMenu } from './video/menu';
+import { VideoBackendMenu } from '../video/backend/menu';
 import { ShopBackendMenu } from '../shop/backend/menu';
 import { BlogBackendMenu } from '../blog/backend/menu';
 import { BookBackendMenu } from '../book/backend/menu';

@@ -16,7 +16,7 @@ export interface IBlog {
     programming_language: string;
     content?: string;
     comment_count: number;
-    recommend: number;
+    recommend_count: number;
     click_count: number;
     created_at: string;
     keywords?: string;
@@ -70,8 +70,8 @@ export interface IComment {
     name: string;
     email: string;
     created_at?: string;
-    agree?: number;
-    disagree?: number;
+    agree_count?: number;
+    disagree_count?: number;
     position?: number;
     replies?: IComment[];
 }

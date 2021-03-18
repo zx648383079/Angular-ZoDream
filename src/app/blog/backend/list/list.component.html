@@ -42,7 +42,7 @@
                             <a class="category" *ngIf="item.term" ><i
                                 class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
                             <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
-                            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend }}</b></span>
+                            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                             <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
                         </div>
                         <a class="btn btn-info btn-xs" [routerLink]="'/blog/' + item.id">预览</a>

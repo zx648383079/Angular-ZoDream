@@ -102,7 +102,7 @@
                     <div class="input-group">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindValue="id" bindLabel="name" formControlName="tags" placeholder="选择标签"></ng-select>
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
                         </div>
                     </div>
                 </app-panel>

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
-import { IMusic } from '../../../../theme/models/video';
+import { IMusic } from '../../../model';
 import { VideoService } from '../../video.service';
 
 @Component({

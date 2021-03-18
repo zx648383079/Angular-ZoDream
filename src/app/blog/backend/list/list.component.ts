@@ -58,7 +58,9 @@ export class ListComponent implements OnInit {
     }
     this.isLoading = true;
     this.service.getPage({
-      page
+        keywords: this.keywords,
+        term_id: this.category,
+        page
     }).subscribe(res => {
       this.page = page;
       this.hasMore = res.paging.more;

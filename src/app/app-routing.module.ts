@@ -41,6 +41,7 @@ const routes: Routes = [
     { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
     { path: 'book', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
     { path: 'catering', loadChildren: () => import('./catering/catering.module').then(m => m.CateringModule) },
+    { path: 'video', loadChildren: () => import('.//video/video.module').then(m => m.VideoModule) },
     {
         path: '**',
         redirectTo: 'frontend'

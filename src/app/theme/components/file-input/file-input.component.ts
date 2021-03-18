@@ -37,6 +37,10 @@ export class FileInputComponent implements ControlValueAccessor {
         return this.accept.indexOf('image') >= 0;
     }
 
+    public onValueChange() {
+        this.onChange(this.value);
+    }
+
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         let upload$: Observable<IUploadResult>;

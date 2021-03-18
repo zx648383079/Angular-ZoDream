@@ -57,7 +57,7 @@ const routes: Routes = [{
         },
         {
             path: 'video',
-            loadChildren: () => import('./video/video.module').then(m => m.VideoModule)
+            loadChildren: () => import('../video/backend/video.module').then(m => m.VideoModule)
         },
         {
             path: 'legwork',

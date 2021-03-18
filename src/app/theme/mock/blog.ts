@@ -28,7 +28,7 @@ export const mockBlog: IBlog = {
     programming_language: 'php',
     comment_count: 999,
     click_count: 99999,
-    recommend: 9999,
+    recommend_count: 9999,
     content: '内容',
     created_at: '3天前',
     url: 'https://zodream.cn/blog/id/137.html',
