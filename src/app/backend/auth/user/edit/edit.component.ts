@@ -56,7 +56,9 @@ export class EditUserComponent implements OnInit {
           sex: res.sex,
           email: res.email,
           birthday: this.dateAdapter.fromModel(res.birthday),
-          roles: res.roles,
+          roles: res.roles.map(i => {
+                return typeof i === 'string' ? parseInt(i, 10) : i;
+            }),
           password: '',
           confirm_password: '',
         });

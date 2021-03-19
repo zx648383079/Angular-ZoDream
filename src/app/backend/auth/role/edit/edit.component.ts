@@ -44,7 +44,9 @@ export class EditComponent implements OnInit {
           name: res.name,
           display_name: res.display_name,
           description: res.description,
-          permissions: res.permissions,
+          permissions: res.permissions.map(i => {
+              return typeof i === 'string' ? parseInt(i, 10) : i;
+          }),
         });
       });
     });
