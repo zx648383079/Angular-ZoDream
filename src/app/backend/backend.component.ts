@@ -26,6 +26,7 @@ import { BlogBackendMenu } from '../blog/backend/menu';
 import { BookBackendMenu } from '../book/backend/menu';
 import { ForumBackendMenu } from '../forum/backend/menu';
 import { OnlineServiceBackendMenu } from '../online-service/backend/menu';
+import { DocumentBackendMenu } from '../document/backend/menu';
 
 @Component({
     selector: 'app-backend',
@@ -118,6 +119,7 @@ export class BackendComponent implements OnInit {
         ...VideoBackendMenu,
         ...LegworkBackendMenu,
         ...OnlineServiceBackendMenu,
+        ...DocumentBackendMenu,
         {
             name: '开放平台',
             icon: 'icon-th-large',

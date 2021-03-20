@@ -1,0 +1,180 @@
+<div class="page-box" [ngClass]="{'nav-toggle': navToggle}">
+    <div class="nav-bar">
+        <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
+        <div class="bar-version">
+            <label for="version">版本</label>
+            <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
+                <ng-container *ngFor="let item of versionItems">
+                    <option [value]="item.id">{{ item.name }}</option>
+                </ng-container>
+            </select>
+        </div>
+        <div class="bar-search">
+            <input type="text" placeholder="请输入搜索关键词...">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div class="bar-top">
+            <ul class="tree-box">
+                <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
+                    <div class="tree-name" (click)="tapRead(item)">
+                        <i class="iconfont" [ngClass]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
+                        {{ item.name }}
+                    </div>
+                    <ul class="tree-body">
+                        <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
+                            <div class="tree-name" (click)="tapRead(it)">{{ it.name }}</div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+  
+    <div class="page-body">
+        <div class="container-fluid" *ngIf="data">
+            <ng-container *ngIf="!data.response; else elseTemplate">
+                <div class="title">
+                    {{ data.name }}
+                </div>
+                <div class="content style-markdown">
+                    <div [innerHTML]="data.content"></div>
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div class="title">
+                    {{ data.name }}
+
+                    <div class="pull-right">
+                        <div class="btn btn-primary">代码</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        接口详情
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted"><label>接口名称：</label>{{ data.name }}</p>
+                        <p class="text-muted"><label>所属项目：</label>{{ project.name }}</p>
+                        <p class="text-muted"><label>请求类型：</label>{{ data.method }}</p>
+                        <p class="text-muted"><label>接口描述：</label>{{ data.description }}</p>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        接口地址
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr *ngFor="let item of project.environment">
+                                    <td style="width: 20%;">{{ item.title }}({{ item.name }})</td>
+                                    <td style="width: 50%;">
+                                        <code>{{ item.domain }}{{ data.uri }}</code></td>
+                                    <td style="width: 15%;">
+                                        <button type="button"
+                                            class="btn btn-xs btn-success btn-copy"><i
+                                                class="fa fa-fw fa-copy"></i>复制链接</button>
+                                    </td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="data.header && data.header.length > 0">
+                    <div class="panel-header">
+                        Header参数
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>字段键</th>
+                                    <th>字段值</th>
+                                    <th>备注说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of data.header">
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.default_value }}</td>
+                                    <td>{{ item.remark }}</td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="data.request && data.request.length > 0">
+                    <div class="panel-header">
+                        请求参数
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>字段别名</th>
+                                    <th>字段含义</th>
+                                    <th>字段类型</th>
+                                    <th>是否必填</th>
+                                    <th>默认值</th>
+                                    <th>备注说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of data.request">
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.title }}</td>
+                                    <td>{{ item.type }}</td>
+                                    <td>{{ item.is_required ? '是' : '否' }}</td>
+                                    <td>{{ item.default_value }}</td>
+                                    <td style="width: 20%;">{{ item.remark }}</td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="data.response && data.response.length > 0">
+                    <div class="panel-header">
+                        响应参数
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>字段别名</th>
+                                    <th>字段含义</th>
+                                    <th>字段类型</th>
+                                    <th>MOCK规则</th>
+                                    <th>备注说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of data.response">
+                                    <td class="line-name">
+                                        {{ item.level | treeLevel }}
+                                        {{ item.name }}</td>
+                                    <td>{{ item.title }}</td>
+                                    <td>{{ item.type }}</td>
+                                    <td>{{ item.mock }}</td>
+                                    <td style="width: 20%;">{{ item.remark }}</td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="data.example">
+                    <div class="panel-header">
+                        返回示例
+                    </div>
+                    <div class="panel-body">
+                        <pre><code class="language-json">{{ data.example }}</code></pre>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.tab-bar {
+    border-bottom: 2px solid #ccc;
+    line-height: 3rem;
+    height: 3rem;
+    .tab-item {
+        display: inline-block;
+        padding: 0 10px;
+        height: 3rem;
+        &.active {
+            border-bottom: 2px solid green;
+        }
+    }
+}
+
+.name {
+    line-height: 3rem;
+    font-size: 20px;
+}
+
+.description {
+    font-size: 13px;
+    color: #777;
+    padding: 10px;
+}
+
+.cover {
+    img {
+        width: 100%;
+    }
+}
+
+.tree-box {
+    .tree-item {
+        .tree-name {
+            user-select: none;
+            line-height: 30px;
+            text-align: left;
+        }
+        .tree-body {
+            .tree-name {
+                padding-left: 30px;
+                cursor: pointer;
+            }
+        }
+        &.active {
+            >.tree-name {
+                color: #fff;
+                background: #337ab7;
+            }
+        }
+        &.active {
+            .tree-body {
+                display: block;
+            }
+        }
+    }
+}

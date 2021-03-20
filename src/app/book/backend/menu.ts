@@ -3,7 +3,7 @@ import { INav } from '../../theme/components';
 export const BookBackendMenu: INav[] = [
     {
         name: '书籍管理',
-        icon: 'icon-file-text-o',
+        icon: 'icon-book',
         url: './book',
         children: [
             {

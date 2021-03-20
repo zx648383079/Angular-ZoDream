@@ -72,6 +72,10 @@ const routes: Routes = [{
             loadChildren: () => import('../online-service/backend/service-backend.module').then(m => m.ServiceBackendModule)
         },
         {
+            path: 'doc',
+            loadChildren: () => import('../document/backend/document-backend.module').then(m => m.DocumentBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

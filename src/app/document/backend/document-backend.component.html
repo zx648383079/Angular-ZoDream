@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>文档项目</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label class="sr-only" for="keywords">内容</label>
+                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" [value]="keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" routerLink="create">新增文档</a>
+            </form>
+        </div>
+
+        <div class="project-item" *ngFor="let item of items">
+            <div class="cover">
+                <img [src]="item.cover" alt="">
+            </div>
+            <div class="name">{{ item.name }}</div>
+            <div class="desc">{{ item.description }}</div>
+            <div class="action">
+                <div class="btn-group mr-3">
+                    <a class="btn btn-primary" [routerLink]="['edit', item.id]">编辑</a>
+                    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                      <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                      <div class="dropdown-menu" ngbDropdownMenu>
+                        <button ngbDropdownItem>设置</button>
+                        <button ngbDropdownItem>删除</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+    </div>
+</div>

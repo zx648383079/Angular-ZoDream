@@ -1,0 +1,42 @@
+<div class="container-fluid" *ngIf="data">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="cover">
+                <img [src]="data.cover" alt="">
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="name">{{ data.name }}</div>
+            <div class="description">
+                {{ data.description }}
+            </div>
+            <div class="btn btn-primary" (click)="tapRead()">阅读</div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">
+            概要
+        </div>
+        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">
+            目录
+        </div>
+    </div>
+
+    <div class="content" [hidden]="tabIndex > 0">
+        
+    </div>
+    <div class="catalog" [hidden]="tabIndex != 1">
+        <ul class="tree-box">
+            <li class="tree-item" *ngFor="let item of catalog">
+                <div class="tree-name">{{ item.name }}</div>
+                <ul class="tree-body">
+                    <li class="tree-item" *ngFor="let it of item.children">
+                        <div class="tree-name" (click)="tapRead(it)">{{ it.name }}</div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</div>

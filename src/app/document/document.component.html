@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="panel">
+        <div class="panel-header">
+            精彩推荐
+
+            <div class="pull-right">
+                <i class="iconfont icon-refresh"></i>
+                换一换
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let item of items">
+                    <a class="card-item" [routerLink]="['project', item.id]" routerLinkActive="router-link-active" >
+                        <div class="cover">
+                            <img [src]="item.cover" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="name">
+                                {{ item.name }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
