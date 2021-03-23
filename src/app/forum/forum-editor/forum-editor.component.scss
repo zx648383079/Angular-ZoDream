@@ -42,3 +42,12 @@
         padding: 0 10px;
     }
 }
+.dialog-box {
+    transform: translate3d(0, 0, 0);
+    .vote-item {
+        display: flex;
+        .form-control {
+            flex: 1;
+        }
+    }
+}

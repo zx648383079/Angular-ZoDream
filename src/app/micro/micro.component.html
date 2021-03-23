@@ -14,8 +14,7 @@
                         <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
                         <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
                     </p>
-                    <div class="content">
-                        {{ item.content }}
+                    <div class="content" [innerHTML]="item.html">
                     </div>
                     <div class="attachment" *ngIf="item.attachment && item.attachment.length > 0" [ngClass]="{'media-slider': item.attachment_open}">
                         <i class="iconfont icon-close" (click)="item.attachment_open = false"></i>

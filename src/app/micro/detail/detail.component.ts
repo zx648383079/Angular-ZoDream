@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -38,6 +39,7 @@ export class DetailComponent implements OnInit {
         private router: Router,
         private toastrService: ToastrService,
         private store: Store<AppState>,
+        private sanitizer: DomSanitizer,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -57,6 +59,7 @@ export class DetailComponent implements OnInit {
     loadDetail(id: number) {
         this.service.get(id).subscribe(res => {
             res.attachment_current = 0;
+            res.html = this.sanitizer.bypassSecurityTrustHtml(res.content);
             this.data = res;
             this.tapRefresh();
         });

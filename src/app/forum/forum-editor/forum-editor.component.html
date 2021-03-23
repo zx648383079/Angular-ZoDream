@@ -1,9 +1,12 @@
 <div class="editor-box">
     <div class="editor-tool-bar">
-        <div class="tool-item" title="插入代码">
+        <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
+            <i class="iconfont icon-smile-o"></i>
+        </app-emoji-picker>
+        <div class="tool-item" title="插入代码" (click)="tapTool('code')">
             <i class="iconfont icon-code"></i>
         </div>
-        <div class="tool-item" title="插入隐藏内容">
+        <div class="tool-item" title="插入隐藏内容" (click)="tapTool('hide')">
             <i class="iconfont icon-eye-slash"></i>
         </div>
         <label for="editor-video" class="tool-item" title="插入可下载内容">
@@ -22,15 +25,78 @@
             <i class="iconfont icon-music"></i>
             <input type="file" name="file" id="editor-audio" (change)="uploadAudio($event)" accept="audio/*" [disabled]="disable" multiple/>
         </label>
-        <div class="tool-item" title="插入链接">
+        <div class="tool-item" title="插入投票" (click)="tapTool('vote')">
+            <i class="iconfont icon-bar-chart"></i>
+        </div>
+        <div class="tool-item" title="插入链接" (click)="tapTool('link')">
             <i class="iconfont icon-chain"></i>
         </div>
-        <div class="tool-item" title="清空">
+        <div class="tool-item" title="插入分页" (click)="tapTool('page')">
+            <i class="iconfont icon-clone"></i>
+        </div>
+        <div class="tool-item" title="清空" (click)="tapTool('clear')">
             <i class="iconfont icon-trash"></i>
         </div>
     </div>
     <div class="editor-area">
         <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
+    </div>
+</div>
+
+<div class="dialog-mask" *ngIf="dialogMode > 0" (click)="closeDialog()"></div>
+<div class="dialog-box" *ngIf="dialogMode > 0">
+    <div class="dialog-header">{{ dailogTitle }}</div>
+    <div class="dialog-body">
+        <ng-container *ngIf="dialogMode == 1">
+            <div class="form-group">
+                <label for="lang">代码类型</label>
+                <input type="text"
+                  class="form-control" [(ngModel)]="dialogData.lang" id="lang" placeholder="例如：js">
+              </div>
+              <div class="form-group">
+                <label for="content">内容</label>
+                <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
+              </div>
+        </ng-container>
+        <ng-container *ngIf="dialogMode == 2">
+            <div class="form-group">
+                <label for="price">购买价格</label>
+                <input type="number"
+                  class="form-control" [(ngModel)]="dialogData.price" id="price" placeholder="0 表示免费但需要登录">
+              </div>
+              <div class="form-group">
+                <label for="content">内容</label>
+                <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
+              </div>
+        </ng-container>
+        <ng-container *ngIf="dialogMode == 3">
+            <div class="form-group">
+                <label for="link">网址</label>
+                <input type="text"
+                  class="form-control" [(ngModel)]="dialogData.link" id="link" placeholder="例如：https://zodream.cn">
+              </div>
+              <div class="form-group">
+                <label for="content">标题</label>
+                <input type="text"
+                  class="form-control" [(ngModel)]="dialogData.content" id="content" placeholder="例如：zodream">
+              </div>
+        </ng-container>
+        <ng-container *ngIf="dialogMode == 4">
+            <div class="form-group">
+                <label for="content">说明</label>
+                <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
+            </div>
+            <div class="vote-item" *ngFor="let item of dialogData.items; let i = index">
+                <input type="text"
+                  class="form-control" [(ngModel)]="item.content" id="content" placeholder="选项内容">
+                <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+            </div>
+            <i class="iconfont icon-plus" (click)="tapAddItem()"></i>
+        </ng-container>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-primary" (click)="closeDialog(true)">确定</div>
+        <div class="btn btn-danger" (click)="closeDialog()">取消</div>
     </div>
 </div>

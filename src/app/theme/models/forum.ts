@@ -44,6 +44,7 @@ export interface IThreadPost {
     created_at: string;
     updated_at?: string;
     deleteable?: boolean;
+    html?: any;
 }
 
 export interface IForumClassify {

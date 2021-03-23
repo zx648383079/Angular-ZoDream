@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, Output, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IEmoji } from '../../theme/models/forum';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { wordLength } from '../../theme/utils';
 
@@ -29,6 +30,10 @@ export class ForumEditorComponent implements AfterViewInit {
     public disable = false;
     public value = '';
     private range: IRange;
+    public dialogMode = 0;
+    public dialogData: any;
+    private dialogCallback: any;
+    private dialogCheck: any;
 
     onChange: any = () => { };
     onTouch: any = () => { };
@@ -88,9 +93,42 @@ export class ForumEditorComponent implements AfterViewInit {
         this.onChange(this.value);
     }
 
+    public tapEmoji(item: IEmoji) {
+        this.insert(item.type > 0 ? item.content : '[' + item.name + ']')
+    }
+
     public tapTool(name: string) {
-        if (name === 'image') {
-            return;
+        switch (name) {
+            case 'code':
+                return this.openDialog(1, {lang: 'js', content: ''}, data => {
+                    this.insert('<code lang="' + data.lang +'">' + data.content +'</code>');
+                }, data => {
+                    return data.lang.length > 0 && data.content.length > 0;
+                });
+            case 'hide':
+                return this.openDialog(2, {price: 0, content: ''}, data => {
+                    this.insert('<hide price="' + data.price +'">' + data.content +'</hide>');
+                }, data => {
+                    return data.content.length > 0;
+                });
+            case 'link':
+                return this.openDialog(3, {link: '', content: ''}, data => {
+                    this.insert('<a href="' + data.link +'">' + data.content +'</a>');
+                }, data => {
+                    return data.link.length > 0 && data.content.length > 0;
+                });
+            case 'vote':
+                return this.openDialog(4, {content: '', items: [{content: ''}, {content: ''},]}, data => {
+                    this.insert('<vote>\n' + data.content +'\n\t' + data.items.filter(i => i.content.trim().length > 0).map(i => '<v>' + i.content + '</v>').join('\n\t') +'\n</vote>');
+                }, data => {
+                    return data.content.length > 0 && data.items.filter(i => i.content.trim().length > 0).length > 1;
+                });
+            case 'clear':
+                return this.clear();
+            case 'page':
+                return this.insert('<page/>');
+            default:
+                break;
         }
     }
 
@@ -112,6 +150,11 @@ export class ForumEditorComponent implements AfterViewInit {
 
     public insertTab() {
         return this.insert('    ', 4, true);
+    }
+
+    public insertAt(parent: number, user: string) {
+        this.area.value = this.area.value.replace(/<at[\s\S]+?<\/at>/g, '');
+        return this.insert('<at parent="' + parent + '">'+ user +'</at>');
     }
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
@@ -157,7 +200,7 @@ export class ForumEditorComponent implements AfterViewInit {
     }
 
     public insertImage(file: string, name?: string) {
-        this.insert('[' + name + '](' + file + ')');
+        this.insert('<img title="' + name + '">' + file + '</img>');
     }
 
     public clear(focus: boolean = true) {
@@ -190,6 +233,43 @@ export class ForumEditorComponent implements AfterViewInit {
         this.area.selectionStart = this.range.start;
         this.area.selectionEnd = this.range.end;
         this.area.focus();
+    }
+
+    get dailogTitle(): string {
+        return ['', '插入代码', '插入隐藏内容', '插入链接', '插入投票'][this.dialogMode];
+    }
+
+    public closeDialog(yes = false) {
+        if (!yes) {
+            this.dialogMode = 0;
+            return;
+        }
+        if (this.dialogCheck && !this.dialogCheck(this.dialogData)) {
+            return;
+        }
+        this.dialogMode = 0;
+        this.dialogCallback(this.dialogData);
+    }
+
+    public openDialog<T>(mode: number, data: T, cb: (data: T) => void, check?: (data: T) => boolean) {
+        this.dialogData = data;
+        this.dialogCheck = check;
+        this.dialogCallback = cb;
+        this.dialogMode = mode;
+    }
+
+    public tapAddItem() {
+        this.dialogData.items.push({
+            content: '',
+        });
+    }
+
+    public tapRemoveItem(i: number) {
+        const items = this.dialogData.items as any[];
+        if (items.length < 3) {
+            return;
+        }
+        items.splice(i, 1);
     }
 
     writeValue(obj: any): void {

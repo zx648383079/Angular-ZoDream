@@ -18,6 +18,7 @@ export interface IMicro {
     user: IUser;
     attachment_open?: boolean;
     attachment_current?: number;
+    html?: any;
 }
 
 export interface IAttachment {

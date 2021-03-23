@@ -42,8 +42,7 @@
                             </div>
                         </div>
                         <div class="last-time">最后编辑于 {{ item.updated_at }}</div>
-                        <div class="content">
-                            {{ item.content }}
+                        <div class="content" [innerHTML]="item.html">
                         </div>
                         <div class="action">
     
@@ -72,8 +71,7 @@
                                 {{ item.grade }}楼
                             </div>
                         </div>
-                        <div class="content">
-                            {{ item.content }}
+                        <div class="content" [innerHTML]="item.html">
                           </div>
                         <div class="footer">
                             <a href="javascript:;" data-action="reply">回复</a>

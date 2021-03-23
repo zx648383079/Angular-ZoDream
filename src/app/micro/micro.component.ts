@@ -3,6 +3,7 @@ import { MicroService } from './micro.service';
 import { IMicro } from '../theme/models/micro';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-micro',
@@ -20,7 +21,8 @@ export class MicroComponent implements OnInit {
         private service: MicroService,
         private toastrService: ToastrService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private sanitizer: DomSanitizer,
     ) { }
 
     ngOnInit() {
@@ -109,6 +111,7 @@ export class MicroComponent implements OnInit {
             this.isLoading = false;
             res.data = res.data.map(i => {
                 i.attachment_current = 0;
+                i.html = this.sanitizer.bypassSecurityTrustHtml(i.content);
                 return i;
             });
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);
