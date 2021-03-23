@@ -24,12 +24,12 @@
             <div class="desc">{{ item.description }}</div>
             <div class="action">
                 <div class="btn-group mr-3">
-                    <a class="btn btn-primary" [routerLink]="['edit', item.id]">编辑</a>
+                    <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]">编辑</a>
                     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                       <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                       <div class="dropdown-menu" ngbDropdownMenu>
-                        <button ngbDropdownItem>设置</button>
-                        <button ngbDropdownItem>删除</button>
+                        <a class="btn btn-primary" [routerLink]="['edit', item.id]" ngbDropdownItem>设置</a>
+                        <button (click)="tapRemove(item)" ngbDropdownItem>删除</button>
                       </div>
                     </div>
                   </div>

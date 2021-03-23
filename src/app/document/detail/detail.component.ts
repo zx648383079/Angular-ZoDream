@@ -46,10 +46,11 @@ export class DetailComponent implements OnInit {
     }
 
     public tapRead(item: IDocApi&IDocPage) {
-        if (item.children) {
+        if (item.type > 0) {
             item.expanded = !item.expanded;
             return;
         }
+        item.expanded = true;
         if (window.innerWidth < 770) {
             this.navToggle = false;
         }

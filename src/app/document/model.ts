@@ -24,12 +24,13 @@ export interface IProjectVersion {
 export interface IDocPage {
     id:         number;
     name:       string;
+    type: number;
     project_id: number;
     version_id: number;
     parent_id:  number;
     content:    any;
-    updated_at: string;
-    created_at: string;
+    updated_at?: string;
+    created_at?: string;
     children?: IDocPage[];
     expanded?: boolean;
 }
@@ -37,14 +38,15 @@ export interface IDocPage {
 export interface IDocApi {
     id:          number;
     name:        string;
+    type: number;
     method:      string;
     uri:         string;
     project_id:  number;
     version_id:  number;
     description: string;
     parent_id:   number;
-    updated_at:  string;
-    created_at:  string;
+    updated_at?:  string;
+    created_at?:  string;
     header?:      IApiField[];
     request?:     IApiField[];
     response?:    IApiField[];
@@ -68,6 +70,7 @@ export interface IApiField {
     updated_at:    string;
     created_at:    string;
     level?:        number;
+    children?: IApiField[];
 }
 
 

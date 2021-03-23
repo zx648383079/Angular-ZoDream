@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProject } from '../../model';
 import { DocumentService } from '../document.service';
@@ -14,6 +14,7 @@ export class CreateComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
+        cover: [''],
         description: [''],
         status: [0],
     });
@@ -42,10 +43,32 @@ export class CreateComponent implements OnInit {
         private fb: FormBuilder,
         private service: DocumentService,
         private route: ActivatedRoute,
+        private router: Router,
         private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
+    }
+
+    public tapSubmit() {
+        if (!this.form.valid) {
+            return;
+        }
+        const data = Object.assign({}, this.form.value);
+        data.type = this.data.type;
+        if (data.type > 0) {
+            data.environment = this.data.environment.filter(i => {
+                return i.name.trim().length > 0;
+            });
+            if (!data.environment || data.environment.length < 1) {
+                this.toastrService.warning('环境域名必须有一个');
+                return;
+            }
+        }
+        this.service.projectSave(data).subscribe(res => {
+            this.toastrService.success('保存成功');
+            history.back();
+        });
     }
 
     public tapType(item: any) {

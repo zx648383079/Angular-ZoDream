@@ -1,15 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface INav {
-  name: string;
-  icon?: string;
-  label?: string;
-  url?: string;
-  urlQuery?: any;
-  children?: INav[];
-  expand?: boolean;
-  active?: boolean;
-  role?: string;
+    name: string;
+    icon?: string;
+    label?: string;
+    url?: string;
+    urlQuery?: any;
+    children?: INav[];
+    expand?: boolean;
+    active?: boolean;
+    role?: string;
 }
 
 @Component({

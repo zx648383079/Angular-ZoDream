@@ -1,17 +1,75 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
-
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="panel-container">
-            <div class="title-input">
-                <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" formControlName="name">
+    <div class="panel-container">
+        <div class="row">
+            <div class="col-md-4 right-hr">
+                <div class="bar-version">
+                    <label for="version">版本</label>
+                    <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
+                        <ng-container *ngFor="let item of versionItems">
+                            <option [value]="item.id">{{ item.name }}</option>
+                        </ng-container>
+                    </select>
+                    <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
+                </div>
+                <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
+                    <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
+                        <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
+                            <i class="iconfont" [ngClass]="{'icon-chevron-right': (item.children || item.type > 0) && !item.expanded, 'icon-chevron-down': (item.children || item.type > 0) && item.expanded}"></i>
+                            {{ item.name }}
+                        </div>
+                        <ul class="tree-body">
+                            <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
+                                <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="tip">
+                        右键新增页面
+                    </li>
+                </ul>
             </div>
-            
-            <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
+            <div class="col-md-8">
+                <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()" *ngIf="data">
+                    <div class="title-input">
+                        <label for="name">名称</label>
+                        <input type="text" id="name" class="form-control" formControlName="name">
+                    </div>
+                    
+                    <div *ngIf="data.type < 1">
+                        <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
+                    </div>
+                    <button type="submit" class="btn btn-success">确认保存</button>
+                </form>
+            </div>
         </div>
-
-        <button type="submit" class="btn btn-success">确认保存</button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    </form>
+        
+    </div>
 </div>
+
+<app-context-menu></app-context-menu>
+
+<ng-template #versionModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">创建版本</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+          <label for="name">版本号</label>
+          <div class="input-group">
+            <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入版本号">
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="region-input">提示</label>
+            <div class="input-group">
+                你即将从当前版本的内容生成新的版本！
+            </div>
+          </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    </div>
+</ng-template>

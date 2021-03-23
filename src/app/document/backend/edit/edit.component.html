@@ -1,3 +1,93 @@
-<p>
-  edit works!
-</p>
+<app-edit-header title="编辑文档" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="panel-container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="project-line" *ngIf="data">
+                        <div class="cover">
+                            <img [src]="data.cover">
+                        </div>
+                        <div class="name">{{ data.name }}</div>
+                    </div>
+                    <div class="line-item" [ngClass]="{active: tabIndex < 1}">
+                        文档设置
+                    </div>
+                </div>
+                <div class="col-md-8">
+                        <div class="form-group">
+                        <label for="name">文档名称</label>
+                        <input type="text"
+                            class="form-control" formControlName="name" id="name" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="cover">封面</label>
+                            <app-file-input formControlName="cover"></app-file-input>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">简介</label>
+                            <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>可见性</label>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" class="form-check-input" formControlName="status" id="status" [value]="0">
+                                公开
+                            </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" class="form-check-input" formControlName="status" id="status" [value]="1">
+                                私有
+                            </label>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="data && data.type > 0">
+                            <label>环境域名</label>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>环境标识符</th>
+                                        <th>
+                                            标识符备注
+                                        </th>
+                                        <th>环境域名</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of data.environment; let i = index">
+                                        <td>
+                                            <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}" placeholder="例如：dev">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" [(ngModel)]="item.title" [ngModelOptions]="{standalone: true}" placeholder="例如：测试环境">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" [(ngModel)]="item.domain" [ngModelOptions]="{standalone: true}" placeholder="例如：http://zodream.cn">
+                                        </td>
+                                        <td>
+                                            <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-left">
+                                            <a href="javascript:;" class="btn btn-primary" (click)="tapAddItem()">添加</a>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>
