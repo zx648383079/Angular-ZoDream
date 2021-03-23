@@ -95,6 +95,12 @@ export class MarkdownEditorComponent implements AfterViewInit {
         if (name === 'image') {
             return;
         }
+        if (name === 'code') {
+            return this.insert('```js\n\n```', 6, true);
+        }
+        if (name === 'link') {
+            return this.insert('[](https://)', 1, true);
+        }
     }
 
     public uploadImage(event: any) {
@@ -152,7 +158,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
     }
 
     public insertImage(file: string, name?: string) {
-        this.insert('[' + name + '](' + file + ')');
+        this.insert('![' + name + '](' + file + ')');
     }
 
     public clear(focus: boolean = true) {

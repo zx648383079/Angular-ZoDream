@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { IEmoji } from '../../theme/models/forum';
 import { IMicro } from '../../theme/models/micro';
 import { IErrorResponse } from '../../theme/models/page';
 import { FileUploadService } from '../../theme/services/file-upload.service';
@@ -29,6 +30,10 @@ export class PublishFormComponent {
         private toastrService: ToastrService,
         private uploadService: FileUploadService,
     ) { }
+
+    public tapEmoji(item: IEmoji) {
+        this.content += item.type > 0 ? item.content : '[' + item.name + ']';
+    }
 
     public tapRemoveFile(i: number) {
         this.fileItems.splice(i, 1);

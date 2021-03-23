@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { IEmoji, IEmojiCategory } from '../../models/forum';
 import { IData } from '../../models/page';
 import { hasElementByClass } from '../../utils';
 
@@ -11,8 +12,8 @@ import { hasElementByClass } from '../../utils';
 export class EmojiPickerComponent {
 
     @Input() public url = 'forum/emoji';
-    @Output() public tapped = new EventEmitter<any>();
-    public items: any[] = [];
+    @Output() public tapped = new EventEmitter<IEmoji>();
+    public items: IEmojiCategory[] = [];
     public navIndex = 0;
     public panelVisible = false;
     private booted = false;
@@ -53,7 +54,7 @@ export class EmojiPickerComponent {
         return this.items[this.navIndex].name;
     }
 
-    public get fiterItems(): any[] {
+    public get fiterItems(): IEmoji[] {
         if (this.navIndex >= this.items.length) {
             return [];
         }
@@ -65,7 +66,7 @@ export class EmojiPickerComponent {
             return;
         }
         this.booted = true;
-        this.http.get<IData<any>>(this.url).subscribe(res => {
+        this.http.get<IData<IEmojiCategory>>(this.url).subscribe(res => {
             this.items = res.data;
         });
     }

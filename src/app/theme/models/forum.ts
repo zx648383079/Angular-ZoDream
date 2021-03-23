@@ -73,4 +73,5 @@ export interface IEmojiCategory {
     id: number;
     name: string;
     icon: string;
+    items?: IEmoji[];
 }

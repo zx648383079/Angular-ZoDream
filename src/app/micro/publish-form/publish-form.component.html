@@ -9,9 +9,9 @@
     </div>
     <div class="actions">
         <div class="tools">
-            <div class="tool-item">
+            <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
-            </div>
+            </app-emoji-picker>
             <label for="editor-img" class="tool-item" title="上传图片">
                 <i class="iconfont icon-image"></i>
                 <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" multiple/>
