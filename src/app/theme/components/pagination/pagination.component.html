@@ -1,0 +1,21 @@
+<nav aria-label="Page navigation" class="d-flex justify-content-center">
+  <ul class="pagination">
+    <li class="page-item" *ngIf="directionLinks" [ngClass]="{disabled: canPrevious}">
+      <a class="page-link" (click)="previous()" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">上一页</span>
+      </a>
+    </li>
+    <ng-container *ngFor="let item of items">
+        <li class="page-item" [ngClass]="{active: page == item, disabled: item < 1}">
+            <a class="page-link" (click)="tapItem(item)">{{ item > 0 ? item : '...' }}</a>
+        </li>
+    </ng-container>
+    <li class="page-item"  *ngIf="directionLinks" [ngClass]="{disabled: canNext}">
+      <a class="page-link" (click)="next()" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">下一页</span>
+      </a>
+    </li>
+  </ul>
+</nav>

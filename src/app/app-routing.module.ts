@@ -44,6 +44,11 @@ const routes: Routes = [
     { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
     { path: 'doc', loadChildren: () => import('./document/document.module').then(m => m.DocumentModule) },
     {
+        path: 'finance',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./finance/finance.module').then(m => m.FinanceModule)
+    },
+    {
         path: '**',
         redirectTo: 'frontend'
     },

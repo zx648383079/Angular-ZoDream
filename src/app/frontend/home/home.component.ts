@@ -41,6 +41,10 @@ export class HomeComponent implements OnInit {
             url: '/doc'
         },
         {
+            name: 'Finance',
+            url: '/finance'
+        },
+        {
             name: 'Disk',
             url: '/disk',
             description: 'ONLINE DISK'

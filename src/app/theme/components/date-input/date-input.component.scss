@@ -4,4 +4,14 @@ app-datepicker {
 }
 .calendar-input {
     display: inline-block;
+    .form-control {
+        display: inline-block;
+        width: auto;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }   
 }

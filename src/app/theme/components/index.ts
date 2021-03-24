@@ -21,3 +21,5 @@ export * from './date-input/date-input.component';
 export * from './time-input/time-input.component';
 export * from './countdown/countdown.component';
 export * from './emoji-picker/emoji-picker.component';
+export * from './dialog-box/dialog-box.component';
+export * from './pagination/pagination.component';

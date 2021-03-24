@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理消费渠道列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="名称">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a (click)="open(modal)" class="pull-right btn btn-primary">新增渠道</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑消费渠道' : '新增消费渠道'">
+    <div class="form-group">
+        <label for="name">名称</label>
+        <div class="input-group">
+            <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
+        </div>
+    </div>
+</app-dialog-box>

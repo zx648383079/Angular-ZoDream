@@ -9,3 +9,12 @@ export function emailValidate(email: string): boolean {
 export function passwordValidate(password: string): boolean {
     return password.length > 5;
 }
+
+/**
+ * 如果为空
+ * @param value 
+ * @returns 
+ */
+export function emptyValidate(value: string): boolean {
+    return !value || value.trim().length < 1;
+}

@@ -112,6 +112,15 @@
             top: 1px;
         }
     }
+    &.checked {
+        label {
+            background-color: #3498db;
+            color: #ffffff;
+            &::before {
+                content: "\e648";
+            }
+        }
+    }
 }
 
 i {
