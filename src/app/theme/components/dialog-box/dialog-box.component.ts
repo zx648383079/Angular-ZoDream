@@ -11,12 +11,37 @@ import { DialogAnimation } from '../../constants/dialog-animation';
 })
 export class DialogBoxComponent {
 
+    /**
+     * 标题
+     */
     @Input() public title: string;
+    /**
+     * 是否显示
+     */
     @Input() public visible = false;
+    /**
+     * 不显示还是动画
+     */
+    @Input() public collaspse = false;
+    /**
+     * 整体高度
+     */
     @Input() public height = 400;
+    /**
+     * 底部按钮是否显示
+     */
     @Input() public buttonVisible = true;
+    @Input() public confirmText = '确定';
+    @Input() public cancelText = '取消';
+    /**
+     * 验证方法
+     */
     @Input() public checkFn: () => boolean;
+    /**
+     * 确认事件
+     */
     @Input() public confirmFn: () => void;
+    @Input() public actionFn: (data: any) => any;
     @Output() public confirm = new EventEmitter();
 
     constructor() { }
@@ -28,8 +53,15 @@ export class DialogBoxComponent {
         };
     }
 
-    public closeDialog(yes = false) {
-        if (!yes) {
+    public close(result?: any) {
+        if (typeof result === 'undefined') {
+            this.visible = false;
+            return;
+        }
+        if (this.actionFn && this.actionFn(result) === false) {
+            return;
+        }
+        if (!result) {
             this.visible = false;
             return;
         }
@@ -46,6 +78,11 @@ export class DialogBoxComponent {
     public open(cb?: () => void, check?: () => boolean) {
         this.checkFn = check;
         this.confirmFn = cb;
+        this.visible = true;
+    }
+
+    public openCustom(cb?: (data: any) => any) {
+        this.actionFn = cb;
         this.visible = true;
     }
 

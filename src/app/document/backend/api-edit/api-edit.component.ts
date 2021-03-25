@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import { IErrorResult } from '../../../theme/models/page';
+import { emptyValidate } from '../../../theme/validators';
 import { IApiField, IDocApi, IProject, IProjectVersion } from '../../model';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { DocumentService } from '../document.service';
@@ -30,7 +31,7 @@ export class ApiEditComponent implements OnInit {
     public version = 0;
     public catalog: IDocApi[] = [];
     public versionItems: IProjectVersion[] = [];
-    public editData: any;
+    public editData: any = {};
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
     
 
@@ -40,7 +41,6 @@ export class ApiEditComponent implements OnInit {
         private service: DocumentService,
         private route: ActivatedRoute,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
     ) { }
 
     ngOnInit() {
@@ -71,6 +71,10 @@ export class ApiEditComponent implements OnInit {
     // }
 
     private initData(id: any) {
+        this.refreshVersion();
+    }
+
+    private refreshVersion() {
         this.service.versionAll(this.project.id).subscribe(res => {
             this.versionItems = res.data;
         });
@@ -222,34 +226,25 @@ export class ApiEditComponent implements OnInit {
         });
     }
 
-    public openVersion(modal: any) {
+    public openVersion(modal: DialogBoxComponent) {
         this.editData = {
             name: ''
         };
-        this.modalService.open(modal, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
-            if (!this.editData.name || this.editData.name.trim().lenght < 1) {
-                this.toastrService.warning('请输入版本号');
-                return;
-            }
-            this.service.versionNew(this.project.id, this.version, this.editData.name).subscribe(res => {
+        modal.open(() => {
+            this.service.versionNew(this.project.id, this.version, this.editData.name).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
+                this.refreshVersion();
             });
+        }, () => {
+            return !emptyValidate(this.editData.name);
         });
     }
 
-    public tapParse(modal: any, kind: number) {
+    public tapParse(modal: DialogBoxComponent, kind: number) {
         this.editData = {
             content: ''
         };
-        this.modalService.open(modal, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
-            if (!this.editData.content || this.editData.content.trim().lenght < 1) {
-                this.toastrService.warning('请输入内容');
-                return;
-            }
+        modal.open(() => {
             this.service.apiParse(this.editData.content, kind).subscribe(res => {
                 if (kind === 3) {
                     this.data.header.push(...res.data);
@@ -261,7 +256,9 @@ export class ApiEditComponent implements OnInit {
                 }
                 this.data.response.push(...res.data);
             });
-        });
+        }, () => {
+            return !emptyValidate(this.editData.content);
+        })
     }
 
     public tapRemoveItem(i: number, kind: number, parent?: IApiField) {

@@ -36,6 +36,6 @@
             </div>
         </div>
 
-        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" ></ngb-pagination>
+        <app-pagination [total]="total" [(page)]="page" (pageChange)="tapPage()" [perPage]="perPage"></app-pagination>
     </div>
 </div>

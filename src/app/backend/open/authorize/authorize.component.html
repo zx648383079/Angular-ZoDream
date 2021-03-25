@@ -46,7 +46,7 @@
       
       </table>
       
-      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"></ngb-pagination>    
+      <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>    
   </div>
 </div>
 

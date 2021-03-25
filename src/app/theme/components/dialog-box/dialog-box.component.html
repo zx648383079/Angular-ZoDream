@@ -1,14 +1,17 @@
-<div class="dialog-mask" *ngIf="visible" (click)="closeDialog()"></div>
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" *ngIf="!collaspse || visible" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
     <div class="dialog-header" *ngIf="title">
         <div class="dialog-title">{{ title }}</div>
-        <i class="iconfont icon-close dialog-close" (click)="closeDialog()"></i>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="dialog-body">
         <ng-content></ng-content>
     </div>
-    <div class="dialog-footer" *ngIf="buttonVisible">
-        <div class="btn btn-primary" (click)="closeDialog(true)">确定</div>
-        <div class="btn btn-danger" (click)="closeDialog()">取消</div>
+    <div class="dialog-footer">
+        <ng-container  *ngIf="buttonVisible">
+            <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>
+            <div class="btn btn-danger" (click)="close()">{{ cancelText }}</div>
+        </ng-container>
+        <ng-content select="[name=footer]"></ng-content>
     </div>
 </div>

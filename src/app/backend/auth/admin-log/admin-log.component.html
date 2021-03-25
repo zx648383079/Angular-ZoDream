@@ -33,40 +33,32 @@
                   <td>
                       <div class="btn-group  btn-group-xs">
                           <a class="btn btn-info btn-xs"
-                          (click)="tapView(content, item)">明细</a>
+                          (click)="tapView(modal, item)">明细</a>
                       </div>
                   </td>
               </tr>
               </tbody>
       </table>
   
-      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false" (pageChange)="tapPage()"></ngb-pagination>
+      <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
   </div>
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">操作详情({{ editData.id }})</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<app-dialog-box #modal [buttonVisible]="false" [title]="'操作详情(' + editData.id + ')'">
+    <div class="line-item">
+        <span class="label">管理员：</span>
+        <span class="value">{{ editData.user?.name }}</span>
     </div>
-    <div class="modal-body">
-        <div class="line-item">
-            <span class="label">管理员：</span>
-            <span class="value">{{ editData.user?.name }}</span>
-        </div>
-        <div class="line-item">
-            <span class="label">操作IP：</span>
-            <span class="value">{{ editData.ip }}</span>
-        </div>
-        <div class="line-item">
-            <span class="label">操作事件：</span>
-            <span class="value">{{ editData.action }}</span>
-        </div>
-        <div class="line-item">
-            <span class="label">操作备注：</span>
-            <span class="value">{{ editData.remark }}</span>
-        </div>
+    <div class="line-item">
+        <span class="label">操作IP：</span>
+        <span class="value">{{ editData.ip }}</span>
     </div>
-</ng-template>
+    <div class="line-item">
+        <span class="label">操作事件：</span>
+        <span class="value">{{ editData.action }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">操作备注：</span>
+        <span class="value">{{ editData.remark }}</span>
+    </div>
+</app-dialog-box>

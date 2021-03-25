@@ -30,7 +30,7 @@
                 <div class="price">{{ item.price }}</div>
             </div>
         </ng-container>
-        <ngb-pagination [collectionSize]="total" [(page)]="page" (pageChange)="tapPage()" [pageSize]="perPage" [directionLinks]="false"></ngb-pagination>
+        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
     </div>
     <div class="footer-container">
         <div class="btn btn-primary" (click)="tapYes()">确定</div>

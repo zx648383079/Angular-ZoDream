@@ -42,8 +42,6 @@ export class CreateComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private service: DocumentService,
-        private route: ActivatedRoute,
-        private router: Router,
         private toastrService: ToastrService,
     ) { }
 
