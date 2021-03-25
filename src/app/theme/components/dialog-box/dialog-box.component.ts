@@ -14,6 +14,7 @@ export class DialogBoxComponent {
     @Input() public title: string;
     @Input() public visible = false;
     @Input() public height = 400;
+    @Input() public buttonVisible = true;
     @Input() public checkFn: () => boolean;
     @Input() public confirmFn: () => void;
     @Output() public confirm = new EventEmitter();

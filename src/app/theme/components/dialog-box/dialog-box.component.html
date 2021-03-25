@@ -7,7 +7,7 @@
     <div class="dialog-body">
         <ng-content></ng-content>
     </div>
-    <div class="dialog-footer">
+    <div class="dialog-footer" *ngIf="buttonVisible">
         <div class="btn btn-primary" (click)="closeDialog(true)">确定</div>
         <div class="btn btn-danger" (click)="closeDialog()">取消</div>
     </div>

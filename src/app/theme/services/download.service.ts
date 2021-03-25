@@ -9,17 +9,18 @@ export class DownloadService {
     /**
      * Blob请求
      */
-    requestBlob(url: string, data?: any): Observable<any> {
+    public requestBlob(url: string, data?: any): Observable<any> {
         return this.http.request('post', url, {
             body: data,
             observe: 'response',
             responseType: 'blob',
         });
     }
+    
     /**
      * Blob文件转换下载
      */
-    downFile(result: any, fileName: string, fileType?: string) {
+    public downFile(result: any, fileName: string, fileType?: string) {
         const data = result.body;
         const blob = new Blob([data], {
                 type: fileType || data.type,
@@ -33,8 +34,7 @@ export class DownloadService {
         URL.revokeObjectURL(objectUrl);
     }
 
-    export(data: any, fileName: string, fileType?: any) {
-        const url = '';
+    public export(url: string, data: any, fileName: string, fileType?: any) {
         this.requestBlob(url, data).subscribe(result => {
             this.downFile(result, fileName,
                 fileType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -21,7 +21,9 @@ import {
     TransferStateService,
     ThemeService,
     DateAdapter,
-    CookieService
+    CookieService,
+    FileUploadService,
+    DownloadService
 } from './services';
 import {
     AuthActions
@@ -74,9 +76,6 @@ import {
 import {
     FormsModule
 } from '@angular/forms';
-import {
-    FileUploadService
-} from './services/file-upload.service';
 
 const BASE_MODULES = [
     CommonModule,
@@ -127,6 +126,7 @@ const SERVICES = [
     FileUploadService,
     DateAdapter,
     CookieService,
+    DownloadService,
 ];
 
 const ACTIONS = [

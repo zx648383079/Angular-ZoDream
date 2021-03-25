@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { IEmoji, IEmojiCategory } from '../../../../theme/models/forum';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { ForumService } from '../../forum.service';
 
 @Component({

@@ -11,12 +11,25 @@
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键字">
                 </div>
+                <div class="input-group">
+                    <label for="type">类型</label>
+                    <select class="form-control" name="type" ngModel id="type">
+                        <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == type">{{ item }}</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="account">账户</label>
+                    <select class="form-control" name="account" ngModel id="account">
+                        <option [value]="0">请选择</option>
+                        <option *ngFor="let item of accountItems" [value]="item.id" [selected]="item.id == account">{{ item.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right btn-group">
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
-                    <a class="btn btn-info">导入</a>
-                    <a class="btn btn-success">导出</a>
-                    <a class="btn btn-secondary">批量编辑</a>
+                    <a class="btn btn-info" (click)="tapImport(importModal)">导入</a>
+                    <a class="btn btn-success" (click)="tapExport()">导出</a>
+                    <a class="btn btn-secondary" (click)="tapBatch(updateModal)">批量编辑</a>
                 </div>
             </form>
         </div>
@@ -58,3 +71,62 @@
         <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+
+<app-dialog-box #importModal title="导入" [buttonVisible]="false">
+    <div class="form-group">
+        <label for="content-input">选择文件</label>
+        <div class="input-group">
+            <div class="file-input">
+                <label for="fileUpload" class="btn btn-primary">上传</label>
+                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept=".csv" />
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #updateModal title="批量编辑">
+    <div class="form-group">
+        <label for="keywords">根据关键词搜索备注，符合条件的进行修改数据</label>
+        <div class="input-group">
+            <input class="form-control" id="keywords" [(ngModel)]="editData.keywords" placeholder="请输入关键词">
+        </div>
+    </div>
+
+    <p>影响的数据</p>
+    <div class="form-group">
+        <label for="account">账户</label>
+        <div class="input-group">
+            <select class="form-control" id="account" [(ngModel)]="editData.account_id">
+                <option [value]="0">请选择</option>
+                <option *ngFor="let item of accountItems;" [value]="item.id">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="project">项目</label>
+        <div class="input-group">
+            <select class="form-control" id="project" [(ngModel)]="editData.project_id">
+                <option [value]="0">请选择</option>
+                <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="channel">渠道</label>
+        <div class="input-group">
+            <select class="form-control" id="channel" [(ngModel)]="editData.channel_id">
+                <option [value]="0">请选择</option>
+                <option *ngFor="let item of channelItems;" [value]="item.id">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="budget">预算</label>
+        <div class="input-group">
+            <select class="form-control" id="budget" [(ngModel)]="editData.budget_id">
+                <option [value]="0">请选择</option>
+                <option *ngFor="let item of budgetItems;" [value]="item.id">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+</app-dialog-box>

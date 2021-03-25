@@ -77,6 +77,15 @@ export class FinanceService {
             params: {id}
         });
     }
+
+    public logImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('finance/log/import', data);
+    }
+
+    public logBatchEdit(data: any) {
+        return this.http.post<IDataOne<boolean>>('finance/log/batch', data);
+    }
+
     public productList(params: any) {
         return this.http.get<IPage<IFinancialProduct>>('finance/product', {params});
     }
