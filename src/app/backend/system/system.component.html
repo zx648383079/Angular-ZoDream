@@ -18,30 +18,19 @@
                             </select>
                         </div>
                         <div *ngIf="item.type == 'radio'">
-                            <span class="check-label" *ngFor="let val of item.items">
-                                <input type="radio" [(ngModel)]="item.value" [value]="val">
-                                <label >{{ val }}</label>
-                            </span>
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
                         </div>
                         <div *ngIf="item.type == 'checkbox'">
-                            <span class="check-label" *ngFor="let val of item.items">
-                                <input type="checkbox" [(ngModel)]="item.values" [value]="val">
-                                <label >{{ val }}</label>
-                            </span>
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
                         </div>
                         <div *ngIf="item.type == 'switch'">
                             <app-switch [(ngModel)]="item.value"></app-switch>
                         </div>
-                        <div *ngIf="item.type == 'image'" class="file-input">
-                            <input type="text" class="form-control" [(ngModel)]="item.value">
-                            <label [for]="'fileUpload_' + item.id" class="btn btn-primary">上传</label>
-                            <button type="button" class="btn btn-info" (click)="tapPreview(item)">预览</button>
-                            <input type="file" name="file" [id]="'fileUpload_' + item.id" (change)="uploadImage($event, item)" accept="image/*"/>
+                        <div *ngIf="item.type == 'image'">
+                            <app-file-input [(ngModel)]="item.value"></app-file-input>
                         </div>
-                        <div *ngIf="item.type == 'file'" class="file-input">
-                            <input type="text" class="form-control" [(ngModel)]="item.value">
-                            <label [for]="'fileUpload_' + item.id" class="btn btn-primary">上传</label>
-                            <input type="file" name="file" [id]="'fileUpload_' + item.id" (change)="uploadFile($event, item)"/>
+                        <div *ngIf="item.type == 'file'">
+                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
                         </div>
                         <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
                             <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
@@ -61,82 +50,62 @@
     <a class="btn btn-info" (click)="tapAddGroup(optionModal)">新增设置项</a>
 </div>
 
-
-<ng-template #optionModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑设置项' : '新增设置项' }}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-table">
+<app-dialog-box #optionModal [buttonVisible]="false" [title]="editData.id > 0 ? '编辑设置项' : '新增设置项'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="field_name">名称(必填)</label>
+            <div>
+                <input type="text" id="field_name" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="field_type">类型</label>
+            <div>
+                <select id="field_type" class="form-control" [(ngModel)]="editData.type">
+                    
+                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+        
+            </div>
+        </div>
+        <div class="group-property" *ngIf="editData.type !== 'group'">
             <div class="input-group">
-                <label for="field_name">名称(必填)</label>
+                <label for="field_parent_id">分组</label>
                 <div>
-                    <input type="text" id="field_name" class="form-control" [(ngModel)]="editData.name">
+                    <select id="field_parent_id" class="form-control" [(ngModel)]="editData.parent_id">
+                        <option *ngFor="let item of groups" [value]="item.id">{{ item.name }}</option>
+                    </select>
                 </div>
             </div>
             <div class="input-group">
-                <label for="field_type">类型</label>
+                <label for="field_code">别名(必填)</label>
                 <div>
-                    <select id="field_type" class="form-control" [(ngModel)]="editData.type">
-                        <option value="group">分组</option>
-                        <option value="text">文本</option>
-                        <option value="textarea">多行文本</option>
-                        <option value="select">下拉选择</option>
-                        <option value="radio">单选</option>
-                        <option value="checkbox">多选</option>
-                        <option value="switch">开关</option>
-                        <option value="image">图片</option>
-                        <option value="file">文件</option>
-                        <option value="basic_editor">迷你编辑器</option>
-                        <option value="editor">编辑器</option>
-                        <option value="json">JSON</option>
-                        <option value="hide">隐藏</option>
-                    </select>
+                    <input type="text" id="field_code" class="form-control" [(ngModel)]="editData.code">
             
                 </div>
             </div>
-            <div class="group-property" *ngIf="editData.type !== 'group'">
-                <div class="input-group">
-                    <label for="field_parent_id">分组</label>
-                    <div>
-                        <select id="field_parent_id" class="form-control" [(ngModel)]="editData.parent_id">
-                            <option *ngFor="let item of groups" [value]="item.id">{{ item.name }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="field_code">别名(必填)</label>
-                    <div>
-                        <input type="text" id="field_code" class="form-control" [(ngModel)]="editData.code">
-                
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="field_visibility">公开</label>
-                    <div>
-                        <app-switch [(ngModel)]="editData.visibility"></app-switch>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="field_default_value">默认值</label>
-                    <div>
-                        <textarea id="field_default_value" class="form-control" [(ngModel)]="editData.default_value"></textarea>
-                    </div>
+            <div class="input-group">
+                <label for="field_visibility">公开</label>
+                <div>
+                    <app-switch [(ngModel)]="editData.visibility"></app-switch>
                 </div>
             </div>
             <div class="input-group">
-                <label for="field_position">排序</label>
+                <label for="field_default_value">默认值</label>
                 <div>
-                    <input type="text" id="field_position" class="form-control" [(ngModel)]="editData.position">
+                    <textarea id="field_default_value" class="form-control" [(ngModel)]="editData.default_value"></textarea>
                 </div>
             </div>
         </div>
+        <div class="input-group">
+            <label for="field_position">排序</label>
+            <div>
+                <input type="text" id="field_position" class="form-control" [(ngModel)]="editData.position">
+            </div>
+        </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-      <button type="button" *ngIf="editData.id > 0" class="btn btn-danger" (click)="modal.close('remove')">删除</button>
-    </div>
-</ng-template>
+    <ng-container name="footer">
+        <button type="button" class="btn btn-outline-dark" (click)="optionModal.close('Save click')">确定</button>
+        <button type="button" *ngIf="editData.id > 0" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+    </ng-container>
+</app-dialog-box>

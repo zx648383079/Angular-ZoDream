@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../theme/components';
 import { IBlackWord } from '../../../../theme/models/forum';
+import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../../forum.service';
 
 @Component({
@@ -19,18 +20,13 @@ export class WordComponent {
     public isLoading = false;
     public total = 0;
     public keywords = '';
-    public editData: IBlackWord;
+    public editData: IBlackWord = {} as any;
 
     constructor(
       private service: ForumService,
       private toastrService: ToastrService,
-      private modalService: NgbModal,
     ) {
         this.tapRefresh();
-    }
-
-    public get pageTotal(): number {
-      return Math.ceil(this.total / this.perPage);
     }
 
     /**
@@ -88,14 +84,14 @@ export class WordComponent {
       });
     }
 
-    open(content: any, item?: IBlackWord) {
-      this.editData = item || {id: 0, words: '', replace_words: ''};
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
+    open(modal: DialogBoxComponent, item?: IBlackWord) {
+      this.editData = item ? {...item} : {id: 0, words: '', replace_words: ''};
+      modal.open(() => {
         this.service.wordSave(Object.assign({}, this.editData)).subscribe(res => {
-          this.toastrService.success('保存成功');
-          this.tapPage();
-        });
-      });
+            this.toastrService.success('保存成功');
+            this.tapPage();
+          });
+      }, () => !emptyValidate(this.editData.words));
     }
 
 }

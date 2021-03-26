@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../theme/components';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../../theme/models/shop';
 import { WarehouseService } from '../warehouse.service';
 
@@ -20,13 +20,12 @@ export class ProductComponent implements OnInit {
     public total = 0;
     public keywords = '';
     public data: IWarehouse;
-    public editData: IWarehouseLog;
+    public editData: IWarehouseLog = {} as any;
 
     constructor(
         private service: WarehouseService,
         private toastrService: ToastrService,
         private route: ActivatedRoute,
-        private modalService: NgbModal,
     ) {}
 
     ngOnInit() {
@@ -43,25 +42,19 @@ export class ProductComponent implements OnInit {
         });
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
     public onProductChange(event: any) {
         this.editData.goods_id = event.item.id,
         this.editData.product_id = event.child ? event.child.id : 0;
     }
 
-    open(content: any, item?: IWarehouseGoods) {
+    open(modal: DialogBoxComponent, item?: IWarehouseGoods) {
         this.editData = item ? {
             id: 1,
             goods_id: item.goods_id,
             product_id: item.product_id,
             amount: 0,
         } : {amount: 0} as any;
-        this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
+        modal.open(() => {
             this.service.goodsChange({
                 warehouse_id: this.data.id,
                 goods_id: this.editData.goods_id,

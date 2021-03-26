@@ -45,29 +45,17 @@
         <div class="col-md-6">
             <app-panel title="账号相关">
                 <a class="btn-light btn-line" (click)="quiteUser()">切换账户</a>
-                <a class="btn-danger btn-line" (click)="openCancel(content)">注销账户</a>
+                <a class="btn-danger btn-line" (click)="openCancel(modal)">注销账户</a>
             </app-panel>
         </div>
     </div>
 
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">确认注销此账户</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<app-dialog-box #modal title="确认注销此账户" confirmText="确定注销" cancelText="暂不注销">
+    <p class="tip">账户注销后，您所有的记录将永远消失。 <br />请选择注销原因：</p>
+    <div class="item" *ngFor="let item of reasonItems; index as i" (click)="reasonSelected = i">
+        <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
+        {{ item }}
     </div>
-    <div class="modal-body">
-        <p class="tip">账户注销后，您所有的记录将永远消失。 <br />请选择注销原因：</p>
-        <div class="item" *ngFor="let item of reasonItems; index as i" (click)="reasonSelected = i">
-            <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
-            {{ item }}
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">确定注销</button>
-        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">暂不注销</button>
-    </div>
-</ng-template>
+</app-dialog-box>

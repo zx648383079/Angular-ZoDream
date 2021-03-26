@@ -39,9 +39,6 @@ export class MusicComponent implements OnInit {
     window.open(item.path, '_blank');
   }
 
-  public get pageTotal(): number {
-    return Math.ceil(this.total / this.perPage);
-  }
 
   /**
    * tapRefresh

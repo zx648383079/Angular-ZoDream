@@ -38,9 +38,6 @@ export class VideoComponent implements OnInit {
         this.router.navigate(['video', item.id], {relativeTo: this.route});
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     /**
      * tapRefresh

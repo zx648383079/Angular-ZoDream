@@ -148,42 +148,20 @@
     </div>
 </div>
 
-<ng-template #remarkModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">备注</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">备注内容</label>
-            <div class="input-group">
-                <textarea class="form-control" [(ngModel)]="remarkContent"></textarea>
-            </div>
+<app-dialog-box #remarkModal title="备注">
+    <div class="form-group">
+        <label for="name-input">备注内容</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="remarkContent"></textarea>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+</app-dialog-box>
 
-<ng-template #transferModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">转接其他客服</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <input type="text" class="form-control" placeholder="请输入客服昵称" [(ngModel)]="userKeywords" (ngModelChange)="onSearchUser()">
+<app-dialog-box #transferModal title="转接其他客服">
+    <input type="text" class="form-control" placeholder="请输入客服昵称" [(ngModel)]="userKeywords" (ngModelChange)="onSearchUser()">
         <ng-container *ngFor="let item of users">
             <div class="line-item" [ngClass]="{active: userSelected == item.user_id}" (click)="userSelected = item.user_id">
                 【{{ item.category.name }}】{{ item.user.name }}(ID: {{ item.user_id }})
             </div>
         </ng-container>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+</app-dialog-box>

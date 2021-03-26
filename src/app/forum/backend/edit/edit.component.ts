@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import { IForum, IForumClassify } from '../../../theme/models/forum';
 import { IUser } from '../../../theme/models/user';
-import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { filterTree } from '../../../theme/utils';
+import { emptyValidate } from '../../../theme/validators';
 import { ForumService } from '../forum.service';
 
 @Component({
@@ -29,7 +29,11 @@ export class EditComponent implements OnInit {
     public categories: IForum[] = [];
     public classifyItems: IForumClassify[] = [];
     public userItems: IUser[] = [];
-    public editData: IForumClassify;
+    public editData: IForumClassify = {
+        id: 0,
+        name: '',
+        icon: '',
+    };
     public userKeywords = '';
     public users: IUser[] = [];
 
@@ -38,8 +42,6 @@ export class EditComponent implements OnInit {
         private service: ForumService,
         private route: ActivatedRoute,
         private toastrService: ToastrService,
-        private uploadService: FileUploadService,
-        private modalService: NgbModal,
     ) {
         this.service.forumAll().subscribe(res => {
             this.categories = res.data;
@@ -98,34 +100,18 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public uploadFile(event: any, name: string = 'thumb') {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            if (name === 'classify') {
-                this.editData.icon = res.url;
-                return;
-            }
-            this.form.get(name).setValue(res.url);
-        });
-    }
-
-    public tapPreview(name: string) {
-        window.open(name === 'classify' ? this.editData.icon : this.form.get(name).value, '_blank');
-    }
-
-    public editClassify(modal: any, item?: IForumClassify) {
-        this.editData = item || {
+    public editClassify(modal: DialogBoxComponent, item?: IForumClassify) {
+        this.editData = item ? {...item} : {
             id: 0,
             name: '',
             icon: '',
         };
-        this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
-            if (!this.editData.name && !this.editData.icon) {
-                return;
-            }
+        modal.open(() => {
             if (!item) {
                 this.classifyItems.push(this.editData);
             }
+        }, () => {
+            return !emptyValidate(this.editData.name) && !emptyValidate(this.editData.icon)
         });
     }
 
@@ -141,8 +127,8 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public addUser(modal: any) {
-        this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+    public addUser(modal: DialogBoxComponent) {
+        modal.open(() => {
             for (const user of this.users) {
                 if (!user.checked) {
                     continue;

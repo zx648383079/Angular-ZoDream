@@ -14,7 +14,7 @@
                         placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="pull-right btn btn-primary" *ngIf="category > 0" (click)="open(content)">新增快捷语</a>
+                <a class="pull-right btn btn-primary" *ngIf="category > 0" (click)="open(modal)">新增快捷语</a>
             </form>
         </div>
         <table class="table table-bordered well">
@@ -33,7 +33,7 @@
                     <td style="width: 50%;">{{ item.content }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -41,27 +41,16 @@
             </tbody>
         </table>
 
-        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
-            (pageChange)="tapPage()"></ngb-pagination>
+        <app-pagination  [total]="total" [(page)]="page" [perPage]="perPage" 
+            (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑快捷语' : '新增快捷语' }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">内容</label>
-            <div class="input-group">
-                <input class="form-control" id="name-input" [(ngModel)]="editData.content" placeholder="请输入内容">
-            </div>
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑快捷语' : '新增快捷语'">
+    <div class="form-group">
+        <label for="name-input">内容</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.content" placeholder="请输入内容">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+</app-dialog-box>

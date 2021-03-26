@@ -26,10 +26,6 @@ export class PriceProtectComponent implements OnInit {
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
     /**
      * tapRefresh
      */

@@ -9,15 +9,15 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
     ToastrService
 } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../theme/components';
 import {
     IShare,
     ITask
 } from '../../theme/models/task';
-import { DateAdapter } from '../../theme/services';
+import { emptyValidate } from '../../theme/validators';
 import {
     TaskService
 } from '../task.service';
@@ -42,17 +42,15 @@ export class EditComponent implements OnInit {
 
     public items: ITask[] = [];
 
-    public editData: ITask;
+    public editData: ITask = {} as any;
 
-    public shareData: IShare;
+    public shareData: IShare = {} as any;
 
     constructor(
         private fb: FormBuilder,
         private service: TaskService,
         private route: ActivatedRoute,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
-        private dateAdapter: DateAdapter,
     ) {}
 
     ngOnInit() {
@@ -68,7 +66,7 @@ export class EditComponent implements OnInit {
                     every_time: res.every_time,
                     space_time: res.space_time,
                     duration: res.duration,
-                    start_at: res.start_at ? this.dateAdapter.fromModel(res.start_at) : '',
+                    start_at: res.start_at,
                 });
                 if (res.children) {
                     this.items = res.children;
@@ -94,32 +92,24 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        if (data.start_at) {
-            data.start_at = this.dateAdapter.toModel(data.start_at);
-        }
         this.service.taskSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
         });
     }
 
-    openDialog(content: any, item ?: ITask) {
+    openDialog(modal: DialogBoxComponent, item ?: ITask) {
         if (!this.data || this.data.id < 1) {
             this.toastrService.warning('请先保存主任务');
             return;
         }
-        this.editData = item || {
+        this.editData = item ? {...item} : {
             id: undefined,
             name: '',
             description: '',
             every_time: 0,
         };
-        this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title',
-        }).result.then(_ => {
-            if (!this.editData.name) {
-                return;
-            }
+        modal.open(() => {
             this.service.taskSave({
                 name: this.editData.name,
                 parent_id: this.data?.id,
@@ -132,7 +122,7 @@ export class EditComponent implements OnInit {
             }, err => {
                 this.toastrService.warning(err.message);
             });
-        }, _ => {});
+        }, () => !emptyValidate(this.editData.name));
     }
 
     public tapRemove(item: ITask) {
@@ -150,19 +140,14 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public tapShare(modal: any) {
+    public tapShare(modal: DialogBoxComponent) {
         if (!this.data || this.data.id < 1) {
             return;
         }
         if (!this.shareData) {
             this.shareData = {id: 0, task: this.data, task_id: this.data.id, share_type: 0, share_rule: ''};
         }
-        this.modalService.open(modal, {
-            ariaLabelledBy: 'modal-basic-title',
-        }).result.then(_ => {
-            if (this.shareData.id > 0) {
-                return;
-            }
+        modal.open(() => {
             this.service.shareCreate({
                 task_id: this.shareData.task_id,
                 share_type: this.shareData.share_type,
@@ -171,6 +156,6 @@ export class EditComponent implements OnInit {
                 this.shareData = res;
                 this.tapShare(modal);
             });
-        });
+        }, () => !this.shareData.id);
     }
 }

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { emptyValidate } from '../../theme/validators';
 import { ICategory, ICategoryUser, ISession, IWord } from '../model';
 import { OnlineBackendService } from './online.service';
 
@@ -42,7 +43,6 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         private store: Store<AppState>,
         private service: OnlineBackendService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             if (!user) {
@@ -144,12 +144,9 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         });
     }
 
-    public openTransfer(modal: any) {
+    public openTransfer(modal: DialogBoxComponent) {
         this.userSelected = 0;
-        this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
-            if (this.userSelected < 1) {
-                return;
-            }
+        modal.open(() => {
             this.service.sessionTransfer({
                 session_id: this.session.id,
                 user: this.userSelected,
@@ -158,24 +155,20 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
                 this.tapClose();
                 this.refreshSession();
             });
-        });
+        }, () => this.userSelected > 0);
     }
 
-    public openRemark(modal: any) {
+    public openRemark(modal: DialogBoxComponent) {
         this.remarkContent = '';
-        this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
-            const remark = this.remarkContent as string;
-            if (!remark || remark.trim().length < 1) {
-                return;
-            }
+        modal.open(() => {
             this.service.sessionRemark({
                 session_id: this.session.id,
-                remark,
+                remark: this.remarkContent,
             }).subscribe(res => {
                 this.toastrService.success('备注成功成功');
                 this.session = res;
             });
-        });
+        }, () => !emptyValidate(this.remarkContent));
     }
 
     public tapClose() {

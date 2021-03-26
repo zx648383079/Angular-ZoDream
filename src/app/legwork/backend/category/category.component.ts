@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { FileUploadService } from '../../../theme/services/file-upload.service';
+import { DialogBoxComponent } from '../../../theme/components';
+import { emptyValidate } from '../../../theme/validators';
 import { ICategory } from '../../model';
 import { LegworkService } from '../legwork.service';
 
@@ -19,49 +19,30 @@ export class CategoryComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public keywords = '';
-    public editData: ICategory;
+    public editData: ICategory = {} as any;
 
     constructor(
         private service: LegworkService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
-        private uploadService: FileUploadService,
     ) {
         this.tapRefresh();
     }
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
-    public open(content: any, item?: ICategory) {
+    public open(modal: DialogBoxComponent, item?: ICategory) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',
             icon: '',
             description: '',
         };
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.open(() => {
             this.service.categorySave(this.editData).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapPage();
             });
-        });
-    }
-
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.editData.icon = res.url;
-        }, err => {
-            this.toastrService.warning(err.error.message);
-        });
-    }
-
-    public tapPreview() {
-        window.open(this.editData.icon, '_blank');
+        }, () => !emptyValidate(this.editData.name));
     }
 
     public tapSearch(form: any) {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../theme/components';
 import { IEmoji, IEmojiCategory } from '../../../../theme/models/forum';
+import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../../forum.service';
 
 @Component({
@@ -21,12 +22,11 @@ export class EmojiComponent implements OnInit {
 
     public categories: IEmojiCategory[] = [];
     public category = 0;
-    public editData: IEmoji;
+    public editData: IEmoji = {} as any;
 
     constructor(
         private service: ForumService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
     ) {
         this.tapRefresh();
         this.service.emojiCategoryList({}).subscribe(res => {
@@ -35,10 +35,6 @@ export class EmojiComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
     }
 
     /**
@@ -98,24 +94,23 @@ export class EmojiComponent implements OnInit {
         });
     }
 
-    public tapView(content: any, item?: any) {
-        this.editData = item || {
+    public tapView(modal: DialogBoxComponent, item?: any) {
+        this.editData = item ? {...item} : {
             id: 0,
             name: '',
             type: 0,
             content: '',
         };
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.open(() => {
             this.service.emojiSave(this.editData).subscribe(res => {
                 this.toastrService.success('保存成功');
                 this.tapPage();
             });
-        });
+        }, () => !emptyValidate(this.editData.content));
     }
 
-    public tapImport(content: any) {
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
-        });
+    public tapImport(modal: DialogBoxComponent) {
+        modal.open();
     }
 
     public uploadFile(event: any) {

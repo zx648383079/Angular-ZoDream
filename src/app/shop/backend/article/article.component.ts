@@ -60,9 +60,6 @@ export class ArticleComponent implements OnInit {
         });
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     /**
      * tapRefresh

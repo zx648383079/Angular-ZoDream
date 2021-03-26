@@ -28,9 +28,6 @@ export class CouponComponent implements OnInit {
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     public tapTab(i: number) {
         this.tabIndex = i;

@@ -87,9 +87,6 @@ export class SearchDialogComponent implements OnChanges  {
         return this.onlySelected ? this.selectedItems : this.items;
     }
 
-    public get pageTotal(): number {
-        return this.onlySelected ? 0 : Math.ceil(this.total / this.perPage);
-    }
 
     public get selectedCount() {
         return this.selectedItems.length;

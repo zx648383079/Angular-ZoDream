@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../theme/components';
 import { IItem } from '../../../../theme/models/seo';
 import { IRegion, IShipping, IShippingGroup } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -41,9 +41,7 @@ export class EditShippingComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private toastrService: ToastrService,
-    private modalService: NgbModal,
     private regionService: RegionService,
-    private uploadService: FileUploadService,
   ) {
     this.service.shippingPlugin().subscribe(res => {
       this.items = res;
@@ -105,14 +103,8 @@ export class EditShippingComponent implements OnInit {
       this.tapBack();
     });
   }
-
-  public uploadFile(event: any) {
-    this.uploadService.uploadImage(event.files[0]).subscribe(res => {
-      this.form.get('icon').setValue(res.url);
-    });
-  }
-
-  public open(content: any, item?: IShippingGroup) {
+  
+  public open(modal: DialogBoxComponent, item?: IShippingGroup) {
     const isNew = !item;
     if (!item) {
       item = {
@@ -127,13 +119,13 @@ export class EditShippingComponent implements OnInit {
     }
     this.selectedItems = item.regions;
     this.selectedAll = item.is_all;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
-      item.regions = this.selectedAll ? [] : this.selectedItems;
-      item.is_all = this.selectedAll;
-      item.region_label = this.formatRegion(item);
-      if (isNew) {
-        this.groupItems.push(item);
-      }
+    modal.open(() => {
+        item.regions = this.selectedAll ? [] : this.selectedItems;
+        item.is_all = this.selectedAll;
+        item.region_label = this.formatRegion(item);
+        if (isNew) {
+          this.groupItems.push(item);
+        }
     });
   }
 

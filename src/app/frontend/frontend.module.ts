@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-routing.module';
 import { FrontendService } from './frontend.service';
 import { OnlineServiceModule } from '../online-service/online-service.module';
+import { ThemeModule } from '../theme/theme.module';
 
 
 @NgModule({
     declarations: [...frontendRoutedComponents],
     imports: [
         CommonModule,
+        ThemeModule,
         FrontendRoutingModule,
         OnlineServiceModule,
     ],

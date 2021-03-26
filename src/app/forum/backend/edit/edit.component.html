@@ -18,11 +18,8 @@
             </div>
             <div class="input-group">
                 <label for="thumb">图标</label>
-                <div class="file-input">
-                    <input type="text" id="thumb" class="form-control" formControlName="thumb">
-                    <label for="fileUpload" class="btn btn-primary">上传</label>
-                    <button type="button" class="btn btn-info" (click)="tapPreview('thumb')">预览</button>
-                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event, 'thumb')" accept="image/*"/>
+                <div>
+                    <app-file-input formControlName="thumb"></app-file-input>
                 </div>
             </div>
             <div class="input-group">
@@ -91,67 +88,41 @@
 </div>
 
 
-<ng-template #classifyModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑主题' : '新增主题' }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">名称</label>
-            <div class="input-group">
-                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="content-input">图片</label>
-            <div class="input-group">
-                <div class="file-input">
-                    <input type="text" id="content-input" class="form-control" [(ngModel)]="editData.icon">
-                    <label for="fileUpload" class="btn btn-primary">上传</label>
-                    <button type="button" class="btn btn-info" (click)="tapPreview('classify')">预览</button>
-                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event, 'classify')" accept="image/*" />
-                </div>
-            </div>
+<app-dialog-box #classifyModal [title]="editData.id > 0 ? '编辑主题' : '新增主题'">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    <div class="form-group">
+        <label for="content-input">图片</label>
+        <div class="input-group">
+            <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+        </div>
     </div>
-</ng-template>
+</app-dialog-box>
 
 
-<ng-template #userModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">选择用户</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">名称</label>
-            <div class="input-group">
-                <input class="form-control" id="name-input" [(ngModel)]="userKeywords" placeholder="请输入名称" (ngModelChange)="tapSearchUser()">
-            </div>
+
+<app-dialog-box #userModal title="选择用户">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="userKeywords" placeholder="请输入名称" (ngModelChange)="tapSearchUser()">
         </div>
-        <ng-container *ngFor="let item of users">
-            <div class="card-item" [ngClass]="{active: item.checked}" (click)="item.checked = !item.checked">
-                <div class="thumb">
-                    <ng-container *ngIf="item.avatar; else elseTemplate">
-                        <img [src]="item.avatar" alt="">
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <div class="no-image">无图</div>
-                    </ng-template>
-                </div>
-                <div class="name">{{ item.name }}</div>
+    </div>
+    <ng-container *ngFor="let item of users">
+        <div class="card-item" [ngClass]="{active: item.checked}" (click)="item.checked = !item.checked">
+            <div class="thumb">
+                <ng-container *ngIf="item.avatar; else elseTemplate">
+                    <img [src]="item.avatar" alt="">
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="no-image">无图</div>
+                </ng-template>
             </div>
-        </ng-container>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+            <div class="name">{{ item.name }}</div>
+        </div>
+    </ng-container>
+</app-dialog-box>

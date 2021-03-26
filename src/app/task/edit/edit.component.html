@@ -40,10 +40,7 @@
         <div class="input-group time-box">
             <label for="start_at">开始时间：</label>
             <div>
-                <input type="number" id="start_at" class="form-control" formControlName="start_at" placeholder="请输入开始时间" ngbDatepicker placeholder="yyyy-mm-dd" #d="ngbDatepicker">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="iconfont icon-calendar"></i>
-                </button>
+                <app-date-input id="start_at" formControlName="start_at"></app-date-input>
                 <div class="input-tip">从哪一天开始自动增加次数</div>
             </div>
         </div>
@@ -53,7 +50,7 @@
     </form>
 
 
-    <div class="add-btn" (click)="openDialog(content)">
+    <div class="add-btn" (click)="openDialog(modal)">
         <i class="iconfont icon-plus"></i>
         添加子任务
     </div>
@@ -64,62 +61,40 @@
         <div class="desc">{{ item.description }}</div>
         <div class="time">{{ item.time_length | hour }}</div>
         <div class="action">
-            <i class="iconfont icon-edit" (click)="openDialog(content, item)"></i>
+            <i class="iconfont icon-edit" (click)="openDialog(modal, item)"></i>
             <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
         </div>
     </div>
 
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑子任务' : '新增子任务' }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">名称</label>
-            <div class="input-group">
-                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="description-input">说明</label>
-            <div class="input-group">
-                <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
-            </div>
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑子任务' : '新增子任务'">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    <div class="form-group">
+        <label for="description-input">说明</label>
+        <div class="input-group">
+            <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
+        </div>
     </div>
-</ng-template>
+</app-dialog-box>
 
-<ng-template #shareModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">分享</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group" *ngIf="shareData.id < 1">
-            <label for="share-type-input">分享类型</label>
-            <div class="input-group">
-                <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
-                    <option value="0">公开分享</option>
-                    <option value="1">密码分享</option>
-                </select>
-            </div>
-        </div>
-        <div class="code-label" *ngIf="shareData.id > 0">
-            <p>分享链接：</p>
-            <code>{{ shareUrl }}</code>
+<app-dialog-box #shareModal title="分享">
+    <div class="form-group" *ngIf="shareData.id < 1">
+        <label for="share-type-input">分享类型</label>
+        <div class="input-group">
+            <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
+                <option value="0">公开分享</option>
+                <option value="1">密码分享</option>
+            </select>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    <div class="code-label" *ngIf="shareData.id > 0">
+        <p>分享链接：</p>
+        <code>{{ shareUrl }}</code>
     </div>
-</ng-template>
+</app-dialog-box>

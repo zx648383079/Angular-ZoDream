@@ -10,9 +10,10 @@ import {
     IDisk
 } from 'src/app/theme/models/disk';
 import {
+    DialogBoxComponent,
     MediaPlayerComponent, PullToRefreshComponent
 } from 'src/app/theme/components';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { emptyValidate } from '../../theme/validators';
 
 
 interface ICrumb {
@@ -56,11 +57,10 @@ export class CatalogComponent implements OnInit {
         },
     ];
 
-    public editData: any;
+    public editData: any = {};
 
     constructor(
         private service: DiskService,
-        private modalService: NgbModal,
     ) {}
 
     ngOnInit() {
@@ -154,10 +154,11 @@ export class CatalogComponent implements OnInit {
         }
     }
 
-    public tapOpenEdit(content: any) {
+    public tapOpenEdit(modal: DialogBoxComponent) {
         this.editData = {name: ''};
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(_ => {
-        });
+        modal.open(() => {
+
+        }, () => !emptyValidate(this.editData.name));
     }
 
     public tapRefresh() {

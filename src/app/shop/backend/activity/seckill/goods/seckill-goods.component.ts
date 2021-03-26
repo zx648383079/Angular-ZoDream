@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../../theme/components';
 import { ISeckillGoods } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
 
@@ -19,7 +19,7 @@ export class SeckillGoodsComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public keywords = '';
-    public editData: ISeckillGoods;
+    public editData: ISeckillGoods = {} as any;
     private activity = 0;
     private time = 0;
 
@@ -27,7 +27,6 @@ export class SeckillGoodsComponent implements OnInit {
         private service: ActivityService,
         private toastrService: ToastrService,
         private route: ActivatedRoute,
-        private modalService: NgbModal,
     ) { }
 
     ngOnInit() {
@@ -42,9 +41,6 @@ export class SeckillGoodsComponent implements OnInit {
         });
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     /**
      * tapRefresh
@@ -103,7 +99,7 @@ export class SeckillGoodsComponent implements OnInit {
         });
     }
 
-    open(content: any, item?: ISeckillGoods) {
+    open(modal: DialogBoxComponent, item?: ISeckillGoods) {
         this.editData = item ? Object.assign({}, item) : {
             id: undefined,
             act_id: this.activity,
@@ -113,9 +109,7 @@ export class SeckillGoodsComponent implements OnInit {
             every_amount: 1,
             price: 1,
         };
-        this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
+        modal.open(() => {
             this.service.goodsSave(this.editData).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapRefresh();

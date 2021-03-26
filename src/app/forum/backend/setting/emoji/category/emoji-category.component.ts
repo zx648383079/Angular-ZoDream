@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../../theme/components';
 import { IEmojiCategory } from '../../../../../theme/models/forum';
-import { FileUploadService } from '../../../../../theme/services/file-upload.service';
+import { emptyValidate } from '../../../../../theme/validators';
 import { ForumService } from '../../../forum.service';
 
 @Component({
@@ -15,13 +15,11 @@ export class EmojiCategoryComponent implements OnInit {
     public items: IEmojiCategory[] = [];
     public isLoading = false;
     public keywords = '';
-    public editData: IEmojiCategory;
+    public editData: IEmojiCategory = {} as any;
 
     constructor(
         private service: ForumService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
-        private uploadService: FileUploadService,
     ) {
         this.tapRefresh();
     }
@@ -65,34 +63,18 @@ export class EmojiCategoryComponent implements OnInit {
         });
     }
 
-    public tapView(content: any, item?: any) {
-        this.editData = item || {
+    public tapView(modal: DialogBoxComponent, item?: any) {
+        this.editData = item ? {...item} : {
             id: 0,
             name: '',
             icon: '',
         };
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.open(() => {
             this.service.emojiCategorySave(this.editData).subscribe(res => {
                 this.toastrService.success('保存成功');
                 this.tapRefresh();
             });
-        });
-    }
-
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.editData.icon = res.url;
-            if (!this.editData.name) {
-                this.editData.name = res.original;
-            }
-        }, err => {
-            this.toastrService.warning(err.error.message);
-        });
-    }
-
-    public tapPreview() {
-        window.open(this.editData.icon, '_blank');
+        }, () => !emptyValidate(this.editData.name));
     }
 
 }

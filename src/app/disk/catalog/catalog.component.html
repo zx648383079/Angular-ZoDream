@@ -116,22 +116,11 @@
     <app-media-player></app-media-player>
 </div>
 
-<ng-template #editFile let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑文件名' : '新增文件夹' }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="region-input">文件名</label>
-            <div class="input-group">
-                <input class="form-control" id="region-input" [(ngModel)]="editData.name" placeholder="请输入文件名">
-            </div>
+<app-dialog-box #editFile [title]="editData.id > 0 ? '编辑文件名' : '新增文件夹'">
+    <div class="form-group">
+        <label for="region-input">文件名</label>
+        <div class="input-group">
+            <input class="form-control" id="region-input" [(ngModel)]="editData.name" placeholder="请输入文件名">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+</app-dialog-box>

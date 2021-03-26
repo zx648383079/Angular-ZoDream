@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a (click)="tapView(content)" class="pull-right btn btn-primary">新增表情包</a>
+                <a (click)="tapView(modal)" class="pull-right btn btn-primary">新增表情包</a>
                 <a routerLink="./category" class="pull-right btn btn-info">管理分组</a>
                 <a (click)="tapImport(importModal)" class="pull-right btn btn-success">导入表情包</a>
             </form>
@@ -51,7 +51,7 @@
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" (click)="tapView(content, item)">编辑</a>
+                            <a class="btn btn-light btn-xs" (click)="tapView(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -60,76 +60,56 @@
             </tbody>
         </table>
 
-        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
-            (pageChange)="tapPage()"></ngb-pagination>
+        <app-pagination [total]="total" [perPage]="perPage" [(page)]="page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑表情' : '新增表情' }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">名称</label>
-            <div class="input-group">
-                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="cat-input">分组</label>
-            <div class="input-group">
-                <select [(ngModel)]="editData.cat_id" id="cat-input" class="form-control">
-                    <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.name }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="type-input">类型</label>
-            <div class="input-group">
-                <select [(ngModel)]="editData.type" id="type-input" class="form-control">
-                    <option [value]="0">图片</option>
-                    <option [value]="1">文字</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group" *ngIf="editData.type < 1">
-            <label for="content-input">图片</label>
-            <div class="input-group">
-                <app-file-input [(ngModel)]="editData.content"></app-file-input>
-            </div>
-        </div>
-        <div class="form-group" *ngIf="editData.type == 1">
-            <label for="con-input">内容</label>
-            <div class="input-group">
-                <input class="form-control" id="con-input" [(ngModel)]="editData.content" placeholder="请输入内容">
-            </div>
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑表情' : '新增表情'">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    <div class="form-group">
+        <label for="cat-input">分组</label>
+        <div class="input-group">
+            <select [(ngModel)]="editData.cat_id" id="cat-input" class="form-control">
+                <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.name }}</option>
+            </select>
+        </div>
     </div>
-</ng-template>
+    <div class="form-group">
+        <label for="type-input">类型</label>
+        <div class="input-group">
+            <select [(ngModel)]="editData.type" id="type-input" class="form-control">
+                <option [value]="0">图片</option>
+                <option [value]="1">文字</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="editData.type < 1">
+        <label for="content-input">图片</label>
+        <div class="input-group">
+            <app-file-input [(ngModel)]="editData.content"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="editData.type == 1">
+        <label for="con-input">内容</label>
+        <div class="input-group">
+            <input class="form-control" id="con-input" [(ngModel)]="editData.content" placeholder="请输入内容">
+        </div>
+    </div>
+</app-dialog-box>
 
-<ng-template #importModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">导入表情包</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="content-input">选择文件</label>
-            <div class="input-group">
-                <div class="file-input">
-                    <label for="fileUpload" class="btn btn-primary">上传</label>
-                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="application/x-zip-compressed" />
-                </div>
+<app-dialog-box #importModal [buttonVisible]="false" title="导入表情包">
+    <div class="form-group">
+        <label for="content-input">选择文件</label>
+        <div class="input-group">
+            <div class="file-input">
+                <label for="fileUpload" class="btn btn-primary">上传</label>
+                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="application/x-zip-compressed" />
             </div>
         </div>
     </div>
-</ng-template>
+</app-dialog-box>

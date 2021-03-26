@@ -6,14 +6,13 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import {
-    NgbModal
-} from '@ng-bootstrap/ng-bootstrap';
-import {
     ToastrService
 } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import {
     IRegion
 } from '../../../theme/models/shop';
+import { emptyValidate } from '../../../theme/validators';
 import {
     RegionService
 } from '../region.service';
@@ -33,13 +32,12 @@ export class RegionComponent implements OnInit {
     public total = 0;
     public keywords = '';
     public parent: IRegion;
-    public editData: IRegion;
+    public editData: IRegion = {} as any;
 
     constructor(
         private service: RegionService,
         private toastrService: ToastrService,
         private route: ActivatedRoute,
-        private modalService: NgbModal,
     ) {}
 
     ngOnInit() {
@@ -53,10 +51,6 @@ export class RegionComponent implements OnInit {
                 this.tapRefresh();
             });
         });
-    }
-
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
     }
 
     /**
@@ -132,14 +126,12 @@ export class RegionComponent implements OnInit {
         });
     }
 
-    open(content: any, item?: IRegion) {
-        this.editData = item || {
+    open(modal: DialogBoxComponent, item?: IRegion) {
+        this.editData = item ? {...item} : {
             id: undefined,
             name: ''
         };
-        this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
+        modal.open(() => {
             this.service.regionSave({
                 name: this.editData.name,
                 parent_id: this.parent?.id,
@@ -149,6 +141,6 @@ export class RegionComponent implements OnInit {
                 this.toastrService.success('保存成功');
                 this.tapPage();
             });
-        });
+        }, () => !emptyValidate(this.editData.name));
     }
 }

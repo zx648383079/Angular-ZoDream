@@ -1,0 +1,7 @@
+
+
+<ng-container *ngFor="let item of items;let i = index">
+    <span class="check-label" [ngClass]="{checked: isSelected(item, i)}" (click)="tapSelected(item, i)">
+        <label>{{ rangeLabel ? item[rangeLabel] : item }}</label>
+    </span>
+</ng-container>

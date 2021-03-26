@@ -15,12 +15,14 @@ import {
     documentBackendRoutedComponents,
 } from './backend-routing.module';
 import { DocumentService } from './document.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
         DocumentBackendRoutingModule,
         ThemeModule,
+        NgbDropdownModule,
         ReactiveFormsModule,
     ],
     declarations: [...documentBackendRoutedComponents],

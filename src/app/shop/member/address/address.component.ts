@@ -33,9 +33,6 @@ export class AddressComponent implements OnInit {
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     public tapEdit(item?: IAddress) {
         this.editData = item ? {...item} : {region_id: 0} as any;

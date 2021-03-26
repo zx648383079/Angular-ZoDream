@@ -53,6 +53,11 @@ export class DialogBoxComponent {
         };
     }
 
+    /**
+     * 关闭弹窗
+     * @param result 
+     * @returns 
+     */
     public close(result?: any) {
         if (typeof result === 'undefined') {
             this.visible = false;
@@ -75,12 +80,21 @@ export class DialogBoxComponent {
         this.confirm.emit();
     }
 
+    /**
+     * 显示弹窗
+     * @param cb 点击确认按钮事件
+     * @param check 判断是否允许关闭
+     */
     public open(cb?: () => void, check?: () => boolean) {
         this.checkFn = check;
         this.confirmFn = cb;
         this.visible = true;
     }
 
+    /**
+     * 显示弹窗并处理自定义按钮
+     * @param cb 按钮事件，返回false表示不能关闭弹窗
+     */
     public openCustom(cb?: (data: any) => any) {
         this.actionFn = cb;
         this.visible = true;

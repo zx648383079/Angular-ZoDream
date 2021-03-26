@@ -14,7 +14,7 @@
                         placeholder="名称">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="pull-right btn btn-primary" *ngIf="category > 0" (click)="open(content)">新增客服</a>
+                <a class="pull-right btn btn-primary" *ngIf="category > 0" (click)="open(modal)">新增客服</a>
             </form>
         </div>
         <table class="table table-bordered well">
@@ -38,27 +38,16 @@
             </tbody>
         </table>
 
-        <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="perPage" [directionLinks]="false"
-            (pageChange)="tapPage()"></ngb-pagination>
+        <app-pagination  [total]="total" [(page)]="page" [perPage]="perPage" 
+            (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">新增客服</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name-input">名称</label>
-            <div class="input-group">
-                <app-select-input url="auth/admin/user/search" [multiple]="true" [(ngModel)]="users"></app-select-input>
-            </div>
+<app-dialog-box #modal title="新增客服">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group">
+            <app-select-input url="auth/admin/user/search" [multiple]="true" [(ngModel)]="users"></app-select-input>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
-    </div>
-</ng-template>
+</app-dialog-box>

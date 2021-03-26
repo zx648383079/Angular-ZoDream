@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../../../theme/components';
 import { IActivityTime } from '../../../../../theme/models/shop';
+import { emptyValidate } from '../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
 
 @Component({
@@ -14,13 +15,12 @@ export class TimeComponent implements OnInit {
 
     public items: IActivityTime[] = [];
     public activity = 0;
-    public editData: IActivityTime;
+    public editData: IActivityTime = {} as any;
 
     constructor(
         private service: ActivityService,
         private toastrService: ToastrService,
         private route: ActivatedRoute,
-        private modalService: NgbModal,
     ) { }
 
     ngOnInit() {
@@ -53,16 +53,14 @@ export class TimeComponent implements OnInit {
         });
     }
 
-    open(content: any, item?: IActivityTime) {
+    open(modal: DialogBoxComponent, item?: IActivityTime) {
         this.editData = item ? Object.assign({}, item) : {
             id: undefined,
             title: '',
             start_at: '',
             end_at: ''
         };
-        this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title'
-        }).result.then(_ => {
+        modal.open(() => {
             this.service.timeSave({
                 title: this.editData.title,
                 start_at: this.editData.start_at,
@@ -72,7 +70,7 @@ export class TimeComponent implements OnInit {
                 this.toastrService.success('保存成功');
                 this.tapRefresh();
             });
-        });
+        }, () => !emptyValidate(this.editData.title));
     }
 
 }

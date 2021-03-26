@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
+import { emptyValidate } from '../../../theme/validators';
 import { IWord } from '../../model';
 import { OnlineBackendService } from '../online.service';
 
@@ -25,7 +26,6 @@ export class WordComponent implements OnInit {
     constructor(
         private service: OnlineBackendService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
         private route: ActivatedRoute,
     ) { }
 
@@ -38,22 +38,18 @@ export class WordComponent implements OnInit {
         });
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
-    public open(content: any, item?: IWord) {
+    public open(modal: DialogBoxComponent, item?: IWord) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             content: '',
             cat_id: this.category,
         };
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.open(() => {
             this.service.wordSave(this.editData).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapPage();
             });
-        });
+        }, () => !emptyValidate(this.editData.content));
     }
 
     public tapSearch(form: any) {

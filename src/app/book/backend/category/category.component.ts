@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import { ICategory } from '../../../theme/models/book';
+import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 
 @Component({
@@ -12,28 +13,29 @@ import { BookService } from '../book.service';
 export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
-    public editData: ICategory;
+    public editData: ICategory = {} as any;
 
     constructor(
         private service: BookService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
     ) {}
 
     ngOnInit() {
         this.tapRefresh();
     }
 
-    public open(content: any, item?: ICategory) {
+    public open(modal: DialogBoxComponent, item?: ICategory) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',
         };
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.open(() => {
             this.service.categorySave(this.editData).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapRefresh();
             });
+        }, () => {
+            return !emptyValidate(this.editData.name);
         });
     }
 

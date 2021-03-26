@@ -6,7 +6,7 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <a class="btn btn-success pull-right" (click)="open(content)">新增秒杀时间</a>
+            <a class="btn btn-success pull-right" (click)="open(modal)">新增秒杀时间</a>
 
         </div>
         <table class="table table-hover">
@@ -28,7 +28,7 @@
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-info btn-xs" [routerLink]="item.id" *ngIf="activity > 0">设置商品</a>
-                            <a class="btn btn-light btn-xs" (click)="open(content, item)">编辑</a>
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -39,30 +39,19 @@
     
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{ editData.id > 0 ? '编辑时间段' : '新增时间段' }}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="title">标题</label>
-            <div class="input-group">
-                <input class="form-control" id="title" [(ngModel)]="editData.title" placeholder="请输入标题">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="title">时间段</label>
-            <div>
-                <app-time-input [(ngModel)]="editData.start_at"></app-time-input>
-                ~
-                <app-time-input [(ngModel)]="editData.end_at" [min]="editData.start_at"></app-time-input>
-            </div>
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑时间段' : '新增时间段'">
+    <div class="form-group">
+        <label for="title">标题</label>
+        <div class="input-group">
+            <input class="form-control" id="title" [(ngModel)]="editData.title" placeholder="请输入标题">
         </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">确定</button>
+    <div class="form-group">
+        <label for="title">时间段</label>
+        <div>
+            <app-time-input [(ngModel)]="editData.start_at"></app-time-input>
+            ~
+            <app-time-input [(ngModel)]="editData.end_at" [min]="editData.start_at"></app-time-input>
+        </div>
     </div>
-</ng-template>
+</app-dialog-box>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import { IService } from '../../model';
 import { LegworkService } from '../legwork.service';
 
@@ -18,25 +18,20 @@ export class ServiceComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public keywords = '';
-    public editData: IService;
+    public editData: IService = {} as any;
 
     constructor(
       private service: LegworkService,
       private toastrService: ToastrService,
-      private modalService: NgbModal,
     ) {
         this.tapRefresh();
     }
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
-    public open(content: any, item: IService) {
+    public open(modal: DialogBoxComponent, item: IService) {
         this.editData = item;
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
+        modal.openCustom(value => {
             this.service.serviceChange(this.editData?.id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../../theme/components';
 import { IUser } from '../../../theme/models/user';
 import { ICategoryUser } from '../../model';
 import { OnlineBackendService } from '../online.service';
@@ -26,7 +26,6 @@ export class UserComponent implements OnInit {
     constructor(
         private service: OnlineBackendService,
         private toastrService: ToastrService,
-        private modalService: NgbModal,
         private route: ActivatedRoute,
     ) { }
 
@@ -39,16 +38,9 @@ export class UserComponent implements OnInit {
         });
     }
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
-
-    public open(content: any) {
+    public open(modal: DialogBoxComponent) {
         this.users = [];
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(value => {
-            if (this.users.length < 0) {
-                return;
-            }
+        modal.open(() => {
             this.service.userAdd({
                 category: this.category,
                 user: this.users.map(i => i.id)
@@ -56,7 +48,7 @@ export class UserComponent implements OnInit {
                 this.toastrService.success('添加客服成功');
                 this.tapPage();
             });
-        });
+        }, () => this.users.length > 0);
     }
 
     public tapSearch(form: any) {

@@ -23,3 +23,4 @@ export * from './countdown/countdown.component';
 export * from './emoji-picker/emoji-picker.component';
 export * from './dialog-box/dialog-box.component';
 export * from './pagination/pagination.component';
+export * from './check-input/check-input.component';

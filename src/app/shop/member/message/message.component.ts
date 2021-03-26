@@ -41,9 +41,6 @@ export class MessageComponent implements OnInit {
 
     ngOnInit() {}
 
-    public get pageTotal(): number {
-        return Math.ceil(this.total / this.perPage);
-    }
 
     public tapNav(i: number) {
         this.navIndex = i;

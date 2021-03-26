@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
