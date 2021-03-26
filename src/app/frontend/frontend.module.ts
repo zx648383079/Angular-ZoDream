@@ -5,6 +5,7 @@ import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-rout
 import { FrontendService } from './frontend.service';
 import { OnlineServiceModule } from '../online-service/online-service.module';
 import { ThemeModule } from '../theme/theme.module';
+import { CheckinModule } from '../checkin/checkin.module';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { ThemeModule } from '../theme/theme.module';
     imports: [
         CommonModule,
         ThemeModule,
+        CheckinModule,
         FrontendRoutingModule,
         OnlineServiceModule,
     ],

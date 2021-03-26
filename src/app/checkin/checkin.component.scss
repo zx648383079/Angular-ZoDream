@@ -1,0 +1,72 @@
+$size: 40px;
+$boxWidth: $size * 7;
+
+.checkin-picker {
+    position: relative;
+    .checkin-picker_container {
+        width: $boxWidth;
+        position: absolute;
+        z-index: 999;
+        user-select: none;
+        background: #fff;
+        color: #333;
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        text-align: left;
+    }
+    .picker-header {
+        padding: 5px 15px;
+        font-size: 14px;
+        color: #222;
+        line-height: 30px;
+        .iconfont {
+            color: #ccc;
+        }
+        .title {
+            margin: 0 10px;
+        }
+    }
+    .picker-body {
+
+    }
+    .picker-footer {
+        text-align: center;
+        line-height: 30px;
+    }
+    ol {
+        background: #eee;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        display: inline-block;
+        width: $size;
+        line-height: $size;
+        text-align: center;
+        box-sizing: border-box;
+        list-style: none;
+        color: #333;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+            cursor: pointer;
+            &.active {
+                background: #006cff;
+                color: #fff;
+                border-radius: 50%;
+                &:before {
+                    font-family: "iconfont";
+                    font-weight: 900;
+                    content: "\e648";
+                    color: rgba(255, 255, 255, .3);
+                    font-size: 30px;
+                    position: absolute;
+                }
+            }
+            &.disable {
+                color: #ccc;
+            }
+        }
+    }
+}

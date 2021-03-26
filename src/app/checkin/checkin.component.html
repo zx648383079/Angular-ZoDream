@@ -1,0 +1,23 @@
+<div class="checkin-picker">
+    <div (click)="tapButton()" class="checkin-picker__button">
+        <ng-content></ng-content>
+    </div>
+    <div class="checkin-picker_container" *ngIf="panelVisible" [ngStyle]="panelStyle">
+        <div class="picker-header">
+            <i class="iconfont icon-chevron-left previousMonth" (click)="tapPrevious()"></i>
+            <span class="title">{{ month }}月累计签到</span>
+            <i class="iconfont icon-chevron-right nextMonth" *ngIf="canNext" (click)="tapNext()"></i>
+        </div>
+        <div class="picker-body">
+            <ol class="gird-header"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ol>
+            <ul class="gird-body">
+                <ng-container *ngFor="let item of dayItems">
+                    <li [ngClass]="{disable: item.disable, active: item.active}" [title]="item.active ? '已签到' : '未签到'">{{ item.val }}</li>
+                </ng-container>
+            </ul>
+        </div>
+        <div class="picker-footer" *ngIf="!data" (click)="tapCheck()">
+            签到
+        </div>
+    </div>
+</div>

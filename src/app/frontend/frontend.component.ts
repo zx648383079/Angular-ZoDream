@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
 import { ILink } from '../theme/models/seo';
+import { Store } from '@ngrx/store';
+import { AppState } from '../theme/interfaces';
+import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { IUser } from '../theme/models/user';
 
 interface IMenuItem {
   name: string;
@@ -23,21 +27,28 @@ export class FrontendComponent implements OnInit {
     ];
 
     public friendLinks: ILink[] = [];
-
     public navExpand = false;
-
     public activeUri = '';
+    public user: IUser;
 
     constructor(
         private service: FrontendService,
-        private router: Router) {
+        private router: Router,
+        private store: Store<AppState>,
+    ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            if (!user) {
+                return;
+            }
+            this.user = user;
+        });
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
         });
         this.router.events.subscribe(event => {
-          if (event instanceof NavigationEnd) {
-            this.routerChanged(event.url);
-          }
+            if (event instanceof NavigationEnd) {
+                this.routerChanged(event.url);
+            }
         });
     }
 
