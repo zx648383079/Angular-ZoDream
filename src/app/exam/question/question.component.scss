@@ -1,0 +1,63 @@
+.tool-bar {
+    .btn-bar {
+        min-height: 40px;
+        .pull-right {
+            float: right;
+        }
+    }
+    .msg-bar {
+        .left {
+            margin-left: 20px;
+        }
+        .gray {
+            color: #999;
+        }
+        .count-right {
+            color: #3da600;
+            cursor: pointer;
+        }
+        .count-wrong {
+            color: #EE4653;
+            cursor: pointer;
+        }
+    }
+}
+
+.sheet-panel {
+    .panel-body {
+        max-height: 200px;
+        overflow-y: auto;
+        li {
+            list-style: none;
+            display: inline-block;
+            width: 60px;
+            line-height: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            cursor: pointer;
+            a {
+                display: block;
+            }
+            &.right,
+            &.wrong {
+                color: #fff;
+                a {
+                    color: #fff; 
+                }
+            }
+            &.active {
+                border: 2px solid #337ab7;
+            }
+            &.right {
+                background-color: #337ab7;
+            }
+            &.wrong {
+                background-color: red;
+            }
+            &:hover {
+                border-color: #777;
+            }
+        }
+    }
+}

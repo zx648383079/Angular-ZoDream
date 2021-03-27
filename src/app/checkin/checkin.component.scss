@@ -30,7 +30,10 @@ $boxWidth: $size * 7;
     }
     .picker-footer {
         text-align: center;
-        line-height: 30px;
+        line-height: 3rem;
+        color: #b4b4b4;
+        background-color: #f1f2f4;
+        cursor: pointer;
     }
     ol {
         background: #eee;

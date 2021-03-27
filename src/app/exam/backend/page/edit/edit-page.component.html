@@ -1,0 +1,56 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑试卷' : '新增试卷'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">试卷名</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="rule_type">选题类型</label>
+            <div>
+                <select id="rule_type" class="form-control" formControlName="rule_type">
+                    <option [value]="0">随机选题</option>
+                    <option [value]="1">固定题库</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="limit_time">限时/分钟</label>
+            <div>
+                <input type="text" id="limit_time" class="form-control" formControlName="limit_time" >
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="start_at">开始时间</label>
+            <div>
+                <app-date-input id="start_at" formControlName="start_at"></app-date-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="end_at">结束时间</label>
+            <div>
+                <app-date-input id="end_at" formControlName="end_at"></app-date-input>
+            </div>
+        </div>
+        <div class="rule-box">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>科目</th>
+                        <th>单选题</th>
+                        <th>多选题</th>
+                        <th>判断题</th>
+                        <th>简答题</th>
+                        <th>填空题</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

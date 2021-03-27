@@ -41,6 +41,10 @@ export class HomeComponent implements OnInit {
             url: '/doc'
         },
         {
+            name: 'Exam',
+            url: 'exam'
+        },
+        {
             name: 'Finance',
             url: '/finance'
         },

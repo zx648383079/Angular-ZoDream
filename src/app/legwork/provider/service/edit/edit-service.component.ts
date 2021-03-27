@@ -30,7 +30,6 @@ export class EditServiceComponent implements OnInit {
         private route: ActivatedRoute,
         private fb: FormBuilder,
         private toastrService: ToastrService,
-        private uploadService: FileUploadService,
     ) { }
 
     ngOnInit() {
@@ -103,16 +102,6 @@ export class EditServiceComponent implements OnInit {
             this.toastrService.success('保存成功');
             history.back();
         });
-    }
-
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.form.get('thumb').setValue(res.url);
-        });
-    }
-    public tapPreview() {
-        window.open(this.form.get('thumb').value, '_blank');
     }
 
 }

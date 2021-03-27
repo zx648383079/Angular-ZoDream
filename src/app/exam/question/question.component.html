@@ -1,0 +1,63 @@
+<div class="container">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/" class="iconfont icon-home"></a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="../../">
+                题库
+            </a>
+        </li>
+        <li class="breadcrumb-item active" *ngIf="course">
+            {{ course.name }}
+        </li>
+    </ul>
+</div>
+
+<div class="container" *ngIf="data">
+    <div class="question-item-box">
+        <div class="question-item">
+            <div class="title" *ngIf="data.type < 3">
+                <span class="order">{{ data.order }}.</span>
+                {{ data.title }}
+            </div>
+            
+        </div>
+    </div>
+    <div class="tool-bar">
+        <div class="btn-bar">
+            <div class="btn-group">
+                <a class="btn btn-primary">上一题</a>
+                <a class="btn btn-danger">验证</a>
+                <a class="btn btn-primary">下一题</a>
+            </div>
+            <div class="btn-group pull-right">
+                <button class="btn btn-success" >显示答题卡</button>
+                <button class="btn btn-info" >显示详解</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel analysis-panel">
+        <div class="panel-header">
+            题目解析
+        </div>
+        <div class="panel-body">
+            {{ data.analysis || '暂无解析' }}
+        </div>
+    </div>
+    <div class="panel sheet-panel">
+        <div class="panel-header">
+            答题卡
+        </div>
+        <div class="panel-body">
+            <ul>
+                <ng-container *ngFor="let item of cardItems">
+                    <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
+                        <a [routerLink]="['../', item.id]">{{ item.order }}</a>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+</div>

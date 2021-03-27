@@ -25,6 +25,10 @@ const routes: Routes = [
                 loadChildren: () => import('../legwork/legwork.module').then(m => m.LegworkModule)
             },
             {
+                path: 'exam',
+                loadChildren: () => import('../exam/exam.module').then(m => m.ExamModule)
+            },
+            {
                 path: 'about',
                 component: AboutComponent,
             }, {

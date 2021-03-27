@@ -122,7 +122,7 @@ export class CheckinComponent {
         this.service.checkIn().subscribe(res => {
             if (res.data) {
                 this.data = res.data;
-                this.checkDay(new Date().getDate());
+                this.checkDay(new Date(res.data.created_at).getDate());
             }
         });
     }

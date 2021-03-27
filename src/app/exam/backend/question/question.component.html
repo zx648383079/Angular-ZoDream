@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理题库列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" routerLink="create">新增题目</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>题目</th>
+                    <th>科目</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>【{{ item.type | questionType }}】{{ item.title }}</td>
+                    <td>{{ item.course?.name }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+  
+        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

@@ -11,11 +11,13 @@ import {
 import { LegworkService } from './legwork.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ThemeModule } from '../theme/theme.module';
 
 @NgModule({
     imports: [
         CommonModule,
         LegworkRoutingModule,
+        ThemeModule,
         FormsModule,
         NgSelectModule,
         ReactiveFormsModule,

@@ -76,6 +76,10 @@ const routes: Routes = [{
             loadChildren: () => import('../document/backend/document-backend.module').then(m => m.DocumentBackendModule)
         },
         {
+            path: 'exam',
+            loadChildren: () => import('../exam/backend/exam-backend.module').then(m => m.ExamBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },
