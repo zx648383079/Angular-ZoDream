@@ -1,0 +1,109 @@
+.question-box {
+    margin-bottom: 30px;
+    position: relative;
+    min-height: 60px;
+    .title {
+        font-size: 16px;
+        .order {
+            font-weight: bold;
+            font-size: 30px;
+            margin-left: 20px;
+        }
+        .wrong,
+        .right {
+            display: inline-block;
+            min-width: 30px;
+            vertical-align: bottom;
+            padding: 0 10px;
+            &:hover {
+                border-bottom-width: 3px;
+            }
+        }
+        .wrong {
+            border-bottom: 1px solid red;
+        }
+        .right {
+            border-bottom: 1px solid #3da600;
+        }
+    }
+    .option-list {
+        padding-left: 40px;
+        line-height: 30px;
+        .option-item {
+            position: relative;
+            cursor: default;
+            user-select: none;
+            .iconfont {
+                display: inline-block;
+                width: 30px;
+            }
+            &.wrong {
+                .iconfont {
+                    color: red;
+                }
+            }
+            &.right {
+                .iconfont {
+                    color: #3da600;
+                }
+            }
+            &:hover {
+                background-color: rgba(#ccc, .1);
+            }
+        }
+        .order {
+            font-weight: 600;
+        }
+    }
+    .content {
+
+    }
+    .image {
+
+    }
+    textarea {
+        width: 100%;
+        resize: vertical;
+        min-height: 100px;
+    }
+    .answer-text {
+        textarea {
+            outline: none;
+            background-color: transparent;
+        }
+        &.wrong {
+            textarea {
+                border: 1px solid red;
+            }
+        }
+        &.right {
+            textarea {
+                border: 1px solid #3da600;
+            }
+        }
+    }
+    &.item-right,
+    &.item-wrong {
+        &::before {
+            font-family: "iconfont";
+            text-rendering: auto;
+            position: absolute;
+            font-size: 60px;
+            font-weight: 900;;
+            right: 0;
+            top: 0;
+        }
+    }
+    &.item-wrong {
+        &::before {
+            content: "\e653";
+            color: rgba(red, .5);
+        }
+    }
+    &.item-right {
+        &::before {
+            content: "\e648";
+            color: rgba(#3da600, .5);
+        }
+    }
+}

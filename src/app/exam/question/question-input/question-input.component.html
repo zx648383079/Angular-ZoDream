@@ -1,0 +1,69 @@
+<div class="question-box" [ngClass]="{'item-right': !editable && value.right > 0, 'item-wrong': !editable && value.right < 0}">
+    <div class="title">
+        <span class="order">{{ value.order }}.</span>
+        {{ value.title }}
+    </div>
+    <div class="content" *ngIf="value.content">
+        {{ value.content }}
+    </div>
+    <div class="image" *ngIf="value.image">
+        <img [src]="value.image | asset">
+    </div>
+    <ng-container *ngIf="editable; else elseTemplate">
+        <div class="option-list" *ngIf="value.type < 2">
+            <ng-container *ngFor="let item of value.option">
+                <div class="option-item" (click)="tapCheckItem(item)">
+                    <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked}"></i>
+                    <span class="order">{{ item.order }}.</span>
+                    <span class="option-label">{{ item.content }}</span>
+                </div>
+            </ng-container>
+        </div>
+        <div class="option-list" *ngIf="value.type == 2">
+            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value.answer"></app-check-input>
+        </div>
+        <div *ngIf="value.type == 3">
+            <textarea rows="4" class="form-control" [(ngModel)]="value.answer"></textarea>
+        </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <div class="option-list" *ngIf="value.type < 2">
+            <ng-container *ngFor="let item of value.option">
+                <ng-container *ngIf="optionChecked(item) || item.is_right; else elseOptionTemplate">
+                    <div class="option-item" [ngClass]="{'right': item.is_right, 'wrong': !item.is_right}">
+                        <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
+                        <span class="order">{{ item.order }}.</span>
+                        <span class="option-label">{{ item.content }}</span>
+                    </div>
+                </ng-container>
+                <ng-template #elseOptionTemplate>
+                    <div class="option-item">
+                        <i class="iconfont"></i>
+                        <span class="order">{{ item.order }}.</span>
+                        <span class="option-label">{{ item.content }}</span>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </div>
+        <div class="option-list" *ngIf="value.type == 2">
+            <div class="option-item right" *ngIf="value.right > 0">
+                <i class="iconfont icon-check"></i>
+                {{ value.answer > 0 ? '对' : '错' }}
+            </div>
+            <div class="option-item wrong" *ngIf="value.right < 0">
+                <i class="iconfont icon-close"></i>
+                正确答案：{{ value.answer > 0 ? '对' : '错' }}
+            </div>
+        </div>
+        <div *ngIf="value.type == 3">
+            <div class="answer-text" [ngClass]="{'right': value.right > 0, 'wrong': value.right < 0}">
+                <label>你的答案:</label>
+                <textarea rows="4" class="form-control" readonly>{{ value.your_answer }}</textarea>
+            </div>
+            <div class="answer-text right">
+                <label>参考答案:</label>
+                <textarea rows="4" class="form-control" readonly>{{ value.answer }}</textarea>
+            </div>
+        </div>
+    </ng-template>
+</div>

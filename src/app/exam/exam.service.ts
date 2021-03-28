@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData } from '../theme/models/page';
-import { ICourse, IQuestion } from './model';
+import { ICourse, IExamPager, IQuestion, IQuestionCard, IQuestionFormat } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +23,36 @@ export class ExamService {
     }
 
     public question(params: any) {
-        return this.http.get<IQuestion>('exam/question', {
+        return this.http.get<IQuestionFormat>('exam/question', {
           params,
         });
     }
 
+    public questionCard(course: any) {
+        return this.http.get<IData<IQuestionCard>>('exam/question/card', {
+          params: {course},
+        });
+    }
+
+    public questionCheck(question: {
+        [key: number]: {
+            answer: any;
+            dynamic: string;
+        }
+    }) {
+        return this.http.post<IData<IQuestionFormat>>('exam/question/check', {question});
+    }
+
+    public pager(params: any) {
+        return this.http.get<IExamPager>('exam/pager', {params});
+    }
+
+    public pagerCheck(question: {
+        [key: number]: {
+            answer: any;
+            dynamic: string;
+        }
+    }) {
+        return this.http.post<any>('exam/pager/check', {question});
+    }
 }

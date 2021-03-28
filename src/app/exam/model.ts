@@ -8,7 +8,7 @@ export interface IQuestion {
     easiness:   number;
     content:    string;
     dynamic:    string;
-    answer:     string;
+    answer:     any;
     analysis:   string;
     updated_at: string;
     created_at: string;
@@ -16,12 +16,29 @@ export interface IQuestion {
     option?: IQuestionOption[];
 }
 
+
+
+export interface IQuestionFormat extends IQuestion {
+    order: string;
+    right: number;
+    your_answer: any;
+}
+
+export interface IQuestionCard {
+    order: string;
+    id: number;
+    right: number;
+    active: boolean;
+}
+
 export interface IQuestionOption {
     id:          string;
+    order: string;
     content:     string;
     question_id: string;
     type:        string;
     is_right:    string;
+    checked?: boolean;
 }
 
 
@@ -48,4 +65,14 @@ export interface IExamPage {
             [key: number]: number;
         }
     }[];
+}
+
+export interface IExamPager {
+    finished: boolean;
+    data: IQuestionFormat[];
+    report?: {
+        wrong: number;
+        right: number;
+        scale: number;
+    };
 }

@@ -16,29 +16,23 @@
 
 <div class="container" *ngIf="data">
     <div class="question-item-box">
-        <div class="question-item">
-            <div class="title" *ngIf="data.type < 3">
-                <span class="order">{{ data.order }}.</span>
-                {{ data.title }}
-            </div>
-            
-        </div>
+        <app-question-input [(value)]="data" [editable]="editable"></app-question-input>
     </div>
     <div class="tool-bar">
         <div class="btn-bar">
             <div class="btn-group">
-                <a class="btn btn-primary">上一题</a>
-                <a class="btn btn-danger">验证</a>
-                <a class="btn btn-primary">下一题</a>
+                <a class="btn btn-primary" *ngIf="cardIndex > 0" (click)="tapPrevious()">上一题</a>
+                <a class="btn btn-danger" (click)="tapCheck()">验证</a>
+                <a class="btn btn-primary" *ngIf="cardIndex < cardItems.length - 1" (click)="tapNext()">下一题</a>
             </div>
             <div class="btn-group pull-right">
-                <button class="btn btn-success" >显示答题卡</button>
-                <button class="btn btn-info" >显示详解</button>
+                <button class="btn btn-info" (click)="cardVisiable = !cardVisiable">{{ cardVisiable ? '隐藏' : '显示' }}答题卡</button>
+                <button class="btn btn-success" (click)="analysisVisiable = !analysisVisiable">{{ analysisVisiable ? '隐藏' : '显示' }}详解</button>
             </div>
         </div>
     </div>
     
-    <div class="panel analysis-panel">
+    <div class="panel analysis-panel" *ngIf="analysisVisiable">
         <div class="panel-header">
             题目解析
         </div>
@@ -46,15 +40,15 @@
             {{ data.analysis || '暂无解析' }}
         </div>
     </div>
-    <div class="panel sheet-panel">
+    <div class="panel sheet-panel" *ngIf="cardVisiable">
         <div class="panel-header">
             答题卡
         </div>
         <div class="panel-body">
             <ul>
-                <ng-container *ngFor="let item of cardItems">
+                <ng-container *ngFor="let item of cardItems; let i = index">
                     <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
-                        <a [routerLink]="['../', item.id]">{{ item.order }}</a>
+                        <a (click)="tapCard(i)">{{ item.order }}</a>
                     </li>
                 </ng-container>
             </ul>

@@ -42,13 +42,13 @@
             <a [routerLink]="['../question', data.id]">
                 <i class="iconfont icon-sort-alpha-asc"></i>
                 顺序练习</a>
-            <a [routerLink]="['../question', data.id]">
+            <a [routerLink]="['../pager', data.id, 1]">
                 <i class="iconfont icon-random"></i>
                 随机练习</a>
-            <a [routerLink]="['../question', data.id]">
+            <a [routerLink]="['../pager', data.id, 2]">
                 <i class="iconfont icon-question-circle"></i>
                 难题练习</a>
-            <a  [routerLink]="['../question', data.id]">
+            <a [routerLink]="['../pager', data.id, 3]">
                 <i class="iconfont icon-file-text-o"></i>
                 全真模拟</a>
         </div>
