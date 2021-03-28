@@ -1,18 +1,17 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理试卷列表</li>
+            <li>管理试卷评估列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
-                    <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键词">
+                    <label for="keywords">用户名</label>
+                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="用户名">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" routerLink="create">新增试卷</a>
             </form>
         </div>
     
@@ -20,18 +19,27 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>试卷名</th>
+                    <th>会员名</th>
+                    <th>耗时(分)</th>
+                    <th>正确(个)</th>
+                    <th>错误(个)</th>
+                    <th>得分</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.user.name }}</td>
+                    <td>{{ item.speet_time }}</td>
+                    <td>{{ item.right }}</td>
+                    <td>{{ item.wrong }}</td>
+                    <td>{{ item.score }}</td>
+                    <td>{{ item.status > 0 ? '已完成' : '答卷中' }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-info btn-xs" [routerLink]="['evaluate', item.id]">查看</a>
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

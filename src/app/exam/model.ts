@@ -1,3 +1,5 @@
+import { IUser } from '../theme/models/user';
+
 export interface IQuestion {
     id: number;
     title: string;
@@ -67,7 +69,29 @@ export interface IExamPage {
     }[];
 }
 
+export interface IPageEvaluate {
+    id: number;
+    user: IUser;
+    spent_time: number;
+    right: number;
+    wrong: number;
+    score: number;
+    status: number;
+    remark: string;
+    updated_at: string;
+    created_at: string;
+}
+
+export interface IExamSheet {
+    id?: number;
+    answer: any;
+    dynamic: string;
+}
+
 export interface IExamPager {
+    id: number;
+    title: string;
+    time: number;
     finished: boolean;
     data: IQuestionFormat[];
     report?: {

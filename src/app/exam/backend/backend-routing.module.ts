@@ -8,6 +8,7 @@ import {
 import { CourseComponent } from './course/course.component';
 import { ExamBackendComponent } from './exam-backend.component';
 import { EditPageComponent } from './page/edit/edit-page.component';
+import { EvaluateComponent } from './page/evaluate/evaluate.component';
 import { PageComponent } from './page/page.component';
 import { EditQuestionComponent } from './question/edit/edit-question.component';
 import { QuestionComponent } from './question/question.component';
@@ -38,6 +39,10 @@ const routes: Routes = [
         component: EditPageComponent,
     },
     {
+        path: 'page/evaluate/:id',
+        component: EvaluateComponent,
+    },
+    {
         path: 'page',
         component: PageComponent,
     },
@@ -54,5 +59,5 @@ const routes: Routes = [
 export class ExamBackendRoutingModule {}
 
 export const examBackendRoutedComponents = [
-    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent
+    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent
 ];

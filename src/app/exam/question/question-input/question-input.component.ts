@@ -42,4 +42,10 @@ export class QuestionInputComponent {
         }
         return typeof this.value.your_answer === 'object' && this.value.your_answer.indeOf(option.id) >= 0;
     }
+
+    public onAnswerChange() {
+        if (this.editable) {
+            this.valueChange.emit(this.value);
+        }
+    }
 }

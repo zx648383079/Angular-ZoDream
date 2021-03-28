@@ -14,7 +14,11 @@ import { QuestionComponent } from './question/question.component';
 
 const routes: Routes = [
     {
-        path: 'question/:course',
+        path: 'question/:id',
+        component: QuestionComponent,
+    },
+    {
+        path: 'course/:course',
         component: QuestionComponent,
     },
     {

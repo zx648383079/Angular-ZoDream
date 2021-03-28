@@ -8,22 +8,31 @@
                 题库
             </a>
         </li>
-        <li class="breadcrumb-item active">
-            模拟试卷
+        <li class="breadcrumb-item active" *ngIf="data">
+            {{ data.title }}
         </li>
     </ul>
 </div>
 
 <div class="container" *ngIf="data">
-    <div class="question-panel">
-        <ng-container *ngFor="let item of items; let i = index">
-            <app-question-input [value]="item" [editable]="!finished" (valueChange)="onQuestionChange($event, i)"></app-question-input>
-        </ng-container>
+    <div class="panel-container">
+        <div class="question-panel">
+            <ng-container *ngFor="let item of items; let i = index">
+                <app-question-input [value]="item" [editable]="!finished" (valueChange)="onQuestionChange($event, i)"></app-question-input>
+            </ng-container>
+        </div>
+        <div class="tool-bar">
+            <app-countdown [end]="endTime" [auto]="true" (finished)="onTimeEnd()"></app-countdown>
+            <div class="btn-group">
+                <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
+                <a class="btn btn-danger" *ngIf="!finished" (click)="tapFinish()">交卷</a>
+                <a class="btn btn-primary" *ngIf="page < total" (click)="tapNext()">下一页</a>
+            </div>
+            
+        </div>
     </div>
-    <div class="tool-bar">
-        <a class="btn btn-danger" *ngIf="!finished">交卷</a>
-    </div>
-    <div *ngIf="finished">
+    
+    <div class="panel-container" *ngIf="finished">
         <div class="msg-bar">
             <span class="left">
                 <span
@@ -46,11 +55,12 @@
                 <ul>
                     <ng-container *ngFor="let item of cardItems; let i = index">
                         <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
-                            <a>{{ item.order }}</a>
+                            <a (click)="tapItem(i)">{{ item.order }}</a>
                         </li>
                     </ng-container>
                 </ul>
             </div>
         </div>
     </div>
+    
 </div>

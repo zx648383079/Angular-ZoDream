@@ -11,7 +11,7 @@
         <div class="input-group">
             <label for="rule_type">选题类型</label>
             <div>
-                <select id="rule_type" class="form-control" formControlName="rule_type">
+                <select id="rule_type" class="form-control" formControlName="rule_type" (ngModelChange)="onRuleChange()">
                     <option [value]="0">随机选题</option>
                     <option [value]="1">固定题库</option>
                 </select>
@@ -36,21 +36,113 @@
             </div>
         </div>
         <div class="rule-box">
-            <table class="table table-hover">
+            <table class="table table-hover" *ngIf="ruleType < 1">
                 <thead>
                     <tr>
                         <th>科目</th>
-                        <th>单选题</th>
-                        <th>多选题</th>
-                        <th>判断题</th>
-                        <th>简答题</th>
-                        <th>填空题</th>
+                        <th>题目类型</th>
+                        <th>数量</th>
                         <th></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr *ngFor="let item of optionItems; let j = index">
+                        <td>
+                            <select  class="form-control" [(ngModel)]="item.course" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select  class="form-control" [(ngModel)]="item.type" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" [(ngModel)]="item.amount" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <i class="iconfont icon-plus" (click)="tapAddItem()"></i>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table class="table table-hover" *ngIf="ruleType == 1">
+                <thead>
+                    <tr>
+                        <th>题目ID</th>
+                        <th>题目</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of optionItems; let j = index">
+                        <td>
+                            {{ item.id }}
+                        </td>
+                        <td>
+                            【{{ item.type | questionType }}】{{ item.title }}
+                        </td>
+                        <td>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <i class="iconfont icon-plus" (click)="tapOpen(modal)"></i>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <button type="submit" class="btn btn-success">确认保存</button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
     </form>
 </div>
+
+<app-dialog-box #modal title="选择题目">
+    <div class="page-search-bar">
+        <form class="form-horizontal" (ngSubmit)="tapDialogSearch(searchForm.value)" #searchForm="ngForm">
+            <div class="input-group">
+                <label for="keywords">关键字</label>
+                <input type="text" class="form-control" [value]="dialogData.keywords" name="keywords" ngModel id="keywords" placeholder="关键词">
+            </div>
+            <div class="input-group">
+                <label for="course">关键字</label>
+                <select id="course" name="course" ngModel class="form-control">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of courseItems" [value]="item.id" [selected]="dialogData.course == item.id">{{ item.name }}</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>题目</th>
+                <th>科目</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dialogData.items" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+                <td>{{ item.id }}</td>
+                <td>【{{ item.type | questionType }}】{{ item.title }}</td>
+                <td>{{ item.course?.name }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
+</app-dialog-box>

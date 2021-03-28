@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData } from '../theme/models/page';
-import { ICourse, IExamPager, IQuestion, IQuestionCard, IQuestionFormat } from './model';
+import { ICourse, IExamPager, IExamSheet, IQuestion, IQuestionCard, IQuestionFormat } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,11 +35,8 @@ export class ExamService {
     }
 
     public questionCheck(question: {
-        [key: number]: {
-            answer: any;
-            dynamic: string;
-        }
-    }) {
+        [key: number]: IExamSheet
+    } | IExamSheet[]) {
         return this.http.post<IData<IQuestionFormat>>('exam/question/check', {question});
     }
 
@@ -48,11 +45,8 @@ export class ExamService {
     }
 
     public pagerCheck(question: {
-        [key: number]: {
-            answer: any;
-            dynamic: string;
-        }
-    }) {
+        [key: number]: IExamSheet
+    } | IExamSheet[], id: number) {
         return this.http.post<any>('exam/pager/check', {question});
     }
 }

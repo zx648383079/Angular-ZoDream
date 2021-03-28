@@ -1,0 +1,8 @@
+.table {
+    tr {
+        &.selected {
+            color: #333;
+            background-color: #ebf5ff;
+        }
+    }
+}

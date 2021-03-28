@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
-import { ICourse, IExamPage, IQuestion } from '../model';
+import { ICourse, IExamPage, IPageEvaluate, IQuestion } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +73,16 @@ export class ExamService {
     public pageRemove(id: any) {
         return this.http.delete<IDataOne<true>>('exam/admin/page/delete', {
           params: {id}
+        });
+    }
+
+    public evaluateList(params: any) {
+        return this.http.get<IPage<IPageEvaluate>>('exam/admin/page/evaluate', {params});
+    }
+
+    public evaluateRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/admin/page/evaluate_elete', {
+            params: {id}
         });
     }
 

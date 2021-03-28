@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-countdown',
   templateUrl: './countdown.component.html',
   styleUrls: ['./countdown.component.scss']
 })
-export class CountdownComponent implements OnChanges {
+export class CountdownComponent implements OnChanges, OnDestroy {
 
     @Input() public label = '';
     @Input() public end: any;
@@ -29,6 +29,12 @@ export class CountdownComponent implements OnChanges {
         }
         if (changes.auto) {
             changes.auto.currentValue ? this.startTimer() : this.stopTimer();
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.auto) {
+            this.stopTimer();
         }
     }
 

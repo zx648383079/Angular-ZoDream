@@ -15,19 +15,21 @@
 </div>
 
 <div class="container" *ngIf="data">
-    <div class="question-item-box">
-        <app-question-input [(value)]="data" [editable]="editable"></app-question-input>
-    </div>
-    <div class="tool-bar">
-        <div class="btn-bar">
-            <div class="btn-group">
-                <a class="btn btn-primary" *ngIf="cardIndex > 0" (click)="tapPrevious()">上一题</a>
-                <a class="btn btn-danger" (click)="tapCheck()">验证</a>
-                <a class="btn btn-primary" *ngIf="cardIndex < cardItems.length - 1" (click)="tapNext()">下一题</a>
-            </div>
-            <div class="btn-group pull-right">
-                <button class="btn btn-info" (click)="cardVisiable = !cardVisiable">{{ cardVisiable ? '隐藏' : '显示' }}答题卡</button>
-                <button class="btn btn-success" (click)="analysisVisiable = !analysisVisiable">{{ analysisVisiable ? '隐藏' : '显示' }}详解</button>
+    <div class="panel-container">
+        <div class="question-item-box">
+            <app-question-input [(value)]="data" [editable]="editable"></app-question-input>
+        </div>
+        <div class="tool-bar">
+            <div class="btn-bar">
+                <div class="btn-group">
+                    <a class="btn btn-primary" *ngIf="cardIndex > 0" (click)="tapPrevious()">上一题</a>
+                    <a class="btn btn-danger" (click)="tapCheck()">验证</a>
+                    <a class="btn btn-primary" *ngIf="cardIndex < cardItems.length - 1" (click)="tapNext()">下一题</a>
+                </div>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-info" (click)="cardVisiable = !cardVisiable">{{ cardVisiable ? '隐藏' : '显示' }}答题卡</button>
+                    <button class="btn btn-success" (click)="analysisVisiable = !analysisVisiable">{{ analysisVisiable ? '隐藏' : '显示' }}详解</button>
+                </div>
             </div>
         </div>
     </div>

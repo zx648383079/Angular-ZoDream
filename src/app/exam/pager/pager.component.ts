@@ -14,6 +14,10 @@ export class PagerComponent implements OnInit {
     public items: IQuestionFormat[] = [];
     public finished = false;
     public cardItems: IQuestionCard[] = [];
+    public total = 0;
+    public page = 1;
+    public perPage = 10;
+    public endTime = 0;
 
     constructor(
         private service: ExamService,
@@ -28,7 +32,6 @@ export class PagerComponent implements OnInit {
                 type: params.type,
             }).subscribe(res => {
                 this.data = res;
-                this.items = res.data;
                 this.finished = res.finished;
                 this.cardItems = res.data.map((i, j) => {
                     return {
@@ -38,11 +41,66 @@ export class PagerComponent implements OnInit {
                         active: false,
                     };
                 });
+                this.total = Math.ceil(res.data.length / this.perPage);
+                this.tapPage(1);
+                this.endTime = new Date().getTime() + res.time * 60000;
             });
         });
     }
 
+    public tapPrevious() {
+        this.tapPage(this.page - 1);
+    }
+
+    public tapNext() {
+        this.tapPage(this.page + 1);
+    }
+
+    public tapPage(page: number) {
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > this.total) {
+            page = this.total;
+        }
+        const items = [];
+        let start = (page - 1) * this.perPage;
+        const end = Math.min(start + this.perPage, this.data.data.length);
+        for (; start < end; start ++) {
+            items.push(this.data.data[start]);
+        }
+        this.items = items;
+        this.page = page;
+        document.documentElement.scrollTop = 0;
+    }
+
+    public onTimeEnd() {
+        if (!this.data) {
+            return;
+        }
+        this.tapFinish();
+    }
+
+    public tapItem(i: number) {
+        this.tapPage(Math.floor(i / this.perPage));
+    }
+
     public onQuestionChange(event: IQuestionFormat, i: number) {
-        this.items[i] = event;
+        this.items[i].answer = event.answer;
+        this.items[i].option = event.option;
+    }
+
+    public tapFinish() {
+        this.finished = true;
+        this.service.pagerCheck(this.data.data.map(i => {
+            return {
+                id: i.id,
+                answer: i.answer,
+                dynamic: i.dynamic
+            };
+        }), this.data.id).subscribe(res => {
+            this.data = res;
+            this.tapPage(this.page);
+        });
     }
 }

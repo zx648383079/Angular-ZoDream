@@ -20,10 +20,10 @@
             </ng-container>
         </div>
         <div class="option-list" *ngIf="value.type == 2">
-            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value.answer"></app-check-input>
+            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value.answer" (ngModelChange)="onAnswerChange()"></app-check-input>
         </div>
         <div *ngIf="value.type == 3">
-            <textarea rows="4" class="form-control" [(ngModel)]="value.answer"></textarea>
+            <textarea rows="4" class="form-control" [(ngModel)]="value.answer"  (ngModelChange)="onAnswerChange()"></textarea>
         </div>
     </ng-container>
     <ng-template #elseTemplate>
