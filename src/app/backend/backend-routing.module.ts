@@ -80,6 +80,10 @@ const routes: Routes = [{
             loadChildren: () => import('../exam/backend/exam-backend.module').then(m => m.ExamBackendModule)
         },
         {
+            path: 'micro',
+            loadChildren: () => import('../micro/backend/micro.module').then(m => m.MicroModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },
