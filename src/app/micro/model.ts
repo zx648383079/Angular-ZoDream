@@ -1,4 +1,4 @@
-import { IUser } from './user';
+import { IUser } from '../theme/models/user';
 
 export interface IMicro {
     id: number;
@@ -35,4 +35,9 @@ export interface IComment {
     agree_type?: 0 | 3 | 4;
     user: IUser;
     replies?: IComment[];
+}
+
+export interface ITopic {
+    id: number;
+    name: string;
 }

@@ -9,6 +9,7 @@ import { ApiEditComponent } from './api-edit/api-edit.component';
 import { ApiFieldTrComponent } from './api-edit/api-field-tr/api-field-tr.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { CreateComponent } from './create/create.component';
+import { DebugComponent } from './debug/debug.component';
 import { DocumentBackendComponent } from './document-backend.component';
 import { EditComponent } from './edit/edit.component';
 import { PageEditComponent } from './page-edit/page-edit.component';
@@ -40,6 +41,10 @@ const routes: Routes = [
         component: EditComponent,
     },
     {
+        path: 'debug',
+        component: DebugComponent,
+    },
+    {
         path: '',
         component: DocumentBackendComponent,
     }
@@ -53,5 +58,6 @@ export class DocumentBackendRoutingModule {}
 
 export const documentBackendRoutedComponents = [
     DocumentBackendComponent, PageEditComponent, ApiEditComponent,
-    CreateComponent, EditComponent, ContextMenuComponent, ApiFieldTrComponent
+    CreateComponent, EditComponent, ContextMenuComponent, ApiFieldTrComponent,
+    DebugComponent
 ];

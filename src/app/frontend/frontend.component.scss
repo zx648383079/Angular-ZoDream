@@ -43,6 +43,14 @@ footer {
     }
 }
 
+@media (min-width: 992px) {
+    .navbar {
+        .dropdown-menu {
+            margin-left: -50px;
+        }
+    }
+}
+
 ::ng-deep {
     .panel {
         background-color: #fff;

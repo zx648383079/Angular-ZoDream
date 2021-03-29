@@ -5,6 +5,7 @@ export const VideoBackendMenu: INav[] = [
         name: '短视频管理',
         icon: 'icon-film',
         url: './video',
+        role: 'video_manage',
         children: [
             {
                 name: '视频列表',

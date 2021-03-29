@@ -7,7 +7,7 @@
             <div>
                 <div class="name">{{ data.user.name }}</div>
                 <p>
-                    <span class="time">{{ data.created_at }}</span>
+                    <span class="time">{{ data.created_at | ago }}</span>
                     <span class="from" *ngIf="data.source">来自{{ data.source }}</span>
                     <a class="remove" *ngIf="data.editable" (click)="tapRemove(data)">[删除]</a>
                 </p>
@@ -67,7 +67,7 @@
                     {{ item.content }}
                 </div>
                 <div class="actions">
-                    <span class="time">{{ item.created_at }}</span>
+                    <span class="time">{{ item.created_at | ago }}</span>
                     <div class="tools">
                         <a (click)="tapCommenting(item)">回复</a>
                         <a href="">赞</a>
@@ -80,7 +80,7 @@
                             {{ it.content }}
                         </div>
                         <div class="actions">
-                            <span class="time">{{ it.created_at }}</span>
+                            <span class="time">{{ it.created_at | ago }}</span>
                             <div class="tools">
                                 <a  (click)="tapCommenting(item)">回复</a>
                                 <a href="">赞</a>

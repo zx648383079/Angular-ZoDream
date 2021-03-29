@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
+import { AuthService } from '../theme/services';
 
 interface IMenuItem {
   name: string;
@@ -30,16 +31,15 @@ export class FrontendComponent implements OnInit {
     public navExpand = false;
     public activeUri = '';
     public user: IUser;
+    public dropDownVisiable = false;
 
     constructor(
         private service: FrontendService,
         private router: Router,
         private store: Store<AppState>,
+        private authService: AuthService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
-            if (!user) {
-                return;
-            }
             this.user = user;
         });
         this.service.friendLinks().subscribe(res => {
@@ -53,6 +53,15 @@ export class FrontendComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    public toggleDropDown() {
+        this.dropDownVisiable = !this.dropDownVisiable;
+    }
+
+    public tapLogout() {
+        this.authService.logout().subscribe(_ => {
+        });
     }
 
     private routerChanged(url: string) {

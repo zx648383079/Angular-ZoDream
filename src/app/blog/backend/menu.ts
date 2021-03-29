@@ -14,6 +14,7 @@ export const BlogBackendMenu: INav[] = [
                 name: '分类',
                 label: '类',
                 url: './blog/category',
+                role: 'blog_term_edit',
             },
             {
                 name: '标签',

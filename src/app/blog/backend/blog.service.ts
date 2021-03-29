@@ -44,7 +44,7 @@ export class BlogService {
     }
 
     public getPage(params: any): Observable<IPage<IBlog>> {
-        return this.http.get<IPage<IBlog>>('blog', {
+        return this.http.get<IPage<IBlog>>('blog/admin/blog', {
             params
         });
     }

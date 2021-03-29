@@ -81,7 +81,7 @@ export class ExamService {
     }
 
     public evaluateRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('exam/admin/page/evaluate_elete', {
+        return this.http.delete<IDataOne<true>>('exam/admin/page/evaluate_delete', {
             params: {id}
         });
     }

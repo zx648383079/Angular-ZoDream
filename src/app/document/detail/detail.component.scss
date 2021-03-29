@@ -142,6 +142,7 @@ li {
 
 .content {
     padding-bottom: 30px;
+    min-height: 50vh;
 }
 
 .pull-right {
@@ -165,6 +166,31 @@ li {
     }
     .panel-body {
         padding: 10px 0;
+    }
+}
+
+.navigation-bar {
+    padding: 9px 0;
+    .prev,
+    .next {
+        color: #999;
+        padding: 2px 0;
+        user-select: none;
+        cursor: pointer;
+    }
+    .prev {
+        float: left;
+    }
+    .next {
+        float: right;
+        
+    }
+    &::after {
+        content: " ";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
     }
 }
 

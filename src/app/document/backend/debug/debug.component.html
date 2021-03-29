@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>调试请求</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="flat-input">
+            <select class="form-control">
+                <option *ngFor="let item of methodItems" [value]="item">{{ item }}</option>
+            </select>
+            <input type="text" class="form-control">
+            <button class="btn btn-primary">发送</button>
+        </div>
+        <div class="tab-box">
+            <div class="tab-header">
+                <div class="tab-item" [ngClass]="{active: requestIndex < 1}" (click)="requestIndex = 0">
+                    请求头
+                </div>
+                <div class="tab-item" [ngClass]="{active: requestIndex == 1}" (click)="requestIndex = 1">
+                    请求参数
+                </div>
+            </div>
+            <div class="tab-body">
+                <div class="tab-item" [ngClass]="{active: requestIndex < 1}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>键</th>
+                                <th>值</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <i class="iconfont" [ngClass]="{'icon-square-o': true, 'icon-check-square-o': false}"></i>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <i class="iconfont icon-close"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <i class="iconfont icon-plus"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="tab-item" [ngClass]="{active: requestIndex == 1}">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

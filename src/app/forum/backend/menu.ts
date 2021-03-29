@@ -5,6 +5,7 @@ export const ForumBackendMenu: INav[] = [
         name: '圈子管理',
         icon: 'icon-smile-o',
         url: './forum',
+        role: 'forum_manage',
         children: [
             {
                 name: '板块管理',

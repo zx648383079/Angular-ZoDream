@@ -22,15 +22,15 @@
                         <a class="nav-link">签到</a>
                     </app-checkin>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown" [ngClass]="{show: dropDownVisiable}">
+                    <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
                         {{ user.name }}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                        <li><a class="dropdown-item" href="#">私信</a></li>
-                        <li><a class="dropdown-item" href="#">账号设置</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">退出</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisiable}">
+                        <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/bulletin">私信</a></li>
+                        <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/profile">账号设置</a></li>
+                        <li ngbDropdownItem><hr class="dropdown-divider"></li>
+                        <li ngbDropdownItem><a class="dropdown-item" (click)="tapLogout()">退出</a></li>
                     </ul>
                 </li>
             </ul>

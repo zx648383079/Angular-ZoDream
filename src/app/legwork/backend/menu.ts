@@ -5,6 +5,7 @@ export const LegworkBackendMenu: INav[] = [
         name: '跑腿服务',
         icon: 'icon-rocket',
         url: './legwork',
+        role: 'legwork_manage',
         children: [
             {
                 name: '分类管理',

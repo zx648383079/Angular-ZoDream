@@ -5,6 +5,7 @@ export const ExamBackendMenu: INav[] = [
         name: '题库管理',
         icon: 'icon-edit',
         url: './exam',
+        role: 'exam_manage',
         children: [
             {
                 name: '题库列表',

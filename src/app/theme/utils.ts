@@ -195,6 +195,9 @@ export function rangeStep<T = number>(start: number, end: number, step = 1, form
 }
 
 export function hasElementByClass(path: Array<Element>, className: string): boolean {
+    if (!path) {
+        return false;
+    }
     let hasClass = false;
     for (const item of path) {
         if (!item || !item.className) {

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AppState } from '../../theme/interfaces';
-import { IComment, IMicro } from '../../theme/models/micro';
+import { IComment, IMicro } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';

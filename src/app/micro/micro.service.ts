@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../theme/models/page';
-import { IComment, IMicro } from '../theme/models/micro';
+import { IComment, IMicro } from './model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()

@@ -2,29 +2,25 @@ import { INav } from '../../theme/components';
 
 export const MicroBackendMenu: INav[] = [
     {
-        name: '圈子管理',
-        icon: 'icon-smile-o',
-        url: './forum',
+        name: '微博管理',
+        icon: 'icon-at',
+        url: './micro',
+        role: 'micro_manage',
         children: [
             {
-                name: '板块管理',
-                label: '板',
-                url: './forum',
+                name: '内容管理',
+                label: '内',
+                url: './micro/post',
             },
             {
-                name: '帖子管理',
-                label: '帖',
-                url: './forum/thread',
+                name: '评论管理',
+                label: '评',
+                url: './micro/comment',
             },
             {
-                name: '屏蔽词管理',
-                label: '词',
-                url: './forum/setting/word',
-            },
-            {
-                name: '表情包管理',
-                label: '表',
-                url: './forum/setting/emoji',
+                name: '话题管理',
+                label: '话',
+                url: './micro/topic',
             },
         ],
     },

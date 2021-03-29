@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { emptyValidate } from '../../theme/validators';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
 
@@ -17,6 +18,9 @@ export class DetailComponent implements OnInit {
     public data: IDocApi&IDocPage;
     public catalog: IDocPage[]&IDocApi[] = [];
     public versionItems: IProjectVersion[] = [];
+    public previous: IDocApi&IDocPage;
+    public next: IDocApi&IDocPage;
+    public keywords = '';
 
     constructor(
         private service: DocumentService,
@@ -36,6 +40,19 @@ export class DetailComponent implements OnInit {
             });
             
         });
+    }
+
+    public get formatCatalog() {
+        if (emptyValidate(this.keywords)) {
+            return this.catalog;
+        }
+        const items = [];
+        this.eachCatalog(this.catalog, item => {
+            if (item.type < 1 && item.name.indexOf(this.keywords) >= 0) {
+                items.push(item);
+            }
+        });
+        return items;
     }
 
     private loadCatalog(project: any, id: any) {
@@ -94,9 +111,43 @@ export class DetailComponent implements OnInit {
             } else {
                 this.data.example = JSON.stringify(this.data.example, null, 4);
             }
+            this.findNavigation(res.id);
             history.pushState(null, res.name,
                 window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
+            document.documentElement.scrollTop = 0;
         });
+    }
+
+    private findNavigation(id: number) {
+        let previous: IDocApi&IDocPage;
+        let next: IDocApi&IDocPage;
+        let found = false;
+        this.eachCatalog(this.catalog, item => {
+            if (found && item.type < 1) {
+                next = item;
+                return false;
+            }
+            if (!found && id == item.id) {
+                found = true;
+                return;
+            }
+            if (!found && item.type < 1) {
+                previous = item;
+            }
+        });
+        this.previous = previous;
+        this.next = next;
+    }
+
+    private eachCatalog(items: IDocApi[]&IDocPage[], cb: (item: IDocApi&IDocPage) => any) {
+        for (const item of items) {
+            if (cb(item) === false) {
+                return false;
+            }
+            if (item.children && this.eachCatalog(item.children, cb) === false) {
+                return false;
+            }
+        }
     }
 
 }

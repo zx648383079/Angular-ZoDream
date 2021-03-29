@@ -5,6 +5,7 @@ export const ShopBackendMenu: INav[] = [
         name: '商城',
         icon: 'icon-shopping-cart',
         url: './shop',
+        role: 'shop_manage',
         children: [{
                 name: '商品列表',
                 label: '商',

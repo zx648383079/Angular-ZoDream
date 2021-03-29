@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
-import { IMicro } from '../theme/models/micro';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IMicro } from './model';
 
 @Component({
     selector: 'app-micro',

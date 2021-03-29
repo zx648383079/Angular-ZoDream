@@ -5,6 +5,7 @@ export const OnlineServiceBackendMenu: INav[] = [
         name: '在线客服',
         icon: 'icon-service',
         url: './os',
+        role: 'service_manage',
         children: [
             {
                 name: '分类管理',
