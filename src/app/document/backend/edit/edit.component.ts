@@ -28,7 +28,6 @@ export class EditComponent implements OnInit {
         private fb: FormBuilder,
         private service: DocumentService,
         private route: ActivatedRoute,
-        private router: Router,
         private toastrService: ToastrService,
     ) { }
 

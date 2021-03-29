@@ -11,6 +11,11 @@ export const DocumentBackendMenu: INav[] = [
                 label: '板',
                 url: './doc',
             },
+            {
+                name: 'API调试',
+                label: 'DEBUG',
+                url: './doc/debug',
+            },
         ],
     },
 ];

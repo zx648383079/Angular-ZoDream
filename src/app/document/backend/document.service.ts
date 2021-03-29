@@ -76,6 +76,10 @@ export class DocumentService {
         return this.http.post<IData<IApiField>>('doc/admin/api/parse', {content, kind});
     }
 
+    public apiDebug(data: any) {
+        return this.http.post<IData<IApiField>>('doc/admin/api/debug_result', data);
+    }
+
     public versionNew(project: number, version: number, name: string) {
         return this.http.post<IDataOne<true>>('doc/admin/project/version_new', {project, version, name});
     }

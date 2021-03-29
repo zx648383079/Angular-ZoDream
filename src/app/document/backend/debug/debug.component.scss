@@ -1,0 +1,45 @@
+.flat-input {
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+    .form-control {
+        flex: 1;
+    }
+    select.form-control {
+        flex: none;
+        width: 100px;
+    }
+}
+.type-bar {
+    select.form-control {
+        display: inline-block;
+        width: 100px;
+    }
+}
+
+.tab-box {
+    .tab-header {
+        .tab-item {
+            line-height: 40px;
+            height: 40px;
+        }
+    }
+}
+
+.type-td {
+    display: flex;
+    .form-control {
+        flex: 1;
+    }
+    select.form-control {
+        flex: none;
+        width: 100px;
+    }
+}
+
+.table {
+    td {
+        .iconfont {
+            line-height: 38px;
+        }
+    }
+}

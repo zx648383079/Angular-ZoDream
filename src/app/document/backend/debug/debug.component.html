@@ -6,11 +6,11 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="flat-input">
-            <select class="form-control">
+            <select [(ngModel)]="method" class="form-control">
                 <option *ngFor="let item of methodItems" [value]="item">{{ item }}</option>
             </select>
-            <input type="text" class="form-control">
-            <button class="btn btn-primary">发送</button>
+            <input type="text" [(ngModel)]="url" class="form-control">
+            <button class="btn btn-primary" (click)="tapSend()">发送</button>
         </div>
         <div class="tab-box">
             <div class="tab-header">
@@ -33,32 +33,124 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let item of headerItems; let i = index">
                                 <td>
-                                    <i class="iconfont" [ngClass]="{'icon-square-o': true, 'icon-check-square-o': false}"></i>
+                                    <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" [(ngModel)]="item.key">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" [(ngModel)]="item.value">
                                 </td>
                                 <td>
-                                    <i class="iconfont icon-close"></i>
+                                    <i class="iconfont icon-close" (click)="tapRemoveHeader(i)"></i>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="4">
-                                    <i class="iconfont icon-plus"></i>
+                                    <i class="iconfont icon-plus" (click)="tapAddHeader()"></i>
                                 </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <div class="tab-item" [ngClass]="{active: requestIndex == 1}">
-                    
+                    <div class="type-bar">
+                        <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="bodyType" (ngModelChange)="onTypeChange()"></app-check-input>
+                        <select [hidden]="bodyType != 3" [(ngModel)]="rawType" class="form-control">
+                            <option *ngFor="let item of rawItems;let i = index" [value]="i">{{ item }}</option>
+                        </select>
+                    </div>
+                    <ng-container *ngIf="bodyType == 4">
+                        <input type="file" class="form-control" (change)="uploadFile($event)">
+                    </ng-container>
+                    <ng-container *ngIf="bodyType == 3">
+                        <textarea [(ngModel)]="body" class="form-control"></textarea>
+                    </ng-container>
+                    <ng-container *ngIf="bodyType > 0 && bodyType < 3">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>键</th>
+                                    <th>值</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of body; let i = index">
+                                    <td>
+                                        <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
+                                    </td>
+                                    <td [ngClass]="{'type-td': bodyType == 1}">
+                                        <input type="text" class="form-control" [(ngModel)]="item.key">
+                                        <select *ngIf="bodyType == 1" [(ngModel)]="item.type" class="form-control">
+                                            <option *ngFor="let item of optionItems;let i = index" [value]="i">{{ item }}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="item.type > 0">
+                                            <input type="file" class="form-control" (change)="uploadFile($event, item)">
+                                        </ng-container>
+                                        <ng-container *ngIf="item.type < 1">
+                                            <input type="text" class="form-control" [(ngModel)]="item.value">
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                        <i class="iconfont icon-close" (click)="tapRemoveBody(i)"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <i class="iconfont icon-plus" (click)="tapAddBody()"></i>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-container" *ngIf="responseStatus">
+        <div class="tab-box">
+            <div class="tab-header">
+                <div class="tab-item" [ngClass]="{active: responseIndex < 1}" (click)="responseIndex = 0">
+                    响应内容
+                </div>
+                <div class="tab-item" [ngClass]="{active: responseIndex == 1}" (click)="responseIndex = 1">
+                    响应头
+                </div>
+            </div>
+            <div class="tab-body">
+                <div class="tab-item" [ngClass]="{active: responseIndex < 1}">
+                    <pre><code>{{ responseBody }}</code></pre>
+                </div>
+                <div class="tab-item" [ngClass]="{active: responseIndex == 1}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>键</th>
+                                <th>值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of responseHeader">
+                                <td>
+                                    {{ item.key }}
+                                </td>
+                                <td>
+                                    {{ item.value }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
