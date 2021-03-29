@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../../../theme/components';
 import { IEmoji, IEmojiCategory } from '../../../../theme/models/forum';
+import { IErrorResult } from '../../../../theme/models/page';
 import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../../forum.service';
 
@@ -119,6 +120,9 @@ export class EmojiComponent implements OnInit {
         form.append('file', files[0]);
         this.service.emojiImport(form).subscribe(_ => {
             this.tapRefresh();
+            this.toastrService.success('导入成功！');
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
     }
 
