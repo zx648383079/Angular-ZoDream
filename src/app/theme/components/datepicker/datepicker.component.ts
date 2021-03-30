@@ -258,8 +258,16 @@ export class DatepickerComponent implements OnInit, OnChanges {
         const date = new Date(y, m, 0);
         const count = date.getDate();
         date.setDate(1);
-        return [date.getDay(), count];
-     }
+        return [this.getDayOfWeek(date), count];
+    }
+
+    private getDayOfWeek(date: Date): number {
+        const day = date.getDay();
+        if (day < 1) {
+            return 6;
+        }
+        return day - 1;
+    }
 
     /**
      * 上一年

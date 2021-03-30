@@ -9,7 +9,7 @@
             <i class="iconfont icon-chevron-right nextMonth" *ngIf="canNext" (click)="tapNext()"></i>
         </div>
         <div class="picker-body">
-            <ol class="gird-header"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ol>
+            <ol class="gird-header"><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li><li>日</li></ol>
             <ul class="gird-body">
                 <ng-container *ngFor="let item of dayItems">
                     <li [ngClass]="{disable: item.disable, active: item.active}" [title]="item.active ? '已签到' : '未签到'">{{ item.val }}</li>

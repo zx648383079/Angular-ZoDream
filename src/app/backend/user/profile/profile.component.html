@@ -38,6 +38,12 @@
                             </span>
                         </div>
                     </div>
+                    <div class="input-group">
+                        <label for="birthday">生日</label>
+                        <div>
+                            <app-date-input id="birthday" formControlName="birthday" [min]="minDate" [max]="maxDate"></app-date-input>
+                        </div>
+                    </div>
 
                 </form>
             </app-panel>

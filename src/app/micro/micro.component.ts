@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IMicro } from './model';
+import { DialogBoxComponent } from '../theme/components';
+import { emptyValidate } from '../theme/validators';
 
 @Component({
     selector: 'app-micro',
@@ -16,6 +18,12 @@ export class MicroComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public forwardItem: IMicro;
+    public editData = {
+        content: '',
+        is_comment: false,
+        id: 0,
+    };
 
     constructor(
         private service: MicroService,
@@ -45,6 +53,20 @@ export class MicroComponent implements OnInit {
             item.is_recommended = res.is_recommended;
             item.recommend_count = res.recommend_count;
         });
+    }
+
+    public tapForward(modal: DialogBoxComponent, item: IMicro) {
+        this.forwardItem = item;
+        this.editData = {
+            content: '',
+            is_comment: false,
+            id: item.id,
+        };
+        modal.open(() => {
+            this.service.forward(this.editData).subscribe(res => {
+                this.toastrService.success('已转发');
+            });
+        }, () => !emptyValidate(this.editData.content));
     }
 
     public onPublish(item: IMicro) {

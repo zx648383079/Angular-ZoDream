@@ -31,10 +31,10 @@
         </div>
 
         <div class="ations">
-            <a [ngClass]="{active: data.is_collected}">{{ data.is_collected ? '已' : '' }}收藏</a>
-            <a >转发 {{ data.forward_count }}</a>
+            <a [ngClass]="{active: data.is_collected}" (click)="tapCollect()">{{ data.is_collected ? '已' : '' }}收藏</a>
+            <a (click)="tapForward(modal)">转发 {{ data.forward_count }}</a>
             <a >评论</a>
-            <a [ngClass]="{active: data.is_recommended}">{{ data.is_recommended ? '已' : '' }}赞 {{ data.recommend_count }}</a>
+            <a [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()">{{ data.is_recommended ? '已' : '' }}赞 {{ data.recommend_count }}</a>
         </div>
     </div>
 
@@ -49,10 +49,12 @@
                 </div>
                 <div class="input-actions">
                     <div class="tools">
-                        <i class="iconfont icon-smile-o"></i>
-                        <i class="iconfont icon-image"></i>
+                        <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
+                            <i class="iconfont icon-smile-o"></i>
+                        </app-emoji-picker>
                     </div>
-                    <input type="checkbox" name="is_forward">同时转发到我的微博
+                    <i class="iconfont" [ngClass]="{'icon-square-o': !commentData.is_forward, 'icon-check-square-o': commentData.is_forward}" (click)="commentData.is_forward = !commentData.is_forward"></i>
+                    同时转发到我的微博
                     <a class="btn btn-primary" (click)="tapComment()">评论</a>
                 </div>
             </div>
@@ -63,27 +65,27 @@
             </div>
             <div>
                 <div class="text">
-                    <a href="">{{ item.user.name }}</a>：
+                    <a>{{ item.user.name }}</a>：
                     {{ item.content }}
                 </div>
                 <div class="actions">
                     <span class="time">{{ item.created_at | ago }}</span>
                     <div class="tools">
                         <a (click)="tapCommenting(item)">回复</a>
-                        <a href="">赞</a>
+                        <a (click)="tapAgreeComment(item)">赞</a>
                     </div>
                 </div>
                 <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
                     <div class="reply-item" *ngFor="let it of item.replies">
                         <div class="text">
-                            <a href="">{{ it.user.name }}</a>：
+                            <a>{{ it.user.name }}</a>：
                             {{ it.content }}
                         </div>
                         <div class="actions">
                             <span class="time">{{ it.created_at | ago }}</span>
                             <div class="tools">
-                                <a  (click)="tapCommenting(item)">回复</a>
-                                <a href="">赞</a>
+                                <a  (click)="tapCommenting(it)">回复</a>
+                                <a  (click)="tapAgreeComment(it)">赞</a>
                             </div>
                         </div>
                     </div>
@@ -92,3 +94,18 @@
         </div>
     </div>
 </div>
+
+<app-dialog-box #modal confirmText="转发" title="转发">
+    <div class="forward-box">
+        <div class="simple" *ngIf="data">
+            @{{ data.user.name }} ：{{ data.content }}
+        </div>
+        <div class="input">
+            <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入转发理由"></textarea>
+        </div>
+        <div class="actions">
+            <app-switch [(ngModel)]="editData.is_comment"></app-switch>
+            同时评论给 {{ data ? data.user.name : '' }}
+        </div>
+    </div>
+</app-dialog-box>

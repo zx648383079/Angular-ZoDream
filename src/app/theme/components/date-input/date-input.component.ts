@@ -17,7 +17,7 @@ export class DateInputComponent {
     @Input() public placeholder = '请选择日期';
     @Input() public format = 'yyyy-mm-dd';
     @Input() min: Date = new Date('2000/01/01 00:00:00');
-    @Input() max: Date = new Date('2030/12/31 23:59:59');
+    @Input() max: Date = new Date('2090/12/31 23:59:59');
     @Input() minYear = 2000;
     @Input() maxYear = 2066;
     public value = '';

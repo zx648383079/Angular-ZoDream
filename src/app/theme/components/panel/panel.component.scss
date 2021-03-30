@@ -31,7 +31,7 @@
     }
     .panel-body {
         flex: 1 1 auto;
-        padding: 1.25rem;
+        padding: 5px;
     }
     .toggle {
         font-style: normal;
@@ -70,6 +70,14 @@
             &::before {
                 content: "\e6fc";
             }
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .panel {
+        .panel-body {
+            padding: 1.25rem;
         }
     }
 }

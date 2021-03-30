@@ -12,7 +12,7 @@
         </div>
         <div class="body">
             <div class="month-grid" *ngIf="gridMode == 0">
-                <ol><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ol>
+                <ol><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li><li>日</li></ol>
                 <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ item.val | twoPad }}</li></ul>
             </div>
             <div class="year-grid" *ngIf="gridMode == 1">

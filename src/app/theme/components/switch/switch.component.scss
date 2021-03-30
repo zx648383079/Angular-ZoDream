@@ -1,33 +1,35 @@
 .switch-box {
     display: inline-block;
+    line-height: 2em;
     .switch-input {
         display: inline-block;
         cursor: pointer;
         background-color: #fafbfa;
-        border-radius: 50px;
+        border-radius: 2em;
         display: inline-block;
         position: relative;
-        margin-right: 30px;
+        margin-right: .5em;
         transition: all .1s ease-in;
-        width: 60px;
-        height: 30px;
+        width: 4em;
+        height: 2em;
+        vertical-align: bottom;
         &::before {
             content: ' ';
             position: absolute;
-            border-radius: 100px;
+            border-radius: 2em;
             background: #fff;
             top: 0;
             left: 0;
             z-index: 1;
-            width: 30px;
+            width: 2em;
             transition: all .1s ease-in;
-            height: 30px;
+            height: 2em;
             box-shadow: 0 3px 1px rgba(0,0,0,.05), 0 0 1px rgba(0,0,0,.3);
         }
         &:after {
             content: ' ';
             position: absolute;
-            border-radius: 100px;
+            border-radius: 2em;
             top: 0;
             transition: box-shadow .1s ease-in;
             left: 0;
@@ -42,7 +44,7 @@
     &.active {
         .switch-input {
             &::before {
-                left: 30px;
+                left: 2em;
             }
             &:after {
                 background: #4cda60;

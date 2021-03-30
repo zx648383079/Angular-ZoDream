@@ -89,7 +89,7 @@ export class CheckinComponent {
         const date = new Date(year, month, 0);
         const count = date.getDate();
         date.setDate(1);
-        const start = date.getDay();
+        const start = this.getDayOfWeek(date);
         let dayItems = [];
         for (let i = 0; i < count + start; i++) {
             dayItems.push(i < start ? {
@@ -100,6 +100,14 @@ export class CheckinComponent {
             });
         }
         this.dayItems = dayItems;
+    }
+
+    private getDayOfWeek(date: Date): number {
+        const day = date.getDay();
+        if (day < 1) {
+            return 6;
+        }
+        return day - 1;
     }
 
     private checkDay(...days: number[]) {

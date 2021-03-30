@@ -9,6 +9,9 @@ import { IErrorResponse } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
+import { DialogBoxComponent } from '../../theme/components';
+import { emptyValidate } from '../../theme/validators';
+import { IEmoji } from '../../theme/models/forum';
 
 @Component({
   selector: 'app-detail',
@@ -31,6 +34,12 @@ export class DetailComponent implements OnInit {
     public commentData = {
         content: '',
         parent_id: 0,
+        is_forward: false,
+    };
+    public editData = {
+        content: '',
+        is_comment: false,
+        id: 0,
     };
 
     constructor(
@@ -65,18 +74,44 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    public tapCollect(item: IMicro) {
-        this.service.collect(item.id).subscribe(res => {
-            item.is_collected = res.is_collected;
-            item.collect_count = res.collect_count;
+    public tapEmoji(item: IEmoji) {
+        this.commentData.content += item.type > 0 ? item.content : '[' + item.name + ']';
+    }
+
+    public tapCollect() {
+        if (!this.data) {
+            return;
+        }
+        this.service.collect(this.data.id).subscribe(res => {
+            this.data.is_collected = res.is_collected;
+            this.data.collect_count = res.collect_count;
         });
     }
 
-    public tapRecommend(item: IMicro) {
-        this.service.recommend(item.id).subscribe(res => {
-            item.is_recommended = res.is_recommended;
-            item.recommend_count = res.recommend_count;
+    public tapRecommend() {
+        if (!this.data) {
+            return;
+        }
+        this.service.recommend(this.data.id).subscribe(res => {
+            this.data.is_recommended = res.is_recommended;
+            this.data.recommend_count = res.recommend_count;
         });
+    }
+
+    public tapForward(modal: DialogBoxComponent) {
+        if (!this.data) {
+            return;
+        }
+        this.editData = {
+            content: '',
+            is_comment: false,
+            id: this.data.id,
+        };
+        modal.open(() => {
+            this.service.forward(this.editData).subscribe(res => {
+                this.toastrService.success('已转发');
+            });
+        }, () => !emptyValidate(this.editData.content));
     }
 
     public tapRemove(item: IMicro) {
@@ -141,6 +176,14 @@ export class DetailComponent implements OnInit {
         if (this.commentData.content.indexOf('回复 @') !== 0) {
             this.commentData.parent_id = 0;
         }
+    }
+
+    public tapAgreeComment(item: IComment) {
+        this.service.commentAgree(item.id).subscribe(res => {
+            item.agree = res.agree;
+            item.agree_type = res.agree_type;
+            item.disagree = res.disagree;
+        });
     }
 
     public tapRefresh() {

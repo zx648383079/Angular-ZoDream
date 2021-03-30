@@ -33,12 +33,26 @@
             </div>
 
             <div class="ations">
-                <a [ngClass]="{active: item.is_collected}">{{ item.is_collected ? '已' : '' }}收藏</a>
-                <a >转发 {{ item.forward_count }}</a>
+                <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">{{ item.is_collected ? '已' : '' }}收藏</a>
+                <a (click)="tapForward(modal, item)">转发 {{ item.forward_count }}</a>
                 <a (click)="tapToggleComment(item)">评论</a>
-                <a [ngClass]="{active: item.is_recommended}">{{ item.is_recommended ? '已' : '' }}赞 {{ item.recommend_count }}</a>
+                <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">{{ item.is_recommended ? '已' : '' }}赞 {{ item.recommend_count }}</a>
             </div>
         </div>
     </ng-container>
-    
 </div>
+
+<app-dialog-box #modal confirmText="转发" title="转发">
+    <div class="forward-box">
+        <div class="simple" *ngIf="forwardItem">
+            @{{ forwardItem.user.name }} ：{{ forwardItem.content }}
+        </div>
+        <div class="input">
+            <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入转发理由"></textarea>
+        </div>
+        <div class="actions">
+            <app-switch [(ngModel)]="editData.is_comment"></app-switch>
+            同时评论给 {{ forwardItem ? forwardItem.user.name : '' }}
+        </div>
+    </div>
+</app-dialog-box>

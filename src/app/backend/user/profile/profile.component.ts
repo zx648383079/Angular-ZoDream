@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { getCurrentUser } from 'src/app/theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService, DateAdapter } from '../../../theme/services';
+import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { DialogBoxComponent } from '../../../theme/components';
 
@@ -21,39 +21,39 @@ export class ProfileComponent implements OnInit {
         email: ['', [Validators.email, Validators.required]],
         sex: [0],
         avatar: [''],
-        birthday: [this.dateAdapter.fromModel()],
+        birthday: [''],
     });
 
     public data: IUser;
-
     public sexItems = ['未知', '男', '女'];
-
     public reasonItems = [
         '需要解绑手机',
         '需要解绑邮箱',
         '安全/隐私顾虑',
         '这是多余的账户',
     ];
-
     public reasonSelected = 0;
+    public minDate: Date;
+    public maxDate: Date;
 
     constructor(
         private fb: FormBuilder,
         private service: UserService,
         private store: Store<AppState>,
         private toastrService: ToastrService,
-        private dateAdapter: DateAdapter,
         private authService: AuthService,
     ) {
+        this.maxDate = new Date();
+        this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
         this.store.select(getCurrentUser).subscribe(user => {
-        this.data = user;
-        this.form.patchValue({
-            name: user.name,
-            email: user.email,
-            sex: user.sex,
-            avatar: user.avatar,
-            birthday: this.dateAdapter.fromModel(user.birthday),
-        });
+            this.data = user;
+            this.form.patchValue({
+                name: user.name,
+                email: user.email,
+                sex: user.sex,
+                avatar: user.avatar,
+                birthday: user.birthday,
+            });
         });
     }
 
@@ -66,7 +66,6 @@ export class ProfileComponent implements OnInit {
             return;
         }
         const data: any = Object.assign({}, this.form.value);
-        data.birthday = this.dateAdapter.toModel(data.birthday);
         this.service.uploadProfile(data).subscribe(_ => {
             this.toastrService.success('保存成功');
         }, err => {

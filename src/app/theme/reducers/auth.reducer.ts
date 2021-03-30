@@ -16,7 +16,7 @@ export function reducer(state = initialState, { type, payload }: Action & { payl
         case AuthActions.LOGOUT:
             return state.merge({
                 guest: true,
-                user: {},
+                user: null,
                 roles: [],
             }) as AuthState;
         case AuthActions.SET_ROLE:
