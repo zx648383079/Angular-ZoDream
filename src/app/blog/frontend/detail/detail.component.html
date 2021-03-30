@@ -73,7 +73,7 @@
         </div>
 
 
-        <div id="comments" class="book-footer comment">
+        <div id="comments" class="book-footer comment" *ngIf="data.comment_status > 0">
             <div class="book-comment-form" *ngIf="commentData.parent_id < 1">
                 <div class="title"> 发表评论 </div>
                 <div class="form-table" *ngIf="!user">

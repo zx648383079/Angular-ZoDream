@@ -81,6 +81,7 @@ export class DetailComponent implements OnInit {
             this.data = res;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
             this.tapRefresh();
+            document.documentElement.scrollTop = 0;
         });
     }
 
