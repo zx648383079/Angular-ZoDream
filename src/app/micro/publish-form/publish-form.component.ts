@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IEmoji } from '../../theme/models/forum';
+import { IEmoji } from '../../theme/models/seo';
 import { IMicro } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { FileUploadService } from '../../theme/services/file-upload.service';

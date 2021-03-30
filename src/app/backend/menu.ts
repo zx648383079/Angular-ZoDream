@@ -8,6 +8,7 @@ import { OnlineServiceBackendMenu } from '../online-service/backend/menu';
 import { DocumentBackendMenu } from '../document/backend/menu';
 import { ExamBackendMenu } from '../exam/backend/menu';
 import { MicroBackendMenu } from '../micro/backend/menu';
+import { SystemtBackendMenu } from './system/menu';
 
 export const backendMenuItems = [
     {
@@ -137,43 +138,7 @@ export const backendMenuItems = [
             },
         ],
     },
-    {
-        name: '系统设置',
-        icon: 'icon-cog',
-        url: './system',
-        role: 'system_manage',
-        children: [{
-                name: '反馈留言',
-                label: '馈',
-                url: './contact/feedback',
-            },
-            {
-                name: '友情链接',
-                label: '链',
-                url: './contact/friend-link',
-            },
-            {
-                name: '订阅',
-                label: '订',
-                url: './contact/subscribe',
-            },
-            {
-                name: '缓存',
-                label: '缓',
-                url: './system/cache',
-            },
-            {
-                name: 'SiteMap',
-                label: 'Map',
-                url: './system/sitemap',
-            },
-            {
-                name: '数据备份',
-                label: '备',
-                url: './system/sql',
-            },
-        ]
-    }
+    ...SystemtBackendMenu,
 ];
 
 export const backendBottomMenu = [

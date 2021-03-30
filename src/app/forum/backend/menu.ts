@@ -17,16 +17,6 @@ export const ForumBackendMenu: INav[] = [
                 label: '帖',
                 url: './forum/thread',
             },
-            {
-                name: '屏蔽词管理',
-                label: '词',
-                url: './forum/setting/word',
-            },
-            {
-                name: '表情包管理',
-                label: '表',
-                url: './forum/setting/emoji',
-            },
         ],
     },
 ];

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../../theme/components';
-import { IEmojiCategory } from '../../../../../theme/models/forum';
-import { emptyValidate } from '../../../../../theme/validators';
-import { ForumService } from '../../../forum.service';
+import { DialogBoxComponent } from '../../../../theme/components';
+import { IEmojiCategory } from '../../../../theme/models/seo';
+import { emptyValidate } from '../../../../theme/validators';
+import { SystemService } from '../../system.service';
 
 @Component({
   selector: 'app-emoji-category',
@@ -18,7 +18,7 @@ export class EmojiCategoryComponent implements OnInit {
     public editData: IEmojiCategory = {} as any;
 
     constructor(
-        private service: ForumService,
+        private service: SystemService,
         private toastrService: ToastrService,
     ) {
         this.tapRefresh();

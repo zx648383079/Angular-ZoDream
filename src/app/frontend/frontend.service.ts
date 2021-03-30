@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ILink } from '../theme/models/seo';
+import { IAgreement, ILink } from '../theme/models/seo';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne } from '../theme/models/page';
 import { map } from 'rxjs/operators';
@@ -24,5 +24,9 @@ export class FrontendService {
 
     public linkApply(data: any) {
         return this.http.post<IDataOne<Boolean>>('contact/friend_link/apply', data);
+    }
+
+    public agreement(name: string) {
+        return this.http.get<IAgreement>('seo/agreement', {params: {name}});
     }
 }

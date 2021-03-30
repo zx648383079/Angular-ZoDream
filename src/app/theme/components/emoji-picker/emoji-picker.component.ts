@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { IEmoji, IEmojiCategory } from '../../models/forum';
+import { IEmoji, IEmojiCategory } from '../../models/seo';
 import { IData } from '../../models/page';
 import { hasElementByClass } from '../../utils';
 
@@ -11,7 +11,7 @@ import { hasElementByClass } from '../../utils';
 })
 export class EmojiPickerComponent {
 
-    @Input() public url = 'forum/emoji';
+    @Input() public url = 'seo/emoji';
     @Output() public tapped = new EventEmitter<IEmoji>();
     public items: IEmojiCategory[] = [];
     public navIndex = 0;

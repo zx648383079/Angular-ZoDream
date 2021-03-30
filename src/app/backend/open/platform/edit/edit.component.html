@@ -82,13 +82,7 @@
       <div class="input-group">
           <label for="allow_self">允许手动生成</label>
           <div>
-              <span class="radio-label">
-                  <input type="radio" id="allow_self0" formControlName="allow_self" value="0">
-                  <label for="allow_self0">不允许</label>
-              </span><span class="radio-label">
-                  <input type="radio" id="allow_self1" formControlName="allow_self" value="1">
-                  <label for="allow_self1">允许</label>
-              </span>
+              <app-switch id="allow_self" formControlName="allow_self"></app-switch>
           </div>
       </div>
       <button type="submit" class="btn btn-success">确认保存</button>

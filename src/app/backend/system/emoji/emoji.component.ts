@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
-import { IEmoji, IEmojiCategory } from '../../../../theme/models/forum';
-import { IErrorResult } from '../../../../theme/models/page';
-import { emptyValidate } from '../../../../theme/validators';
-import { ForumService } from '../../forum.service';
+import { DialogBoxComponent } from '../../../theme/components';
+import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
+import { IErrorResult } from '../../../theme/models/page';
+import { emptyValidate } from '../../../theme/validators';
+import { SystemService } from '../system.service';
 
 @Component({
   selector: 'app-emoji',
@@ -26,7 +26,7 @@ export class EmojiComponent implements OnInit {
     public editData: IEmoji = {} as any;
 
     constructor(
-        private service: ForumService,
+        private service: SystemService,
         private toastrService: ToastrService,
     ) {
         this.tapRefresh();

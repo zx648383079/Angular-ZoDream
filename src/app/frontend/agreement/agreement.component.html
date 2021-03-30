@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="agreement-box" *ngIf="data">
+        <div class="update-date">
+            发布日期：{{ data.created_at }}
+        </div>
+        <div class="update-date">
+            生效日期：{{ data.updated_at }}
+        </div>
+
+        <div class="title" id="top">{{ data.title }}</div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ data.description }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav-list">
+                    <li *ngFor="let item of navItems">
+                        <a (click)="tapScrollTo(item)">{{ item.content }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <div class="nav-panel" *ngFor="let group of data.content">
+                    <div class="nav-header" >
+                        {{ group.group }}
+                    </div>
+                    <div class="nav-desc">
+                        <p *ngFor="let item of group.children">{{ item.content }}</p>
+                    </div>
+                </div>
+
+                <a class="goto-top" (click)="tapToTop()" title="返回页首">
+                    <i class="iconfont icon-arrow-up"></i>
+                    返回页首
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

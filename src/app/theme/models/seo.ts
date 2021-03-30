@@ -66,3 +66,37 @@ export interface ISite {
     brand: number;
     currency: string;
 }
+
+export interface IBlackWord {
+    id: number;
+    words: string;
+    replace_words: string;
+}
+
+export interface IEmoji {
+    id: number;
+    name: string;
+    type: number;
+    content: string;
+    cat_id: number;
+    category: IEmojiCategory;
+}
+
+export interface IEmojiCategory {
+    id: number;
+    name: string;
+    icon: string;
+    items?: IEmoji[];
+}
+
+export interface IAgreement {
+    id: number;
+    name: string;
+    title: string;
+    description: string;
+    status: number;
+    content: any[];
+    created_at: string;
+    updated_at?: string;
+}
+

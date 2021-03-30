@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IData, IDataOne } from '../../theme/models/page';
-import { IItem, IOption } from '../../theme/models/seo';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { IAgreement, IBlackWord, IEmoji, IEmojiCategory, IItem, IOption } from '../../theme/models/seo';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -12,45 +12,113 @@ export class SystemService {
     ) { }
 
     public cacheStore() {
-        return this.http.get<IData<IItem>>('seo/cache').pipe(map(res => res.data));
+        return this.http.get<IData<IItem>>('seo/admin/cache').pipe(map(res => res.data));
     }
 
     public cacheClear(data: any) {
-        return this.http.post<IDataOne<true>>('seo/cache/clear', data);
+        return this.http.post<IDataOne<true>>('seo/admin/cache/clear', data);
     }
 
     public optionList() {
-        return this.http.get<IData<IOption>>('seo/setting');
+        return this.http.get<IData<IOption>>('seo/admin/setting');
     }
 
     public optionSave(data: any) {
-        return this.http.post<IDataOne<true>>('seo/setting/save', data);
+        return this.http.post<IDataOne<true>>('seo/admin/setting/save', data);
     }
 
     public optionSaveField(data: any) {
-        return this.http.post<IOption>('seo/setting/save_option', data);
+        return this.http.post<IOption>('seo/admin/setting/save_option', data);
     }
 
     public optionRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('seo/setting/delete', {
+        return this.http.delete<IDataOne<true>>('seo/admin/setting/delete', {
             params: {id}
         });
     }
 
     public sitemap() {
-        return this.http.post<IData<any>>('seo/sitemap', {});
+        return this.http.post<IData<any>>('seo/admin/sitemap', {});
     }
 
     public sqlList() {
-        return this.http.get<IData<any>>('seo/sql');
+        return this.http.get<IData<any>>('seo/admin/sql');
     }
 
     public sqlBackup() {
-        return this.http.post<IDataOne<true>>('seo/sql/back_up', {});
+        return this.http.post<IDataOne<true>>('seo/admin/sql/back_up', {});
     }
 
     public sqlClear() {
-        return this.http.delete<IDataOne<true>>('seo/sql/clear');
+        return this.http.delete<IDataOne<true>>('seo/admin/sql/clear');
+    }
+
+    public wordList(params: any) {
+        return this.http.get<IPage<IBlackWord>>('seo/admin/word', {params});
+    }
+
+    public word(id: any) {
+        return this.http.get<IBlackWord>('seo/admin/word/detail', {params: {id}});
+    }
+
+    public wordSave(data: any) {
+        return this.http.post<IBlackWord>('seo/admin/word/save', data);
+    }
+
+    public wordRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('seo/admin/word/delete', {params: {id}});
+    }
+
+    public emojiList(params: any) {
+        return this.http.get<IPage<IEmoji>>('seo/admin/emoji', {params});
+    }
+
+    public emoji(id: any) {
+        return this.http.get<IEmoji>('seo/admin/emoji/detail', {params: {id}});
+    }
+
+    public emojiSave(data: any) {
+        return this.http.post<IEmoji>('seo/admin/emoji/save', data);
+    }
+
+    public emojiImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('seo/admin/emoji/import', data);
+    }
+
+    public emojiRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('seo/admin/emoji/delete', {params: {id}});
+    }
+
+    public emojiCategoryList(params: any) {
+        return this.http.get<IData<IEmojiCategory>>('seo/admin/emoji/category', {params});
+    }
+
+    public emojiCategory(id: any) {
+        return this.http.get<IEmojiCategory>('seo/admin/emoji/category_detail', {params: {id}});
+    }
+
+    public emojiCategorySave(data: any) {
+        return this.http.post<IEmojiCategory>('seo/admin/emoji/category_save', data);
+    }
+
+    public emojiCategoryRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('seo/admin/emoji/category_delete', {params: {id}});
+    }
+
+    public agreementList(params: any) {
+        return this.http.get<IPage<IAgreement>>('seo/admin/agreement', {params});
+    }
+
+    public agreement(id: any) {
+        return this.http.get<IAgreement>('seo/admin/agreement/detail', {params: {id}});
+    }
+
+    public agreementSave(data: any) {
+        return this.http.post<IAgreement>('seo/admin/agreement/save', data);
+    }
+
+    public agreementRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('seo/admin/agreement/delete', {params: {id}});
     }
 
 }

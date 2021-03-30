@@ -11,7 +11,7 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
-import { IEmoji } from '../../theme/models/forum';
+import { IEmoji } from '../../theme/models/seo';
 
 @Component({
   selector: 'app-detail',

@@ -55,24 +55,3 @@ export interface IForumClassify {
     forum_id?: number;
 }
 
-export interface IBlackWord {
-    id: number;
-    words: string;
-    replace_words: string;
-}
-
-export interface IEmoji {
-    id: number;
-    name: string;
-    type: number;
-    content: string;
-    cat_id: number;
-    category: IEmojiCategory;
-}
-
-export interface IEmojiCategory {
-    id: number;
-    name: string;
-    icon: string;
-    items?: IEmoji[];
-}

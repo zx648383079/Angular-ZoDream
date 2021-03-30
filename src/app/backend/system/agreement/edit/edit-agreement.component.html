@@ -1,0 +1,36 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑协议' : '新增协议'" (submited)="tapSubmit()"></app-edit-header>
+
+<div class="container-fluid">
+    <div class="form-table panel-container">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" 
+                 [(ngModel)]="data.name" placeholder="例如: agreement">
+                <div class="input-tip">格式为a-z_0-9</div>
+            </div>
+        </div>
+        <div class="input-group">
+                <label for="title">标题</label>
+                <div>
+                    <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
+                </div>
+            </div>
+        
+        <div class="input-group">
+            <label for="description">介绍</label>
+            <div>
+                <textarea id="description" class="form-control" [(ngModel)]="data.description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="status">状态</label>
+            <div>
+                <app-switch id="status" [(ngModel)]="data.status"></app-switch>
+            </div>
+        </div>
+        
+        <button (click)="tapSubmit()" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
+    </div>
+</div>
