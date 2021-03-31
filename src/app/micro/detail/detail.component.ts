@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AppState } from '../../theme/interfaces';
-import { IComment, IMicro } from '../model';
+import { IBlockItem, IComment, IMicro } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
@@ -48,7 +47,6 @@ export class DetailComponent implements OnInit {
         private router: Router,
         private toastrService: ToastrService,
         private store: Store<AppState>,
-        private sanitizer: DomSanitizer,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -68,10 +66,22 @@ export class DetailComponent implements OnInit {
     loadDetail(id: number) {
         this.service.get(id).subscribe(res => {
             res.attachment_current = 0;
-            res.html = this.sanitizer.bypassSecurityTrustHtml(res.content);
+            res.blcokItems = this.service.renderRule(res.content, res.extra_rule);
             this.data = res;
             this.tapRefresh();
         });
+    }
+
+    public tapUserBlcok(item: IBlockItem) {
+        this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
+            user: item.user
+        }});
+    }
+
+    public tapTopicBlcok(item: IBlockItem) {
+        this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
+            topic: item.topic
+        }});
     }
 
     public tapEmoji(item: IEmoji) {

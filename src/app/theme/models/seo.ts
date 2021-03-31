@@ -95,8 +95,17 @@ export interface IAgreement {
     title: string;
     description: string;
     status: number;
-    content: any[];
+    content: IAgreementGroup[];
     created_at: string;
     updated_at?: string;
 }
 
+
+export interface IAgreementGroup {
+    name: string;
+    title: string;
+    children: {
+        content: string;
+        b?: boolean;
+    }[];
+}

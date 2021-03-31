@@ -7,25 +7,12 @@ import {
     Validators
 } from '@angular/forms';
 import {
-    ActivatedRoute,
-    Router
-} from '@angular/router';
-import {
-    Store
-} from '@ngrx/store';
-import {
     ToastrService
 } from 'ngx-toastr';
 import {
     passwordValidator,
     confirmValidator
 } from 'src/app/theme/validators';
-import {
-    AuthActions
-} from '../../theme/actions';
-import {
-    AppState
-} from '../../theme/interfaces';
 import {
     IErrorResponse
 } from '../../theme/models/page';

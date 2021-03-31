@@ -11,7 +11,8 @@ import {
     TimestampPipe,
     AgoPipe,
     TwoPadPipe,
-    TreeLevelPipe
+    TreeLevelPipe,
+    NumberFormatPipe
 } from './pipes';
 import {
     RouterModule
@@ -120,6 +121,7 @@ const PIPES = [
     AgoPipe,
     TwoPadPipe,
     TreeLevelPipe,
+    NumberFormatPipe,
 ];
 
 const SERVICES = [

@@ -1,0 +1,40 @@
+<div class="row editor-panel">
+    <div class="col-sm-4">
+        <div class="line-item" *ngFor="let item of value; let i = index" [ngClass]="{active: data && item === data}">
+            <span (click)="tapEditItem(item)">{{ item.title }}</span>
+            <i class="iconfont icon-arrow-up" title="上移" *ngIf="i > 0" (click)="tapMoveUp(i)"></i>
+            <i class="iconfont icon-arrow-down" title="下移" *ngIf="i >= 0 && i < value.length - 1"  (click)="tapMoveDown(i)"></i>
+        </div>
+        <i class="iconfont icon-plus" (click)="tapAddGroup()"></i>
+    </div>
+    <div class="col-sm-8">
+        <div *ngIf="data">
+            <div class="group-header">
+                <div class="form-group">
+                    <label for="name">简称</label>
+                    <i class="iconfont icon-close" (click)="tapRemoveGroup()" title="删除当前组"></i>
+                    <input type="text" class="form-control" [(ngModel)]="data.name" id="name" placeholder="例如：service">
+                </div>
+                <div class="form-group">
+                    <label for="title">标题</label>
+                    <input type="text" class="form-control" [(ngModel)]="data.title" id="title" placeholder="例如：服务条款">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>具体条款</label>
+                <i class="iconfont icon-plus" title="添加条款" (click)="tapAddItem()"></i>
+                <div class="scroll-box">
+                    <div class="mini-editor" *ngFor="let item of data.children; let i=index">
+                        <div class="tool-bar">
+                            <i title="加粗" [ngClass]="{checked: item.b}" (click)="item.b = !item.b">b</i>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(i)" title="删除"></i>
+                        </div>
+                        <textarea class="form-control" [(ngModel)]="item.content"></textarea>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>

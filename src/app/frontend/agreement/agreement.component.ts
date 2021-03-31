@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IErrorResult } from '../../theme/models/page';
-import { IAgreement } from '../../theme/models/seo';
+import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
 import { FrontendService } from '../frontend.service';
 
 @Component({
@@ -13,7 +13,6 @@ import { FrontendService } from '../frontend.service';
 export class AgreementComponent implements OnInit {
 
     public data: IAgreement;
-    public navItems: any[] = [];
 
     constructor(
         private service: FrontendService,
@@ -33,8 +32,15 @@ export class AgreementComponent implements OnInit {
         });
     }
 
-    public tapScrollTo(item: any) {
+    public tapScrollTo(item: IAgreementGroup) {
+        const element = document.querySelector("#" + item.name);
+        if (element) {
+            element.scrollIntoView();
+        }
+    }
 
+    public tapPrint() {
+        window.print();
     }
 
     public tapToTop() {

@@ -1,6 +1,35 @@
 <div class="container">
     <app-publish-form (published)="onPublish($event)"></app-publish-form>
 
+    <div class="user-card" *ngIf="!topic && user">
+        <div class="avatar">
+            <img [src]="user.avatar" alt="">
+        </div>
+        <div class="name">{{ user.name }}</div>
+        <div class="remark"></div>
+        <div class="count-bar">
+            <div class="count-item">
+                <div class="count">{{ 0 | numberFormat }}</div>
+                <span>关注</span>
+            </div>
+            <div class="count-item">
+                <div class="count">{{ 0 | numberFormat }}</div>
+                <span>粉丝</span>
+            </div>
+            <div class="count-item">
+                <div class="count">{{ user.micro_count | numberFormat }}</div>
+                <span>博文</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="topic-card" *ngIf="topic">
+        <div class="name">#{{ topic.name }}#</div>
+        <div class="count-bar">
+            {{ topic.micro_count | numberFormat }}讨论
+        </div>
+    </div>
+
     <ng-container *ngFor="let item of items">
         <div class="micro-item">
             <div class="body">
@@ -14,7 +43,24 @@
                         <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
                         <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
                     </p>
-                    <div class="content" [innerHTML]="item.html">
+                    <div class="content">
+                        <ng-container *ngFor="let block of item.blcokItems">
+                            <ng-container *ngIf="!block.type || block.type < 1">
+                                {{ block.content }}
+                            </ng-container>
+                            <ng-container *ngIf="block.type == 1">
+                                <img [src]="block.image" [alt]="block.content">
+                            </ng-container>
+                            <ng-container *ngIf="block.type == 2">
+                                <a (click)="tapUserBlcok(block)">{{ block.content }}</a>
+                            </ng-container>
+                            <ng-container *ngIf="block.type == 3">
+                                <a (click)="tapTopicBlcok(block)">{{ block.content }}</a>
+                            </ng-container>
+                            <ng-container *ngIf="block.type == 4">
+                                <a [href]="block.link" target="_blank" rel="noopener">{{ block.content }}</a>
+                            </ng-container>
+                        </ng-container>
                     </div>
                     <div class="attachment" *ngIf="item.attachment && item.attachment.length > 0" [ngClass]="{'media-slider': item.attachment_open}">
                         <i class="iconfont icon-close" (click)="item.attachment_open = false"></i>

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, Output, ViewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DialogBoxComponent } from '../../theme/components';
 import { IEmoji } from '../../theme/models/seo';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { wordLength } from '../../theme/utils';
@@ -21,19 +22,21 @@ interface IRange {
         }
     ]
 })
-export class ForumEditorComponent implements AfterViewInit {
+export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor {
 
     @ViewChild('editorArea')
-    private areaElement: ElementRef;
+    private areaElement: ElementRef<HTMLTextAreaElement>;
+    @ViewChild(DialogBoxComponent)
+    private modal: DialogBoxComponent;
     @Input() public height = 200;
 
     public disable = false;
     public value = '';
     private range: IRange;
-    public dialogMode = 0;
-    public dialogData: any;
-    private dialogCallback: any;
-    private dialogCheck: any;
+    public dialogData: any = {
+        title: '',
+        mode: 0,
+    };
 
     onChange: any = () => { };
     onTouch: any = () => { };
@@ -100,25 +103,31 @@ export class ForumEditorComponent implements AfterViewInit {
     public tapTool(name: string) {
         switch (name) {
             case 'code':
-                return this.openDialog(1, {lang: 'js', content: ''}, data => {
+                return this.openDialog({
+                    title: '插入代码',
+                    mode: 1,
+                    lang: 'js', content: ''}, data => {
                     this.insert('<code lang="' + data.lang +'">' + data.content +'</code>');
                 }, data => {
                     return data.lang.length > 0 && data.content.length > 0;
                 });
             case 'hide':
-                return this.openDialog(2, {price: 0, content: ''}, data => {
+                return this.openDialog({
+                    title: '插入隐藏内容', 
+                    mode: 2, 
+                    price: 0, content: ''}, data => {
                     this.insert('<hide price="' + data.price +'">' + data.content +'</hide>');
                 }, data => {
                     return data.content.length > 0;
                 });
             case 'link':
-                return this.openDialog(3, {link: '', content: ''}, data => {
+                return this.openDialog({title: '插入链接', mode: 3, link: '', content: ''}, data => {
                     this.insert('<a href="' + data.link +'">' + data.content +'</a>');
                 }, data => {
                     return data.link.length > 0 && data.content.length > 0;
                 });
             case 'vote':
-                return this.openDialog(4, {content: '', items: [{content: ''}, {content: ''},]}, data => {
+                return this.openDialog({title: '插入投票', mode: 4, content: '', items: [{content: ''}, {content: ''},]}, data => {
                     this.insert('<vote>\n' + data.content +'\n\t' + data.items.filter(i => i.content.trim().length > 0).map(i => '<v>' + i.content + '</v>').join('\n\t') +'\n</vote>');
                 }, data => {
                     return data.content.length > 0 && data.items.filter(i => i.content.trim().length > 0).length > 1;
@@ -235,29 +244,15 @@ export class ForumEditorComponent implements AfterViewInit {
         this.area.focus();
     }
 
-    get dailogTitle(): string {
-        return ['', '插入代码', '插入隐藏内容', '插入链接', '插入投票'][this.dialogMode];
-    }
-
-    public closeDialog(yes = false) {
-        if (!yes) {
-            this.dialogMode = 0;
-            return;
-        }
-        if (this.dialogCheck && !this.dialogCheck(this.dialogData)) {
-            return;
-        }
-        this.dialogMode = 0;
-        this.dialogCallback(this.dialogData);
-    }
-
-    public openDialog<T>(mode: number, data: T, cb: (data: T) => void, check?: (data: T) => boolean) {
+    private openDialog(data: any, cb: (data: any) => void, check?: (data: any) => any) {
         this.dialogData = data;
-        this.dialogCheck = check;
-        this.dialogCallback = cb;
-        this.dialogMode = mode;
+        this.modal.open(() => {
+            cb(this.dialogData);
+        }, () => {
+            return check(this.dialogData);
+        });
     }
-
+    
     public tapAddItem() {
         this.dialogData.items.push({
             content: '',

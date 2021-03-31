@@ -10,6 +10,7 @@ import { EmojiCategoryComponent } from './emoji/category/emoji-category.componen
 import { EmojiComponent } from './emoji/emoji.component';
 import { AgreementComponent } from './agreement/agreement.component';
 import { EditAgreementComponent } from './agreement/edit/edit-agreement.component';
+import { AgreementEditorComponent } from './agreement/editor/agreement-editor.component';
 
 const routes: Routes = [
     {
@@ -59,5 +60,5 @@ const routes: Routes = [
 export class SystemRoutingModule { }
 
 export const systemRoutedComponents = [
-    SystemComponent, CacheComponent, SqlComponent, SitemapComponent, WordComponent, EmojiCategoryComponent, EmojiComponent, EditAgreementComponent, AgreementComponent
+    SystemComponent, CacheComponent, SqlComponent, SitemapComponent, WordComponent, EmojiCategoryComponent, EmojiComponent, EditAgreementComponent, AgreementComponent, AgreementEditorComponent,
 ];

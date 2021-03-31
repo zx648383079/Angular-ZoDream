@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { wordLength } from '../../utils';
 
 interface IRange {
@@ -24,10 +24,10 @@ export interface IImageUploadEvent {
         }
     ]
 })
-export class MarkdownEditorComponent implements AfterViewInit {
+export class MarkdownEditorComponent implements AfterViewInit, ControlValueAccessor {
 
     @ViewChild('editorArea')
-    private areaElement: ElementRef;
+    private areaElement: ElementRef<HTMLTextAreaElement>;
     @Input() public height = 200;
     @Output() imageUpload = new EventEmitter<IImageUploadEvent>();
 

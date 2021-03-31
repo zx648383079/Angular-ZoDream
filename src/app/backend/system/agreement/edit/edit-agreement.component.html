@@ -15,7 +15,7 @@
                 <div>
                     <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
                 </div>
-            </div>
+        </div>
         
         <div class="input-group">
             <label for="description">介绍</label>
@@ -23,6 +23,11 @@
                 <textarea id="description" class="form-control" [(ngModel)]="data.description"></textarea>
             </div>
         </div>
+
+        <div class="input-group">
+            <label for="content">内容</label>
+        </div>
+        <app-agreement-editor id="content" [(ngModel)]="data.content"></app-agreement-editor>
         <div class="input-group">
             <label for="status">状态</label>
             <div>

@@ -4,3 +4,4 @@ export * from './timestamp.pipe';
 export * from './ago.pipe';
 export * from './two-pad.pipe';
 export * from './tree-level.pipe';
+export * from './number-format.pipe';

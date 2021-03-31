@@ -85,9 +85,12 @@ export class DialogBoxComponent {
      * @param cb 点击确认按钮事件
      * @param check 判断是否允许关闭
      */
-    public open(cb?: () => void, check?: () => boolean) {
+    public open(cb?: () => void, check?: () => boolean, title?: string) {
         this.checkFn = check;
         this.confirmFn = cb;
+        if (title) {
+            this.title = title;
+        }
         this.visible = true;
     }
 
@@ -95,8 +98,11 @@ export class DialogBoxComponent {
      * 显示弹窗并处理自定义按钮
      * @param cb 按钮事件，返回false表示不能关闭弹窗
      */
-    public openCustom(cb?: (data: any) => any) {
+    public openCustom(cb?: (data: any) => any, title?: string) {
         this.actionFn = cb;
+        if (title) {
+            this.title = title;
+        }
         this.visible = true;
     }
 

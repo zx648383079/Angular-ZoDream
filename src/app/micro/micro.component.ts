@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
-import { IMicro } from './model';
+import { IBlockItem, IMicro, ITopic } from './model';
 import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
+import { IUser } from '../theme/models/user';
+import { IErrorResult } from '../theme/models/page';
 
 @Component({
     selector: 'app-micro',
@@ -18,6 +19,7 @@ export class MicroComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public keywords = '';
     public forwardItem: IMicro;
     public editData = {
         content: '',
@@ -25,16 +27,56 @@ export class MicroComponent implements OnInit {
         id: 0,
     };
 
+    public user: any;
+    public topic: ITopic;
+
     constructor(
         private service: MicroService,
         private toastrService: ToastrService,
         private router: Router,
         private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            if (params.user && params.user > 0) {
+                this.user = {id: params.user} as any;
+                this.loadUser(params.user);
+            }
+            if (params.topic && params.topic > 0) {
+                this.topic = {id: params.topic} as any;
+                this.loadTopic(params.topic);
+            }
+            this.tapRefresh();
+        });
+    }
+
+    private loadUser(user: number) {
+        this.service.user(user).subscribe(res => {
+            this.user = res;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
+    }
+
+    private loadTopic(topic: number) {
+        this.service.topic(topic).subscribe(res => {
+            this.topic = res;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
+    }
+
+    public tapUserBlcok(item: IBlockItem) {
+        this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
+            user: item.user
+        }});
+    }
+
+    public tapTopicBlcok(item: IBlockItem) {
+        this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
+            topic: item.topic
+        }});
     }
 
     public tapToggleComment(item: IMicro) {
@@ -125,15 +167,20 @@ export class MicroComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.getList({
-            page
-        }).subscribe(res => {
+        const params: any = {keywords: this.keywords, page};
+        if (this.topic) {
+            params.topic = this.topic.id;
+        }
+        if (this.user) {
+            params.user = this.user.id;
+        }
+        this.service.getList(params).subscribe(res => {
             this.page = page;
             this.hasMore = res.paging.more;
             this.isLoading = false;
             res.data = res.data.map(i => {
                 i.attachment_current = 0;
-                i.html = this.sanitizer.bypassSecurityTrustHtml(i.content);
+                i.blcokItems = this.service.renderRule(i.content, i.extra_rule);
                 return i;
             });
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);

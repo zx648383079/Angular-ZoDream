@@ -160,6 +160,7 @@ export function eachObject(obj: any, cb: (val: any, key?: string|number) => any)
                 return false;
             }
         }
+        return;
     }
     for (const key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
