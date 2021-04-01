@@ -5,16 +5,15 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
 import { ChatService } from './chat.service';
 import { ThemeModule } from '../theme/theme.module';
-import { SearchComponent } from './search/search.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
-import { EditClassifyComponent } from './edit-classify/edit-classify.component';
-import { ProfileComponent } from './profile/profile.component';
+import { MessageContainerComponent } from './message-container/message-container.component';
 
 
 @NgModule({
     declarations: [
-        ChatComponent, SearchComponent, ContextMenuComponent,
-        EditClassifyComponent, ProfileComponent
+        ChatComponent,
+        ContextMenuComponent,
+        MessageContainerComponent,
     ],
     imports: [
         CommonModule,

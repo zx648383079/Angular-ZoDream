@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
+import { IEmoji } from '../../theme/models/seo';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../theme/validators';
 import { ICategory, ICategoryUser, ISession, IWord } from '../model';
@@ -23,7 +24,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     public categories: ICategory[] = [];
     public sessionItems: ISession[] = [];
     public session: ISession;
-    public messsageItems = [];
+    public messageItems = [];
     public messageContent = '';
     public keywords = '';
     public remarkContent = '';
@@ -102,7 +103,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
 
     public tapSession(item: ISession) {
         if (!this.session || this.session.id !== item.id) {
-            this.messsageItems = [];
+            this.messageItems = [];
             this.startTime = 0;
             this.nextTime = 0;
             this.session = item;
@@ -173,12 +174,12 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
 
     public tapClose() {
         this.session = undefined;
-        this.messsageItems = [];
+        this.messageItems = [];
         this.startTime = 0;
         this.nextTime = 0;
     }
 
-    public tapEmoji(item: any) {
+    public tapEmoji(item: IEmoji) {
         this.send({
             content: item.content,
             type: item.type < 1 ? 1 : 0
@@ -231,7 +232,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         }
         this.isLoading = true;
         this.service.send(data).subscribe((res: any) => {
-            this.messsageItems = [].concat(this.messsageItems, res.data);
+            this.messageItems = [].concat(this.messageItems, res.data);
             this.nextTime = res.next_time;
             if (!this.startTime) {
                 this.startTime = this.nextTime;
@@ -273,7 +274,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
             start_time: this.nextTime,
         }).subscribe((res: any) => {
             if (res.data.length > 0) {
-                this.messsageItems = [].concat(this.messsageItems, res.data);
+                this.messageItems = [].concat(this.messageItems, res.data);
             }
             this.nextTime = res.next_time;
             if (!this.startTime) {

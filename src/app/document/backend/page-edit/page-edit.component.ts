@@ -98,14 +98,7 @@ export class PageEditComponent implements OnInit {
                 icon: 'icon-trash',
                 active: !parent,
             },
-            {
-                name: '取消',
-                icon: 'icon-close'
-            },
         ].filter(i => !i.active), item => {
-            if (item.name === '取消') {
-                return;
-            }
             if (item.name === '删除') {
                 this.tapRemove(parent);
                 return;

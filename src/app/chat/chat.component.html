@@ -22,7 +22,7 @@
         <div class="search-input" (click)="searchMode = true">
             <i class="iconfont icon-search"></i>
             <span>用户、群组和消息</span>
-            <i class="iconfont icon-plus" (click)="tapAdd($event)"></i>
+            <i class="iconfont icon-plus" (click)="tapAdd($event, searchModal)"></i>
         </div>
         <div class="tab-box">
             <div class="tab-header">
@@ -122,33 +122,105 @@
             <span>与 {{ chatUser.remark || chatUser.name }} 聊天中</span>
         </div>
         <div class="message-box" *ngIf="chatUser">
-            <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
-            <ng-container *ngFor="let item of messages">
-                <div  [ngClass]="item.user_id == user.id ? 'message-right' :  'message-left'">
-                    <img class="avatar" [src]="item.user_id == user.id ? user.user.avatar : chatUser.user.avatar">
-                    <div class="content">
-                        {{ item.content }}
-                    </div>
-                </div>
-            </ng-container>
+            <app-message-container [items]="messageItems" [currentId]="user.user.id"></app-message-container>
         </div>
         <div class="message-tools" *ngIf="chatUser">
-            <i class="iconfont icon-smile-o"></i>
-            <i class="iconfont icon-image"></i>
-            <i class="iconfont icon-camera"></i>
-            <i class="iconfont icon-film"></i>
-            <i class="iconfont icon-file-o"></i>
-            <i class="iconfont icon-gift"></i>
+            <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
+                <i class="iconfont icon-smile-o"></i>
+            </app-emoji-picker>
+            <label class="tool-item" for="upload-img">
+                <i class="iconfont icon-image"></i>
+                <input type="file" name="file" id="upload-img" (change)="uploadImage($event)" accept="image/*"/>
+            </label>
+            <label class="tool-item">
+                <i class="iconfont icon-camera"></i>
+            </label>
+            <label class="tool-item" for="upload-video">
+                <i class="iconfont icon-film"></i>
+                <input type="file" name="file" id="upload-video" (change)="uploadVideo($event)" accept="video/*"/>
+            </label>
+            <label class="tool-item" for="upload-file">
+                <i class="iconfont icon-file-o"></i>
+                <input type="file" name="file" id="upload-file" (change)="uploadFile($event)"/>
+            </label>
+            <label class="tool-item">
+                <i class="iconfont icon-gift"></i>
+            </label>
+            <label class="tool-item">
+                <i class="iconfont icon-microphone"></i>
+            </label>
         </div>
         <div class="message-editor" *ngIf="chatUser">
-            <div class="message-text" contenteditable="true"></div>
+            <textarea class="form-control message-text" [(ngModel)]="messageContent" placeholder="请输入内容"></textarea>
             <div class="message-action">
-                <button>发送</button>
+                <button (click)="tapSend()">发送</button>
             </div>
         </div>
     </div>
 </div>
-<app-search [request]="request" [hidden]="dialogMode != 1" (closed)="dialogMode = 0"></app-search>
-<app-edit-classify *ngIf="dialogMode == 2" (closed)="dialogMode = 0"></app-edit-classify>
+
+<!-- 右键菜单 -->
 <app-context-menu></app-context-menu>
-<app-profile [value]="user" *ngIf="dialogMode == 3"></app-profile>
+
+<!-- 搜索弹窗 -->
+<app-dialog-box class="search-dialog" #searchModal [customHeader]="true" [buttonVisible]="false">
+    <ng-container name="header">
+        <div class="tab-header">
+            <div class="tab-item" [ngClass]="{active: searchData.tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>
+            <div class="tab-item" [ngClass]="{active: searchData.tabIndex == 1}" (click)="tapSearchTab(1)">找群</div>
+        </div>
+    </ng-container>
+    <div class="search-input" [ngClass]="{'on-edit': searchData.isInput}">
+        <i class="iconfont icon-search"></i>
+        <input type="text" placeholder="搜索联系人" [(ngModel)]="searchData.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
+        <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
+    </div>
+    <div class="search-body">
+        <ng-container *ngFor="let item of searchData.items">
+            <div class="user-item" (click)="searchModal.close(item)">
+                <div class="avatar">
+                    <img [src]="item.avatar">
+                </div>
+                <div class="name">
+                    <h3>{{ item.name }}</h3>
+                    <p>
+                      ...
+                    </p>
+                </div>
+            </div>
+          </ng-container>
+    </div>
+</app-dialog-box>
+
+<!-- 编辑分组 -->
+<app-dialog-box #classifyModal [title]="editClassify.id > 0 ? '编辑分组' : '新增分组'">
+    <input type="text" class="form-control" [(ngModel)]="editClassify.name">
+</app-dialog-box>
+
+<!-- 查看用户信息 -->
+<app-dialog-box class="profile-dialog" #profileModal [customHeader]="true" [confirmText]="editProfile.editable ? '确定' : '添加好友'">
+    <div class="user-box" *ngIf="editProfile.user">
+        <div class="avatar">
+            <img [src]="editProfile.user.avatar" alt="">
+        </div>
+        <div class="name">{{ editProfile.user.name }}</div>
+        <div class="brief">
+            <p>.....</p>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="editProfile.editable">
+      <label for="user-name">修改备注</label>
+      <input type="text" class="form-control" id="user-name" [(ngModel)]="editClassify.remark" placeholder="备注名称">
+    </div>
+    <div class="form-group" *ngIf="!editProfile.editable">
+        <label for="apply-remark">申请理由</label>
+        <textarea class="form-control" id="apply-remark" [(ngModel)]="editClassify.remark" placeholder="申请理由"></textarea>
+      </div>
+</app-dialog-box>
+
+<!-- 选择分组 -->
+<app-dialog-box class="group-dialog" #groupModal [title]="'选择分组'">
+    <div class="line-item" *ngFor="let item of friends" [ngClass]="{active: item.id == editClassify.id}" (click)="editClassify.id = item.id">
+        {{ item.name }}
+    </div>
+</app-dialog-box>

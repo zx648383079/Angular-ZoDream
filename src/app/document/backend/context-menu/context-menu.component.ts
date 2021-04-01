@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { INav } from '../../../theme/components';
+import { hasElementByClass } from '../../../theme/utils';
 
 @Component({
   selector: 'app-context-menu',
@@ -16,6 +17,12 @@ export class ContextMenuComponent {
     private x: number;
     private y: number;
     private finished: (item: INav) => void;
+
+    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+        if (!event.target.closest('.dialog-menu') && !hasElementByClass(event.path, 'dialog-menu')) {
+            this.isOpen = false;
+        }
+    }
 
     constructor() { }
 

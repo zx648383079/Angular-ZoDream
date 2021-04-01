@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogAnimation } from '../../constants/dialog-animation';
 
 @Component({
@@ -15,6 +15,7 @@ export class DialogBoxComponent {
      * 标题
      */
     @Input() public title: string;
+    @Input() public customHeader = false;
     /**
      * 是否显示
      */

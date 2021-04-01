@@ -1,0 +1,41 @@
+.turntable {
+    position: relative;
+    .pointer {
+        user-select: none;
+        cursor: default;
+        position: absolute;
+        z-index: 10;
+        margin-left: -25px;
+        margin-top: -25px;
+        height: 50px;
+        width: 50px;
+        .pointer-btn {
+            height: 50px;
+            width: 50px;
+            color: #fff899;
+            line-height: 45px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #dc5b5b;
+            border-radius: 50%;
+            border: 1px solid #c0381f;
+            position: absolute;
+            z-index: 9;
+        }
+        &.disabled {
+            cursor: not-allowed;
+        }
+        &::before {
+            content: ' ';
+            display: block;
+            position: absolute;
+            z-index: 8;
+            left: 16px;
+            top: -90px;
+            border-width: 50px 10px;
+            border-style: solid;
+            border-color: transparent;
+            border-bottom-color: #c0381f;
+        }
+    }
+}

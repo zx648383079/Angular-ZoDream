@@ -20,12 +20,12 @@ export class LatticeComponent implements OnChanges {
     @Input() public space = 10;
     @Input() public size = 0;
     @Output() public loading = new EventEmitter();
+    @Output() public finished = new EventEmitter();
     public formatItems: ILatticeItem[] = [];
     public currentIndex = 0;
     public boxStyle: any = {};
     public buttonStyle: any = {};
     public isRunning = false;
-
     private timer = 0;
 
     constructor() {
@@ -43,7 +43,7 @@ export class LatticeComponent implements OnChanges {
         }
         this.isRunning = true;
         this.runBefore();
-        this.loading.emit();
+        this.loading.emit(this);
     }
 
 
@@ -75,7 +75,7 @@ export class LatticeComponent implements OnChanges {
             if (i === count) {
                 this.timer = 0;
                 this.isRunning = false;
-                console.log(this.currentIndex);
+                this.finished.emit();
                 return;
             }
             this.timer = window.setTimeout(runStep, speed);

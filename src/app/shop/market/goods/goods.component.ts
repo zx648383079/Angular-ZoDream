@@ -50,12 +50,12 @@ export class GoodsComponent implements OnInit {
             this.stock = res.stock;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
             this.galleryIndex = 0;
-            this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery.map(i => {
+            this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery ? res.gallery.map(i => {
                 if (!i.thumb) {
                     i.thumb = i.image;
                 }
                 return i;
-            }));
+            }) : []);
         });
     }
 

@@ -1,6 +1,7 @@
 import { IUser } from "./user";
 
 export interface IFriendGroup {
+    id?: number;
     name: string;
     children: IFriend[];
     users?: IFriend[];

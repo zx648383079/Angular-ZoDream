@@ -1,8 +1,9 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
 <div class="dialog-box" *ngIf="!collaspse || visible" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
-    <div class="dialog-header" *ngIf="title">
+    <div class="dialog-header" *ngIf="title || customHeader">
         <div class="dialog-title">{{ title }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+        <ng-content select="[name=header]"></ng-content>
     </div>
     <div class="dialog-body">
         <ng-content></ng-content>

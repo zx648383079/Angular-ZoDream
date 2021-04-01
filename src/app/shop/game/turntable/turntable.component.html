@@ -1,3 +1,6 @@
 <div class="turntable">
-    <canvas type="2d" #drawerBox style="width: 500px; height: 500px;"></canvas>
+    <canvas type="2d" #drawerBox [ngStyle]="canvasStyle"></canvas>
+    <div class="pointer" [ngClass]="{disabled: isRunning}" [ngStyle]="pointerStyle">
+        <div class="pointer-btn" (click)="tapStart()">{{ buttonText }}</div>
+    </div>
 </div>

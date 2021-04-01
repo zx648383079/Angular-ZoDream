@@ -68,7 +68,7 @@
                     <div class="btn btn-danger" (click)="tapClose()">关闭</div>
                 </div>
                 <div class="message-body">
-                    <app-message-container [items]="messsageItems" [currentId]="currentUser"></app-message-container>
+                    <app-message-container [items]="messageItems" [currentId]="currentUser"></app-message-container>
                 </div>
                 <div class="message-tools">
                     <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
@@ -88,7 +88,7 @@
                     </label>
                 </div>
                 <div class="message-editor">
-                    <textarea class="message-text" [(ngModel)]="messageContent" placeholder="请输入内容" class="form-control"></textarea>
+                    <textarea class="form-control message-text" [(ngModel)]="messageContent" placeholder="请输入内容"></textarea>
                     <div class="message-action">
                         <button (click)="tapSend()">发送</button>
                     </div>

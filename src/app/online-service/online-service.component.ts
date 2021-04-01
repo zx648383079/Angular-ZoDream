@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { IEmoji } from '../theme/models/seo';
 import { OnlineService } from './online.service';
 
 const LOOP_SPACE_TIME = 20;
@@ -60,7 +61,7 @@ export class OnlineServiceComponent implements OnDestroy {
         this.send(form);
     }
 
-    public tapEmoji(item: any) {
+    public tapEmoji(item: IEmoji) {
         this.send({
             content: item.content,
             type: item.type < 1 ? 1 : 0
