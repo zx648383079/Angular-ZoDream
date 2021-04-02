@@ -39,6 +39,12 @@ export interface IBlog {
     previous?: IBlog;
     next?: IBlog;
     relation?: IBlog[];
+    parent_id?: number;
+    languages?: {
+        id: number;
+        label: string;
+        language: string;
+    }[];
 }
 
 export interface ICategory {

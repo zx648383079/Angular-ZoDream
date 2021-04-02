@@ -24,3 +24,4 @@ export * from './emoji-picker/emoji-picker.component';
 export * from './dialog-box/dialog-box.component';
 export * from './pagination/pagination.component';
 export * from './check-input/check-input.component';
+export * from './rule-block/rule-block.component';

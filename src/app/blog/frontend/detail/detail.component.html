@@ -5,6 +5,11 @@
         </div>
         <div class="book-full-body">
             <div class="info">
+                <div class="language-toggle" *ngIf="data.languages && data.languages.length > 1">
+                    <ng-container *ngFor="let item of data.languages">
+                        <a (click)="loadBlog(item.id)" [ngClass]="{active: item.id === data.id}">{{ item.label }}</a>
+                    </ng-container>
+                </div>
                 <a class="author" *ngIf="data.user" routerLink="../" [queryParams]="{user: data.user.id}"><i
                         class="iconfont icon-edit"></i><b>{{ data.user.name }}</b></a>
                 <a class="category" *ngIf="data.term" routerLink="../" [queryParams]="{category: data.term.id}"><i

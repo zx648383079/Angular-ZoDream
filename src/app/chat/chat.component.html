@@ -41,19 +41,19 @@
             </div>
             <div class="tab-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                    <ng-container *ngFor="let item of lastFriends">
-                        <div class="user-item" (click)="tapUser(item)">
+                    <ng-container *ngFor="let item of histories">
+                        <div class="user-item" (click)="tapHistory(item)">
                             <div class="user-avatar">
                                 <img [src]="item.user.avatar" alt="">
                             </div>
                             <div class="user-info">
                                 <p>
-                                    <span class="name">{{ item.name }}</span>
-                                    <span class="time" *ngIf="item.last_at">{{ item.last_at | ago }}</span>
+                                    <span class="name">{{ item.friend.name }}</span>
+                                    <span class="time" *ngIf="item.updated_at">{{ item.updated_at | ago }}</span>
                                 </p>
-                                <p *ngIf="item.last_message">
-                                    <span class="content">{{ item.last_message.content }}</span>
-                                    <span class="count" *ngIf="item.unread > 0">{{ item.unread }}</span>
+                                <p *ngIf="item.message">
+                                    <span class="content">{{ item.message.content }}</span>
+                                    <span class="count" *ngIf="item.unread_count > 0">{{ item.unread_count }}</span>
                                 </p>
                             </div>
                         </div>
@@ -94,11 +94,11 @@
 
         <div class="search-box">
             <div class="search-input">
-                <input type="text" placeholder="搜索用户">
-                <i class="iconfont icon-close" (click)="searchMode = false"></i>
+                <input type="text" placeholder="搜索用户" [(ngModel)]="searchKeywords">
+                <i class="iconfont icon-close" (click)="tapCloseFilter()"></i>
             </div>
             <div class="search-body">
-                <ng-container *ngFor="let item of lastFriends">
+                <ng-container *ngFor="let item of searchItems">
                     <div class="user-item">
                         <div class="user-avatar">
                             <img [src]="item.user.avatar" alt="">
@@ -119,18 +119,16 @@
     <div class="chat-room">
         <div class="title" *ngIf="chatUser">
             <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
-            <span>与 {{ chatUser.remark || chatUser.name }} 聊天中</span>
+            <span>与 {{ chatUser.name }} 聊天中</span>
         </div>
-        <div class="message-box" *ngIf="chatUser">
-            <app-message-container [items]="messageItems" [currentId]="user.user.id"></app-message-container>
-        </div>
+        <app-message-container *ngIf="chatUser" class="message-box" [items]="messageItems" [currentId]="user.user.id"></app-message-container>
         <div class="message-tools" *ngIf="chatUser">
             <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
             </app-emoji-picker>
             <label class="tool-item" for="upload-img">
                 <i class="iconfont icon-image"></i>
-                <input type="file" name="file" id="upload-img" (change)="uploadImage($event)" accept="image/*"/>
+                <input type="file" name="file" id="upload-img" (change)="uploadImage($event)" accept="image/*" multiple/>
             </label>
             <label class="tool-item">
                 <i class="iconfont icon-camera"></i>
@@ -146,7 +144,7 @@
             <label class="tool-item">
                 <i class="iconfont icon-gift"></i>
             </label>
-            <label class="tool-item">
+            <label class="tool-item" [ngClass]="{active: recording}" (click)="tapVoice()" [title]="recording ? '正在录音...(点击结束录音)' : '点击开始录音'">
                 <i class="iconfont icon-microphone"></i>
             </label>
         </div>

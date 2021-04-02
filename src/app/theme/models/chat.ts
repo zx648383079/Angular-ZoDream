@@ -1,3 +1,4 @@
+import { IExtraRule } from '../components/rule-block/model';
 import { IUser } from "./user";
 
 export interface IFriendGroup {
@@ -23,9 +24,47 @@ export interface IFriend {
 }
 
 export interface IMessage {
-    content: string;
-    type: number;
-    created_at: number;
-    user_id: number;
-    user?: IFriend;
+    id:         number;
+    type:       number;
+    content:    string;
+    item_id:    number;
+    receive_id: number;
+    group_id:   number;
+    user_id:    number;
+    status:     number;
+    deleted_at: number;
+    updated_at: string;
+    created_at: string;
+    extra_rule: IExtraRule[];
+    user:       IFriend;
+    receive:    IFriend;
+}
+
+export interface IChatHistory {
+    id:           number;
+    item_type:    number;
+    item_id:      number;
+    user_id:      number;
+    unread_count: number;
+    last_message: number;
+    updated_at:   string;
+    created_at:   string;
+    message:      IMessage;
+    user:         IUser;
+    friend:       IFriend;
+    group?:       IGroup;
+}
+
+export interface IGroup {
+    id?: number;
+    name: string;
+    logo: string;
+    users?: IGroupUser[];
+}
+
+export interface IGroupUser {
+    id?: number;
+    name: string;
+    role_id: number;
+    user: IUser;
 }

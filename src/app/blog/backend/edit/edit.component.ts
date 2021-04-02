@@ -86,30 +86,47 @@ export class EditComponent implements OnInit {
             if (!params.id) {
                 return;
             }
-            this.service.blog(params.id).subscribe(res => {
-                this.data = res;
-                this.tags = res.tags || [];
-                this.form.patchValue({
-                    title: res.title,
-                    content: res.content,
-                    keywords: res.keywords,
-                    description: res.description,
-                    term_id: res.term_id,
-                    programming_language: res.programming_language,
-                    type: res.type,
-                    thumb: res.thumb,
-                    open_type: res.open_type,
-                    open_rule: res.open_rule,
-                    edit_type: res.edit_type,
-                    source_url: res.source_url,
-                    source_author: res.source_author,
-                    is_hide: res.is_hide,
-                    weather: res.weather,
-                    audio_url: res.audio_url,
-                    video_url: res.video_url,
-                    cc_license: res.cc_license,
-                    comment_status: res.comment_status,
-                });
+            this.loadDetail(params.id);
+        });
+    }
+
+    public loadDetail(id: number, language?: string) {
+        if (this.data && this.data.id === id) {
+            return;
+        }
+        if (id < 1) {
+            this.data.parent_id = this.data.parent_id > 0 ? this.data.parent_id : this.data.id;
+            this.data.id = 0;
+            this.data.language = language as any;
+            this.form.patchValue({
+                title: '',
+                content: '',
+            });
+            return;
+        }
+        this.service.blog(id).subscribe(res => {
+            this.data = res;
+            this.tags = res.tags || [];
+            this.form.patchValue({
+                title: res.title,
+                content: res.content,
+                keywords: res.keywords,
+                description: res.description,
+                term_id: res.term_id,
+                programming_language: res.programming_language,
+                type: res.type,
+                thumb: res.thumb,
+                open_type: res.open_type,
+                open_rule: res.open_rule,
+                edit_type: res.edit_type,
+                source_url: res.source_url,
+                source_author: res.source_author,
+                is_hide: res.is_hide,
+                weather: res.weather,
+                audio_url: res.audio_url,
+                video_url: res.video_url,
+                cc_license: res.cc_license,
+                comment_status: res.comment_status,
             });
         });
     }
@@ -152,6 +169,9 @@ export class EditComponent implements OnInit {
         const data: IBlog = Object.assign({}, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
+        }
+        if (this.data && this.data.language) {
+            data.language = this.data.language;
         }
         data.tags = this.tags;
         this.service.blogSave(data).subscribe(_ => {

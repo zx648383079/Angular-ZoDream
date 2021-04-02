@@ -1,0 +1,18 @@
+<ng-container *ngIf="paused; else elseTemplate">
+    <div class="voice-block" (click)="tapPlay()">
+        <i class="iconfont icon-voice"></i>
+    </div>
+</ng-container>
+<ng-template #elseTemplate>
+    <div class="player-bar">
+        <div class="icon" (click)="tapPlay()">
+            <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-stop': !paused}"></i>
+        </div>
+        <div class="slider">
+            <app-progress-bar [progress]="progress" (progressChange)="onProgressChange($event)"></app-progress-bar>
+        </div>
+        <div class="time">
+            {{ time }}/{{ total }}
+        </div>
+    </div>
+</ng-template>

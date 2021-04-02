@@ -66,7 +66,8 @@ import {
     EmojiPickerComponent,
     DialogBoxComponent,
     PaginationComponent,
-    CheckInputComponent
+    CheckInputComponent,
+    RuleBlockComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -112,6 +113,7 @@ const COMPONENTS = [
     DialogBoxComponent,
     PaginationComponent,
     CheckInputComponent,
+    RuleBlockComponent,
 ];
 
 const PIPES = [

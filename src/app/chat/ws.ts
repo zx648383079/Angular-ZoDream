@@ -1,3 +1,4 @@
+import { eachObject } from '../theme/utils';
 import { IRequest, RequestCallback } from './http';
 
 interface IWsOption {
@@ -179,11 +180,16 @@ export class WsRequest implements IRequest {
         });
         return this;
     }
-    public on(event: string, cb: RequestCallback): IRequest {
-        if (this.messageListeners[event] == null || this.messageListeners[event] === undefined) {
-            this.messageListeners[event] = [];
-        }
-        this.messageListeners[event].push(cb);
+    public on(event: string|string[], cb: RequestCallback): IRequest {
+        eachObject(event, item => {
+            if (!item) {
+                return;
+            }
+            if (this.messageListeners[item] == null || this.messageListeners[item] === undefined) {
+                this.messageListeners[item] = [];
+            }
+            this.messageListeners[item].push(cb);
+        });
         return this;
     }
     public trigger(event: string, message?: any) {
@@ -208,6 +214,15 @@ export class WsRequest implements IRequest {
     }
     public emit(event: string, data?: any): IRequest {
         this.emitMessage(this.encodeMessage(event, data));
+        return this;
+    }
+
+    public emitBatch(data: {
+        [key: string]: any
+    }): IRequest {
+        eachObject(data, (item, key: string) => {
+            this.emit(key, item);
+        });
         return this;
     }
 }

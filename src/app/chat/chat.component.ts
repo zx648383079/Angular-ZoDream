@@ -10,9 +10,11 @@ import {
 import {
     IMessage,
     IFriend,
-    IFriendGroup
+    IFriendGroup,
+    IChatHistory,
+    IGroup
 } from '../theme/models/chat';
-import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT } from './http';
+import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO } from './http';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { IPage } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
@@ -20,8 +22,15 @@ import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
 import { ToastrService } from 'ngx-toastr';
 import { IEmoji } from '../theme/models/seo';
+import { Recorder } from './recorder';
 
 const LOOP_SPACE_TIME = 20;
+interface IChatUser {
+    name: string;
+    type: number;
+    id: number;
+    avatar: string;
+}
 
 @Component({
     selector: 'app-chat',
@@ -53,24 +62,27 @@ export class ChatComponent implements OnInit, OnDestroy {
      * 进入搜索用户
      */
     public searchMode = false;
+    public searchKeywords = '';
 
-    public lastFriends: IFriend[] = [];
+    public histories: IChatHistory[] = [];
 
     public friends: IFriendGroup[] = [];
 
     public user: IFriend;
 
-    public chatUser: IFriend;
+    public chatUser: IChatUser;
 
     public page = 1;
     public hasMore = true;
     public isLoading = false;
     public messageItems: IMessage[] = [];
     public messageContent = '';
+    public recording = false;
     private nextTime = 0;
     private startTime = 0;
     private spaceTime = 0;
     private timer = 0;
+    private recorder: Recorder;
 
 
     public request: IRequest;
@@ -93,6 +105,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         private toastrService: ToastrService,
     ) {
         this.request = this.service.request;
+        this.recorder = new Recorder();
     }
 
     ngOnInit(): void {
@@ -106,13 +119,20 @@ export class ChatComponent implements OnInit, OnDestroy {
             }
         }).on(COMMAND_GROUPS, res => {
 
+        }).on(COMMAND_HISTORY, (res: IPage<IChatHistory>) => {
+            this.histories = res.paging.limit < 1 ? res.data : [].concat(this.histories, res.data);
         }).on(COMMAND_FRIEND_SEARCH, res => {
 
         }).on(COMMAND_MESSAGE, res => {
+            if (!res.data) {
+                return;
+            }
             if (res.data.length > 0) {
                 this.messageItems = [].concat(this.messageItems, res.data);
             }
-            this.nextTime = res.next_time;
+            if (res.next_time) {
+                this.nextTime = res.next_time;
+            }
             if (!this.startTime) {
                 this.startTime = this.nextTime;
             }
@@ -125,16 +145,49 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         }).on(COMMAND_MESSAGE_SEND, res => {
             this.request.trigger(COMMAND_MESSAGE, res);
-        }).on(COMMAND_MESSAGE_SEND_TEXT, res => {
-            this.request.trigger(COMMAND_MESSAGE, [res.data]);
+        }).on([
+            COMMAND_MESSAGE_SEND_TEXT,
+            COMMAND_MESSAGE_SEND_FILE,
+            COMMAND_MESSAGE_SEND_VIDEO,
+            COMMAND_MESSAGE_SEND_AUDIO,
+            COMMAND_MESSAGE_SEND_IMAGE
+        ], res => {
+            if (!res.data) {
+                return;
+            }
+            this.request.trigger(COMMAND_MESSAGE, res.data instanceof Array ? res : {data: [res.data]});
         });
 
-        this.request.emit(COMMAND_PROFILE)
-        .emit(COMMAND_FRIENDS);
+        this.request.emitBatch({
+            [COMMAND_PROFILE]: {},
+            [COMMAND_HISTORY]: {},
+            [COMMAND_FRIENDS]: {},
+            [COMMAND_GROUPS]: {}
+        });
     }
 
     ngOnDestroy() {
         this.request.close();
+    }
+
+    public get searchItems() {
+        if (emptyValidate(this.searchKeywords)) {
+            return [];
+        }
+        const items = [];
+        for (const group of this.friends) {
+            for (const item of group.users) {
+                if (item.name.indexOf(this.searchKeywords) >= 0) {
+                    items.push(item);
+                }
+            }
+        }
+        return items;
+    }
+
+    public tapCloseFilter() {
+        this.searchMode = false;
+        this.searchKeywords = '';
     }
 
     public tapContextMenu(e: MouseEvent) {
@@ -151,14 +204,57 @@ export class ChatComponent implements OnInit, OnDestroy {
         return false;
     }
 
+    /**
+     * 点击消息记录开启聊天
+     * @param item 
+     */
+    public tapHistory(item: IChatHistory) {
+        this.openChatRoom({
+            id: item.item_id,
+            type: item.item_type,
+            name: item.item_type > 0 ? item.group.name : item.friend.name,
+            avatar: item.item_type > 0 ? item.group.logo : item.user.avatar,
+        });
+    }
+
+    private openChatRoom(item: IChatUser) {
+        this.roomMode = true;
+        if (this.chatUser && this.chatUser.id === item.id && this.chatUser.type === item.type) {
+            return;
+        }
+        this.chatUser = item;
+        this.nextTime = 0;
+        this.tapRefresh();
+    }
+
+    /**
+     * 点击好友，开启聊天
+     * @param item 
+     * @returns 
+     */
     public tapUser(item: IFriend) {
         if (item.user.id === this.user.user.id) {
             return;
         }
-        this.roomMode = true;
-        this.chatUser = item;
-        this.nextTime = 0;
-        this.tapRefresh();
+        this.openChatRoom({
+            id: item.user.id,
+            type: 0,
+            name: item.name,
+            avatar: item.user.avatar,
+        });
+    }
+
+    /**
+     * 点击群，开启群聊天
+     * @param item 
+     */
+    public tapGroup(item: IGroup) {
+        this.openChatRoom({
+            id: item.id,
+            type: 1,
+            name: item.name,
+            avatar: item.logo,
+        });
     }
 
 
@@ -177,13 +273,28 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading || !this.chatUser) {
             return;
         }
         this.isLoading = true;
         this.request.emit(COMMAND_MESSAGE, {
-            type: 0,
-            id: this.chatUser.user.id
+            type: this.chatUser.type,
+            id: this.chatUser.id
+        });
+    }
+
+    public tapVoice() {
+        this.recorder.open(() => {
+            if (this.recorder.isPaused) {
+                this.recorder.start();
+                this.recording = true;
+                return;
+            }
+            this.recorder.stop();
+            this.recording = false;
+            const form = new FormData();
+            form.append('file', this.recorder.toBlob(), 'voice.mp3');
+            this.send(COMMAND_MESSAGE_SEND_AUDIO, form);
         });
     }
 
@@ -198,8 +309,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         for (let i = 0; i < files.length; i++) {
             form.append('file[]', files[i], files[i].name);
         }
-        form.append('type', '1');
-        this.send(form);
+        this.send(COMMAND_MESSAGE_SEND_IMAGE, form);
     }
 
     public uploadVideo(event: any) {
@@ -207,10 +317,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         const form = new FormData();
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < files.length; i++) {
-            form.append('file[]', files[i], files[i].name);
+            form.append('file', files[i], files[i].name);
         }
-        form.append('type', '2');
-        this.send(form);
+        this.send(COMMAND_MESSAGE_SEND_VIDEO, form);
     }
 
     public uploadFile(event: any) {
@@ -218,40 +327,36 @@ export class ChatComponent implements OnInit, OnDestroy {
         const form = new FormData();
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < files.length; i++) {
-            form.append('file[]', files[i], files[i].name);
+            form.append('file', files[i], files[i].name);
         }
-        form.append('type', '3');
-        this.send(form);
+        this.send(COMMAND_MESSAGE_SEND_FILE, form);
     }
 
     public tapSend() {
         if (emptyValidate(this.messageContent)) {
             return;
         }
-        this.request.emit(COMMAND_MESSAGE_SEND_TEXT, {
-            type: 0,
-            id: this.chatUser.user.id,
-            start_time: this.nextTime,
+        this.send(COMMAND_MESSAGE_SEND_TEXT, {
             content: this.messageContent,
         });
         this.messageContent = '';
     }
 
-    private send(data: any) {
+    private send(event: string, data: any) {
         if (!this.chatUser) {
             return;
         }
         if (data instanceof FormData) {
-            data.append('type', '0');
-            data.append('id', this.chatUser.user.id.toString());
+            data.append('type', this.chatUser.type.toString());
+            data.append('id', this.chatUser.id.toString());
             data.append('start_time', this.nextTime as any);
         } else {
-            data.type = 0;
-            data.id = this.chatUser.user.id;
+            data.type = this.chatUser.type;
+            data.id = this.chatUser.id;
             data.start_time = this.nextTime;
         }
         this.isLoading = true;
-        this.request.emit(COMMAND_MESSAGE_SEND, data);
+        this.request.emit(event, data);
     }
 
     private startTimer() {
@@ -275,8 +380,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private tapNext() {
         this.isLoading = true;
         this.request.emit(COMMAND_MESSAGE, {
-            type: 0,
-            id: this.chatUser.user.id,
+            type: this.chatUser.type,
+            id: this.chatUser.id,
             start_time: this.nextTime,
         });
     }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AppState } from '../../theme/interfaces';
-import { IBlockItem, IComment, IMicro } from '../model';
+import { IComment, IMicro } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
@@ -11,6 +11,7 @@ import { MicroService } from '../micro.service';
 import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
 import { IEmoji } from '../../theme/models/seo';
+import { IBlockItem } from '../../theme/components/rule-block/model';
 
 @Component({
   selector: 'app-detail',
@@ -66,22 +67,24 @@ export class DetailComponent implements OnInit {
     loadDetail(id: number) {
         this.service.get(id).subscribe(res => {
             res.attachment_current = 0;
-            res.blcokItems = this.service.renderRule(res.content, res.extra_rule);
             this.data = res;
             this.tapRefresh();
         });
     }
 
-    public tapUserBlcok(item: IBlockItem) {
-        this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
-            user: item.user
-        }});
-    }
-
-    public tapTopicBlcok(item: IBlockItem) {
-        this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
-            topic: item.topic
-        }});
+    public tapBlock(item: IBlockItem) {
+        if (item.user) {
+            this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
+                user: item.user
+            }});
+            return;
+        }
+        if (item.topic) {
+            this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
+                topic: item.topic
+            }});
+            return;
+        }
     }
 
     public tapEmoji(item: IEmoji) {

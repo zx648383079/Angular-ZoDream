@@ -387,6 +387,9 @@
             &:hover {
                 color: #333;
             }
+            &.active {
+                color: red;
+            }
         }
     }
     .message-text {

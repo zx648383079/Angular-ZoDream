@@ -7,6 +7,7 @@ import { ChatService } from './chat.service';
 import { ThemeModule } from '../theme/theme.module';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { MessageContainerComponent } from './message-container/message-container.component';
+import { VoicePlayerComponent } from './voice-player/voice-player.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { MessageContainerComponent } from './message-container/message-container
         ChatComponent,
         ContextMenuComponent,
         MessageContainerComponent,
+        VoicePlayerComponent,
     ],
     imports: [
         CommonModule,

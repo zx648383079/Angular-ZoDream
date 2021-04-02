@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBlockItem, IMicro, ITopic } from './model';
+import { IMicro, ITopic } from './model';
 import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
-import { IUser } from '../theme/models/user';
 import { IErrorResult } from '../theme/models/page';
+import { IBlockItem } from '../theme/components/rule-block/model';
 
 @Component({
     selector: 'app-micro',
@@ -67,16 +67,19 @@ export class MicroComponent implements OnInit {
         });
     }
 
-    public tapUserBlcok(item: IBlockItem) {
-        this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
-            user: item.user
-        }});
-    }
-
-    public tapTopicBlcok(item: IBlockItem) {
-        this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
-            topic: item.topic
-        }});
+    public tapBlock(item: IBlockItem) {
+        if (item.user) {
+            this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
+                user: item.user
+            }});
+            return;
+        }
+        if (item.topic) {
+            this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
+                topic: item.topic
+            }});
+            return;
+        }
     }
 
     public tapToggleComment(item: IMicro) {
@@ -180,7 +183,6 @@ export class MicroComponent implements OnInit {
             this.isLoading = false;
             res.data = res.data.map(i => {
                 i.attachment_current = 0;
-                i.blcokItems = this.service.renderRule(i.content, i.extra_rule);
                 return i;
             });
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);

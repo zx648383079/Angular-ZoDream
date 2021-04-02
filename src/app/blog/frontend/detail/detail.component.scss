@@ -28,9 +28,12 @@
             margin: 0;
             width: 40px;
             text-align: center;
+            text-decoration: none;
+            cursor: default;
             &.active {
                 background-color: #fff;
                 color: #333;
+                cursor: not-allowed;
             }
         }
     }

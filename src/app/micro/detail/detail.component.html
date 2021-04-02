@@ -12,23 +12,7 @@
                     <a class="remove" *ngIf="data.editable" (click)="tapRemove(data)">[删除]</a>
                 </p>
                 <div class="content">
-                    <ng-container *ngFor="let block of data.blcokItems">
-                        <ng-container *ngIf="!block.type || block.type < 1">
-                            {{ block.content }}
-                        </ng-container>
-                        <ng-container *ngIf="block.type == 1">
-                            <img [src]="block.image" [alt]="block.content">
-                        </ng-container>
-                        <ng-container *ngIf="block.type == 2">
-                            <a (click)="tapUserBlcok(block)">{{ block.content }}</a>
-                        </ng-container>
-                        <ng-container *ngIf="block.type == 3">
-                            <a (click)="tapTopicBlcok(block)">{{ block.content }}</a>
-                        </ng-container>
-                        <ng-container *ngIf="block.type == 4">
-                            <a [href]="block.link" target="_blank" rel="noopener">{{ block.content }}</a>
-                        </ng-container>
-                    </ng-container>
+                    <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
                 </div>
                 <div class="attachment" *ngIf="data.attachment && data.attachment.length > 0" [ngClass]="{'media-slider': data.attachment_open}">
                     <i class="iconfont icon-close" (click)="data.attachment_open = false"></i>

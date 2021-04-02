@@ -8,13 +8,24 @@
             <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
                 <img class="avatar" [src]="item.user.avatar">
                 <div class="content">
-                    <ng-container *ngIf="item.type == 1; else elseTemplate">
-                        <img [src]="item.content">
+                    <ng-container *ngIf="item.type == 1">
+                        <img [src]="item.extra_rule[0].i">
                     </ng-container>
-                    <ng-template #elseTemplate>
-                        {{ item.content }}
-                    </ng-template>
-                    
+                    <ng-container *ngIf="item.type == 2">
+                        <video [src]="item.extra_rule[0].f"></video>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 3">
+                        <app-voice-player [src]="item.extra_rule[0].f"></app-voice-player>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 4">
+                        <div class="file-block">
+                            {{ item.content }}
+                            <i class="iconfont icon-download" title="下载"></i>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item.type < 1">
+                        <app-rule-block [value]="item.content" [rules]="item.extra_rule"></app-rule-block>
+                    </ng-container>
                 </div>
             </div>
         </ng-template>

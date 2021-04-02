@@ -24,7 +24,11 @@ export class MessageContainerComponent implements OnChanges {
         const items = [];
         let lastTime: Date;
         const now = new Date();
+        const exist = [];
         for (const item of this.items) {
+            if (exist.indexOf(item.id) >= 0) {
+                continue;
+            }
             const time = this.formatTime(item[this.timeKey]);
             if (!lastTime || this.diffTime(time, lastTime) > this.maxTime) {
                 lastTime = time;
@@ -33,6 +37,7 @@ export class MessageContainerComponent implements OnChanges {
                     content: this.formatAgo(time, now)
                 });
             }
+            exist.push(item.id);
             items.push(item);
         }
         return items;

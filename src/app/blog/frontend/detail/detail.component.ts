@@ -77,11 +77,16 @@ export class DetailComponent implements OnInit {
     }
 
     loadBlog(id: number) {
+        if (this.data && this.data.id === id) {
+            return;
+        }
         this.service.getDetail(id).subscribe(res => {
             this.data = res;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-            this.tapRefresh();
             document.documentElement.scrollTop = 0;
+            if (res.comment_status > 0) {
+                this.tapRefresh();
+            }
         });
     }
 
