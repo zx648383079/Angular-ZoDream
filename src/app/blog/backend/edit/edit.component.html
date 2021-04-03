@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="panel-container">
-            <div class="language-toggle" *ngIf="data.languages && data.languages.length > 1">
+            <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
                 <ng-container *ngFor="let item of data.languages">
                     <a (click)="loadDetail(item.id, item.language)" [ngClass]="{active: item.id === data.id}">{{ item.label }}</a>
                 </ng-container>

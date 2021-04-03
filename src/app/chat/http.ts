@@ -9,6 +9,7 @@ export const COMMAND_FRIEND_SEARCH = 'chat/friend/search';
 export const COMMAND_FRIEND_APPLY = 'chat/friend/apply';
 export const COMMAND_GROUPS = 'chat/group';
 export const COMMAND_MESSAGE = 'chat/message';
+export const COMMAND_MESSAGE_PING = 'chat/message/ping';
 export const COMMAND_MESSAGE_SEND = 'chat/message/send';
 export const COMMAND_MESSAGE_SEND_TEXT = 'chat/message/send_text';
 export const COMMAND_MESSAGE_SEND_IMAGE = 'chat/message/send_image';

@@ -14,7 +14,7 @@ import {
     IChatHistory,
     IGroup
 } from '../theme/models/chat';
-import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO } from './http';
+import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO, COMMAND_MESSAGE_PING } from './http';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { IPage } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
@@ -30,6 +30,17 @@ interface IChatUser {
     type: number;
     id: number;
     avatar: string;
+}
+
+interface IMessagePing {
+    message_count: number;
+    apply_count: number;
+    data: {
+        type: number;
+        id: number;
+        items: IMessage[];
+    }[];
+    next_time: number;
 }
 
 @Component({
@@ -129,6 +140,23 @@ export class ChatComponent implements OnInit, OnDestroy {
             }
             if (res.data.length > 0) {
                 this.messageItems = [].concat(this.messageItems, res.data);
+            }
+            if (res.next_time) {
+                this.nextTime = res.next_time;
+            }
+            if (!this.startTime) {
+                this.startTime = this.nextTime;
+            }
+            this.spaceTime = LOOP_SPACE_TIME;
+            this.isLoading = false;
+            this.startTimer();
+        }).on(COMMAND_MESSAGE_PING, (res: IMessagePing) => {
+            if (res.data && res.data.length > 0 && this.chatUser) {
+                for (const item of res.data) {
+                    if (item.type === this.chatUser.type && item.id === this.chatUser.id) {
+                        this.messageItems = [].concat(this.messageItems, item.items);
+                    }
+                }
             }
             if (res.next_time) {
                 this.nextTime = res.next_time;
@@ -379,7 +407,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     private tapNext() {
         this.isLoading = true;
-        this.request.emit(COMMAND_MESSAGE, {
+        this.request.emit(COMMAND_MESSAGE_PING, {
             type: this.chatUser.type,
             id: this.chatUser.id,
             start_time: this.nextTime,

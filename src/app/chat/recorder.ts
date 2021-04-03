@@ -5,6 +5,9 @@ export interface IRecorderOption {
     disableEnvInFix?: boolean; // 禁用设备卡顿时音频输入丢失补偿功能
 }
 
+declare type MediaRecorder = any;
+declare var MediaRecorder: any;
+
 export class Recorder {
 
     constructor(
