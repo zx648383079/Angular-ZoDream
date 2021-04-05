@@ -2,18 +2,21 @@ import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/
 import { twoPad } from '../../theme/utils';
 
 @Component({
-  selector: 'app-voice-player',
-  templateUrl: './voice-player.component.html',
-  styleUrls: ['./voice-player.component.scss']
+  selector: 'app-audio-player',
+  templateUrl: './audio-player.component.html',
+  styleUrls: ['./audio-player.component.scss']
 })
-export class VoicePlayerComponent implements OnChanges, OnDestroy {
-
+export class AudioPlayerComponent implements OnDestroy, OnChanges {
+    
     @Input() public src: string;
+    @Input() public mini = false;
     public progress = 0;
     public duration = 0;
     public paused = true;
+    public volume = 100;
     private audioElement: HTMLAudioElement;
     private booted = false;
+    private volumeLast = 100;
 
     constructor() { }
 
@@ -45,6 +48,22 @@ export class VoicePlayerComponent implements OnChanges, OnDestroy {
             return;
         }
         this.audio.pause();
+    }
+
+    public tapVolume() {
+        if (this.volume <= 0) {
+            this.onVolumeChange(this.volumeLast);
+            return;
+        }
+        this.volumeLast = this.volume;
+        this.onVolumeChange(0);
+    }
+
+    public onVolumeChange(v: number) {
+        this.volume = v;
+        if (this.audioElement) {
+            this.audioElement.volume = this.volume / 100;
+        }
     }
 
     public tapPlay() {
@@ -87,9 +106,13 @@ export class VoicePlayerComponent implements OnChanges, OnDestroy {
         this.audioElement.addEventListener('play', () => {
             this.paused = false;
         });
+        if (this.volume > 0) {
+            this.volume = this.audioElement.volume * 100;
+        }
     }
-
+    
     private formatMinute(time: number): string {
         return [Math.floor(time / 60), Math.floor(time % 60)].map(twoPad).join(':');
     }
+
 }

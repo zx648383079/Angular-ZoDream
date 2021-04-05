@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBook, IBookRecord } from '../../../app/theme/models/book';
+import { IBook, IBookRecord } from '../model';
 import { BookService } from '../book.service';
 
 @Component({

@@ -9,10 +9,10 @@
             <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-stop': !paused}"></i>
         </div>
         <div class="slider">
-            <app-progress-bar [progress]="progress" (progressChange)="onProgressChange($event)"></app-progress-bar>
+            <app-progress-bar [value]="progress" [max]="duration" [label]="false" (valueChange)="onProgressChange($event)"></app-progress-bar>
         </div>
         <div class="time">
-            {{ time }}/{{ total }}
+            {{ formatProgress }}/{{ formatDuration }}
         </div>
     </div>
 </ng-template>

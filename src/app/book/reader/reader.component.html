@@ -11,7 +11,7 @@
     <footer class="reader-footer" [ngStyle]="footerStyle">
         <div class="pager">
             <a (click)="tapPrev()">上一章</a>
-            <app-progress-bar [(progress)]="progress" (progressChange)="onScrollChange()"></app-progress-bar>
+            <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()"></app-progress-bar>
             <a (click)="tapNext()">下一章</a>
         </div>
         <div class="setting" *ngIf="mode == 2">

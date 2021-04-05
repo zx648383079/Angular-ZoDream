@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { ISubtotal, ICategory, ITag, IArchives, IBlog, ISearchForm, IComment } from '../../theme/models/blog';
-import { mockSubtotal, mockCategories, mockTags, mockArchives, mockBlog, mockBlogs } from '../../theme/mock/blog';
+import { Observable } from 'rxjs';
+import { ISubtotal, ICategory, ITag, IArchives, IBlog, IComment } from '../../theme/models/blog';
 import { IPage, IData, IDataOne } from '../../theme/models/page';
-import { mockPage } from '../../theme/mock/page';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { IItem } from '../../theme/models/seo';

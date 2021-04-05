@@ -153,6 +153,9 @@ export class BlogComponent implements OnInit {
         this.service.getDetail(id).subscribe(res => {
             this.blog = res;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+            history.pushState(null, res.title,
+                window.location.href.replace(/blog.*$/, 'blog/' + res.id.toString()));
+            document.documentElement.scrollTop = 0;
         });
     }
 

@@ -20,6 +20,12 @@
                 <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at }}</b></span>
             </div>
             <article id="content" class="content style-markdown">
+                <ng-container *ngIf="data.audio_url">
+                    <app-audio-player [src]="data.audio_url"></app-audio-player>
+                </ng-container>
+                <ng-container *ngIf="data.video_url">
+                    <app-video-player [src]="data.video_url"></app-video-player>
+                </ng-container>
                 <div [innerHTML]="content"></div>
                 <p class="book-copyright" *ngIf="data.url">转载请保留原文链接：
                     <a [href]="data.url" [title]="data.title">{{ data.url }}</a>

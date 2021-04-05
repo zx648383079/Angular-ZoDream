@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { map } from 'rxjs/operators';
-import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord } from '../theme/models/book';
+import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord } from './model';
 
 @Injectable()
 export class BookService {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../../theme/components';
-import { ICategory } from '../../../theme/models/book';
+import { ICategory } from '../../model';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 

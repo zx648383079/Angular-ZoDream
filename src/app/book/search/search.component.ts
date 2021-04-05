@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import {
     IBook
-} from 'src/app/theme/models/book';
+} from '../model';
 import {
     BookService
 } from '../book.service';

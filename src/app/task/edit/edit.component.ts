@@ -16,7 +16,7 @@ import { DialogBoxComponent } from '../../theme/components';
 import {
     IShare,
     ITask
-} from '../../theme/models/task';
+} from '../model';
 import { emptyValidate } from '../../theme/validators';
 import {
     TaskService

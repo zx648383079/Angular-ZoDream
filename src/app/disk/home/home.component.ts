@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
     IShare
-} from 'src/app/theme/models/disk';
+} from '../model';
 import {
     DiskService
 } from '../disk.service';

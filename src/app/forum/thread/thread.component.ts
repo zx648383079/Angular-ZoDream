@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
     IThread
-} from 'src/app/theme/models/forum';
+} from '../../theme/models/forum';
 import {
     ForumService
 } from '../forum.service';

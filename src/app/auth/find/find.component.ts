@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { confirmValidator } from 'src/app/theme/validators';
+import { confirmValidator } from '../../theme/validators';
 import { IErrorResponse } from '../../theme/models/page';
 import { AuthService } from '../../theme/services';
 

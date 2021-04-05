@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { IUser } from '../theme/models/user';
 
 export interface ICategory {
     id: number;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AppState } from 'src/app/theme/interfaces';
+import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getCurrentUser } from 'src/app/theme/reducers/auth.selectors';
+import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../theme/services';

@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IBookList, IBookListItem } from '../../../theme/models/book';
+import { IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
 
 @Component({

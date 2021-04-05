@@ -11,7 +11,7 @@ import {
     ITask,
     ITaskComment,
     ITaskDay
-} from '../../theme/models/task';
+} from '../model';
 import { TaskService } from '../task.service';
 
 @Component({

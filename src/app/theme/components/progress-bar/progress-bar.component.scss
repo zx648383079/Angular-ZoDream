@@ -1,6 +1,12 @@
 .progress {
-    height: 10px;
+    height: .4em;
+    border-radius: 0;
+    margin-top: .2em;
     .progress-bar {
         cursor: default;
+    }
+    &:hover {
+        height: .8em;
+        margin-top: 0;
     }
 }

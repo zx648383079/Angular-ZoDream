@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../theme/models/seo';
-import { ITask } from '../../theme/models/task';
+import { ITask } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({

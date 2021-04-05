@@ -10,7 +10,7 @@ import {
     ViewChildren
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IChapter } from '../../../theme/models/book';
+import { IChapter } from '../../model';
 
 export interface IFlipProgress {
     item: IBlockItem;

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAuthor, IBook, IBookList, ICategory, IChapter } from '../../theme/models/book';
+import { IAuthor, IBook, IBookList, ICategory, IChapter } from '../model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 
 @Injectable({

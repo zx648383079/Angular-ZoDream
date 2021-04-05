@@ -5,7 +5,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
-import { IBook, IBookList, IBookListItem } from '../../../theme/models/book';
+import { IBook, IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
 
 @Component({

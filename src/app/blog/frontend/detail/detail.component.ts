@@ -16,7 +16,7 @@ import {
 import {
     IBlog,
     IComment
-} from 'src/app/theme/models/blog';
+} from '../../../theme/models/blog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { getCurrentUser } from '../../../theme/reducers/auth.selectors';

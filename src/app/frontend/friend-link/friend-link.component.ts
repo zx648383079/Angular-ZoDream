@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FrontendService } from '../frontend.service';
-import { IFriendLink, ILink } from 'src/app/theme/models/seo';
+import { IFriendLink, ILink } from '../../theme/models/seo';
 import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
 import { ToastrService } from 'ngx-toastr';

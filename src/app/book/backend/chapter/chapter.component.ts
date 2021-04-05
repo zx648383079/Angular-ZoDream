@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IBook, IChapter } from '../../../theme/models/book';
+import { IBook, IChapter } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({

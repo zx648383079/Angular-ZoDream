@@ -67,6 +67,12 @@
                     <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at }}</b></span>
                 </div>
                 <article id="content" class="content style-markdown">
+                    <ng-container *ngIf="blog.audio_url">
+                        <app-audio-player [src]="blog.audio_url"></app-audio-player>
+                    </ng-container>
+                    <ng-container *ngIf="blog.video_url">
+                        <app-video-player [src]="blog.video_url"></app-video-player>
+                    </ng-container>
                     <div [innerHTML]="content"></div>
                     <p class="book-copyright" *ngIf="blog.url">转载请保留原文链接：
                         <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>

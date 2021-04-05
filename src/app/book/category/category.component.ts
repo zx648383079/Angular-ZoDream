@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ICategory } from '../../../app/theme/models/book';
+import { ICategory } from '../model';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

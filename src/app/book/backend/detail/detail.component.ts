@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IBook, ICategory } from '../../../theme/models/book';
+import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({

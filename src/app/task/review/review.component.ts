@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ITaskReview } from '../../theme/models/task';
+import { ITaskReview } from '../model';
 import { TaskService } from '../task.service';
 import { EChartsOption } from 'echarts';
 

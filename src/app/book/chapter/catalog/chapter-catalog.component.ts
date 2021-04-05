@@ -5,7 +5,7 @@ import {
     OnInit,
     Output
 } from '@angular/core';
-import { IChapter } from '../../../theme/models/book';
+import { IChapter } from '../../model';
 import { formatTime } from '../../../theme/utils';
 
 @Component({

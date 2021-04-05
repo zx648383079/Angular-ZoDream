@@ -1,3 +1,7 @@
-<div class="progress" #progressBox>
-  <div class="progress-bar" role="progressbar" [style]="progressStyle" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ progress.toFixed(2) }}%</div>
+<div class="progress" #progressBox [title]="value.toFixed(2)">
+  <div class="progress-bar" role="progressbar" [style]="progressStyle">
+      <ng-container *ngIf="label">
+        {{ value.toFixed(2) }}/{{ max.toFixed(2) }}
+      </ng-container>
+  </div>
 </div>

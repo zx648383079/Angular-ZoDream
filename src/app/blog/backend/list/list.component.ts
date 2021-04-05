@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IBlog, ICategory } from 'src/app/theme/models/blog';
+import { IBlog, ICategory } from '../../../theme/models/blog';
 import { BlogService } from '../blog.service';
 
 @Component({

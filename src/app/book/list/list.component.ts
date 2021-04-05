@@ -5,7 +5,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
-import { IBookList } from '../../theme/models/book';
+import { IBookList } from '../model';
 import { getAuthStatus } from '../../theme/reducers/auth.selectors';
 import { BookService } from '../book.service';
 

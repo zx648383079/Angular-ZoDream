@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
-import { IShare, ITask, ITaskComment } from '../../../theme/models/task';
+import { IShare, ITask, ITaskComment } from '../../model';
 import { formatHour } from '../../../theme/utils';
 import { TaskService } from '../../task.service';
 

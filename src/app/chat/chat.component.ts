@@ -320,8 +320,13 @@ export class ChatComponent implements OnInit, OnDestroy {
             }
             this.recorder.stop();
             this.recording = false;
+            const blob = this.recorder.toBlob();
+            if (!blob) {
+                this.toastrService.warning('录音失败');
+                return;
+            }
             const form = new FormData();
-            form.append('file', this.recorder.toBlob(), 'voice.mp3');
+            form.append('file', blob, 'voice.mp3');
             this.send(COMMAND_MESSAGE_SEND_AUDIO, form);
         });
     }

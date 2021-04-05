@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
-import { ITask, ITaskDay } from '../../theme/models/task';
+import { ITask, ITaskDay } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({

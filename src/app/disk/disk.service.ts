@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IDisk, IFile, IShare } from '../theme/models/disk';
+import { IDisk, IFile, IShare } from './model';
 import { IDataOne, IPage } from '../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 

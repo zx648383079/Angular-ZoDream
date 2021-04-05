@@ -7,6 +7,7 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { ShareComponent } from './share/share.component';
 import { TrashComponent } from './trash/trash.component';
 import { PasswordComponent } from './password/password.component';
+import { MediaPlayerComponent } from './media-player/media-player.component';
 
 const routes: Routes = [
   {
@@ -44,5 +45,5 @@ const routes: Routes = [
 export class DiskRoutingModule { }
 
 export const diskRoutingComponents = [
-  DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent
+  DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent, MediaPlayerComponent
 ];

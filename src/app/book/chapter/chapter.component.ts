@@ -5,7 +5,7 @@ import {
 import {
     IBook,
     IChapter
-} from 'src/app/theme/models/book';
+} from '../model';
 import {
     BookService
 } from '../book.service';

@@ -6,7 +6,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IChapter } from '../../theme/models/book';
+import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
 

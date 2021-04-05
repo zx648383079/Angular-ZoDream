@@ -18,14 +18,29 @@ export class ProgressBarComponent implements AfterViewInit {
     @ViewChild('progressBox')
     private box: ElementRef;
 
-    @Input() public progress = 0;
+    /**
+     * 当前值
+     */
+    @Input() public value = 0;
+    /**
+     * 最大值
+     */
+    @Input() public max = 100;
+    /**
+     * 最小移动值
+     */
+    @Input() public min = 0;
 
-    @Output() public progressChange = new EventEmitter();
+    @Input() public label = true;
+
+    @Output() public valueChange = new EventEmitter();
 
     constructor() {}
 
-    get progressStyle() {
-        return 'width: ' + this.progress + '%;';
+    public get progressStyle() {
+        return {
+            width: this.max < 1 ? 0 : (this.value * 100 / this.max)  + '%'
+        };
     }
 
     ngAfterViewInit(): void {
@@ -37,8 +52,11 @@ export class ProgressBarComponent implements AfterViewInit {
     }
 
     public tapProgress(i: number) {
-        i = Math.max(Math.min(i, 100), 0);
-        this.progress = i;
-        this.progressChange.emit(i);
+        if (i < 0) {
+            i = 0;
+        } else if (i > 100) {
+            i = 100;
+        }
+        this.valueChange.emit(this.value = this.max === 100 ? i : (i * this.max / 100));
     }
 }

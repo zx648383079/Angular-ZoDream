@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../theme/models/page';
-import { IShare, ITask, ITaskComment, ITaskDay, ITaskReview } from '../theme/models/task';
+import { IShare, ITask, ITaskComment, ITaskDay, ITaskReview } from './model';
 
 @Injectable()
 export class TaskService {

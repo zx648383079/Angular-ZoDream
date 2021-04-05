@@ -8,12 +8,13 @@ import {
 } from '../disk.service';
 import {
     IDisk
-} from 'src/app/theme/models/disk';
+} from '../model';
 import {
     DialogBoxComponent,
-    MediaPlayerComponent, PullToRefreshComponent
-} from 'src/app/theme/components';
+    PullToRefreshComponent
+} from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
+import { MediaPlayerComponent } from '../media-player/media-player.component';
 
 
 interface ICrumb {

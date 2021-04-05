@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IAuthor } from '../../../theme/models/book';
+import { IAuthor } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({

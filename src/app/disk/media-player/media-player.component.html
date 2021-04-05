@@ -13,7 +13,7 @@
         </div>
         <div class="action">
             <div class="progress-box">
-                <app-progress-bar [(progress)]="progress" (progressChange)="tapProgressChange()"></app-progress-bar>
+                <app-progress-bar [(value)]="progress" (valueChange)="tapProgressChange()"></app-progress-bar>
             </div>
             <i class="play-btn" (click)="tapPlay()" [ngClass]="{toggle: isPlaying}"></i>
             <i class="stop-btn" (click)="tapStop()"></i>
@@ -22,7 +22,7 @@
             <div class="volume-box">
                 <i class="volume-icon" [ngClass]="{off: volume === 0, min: volume > 0 && volume < 80}"
                     (click)="tapVolumeToggle()"></i>
-                <app-progress-bar [(progress)]="volume" (progressChange)="tapVolumeChange()"></app-progress-bar>
+                <app-progress-bar [(value)]="volume" (valueChange)="tapVolumeChange()"></app-progress-bar>
             </div>
         </div>
     </div>

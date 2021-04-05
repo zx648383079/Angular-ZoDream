@@ -12,7 +12,7 @@ import {
 import {
     passwordValidator,
     confirmValidator
-} from 'src/app/theme/validators';
+} from '../../theme/validators';
 import {
     IErrorResponse
 } from '../../theme/models/page';

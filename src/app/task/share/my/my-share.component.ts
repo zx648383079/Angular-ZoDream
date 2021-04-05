@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../theme/models/seo';
-import { IShare } from '../../../theme/models/task';
+import { IShare } from '../../model';
 import { TaskService } from '../../task.service';
 
 @Component({

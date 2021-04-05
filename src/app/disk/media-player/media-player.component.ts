@@ -8,7 +8,7 @@ import {
     EventEmitter
 } from '@angular/core';
 import videojs, { VideoJsPlayer } from 'video.js';
-import { IFile } from '../../models/disk';
+import { IFile } from '../model';
 
 @Component({
     selector: 'app-media-player',

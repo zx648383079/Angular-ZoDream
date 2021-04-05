@@ -8,10 +8,10 @@ import {
 import {
     ICategory,
     IBlog
-} from 'src/app/theme/models/blog';
+} from '../../../theme/models/blog';
 import {
     IUser
-} from 'src/app/theme/models/user';
+} from '../../../theme/models/user';
 import {
     ActivatedRoute
 } from '@angular/router';

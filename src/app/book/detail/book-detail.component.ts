@@ -3,7 +3,7 @@ import {
     OnInit
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBook, IChapter } from '../../theme/models/book';
+import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
 
 @Component({

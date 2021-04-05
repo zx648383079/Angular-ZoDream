@@ -37,20 +37,27 @@ export class Recorder {
     }
 
     public toBlob() {
+        if (this.chunks.length < 1) {
+            return undefined;
+        }
         const blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
         this.chunks = [];
         return blob;
     }
 
     public toURL(): string {
-        return URL.createObjectURL(this.toBlob());
+        const blob = this.toBlob();
+        if (blob) {
+            return '';
+        }
+        return URL.createObjectURL(blob);
     }
 
     public start() {
         if (!this.isOpen) {
             return;
         }
-        this.instance.start();
+        this.instance.start(100);
     }
 
     public stop() {
@@ -85,11 +92,13 @@ export class Recorder {
         }).then(stream => {
             this.booted = true;
             this.instance = new MediaRecorder(stream, {
-                // mimeType: 'audio/mp3',
+                mimeType: 'audio/webm',
                 // audioBitsPerSecond: this.option.sampleRate
             });
             this.instance.ondataavailable = e => {
-                this.chunks.push(e.data);
+                if (e.data.size > 0) {
+                    this.chunks.push(e.data);
+                }
             };
             cb && cb();
         })
