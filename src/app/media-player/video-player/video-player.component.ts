@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { twoPad } from '../../theme/utils';
+import { ScreenFull } from '../screen-full';
 
 @Component({
   selector: 'app-video-player',
@@ -25,6 +26,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
 
     constructor(
         private sanitizer: DomSanitizer,
+        private render: Renderer2,
     ) { }
 
     public get formatProgress() {
@@ -48,6 +50,9 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
 
     ngAfterViewInit() {
         this.bindVideoEvent();
+        this.render.listen(document, ScreenFull.changeEvent, () => {
+            this.isFull = ScreenFull.isFullScreen;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -140,16 +145,11 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
     }
 
     private fullScreen() {
-        const element = document.documentElement;
-        if (element.requestFullscreen) {
-            element.requestFullscreen();
-        }
+        ScreenFull.request();
     }
     
     private exitFullscreen() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
+        ScreenFull.exit();
     }
 
     private bindVideoEvent() {
