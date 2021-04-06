@@ -25,7 +25,7 @@ export class BackendService {
               data.push({...item, children});
               return;
           }
-          if (item.children && item.children.length > 0) {
+          if (children && children.length > 0) {
               data.push({...item, children, url: undefined});
           }
       });

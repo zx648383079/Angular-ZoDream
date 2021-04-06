@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { DialogBoxComponent } from '../../../theme/components';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -42,6 +43,7 @@ export class ProfileComponent implements OnInit {
         private store: Store<AppState>,
         private toastrService: ToastrService,
         private authService: AuthService,
+        private router: Router,
     ) {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
@@ -82,8 +84,10 @@ export class ProfileComponent implements OnInit {
     public quiteUser() {
         this.toastrService.info('您即将退出此账户。。。');
         setTimeout(() => {
-            this.authService.logout();
-        }, 2000);
+            this.authService.logout().subscribe(_ => {
+                this.router.navigate(['/auth']);
+            });
+        }, 1000);
     }
 
     public uploadFile(event: any) {

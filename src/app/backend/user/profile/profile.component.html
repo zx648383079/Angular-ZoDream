@@ -7,7 +7,7 @@
                     <div class="input-group avatar-input">
                         <label for="avatar">头像</label>
                         <div>
-                            <div class="avatar">
+                            <div class="avatar" *ngIf="data">
                                 <img [src]="data.avatar">
                             </div>
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
