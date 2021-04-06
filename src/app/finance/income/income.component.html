@@ -9,23 +9,17 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="关键字">
+                    <input type="text" class="form-control" [value]="queries.keywords" name="keywords" ngModel id="keywords" placeholder="关键字">
                 </div>
                 <div class="input-group">
                     <label for="type">类型</label>
                     <select class="form-control" name="type" ngModel id="type">
-                        <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == type">{{ item }}</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="account">账户</label>
-                    <select class="form-control" name="account" ngModel id="account">
-                        <option [value]="0">请选择</option>
-                        <option *ngFor="let item of accountItems" [value]="item.id" [selected]="item.id == account">{{ item.name }}</option>
+                        <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == queries.type">{{ item }}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right btn-group">
+                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
                     <a class="btn btn-info" (click)="tapImport(importModal)">导入</a>
                     <a class="btn btn-success" (click)="tapExport()">导出</a>
@@ -56,6 +50,7 @@
                     <td>{{ item.remark }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs" (click)="tapPreview(previewModal, item)">预览</a>
                             <a class="btn btn-primary btn-xs">克隆</a>
                             <a class="btn btn-success btn-xs" *ngIf="item.type == 2 || item.type == 3">还款</a>
                             <a class="btn btn-info btn-xs" *ngIf="item.type == 2">坏账</a>
@@ -68,8 +63,82 @@
             </tbody>
         </table>
 
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
+</div>
+
+
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+    </div>
+    <form class="panel-body" (ngSubmit)="tapSearch(advancedForm.value)" #advancedForm="ngForm">
+        <div class="form-group">
+            <label for="type1">类型</label>
+            <div class="input-group">
+                <select class="form-control" name="type" ngModel id="type1">
+                    <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == queries.type">{{ item }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="account">账户</label>
+            <div class="input-group">
+                <select class="form-control" name="account" ngModel id="account">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of accountItems" [value]="item.id" [selected]="item.id == queries.account">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="project">项目</label>
+            <div class="input-group">
+                <select class="form-control" id="project" ngModel name="project">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of projectItems;" [value]="item.id" [selected]="item.id == queries.project">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="channel">渠道</label>
+            <div class="input-group">
+                <select class="form-control" id="channel" ngModel name="channel">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of channelItems;" [value]="item.id" [selected]="item.id == queries.channel">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="budget">预算</label>
+            <div class="input-group">
+                <select class="form-control" id="budget" ngModel name="budget">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of budgetItems;" [value]="item.id" [selected]="item.id == queries.budget">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="start_at">开始时间</label>
+            <div class="input-group">
+                <app-date-input id="start_at" ngModel name="start_at"></app-date-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="end_at">结束时间</label>
+            <div class="input-group">
+                <app-date-input id="end_at" ngModel name="end_at"></app-date-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="keywords2">关键字</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [value]="queries.keywords" name="keywords" ngModel id="keywords2" placeholder="关键字">
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">搜索</button>
+        <button type="reset" class="btn btn-danger">重置</button>
+    </form>
 </div>
 
 <app-dialog-box #importModal title="导入" [buttonVisible]="false">
@@ -86,13 +155,13 @@
 
 <app-dialog-box #updateModal title="批量编辑">
     <div class="form-group">
-        <label for="keywords">根据关键词搜索备注，符合条件的进行修改数据</label>
+        <label for="keywords3">根据关键词搜索备注，符合条件的进行修改数据</label>
         <div class="input-group">
-            <input class="form-control" id="keywords" [(ngModel)]="editData.keywords" placeholder="请输入关键词">
+            <input class="form-control" id="keywords3" [(ngModel)]="editData.keywords" placeholder="请输入关键词" (ngModelChange)="onEditKeywords()">
         </div>
     </div>
 
-    <p>影响的数据</p>
+    <p>影响 {{ editData.count }} 条数据，未选择的将不会进行修改</p>
     <div class="form-group">
         <label for="account">账户</label>
         <div class="input-group">
@@ -128,5 +197,48 @@
                 <option *ngFor="let item of budgetItems;" [value]="item.id">{{ item.name }}</option>
             </select>
         </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #previewModal [title]="'预览:' + previewData.id" [buttonVisible]="false">
+    <div class="line-item">
+        <span class="label">类型：</span>
+        <span class="value">{{ previewData.type | logType }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">金额：</span>
+        <span class="value">{{ previewData.money }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">冻结金额：</span>
+        <span class="value">{{ previewData.frozen_money }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">账户：</span>
+        <span class="value">{{ formatAccount(previewData.account_id) }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">项目：</span>
+        <span class="value">{{ formatProject(previewData.project_id) }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">渠道：</span>
+        <span class="value">{{ formatChannel(previewData.channel_id) }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">预算：</span>
+        <span class="value">{{ formatBudget(previewData.budget_id) }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">交易对象：</span>
+        <span class="value">{{ previewData.trading_object }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">发生时间：</span>
+        <span class="value">{{ previewData.happened_at }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">备注：</span>
+        <span class="value">{{ previewData.remark }}</span>
     </div>
 </app-dialog-box>

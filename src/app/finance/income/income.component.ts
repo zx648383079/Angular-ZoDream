@@ -1,44 +1,59 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../theme/components';
+import { PanelAnimation } from '../../theme/constants/panel-animation';
+import { IPageQueries } from '../../theme/models/page';
+import { applyHistory, getQueries } from '../../theme/query';
 import { DownloadService } from '../../theme/services';
+import { eachObject } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../model';
 
 @Component({
-  selector: 'app-income',
-  templateUrl: './income.component.html',
-  styleUrls: ['./income.component.scss']
+    selector: 'app-income',
+    templateUrl: './income.component.html',
+    styleUrls: ['./income.component.scss'],
+    animations: [
+        PanelAnimation,
+    ]
 })
 export class IncomeComponent implements OnInit {
 
     public items: ILog[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
-    public type = 0;
-    public account = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        type: 0,
+        page: 1,
+        per_page: 20,
+    };
+
     public typeItems = ['全部', '支出', '收入', '借出', '借入'];
     public accountItems: IAccount[] = [];
     public channelItems: IConsumptionChannel[] = [];
     public projectItems: IFinancialProject[] = [];
     public budgetItems: IBudget[] = [];
+    public panelOpen = false;
+
+    public previewData: ILog = {} as any;
     public editData = {
         keywords: '',
         account_id: 0,
         channel_id: 0,
         project_id: 0,
         budget_id: 0,
+        count: 0,
     };
 
     constructor(
         private service: FinanceService,
         private toastrService: ToastrService,
         private downloadService: DownloadService,
+        private route: ActivatedRoute,
     ) {
         this.service.batch({
             account: {},
@@ -54,7 +69,21 @@ export class IncomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, {
+                keywords: '',
+                type: 0,
+                account: 0,
+                project: 0,
+                channel: 0,
+                budget: 0,
+                start_at: '',
+                end_at: '',
+                page: 1,
+                per_page: 20,
+            });
+            this.tapPage();
+        });
     }
 
     /**
@@ -65,11 +94,11 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -80,22 +109,29 @@ export class IncomeComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.logList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.logList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            this.queries = queries;
+            applyHistory(queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
-        this.type = form.type || 0;
-        this.account = form.account || 0;
+        this.queries = {
+            page: this.queries.page,
+            per_page: this.queries.per_page,
+        };
+        eachObject(form, (val, key) => {
+            if (val === undefined || val === null) {
+                val = '';
+            }
+            this.queries[key] = val;
+        });
+        this.panelOpen = false;
         this.tapRefresh();
     }
 
@@ -128,6 +164,7 @@ export class IncomeComponent implements OnInit {
         form.append('file', files[0]);
         this.service.logImport(form).subscribe(_ => {
             this.tapRefresh();
+            this.toastrService.success('导入成功');
         });
     }
 
@@ -140,6 +177,51 @@ export class IncomeComponent implements OnInit {
         }, () => {
             return !emptyValidate(this.editData.keywords);
         });
+    }
+
+    public tapPreview(modal: DialogBoxComponent, item: ILog) {
+        this.previewData = item;
+        modal.open();
+    }
+
+    public onEditKeywords() {
+        if (emptyValidate(this.editData.keywords)) {
+            this.editData.count = 0;
+            return;
+        }
+        this.service.logCount({
+            keywords: this.editData.keywords
+        }).subscribe(res => {
+            this.editData.count = res.data;
+        });
+    }
+
+    public formatAccount(id: number) {
+        return this.formatNameFrom(id, this.accountItems);
+    }
+
+    public formatChannel(id: number) {
+        return this.formatNameFrom(id, this.channelItems);
+    }
+
+    public formatProject(id: number) {
+        return this.formatNameFrom(id, this.projectItems);
+    }
+
+    public formatBudget(id: number) {
+        return this.formatNameFrom(id, this.budgetItems);
+    }
+
+    private formatNameFrom(id: number, items: any[]) {
+        if (id < 1) {
+            return '-';
+        }
+        for (const item of items) {
+            if (item.id === id) {
+                return item.name;
+            }
+        }
+        return '[x]';
     }
 
 }

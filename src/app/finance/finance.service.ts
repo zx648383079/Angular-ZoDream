@@ -58,6 +58,10 @@ export class FinanceService {
         return this.http.get<IPage<ILog>>('finance/log', {params});
     }
 
+    public logCount(params: any) {
+        return this.http.get<IDataOne<number>>('finance/log/count', {params});
+    }
+
     public log(id: any) {
         return this.http.get<ILog>('finance/log/detail', {
             params: {id},

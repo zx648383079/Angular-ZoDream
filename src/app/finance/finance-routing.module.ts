@@ -14,6 +14,7 @@ import { IncomeComponent } from './income/income.component';
 import { MoneyComponent } from './money/money.component';
 import { ProductComponent } from './money/product/product.component';
 import { ProjectComponent } from './money/project/project.component';
+import { SettingComponent } from './setting/setting.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,10 @@ const routes: Routes = [
                 component: MoneyComponent,
             },
             {
+                path: 'setting',
+                component: SettingComponent,
+            },
+            {
                 path: '',
                 component: HomeComponent,
             },
@@ -70,5 +75,5 @@ export class FinanceRoutingModule {}
 export const financeRoutedComponents = [
     FinanceComponent, HomeComponent, MoneyComponent, IncomeComponent,
     BudgetComponent, ProductComponent, ProjectComponent, ChannelComponent,
-    EditIncomeComponent
+    EditIncomeComponent, SettingComponent
 ];

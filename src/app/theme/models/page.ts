@@ -36,3 +36,9 @@ export interface IErrorResponse {
 export interface IErrorResult {
     error: IErrorResponse;
 }
+
+export interface IPageQueries {
+    [key: string]: any;
+    page: number;
+    per_page: number;
+}

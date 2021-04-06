@@ -4,7 +4,6 @@ import { financeRoutedComponents, FinanceRoutingModule } from './finance-routing
 import { ThemeModule } from '../theme/theme.module';
 import { FinanceService } from './finance.service';
 import { LogTypePipe } from './log-type.pipe';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
