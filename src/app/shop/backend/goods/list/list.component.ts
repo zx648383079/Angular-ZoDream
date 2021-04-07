@@ -16,6 +16,8 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
 
 @Component({
     selector: 'app-list',
@@ -26,13 +28,15 @@ export class ListComponent implements OnInit {
 
     public items: IGoods[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
-    public category = 0;
-    public brand = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        category: 0,
+        brand: 0,
+        page: 1,
+        per_page: 20,
+    };
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
 
@@ -51,13 +55,8 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params.category) {
-                this.category = params.category;
-            }
-            if (params.brand) {
-                this.brand = params.brand;
-            }
-            this.tapRefresh();
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
@@ -70,11 +69,11 @@ export class ListComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -85,24 +84,18 @@ export class ListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.get({
-            keywords: this.keywords,
-            category: this.category,
-            brand: this.brand,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.get(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
-        this.category = form.cat_id || 0;
-        this.brand = form.brand_id || 0;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

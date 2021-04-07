@@ -10,7 +10,7 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label class="sr-only" for="keywords">内容</label>
-                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="标题" [value]="keywords">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" [ngModel]="keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>

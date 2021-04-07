@@ -6,22 +6,31 @@ import { eachObject, uriEncode } from './utils';
  * @param def 
  * @returns 
  */
-export const getQueries = <T>(routeQueries: any, def: T): T => {
+export const getQueries = <T>(routeQueries: any, def: T, ): T => {
     const queries: any = {};
+    const parseNumber = (val: any): number => {
+        if (!val) {
+            return 0;
+        }
+        if (typeof val === 'string' && val.indexOf('.') > 0) {
+            return parseFloat(val);
+        }
+        return parseInt(val, 10);
+    };
     eachObject(def, (val, key) => {
-        if (!routeQueries || !Object.prototype.hasOwnProperty.call(routeQueries, key) || !routeQueries[key]) {
+        if (!routeQueries || !Object.prototype.hasOwnProperty.call(routeQueries, key)) {
             queries[key] = val;
             return;
         }
         if (typeof val === 'number') {
-            queries[key] = routeQueries[key].indexOf('.') > 0 ? parseFloat(routeQueries[key]) : parseInt(routeQueries[key], 10);
+            queries[key] = parseNumber(routeQueries[key]);
             return;
         }
         if (typeof val === 'boolean') {
-            queries[key] = routeQueries[key] === '1' || routeQueries[key] === 'true';
+            queries[key] = routeQueries[key] === true || routeQueries[key] === '1' || routeQueries[key] === 'true';
             return;
         }
-        queries[key] = routeQueries[key];
+        queries[key] = typeof routeQueries[key] === 'undefined' || routeQueries[key] === null ? '' : routeQueries[key];
     });
     return queries;
 };

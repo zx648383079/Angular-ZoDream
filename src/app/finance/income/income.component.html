@@ -9,12 +9,12 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [value]="queries.keywords" name="keywords" ngModel id="keywords" placeholder="关键字">
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键字">
                 </div>
                 <div class="input-group">
                     <label for="type">类型</label>
-                    <select class="form-control" name="type" ngModel id="type">
-                        <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == queries.type">{{ item }}</option>
+                    <select class="form-control" name="type" [ngModel]="queries.type" id="type">
+                        <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -76,63 +76,63 @@
         <div class="form-group">
             <label for="type1">类型</label>
             <div class="input-group">
-                <select class="form-control" name="type" ngModel id="type1">
-                    <option *ngFor="let item of typeItems; let i = index" [value]="i" [selected]="i == queries.type">{{ item }}</option>
+                <select class="form-control" name="type" [ngModel]="queries.type" id="type1">
+                    <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="account">账户</label>
             <div class="input-group">
-                <select class="form-control" name="account" ngModel id="account">
+                <select class="form-control" name="account" [ngModel]="queries.account" id="account">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of accountItems" [value]="item.id" [selected]="item.id == queries.account">{{ item.name }}</option>
+                    <option *ngFor="let item of accountItems" [value]="item.id" >{{ item.name }}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="project">项目</label>
             <div class="input-group">
-                <select class="form-control" id="project" ngModel name="project">
+                <select class="form-control" id="project" [ngModel]="queries.project" name="project">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of projectItems;" [value]="item.id" [selected]="item.id == queries.project">{{ item.name }}</option>
+                    <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="channel">渠道</label>
             <div class="input-group">
-                <select class="form-control" id="channel" ngModel name="channel">
+                <select class="form-control" id="channel" [ngModel]="queries.channel" name="channel">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of channelItems;" [value]="item.id" [selected]="item.id == queries.channel">{{ item.name }}</option>
+                    <option *ngFor="let item of channelItems;" [value]="item.id" >{{ item.name }}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="budget">预算</label>
             <div class="input-group">
-                <select class="form-control" id="budget" ngModel name="budget">
+                <select class="form-control" id="budget" [ngModel]="queries.budget" name="budget">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of budgetItems;" [value]="item.id" [selected]="item.id == queries.budget">{{ item.name }}</option>
+                    <option *ngFor="let item of budgetItems;" [value]="item.id" >{{ item.name }}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="start_at">开始时间</label>
             <div class="input-group">
-                <app-date-input id="start_at" ngModel name="start_at"></app-date-input>
+                <app-date-input id="start_at" [ngModel]="queries.start_at" name="start_at"></app-date-input>
             </div>
         </div>
         <div class="form-group">
             <label for="end_at">结束时间</label>
             <div class="input-group">
-                <app-date-input id="end_at" ngModel name="end_at"></app-date-input>
+                <app-date-input id="end_at" [ngModel]="queries.end_at" name="end_at"></app-date-input>
             </div>
         </div>
         <div class="form-group">
             <label for="keywords2">关键字</label>
             <div class="input-group">
-                <input type="text" class="form-control" [value]="queries.keywords" name="keywords" ngModel id="keywords2" placeholder="关键字">
+                <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords2" placeholder="关键字">
             </div>
         </div>
         

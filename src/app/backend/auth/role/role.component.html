@@ -9,7 +9,7 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                     <div class="input-group">
                         <label for="keywords">角色</label>
-                        <input type="text" class="form-control" [value]="keywords" name="keywords" ngModel id="keywords" placeholder="角色">
+                        <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="角色">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
                     <a routerLink="./create" class="pull-right btn btn-primary">新增角色</a>

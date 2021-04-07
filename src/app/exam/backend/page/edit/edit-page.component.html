@@ -113,13 +113,13 @@
         <form class="form-horizontal" (ngSubmit)="tapDialogSearch(searchForm.value)" #searchForm="ngForm">
             <div class="input-group">
                 <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [value]="dialogData.keywords" name="keywords" ngModel id="keywords" placeholder="关键词">
+                <input type="text" class="form-control" [ngModel]="dialogData.keywords" name="keywords" id="keywords" placeholder="关键词">
             </div>
             <div class="input-group">
                 <label for="course">关键字</label>
-                <select id="course" name="course" ngModel class="form-control">
+                <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of courseItems" [value]="item.id" [selected]="dialogData.course == item.id">{{ item.name }}</option>
+                    <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">搜索</button>

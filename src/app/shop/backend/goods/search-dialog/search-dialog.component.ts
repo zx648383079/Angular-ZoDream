@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { IPageQueries } from '../../../../theme/models/page';
 import { IBrand, ICategory, IGoods } from '../../../../theme/models/shop';
+import { getQueries } from '../../../../theme/query';
 import { GoodsService } from '../goods.service';
 
 @Component({
@@ -15,13 +17,15 @@ export class SearchDialogComponent implements OnChanges  {
     @Output() public cancel = new EventEmitter();
     public items: IGoods[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
-    public category = 0;
-    public brand = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        category: 0,
+        brand: 0,
+        page: 1,
+        per_page: 20,
+    };
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
     public selectedItems: IGoods[] = [];
@@ -100,11 +104,11 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -115,26 +119,20 @@ export class SearchDialogComponent implements OnChanges  {
             return;
         }
         this.isLoading = true;
-        this.service.search({
-            keywords: this.keywords,
-            category: this.category,
-            brand: this.brand,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.search(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            this.queries = queries
         }, _ => {
             this.isLoading = false;
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
-        this.category = form.cat_id || 0;
-        this.brand = form.brand_id || 0;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

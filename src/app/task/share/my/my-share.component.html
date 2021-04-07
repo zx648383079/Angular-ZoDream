@@ -10,15 +10,15 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="搜索标题"
-                        [value]="keywords">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题"
+                        [ngModel]="keywords">
                 </div>
                 <div class="input-group">
                     <label>状态</label>
-                    <select name="status" ngModel class="form-control">
-                        <option value="0">请选择</option>
+                    <select name="status" [ngModel]="status" class="form-control">
+                        <option [value]="0">请选择</option>
                         <ng-container *ngFor="let item of statusItems">
-                            <option [value]="item.value" [selected]="status == item.value">{{ item.name }}</option>
+                            <option [value]="item.value">{{ item.name }}</option>
                         </ng-container>
                     </select>
                 </div>

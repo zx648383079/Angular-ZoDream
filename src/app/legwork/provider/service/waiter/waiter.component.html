@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-5">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" ngModel [value]="keywords">
+            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" [ngModel]="keywords">
             <button class="btn btn-primary">搜索</button>
         </form>
     </div>

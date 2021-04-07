@@ -2,18 +2,21 @@
     <div class="search-bar">
         <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="input-group">
-                <input type="text" class="form-control" name="keywords" ngModel id="keywords" placeholder="搜索" >
+                <label for="keywords">标题</label>
+                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="标题" >
             </div>
             <div class="input-group">
-                <select name="cat_id" ngModel class="form-control">
-                    <option [value]="0" [selected]="category < 1">请选择分类</option>
-                    <option *ngFor="let item of categories" [value]="item.id" [selected]="item.id === category">{{ item.level | treeLevel }}{{ item.name }}</option>
+                <label>分类</label>
+                <select name="category" [ngModel]="queries.category" class="form-control">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
             </div>
             <div class="input-group">
-                <select name="brand_id" ngModel class="form-control">
-                    <option [value]="0" [selected]="brand < 1">请选择品牌</option>
-                    <option *ngFor="let item of brandItems" [value]="item.id" [selected]="item.id === brand">{{ item.name }}</option>
+                <label>品牌</label>
+                <select name="brand" [ngModel]="queries.brand" class="form-control">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">搜索</button>
@@ -30,7 +33,7 @@
                 <div class="price">{{ item.price }}</div>
             </div>
         </ng-container>
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
     <div class="footer-container">
         <div class="btn btn-primary" (click)="tapYes()">确定</div>
