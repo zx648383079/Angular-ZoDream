@@ -18,3 +18,7 @@ export function passwordValidate(password: string): boolean {
 export function emptyValidate(value: string): boolean {
     return !value || value.trim().length < 1;
 }
+
+export function intValidate(val: string): boolean {
+    return val && /^\d+$/.test(val);
+}

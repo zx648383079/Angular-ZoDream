@@ -30,6 +30,18 @@ export class UserService {
         });
     }
 
+    public bulletinRead(id: number) {
+        return this.http.post<IDataOne<boolean>>('auth/bulletin/read', {id});
+    }
+
+    public bulletinReadAll() {
+        return this.http.post<IDataOne<boolean>>('auth/bulletin/read_all', {});
+    }
+
+    public bulletinRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/bulletin/delete', {params: {id}});
+    }
+
     public connect() {
         return this.http.get<IData<IConnect>>('auth/account/connect').pipe(map(res => res.data));
     }

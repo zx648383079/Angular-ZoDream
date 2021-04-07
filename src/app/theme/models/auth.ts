@@ -1,3 +1,4 @@
+import { IExtraRule } from '../components/rule-block/model';
 import { IUser } from './user';
 
 export interface IBulletinUser {
@@ -7,12 +8,14 @@ export interface IBulletinUser {
     created_at: string;
     updated_at: string;
     bulletin: IBulletin;
+    open?: boolean;
 }
 
 export interface IBulletin {
     id: number;
     title: string;
     content: string;
+    extra_rule: IExtraRule[];
     type: number;
     user_id: number;
     created_at: string;

@@ -5,13 +5,7 @@
     <ng-container *ngIf="block.type == 1">
         <img [src]="block.image" [alt]="block.content">
     </ng-container>
-    <ng-container *ngIf="block.type == 2">
+    <ng-container *ngIf="block.type > 1 && block.type < 5">
         <a (click)="tapBlock(block)">{{ block.content }}</a>
-    </ng-container>
-    <ng-container *ngIf="block.type == 3">
-        <a (click)="tapBlock(block)">{{ block.content }}</a>
-    </ng-container>
-    <ng-container *ngIf="block.type == 4">
-        <a [href]="block.link" target="_blank" rel="noopener">{{ block.content }}</a>
     </ng-container>
 </ng-container>

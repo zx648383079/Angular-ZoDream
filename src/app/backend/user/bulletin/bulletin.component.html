@@ -13,20 +13,23 @@
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" value="">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-danger pull-right" >全部已读</a>
+                <a class="btn btn-danger pull-right" (click)="tapReadAll()">全部已读</a>
             </form>
         </div>
 
         <ng-container *ngFor="let item of items">
-            <div class="bulletin-item min">
-                <div class="title">
+            <div class="bulletin-item min" [ngClass]="{min: !item.open}">
+                <div class="title" (click)="tapToggle(item)">
                     {{ item.bulletin.title }}
                 </div>
-                <div class="content">{{ item.bulletin.content }}</div>
+                <div class="content">
+                    <app-rule-block [value]="item.bulletin.content" [rules]="item.bulletin.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+                </div>
                 <div class="footer">
                     <span>发送者：{{ item.bulletin.user_name }}</span>
                     <span>发送时间：{{ item.created_at }}</span>
                     <span>状态：{{ item.status > 0 ? '已阅' : '未读' }}</span>
+                    <a *ngIf="item.open && item.status > 0" (click)="tapRemove(item)">[删除]</a>
                 </div>
             </div>
         </ng-container>
