@@ -33,12 +33,7 @@
                     <div class="input-group">
                         <label for="性　　别">性　　别</label>
                         <div>
-                            <ng-container *ngFor="let item of sexItems">
-                                <span class="radio-label" [ngClass]="{checked: item.value == user.sex}" (click)="tapSex(item)">
-                                    <i class="iconfont" [ngClass]="{'icon-check': item.value == user.sex, 'icon-circle': item.value != user.sex}"></i>
-                                    {{ item.name }}
-                                </span>
-                            </ng-container>
+                            <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex"></app-check-input>
                         </div>
                     </div>
                     <div class="input-group">
@@ -50,11 +45,8 @@
                     </div>
                     <div class="input-group">
                         <label for="birthday">出生日期</label>
-                        <div class="calendar-input">
-                            <input type="text" id="birthday" class="form-control" ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                                <i class="iconfont icon-calendar"></i>
-                            </button>
+                        <div>
+                            <app-date-input formControlName="birthday"></app-date-input>
                         </div>
                     </div>
                     <div class="offset-md-3">

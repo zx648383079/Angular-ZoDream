@@ -33,9 +33,6 @@
         }
     }
     .info-box {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 40px;
         .intro {
             margin-bottom: 20px;
             position: relative;
@@ -161,22 +158,21 @@
         }
     }
     .picture-box {
+        display: flex;
         .view {
             position: relative;
-            float: left;
-            width: 430px;
-            height: 430px;
+            flex: 1;
             border: 1px solid #e8e8e8;
-            margin-right: 16px;
+            // margin-right: 16px;
             img {
                 display: block;
-                width: 428px;
-                height: 428px;
+                width: 100%;
+                // width: 428px;
+                // height: 428px;
                 background-color: #f4f4f4;
             }
         }
         ul {
-            float: right;
             overflow: hidden;
             position: relative;
             margin: 0;
@@ -202,9 +198,6 @@
     }
     .detail-box {
         margin-top: 30px;
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        grid-gap: 40px;
         .tab-box {
             .content-box {
                 padding: 10px;

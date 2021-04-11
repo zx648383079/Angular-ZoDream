@@ -20,14 +20,14 @@
             </div>
             <div class="address-page-box">
                 <div class="address-row" *ngFor="let item of items">
-                    <div>{{ item.name }}</div>
-                    <div>{{ item.region.full_name }} {{ item.address }}</div>
-                    <div>{{ item.tel }}</div>
+                    <div class="name">{{ item.name }}</div>
+                    <div class="address">{{ item.region.full_name }} {{ item.address }}</div>
+                    <div class="tel">{{ item.tel }}</div>
                     <div class="action">
                         <a  (click)="tapEdit(item)">编辑</a>
                         <a >删除</a>
                     </div>
-                    <div>
+                    <div class="default">
                         <ng-container *ngIf="item.is_default; else elseTemplate">
                             <span class="btn">默认地址</span>
                         </ng-container>

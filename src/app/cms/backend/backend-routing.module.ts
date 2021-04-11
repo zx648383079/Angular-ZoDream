@@ -54,7 +54,7 @@ const routes: Routes = [
         component: SiteComponent,
     },
     {
-        path: 'model/create',
+        path: 'form/create',
         component: EditModelComponent,
     },
     {

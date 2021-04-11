@@ -12,7 +12,7 @@
                 <option *ngFor="let t of typeItems" [value]="t.value">{{ t.name }}</option>
             </select>
         </div>
-        <div *ngIf="kind == 1">
+        <div *ngIf="kind == 1" class="switch-input">
             <app-switch [(ngModel)]="item.is_required" [ngModelOptions]="{standalone: true}" (ngModelChange)="onValueChange()"></app-switch>
         </div>
         <div *ngIf="kind == 1">

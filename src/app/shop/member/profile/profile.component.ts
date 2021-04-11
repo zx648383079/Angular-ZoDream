@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
         email: ['', [Validators.email, Validators.required]],
         mobile: [''],
         sex: [0],
-        birthday: [this.dateAdapter.fromModel()],
+        birthday: [''],
       });
 
     constructor(
@@ -44,7 +44,6 @@ export class ProfileComponent implements OnInit {
         private toastrService: ToastrService,
         public route: ActivatedRoute,
         private fb: FormBuilder,
-        private dateAdapter: DateAdapter,
     ) { }
 
     ngOnInit() {
@@ -55,7 +54,7 @@ export class ProfileComponent implements OnInit {
                 email: user.email,
                 mobile: '',
                 sex: user.sex,
-                birthday: this.dateAdapter.fromModel(user.birthday),
+                birthday: user.birthday,
               });
         }, err => {
             const res = err.error as IErrorResponse;
@@ -76,7 +75,6 @@ export class ProfileComponent implements OnInit {
             return;
         }
         const data: any = Object.assign({}, this.form.value);
-        data.birthday = this.dateAdapter.toModel(data.birthday);
         this.service.uploadProfile(data).subscribe(_ => {
             this.toastrService.success('保存成功');
         }, err => {

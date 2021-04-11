@@ -1,6 +1,6 @@
 .request-tr {
     display: grid;
-    grid-template-columns: 140px 1fr 80px 60px 1fr 1fr 60px;
+    grid-template-columns: 100px 1fr 80px 60px 1fr 1fr 60px;
 }
 .response-tr {
     display: grid;
@@ -18,4 +18,9 @@ select {
     .form-control {
         width: 80px;
     }
+}
+.switch-input {
+    padding-top: 7px;
+    font-size: 12px;
+    text-align: center;
 }

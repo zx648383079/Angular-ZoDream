@@ -14,7 +14,7 @@
                 </div>
                 <div class="input-group">
                     <label>区间</label>
-                    <select name="type" [ngModel="type" class="form-control">
+                    <select name="type" [ngModel]="type" class="form-control">
                         <ng-container *ngFor="let item of typeItems;let i = index">
                             <option [value]="i" >{{ item }}</option>
                         </ng-container>

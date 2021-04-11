@@ -25,14 +25,38 @@
         <div class="input-group">
             <label for="type">类型</label>
             <div>
-                <select class="form-control" id="type" formControlName="type">
+                <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
                     <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
 
             </div>
         </div>
         <div class="option-box">
-
+            <ng-container *ngFor="let item of optionItems">
+                <div class="input-group">
+                    <label>{{ item.label }}</label>
+                    <div *ngIf="item.type == 'text'">
+                        <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div *ngIf="item.type == 'textarea'">
+                        <textarea class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+                    <div *ngIf="item.type == 'select'">
+                        <select class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="item.type == 'radio'">
+                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
+                    </div>
+                    <div *ngIf="item.type == 'checkbox'">
+                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
+                    </div>
+                    <div *ngIf="item.type == 'switch'">
+                        <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
+                    </div>
+                </div>
+            </ng-container>
         </div>
         <div class="input-group">
             <label for="is_required">是否必填</label>

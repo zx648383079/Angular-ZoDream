@@ -1,25 +1,16 @@
 header {
     z-index: 2;
-    height: 240px;
     .header-top {
         position: relative;
-        height: 36px;
         line-height: 36px;
         background-color: #333;
         z-index: 4;
         color: #ccc;
         font-size: 12px;
         .top-left {
-            float: left;
-            >a {
-                float: left;
-            }
             .home {
                 padding-right: 10px;
             }
-        }
-        .top-right {
-            float: right;
         }
         a {
             color: #ccc;
@@ -112,7 +103,6 @@ header {
         }
     }
     &.user-header {
-        height: 136px;
         background-color: white;
         .header-main {
             height: 100px;
@@ -160,13 +150,12 @@ footer {
         }
     }
     .footer-top {
+        display: none;
         padding-top: 60px;
         padding-bottom: 34px;
         background-color: #fff;
         border-top: 1px solid #e8e8e8;
         .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
             .top-item {
                 text-align: center;
                 color: #333;
@@ -231,6 +220,7 @@ footer {
                     padding-top: 0;
                 }
                 span {
+                    display: none;
                     vertical-align: super;
                 }
             }
@@ -256,6 +246,49 @@ footer {
         margin-bottom: 27px;
         background-color: #4f4f4f;
         border: 0;
+    }
+}
+
+
+@media (min-width: 768px) {
+    header {
+        height: 240px;
+        .header-top {
+            height: 36px;
+            .top-left {
+                float: left;
+                >a {
+                    float: left;
+                }
+            }
+            .top-right {
+                float: right;
+            }
+        }
+        &.user-header {
+            height: 136px;
+        }
+    }
+    footer {
+        .footer-top {
+            display: block;
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        .footer-main {
+            .top-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                margin-bottom: 30px;
+                .top-item {
+                    span {
+                        display: inline-block;
+                    }
+                }
+            }   
+        }
     }
 }
 

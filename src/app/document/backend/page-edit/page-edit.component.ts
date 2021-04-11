@@ -131,6 +131,7 @@ export class PageEditComponent implements OnInit {
                 name: res.name,
                 content: res.content
             });
+            document.documentElement.scrollTop = 0;
         });
     }
 

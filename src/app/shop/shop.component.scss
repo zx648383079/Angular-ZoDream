@@ -152,11 +152,6 @@
             }
         }
     }
-    .side-box {
-        display: grid;
-        grid-template-columns: 180px 1fr;
-        grid-gap: 20px;
-    }
     .radio-label {
         background-color: transparent;
         color: #333;
@@ -170,4 +165,12 @@
             color: #fff;
         }
     }
+    @media (min-width: 768px) {
+        .side-box {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            grid-gap: 20px;
+        }
+    }
+
 }

@@ -144,6 +144,7 @@ export class ApiEditComponent implements OnInit {
                 description: res.description,
                 uri: res.uri,
             });
+            document.documentElement.scrollTop = 0;
         });
     }
 

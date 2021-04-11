@@ -12,8 +12,11 @@
                 <div class="tab-item" *ngFor="let group of formItems" [ngClass]="{active: group.active}">
                     <div class="input-group" *ngFor="let item of group.items">
                         <label>{{ item.label }}</label>
-                        <div *ngIf="item.type == 'text'">
-                            <input type="text" class="form-control"  [(ngModel)]="item.value">
+                        <div *ngIf="item.type == 'text' || item.type == 'url' || item.type == 'location' || item.type == 'email'">
+                            <input type="text" class="form-control" [(ngModel)]="item.value">
+                        </div>
+                        <div *ngIf="item.type == 'password'">
+                            <input type="password" class="form-control" [(ngModel)]="item.value">
                         </div>
                         <div *ngIf="item.type == 'textarea'">
                             <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
@@ -32,17 +35,17 @@
                         <div *ngIf="item.type == 'switch'">
                             <app-switch [(ngModel)]="item.value"></app-switch>
                         </div>
-                        <div *ngIf="item.type == 'image'">
+                        <div *ngIf="item.type == 'image' || item.type == 'images'">
                             <app-file-input [(ngModel)]="item.value"></app-file-input>
                         </div>
-                        <div *ngIf="item.type == 'file'">
+                        <div *ngIf="item.type == 'file' || item.type == 'files'">
                             <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
                         </div>
                         <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                            <editor [(ngModel)]="item.value" [init]="tinyConfigs"></editor>
                         </div>
-                        <div *ngIf="item.type == 'json'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        <div *ngIf="item.type == 'markdown'">
+                            <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 .user-page {
     .user-box {
         position: relative;
+        margin-top: 50px;
     }
     .user-info {
         position: absolute;
@@ -72,4 +73,13 @@
             display: block;
         }
     }
+}
+
+@media (min-width: 768px) {
+    .user-page {
+        .user-box {
+            margin: 0;
+        }
+    }
+
 }

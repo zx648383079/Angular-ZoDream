@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { ICmsCategory, ICmsContent, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite } from '../model';
+import { ICmsCategory, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite } from '../model';
 
 @Injectable()
 export class CmsService {
@@ -142,6 +142,12 @@ export class CmsService {
     public field(id: any) {
         return this.http.get<ICmsModelField>('cms/admin/model/field_detail', {
           params: {id},
+        });
+    }
+
+    public fieldOption(type: string, id: any) {
+        return this.http.get<IData<ICmsFormInput>>('cms/admin/model/option', {
+          params: {id, type},
         });
     }
 

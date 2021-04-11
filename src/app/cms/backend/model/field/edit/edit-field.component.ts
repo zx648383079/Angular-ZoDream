@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../../../../../theme/models/seo';
-import { ICmsModelField } from '../../../../model';
+import { ICmsFormGroup, ICmsFormInput, ICmsModelField } from '../../../../model';
 import { CmsService } from '../../../cms.service';
 
 @Component({
@@ -32,6 +32,7 @@ export class EditFieldComponent implements OnInit {
     public data: ICmsModelField;
     public typeItems: IItem[] = [];
     public tabItems: string[] = [];
+    public optionItems: ICmsFormInput[] = [];
     private model = 0;
 
     constructor(
@@ -55,6 +56,7 @@ export class EditFieldComponent implements OnInit {
                 });
             });
             if (!params.id) {
+                this.onTypeChange();
                 return;
             }
             this.service.field(params.id).subscribe(res => {
@@ -93,6 +95,12 @@ export class EditFieldComponent implements OnInit {
         history.back();
     }
 
+    public onTypeChange() {
+        this.service.fieldOption(this.typeValue, this.data ? this.data.id : 0).subscribe(res => {
+            this.optionItems = res.data ? res.data : [];
+        });
+    }
+
     public tapSubmit() {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
@@ -102,6 +110,14 @@ export class EditFieldComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        const option: any = {};
+        this.optionItems.forEach(i => {
+            option[i.name] = i.value;
+        });
+        if (!data.setting) {
+            data.setting = {};
+        }
+        data.setting.option = option;
         this.service.fieldSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
