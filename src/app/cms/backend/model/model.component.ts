@@ -24,6 +24,8 @@ export class ModelComponent implements OnInit {
     };
     public typeItems = ['实体', '表单'];
 
+    public siteId = 0;
+
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
@@ -31,6 +33,12 @@ export class ModelComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (!params.site) {
+                return;
+            }
+            this.siteId = parseInt(params.site, 10);
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();

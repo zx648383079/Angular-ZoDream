@@ -10,6 +10,8 @@ import { EditCategoryComponent } from './category/edit/edit-category.component';
 import { CmsBackendComponent } from './cms-backend.component';
 import { ContentComponent } from './content/content.component';
 import { EditContentComponent } from './content/edit/edit-content.component';
+import { FormDetailComponent } from './form/detail/detail.component';
+import { FormComponent } from './form/form.component';
 import { GroupComponent } from './group/group.component';
 import { LinkageDataComponent } from './linkage/data/linkage-data.component';
 import { LinkageComponent } from './linkage/linkage.component';
@@ -38,16 +40,28 @@ const routes: Routes = [
         component: CategoryComponent,
     },
     {
-        path: 'site/:site/content/:category/create',
+        path: 'site/:site/content/:category/:model/:parent/create',
         component: EditContentComponent,
     },
     {
-        path: 'site/:site/content/:category/edit/:id',
+        path: 'site/:site/content/:category/:model/:parent/edit/:id',
         component: EditContentComponent,
     },
     {
-        path: 'site/:site/content/:category',
+        path: 'site/:site/content/:category/:model/:parent',
         component: ContentComponent,
+    },
+    {
+        path: 'site/:site/form/:model/:id',
+        component: FormDetailComponent,
+    },
+    {
+        path: 'site/:site/form/:model',
+        component: FormComponent,
+    },
+    {
+        path: 'site/:site/form',
+        component: ModelComponent,
     },
     {
         path: 'site',
@@ -103,5 +117,6 @@ export class CMSBackendRoutingModule {}
 
 export const cmsBackendRoutedComponents = [
     CmsBackendComponent, CategoryComponent, SiteComponent, ModelComponent, GroupComponent, LinkageComponent, LinkageDataComponent, EditModelComponent,
-    ModelFieldComponent, EditFieldComponent, SiteOptionComponent, ContentComponent, EditCategoryComponent, EditContentComponent
+    ModelFieldComponent, EditFieldComponent, SiteOptionComponent, ContentComponent, EditCategoryComponent, EditContentComponent,
+    FormComponent, FormDetailComponent
 ];

@@ -1,0 +1,57 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑表单' : '新增表单'" (submited)="tapSubmit()"></app-edit-header>
+
+<div class="container-fluid">
+    <div class="panel-container form-table">
+        <div class="tab-box">
+            <div class="tab-header">
+                <div class="tab-item" *ngFor="let item of formItems" [ngClass]="{active: item.active}" (click)="tapTab(item)">
+                    {{ item.name }}
+                </div>
+            </div>
+            <div class="tab-body">
+                <div class="tab-item" *ngFor="let group of formItems" [ngClass]="{active: group.active}">
+                    <div class="input-group" *ngFor="let item of group.items">
+                        <label>{{ item.label }}</label>
+                        <div *ngIf="item.type == 'text' || item.type == 'url' || item.type == 'location' || item.type == 'email'">
+                            <input type="text" class="form-control" [(ngModel)]="item.value">
+                        </div>
+                        <div *ngIf="item.type == 'password'">
+                            <input type="password" class="form-control" [(ngModel)]="item.value">
+                        </div>
+                        <div *ngIf="item.type == 'textarea'">
+                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        </div>
+                        <div *ngIf="item.type == 'select'">
+                            <select class="form-control"  [(ngModel)]="item.value">
+                                <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="item.type == 'radio'">
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                        </div>
+                        <div *ngIf="item.type == 'checkbox'">
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                        </div>
+                        <div *ngIf="item.type == 'switch'">
+                            <app-switch [(ngModel)]="item.value"></app-switch>
+                        </div>
+                        <div *ngIf="item.type == 'image' || item.type == 'images'">
+                            <app-file-input [(ngModel)]="item.value"></app-file-input>
+                        </div>
+                        <div *ngIf="item.type == 'file' || item.type == 'files'">
+                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                        </div>
+                        <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
+                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        </div>
+                        <div *ngIf="item.type == 'markdown'">
+                            <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="tapSubmit()" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </div>
+</div>

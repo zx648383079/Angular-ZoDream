@@ -74,9 +74,9 @@ export class CmsService {
         return this.http.get<IPage<ICmsContent>>('cms/admin/content', {params});
     }
 
-    public content(site: any, category: any, id: any) {
+    public content(params: any) {
         return this.http.get<ICmsContent>('cms/admin/content/detail', {
-          params: {id, site, category},
+          params,
         });
     }
 
@@ -84,9 +84,9 @@ export class CmsService {
         return this.http.post<ICmsContent>('cms/admin/content/save', data);
     }
 
-    public contentRemove(site: any, category: any, id: any) {
+    public contentRemove(params: any) {
         return this.http.delete<IDataOne<true>>('cms/admin/content/delete', {
-          params: {id, site, category}
+          params
         });
     }
 

@@ -8,11 +8,11 @@ import { ICmsColumn, ICmsContent, ICmsModel } from '../../model';
 import { CmsService } from '../cms.service';
 
 @Component({
-  selector: 'app-content',
-  templateUrl: './content.component.html',
-  styleUrls: ['./content.component.scss']
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss']
 })
-export class ContentComponent implements OnInit {
+export class FormComponent implements OnInit {
 
     public items: ICmsContent[] = [];
     public hasMore = true;
@@ -100,7 +100,7 @@ export class ContentComponent implements OnInit {
     }
   
     public tapRemove(item: ICmsContent) {
-        if (!confirm('确定删除“' + item.title + '”内容？')) {
+        if (!confirm('确定删除“' + item.title + '”表单？')) {
             return;
         }
         this.service.contentRemove({...this.queries, id: item.id}).subscribe(res => {

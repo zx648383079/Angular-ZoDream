@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理站点列表</li>
+            <li>管理表单列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -12,36 +12,24 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" routerLink="create">新增站点</a>
             </form>
         </div>
     
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>站点名</th>
-                    <th>网址</th>
+                    <th *ngFor="let item of columnItems">{{ item.label }}</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td>
-                        <ng-container *ngIf="item.is_default > 0">
-                            [默认]
-                        </ng-container>
-                        
-                        {{ item.id }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.description }}</td>
+                    <td *ngFor="let key of columnItems">
+                        {{ formatColumn(item, key) }}
+                    </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" [routerLink]="[item.id, 'form']">表单</a>
-                            <a class="btn btn-primary btn-xs" [routerLink]="[item.id, 'category']">栏目</a>
-                            <a class="btn btn-info btn-xs" [routerLink]="[item.id, 'option']">配置</a>
-                            <a class="btn btn-success btn-xs" *ngIf="item.is_default < 1">设为默认</a>
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                            <a class="btn btn-light btn-xs" [routerLink]="[item.id]">查看</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

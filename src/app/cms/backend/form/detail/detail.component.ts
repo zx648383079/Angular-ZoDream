@@ -2,17 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { getQueries } from '../../../../theme/query';
-import { FileUploadService } from '../../../../theme/services';
 import { eachObject } from '../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
-  selector: 'app-edit-content',
-  templateUrl: './edit-content.component.html',
-  styleUrls: ['./edit-content.component.scss']
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.scss']
 })
-export class EditContentComponent implements OnInit {
+export class FormDetailComponent implements OnInit {
 
     public data: ICmsContent;
     public queries = {
@@ -24,40 +23,10 @@ export class EditContentComponent implements OnInit {
     };
     public formItems: ICmsFormGroup[] = [];
 
-    public tinyConfigs = {
-        height: 500,
-        base_url: '/tinymce',
-        suffix: '.min',
-        language_url: '../../../assets/tinymce/langs/zh_CN.js',
-        language: 'zh_CN',
-        plugins: [
-          'advlist autolink lists link image imagetools charmap print preview anchor',
-          'searchreplace visualblocks code fullscreen',
-          'insertdatetime media table paste code help wordcount'
-        ],
-        toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent | removeformat | help',
-        image_caption: true,
-        paste_data_images: true,
-        imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
-        images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
-          const form = new FormData();
-          form.append('file', blobInfo.blob(), blobInfo.filename());
-          this.uploadService.uploadImages(form).subscribe(res => {
-            success(res[0].url);
-          }, err => {
-            failure(err.error.message);
-          });
-        },
-    };
-
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
         private toastrService: ToastrService,
-        private uploadService: FileUploadService,
     ) { }
 
     ngOnInit() {

@@ -99,6 +99,7 @@ export class EditCategoryComponent implements OnInit {
                 this.data = res;
                 this.categories = filterTree(this.categories, res.id);
                 this.form.patchValue({
+                    title: res.title, 
                     name: res.name,
                     type: res.type,
                     position: res.position,
