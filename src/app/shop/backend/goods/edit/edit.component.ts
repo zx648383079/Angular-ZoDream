@@ -63,14 +63,14 @@ export class EditComponent implements OnInit, AfterViewInit {
         private uploadService: FileUploadService,
         private attrService: AttributeService,
     ) {
-        this.service.categoryAll().subscribe(res => {
-            this.categories = res.data;
-        });
-        this.service.brandAll().subscribe(res => {
-            this.brandItems = res.data;
-        });
-        this.attrService.groupAll().subscribe(res => {
-            this.typeItems = res.data;
+        this.service.batch({
+            category: {},
+            group: {},
+            brand: {}
+        }).subscribe(res => {
+            this.categories = res.category;
+            this.typeItems = res.group;
+            this.brandItems = res.brand;
         });
     }
 

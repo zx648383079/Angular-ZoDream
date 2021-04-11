@@ -1,22 +1,26 @@
 .tab-box {
     .tab-header {
         position: relative;
+        background-color: #f4f4f4;
         .tab-item {
-            &.active,
+            display: inline-block;
+            width: 150px;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            text-align: center;
+            position: relative;
+            cursor: default;
             &:hover {
-                background: #333;
+                background: #ccc;
+            }
+            &.active {
+                background: #767676;
                 color: #fff;
-                .fa {
+                .iconfont {
                     display: block;
                 }
             }
-            display: inline-block;
-            width: 150px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            position: relative;
-            .fa-close {
+            .icon-close {
                 position: absolute;
                 right: 10px;
                 top: 6px;
@@ -24,7 +28,7 @@
             }
         }
         &.has-over {
-            >.fa {
+            >.iconfont {
                 position: absolute;
                 width: 30px;
                 text-align: center;
@@ -34,7 +38,7 @@
                     top: 0;
                 }
             }
-            .zd-tab-head-content {
+            .tab-header-content {
                 ul {
                     padding: 0;
                     margin: 0 30px;
@@ -44,13 +48,14 @@
     }
     .tab-body {
         .tab-item {
+            display: none;
+            width: 100%;
+            padding: 10px;
             &.active {
                 display: block;
                 background: transparent;
                 color: #767676;
             }
-            display: none;
-            width: 100%;
         }
     }
 }

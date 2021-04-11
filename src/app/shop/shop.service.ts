@@ -298,4 +298,22 @@ export class ShopService {
     public seckillList(params: any) {
         return this.http.get<IPage<ISeckillGoods>>('shop/activity/seckill/goods', {params});
     }
+
+    public batch(data: {
+        category?: any;
+        brand?: any;
+        cart?: any;
+        hot_keywords?: any;
+        notice?: any;
+        help?: any;
+    }) {
+        return this.http.post<{
+            category?: ICategory[];
+            brand?: IBrand[];
+            cart?: ICart;
+            hot_keywords?: string[];
+            notice?: IArticle[];
+            help?: IArticleCategory[]|IArticle[];
+        }>('shop/batch', data);
+    }
 }

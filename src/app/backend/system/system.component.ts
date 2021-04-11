@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../theme/components';
 import { IOption } from '../../theme/models/seo';
-import { FileUploadService } from '../../theme/services/file-upload.service';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 

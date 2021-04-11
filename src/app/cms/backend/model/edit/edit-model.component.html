@@ -1,0 +1,83 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑模型' : '新增模型'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="type">类型</label>
+            <div>
+                <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="table">表名</label>
+            <div>
+                <input type="text" id="table" class="form-control" formControlName="table">
+
+            </div>
+        </div>
+        <div class="content-box" *ngIf="typeValue < 1">
+            <div class="input-group">
+                <label for="child_model">分级模型</label>
+                <div>
+                    <select  class="form-control" id="child_model" formControlName="child_model">
+                        <option [value]="0">无分集</option>
+                        <option *ngFor="let item of modelItems" [value]="item.id">{{ item.name }}</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="category_template">分类模板</label>
+                <div>
+                    <input type="text" id="category_template" class="form-control" formControlName="category_template">
+
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="list_template">列表模板</label>
+                <div>
+                    <input type="text" id="list_template" class="form-control" formControlName="list_template" >
+
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="show_template">详情模板</label>
+                <div>
+                    <input type="text" id="show_template" class="form-control" formControlName="show_template" >
+
+                </div>
+            </div>
+        </div>
+        <div class="form-box"  *ngIf="typeValue > 0">
+            <div class="input-group">
+                <label for="setting_is_show">显示</label>
+                <div formGroupName="setting">
+                    <app-switch formControlName="is_show"></app-switch>
+                    <div class="input-tip">允许显示在前台</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="setting_is_only">唯一</label>
+                <div formGroupName="setting">
+                    <app-switch formControlName="is_only"></app-switch>
+                    <div class="input-tip">是否保持用户唯一</div>
+                </div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="position">排序</label>
+            <div>
+                <input type="text" id="position" class="form-control" formControlName="position" >
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </form>
+</div>

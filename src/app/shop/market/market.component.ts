@@ -55,17 +55,16 @@ export class MarketComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.service.cart().subscribe(cart => {
-            this.store.dispatch(setCart({cart}));
-        });
-        this.service.categories().subscribe(res => {
-            this.categories = res.data;
-        });
-        this.service.hotKeywords().subscribe(res => {
-            this.hotItems = res.data;
-        });
-        this.service.notice().subscribe(res => {
-            this.noticeItems = res.data;
+        this.service.batch({
+            cart: {},
+            category: {},
+            hot_keywords: {},
+            notice: {},
+        }).subscribe(res => {
+            this.store.dispatch(setCart({cart: res.cart}));
+            this.categories = res.category;
+            this.hotItems = res.hot_keywords;
+            this.noticeItems = res.notice;
         });
     }
 

@@ -1,6 +1,6 @@
 <ng-container *ngFor="let item of items; let i = index">
     <div [ngClass]="{'request-tr': kind == 1, 'response-tr': kind == 2}">
-        <div class="line-name">
+        <div class="line-name" [title]="item.level + '级'">
             {{ item.level | treeLevel }}
             <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}" (ngModelChange)="onValueChange()">
         </div>

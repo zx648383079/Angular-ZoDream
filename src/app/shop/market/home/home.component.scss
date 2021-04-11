@@ -77,42 +77,6 @@
     .slider-goods {
         
     }
-    .first-goods-list {
-        display: grid;
-        height: 530px;
-        grid-template: 1fr 1fr/1.75fr 1fr 1fr 1fr;
-        grid-gap: 10px;
-        a {
-            position: relative;
-            text-align: center;
-            background: #fff;
-            &:first-child {
-                grid-row: 1/3;
-                .thumb {
-                    width: 390px;
-                    height: 360px;
-                    img {
-                        width: 320px;
-                        height: 320px;
-                        margin: 20px 35px;
-                    }
-                }
-                .name {
-                    margin-bottom: 13px;
-                    font-size: 18px;
-                    padding-top: 20px;
-                }
-            }
-            .thumb {
-                width: 180px;
-                height: 180px;
-            }
-            .name {
-                border-top: 1px solid #F4F0EA;
-                padding-top: 10px;
-            }
-        }
-    }
     &.floor-out {
         background: #f4f0ea;
         padding: 30px 0;
@@ -132,13 +96,12 @@
     }
 }
 
-.category-floor {
-    .goods-list {
-        display: grid;
-        grid-template: 355px / repeat(4, 1fr);
-        grid-gap: 10px;
+.first-goods-list {
+    .goods-item {
+        margin: 5px;
     }
 }
+
 .comment-floor {
     .goods-item {
         position: relative;
@@ -181,6 +144,45 @@
                     color: #b4a078;
                     float: right;
                 }
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .first-goods-list {
+        display: grid;
+        height: 530px;
+        grid-template: 1fr 1fr/1.75fr 1fr 1fr 1fr;
+        grid-gap: 10px;
+        a {
+            position: relative;
+            text-align: center;
+            background: #fff;
+            &:first-child {
+                grid-row: 1/3;
+                .thumb {
+                    width: 390px;
+                    height: 360px;
+                    img {
+                        width: 320px;
+                        height: 320px;
+                        margin: 20px 35px;
+                    }
+                }
+                .name {
+                    margin-bottom: 13px;
+                    font-size: 18px;
+                    padding-top: 20px;
+                }
+            }
+            .thumb {
+                width: 180px;
+                height: 180px;
+            }
+            .name {
+                border-top: 1px solid #F4F0EA;
+                padding-top: 10px;
             }
         }
     }

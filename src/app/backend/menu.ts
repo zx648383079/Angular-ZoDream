@@ -9,6 +9,8 @@ import { DocumentBackendMenu } from '../document/backend/menu';
 import { ExamBackendMenu } from '../exam/backend/menu';
 import { MicroBackendMenu } from '../micro/backend/menu';
 import { SystemtBackendMenu } from './system/menu';
+import { CMSBackendMenu } from '../cms/backend/menu';
+import { OpenBackendMenu } from './open/menu';
 
 export const backendMenuItems = [
     {
@@ -94,23 +96,8 @@ export const backendMenuItems = [
     ...OnlineServiceBackendMenu,
     ...DocumentBackendMenu,
     ...ExamBackendMenu,
-    {
-        name: '开放平台',
-        icon: 'icon-th-large',
-        url: './open',
-        role: 'open_manage',
-        children: [{
-                name: '应用管理',
-                label: '应',
-                url: './open/platform',
-            },
-            {
-                name: '授权管理',
-                label: '授',
-                url: './open/authorize',
-            },
-        ],
-    },
+    ...CMSBackendMenu,
+    ...OpenBackendMenu,
     {
         name: '短信管理',
         icon: 'icon-mail',

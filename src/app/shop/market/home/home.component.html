@@ -99,15 +99,19 @@
                 <img [src]="floor.banner" alt="">
             </div>
             <div class="goods-list">
-                <ng-container *ngFor="let item of floor.goods_list">
-                    <a [routerLink]="'./goods/' + item.id" class="goods-item item-hover">
-                      <div class="thumb">
-                          <img [src]="item.thumb" alt="">
-                      </div>
-                      <div class="name">{{ item.name }}</div>
-                      <div class="price">{{ item.price }}</div>
-                  </a>
-                  </ng-container>
+                <div class="row">
+                    <ng-container *ngFor="let item of floor.goods_list">
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <a [routerLink]="'./goods/' + item.id" class="goods-item item-hover">
+                                <div class="thumb">
+                                    <img [src]="item.thumb" alt="">
+                                </div>
+                                <div class="name">{{ item.name }}</div>
+                                <div class="price">{{ item.price }}</div>
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
         </div>
     </div>

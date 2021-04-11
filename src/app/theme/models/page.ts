@@ -41,4 +41,6 @@ export interface IPageQueries {
     [key: string]: any;
     page: number;
     per_page: number;
+    keywords?: string;
+    category?: number;
 }

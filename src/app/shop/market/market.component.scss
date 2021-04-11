@@ -1,25 +1,16 @@
 header {
     z-index: 2;
-    height: 240px;
     .header-top {
         position: relative;
-        height: 36px;
         line-height: 36px;
         background-color: #333;
         z-index: 4;
         color: #ccc;
         font-size: 12px;
         .top-left {
-            float: left;
-            >a {
-                float: left;
-            }
             .home {
                 padding-right: 10px;
             }
-        }
-        .top-right {
-            float: right;
         }
         a {
             color: #ccc;
@@ -113,7 +104,7 @@ header {
     }
     .header-main {
         position: relative;
-        height: 204px;
+        height: 250px;
         background-color: #fff;
         box-shadow: 0 0 3px 0 rgba(0,0,0,.2);
         .container {
@@ -123,16 +114,20 @@ header {
         .header-logo {
             text-align: center;
             img {
-                height: 140px;
+                height: 100px;
             }
         }
         .header-nav {
             line-height: 1;
             font-weight: 700;
-            height: 51px;
-            width: 100%;
+            height: 50px;
+            width: auto;
             position: absolute;
             bottom: 0px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            line-height: 3rem;
             a {
                 text-decoration: none;
             }
@@ -197,11 +192,7 @@ header {
             }
         }
         .header-search {
-            position: absolute;
-            top: 64px;
-            right: 64px;
-            width: 287px;
-            height: 50px;
+            position: relative;
             .iconfont {
                 font-size: 30px;
                 color: #b4a078;
@@ -253,10 +244,9 @@ header {
         }
         .header-cart {
             position: absolute;
-            cursor: pointer;
             width: 34px;
             height: 32px;
-            top: 65px;
+            top: 100px;
             right: 9px;
             a {
                 text-decoration: none;
@@ -477,13 +467,12 @@ footer {
         }
     }
     .footer-top {
+        display: none;
         padding-top: 60px;
         padding-bottom: 34px;
         background-color: #fff;
         border-top: 1px solid #e8e8e8;
         .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
             .top-item {
                 text-align: center;
                 color: #333;
@@ -548,6 +537,7 @@ footer {
                     padding-top: 0;
                 }
                 span {
+                    display: none;
                     vertical-align: super;
                 }
             }
@@ -601,6 +591,70 @@ footer {
             line-height: 21px;
         }
     }
+}
+
+@media (min-width: 768px) {
+    header {
+        height: 240px;
+        .header-top {
+            height: 36px;
+            .top-left {
+                float: left;
+                >a {
+                    float: left;
+                }
+            }
+            .top-right {
+                float: right;
+            }
+        }
+        .header-main {
+            height: 204px;
+            .header-logo {
+                text-align: center;
+                img {
+                    height: 140px;
+                }
+            }
+            .header-nav {
+                height: 51px;
+                width: 100%;
+                bottom: 0px;
+            }
+            .header-search {
+                position: absolute;
+                top: 64px;
+                right: 64px;
+                width: 287px;
+                height: 50px;
+            }
+            .header-cart {
+                top: 65px;
+            }
+        }
+    }
+    footer {
+        .footer-top {
+            display: block;
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        .footer-main {
+            .top-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                margin-bottom: 30px;
+                .top-item {
+                    span {
+                        display: inline-block;
+                    }
+                }
+            }   
+        }
+    }
+
 }
 
 ::ng-deep {

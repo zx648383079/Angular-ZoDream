@@ -10,6 +10,7 @@ import {
     IPage
 } from '../../../theme/models/page';
 import {
+    IAttributeGroup,
     IBrand,
     ICategory,
     IGoods,
@@ -147,5 +148,17 @@ export class GoodsService {
         return this.http.get<IPage<IGoods>>('shop/admin/goods/search', {
             params
         });
+    }
+
+    public batch(data: {
+        category?: any;
+        brand?: any;
+        group?: any;
+    }) {
+        return this.http.post<{
+            category?: ICategory[];
+            brand?: IBrand[];
+            group?: IAttributeGroup[];
+        }>('shop/admin/batch', data);
     }
 }

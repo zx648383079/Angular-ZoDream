@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理分组列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <div class="input-group">
+                    <label for="type1">关键字</label>
+                    <select class="form-control" [ngModel]="queries.type" name="type" id="type1">
+                        <option *ngFor="let item of typeItems; let i =index" [value]="i">{{ item }}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" (click)="open(modal)">新增分组</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs"  (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分组' : '新增分组'">
+    <div class="form-group">
+      <label for="name">名称</label>
+      <input type="text"
+        class="form-control" [(ngModel)]="editData.name" id="name" placeholder="请输入名称">
+    </div>
+    <div class="form-group">
+        <label for="type">类型</label>
+        <div>
+            <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="editData.type" id="type"></app-check-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description">描述</label>
+        <textarea class="form-control" [(ngModel)]="editData.description" id="description" placeholder="请输入描述"></textarea>
+    </div>
+</app-dialog-box>

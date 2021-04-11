@@ -84,6 +84,10 @@ const routes: Routes = [{
             loadChildren: () => import('../micro/backend/micro.module').then(m => m.MicroModule)
         },
         {
+            path: 'cms',
+            loadChildren: () => import('../cms/backend/cms-backend.module').then(m => m.CmsBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

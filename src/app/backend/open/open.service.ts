@@ -50,7 +50,22 @@ export class OpenService {
 
     public platformRemove(id: any) {
         return this.http.delete<IDataOne<true>>('open/platform/delete', {
-          params: {id}
+            params: {id}
+        });
+    }
+
+    public reviewList(params: any) {
+        return this.http.get<IPage<IPlatform>>('open/admin/platform', {
+             params,
+        });
+    }
+    public reviewSave(data: any) {
+        return this.http.post<IPlatform>('open/admin/platform/save', data);
+    }
+
+    public reviewRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('open/admin/platform/delete', {
+            params: {id}
         });
     }
 }

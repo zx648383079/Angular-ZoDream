@@ -44,6 +44,7 @@ export class EditComponent implements OnInit {
         'RSA2',
         'DES'
     ];
+    public reviewable = false;
 
     constructor(
         private fb: FormBuilder,
@@ -54,6 +55,7 @@ export class EditComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
+            this.reviewable = window.location.href.indexOf('review') > 0;
             if (!params.id) {
                 return;
             }
@@ -79,6 +81,14 @@ export class EditComponent implements OnInit {
         return this.form.get('name');
     }
 
+    get signType() {
+        return this.form.get('sign_type').value;
+    }
+
+    get encryptType() {
+        return this.form.get('encrypt_type').value;
+    }
+
     public tapBack() {
         history.back();
     }
@@ -92,7 +102,8 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        this.service.platformSave(data).subscribe(_ => {
+        const cb = this.reviewable ? this.service.reviewSave : this.service.platformSave;
+        cb.call(this.service, data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
         });

@@ -1,0 +1,93 @@
+<app-edit-header [title]="'站点配置'" (submited)="tapSubmit()"></app-edit-header>
+<div class="container-fluid">
+    
+    <div class="panel-container form-table">
+        <div class="input-group" *ngFor="let item of items">
+            <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
+            <div *ngIf="item.type == 'text'">
+                <input type="text" class="form-control"  [(ngModel)]="item.value">
+            </div>
+            <div *ngIf="item.type == 'textarea'">
+                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+            </div>
+            <div *ngIf="item.type == 'select'">
+                <select class="form-control"  [(ngModel)]="item.value">
+                    <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
+                </select>
+            </div>
+            <div *ngIf="item.type == 'radio'">
+                <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+            </div>
+            <div *ngIf="item.type == 'checkbox'">
+                <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+            </div>
+            <div *ngIf="item.type == 'switch'">
+                <app-switch [(ngModel)]="item.value"></app-switch>
+            </div>
+            <div *ngIf="item.type == 'image'">
+                <app-file-input [(ngModel)]="item.value"></app-file-input>
+            </div>
+            <div *ngIf="item.type == 'file'">
+                <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+            </div>
+            <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
+                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+            </div>
+            <div *ngIf="item.type == 'json'">
+                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <button (click)="tapSubmit()" class="btn btn-success btn-save">确认保存</button>
+    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    <a class="btn btn-info" (click)="tapEditOption(optionModal)">新增设置项</a>
+</div>
+
+<app-dialog-box #optionModal [buttonVisible]="false" [title]="editData.id > 0 ? '编辑设置项' : '新增设置项'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="field_name">名称(必填)</label>
+            <div>
+                <input type="text" id="field_name" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="field_type">类型</label>
+            <div>
+                <select id="field_type" class="form-control" [(ngModel)]="editData.type">
+                    
+                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+        
+            </div>
+        </div>
+        <div class="group-property">
+            <div class="input-group">
+                <label for="field_code">别名(必填)</label>
+                <div>
+                    <input type="text" id="field_code" class="form-control" [(ngModel)]="editData.code">
+            
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="field_default_value">默认值</label>
+                <div>
+                    <textarea id="field_default_value" class="form-control" [(ngModel)]="editData.default_value"></textarea>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="field_value">值</label>
+                <div>
+                    <textarea id="field_value" class="form-control" [(ngModel)]="editData.value"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-container name="footer">
+        <button type="button" class="btn btn-primary" (click)="optionModal.close('Save click')">确定</button>
+        <button type="button" *ngIf="editData.id > 0" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+    </ng-container>
+</app-dialog-box>

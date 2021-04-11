@@ -55,7 +55,7 @@
 
           </div>
       </div>
-      <div class="input-group">
+      <div class="input-group" *ngIf="signType > 0">
           <label for="sign_key">签名密钥</label>
           <div>
               <textarea id="sign_key" class="form-control" formControlName="sign_key"></textarea>
@@ -71,12 +71,21 @@
 
           </div>
       </div>
-      <div class="input-group">
+      <div class="input-group" *ngIf="encryptType > 0">
           <label for="public_key">加密公钥</label>
           <div>
               <textarea id="public_key" class="form-control" formControlName="public_key"></textarea>
           </div>
       </div>
+      <div class="input-group" *ngIf="reviewable">
+        <label for="rules">允许规则</label>
+        <div>
+            <textarea id="rules" class="form-control" formControlName="rules"></textarea>
+            <div class="input-tip">
+                @ 匹配模块空间 ~ 接正则表达式 ^ 匹配开头 - 排除，其他匹配全路径
+            </div>
+        </div>
+    </div>
       </ng-container>
       
       <div class="input-group">

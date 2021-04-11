@@ -1,0 +1,10 @@
+.tab-group {
+    .flat-input {
+        display: inline-flex;
+        width: auto;
+        .form-control {
+            width: 80px;
+            min-width: 80px;
+        }
+    }
+}
