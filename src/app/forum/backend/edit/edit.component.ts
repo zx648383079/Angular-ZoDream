@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogBoxComponent } from '../../../theme/components';
-import { IForum, IForumClassify } from '../../../theme/models/forum';
+import { IForum, IForumClassify } from '../../model';
 import { IUser } from '../../../theme/models/user';
 import { filterTree } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
@@ -111,7 +111,7 @@ export class EditComponent implements OnInit {
                 this.classifyItems.push(this.editData);
             }
         }, () => {
-            return !emptyValidate(this.editData.name) && !emptyValidate(this.editData.icon)
+            return !emptyValidate(this.editData.name) || !emptyValidate(this.editData.icon)
         });
     }
 

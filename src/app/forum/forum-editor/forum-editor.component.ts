@@ -29,6 +29,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
     @ViewChild(DialogBoxComponent)
     private modal: DialogBoxComponent;
     @Input() public height = 200;
+    @Input() public placeholder = '';
 
     public disable = false;
     public value = '';
@@ -97,7 +98,8 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
     }
 
     public tapEmoji(item: IEmoji) {
-        this.insert(item.type > 0 ? item.content : '[' + item.name + ']')
+        const content = item.type > 0 ? item.content : '[' + item.name + ']';
+        this.insert(content, content.length)
     }
 
     public tapTool(name: string) {
@@ -168,7 +170,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkRange();
-        this.area.value = this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start);
+        this.setContent(this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start));
         this.move(move);
         if (!focus) {
             return;
@@ -185,7 +187,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
             return this.insert(typeof val === 'function' ? val('') : val, move, focus);
         }
         const str = typeof val === 'function' ? val(this.area.value.substr(this.range.start, this.range.end - this.range.start)) : val;
-        this.area.value = this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end);
+        this.setContent(this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end));
         this.move(move);
         if (!focus) {
             return;
@@ -213,7 +215,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
     }
 
     public clear(focus: boolean = true) {
-        this.area.value = '';
+        this.setContent('');
         if (!focus) {
             return;
         }
@@ -265,6 +267,11 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
             return;
         }
         items.splice(i, 1);
+    }
+
+    public setContent(value: string) {
+        this.value = this.area.value = value;
+        this.onValueChange();
     }
 
     writeValue(obj: any): void {

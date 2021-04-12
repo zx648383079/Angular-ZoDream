@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IForum } from '../../theme/models/forum';
+import { IForum } from '../model';
 import { ForumService } from './forum.service';
 
 @Component({

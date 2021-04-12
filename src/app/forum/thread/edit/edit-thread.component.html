@@ -1,0 +1,37 @@
+<div class="container">
+    <ul  class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/" class="iconfont icon-home"></a>
+        </li><li class="breadcrumb-item">
+            <a routerLink="../">圈子首页</a>
+        </li>
+        <li class="breadcrumb-item active">
+            {{ data.id ? '编辑帖子' : '发布帖子' }}
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <form class="thread-new-box" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="title">
+            <select formControlName="classify_id" class="form-control" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
+                <option [value]="0">选择主题分类</option>
+                <ng-container *ngFor="let item of forum.classifies">
+                    <option [value]="item.id">{{ item.name }}</option>
+                </ng-container>
+            </select>
+            <input type="text" class="form-control" formControlName="title" placeholder="请输入主题标题">
+        </div>
+
+        <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
+
+        <div class="form-group">
+            <app-switch id="is_private" formControlName="is_private_post"></app-switch> 
+            <label for="is_private">开启回帖仅楼主可见</label>
+        </div>
+        
+        <div class="footer btn-group">
+            <button class="btn btn-primary" [disabled]="form.invalid">发表帖子</button>
+            <a class="btn btn-danger" href="javascript:history.back()">返回</a>
+        </div>
+    </form>
+</div>

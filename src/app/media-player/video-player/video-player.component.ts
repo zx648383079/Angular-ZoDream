@@ -189,6 +189,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
             'player.youku.com',
             'player.bilibili.com',
             'v.qq.com',
+            'open.iqiyi.com',
         ];
         for (const host of maps) {
             if (this.src.indexOf(host) > 0) {

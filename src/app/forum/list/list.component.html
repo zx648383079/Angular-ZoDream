@@ -1,16 +1,16 @@
 <div class="container" *ngIf="forum">
-  <ul  class="breadcrumb">
-      <li class="breadcrumb-item">
-          <a routerLink="/" class="iconfont icon-home"></a>
-      </li><li class="breadcrumb-item">
-          <a routerLink="../">圈子首页</a>
-      </li>
-      <li class="breadcrumb-item" *ngFor="let item of forum.path">
-        <a routerLink="{{ item.id }}">{{ item.name }}</a>
+    <ul  class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/" class="iconfont icon-home"></a>
+        </li><li class="breadcrumb-item">
+            <a routerLink="../">圈子首页</a>
         </li>
-      <li class="breadcrumb-item active">{{ forum.name }}
-      </li>
-  </ul>
+        <li class="breadcrumb-item" *ngFor="let item of forum.path">
+            <a [routerLink]="['../', item.id]">{{ item.name }}</a>
+        </li>
+        <li class="breadcrumb-item active">{{ forum.name }}
+        </li>
+    </ul>
 </div>
 <div class="container">
     <div class="forum-group" *ngIf="forum">
@@ -24,12 +24,12 @@
                 </div>
                 <div class="info">
                     <div class="name">
-                        <a routerLink="{{ item.id }}">{{ item.name }}</a>
+                        <a [routerLink]="['../', item.id]">{{ item.name }}</a>
                     </div>
-                    <div class="count">主题：{{ item.thread_count }}，帖数：{{ item.post_count }}</div>
+                    <div class="count">主题：{{ item.thread_count | numberFormat }}，帖数：{{ item.post_count | numberFormat }}</div>
                     <div class="last-thread" *ngIf="item.last_thread">
-                        <a routerLink="thread/{{ item.last_thread.id }}">{{ item.last_thread.title }}</a>
-                        {{ item.last_thread.created_at }} {{ item.last_thread.user.name }} </div>
+                        <a [routerLink]="['../thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
+                        {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }} </div>
                 </div>
             </div>
             </ng-container>
@@ -52,49 +52,64 @@
             </div>
         </div>
         <ng-container *ngFor="let item of items">
-          <div class="thread-item">
+          <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
             <div class="name">
-                <i class="iconfont icon-file"></i>
-                <a class="title" routerLink="../thread/{{ item.id }}">{{ item.title }}</a>
+                <ng-container *ngIf="item.is_closed">
+                    <i class="iconfont icon-lock" title="主题已关闭"></i>
+                </ng-container>
+                <ng-container *ngIf="!item.is_closed">
+                    <i class="iconfont icon-file"></i>
+                </ng-container>
+                <em class="tag-item" *ngIf="item.classify">
+                    [<a (click)="tapClassify(item.classify)">{{ item.classify.name }}</a>]
+                </em>
+                <a class="title" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
+                <i class="iconfont icon-fire" *ngIf="item.is_digest"></i>
+                <a class="new-tag" *ngIf="item.is_new">New</a>
             </div>
             <div class="time">
                 <em data-action="user" data-id="1">{{ item.user.name }}</em>
-                <em>{{ item.created_at }}</em>
+                <em>{{ item.created_at | ago }}</em>
             </div>
             <div class="count">
-                <em>{{ item.post_count }}</em>
-                <em>{{ item.view_count }}</em>
+                <em>{{ item.post_count | numberFormat }}</em>
+                <em>{{ item.view_count | numberFormat }}</em>
             </div>
             <div class="reply">
-                <em>zodream</em>
-                <em>2019-10-19</em>
+                <ng-container *ngIf="item.last_post">
+                    <em>{{ item.last_post.user.name }}</em>
+                    <em>{{ item.last_post.created_at | ago }}</em>
+                </ng-container>
             </div>
         </div>
         </ng-container>
         
         <div class="paging-box">
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
 
 
     </div>
     <div class="thread-new-box" *ngIf="forum">
-        <div class="header">快速发帖</div>
-        <form >
+        <div class="header">快速发帖
+
+            <a class="pull-right" routerLink="create">完整模式&gt;</a>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="title">
-                <select name="classify_id">
-                    <option value="0">选择主题分类</option>
+                <select formControlName="classify_id" class="form-control" *ngIf="forum.classifies && forum.classifies.length > 0">
+                    <option [value]="0">选择主题分类</option>
                     <ng-container *ngFor="let item of forum.classifies">
                         <option [value]="item.id">{{ item.name }}</option>
                     </ng-container>
                 </select>
-                <input type="text" name="title" >
+                <input type="text" class="form-control" formControlName="title" placeholder="请输入主题标题">
             </div>
 
-            <app-forum-editor></app-forum-editor>
+            <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
             
             <div class="footer">
-                <button class="btn">发表帖子</button>
-                <input type="hidden" name="forum_id" value="2">
+                <button class="btn btn-primary" [disabled]="form.invalid">发表帖子</button>
             </div>
         </form>
     </div>

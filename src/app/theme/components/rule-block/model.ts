@@ -1,4 +1,5 @@
 export interface IBlockItem {
+    [key: string]: any;
     content: string;
     type?: number;
     user?: number; // 2
@@ -8,6 +9,7 @@ export interface IBlockItem {
 }
 
 export interface IExtraRule {
+    [key: string]: any;
     s: string;    // 字符串
     i?: string;   // 图片链接
     u?: number;   // 用户id

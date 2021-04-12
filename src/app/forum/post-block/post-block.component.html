@@ -1,0 +1,138 @@
+<ng-container *ngIf="!readable; else elseTemplate">
+    <div class="hide-locked-node">
+        <i class="iconfont icon-lock"></i> 本帖内容仅楼主可见
+    </div>
+</ng-container>
+<ng-template #elseTemplate>
+    <ng-container *ngFor="let block of blcokItems">
+        <ng-container *ngIf="!block.type || block.type < 1">
+            {{ block.content }}
+        </ng-container>
+        <ng-container *ngIf="block.type == 1">
+            <img [src]="block.image" [alt]="block.content">
+        </ng-container>
+        <ng-container *ngIf="block.type > 1 && block.type < 5">
+            <a (click)="tapBlock(block)">{{ block.content }}</a>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'at'">
+            <ng-container *ngIf="block.hide">
+                <div class="quote">
+                    <blockquote>
+                        <a (click)="tapBlock(block)">{{ block.content }}</a> 
+                        <div class="quote-body">
+                            <div class="hide-locked-node">
+                                 <i class="iconfont icon-lock"></i> 本帖内容仅楼主可见
+                            </div>
+                        </div>
+                    </blockquote>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!block.hide && block.text">
+                <div class="quote">
+                    <blockquote>
+                        <a (click)="tapBlock(block)">{{ block.content }}</a> 
+                        <div class="quote-body">
+                            {{ block.text }}
+                        </div>
+                    </blockquote>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!block.hide && !block.text && block.thread">
+                <a (click)="tapBlock(block)">{{ block.content }}</a> 
+            </ng-container>
+            <ng-container *ngIf="!block.hide && !block.text && !block.thread">
+                {{ block.content }}
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'audio'">
+            <app-audio-player [src]="block.src"></app-audio-player>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'video'">
+            <app-video-player [src]="block.src"></app-video-player>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'code'">
+            <div class="code-block">
+                <div class="copy-btn" (click)="tapCopy(block, $event)">复制</div>
+                <pre><code [class]="'language-' + block.language">{{ block.content }}</code></pre>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'hide'">
+            <ng-container *ngIf="block.name">
+                <div class="hide-locked-node">
+                    <i class="iconfont icon-lock"></i> {{ block.name }}，如果您要查看本帖隐藏内容请<a (click)="tapBlock(block)">回复</a>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="block.content">
+                <div class="hide-open-node">
+                    <div class="node-tip">本帖隐藏的内容</div>
+                    <app-post-block [value]="block.content" (tapped)="tapBlock($event)"></app-post-block>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'hide_buy'">
+            <ng-container *ngIf="block.name">
+                <div class="hide-locked-node">
+                    <i class="iconfont icon-lock"></i> {{ block.name }}，如果您要查看本帖隐藏内容请<a (click)="tapBlock(block)">购买[{{ block.price }}]</a>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'file_login'">
+            <div class="file-down-node">
+                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
+                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'file'">
+            <ng-container *ngIf="block.error">
+                <div class="file-down-node">
+                    <p><i class="iconfont icon-file-archive"></i> 【文件不存在】</p>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!block.error">
+                <div class="file-down-node">
+                    <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">下载</a>]</p>
+                    <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'file_buy'">
+            <div class="file-down-node">
+                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
+                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+            </div>
+            <div class="file-down-node">
+                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">购买({{ block.price }})</a>]</p>
+                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="block.type === 98 && block.tag === 'vote'">
+            <div class="vote-box">
+                {{ block.content }}
+                <ng-container *ngFor="let item of block.items">
+                    <ng-container *ngIf="block.editable; else elseTemplate">
+                        <div class="vote-item" (click)="tapVoteItem(block, item)">
+                            <i class="iconfont" [id]="item.id" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}"></i>
+                            <label [for]="item.id">{{ item.value }}</label>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <div class="vote-item">
+                            <span>{{ item.value }}</span>
+                            <div class="vote-progress" [title]="item.count + '/' + block.total">
+                                <div class="vote-value" [ngStyle]="{width: item.count * 100 / block.total + '%'}">{{ item.count + '/' + block.total }}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+                <div class="vote-footer" *ngIf="block.editable">
+                    <p>最多可以选择{{ block.max }}项</p>
+                    <button class="btn btn-primary" (click)="tapVoteSubmit(block)">提交</button>
+                </div>
+            </div>
+            
+        </ng-container>
+        <ng-container *ngIf="block.type === 99">
+            <br/>
+        </ng-container>
+    </ng-container>
+</ng-template>

@@ -1,4 +1,4 @@
-import { IUser } from './user';
+import { IUser } from '../theme/models/user';
 
 export interface IForum {
     id: number;
@@ -29,11 +29,18 @@ export interface IThread {
     created_at: string;
     updated_at: string;
     user: IUser;
+    forum_id: number;
     forum?: IForum;
     path?: IForum[];
     digestable?: boolean;
     highlightable?: boolean;
     closeable?: boolean;
+    last_post?: IThreadPost;
+    is_new?: boolean;
+    classify?: IForumClassify;
+    content?: string;
+    is_private_post?: number;
+    classify_id?: number;
 }
 
 export interface IThreadPost {
@@ -44,6 +51,7 @@ export interface IThreadPost {
     created_at: string;
     updated_at?: string;
     deleteable?: boolean;
+    is_public_post?: boolean;
     html?: any;
 }
 

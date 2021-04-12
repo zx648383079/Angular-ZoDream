@@ -1,0 +1,133 @@
+
+.hide-locked-node,
+.hide-open-node {
+    overflow: hidden;
+    margin: 10px 0;
+    padding: 8px 8px 8px 24px;
+    border: 1px dashed #FF9A9A;
+    background: #FBF1E1;
+    zoom: 1;
+}
+.hide-locked-node {
+    font-size: 12px;
+}
+.hide-open-node {
+    background-color: transparent;
+    >.node-tip {
+        margin-bottom: 10px;
+        color: #F66;
+        font-size: 12px;
+        text-align: center;       
+    }
+}
+.file-down-node {
+    margin: 10px 0;
+    padding: 8px 8px 8px 24px;
+    line-height: 30px;
+    color: #aaa;
+    p {
+        &:first-child {
+            color: #333;
+            font-weight: 500;
+        }
+    }
+    a {
+        text-decoration:underline;
+    }
+}
+.vote-box {
+    padding: 10px;
+    .vote-item {
+        line-height: 30px;
+    }
+    .vote-progress {
+        display: inline-block;
+        width: 200px;
+        border: 1px solid #ccc;
+        height: 14px;
+        position: relative;
+        .vote-value {
+            width: 0%;
+            background-color: #ebc9c9;
+            height: 12px;
+            overflow: hidden;
+            line-height: 12px;
+            font-size: 12px;
+        }
+    }
+    .vote-footer {
+        p {
+            color: #ccc;
+            font-size: 12px;
+        }
+    }
+}
+
+
+.quote {
+    background-color: #F9F9F9;
+    margin: 10px 0;
+    padding: 10px 35px;
+    zoom: 1;
+    color: #666;
+    position: relative;
+    overflow: hidden;
+    &::before {
+        content: "“";
+        position: absolute;
+        font-size: 80px;
+        left: -1px;
+        top: -12px;
+        color: #ccc;
+    }
+    &::after {
+        content: "”";
+        position: absolute;
+        font-size: 80px;
+        right: -1px;
+        bottom: -53px;
+        color: #ccc;
+    }
+}
+
+code {
+    font-family: Menlo, Monaco, Consolas, Droid Sans Mono, Courier New, monospace, Microsoft YaHei, 微软雅黑, 宋体;
+    background: rgba(127, 127, 127, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 0.25rem;
+    font-size: .9em;
+}
+pre {
+    white-space: pre-wrap;
+    word-wrap: normal !important;
+    overflow-x: auto;
+    margin: 0;
+    background: rgba(127, 127, 127, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    > code {
+        white-space: pre !important;
+        display: block;
+        padding: 0.65rem 1rem;
+        background-color: transparent;
+        border: none;
+    }
+    &:not(:first-child) {
+        margin-top: 1rem;
+    }
+}
+
+.code-block {
+    position: relative;
+}
+
+.copy-btn {
+    position: absolute;
+    background-color: #fff;
+    color: #4d4d4d;
+    padding: 2px 8px;
+    margin: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%), 0 2px 4px rgb(0 0 0 / 5%);
+    right: 0;
+}

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IForum, IThread } from '../../theme/models/forum';
+import { IForum, IThread } from '../model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 

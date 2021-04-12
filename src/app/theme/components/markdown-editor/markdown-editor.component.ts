@@ -117,7 +117,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkRange();
-        this.area.value = this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start);
+        this.setContent(this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start))
         this.move(move);
         if (!focus) {
             return;
@@ -134,7 +134,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
             return this.insert(typeof val === 'function' ? val('') : val, move, focus);
         }
         const str = typeof val === 'function' ? val(this.area.value.substr(this.range.start, this.range.end - this.range.start)) : val;
-        this.area.value = this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end);
+        this.setContent(this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end));
         this.move(move);
         if (!focus) {
             return;
@@ -162,7 +162,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     }
 
     public clear(focus: boolean = true) {
-        this.area.value = '';
+        this.setContent('');
         if (!focus) {
             return;
         }
@@ -191,6 +191,11 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
         this.area.selectionStart = this.range.start;
         this.area.selectionEnd = this.range.end;
         this.area.focus();
+    }
+
+    public setContent(value: string) {
+        this.value = this.area.value = value;
+        this.onValueChange();
     }
 
     writeValue(obj: any): void {

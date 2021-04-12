@@ -15,13 +15,25 @@
 
 <div class="container">
     <div class="thread-box">
-        <div class="thread-title" *ngIf="thread">
+        <div class="thread-title" *ngIf="thread"  [ngClass]="{'thread-highlight': thread.is_highlight}">
             <div class="count">
-                <span>查看：{{ thread.view_count }}</span>
-                <span>回复：{{ thread.post_count }}</span>
+                <span>查看：{{ thread.view_count | numberFormat }}</span>
+                <span>回复：{{ thread.post_count | numberFormat }}</span>
             </div>
             <div class="title">
-                {{ thread.title }} </div>
+                <ng-container *ngIf="thread.is_closed">
+                    <i class="iconfont icon-lock" title="主题已关闭"></i>
+                </ng-container>
+                <ng-container *ngIf="!thread.is_closed">
+                    <i class="iconfont icon-file"></i>
+                </ng-container>
+                <em class="tag-item" *ngIf="thread.classify">
+                    [<a>{{ thread.classify.name }}</a>]
+                </em>
+                {{ thread.title }} 
+                <i class="iconfont icon-fire" *ngIf="thread.is_digest"></i>
+                <a class="new-tag" *ngIf="thread.is_new">New</a>
+            </div>
         </div>
         <div class="post-list">
             
@@ -37,21 +49,22 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                            发表于 {{ item.created_at }} <div class="action">
+                            发表于 {{ item.created_at | ago }} <div class="action">
     
                             </div>
                         </div>
-                        <div class="last-time">最后编辑于 {{ item.updated_at }}</div>
-                        <div class="content" [innerHTML]="item.html">
+                        <div class="last-time">最后编辑于 {{ item.updated_at | ago }}</div>
+                        <div class="content">
+                            <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
                         <div class="action">
     
                         </div>
                         <div class="footer">
-                            <a href="javascript:;" data-action="reply">回复</a>
-                            <a *ngIf="thread.digestable">设为精华</a>
-                            <a *ngIf="thread.highlightable">设为高亮</a>
-                            <a *ngIf="thread.closeable">设为关闭</a>
+                            <a (click)="tapReply(item)">回复</a>
+                            <a *ngIf="thread.digestable"  (click)="toggeDigest()">设为精华</a>
+                            <a *ngIf="thread.highlightable" (click)="toggeHighlight()">设为高亮</a>
+                            <a *ngIf="thread.closeable" (click)="toggeClose()">设为关闭</a>
                         </div>
                     </div>
                 </div>
@@ -67,15 +80,16 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                            发表于 {{ item.created_at }} <div class="action">
+                            发表于 {{ item.created_at | ago }} <div class="action">
                                 {{ item.grade }}楼
                             </div>
                         </div>
-                        <div class="content" [innerHTML]="item.html">
+                        <div class="content">
+                            <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">
-                            <a href="javascript:;" data-action="reply">回复</a>
-                            <a *ngIf="item.deleteable">删除</a>
+                            <a *ngIf="item.is_public_post" (click)="tapReply(item)">回复</a>
+                            <a *ngIf="item.deleteable" (click)="tapRemove(item)">删除</a>
                         </div>
                     </div>
                 </div>
@@ -85,6 +99,7 @@
             
         </div>
         <div class="paging-box">
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
         <div class="post-item post-new" *ngIf="user">
             <div class="post-user">
@@ -94,10 +109,10 @@
                 </div>
             </div>
             <div class="post-content">
-                <form>
-                    <app-forum-editor></app-forum-editor>
+                <form [formGroup]="form" (ngSubmit)="tapSubmit()">
+                    <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
                     <div class="footer">
-                        <button class="btn">发表回复</button>
+                        <button class="btn btn-primary" [disabled]="form.invalid">发表回复</button>
                     </div>
                 </form>
             </div>

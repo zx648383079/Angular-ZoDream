@@ -9,9 +9,9 @@
         <div class="tool-item" title="插入隐藏内容" (click)="tapTool('hide')">
             <i class="iconfont icon-eye-slash"></i>
         </div>
-        <label for="editor-video" class="tool-item" title="插入可下载内容">
+        <label for="editor-file" class="tool-item" title="插入可下载内容">
             <i class="iconfont icon-download"></i>
-            <input type="file" name="file" id="editor-video" (change)="uploadFile($event)" [disabled]="disable" multiple/>
+            <input type="file" name="file" id="editor-file" (change)="uploadFile($event)" [disabled]="disable" multiple/>
         </label>
         <label for="editor-img" class="tool-item" title="插入图片">
             <i class="iconfont icon-image"></i>
@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
     </div>
 </div>
