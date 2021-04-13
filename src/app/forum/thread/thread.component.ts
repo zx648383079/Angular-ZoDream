@@ -32,6 +32,9 @@ import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
 import { DownloadService } from '../../theme/services';
 import { openLink } from '../../theme/deeplink';
+import { DialogBoxComponent } from '../../theme/components';
+import { eachObject } from '../../theme/utils';
+import { emailValidate } from '../../theme/validators';
 
 @Component({
     selector: 'app-thread',
@@ -58,6 +61,8 @@ export class ThreadComponent implements OnInit {
     public form = this.fb.group({
         content: ['', Validators.required], 
     });
+
+    public editData: any = {};
 
     constructor(
         private fb: FormBuilder,
@@ -91,6 +96,33 @@ export class ThreadComponent implements OnInit {
     public tapSeeUser(user: number = 0) {
         this.queries.user = user;
         this.tapRefresh();
+    }
+
+    public open(modal: DialogBoxComponent) {
+        if (!this.thread || !this.user || !modal) {
+            return;
+        }
+        this.editData = {
+            remark: '',
+        };
+        const maps = {
+            highlightable: 'is_highlight',
+            digestable: 'is_digest',
+            closeable: 'is_closed',
+            topable: 'top_type',
+        };
+        eachObject(maps, (k, i) => {
+            if (this.thread[i]) {
+                this.editData[k] = this.thread[k];
+            }
+        });
+        modal.open(() => {
+            this.service.threadAction(this.thread.id, this.editData).subscribe(res => {
+                eachObject(maps, i => {
+                    this.thread[i] = res[i];
+                });
+            });
+        }, () => !emailValidate(this.editData.remark));
     }
 
     public tapBlock(block: any, item: IThreadPost) {
@@ -170,25 +202,12 @@ export class ThreadComponent implements OnInit {
         this.editor.insertAt(item.id, item.user.name);
     }
 
-    public toggeDigest() {
-        this.service.threadDigest(this.thread.id).subscribe(res => {
-            this.thread.is_digest = res.is_digest;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
-        });
-    }
 
-    public toggeHighlight() {
-        this.service.threadHighlight(this.thread.id).subscribe(res => {
-            this.thread.is_highlight = res.is_highlight;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
-        });
-    }
-
-    public toggeClose() {
-        this.service.threadClose(this.thread.id).subscribe(res => {
-            this.thread.is_closed = res.is_closed;
+    public toggeTop() {
+        this.service.threadAction(this.thread.id, {
+            0: 'top_type'
+        }).subscribe(res => {
+            this.thread.top_type = res.top_type;
         }, (err: IErrorResult) => {
             this.toastrService.warning(err.error.message);
         });

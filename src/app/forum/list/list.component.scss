@@ -25,6 +25,11 @@
         }
     }
 }
+.split-line {
+    height: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
 .thread-list {
     .thread-item-header {
         border-bottom: 1px solid;
@@ -37,14 +42,11 @@
         }
     }
     .thread-item {
-        border-bottom: 1px solid;
+        border-bottom: 1px solid #ccc;
         display: grid;
         grid-template-columns: 1fr 105px 60px 105px;
-        .name {
+        .title {
             line-height: 40px;
-            .fa-fire {
-                color: red;
-            }
         }
         .time,
         .count,
@@ -60,29 +62,52 @@
     }
 }
 
-.thread-item .name {
-    .icon-fire {
-        color: red;
+.thread-item {
+    .title-text {
+        color: #333;
     }
-    .tag-item {
-        color: #007CD5;
-        display: inline-block;
-        font-style: normal;
-        a {
-            color: #007CD5; 
+    .title {
+        .icon-arrow-up {
+            color: #ffaa00;
+        }
+        .iconfont,
+        .tag-item,
+        .title-text {
+            margin-right: .5rem;
+        }
+        .icon-fire {
+            color: red;
+        }
+        .tag-item {
+            color: #007CD5;
+            display: inline-block;
+            font-style: normal;
+            a {
+                color: #007CD5; 
+            }
+        }
+        .icon-lock {
+            color: #fcb716;
+        }
+        .new-tag {
+            color: #F26C4F;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 12px;
         }
     }
-    .icon-lock {
-        color: #fcb716;
+    &.thread-highlight {
+        .title-text {
+            color: #a10000;
+            font-weight: 700;
+            a {
+                color: #a10000;
+            }
+        }
     }
 }
 
-.new-tag {
-    color: #F26C4F;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 12px;
-}
+
 
 .thread-new-box {
     margin: 30px 0;

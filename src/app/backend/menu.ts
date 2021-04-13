@@ -19,7 +19,7 @@ export const backendMenuItems = [
         url: './user/profile',
         children: [{
                 name: '消息',
-                label: '消',
+                label: '短',
                 url: './user/bulletin'
             },
             {

@@ -17,6 +17,7 @@ export interface IForum {
     moderators?: IUser[];
     path?: IForum[];
     min?: boolean;
+    thread_top?: IThread[];
 }
 
 export interface IThread {
@@ -27,6 +28,7 @@ export interface IThread {
     is_highlight?: boolean;
     is_digest?: boolean;
     is_closed?: boolean;
+    top_type?: number;
     created_at: string;
     updated_at: string;
     user: IUser;
@@ -36,6 +38,7 @@ export interface IThread {
     digestable?: boolean;
     highlightable?: boolean;
     closeable?: boolean;
+    topable?: boolean;
     last_post?: IThreadPost;
     is_new?: boolean;
     classify?: IForumClassify;

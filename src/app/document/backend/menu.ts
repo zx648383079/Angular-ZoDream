@@ -8,7 +8,7 @@ export const DocumentBackendMenu: INav[] = [
         children: [
             {
                 name: '文档列表',
-                label: '板',
+                label: '档',
                 url: './doc',
             },
             {

@@ -25,12 +25,12 @@
                     <i class="iconfont icon-lock" title="主题已关闭"></i>
                 </ng-container>
                 <ng-container *ngIf="!thread.is_closed">
-                    <i class="iconfont icon-file"></i>
+                    <i class="iconfont icon-file-o"></i>
                 </ng-container>
                 <em class="tag-item" *ngIf="thread.classify">
                     [<a>{{ thread.classify.name }}</a>]
                 </em>
-                {{ thread.title }} 
+                <span class="title-text">{{ thread.title }} </span>
                 <i class="iconfont icon-fire" *ngIf="thread.is_digest"></i>
                 <a class="new-tag" *ngIf="thread.is_new">New</a>
             </div>
@@ -65,9 +65,7 @@
                         </div>
                         <div class="footer">
                             <a *ngIf="user" (click)="tapReply(item)">回复</a>
-                            <a *ngIf="thread.digestable"  (click)="toggeDigest()">设为精华</a>
-                            <a *ngIf="thread.highlightable" (click)="toggeHighlight()">设为高亮</a>
-                            <a *ngIf="thread.closeable" (click)="toggeClose()">设为关闭</a>
+                            <a *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable"  (click)="open(modal)">编辑</a>
                         </div>
                     </div>
                 </div>
@@ -126,3 +124,35 @@
         </div>
     </div>
 </div>
+<app-dialog-box #modal title="编辑">
+    <ng-container *ngIf="thread">
+        <div class="link-item" *ngIf="thread.topable">
+            <div class="label">置顶</div>
+            <div class="value">
+                <app-switch [(ngModel)]="editData.top_type"></app-switch>
+            </div>
+        </div>
+        <div class="link-item" *ngIf="thread.digestable">
+            <div class="label">精华</div>
+            <div class="value">
+                <app-switch [(ngModel)]="editData.is_digest"></app-switch>
+            </div>
+        </div>
+        <div class="link-item" *ngIf="thread.highlightable">
+            <div class="label">高亮</div>
+            <div class="value">
+                <app-switch [(ngModel)]="editData.is_highlight"></app-switch>
+            </div>
+        </div>
+        <div class="link-item" *ngIf="thread.closeable">
+            <div class="label">关闭</div>
+            <div class="value">
+                <app-switch [(ngModel)]="editData.is_closed"></app-switch>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="remark">操作说明*</label>
+          <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>
+        </div>
+    </ng-container>
+</app-dialog-box>

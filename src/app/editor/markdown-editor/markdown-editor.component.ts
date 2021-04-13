@@ -1,15 +1,11 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { wordLength } from '../../utils';
+import { wordLength } from '../../theme/utils';
+import { IEditor, IImageUploadEvent } from '../model';
 
 interface IRange {
     start: number;
     end: number;
-}
-
-export interface IImageUploadEvent {
-    files: FileList;
-    target: MarkdownEditorComponent;
 }
 
 @Component({
@@ -24,12 +20,12 @@ export interface IImageUploadEvent {
         }
     ]
 })
-export class MarkdownEditorComponent implements AfterViewInit, ControlValueAccessor {
+export class MarkdownEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor {
 
     @ViewChild('editorArea')
     private areaElement: ElementRef<HTMLTextAreaElement>;
     @Input() public height = 200;
-    @Output() imageUpload = new EventEmitter<IImageUploadEvent>();
+    @Output() public imageUpload = new EventEmitter<IImageUploadEvent>();
 
     public disable = false;
     public value = '';
@@ -159,6 +155,10 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     public insertImage(file: string, name?: string) {
         this.insert('![' + name + '](' + file + ')');
+    }
+
+    public insertLink(text: string, href: string) {
+        this.insert('[' + text + '](' + href + ')');
     }
 
     public clear(focus: boolean = true) {

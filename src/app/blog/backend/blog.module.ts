@@ -7,21 +7,23 @@ import { BlogService } from './blog.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ZoEditorModule } from '../../editor/editor.module';
 
 
 @NgModule({
-  declarations: [...blogBackendRoutedComponents],
-  imports: [
-    CommonModule,
-    ThemeModule,
-    BlogBackendRoutingModule,
-    NgbPaginationModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    EditorModule,
-  ],
-  providers: [
-    BlogService,
-  ]
+    declarations: [...blogBackendRoutedComponents],
+    imports: [
+        CommonModule,
+        ThemeModule,
+        BlogBackendRoutingModule,
+        NgbPaginationModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        EditorModule,
+        ZoEditorModule,
+    ],
+    providers: [
+        BlogService,
+    ]
 })
 export class BlogBackendModule { }

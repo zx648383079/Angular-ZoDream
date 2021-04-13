@@ -96,30 +96,26 @@
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file_login'">
             <div class="file-down-node">
-                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
+                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
                 <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
             </div>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file'">
             <ng-container *ngIf="block.error">
                 <div class="file-down-node">
-                    <p><i class="iconfont icon-file-archive"></i> 【文件不存在】</p>
+                    <p><i class="iconfont icon-file-archive-o"></i> 【文件不存在】</p>
                 </div>
             </ng-container>
             <ng-container *ngIf="!block.error">
                 <div class="file-down-node">
-                    <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">下载</a>]</p>
+                    <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">下载</a>]</p>
                     <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
                 </div>
             </ng-container>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file_buy'">
             <div class="file-down-node">
-                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
-                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
-            </div>
-            <div class="file-down-node">
-                <p><i class="iconfont icon-file-archive"></i> [<a (click)="tapBlock(block)">购买({{ block.price }})</a>]</p>
+                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">购买({{ block.price }})</a>]</p>
                 <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
             </div>
         </ng-container>

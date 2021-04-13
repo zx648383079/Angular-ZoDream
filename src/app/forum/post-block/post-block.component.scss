@@ -35,7 +35,9 @@
         }
     }
     a {
-        text-decoration:underline;
+        text-decoration: underline;
+        cursor: pointer;
+        color: #007bff;
     }
 }
 .vote-box {
@@ -50,11 +52,11 @@
     }
     .vote-progress {
         position: relative;
+        width: 12rem;
         .progress {
             width: auto;
             display: inline-flex;
-            width: 30vw;
-            max-width: 200px;
+            width: 8rem;
         }
         .vote-label {
             display: inline-block;

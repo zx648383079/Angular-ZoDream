@@ -56,6 +56,9 @@ export class ListComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.service.getForum(params.id).subscribe(res => {
                 this.forum = res;
+                if (res.thread_top) {
+                    res.thread_top = this.formatItems(res.thread_top);
+                }
                 this.tapPage();
             });
         });
@@ -115,16 +118,20 @@ export class ListComponent implements OnInit {
         this.service.getThreadList({...queries, forum: this.forum.id}).subscribe(res => {
             this.hasMore = res.paging.more;
             this.isLoading = false;
-            this.items = res.data.map(i => {
-                if (i.classify && i.classify instanceof Array) {
-                    i.classify = undefined;
-                }
-                return i;
-            });
+            this.items = this.formatItems(res.data);
             this.total = res.paging.total;
             applyHistory(this.queries = queries);
         }, () => {
             this.isLoading = false;
+        });
+    }
+
+    private formatItems(items: IThread[]): IThread[] {
+        return items.map(i => {
+            if (i.classify && i.classify instanceof Array) {
+                i.classify = undefined;
+            }
+            return i;
         });
     }
 

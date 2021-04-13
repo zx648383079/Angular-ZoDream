@@ -15,9 +15,6 @@
     .thread-title {
         border-bottom: 4px solid #f4f4f4;
         line-height: 40px;
-        .fa-fire {
-            color: red;
-        }
         .count {
             text-align: center;
         }
@@ -86,19 +83,47 @@
     }
 }
 .thread-title {
-    .icon-fire {
-        color: red;
+    .title-text {
+        color: #333;
     }
-    .tag-item {
-        color: #007CD5;
-        display: inline-block;
-        font-style: normal;
-        a {
-            color: #007CD5; 
+    .title {
+        .icon-arrow-up {
+            color: #ffaa00;
+        }
+        .iconfont,
+        .tag-item,
+        .title {
+            margin-right: .5rem;
+        }
+        .icon-fire {
+            color: red;
+        }
+        .tag-item {
+            color: #007CD5;
+            display: inline-block;
+            font-style: normal;
+            a {
+                color: #007CD5; 
+            }
+        }
+        .icon-lock {
+            color: #fcb716;
+        }
+        .new-tag {
+            color: #F26C4F;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 12px;
         }
     }
-    .icon-lock {
-        color: #fcb716;
+    &.thread-highlight {
+        .title-text {
+            color: #a10000;
+            font-weight: 700;
+            a {
+                color: #a10000;
+            }
+        }
     }
 }
 
@@ -107,11 +132,10 @@
     color: #CCC;
 }
 
-.new-tag {
-    color: #F26C4F;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 12px;
+.link-item {
+    display: flex;
+    justify-content: space-between;
+    line-height: 2.5rem;
 }
 
 @media screen and (max-width: 769px) {

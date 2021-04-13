@@ -146,18 +146,32 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
+        this.uploadService.uploadImages(files).subscribe(res => {
+            res.forEach(i => {
+                this.insertImage(i.url, i.original);
+            });
+        });
     }
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
+        this.uploadService.uploadFile(files[0]).subscribe(res => {
+            this.insert('<file title="' + res.original + '">' + res.url + '</file>');
+        });
     }
 
     public uploadAudio(event: any) {
         const files = event.target.files as FileList;
+        this.uploadService.uploadAudio(files[0]).subscribe(res => {
+            this.insert('<audio title="' + res.original + '">' + res.url + '</audio>');
+        });
     }
 
     public uploadVideo(event: any) {
         const files = event.target.files as FileList;
+        this.uploadService.uploadVideo(files[0]).subscribe(res => {
+            this.insert('<video title="' + res.original + '">' + res.url + '</video>');
+        });
     }
 
     public insertTab() {

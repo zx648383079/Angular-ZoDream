@@ -78,19 +78,61 @@
                 最后发表
             </div>
         </div>
+        <ng-container *ngIf="forum && forum.thread_top && forum.thread_top.length > 0">
+            <ng-container *ngFor="let item of forum.thread_top">
+                <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
+                  <div class="title">
+                      <ng-container *ngIf="item.top_type > 0">
+                          <i class="iconfont icon-arrow-up" title="置顶"></i>
+                      </ng-container>
+                      <ng-container *ngIf="item.top_type < 1 && item.is_closed">
+                          <i class="iconfont icon-lock" title="主题已关闭"></i>
+                      </ng-container>
+                      <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
+                          <i class="iconfont icon-file-o"></i>
+                      </ng-container>
+                      <em class="tag-item" *ngIf="item.classify">
+                          [<a (click)="tapClassify(item.classify)">{{ item.classify.name }}</a>]
+                      </em>
+                      <a class="title-text" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
+                      <i class="iconfont icon-fire" *ngIf="item.is_digest"></i>
+                      <a class="new-tag" *ngIf="item.is_new">New</a>
+                  </div>
+                  <div class="time">
+                      <em data-action="user" data-id="1">{{ item.user.name }}</em>
+                      <em>{{ item.created_at | ago }}</em>
+                  </div>
+                  <div class="count">
+                      <em>{{ item.post_count | numberFormat }}</em>
+                      <em>{{ item.view_count | numberFormat }}</em>
+                  </div>
+                  <div class="reply">
+                      <ng-container *ngIf="item.last_post">
+                          <em>{{ item.last_post.user.name }}</em>
+                          <em>{{ item.last_post.created_at | ago }}</em>
+                      </ng-container>
+                  </div>
+              </div>
+              </ng-container>
+            <div class="split-line"></div>
+        </ng-container>
+        
         <ng-container *ngFor="let item of items">
           <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
-            <div class="name">
-                <ng-container *ngIf="item.is_closed">
+            <div class="title">
+                <ng-container *ngIf="item.top_type > 0">
+                    <i class="iconfont icon-arrow-up" title="置顶"></i>
+                </ng-container>
+                <ng-container *ngIf="item.top_type < 1 && item.is_closed">
                     <i class="iconfont icon-lock" title="主题已关闭"></i>
                 </ng-container>
-                <ng-container *ngIf="!item.is_closed">
-                    <i class="iconfont icon-file"></i>
+                <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
+                    <i class="iconfont icon-file-o"></i>
                 </ng-container>
                 <em class="tag-item" *ngIf="item.classify">
                     [<a (click)="tapClassify(item.classify)">{{ item.classify.name }}</a>]
                 </em>
-                <a class="title" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
+                <a class="title-text" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
                 <i class="iconfont icon-fire" *ngIf="item.is_digest"></i>
                 <a class="new-tag" *ngIf="item.is_new">New</a>
             </div>

@@ -16,6 +16,7 @@ import {
 } from './backend-routing.module';
 import { DocumentService } from './document.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ZoEditorModule } from '../../editor/editor.module';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
         ThemeModule,
         NgbDropdownModule,
         ReactiveFormsModule,
+        ZoEditorModule,
     ],
     declarations: [...documentBackendRoutedComponents],
     providers: [

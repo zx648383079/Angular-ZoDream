@@ -9,7 +9,6 @@ export * from './panel/panel.component';
 export * from './datepicker/datepicker.component';
 export * from './switch/switch.component';
 export * from './countdown-button/countdown-button.component';
-export * from './markdown-editor/markdown-editor.component';
 export * from './circle-progress/circle-progress.component';
 export * from './color-picker/color-picker.component';
 export * from './star/star.component';

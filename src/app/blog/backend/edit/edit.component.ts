@@ -12,9 +12,7 @@ import {
 import {
     ToastrService
 } from 'ngx-toastr';
-import {
-    IImageUploadEvent
-} from '../../../theme/components';
+import { IImageUploadEvent } from '../../../editor/model';
 import {
     IBlog,
     ICategory,
@@ -88,6 +86,10 @@ export class EditComponent implements OnInit {
             }
             this.loadDetail(params.id);
         });
+    }
+
+    get metaSize() {
+        return this.form.get('description').value.length;
     }
 
     public loadDetail(id: number, language?: string) {
