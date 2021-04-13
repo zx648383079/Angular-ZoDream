@@ -33,7 +33,7 @@ export class AgreementComponent implements OnInit {
     }
 
     public tapScrollTo(item: IAgreementGroup) {
-        const element = document.querySelector("#" + item.name);
+        const element = document.querySelector('#' + item.name);
         if (element) {
             element.scrollIntoView();
         }

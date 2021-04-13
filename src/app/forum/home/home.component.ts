@@ -9,16 +9,16 @@ import { ForumService } from '../forum.service';
 })
 export class HomeComponent implements OnInit {
 
-  public items: IForum[] = [];
+    public items: IForum[] = [];
 
-  constructor(
-    private service: ForumService
-  ) { }
+    constructor(
+        private service: ForumService
+    ) { }
 
-  ngOnInit() {
-    this.service.getForumList().subscribe(res => {
-      this.items = res;
-    });
-  }
+    ngOnInit() {
+        this.service.getForumList().subscribe(res => {
+            this.items = res;
+        });
+    }
 
 }

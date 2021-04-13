@@ -139,6 +139,7 @@ export class PostBlockComponent implements OnChanges {
             const tag: string = custom.tag;
             if (tag === 'a') {
                 return {
+                    ...custom,
                     type: 4,
                     content: custom.content,
                     link: custom.href,

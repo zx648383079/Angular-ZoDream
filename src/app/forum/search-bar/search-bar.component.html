@@ -1,0 +1,9 @@
+<div class="search-bar">
+    <input type="text" class="form-control" [(ngModel)]="keywords" placeholder="请输入搜索内容">
+    <select class="form-control" [(ngModel)]="type">
+        <option *ngFor="let item of typeItems; let i=index" [value]="i">{{ item }}</option>
+    </select>
+    <button type="button" class="btn btn-primary" (click)="tapSearch()">
+        <i class="iconfont icon-search"></i>
+    </button>
+</div>

@@ -10,6 +10,9 @@
 }
 .hide-locked-node {
     font-size: 12px;
+    a {
+        color: #007bff;
+    }
 }
 .hide-open-node {
     background-color: transparent;
@@ -39,19 +42,22 @@
     padding: 10px;
     .vote-item {
         line-height: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .vote-check-item {
+        
     }
     .vote-progress {
-        display: inline-block;
-        width: 200px;
-        border: 1px solid #ccc;
-        height: 14px;
         position: relative;
-        .vote-value {
-            width: 0%;
-            background-color: #ebc9c9;
-            height: 12px;
-            overflow: hidden;
-            line-height: 12px;
+        .progress {
+            width: auto;
+            display: inline-flex;
+            width: 30vw;
+            max-width: 200px;
+        }
+        .vote-label {
+            display: inline-block;
             font-size: 12px;
         }
     }
@@ -59,6 +65,59 @@
         p {
             color: #ccc;
             font-size: 12px;
+        }
+    }
+}
+.link-card {
+    position: relative;
+    display: block;
+    margin: 1em auto;
+    width: 390px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    max-width: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    .link-body {
+        background-color: #f6f6f6;
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+        border-radius: inherit;
+        align-items: center;
+    }
+    .link-title {
+        display: flex;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 40px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.25;
+        color: #121212;
+    }
+    .link-meta {
+        display: flex;
+        margin-top: 4px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #999;
+        white-space: nowrap;
+    }
+    .link-logo {
+        display: flex;
+        justify-content: center;
+        background-color: #ebebeb;
+        color: #d3d3d3;
+        object-fit: cover;
+        border-radius: inherit;
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: inherit;
         }
     }
 }

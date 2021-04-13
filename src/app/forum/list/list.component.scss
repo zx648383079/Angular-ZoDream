@@ -1,3 +1,30 @@
+.group-content {
+    padding: 10px;
+    a {
+        color: #007CD5;
+    }
+}
+
+.classify-bar {
+    padding: .8rem 0;
+    .item {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 4px 8px 3px;
+        // height: 18px;
+        border: 1px solid #CDCDCD;
+        background: #FFF;
+        white-space: nowrap;
+        cursor: pointer;
+        &.active {
+            padding-right: 12px;
+            padding-left: 12px;
+            border-color: #369;
+            background: #E5EDF2;
+            color: #369;
+        }
+    }
+}
 .thread-list {
     .thread-item-header {
         border-bottom: 1px solid;

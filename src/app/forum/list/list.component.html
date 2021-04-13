@@ -1,4 +1,5 @@
 <div class="container" *ngIf="forum">
+    <app-search-bar [keywords]="queries.keywords" [type]="queries.type" (confirm)="tapSearch($event)"></app-search-bar>
     <ul  class="breadcrumb">
         <li class="breadcrumb-item">
             <a routerLink="/" class="iconfont icon-home"></a>
@@ -15,7 +16,22 @@
 <div class="container">
     <div class="forum-group" *ngIf="forum">
         <div class="group-header">
-            {{ forum.name }}</div>
+            {{ forum.name }}
+        </div>
+        <div class="group-content">
+            <p class="moderator-line" *ngIf="forum.moderators && forum.moderators.length > 0">
+                版主：
+                <ng-container *ngFor="let item of forum.moderators; let i = index">
+                    <ng-container *ngIf="i > 0">
+                        ，
+                    </ng-container>
+                    <a >{{ item.name }}</a>
+                </ng-container>
+            </p>
+            <div>
+                {{ forum.description }}
+            </div>
+        </div>
         <div class="group-body" *ngIf="forum.children && forum.children.length > 0">
             <ng-container *ngFor="let item of forum.children">
             <div class="forum-item">
@@ -34,6 +50,17 @@
             </div>
             </ng-container>
         </div>
+    </div>
+
+    <div class="classify-bar" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
+        <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()">
+            全部
+        </div>
+        <ng-container *ngFor="let item of forum.classifies">
+            <div class="item" [ngClass]="{active: item.id === queries.classify}" (click)="tapClassify(item)">
+                {{ item.name }}
+            </div>
+        </ng-container>
     </div>
 
     <div class="thread-list">
@@ -90,7 +117,7 @@
 
 
     </div>
-    <div class="thread-new-box" *ngIf="forum">
+    <div class="thread-new-box" *ngIf="forum && user">
         <div class="header">快速发帖
 
             <a class="pull-right" routerLink="create">完整模式&gt;</a>

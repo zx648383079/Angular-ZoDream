@@ -123,8 +123,9 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
                     return data.content.length > 0;
                 });
             case 'link':
-                return this.openDialog({title: '插入链接', mode: 3, link: '', content: ''}, data => {
-                    this.insert('<a href="' + data.link +'">' + data.content +'</a>');
+                return this.openDialog({title: '插入链接', mode: 3, link: '', content: '', card: false}, data => {
+                    const card = data.card ? ' card="true"' : ''
+                    this.insert('<a href="' + data.link +'"' + card + '>' + data.content +'</a>');
                 }, data => {
                     return data.link.length > 0 && data.content.length > 0;
                 });
@@ -246,7 +247,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
         this.area.focus();
     }
 
-    private openDialog(data: any, cb: (data: any) => void, check?: (data: any) => any) {
+    private openDialog<T>(data: T, cb: (data: T) => void, check?: (data: T) => boolean|any) {
         this.dialogData = data;
         this.modal.open(() => {
             cb(this.dialogData);

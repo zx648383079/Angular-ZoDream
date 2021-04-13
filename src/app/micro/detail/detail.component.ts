@@ -12,6 +12,7 @@ import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
 import { IEmoji } from '../../theme/models/seo';
 import { IBlockItem } from '../../theme/components/rule-block/model';
+import { openLink } from '../../theme/deeplink';
 
 @Component({
   selector: 'app-detail',
@@ -83,6 +84,10 @@ export class DetailComponent implements OnInit {
             this.router.navigate(['../../'], {relativeTo: this.route, queryParams: {
                 topic: item.topic
             }});
+            return;
+        }
+        if (item.link) {
+            openLink(this.router, item.link);
             return;
         }
     }

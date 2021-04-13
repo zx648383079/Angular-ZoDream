@@ -78,6 +78,10 @@
             <input type="text"
               class="form-control" [(ngModel)]="dialogData.content" id="content" placeholder="例如：zodream">
           </div>
+          <div class="form-group">
+            <label for="content">切换为卡片</label>
+            <app-switch [(ngModel)]="dialogData.card"></app-switch>
+          </div>
     </ng-container>
     <ng-container *ngIf="dialogData.mode == 4">
         <div class="form-group">

@@ -16,6 +16,7 @@ export interface IForum {
     classifies?: IForumClassify[];
     moderators?: IUser[];
     path?: IForum[];
+    min?: boolean;
 }
 
 export interface IThread {

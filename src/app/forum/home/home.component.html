@@ -1,17 +1,20 @@
 <div class="container">
-  <ul class="breadcrumb">
-      <li class="breadcrumb-item">
-          <a routerLink="/" class="iconfont icon-home"></a>
-      </li><li class="breadcrumb-item active">
-          圈子首页
-      </li>
-  </ul>
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/" class="iconfont icon-home"></a>
+        </li><li class="breadcrumb-item active">
+            圈子首页
+        </li>
+    </ul>
 </div>
 
 <div class="container">
-  <div class="forum-group" *ngFor="let group of items">
+  <div class="forum-group" *ngFor="let group of items" [ngClass]="{min: group.min}">
       <div class="group-header">
           <a routerLink="{{ group.id }}">{{ group.name }}</a>
+          <div class="pull-right">
+              <app-switch [(ngModel)]="group.min"></app-switch>
+          </div>
       </div>
       <div class="group-body">
           <ng-container *ngFor="let item of group.children">

@@ -30,6 +30,8 @@ import { ToastrService } from 'ngx-toastr';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
+import { DownloadService } from '../../theme/services';
+import { openLink } from '../../theme/deeplink';
 
 @Component({
     selector: 'app-thread',
@@ -49,6 +51,7 @@ export class ThreadComponent implements OnInit {
     public queries: IPageQueries = {
         page: 1,
         per_page: 20,
+        user: 0,
     };
 
     public user: IUser;
@@ -63,7 +66,7 @@ export class ThreadComponent implements OnInit {
         private service: ForumService,
         private route: ActivatedRoute,
         private router: Router,
-        private sanitizer: DomSanitizer,
+        private downloadService: DownloadService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -85,8 +88,17 @@ export class ThreadComponent implements OnInit {
         });
     }
 
+    public tapSeeUser(user: number = 0) {
+        this.queries.user = user;
+        this.tapRefresh();
+    }
+
     public tapBlock(block: any, item: IThreadPost) {
         if (block.confirm && !confirm(block.confirm)) {
+            return;
+        }
+        if (block.type === 4) {
+            openLink(this.router, block.link);
             return;
         }
         if (block.tag === 'vote') {
@@ -123,11 +135,25 @@ export class ThreadComponent implements OnInit {
             });
             return;
         }
-        if (block.tag === 'file_login') {
-            this.router.navigate(['/auth'], {
-                queryParams: {
-                    redirect_uri: window.location.href
-                }
+        if (block.tag === 'hide' || block.tag === 'file_login') {
+            if (!this.user) {
+                this.router.navigate(['/auth'], {
+                    queryParams: {
+                        redirect_uri: window.location.href
+                    }
+                });
+                return;
+            }
+            const element = document.querySelector('#post-editor');
+            if (element) {
+                element.scrollIntoView();
+            }
+            return;
+        }
+        if (block.tag == 'file') {
+            this.downloadService.export('forum/thread/do', {
+                id: item.id,
+                index: block.uid,
             });
             return;
         }
@@ -136,6 +162,10 @@ export class ThreadComponent implements OnInit {
     public tapReply(item: IThreadPost) {
         if (!this.editor) {
             return;
+        }
+        const element = document.querySelector('#post-editor');
+        if (element) {
+            element.scrollIntoView();
         }
         this.editor.insertAt(item.id, item.user.name);
     }
@@ -222,10 +252,6 @@ export class ThreadComponent implements OnInit {
         this.service.getPostList({...queries, thread: this.thread.id}).subscribe(res => {
             this.hasMore = res.paging.more;
             this.isLoading = false;
-            res.data = res.data.map(i => {
-                i.html = this.sanitizer.bypassSecurityTrustHtml(i.content);
-                return i;
-            });
             this.items = res.data;
             applyHistory(this.queries = queries);
         }, () => {

@@ -6,6 +6,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
+import { AppState } from '../../theme/interfaces';
+import { Store } from '@ngrx/store';
+import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { IUser } from '../../theme/models/user';
 
 @Component({
   selector: 'app-list',
@@ -24,19 +28,26 @@ export class ListComponent implements OnInit {
         page: 1,
         per_page: 20,
         classify: 0,
+        type: 0,
     };
     public form = this.fb.group({
         title: ['', Validators.required],
         classify_id: [0],
         content: ['', Validators.required], 
     });
+    public user: IUser;
 
     constructor(
         private fb: FormBuilder,
         private service: ForumService,
         private route: ActivatedRoute,
         private toastrService: ToastrService,
-    ) {}
+        private store: Store<AppState>,
+    ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.user = user;
+        });
+    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -50,8 +61,13 @@ export class ListComponent implements OnInit {
         });
     }
 
-    public tapClassify(item: IForumClassify) {
-        this.queries.classify = item.id;
+    public tapSearch(params: any) {
+        this.queries = getQueries(params, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapClassify(item?: IForumClassify) {
+        this.queries.classify = item ? item.id : 0;
         this.tapRefresh();
     }
 

@@ -1,0 +1,13 @@
+.forum-group {
+    .group-header {
+        .pull-right {
+            float: right;
+            font-size: .5rem;
+        }
+    }
+    &.min {
+        .group-body {
+            display: none;
+        }
+    }
+}

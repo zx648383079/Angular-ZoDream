@@ -6,6 +6,7 @@ import { ForumComponent } from './forum.component';
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
 import { PostBlockComponent } from './post-block/post-block.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 import { EditThreadComponent } from './thread/edit/edit-thread.component';
 import { ThreadComponent } from './thread/thread.component';
 
@@ -45,5 +46,5 @@ const routes: Routes = [
 export class ForumRoutingModule { }
 
 export const forumRoutedComponents = [
-    ForumComponent, ThreadComponent, ListComponent, HomeComponent, ForumEditorComponent, EditThreadComponent, PostBlockComponent
+    ForumComponent, ThreadComponent, ListComponent, HomeComponent, ForumEditorComponent, EditThreadComponent, PostBlockComponent, SearchBarComponent,
 ];

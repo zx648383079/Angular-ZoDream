@@ -36,7 +36,6 @@
             </div>
         </div>
         <div class="post-list">
-            
             <ng-container *ngFor="let item of items">
               <ng-container *ngIf="item.grade < 1; else elseTemplate">
                 <div class="post-item">
@@ -49,7 +48,11 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                            发表于 {{ item.created_at | ago }} <div class="action">
+                                发表于 {{ item.created_at | ago }} 
+                            <i class="split">|</i>
+                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)">只看该作者</a>
+                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)">查看全部楼层</a>
+                            <div class="action">
     
                             </div>
                         </div>
@@ -61,7 +64,7 @@
     
                         </div>
                         <div class="footer">
-                            <a (click)="tapReply(item)">回复</a>
+                            <a *ngIf="user" (click)="tapReply(item)">回复</a>
                             <a *ngIf="thread.digestable"  (click)="toggeDigest()">设为精华</a>
                             <a *ngIf="thread.highlightable" (click)="toggeHighlight()">设为高亮</a>
                             <a *ngIf="thread.closeable" (click)="toggeClose()">设为关闭</a>
@@ -80,7 +83,11 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                            发表于 {{ item.created_at | ago }} <div class="action">
+                                发表于 {{ item.created_at | ago }} 
+                            <i class="split">|</i>
+                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)">只看该作者</a>
+                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)">查看全部楼层</a>
+                            <div class="action">
                                 {{ item.grade }}楼
                             </div>
                         </div>
@@ -88,7 +95,7 @@
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">
-                            <a *ngIf="item.is_public_post" (click)="tapReply(item)">回复</a>
+                            <a *ngIf="user && item.is_public_post" (click)="tapReply(item)">回复</a>
                             <a *ngIf="item.deleteable" (click)="tapRemove(item)">删除</a>
                         </div>
                     </div>
@@ -101,14 +108,14 @@
         <div class="paging-box">
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
-        <div class="post-item post-new" *ngIf="user">
+        <div class="post-item post-new" *ngIf="user && thread && !thread.is_closed">
             <div class="post-user">
                 <div class="name">{{ user.name }}</div>
                 <div class="avatar">
                     <img [src]="user.avatar" alt="">
                 </div>
             </div>
-            <div class="post-content">
+            <div id="post-editor" class="post-content">
                 <form [formGroup]="form" (ngSubmit)="tapSubmit()">
                     <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
                     <div class="footer">

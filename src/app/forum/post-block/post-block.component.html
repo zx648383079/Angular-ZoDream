@@ -12,7 +12,25 @@
             <img [src]="block.image" [alt]="block.content">
         </ng-container>
         <ng-container *ngIf="block.type > 1 && block.type < 5">
-            <a (click)="tapBlock(block)">{{ block.content }}</a>
+            <ng-container *ngIf="block.card">
+                <a (click)="tapBlock(block)" class="link-card">
+                    <span class="link-body">
+                        <span class="link-text">
+                            <span class="link-title">{{ block.content }}</span>
+                            <span class="link-meta">
+                                <i class="iconfont icon-chain"></i>
+                                {{ block.domain }}
+                            </span>
+                        </span>
+                        <span class="link-logo">
+                            <img [src]="block.logo">
+                        </span>
+                    </span>
+                </a>
+            </ng-container>
+            <ng-container *ngIf="!block.card">
+                <a (click)="tapBlock(block)">{{ block.content }}</a>
+            </ng-container>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'at'">
             <ng-container *ngIf="block.hide">
@@ -110,17 +128,23 @@
                 {{ block.content }}
                 <ng-container *ngFor="let item of block.items">
                     <ng-container *ngIf="block.editable; else elseTemplate">
-                        <div class="vote-item" (click)="tapVoteItem(block, item)">
+                        <div class="vote-check-item" (click)="tapVoteItem(block, item)">
                             <i class="iconfont" [id]="item.id" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}"></i>
-                            <label [for]="item.id">{{ item.value }}</label>
+                            <label [for]="item.id">{{ item.no }}. {{ item.value }}</label>
                         </div>
                     </ng-container>
                     <ng-template #elseTemplate>
                         <div class="vote-item">
-                            <span>{{ item.value }}</span>
+                            <span>{{ item.no }}. {{ item.value }}</span>
                             <div class="vote-progress" [title]="item.count + '/' + block.total">
-                                <div class="vote-value" [ngStyle]="{width: item.count * 100 / block.total + '%'}">{{ item.count + '/' + block.total }}</div>
+                                <div class="progress">
+                                    <div class="progress-bar" [ngStyle]="{width: item.percentage + '%'}">{{ item.count + '/' + block.total }}</div>
+                                </div>
+                                <div class="vote-label">
+                                    {{ item.percentage }}% (<em>{{ item.count }}</em>)
+                                </div>
                             </div>
+                            
                         </div>
                     </ng-template>
                 </ng-container>
