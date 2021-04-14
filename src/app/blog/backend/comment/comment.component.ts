@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IComment } from '../../../theme/models/blog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -10,76 +13,81 @@ import { BlogService } from '../blog.service';
 })
 export class CommentComponent implements OnInit {
 
-  public items: IComment[] = [];
-  public page = 1;
-  public hasMore = true;
-  public isLoading = false;
-  public total = 0;
-  public perPage = 20;
-  public keywords = '';
+    public items: IComment[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+        user: 0,
+        blog: 0,
+    };
 
-  constructor(
-    private service: BlogService,
-    private toastrService: ToastrService,
-  ) {
-  }
+    constructor(
+        private service: BlogService,
+        private route: ActivatedRoute,
+        private toastrService: ToastrService,
+    ) {}
 
-  ngOnInit() {
-    this.tapRefresh();
-  }
-
-  public tapRefresh() {
-    this.goPage(1);
-  }
-
-  public tapMore() {
-      if (!this.hasMore) {
-          return;
-      }
-      this.goPage(this.page + 1);
-  }
-
-  public goPage(page: number) {
-    if (this.isLoading) {
-        return;
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
-    this.isLoading = true;
-    this.service.getComment({
-      page
-    }).subscribe(res => {
-      this.page = page;
-      this.hasMore = res.paging.more;
-      this.isLoading = false;
-      this.items = res.data;
-      this.total = res.paging.total;
-      this.perPage = res.paging.limit;
-    }, () => {
-      this.isLoading = false;
-    });
-  }
 
-  public tapPage() {
-    this.goPage(this.page);
-  }
-
-  public tapSearch(form: any) {
-    this.keywords = form.keywords;
-    this.tapRefresh();
-  }
-
-  public tapRemove(item: IComment) {
-    if (!confirm('确定删除“' + item.content + '”评论？')) {
-      return;
+    public tapRefresh() {
+        this.goPage(1);
     }
-    this.service.commentRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.items = this.items.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    public tapMore() {
+        if (!this.hasMore) {
+            return;
+        }
+        this.goPage(this.queries.page + 1);
+    }
+
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.getComment(queries).subscribe(res => {
+            this.hasMore = res.paging.more;
+            this.isLoading = false;
+            this.items = res.data;
+            this.total = res.paging.total;
+            applyHistory(this.queries = queries);
+        }, () => {
+            this.isLoading = false;
+        });
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapRemove(item: IComment) {
+        if (!confirm('确定删除“' + item.content + '”评论？')) {
+            return;
+        }
+        this.service.commentRemove(item.id).subscribe(res => {
+            if (!res.data) {
+                return;
+            }
+            this.toastrService.success('删除成功');
+            this.items = this.items.filter(it => {
+                return it.id !== item.id;
+            });
+        });
+    }
 
 }

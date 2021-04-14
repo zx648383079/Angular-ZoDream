@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { IComment } from '../../model';
 import { MicroService } from '../micro.service';
 
@@ -11,20 +14,28 @@ import { MicroService } from '../micro.service';
 export class CommentComponent implements OnInit {
 
     public items: IComment[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+        user: 0,
+        micro: 0,
+    };
 
     constructor(
         private service: MicroService,
+        private route: ActivatedRoute,
         private toastrService: ToastrService,
     ) {}
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapRefresh() {
@@ -35,7 +46,7 @@ export class CommentComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -43,27 +54,24 @@ export class CommentComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.commentList({
-            keywords: this.keywords,
-            page
-        }).subscribe(res => {
-            this.page = page;
+        const queries = {...this.queries, page};
+        this.service.commentList(queries).subscribe(res => {
             this.hasMore = res.paging.more;
             this.isLoading = false;
             this.items = res.data;
             this.total = res.paging.total;
-            this.perPage = res.paging.limit;
+            applyHistory(this.queries = queries);
         }, () => {
             this.isLoading = false;
         });
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

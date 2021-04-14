@@ -30,46 +30,48 @@
         </div>
     </div>
 
-    <ng-container *ngFor="let item of items">
-        <div class="micro-item">
-            <div class="body">
-                <div class="avatar">
-                    <img [src]="item.user.avatar" alt="">
-                </div>
-                <div>
-                    <div class="name">{{ item.user.name }}</div>
-                    <p>
-                        <span class="time">{{ item.created_at | ago }}</span>
-                        <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
-                        <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
-                    </p>
-                    <div class="content">
-                        <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+    <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+        <ng-container *ngFor="let item of items">
+            <div class="micro-item">
+                <div class="body">
+                    <div class="avatar">
+                        <img [src]="item.user.avatar" alt="">
                     </div>
-                    <div class="attachment" *ngIf="item.attachment && item.attachment.length > 0" [ngClass]="{'media-slider': item.attachment_open}">
-                        <i class="iconfont icon-close" (click)="item.attachment_open = false"></i>
-                        <div class="media-large">
-                            <img [src]="item.attachment[item.attachment_current].thumb" alt="">
-                            <div class="media-prev" (click)="tapPrevious(item)"></div>
-                            <div class="media-next" (click)="tapNext(item)"></div>
+                    <div>
+                        <div class="name">{{ item.user.name }}</div>
+                        <p>
+                            <span class="time">{{ item.created_at | ago }}</span>
+                            <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
+                            <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
+                        </p>
+                        <div class="content">
+                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
                         </div>
-                        <ul [ngClass]="{'media-min': item.attachment.length > 1}">
-                            <li *ngFor="let it of item.attachment;let i = index" (click)="tapAttachment(i, item)">
-                                <img [src]="it.thumb" alt="">
-                            </li>
-                        </ul>
+                        <div class="attachment" *ngIf="item.attachment && item.attachment.length > 0" [ngClass]="{'media-slider': item.attachment_open}">
+                            <i class="iconfont icon-close" (click)="item.attachment_open = false"></i>
+                            <div class="media-large">
+                                <img [src]="item.attachment[item.attachment_current].thumb" alt="">
+                                <div class="media-prev" (click)="tapPrevious(item)"></div>
+                                <div class="media-next" (click)="tapNext(item)"></div>
+                            </div>
+                            <ul [ngClass]="{'media-min': item.attachment.length > 1}">
+                                <li *ngFor="let it of item.attachment;let i = index" (click)="tapAttachment(i, item)">
+                                    <img [src]="it.thumb" alt="">
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+    
+                <div class="ations">
+                    <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">{{ item.is_collected ? '已' : '' }}收藏</a>
+                    <a (click)="tapForward(modal, item)">转发 {{ item.forward_count }}</a>
+                    <a (click)="tapToggleComment(item)">评论</a>
+                    <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">{{ item.is_recommended ? '已' : '' }}赞 {{ item.recommend_count }}</a>
+                </div>
             </div>
-
-            <div class="ations">
-                <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">{{ item.is_collected ? '已' : '' }}收藏</a>
-                <a (click)="tapForward(modal, item)">转发 {{ item.forward_count }}</a>
-                <a (click)="tapToggleComment(item)">评论</a>
-                <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">{{ item.is_recommended ? '已' : '' }}赞 {{ item.recommend_count }}</a>
-            </div>
-        </div>
-    </ng-container>
+        </ng-container>
+    </app-pull-to-refresh>
 </div>
 
 <app-dialog-box #modal confirmText="转发" title="转发">

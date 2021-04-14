@@ -2,11 +2,11 @@ import { eachObject, uriEncode } from './utils';
 
 /**
  * 从当前页面链接获取查询参数
- * @param routeQueries 
- * @param def 
- * @returns 
+ * @param routeQueries 全部参数
+ * @param def 默认的参数，根据这个筛选并格式化参数
+ * @returns 合并之后的参数
  */
-export const getQueries = <T>(routeQueries: any, def: T, ): T => {
+export const getQueries = <T>(routeQueries: any, def: T): T => {
     const queries: any = {};
     const parseNumber = (val: any): number => {
         if (!val) {
@@ -35,14 +35,53 @@ export const getQueries = <T>(routeQueries: any, def: T, ): T => {
     return queries;
 };
 
+
+type HistoryCheckFn = (val: any, name: string) => boolean;
+
 /**
  * 记录查询历史
  * @param queries 
- * @param title 
  */
-export const applyHistory = (queries: any, title = '查询列表') => {
+export function applyHistory(queries: any): void;
+
+/**
+ * 记录查询历史
+ * @param queries 
+ * @param check 移除一些默认的参数
+ */
+export function applyHistory(queries: any, check: HistoryCheckFn): void;
+
+/**
+ * 记录查询历史
+ * @param queries 
+ * @param scrollTop 是否回到顶部
+ */
+export function applyHistory(queries: any, scrollTop: boolean): void;
+
+/**
+ * 记录查询历史
+ * @param queries 
+ * @param title 记录的标题
+ * @param check 移除一些默认的参数
+ * @param scrollTop 是否回到顶部
+ */
+export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn = '查询列表', check: HistoryCheckFn = val => val !== 0 && val !== '', scrollTop = true): void {
+    if (typeof title === 'function') {
+        [check, title] = [title, '查询列表']
+    } else if (typeof title === 'boolean') {
+        [scrollTop, title] = [title, '查询列表'];
+    }
+    let params: any = {};
+    eachObject(queries, (val, key) => {
+        if (check && check(val, key as string) === false) {
+            return;
+        }
+        params[key] = val;
+    });
     const url = window.location.href;
     const path = url.split('?', 2)[0];
-    history.pushState(null, title, uriEncode(path, queries));
-    document.documentElement.scrollTop = 0;
+    history.pushState(null, title, uriEncode(path, params));
+    if (scrollTop) {
+        document.documentElement.scrollTop = 0;
+    }
 };

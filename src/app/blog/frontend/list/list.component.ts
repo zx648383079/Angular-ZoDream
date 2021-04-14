@@ -15,6 +15,8 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 
 @Component({
     selector: 'app-list',
@@ -24,9 +26,7 @@ import {
 export class ListComponent implements OnInit {
 
     public title = '博客';
-
     public categories: ICategory[] = [];
-
     public newItems: IBlog[] = [];
     public sortItems = [{
             value: 'new',
@@ -41,18 +41,23 @@ export class ListComponent implements OnInit {
             value: 'best',
         }
     ];
-
     public category: ICategory;
-    public tag = '';
-    public sort = 'new';
     public header = '';
-
     public items: IBlog[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        tag: '',
+        sort: 'new',
+        user: 0,
+        category: 0,
+        language: '',
+        programming_language: '',
+    };
 
     constructor(
         private service: BlogService,
@@ -73,11 +78,9 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params.tag) {
-                this.tag = this.header = params.tag;
-            }
-            if (params.category) {
-                this.category = {id: parseInt(params.category, 10)} as any;
+            this.queries = getQueries(params, this.queries);
+            if (this.queries.tag) {
+                this.header = this.queries.tag;
             }
             this.tapRefresh();
         });
@@ -91,7 +94,7 @@ export class ListComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -99,29 +102,24 @@ export class ListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.getPage({
-            page,
-            tag: this.tag,
-            category: this.category?.id,
-            sort: this.sort as any,
-        }).subscribe(res => {
-            this.page = page;
+        const queries = {...this.queries, page};
+        this.service.getPage(queries).subscribe(res => {
             this.hasMore = res.paging.more;
             this.isLoading = false;
             this.items = res.data;
             this.total = res.paging.total;
-            this.perPage = res.paging.limit;
+            applyHistory(this.queries = queries);
         }, () => {
             this.isLoading = false;
         });
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapSort(item: any) {
-        this.sort = item.value;
+        this.queries.sort = item.value;
         this.tapRefresh();
     }
 
@@ -134,11 +132,13 @@ export class ListComponent implements OnInit {
 
     public tapCategory(item: ICategory) {
         this.category = item;
+        this.queries.category = item.id;
         this.tapRefresh();
     }
 
     public tapLanguage(item: string) {
         this.header = item;
+        this.queries.programming_language = item;
         this.tapRefresh();
     }
 }

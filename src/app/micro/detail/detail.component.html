@@ -59,39 +59,41 @@
                 </div>
             </div>
         </div>
-        <div class="comment-item" *ngFor="let item of commentItems">
-            <div class="avatar">
-                <img [src]="item.user.avatar" alt="">
-            </div>
-            <div>
-                <div class="text">
-                    <a>{{ item.user.name }}</a>：
-                    {{ item.content }}
+       <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
+            <div class="comment-item" *ngFor="let item of commentItems">
+                <div class="avatar">
+                    <img [src]="item.user.avatar" alt="">
                 </div>
-                <div class="actions">
-                    <span class="time">{{ item.created_at | ago }}</span>
-                    <div class="tools">
-                        <a (click)="tapCommenting(item)">回复</a>
-                        <a (click)="tapAgreeComment(item)">赞</a>
+                <div>
+                    <div class="text">
+                        <a>{{ item.user.name }}</a>：
+                        {{ item.content }}
                     </div>
-                </div>
-                <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
-                    <div class="reply-item" *ngFor="let it of item.replies">
-                        <div class="text">
-                            <a>{{ it.user.name }}</a>：
-                            {{ it.content }}
+                    <div class="actions">
+                        <span class="time">{{ item.created_at | ago }}</span>
+                        <div class="tools">
+                            <a (click)="tapCommenting(item)">回复</a>
+                            <a (click)="tapAgreeComment(item)">赞</a>
                         </div>
-                        <div class="actions">
-                            <span class="time">{{ it.created_at | ago }}</span>
-                            <div class="tools">
-                                <a  (click)="tapCommenting(it)">回复</a>
-                                <a  (click)="tapAgreeComment(it)">赞</a>
+                    </div>
+                    <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
+                        <div class="reply-item" *ngFor="let it of item.replies">
+                            <div class="text">
+                                <a>{{ it.user.name }}</a>：
+                                {{ it.content }}
+                            </div>
+                            <div class="actions">
+                                <span class="time">{{ it.created_at | ago }}</span>
+                                <div class="tools">
+                                    <a  (click)="tapCommenting(it)">回复</a>
+                                    <a  (click)="tapAgreeComment(it)">赞</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+       </app-pull-to-refresh>
     </div>
 </div>
 

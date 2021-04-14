@@ -4,7 +4,7 @@
             <div class="book-chapter">
                 <ul>
                     <ng-container *ngFor="let item of categories">
-                        <li [ngClass]="{active: category && category.id == item.id}" (click)="tapCategory(item)">
+                        <li [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">
                             <i class="iconfont icon-bookmark"></i><a>{{ item.name }}</a>
                             <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
                         </li>
@@ -25,7 +25,7 @@
                 <a routerLink="./tag">标签</a>
                 <a routerLink="./archives">归档</a>
                 <ng-container *ngFor="let item of sortItems">
-                    <a [ngClass]="{active: item.value == sort}" (click)="tapSort(item)">{{ item.name }}</a>
+                    <a [ngClass]="{active: item.value == queries.sort}" (click)="tapSort(item)">{{ item.name }}</a>
                 </ng-container>
             </div>
             <h2 class="book-header" *ngIf="!category && header">{{ header }}</h2>
@@ -56,7 +56,7 @@
             </dl>
         </div>
         <div class="book-footer">
-            <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
     </div>
 </div>

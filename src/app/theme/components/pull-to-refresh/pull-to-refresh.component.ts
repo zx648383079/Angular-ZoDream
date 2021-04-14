@@ -38,9 +38,21 @@ enum EDIRECTION {
 })
 export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
 
+    /**
+     * 是否允许刷新
+     */
     @Input() public refresh = true;
+    /**
+     * 是否可以加载更多
+     */
     @Input() public more = true;
+    /**
+     * 距离底部距离触发加载更多
+     */
     @Input() public distance = 10;
+    /**
+     * 是否加载中
+     */
     @Input() public loading = false;
     @Input() public maxHeight = 100;
     public ESTATE = ESTATE;
@@ -52,10 +64,16 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     public scrollTop = 0;
     public topHeight = 0;
 
-    @Output() public stateChange = new EventEmitter < ESTATE > ();
-    @Output() public moreChange = new EventEmitter < boolean > ();
-    @Output() public topHeightChange = new EventEmitter < number > ();
-    @Output() public refreshChange = new EventEmitter < boolean > ();
+    @Output() public stateChange = new EventEmitter<ESTATE>();
+    /**
+     * 加载更多的事件
+     */
+    @Output() public moreChange = new EventEmitter<boolean>();
+    @Output() public topHeightChange = new EventEmitter<number>();
+    /**
+     * 刷新事件
+     */
+    @Output() public refreshChange = new EventEmitter<boolean>();
 
     constructor(
         private renderer: Renderer2,

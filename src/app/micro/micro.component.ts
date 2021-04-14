@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
 import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
-import { IErrorResult } from '../theme/models/page';
+import { IErrorResult, IPageQueries } from '../theme/models/page';
 import { IBlockItem } from '../theme/components/rule-block/model';
 import { openLink } from '../theme/deeplink';
+import { applyHistory, getQueries } from '../theme/query';
 
 @Component({
     selector: 'app-micro',
@@ -17,10 +18,15 @@ import { openLink } from '../theme/deeplink';
 export class MicroComponent implements OnInit {
 
     public items: IMicro[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        user: 0,
+        topic: 0,
+    }
     public forwardItem: IMicro;
     public editData = {
         content: '',
@@ -40,19 +46,21 @@ export class MicroComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params.user && params.user > 0) {
-                this.user = {id: params.user} as any;
-                this.loadUser(params.user);
+            this.queries = getQueries(params, this.queries);
+            if (this.queries.user > 0) {
+                this.loadUser(this.queries.user);
             }
-            if (params.topic && params.topic > 0) {
-                this.topic = {id: params.topic} as any;
-                this.loadTopic(params.topic);
+            if (this.queries.topic > 0) {
+                this.loadTopic(this.queries.topic);
             }
-            this.tapRefresh();
+            this.tapPage();
         });
     }
 
     private loadUser(user: number) {
+        if (user < 1 || this.user?.id === user) {
+            return;
+        }
         this.service.user(user).subscribe(res => {
             this.user = res;
         }, (err: IErrorResult) => {
@@ -61,6 +69,9 @@ export class MicroComponent implements OnInit {
     }
 
     private loadTopic(topic: number) {
+        if (topic < 1 || this.topic?.id === topic) {
+            return;
+        }
         this.service.topic(topic).subscribe(res => {
             this.topic = res;
         }, (err: IErrorResult) => {
@@ -167,7 +178,11 @@ export class MicroComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
     }
 
     public goPage(page: number) {
@@ -175,15 +190,8 @@ export class MicroComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const params: any = {keywords: this.keywords, page};
-        if (this.topic) {
-            params.topic = this.topic.id;
-        }
-        if (this.user) {
-            params.user = this.user.id;
-        }
+        const params: any = {...this.queries, page};
         this.service.getList(params).subscribe(res => {
-            this.page = page;
             this.hasMore = res.paging.more;
             this.isLoading = false;
             res.data = res.data.map(i => {
@@ -191,6 +199,7 @@ export class MicroComponent implements OnInit {
                 return i;
             });
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+            applyHistory(this.queries = params, false);
         }, () => {
             this.isLoading = false;
         });
