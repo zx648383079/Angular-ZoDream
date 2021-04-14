@@ -19,11 +19,23 @@ export class FileInputComponent implements ControlValueAccessor {
     private static guid = 0;
     @Input() public accept = 'image/*';
     @Input() public placeholder = '请选择文件';
+    /**
+     * 是否开启在线选择
+     */
+    @Input() public online = false;
 
     public uniqueId = ++ FileInputComponent.guid;
 
     public value: string;
     public disabled = false;
+    public onlineData = {
+        items: [],
+        page: 0,
+        per_page: 20,
+        total: 0,
+        hasMore: true,
+        open: false,
+    };
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -39,6 +51,33 @@ export class FileInputComponent implements ControlValueAccessor {
 
     public onValueChange() {
         this.onChange(this.value);
+    }
+
+    public openOnline() {
+        if (this.disabled) {
+            return;
+        }
+        if (this.onlineData.page > 0) {
+            return;
+        }
+        this.onlineData.open = true;
+        this.tapOnlinePage(1);
+    }
+
+    public tapOnlinePage(page: number) {
+        this.uploadService.images({
+            page,
+            per_page: this.onlineData.per_page
+        }).subscribe(res => {
+            this.onlineData.items = res.data;
+            this.onlineData.hasMore = res.paging.more;
+            this.onlineData.total = res.paging.total;
+            this.onlineData.page = page;
+        });
+    }
+
+    public tapOnlineSelected(item: any) {
+        this.onChange(this.value = item.url);
     }
 
     public uploadFile(event: any) {

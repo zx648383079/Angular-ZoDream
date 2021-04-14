@@ -19,10 +19,19 @@ import { EditModelComponent } from './model/edit/edit-model.component';
 import { EditFieldComponent } from './model/field/edit/edit-field.component';
 import { ModelFieldComponent } from './model/field/model-field.component';
 import { ModelComponent } from './model/model.component';
+import { EditSiteComponent } from './site/edit/edit-site.component';
 import { SiteOptionComponent } from './site/option/site-option.component';
 import { SiteComponent } from './site/site.component';
 
 const routes: Routes = [
+    {
+        path: 'site/create',
+        component: EditSiteComponent,
+    },
+    {
+        path: 'site/edit/:id',
+        component: EditSiteComponent,
+    },
     {
         path: 'site/:id/option',
         component: SiteOptionComponent,
@@ -118,5 +127,5 @@ export class CMSBackendRoutingModule {}
 export const cmsBackendRoutedComponents = [
     CmsBackendComponent, CategoryComponent, SiteComponent, ModelComponent, GroupComponent, LinkageComponent, LinkageDataComponent, EditModelComponent,
     ModelFieldComponent, EditFieldComponent, SiteOptionComponent, ContentComponent, EditCategoryComponent, EditContentComponent,
-    FormComponent, FormDetailComponent
+    FormComponent, FormDetailComponent, EditSiteComponent
 ];

@@ -136,3 +136,10 @@ export interface ICmsColumn {
     name: string;
     label: string;
 }
+
+export interface ICMSTheme {
+    name:        string;
+    description: string;
+    author:      string;
+    cover:       string;
+}

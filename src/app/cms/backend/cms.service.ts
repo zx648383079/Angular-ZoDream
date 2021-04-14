@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { ICmsCategory, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite } from '../model';
+import { ICmsCategory, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
 
 @Injectable()
 export class CmsService {
@@ -207,6 +207,7 @@ export class CmsService {
         model_tab?: {
             model: number;
         };
+        theme?: any;
     }) {
         return this.http.post<{
             category?: ICmsCategory[],
@@ -214,6 +215,7 @@ export class CmsService {
             model?: ICmsModel[],
             field_type?: IItem[];
             model_tab?: string[];
+            theme?: ICMSTheme[]
         }>('cms/admin/batch', data);
     }
 
