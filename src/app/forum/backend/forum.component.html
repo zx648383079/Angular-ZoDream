@@ -10,14 +10,13 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords"
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a routerLink="./create" [queryParams]="{parent: parent?.id}"
                     class="pull-right btn btn-primary">新增板块</a>
-                <a *ngIf="parent && parent.parent_id > 0" class="pull-right btn btn-info"
-                    (click)="tapParent()">返回上一级</a>
+                <a *ngIf="parent && parent.parent_id > 0" class="pull-right btn btn-info" (click)="tapParent()">返回上一级</a>
                 <a *ngIf="parent" class="pull-right btn btn-light" (click)="tapViewChild()">返回顶级</a>
             </form>
         </div>
@@ -49,7 +48,6 @@
             </tbody>
         </table>
 
-        <app-pagination  [total]="total" [(page)]="page" [perPage]="perPage" 
-            (pageChange)="tapPage()"></app-pagination>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>

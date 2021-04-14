@@ -1,6 +1,5 @@
 .container {
     min-height: 80vh;
-    padding: 50px 0;
 }
 
 .friend-box {
@@ -10,19 +9,17 @@
     line-height: 40px;
     padding: 20px 10px;
     .friend-link {
-        padding-left: 150px;
         position: relative;
-        >div:first-child {
-            position: absolute;
-            left: 0;
-            width: 140px;
-            border-right: 5px solid #a10000;
-            font-size: 20px;
-            text-align: center;
-        }
-        a {
-            margin-right: 20px;
-        }
+    }
+    a {
+        margin-right: 20px;
+    }
+    .link-header {
+        border-left: 5px solid #a10000;
+        font-size: 20px;
+        text-align: left;
+        padding-left: 20px;
+        font-weight: 700;
     }
 }
 
@@ -49,4 +46,23 @@
 .friend-apply {
     text-align: right;
     margin-bottom: 30px;
+}
+
+@media (min-width: 576px) {
+    .friend-box {
+        .friend-link {
+            padding-left: 150px;
+        }
+        .link-header {
+            position: absolute;
+            left: 0;
+            width: 140px;
+            border-left: none;
+            border-right: 5px solid #a10000;
+            font-size: 20px;
+            text-align: center;
+            padding-left: 0;
+            font-weight: 500;
+        }
+    }
 }

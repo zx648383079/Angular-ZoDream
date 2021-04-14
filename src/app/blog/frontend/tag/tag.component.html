@@ -5,9 +5,11 @@
         <a class="active" >标签</a>
         <a routerLink="../archives">归档</a>
     </div>
-    <ng-container *ngFor="let item of tags">
-      <a routerLink="../" [queryParams]="{tag: item.name}" class="tag-item" [style]="item.style">{{ item.name }}</a>
-    </ng-container>
+    <div class="tag-body">
+        <ng-container *ngFor="let item of tagItems">
+            <a routerLink="../" [queryParams]="{tag: item.name}" class="tag-item" [style]="item.style">{{ item.name }}</a>
+        </ng-container>
+    </div>
     
   </div>
 

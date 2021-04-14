@@ -1,26 +1,25 @@
 <div class="container">
-  <div class="book-full-body">
-    <div class="book-sort">
-        <a routerLink="../category">分类</a>
-        <a routerLink="../tag">标签</a>
-        <a class="active">归档</a>
-    </div>
-    <div class="time-axis">
-      <ng-container *ngFor="let item of items">
-        <div class="time-title">
-            <div class="time-year">{{ item.year }}</div>
+    <div class="book-full-body">
+        <div class="book-sort">
+            <a routerLink="../category">分类</a>
+            <a routerLink="../tag">标签</a>
+            <a class="active">归档</a>
         </div>
-        <div class="time-items">
-          <ng-container *ngFor="let it of item.children">
-            <a class="time-item" routerLink="../{{ it.id }}">
-                <div class="title">{{ it.title }}</div>
-                <div class="time">{{ it.date }}</div>
-            </a>
-          </ng-container>
-        </div>
-      </ng-container>
-      
-    </div>
-  </div>
+        <div class="time-axis">
+            <ng-container *ngFor="let item of items">
+                <div class="time-title">
+                    <div class="time-year">{{ item.year }}</div>
+                </div>
+                <div class="time-items">
+                    <ng-container *ngFor="let it of item.children">
+                        <a class="time-item" routerLink="../{{ it.id }}">
+                            <div class="title">{{ it.title }}</div>
+                            <div class="time">{{ it.date }}</div>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
 
+        </div>
+    </div>
 </div>

@@ -8,24 +8,21 @@ import { ITag } from '../../../theme/models/blog';
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss']
 })
-export class TagComponent implements OnInit {
+export class TagComponent {
 
-  public tags: ITag[] = [];
+    public tagItems: ITag[] = [];
 
-  public title = '标签';
+    public title = '标签';
 
-  constructor(
-    private service: BlogService
-  ) {
-    this.service.getTags().subscribe(res => {
-      this.tags = res.map(item => {
-        item.style = 'font-size:' + (Math.sqrt(item.count)  + 12) + 'px';
-        return item;
-      });
-    });
-  }
-
-  ngOnInit() {
-  }
+    constructor(
+        private service: BlogService
+    ) {
+        this.service.getTags().subscribe(res => {
+            this.tagItems = res.map(item => {
+                item.style = 'font-size:' + (Math.sqrt(item.count)  + 12) + 'px';
+                return item;
+            });
+        });
+    }
 
 }

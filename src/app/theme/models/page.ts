@@ -43,4 +43,5 @@ export interface IPageQueries {
     per_page: number;
     keywords?: string;
     category?: number;
+    parent?: number;
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { IForum, IThread } from '../../model';
 import { ForumService } from '../forum.service';
 
@@ -11,13 +13,15 @@ import { ForumService } from '../forum.service';
 })
 export class ThreadComponent implements OnInit {
     public items: IThread[] = [];
-
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        forum: 0
+    };
     public forum: IForum;
 
     constructor(
@@ -28,13 +32,14 @@ export class ThreadComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (!params.forum) {
-                this.tapRefresh();
+            this.queries = getQueries(params, this.queries);
+            if (this.queries.forum < 1 || this.forum?.id === this.queries.forum) {
+                this.tapPage();
                 return;
             }
-            this.service.forum(params.forum).subscribe(res => {
+            this.service.forum(this.queries.forum).subscribe(res => {
                 this.forum = res;
-                this.tapRefresh();
+                this.tapPage();
             });
         });
     }
@@ -48,11 +53,11 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -63,21 +68,18 @@ export class ThreadComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.threadList({
-            keywords: this.keywords,
-            forum_id: this.forum?.id,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.threadList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

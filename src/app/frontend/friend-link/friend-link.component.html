@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <div class="friend-box">
                 <div class="friend-link">
-                    <div>友情链接</div>
+                    <div class="link-header">友情链接</div>
                     <div>
                         <ng-container *ngFor="let item of friendLinks">
                             <a [href]="item.url" target="_blank" rel="noopener" [title]="item.description || item.name">{{ item.name }}</a>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IPageQueries } from '../../theme/models/page';
+import { applyHistory, getQueries } from '../../theme/query';
 import { IForum } from '../model';
 import { ForumService } from './forum.service';
 
@@ -13,11 +15,14 @@ export class ForumComponent implements OnInit {
 
     public items: IForum[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        parent: 0,
+    };
     public parent: IForum;
 
     constructor(
@@ -28,14 +33,15 @@ export class ForumComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(res => {
-            if (!res.parent_id || res.parent_id <= 0) {
-                this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            if (this.queries.parent < 1 || this.parent?.id === this.queries.parent) {
+                this.tapPage();
                 return;
             }
-            this.service.forum(res.parent_id).subscribe(data => {
+            this.service.forum(this.queries.parent).subscribe(data => {
                 this.parent = data;
-                this.tapRefresh();
+                this.tapPage();
             });
         });
     }
@@ -49,11 +55,11 @@ export class ForumComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -64,21 +70,18 @@ export class ForumComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.forumList({
-            keywords: this.keywords,
-            parent: this.parent?.id,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.forumList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -99,7 +102,8 @@ export class ForumComponent implements OnInit {
 
     public tapViewChild(item?: IForum) {
         this.parent = item;
-        this.keywords = '';
+        this.queries.keywords = '';
+        this.queries.parent = item ? item.id : 0;
         this.tapRefresh();
     }
 

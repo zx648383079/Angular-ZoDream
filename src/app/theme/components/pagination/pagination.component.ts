@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -11,13 +11,15 @@ export class PaginationComponent implements OnChanges {
     @Input() public page = 1;
     @Input() public pageTotal = -1;
     @Input() public total = -1;
-    @Input() public pageCount = 7;
+    @Input() public pageCount;
     @Input() public directionLinks = false;
     @Output() public pageChange = new EventEmitter<number>();
 
     public items: number[] = [];
 
-    constructor() { }
+    constructor() {
+        this.pageCount = window.innerWidth > 576 ? 7 : 3;
+    }
 
     private get realTotal() {
         if (this.pageTotal >= 0) {

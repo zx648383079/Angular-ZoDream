@@ -1,60 +1,62 @@
 <div class="container">
-  <div class="book-sidebar">
-    <div class="book-chapter">
-        <ul>
-          <ng-container *ngFor="let item of categories">
-            <li [ngClass]="{active: category && category.id == item.id}" (click)="tapCategory(item)">
-              <i class="iconfont icon-bookmark"></i><a >{{ item.name }}</a>
-              <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
-            </li>
-          </ng-container>
-          
-           
-        </ul>
-    </div>
-    <div class="book-new" *ngIf="newItems.length > 0">
-        <h3>最新日记</h3>
-        <ul>
-            <li *ngFor="let item of newItems">
-              <i class="iconfont icon-bookmark"></i><a routerLink="../{{ item.id }}">{{ item.title }}</a></li>
-            <li>
-        </ul>
-    </div>
-  </div>
-  <div class="book-body">
-    <div class="book-sort">
-        <a routerLink="./tag">标签</a>
-        <a  routerLink="./archives">归档</a>
-        <ng-container *ngFor="let item of sortItems">
-          <a [ngClass]="{active: item.value == sort}" (click)="tapSort(item)">{{ item.name }}</a>
-        </ng-container>
-    </div>
-    <h2 class="book-header" *ngIf="!category && header">{{ header }}</h2>
-    <div class="book-term" *ngIf="category">
-        <div class="term-info">
-            <img [src]="category.thumb" [alt]="category.name">
-            <h3>{{ category.name }}</h3>
+    <div class="row">
+        <div class="book-sidebar">
+            <div class="book-chapter">
+                <ul>
+                    <ng-container *ngFor="let item of categories">
+                        <li [ngClass]="{active: category && category.id == item.id}" (click)="tapCategory(item)">
+                            <i class="iconfont icon-bookmark"></i><a>{{ item.name }}</a>
+                            <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+            <div class="book-new" *ngIf="newItems.length > 0">
+                <h3>最新日记</h3>
+                <ul>
+                    <li *ngFor="let item of newItems">
+                        <i class="iconfont icon-bookmark"></i><a routerLink="../{{ item.id }}">{{ item.title }}</a></li>
+                    <li>
+                </ul>
+            </div>
         </div>
-        <div class="term-desc">{{ category.description }}</div>
+        <div class="book-body">
+            <div class="book-sort">
+                <a routerLink="./tag">标签</a>
+                <a routerLink="./archives">归档</a>
+                <ng-container *ngFor="let item of sortItems">
+                    <a [ngClass]="{active: item.value == sort}" (click)="tapSort(item)">{{ item.name }}</a>
+                </ng-container>
+            </div>
+            <h2 class="book-header" *ngIf="!category && header">{{ header }}</h2>
+            <div class="book-term" *ngIf="category">
+                <div class="term-info">
+                    <img [src]="category.thumb" [alt]="category.name">
+                    <h3>{{ category.name }}</h3>
+                </div>
+                <div class="term-desc">{{ category.description }}</div>
+            </div>
+            <dl class="book-item" *ngFor="let item of items">
+                <dt>
+                    <a routerLink="./{{ item.id }}" [title]="item.title">{{ item.title }}</a>
+                    <span class="book-time">{{ item.created_at }}</span></dt>
+                <dd>
+                    <p>{{ item.description }}</p>
+                    <a class="author" *ngIf="item.user" (click)="tapUser(item.user)"><i
+                            class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
+                    <a class="category" *ngIf="item.term" (click)="tapCategory(item.term)"><i
+                            class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+                    <a class="language" *ngIf="item.programming_language"
+                        (click)="tapLanguage(item.programming_language)"><i
+                            class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
+                    <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
+                    <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
+                    <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                </dd>
+            </dl>
+        </div>
+        <div class="book-footer">
+            <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        </div>
     </div>
-    <dl class="book-item" *ngFor="let item of items">
-        <dt>
-            <a routerLink="./{{ item.id }}" [title]="item.title">{{ item.title }}</a>
-            <span class="book-time">{{ item.created_at }}</span></dt>
-        <dd>
-            <p>{{ item.description }}</p>
-            <a class="author" *ngIf="item.user" (click)="tapUser(item.user)"><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
-            <a class="category" *ngIf="item.term" (click)="tapCategory(item.term)"><i
-                    class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
-            <a class="language" *ngIf="item.programming_language" (click)="tapLanguage(item.programming_language)"><i
-                    class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
-            <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
-            <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
-            <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
-        </dd>
-    </dl>
-  </div>
-  <div class="book-footer">
-    <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
-  </div>
 </div>

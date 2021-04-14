@@ -5,7 +5,6 @@ li {
 }
 .container {
     position: relative;
-    padding: 0;
 }
 .book-sidebar {
     position: absolute;
@@ -208,7 +207,7 @@ li {
         .book-chapter {
             position: static;
             margin-bottom: 30px;
-            width: 100%;
+            width: 100vw;
             li {
                 width: 100%;
                 &.active {

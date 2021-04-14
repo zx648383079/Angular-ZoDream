@@ -65,13 +65,14 @@ export class FrontendComponent implements OnInit {
     }
 
     private routerChanged(url: string) {
-      for (const item of ['about', 'friend_link', 'blog']) {
-        if (url.indexOf(item) > 0) {
-          this.activeUri = item;
-          return;
+        this.navExpand = false;
+        for (const item of ['about', 'friend_link', 'blog']) {
+            if (url.indexOf(item) > 0) {
+                this.activeUri = item;
+                return;
+            }
         }
-      }
-      this.activeUri = '';
+        this.activeUri = '';
     }
 
 }
