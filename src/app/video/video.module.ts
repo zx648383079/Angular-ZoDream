@@ -8,12 +8,14 @@ import {
     videoRoutingComponents,
     VideoRoutingModule
 } from './video-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ThemeModule } from '../theme/theme.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        ThemeModule,
         VideoRoutingModule
     ],
     declarations: [...videoRoutingComponents]

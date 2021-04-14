@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IPageQueries } from '../../../theme/models/page';
 import { IFriendLink } from '../../../theme/models/seo';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { ContactService } from '../contact.service';
 
 @Component({
@@ -10,100 +13,107 @@ import { ContactService } from '../contact.service';
 })
 export class FriendLinkComponent implements OnInit {
 
-  public items: IFriendLink[] = [];
+    public items: IFriendLink[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        keywords: '',
+        per_page: 20,
+    };
 
-  public hasMore = true;
-
-  public page = 1;
-
-  public perPage = 20;
-
-  public isLoading = false;
-
-  public total = 0;
-
-  constructor(
-    private service: ContactService,
-    private toastrService: ToastrService,
-  ) {
-    this.tapRefresh();
-  }
-
-  ngOnInit() {}
-
-
-  /**
-   * tapRefresh
-   */
-  public tapRefresh() {
-    this.goPage(1);
-  }
-
-  public tapPage() {
-    this.goPage(this.page);
-  }
-
-  public tapMore() {
-    this.goPage(this.page + 1);
-  }
-
-  /**
-   * goPage
-   */
-  public goPage(page: number) {
-    if (this.isLoading) {
-        return;
+    constructor(
+        private service: ContactService,
+        private toastrService: ToastrService,
+        private route: ActivatedRoute,
+    ) {
     }
-    this.isLoading = true;
-    this.service.friendLinkList({
-      page,
-      per_page: this.perPage
-    }).subscribe(res => {
-        this.isLoading = false;
-        this.items = res.data;
-        this.hasMore = res.paging.more;
-        this.total = res.paging.total;
-    });
-  }
 
-  public tapPass(item: IFriendLink) {
-    if (!confirm('确认审核通过此友情链接？')) {
-      return;
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        })
     }
-    this.service.friendLinkVerify(item.id).subscribe(res => {
-      if (!res) {
-        return;
-      }
-      this.toastrService.success('已审核通过！');
-      item.status = res.status;
-    });
-  }
 
-  public tapOff(item: IFriendLink) {
-    if (!confirm('确认下架此友情链接？')) {
-      return;
-    }
-    this.service.friendLinkOff(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('已下架！');
-      item.status = 0;
-    });
-  }
 
-  public tapRemove(item: IFriendLink) {
-    if (!confirm('确认删除此友情链接？')) {
-      return;
+    /**
+     * tapRefresh
+     */
+    public tapRefresh() {
+        this.goPage(1);
     }
-    this.service.friendLinkRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.items = this.items.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    /**
+     * goPage
+     */
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.friendLinkList(queries).subscribe(res => {
+            this.isLoading = false;
+            this.items = res.data;
+            this.hasMore = res.paging.more;
+            this.total = res.paging.total;
+            applyHistory(this.queries = queries);
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapPass(item: IFriendLink) {
+        if (!confirm('确认审核通过此友情链接？')) {
+            return;
+        }
+        this.service.friendLinkToggle(item.id).subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.toastrService.success('已审核通过！');
+            item.status = res.status;
+        });
+    }
+
+    public tapOff(item: IFriendLink) {
+        if (!confirm('确认下架此友情链接？')) {
+            return;
+        }
+        this.service.friendLinkToggle(item.id).subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.toastrService.success('已下架！');
+            item.status = res.status;
+        });
+    }
+
+    public tapRemove(item: IFriendLink) {
+        if (!confirm('确认删除此友情链接？')) {
+            return;
+        }
+        this.service.friendLinkRemove(item.id).subscribe(res => {
+            if (!res.data) {
+                return;
+            }
+            this.toastrService.success('删除成功');
+            this.items = this.items.filter(it => {
+                return it.id !== item.id;
+            });
+        });
+    }
 }

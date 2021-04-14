@@ -16,20 +16,12 @@ export class ContactService {
         });
     }
 
-    public friendLinkOff(id: any) {
-        return this.http.delete<IDataOne<true>>('auth/admin/friend_link/remove', {
-          params: {id}
-        });
+    public friendLinkToggle(id: any) {
+        return this.http.post<IFriendLink>('contact/admin/friend_link/toggle', {id});
     }
 
     public friendLinkRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('auth/admin/friend_link/delete', {
-          params: {id}
-        });
-    }
-
-    public friendLinkVerify(id: any) {
-        return this.http.delete<IFriendLink>('auth/admin/friend_link/verify', {
+        return this.http.delete<IDataOne<true>>('contact/admin/friend_link/delete', {
           params: {id}
         });
     }
@@ -49,11 +41,11 @@ export class ContactService {
     }
 
     public feedbackSave(data: any) {
-        return this.http.post < IFeedback > ('contact/admin/feedback/change', data);
+        return this.http.post<IFeedback>('contact/admin/feedback/change', data);
     }
 
     public feedbackRemove(id: any) {
-        return this.http.delete < IDataOne < true >> ('contact/admin/feedback/delete', {
+        return this.http.delete<IDataOne<true>>('contact/admin/feedback/delete', {
             params: {
                 id
             }
@@ -63,6 +55,14 @@ export class ContactService {
     public subscribeList(params: any) {
         return this.http.get<IPage<ISubscribe>>('contact/admin/subscribe', {
             params
+        });
+    }
+
+    public subscribeRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('contact/admin/subscribe/delete', {
+            params: {
+                id
+            }
         });
     }
 

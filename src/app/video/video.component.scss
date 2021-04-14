@@ -3,10 +3,19 @@
     display: flex;
     line-height: 44px;
     border: 1px solid #ccc;
+    background-color: #fff;
     input {
+        padding-left: 10px;
         height: 44px;
         border: none;
         flex: 1;
+        background-color: transparent;
+        outline: none;
+    }
+    button {
+        background-color: transparent;
+        border: none;
+        outline: none;
     }
     .iconfont {
         display: inline-block;
@@ -17,7 +26,6 @@
 .main-box {
     padding-top: 40vh;
     &.fixed-top {
-        padding-top: 0;
         .search-box {
             position: fixed;
             left: 0;

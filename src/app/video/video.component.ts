@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IPageQueries } from '../theme/models/page';
+import { applyHistory, getQueries } from '../theme/query';
 import { IVideo } from './model';
 import { VideoService } from './video.service';
 
@@ -13,11 +15,14 @@ export class VideoComponent implements OnInit {
 
     public items: IVideo[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public isFixed = false;
+    public queries: IPageQueries = {
+        keywords: '',
+        per_page: 20,
+        page: 1,
+    };
 
     constructor(
         private service: VideoService,
@@ -26,8 +31,20 @@ export class VideoComponent implements OnInit {
         private route: ActivatedRoute,
     ) {}
 
+    @HostListener('scroll', [
+        '$event.target.scrollTop',
+    ])
+    public onDivScroll(
+        scrollY: number,
+    ): void {
+        this.isFixed = scrollY > window.innerHeight / 2;
+    }
+
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapPlay(item: IVideo) {
@@ -47,11 +64,11 @@ export class VideoComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -62,20 +79,20 @@ export class VideoComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.videoList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.videoList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
+        }, () => {
+            this.isLoading = false;
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

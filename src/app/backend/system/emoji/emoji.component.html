@@ -20,9 +20,11 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a (click)="tapView(modal)" class="pull-right btn btn-primary">新增表情包</a>
-                <a routerLink="./category" class="pull-right btn btn-info">管理分组</a>
-                <a (click)="tapImport(importModal)" class="pull-right btn btn-success">导入表情包</a>
+                <div class="btn-group pull-right">
+                    <a (click)="tapView(modal)" class="btn btn-primary">新增表情包</a>
+                    <a routerLink="./category" class="btn btn-info">管理分组</a>
+                    <a (click)="tapImport(importModal)" class="btn btn-success">导入表情包</a>
+                </div>
             </form>
         </div>
 
