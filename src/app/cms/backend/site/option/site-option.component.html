@@ -40,10 +40,12 @@
     </div>
     
 
-
-    <button (click)="tapSubmit()" class="btn btn-success btn-save">确认保存</button>
-    <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-    <a class="btn btn-info" (click)="tapEditOption(optionModal)">新增设置项</a>
+    <div class="btn-group">
+        <button (click)="tapSubmit()" class="btn btn-success btn-save">确认保存</button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        <a class="btn btn-info" (click)="tapEditOption(optionModal)">新增设置项</a>
+    </div>
+    
 </div>
 
 <app-dialog-box #optionModal [buttonVisible]="false" [title]="editData.id > 0 ? '编辑设置项' : '新增设置项'">

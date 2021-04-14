@@ -16,106 +16,112 @@
 
             </div>
         </div>
+        
         <div class="input-group">
             <label for="is_main">主表</label>
             <div>
                 <app-switch id="is_main" formControlName="is_main"></app-switch>
             </div>
         </div>
-        <div class="input-group">
-            <label for="type">类型</label>
-            <div>
-                <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
-                </select>
-
-            </div>
-        </div>
-        <div class="option-box">
-            <ng-container *ngFor="let item of optionItems">
-                <div class="input-group">
-                    <label>{{ item.label }}</label>
-                    <div *ngIf="item.type == 'text'">
-                        <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
-                    </div>
-                    <div *ngIf="item.type == 'textarea'">
-                        <textarea class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                    <div *ngIf="item.type == 'select'">
-                        <select class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
-                        </select>
-                    </div>
-                    <div *ngIf="item.type == 'radio'">
-                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
-                    </div>
-                    <div *ngIf="item.type == 'checkbox'">
-                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
-                    </div>
-                    <div *ngIf="item.type == 'switch'">
-                        <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
-        <div class="input-group">
-            <label for="is_required">是否必填</label>
-            <div>
-                <app-switch id="is_required" formControlName="is_required"></app-switch>
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="is_search">是否搜索</label>
-            <div>
-                <app-switch id="is_search" formControlName="is_search"></app-switch>
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="length">字段长度</label>
-            <div>
-                <input type="text" id="length" class="form-control" formControlName="length">
-
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="match">匹配规则</label>
-            <div>
-                <input type="text" id="match" class="form-control" formControlName="match">
-
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="tip_message">提示信息</label>
-            <div>
-                <input type="text" id="tip_message" class="form-control" formControlName="tip_message">
-
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="error_message">错误提示</label>
-            <div>
-                <input type="text" id="error_message" class="form-control" formControlName="error_message">
-
-            </div>
-        </div>
-        <div class="input-group">
-            <label>编辑组</label>
-            <div class="tab-group">
-                <app-check-input [items]="tabItems" [rangeKey]="false" formControlName="tab_name"></app-check-input>
-                <div class="flat-input">
-                    <input type="text" class="form-control">
-                    <button type="button" class="btn btn-info">添加</button>
+        <div *ngIf="data && data.is_system < 1">
+            <div class="input-group">
+                <label for="type">类型</label>
+                <div>
+                    <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
+                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    </select>
+    
                 </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="position">排序</label>
-            <div>
-                <input type="text" id="position" class="form-control" formControlName="position">
-
+            <div class="option-box">
+                <ng-container *ngFor="let item of optionItems">
+                    <div class="input-group">
+                        <label>{{ item.label }}</label>
+                        <div *ngIf="item.type == 'text'">
+                            <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="item.type == 'textarea'">
+                            <textarea class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                        <div *ngIf="item.type == 'select'">
+                            <select class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="item.type == 'radio'">
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
+                        </div>
+                        <div *ngIf="item.type == 'checkbox'">
+                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
+                        </div>
+                        <div *ngIf="item.type == 'switch'">
+                            <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="input-group">
+                <label for="is_required">是否必填</label>
+                <div>
+                    <app-switch id="is_required" formControlName="is_required"></app-switch>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="is_search">是否搜索</label>
+                <div>
+                    <app-switch id="is_search" formControlName="is_search"></app-switch>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="length">字段长度</label>
+                <div>
+                    <input type="text" id="length" class="form-control" formControlName="length">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="match">匹配规则</label>
+                <div>
+                    <input type="text" id="match" class="form-control" formControlName="match">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="tip_message">提示信息</label>
+                <div>
+                    <input type="text" id="tip_message" class="form-control" formControlName="tip_message">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="error_message">错误提示</label>
+                <div>
+                    <input type="text" id="error_message" class="form-control" formControlName="error_message">
+    
+                </div>
+            </div>
+            <div class="input-group">
+                <label>编辑组</label>
+                <div class="tab-group">
+                    <app-check-input [items]="tabItems" [rangeKey]="false" formControlName="tab_name"></app-check-input>
+                    <div class="flat-input">
+                        <input type="text" class="form-control">
+                        <button type="button" class="btn btn-info">添加</button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="position">排序</label>
+                <div>
+                    <input type="text" id="position" class="form-control" formControlName="position">
+    
+                </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success">确认保存</button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success">确认保存</button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
     </form>
 </div>

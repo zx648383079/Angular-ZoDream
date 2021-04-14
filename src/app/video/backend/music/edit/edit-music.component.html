@@ -29,7 +29,10 @@
                 <span class="form-control">{{ form.get('duration').value | duration }}</span>
             </div>
         </div>
-        <button type="submit" class="btn btn-success">确认保存</button>
-        <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success">确认保存</button>
+            <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
+        </div>
+        
     </form>
 </div>
