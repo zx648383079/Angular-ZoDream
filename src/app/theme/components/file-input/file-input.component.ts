@@ -1,8 +1,9 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { IUploadResult } from '../../models/open';
+import { IUploadFile, IUploadResult } from '../../models/open';
 import { FileUploadService } from '../../services/file-upload.service';
+import { FileOnlineComponent } from '../file-online/file-online.component';
 
 @Component({
     selector: 'app-file-input',
@@ -28,14 +29,6 @@ export class FileInputComponent implements ControlValueAccessor {
 
     public value: string;
     public disabled = false;
-    public onlineData = {
-        items: [],
-        page: 0,
-        per_page: 20,
-        total: 0,
-        hasMore: true,
-        open: false,
-    };
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -53,31 +46,13 @@ export class FileInputComponent implements ControlValueAccessor {
         this.onChange(this.value);
     }
 
-    public openOnline() {
-        if (this.disabled) {
+    public openOnline(modal: FileOnlineComponent) {
+        if (this.disabled || !this.online) {
             return;
         }
-        if (this.onlineData.page > 0) {
-            return;
-        }
-        this.onlineData.open = true;
-        this.tapOnlinePage(1);
-    }
-
-    public tapOnlinePage(page: number) {
-        this.uploadService.images({
-            page,
-            per_page: this.onlineData.per_page
-        }).subscribe(res => {
-            this.onlineData.items = res.data;
-            this.onlineData.hasMore = res.paging.more;
-            this.onlineData.total = res.paging.total;
-            this.onlineData.page = page;
+        modal.open((item: IUploadFile) => {
+            this.onChange(this.value = item.url);
         });
-    }
-
-    public tapOnlineSelected(item: any) {
-        this.onChange(this.value = item.url);
     }
 
     public uploadFile(event: any) {

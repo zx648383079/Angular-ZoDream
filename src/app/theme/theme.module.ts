@@ -65,7 +65,8 @@ import {
     DialogBoxComponent,
     PaginationComponent,
     CheckInputComponent,
-    RuleBlockComponent
+    RuleBlockComponent,
+    FileOnlineComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -103,6 +104,7 @@ const COMPONENTS = [
     RegionComponent,
     SelectInputComponent,
     FileInputComponent,
+    FileOnlineComponent,
     DateInputComponent,
     TimeInputComponent,
     EmojiPickerComponent,

@@ -1,0 +1,24 @@
+.dialog-box {
+    display: flex;
+    flex-direction: column;
+    .dialog-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+    .img-item {
+        display: inline-block;
+        cursor: pointer;
+        box-sizing: border-box;
+        img {
+            width: 8em;
+            height: 8em;
+        }
+        &.selected {
+            border: 2px solid red;
+            border-radius: 1em;
+            img {
+                border-radius: 1em;
+            }
+        }
+    }
+}

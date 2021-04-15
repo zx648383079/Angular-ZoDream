@@ -2,21 +2,8 @@
     <input type="text" class="form-control" [(ngModel)]="value" [disabled]="disabled" (ngModelChange)="onValueChange()" [placeholder]="placeholder">
     <label [for]="'_file_' + uniqueId" class="btn btn-primary">上传</label>
     <label class="btn btn-info" *ngIf="canPreview" (click)="tapPreview()">预览</label>
-    <label class="btn btn-success" *ngIf="online" (click)="openOnline()">在线</label>
+    <label class="btn btn-success" *ngIf="online" (click)="openOnline(modal)">在线</label>
     <input type="file" name="file" [id]="'_file_' + uniqueId" (change)="uploadFile($event)" [accept]="accept"  [disabled]="disabled"/>
 </div>
 
-<div class="dialog-box" *ngIf="online && onlineData.open" [ngClass]="{'dialog-open': onlineData.open}">
-    <div class="dialog-header">
-        <div class="dialog-title">选择图片</div>
-        <i class="iconfont icon-close dialog-close" (click)="onlineData.open = false"></i>
-    </div>
-    <div class="dialog-body">
-        <ng-container *ngFor="let item of onlineData.items">
-            <div class="img-item" [ngClass]="{selected: item.url === value}" (click)="tapOnlineSelected(item)">
-                <img [src]="item.thumb">
-            </div>  
-        </ng-container>
-        <app-pagination [page]="onlineData.page" [perPage]="onlineData.per_page" [total]="onlineData.total" [pageCount]="3" (pageChange)="tapOnlinePage($event)"></app-pagination>
-    </div>
-</div>
+<app-file-online #modal [accept]="accept"></app-file-online>

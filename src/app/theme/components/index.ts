@@ -23,3 +23,4 @@ export * from './dialog-box/dialog-box.component';
 export * from './pagination/pagination.component';
 export * from './check-input/check-input.component';
 export * from './rule-block/rule-block.component';
+export * from './file-online/file-online.component';
