@@ -8,9 +8,6 @@ import { IMessage } from '../../theme/models/chat';
 })
 export class MessageContainerComponent implements OnChanges {
 
-    @ViewChild('messageBox')
-    public messageEf: ElementRef<HTMLDivElement>;
-
     @Input() public items: any[] = [];
     @Input() public hasMore = false;
     @Input() public timeKey = 'created_at';
@@ -18,7 +15,9 @@ export class MessageContainerComponent implements OnChanges {
     @Input() public currentId: string|number;
     @Output() public loadMore = new EventEmitter();
 
-    constructor() { }
+    constructor(
+        private element: ElementRef<HTMLDivElement>
+    ) { }
 
     get formatItems() {
         const items = [];
@@ -38,6 +37,9 @@ export class MessageContainerComponent implements OnChanges {
                 });
             }
             exist.push(item.id);
+            if (typeof item.extra_rule === "string") {
+                item.extra_rule = JSON.parse(item.extra_rule);
+            }
             items.push(item);
         }
         return items;
@@ -62,7 +64,7 @@ export class MessageContainerComponent implements OnChanges {
 
     public scrollBottom() {
         setTimeout(() => {
-            const ele = this.messageEf.nativeElement;
+            const ele = this.element.nativeElement;
             ele.scrollTo({
                 top: ele.clientHeight
             });

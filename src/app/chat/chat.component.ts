@@ -14,7 +14,7 @@ import {
     IChatHistory,
     IGroup
 } from '../theme/models/chat';
-import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO, COMMAND_MESSAGE_PING } from './http';
+import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO, COMMAND_MESSAGE_PING, COMMAND_ERROR } from './http';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { IPage } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
@@ -23,6 +23,7 @@ import { emptyValidate } from '../theme/validators';
 import { ToastrService } from 'ngx-toastr';
 import { IEmoji } from '../theme/models/seo';
 import { Recorder } from './recorder';
+import { AuthService } from '../theme/services';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser {
@@ -114,16 +115,33 @@ export class ChatComponent implements OnInit, OnDestroy {
     constructor(
         private service: ChatService,
         private toastrService: ToastrService,
+        private authService: AuthService,
     ) {
         this.request = this.service.request;
         this.recorder = new Recorder();
     }
 
     ngOnInit(): void {
-        this.request.open();
-        this.request.on(COMMAND_PROFILE, res => {
+        this.request.open(() => {
+            this.initRequest();
+        });
+    }
+
+    ngOnDestroy() {
+        this.request.close();
+    }
+
+    private initRequest() {
+        this.request.auth(this.authService.getUserToken())
+        .on(COMMAND_ERROR, res => {
+            this.toastrService.warning(typeof res === 'object' ? res.message : res);
+        })
+        .on(COMMAND_PROFILE, res => {
             this.user = res;
         }).on(COMMAND_FRIENDS, res => {
+            if (!res.data) {
+                return;
+            }
             this.friends = res.data;
             if (this.friends.length > 0) {
                 this.friends[0].expand = true;
@@ -131,12 +149,15 @@ export class ChatComponent implements OnInit, OnDestroy {
         }).on(COMMAND_GROUPS, res => {
 
         }).on(COMMAND_HISTORY, (res: IPage<IChatHistory>) => {
-            this.histories = res.paging.limit < 1 ? res.data : [].concat(this.histories, res.data);
+            this.histories =  !res.paging || res.paging.limit < 1 ? res.data : [].concat(this.histories, res.data);
         }).on(COMMAND_FRIEND_SEARCH, res => {
 
         }).on(COMMAND_MESSAGE, res => {
             if (!res.data) {
                 return;
+            }
+            if (!(res.data instanceof Array)) {
+                res.data = [res.data];
             }
             if (res.data.length > 0) {
                 this.messageItems = [].concat(this.messageItems, res.data);
@@ -194,10 +215,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
-        this.request.close();
-    }
-
     public get searchItems() {
         if (emptyValidate(this.searchKeywords)) {
             return [];
@@ -240,7 +257,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.openChatRoom({
             id: item.item_id,
             type: item.item_type,
-            name: item.item_type > 0 ? item.group.name : item.friend.name,
+            name: item.item_type > 0 ? item.group.name : (item.friend ? item.friend.name : item.user.name),
             avatar: item.item_type > 0 ? item.group.logo : item.user.avatar,
         });
     }
@@ -340,7 +357,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         const form = new FormData();
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < files.length; i++) {
-            form.append('file[]', files[i], files[i].name);
+            form.append('file', files[i], files[i].name);
         }
         this.send(COMMAND_MESSAGE_SEND_IMAGE, form);
     }

@@ -1,5 +1,5 @@
-import { eachObject } from '../theme/utils';
-import { IRequest, RequestCallback } from './http';
+import { eachObject, fileToBase64 } from '../theme/utils';
+import { COMMAND_AUTH, COMMAND_MESSAGE_PING, IRequest, RequestCallback } from './http';
 
 interface IWsOption {
     prefix?: string;
@@ -103,7 +103,7 @@ export class WsRequest implements IRequest {
         }
         return this.toMsg(event, t, m);
     }
-    public decodeMessage(event, websocketMessage) {
+    public decodeMessage(event: string, websocketMessage: string): any {
         // websocket-message;user;4;themarshaledstringfromajsonstruct
         const skipLen = this.option.prefix.length + this.option.separator.length + event.length + 2;
         if (websocketMessage.length < skipLen + 1) {
@@ -143,7 +143,7 @@ export class WsRequest implements IRequest {
             const event1 = this.getWebsocketCustomEvent(message);
             if (event1 !== '') {
                 // it's a custom message
-                this.trigger(event1, this.getCustomMessage(event1, message));
+                this.trigger(event1, this.decodeMessage(event1, message));
                 return;
             }
         }
@@ -201,7 +201,12 @@ export class WsRequest implements IRequest {
             cb(message);
         });
     }
-    public open(): IRequest {
+    public open(cb: () => void): IRequest {
+        return this.onConnect(cb);
+    }
+
+    public auth(token: string): IRequest {
+        this.emit(COMMAND_AUTH, token);
         return this;
     }
 
@@ -213,7 +218,37 @@ export class WsRequest implements IRequest {
         return this;
     }
     public emit(event: string, data?: any): IRequest {
+        if (event === COMMAND_MESSAGE_PING) {
+            return this;
+        }
+        if (typeof data === 'object' && data instanceof FormData) {
+            return this.emitForm(event, data);
+        }
         this.emitMessage(this.encodeMessage(event, data));
+        return this;
+    }
+
+    public emitForm(event: string, data: FormData): IRequest {
+        const items: any = {};
+        let count = 0;
+        data.forEach((val, key) => {
+            if (typeof val === 'object') {
+                count++;
+                fileToBase64(val, text => {
+                    count --;
+                    items[key] = text;
+                    items[key + '_name'] = val.name
+                    if (count < 1) {
+                        this.emitMessage(this.encodeMessage(event, items));
+                    }
+                });
+                return;
+            }
+            items[key] = /^\d+$/.test(val) ? parseInt(val) : val;
+        });
+        if (count < 1) {
+            this.emitMessage(this.encodeMessage(event, items));
+        }
         return this;
     }
 

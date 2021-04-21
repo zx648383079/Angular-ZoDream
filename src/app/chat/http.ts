@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { eachObject } from '../theme/utils';
 
+export const COMMAND_AUTH = 'auth';
+export const COMMAND_ERROR = 'error';
 export const COMMAND_PROFILE = 'chat/user';
 export const COMMAND_HISTORY = 'chat/chat';
 export const COMMAND_FRIENDS = 'chat/friend';
@@ -20,7 +22,8 @@ export const COMMAND_MESSAGE_SEND_FILE = 'chat/message/send_file';
 export type RequestCallback = (data?: any) => void;
 
 export interface IRequest {
-    open(): IRequest;
+    open(cb: () => void): IRequest;
+    auth(token: string): IRequest;
     emit(event: string, data?: any): IRequest;
     emitBatch(data: {
         [key: string]: any
@@ -40,7 +43,12 @@ export class HttpRequest implements IRequest {
         [key: string]: RequestCallback[]
     } = {};
 
-    public open(): IRequest {
+    public open(cb: () => void): IRequest {
+        cb()
+        return this;
+    }
+
+    public auth(token: string): IRequest {
         return this;
     }
     public emit(event: string, data?: any): IRequest {

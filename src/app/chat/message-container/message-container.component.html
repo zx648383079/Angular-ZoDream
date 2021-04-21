@@ -1,4 +1,4 @@
-<div #messageBox class="message-container">
+<div class="message-container">
     <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
     <ng-container *ngFor="let item of formatItems">
         <ng-container *ngIf="item.type === 99; else elseTemplate">
@@ -6,16 +6,16 @@
         </ng-container>
         <ng-template #elseTemplate>
             <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
-                <img class="avatar" [src]="item.user.avatar">
+                <img class="avatar" [src]="item.user.avatar | asset">
                 <div class="content">
                     <ng-container *ngIf="item.type == 1">
-                        <img [src]="item.extra_rule[0].i">
+                        <img [src]="item.extra_rule[0].i | asset">
                     </ng-container>
                     <ng-container *ngIf="item.type == 2">
-                        <video [src]="item.extra_rule[0].f"></video>
+                        <video [src]="item.extra_rule[0].f | asset"></video>
                     </ng-container>
                     <ng-container *ngIf="item.type == 3">
-                        <app-voice-player [src]="item.extra_rule[0].f"></app-voice-player>
+                        <app-voice-player [src]="item.extra_rule[0].f | asset"></app-voice-player>
                     </ng-container>
                     <ng-container *ngIf="item.type == 4">
                         <div class="file-block">

@@ -13,7 +13,7 @@
         </div>
         <div class="header">
             <div class="avatar">
-                <img [src]="user.user.avatar">
+                <img [src]="user.user.avatar | asset">
                 <i class="status-icon"></i>
             </div>
             <div class="name">{{ user.name }}</div>
@@ -44,11 +44,11 @@
                     <ng-container *ngFor="let item of histories">
                         <div class="user-item" (click)="tapHistory(item)">
                             <div class="user-avatar">
-                                <img [src]="item.user.avatar" alt="">
+                                <img [src]="item.user.avatar | asset" alt="">
                             </div>
                             <div class="user-info">
                                 <p>
-                                    <span class="name">{{ item.friend.name }}</span>
+                                    <span class="name">{{ item.friend ? item.friend.name : item.user.name }}</span>
                                     <span class="time" *ngIf="item.updated_at">{{ item.updated_at | ago }}</span>
                                 </p>
                                 <p *ngIf="item.message">
@@ -70,7 +70,7 @@
                                 <ng-container *ngFor="let item of group.users">
                                     <div class="user-item" (click)="tapUser(item)">
                                         <div class="user-avatar">
-                                            <img [src]="item.user.avatar" alt="">
+                                            <img [src]="item.user.avatar | asset" alt="">
                                         </div>
                                         <div class="user-info">
                                             <p>
@@ -101,7 +101,7 @@
                 <ng-container *ngFor="let item of searchItems">
                     <div class="user-item">
                         <div class="user-avatar">
-                            <img [src]="item.user.avatar" alt="">
+                            <img [src]="item.user.avatar | asset" alt="">
                         </div>
                         <div class="user-info">
                             <p>
