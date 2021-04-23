@@ -12,7 +12,7 @@
             <ol class="gird-header"><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li><li>日</li></ol>
             <ul class="gird-body">
                 <ng-container *ngFor="let item of dayItems">
-                    <li [ngClass]="{disable: item.disable, active: item.active}" [title]="item.active ? '已签到' : '未签到'">{{ item.val }}</li>
+                    <li [ngClass]="{disable: item.disable, active: item.active}" [title]="formatDayTitle(item)">{{ item.val }}</li>
                 </ng-container>
             </ul>
         </div>

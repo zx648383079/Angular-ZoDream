@@ -24,4 +24,16 @@ export class CheckinService {
         });
     }
 
+    public batch(data: {
+        today: any;
+        month: {
+            month?: string
+        };
+    }) {
+        return this.http.post<{
+            today: ICheckIn | null;
+            month: ICheckIn[];
+        }>('checkin/batch', data);
+    }
+
 }

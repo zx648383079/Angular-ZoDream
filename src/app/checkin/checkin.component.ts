@@ -1,13 +1,15 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
+import { IErrorResult } from '../theme/models/page';
 import { hasElementByClass, twoPad } from '../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
 
 interface IDay {
-    val: string,
-    day?: number,
-    disable?: boolean,
-    active?: boolean,
+    val: string;
+    day?: number;
+    disable?: boolean;
+    active?: boolean;
+    log?: ICheckIn;
 }
 
 @Component({
@@ -46,15 +48,35 @@ export class CheckinComponent {
         };
     }
 
+    public formatDayTitle(item: IDay): string {
+        if (!item.active) {
+            return '未签到';
+        }
+        if (!item.log) {
+            return '已签到';
+        }
+        if (item.log.running < 2) {
+            return '已签到';
+        }
+        return '已连续签到' + item.log.running  + '天';
+    }
+
     private load() {
         if (this.booted) {
             return;
         }
         this.booted = true;
-        this.setMonth(new Date());
-        this.service.canCheck().subscribe(res => {
-            this.data = res.data;
-        });
+        const now = new Date();
+        this.setMonth(now, false);
+        this.service.batch({
+            today: {},
+            month: {
+                month: [now.getFullYear(), now.getMonth() + 1].join('-')
+            }
+        }).subscribe(res => {
+            this.data = res.today;
+            this.checkDay(...res.month);
+        })
         
     }
 
@@ -63,7 +85,7 @@ export class CheckinComponent {
         this.panelVisible = true;
     }
 
-    private setMonth(date: Date) {
+    private setMonth(date: Date, needLog = true) {
         date.setDate(1);
         const now = new Date();
         this.monthDate = date;
@@ -72,14 +94,14 @@ export class CheckinComponent {
         now.setHours(0, 0, 0);
         this.canNext = date.getTime() < now.getTime();
         this.refreshGrid(date);
-        this.refreshLog(date);
+        if (needLog) {
+            this.refreshLog(date);
+        }
     }
 
     private refreshLog(date: Date) {
         this.service.monthLog([date.getFullYear(), date.getMonth() + 1].join('-')).subscribe(res => {
-            this.checkDay(...res.data.map(i => {
-                return new Date(i.created_at).getDate();
-            }));
+            this.checkDay(...res.data);
         });
     }
 
@@ -110,15 +132,33 @@ export class CheckinComponent {
         return day - 1;
     }
 
-    private checkDay(...days: number[]) {
+    private checkDay(...days: number[]|ICheckIn[]) {
         let len = days.length;
         if (len < 1) {
             return;
         }
+        let isObj = false;
+        const dayMap: number[] = [];
+        for (const i of days) {
+            if (typeof i !== 'object') {
+                dayMap.push(i);
+                continue;
+            }
+            isObj = true;
+            dayMap.push(new Date(i.created_at).getDate());
+        }
         for (const item of this.dayItems) {
-            if (item.day && days.indexOf(item.day) >= 0) {
-                item.active = true;
-                len --;
+            if (!item.day) {
+                continue;
+            }
+            const i = dayMap.indexOf(item.day);
+            if (i < 0) {
+                continue;
+            }
+            item.active = true;
+            len --;
+            if (isObj) {
+                item.log = days[i] as ICheckIn;
             }
             if (len < 1) {
                 break;
