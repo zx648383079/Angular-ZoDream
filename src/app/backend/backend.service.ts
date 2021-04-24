@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { INav } from '../theme/components';
 import { IUserRole } from '../theme/models/auth';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BackendService {
 
   constructor(

@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../../theme/models/page';
 import { IComment, IMusic, IVideo } from '../model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class VideoService {
 
     constructor(

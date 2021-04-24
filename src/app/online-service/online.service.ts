@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IPage } from '../theme/models/page';
 import { IMessage } from './model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OnlineService {
 
     constructor(

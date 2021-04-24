@@ -17,9 +17,7 @@ import {
     IGoodsAttribute
 } from '../../../theme/models/shop';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class GoodsService {
 
     constructor(

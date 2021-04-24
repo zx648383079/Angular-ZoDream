@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IAgreement, ILink } from '../theme/models/seo';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne } from '../theme/models/page';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FrontendService {
+
+    private link$: Observable<ILink[]>;
 
     constructor(
       private http: HttpClient
@@ -19,7 +21,12 @@ export class FrontendService {
      * friendLinks
      */
     public friendLinks(): Observable<ILink[]> {
-        return this.http.get<IData<ILink>>('contact/friend_link').pipe(map(res => res.data));
+        if (this.link$) {
+            return this.link$;
+        }
+        return this.link$ = this.http.get<IData<ILink>>('contact/friend_link').pipe(map(res => {
+            return res.data;
+        }));
     }
 
     public linkApply(data: any) {

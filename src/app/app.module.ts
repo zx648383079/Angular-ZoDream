@@ -10,6 +10,8 @@ import { reducers, metaReducers } from './theme/theme.reducers';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,12 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
       positionClass: 'toast-top-center',
       preventDuplicates: true,
       progressAnimation: 'increasing'
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
   providers: [

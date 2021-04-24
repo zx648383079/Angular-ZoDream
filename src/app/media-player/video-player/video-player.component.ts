@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { twoPad } from '../../theme/utils';
 import { ScreenFull } from '../screen-full';
@@ -13,6 +13,8 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
     @ViewChild('playerVideo')
     private videoElement: ElementRef<HTMLVideoElement>;
     @Input() public src: string;
+    @Input() public cover: string;
+    @Output() public ended = new EventEmitter<void>();
     public paused = true;
     public booted = false;
     public isFrame = false;
@@ -172,6 +174,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
         });
         video.addEventListener('ended', () => {
             this.paused = true;
+            this.ended.emit();
         });
         video.addEventListener('pause', () => {
             this.paused = true;

@@ -4,9 +4,7 @@ import { IData, IDataOne, IPage } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
 import { ICategory, IOrder, IProvider, IService, IUserRole, IWaiter } from './model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LegworkService {
 
     constructor(private http: HttpClient) { }

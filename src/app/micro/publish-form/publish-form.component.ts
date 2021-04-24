@@ -5,6 +5,7 @@ import { IMicro } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { MicroService } from '../micro.service';
+import { IUploadResult } from '../../theme/models/open';
 
 @Component({
   selector: 'app-publish-form',
@@ -13,7 +14,9 @@ import { MicroService } from '../micro.service';
 })
 export class PublishFormComponent {
 
-    public fileItems = [
+    public fileType = 0;
+
+    public fileItems: IUploadResult[] = [
     ];
     public content = '';
 
@@ -47,7 +50,12 @@ export class PublishFormComponent {
         this.service.create({
             content: this.content,
             open_type: this.openType,
-            file: this.fileItems,
+            file: this.fileItems.map(i => {
+                return {
+                    thumb: i.thumb,
+                    file: i.url,
+                }
+            }),
         }).subscribe(res => {
             this.toastrService.success('发布成功！');
             this.fileItems = [];
@@ -62,21 +70,33 @@ export class PublishFormComponent {
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
         this.uploadService.uploadImages(files).subscribe(res => {
-            this.fileItems.push(... res.map(i => i.url));
+            if (this.fileType > 0) {
+                this.fileItems = [];
+            }
+            this.fileType = 0;
+            this.fileItems.push(...res);
         });
     }
 
     public uploadAudio(event: any) {
         const files = event.target.files as FileList;
         this.uploadService.uploadAudio(files[0]).subscribe(res => {
-            this.fileItems.push(res.url);
+            if (this.fileType != 1) {
+                this.fileItems = [];
+            }
+            this.fileType = 1;
+            this.fileItems.push(res);
         });
     }
 
     public uploadVideo(event: any) {
         const files = event.target.files as FileList;
         this.uploadService.uploadVideo(files[0]).subscribe(res => {
-            this.fileItems.push(res.url);
+            if (this.fileType != 2) {
+                this.fileItems = [];
+            }
+            this.fileType = 2;
+            this.fileItems.push(res);
         });
     }
 }

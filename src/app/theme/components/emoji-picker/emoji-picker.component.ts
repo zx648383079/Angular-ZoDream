@@ -3,6 +3,8 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
 import { IEmoji, IEmojiCategory } from '../../models/seo';
 import { IData } from '../../models/page';
 import { hasElementByClass } from '../../utils';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-emoji-picker',
@@ -10,6 +12,8 @@ import { hasElementByClass } from '../../utils';
   styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
+
+    static cacheMaps: {[url: string]: IEmojiCategory[]} = {};
 
     @Input() public url = 'seo/emoji';
     @Output() public tapped = new EventEmitter<IEmoji>();
@@ -66,9 +70,18 @@ export class EmojiPickerComponent {
             return;
         }
         this.booted = true;
-        this.http.get<IData<IEmojiCategory>>(this.url).subscribe(res => {
-            this.items = res.data;
+        this.getOrSet(this.url).subscribe(res => {
+            this.items = res;
         });
+    }
+
+    private getOrSet(url: string): Observable<IEmojiCategory[]> {
+        if (Object.prototype.hasOwnProperty.call(EmojiPickerComponent.cacheMaps, url)) {
+            return of(EmojiPickerComponent.cacheMaps[url]);
+        }
+        return this.http.get<IData<IEmojiCategory>>(url).pipe(map(res => {
+            return EmojiPickerComponent.cacheMaps[url] = res.data;
+        }));
     }
 
     public tapButton() {

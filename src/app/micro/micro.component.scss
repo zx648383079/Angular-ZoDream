@@ -31,71 +31,7 @@
             text-decoration: none;
         }
     }
-    .attachment {
-        position: relative;
-        li {
-            list-style: none;
-            display: inline-block;
-            cursor: zoom-in;
-        }
-        img {
-            max-width: 100%;
-        }
-        .media-min {
-            li {
-                width: 110px;
-                height: 110px;
-                margin: 4px 0 0 4px;
-                position: relative;
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-        .icon-close {
-            display: none;
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            width: 2rem;
-            height: 2rem;
-            font-size: 1.3rem;
-            color: #fff;
-            background-color: rgba($color: #cccc, $alpha: .4);
-            border-radius: 50%;
-            text-align: center;
-            cursor: pointer;
-            line-height: 2rem;
-        }
-        .media-large {
-            display: none;
-            position: relative;
-            img {
-                cursor: zoom-out;
-            }
-        }
-        &.media-slider {
-            background-color: #f2f2f5;
-            padding-top: 30px;
-            .icon-close {
-                display: block;
-            }
-            .media-large {
-                display: block;
-            }
-            ul {
-                display: none;
-                &.media-min {
-                    display: block;
-                }
-            }
-            li {
-                width: 56px;
-                height: 56px;
-            }
-        }
-    }
+    
     .tags {
         li {
             display: inline-block;
@@ -113,12 +49,17 @@
         a {
             display: inline-block;
             text-align: center;
+            text-decoration: none;
+            cursor: default;
             width: 25%;
             &:not(:last-child) {
                 border-right: 1px solid #333;
             }
             &.active {
                 color: #f00;
+            }
+            &.open {
+                color: #00a1d6;
             }
         }
     }

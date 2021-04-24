@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IRole, IPermission } from '../../../theme/models/auth';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RoleService {
 
   constructor(

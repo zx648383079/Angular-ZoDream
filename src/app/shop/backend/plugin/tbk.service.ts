@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData } from '../../../theme/models/page';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TbkService {
 
     constructor(private http: HttpClient) { }

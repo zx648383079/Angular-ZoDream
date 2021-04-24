@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IApiField, IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DocumentService {
 
     constructor(

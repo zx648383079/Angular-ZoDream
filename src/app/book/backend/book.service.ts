@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAuthor, IBook, IBookList, ICategory, IChapter } from '../model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class BookService {
 
     constructor(private http: HttpClient) { }

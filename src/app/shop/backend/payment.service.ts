@@ -5,9 +5,7 @@ import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
 import { IPayment, IShipping } from '../../theme/models/shop';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PaymentService {
 
   constructor(

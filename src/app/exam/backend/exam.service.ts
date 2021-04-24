@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ICourse, IExamPage, IPageEvaluate, IQuestion } from '../model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ExamService {
 
     constructor(

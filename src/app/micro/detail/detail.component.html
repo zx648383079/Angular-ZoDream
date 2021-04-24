@@ -14,19 +14,7 @@
                 <div class="content">
                     <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
                 </div>
-                <div class="attachment" *ngIf="data.attachment && data.attachment.length > 0" [ngClass]="{'media-slider': data.attachment_open}">
-                    <i class="iconfont icon-close" (click)="data.attachment_open = false"></i>
-                    <div class="media-large">
-                        <img [src]="data.attachment[data.attachment_current].thumb" alt="">
-                        <div class="media-prev" (click)="tapPrevious(data)"></div>
-                        <div class="media-next" (click)="tapNext(data)"></div>
-                    </div>
-                    <ul [ngClass]="{'media-min': data.attachment.length > 1}">
-                        <li *ngFor="let it of data.attachment;let i = index" (click)="tapAttachment(i, data)">
-                            <img [src]="it.thumb" alt="">
-                        </li>
-                    </ul>
-                </div>
+                <app-attachment-viewer [items]="data.attachment"></app-attachment-viewer>
             </div>
         </div>
 
@@ -39,61 +27,7 @@
     </div>
 
     <div class="comment-box" *ngIf="data">
-        <div class="comment-publish" *ngIf="user">
-            <div class="avatar">
-                <img [src]="user.avatar" alt="">
-            </div>
-            <div class="reply-input">
-                <div class="input">
-                    <textarea class="form-control" [(ngModel)]="commentData.content" (ngModelChange)="onCommentChange()"></textarea>
-                </div>
-                <div class="input-actions">
-                    <div class="tools">
-                        <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
-                            <i class="iconfont icon-smile-o"></i>
-                        </app-emoji-picker>
-                    </div>
-                    <i class="iconfont" [ngClass]="{'icon-square-o': !commentData.is_forward, 'icon-check-square-o': commentData.is_forward}" (click)="commentData.is_forward = !commentData.is_forward"></i>
-                    同时转发到我的微博
-                    <a class="btn btn-primary" (click)="tapComment()">评论</a>
-                </div>
-            </div>
-        </div>
-       <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
-            <div class="comment-item" *ngFor="let item of commentItems">
-                <div class="avatar">
-                    <img [src]="item.user.avatar" alt="">
-                </div>
-                <div>
-                    <div class="text">
-                        <a>{{ item.user.name }}</a>：
-                        {{ item.content }}
-                    </div>
-                    <div class="actions">
-                        <span class="time">{{ item.created_at | ago }}</span>
-                        <div class="tools">
-                            <a (click)="tapCommenting(item)">回复</a>
-                            <a (click)="tapAgreeComment(item)">赞</a>
-                        </div>
-                    </div>
-                    <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
-                        <div class="reply-item" *ngFor="let it of item.replies">
-                            <div class="text">
-                                <a>{{ it.user.name }}</a>：
-                                {{ it.content }}
-                            </div>
-                            <div class="actions">
-                                <span class="time">{{ it.created_at | ago }}</span>
-                                <div class="tools">
-                                    <a  (click)="tapCommenting(it)">回复</a>
-                                    <a  (click)="tapAgreeComment(it)">赞</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-       </app-pull-to-refresh>
+        <app-comment-viewer [user]="authUser" [micro]="data.id" [open]="true" [auto]="true"></app-comment-viewer>
     </div>
 </div>
 

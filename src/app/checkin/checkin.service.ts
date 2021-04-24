@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne } from '../theme/models/page';
 import { ICheckIn } from './model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CheckinService {
 
     constructor(private http: HttpClient) { }

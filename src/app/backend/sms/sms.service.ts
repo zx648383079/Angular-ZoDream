@@ -15,9 +15,7 @@ import {
     ISignature, ITemplate
 } from '../../theme/models/sms';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class SmsService {
 
     constructor(private http: HttpClient) {}

@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAuthorize, IPlatform } from '../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OpenService {
 
     constructor(

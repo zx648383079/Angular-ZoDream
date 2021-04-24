@@ -5,9 +5,7 @@ import { ICategory, ITag, IArchives, IBlog, ISearchForm, IComment } from '../../
 import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BlogService {
 
     constructor(private http: HttpClient) { }

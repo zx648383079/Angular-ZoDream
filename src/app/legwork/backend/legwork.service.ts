@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ICategory, IOrder, IProvider, IService, IWaiter } from '../model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LegworkService {
 
     constructor(private http: HttpClient) { }

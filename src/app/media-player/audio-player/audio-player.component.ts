@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { twoPad } from '../../theme/utils';
 
 @Component({
@@ -10,6 +10,8 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
     
     @Input() public src: string;
     @Input() public mini = false;
+    @Input() public cover: string;
+    @Output() public ended = new EventEmitter<void>();
     public progress = 0;
     public duration = 0;
     public paused = true;
@@ -99,6 +101,7 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
         });
         this.audioElement.addEventListener('ended', () => {
             this.paused = true;
+            this.ended.emit();
         });
         this.audioElement.addEventListener('pause', () => {
             this.paused = true;

@@ -5,9 +5,7 @@ import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/mod
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class UserService {
 
     constructor(private http: HttpClient) { }

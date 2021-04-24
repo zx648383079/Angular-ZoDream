@@ -9,9 +9,7 @@ import {
     IPreSaleConfigure,
     ISeckillGoods} from '../../../theme/models/shop';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ActivityService {
 
     constructor(

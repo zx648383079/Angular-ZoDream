@@ -6,6 +6,7 @@ import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstr
 import { MicroService } from './micro.service';
 import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
+import { MediaPlayerModule } from '../media-player/media-player.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ThemeModule } from '../theme/theme.module';
         ThemeModule,
         NgbDropdownModule,
         NgbPaginationModule,
-        MicroRoutingModule
+        MediaPlayerModule,
+        MicroRoutingModule,
     ],
     providers: [
         MicroService

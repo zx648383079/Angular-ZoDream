@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IDataOne } from '../../models/page';
 import { cloneObject, eachObject, hasElementByClass } from '../../utils';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-region',
@@ -17,6 +19,8 @@ import { cloneObject, eachObject, hasElementByClass } from '../../utils';
     ]
 })
 export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges {
+
+    static cacheMaps: {[url: string]: any} = {};
 
     @Input() public url: string;
     @Input() public range: {
@@ -79,11 +83,20 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
         this.panelVisible = true;
     }
 
+    private getOrSet(url: string): Observable<any> {
+        if (Object.prototype.hasOwnProperty.call(RegionComponent.cacheMaps, url)) {
+            return of(RegionComponent.cacheMaps[url]);
+        }
+        return this.http.get<IDataOne<any>>(url).pipe(map(res => {
+            return RegionComponent.cacheMaps[url] = res.data;
+        }));
+    }
+
     private initByUrl(url?: string) {
         if (!url) {
             return;
         }
-        this.http.get<IDataOne<any>>(url).subscribe(res => {
+        this.getOrSet(url).subscribe(res => {
             this.init(res.data);
         });
     }

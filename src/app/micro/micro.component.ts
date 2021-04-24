@@ -9,6 +9,10 @@ import { IErrorResult, IPageQueries } from '../theme/models/page';
 import { IBlockItem } from '../theme/components/rule-block/model';
 import { openLink } from '../theme/deeplink';
 import { applyHistory, getQueries } from '../theme/query';
+import { Store } from '@ngrx/store';
+import { AppState } from '../theme/interfaces';
+import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { IUser } from '../theme/models/user';
 
 @Component({
     selector: 'app-micro',
@@ -36,13 +40,19 @@ export class MicroComponent implements OnInit {
 
     public user: any;
     public topic: ITopic;
+    public authUser: IUser;
 
     constructor(
         private service: MicroService,
         private toastrService: ToastrService,
         private router: Router,
         private route: ActivatedRoute,
-    ) { }
+        private store: Store<AppState>,
+    ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.authUser = user;
+        });
+    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -99,6 +109,10 @@ export class MicroComponent implements OnInit {
     }
 
     public tapToggleComment(item: IMicro) {
+        item.comment_open = !item.comment_open;
+    }
+
+    public tapViewDetail(item: IMicro) {
         this.router.navigate(['detail', item.id], {relativeTo: this.route});
     }
 
@@ -106,6 +120,8 @@ export class MicroComponent implements OnInit {
         this.service.collect(item.id).subscribe(res => {
             item.is_collected = res.is_collected;
             item.collect_count = res.collect_count;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
     }
 
@@ -113,6 +129,8 @@ export class MicroComponent implements OnInit {
         this.service.recommend(item.id).subscribe(res => {
             item.is_recommended = res.is_recommended;
             item.recommend_count = res.recommend_count;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
     }
 
@@ -146,28 +164,9 @@ export class MicroComponent implements OnInit {
             this.items = this.items.filter(it => {
                 return it.id !== item.id;
             });
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
-    }
-
-    public tapPrevious(item: IMicro) {
-        if (item.attachment_current === 0) {
-            item.attachment_current = item.attachment.length - 1;
-            return;
-        }
-        item.attachment_current --;
-    }
-
-    public tapNext(item: IMicro) {
-        if (item.attachment_current === item.attachment.length - 1) {
-            item.attachment_current = 0;
-            return;
-        }
-        item.attachment_current ++;
-    }
-
-    public tapAttachment(i: number, item: IMicro) {
-        item.attachment_open = true;
-        item.attachment_current = i;
     }
 
     public tapRefresh() {
@@ -195,9 +194,9 @@ export class MicroComponent implements OnInit {
             this.hasMore = res.paging.more;
             this.isLoading = false;
             res.data = res.data.map(i => {
-                i.attachment_current = 0;
+                i.comment_open = false;
                 return i;
-            });
+            })
             this.items = page < 2 ? res.data : [].concat(this.items, res.data);
             applyHistory(this.queries = params, false);
         }, () => {

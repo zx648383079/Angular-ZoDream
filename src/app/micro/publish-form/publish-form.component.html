@@ -34,7 +34,7 @@
     </div>
     <div class="multi-image-box" *ngIf="fileItems.length > 0">
         <div class="image-item" *ngFor="let item of fileItems; let i = index">
-            <img [src]="item">
+            <img [src]="item.thumb">
             <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
         </div>
     </div>

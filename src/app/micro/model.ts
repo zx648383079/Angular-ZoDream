@@ -1,4 +1,4 @@
-import { IBlockItem, IExtraRule } from '../theme/components/rule-block/model';
+import { IExtraRule } from '../theme/components/rule-block/model';
 import { IUser } from '../theme/models/user';
 
 export interface IMicro {
@@ -18,9 +18,6 @@ export interface IMicro {
     forward?: IMicro;
     attachment?: IAttachment[];
     user: IUser;
-    attachment_open?: boolean;
-    attachment_current?: number;
-    blcokItems?: IBlockItem[];
 }
 
 export interface IAttachment {
@@ -31,6 +28,7 @@ export interface IAttachment {
 export interface IComment {
     id?: number;
     content: string;
+    extra_rule: IExtraRule[];
     agree: number;
     disagree: number;
     created_at: string;

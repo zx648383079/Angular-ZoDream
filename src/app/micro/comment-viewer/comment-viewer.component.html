@@ -1,0 +1,58 @@
+<div class="comment-viewer" *ngIf="open">
+    <div class="comment-publish" *ngIf="user">
+        <div class="avatar">
+            <img [src]="user.avatar" alt="">
+        </div>
+        <div class="reply-input">
+            <div class="input">
+                <textarea class="form-control" [(ngModel)]="editData.content" (ngModelChange)="onCommentChange()"></textarea>
+            </div>
+            <div class="input-actions">
+                <div class="tools">
+                    <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
+                        <i class="iconfont icon-smile-o"></i>
+                    </app-emoji-picker>
+                </div>
+                <i class="iconfont" [ngClass]="{'icon-square-o': !editData.is_forward, 'icon-check-square-o': editData.is_forward}" (click)="editData.is_forward = !editData.is_forward"></i>
+                同时转发到我的微博
+                <a class="btn btn-primary" (click)="tapComment()">评论</a>
+            </div>
+        </div>
+    </div>
+    <div class="comment-item" *ngFor="let item of items">
+        <div class="avatar">
+            <img [src]="item.user.avatar" alt="">
+        </div>
+        <div>
+            <div class="text">
+                <a>{{ item.user.name }}</a>：
+                <app-rule-block [value]="item.content" [rules]="item.extra_rule"></app-rule-block>
+            </div>
+            <div class="actions">
+                <span class="time">{{ item.created_at | ago }}</span>
+                <div class="tools">
+                    <a (click)="tapCommenting(item)">回复</a>
+                    <a (click)="tapAgreeComment(item)">赞</a>
+                </div>
+            </div>
+            <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
+                <div class="reply-item" *ngFor="let it of item.replies">
+                    <div class="text">
+                        <a>{{ it.user.name }}</a>：
+                        <app-rule-block [value]="it.content" [rules]="it.extra_rule"></app-rule-block>
+                    </div>
+                    <div class="actions">
+                        <span class="time">{{ it.created_at | ago }}</span>
+                        <div class="tools">
+                            <a (click)="tapCommenting(it)">回复</a>
+                            <a (click)="tapAgreeComment(it)">赞</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="more-btn" [ngClass]="{disabled: !hasMore}" (click)="tapMore()">
+        {{ hasMore ? '查看更多评论' : '没有更多了～' }}
+    </div>
+</div>

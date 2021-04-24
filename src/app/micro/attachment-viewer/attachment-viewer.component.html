@@ -1,0 +1,25 @@
+<ng-container *ngIf="attachmentType > 0 && attachmentType < 3">
+    <div class="attachment"  [ngClass]="{'media-slider': open}">
+        <i class="iconfont icon-close" (click)="open = false"></i>
+        <div class="media-large">
+            <img [src]="largeImage">
+            <div class="media-prev" (click)="tapPrevious()"></div>
+            <div class="media-next" (click)="tapNext()"></div>
+        </div>
+        <ul [ngClass]="{'media-min': attachmentType == 2}">
+            <li *ngFor="let it of items;let i = index" (click)="tapAttachment(i)">
+                <img [src]="it.thumb" alt="">
+            </li>
+        </ul>
+    </div>
+</ng-container>
+<ng-container *ngIf="attachmentType == 3">
+    <ng-container *ngFor="let item of items">
+        <app-audio-player [src]="item.file" [cover]="item.thumb"></app-audio-player>
+    </ng-container>
+</ng-container>
+<ng-container *ngIf="attachmentType == 4">
+    <ng-container *ngFor="let item of items">
+        <app-video-player [src]="item.file" [cover]="item.thumb"></app-video-player>
+    </ng-container>
+</ng-container>

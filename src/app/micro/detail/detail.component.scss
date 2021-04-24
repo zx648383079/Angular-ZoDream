@@ -24,71 +24,6 @@
             margin-right: 10px;
         }
     }
-    .attachment {
-        position: relative;
-        li {
-            list-style: none;
-            display: inline-block;
-            cursor: zoom-in;
-        }
-        img {
-            max-width: 100%;
-        }
-        .media-min {
-            li {
-                width: 110px;
-                height: 110px;
-                margin: 4px 0 0 4px;
-                position: relative;
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-        .icon-close {
-            display: none;
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            width: 2rem;
-            height: 2rem;
-            font-size: 1.3rem;
-            color: #fff;
-            background-color: rgba($color: #cccc, $alpha: .4);
-            border-radius: 50%;
-            text-align: center;
-            cursor: pointer;
-            line-height: 2rem;
-        }
-        .media-large {
-            display: none;
-            position: relative;
-            img {
-                cursor: zoom-out;
-            }
-        }
-        &.media-slider {
-            background-color: #f2f2f5;
-            padding-top: 30px;
-            .icon-close {
-                display: block;
-            }
-            .media-large {
-                display: block;
-            }
-            ul {
-                display: none;
-                &.media-min {
-                    display: block;
-                }
-            }
-            li {
-                width: 56px;
-                height: 56px;
-            }
-        }
-    }
     .tags {
         li {
             display: inline-block;
@@ -126,83 +61,8 @@
 }
 
 .comment-box {
-    padding: 10px 20px 0;
-    background-color: rgb(247, 240, 240);
-    .comment-publish {
-        display: grid;
-        grid-template-columns: 30px 1fr;
-        grid-gap: 10px;
-        .avatar {
-            img {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        
-    }
-    .reply-input {
-        .input {
-            textarea {
-                width: 100%;
-                height: 30px;
-                resize: none;
-                padding: 6px 2px;
-                line-height: 18px;
-                font-size: 14px;
-            }
-        }
-        .input-actions {
-            text-align: right;
-            .tools {
-                float: left;
-            }
-            .btn {
-                line-height: 25px;
-                padding: 0 10px;
-                &.btn-disable {
-                    background-color: #ccc;
-                }
-            }
-        }
-    }
-    .comment-item {
-        display: grid;
-        grid-template-columns: 30px 1fr;
-        grid-gap: 10px;
-        padding: 10px;
-        .avatar {
-            img {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        .text {
-            a {
-                color: #eb7350;
-            }
-        }
-        .actions {
-            .time {
-                color: #777;
-                font-size: 12px;
-            }
-            .tools {
-                float: right;
-                a {
-                    padding: 0 10px;
-                    &:not(:last-child) {
-                        border-right: 1px solid #333;
-                    }
-                }
-            }
-        }
-        &:not(:last-child) {
-            border-bottom: 1px solid #333;
-        }
-    }
-    .reply-box {
-        background-color: #eaeaec;
-    }
+    padding: 0 20px;
+    background-color: #fff;
 }
 .forward-box {
     .simple {
