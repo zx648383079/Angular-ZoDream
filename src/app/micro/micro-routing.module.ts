@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CanActivateViaAuthGuard } from '../theme/guards';
 import { DetailComponent } from './detail/detail.component';
 
 import { MicroComponent } from './micro.component';
@@ -8,7 +9,11 @@ import { ShareComponent } from './share/share.component';
 
 const routes: Routes = [
     { path: 'detail/:id', component: DetailComponent },
-    { path: 'share', component: ShareComponent },
+    { 
+        path: 'share',
+        component: ShareComponent,
+        canActivate: [CanActivateViaAuthGuard], 
+    },
     { path: '', component: MicroComponent },
 ];
 

@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IPlatform } from '../../../../theme/models/open';
+import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class EditComponent implements OnInit {
         public_key: [''],
         rules: [''],
         allow_self: ['0'],
+        status: [0],
     });
 
     public data: IPlatform;
@@ -43,6 +45,21 @@ export class EditComponent implements OnInit {
         'RSA',
         'RSA2',
         'DES'
+    ];
+
+    public statusItems: IItem[] = [
+        {
+            name: '无',
+            value: 0,
+        },
+        {
+            name: '正常',
+            value: 1,
+        },
+        {
+            name: '审核中',
+            value: 9,
+        },
     ];
     public reviewable = false;
 

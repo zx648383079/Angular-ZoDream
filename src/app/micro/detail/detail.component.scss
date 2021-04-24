@@ -51,6 +51,15 @@
             position: absolute;
             right: 5px;
             top: 5px;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1.3rem;
+            color: #fff;
+            background-color: rgba($color: #cccc, $alpha: .4);
+            border-radius: 50%;
+            text-align: center;
+            cursor: pointer;
+            line-height: 2rem;
         }
         .media-large {
             display: none;

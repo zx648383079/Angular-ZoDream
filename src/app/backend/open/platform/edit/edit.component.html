@@ -87,6 +87,14 @@
                     </div>
                 </div>
             </div>
+            <div class="input-group" *ngIf="reviewable">
+                <label for="status">状态</label>
+                <div>
+                    <select id="status" class="form-control" formControlName="status">
+                        <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                    </select>
+                </div>
+            </div>
         </ng-container>
 
         <div class="input-group">

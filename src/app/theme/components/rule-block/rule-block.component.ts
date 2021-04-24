@@ -10,6 +10,10 @@ export class RuleBlockComponent implements OnChanges {
 
     @Input() public value: string;
     @Input() public rules: IExtraRule[];
+    /**
+     * 是否允许换行
+     */
+    @Input() public newLine = true;
     @Output() public tapped = new EventEmitter<IBlockItem>();
 
     public blcokItems: IBlockItem[];
@@ -56,7 +60,7 @@ export class RuleBlockComponent implements OnChanges {
                     link: rule.l,
                 };
             }
-            return {content: rule.s};
+            return {content: rule.s, type: rule.type};
         };
         const splitArr = (items: IBlockItem[], rule: IExtraRule): IBlockItem[] => {
             const data: IBlockItem[] = [];
@@ -81,6 +85,12 @@ export class RuleBlockComponent implements OnChanges {
         let blockItems = [
             {content}
         ];
+        if (this.newLine) {
+            rules.unshift({
+                s: '\n',
+                type: 99,
+            });
+        }
         for (const rule of rules) {
             blockItems = splitArr(blockItems, rule);
         }

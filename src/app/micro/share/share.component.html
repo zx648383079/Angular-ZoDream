@@ -1,3 +1,33 @@
-<p>
-  share works!
-</p>
+<div class="micro-publish-box">
+    <div class="title">有什么新鲜事想分享给大家?
+        <div class="tip" [hidden]="!data.content">
+            已输入<em>{{ data.content.length }}</em>字
+        </div>
+    </div>
+    <div class="input-box">
+        <textarea class="form-control" rows="4" [(ngModel)]="data.content"></textarea>
+    </div>
+    <div class="title-input">
+        <input type="text" class="form-control" [(ngModel)]="data.title">
+    </div>
+    <div class="input-row">
+        <input type="text" class="form-control" [(ngModel)]="data.url" disabled>
+    </div>
+    <div class="summary-input">
+        <textarea class="form-control" rows="3" [(ngModel)]="data.summary"></textarea>
+    </div>
+    <div class="pic-box">
+        <div class="img-item" *ngFor="let item of data.pics;let i = index">
+            <img [src]="item" alt="图片">
+            <i class="iconfont icon-close" (click)="tapRemoveImage(i)"></i>
+        </div>
+    </div>
+    <div class="actions">
+        <select class="form-control" [(ngModel)]="data.open_type">
+            <ng-container *ngFor="let item of typeItems;let i = index;">
+                <option [value]="i">{{ item }}</option>
+            </ng-container>
+        </select>
+        <button class="btn btn-primary" (click)="tapSubmit()">分享</button>
+    </div>
+</div>

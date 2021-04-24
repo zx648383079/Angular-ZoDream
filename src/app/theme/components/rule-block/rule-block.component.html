@@ -6,6 +6,9 @@
         <img [src]="block.image" [alt]="block.content">
     </ng-container>
     <ng-container *ngIf="block.type > 1 && block.type < 5">
-        <a (click)="tapBlock(block)">{{ block.content }}</a>
+        <a (click)="tapBlock(block)" [title]="block.content">{{ block.content }}</a>
+    </ng-container>
+    <ng-container *ngIf="block.type === 99">
+        <br/>
     </ng-container>
 </ng-container>

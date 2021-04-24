@@ -73,8 +73,10 @@
                         <span>已选（</span><span class="cart-checked-count">{{ checkedCount }}</span>
                         <span>）</span>
                     </span>
-                    <a (click)="tapRemoveChecked()">批量删除</a>
-                    <a (click)="tapClearInvalid()">清空失效商品</a>
+                    <div class="batch-action">
+                        <a (click)="tapRemoveChecked()">批量删除</a>
+                        <a (click)="tapClearInvalid()">清空失效商品</a>
+                    </div>
                 </div>
                 <div class="total">
                     <span>SUBTOTAL : </span>

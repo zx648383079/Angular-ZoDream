@@ -115,12 +115,26 @@ export function filterTree(items: any[], id: number) {
     return data;
 }
 
-export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean) {
-    const result = [];
+export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean): string {
+    const result: string[] = [];
+    const pushQuery = (key: string, value: any) => {
+        if (typeof value !== 'object') {
+            result.push(key + '=' + (unEncodeURI ? value : encodeURIComponent(value)));
+            return;
+        }
+        if (value instanceof Array) {
+            value.forEach(v => {
+                pushQuery(key + '[]', v);
+            });
+            return;
+        }
+        eachObject(value, (v, k) => {
+            pushQuery(key + '[' + k +']', v);
+        });
+    }
     for (const name in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, name)) {
-            const value = obj[name];
-            result.push(name + '=' + (unEncodeURI ? value : encodeURIComponent(value)));
+            pushQuery(name, obj[name]);
         }
     }
     if (result.length < 1) {

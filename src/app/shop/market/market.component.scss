@@ -734,6 +734,7 @@ footer {
             text-align: center;
             &:last-child {
                 border-left: 1px solid #ddd;
+                border-right: none;
             }
         }
         .number-input {

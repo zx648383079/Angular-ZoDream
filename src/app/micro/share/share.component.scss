@@ -1,0 +1,76 @@
+.micro-publish-box {
+    background-color: #fff;
+    padding: .8rem;
+    margin-bottom: 1.5rem;
+    .actions {
+        padding-top: .3rem;
+        position: relative;
+        text-align: right;
+        select.form-control {
+            display: inline-block;
+            width: auto;
+            vertical-align: middle;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .btn {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+        }
+    }
+    .title {
+        .tip {
+            float: right;
+            font-weight: 700;
+            color: #777;
+            font-size: .8rem
+            em {
+                font-style: normal;
+                padding: 0 2px;
+            }
+        }
+    }
+}
+
+.title-input {
+    .form-control {
+        font-weight: 700;
+        border: none;
+    }
+}
+
+.summary-input {
+    .form-control {
+        font-weight: 400;
+        border: none;
+    }
+}
+
+.pic-box {
+    .img-item {
+        display: inline-block;
+        width: 6rem;
+        height: 6rem;
+        position: relative;
+        background-color: #f4f4f4;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        .icon-close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: block;
+            width: 1.5rem;
+            height: 1.5rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: rgba($color: #cccc, $alpha: .4);
+            border-radius: 50%;
+            text-align: center;
+            cursor: pointer;
+            line-height: 1.5rem;
+        }
+    }
+}
