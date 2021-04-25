@@ -1,11 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IEmoji } from '../../theme/models/seo';
-import { IMicro } from '../model';
+import { IMicro, ITopic } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { MicroService } from '../micro.service';
 import { IUploadResult } from '../../theme/models/open';
+import { DialogBoxComponent } from '../../theme/components';
+import { emptyValidate } from '../../theme/validators';
 
 @Component({
   selector: 'app-publish-form',
@@ -26,6 +28,9 @@ export class PublishFormComponent {
         '公开', '吐槽', '私人'
     ];
 
+    public topic = '';
+    public topicItems: ITopic[] = [];
+
     @Output() public published = new EventEmitter<IMicro>();
 
     constructor(
@@ -33,6 +38,24 @@ export class PublishFormComponent {
         private toastrService: ToastrService,
         private uploadService: FileUploadService,
     ) { }
+
+    public onTopicChange() {
+        this.service.topicList({
+            keywords: this.topic,
+            per_page: 10,
+        }).subscribe(res => {
+            this.topicItems = res.data;
+        });
+    }
+
+    public openTopic(modal: DialogBoxComponent) {
+        modal.openCustom(item => {
+            if (emptyValidate(item)) {
+                return false;
+            }
+            this.content += '#' + item + '#';
+        });
+    }
 
     public tapEmoji(item: IEmoji) {
         this.content += item.type > 0 ? item.content : '[' + item.name + ']';

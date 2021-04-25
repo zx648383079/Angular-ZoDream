@@ -69,4 +69,28 @@ export class BlogService {
     public commentDisagree(id: any) {
         return this.http.post<IComment>('blog/comment/disagree', {id});
     }
+
+    public batch(data: {
+        categories?: any;
+        tags?: any;
+        detail?: {
+            id: number;
+        };
+        relation?: {
+            blog: number;
+        };
+        new_comment?: any;
+        new_blog?: {
+            limit?: number;
+        };
+    }) {
+        return this.http.post<{
+            categories?: ICategory[];
+            tags?: ITag[];
+            detail?: IBlog;
+            relation?: IBlog[];
+            new_comment?: IComment[];
+            new_blog?: IBlog[];
+        }>('blog/batch', data);
+    }
 }

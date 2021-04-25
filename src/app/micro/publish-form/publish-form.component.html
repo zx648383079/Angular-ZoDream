@@ -24,6 +24,9 @@
                 <i class="iconfont icon-music"></i>
                 <input type="file" name="file" id="editor-audio" (change)="uploadAudio($event)" accept="audio/*"/>
             </label>
+            <div class="tool-item" title="参与话题" (click)="openTopic(topicModal)">
+                <i class="item-text">#</i>
+            </div>
         </div>
         <select class="form-control" [(ngModel)]="openType">
             <ng-container *ngFor="let item of typeItems;let i = index;">
@@ -39,3 +42,10 @@
         </div>
     </div>
 </div>
+<app-dialog-box #topicModal title="参与话题" [buttonVisible]="false">
+    <input type="text" class="form-control" placeholder="话题" [(ngModel)]="topic" (ngModelChange)="onTopicChange()" (keydown)="topicModal.confirmClose($event)">
+    <div class="topic-item" *ngFor="let item of topicItems" (click)="topicModal.close(item.name)">
+        <div class="item-title">#{{ item.name }}#</div>
+        <div class="item-count">{{ item.micro_count | numberFormat }}讨论</div>
+    </div>
+</app-dialog-box>

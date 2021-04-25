@@ -11,16 +11,21 @@ li {
     width: 200px;
     right: 0;
     top: 50px;
+    a {
+        color: #333;
+        text-decoration: none;
+        cursor: pointer;
+    }
     .book-chapter,
     .book-new {
         li {
-            background: #fff;
+            // background: #fff;
             list-style: none;
-            width: 150px;
+            // width: 150px;
             line-height: 30px;
             padding-left: 20px;
             box-sizing: border-box;
-            .fa {
+            .iconfont {
                 margin-right: 5px;
             }
             .count {
@@ -41,9 +46,9 @@ li {
             &.active {
                 background: #a10000;
                 color: #fff;
-                width: 200px;
+                // width: 200px;
                 &:hover {
-                    width: 200px;
+                    // width: 200px;
                 }
                 a {
                     color: #fff;
@@ -56,7 +61,10 @@ li {
                 }
             }
             &:hover {
-                width: 175px;
+                // width: 175px;
+                a {
+                    color: #339cff;
+                }
             }
             &:not(:last-child) {
                 border-bottom: 1px solid #a10000;
@@ -207,7 +215,6 @@ li {
         .book-chapter {
             position: static;
             margin-bottom: 30px;
-            width: 100vw;
             li {
                 width: 100%;
                 &.active {

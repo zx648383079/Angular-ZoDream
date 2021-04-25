@@ -72,6 +72,7 @@ export interface IComment {
     content?: string;
     recommend_count: number;
     user: IUser;
+    blog_id: number;
     blog?: IBlog;
     name: string;
     email: string;

@@ -14,10 +14,6 @@ const routes: Routes = [
     component: BlogComponent,
     children: [
       {
-        path: 'list',
-        component: ListComponent
-      },
-      {
         path: 'archives',
         component: ArchivesComponent
       },
@@ -41,10 +37,6 @@ const routes: Routes = [
           path: '',
           component: ListComponent
       },
-      {
-          path: '**',
-          component: ListComponent,
-      }
     ],
   }
 ];

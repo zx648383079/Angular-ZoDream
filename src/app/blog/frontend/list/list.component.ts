@@ -7,7 +7,8 @@ import {
 } from '../blog.service';
 import {
     ICategory,
-    IBlog
+    IBlog,
+    IComment
 } from '../../../theme/models/blog';
 import {
     IUser
@@ -28,6 +29,7 @@ export class ListComponent implements OnInit {
     public title = '博客';
     public categories: ICategory[] = [];
     public newItems: IBlog[] = [];
+    public commentItems: IComment[] = [];
     public sortItems = [{
             value: 'new',
             name: '最新',
@@ -63,12 +65,18 @@ export class ListComponent implements OnInit {
         private service: BlogService,
         private route: ActivatedRoute,
     ) {
-        this.service.getCategories().subscribe(res => {
-            this.categories = res;
+        this.service.batch({
+            categories: {},
+            new_comment: {},
+            new_blog: {},
+        }).subscribe(res => {
+            this.newItems = res.new_blog;
+            this.commentItems = res.new_comment;
+            this.categories = res.categories;
             if (!this.category) {
                 return;
             }
-            res.forEach(item => {
+            res.categories.forEach(item => {
                 if (item.id === this.category.id) {
                     this.category = item;
                 }

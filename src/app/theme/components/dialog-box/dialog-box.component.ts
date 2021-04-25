@@ -107,4 +107,16 @@ export class DialogBoxComponent {
         this.visible = true;
     }
 
+    /**
+     * 绑定input的确认按键事件
+     * @param e 
+     * @returns 
+     */
+    public confirmClose(e: KeyboardEvent) {
+        if (e.code !== 'Enter') {
+            return;
+        }
+        this.close((e.target as HTMLInputElement).value);
+    }
+
 }

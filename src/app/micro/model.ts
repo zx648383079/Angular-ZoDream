@@ -10,6 +10,7 @@ export interface IMicro {
     comment_count: number;
     collect_count: number;
     created_at: string;
+    user_id: number;
     source?: string;
     is_recommended?: boolean;
     is_collected?: boolean;

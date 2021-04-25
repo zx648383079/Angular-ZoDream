@@ -31,7 +31,7 @@
                 <dl class="book-item" (click)="tapItem(item)">
                     <dt>
                         <a >{{ item.title }}</a>
-                        <span class="book-time">{{ item.created_at }}</span></dt>
+                        <span class="book-time">{{ item.created_at | ago }}</span></dt>
                         <dd>
                             <p>{{ item.description }}</p>
                             <a class="author" *ngIf="item.user" ><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
@@ -64,7 +64,7 @@
                     <a class="category" *ngIf="blog.term" (click)="tapCategory(blog.term)"><i class="iconfont icon-bookmark"></i><b>{{ blog.term.name }}</b></a>
                     <a class="language" *ngIf="blog.programming_language" (click)="tapLanguage(blog.programming_language)"><i
                             class="iconfont icon-code"></i><b>{{ blog.programming_language }}</b></a>
-                    <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at }}</b></span>
+                    <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at | ago }}</b></span>
                 </div>
                 <article id="content" class="content style-markdown">
                     <ng-container *ngIf="blog.audio_url">

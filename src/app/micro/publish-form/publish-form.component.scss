@@ -31,6 +31,10 @@
                     height: 0;
                     overflow: hidden;
                 }
+                .item-text {
+                    font-weight: 700;
+                    font-style: normal;
+                }
                 &:hover {
                     color: #333;
                 }
@@ -94,4 +98,17 @@
 			border: 1px solid rgb(240, 143, 143);
 		}
 	}
+}
+
+.topic-item {
+    line-height: 3rem;
+    display: flex;
+    padding: 0 10px;
+    .item-title {
+        flex: 1;
+    }
+    &:hover {
+        background: #f2f2f5;
+        color: #eb7350;
+    }
 }

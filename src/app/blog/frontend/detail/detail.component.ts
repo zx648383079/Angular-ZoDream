@@ -35,6 +35,8 @@ export class DetailComponent implements OnInit {
 
     public data: IBlog;
 
+    public relationItems: IBlog[] = [];
+
     public commentItems: IComment[] = [];
     public page = 1;
     public hasMore = true;
@@ -80,11 +82,15 @@ export class DetailComponent implements OnInit {
         if (this.data && this.data.id === id) {
             return;
         }
-        this.service.getDetail(id).subscribe(res => {
-            this.data = res;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+        this.service.batch({
+            detail: {id},
+            relation: {blog: id}
+        }).subscribe(res => {
+            this.data = res.detail;
+            this.relationItems = res.relation;
+            this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
             document.documentElement.scrollTop = 0;
-            if (res.comment_status > 0) {
+            if (this.data.comment_status > 0) {
                 this.tapRefresh();
             }
         });

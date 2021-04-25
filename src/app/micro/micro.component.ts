@@ -108,6 +108,12 @@ export class MicroComponent implements OnInit {
         }
     }
 
+    public tapUser(item: IMicro) {
+        this.router.navigate(['./'], {relativeTo: this.route, queryParams: {
+            user: item.user_id
+        }});
+    }
+
     public tapToggleComment(item: IMicro) {
         item.comment_open = !item.comment_open;
     }

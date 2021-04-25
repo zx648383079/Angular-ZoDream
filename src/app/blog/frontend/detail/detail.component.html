@@ -17,7 +17,7 @@
                 <a class="language" *ngIf="data.programming_language" routerLink="../"
                     [queryParams]="{programming_language: data.programming_language}"><i
                         class="iconfont icon-code"></i><b>{{ data.programming_language }}</b></a>
-                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at }}</b></span>
+                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at | ago }}</b></span>
             </div>
             <article id="content" class="content style-markdown">
                 <ng-container *ngIf="data.audio_url">
@@ -68,15 +68,18 @@
                 <i class="iconfont icon-chevron-right"></i>
             </a>
         </div>
-        <div class="panel" *ngIf="data.relation && data.relation.length > 0">
+        <div class="panel" *ngIf="relationItems && relationItems.length > 0">
             <div class="panel-header">
                 <a routerLink="../">相关文章</a>
             </div>
             <div class="panel-body">
-                <ng-container *ngFor="let blog of data.relation">
+                <ng-container *ngFor="let blog of relationItems">
                     <div class="list-item" (click)="loadBlog(blog.id)">
-                        <a class="name">{{ blog.title }}</a>
-                        <div class="time">{{ blog.created_at }}</div>
+                        <div class="item-title">
+                            <a class="name">{{ blog.title }}</a>
+                            <div class="time">{{ blog.created_at | ago }}</div>
+                        </div>
+                        <div class="item-meta">{{ blog.description }}</div>
                     </div>
                 </ng-container>
 
