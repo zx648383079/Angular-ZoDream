@@ -13,88 +13,60 @@
   <app-root></app-root>
   <style>
     .loading-theme {
-    width: 100px;
-    height: 100px;
-    background: #2c3e50;
-    position: fixed;
-    left: 50vW;
-    top: 50vh;
-    margin-top: -50px;
-    margin-left: -50px;
-    overflow: hidden;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
-    .loading-theme .belt {
-      position: absolute;
-      top: 60%;
-      left: 0%;
-      transform: translate(-50%, -50%);
-      width: 200px;
-      height: 5px;
-      background: #fff;
-      animation: belt 2s linear infinite;
-      z-index: 2; }
-      .loading-theme .belt .t {
-        width: 5px;
-        height: 2px;
-        background: #fff;
-        position: absolute;
-        top: -2px;
-        left: calc(20px * var(--index)); }
-      .loading-theme .box {
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      position: absolute;
-      left: 50%;
-      top: -10%;
-      transform: translate(-50%, -50%);
-      animation: box 2s infinite;
-      animation-delay: calc(1s + (1s * var(--index)));
-      z-index: 1; }
-  
-  @keyframes belt {
-    to {
-      left: 100%; } }
-  @keyframes box {
-    25% {
-      top: 52%;
-      animation-timing-function: cubuc-bezier(0.27, 0.37, 0.43, 0.07); }
-    35% {
-      top: 52%;
-      left: 52%;
-      animation-timing-function: cubic-bezier(0.33, 0.9, 0.86, 0.62); }
-    50% {
-      top: 52%;
-      left: 55%;
-      animation-timing-function: linear; }
-    75% {
-      top: 52%;
-      left: 75%;
-      animation-timing-function: linear; }
-    100% {
-      top: 52%;
-      left: 120%;
-      animation-timing-function: linear; } }
+        background-color: #fff;
+        width: 150px;
+        height: 150px;
+        position: fixed;
+        left: 50vW;
+        top: 50vh;
+        margin-top: -75px;
+        margin-left: -75px;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+    }
   </style>
   <div class="loading-theme">
-    <div class="belt">
-      <div class="t" style="--index: 0"></div>
-      <div class="t" style="--index: 1"></div>
-      <div class="t" style="--index: 2"></div>
-      <div class="t" style="--index: 3"></div>
-      <div class="t" style="--index: 4"></div>
-      <div class="t" style="--index: 5"></div>
-      <div class="t" style="--index: 6"></div>
-      <div class="t" style="--index: 7"></div>
-      <div class="t" style="--index: 8"></div>
-      <div class="t" style="--index: 9"></div>
-    </div>
-    <div class="box" style="--index: 0"></div>
-    <div class="box" style="--index: 1"></div>
-    <div class="box" style="--index: 2"></div>
-    <div class="box" style="--index: 3"></div>
-    <div class="box" style="--index: 4"></div>
+    <svg id="zre-draw" xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+        <defs>
+          <style>
+            .zre-style {
+              fill: #fff;
+              stroke: #af5d0d;
+              stroke-width: 1px;
+              fill-rule: evenodd;
+              stroke-dasharray: 500;
+              stroke-dashoffset: 500;
+              animation: dash 5s linear infinite alternate,fill 5s linear infinite alternate;
+            }
+      
+            @keyframes dash {
+              5% {
+                stroke-dashoffset: 500;
+              }
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+            @keyframes fill {
+              0% {
+                fill: #fff;
+              }
+              50% {
+                fill: #fff;
+              }
+              100% {
+                fill: #af5d0d;
+              }
+            }
+          </style>
+        </defs>
+        <path id="e-down" class="zre-style" d="M110.244,129.7l9.5-11.51L75.211,95.965Z"/>
+        <path id="e-main" class="zre-style" d="M75.207,95.964L128.793,84.2,94.158,65.25Z"/>
+        <path id="z-main" class="zre-style" d="M20.043,26.181l59.219-1.572L35.765,71.25Z"/>
+        <path id="z-r" class="zre-style" d="M35.317,71.138L126,40.435l17.006,3.987Z"/>
+        <path id="r-line" class="zre-style" d="M54.541,129.371l-12.848-.494L89.625,23.625Z"/>
+      </svg>      
   </div>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
