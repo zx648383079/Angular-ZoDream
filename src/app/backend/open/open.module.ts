@@ -6,16 +6,20 @@ import { openRoutedComponents, OpenRoutingModule } from './open-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StatusPipe } from './status.pipe';
 import { PlatformOptionComponent } from './platform-option/platform-option.component';
+import { OpenService } from './open.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbPaginationModule,
-    ThemeModule,
-    ReactiveFormsModule,
-    OpenRoutingModule,
-  ],
-  declarations: [...openRoutedComponents, StatusPipe, PlatformOptionComponent],
-  exports: [PlatformOptionComponent]
+    imports: [
+        CommonModule,
+        NgbPaginationModule,
+        ThemeModule,
+        ReactiveFormsModule,
+        OpenRoutingModule,
+    ],
+    declarations: [...openRoutedComponents, StatusPipe, PlatformOptionComponent],
+    exports: [PlatformOptionComponent],
+    providers: [
+        OpenService,
+    ]
 })
 export class OpenModule { }

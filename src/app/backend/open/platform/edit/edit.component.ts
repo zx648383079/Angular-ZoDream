@@ -89,6 +89,7 @@ export class EditComponent implements OnInit {
                     public_key: res.public_key,
                     rules: res.rules,
                     allow_self: res.allow_self.toString(),
+                    status: res.status,
                 });
           });
         });
