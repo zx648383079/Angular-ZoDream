@@ -41,6 +41,10 @@ const routes: Routes = [
         component: EditComponent,
     },
     {
+        path: 'debug/:id',
+        component: DebugComponent,
+    },
+    {
         path: 'debug',
         component: DebugComponent,
     },

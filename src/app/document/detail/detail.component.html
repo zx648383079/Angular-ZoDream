@@ -45,7 +45,7 @@
                     {{ data.name }}
 
                     <div class="pull-right">
-                        <div class="btn btn-primary">代码</div>
+                        <div class="btn btn-primary" (click)="openCode(codeModal)">代码</div>
                     </div>
                 </div>
                 <div class="panel">
@@ -169,7 +169,7 @@
                     <div class="panel-header">
                         返回示例
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body code-box">
                         <pre><code class="language-json">{{ data.example }}</code></pre>
                     </div>
                 </div>
@@ -187,3 +187,19 @@
         
     </div>
 </div>
+
+<app-dialog-box #codeModal title="代码生成" [buttonVisible]="false">
+    <form class="search-bar" (ngSubmit)="tapGenerate(searchForm.value)" #searchForm="ngForm">
+        <select name="kind" ngModel class="form-control">
+            <option *ngFor="let item of kindItems;let i = index" [value]="i">{{ item }}</option>
+        </select>
+        <select name="lang" ngModel class="form-control">
+            <option *ngFor="let item of langItems" [value]="item">{{ item }}</option>
+        </select>
+        <button type="submit" class="btn btn-primary">生成</button>
+        <a class="btn btn-info" *ngIf="codeData.content" (click)="tapCopy($event)">复制</a>
+    </form>
+    <div class="code-box" *ngIf="codeData.content">
+        <pre><code class="language-json">{{ codeData.content }}</code></pre>
+    </div>
+</app-dialog-box>

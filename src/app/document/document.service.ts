@@ -49,4 +49,30 @@ export class DocumentService {
     public apiCode(params: any) {
         return this.http.get<IDataOne<string>>('doc/api/code', {params});
     }
+
+    public batch(data: {
+        project?: {
+            id: number;
+        };
+        version?: {
+            id: number;
+        };
+        catalog?: {
+            id: number;
+            version?: number;
+        };
+        page?: {
+            project: number;
+            id: number;
+        },
+        language?: any;
+    }) {
+        return this.http.post<{
+            project?: IProject;
+            version?: IProjectVersion[];
+            catalog?: IData<IDocPage&IDocApi>;
+            page?: IDocPage&IDocApi,
+            language?: IData<string>;
+        }>('doc/batch', data);
+    }
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IErrorResult } from '../../../theme/models/page';
+import { eachObject } from '../../../theme/utils';
+import { IDocApi } from '../../model';
 import { DocumentService } from '../document.service';
 
 interface IOptionItem {
@@ -15,7 +18,7 @@ interface IOptionItem {
   templateUrl: './debug.component.html',
   styleUrls: ['./debug.component.scss']
 })
-export class DebugComponent {
+export class DebugComponent implements OnInit {
 
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
     public method = 'GET';
@@ -45,6 +48,7 @@ export class DebugComponent {
     public responseIndex = 0;
     public responseBody = '';
     public responseHeader: IOptionItem[] = [];
+    public responseInfo: IOptionItem[] = [];
 
     constructor(
         private service: DocumentService,
@@ -52,15 +56,80 @@ export class DebugComponent {
         private toastrService: ToastrService,
     ) { }
 
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (!params.id) {
+                return;
+            }
+            this.service.api(params.id).subscribe(res => {
+                this.applyApiData(res);
+            }, (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            });
+        });
+    }
+
+    private applyApiData(res: IDocApi) {
+        this.method = res.method;
+        this.url = res.uri;
+        this.requestIndex = 1;
+        if (res.header && res.header.length > 0) {
+            this.headerItems = res.header.map(i => {
+                return {
+                    checked: true,
+                    key: i.name,
+                    value: i.default_value,
+                };
+            });
+        }
+        if (res.request && res.request.length > 0) {
+            this.bodyType = 2;
+            this.rawType = 2;
+            this.body = res.request.map(i => {
+                return {
+                    checked: true,
+                    key: i.name,
+                    value: i.default_value,
+                    type: 0,
+                };
+            });
+        }
+    }
+
     public tapSend() {
         this.service.apiDebug({
             url: this.url,
             method: this.method,
             type: this.typeItems[this.bodyType],
             raw_type: this.rawItems[this.rawType],
-            body: this.body,
+            header: this.headerItems.filter(i => i.checked),
+            body: this.body instanceof Array ? this.body.filter(i => i.checked) : this.body,
         }).subscribe(res => {
-            
+            const data = res.data;
+            this.responseStatus = data.headers.response[0];
+            this.responseTime = data.info.total_time;
+            this.responseSize = data.info.download_content_length;
+            this.responseBody = data.body;
+            this.responseHeader = [];
+            for (const item of data.headers.response) {
+                if (item.indexOf(':') < 0) {
+                    continue
+                }
+                const [key, value] = item.split(':');
+                this.responseHeader.push({
+                    key: key.trim(),
+                    value: value.trim()
+                });
+            }
+            this.responseInfo = [];
+            eachObject(data.info, (v, k: string) => {
+                this.responseInfo.push({
+                    key: k,
+                    value: typeof v === 'object' ? JSON.stringify(v) : v, 
+                });
+            });
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
     }
 

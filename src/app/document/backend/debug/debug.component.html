@@ -127,10 +127,15 @@
                 <div class="tab-item" [ngClass]="{active: responseIndex == 1}" (click)="responseIndex = 1">
                     响应头
                 </div>
+                <div class="tab-item" [ngClass]="{active: responseIndex == 2}" (click)="responseIndex = 2">
+                    附加信息
+                </div>
             </div>
             <div class="tab-body">
                 <div class="tab-item" [ngClass]="{active: responseIndex < 1}">
-                    <pre><code>{{ responseBody }}</code></pre>
+                    <div class="code-box">
+                        <textarea class="form-control" [value]="responseBody"></textarea>
+                    </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: responseIndex == 1}">
                     <table class="table table-hover">
@@ -142,6 +147,26 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of responseHeader">
+                                <td>
+                                    {{ item.key }}
+                                </td>
+                                <td>
+                                    {{ item.value }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-item" [ngClass]="{active: responseIndex == 2}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>键</th>
+                                <th>值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of responseInfo">
                                 <td>
                                     {{ item.key }}
                                 </td>

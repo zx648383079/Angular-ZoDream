@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import * as ClipboardJS from 'clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogBoxComponent } from '../../theme/components';
+import { IErrorResult } from '../../theme/models/page';
 import { emptyValidate } from '../../theme/validators';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
@@ -21,11 +25,19 @@ export class DetailComponent implements OnInit {
     public previous: IDocApi&IDocPage;
     public next: IDocApi&IDocPage;
     public keywords = '';
+    public kindItems = [
+        '整体', '请求', '响应',
+    ];
+    public langItems: string[] = [];
+    public codeData = {
+        content: '',
+    }
 
     constructor(
         private service: DocumentService,
         private route: ActivatedRoute,
         private sanitizer: DomSanitizer,
+        private toastrService: ToastrService,
     ) { }
 
     ngOnInit() {
@@ -34,11 +46,7 @@ export class DetailComponent implements OnInit {
                 return;
             }
             this.version = params.version ? parseInt(params.version, 10) : 0;
-            this.service.project(params.project).subscribe(res => {
-                this.project = res;
-                this.loadCatalog(res.id, params.id)
-            });
-            
+            this.initData(params.project, this.version, params.id);
         });
     }
 
@@ -55,11 +63,9 @@ export class DetailComponent implements OnInit {
         return items;
     }
 
-    private loadCatalog(project: any, id: any) {
-        this.service.catalogAll(project, this.version).subscribe(res => {
-            this.catalog = res.data;
-            this.initData(id);
-        });
+    public openCode(modal: DialogBoxComponent) {
+        this.codeData.content = '';
+        modal.open();
     }
 
     public tapRead(item: IDocApi&IDocPage) {
@@ -81,23 +87,44 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    private initData(id: any) {
-        if (this.catalog.length < 1) {
-            return;
-        }
-        this.service.versionAll(this.project.id).subscribe(res => {
-            this.versionItems = res.data;
-        });
+    private initData(project: number, version: number, id: any) {
+        const data: any = {
+            project: {
+                id: project
+            },
+            version: {
+                id: project
+            },
+            catalog: {
+                id: project,
+                version: version,
+            },
+            language: {},
+        };
         if (id && id > 0) {
-            this.loadData(id);
-            return;
+            data.page = {
+                project,
+                id
+            };
         }
-        if (!this.catalog[0].children) {
-            this.loadData(this.catalog[0].id);
-            return;
-        }
-        this.catalog[0].expanded = true;
-        this.loadData(this.catalog[0].children[0].id);
+        this.service.batch(data).subscribe(res => {
+            this.project = res.project;
+            this.versionItems = res.version;
+            this.catalog = res.catalog.data;
+            this.langItems = res.language.data;
+            if (res.page) {
+                this.setPageData(res.page);
+                return;
+            }
+            if (!this.catalog[0].children) {
+                this.loadData(this.catalog[0].id);
+                return;
+            }
+            this.catalog[0].expanded = true;
+            this.loadData(this.catalog[0].children[0].id);
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
     }
 
     private loadData(id: any) {
@@ -105,17 +132,21 @@ export class DetailComponent implements OnInit {
             return;
         }
         this.service.projectPage(this.project.id, id).subscribe(res => {
-            this.data = res;
-            if (this.project.type < 1) {
-                this.data.content = this.sanitizer.bypassSecurityTrustHtml(res.content)
-            } else {
-                this.data.example = JSON.stringify(this.data.example, null, 4);
-            }
-            this.findNavigation(res.id);
-            history.pushState(null, res.name,
-                window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
-            document.documentElement.scrollTop = 0;
+            this.setPageData(res);
         });
+    }
+
+    private setPageData(res: IDocApi&IDocPage) {
+        this.data = res;
+        if (this.project.type < 1) {
+            this.data.content = this.sanitizer.bypassSecurityTrustHtml(res.content)
+        } else {
+            this.data.example = JSON.stringify(this.data.example, null, 4);
+        }
+        this.findNavigation(res.id);
+        history.pushState(null, res.name,
+            window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
+        document.documentElement.scrollTop = 0;
     }
 
     private findNavigation(id: number) {
@@ -148,6 +179,34 @@ export class DetailComponent implements OnInit {
                 return false;
             }
         }
+    }
+
+    public tapGenerate(form: any) {
+        this.service.apiCode({
+            id: this.data.id,
+            lang: form.lang,
+            kind: form.kind,
+        }).subscribe(res => {
+            this.codeData.content = res.data;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
+    }
+
+    public tapCopy(e: MouseEvent) {
+        const clipboard: any = new ClipboardJS(e.currentTarget as HTMLDivElement, {
+            text: () => {
+              return this.codeData.content;
+            },
+        });
+        clipboard.on('success', (e) => {
+            this.toastrService.success('复制成功');
+            e.clearSelection();
+        });
+        clipboard.on('error', (e) => {
+            this.toastrService.warning('复制失败');
+        });
+        clipboard.onClick(e);
     }
 
 }

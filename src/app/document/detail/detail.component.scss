@@ -194,6 +194,38 @@ li {
     }
 }
 
+.code-box {
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    max-width: 600px;
+    padding: .8rem 0;
+    .form-control,
+    .btn {
+        border-radius: 0;
+        width: auto;
+    }
+    .form-control:first-child {
+        position: relative;
+        margin-bottom: 0;
+        border-radius: .25rem 0 0 .25rem;
+    }
+    .btn:last-child {
+        display: flex;
+        border-radius: 0 .25rem .25rem 0;
+    }
+}
+
 @media screen and (max-width: 769px) {
     .nav-bar {
         left: -300px;
