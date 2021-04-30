@@ -21,8 +21,8 @@ export class ApiEditComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
-        method: ['GET', Validators.required],
-        uri: ['', Validators.required],
+        method: ['GET'],
+        uri: [''],
         description: [''],
     });
 
@@ -153,6 +153,10 @@ export class ApiEditComponent implements OnInit {
             return;
         }
         const data = Object.assign({}, this.data, this.form.value);
+        if (data.type < 1 && emptyValidate(data.uri)) {
+            this.toastrService.warning('请输入接口路径');
+            return;
+        }
         this.service.apiSave(data).subscribe(res => {
             this.toastrService.success('保存成功');
             this.data = res;
