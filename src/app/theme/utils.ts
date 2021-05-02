@@ -45,12 +45,11 @@ export function formatHour(time: number, format?: string, isSecond = false): str
     return format.replace(/h+/, twoPad(h)).replace(/i+/, twoPad(m)).replace(/s+/, twoPad(s));
 }
 
-export function formatAgo(value: any): string {
+export function formatAgo(value: any, now: Date = new Date()): string {
     if (!value) {
         return '--';
     }
     const timeDate = new Date(/^\d{10}$/.test(value) ? value * 1000 : value);
-    const now = new Date();
     const diff = Math.floor((now.getTime() - timeDate.getTime()) / 1000);
     if (diff < 1) {
         return '刚刚';

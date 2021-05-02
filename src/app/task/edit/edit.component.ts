@@ -144,7 +144,7 @@ export class EditComponent implements OnInit {
         if (!this.data || this.data.id < 1) {
             return;
         }
-        if (!this.shareData) {
+        if (this.shareData.task_id !== this.data.id) {
             this.shareData = {id: 0, task: this.data, task_id: this.data.id, share_type: 0, share_rule: ''};
         }
         modal.open(() => {

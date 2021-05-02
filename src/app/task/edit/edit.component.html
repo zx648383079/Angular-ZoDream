@@ -90,9 +90,15 @@
         <label for="share-type-input">分享类型</label>
         <div class="input-group">
             <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
-                <option value="0">公开分享</option>
-                <option value="1">密码分享</option>
+                <option [value]="0">公开分享</option>
+                <option [value]="1">密码分享</option>
             </select>
+        </div>
+        <div *ngIf="shareData.share_type == 1">
+            <label for="pwd-input">分享密码</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="pwd-input" [(ngModel)]="shareData.share_rule">
+            </div>
         </div>
     </div>
     <div class="code-label" *ngIf="shareData.id > 0">

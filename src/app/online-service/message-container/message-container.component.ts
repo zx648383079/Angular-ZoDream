@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { formatAgo } from '../../theme/utils';
 import { IMessage } from '../model';
 
 @Component({
@@ -30,7 +31,7 @@ export class MessageContainerComponent implements OnChanges {
                 lastTime = time;
                 items.push({
                     type: 99,
-                    content: this.formatAgo(time, now)
+                    content: formatAgo(time, now)
                 });
             }
             items.push(item);
@@ -79,31 +80,5 @@ export class MessageContainerComponent implements OnChanges {
 
     private diffTime(current: Date, last: Date): number {
         return Math.abs(current.getTime() - last.getTime());
-    }
-
-    private formatAgo(date: Date, now?: Date): string {
-        if (!now) {
-            now = new Date();
-        }
-        const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-        if (diff < 1) {
-            return '刚刚';
-        }
-        if (diff < 60) {
-            return diff + '秒前';
-        }
-        if (diff < 3600) {
-            return Math.floor(diff / 60) + '分钟前';
-        }
-        if (diff < 86400) {
-            return Math.floor(diff / 3600) + '小时前';
-        }
-        if (diff < 2592000) {
-            return Math.floor(diff / 86400) + '天前';
-        }
-        if (date.getFullYear() === now.getFullYear()) {
-            return date.getMonth() + 1 + '月' + date.getDate();
-        }
-        return date.getFullYear() + '年' + (date.getMonth() + 1) + '月';
     }
 }
