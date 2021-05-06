@@ -13,6 +13,17 @@ interface IOptionItem {
     type?: number;
 }
 
+const CACHE_KEY = 'doc_aapi_debug';
+
+interface ICacheRequest {
+    method: string;
+    url: string;
+    headers: IOptionItem[];
+    bodyType: number;
+    body: any;
+    rawType: number;
+}
+
 @Component({
   selector: 'app-debug',
   templateUrl: './debug.component.html',
@@ -59,6 +70,7 @@ export class DebugComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
+                this.resetCache();
                 return;
             }
             this.service.api(params.id).subscribe(res => {
@@ -131,6 +143,7 @@ export class DebugComponent implements OnInit {
         }, (err: IErrorResult) => {
             this.toastrService.warning(err.error.message);
         });
+        this.setCache();
     }
 
     public tapAddHeader() {
@@ -177,6 +190,53 @@ export class DebugComponent implements OnInit {
             return;
         }
         this.body = files[0];
+    }
+
+    public tapReset() {
+        this.url = '';
+        this.method = 'GET';
+        this.headerItems = [];
+        this.requestIndex = 0;
+        this.bodyType = 0;
+        this.body = null;
+        this.rawType = 0;
+        this.responseStatus = '';
+        this.responseTime = 0;
+        this.responseSize = 0;
+        this.responseIndex = 0;
+        this.responseInfo = [];
+        this.responseHeader = [];
+        this.responseBody = '';
+        localStorage.removeItem(CACHE_KEY);
+    }
+
+    private resetCache() {
+        const str = localStorage.getItem(CACHE_KEY);
+        if (!str) {
+            return;
+        }
+        const data: ICacheRequest = JSON.parse(str);
+        if (!data) {
+            return;
+        }
+        this.method = data.method;
+        this.url = data.url;
+        this.headerItems = data.headers;
+        this.bodyType = data.bodyType;
+        this.body = data.body;
+        this.rawType = data.rawType;
+    }
+
+    private setCache() {
+        const data: ICacheRequest = {
+            method: this.method,
+            url: this.url,
+            headers: this.headerItems,
+            body: this.body,
+            bodyType: this.bodyType,
+            rawType: this.bodyType
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     }
 
 }

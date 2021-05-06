@@ -46,6 +46,7 @@
         i {
             color: #343a40;
             font-size: 3em;
+            animation: spin 1s linear infinite;
         }
     }
     .inner {
@@ -96,6 +97,15 @@
                 font-size: 55px;
             }
         }
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 
