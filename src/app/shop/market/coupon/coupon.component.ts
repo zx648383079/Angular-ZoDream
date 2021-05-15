@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IErrorResult } from '../../../theme/models/page';
 import { ICoupon } from '../../../theme/models/shop';
 import { ShopService } from '../../shop.service';
@@ -21,7 +21,7 @@ export class CouponComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

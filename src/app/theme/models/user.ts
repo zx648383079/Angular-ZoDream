@@ -16,3 +16,9 @@ export interface IUser {
     checked?: boolean;
 }
 
+export interface IUserItem {
+    id: number;
+    name: string;
+    avatar: string;
+}
+

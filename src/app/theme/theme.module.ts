@@ -43,8 +43,6 @@ import {
 import {
     NavBarComponent,
     PageTipComponent,
-    BarItemComponent,
-    BarUlComponent,
     EditHeaderComponent,
     ProgressBarComponent,
     PullToRefreshComponent,
@@ -62,7 +60,6 @@ import {
     CountdownButtonComponent,
     CountdownComponent,
     EmojiPickerComponent,
-    DialogBoxComponent,
     PaginationComponent,
     CheckInputComponent,
     RuleBlockComponent,
@@ -87,8 +84,6 @@ const BASE_MODULES = [
 
 const COMPONENTS = [
     NavBarComponent,
-    BarItemComponent,
-    BarUlComponent,
     PageTipComponent,
     EditHeaderComponent,
     ProgressBarComponent,
@@ -108,7 +103,6 @@ const COMPONENTS = [
     DateInputComponent,
     TimeInputComponent,
     EmojiPickerComponent,
-    DialogBoxComponent,
     PaginationComponent,
     CheckInputComponent,
     RuleBlockComponent,

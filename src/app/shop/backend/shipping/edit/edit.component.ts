@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../../dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { IRegion, IShipping, IShippingGroup } from '../../../../theme/models/shop';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { PaymentService } from '../../payment.service';
 import { RegionService } from '../../region.service';
 
@@ -40,7 +38,7 @@ export class EditShippingComponent implements OnInit {
     private service: PaymentService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private regionService: RegionService,
   ) {
     this.service.shippingPlugin().subscribe(res => {

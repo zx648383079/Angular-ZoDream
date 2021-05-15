@@ -5,6 +5,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ExamService } from './exam.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionTypePipe } from './question-type.pipe';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { QuestionTypePipe } from './question-type.pipe';
         ThemeModule,
         ReactiveFormsModule,
         ExamBackendRoutingModule,
+        DialogModule,
     ],
     declarations: [...examBackendRoutedComponents, QuestionTypePipe],
     providers: [

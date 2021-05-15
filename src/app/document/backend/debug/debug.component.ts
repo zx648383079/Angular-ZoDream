@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IErrorResult } from '../../../theme/models/page';
 import { eachObject } from '../../../theme/utils';
 import { IDocApi } from '../../model';
@@ -64,7 +64,7 @@ export class DebugComponent implements OnInit {
     constructor(
         private service: DocumentService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

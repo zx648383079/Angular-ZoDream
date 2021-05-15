@@ -47,7 +47,7 @@
             <div class="tools">
                 <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
                 <span class="click"><i class="iconfont icon-eye"></i><b>{{ data.click_count }}</b></span>
-                <span class="agree recommend-blog"><i
+                <span class="agree recommend-blog" (click)="tapRecommend()"><i
                         class="iconfont icon-thumbs-up"></i><b>{{ data.recommend_count }}</b></span>
             </div>
         </div>

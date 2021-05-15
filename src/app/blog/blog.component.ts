@@ -23,6 +23,8 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
+import { IErrorResult } from '../theme/models/page';
+import { DialogService } from '../dialog';
 
 @Component({
     selector: 'app-blog',
@@ -67,7 +69,9 @@ export class BlogComponent implements OnInit {
     constructor(
         private sanitizer: DomSanitizer,
         private service: BlogService,
-        private route: ActivatedRoute) {
+        private route: ActivatedRoute,
+        private toastrService: DialogService,
+    ) {
         this.service.getCategories().subscribe(res => {
             this.categories = res;
         });
@@ -147,6 +151,14 @@ export class BlogComponent implements OnInit {
     public tapItem(item: any) {
         this.detailMode = true;
         this.loadBlog(item.id);
+    }
+
+    public tapRecommend() {
+        this.service.blogRecommend(this.blog.id).subscribe(res => {
+            this.blog.recommend_count = res.recommend_count;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
+        });
     }
 
     loadBlog(id: number) {

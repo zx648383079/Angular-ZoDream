@@ -1,5 +1,3 @@
-export * from './bar-item/bar-item.component';
-export * from './bar-ul/bar-ul.component';
 export * from './nav-bar/nav-bar.component';
 export * from './page-tip/page-tip.component';
 export * from './edit-header/edit-header.component';
@@ -19,7 +17,6 @@ export * from './date-input/date-input.component';
 export * from './time-input/time-input.component';
 export * from './countdown/countdown.component';
 export * from './emoji-picker/emoji-picker.component';
-export * from './dialog-box/dialog-box.component';
 export * from './pagination/pagination.component';
 export * from './check-input/check-input.component';
 export * from './rule-block/rule-block.component';

@@ -296,78 +296,7 @@
     }
     .message-box {
         height: 25rem;
-        padding: 0 10px;
-        overflow-y: auto;
         flex: 1;
-        @include scrollbar();
-        * {
-            margin: 0;
-        }
-        .message-more,
-        .message-line,
-        .message-tip {
-            text-align: center;
-        }
-        .message-more {
-            cursor: default;
-        }
-        .message-left, 
-        .message-right {
-            position: relative;
-            margin: 0.5rem 0;
-            &:after {
-                content: ' ';
-                clear: both;
-                display: table;
-            }
-            .avatar {
-                position: absolute;
-                top: 0;
-                height: 2.5rem;
-                width: 2.5rem;
-                border-radius: 50%;
-            }
-            .content {
-                max-width: 66%;
-                background: rgba(0,255,255,0.16);
-                line-height: 2.5rem;
-                padding: 0 0.625rem;
-                word-break: break-word;
-                &::before {
-                    content: '';
-                    position: absolute;
-                    z-index: 10;
-                    border: 0.375rem solid transparent;
-                    top: 0.9375rem;
-                }
-            }
-        }
-        .message-left {
-            .avatar {
-                left: 0;
-            }
-            .content {
-                margin-left: 3.25rem;
-                float: left;
-                &::before {
-                    left: 2.5rem;
-                    border-right-color: rgba(0, 255, 255, 0.16);
-                }
-            }
-        }
-        .message-right {
-            .avatar {
-                right: 0;
-            }
-            .content {
-                float: right;
-                margin-right: 3.25rem;
-                &::before {
-                    right: 2.5rem;
-                    border-left-color: rgba(0, 255, 255, 0.16);
-                }
-            }
-        }
     }
     .message-tools {
         font-size: 1.25rem;

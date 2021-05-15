@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IActivity, IAuctionConfigure } from '../../../../theme/models/shop';
 import { ActivityService } from '../activity.service';
 
@@ -21,7 +21,7 @@ export class AuctionComponent implements OnInit {
 
     constructor(
         private service: ActivityService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) { }
 

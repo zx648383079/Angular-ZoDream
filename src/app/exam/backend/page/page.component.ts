@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IExamPage } from '../../model';
 import { ExamService } from '../exam.service';
 
@@ -21,7 +21,7 @@ export class PageComponent implements OnInit {
 
     constructor(
         private service: ExamService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

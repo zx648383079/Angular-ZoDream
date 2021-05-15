@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { emptyValidate } from '../../theme/validators';
 import { MicroService } from '../micro.service';
@@ -31,7 +31,7 @@ export class ShareComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: MicroService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

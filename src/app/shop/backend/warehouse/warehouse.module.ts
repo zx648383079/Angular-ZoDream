@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WarehouseService } from './warehouse.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoodsModule } from '../goods/goods.module';
+import { DialogModule } from '../../../dialog';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { GoodsModule } from '../goods/goods.module';
         ReactiveFormsModule,
         WarehouseRoutingModule,
         GoodsModule,
+        DialogModule,
     ],
     declarations: [...warehouseRoutedComponents],
     providers: [

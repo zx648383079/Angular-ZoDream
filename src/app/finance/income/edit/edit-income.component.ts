@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../../model';
@@ -57,7 +56,7 @@ export class EditIncomeComponent implements OnInit {
     constructor(
         private service: FinanceService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.service.batch({
             account: {},

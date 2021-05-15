@@ -13,17 +13,16 @@ import {
     IFriendGroup,
     IChatHistory,
     IGroup
-} from '../theme/models/chat';
+} from './model';
 import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO, COMMAND_MESSAGE_PING, COMMAND_ERROR } from './http';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { IPage } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
-import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
-import { ToastrService } from 'ngx-toastr';
 import { IEmoji } from '../theme/models/seo';
 import { Recorder } from './recorder';
 import { AuthService } from '../theme/services';
+import { ContextMenuComponent } from '../context-menu';
+import { DialogBoxComponent, DialogService } from '../dialog';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser {
@@ -114,7 +113,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     constructor(
         private service: ChatService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private authService: AuthService,
     ) {
         this.request = this.service.request;
@@ -236,7 +235,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public tapContextMenu(e: MouseEvent) {
-        this.contextMenu.show(e.clientX, e.clientY, [
+        this.contextMenu.show(e, [
             {
                 name: '新建分组',
                 icon: 'icon-plus'

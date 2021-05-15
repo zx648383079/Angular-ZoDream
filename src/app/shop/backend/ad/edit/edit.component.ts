@@ -9,9 +9,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import {
     IAd,
     IAdPosition
@@ -50,7 +48,7 @@ export class EditAdComponent implements OnInit {
         private service: AdService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
         private dateAdapter: DateAdapter
     ) {

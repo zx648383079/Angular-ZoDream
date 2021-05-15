@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
 import { FrontendService } from '../frontend.service';
@@ -17,7 +17,7 @@ export class AgreementComponent implements OnInit {
     constructor(
         private service: FrontendService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         
     }

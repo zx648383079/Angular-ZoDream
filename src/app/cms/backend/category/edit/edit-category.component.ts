@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { FileUploadService } from '../../../../theme/services';
 import { filterTree } from '../../../../theme/utils';
 import { ICmsCategory, ICmsGroup, ICmsModel } from '../../../model';
@@ -76,7 +76,7 @@ export class EditCategoryComponent implements OnInit {
         private fb: FormBuilder,
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {}
 

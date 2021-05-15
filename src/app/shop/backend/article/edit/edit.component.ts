@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IArticle, IArticleCategory } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { ArticleService } from '../../article.service';
@@ -57,7 +57,7 @@ export class EditArticleComponent implements OnInit {
     private service: ArticleService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private uploadService: FileUploadService,
   ) {
     this.service.categoryTree().subscribe(res => {

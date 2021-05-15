@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import { IItem } from '../../../../../theme/models/seo';
 import { ICmsFormGroup, ICmsFormInput, ICmsModelField } from '../../../../model';
 import { CmsService } from '../../../cms.service';
@@ -39,7 +39,7 @@ export class EditFieldComponent implements OnInit {
         private fb: FormBuilder,
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

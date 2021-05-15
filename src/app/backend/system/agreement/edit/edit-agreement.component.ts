@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAgreement } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
@@ -25,7 +24,7 @@ export class EditAgreementComponent implements OnInit {
     constructor(
         private service: SystemService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
       ) { }
 
     ngOnInit() {

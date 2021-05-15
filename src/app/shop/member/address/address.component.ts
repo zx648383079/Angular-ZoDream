@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IAddress } from '../../../theme/models/shop';
@@ -26,7 +26,7 @@ export class AddressComponent implements OnInit {
 
     constructor(
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { ITag } from '../../../../theme/models/blog';
 import { BlogService } from '../../blog.service';
 
@@ -23,7 +23,7 @@ export class EditTagComponent implements OnInit {
     private fb: FormBuilder,
     private service: BlogService,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) { }
 
   ngOnInit() {

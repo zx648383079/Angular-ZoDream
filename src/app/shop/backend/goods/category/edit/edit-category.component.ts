@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import { ICategory } from '../../../../../theme/models/shop';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { filterTree } from '../../../../../theme/utils';
@@ -32,7 +32,7 @@ export class EditCategoryComponent implements OnInit {
     private service: GoodsService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private uploadService: FileUploadService,
   ) {
     this.service.categoryAll().subscribe(res => {

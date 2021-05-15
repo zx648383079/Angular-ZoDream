@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -27,7 +26,7 @@ export class FeedbackComponent implements OnInit {
 
     constructor(
         private service: ContactService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {
         

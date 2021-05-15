@@ -7,6 +7,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ThemeModule } from '../../theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MessageContainerModule } from '../../message-container/message-container.module';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
@@ -18,6 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         LazyLoadImageModule,
         ThemeModule,
+        MessageContainerModule,
     ],
     exports: [
         UserMenuComponent,

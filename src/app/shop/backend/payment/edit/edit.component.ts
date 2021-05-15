@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { IPayment, IShipping } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -34,7 +34,7 @@ export class EditPaymentComponent implements OnInit {
     private service: PaymentService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private uploadService: FileUploadService,
   ) {
     this.service.paymentPlugin().subscribe(res => {

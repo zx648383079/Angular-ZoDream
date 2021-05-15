@@ -25,6 +25,17 @@ ul, li {
             text-align: center;
             line-height: 50px;
         }
+        .avatar {
+            width: 51px;
+            height: 51px;
+            border-radius: 25.5px;
+            background-color: #ccc;
+            img {
+                width: 51px;
+                height: 51px;
+                border-radius: 25.5px; 
+            }
+        }
         .info {
             .name {
                 color: #000;
@@ -56,19 +67,20 @@ ul, li {
         }
         .drop-menu-box {
             float: right;
+            .menu-body {
+                display: none;
+            }
             .iconfont {
                 display: inline-block;
                 width: 40px;
                 text-align: center;
                 cursor: pointer;
             }
-        }
-        .message-chat-box {
-            padding: 0 10px;
-            overflow-y: auto;
-            flex: 1;
-            background-color: #f4f4f4;
-            @include scrollbar();
+            &:hover {
+                .menu-body {
+                    display: block;
+                }
+            }
         }
     }
     .drop-menu-box {
@@ -127,61 +139,7 @@ ul, li {
         }
     }
 }
-
-.message-chat-box {
-    * {
-        margin: 0;
-    }
-    .message-more,
-    .message-line,
-    .message-tip {
-        text-align: center;
-    }
-    .message-more {
-        cursor: default;
-    }
-    .message-left, 
-    .message-right {
-        position: relative;
-        margin: 0.5rem 0;
-        &:after {
-            content: ' ';
-            clear: both;
-            display: table;
-        }
-        .avatar {
-            position: absolute;
-            top: 0;
-            height: 2.5rem;
-            width: 2.5rem;
-            border-radius: 50%;
-        }
-        .content {
-            max-width: 66%;
-            background: white;
-            line-height: 2.5rem;
-            padding: 0 0.625rem;
-            word-break: break-word;
-        }
-    }
-    .message-left {
-        .avatar {
-            left: 0;
-        }
-        .content {
-            margin-left: 3.25rem;
-            float: left;
-            border-radius: 0 16px 16px 16px;
-        }
-    }
-    .message-right {
-        .avatar {
-            right: 0;
-        }
-        .content {
-            float: right;
-            margin-right: 3.25rem;
-            border-radius: 16px 0 16px 16px;
-        }
-    }
+app-message-container {
+    background-color: #fafafa;
+    max-height: 80vh;
 }

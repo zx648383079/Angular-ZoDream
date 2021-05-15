@@ -21,8 +21,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
-import { ToastrService } from 'ngx-toastr';
-import { IErrorResponse } from '../../../theme/models/page';
+import { IErrorResponse, IErrorResult } from '../../../theme/models/page';
+import { DialogService } from '../../../dialog';
 
 @Component({
     selector: 'app-detail',
@@ -60,7 +60,7 @@ export class DetailComponent implements OnInit {
         private service: BlogService,
         private route: ActivatedRoute,
         private router: Router,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
@@ -93,6 +93,14 @@ export class DetailComponent implements OnInit {
             if (this.data.comment_status > 0) {
                 this.tapRefresh();
             }
+        });
+    }
+
+    public tapRecommend() {
+        this.service.blogRecommend(this.data.id).subscribe(res => {
+            this.data.recommend_count = res.recommend_count;
+        }, (err: IErrorResult) => {
+            this.toastrService.warning(err.error.message);
         });
     }
 

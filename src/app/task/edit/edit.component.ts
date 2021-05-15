@@ -10,10 +10,6 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import {
-    ToastrService
-} from 'ngx-toastr';
-import { DialogBoxComponent } from '../../theme/components';
-import {
     IShare,
     ITask
 } from '../model';
@@ -21,6 +17,7 @@ import { emptyValidate } from '../../theme/validators';
 import {
     TaskService
 } from '../task.service';
+import { DialogBoxComponent, DialogService } from '../../dialog';
 
 @Component({
     selector: 'app-edit',
@@ -50,7 +47,7 @@ export class EditComponent implements OnInit {
         private fb: FormBuilder,
         private service: TaskService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

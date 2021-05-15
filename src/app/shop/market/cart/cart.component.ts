@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { ICart, ICartGroup, ICartItem, IGoods } from '../../../theme/models/shop';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { setCart, setCheckoutCart } from '../../shop.actions';
@@ -27,7 +27,7 @@ export class CartComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<ShopAppState>,
     ) {
         this.store.select(getAuthStatus).subscribe(logined => {

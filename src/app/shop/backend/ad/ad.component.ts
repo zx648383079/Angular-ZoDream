@@ -5,9 +5,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import {
     IAd
 } from '../../../theme/models/shop';
@@ -40,7 +38,7 @@ export class AdComponent implements OnInit {
 
     constructor(
         private service: AdService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 
@@ -96,16 +94,15 @@ export class AdComponent implements OnInit {
     }
 
     public tapRemove(item: IAd) {
-        if (!confirm('确定删除“' + item.name + '”广告？')) {
-            return;
-        }
-        this.service.adRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”广告？', () => {
+            this.service.adRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

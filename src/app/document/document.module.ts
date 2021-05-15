@@ -7,12 +7,14 @@ import {
 import { documentRoutedComponents, DocumentRoutingModule } from './document-routing.module';
 import { DocumentService } from './document.service';
 import { ThemeModule } from '../theme/theme.module';
+import { DialogModule } from '../dialog';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        DocumentRoutingModule
+        DocumentRoutingModule,
+        DialogModule,
     ],
     declarations: [...documentRoutedComponents],
     providers: [

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IShare, ITask, ITaskComment } from '../../model';
 import { formatHour } from '../../../theme/utils';
@@ -35,7 +35,7 @@ export class ShareDetailComponent implements OnInit {
 
     constructor(
         private service: TaskService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute
     ) {}
 

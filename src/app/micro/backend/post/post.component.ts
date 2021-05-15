@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { IMicro } from '../../model';
@@ -28,7 +28,7 @@ export class PostComponent implements OnInit {
     constructor(
         private service: MicroService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

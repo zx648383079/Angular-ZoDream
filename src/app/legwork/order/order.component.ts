@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { LegworkService } from '../legwork.service';
 import { IOrder } from '../model';
@@ -18,7 +18,7 @@ export class OrderComponent implements OnInit {
 
     constructor(
         private service: LegworkService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

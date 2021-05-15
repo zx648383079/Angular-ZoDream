@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { ICategory } from '../../../../theme/models/blog';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { BlogService } from '../../blog.service';
@@ -27,7 +27,7 @@ export class EditCategoryComponent implements OnInit {
     private fb: FormBuilder,
     private service: BlogService,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private uploadService: FileUploadService,
   ) { }
 

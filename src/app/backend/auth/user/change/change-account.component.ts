@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IUser } from '../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 
@@ -23,7 +23,7 @@ export class ChangeAccountComponent implements OnInit {
     constructor(private fb: FormBuilder,
         private service: AuthService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService) {
+        private toastrService: DialogService) {
     }
 
     ngOnInit() {

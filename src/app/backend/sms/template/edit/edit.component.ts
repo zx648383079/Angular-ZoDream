@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { ISignature, ITemplate } from '../../../../theme/models/sms';
 import { SmsService } from '../../sms.service';
 
@@ -28,7 +28,7 @@ export class EditTemplateComponent implements OnInit {
     private service: SmsService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.service.typeItems().subscribe(res => {
       this.typeItems = res;

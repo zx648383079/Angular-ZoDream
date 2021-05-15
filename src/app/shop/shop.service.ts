@@ -247,6 +247,10 @@ export class ShopService {
         });
     }
 
+    public bulletinUser() {
+        return this.http.get<IData<IUser>>('auth/bulletin/user');
+    }
+
     public bulletinList(params: any) {
         return this.http.get<IPage<IBulletinUser>>('auth/bulletin', {
             params,

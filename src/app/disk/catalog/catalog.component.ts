@@ -10,11 +10,11 @@ import {
     IDisk
 } from '../model';
 import {
-    DialogBoxComponent,
     PullToRefreshComponent
 } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
 import { MediaPlayerComponent } from '../media-player/media-player.component';
+import { DialogBoxComponent } from '../../dialog';
 
 
 interface ICrumb {

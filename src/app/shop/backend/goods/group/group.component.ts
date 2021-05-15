@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAttributeGroup } from '../../../../theme/models/shop';
 import { AttributeService } from '../attribute.service';
 
@@ -26,7 +26,7 @@ export class GroupComponent implements OnInit {
 
   constructor(
     private service: AttributeService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

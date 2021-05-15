@@ -6,19 +6,21 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpenModule } from '../open/open.module';
 import { SmsService } from './sms.service';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbPaginationModule,
-    ThemeModule,
-    ReactiveFormsModule,
-    SmsRoutingModule,
-    OpenModule,
-  ],
-  declarations: [...smsRoutedComponents],
-  providers: [
-    SmsService,
-  ]
+    imports: [
+        CommonModule,
+        NgbPaginationModule,
+        ThemeModule,
+        ReactiveFormsModule,
+        SmsRoutingModule,
+        OpenModule,
+        DialogModule,
+    ],
+    declarations: [...smsRoutedComponents],
+    providers: [
+        SmsService,
+    ]
 })
 export class SmsModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAdPosition } from '../../../../theme/models/shop';
 import { AdService } from '../../ad.service';
 
@@ -25,7 +25,7 @@ export class EditPositionComponent implements OnInit {
     private service: AdService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
   }
 

@@ -36,6 +36,7 @@ export interface IComment {
     agree_type?: 0 | 3 | 4;
     user: IUser;
     replies?: IComment[];
+    reply_count?: number;
 }
 
 export interface ITopic {

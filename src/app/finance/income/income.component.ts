@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../theme/components';
+import { DialogService } from '../../dialog';
+import { DialogBoxComponent } from '../../dialog';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
@@ -51,7 +51,7 @@ export class IncomeComponent implements OnInit {
 
     constructor(
         private service: FinanceService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private downloadService: DownloadService,
         private route: ActivatedRoute,
     ) {

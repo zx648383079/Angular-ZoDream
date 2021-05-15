@@ -1,0 +1,33 @@
+<div class="message-container">
+    <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
+    <ng-container *ngFor="let item of formatItems">
+        <ng-container *ngIf="item.type === 99; else elseTemplate">
+            <p class="message-line">{{ item.content }}</p>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
+                <img class="avatar" [src]="item.user.avatar | asset">
+                <div class="content">
+                    <ng-container *ngIf="item.type == 1">
+                        <img [src]="getMediaSource(item) | asset">
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 2">
+                        <video [src]="getMediaSource(item) | asset"></video>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 3">
+                        <app-voice-player [src]="getMediaSource(item) | asset"></app-voice-player>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 4">
+                        <div class="file-block">
+                            {{ item.content }}
+                            <i class="iconfont icon-download" title="下载" (click)="tapDownFile(item)"></i>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item.type < 1">
+                        <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)"></app-rule-block>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+</div>

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IProduct } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
@@ -59,7 +59,7 @@ export class EditComponent implements OnInit, AfterViewInit {
         private service: GoodsService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
         private attrService: AttributeService,
     ) {

@@ -9,7 +9,7 @@ import {
     SimpleChanges,
     ViewChildren
 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IChapter } from '../../model';
 
 export interface IFlipProgress {
@@ -53,7 +53,7 @@ export class FlipPagerComponent implements OnChanges {
     private currentIndex = -1;
 
     constructor(
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     public ngOnChanges(changes: SimpleChanges) {

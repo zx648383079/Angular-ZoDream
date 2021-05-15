@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as ClipboardJS from 'clipboard';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IBlockItem, IExtraRule } from '../../theme/components/rule-block/model';
 
 @Component({
@@ -17,7 +17,7 @@ export class PostBlockComponent implements OnChanges {
     public blcokItems: IBlockItem[];
 
     constructor(
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnChanges(changes: SimpleChanges) {

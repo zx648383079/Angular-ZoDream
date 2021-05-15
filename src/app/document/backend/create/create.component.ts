@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
@@ -42,7 +41,7 @@ export class CreateComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private service: DocumentService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

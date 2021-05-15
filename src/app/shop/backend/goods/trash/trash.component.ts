@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IBrand, ICategory, IGoods } from '../../../../theme/models/shop';
 import { applyHistory, getQueries } from '../../../../theme/query';
@@ -28,7 +28,7 @@ export class TrashComponent implements OnInit {
 
     constructor(
         private service: GoodsService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {
         this.service.categoryAll().subscribe(res => {

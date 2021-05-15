@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../../../dialog';
 import { IActivityTime } from '../../../../../theme/models/shop';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
@@ -19,7 +18,7 @@ export class TimeComponent implements OnInit {
 
     constructor(
         private service: ActivityService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) { }
 

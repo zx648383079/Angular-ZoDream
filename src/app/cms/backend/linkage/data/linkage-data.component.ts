@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../../dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { emptyValidate } from '../../../../theme/validators';
@@ -32,7 +31,7 @@ export class LinkageDataComponent implements OnInit {
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

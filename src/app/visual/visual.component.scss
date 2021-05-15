@@ -1,0 +1,35 @@
+.visual-main {
+    height: 100vh;
+    overflow: hidden;
+    .component-top-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background-color: #fff;
+        color: #333;
+        z-index: 5;
+        box-shadow: 0 0px 1px 0px #ccc;
+        overflow: hidden;
+    }
+    .component-left {
+        position: absolute;
+        height: 100%;
+        width: 300px;
+        transition: transform 0.25s;
+        transform: translateX(0);
+    }
+    .aside-main {
+        position: relative;
+        top: 50px;
+        bottom: 0;
+        height: calc(100% - 50px);
+    }
+    .aside-right {
+        position: relative;
+        top: calc(-100% + 50px);
+        height: 100%;
+        z-index: 1;
+    }
+}

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IFinancialProduct } from '../../model';
@@ -24,7 +23,7 @@ export class ProductComponent implements OnInit {
 
     constructor(
         private service: FinanceService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

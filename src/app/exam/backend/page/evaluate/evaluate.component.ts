@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IPageEvaluate } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -23,7 +23,7 @@ export class EvaluateComponent implements OnInit {
 
     constructor(
         private service: ExamService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 

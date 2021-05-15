@@ -3,7 +3,7 @@ import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { AppState } from '../../theme/interfaces';
@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
         private fb: FormBuilder,
         private service: ForumService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {

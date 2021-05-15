@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { confirmValidator } from '../../../theme/validators';
 import { UserService } from '../user.service';
 
@@ -24,7 +24,7 @@ export class PasswordComponent {
     private router: Router,
     private fb: FormBuilder,
     private service: UserService,
-    private toastrService: ToastrService) { }
+    private toastrService: DialogService) { }
 
   public tapBack() {
     history.back();

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { IErrorResult } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 
 @Component({
   selector: 'app-emoji',
@@ -27,7 +26,7 @@ export class EmojiComponent implements OnInit {
 
     constructor(
         private service: SystemService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
         this.service.emojiCategoryList({}).subscribe(res => {

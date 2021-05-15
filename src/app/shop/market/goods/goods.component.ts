@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IActivity, ICartGroup, IComment, IGoods, IGoodsGallery } from '../../../theme/models/shop';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
@@ -34,7 +34,7 @@ export class GoodsComponent implements OnInit {
         private router: Router,
         private service: ShopService,
         private sanitizer: DomSanitizer,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<ShopAppState>,
     ) { }
 

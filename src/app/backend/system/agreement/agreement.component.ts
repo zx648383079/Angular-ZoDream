@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IAgreement } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
 
@@ -21,7 +21,7 @@ export class AgreementComponent implements OnInit {
 
     constructor(
         private service: SystemService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

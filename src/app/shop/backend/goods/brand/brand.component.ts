@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IBrand } from '../../../../theme/models/shop';
 import { GoodsService } from '../goods.service';
 
@@ -26,7 +26,7 @@ export class BrandComponent implements OnInit {
 
   constructor(
     private service: GoodsService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

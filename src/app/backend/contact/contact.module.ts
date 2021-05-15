@@ -5,18 +5,20 @@ import { ContactRoutingModule, contactRoutedComponents } from './contact-routing
 import { ThemeModule } from '../../theme/theme.module';
 import { ContactService } from './contact.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DialogModule } from '../../dialog';
 
 
 @NgModule({
-  declarations: [...contactRoutedComponents],
-  imports: [
-    CommonModule,
-    NgbPaginationModule,
-    ThemeModule,
-    ContactRoutingModule,
-  ],
-  providers: [
-    ContactService,
-  ],
+    declarations: [...contactRoutedComponents],
+    imports: [
+        CommonModule,
+        NgbPaginationModule,
+        ThemeModule,
+        ContactRoutingModule,
+        DialogModule,
+    ],
+    providers: [
+        ContactService,
+    ],
 })
 export class ContactModule { }

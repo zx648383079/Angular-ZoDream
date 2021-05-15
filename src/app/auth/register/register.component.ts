@@ -7,9 +7,6 @@ import {
     Validators
 } from '@angular/forms';
 import {
-    ToastrService
-} from 'ngx-toastr';
-import {
     passwordValidator,
     confirmValidator
 } from '../../theme/validators';
@@ -19,6 +16,7 @@ import {
 import {
     AuthService
 } from '../../theme/services';
+import { DialogService } from '../../dialog';
 
 @Component({
     selector: 'app-register',
@@ -41,7 +39,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private authService: AuthService
     ) {}
 

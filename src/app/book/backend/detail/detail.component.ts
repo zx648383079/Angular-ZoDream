@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 
@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
         private fb: FormBuilder,
         private service: BookService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IMessageBase } from '../../../message-container/model';
+import { IBlockItem } from '../../../theme/components/rule-block/model';
+import { openLink } from '../../../theme/deeplink';
 import { ShopService } from '../../shop.service';
 
 interface IMessageGroup {
-    icon: string;
+    id?: number;
+    icon?: string;
+    avatar?: string;
     name: string;
-    remark: string;
+    remark?: string;
 }
 
 @Component({
@@ -22,10 +27,10 @@ export class MessageComponent implements OnInit {
             remark: '无未读消息',
         }
     ];
-    public navIndex = 0;
+    public navIndex = -1;
 
-    public items: any[] = [];
-    public hasMore = true;
+    public items: IMessageBase[] = [];
+    public hasMore = false;
     public page = 1;
     public perPage = 20;
     public isLoading = false;
@@ -36,15 +41,25 @@ export class MessageComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
     ) {
-        this.tapRefresh();
+
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.service.bulletinUser().subscribe(res => {
+            this.navItems = res.data as any[];
+        });
+    }
 
 
     public tapNav(i: number) {
         this.navIndex = i;
         this.tapRefresh();
+    }
+
+    public onMessageTap(item: IBlockItem) {
+        if (item.type == 4) {
+            openLink(this.router, item.link);
+        }
     }
 
     /**
@@ -58,8 +73,30 @@ export class MessageComponent implements OnInit {
         this.goPage(this.page);
     }
 
-    public tapMore() {
-        this.goPage(this.page + 1);
+    public tapMore(lastId: number) {
+        if (lastId < 1) {
+            return;
+        }
+        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        this.service.bulletinList({
+            user: item && item.id > 0 ? item.id : -1,
+            last_id: lastId,
+            page: 1,
+            per_page: this.perPage
+        }).subscribe(res => {
+            const items = res.data.map(i => {
+                return {
+                    id: i.id,
+                    user: i.bulletin.user,
+                    content: i.bulletin.title + '\n' + i.bulletin.content,
+                    extra_rule: i.bulletin.extra_rule,
+                    type: 0,
+                    created_at: i.created_at,
+                };
+            });
+            this.items = [].concat(items, this.items);
+            this.hasMore = res.paging.more;
+        });
     }
 
     /**
@@ -70,14 +107,28 @@ export class MessageComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
+        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        this.service.bulletinList({
+            user: item && item.id > 0 ? item.id : -1,
             page,
             per_page: this.perPage
         }).subscribe(res => {
             this.isLoading = false;
-            this.items = res.data;
+            const items = res.data.map(i => {
+                return {
+                    id: i.id,
+                    user: i.bulletin.user,
+                    content: i.bulletin.title + '\n' + i.bulletin.content,
+                    extra_rule: i.bulletin.extra_rule,
+                    type: 0,
+                    created_at: i.created_at,
+                };
+            });
+            this.items = items;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+        }, _ => {
+            this.isLoading = false;
         });
     }
 

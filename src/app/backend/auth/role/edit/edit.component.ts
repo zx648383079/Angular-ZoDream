@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IPermission, IRole } from '../../../../theme/models/auth';
 import { RoleService } from '../role.service';
 
@@ -27,7 +27,7 @@ export class EditComponent implements OnInit {
     private fb: FormBuilder,
     private service: RoleService,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {}
 
   ngOnInit() {

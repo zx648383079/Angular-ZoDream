@@ -3,9 +3,9 @@ import {
     OnInit
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
+import { DialogService } from '../../../dialog';
 
 @Component({
     selector: 'app-detail',
@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
         private service: BookService,
         private router: Router,
         private route: ActivatedRoute,
-        private toastrService: ToastrService) {
+        private toastrService: DialogService) {
 
     }
 

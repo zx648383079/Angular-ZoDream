@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../dialog';
 import { IOption } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
@@ -36,7 +35,7 @@ export class SystemComponent implements OnInit {
 
     constructor(
         private service: SystemService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.service.optionList().subscribe(res => {
             this.groups = res.data.map(group => {

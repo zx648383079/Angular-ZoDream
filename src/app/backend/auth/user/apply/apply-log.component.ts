@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogBoxComponent } from '../../../../dialog';
 import { IApplyLog } from '../../../../theme/models/auth';
 import { AuthService } from '../../auth.service';
 

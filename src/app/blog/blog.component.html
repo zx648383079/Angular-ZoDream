@@ -95,7 +95,7 @@
                   <div class="tools">
                       <span class="comment"><i class="iconfont icon-comments"></i><b>{{ blog.comment_count }}</b></span>
                       <span class="click"><i class="iconfont icon-eye"></i><b>{{ blog.click_count }}</b></span>
-                      <span class="agree recommend-blog"><i class="iconfont icon-thumbs-up"></i><b>{{ blog.recommend_count }}</b></span>
+                      <span class="agree recommend-blog" (click)="tapRecommend()"><i class="iconfont icon-thumbs-up"></i><b>{{ blog.recommend_count }}</b></span>
                   </div>
               </div>
         </ng-template>

@@ -19,9 +19,8 @@ import {
     BackendService
 } from './backend.service';
 import { AuthActions } from '../theme/actions';
-
-import { ToastrService } from 'ngx-toastr';
 import { backendBottomMenu, backendMenuItems } from './menu';
+import { DialogService } from '../dialog';
 
 @Component({
     selector: 'app-backend',
@@ -52,7 +51,7 @@ export class BackendComponent implements OnInit {
         private store: Store<AppState>,
         private actions: AuthActions,
         private service: BackendService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             if (!user) {

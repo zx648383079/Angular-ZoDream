@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogService } from '../../../../dialog';
+import { DialogBoxComponent } from '../../../../dialog';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../../theme/models/shop';
 import { WarehouseService } from '../warehouse.service';
 
@@ -24,7 +24,7 @@ export class ProductComponent implements OnInit {
 
     constructor(
         private service: WarehouseService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 

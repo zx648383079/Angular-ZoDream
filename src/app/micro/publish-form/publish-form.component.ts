@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { IMicro, ITopic } from '../model';
 import { IErrorResponse } from '../../theme/models/page';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { MicroService } from '../micro.service';
 import { IUploadResult } from '../../theme/models/open';
-import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
+import { DialogBoxComponent } from '../../dialog';
 
 @Component({
   selector: 'app-publish-form',
@@ -25,7 +25,7 @@ export class PublishFormComponent {
     public openType = 0;
 
     public typeItems = [
-        '公开', '吐槽', '私人'
+        '公开', '吐槽', '仅关注', '私人'
     ];
 
     public topic = '';
@@ -35,7 +35,7 @@ export class PublishFormComponent {
 
     constructor(
         private service: MicroService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) { }
 

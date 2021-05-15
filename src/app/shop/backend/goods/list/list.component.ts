@@ -11,13 +11,11 @@ import {
     IGoods
 } from '../../../../theme/models/shop';
 import {
-    ToastrService
-} from 'ngx-toastr';
-import {
     ActivatedRoute
 } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
+import { DialogService } from '../../../../dialog';
 
 @Component({
     selector: 'app-list',
@@ -42,7 +40,7 @@ export class ListComponent implements OnInit {
 
     constructor(
         private service: GoodsService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {
         this.service.categoryAll().subscribe(res => {
@@ -100,16 +98,15 @@ export class ListComponent implements OnInit {
     }
 
     public tapRemove(item: IGoods) {
-        if (!confirm('确定删除“' + item.name + '”商品？')) {
-            return;
-        }
-        this.service.goodsRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”商品？', () => {
+            this.service.goodsRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

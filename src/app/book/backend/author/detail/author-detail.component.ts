@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { IAuthor } from '../../../model';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { BookService } from '../../book.service';
+import { DialogService } from '../../../../dialog';
 
 @Component({
   selector: 'app-author-detail',
@@ -25,7 +25,7 @@ export class AuthorDetailComponent implements OnInit {
         private fb: FormBuilder,
         private service: BookService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {}
 

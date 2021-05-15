@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogService } from '../../../dialog';
+import { DialogBoxComponent } from '../../../dialog';
 import { filterTree } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ICourse } from '../../model';
@@ -19,7 +19,7 @@ export class CourseComponent implements OnInit {
 
     constructor(
         private service: ExamService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

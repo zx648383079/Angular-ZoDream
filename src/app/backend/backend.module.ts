@@ -6,17 +6,17 @@ import { BackendService } from './backend.service';
 
 
 @NgModule({
-  declarations: [...backendRoutedComponents],
-  imports: [
-    CommonModule,
-    ThemeModule,
-    BackendRoutingModule,
-    // NgxEchartsModule.forRoot({
-    //   echarts: () => import('echarts'),
-    // }),
-  ],
-  providers: [
-    BackendService,
-  ]
+    declarations: [...backendRoutedComponents],
+    imports: [
+        CommonModule,
+        ThemeModule,
+        BackendRoutingModule,
+        // NgxEchartsModule.forRoot({
+        //   echarts: () => import('echarts'),
+        // }),
+    ],
+    providers: [
+        BackendService,
+    ]
 })
 export class BackendModule { }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
-import { IErrorResult } from '../theme/models/page';
+import { DialogService } from '../dialog';
 import { hasElementByClass, twoPad } from '../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
@@ -35,7 +35,8 @@ export class CheckinComponent {
 
     constructor(
         private service: CheckinService,
-        private elementRef: ElementRef<HTMLDivElement>
+        private elementRef: ElementRef<HTMLDivElement>,
+        private toastrService: DialogService,
     ) { }
 
     get panelStyle() {
@@ -171,6 +172,7 @@ export class CheckinComponent {
             if (res.data) {
                 this.data = res.data;
                 this.checkDay(new Date(res.data.created_at).getDate());
+                this.toastrService.success('签到成功');
             }
         });
     }

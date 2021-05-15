@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResponse } from '../../theme/models/page';
 import { IEmoji } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
@@ -33,7 +33,7 @@ export class CommentViewerComponent implements OnChanges {
     };
 
     constructor(
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private service: MicroService,
     ) { }
 

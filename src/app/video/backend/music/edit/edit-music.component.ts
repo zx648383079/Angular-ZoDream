@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { IMusic } from '../../../model';
@@ -29,7 +29,7 @@ export class EditMusicComponent implements OnInit {
         private fb: FormBuilder,
         private service: VideoService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {
     }

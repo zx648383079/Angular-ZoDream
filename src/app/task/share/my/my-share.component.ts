@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IItem } from '../../../theme/models/seo';
 import { IShare } from '../../model';
 import { TaskService } from '../../task.service';
@@ -33,7 +33,7 @@ export class MyShareComponent {
 
     constructor(
         private service: TaskService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
     ) {

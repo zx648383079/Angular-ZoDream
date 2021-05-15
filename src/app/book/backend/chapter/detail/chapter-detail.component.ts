@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { IChapter } from '../../../model';
 import { wordLength } from '../../../../theme/utils';
 import { BookService } from '../../book.service';
+import { DialogService } from '../../../../dialog';
 
 @Component({
   selector: 'app-chapter-detail',
@@ -27,7 +27,7 @@ export class ChapterDetailComponent implements OnInit {
         private fb: FormBuilder,
         private service: BookService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

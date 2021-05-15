@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IOrder, IOrderCount, ORDER_STATUS } from '../../../theme/models/shop';
 import { IUser } from '../../../theme/models/user';
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         public route: ActivatedRoute,
     ) {
     }

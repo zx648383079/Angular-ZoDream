@@ -1,0 +1,24 @@
+<div class="catalog-item" [ngClass]="{active: value.active, expand: value.expand, default: value.isDefault}">
+    <div class="item-header" (click)="tapExpand($event)" [ngStyle]="headerStyle" (contextmenu)="tapContextMenu($event)">
+        <ng-container *ngIf="!value.onEdit; else elseTemplate">
+            <i class="iconfont" [ngClass]="value.icon"></i>
+            <span (dblclick)="tapEdit($event)">{{ value.name }}</span>
+            <div class="item-action">
+                <i class="iconfont icon-home" *ngIf="!value.canExpand" (click)="tapSetHome()"></i>
+                <i class="iconfont icon-copy" *ngIf="!value.canExpand"  (click)="tapCopy()"></i>
+                <i class="iconfont icon-trash" (click)="tapTrash()"></i>
+            </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [(ngModel)]="value.name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
+        </ng-template>
+        <ng-container *ngIf="value.canExpand">
+            <i class="iconfont" [ngClass]="{'icon-chevron-up': value.expand, 'icon-chevron-down': !value.expand}"></i>
+        </ng-container>
+    </div>
+    <ng-container *ngIf="value.children && value.children.length > 0">
+        <div class="catalog-sub">
+            <app-catalog-list [items]="value.children" [level]="level + 1"></app-catalog-list>
+        </div>
+    </ng-container>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IBook, IChapter } from '../../model';
 import { BookService } from '../book.service';
 
@@ -22,7 +22,7 @@ export class ChapterComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 

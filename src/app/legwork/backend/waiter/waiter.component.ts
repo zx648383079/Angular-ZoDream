@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IWaiter } from '../../model';
 import { LegworkService } from '../legwork.service';
 
@@ -22,7 +21,7 @@ export class WaiterComponent implements OnInit {
 
     constructor(
       private service: LegworkService,
-      private toastrService: ToastrService,
+      private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

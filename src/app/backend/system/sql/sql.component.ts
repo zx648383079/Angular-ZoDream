@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { SystemService } from '../system.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class SqlComponent implements OnInit {
 
   constructor(
     private service: SystemService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

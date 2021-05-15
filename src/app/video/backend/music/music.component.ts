@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IMusic } from '../../model';
 import { VideoService } from '../video.service';
 
@@ -22,7 +22,7 @@ export class MusicComponent implements OnInit {
 
   constructor(
     private service: VideoService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private route: ActivatedRoute,
   ) {
   }

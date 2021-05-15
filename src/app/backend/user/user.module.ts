@@ -6,19 +6,21 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { userRoutedComponents, UserRoutingModule } from './user-routing.module';
 import { UserService } from './user.service';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    ThemeModule,
-    UserRoutingModule,
-  ],
-  declarations: [...userRoutedComponents],
-  providers: [
-    UserService
-  ]
+    imports: [
+        CommonModule,
+        NgbModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ThemeModule,
+        UserRoutingModule,
+        DialogModule,
+    ],
+    declarations: [...userRoutedComponents],
+    providers: [
+        UserService
+    ]
 })
 export class UserModule { }

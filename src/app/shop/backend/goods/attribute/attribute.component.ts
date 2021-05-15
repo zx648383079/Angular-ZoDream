@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAttribute, IAttributeGroup } from '../../../../theme/models/shop';
 import { AttributeService } from '../attribute.service';
 
@@ -29,7 +29,7 @@ export class AttributeComponent implements OnInit {
 
   constructor(
     private service: AttributeService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private route: ActivatedRoute,
   ) {
   }

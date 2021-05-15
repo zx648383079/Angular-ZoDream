@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { ICategory } from '../../../theme/models/blog';
 import { BlogService } from '../blog.service';
 
@@ -16,7 +16,7 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private service: BlogService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

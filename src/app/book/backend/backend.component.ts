@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { IBook, ICategory } from '../model';
 import { IItem } from '../../theme/models/seo';
 import { BookService } from './book.service';
+import { DialogService } from '../../dialog';
 
 @Component({
   selector: 'app-backend',
@@ -35,7 +35,7 @@ export class BackendComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

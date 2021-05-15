@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import * as ClipboardJS from 'clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../theme/components';
+import { DialogService } from '../../dialog';
+import { DialogBoxComponent } from '../../dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { emptyValidate } from '../../theme/validators';
 import { DocumentService } from '../document.service';
@@ -37,7 +37,7 @@ export class DetailComponent implements OnInit {
         private service: DocumentService,
         private route: ActivatedRoute,
         private sanitizer: DomSanitizer,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

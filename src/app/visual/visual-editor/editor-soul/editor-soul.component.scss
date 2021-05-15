@@ -1,0 +1,54 @@
+.soul-main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .soul-footer {
+        line-height: 2.5em;
+        text-align: center;
+        box-shadow: 0px 0px 6px -1px #e6e6e6;
+    }
+    .tab-box {
+        .tab-header {
+            display: flex;
+            font-size: .8em;
+            .tab-item {
+                flex: 1;
+                width: auto;
+                line-height: 2em;
+                height: 2em;
+            }
+        }
+    }
+    .weight-item {
+        height: 4em;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .25s;
+        background-color: #f5f8fb;
+        margin-bottom: .8em;
+        flex-direction: column;
+        color: #393e46;
+        img {
+            max-width: 100%;
+            max-height: 3em;
+        }
+        span {
+            font-size: .8em;
+        }
+        &:hover {
+            border: 1px solid #393e46;
+        }
+    }
+    .add-btn {
+        cursor: pointer;
+        font-size: .8em;
+        line-height: 2em;
+        text-align: center;
+        background-color: white;
+    }
+}

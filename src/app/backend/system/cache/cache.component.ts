@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
 
@@ -14,7 +14,7 @@ export class CacheComponent implements OnInit {
 
   constructor(
     private service: SystemService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.service.cacheStore().subscribe(res => {
       this.items = res;

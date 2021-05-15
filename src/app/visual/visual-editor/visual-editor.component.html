@@ -1,0 +1,67 @@
+<div class="panel-container" id="editor-main">
+    <!-- 组件库 -->
+    <div class="panel-soul">
+        <app-editor-soul></app-editor-soul>
+    </div>
+    <div class="panel-main" #mainBox>
+        <div class="flex-container" (mousedown)="onSelectStart($event)">
+            <div class="zoom-box" style="transform: translate(0px, 0);height: 500px;">
+                <!-- 模拟样式 -->
+                <div class="shell-box">
+                    <app-editor-shell></app-editor-shell>
+                </div>
+                <div class="zoom-area" #zoomBox (contextmenu)="onContext($event)">
+                    <ng-container *ngFor="let item of widgetItems$ | async">
+                        <div class="widget-shell" [ngStyle]="item.style">
+                            <app-editor-widget [value]="item"></app-editor-widget>
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- 编辑widget的样式 -->
+                <div class="widget-reflection">
+                    <app-editor-reflection></app-editor-reflection>
+                </div>
+            </div>
+             <!-- 选中区域rect -->
+            <div class="selection-rect" [ngStyle]="selectionStyle">
+
+            </div>
+        </div>
+        <!-- 标尺 -->
+        <div class="rule-box">
+            <app-editor-rule-bar></app-editor-rule-bar>
+        </div>
+        <!-- 滚动条 -->
+        <div class="track-box">
+            <div class="x-track">
+                <div class="x-handler"></div>
+            </div>
+            <div class="y-track">
+                <div class="y-handler"></div>
+            </div>
+        </div>
+        <!-- 属性编辑 -->
+        <div class="property-box">
+            <app-editor-property></app-editor-property>
+        </div>
+    </div>
+    <!-- 辅助条 -->
+    <div class="panel-tool-bar">
+        <app-editor-tool-bar></app-editor-tool-bar>
+    </div>
+
+    <!-- 图层 -->
+    <div class="panel-layer">
+        <app-editor-layer></app-editor-layer>
+    </div>
+</div>
+<div class="await-widget-box">
+    <!-- 待创建的组件 -->
+    <ng-container *ngIf="tempWidget">
+        <div class="await-widget" [ngStyle]="{left: tempWidget.x + 'px', top: tempWidget.y + 'px'}">
+            <app-editor-widget [value]="tempWidget"></app-editor-widget>
+        </div>
+    </ng-container>
+</div>
+
+<app-context-menu></app-context-menu>

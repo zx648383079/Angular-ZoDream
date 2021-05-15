@@ -5,6 +5,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LegworkService } from './legwork.service';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { LegworkService } from './legwork.service';
         LegworkBackendRoutingModule,
         NgbPaginationModule,
         ReactiveFormsModule,
+        DialogModule,
     ],
     declarations: [...legworkBackendRoutingComponents],
     providers: [

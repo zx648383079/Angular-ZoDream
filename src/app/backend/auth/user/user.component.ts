@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
 import { getUserRole } from '../../../theme/reducers/auth.selectors';
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
 
     constructor(
         private service: AuthService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
         this.tapRefresh();

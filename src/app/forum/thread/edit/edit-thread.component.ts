@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IForum, IThread } from '../../model';
 import { IErrorResult } from '../../../theme/models/page';
 import { ForumService } from '../../forum.service';
@@ -26,7 +26,7 @@ export class EditThreadComponent implements OnInit {
         private fb: FormBuilder,
         private service: ForumService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

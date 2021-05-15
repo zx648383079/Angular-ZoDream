@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IBlockItem } from '../../../theme/components/rule-block/model';
 import { openLink } from '../../../theme/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
@@ -27,7 +27,7 @@ export class BulletinComponent implements OnInit {
 
     constructor(
         private service: UserService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
     ) {
         this.tapRefresh();

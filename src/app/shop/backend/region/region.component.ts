@@ -5,10 +5,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import {
     IRegion
 } from '../../../theme/models/shop';
@@ -36,7 +33,7 @@ export class RegionComponent implements OnInit {
 
     constructor(
         private service: RegionService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 
@@ -95,16 +92,15 @@ export class RegionComponent implements OnInit {
     }
 
     public tapRemove(item: IRegion) {
-        if (!confirm('确定删除“' + item.name + '”地区？')) {
-            return;
-        }
-        this.service.regionRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”地区？', () => {
+            this.service.regionRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

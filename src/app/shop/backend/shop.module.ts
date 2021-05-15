@@ -14,27 +14,29 @@ import { PaymentService } from './payment.service';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { OpenModule } from '../../backend/open/open.module';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
-  declarations: [...shopBackendRoutedComponents],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    NgbModule,
-    ThemeModule,
-    ShopBackendRoutingModule,
-    EditorModule,
-    NgxEchartsModule.forRoot({ echarts }),
-    OpenModule,
-  ],
-  providers: [
-    ShopService,
-    ArticleService,
-    AdService,
-    RegionService,
-    PaymentService,
-    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
-  ],
+    declarations: [...shopBackendRoutedComponents],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgbModule,
+        ThemeModule,
+        ShopBackendRoutingModule,
+        EditorModule,
+        NgxEchartsModule.forRoot({ echarts }),
+        OpenModule,
+        DialogModule,
+    ],
+    providers: [
+        ShopService,
+        ArticleService,
+        AdService,
+        RegionService,
+        PaymentService,
+        { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
+    ],
 })
 export class ShopBackendModule { }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IItem } from '../../theme/models/seo';
 import { ITask } from '../model';
 import { TaskService } from '../task.service';
@@ -32,7 +32,7 @@ export class ListComponent {
 
     constructor(
         private service: TaskService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

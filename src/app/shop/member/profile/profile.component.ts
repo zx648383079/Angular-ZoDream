@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { IUser } from '../../../theme/models/user';
-import { DateAdapter } from '../../../theme/services';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -41,7 +40,7 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         public route: ActivatedRoute,
         private fb: FormBuilder,
     ) { }

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
 import { IForum, IForumClassify } from '../../model';
 import { IUser } from '../../../theme/models/user';
 import { filterTree } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ForumService } from '../forum.service';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 
 @Component({
     selector: 'app-edit',
@@ -41,7 +40,7 @@ export class EditComponent implements OnInit {
         private fb: FormBuilder,
         private service: ForumService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.service.forumAll().subscribe(res => {
             this.categories = res.data;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { LegworkService } from '../../legwork.service';
 import { ICategory, IProvider } from '../../model';
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         private service: LegworkService,
         private fb: FormBuilder,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) { }
 

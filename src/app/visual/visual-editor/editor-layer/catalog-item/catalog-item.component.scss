@@ -1,0 +1,39 @@
+.item-header {
+    cursor: pointer;
+    display: flex;
+    line-height: 2em;
+    >.iconfont {
+        margin-right: .5em;
+    }
+    span {
+        flex: 1;
+    }
+    .item-action {
+        i {
+            margin-left: .5em;
+            display: none;
+        }
+        .icon-home {
+            color: #f70;
+        }
+    }
+    &:hover {
+        .item-action {
+            i {
+                display: inline-block;
+            }
+        }
+    }
+}
+.catalog-item {
+    &.active {
+        background-color: #f5f8fb;
+    }
+    &.default {
+        .item-action {
+            .icon-home {
+                display: inline-block;
+            }
+        }
+    }
+}

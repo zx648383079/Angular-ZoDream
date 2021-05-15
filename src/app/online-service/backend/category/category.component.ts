@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { ICategory } from '../../model';
 import { OnlineBackendService } from '../online.service';
@@ -23,7 +22,7 @@ export class CategoryComponent implements OnInit {
 
     constructor(
         private service: OnlineBackendService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

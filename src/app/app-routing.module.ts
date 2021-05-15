@@ -49,6 +49,11 @@ const routes: Routes = [
         loadChildren: () => import('./finance/finance.module').then(m => m.FinanceModule)
     },
     {
+        path: 'visual',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./visual/visual.module').then(m => m.VisualModule)
+    },
+    {
         path: '**',
         redirectTo: 'frontend'
     },

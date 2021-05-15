@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { ITopic } from '../../model';
 import { MicroService } from '../micro.service';
 
@@ -19,7 +19,7 @@ export class TopicComponent implements OnInit {
 
     constructor(
         private service: MicroService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

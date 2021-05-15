@@ -1,0 +1,30 @@
+<div class="dialog-menu" [ngClass]="{'menu-left': fixedLeft}" [ngStyle]="boxStyle">
+    <ul>
+        <ng-container *ngFor="let item of items">
+            <ng-container *ngIf="item.icon || item.name; else elseTemplate">
+                <li [ngClass]="{disabled: item.disable}">
+                    <span (click)="tapMenuItem(item)">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                        {{ item.name }}
+                        <i class="iconfont icon-chevron-right" *ngIf="item.children && item.children.length > 0"></i>
+                    </span>
+                    <ul  *ngIf="item.children && item.children.length > 0">
+                        <ng-container *ngFor="let it of item.children">
+                            <ng-container *ngIf="it.icon || it.name; else elseTemplate">
+                                <li [ngClass]="{disabled: item.disable}">
+                                    <span (click)="tapMenuItem(it)">
+                                        <i class="iconfont" [ngClass]="it.icon"></i>
+                                        {{ it.name }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                        </ng-container>
+                    </ul>
+                </li>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <li class="menu-h"></li>
+            </ng-template>
+        </ng-container>
+    </ul>
+</div>

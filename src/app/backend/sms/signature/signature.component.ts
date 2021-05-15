@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { ISignature } from '../../../theme/models/sms';
 import { emptyValidate } from '../../../theme/validators';
 import { SmsService } from '../sms.service';
@@ -30,7 +29,7 @@ export class SignatureComponent {
 
     constructor(
         private service: SmsService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

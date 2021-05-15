@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../theme/components';
+import { DialogService } from '../../dialog';
+import { DialogBoxComponent } from '../../dialog';
 import { AppState } from '../../theme/interfaces';
 import { IEmoji } from '../../theme/models/seo';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
@@ -43,7 +43,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<AppState>,
         private service: OnlineBackendService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             if (!user) {
@@ -180,10 +180,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.send({
-            content: item.content,
-            type: item.type < 1 ? 1 : 0
-        });
+        this.messageContent += item.type > 0 ? item.content : '[' + item.name + ']';
     }
 
     public uploadImage(event: any) {

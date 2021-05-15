@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAdPosition } from '../../../../theme/models/shop';
 import { AdService } from '../../ad.service';
 
@@ -27,7 +27,7 @@ export class PositionComponent implements OnInit {
 
   constructor(
     private service: AdService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private route: ActivatedRoute,
   ) {
     this.tapRefresh();

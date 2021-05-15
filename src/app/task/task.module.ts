@@ -7,19 +7,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { DialogModule } from '../dialog';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbModule,
-    ReactiveFormsModule,
-    ThemeModule,
-    TaskRoutingModule,
-    NgxEchartsModule.forRoot({ echarts }),
-  ],
-  declarations: [...taskRoutingComponents],
-  providers: [
-    TaskService,
-  ]
+    imports: [
+        CommonModule,
+        NgbModule,
+        ReactiveFormsModule,
+        ThemeModule,
+        TaskRoutingModule,
+        NgxEchartsModule.forRoot({ echarts }),
+        DialogModule,
+    ],
+    declarations: [...taskRoutingComponents],
+    providers: [
+        TaskService,
+    ]
 })
 export class TaskModule { }

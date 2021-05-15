@@ -1,0 +1,103 @@
+<div class="tool-bar">
+    <div class="tool-item" [ngClass]="{disabled: !canBack}" title="撤销">
+        <i class="iconfont icon-undo"></i>
+    </div>
+    <div class="tool-item" [ngClass]="{disabled: !canForward}" title="前进">
+        <i class="iconfont icon-redo"></i>
+    </div>
+    <div class="tool-item" placement="left" [ngbPopover]="cut">
+        <i class="iconfont icon-th-large"></i>
+    </div>
+    <div class="tool-h"></div>
+    <div class="tool-item" placement="left" [ngbPopover]="align">
+        <i class="iconfont icon-chuizhijuzhongduiqi"></i>
+    </div>
+    <div class="tool-item" placement="left" [ngbPopover]="zIndex">
+        <i class="iconfont icon-bars"></i>
+    </div>
+    <div class="tool-item disabled" title="组合">
+        <i class="iconfont icon-zuhe"></i>
+    </div>
+    <div class="tool-item disabled" title="打散">
+        <i class="iconfont icon-quxiaozuhe"></i>
+    </div>
+</div>
+
+<ng-template #cut>
+<div class="menu-bar">
+    <div class="menu-item">
+        <i class="iconfont icon-cut"></i>
+        <span>剪切</span>
+    </div>
+    <div class="menu-item">
+        <i class="iconfont icon-copy"></i>
+        <span>复制</span>
+    </div>
+    <div class="menu-item">
+        <i class="iconfont icon-paste"></i>
+        <span>粘贴</span>
+    </div>
+    <div class="menu-item">
+        <i class="iconfont icon-trash"></i>
+        <span>删除</span>
+    </div>
+</div>
+</ng-template>
+
+<ng-template #align>
+    <div class="menu-bar">
+        <div class="menu-item">
+            <i class="iconfont icon-zuoduiqi"></i>
+            <span>左对齐</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-shuipingjuzhongduiqi"></i>
+            <span>水平居中</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-youduiqi"></i>
+            <span>右对齐</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-shuipingdengjianju"></i>
+            <span>水平等间距</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-shangduiqi"></i>
+            <span>上对齐</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-chuizhijuzhongduiqi"></i>
+            <span>垂直居中</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-xiaduiqi"></i>
+            <span>下对齐</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-chuizhidengjianju"></i>
+            <span>垂直等间距</span>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #zIndex>
+    <div class="menu-bar">
+        <div class="menu-item">
+            <i class="iconfont icon-chevron-up"></i>
+            <span>置顶</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-arrow-up"></i>
+            <span>上一层</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-arrow-down"></i>
+            <span>下一层</span>
+        </div>
+        <div class="menu-item">
+            <i class="iconfont icon-chevron-down"></i>
+            <span>置底</span>
+        </div>
+    </div>
+</ng-template>

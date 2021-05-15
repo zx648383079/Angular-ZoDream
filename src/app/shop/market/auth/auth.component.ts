@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../../environments/environment';
 import { CountdownButtonComponent } from '../../../theme/components';
@@ -41,7 +41,7 @@ export class AuthComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
         private authService: AuthService,
         private store: Store<ShopAppState>,

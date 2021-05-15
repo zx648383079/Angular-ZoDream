@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogService } from '../../../../dialog';
+import { DialogBoxComponent } from '../../../../dialog';
 import { IOption } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { CmsService } from '../../cms.service';
@@ -35,7 +35,7 @@ export class SiteOptionComponent implements OnInit {
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         
     }

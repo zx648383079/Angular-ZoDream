@@ -1,0 +1,140 @@
+$shadow: rgb(39 54 78 / 11%);
+.panel-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    .panel-soul {
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        flex-basis: 200px;
+        box-shadow: 0 -2px 30px 0 $shadow;
+        background-color: white;
+    }
+    .panel-main {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .panel-layer {
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+        flex-basis: 220px;
+        box-shadow: 1px 0 8px -1px $shadow;
+        background-color: white;
+    }
+    .panel-tool-bar {
+        flex: 1;
+        width: 40px;
+        min-width: 40px;
+        max-width: 40px;
+        flex-basis: 40px;
+        background-color: #fff;
+        box-shadow: 0 -2px 30px 0 $shadow;
+    }
+    .flex-container {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        overflow: hidden;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .zoom-box {
+        position: absolute;
+        width: 414px;
+        height: 200px;
+        background-color: #fff;
+    }
+    .zoom-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #d9d9d9;
+        width: 100%;
+        height: 100%;
+        user-select: none;
+    }
+    .widget-cell {
+        position: absolute;
+        cursor: pointer;
+    }
+}
+
+.track-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    pointer-events: none;
+    .x-track,
+    .y-track {
+        position: absolute;
+        pointer-events: auto;
+        background-color: #f5f5f5;
+        &:hover {
+            .x-handler,
+            .y-handler {
+                background-color: rgba(0,0,0,0.6);
+            }
+        }
+    }
+    .x-track {
+        height: 12px;
+        left: 0;
+        right: 12px;
+        bottom: 0;
+    }
+    .x-handler,
+    .y-handler {
+        position: absolute;
+        cursor: pointer;
+        pointer-events: none;
+        background-color: rgba(0,0,0,0.5);
+        transition: background 0.3s ease-in-out;
+    }
+    .x-handler {
+        bottom: 2px;
+        height: 6px;
+        width: 100%;
+    }
+    .y-track {
+        top: 0;
+        bottom: 12px;
+        right: 0;
+        width: 12px;
+    }
+    .y-handler {
+        right: 2px;
+        width: 6px;
+        height: 100%;
+    }
+}
+
+.selection-rect {
+    position: fixed;
+    background: rgba(38,168,255,.1);
+    outline: #1e98ea solid 1px;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+.await-widget-box {
+    .await-widget {
+        position: fixed;
+        z-index: 9999;
+    }
+}

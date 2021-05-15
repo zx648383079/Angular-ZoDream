@@ -9,9 +9,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import {
     IArticleCategory
 } from '../../../../theme/models/shop';
@@ -47,7 +45,7 @@ export class EditCategoryComponent implements OnInit {
         private service: ArticleService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {
         this.service.categoryTree().subscribe(res => {

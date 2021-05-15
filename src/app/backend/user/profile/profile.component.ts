@@ -4,11 +4,10 @@ import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
-import { DialogBoxComponent } from '../../../theme/components';
 import { Router } from '@angular/router';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 
 @Component({
   selector: 'app-profile',
@@ -41,7 +40,7 @@ export class ProfileComponent implements OnInit {
         private fb: FormBuilder,
         private service: UserService,
         private store: Store<AppState>,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private authService: AuthService,
         private router: Router,
     ) {
@@ -82,7 +81,7 @@ export class ProfileComponent implements OnInit {
     }
 
     public quiteUser() {
-        this.toastrService.info('您即将退出此账户。。。');
+        this.toastrService.tip('您即将退出此账户。。。');
         setTimeout(() => {
             this.authService.logout().subscribe(_ => {
                 this.router.navigate(['/auth']);

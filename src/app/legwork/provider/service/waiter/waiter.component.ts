@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IUser } from '../../../../theme/models/user';
 import { LegworkService } from '../../../legwork.service';
 import { IService } from '../../../model';
@@ -22,7 +22,7 @@ export class WaiterComponent implements OnInit {
     constructor(
         private service: LegworkService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

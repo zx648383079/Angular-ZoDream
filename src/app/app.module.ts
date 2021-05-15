@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ThemeModule } from './theme/theme.module';
-import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './theme/theme.reducers';
 import { APP_BASE_HREF } from '@angular/common';
@@ -12,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { DialogModule } from './dialog';
 
 @NgModule({
   declarations: [
@@ -26,14 +26,9 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     LazyLoadImageModule,
     ThemeModule.forRoot(),
+    DialogModule.forRoot(),
     // 加载store
     StoreModule.forRoot(reducers, { metaReducers }),
-    ToastrModule.forRoot({
-      timeOut: 1500,
-      positionClass: 'toast-top-center',
-      preventDuplicates: true,
-      progressAnimation: 'increasing'
-    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

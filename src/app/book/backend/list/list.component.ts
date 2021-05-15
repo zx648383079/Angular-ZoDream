@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IBook, IBookList } from '../../model';
 import { BookService } from '../book.service';
 
@@ -20,7 +20,7 @@ export class ListComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

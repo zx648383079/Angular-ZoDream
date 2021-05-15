@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IActionLog } from '../../../../theme/models/auth';
 import { AuthService } from '../../auth.service';
 
@@ -26,7 +26,7 @@ export class ActionLogComponent implements OnInit {
 
   constructor(
     private service: AuthService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

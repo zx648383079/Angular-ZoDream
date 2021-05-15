@@ -5,22 +5,22 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
 import { ChatService } from './chat.service';
 import { ThemeModule } from '../theme/theme.module';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
-import { MessageContainerComponent } from './message-container/message-container.component';
-import { VoicePlayerComponent } from './voice-player/voice-player.component';
+import { MessageContainerModule } from '../message-container/message-container.module';
+import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { DialogModule } from '../dialog';
 
 
 @NgModule({
     declarations: [
         ChatComponent,
-        ContextMenuComponent,
-        MessageContainerComponent,
-        VoicePlayerComponent,
     ],
     imports: [
         CommonModule,
         ThemeModule,
-        ChatRoutingModule
+        ChatRoutingModule,
+        MessageContainerModule,
+        ContextMenuModule,
+        DialogModule,
     ],
     providers: [
         ChatService

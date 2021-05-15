@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../dialog';
 import { IPageQueries } from '../theme/models/page';
 import { applyHistory, getQueries } from '../theme/query';
 import { IVideo } from './model';
@@ -26,7 +26,7 @@ export class VideoComponent implements OnInit {
 
     constructor(
         private service: VideoService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
     ) {}

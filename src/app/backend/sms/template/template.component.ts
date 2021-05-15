@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { ITemplate } from '../../../theme/models/sms';
 import { SmsService } from '../sms.service';
 
@@ -30,7 +30,7 @@ export class TemplateComponent {
 
   constructor(
     private service: SmsService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.service.typeItems().subscribe(res => {
       this.typeItems = res;

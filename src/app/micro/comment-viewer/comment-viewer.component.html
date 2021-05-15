@@ -31,8 +31,16 @@
             <div class="actions">
                 <span class="time">{{ item.created_at | ago }}</span>
                 <div class="tools">
-                    <a (click)="tapCommenting(item)">回复</a>
-                    <a (click)="tapAgreeComment(item)">赞</a>
+                    <a (click)="tapCommenting(item)">回复
+                        <ng-container *ngIf="item.reply_count > 0">
+                            ({{ item.reply_count | numberFormat }})
+                        </ng-container>
+                    </a>
+                    <a (click)="tapAgreeComment(item)" [ngClass]="{active: item.agree_type == 3}">赞
+                        <ng-container *ngIf="item.agree > 0">
+                            ({{ item.agree | numberFormat }})
+                        </ng-container>
+                    </a>
                 </div>
             </div>
             <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
@@ -44,8 +52,15 @@
                     <div class="actions">
                         <span class="time">{{ it.created_at | ago }}</span>
                         <div class="tools">
-                            <a (click)="tapCommenting(it)">回复</a>
-                            <a (click)="tapAgreeComment(it)">赞</a>
+                            <a (click)="tapCommenting(it)">回复
+                                <ng-container *ngIf="it.reply_count > 0">
+                                    ({{ it.reply_count | numberFormat }})
+                                </ng-container>
+                            </a>
+                            <a (click)="tapAgreeComment(it)" [ngClass]="{active: it.agree_type == 3}">赞
+                                <ng-container *ngIf="it.agree > 0">
+                                    ({{ it.agree | numberFormat }})
+                                </ng-container></a>
                         </div>
                     </div>
                 </div>

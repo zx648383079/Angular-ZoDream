@@ -19,10 +19,26 @@
         </div>
 
         <div class="ations">
-            <a [ngClass]="{active: data.is_collected}" (click)="tapCollect()">{{ data.is_collected ? '已' : '' }}收藏</a>
-            <a (click)="tapForward(modal)">转发 {{ data.forward_count }}</a>
-            <a >评论</a>
-            <a [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()">{{ data.is_recommended ? '已' : '' }}赞 {{ data.recommend_count }}</a>
+            <a [ngClass]="{active: data.is_collected}" (click)="tapCollect()">{{ data.is_collected ? '已' : '' }}收藏
+                <ng-container *ngIf="data.collect_count > 0">
+                    ({{ data.collect_count | numberFormat }})
+                </ng-container>
+            </a>
+            <a (click)="tapForward(modal)">转发
+                <ng-container *ngIf="data.collect_count > 0">
+                    ({{ data.forward_count | numberFormat }})
+                </ng-container>
+            </a>
+            <a >评论
+                <ng-container *ngIf="data.comment_count > 0">
+                    ({{ data.comment_count | numberFormat }})
+                </ng-container>
+            </a>
+            <a [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()">{{ data.is_recommended ? '已' : '' }}赞 
+                <ng-container *ngIf="data.recommend_count > 0">
+                    ({{ data.recommend_count | numberFormat }})
+                </ng-container>
+            </a>
         </div>
     </div>
 

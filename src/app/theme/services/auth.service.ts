@@ -22,20 +22,10 @@ import {
 } from '../interfaces';
 import {
     Observable,
-    of,
-    throwError
 } from 'rxjs';
 import {
     IUser
 } from '../models/user';
-import {
-    map,
-    tap,
-    catchError
-} from 'rxjs/operators';
-import {
-    ToastrService
-} from 'ngx-toastr';
 import {
     Router
 } from '@angular/router';
@@ -46,6 +36,8 @@ import {
     environment
 } from '../../../environments/environment';
 import { IDataOne } from '../models/page';
+import { map } from 'rxjs/operators';
+import { DialogService } from '../../dialog';
 
 const USER_KEY = 'user';
 
@@ -56,7 +48,7 @@ export class AuthService {
         private http: HttpClient,
         private actions: AuthActions,
         private store: Store < AppState > ,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private cookieService: CookieService,
         private router: Router,
         @Inject(PLATFORM_ID) private platformId: any) {}

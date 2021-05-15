@@ -1,0 +1,81 @@
+@import '../theme/styles/scrollbar';
+:host {
+    flex: 1;
+    padding: 0 10px;
+    overflow-y: auto;
+    @include scrollbar();
+}
+.message-container {
+    // height: 60vh;
+    * {
+        margin: 0;
+    }
+    .message-more,
+    .message-line,
+    .message-tip {
+        text-align: center;
+    }
+    .message-more {
+        cursor: default;
+    }
+    .message-left, 
+    .message-right {
+        position: relative;
+        margin: 0.5em 0;
+        &:after {
+            content: ' ';
+            clear: both;
+            display: table;
+        }
+        .avatar {
+            position: absolute;
+            top: 0;
+            height: 2.5em;
+            width: 2.5em;
+            border-radius: 50%;
+        }
+        .content {
+            max-width: 80%;
+            background: rgba(0,255,255,0.16);
+            line-height: 1.5em;
+            padding: 0.5em 0.625em;
+            word-break: break-word;
+            img {
+                max-width: 15em;
+            }
+            &::before {
+                content: '';
+                position: absolute;
+                z-index: 10;
+                border: 0.375em solid transparent;
+                top: 0.9375em;
+            }
+        }
+    }
+    .message-left {
+        .avatar {
+            left: 0;
+        }
+        .content {
+            margin-left: 3.25em;
+            float: left;
+            &::before {
+                left: 2.5em;
+                border-right-color: rgba(0, 255, 255, 0.16);
+            }
+        }
+    }
+    .message-right {
+        .avatar {
+            right: 0;
+        }
+        .content {
+            float: right;
+            margin-right: 3.25em;
+            &::before {
+                right: 2.5em;
+                border-left-color: rgba(0, 255, 255, 0.16);
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+<ng-container *ngFor="let item of items">
+    <app-catalog-item [level]="level" [value]="item" (tapped)="tapped.emit($event)"></app-catalog-item>
+</ng-container>

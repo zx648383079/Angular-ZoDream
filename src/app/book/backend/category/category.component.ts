@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
 import { ICategory } from '../../model';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 
 @Component({
   selector: 'app-category',
@@ -17,7 +16,7 @@ export class CategoryComponent implements OnInit {
 
     constructor(
         private service: BookService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

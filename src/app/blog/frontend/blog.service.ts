@@ -62,6 +62,10 @@ export class BlogService {
         });
     }
 
+    public blogRecommend(id: any) {
+        return this.http.post<IBlog>('blog/home/recommend', {id});
+    }
+
     public commentAgree(id: any) {
         return this.http.post<IComment>('blog/comment/agree', {id});
     }

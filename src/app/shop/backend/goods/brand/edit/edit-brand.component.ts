@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import {
     IBrand
 } from '../../../../../theme/models/shop';
@@ -32,7 +32,7 @@ export class EditBrandComponent implements OnInit {
         private service: GoodsService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {
     }

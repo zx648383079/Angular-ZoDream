@@ -7,9 +7,16 @@
             <div class="message-menu">
                 <ng-container *ngFor="let item of navItems; let i = index">
                     <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
-                        <div class="icon">
-                            <i class="iconfont" [ngClass]="item.icon"></i>
-                        </div>
+                        <ng-container *ngIf="!item.avatar; else elseTemplate">
+                            <div class="icon" *ngIf="!item.avatar">
+                                <i class="iconfont" [ngClass]="item.icon"></i>
+                            </div>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <div class="avatar">
+                                <img [src]="item.avatar" >
+                            </div>
+                        </ng-template>
                         <div class="info">
                             <div class="name">{{ item.name }}</div>
                             <p>{{ item.remark }}</p>
@@ -34,9 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="message-chat-box">
-                    <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
-                </div>
+                <app-message-container [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
                 <div class="message-tools">
                     <i class="iconfont icon-smile-o"></i>
                     <i class="iconfont icon-image"></i>

@@ -5,9 +5,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import {
     IArticle,
     IArticleCategory
@@ -43,7 +41,7 @@ export class ArticleComponent implements OnInit {
 
     constructor(
         private service: ArticleService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {
         this.service.categoryTree().subscribe(res => {
@@ -104,16 +102,15 @@ export class ArticleComponent implements OnInit {
     }
 
     public tapRemove(item: IArticle) {
-        if (!confirm('确定删除“' + item.title + '”文章？')) {
-            return;
-        }
-        this.service.articleRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”文章？', () => {
+            this.service.articleRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

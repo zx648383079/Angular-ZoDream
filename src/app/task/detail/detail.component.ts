@@ -4,7 +4,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { CircleProgressComponent } from '../../theme/components';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import {
@@ -42,7 +42,7 @@ export class DetailComponent implements OnInit {
 
     constructor(
         private service: TaskService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute
     ) {}

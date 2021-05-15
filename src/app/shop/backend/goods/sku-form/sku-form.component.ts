@@ -4,7 +4,7 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IAttribute, IGoodsAttr, IProduct } from '../../../../theme/models/shop';
 
 interface ISkuRow {
@@ -40,7 +40,7 @@ export class SkuFormComponent implements OnChanges {
         weight: 0,
     };
 
-    constructor(private toastrService: ToastrService) {
+    constructor(private toastrService: DialogService) {
 
     }
 

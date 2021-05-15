@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IRole } from '../../../../theme/models/auth';
 import { IUser } from '../../../../theme/models/user';
 import { DateAdapter } from '../../../../theme/services';
@@ -36,7 +36,7 @@ export class EditUserComponent implements OnInit {
     private fb: FormBuilder,
     private service: AuthService,
     private route: ActivatedRoute,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
     private dateAdapter: DateAdapter,
     private uploadService: FileUploadService,
   ) {}

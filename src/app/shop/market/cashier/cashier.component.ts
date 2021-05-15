@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../../theme/models/shop';
@@ -47,7 +47,7 @@ export class CashierComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: ShopService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<ShopAppState>,
     ) {
         this.store.select(selectShopCheckout).subscribe(res => {

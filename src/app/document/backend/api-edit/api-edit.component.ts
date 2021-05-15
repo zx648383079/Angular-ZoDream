@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { ContextMenuComponent } from '../../../context-menu';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IErrorResult } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { IApiField, IDocApi, IProject, IProjectVersion } from '../../model';
-import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { DocumentService } from '../document.service';
 
 @Component({
@@ -40,7 +39,7 @@ export class ApiEditComponent implements OnInit {
         private fb: FormBuilder,
         private service: DocumentService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -88,7 +87,7 @@ export class ApiEditComponent implements OnInit {
 
     public tapContextMenu(e: MouseEvent, parent?: IDocApi) {
         e.stopPropagation();
-        this.contextMenu.show(e.clientX, e.clientY, [
+        this.contextMenu.show(e, [
             {
                 name: '新建文件夹',
                 icon: 'icon-folder-o',

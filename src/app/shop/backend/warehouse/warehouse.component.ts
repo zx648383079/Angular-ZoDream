@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IWarehouse } from '../../../theme/models/shop';
 import { WarehouseService } from './warehouse.service';
 
@@ -21,7 +21,7 @@ export class WarehouseComponent implements OnInit {
 
     constructor(
         private service: WarehouseService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {}
 

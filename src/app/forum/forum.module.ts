@@ -6,6 +6,7 @@ import { ForumService } from './forum.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
 import { MediaPlayerModule } from '../media-player/media-player.module';
+import { DialogModule } from '../dialog';
 
 @NgModule({
     declarations: [...forumRoutedComponents],
@@ -16,6 +17,7 @@ import { MediaPlayerModule } from '../media-player/media-player.module';
         ReactiveFormsModule,
         ForumRoutingModule,
         MediaPlayerModule,
+        DialogModule,
     ],
     providers: [
         ForumService

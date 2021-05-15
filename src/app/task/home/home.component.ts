@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { ITask, ITaskDay } from '../model';
 import { TaskService } from '../task.service';
@@ -28,7 +28,7 @@ export class HomeComponent {
 
     constructor(
         private service: TaskService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
     ) {

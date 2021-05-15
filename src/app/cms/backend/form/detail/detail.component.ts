@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { getQueries } from '../../../../theme/query';
 import { eachObject } from '../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
@@ -26,7 +26,7 @@ export class FormDetailComponent implements OnInit {
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

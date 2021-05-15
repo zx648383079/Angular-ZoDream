@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DialogBoxComponent } from '../../theme/components';
+import { DialogBoxComponent } from '../../dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { FileUploadService } from '../../theme/services/file-upload.service';
 import { wordLength } from '../../theme/utils';

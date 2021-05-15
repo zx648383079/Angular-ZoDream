@@ -1,0 +1,35 @@
+<div class="widget-shell"
+    (dblclick)="tapWidget()" 
+    (mousedown)="moveWidget($event)">
+    <div class="widget-content">
+        <ng-container [ngSwitch]="value.tag">
+            <ng-container *ngSwitchCase="'button'">
+                <app-button-control [value]="value"></app-button-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'carousel'">
+                <app-carousel-control [value]="value"></app-carousel-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'image'">
+                <app-image-control [value]="value"></app-image-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'label'">
+                <app-label-control [value]="value"></app-label-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'line'">
+                <app-line-control [value]="value"></app-line-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'link'">
+                <app-link-control [value]="value"></app-link-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'map'">
+                <app-map-control [value]="value"></app-map-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'rectangle'">
+                <app-rectangle-control [value]="value"></app-rectangle-control>
+            </ng-container>
+            <ng-container *ngSwitchCase="'rich-text'">
+                <app-rich-text-control [value]="value"></app-rich-text-control>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

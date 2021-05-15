@@ -1,0 +1,47 @@
+<div class="rule-bar" #ruleBar>
+    <div class="rule-icon" (click)="tapIcon($event)">
+        <i class="iconfont icon-cog"></i>
+    </div>
+    <div class="h-container" (mouseleave)="onLineEnd()">
+        <canvas #hCanvas (click)="tapBar($event, true)" (mousemove)="onLineMove($event, true)"></canvas>
+        <div class="line-bar" *ngIf="lineVisible">
+            <ng-container *ngFor="let item of hLines; let i = index">
+                <div class="line line-h" [ngStyle]="{left: item.value + 'px'}">
+                    <div class="action">
+                        <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
+                        <span>{{ item.label }}</span>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tempLine && tempLine.horizontal">
+                <div class="line line-h" [ngStyle]="{left: tempLine.value + 'px'}">
+                    <div class="action">
+                        <span>{{ tempLine.label }}</span>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="v-container" (mouseleave)="onLineEnd()">
+        <canvas #vCanvas (click)="tapBar($event, false)" (mousemove)="onLineMove($event, false)"></canvas>
+        <div class="line-bar" *ngIf="lineVisible">
+            <ng-container *ngFor="let item of vLines; let i = index">
+                <div class="line line-v" [ngStyle]="{top: item.value + 'px'}">
+                    <div class="action">
+                        <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
+                        <span>{{ item.label }}</span>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tempLine && !tempLine.horizontal">
+                <div class="line line-v" [ngStyle]="{top: tempLine.value + 'px'}">
+                    <div class="action">
+                        <span>{{ tempLine.label }}</span>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<app-context-menu></app-context-menu>

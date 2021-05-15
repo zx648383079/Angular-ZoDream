@@ -40,12 +40,10 @@ import {
     Md5
 } from 'ts-md5';
 import {
-    ToastrService
-} from 'ngx-toastr';
-import {
     IErrorResponse, IErrorResult
 } from '../../theme/models/page';
 import { CountdownButtonComponent } from '../../theme/components';
+import { DialogService } from '../../dialog';
 
 @Component({
     selector: 'app-login',
@@ -77,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private fb: FormBuilder,
         private router: Router,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private authService: AuthService) {
         this.redirectIfUserLoggedIn();
     }

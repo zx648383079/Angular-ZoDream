@@ -8,18 +8,18 @@ import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
 
 
 @NgModule({
-  declarations: [
-    ...bookRoutingComponents,
-    ChapterCatalogComponent,
-    FlipPagerComponent,
-  ],
-  imports: [
-    CommonModule,
-    ThemeModule,
-    BookRoutingModule
-  ],
-  providers: [
-    BookService
-  ]
+    declarations: [
+        ...bookRoutingComponents,
+        ChapterCatalogComponent,
+        FlipPagerComponent,
+    ],
+    imports: [
+        CommonModule,
+        ThemeModule,
+        BookRoutingModule
+    ],
+    providers: [
+        BookService
+    ]
 })
 export class BookModule { }

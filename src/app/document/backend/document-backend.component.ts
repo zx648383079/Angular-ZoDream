@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IProject } from '../model';
 import { DocumentService } from './document.service';
 
@@ -20,7 +20,7 @@ export class DocumentBackendComponent implements OnInit {
 
     constructor(
         private service: DocumentService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

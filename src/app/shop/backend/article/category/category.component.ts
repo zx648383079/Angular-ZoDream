@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { IArticleCategory } from '../../../../theme/models/shop';
 import { ArticleService } from '../../article.service';
 
@@ -10,33 +10,31 @@ import { ArticleService } from '../../article.service';
 })
 export class CategoryComponent implements OnInit {
 
-  public categories: IArticleCategory[] = [];
+    public categories: IArticleCategory[] = [];
 
-  constructor(
-    private service: ArticleService,
-    private toastrService: ToastrService,
-  ) {
-    this.service.categoryTree().subscribe(res => {
-      this.categories = res.data;
-    });
-  }
-
-  ngOnInit() {
-  }
-
-  public tapRemove(item: IArticleCategory) {
-    if (!confirm('确定删除“' + item.name + '”分类？')) {
-      return;
+    constructor(
+        private service: ArticleService,
+        private toastrService: DialogService,
+    ) {
+        this.service.categoryTree().subscribe(res => {
+            this.categories = res.data;
+        });
     }
-    this.service.articleRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.categories = this.categories.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    ngOnInit() {}
+
+    public tapRemove(item: IArticleCategory) {
+        this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {
+            this.service.articleRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.categories = this.categories.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
 
 }

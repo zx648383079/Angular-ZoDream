@@ -24,17 +24,16 @@ import {
 import {
     IUser
 } from '../../theme/models/user';
-import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
 import { DownloadService } from '../../theme/services';
 import { openLink } from '../../theme/deeplink';
-import { DialogBoxComponent } from '../../theme/components';
 import { eachObject } from '../../theme/utils';
 import { emailValidate } from '../../theme/validators';
+import { DialogBoxComponent } from '../../dialog';
 
 @Component({
     selector: 'app-thread',
@@ -66,7 +65,7 @@ export class ThreadComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<AppState>,
         private service: ForumService,
         private route: ActivatedRoute,

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../../dialog';
 import { IEmojiCategory } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
@@ -19,7 +18,7 @@ export class EmojiCategoryComponent implements OnInit {
 
     constructor(
         private service: SystemService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }

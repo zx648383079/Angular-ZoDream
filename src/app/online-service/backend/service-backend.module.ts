@@ -5,7 +5,8 @@ import { ThemeModule } from '../../theme/theme.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OnlineBackendService } from './online.service';
-import { OnlineServiceModule } from '../online-service.module';
+import { MessageContainerModule } from '../../message-container/message-container.module';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
@@ -13,8 +14,9 @@ import { OnlineServiceModule } from '../online-service.module';
         ThemeModule,
         NgbPaginationModule,
         ReactiveFormsModule,
-        OnlineServiceModule,
         OnlineServiceBackendRoutingModule,
+        MessageContainerModule,
+        DialogModule,
     ],
     declarations: [...onlineServiceBackendRoutingComponents],
     providers: [

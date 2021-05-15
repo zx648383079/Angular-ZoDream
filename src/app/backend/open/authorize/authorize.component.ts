@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IAuthorize } from '../../../theme/models/open';
 import { OpenService } from '../open.service';
 
@@ -26,7 +26,7 @@ export class AuthorizeComponent implements OnInit {
 
   constructor(
     private service: OpenService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

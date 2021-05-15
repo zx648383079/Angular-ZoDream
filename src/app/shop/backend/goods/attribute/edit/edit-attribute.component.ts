@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import { IAttribute, IAttributeGroup } from '../../../../../theme/models/shop';
 import { AttributeService } from '../../attribute.service';
 
@@ -29,7 +29,7 @@ export class EditAttributeComponent implements OnInit {
         private service: AttributeService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.service.groupAll().subscribe(res => {
             this.groupItems = res.data;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import { DialogAnimation } from '../../../../../theme/constants/dialog-animation';
 import { IActivity, IGoods, IMixConfigure, IMixGoods } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
@@ -36,7 +36,7 @@ export class EditMixComponent implements OnInit {
         private service: ActivityService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
 

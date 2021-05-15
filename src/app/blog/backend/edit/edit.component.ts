@@ -9,9 +9,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import {
-    ToastrService
-} from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IImageUploadEvent } from '../../../editor/model';
 import {
     IBlog,
@@ -67,7 +65,7 @@ export class EditComponent implements OnInit {
         private fb: FormBuilder,
         private service: BlogService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private uploadService: FileUploadService,
     ) {
         this.service.editOption().subscribe(res => {

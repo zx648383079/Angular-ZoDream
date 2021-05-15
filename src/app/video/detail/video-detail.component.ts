@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import videojs, { VideoJsPlayer } from 'video.js';
 import { IComment, IVideo } from '../model';
 import { VideoService } from '../video.service';
@@ -35,7 +35,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private service: VideoService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

@@ -5,6 +5,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { bookBackendRoutingComponents, BookBackendRoutingModule } from './backend-routing.module';
 import { BookService } from './book.service';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { BookService } from './book.service';
         BookBackendRoutingModule,
         NgbPaginationModule,
         ReactiveFormsModule,
+        DialogModule,
     ],
     declarations: [...bookBackendRoutingComponents],
     providers: [

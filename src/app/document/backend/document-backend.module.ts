@@ -17,6 +17,8 @@ import {
 import { DocumentService } from './document.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZoEditorModule } from '../../editor/editor.module';
+import { ContextMenuModule } from '../../context-menu/context-menu.module';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
@@ -26,6 +28,8 @@ import { ZoEditorModule } from '../../editor/editor.module';
         NgbDropdownModule,
         ReactiveFormsModule,
         ZoEditorModule,
+        ContextMenuModule,
+        DialogModule,
     ],
     declarations: [...documentBackendRoutedComponents],
     providers: [

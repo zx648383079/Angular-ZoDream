@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../dialog';
 import { IEmoji } from '../theme/models/seo';
 import { OnlineService } from './online.service';
 
@@ -25,7 +25,7 @@ export class OnlineServiceComponent implements OnDestroy {
 
     constructor(
         private service: OnlineService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
     }
@@ -62,10 +62,7 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.send({
-            content: item.content,
-            type: item.type < 1 ? 1 : 0
-        });
+        this.content += item.type > 0 ? item.content : '[' + item.name + ']';
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -75,8 +72,18 @@ export class OnlineServiceComponent implements OnDestroy {
         this.tapSend();
     }
 
-    public tapMore() {
-
+    public tapMore(lastId: number) {
+        if (lastId < 1) {
+            return;
+        }
+        this.service.getList({
+            session_token: this.sessionToken,
+            last_id: lastId,
+        }).subscribe((res: any) => {
+            if (res.data.length > 0) {
+                this.items = [].concat(res.data, this.items);
+            }
+        });
     }
 
     private send(data: any) {

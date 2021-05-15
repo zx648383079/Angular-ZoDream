@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
-import { DialogBoxComponent } from '../theme/components';
 import { emptyValidate } from '../theme/validators';
 import { IErrorResult, IPageQueries } from '../theme/models/page';
 import { IBlockItem } from '../theme/components/rule-block/model';
@@ -13,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
+import { DialogBoxComponent } from '../dialog';
 
 @Component({
     selector: 'app-micro',
@@ -44,7 +44,7 @@ export class MicroComponent implements OnInit {
 
     constructor(
         private service: MicroService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
         private store: Store<AppState>,

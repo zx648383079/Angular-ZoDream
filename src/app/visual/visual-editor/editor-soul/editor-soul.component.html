@@ -1,0 +1,66 @@
+<div class="soul-main">
+    <div class="tab-box">
+        <div class="tab-header">
+            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">组件</div>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">部件</div>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">动态容器</div>
+        </div>
+        <div class="tab-body">
+            <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                <div class="row">
+                    <div class="col-6" *ngFor="let item of controlItems">
+                        <div class="weight-item" (dblclick)="tapWidget(item)" (mousedown)="moveWidget(item, $event)">
+                            <ng-container *ngIf="item.icon">
+                                <i class="iconfont" [ngClass]="item.icon"></i>
+                            </ng-container>
+                            <ng-container *ngIf="!item.icon && item.preview">
+                                <img [src]="item.preview" [alt]="item.name">
+                            </ng-container>
+                            <span>{{ item.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <div class="col-6" *ngFor="let item of panelItems">
+                    <div class="weight-item">
+                        <ng-container *ngIf="item.icon">
+                            <i class="iconfont" [ngClass]="item.icon"></i>
+                        </ng-container>
+                        <ng-container *ngIf="!item.icon && item.preview">
+                            <img [src]="item.preview" [alt]="item.name">
+                        </ng-container>
+                        <span>{{ item.name }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                <div class="add-btn">
+                    <i class="iconfont icon-plus"></i>
+                    新建
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="soul-footer">
+        <i class="iconfont icon-keyboard" (click)="shortcutModal.open()"></i>
+    </div>
+</div>
+
+
+<app-dialog-box #shortcutModal title="快捷键" [buttonVisible]="false">
+    <app-shortcut-info></app-shortcut-info>
+</app-dialog-box>
+
+<app-dialog-box title="新建动态容器">
+    <div class="form-group">
+      <label for="name">名称</label>
+      <input type="text" class="form-control" name="name" id="name">
+    </div>
+    <div class="form-group">
+        <label for="width">尺寸</label>
+        <input type="number" class="form-control" name="width" id="width">
+        X
+        <input type="number" class="form-control" name="height" id="height">
+    </div>
+</app-dialog-box>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FrontendService } from '../frontend.service';
 import { IFriendLink, ILink } from '../../theme/models/seo';
-import { DialogBoxComponent } from '../../theme/components';
 import { emptyValidate } from '../../theme/validators';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
+import { DialogBoxComponent } from '../../dialog';
 
 @Component({
   selector: 'app-friend-link',
@@ -23,7 +23,7 @@ export class FriendLinkComponent implements OnInit {
 
     constructor(
         private service: FrontendService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;

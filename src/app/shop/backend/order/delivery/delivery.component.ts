@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { OrderService } from '../order.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class DeliveryComponent implements OnInit {
 
     constructor(
         private service: OrderService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) {
     }

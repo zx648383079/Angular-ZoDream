@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { confirmValidator } from '../../theme/validators';
 import { IErrorResponse } from '../../theme/models/page';
 import { AuthService } from '../../theme/services';
+import { DialogService } from '../../dialog';
 
 @Component({
   selector: 'app-find',
@@ -28,7 +28,7 @@ export class FindComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private service: AuthService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
     ) {}

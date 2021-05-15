@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { ICmsCategory } from '../../model';
 import { CmsService } from '../cms.service';
 
@@ -17,7 +17,7 @@ export class CategoryComponent implements OnInit {
     constructor(
         private service: CmsService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
         
     }

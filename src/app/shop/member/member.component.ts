@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../dialog';
 import { ISite } from '../../theme/models/seo';
 import { IArticle } from '../../theme/models/shop';
 import { IUser } from '../../theme/models/user';
@@ -29,7 +29,7 @@ export class MemberComponent implements OnInit {
         private service: ShopService,
         private route: ActivatedRoute,
         private router: Router,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private store: Store<ShopAppState>,
         private authService: AuthService,
     ) {

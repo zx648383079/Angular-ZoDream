@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';

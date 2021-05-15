@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
+import { DialogService } from '../../../../dialog';
 import { LegworkService } from '../../../legwork.service';
 import { ICategory, IService } from '../../../model';
 
@@ -29,7 +28,7 @@ export class EditServiceComponent implements OnInit {
         private service: LegworkService,
         private route: ActivatedRoute,
         private fb: FormBuilder,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {

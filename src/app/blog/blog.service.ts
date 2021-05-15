@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICategory, IBlog, ISearchForm, IComment } from '../theme/models/blog';
 import { IPage, IData, IDataOne } from '../theme/models/page';
 import { map } from 'rxjs/operators';
@@ -49,6 +49,10 @@ export class BlogService {
         return this.http.delete<IDataOne<boolean>>('blog/comment/delete', {
             params: {id}
         });
+    }
+
+    public blogRecommend(id: any) {
+        return this.http.post<IBlog>('blog/home/recommend', {id});
     }
 
     public commentAgree(id: any) {

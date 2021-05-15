@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IPlatform } from '../../../theme/models/open';
 import { IData, IDataOne } from '../../../theme/models/page';
 
@@ -19,7 +19,7 @@ export class PlatformOptionComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) { }
 
   ngOnInit() {

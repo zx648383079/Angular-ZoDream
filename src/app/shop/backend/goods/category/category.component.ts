@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../dialog';
 import { ICategory } from '../../../../theme/models/shop';
 import { GoodsService } from '../goods.service';
 
@@ -14,7 +14,7 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private service: GoodsService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.service.categoryTree().subscribe(res => {
       this.categories = res.data;

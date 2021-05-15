@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../../dialog';
 import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -39,7 +38,7 @@ export class EditPageComponent implements OnInit {
         private fb: FormBuilder,
         private service: ExamService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {}
 
     ngOnInit() {

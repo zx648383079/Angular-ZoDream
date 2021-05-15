@@ -6,6 +6,7 @@ import { ActivityService } from './activity.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoodsModule } from '../goods/goods.module';
+import { DialogModule } from '../../../dialog';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { GoodsModule } from '../goods/goods.module';
         NgbModule,
         ReactiveFormsModule,
         GoodsModule,
+        DialogModule,
     ],
     declarations: [...activityRoutedComponents],
     providers: [

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IShipping } from '../../../theme/models/shop';
 import { PaymentService } from '../payment.service';
 
@@ -24,7 +24,7 @@ export class ShippingComponent implements OnInit {
 
   constructor(
     private service: PaymentService,
-    private toastrService: ToastrService,
+    private toastrService: DialogService,
   ) {
     this.tapRefresh();
   }

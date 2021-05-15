@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../../../dialog';
 import { ICoupon } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
 
@@ -33,7 +33,7 @@ export class EditCouponComponent implements OnInit {
         private service: ActivityService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) { }
 
     get typeValue() {

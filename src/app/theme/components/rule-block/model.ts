@@ -6,6 +6,7 @@ export interface IBlockItem {
     topic?: number; // 3
     link?: string; // 4
     image?: string; // 1
+    file?: string; // 5
 }
 
 export interface IExtraRule {

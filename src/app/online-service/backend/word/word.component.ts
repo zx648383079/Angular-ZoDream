@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { DialogBoxComponent } from '../../../theme/components';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { IWord } from '../../model';
 import { OnlineBackendService } from '../online.service';
@@ -25,7 +24,7 @@ export class WordComponent implements OnInit {
 
     constructor(
         private service: OnlineBackendService,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
         private route: ActivatedRoute,
     ) { }
 

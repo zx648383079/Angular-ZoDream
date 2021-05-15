@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ISubscribe } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -26,7 +26,7 @@ export class SubscribeComponent implements OnInit {
     constructor(
         private service: ContactService,
         private route: ActivatedRoute,
-        private toastrService: ToastrService,
+        private toastrService: DialogService,
     ) {
     }
 
