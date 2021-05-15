@@ -1,4 +1,4 @@
-<div class="panel-shell">
+<div class="panel-shell" [ngClass]="{'shell-full': tabVisible}">
     <div class="shell-bar">
         <app-mobile-bar></app-mobile-bar>
     </div>
@@ -7,14 +7,17 @@
             <div class="btn btn-primary">背景色</div>
             <div class="btn btn-info">背景图</div>
         </div>
-        <div class="drapdrop">
+        <div class="drapdrop" (mousedown)="onMoveStart($event)">
             <i class="iconfont icon-arrow-down"></i>
             拖动调节高度
             <i class="iconfont icon-arrow-up"></i>
         </div>
     </div>
-    <div class="tab-bar-toggle">
-        <i class="iconfont icon-plus"></i>
-        显示底部导航
+    <div class="tab-bar-toggle" (click)="tabVisible = !tabVisible">
+        <i class="iconfont" [ngClass]="{'icon-plus': !tabVisible, 'icon-minus': tabVisible}"></i>
+        {{ tabVisible ? '隐藏' : '显示' }}底部导航
+    </div>
+    <div class="tab-bar-box" *ngIf="tabVisible">
+        <app-tab-bar></app-tab-bar>
     </div>
 </div>

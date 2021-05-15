@@ -1,0 +1,19 @@
+<div class="tab-bar" [ngStyle]="barStyle">
+    <div class="bar-body">
+        <ng-container *ngFor="let item of items; let i = index">
+            <div class="bar-item" (click)="tapToggle(i)" [ngStyle]="itemStyle(i)">
+                <div class="bar-icon">
+                    <ng-container *ngIf="item.iconPath">
+                        <img [src]="i == selected ? item.selectedIconPath : item.iconPath" [alt]="item.text">
+                    </ng-container>
+                    <ng-container *ngIf="!item.iconPath">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </ng-container>
+                </div>
+                <div class="bar-text">
+                    {{ item.text }}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

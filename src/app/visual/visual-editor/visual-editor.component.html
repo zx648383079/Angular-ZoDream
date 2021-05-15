@@ -5,10 +5,10 @@
     </div>
     <div class="panel-main" #mainBox>
         <div class="flex-container" (mousedown)="onSelectStart($event)">
-            <div class="zoom-box" style="transform: translate(0px, 0);height: 500px;">
+            <div class="zoom-box" [ngStyle]="zoomStyle">
                 <!-- 模拟样式 -->
                 <div class="shell-box">
-                    <app-editor-shell></app-editor-shell>
+                    <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
                 </div>
                 <div class="zoom-area" #zoomBox (contextmenu)="onContext($event)">
                     <ng-container *ngFor="let item of widgetItems$ | async">
@@ -33,11 +33,11 @@
         </div>
         <!-- 滚动条 -->
         <div class="track-box">
-            <div class="x-track">
-                <div class="x-handler"></div>
+            <div class="x-track" (mousedown)="scrolBarMove(true, $event)">
+                <div class="x-handler" [ngStyle]="barHStyle" ></div>
             </div>
-            <div class="y-track">
-                <div class="y-handler"></div>
+            <div class="y-track" (mousedown)="scrolBarMove(false, $event)">
+                <div class="y-handler" [ngStyle]="barVStyle"></div>
             </div>
         </div>
         <!-- 属性编辑 -->

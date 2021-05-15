@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EditorService } from '../editor.service';
 import { Widget } from '../model';
 
 @Component({
@@ -10,14 +11,24 @@ export class EditorWidgetComponent {
 
     @Input() public value: Widget;
 
-    constructor() { }
+    constructor(
+        private service: EditorService,
+    ) { }
 
     public tapWidget() {
 
     }
 
     public moveWidget(event: MouseEvent) {
+        this.service.editWidget$.next(this.value);
+    }
 
+    public onMouseEnter() {
+
+    }
+
+    public onMouseLeave() {
+        
     }
 
 }

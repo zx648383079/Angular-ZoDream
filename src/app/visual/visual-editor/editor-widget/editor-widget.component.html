@@ -1,6 +1,8 @@
 <div class="widget-shell"
     (dblclick)="tapWidget()" 
-    (mousedown)="moveWidget($event)">
+    (mousedown)="moveWidget($event)"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()">
     <div class="widget-content">
         <ng-container [ngSwitch]="value.tag">
             <ng-container *ngSwitchCase="'button'">

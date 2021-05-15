@@ -1,3 +1,23 @@
-<p>
-  editor-reflection works!
-</p>
+<div class="reflect-container">
+    <div class="selection-container" [ngClass]="boxCls" [ngStyle]="boxStyle">
+        <div class="rotate-icon">
+            <i class="iconfont icon-refresh"></i>
+        </div>
+        <div class="eight-corner">
+            <div class="cursor lt"></div>
+            <div class="cursor t"></div>
+            <div class="cursor rt"></div>
+            <div class="cursor r"></div>
+            <div class="cursor rb"></div>
+            <div class="cursor b"></div>
+            <div class="cursor lb"></div>
+            <div class="cursor l"></div>
+        </div>
+        <div class="event-container">
+            <div class="event-line"></div>
+            <div class="event-icon">
+                <i class="iconfont icon-chain"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
-import { TreeEvent, TREE_ACTION } from '../model';
+import { EditorService } from '../editor.service';
+import { ICatalogItem, TreeEvent, TREE_ACTION, Widget } from '../model';
 import { EditorLayer } from '../model/menu';
 
 @Component({
@@ -19,17 +20,24 @@ export class EditorLayerComponent implements OnInit {
 
     public tabIndex = 0;
 
-    public catalogItems = [];
+    public catalogItems: ICatalogItem[] = [];
 
-    public weightItems = [];
+    public weightItems: Widget[] = [];
 
     public editData: any = {};
 
     constructor(
         private dialogService: DialogService,
+        private service: EditorService,
     ) { }
 
     ngOnInit() {
+        this.service.widgetCellItems$.subscribe(res => {
+            this.weightItems = res;
+        });
+        this.service.catalogItems$.subscribe(res => {
+            this.catalogItems = res;
+        });
     }
 
     public tapEditCatalog() {
@@ -42,7 +50,7 @@ export class EditorLayerComponent implements OnInit {
             isGroup: group,
         };
         this.catalogModal.open(() => {
-            this.catalogItems.push({
+            this.service.pushCatalog({
                 name: this.editData.name,
                 canExpand: this.editData.isGroup,
             });

@@ -7,6 +7,9 @@
     background-color: #fdfdfd;
     border-radius: .2em;
     border: 2px dashed #d9d9d9;
+    &.shell-full {
+        bottom: -5.5em;
+    }
 }
 .shell-bar {
     position: absolute;
@@ -26,8 +29,12 @@
     align-items: center;
     justify-content: space-between;
     pointer-events: all;
-    cursor: ns-resize;
+    
     padding: 0 12px;
+    .drapdrop {
+        cursor: ns-resize;
+        user-select: none;
+    }
 }
 .tab-bar-toggle {
     pointer-events: all;
@@ -48,4 +55,15 @@
         background-color: #f5f8fb;
         color: #333;
     }
+}
+
+.tab-bar-box {
+    position: absolute;
+    bottom: 2.75em;
+    left: 13px;
+    right: 13px;
+    height: 2.75em;
+    pointer-events: all;
+    // box-shadow: 0 0 0 1px #d9d9d9;
+    cursor: pointer;
 }

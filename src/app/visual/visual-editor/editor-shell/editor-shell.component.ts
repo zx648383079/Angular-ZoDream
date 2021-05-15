@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { IPoint } from '../model';
 
 @Component({
   selector: 'app-editor-shell',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditorShellComponent implements OnInit {
 
-  constructor() { }
+    public tabVisible = false;
 
-  ngOnInit() {
-  }
+    @Output() public resizing = new EventEmitter<IPoint>();
 
+    constructor() { }
+
+    ngOnInit() {
+    }
+
+
+    public onMoveStart(event: MouseEvent) {
+        this.resizing.emit({x: event.clientX, y: event.clientY});
+    }
 }

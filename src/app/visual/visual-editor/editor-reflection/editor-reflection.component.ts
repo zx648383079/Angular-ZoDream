@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { EditorService } from '../editor.service';
+
+enum EditMode {
+    NONE,
+    HOVER,
+    EDIT,
+}
 
 @Component({
   selector: 'app-editor-reflection',
@@ -7,9 +14,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditorReflectionComponent implements OnInit {
 
-  constructor() { }
+    public mode = EditMode.NONE;
 
-  ngOnInit() {
-  }
+    public get boxStyle() {
+        return {
+            left: 0 + 'px',
+            top: 0 + 'px',
+            width: 0 + 'px',
+            height: 0 + 'px',
+        };
+    }
+
+    public get boxCls() {
+        if (this.mode === EditMode.EDIT) {
+            return 'edit-in';
+        }
+        if (this.mode === EditMode.HOVER) {
+            return 'edit-hover';
+        }
+        return 'edit-hide';
+    }
+
+    constructor(
+        private service: EditorService,
+    ) { }
+
+    ngOnInit() {
+        this.service.editWidget$.subscribe(res => {
+            if (!res) {
+                this.mode = EditMode.NONE;
+                return;
+            }
+            this.mode = EditMode.HOVER;
+        });
+    }
 
 }

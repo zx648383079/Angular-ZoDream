@@ -49,8 +49,9 @@ $shadow: rgb(39 54 78 / 11%);
     .zoom-box {
         position: absolute;
         width: 414px;
-        height: 200px;
+        height: 600px;
         background-color: #fff;
+        transition: all .3s;
     }
     .zoom-area {
         position: absolute;

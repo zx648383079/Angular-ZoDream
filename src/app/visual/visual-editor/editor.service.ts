@@ -5,7 +5,7 @@ import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
 import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType } from './model';
-import { IActionItem, IPoint, IResetEvent } from './model/core';
+import { IActionItem, ICatalogItem, IPoint, IResetEvent } from './model/core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +16,20 @@ export class EditorService {
      * 主窗口变化事件
      */
     public resize$ = new BehaviorSubject<IResetEvent|null>(null);
+
+    public catalogItems$ = new BehaviorSubject<ICatalogItem[]>([]);
     // 当前自由面板内的组件列表内容
     public widgetCellItems$ = new BehaviorSubject<Widget[]>([]);
 
+    /**
+     * 拖拽创建控件
+     */
     public moveWidget$ = new Subject<WidgetMoveEvent>();
+
+    /**
+     * 编辑控件
+     */
+    public editWidget$ = new BehaviorSubject<Widget>(null);
     
     public action$ = new BehaviorSubject<boolean>(true);
 
@@ -67,6 +77,14 @@ export class EditorService {
             data.push(item);
         });
         this.widgetCellItems$.next(data);
+    }
+
+    public pushCatalog(...items: ICatalogItem[]) {
+        const data = this.catalogItems$.value;
+        items.forEach((item, i) => {
+            data.push(item);
+        });
+        this.catalogItems$.next(data);
     }
 
     /**

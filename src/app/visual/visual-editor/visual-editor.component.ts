@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../context-menu';
 import { EditorService } from './editor.service';
 import { Widget } from './model';
-import { IBound } from './model/core';
+import { IBound, IPoint, LocationPoint, ScrollBar } from './model/core';
 import * as menu from './model/menu';
 import { SelectionBound } from './model/selection';
 
@@ -10,6 +10,9 @@ enum ACTION {
     NONE,
     SELECTION,
     MOVE_WIDGET,
+    H_SCROLL,
+    V_SCROLL,
+    RESIZE,
 }
 
 @Component({
@@ -28,10 +31,13 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     private status = ACTION.NONE;
     private selectionRect = new SelectionBound();
     public tempWidget: Widget;
+    public vBar = new ScrollBar();
+    public hBar = new ScrollBar();
     /**
      * 临时数据，需要鼠标移动才会使用的数据
      */
     private moveData: any;
+    private lastPoint = new LocationPoint();
     public get widgetItems$() {
         return this.service.widgetCellItems$;
     }
@@ -47,9 +53,29 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
         };
     }
 
+    public get zoomStyle() {
+        if (this.hBar.innerLength <= 0) {
+            return {};
+        } 
+        return {
+            width: this.hBar.innerLength + 'px',
+            height: this.vBar.innerLength + 'px',
+            transform: 'translate(' + (-this.hBar.innerOffset) +  'px, '+ (-this.vBar.innerOffset) +'px)',
+        };
+    }
+
+    public get barHStyle() {
+        return this.hBar.barHStyle;
+    }
+
+    public get barVStyle() {
+        return this.vBar.barVStyle;
+    }
+
     constructor(
         private readonly renderer: Renderer2,
         private service: EditorService,
+        private ngZone: NgZone,
     ) { }
 
     ngOnInit() {
@@ -63,6 +89,13 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
                 
             // }
         });
+        this.renderer.listen(document, 'wheel', (event: WheelEvent) => {
+            this.ngZone.run(() => {
+                // this.hBar.move(event.deltaX);
+                this.vBar.move(event.deltaY);
+                this.refreshZoom();
+            });
+        });
         this.renderer.listen(document, 'paste', (event: any) => {
             if (event.clipboardData || event.originalEvent) {
                 const clipboardData = (event.clipboardData || (window as any).clipboardData);
@@ -72,12 +105,16 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
         this.renderer.listen(document, 'mouseup', () => {
             const old = this.status;
             this.status = ACTION.NONE;
+            this.lastPoint.isNull = true;
             if (old === ACTION.MOVE_WIDGET && this.tempWidget) {
                 const item = this.tempWidget;
                 this.tempWidget = undefined;
                 if (this.service.inZoom(item)) {
                     this.service.pushWidget(this.service.zoomLocation(item));
                 }
+            }
+            if (old === ACTION.RESIZE || old === ACTION.H_SCROLL || old === ACTION.V_SCROLL) {
+                this.refreshZoom();
             }
         });
         this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
@@ -96,6 +133,15 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
                 } else if (this.tempWidget) {
                     this.tempWidget.location = point;
                 }
+            } else if (this.status === ACTION.H_SCROLL) {
+                this.hBar.move(this.lastPoint.xDistance(point));
+                this.lastPoint.move(point);
+            } else if (this.status === ACTION.V_SCROLL) {
+                this.vBar.move(this.lastPoint.yDistance(point));
+                this.lastPoint.move(point);
+            } else if (this.status === ACTION.RESIZE) {
+                this.vBar.innerLength += this.lastPoint.yDistance(point);
+                this.lastPoint.move(point);
             }
         });
         this.service.moveWidget$.subscribe(res => {
@@ -106,6 +152,17 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
             this.status = ACTION.MOVE_WIDGET;
             this.moveData = res;
         });
+        this.service.resize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.ngZone.run(() => {
+                this.vBar.boxLength = res.main.height;
+                this.vBar.innerLength = res.zoom.height;
+                this.hBar.boxLength = res.main.width;
+                this.hBar.innerLength = res.zoom.width;
+            });
+        });
     }
 
     ngAfterViewInit() {
@@ -113,6 +170,9 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     }
 
     public onSelectStart(event: MouseEvent) {
+        if (this.status !== ACTION.NONE) {
+            return;
+        }
         this.status = ACTION.SELECTION;
         this.selectionRect.start = {
             x: event.clientX,
@@ -120,11 +180,32 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
         };
     }
 
+    public onResizing(event: IPoint) {
+        this.status = ACTION.RESIZE;
+        this.lastPoint.move(event);
+    }
+
     private refreshSize() {
         this.service.resize$.next({
             main: this.formatBound(this.mainRef),
             zoom: this.formatBound(this.zoomRef),
         });
+    }
+
+    private refreshZoom() {
+        const res = this.service.resize$.value;
+        if (!res) {
+            return;
+        }
+        setTimeout(() => {
+            res.zoom = this.formatBound(this.zoomRef);
+            this.service.resize$.next(res);
+        }, 100);
+    }
+
+    public scrolBarMove(hor: boolean, event: MouseEvent) {
+        this.status = hor ? ACTION.H_SCROLL : ACTION.V_SCROLL;
+        this.lastPoint.move(event.clientX, event.clientY);
     }
 
     public onContext(e: MouseEvent) {

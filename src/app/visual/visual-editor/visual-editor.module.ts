@@ -17,11 +17,11 @@ import { MobileBarComponent } from './editor-shell/mobile-bar/mobile-bar.compone
 import { ShortcutInfoComponent } from './editor-soul/shortcut-info/shortcut-info.component';
 import { CatalogListComponent } from './editor-layer/catalog-list/catalog-list.component';
 import { CatalogItemComponent } from './editor-layer/catalog-item/catalog-item.component';
-import { DraggableDirective } from './draggable.directive';
 import { EditorReflectionComponent } from './editor-reflection/editor-reflection.component';
 import { controlComponents } from './editor-widget/control';
 import { inputComponents } from './editor-widget/input';
 import { panelComponents } from './editor-widget/panel';
+import { TabBarComponent } from './editor-shell/tab-bar/tab-bar.component';
 
 @NgModule({
     imports: [
@@ -43,10 +43,10 @@ import { panelComponents } from './editor-widget/panel';
         EditorReflectionComponent,
 
         MobileBarComponent,
+        TabBarComponent,
         ShortcutInfoComponent,
         CatalogListComponent,
         CatalogItemComponent,
-        DraggableDirective,
         ...controlComponents,
         ...inputComponents,
         ...panelComponents,

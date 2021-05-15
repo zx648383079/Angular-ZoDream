@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { cloneObject } from '../../../theme/utils';
+import { cloneObject, eachObject } from '../../../theme/utils';
 import { IBound, IPoint, ISize } from './core';
 
 export interface WidgetBound extends IBound {
@@ -12,8 +12,18 @@ export interface WidgetBound extends IBound {
      */
     scale: number;
 }
+
+export interface IStyle {
+    [key: string]: any;
+}
+
 export class WidgetProperty {
-    public data: any = {};
+
+    constructor(
+        private readonly target: Widget,
+        ) {
+    }
+    private data: IStyle = {};
     public get(key: string|number, def?: any) {
         if (!this.has(key)) {
             return def;
@@ -21,16 +31,69 @@ export class WidgetProperty {
         return this.data[key];
     }
 
-    public set(key: string|number, value: any) {
-        this.data[key] = value;
+    public set(data: IStyle): void;
+    public set(key: string|number, value: any): void;
+    public set(key: string|number|any, value?: any) {
+        if (typeof key !== 'object') {
+            this.data[key] = value;
+        } else {
+            eachObject(key, (v, k) => {
+                this.data[k] = v;
+            });
+        }
+        this.target.propertyChange$.next();
     }
 
     public has(key: string|number) {
         return Object.prototype.hasOwnProperty.call(this.data, key);
     }
+
+    public get style(): IStyle {
+        const data: IStyle = {};
+        const defMap = {
+            opacity: 1,
+            'z-index': 0,
+        };
+        eachObject(defMap, (v, k) => {
+            if (!this.has(k)) {
+                return;
+            }
+            const val = this.get(k);
+            if (typeof val === 'undefined' || val === null || val === v) {
+                return;
+            }
+            data[k] = val;
+        });
+        const transform = [];
+        if (this.has('rotate')) {
+            transform.push('rotate(' + this.degToAngle(this.get('rotate')) + 'deg)')
+        }
+        if (this.has('scale')) {
+            transform.push('scale(' + this.get('scale') + ')');
+        }
+        if (this.has('skew')) {
+            transform.push('skew(' + this.get('skew') + ')');
+        }
+        if (transform.length > 0) {
+            data.transform = transform.join(' ');
+        }
+        return data;
+    }
+
+    private degToAngle(i: number) {
+        i = (i - 90) % 360;
+        if (i < 0) {
+            i += 360;
+        }
+        return i * Math.PI / 180 ;
+    }
 }
 
 export class EventManager {
+    constructor(
+        private readonly target: Widget,
+        ) {
+    }
     public listeners: {
         [key: string]: Function[];
     } = {};
@@ -91,31 +154,15 @@ export class Widget implements WidgetBound {
 
     public width: number = 0;
     public height: number = 0;
-
-    // TODO 移入properties
-    public opacity: number = 1;
-    /**
-     * 倾斜
-     */
-    public skew = 0;
-    public zIndex: number = 0;
-    /**
-     * 旋转
-    */
-    public rotate: number = 0;
-    /**
-     * 收缩
-    */
-    public scale: number = 1;
-
+    public parent?: Widget;
     public name: string;
     public icon?: string;
     public tag: string;
     public preview?: string;
     public id: string|number;
-    public properties = new WidgetProperty();
-    public events = new EventManager();
-    public readonly propertyChange$ = new Subject();
+    public readonly properties = new WidgetProperty(this);
+    public readonly events = new EventManager(this);
+    public readonly propertyChange$ = new Subject<void>();
 
     public get location(): IPoint {
         return {
@@ -151,13 +198,59 @@ export class Widget implements WidgetBound {
         this.height = b.height;
     }
 
+    public set opacity(v: number) {
+        this.properties.set('opacity', v);
+    }
+
+    public get opacity(): number {
+        return this.properties.get('opacity', 1);
+    }
+
+    public set skew(v: number) {
+        this.properties.set('skew', v);
+    }
+    /** 
+     * 倾斜
+     */
+    public get skew(): number {
+        return this.properties.get('skew', 0);
+    }
+
+    public set zIndex(v: number) {
+        this.properties.set('z-index', v);
+    }
+
+    public get zIndex(): number {
+        return this.properties.get('z-index', 0);
+    }
+
+    public set rotate(v: number) {
+        this.properties.set('rotate', v);
+    }
+    /**
+     * 旋转 360
+    */
+    public get rotate(): number {
+        return this.properties.get('rotate', 0);
+    }
+
+    public set scale(v: number) {
+        this.properties.set('scale', v);
+    }
+    /**
+     * 收缩
+    */
+    public get scale(): number {
+        return this.properties.get('scale', 1);
+    }
+
     public onInit(source: WidgetSource) {
         this.name = source.name;
         this.icon = source.icon;
         this.preview = source.preview;
         this.tag = source.tag;
         if (source.properties) {
-            this.properties.data = cloneObject(source.properties);
+            this.properties.set(cloneObject(source.properties));
         }
     }
 
@@ -165,44 +258,21 @@ export class Widget implements WidgetBound {
         return item.id && item.id === this.id;
     }
 
-    public get style() {
+    public get style(): IStyle {
         if (this.opacity <= 0) {
             return {
                 display: 'none',
             };
         }
-        const data: any = {
+        const data: IStyle = {
             left: this.x + this.unit,
             top: this.y  + this.unit,
-            opacity: this.opacity,
-            'z-index': this.zIndex,
         };
         if (this.width > 0 || this.height > 0) {
             data.width = this.width + this.unit;
             data.height = this.height + this.unit;
         }
-        const transform = [];
-        if (this.rotate !== 0) {
-            transform.push('rotate(' + this.degToAngle(this.rotate) + 'deg)')
-        }
-        if (this.scale !== 1) {
-            transform.push('scale(' + this.scale + ')');
-        }
-        if (this.skew !== 0) {
-            transform.push('skew(' + this.skew + ')');
-        }
-        if (transform.length > 0) {
-            data.transform = transform.join(' ');
-        }
-        return data;
-    }
-
-    private degToAngle(i: number) {
-        i = (i - 90) % 360;
-        if (i < 0) {
-            i += 360;
-        }
-        return i * Math.PI / 180 ;
+        return {...data, ...this.properties.style};
     }
 }
 
@@ -214,6 +284,7 @@ export class PanelWidget extends Widget {
     }
 
     public push(item: Widget) {
+        item.parent = this;
         this.children.push(item);
     }
 
@@ -279,3 +350,4 @@ export interface WidgetMoveEvent {
     data: WidgetPreview;
     start?: IPoint;
 }
+
