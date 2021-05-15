@@ -1,0 +1,31 @@
+.side-container {
+    position: relative;
+    height: 100px;
+    .top,
+    .left,
+    .right,
+    .bottom {
+        position: absolute;
+        text-align: center;
+        &.active {
+            background: red;
+            color: white;
+        }
+    }
+    .top {
+        top: 0;
+        left: 30px;
+    }
+    .right {
+        top: 30px;
+        left: 60px;
+    }
+    .bottom {
+        top: 60px;
+        left: 30px;
+    }
+    .left {
+        top: 30px;
+        left: 0px;
+    }
+}

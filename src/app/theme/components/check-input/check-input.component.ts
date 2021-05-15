@@ -21,7 +21,7 @@ export class CheckInputComponent implements ControlValueAccessor {
     @Input() public rangeKey: any = '';
     @Input() public rangeLabel = '';
 
-    private selectedItems: any[];
+    private selectedItems: any[] = [];
     public disabled = false;
     private onChange: any = () => {};
     private onTouch: any = () => {};

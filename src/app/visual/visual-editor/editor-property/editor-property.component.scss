@@ -1,3 +1,4 @@
+@import "../../../theme/styles/scrollbar";
 .property-panel {
     position: fixed;
     z-index: 102;
@@ -7,6 +8,23 @@
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+}
+.tab-box {
+    .tab-header {
+        display: flex;
+        font-size: .8em;
+        .tab-item {
+            flex: 1;
+            width: auto;
+            line-height: 2em;
+            height: 2em;
+        }
+    }
+    .tab-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        @include scrollbar();
+    }
 }
 .panel {
     .panel-header {
@@ -24,7 +42,7 @@
         }
     }
     .panel-body {
-        padding: .5em;
+        // padding: .5em;
     }
     &.open {
         >.panel-body {
@@ -92,12 +110,24 @@
     }
 }
 
-.top-input {
-    input {
-        width: 100%;
+.style-item {
+    line-height: 60px;
+    border: 1px dotted red;
+    text-align: center;
+    color: #999;
+    font-weight: 700;
+    font-size: 20px;
+    &.active {
+        border: 1px dotted green;
     }
-    label {
-        display: block;
-        text-align: center;
+}
+.form-control {
+    display: inline-block;
+    padding: .1em;
+}
+:ng-deep {
+    .form-control {
+        display: inline-block;
+        padding: .1em;
     }
 }

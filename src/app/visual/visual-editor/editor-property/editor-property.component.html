@@ -1,194 +1,221 @@
 <div class="panel property-panel" [hidden]="!panelVisible">
     <div class="panel-header">
-        <span>外观设置</span>
+        <span>属性</span>
         <i class="iconfont icon-close" (click)="tapClose($event)"></i>
     </div>
-    <div class="panel-body">
-        <div class="icon-bar">
-            <i class="iconfont icon-zuoduiqi" title="左对齐"></i>
-            <i class="iconfont icon-shuipingjuzhongduiqi" title="水平居中"></i>
-            <i class="iconfont icon-youduiqi" title="右对齐"></i>
-            <i class="iconfont icon-shuipingdengjianju" title="水平等间距"></i>
-            <i class="iconfont icon-shangduiqi" title="上对齐"></i>
-            <i class="iconfont icon-chuizhijuzhongduiqi" title="垂直居中"></i>
-            <i class="iconfont icon-xiaduiqi" title="下对齐"></i>
-            <i class="iconfont icon-chuizhidengjianju" title="垂直等间距"></i>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="inner-input">
-                    <label for="">X</label>
-                    <input type="number">
+    <div class="panel-body" >
+        <div class="tab-box">
+            <div class="tab-header">
+                <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">基本</div>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">高级</div>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">样式</div>
+            </div>
+            <div class="tab-body" [ngStyle]="boxStyle">
+                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                    <div class="line-input">
+                        <label for="">标题</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="line-input">
+                        <label for="">懒加载</label>
+                        <app-switch></app-switch>
+                    </div>
+                    <div class="icon-bar">
+                        <i class="iconfont icon-zuoduiqi" title="左对齐"></i>
+                        <i class="iconfont icon-shuipingjuzhongduiqi" title="水平居中"></i>
+                        <i class="iconfont icon-youduiqi" title="右对齐"></i>
+                        <i class="iconfont icon-shuipingdengjianju" title="水平等间距"></i>
+                        <i class="iconfont icon-shangduiqi" title="上对齐"></i>
+                        <i class="iconfont icon-chuizhijuzhongduiqi" title="垂直居中"></i>
+                        <i class="iconfont icon-xiaduiqi" title="下对齐"></i>
+                        <i class="iconfont icon-chuizhidengjianju" title="垂直等间距"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6">
-                <div class="inner-input">
-                    <label for="">Y</label>
-                    <input type="number">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="inner-input">
-                    <label for="">宽</label>
-                    <input type="number">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="inner-input">
-                    <label for="">高</label>
-                    <input type="number">
-                </div>
-            </div>
-        </div>
-        <div class="line-input">
-            <label for="">透明度</label>
-            <app-progress-bar></app-progress-bar>
-            <input type="number">
-        </div>
-    </div>
-    <div class="panel" [ngClass]="{open: panelToggle.box}">
-        <div class="panel-header" (click)="panelToggle.box = !panelToggle.box">
-            <span>外观</span>
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': panelToggle.box, 'icon-chevron-down': !panelToggle.box}"></i>
-        </div>
-        <div class="panel-body">
-            <div class="line-input">
-                <label for="">背景</label>
-                <input type="color">
-                <a href="">设为透明</a>
-            </div>
-            <div class="line-input">
-                <label for="">描边</label>
-                <input type="color">
-                <select>
-                    <option value="0">无</option>
-                    <option value="1">横线</option>
-                    <option value="2">点线</option>
-                    <option value="3">虚线</option>
-                </select>
-                <input type="number">
-            </div>
-            <div class="side-input">
-                <label for="">圆角</label>
-                <div class="side-body">
-                    <div class="inner-input">
-                        <i class="iconfont icon-"></i>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="inner-input">
+                                <label for="">X</label>
+                                <input type="number">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="inner-input">
+                                <label for="">Y</label>
+                                <input type="number">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="inner-input">
+                                <label for="">宽</label>
+                                <input type="number">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="inner-input">
+                                <label for="">高</label>
+                                <input type="number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line-input">
+                        <label for="">透明度</label>
+                        <app-progress-bar></app-progress-bar>
                         <input type="number">
                     </div>
-                    <div class="inner-input">
-                        <i class="iconfont icon-"></i>
-                        <input type="number">
+                    <div class="panel" [ngClass]="{open: panelToggle.box}">
+                        <div class="panel-header" (click)="panelToggle.box = !panelToggle.box">
+                            <span>外观</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.box, 'icon-chevron-down': !panelToggle.box}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="line-input">
+                                <label for="">背景</label>
+                                <app-color-input></app-color-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">描边</label>
+                                <app-border-input></app-border-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">圆角</label>
+                                <app-radius-input></app-radius-input>
+                            </div>
+                        </div>
                     </div>
-                    <div class="inner-input">
-                        <i class="iconfont icon-"></i>
-                        <input type="number">
+                    <div class="panel" [ngClass]="{open: panelToggle.sha}">
+                        <div class="panel-header" (click)="panelToggle.sha = !panelToggle.sha">
+                            <span>阴影</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.sha, 'icon-chevron-down': !panelToggle.sha}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <app-shadow-input></app-shadow-input>
+                        </div>
                     </div>
-                    <div class="inner-input">
-                        <i class="iconfont icon-"></i>
-                        <input type="number">
+                    <div class="panel" [ngClass]="{open: panelToggle.m}">
+                        <div class="panel-header" (click)="panelToggle.m = !panelToggle.m">
+                            <span>剪切蒙版</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.m, 'icon-chevron-down': !panelToggle.m}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <app-mask-input></app-mask-input>
+                        </div>
                     </div>
-                    <i class="iconfont icon-link"></i>
+                    <div class="panel" [ngClass]="{open: panelToggle.title}">
+                        <div class="panel-header" (click)="panelToggle.title = !panelToggle.title">
+                            <span>标题栏</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.title, 'icon-chevron-down': !panelToggle.title}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="line-input">
+                                <label for="">可见</label>
+                                <app-switch></app-switch>
+                            </div>
+                            <div class="line-input">
+                                <label for="">内边距</label>
+                                <app-margin-input></app-margin-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">边框</label>
+                                <app-border-input></app-border-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">圆角</label>
+                                <app-radius-input></app-radius-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体颜色</label>
+                                <app-color-input [isFull]="false"></app-color-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体</label>
+                                <input type="text">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体大小</label>
+                                <input type="text">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体粗细</label>
+                                <input type="number">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体位置</label>
+                                <app-check-input [items]="alginItems" rangeKey="value" rangeLabel="name"></app-check-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">背景</label>
+                                <app-color-input></app-color-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel" [ngClass]="{open: panelToggle.body}">
+                        <div class="panel-header" (click)="panelToggle.body = !panelToggle.body">
+                            <span>内容栏</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.title, 'icon-chevron-down': !panelToggle.body}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="line-input">
+                                <label for="">可见</label>
+                                <app-switch></app-switch>
+                            </div>
+                            <div class="line-input">
+                                <label for="">内边距</label>
+                                <app-margin-input></app-margin-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">边框</label>
+                                <app-border-input></app-border-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">圆角</label>
+                                <app-radius-input></app-radius-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体颜色</label>
+                                <app-color-input [isFull]="false"></app-color-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体</label>
+                                <input type="text">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体大小</label>
+                                <input type="text">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体粗细</label>
+                                <input type="number">
+                            </div>
+                            <div class="line-input">
+                                <label for="">字体位置</label>
+                                <app-check-input [items]="alginItems" rangeKey="value" rangeLabel="name"></app-check-input>
+                            </div>
+                            <div class="line-input">
+                                <label for="">背景</label>
+                                <app-color-input></app-color-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel" [ngClass]="{open: panelToggle.anim}">
+                        <div class="panel-header" (click)="panelToggle.anim = !panelToggle.anim">
+                            <span>动画</span>
+                            <i class="iconfont"
+                                [ngClass]="{'icon-chevron-up': panelToggle.anim, 'icon-chevron-down': !panelToggle.anim}"></i>
+                        </div>
+                        <div class="panel-body">
+                            <app-animation-input></app-animation-input>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel" [ngClass]="{open: panelToggle.sha}">
-        <div class="panel-header" (click)="panelToggle.sha = !panelToggle.sha">
-            <span>阴影</span>
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': panelToggle.sha, 'icon-chevron-down': !panelToggle.sha}"></i>
-        </div>
-        <div class="panel-body">
-            <div class="line-input">
-                <label for="">颜色</label>
-                <input type="color">
-            </div>
-            <div class="row">
-                <div class="col-3 top-input">
-                    <input type="number">
-                    <label>X</label>
+                <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                    <div class="style-item active">无</div>
                 </div>
-                <div class="col-3 top-input">
-                    <input type="number">
-                    <label>Y</label>
-                </div>
-                <div class="col-3 top-input">
-                    <input type="number">
-                    <label>模糊</label>
-                </div>
-                <div class="col-3 top-input">
-                    <input type="number">
-                    <label>扩散</label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel" [ngClass]="{open: panelToggle.m}">
-        <div class="panel-header" (click)="panelToggle.m = !panelToggle.m">
-            <span>剪切蒙版</span>
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': panelToggle.m, 'icon-chevron-down': !panelToggle.m}"></i>
-        </div>
-        <div class="panel-body">
-            <div class="clip-path-input">
-                <div class="shape" style="clip-path: inset(10%);"></div>
-                <div class="shape" style="clip-path: circle(45% at 50% 50%);"></div>
-                <div class="shape" style="clip-path: ellipse(30% 45% at 50% 50%);"></div>
-                <div class="shape"
-                    style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"
-                ></div>
-                <div
-                    class="shape"
-                    style="clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);"
-                ></div>
-                <div
-                    class="shape"
-                    style="clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);"
-                ></div>
-                <div
-                    class="shape"
-                    style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"
-                ></div>
-                <div
-                    class="shape"
-                    style="clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);"
-                ></div>
-                <div
-                    class="shape"
-                    style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);"
-                ></div>
-            </div>
-            <button class="btn btn-primary">一键取消</button>
-        </div>
-    </div>
-    <div class="panel" [ngClass]="{open: panelToggle.anim}">
-        <div class="panel-header" (click)="panelToggle.anim = !panelToggle.anim">
-            <span>阴影</span>
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': panelToggle.anim, 'icon-chevron-down': !panelToggle.anim}"></i>
-        </div>
-        <div class="panel-body">
-            <div class="effect-show">效果展示</div>
-            <div class="line-input">
-                <label for="">动效</label>
-                <select>
-
-                </select>
-            </div>
-            <div class="line-input">
-                <label for="">延时</label>
-                <select>
-                    
-                </select>
-            </div>
-            <div class="line-input">
-                <label for="">时长</label>
-                <select>
-                    
-                </select>
-            </div>
-            <div class="line-input">
-                <label for="">重复</label>
-                <select>
-                    
-                </select>
             </div>
         </div>
     </div>

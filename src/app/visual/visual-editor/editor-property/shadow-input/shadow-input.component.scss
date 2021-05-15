@@ -1,0 +1,14 @@
+.flex-line {
+    display: flex;
+    .top-input {
+        flex: 1;
+        .form-control {
+            width: 100%;
+            padding: .1em;
+        }
+        label {
+            display: block;
+            text-align: center;
+        }
+    }
+}

@@ -22,6 +22,15 @@ import { controlComponents } from './editor-widget/control';
 import { inputComponents } from './editor-widget/input';
 import { panelComponents } from './editor-widget/panel';
 import { TabBarComponent } from './editor-shell/tab-bar/tab-bar.component';
+import { AnimationInputComponent } from './editor-property/animation-input/animation-input.component';
+import { BorderInputComponent } from './editor-property/border-input/border-input.component';
+import { ColorInputComponent } from './editor-property/color-input/color-input.component';
+import { MarginInputComponent } from './editor-property/margin-input/margin-input.component';
+import { MaskInputComponent } from './editor-property/mask-input/mask-input.component';
+import { PositionInputComponent } from './editor-property/position-input/position-input.component';
+import { RadiusInputComponent } from './editor-property/radius-input/radius-input.component';
+import { ShadowInputComponent } from './editor-property/shadow-input/shadow-input.component';
+import { SideSelectComponent } from './editor-property/side-select/side-select.component';
 
 @NgModule({
     imports: [
@@ -47,6 +56,16 @@ import { TabBarComponent } from './editor-shell/tab-bar/tab-bar.component';
         ShortcutInfoComponent,
         CatalogListComponent,
         CatalogItemComponent,
+        AnimationInputComponent,
+        BorderInputComponent,
+        ColorInputComponent,
+        MarginInputComponent,
+        MaskInputComponent,
+        PositionInputComponent,
+        RadiusInputComponent,
+        ShadowInputComponent,
+        SideSelectComponent,
+
         ...controlComponents,
         ...inputComponents,
         ...panelComponents,
