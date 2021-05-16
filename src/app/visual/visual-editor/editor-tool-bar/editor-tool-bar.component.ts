@@ -16,9 +16,9 @@ export class EditorToolBarComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.service.action$.subscribe(() => {
-            this.canBack = this.service.canBack();
-            this.canForward = this.service.canForward();
+        this.service.histories.action$.subscribe(() => {
+            this.canBack = this.service.histories.canBack();
+            this.canForward = this.service.histories.canForward();
         });
     }
 

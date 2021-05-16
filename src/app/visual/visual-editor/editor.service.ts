@@ -6,6 +6,7 @@ import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
 import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType } from './model';
 import { IActionItem, ICatalogItem, IPoint, IResetEvent } from './model/core';
+import { ActionHistory } from './model/history';
 
 @Injectable({
   providedIn: 'root'
@@ -15,51 +16,28 @@ export class EditorService {
     /**
      * 主窗口变化事件
      */
-    public resize$ = new BehaviorSubject<IResetEvent|null>(null);
+    public readonly resize$ = new BehaviorSubject<IResetEvent|null>(null);
 
-    public catalogItems$ = new BehaviorSubject<ICatalogItem[]>([]);
+    public readonly catalogItems$ = new BehaviorSubject<ICatalogItem[]>([]);
     // 当前自由面板内的组件列表内容
-    public widgetCellItems$ = new BehaviorSubject<Widget[]>([]);
+    public readonly widgetCellItems$ = new BehaviorSubject<Widget[]>([]);
 
     /**
      * 拖拽创建控件
      */
-    public moveWidget$ = new Subject<WidgetMoveEvent>();
+    public readonly moveWidget$ = new Subject<WidgetMoveEvent>();
 
     /**
      * 编辑控件
      */
-    public editWidget$ = new BehaviorSubject<Widget>(null);
-    
-    public action$ = new BehaviorSubject<boolean>(true);
+    public readonly editWidget$ = new BehaviorSubject<Widget>(null);
 
     public readonly widgetItems = [...controlSource, ...inputSource, ...panelSource];
 
-    /** 
-     * 当前操作记录
-     */
-    private actionItems: IActionItem[] = [];
-    /**
-     * 当前所处的位置
-     */
-    private actionIndex = -1;
+    public readonly histories = new ActionHistory();
 
     constructor() { }
 
-
-    /**
-     * 是否能取消撤销操作
-     */
-    public canForward(): boolean {
-        return this.actionIndex >= 0 && this.actionIndex < this.actionItems.length  - 1;
-    }
-
-    /**
-     * 是否能撤销操作
-     */
-    public canBack(): boolean {
-        return this.actionIndex >= 0;
-    }
 
     /**
      * 获取唯一值

@@ -88,13 +88,13 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
             //     console.log(window.clipboardData.getData('text/plain'));
                 
             // }
-        });
-        this.renderer.listen(document, 'wheel', (event: WheelEvent) => {
-            this.ngZone.run(() => {
-                // this.hBar.move(event.deltaX);
-                this.vBar.move(event.deltaY);
-                this.refreshZoom();
-            });
+            if (event.ctrlKey && event.code === 'KeyZ') {
+                if (event.shiftKey) {
+                    this.service.histories.goForward();
+                } else {
+                    this.service.histories.goBack();
+                }
+            }
         });
         this.renderer.listen(document, 'paste', (event: any) => {
             if (event.clipboardData || event.originalEvent) {
@@ -166,6 +166,13 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
+        this.renderer.listen(this.mainRef.nativeElement, 'wheel', (event: WheelEvent) => {
+            this.ngZone.run(() => {
+                // this.hBar.move(event.deltaX);
+                this.vBar.move(event.deltaY);
+                this.refreshZoom();
+            });
+        });
         this.refreshSize();
     }
 

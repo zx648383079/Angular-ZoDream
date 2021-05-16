@@ -20,6 +20,7 @@ export class EditorWidgetComponent {
     }
 
     public moveWidget(event: MouseEvent) {
+        console.log(event);
         this.service.editWidget$.next(this.value);
     }
 

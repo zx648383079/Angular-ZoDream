@@ -13,6 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class PositionInputComponent implements ControlValueAccessor {
 
+    public positionType = 'static';
     public value: any;
     public disabled = false;
     private onChange: any = () => {};

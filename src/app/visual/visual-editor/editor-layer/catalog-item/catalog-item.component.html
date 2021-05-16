@@ -4,7 +4,7 @@
             <i class="iconfont" [ngClass]="value.icon"></i>
             <span (dblclick)="tapEdit($event)">{{ value.name }}</span>
             <div class="item-action">
-                <i class="iconfont icon-home" *ngIf="!value.canExpand" (click)="tapSetHome()"></i>
+                <i class="iconfont icon-home" *ngIf="!value.canExpand && !isWidget" (click)="tapSetHome()"></i>
                 <i class="iconfont icon-copy" *ngIf="!value.canExpand"  (click)="tapCopy()"></i>
                 <i class="iconfont icon-trash" (click)="tapTrash()"></i>
             </div>

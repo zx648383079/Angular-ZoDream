@@ -34,7 +34,8 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/assets/iconfont/iconfont.scss",
+              "src/assets/iconfont/iconfont.css",
+              "node_modules/animate.css/animate.css",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/video.js/dist/video-js.css",
@@ -107,7 +108,8 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/assets/iconfont/iconfont.scss",
+              "src/assets/iconfont/iconfont.css",
+              "node_modules/animate.css/animate.css",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/video.js/dist/video-js.css",

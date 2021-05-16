@@ -2,7 +2,7 @@ import { IItem } from '../../../theme/models/seo';
 
 // 动效名称
 export const animationLabelOptions: IItem[] = [
-    { value: 'none', name: '无' },
+    { value: '', name: '无' },
     { value: 'bounce', name: '弹跳' },
     { value: 'fadeIn', name: '渐现' },
     { value: 'fadeOut', name: '渐出' },
@@ -43,33 +43,33 @@ export const animationLabelOptions: IItem[] = [
 
 // 延时时间
 export const animationLabelDelayOptions: IItem[] = [
-    { value: '0', name: '无' },
-    { value: '0.1', name: '100ms' },
-    { value: '0.2', name: '200ms' },
-    { value: '0.3', name: '300ms' },
-    { value: '0.5', name: '500ms' },
-    { value: '1', name: '1s' },
-    { value: '2', name: '2s' },
-    { value: '3', name: '3s' },
-    { value: '4', name: '4s' },
-    { value: '5', name: '5s' },
-    { value: '6', name: '6s' },
-    { value: '7', name: '7s' },
-    { value: '8', name: '8s' },
-    { value: '9', name: '9s' },
-    { value: '10', name: '10s' },
+    { value: '', name: '无' },
+    { value: '0.1s', name: '100ms' },
+    { value: '0.2s', name: '200ms' },
+    { value: '0.3s', name: '300ms' },
+    { value: '0.5s', name: '500ms' },
+    { value: '1s', name: '1s' },
+    { value: '2s', name: '2s' },
+    { value: '3s', name: '3s' },
+    { value: '4s', name: '4s' },
+    { value: '5s', name: '5s' },
+    { value: '6s', name: '6s' },
+    { value: '7s', name: '7s' },
+    { value: '8s', name: '8s' },
+    { value: '9s', name: '9s' },
+    { value: '10s', name: '10s' },
 ];
 
 // 时长
 export const animationLabelDurationOptions: IItem[] = [
-    { value: '0.25', name: '250ms' },
-    { value: '0.5', name: '500ms' },
-    { value: '0.75', name: '750ms' },
-    { value: '1', name: '1s' },
-    { value: '2', name: '2s' },
-    { value: '3', name: '3s' },
-    { value: '4', name: '4s' },
-    { value: '5', name: '5s' },
+    { value: '0.25s', name: '250ms' },
+    { value: '0.5s', name: '500ms' },
+    { value: '0.75s', name: '750ms' },
+    { value: '1s', name: '1s' },
+    { value: '2s', name: '2s' },
+    { value: '3s', name: '3s' },
+    { value: '4s', name: '4s' },
+    { value: '5s', name: '5s' },
 ];
 
 // 重复次数
@@ -85,4 +85,12 @@ export const animationIterationCountOptions: IItem[] = [
     { value: '9', name: '9' },
     { value: '10', name: '10' },
     { value: 'infinite', name: '无限循环' },
+];
+
+export const animationFuncOptions: IItem[] = [
+    { value: 'linear', name: '线性' },
+    { value: 'ease', name: 'ease' },
+    { value: 'ease-in', name: 'ease-in' },
+    { value: 'ease-out', name: 'ease-out' },
+    { value: 'ease-in-out', name: 'ease-in-out' },
 ];

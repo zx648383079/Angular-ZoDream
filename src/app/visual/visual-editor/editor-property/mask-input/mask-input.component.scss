@@ -1,0 +1,10 @@
+.clip-path-box {
+    display: flex;
+    justify-content: space-between;
+    .shape {
+        width: .9em;
+        height: .9em;
+        background: #c8cdd0;
+        cursor: pointer;
+    }
+}

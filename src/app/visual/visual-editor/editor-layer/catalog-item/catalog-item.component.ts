@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { TreeEvent, TreeItem, TREE_ACTION } from '../../model';
+import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../model';
 
 @Component({
   selector: 'app-catalog-item',
@@ -14,6 +14,7 @@ export class CatalogItemComponent implements OnInit, OnChanges {
     @Input() public value: TreeItem;
     @Input() public level = 0;
     @Output() public tapped = new EventEmitter<TreeEvent>();
+    public isWidget = false;
 
     constructor() { }
 
@@ -34,6 +35,9 @@ export class CatalogItemComponent implements OnInit, OnChanges {
 
     public tapEdit(e: MouseEvent) {
         e.stopPropagation();
+        if (this.isWidget) {
+            return;
+        }
         this.value.onEdit = true;
         setTimeout(() => {
             if (this.InputRef) {
@@ -95,6 +99,10 @@ export class CatalogItemComponent implements OnInit, OnChanges {
     }
 
     private format() {
+        this.isWidget = this.value instanceof Widget;
+        if (this.isWidget) {
+            this.value.canExpand = this.value instanceof PanelWidget;
+        }
         if (this.value.icon) {
             return;
         }

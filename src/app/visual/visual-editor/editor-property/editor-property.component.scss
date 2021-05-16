@@ -46,8 +46,13 @@
     }
     &.open {
         >.panel-body {
-            display: none;
+            display: block;
         }
+    }
+}
+.panel-body {
+    .panel-body {
+        display: none;
     }
 }
 .icon-bar {

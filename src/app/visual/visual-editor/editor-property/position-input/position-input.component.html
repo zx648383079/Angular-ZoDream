@@ -1,4 +1,11 @@
 <div class="position-container">
-    <select name="settings[style][position][type]"><option value="static">无</option><option value="relative">相对定位</option><option value="absolute">绝对定位</option><option value="fixed">固定定位</option></select>
-    <app-margin-input></app-margin-input>
+    <select class="form-control" [(ngModel)]="positionType">
+        <option value="static">无</option>
+        <option value="relative">相对定位</option>
+        <option value="absolute">绝对定位</option>
+        <option value="fixed">固定定位</option>
+    </select>
+    <ng-container *ngIf="positionType != 'static'">
+        <app-margin-input></app-margin-input>
+    </ng-container>
 </div>

@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { cloneObject, eachObject } from '../../../theme/utils';
+import { PropertyUtil } from '../util';
 import { IBound, IPoint, ISize } from './core';
 
 export interface WidgetBound extends IBound {
@@ -48,6 +49,17 @@ export class WidgetProperty {
         return Object.prototype.hasOwnProperty.call(this.data, key);
     }
 
+    public getMany(maps: string[]) {
+        const data: any = {};
+        for (const k of maps) {
+            if (!this.has(k)) {
+                continue;
+            }
+            data[k] = this.get(k);
+        }
+        return data;
+    }
+
     public get style(): IStyle {
         const data: IStyle = {};
         const defMap = {
@@ -64,29 +76,10 @@ export class WidgetProperty {
             }
             data[k] = val;
         });
-        const transform = [];
-        if (this.has('rotate')) {
-            transform.push('rotate(' + this.degToAngle(this.get('rotate')) + 'deg)')
-        }
-        if (this.has('scale')) {
-            transform.push('scale(' + this.get('scale') + ')');
-        }
-        if (this.has('skew')) {
-            transform.push('skew(' + this.get('skew') + ')');
-        }
-        if (transform.length > 0) {
-            data.transform = transform.join(' ');
-        }
-        return data;
+        return PropertyUtil.mergeStyle(data, PropertyUtil.transform(this));
     }
 
-    private degToAngle(i: number) {
-        i = (i - 90) % 360;
-        if (i < 0) {
-            i += 360;
-        }
-        return i * Math.PI / 180 ;
-    }
+
 }
 
 export class EventManager {

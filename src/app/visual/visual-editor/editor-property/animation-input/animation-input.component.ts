@@ -1,5 +1,7 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { animationFuncOptions, animationIterationCountOptions, animationLabelDelayOptions, animationLabelDurationOptions, animationLabelOptions } from '../../model';
+import { PropertyUtil } from '../../util';
 
 @Component({
     selector: 'app-animation-input',
@@ -13,10 +15,26 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class AnimationInputComponent implements ControlValueAccessor {
 
-    public value: any;
+    public items = animationLabelOptions;
+    public delayItems = animationLabelDelayOptions;
+    public durationItems = animationLabelDurationOptions;
+    public loopItems = animationIterationCountOptions;
+    public funcItems = animationFuncOptions;
+
+    public value = {
+        name: '',
+        duration: '',
+        func: 'linear',
+        delay: '',
+        loop: '',
+    };
     public disabled = false;
     private onChange: any = () => {};
     private onTouch: any = () => {};
+
+    public get boxStyle() {
+        return PropertyUtil.animation(this.value);
+    }
 
     constructor() { }
 
