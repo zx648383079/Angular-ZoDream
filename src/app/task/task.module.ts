@@ -6,8 +6,23 @@ import { ThemeModule } from '../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEchartsModule } from 'ngx-echarts';
-import * as echarts from 'echarts';
 import { DialogModule } from '../dialog';
+import * as echarts from 'echarts/core';
+import { LineChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent
+} from 'echarts/components';
+// Import the Canvas renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
+import {
+  CanvasRenderer
+} from 'echarts/renderers';
+import 'echarts/theme/macarons.js';
+
+echarts.use(
+  [TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]
+);
 
 @NgModule({
     imports: [
