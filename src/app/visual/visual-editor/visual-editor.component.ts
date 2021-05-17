@@ -216,7 +216,6 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     }
 
     public onContext(e: MouseEvent) {
-        e.stopPropagation();
         const navItems = this.inSelection(e.clientX, e.clientY) ? menu.EditorSelected : menu.EditorNotSelected;
         this.contextMenu.show(e, navItems);
         return false;

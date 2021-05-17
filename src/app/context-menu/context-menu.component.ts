@@ -34,16 +34,17 @@ export class ContextMenuComponent {
         };
     }
 
-    public show(x: number, y: number): void;
-    public show(event: MouseEvent): void;
-    public show(event: MouseEvent, nav: IMenuItem[]): void;
-    public show(x: number, y: number, nav: IMenuItem[]): void;
+    public show(x: number, y: number): false;
+    public show(event: MouseEvent): false;
+    public show(event: MouseEvent, nav: IMenuItem[]): false;
+    public show(x: number, y: number, nav: IMenuItem[]): false;
 
-    public show(event: MouseEvent, nav: IMenuItem[], cb: MenuEvent): void;
-    public show(x: number, y: number, nav: IMenuItem[], cb: MenuEvent): void;
+    public show(event: MouseEvent, nav: IMenuItem[], cb: MenuEvent): false;
+    public show(x: number, y: number, nav: IMenuItem[], cb: MenuEvent): false;
 
     public show(x: number|MouseEvent, y?: number | IMenuItem[], nav?: IMenuItem[] | MenuEvent, cb?: MenuEvent) {
         if (typeof x === 'object') {
+            x.stopPropagation();
             [y, nav, cb] = [x.clientY, y as IMenuItem[], nav as MenuEvent];
             x = x.clientX;
         }
@@ -56,6 +57,7 @@ export class ContextMenuComponent {
             this.finished = cb;
         }
         this.isOpen = true;
+        return false;
     }
 
     public tapMenuItem(item: IMenuButton) {

@@ -82,7 +82,6 @@ export class PageEditComponent implements OnInit {
     }
 
     public tapContextMenu(e: MouseEvent, parent?: IDocPage) {
-        e.stopPropagation();
         this.contextMenu.show(e.clientX, e.clientY, [
             {
                 name: '新建文件夹',

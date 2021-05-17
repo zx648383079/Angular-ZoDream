@@ -52,7 +52,6 @@ export class EditorRuleBarComponent implements OnInit {
     }
 
     public tapIcon(event: MouseEvent) {
-        event.stopPropagation();
         this.contextMenu.show(event, [
             {
                 name: this.lineVisible ? '隐藏辅助线' : '显示辅助线',

@@ -86,7 +86,6 @@ export class ApiEditComponent implements OnInit {
     }
 
     public tapContextMenu(e: MouseEvent, parent?: IDocApi) {
-        e.stopPropagation();
         this.contextMenu.show(e, [
             {
                 name: '新建文件夹',
