@@ -1,156 +1,131 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "angular-zodream": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/angular-zodream",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
-            "allowedCommonJsDependencies": [
-              "lodash",
-              "jsonapi-deserializer"
-           ],
-            "assets": [
-              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" },
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ],
-            "styles": [
-              "src/assets/iconfont/iconfont.css",
-              "node_modules/animate.css/animate.css",
-              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "node_modules/video.js/dist/video-js.css",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/pace-js/pace.min.js"
-            ],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all",
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+      "analytics": false
+    },
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "angular-zodream": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
                 },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
+                "@schematics/angular:application": {
+                    "strict": true
                 }
-              ]
             },
-            "development": {
-                "buildOptimizer": false,
-                "optimization": false,
-                "vendorChunk": true,
-                "extractLicenses": false,
-                "sourceMap": true,
-                "namedChunks": true
-              }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "angular-zodream:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "angular-zodream:build:production"
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/angular-zodream",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.app.json",
+                        "allowedCommonJsDependencies": [
+                            "lodash",
+                            "jsonapi-deserializer"
+                        ],
+                        "assets": [{
+                                "glob": "**/*",
+                                "input": "node_modules/tinymce",
+                                "output": "/tinymce/"
+                            },
+                            "src/favicon.ico",
+                            "src/assets",
+                            "src/manifest.webmanifest"
+                        ],
+                        "styles": [
+                            "src/assets/iconfont/iconfont.css",
+                            "node_modules/animate.css/animate.css",
+                            "node_modules/@ng-select/ng-select/themes/default.theme.css",
+                            "node_modules/video.js/dist/video-js.css",
+                            "src/styles.scss"
+                        ],
+                        "scripts": [
+                        ],
+                        "serviceWorker": true,
+                        "ngswConfigPath": "ngsw-config.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [{
+                                "replace": "src/environments/environment.ts",
+                                "with": "src/environments/environment.prod.ts"
+                            }],
+                            "outputHashing": "all",
+                            "budgets": [{
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "20kb"
+                                }
+                            ]
+                        },
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "angular-zodream:build:production"
+                        },
+                        "development": {
+                            "browserTarget": "angular-zodream:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "angular-zodream:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets",
+                            "src/manifest.webmanifest"
+                        ],
+                        "styles": [
+                            "src/assets/iconfont/iconfont.css",
+                            "node_modules/animate.css/animate.css",
+                            "node_modules/@ng-select/ng-select/themes/default.theme.css",
+                            "node_modules/video.js/dist/video-js.css",
+                            "src/styles.scss"
+                        ],
+                        "scripts": [
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "angular-zodream:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ],
-            "styles": [
-              "src/assets/iconfont/iconfont.css",
-              "node_modules/animate.css/animate.css",
-              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "node_modules/video.js/dist/video-js.css",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/pace-js/pace.min.js"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-zodream:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "angular-zodream:serve:production"
-            }
-          }
         }
-      }
-    }
-  },
-  "defaultProject": "angular-zodream",
-  "cli": {
-    "analytics": "10b408ea-8da9-42c9-a34a-d524002409fc"
-  }
+    },
+    "defaultProject": "angular-zodream"
 }

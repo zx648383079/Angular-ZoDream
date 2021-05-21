@@ -4,5 +4,5 @@ export const RectangleControl: WidgetSource = {
     name: '矩形',
     tag: 'rectangle',
     icon: 'icon-rect',
-    type: WidgetType.CONTROL,
+    type: WidgetType.ELEMENT,
 };

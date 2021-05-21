@@ -108,10 +108,10 @@ export class EditorService {
     }
 
     private newWidgetType(source: WidgetSource): Widget {
-        if (source.type === WidgetType.CONTROL) {
-            return new Widget();
+        if (source.type === WidgetType.PANEL) {
+            return new PanelWidget();
         }
-        return new PanelWidget();
+        return new Widget();
     }
 
     private findSource(source: WidgetPreview): WidgetSource {

@@ -328,7 +328,11 @@ export interface WidgetPreview {
 }
 
 export enum WidgetType {
+    // 基本图形，无法编辑内容
+    ELEMENT,
+    // 包含内容，标题文字
     CONTROL,
+    // 包含标题，可以放置子控件
     PANEL,
 }
 

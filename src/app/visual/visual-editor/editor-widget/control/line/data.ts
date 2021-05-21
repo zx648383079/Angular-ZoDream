@@ -4,5 +4,5 @@ export const LineControl: WidgetSource = {
     name: '线条',
     tag: 'line',
     icon: 'icon-line',
-    type: WidgetType.CONTROL,
+    type: WidgetType.ELEMENT,
 };

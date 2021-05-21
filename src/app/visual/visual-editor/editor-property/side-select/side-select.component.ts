@@ -13,13 +13,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SideSelectComponent implements ControlValueAccessor {
 
-    public value: any;
+    public value = {
+        left: false,
+        right: false,
+        top: false,
+        bottom: false,
+    };
     public disabled = false;
     private onChange: any = () => {};
     private onTouch: any = () => {};
 
     constructor() { }
 
+    public tapSide(k: string) {
+        this.value[k] = !this.value[k];
+    }
 
     writeValue(obj: any): void {
         this.value = obj;

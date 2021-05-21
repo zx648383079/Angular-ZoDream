@@ -95,6 +95,12 @@
         flex: 1;
         width: 100%;
     }
+    app-progress-bar {
+        margin-top: .5em;
+    }
+    input[type="number"] {
+        width: 3em;
+    }
 }
 
 .side-input {

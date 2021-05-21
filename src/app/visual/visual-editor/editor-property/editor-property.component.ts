@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EditorService } from '../editor.service';
-import { alginOptions } from '../model';
+import { alginOptions, WidgetType } from '../model';
 
 @Component({
   selector: 'app-editor-property',
@@ -15,6 +15,7 @@ export class EditorPropertyComponent implements OnInit {
 
     public panelVisible = false;
     public tabIndex = 0;
+    public widgetType = WidgetType.CONTROL;
 
     public alginItems = alginOptions;
 

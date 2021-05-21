@@ -1,12 +1,16 @@
 .side-container {
     position: relative;
-    height: 100px;
+    height: 8em;
     .top,
     .left,
     .right,
     .bottom {
         position: absolute;
         text-align: center;
+        cursor: default;
+        user-select: none;
+        padding: .2em .6em;
+        border: 1px solid #ccc;
         &.active {
             background: red;
             color: white;
@@ -14,18 +18,18 @@
     }
     .top {
         top: 0;
-        left: 30px;
+        left: 2em;
     }
     .right {
-        top: 30px;
-        left: 60px;
+        top: 2em;
+        left: 4em;
     }
     .bottom {
-        top: 60px;
-        left: 30px;
+        top: 4em;
+        left: 2em;
     }
     .left {
-        top: 30px;
+        top: 2em;
         left: 0px;
     }
 }
