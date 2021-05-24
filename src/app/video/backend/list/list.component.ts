@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { IVideo } from '../../model';
 import { VideoService } from '../video.service';
 
@@ -15,11 +17,13 @@ export class ListComponent implements OnInit {
     public items: IVideo[] = [];
 
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
 
     constructor(
         private service: VideoService,
@@ -28,7 +32,10 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapPlay(item: IVideo) {
@@ -48,11 +55,11 @@ export class ListComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -63,20 +70,18 @@ export class ListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.videoList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.videoList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

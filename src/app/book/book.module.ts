@@ -5,6 +5,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { BookService } from './book.service';
 import { ChapterCatalogComponent } from './chapter/catalog/chapter-catalog.component';
 import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
+import { ContextMenuModule } from '../context-menu';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
     imports: [
         CommonModule,
         ThemeModule,
-        BookRoutingModule
+        BookRoutingModule,
+        ContextMenuModule,
     ],
     providers: [
         BookService

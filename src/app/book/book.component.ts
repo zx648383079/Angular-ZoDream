@@ -38,7 +38,7 @@ export class BookComponent implements OnInit {
         {
             name: '请登录',
             icon: 'icon-user',
-            url: './'
+            url: './member'
         },
         {
             name: '设置',

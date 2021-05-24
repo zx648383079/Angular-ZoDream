@@ -152,15 +152,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         this.loginSubs = this.authService
             .login(data)
-            .subscribe(_ => {},
-                err => {
+            .subscribe({
+                error: err => {
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);
                     if (res.captcha_token) {
                         this.captchaToken = res.captcha_token;
                     }
                     this.tapCaptcha();
-                });
+                }
+            });
     }
 
 

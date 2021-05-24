@@ -110,13 +110,15 @@ export class DetailComponent implements OnInit {
             return;
         }
         const data = Object.assign({blog_id: this.data.id}, this.commentData);
-        this.service.commentSave(data).subscribe(_ => {
-            this.toastrService.success('评论成功！');
-            this.commentData.content = '';
-            this.commentData.parent_id = 0;
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.commentSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success('评论成功！');
+                this.commentData.content = '';
+                this.commentData.parent_id = 0;
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 

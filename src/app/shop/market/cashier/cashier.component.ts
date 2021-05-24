@@ -74,15 +74,17 @@ export class CashierComponent implements OnInit {
         if (!this.address || !this.cartData) {
             return;
         }
-        this.service.shippingList(this.cartData.goods, this.address.id, this.cartData.type).subscribe(res => {
-            if (res.data && res.data.length > 0) {
-                this.shippingItems = res.data;
-                return;
+        this.service.shippingList(this.cartData.goods, this.address.id, this.cartData.type).subscribe({
+            next: res => {
+                if (res.data && res.data.length > 0) {
+                    this.shippingItems = res.data;
+                    return;
+                }
+                this.toastrService.warning('当前地址不支持配送');
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
             }
-            this.toastrService.warning('当前地址不支持配送');
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
         });
     }
 
@@ -149,16 +151,18 @@ export class CashierComponent implements OnInit {
             this.toastrService.warning('请输入收货人姓名');
             return;
         }
-        this.service.addressSave(data).subscribe(res => {
-            this.addressIsEdit = false;
-            this.address = res;
-            this.addressItems = this.addressItems.map(i => {
-                return i.id === res.id ? res : i;
-            });
-            this.onAddressChanged();
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.addressSave(data).subscribe({
+            next: res => {
+                this.addressIsEdit = false;
+                this.address = res;
+                this.addressItems = this.addressItems.map(i => {
+                    return i.id === res.id ? res : i;
+                });
+                this.onAddressChanged();
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 

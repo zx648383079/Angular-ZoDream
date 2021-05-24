@@ -78,6 +78,10 @@ export class HomeComponent implements OnInit {
             url: '/visual'
         },
         {
+            name: 'WeChat',
+            url: '/wx'
+        },
+        {
             name: 'Backend',
             url: '/backend'
         }

@@ -21,6 +21,7 @@ import {
 import { AuthActions } from '../theme/actions';
 import { backendBottomMenu, backendMenuItems } from './menu';
 import { DialogService } from '../dialog';
+import { MenuService } from './menu.service';
 
 @Component({
     selector: 'app-backend',
@@ -29,21 +30,9 @@ import { DialogService } from '../dialog';
 })
 export class BackendComponent implements OnInit {
 
-    public navItems: INav[] = [
-        {
-            name: '首页',
-            icon: 'icon-home',
-            url: './'
-        },
-    ];
+    public navItems: INav[] = [];
 
-    public bottomNavs: INav[] = [
-        {
-            name: '登录',
-            icon: 'icon-user',
-            url: './user/profile'
-        },
-    ];
+    public bottomNavs: INav[] = [];
 
 
 
@@ -52,17 +41,18 @@ export class BackendComponent implements OnInit {
         private actions: AuthActions,
         private service: BackendService,
         private toastrService: DialogService,
+        private menuService: MenuService,
     ) {
+        this.menuService.change$.subscribe(res => {
+            this.navItems = res.items;
+            this.bottomNavs = res.bottom;
+        });
         this.store.select(getCurrentUser).subscribe(user => {
-            if (!user) {
-                return;
-            }
-            this.bottomNavs[0].name = user.name;
+            this.menuService.setUser(user);
         });
         // 订阅 roles 变化
         this.store.select(getUserRole).subscribe(roles => {
-            this.navItems = [].concat([this.navItems[0]], this.service.filterNavByRole(backendMenuItems, roles));
-            this.bottomNavs = [].concat([this.bottomNavs[0]], this.service.filterNavByRole(backendBottomMenu, roles));
+            this.menuService.setRole(roles);
         });
         this.service.roles().subscribe(res => {
             // 设置 roles

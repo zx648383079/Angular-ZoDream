@@ -45,11 +45,14 @@ export class EditContentComponent implements OnInit {
         images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
           const form = new FormData();
           form.append('file', blobInfo.blob(), blobInfo.filename());
-          this.uploadService.uploadImages(form).subscribe(res => {
-            success(res[0].url);
-          }, err => {
-            failure(err.error.message);
-          });
+          this.uploadService.uploadImages(form).subscribe({
+            next: res => {
+                success(res[0].url);
+            }, 
+            error: err => {
+                failure(err.error.message);
+            }
+        });
         },
     };
 

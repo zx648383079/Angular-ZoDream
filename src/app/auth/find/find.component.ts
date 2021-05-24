@@ -41,12 +41,14 @@ export class FindComponent implements OnInit {
 
     public tapSubmit() {
         if (!this.sended) {
-            this.service.sendFindEmail(this.findForm.get('email').value).subscribe(res => {
-                this.toastrService.success(res.message);
-                this.sended = true;
-            }, err => {
-                const res = err.error as IErrorResponse;
-                this.toastrService.warning(res.message);
+            this.service.sendFindEmail(this.findForm.get('email').value).subscribe({
+                next: res => {
+                    this.toastrService.success(res.message);
+                    this.sended = true;
+                }, error: err => {
+                    const res = err.error as IErrorResponse;
+                    this.toastrService.warning(res.message);
+                }
             });
             return;
         }
@@ -59,12 +61,14 @@ export class FindComponent implements OnInit {
             this.toastrService.warning('请输入新密码');
             return;
         }
-        this.service.resetPassword(data).subscribe(_ => {
-            this.toastrService.success('成功找回密码');
-            this.router.navigate(['../'], {relativeTo: this.route});
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.resetPassword(data).subscribe({
+            next: _ => {
+                this.toastrService.success('成功找回密码');
+                this.router.navigate(['../'], {relativeTo: this.route});
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 }

@@ -79,14 +79,16 @@ export class PublishFormComponent {
                     file: i.url,
                 }
             }),
-        }).subscribe(res => {
-            this.toastrService.success('发布成功！');
-            this.fileItems = [];
-            this.content = '';
-            this.published.emit(res);
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        }).subscribe({
+            next: res => {
+                this.toastrService.success('发布成功！');
+                this.fileItems = [];
+                this.content = '';
+                this.published.emit(res);
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 

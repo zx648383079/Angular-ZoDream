@@ -20,61 +20,69 @@ import { TopComponent } from './top/top.component';
 import { BookDetailComponent } from './detail/book-detail.component';
 import { EditListComponent } from './list/edit/edit-list.component';
 import { SettingComponent } from './setting/setting.component';
+import { BookEditorComponent } from './editor/book-editor.component';
 
-const routes: Routes = [{
-    path: '',
-    component: BookComponent,
-    children: [
-        {
-            path: 'setting',
-            component: SettingComponent,
-        },
-        {
-            path: 'category',
-            component: CategoryComponent
-        },
-        {
-            path: 'search',
-            component: SearchComponent
-        },
-        {
-            path: 'list/edit/:id',
-            component: EditListComponent,
-        },
-        {
-            path: 'list/create',
-            component: EditListComponent,
-        },
-        {
-            path: 'list/:id',
-            component: DetailComponent
-        },
-        {
-            path: 'list',
-            component: ListComponent
-        },
-        {
-            path: 'top',
-            component: TopComponent
-        },
-        {
-            path: 'chapter/:id',
-            component: ChapterComponent
-        },
-        {
-            path: 'reader/:book/:id',
-            component: ReaderComponent
-        },
-        {
-            path: ':id',
-            component: BookDetailComponent
-        },
-        {
-            path: '',
-            component: HomeComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: 'member/book/:id',
+        component: BookEditorComponent,
+    },
+    {
+        path: '',
+        component: BookComponent,
+        children: [
+            {
+                path: 'setting',
+                component: SettingComponent,
+            },
+            {
+                path: 'category',
+                component: CategoryComponent
+            },
+            {
+                path: 'search',
+                component: SearchComponent
+            },
+            {
+                path: 'list/edit/:id',
+                component: EditListComponent,
+            },
+            {
+                path: 'list/create',
+                component: EditListComponent,
+            },
+            {
+                path: 'list/:id',
+                component: DetailComponent
+            },
+            {
+                path: 'list',
+                component: ListComponent
+            },
+            {
+                path: 'top',
+                component: TopComponent
+            },
+            {
+                path: 'chapter/:id',
+                component: ChapterComponent
+            },
+            {
+                path: 'reader/:book/:id',
+                component: ReaderComponent
+            },
+            { path: 'member', loadChildren: () => import('./member/book-member.module').then(m => m.BookMemberModule) },
+            {
+                path: ':id',
+                component: BookDetailComponent
+            },
+            {
+                path: '',
+                component: HomeComponent
+            }
+        ]
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
@@ -96,4 +104,5 @@ export const bookRoutingComponents = [
     BookDetailComponent,
     EditListComponent,
     SettingComponent,
+    BookEditorComponent,
 ];

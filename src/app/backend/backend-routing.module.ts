@@ -88,11 +88,15 @@ const routes: Routes = [{
             loadChildren: () => import('../cms/backend/cms-backend.module').then(m => m.CmsBackendModule)
         },
         {
+            path: 'wx',
+            loadChildren: () => import('../wechat/backend/wechat-backend.module').then(m => m.WechatBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },
     ]
-}, ];
+},];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

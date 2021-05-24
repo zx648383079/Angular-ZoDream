@@ -1,0 +1,56 @@
+.editor-box {
+    .editor-template-box {
+        width: 520px;
+        float: left;
+        height: 800px;
+        position: relative;
+        .template-menu {
+            width: 80px;
+            li {
+                text-align: center;
+                line-height: 30px;
+                list-style: none;
+                cursor: pointer;
+                &.active {
+                    background: #333;
+                    color: #fff;
+                }
+            }
+        }
+        .template-box {
+            overflow-x: hidden;
+            height: 800px;
+            width: 440px;
+            position: absolute;
+            top: 0;
+            left: 80px;
+            border: 4px solid #D8D8D8;
+            overflow-y: auto;
+            padding: 0 5px;
+            .templdate-list {
+                li {
+                    list-style: none outside none;
+                    margin-top:15px;
+                    position:relative;
+                    cursor:pointer;
+                    overflow:visible;
+                    min-height:64px;
+                    // img {
+                    //     max-width: 100%;
+                    //     min-height: 110px;
+                    // }
+                    &:hover {
+                        box-shadow:rgb(239, 112, 96) 0px 0px 5px 1px;
+                    }
+                }
+            }
+        }
+    }
+    .editor {
+        width: 440px;
+        height: 800px;
+        float: left;
+        border: 4px dotted #D8D8D8;
+    }
+    
+}

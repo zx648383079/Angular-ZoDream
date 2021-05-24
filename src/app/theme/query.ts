@@ -65,7 +65,7 @@ export function applyHistory(queries: any, scrollTop: boolean): void;
  * @param check 移除一些默认的参数
  * @param scrollTop 是否回到顶部
  */
-export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn = '查询列表', check: HistoryCheckFn = val => val !== 0 && val !== '', scrollTop = true): void {
+export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn = '查询列表', check: HistoryCheckFn = queriesCheckFn, scrollTop = true): void {
     if (typeof title === 'function') {
         [check, title] = [title, '查询列表']
     } else if (typeof title === 'boolean') {
@@ -80,8 +80,22 @@ export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn 
     });
     const url = window.location.href;
     const path = url.split('?', 2)[0];
-    history.pushState(null, title, uriEncode(path, params));
+    const newUrl = uriEncode(path, params);
+    if (url !== newUrl) {
+        history.pushState(null, title, newUrl);
+    }
     if (scrollTop) {
         document.documentElement.scrollTop = 0;
     }
 };
+
+export function queriesDefaultCheck(params: any): HistoryCheckFn {
+    return (val, name) => {
+        if (val === 0 || val === '' || val === null || val === false) {
+            return false;
+        }
+        return !params || !Object.prototype.hasOwnProperty.call(params, name) || params[name] !== val;
+    };
+}
+
+export const queriesCheckFn: HistoryCheckFn = queriesDefaultCheck({keywords: '', page: 1, per_page: 20});

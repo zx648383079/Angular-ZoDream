@@ -58,11 +58,11 @@ export class RegisterComponent implements OnInit {
             return;
         }
         this.authService
-            .register(Object.assign({}, this.registerForm.value)).subscribe(_ => {
-
-            }, err => {
-                const res = err.error as IErrorResponse;
-                this.toastrService.warning(res.message);
+            .register(Object.assign({}, this.registerForm.value)).subscribe({
+                error: err => {
+                    const res = err.error as IErrorResponse;
+                    this.toastrService.warning(res.message);
+                }
             });
     }
 

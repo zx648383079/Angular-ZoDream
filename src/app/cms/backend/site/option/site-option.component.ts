@@ -76,11 +76,13 @@ export class SiteOptionComponent implements OnInit {
     }
 
     public tapSubmit() {
-        this.service.optionSave(this.id, this.items).subscribe(res => {
-            this.toastrService.success('保存成功');
-            history.back();
-        }, err => {
-            this.toastrService.warning(err.error.message);
+        this.service.optionSave(this.id, this.items).subscribe({
+            next: res => {
+                this.toastrService.success('保存成功');
+                history.back();
+            }, error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 

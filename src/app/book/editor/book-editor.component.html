@@ -1,0 +1,80 @@
+<div class="editor-container">
+    <div class="top-container">
+        <div class="input-group">
+            <label for="name">书名</label>
+            <div>
+                <input type="text" id="name" class="form-control">
+
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="cover">封面</label>
+            <div>
+                <app-file-input></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">简介</label>
+            <div>
+                <textarea id="description" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="editor-body">
+        <div class="catalog-container">
+            <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
+                <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
+                    <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
+                        <i class="iconfont" [ngClass]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
+                        {{ item.name }}
+                    </div>
+                    <ul class="tree-body">
+                        <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
+                            <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="tip">
+                    右键新增目录
+                </li>
+            </ul>
+        </div>
+        <div class="body-container">
+            <div class="title-input">
+                <label for="name">名称</label>
+                <input type="text" id="name" class="form-control">
+            </div>
+        
+            <div class="edit-area" *ngIf="data.type < 1">
+                <textarea class="form-control"></textarea>
+                <div class="edit-tip">
+                    已输入 0 个字符
+                </div>
+            </div>
+            <app-panel title="附加属性">
+                <div class="input-group">
+                    <label for="price">价格</label>
+                    <div>
+                        <input type="text" id="price" class="form-control">
+                        <div class="input-tip">为0表示免费章节</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="source">来源</label>
+                    <div>
+                        <input type="text" id="source" class="form-control" >
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="position">排序</label>
+                    <div>
+                        <input type="text" id="position" class="form-control" size="4">
+                    </div>
+                </div>
+            </app-panel>
+            <button type="submit" class="btn btn-success">确认保存</button>
+        </div>
+    </div>
+</div>
+
+<app-context-menu></app-context-menu>

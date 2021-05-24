@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-edit-header',
@@ -7,27 +7,27 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 })
 export class EditHeaderComponent implements OnChanges {
 
-  @Input() title = '';
+    @Input() public title = '';
 
-  @Input() min = false;
+    @Input() public min = false;
 
-  @Input() disabled = false;
+    @Input() public disabled = false;
 
-  @Output() submited = new EventEmitter();
+    @Output() public submited = new EventEmitter();
 
-  constructor() { }
+    constructor() { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.title) {
-      document.title = changes.title.currentValue;
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.title) {
+            document.title = changes.title.currentValue;
+        }
     }
-  }
 
-  public tapSubmit() {
-    if (this.disabled) {
-      return;
+    public tapSubmit() {
+        if (this.disabled) {
+            return;
+        }
+        this.submited.emit();
     }
-    this.submited.emit();
-  }
 
 }

@@ -67,10 +67,12 @@ export class ProfileComponent implements OnInit {
             return;
         }
         const data: any = Object.assign({}, this.form.value);
-        this.service.uploadProfile(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-        }, err => {
-            this.toastrService.warning(err.error.message);
+        this.service.uploadProfile(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+            }, error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 

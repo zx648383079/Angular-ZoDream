@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
-import { IErrorResponse } from '../../../../theme/models/page';
+import { IErrorResponse, IErrorResult } from '../../../../theme/models/page';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { IMusic } from '../../../model';
 import { VideoService } from '../../video.service';
@@ -71,24 +71,28 @@ export class EditMusicComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        this.service.musicSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.musicSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
     public uploadFile(event: any, name: string = 'path') {
         const files = event.target.files as FileList;
-        this.uploadService.uploadAudio(files[0]).subscribe(res => {
-            this.form.get(name).setValue(res.url);
-            this.loadDuration(res);
-            this.loadName(res);
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.uploadService.uploadAudio(files[0]).subscribe({
+            next: res => {
+                this.form.get(name).setValue(res.url);
+                this.loadDuration(res);
+                this.loadName(res);
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 

@@ -46,18 +46,20 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.service.profile().subscribe(user => {
-            this.user = user;
-            this.form.patchValue({
-                name: user.name,
-                email: user.email,
-                mobile: '',
-                sex: user.sex,
-                birthday: user.birthday,
-              });
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.profile().subscribe({
+            next: user => {
+                this.user = user;
+                this.form.patchValue({
+                    name: user.name,
+                    email: user.email,
+                    mobile: '',
+                    sex: user.sex,
+                    birthday: user.birthday,
+                });
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 
@@ -74,10 +76,12 @@ export class ProfileComponent implements OnInit {
             return;
         }
         const data: any = Object.assign({}, this.form.value);
-        this.service.uploadProfile(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-        }, err => {
-            this.toastrService.warning(err.error.message);
+        this.service.uploadProfile(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+            }, error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 

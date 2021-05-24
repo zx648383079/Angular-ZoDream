@@ -1,0 +1,41 @@
+<div class="form-table">
+    <div class="input-group">
+        <label for="title">素材标题</label>
+        <div>
+            <input type="text" id="title" class="form-control" name="title">
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="parent_id">主素材</label>
+        <div>
+            <select id="parent_id" name="parent_id" class="form-control">
+                <option value="0" selected="">无</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="thumb">封面</label>
+        <div>
+            <input type="text" id="thumb" class="form-control" name="thumb">
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="show_cover">显示封面</label>
+        <div>
+            <app-switch name="show_cover"></app-switch>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="open_comment">开启评论</label>
+        <div>
+            <app-switch name="open_comment"></app-switch>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="only_comment">评论人</label>
+        <div>
+            <app-check-input [items]="onlyItems"></app-check-input>
+        </div>
+    </div>
+    <app-template-editor></app-template-editor>
+</div>

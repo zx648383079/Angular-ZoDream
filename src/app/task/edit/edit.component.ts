@@ -113,11 +113,13 @@ export class EditComponent implements OnInit {
                 id: this.editData?.id,
                 description: this.editData.description,
                 every_time: this.data?.every_time,
-            }).subscribe(res => {
-                this.toastrService.success('保存成功');
-                this.items.push(res);
-            }, err => {
-                this.toastrService.warning(err.message);
+            }).subscribe({
+                    next: res => {
+                    this.toastrService.success('保存成功');
+                    this.items.push(res);
+                }, error: err => {
+                    this.toastrService.warning(err.message);
+                }
             });
         }, () => !emptyValidate(this.editData.name));
     }

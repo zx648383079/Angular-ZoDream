@@ -45,19 +45,21 @@ export class AddressComponent implements OnInit {
             this.toastrService.warning('请输入收货人姓名');
             return;
         }
-        this.service.addressSave(data).subscribe(res => {
-            this.dialogOpen = false;
-            this.toastrService.success(data.id > 0 ? '地址已修改' : '地址已增加');
-            if (!data.id) {
-                this.items.push(res);
-                return;
+        this.service.addressSave(data).subscribe({
+            next: res => {
+                this.dialogOpen = false;
+                this.toastrService.success(data.id > 0 ? '地址已修改' : '地址已增加');
+                if (!data.id) {
+                    this.items.push(res);
+                    return;
+                }
+                this.items = this.items.map(i => {
+                    return i.id === res.id ? res : i;
+                });
+            }, error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
             }
-            this.items = this.items.map(i => {
-                return i.id === res.id ? res : i;
-            });
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
         });
     }
 

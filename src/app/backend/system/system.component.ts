@@ -85,10 +85,13 @@ export class SystemComponent implements OnInit {
         }
         this.service.optionSave({
             option
-        }).subscribe(res => {
-            this.toastrService.success('保存成功');
-        }, err => {
-            this.toastrService.warning(err.error.message);
+        }).subscribe({
+            next: () => {
+                this.toastrService.success('保存成功');
+            },
+            error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -127,10 +130,12 @@ export class SystemComponent implements OnInit {
             if (emptyValidate(this.editData.name)) {
                 return false;
             }
-            this.service.optionSaveField(this.editData).subscribe(res => {
-                this.toastrService.success('保存成功');
-            }, err => {
-                this.toastrService.warning(err.error.message);
+            this.service.optionSaveField(this.editData).subscribe({
+                next: () => {
+                    this.toastrService.success('保存成功');
+                }, error: err => {
+                    this.toastrService.warning(err.error.message);
+                }
             });
         })
     }

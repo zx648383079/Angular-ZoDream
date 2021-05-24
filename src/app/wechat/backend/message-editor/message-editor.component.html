@@ -1,0 +1,64 @@
+<div class="input-group">
+    <label for="type">响应类型</label>
+    <div>
+        <select id="type" [(ngModel)]="value.type" class="form-control">
+            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+        </select>
+    </div>
+</div>
+<ng-container *ngIf="value.type < 1">
+    <textarea class="form-control"></textarea>
+</ng-container>
+
+<ng-container *ngIf="value.type == 3">
+    <div class="input-group">
+        <label for="template_id">模板ID</label>
+        <input type="text" id="template_id" class="form-control" name="editor[template_id]" placeholder="示例：模板ID">
+    </div>
+    <div class="input-group">
+        <label for="template_id">链接</label>
+        <input type="text" id="template_url" name="editor[template_url]" class="form-control">
+    </div>
+    <textarea class="form-control" placeholder="模板参数：key=value 换行"></textarea>
+</ng-container>
+<ng-container *ngIf="value.type == 4">
+    <div class="input-group">
+        <label for="content">参数</label>
+        <div>
+            <input type="text" id="content" class="form-control" name="content" placeholder="示例：参数">
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="value.type == 5">
+    <div class="input-group">
+        <label for="content">网址</label>
+        <div>
+            <input type="text" id="content" class="form-control" name="content" placeholder="示例：网址">
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="value.type == 6">
+    <div class="input-group">
+        <label for="module1">APPID</label>
+        <input type="text" id="module1" name="editor[appid]" placeholder="小程序APPID">
+    </div>
+    <div class="input-group">
+        <label for="module1">路径</label>
+        <input type="text" id="module1" name="editor[path]" placeholder="小程序页面路径">
+    </div>
+    <div class="input-group">
+        <label for="module1">替代网址</label>
+        <input type="text" id="module1" name="editor[url]" placeholder="老版微信不支持小程序时替代网址">
+    </div>
+</ng-container>
+<ng-container *ngIf="value.type == 7">
+    <div class="input-group">
+        <label for="content">场景</label>
+        <div class="">
+            <select id="content" name="content">
+                <option value="">请选择</option>
+                <option *ngFor="let item of sceneItems" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+</ng-container>

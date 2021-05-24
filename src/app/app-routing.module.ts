@@ -43,6 +43,7 @@ const routes: Routes = [
     { path: 'catering', loadChildren: () => import('./catering/catering.module').then(m => m.CateringModule) },
     { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
     { path: 'doc', loadChildren: () => import('./document/document.module').then(m => m.DocumentModule) },
+    { path: 'wx', loadChildren: () => import('./wechat/wechat.module').then(m => m.WechatModule) },
     {
         path: 'finance',
         canActivate: [CanActivateViaAuthGuard],
