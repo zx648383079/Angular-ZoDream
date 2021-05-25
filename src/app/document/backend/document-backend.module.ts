@@ -16,9 +16,10 @@ import {
 } from './backend-routing.module';
 import { DocumentService } from './document.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { ZoEditorModule } from '../../editor/editor.module';
+import { ZreEditorModule } from '../../editor/editor.module';
 import { ContextMenuModule } from '../../context-menu/context-menu.module';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -27,9 +28,10 @@ import { DialogModule } from '../../dialog';
         ThemeModule,
         NgbDropdownModule,
         ReactiveFormsModule,
-        ZoEditorModule,
+        ZreEditorModule,
         ContextMenuModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...documentBackendRoutedComponents],
     providers: [

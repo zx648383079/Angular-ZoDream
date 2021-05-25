@@ -21,6 +21,7 @@ import { BookDetailComponent } from './detail/book-detail.component';
 import { EditListComponent } from './list/edit/edit-list.component';
 import { SettingComponent } from './setting/setting.component';
 import { BookEditorComponent } from './editor/book-editor.component';
+import { CanActivateViaAuthGuard } from '../theme/guards';
 
 const routes: Routes = [
     {
@@ -71,7 +72,11 @@ const routes: Routes = [
                 path: 'reader/:book/:id',
                 component: ReaderComponent
             },
-            { path: 'member', loadChildren: () => import('./member/book-member.module').then(m => m.BookMemberModule) },
+            {
+                path: 'member',
+                loadChildren: () => import('./member/book-member.module').then(m => m.BookMemberModule),
+                canActivate: [CanActivateViaAuthGuard],
+            },
             {
                 path: ':id',
                 component: BookDetailComponent

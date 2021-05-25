@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { examRoutedComponents, ExamRoutingModule } from './exam-routing.module';
 import { ThemeModule } from '../theme/theme.module';
 import { ExamService } from './exam.service';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        ExamRoutingModule
+        ExamRoutingModule,
+        ZreFormModule,
     ],
     declarations: [...examRoutedComponents],
     providers: [

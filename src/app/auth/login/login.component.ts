@@ -42,8 +42,8 @@ import {
 import {
     IErrorResponse, IErrorResult
 } from '../../theme/models/page';
-import { CountdownButtonComponent } from '../../theme/components';
 import { DialogService } from '../../dialog';
+import { CountdownButtonComponent } from '../../form';
 
 @Component({
     selector: 'app-login',

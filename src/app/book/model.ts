@@ -34,12 +34,14 @@ export interface IBook {
     last_chapter?: IChapter;
     first_chapter?: IChapter;
     on_shelf?: boolean;
+    chapters?: IChapter[];
 }
 
 export interface IChapter {
     id: number;
     title?: string;
     size?: number;
+    type?: number;
     content?: string;
     price?: number;
     source?: string;
@@ -48,6 +50,8 @@ export interface IChapter {
     previous?: IChapter;
     next?: IChapter;
     created_at: string;
+    parent_id?: number;
+    children?: IChapter[];
 }
 
 export interface IBookList {
@@ -88,4 +92,10 @@ export interface IBookRecord extends IBook {
     chapter_id: number;
     book_id: number;
     process: number;
+}
+
+export interface IAuthorProfile extends IAuthor {
+    book_count: number;
+    word_count: number;
+    collect_count: number;
 }

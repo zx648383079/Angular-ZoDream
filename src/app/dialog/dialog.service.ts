@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { IErrorResponse, IErrorResult } from '../theme/models/page';
 import { DialogConfirmOption, DialogTipOption } from './model';
 
 @Injectable({
@@ -11,13 +12,22 @@ export class DialogService {
         private toastrService: ToastrService,
     ) { }
 
-
-    public error(message: string) {
-        this.toastrService.error(message);
+    private formatError(error: string|IErrorResult|IErrorResponse): string {
+        if (typeof error != 'object') {
+            return error;
+        }
+        if (error.error && typeof error.error === 'object') {
+            return (error as IErrorResult).error.message;
+        }
+        return (error as IErrorResponse).message;
     }
 
-    public warning(message: string) {
-        this.toastrService.warning(message);
+    public error(message: string|IErrorResponse) {
+        this.toastrService.error(this.formatError(message));
+    }
+
+    public warning(message: string|IErrorResponse) {
+        this.toastrService.warning(this.formatError(message));
     }
 
     public success(message: string) {

@@ -6,6 +6,7 @@ import { ExamService } from './exam.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionTypePipe } from './question-type.pipe';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { DialogModule } from '../../dialog';
         ReactiveFormsModule,
         ExamBackendRoutingModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...examBackendRoutedComponents, QuestionTypePipe],
     providers: [

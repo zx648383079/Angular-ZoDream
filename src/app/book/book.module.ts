@@ -6,6 +6,8 @@ import { BookService } from './book.service';
 import { ChapterCatalogComponent } from './chapter/catalog/chapter-catalog.component';
 import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
 import { ContextMenuModule } from '../context-menu';
+import { ProgressModule } from '../progress';
+import { ZreFormModule } from '../form';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { ContextMenuModule } from '../context-menu';
         ThemeModule,
         BookRoutingModule,
         ContextMenuModule,
+        ProgressModule,
+        ZreFormModule,
     ],
     providers: [
         BookService

@@ -8,6 +8,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ThemeModule } from '../../theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageContainerModule } from '../../message-container/message-container.module';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
@@ -20,6 +21,7 @@ import { MessageContainerModule } from '../../message-container/message-containe
         LazyLoadImageModule,
         ThemeModule,
         MessageContainerModule,
+        ZreFormModule,
     ],
     exports: [
         UserMenuComponent,

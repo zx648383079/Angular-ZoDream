@@ -2,7 +2,7 @@
     "defaults": {
         "styleExt": "scss",
         "component": {
-            "spec": true,
+            "spec": false,
             "inlineStyle": false,
             "inlineTemplate": false,
             "flat": false,
@@ -14,11 +14,11 @@
         }, 
         "directive": {
             "flat": true,
-            "spec": true
+            "spec": false
         },
         "guard": {
             "flat": true,
-            "spec": true
+            "spec": false
         },
         "interface": {
             "prefix": ""
@@ -29,11 +29,11 @@
         },
         "pipe": {
             "flat": true,
-            "spec": true
+            "spec": false
         },
         "service": {
             "flat": true,
-            "spec": true
+            "spec": false
         }
     }
 }

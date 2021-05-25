@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from '../../../dialog';
-import { IBlockItem } from '../../../theme/components/rule-block/model';
+import { IBlockItem } from '../../../link-rule';
 import { openLink } from '../../../theme/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
 import { UserService } from '../user.service';

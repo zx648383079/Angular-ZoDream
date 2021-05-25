@@ -2,48 +2,48 @@
     @import '../theme/styles/admin';
     .book-item {
         position: relative;
-        height: 140px;
+        height: 8.75rem;
         overflow: hidden;
         background-color: #fff;
-        padding: 10px;
+        padding: 0.625rem;
         .cover {
             position: absolute;
             img {
-                width: 90px;
-                height: 120px;
+                width: 5.625rem;
+                height: 7.5rem;
             }
             .tip {
                 position: absolute;
-                bottom: 20px;
+                bottom: 1.25rem;
                 text-align: center;
                 color: #fff;
                 width: 100%;
-                font-size: 12px;
+                font-size: 0.75rem;
             }
         }
         .info {
-            margin-left: 100px;
+            margin-left: 6.25rem;
             .name {
                 font-weight: 700;
-                line-height: 30px;
+                line-height: 1.875rem;
             }
             .tag {
                 color: #767676;
-                line-height: 20px;
-                font-size: 13px;
+                line-height: 1.25rem;
+                font-size: 0.8125rem;
             }
             .desc {
-                height: 60px;
+                height: 3.75rem;
                 overflow: hidden;
                 word-break: break-word;
                 overflow-wrap: break-word;
-                line-height: 20px;
+                line-height: 1.25rem;
             }
         }
         &.book-thumb {
             display: inline-block;
             height: auto;
-            margin: 10px;
+            margin: 0.625rem;
             .cover {
                 position: relative;
             }

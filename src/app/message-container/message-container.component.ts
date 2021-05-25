@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { IBlockItem } from '../theme/components/rule-block/model';
+import { IBlockItem } from '../link-rule';
 import { formatAgo } from '../theme/utils';
 import { IMessageBase } from './model';
 

@@ -5,8 +5,9 @@ import { cmsBackendRoutedComponents, CMSBackendRoutingModule } from './backend-r
 import { CmsService } from './cms.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { ZoEditorModule } from '../../editor/editor.module';
+import { ZreEditorModule } from '../../editor/editor.module';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -15,8 +16,9 @@ import { DialogModule } from '../../dialog';
         ReactiveFormsModule,
         EditorModule,
         CMSBackendRoutingModule,
-        ZoEditorModule,
+        ZreEditorModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...cmsBackendRoutedComponents],
     providers: [

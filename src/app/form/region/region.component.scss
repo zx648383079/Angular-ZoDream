@@ -1,0 +1,108 @@
+@import '../../theme/styles/scrollbar';
+.selector {
+    position: relative;
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .select-header {
+        position: relative;
+        border: 1px solid #ccc;
+        line-height: 2rem;
+        display: inline-block;
+        padding: 0 5px;
+        z-index: 2;
+        background-color: white;
+        cursor: pointer;
+        user-select: none;
+        .iconfont {
+            color: #ccc;
+        }
+        &.open {
+            border-bottom: none;
+        }
+    }
+    .selector-panel-container {
+        position: absolute;
+        width: 400px;
+        background-color: white;
+        box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+        padding: 10px;
+        z-index: 1;
+        .select-header {
+            &.open {
+                border-color: #0275d8;
+                border-width: 2px;
+                border-bottom: none;
+                transform: scaleY(1.1);
+            }
+        }
+    }
+    .selector-header {
+        border-bottom: 2px solid #0275d8;
+        li {
+            list-style: none;
+            display: inline-block;
+            line-height: 30px;
+            padding: 0 5px;
+            text-align: center;
+            min-width: 78px;
+
+            &.active {
+                background: #0275d8;
+                color: #fff;
+            }
+        }
+    }
+
+    .selector-body {
+        overflow-y: auto;
+        height: 200px;
+        @include scrollbar();
+        ul {
+            li {
+                list-style: none;
+                display: inline-block;
+                line-height: 30px;
+                padding: 0 8px;
+                text-align: center;
+                min-width: 60px;
+                cursor: default;
+                user-select: none;
+                &.selected,
+                &:hover {
+                    background: #0275d8;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .selector-footer {
+        text-align: right;
+        .selector-yes {
+            width: 30%;
+            background: #0275d8;
+            color: #fff;
+            padding: 0 8px;
+            border: none;
+            line-height: 30px;
+            display: inline-block;
+        }
+    }
+
+    .icon-close {
+        position: absolute;
+        top: 10px;
+        line-height: 30px;
+        font-size: 16px;
+        right: 10px;
+        color: #ccc;
+    }
+    &.disabled {
+        cursor: not-allowed;
+        .select-header {
+            color: #ccc;
+        }
+    }
+}

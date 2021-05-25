@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IBlockItem } from '../../../link-rule';
 import { IMessageBase } from '../../../message-container/model';
-import { IBlockItem } from '../../../theme/components/rule-block/model';
 import { openLink } from '../../../theme/deeplink';
 import { ShopService } from '../../shop.service';
 

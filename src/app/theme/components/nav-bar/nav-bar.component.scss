@@ -203,3 +203,40 @@ li {
         }
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    .nav-bar {
+        background-color: #2e2e2e;
+        color: #eee;
+        .nav-toggle-icon {
+            &:hover {
+                background-color: #3b3b3b;
+            }
+        }
+        a {
+            color: #eee;
+        }
+        .bar-item {
+            &:hover {
+                >a {
+                    background-color: #3b3b3b;
+                }
+            }
+        }
+        .search-input {
+            background-color: #eee;
+            .iconfont {
+                color: #2b2b2b;
+            }
+        }
+    }
+    .nav-toggle {
+        .nav-bar {
+            .search-input {
+                .iconfont {
+                    color: #eee;
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogAnimation } from '../../theme/constants/dialog-animation';
 
+
+type CheckFn = () => boolean;
+type ConfirmFn = () => void;
+type ActionFn = (data: any) => any;
 
 @Component({
     selector: 'app-dialog-box',
@@ -42,8 +46,8 @@ export class DialogBoxComponent {
     /**
      * 确认事件
      */
-    @Input() public confirmFn: () => void;
-    @Input() public actionFn: (data: any) => any;
+    @Input() public confirmFn: ConfirmFn;
+    @Input() public actionFn: ActionFn;
     @Output() public confirm = new EventEmitter();
 
     constructor() { }
@@ -82,13 +86,21 @@ export class DialogBoxComponent {
         this.confirm.emit();
     }
 
+    public open(): void;
+    public open(confirm: () => void): void;
+    public open(confirm: () => void, check: CheckFn): void;
+    public open(confirm: () => void, title: string): void;
+    public open(confirm: () => void, check: CheckFn, title: string): void;
     /**
      * 显示弹窗
      * @param cb 点击确认按钮事件
      * @param check 判断是否允许关闭
      */
-    public open(cb?: () => void, check?: () => boolean, title?: string) {
-        this.checkFn = check;
+    public open(cb?: () => void, check?: CheckFn|string, title?: string) {
+        if (typeof check === 'string') {
+            [check, title] = [undefined, check];
+        }
+        this.checkFn = check as CheckFn;
         this.confirmFn = cb;
         if (title) {
             this.title = title;
@@ -96,12 +108,19 @@ export class DialogBoxComponent {
         this.visible = true;
     }
 
+    public openCustom(): void;
+    public openCustom(cb: ActionFn): void;
+    public openCustom(title: string): void;
+    public openCustom(cb: ActionFn, title: string): void;
     /**
      * 显示弹窗并处理自定义按钮
      * @param cb 按钮事件，返回false表示不能关闭弹窗
      */
-    public openCustom(cb?: (data: any) => any, title?: string) {
-        this.actionFn = cb;
+    public openCustom(cb?: ActionFn| string, title?: string) {
+        if (typeof cb === 'string') {
+            [cb, title] = [undefined, cb];
+        }
+        this.actionFn = cb as ActionFn;
         if (title) {
             this.title = title;
         }

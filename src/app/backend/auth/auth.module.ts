@@ -9,6 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { OpenModule } from '../open/open.module';
 import { AuthService } from './auth.service';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DialogModule } from '../../dialog';
         AuthRoutingModule,
         OpenModule,
         DialogModule,
+        ZreFormModule,
     ],
     providers: [
         AuthService,

@@ -1,3 +1,74 @@
-<p>
-  book-member works!
-</p>
+<div class="container-fluid">
+    <div class="user-container">
+        <div class="avatar">
+            <img [src]="user.avatar" alt="">
+        </div>
+        <div class="extra-body">
+            <div class="name">{{ user.name }}</div>
+            <div class="extra">个性签名</div>
+            <div class="count-bar">
+                <div class="item">
+                    {{ data?.word_count | numberFormat }}
+                    <strong>字</strong>
+                </div>
+                <div class="item">{{ data?.book_count | numberFormat }}<strong>本</strong></div>
+                <div class="item">{{ data?.collect_count | numberFormat }}<strong>粉丝</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 title-bar">
+            书籍
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="add-btn" (click)="tapNewBook(bookModal)">
+                <i class="iconfont icon-plus"></i>
+                创建
+            </div>
+        </div>
+        <ng-container *ngFor="let item of bookItems">
+            <div class="col-md-3 col-6">
+                <div class="book-item">
+                    <div class="cover">
+                        <img [src]="item.cover">
+                        <div class="tip" *ngIf="item.click_count > 0">{{ item.click_count | size }}人气</div>
+                    </div>
+                    <div class="info">
+                        <div class="name">{{ item.name }}</div>
+                        <div class="tag">{{ item.author?.name}}·{{ item.category?.name }}·
+                          <ng-container *ngIf="item.over_at">
+                              {{ item.over_at }}·
+                          </ng-container>
+                          {{ item.size | size }}字</div>
+                        <div class="desc">{{ item.description }}</div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        
+    </div>
+</div>
+
+<app-dialog-box #bookModal title="创建书籍">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="name">书名</label>
+            <div>
+                <input type="text" id="name" [(ngModel)]="bookData.name" class="form-control">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="cover">封面</label>
+            <div>
+                <app-file-input [(ngModel)]="bookData.cover"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">简介</label>
+            <div>
+                <textarea id="description"  [(ngModel)]="bookData.description" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

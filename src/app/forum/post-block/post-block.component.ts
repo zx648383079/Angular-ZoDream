@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as ClipboardJS from 'clipboard';
 import { DialogService } from '../../dialog';
-import { IBlockItem, IExtraRule } from '../../theme/components/rule-block/model';
+import { IBlockItem, IExtraRule, formatLinkRule } from '../../link-rule';
 
 @Component({
   selector: 'app-post-block',
@@ -95,7 +95,7 @@ export class PostBlockComponent implements OnChanges {
     }
 
     public renderRule(content: string, rules: IExtraRule[]): IBlockItem[] {
-        const toBlock = (rule: IExtraRule): IBlockItem => {
+        return formatLinkRule((rule: IExtraRule): IBlockItem => {
             if (rule.i) {
                 return {
                     type: 1,
@@ -153,38 +153,7 @@ export class PostBlockComponent implements OnChanges {
                 };
             }
             return {...custom, type: 98, uid: rule.uid} as any;
-        };
-        const splitArr = (items: IBlockItem[], rule: IExtraRule): IBlockItem[] => {
-            const data: IBlockItem[] = [];
-            const block = toBlock(rule);
-            for (const item of items) {
-                if (item.type && item.type > 0) {
-                    data.push(item);
-                    continue;
-                }
-                item.content.split(rule.s).forEach((val, i) => {
-                    if (i > 0) {
-                        data.push({...block});
-                    }
-                    if (val.length < 1) {
-                        return;
-                    }
-                    data.push({content: val});
-                });
-            }
-            return data;
-        }
-        let blockItems = [
-            {content}
-        ];
-        rules.unshift({
-            s: '\n',
-            type: 99,
-        });
-        for (const rule of rules) {
-            blockItems = splitArr(blockItems, rule);
-        }
-        return blockItems;
+        }, content, rules);
     }
 
 }

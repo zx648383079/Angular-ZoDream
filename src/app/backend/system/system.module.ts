@@ -5,6 +5,7 @@ import { SystemRoutingModule, systemRoutedComponents } from './system-routing.mo
 import { ThemeModule } from '../../theme/theme.module';
 import { SystemService } from './system.service';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { DialogModule } from '../../dialog';
         ThemeModule,
         SystemRoutingModule,
         DialogModule,
+        ZreFormModule,
     ],
     providers: [
         SystemService,

@@ -1,4 +1,4 @@
-import { IExtraRule } from '../theme/components/rule-block/model';
+import { IExtraRule } from '../link-rule';
 import { IUser } from "../theme/models/user";
 
 export interface IFriendGroup {

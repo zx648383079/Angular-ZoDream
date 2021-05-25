@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { map } from 'rxjs/operators';
-import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord } from './model';
+import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord, IAuthorProfile } from './model';
 
 @Injectable()
 export class BookService {
@@ -120,4 +120,38 @@ export class BookService {
     public listDisagree(id: any) {
         return this.http.post<IBookListItem>('book/list/disagree', {id});
     }
+
+    public profile() {
+        return this.http.get<IAuthorProfile>('book/member/home/index');
+    }
+
+    public selfBookList(params: any) {
+        return this.http.get<IPage<IBook>>('book/member/book', {params});
+    }
+
+    public selfBook(id: any) {
+        return this.http.get<IBook>('book/member/book/detail', {params: {id}});
+    }
+
+    public selfSaveBook(data: any) {
+        return this.http.post<IBook>('book/member/book/save', data);
+    }
+
+    public selfOverBook(id: any) {
+        return this.http.put<IBook>('book/member/book/over', {id});
+    }
+
+    public selfChapter(id: any) {
+        return this.http.get<IChapter>('book/member/book/chapter_detail', {params: {id}});
+    }
+
+    public selfSaveChapter(data: any) {
+        return this.http.post<IChapter>('book/member/book/chapter_save', data);
+    }
+
+    public selfRemoveChapter(id: any) {
+        return this.http.delete<IDataOne<boolean>>('book/member/book/chapter_delete', {params: {id}});
+    }
+
+
 }

@@ -7,7 +7,8 @@ import { BlogService } from './blog.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ZoEditorModule } from '../../editor/editor.module';
+import { ZreEditorModule } from '../../editor/editor.module';
+import { ZreFormModule } from '../../form';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ZoEditorModule } from '../../editor/editor.module';
         ReactiveFormsModule,
         NgSelectModule,
         EditorModule,
-        ZoEditorModule,
+        ZreEditorModule,
+        ZreFormModule,
     ],
     providers: [
         BlogService,

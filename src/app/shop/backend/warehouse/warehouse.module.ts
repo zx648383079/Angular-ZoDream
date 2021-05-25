@@ -7,6 +7,7 @@ import { WarehouseService } from './warehouse.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoodsModule } from '../goods/goods.module';
 import { DialogModule } from '../../../dialog';
+import { ZreFormModule } from '../../../form';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { DialogModule } from '../../../dialog';
         WarehouseRoutingModule,
         GoodsModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...warehouseRoutedComponents],
     providers: [

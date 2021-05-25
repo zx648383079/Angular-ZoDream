@@ -9,9 +9,9 @@ import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 import { emptyValidate } from '../../theme/validators';
-import { IBlockItem } from '../../theme/components/rule-block/model';
 import { openLink } from '../../theme/deeplink';
 import { DialogBoxComponent } from '../../dialog';
+import { IBlockItem } from '../../link-rule';
 
 @Component({
   selector: 'app-detail',

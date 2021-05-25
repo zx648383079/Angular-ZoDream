@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
 import { MediaPlayerModule } from '../media-player/media-player.module';
 import { DialogModule } from '../dialog';
+import { LinkRuleModule } from '../link-rule';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { DialogModule } from '../dialog';
         MediaPlayerModule,
         MicroRoutingModule,
         DialogModule,
+        LinkRuleModule,
     ],
     providers: [
         MicroService

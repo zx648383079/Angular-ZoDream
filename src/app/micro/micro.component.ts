@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
 import { emptyValidate } from '../theme/validators';
 import { IErrorResult, IPageQueries } from '../theme/models/page';
-import { IBlockItem } from '../theme/components/rule-block/model';
 import { openLink } from '../theme/deeplink';
 import { applyHistory, getQueries } from '../theme/query';
 import { Store } from '@ngrx/store';
@@ -13,6 +12,7 @@ import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { DialogBoxComponent } from '../dialog';
+import { IBlockItem } from '../link-rule';
 
 @Component({
     selector: 'app-micro',

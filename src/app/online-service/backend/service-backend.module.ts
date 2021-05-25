@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { OnlineBackendService } from './online.service';
 import { MessageContainerModule } from '../../message-container/message-container.module';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { DialogModule } from '../../dialog';
         OnlineServiceBackendRoutingModule,
         MessageContainerModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...onlineServiceBackendRoutingComponents],
     providers: [

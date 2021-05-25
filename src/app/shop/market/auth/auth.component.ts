@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../../environments/environment';
-import { CountdownButtonComponent } from '../../../theme/components';
+import { CountdownButtonComponent } from '../../../form';
 import { IErrorResponse } from '../../../theme/models/page';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../theme/services';

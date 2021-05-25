@@ -4,6 +4,7 @@
 
 body {
     background-color: #f4f4f4;
+    color: #333;
 }
 
 @import './app/theme/styles/login';
@@ -12,3 +13,10 @@ body {
 @import './app/theme/styles/grid';
 @import './app/theme/styles/tab';
 @import './app/dialog/dialog';
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333333;
+        color: white;
+    }
+}

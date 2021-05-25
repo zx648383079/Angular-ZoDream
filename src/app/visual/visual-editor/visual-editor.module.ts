@@ -31,6 +31,8 @@ import { PositionInputComponent } from './editor-property/position-input/positio
 import { RadiusInputComponent } from './editor-property/radius-input/radius-input.component';
 import { ShadowInputComponent } from './editor-property/shadow-input/shadow-input.component';
 import { SideSelectComponent } from './editor-property/side-select/side-select.component';
+import { ZreFormModule } from '../../form';
+import { ProgressModule } from '../../progress';
 
 @NgModule({
     imports: [
@@ -39,6 +41,8 @@ import { SideSelectComponent } from './editor-property/side-select/side-select.c
         NgbModule,
         ContextMenuModule,
         DialogModule,
+        ZreFormModule,
+        ProgressModule,
     ],
     declarations: [	
         VisualEditorComponent, 

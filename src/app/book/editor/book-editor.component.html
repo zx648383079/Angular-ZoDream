@@ -1,27 +1,44 @@
-<div class="editor-container">
+<div class="editor-container" [ngClass]="{'top-open': topVisible}" *ngIf="book">
     <div class="top-container">
-        <div class="input-group">
-            <label for="name">书名</label>
-            <div>
-                <input type="text" id="name" class="form-control">
-
+        <div class="form-table">
+            <div class="input-group">
+                <label for="name2">书名</label>
+                <div>
+                    <input type="text" id="name2" [(ngModel)]="book.name" class="form-control">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="cover">封面</label>
+                <div>
+                    <app-file-input  [(ngModel)]="book.cover"></app-file-input>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="description2">简介</label>
+                <div>
+                    <textarea id="description2" [(ngModel)]="book.description" class="form-control"></textarea>
+                </div>
             </div>
         </div>
-        <div class="input-group">
-            <label for="cover">封面</label>
-            <div>
-                <app-file-input></app-file-input>
-            </div>
-        </div>
-        <div class="input-group">
-            <label for="description">简介</label>
-            <div>
-                <textarea id="description" class="form-control"></textarea>
-            </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" (click)="tapSaveBook()">保存</button>
+            <a class="btn btn-danger" *ngIf="book.over_at < 1" (click)="tapOver()">设为完结</a>
+            <a class="btn btn-light" (click)="topVisible = false">收起</a>
         </div>
     </div>
     <div class="editor-body">
         <div class="catalog-container">
+            <div class="tool-bar">
+                <a title="新增章节" (click)="tapNewFile()">
+                    <i class="iconfont icon-file-text-o"></i>
+                </a>
+                <a title="新增章节" (click)="tapNewFolder()">
+                    <i class="iconfont icon-folder-o"></i>
+                </a>
+                <a title="设置" (click)="topVisible = !topVisible">
+                    <i class="iconfont icon-cog"></i>
+                </a>
+            </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
                 <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
@@ -35,44 +52,47 @@
                     </ul>
                 </li>
                 <li class="tip">
-                    右键新增目录
+                    右键新增章节
                 </li>
             </ul>
         </div>
         <div class="body-container">
-            <div class="title-input">
-                <label for="name">名称</label>
-                <input type="text" id="name" class="form-control">
+            <div class="toggle-icon" title="显示目录">
+                <i class="iconfont icon-bars"></i>
             </div>
-        
-            <div class="edit-area" *ngIf="data.type < 1">
-                <textarea class="form-control"></textarea>
-                <div class="edit-tip">
-                    已输入 0 个字符
+            <ng-container *ngIf="data">
+                <div class="title-input">
+                    <label for="name">{{ data.type > 0 ? '卷名' : '章节名' }}</label>
+                    <input type="text" id="name" [(ngModel)]="data.title" class="form-control" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
                 </div>
-            </div>
-            <app-panel title="附加属性">
-                <div class="input-group">
-                    <label for="price">价格</label>
-                    <div>
-                        <input type="text" id="price" class="form-control">
-                        <div class="input-tip">为0表示免费章节</div>
+                <ng-container *ngIf="data.type < 1">
+                    <div class="edit-area" >
+                        <textarea class="form-control" [(ngModel)]="data.content" placeholder="请输入内容"></textarea>
+                        <div class="edit-tip">
+                            已输入 {{ size }} 个字符
+                        </div>
                     </div>
-                </div>
-                <div class="input-group">
-                    <label for="source">来源</label>
-                    <div>
-                        <input type="text" id="source" class="form-control" >
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="position">排序</label>
-                    <div>
-                        <input type="text" id="position" class="form-control" size="4">
-                    </div>
-                </div>
-            </app-panel>
-            <button type="submit" class="btn btn-success">确认保存</button>
+                    <app-panel title="附加属性">
+                        <div class="form-table">
+                            <div class="input-group">
+                                <label for="price">价格</label>
+                                <div>
+                                    <input type="text" id="price" class="form-control" [(ngModel)]="data.price">
+                                    <div class="input-tip">为0表示免费章节</div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="position">排序</label>
+                                <div>
+                                    <input type="text" id="position" class="form-control" [(ngModel)]="data.position">
+                                </div>
+                            </div>
+                        </div>
+                    </app-panel>
+                </ng-container>
+                
+                <button type="submit" class="btn btn-success" (click)="tapSaveChapter()">确认保存</button>
+            </ng-container>
         </div>
     </div>
 </div>

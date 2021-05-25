@@ -5,6 +5,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { DiskService } from './disk.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogModule } from '../dialog';
+import { ProgressModule } from '../progress';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DialogModule } from '../dialog';
         NgbModule,
         DiskRoutingModule,
         DialogModule,
+        ProgressModule,
     ],
     providers: [
         DiskService

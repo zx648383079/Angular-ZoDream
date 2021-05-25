@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../dialog';
-import { CountdownButtonComponent } from '../../theme/components';
+import { CountdownButtonComponent } from '../../form';
 import { AppState } from '../../theme/interfaces';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';

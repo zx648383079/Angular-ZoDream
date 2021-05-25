@@ -15,4 +15,4 @@ import { FormsModule } from '@angular/forms';
         MarkdownEditorComponent 
     ],
 })
-export class ZoEditorModule { }
+export class ZreEditorModule { }

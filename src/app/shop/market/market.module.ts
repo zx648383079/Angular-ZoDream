@@ -7,6 +7,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GameModule } from '../game/game.module';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     declarations: [...marketRoutingComponents],
@@ -18,6 +19,7 @@ import { GameModule } from '../game/game.module';
         ReactiveFormsModule,
         LazyLoadImageModule,
         GameModule,
+        ZreFormModule,
     ]
 })
 export class MarketModule { }

@@ -1,0 +1,145 @@
+@import "../../theme/styles/scrollbar";
+$shadow: rgba($color: #000000, $alpha: .2);
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tree-box {
+    min-height: 60vh;
+    .tip {
+        line-height: 6.25rem;
+        font-size: 2.5rem;
+        color: #ccc;
+        text-align: center;
+    }
+    .tree-item {
+        .iconfont {
+            width: 1.5rem;
+            height: 1.5rem;
+            line-height: 1.5rem;
+            display: inline-block;
+            text-align: center;
+        }
+        .tree-name {
+            user-select: none;
+            line-height: 1.875rem;
+            text-align: left;
+        }
+        .tree-body {
+            display: none;
+            .tree-name {
+                padding-left: 1.875rem;
+                cursor: pointer;
+            }
+        }
+        .tree-item {
+            margin-left: 1.5rem;
+        }
+        &:hover {
+            >.tree-name {
+                background-color: #f2f2f2;
+            }
+        }
+        &.active {
+            >.tree-name {
+                background-color: #e5e5e5;
+            }
+        }
+        &.open {
+            .tree-body {
+                display: block;
+            }
+        }
+    }
+}
+
+.top-container {
+    box-shadow: 0 2px 5px $shadow;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -40em;
+    z-index: 99;
+    transition: top ease-in .5s;
+    background-color: #f4f4f4;
+    padding: .3em;
+    .btn-group {
+        float: right;
+        margin-top: .3em;
+    }
+}
+
+.editor-container {
+}
+
+.editor-body {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+.catalog-container {
+    width: 15em;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px $shadow;
+    @include scrollbar();
+}
+
+.body-container {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding: .8em;
+    @include scrollbar();
+}
+
+.tool-bar {
+    line-height: 2.5em;
+    text-align: right;
+    box-shadow: 0 2px 5px $shadow;
+    a {
+        display: inline-block;
+        width: 2.5em;
+        text-align: center;
+        &:hover {
+            background-color: #ccc;
+        }
+    }
+}
+.toggle-icon {
+    line-height: 2.5em;
+    width: 2.5em;
+    text-align: center;
+    margin: -.8em 0 .8em -.8em;
+    &:hover {
+        background-color: #ccc;
+    }
+}
+
+.title-input {
+    .form-control {
+        margin-left: 1rem;
+        width: 80%;
+        display: inline-block;
+    }
+}
+.edit-area {
+    textarea {
+        width: 100%;
+        min-height: 80vh;
+        resize: vertical;
+    }
+    .edit-tip {
+        text-align: right;
+        font-size: 0.75rem;
+        line-height: 1.25rem;
+    }
+}
+
+.top-open {
+    .top-container {
+        top: 0;
+    }
+}
