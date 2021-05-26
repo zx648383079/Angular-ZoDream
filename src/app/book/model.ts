@@ -55,6 +55,7 @@ export interface IChapter {
     parent_id?: number;
     children?: IChapter[];
     expanded?: boolean;
+    is_bought?: boolean;
 }
 
 export interface IBookList {

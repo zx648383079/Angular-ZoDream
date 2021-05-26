@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WechatService } from '../wechat.service';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+    public data: any;
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: WechatService,
+        private route: ActivatedRoute,
+    ) { }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.service.media(params.id).subscribe(res => {
+                this.data = res;
+            });
+        });
+    }
 
 }

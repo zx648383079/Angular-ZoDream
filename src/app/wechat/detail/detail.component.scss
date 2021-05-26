@@ -1,0 +1,35 @@
+.rich_media {
+    padding: 12px;
+    .rich_media_title {
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 14px;
+    }
+    .rich_media_meta_list {
+        margin-bottom: 22px;
+        line-height: 20px;
+        font-size: 15px;
+        word-wrap: break-word;
+        word-break: break-all;
+        a {
+            color: #576b95;
+            text-decoration: none;
+        }
+        em {
+            font-style: normal;
+        }
+        .rich_media_meta_text {
+            color: rgba(0,0,0,0.3);
+        }
+    }
+    .rich_media_content {
+        overflow: hidden;
+        color: #333;
+        font-size: 17px;
+        word-wrap: break-word;
+        hyphens: auto;
+        text-align: justify;
+        position: relative;
+        z-index: 0;
+    }
+}

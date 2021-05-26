@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IPageQueries } from '../theme/models/page';
+import { applyHistory, getQueries } from '../theme/query';
+import { IWeChatAccount } from './model';
+import { WechatService } from './wechat.service';
 
 @Component({
   selector: 'app-wechat',
@@ -7,9 +12,60 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WechatComponent implements OnInit {
 
-  constructor() { }
+    public items: IWeChatAccount[] = [];
 
-  ngOnInit() {
-  }
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public selected = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
+
+    constructor(
+        private service: WechatService,
+        private route: ActivatedRoute,
+    ) { }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
+    public tapRefresh() {
+        this.goPage(1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.getList(queries).subscribe(res => {
+            this.isLoading = false;
+            this.items = res.data;
+            this.hasMore = res.paging.more;
+            this.total = res.paging.total;
+            applyHistory(this.queries = queries);
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
 
 }

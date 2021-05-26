@@ -4,6 +4,13 @@
             <li>关注公众号时自动回复</li>
         </ul>
     </app-page-tip>
+
+    <div class="tab-bar">
+        <a [ngClass]="{active: true}">关键词回复</a>
+        <a>收到消息回复</a>
+        <a>被关注回复</a>
+    </div>
+
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">

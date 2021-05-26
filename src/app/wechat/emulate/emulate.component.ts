@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IWeChatAccount } from '../model';
+import { WechatService } from '../wechat.service';
 
 @Component({
   selector: 'app-emulate',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmulateComponent implements OnInit {
 
-  constructor() { }
+    public account: IWeChatAccount;
 
-  ngOnInit() {
-  }
+    public menuItems = [];
+
+    constructor(
+        private service: WechatService,
+        private route: ActivatedRoute,
+    ) { }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.service.get(params.id).subscribe((res: any) => {
+                this.account = res;
+                if (res.menu_list) {
+                    this.menuItems = res.menu_list;
+                }
+            });
+        });
+    }
 
 }
