@@ -9,6 +9,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { MediaPlayerModule } from '../media-player/media-player.module';
 import { DialogModule } from '../dialog';
 import { LinkRuleModule } from '../link-rule';
+import { ZreFormModule } from '../form';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { LinkRuleModule } from '../link-rule';
         MicroRoutingModule,
         DialogModule,
         LinkRuleModule,
+        ZreFormModule,
     ],
     providers: [
         MicroService

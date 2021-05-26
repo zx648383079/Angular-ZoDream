@@ -118,8 +118,11 @@ export class TaskComponent implements OnInit {
     ];
 
     constructor(
-        private store: Store < AppState > ) {
+        private store: Store<AppState>) {
         this.store.select(getCurrentUser).subscribe(user => {
+            if (!user) {
+                return;
+            }
             this.bottomNavs[0].name = user.name;
         });
     }

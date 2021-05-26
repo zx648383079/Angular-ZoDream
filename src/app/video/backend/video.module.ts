@@ -7,15 +7,15 @@ import { VideoService } from './video.service';
 import { DurationPipe } from './duration.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ThemeModule,
-    ReactiveFormsModule,
-    VideoRoutingModule,
-  ],
-  declarations: [...videoRoutedComponents, DurationPipe],
-  providers: [
-    VideoService
-  ]
+    imports: [
+        CommonModule,
+        ThemeModule,
+        ReactiveFormsModule,
+        VideoRoutingModule,
+    ],
+    declarations: [...videoRoutedComponents, DurationPipe],
+    providers: [
+        VideoService
+    ]
 })
 export class VideoModule { }

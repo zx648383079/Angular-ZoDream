@@ -10,6 +10,7 @@ import {
 } from './video-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
+import { VideoService } from './video.service';
 
 @NgModule({
     imports: [
@@ -18,6 +19,9 @@ import { ThemeModule } from '../theme/theme.module';
         ThemeModule,
         VideoRoutingModule
     ],
-    declarations: [...videoRoutingComponents]
+    declarations: [...videoRoutingComponents],
+    providers: [
+        VideoService,
+    ]
 })
 export class VideoModule {}

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
 import { MediaPlayerModule } from '../media-player/media-player.module';
 import { DialogModule } from '../dialog';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     declarations: [...forumRoutedComponents],
@@ -18,6 +19,7 @@ import { DialogModule } from '../dialog';
         ForumRoutingModule,
         MediaPlayerModule,
         DialogModule,
+        ZreFormModule,
     ],
     providers: [
         ForumService
