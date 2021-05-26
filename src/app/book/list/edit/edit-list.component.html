@@ -28,9 +28,9 @@
             <div class="info">
                 <a class="title">{{ item.book.name }}</a>
                 <p>
-                    <a >{{ item.book.author?.name }}</a>
-                    <span>1w</span>
-                    <span>完结</span>
+                    <a >{{ item.book.author?.name }}</a>|
+                    <span>{{ item.book.size | numberFormat }}字</span>|
+                    <span>{{ item.book.status_label }}</span>
                 </p>
                 <p>
                     更新时间：{{ item.book.updated_at }}

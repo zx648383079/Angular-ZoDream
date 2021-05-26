@@ -3,12 +3,15 @@
     .right {
         float: right;
         font-size: 18px;
+        text-decoration: none;
+        cursor: default;
+        user-select: none;
     }
 }
 .catalog-box {
     .item {
         display: flex;
-        line-height: 50px;
+        line-height: 3.125rem;
         border-bottom: 1px dotted #ccc;
         cursor: pointer;
         .title {
@@ -26,6 +29,12 @@
             .title {
                 font-weight: 700;
             }
+        }
+    }
+    .group-header {
+        line-height: 3.125rem;
+        .title {
+            text-align: center;
         }
     }
 }

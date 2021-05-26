@@ -48,11 +48,12 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>
+                        【{{ item.status_label }}】
                         <a target="_blank">
                             {{ item.name }}
                         </a>
                     </td>
-                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.category?.name || '--' }}</td>
                     <td>{{ item.author.name }}</td>
                     <td>{{ item.size }}</td>
                     <td>

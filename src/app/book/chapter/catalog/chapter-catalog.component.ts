@@ -24,7 +24,23 @@ export class ChapterCatalogComponent {
     constructor() {}
 
     get filterItems() {
-        return this.orderAsc ? this.items : this.items.reverse();
+        if (this.orderAsc) {
+            return this.items;
+        }
+        const items = [];
+        for (const item of this.items) {
+            if (item.type < 1) {
+                items.push(item);
+                continue;
+            }
+            if (!item.children || item.children.length < 1) {
+                continue;
+            }
+            for (const it of item.children) {
+                items.push(it);
+            }
+        }
+        return items.reverse();
     }
 
     public tapOrder() {

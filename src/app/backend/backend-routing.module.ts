@@ -92,6 +92,10 @@ const routes: Routes = [{
             loadChildren: () => import('../wechat/backend/wechat-backend.module').then(m => m.WechatBackendModule)
         },
         {
+            path: 'checkin',
+            loadChildren: () => import('../checkin/backend/checkin-backend.module').then(m => m.CheckinBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

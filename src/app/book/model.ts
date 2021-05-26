@@ -26,6 +26,8 @@ export interface IBook {
     size?: number;
     click_count?: number;
     classify?: number;
+    status?: number;
+    status_label?: string;
     chapter_count?: number;
     over_at?: number;
     updated_at?: string;
@@ -52,6 +54,7 @@ export interface IChapter {
     created_at: string;
     parent_id?: number;
     children?: IChapter[];
+    expanded?: boolean;
 }
 
 export interface IBookList {

@@ -52,7 +52,15 @@ export class BookEditorComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.service.selfBook(params.id).subscribe({
                 next: res => {
-                    this.catalog = res.chapters;
+                    this.catalog = res.chapters.map(i => {
+                        if (i.type > 0 && !i.children) {
+                            i.children = [];
+                        }
+                        if (i.type > 0) {
+                            i.expanded = false;
+                        }
+                        return i;
+                    });
                     this.book = {...res, chapters: undefined};
                 },
                 error: err => {
@@ -64,6 +72,7 @@ export class BookEditorComponent implements OnInit {
 
     public tapEdit(item: IChapter) {
         if (item.type > 0) {
+            item.expanded = !item.expanded;
             this.data = {...item};
             return;
         }
@@ -135,13 +144,20 @@ export class BookEditorComponent implements OnInit {
 
     public tapSaveChapter() {
         if (!this.data || emptyValidate(this.data.title)) {
+            this.toastrService.warning('请输入章节名');
+            return;
+        }
+        if (this.data.type < 1 && this.size < 1) {
             this.toastrService.warning('请输入内容');
             return;
         }
-        this.service.selfSaveChapter({...this.data, book_id: this.book.id}).subscribe({
+        this.service.selfSaveChapter({...this.data, body: undefined, book_id: this.book.id, size: this.size}).subscribe({
             next: res => {
                 this.data.id = res.id;
                 this.toastrService.success('章节保存成功');
+                if (res.type > 0) {
+                    res.children = [];
+                }
                 this.appendItem(res);
             },
             error: err => {
@@ -186,7 +202,7 @@ export class BookEditorComponent implements OnInit {
 
     private appendItem(data: IChapter) {
         const findParent = (id: number, items: IChapter[]) => {
-            if (id < 1) {
+            if (id < 1 || !id) {
                 return items;
             }
             for (const item of items) {

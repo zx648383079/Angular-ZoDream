@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { IItem } from '../../../theme/models/seo';
 import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 
@@ -20,10 +21,20 @@ export class DetailComponent implements OnInit {
         source: [''],
         cover: [''],
         description: [''],
+        status: [0],
     });
 
     public data: IBook;
     public categories: ICategory[] = [];
+    public classifyItems: IItem[] = [
+        {name: '无分级', value: 0},
+        {name: '成人级', value: 18},
+    ];
+    public statusItems: IItem[] = [
+        {name: '审核中', value: 0},
+        {name: '已审核', value: 1},
+        {name: '已拒绝', value: 9},
+    ];
 
     constructor(
         private fb: FormBuilder,
@@ -50,6 +61,7 @@ export class DetailComponent implements OnInit {
                     source: res.source,
                     cover: res.cover,
                     description: res.description,
+                    status: res.status,
                 });
             });
         });

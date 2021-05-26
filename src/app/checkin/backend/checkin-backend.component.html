@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="column-item">
+        <div class="icon">
+            {{ data.today_count | numberFormat}}
+            /
+            {{ data.yesterday_count | numberFormat}}
+        </div>
+        <div class="content">
+            <h3>今日签到</h3>
+            <p>昨日签到</p>
+        </div>
+    </div>
+    
+    <div class="column-item">
+        <div class="icon">
+            {{ data.max_day | numberFormat}}
+        </div>
+        <div class="content">
+            <h3>最长签到</h3>
+        </div>
+    </div>
+    <div class="column-item">
+        <div class="icon">
+            {{ data.avg_day | numberFormat}}
+        </div>
+        <div class="content">
+            <h3>平均签到</h3>
+        </div>
+    </div>
+</div>

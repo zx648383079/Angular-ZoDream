@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BlogBackendMenu } from '../blog/backend/menu';
 import { BookBackendMenu } from '../book/backend/menu';
+import { CheckInBackendMenu } from '../checkin/backend/menu';
 import { CMSBackendMenu } from '../cms/backend/menu';
 import { DocumentBackendMenu } from '../document/backend/menu';
 import { ExamBackendMenu } from '../exam/backend/menu';
@@ -62,6 +63,7 @@ export class MenuService {
             wx: WechatBackendMenu,
             open: OpenBackendMenu,
             sms: SmsBackendMenu,
+            checkin: CheckInBackendMenu,
             system: SystemtBackendMenu,
         },
         bottom: [

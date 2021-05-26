@@ -32,7 +32,7 @@
                 <a title="新增章节" (click)="tapNewFile()">
                     <i class="iconfont icon-file-text-o"></i>
                 </a>
-                <a title="新增章节" (click)="tapNewFolder()">
+                <a title="新增卷" (click)="tapNewFolder()">
                     <i class="iconfont icon-folder-o"></i>
                 </a>
                 <a title="设置" (click)="topVisible = !topVisible">
@@ -42,12 +42,14 @@
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
                 <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
-                        <i class="iconfont" [ngClass]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
-                        {{ item.name }}
+                        <i class="iconfont" [ngClass]="{'icon-file-text-o': item.type < 1, 'icon-chevron-right': item.type > 0 && item.children && !item.expanded, 'icon-chevron-down': item.type > 0 && item.children && item.expanded}"></i>
+                        {{ item.title }}
                     </div>
                     <ul class="tree-body">
                         <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
-                            <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
+                            <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">
+                                <i class="iconfont icon-file-text-o"></i>
+                                {{ it.title }}</div>
                         </li>
                     </ul>
                 </li>
@@ -64,6 +66,9 @@
                 <div class="title-input">
                     <label for="name">{{ data.type > 0 ? '卷名' : '章节名' }}</label>
                     <input type="text" id="name" [(ngModel)]="data.title" class="form-control" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
+                    <a class="btn btn-primary" title="保存" (click)="tapSaveChapter()">
+                        <i class="iconfont icon-check"></i>
+                    </a>
                 </div>
                 <ng-container *ngIf="data.type < 1">
                     <div class="edit-area" >
@@ -72,7 +77,7 @@
                             已输入 {{ size }} 个字符
                         </div>
                     </div>
-                    <app-panel title="附加属性">
+                    <app-panel title="附加属性" [min]="true">
                         <div class="form-table">
                             <div class="input-group">
                                 <label for="price">价格</label>
@@ -91,7 +96,7 @@
                     </app-panel>
                 </ng-container>
                 
-                <button type="submit" class="btn btn-success" (click)="tapSaveChapter()">确认保存</button>
+                <button class="btn btn-success" (click)="tapSaveChapter()">确认保存</button>
             </ng-container>
         </div>
     </div>

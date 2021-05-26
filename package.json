@@ -52,7 +52,7 @@
     "@types/dom-mediacapture-record": "^1.0.7",
     "@types/jasmine": "^3.7.4",
     "@types/jasminewd2": "~2.0.9",
-    "@types/node": "^15.6.0",
+    "@types/node": "^15.6.1",
     "@types/video.js": "^7.3.17",
     "codelyzer": "^6.0.2",
     "jasmine-core": "^3.7.1",

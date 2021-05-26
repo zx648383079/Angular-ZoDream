@@ -15,10 +15,23 @@
 <div class="catalog-box">
     <div class="row">
         <ng-container *ngFor="let item of filterItems">
-            <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
-                <div class="title">{{ item.title }}</div>
-                <div class="time">{{ item.created_at }}</div>
-            </div>
+            <ng-container *ngIf="item.type < 1; else elseTemplate">
+                <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
+                    <div class="title">{{ item.title }}</div>
+                    <div class="time">{{ item.created_at | ago }}</div>
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div class="col-12 group-header">
+                    <div class="title">{{ item.title }}</div>
+                </div>
+                <ng-container *ngFor="let it of item.children">
+                    <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == it.id}">
+                        <div class="title">{{ it.title }}</div>
+                        <div class="time">{{ it.created_at | ago }}</div>
+                    </div>
+                </ng-container>
+            </ng-template>
         </ng-container>
     </div>
     

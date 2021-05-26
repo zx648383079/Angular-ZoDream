@@ -36,6 +36,13 @@ export class BookDetailComponent implements OnInit {
         });
     }
 
+    public tapRead() {
+        if (!this.data.first_chapter) {
+            return;
+        }
+        this.tapChapter(this.data.first_chapter);
+    }
+
     public tapChapter(item: IChapter) {
         this.router.navigate(['../reader/' + this.data.id + '/' + item.id], {relativeTo: this.route});
     }

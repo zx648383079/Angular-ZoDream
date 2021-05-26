@@ -1,11 +1,14 @@
 ::ng-deep {
     @import '../theme/styles/admin';
     .book-item {
+        display: block;
         position: relative;
         height: 8.75rem;
         overflow: hidden;
         background-color: #fff;
         padding: 0.625rem;
+        text-decoration: none;
+        color: inherit;
         .cover {
             position: absolute;
             img {
@@ -39,6 +42,10 @@
                 overflow-wrap: break-word;
                 line-height: 1.25rem;
             }
+        }
+        &:hover {
+            color: inherit;
+            text-decoration: none;
         }
         &.book-thumb {
             display: inline-block;

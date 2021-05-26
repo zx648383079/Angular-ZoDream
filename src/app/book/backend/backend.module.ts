@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { bookBackendRoutingComponents, BookBackendRoutingModule } from './backend-routing.module';
 import { BookService } from './book.service';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { DialogModule } from '../../dialog';
         NgbPaginationModule,
         ReactiveFormsModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...bookBackendRoutingComponents],
     providers: [

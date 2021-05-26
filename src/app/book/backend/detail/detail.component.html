@@ -30,17 +30,14 @@
             <label for="classify">分级</label>
             <div>
                 <select id="classify" formControlName="classify" class="form-control">
-                    <option value="0" selected="">无分级</option>
-                    <option value="1">成人级</option>
+                    <option *ngFor="let item of classifyItems" [value]="item.value">{{ item.name }}</option>
                 </select>
-
             </div>
         </div>
         <div class="input-group">
             <label for="source">来源</label>
             <div>
                 <input type="text" id="source" class="form-control" formControlName="source">
-
             </div>
         </div>
         <div class="input-group">
@@ -53,6 +50,14 @@
             <label for="description">简介</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="status">状态</label>
+            <div>
+                <select id="status" formControlName="status" class="form-control">
+                    <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                </select>
             </div>
         </div>
         <div class="btn-group">
