@@ -33,7 +33,11 @@ export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
                     name: '账号列表',
                     url: this.renderUrl('account'),
                 },
-                ...items
+                {
+                    name: '模板样式',
+                    url: this.renderUrl('template'),
+                },
+                ...items,
             ]
         }
     ];

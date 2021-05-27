@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { emptyValidate } from '../../../theme/validators';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class TemplateComponent implements OnInit {
         page: 1,
         per_page: 20
     };
+    public editData: any = {};
 
     constructor(
         private service: WechatService,
@@ -35,6 +37,21 @@ export class TemplateComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public open(modal: DialogBoxComponent, item?: any) {
+        this.editData = item ? {...item} : {};
+        modal.open(() => {
+            this.service.templateSave(this.editData).subscribe({
+                next: _ => {
+                    this.toastrService.success('添加成功');
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emptyValidate(this.editData.content));
     }
 
     public tapRefresh() {
