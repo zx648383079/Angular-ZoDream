@@ -40,22 +40,31 @@
 <ng-container *ngIf="value.type == 6">
     <div class="input-group">
         <label for="module1">APPID</label>
-        <input type="text" id="module1" name="editor[appid]" placeholder="小程序APPID">
+        <div>
+            <input type="text" id="module1" class="form-control" name="editor[appid]" placeholder="小程序APPID">
+        </div>
     </div>
     <div class="input-group">
-        <label for="module1">路径</label>
-        <input type="text" id="module1" name="editor[path]" placeholder="小程序页面路径">
+        <label for="module2">路径</label>
+        <div>
+            <input type="text" id="module2" class="form-control" name="editor[path]" placeholder="小程序页面路径">
+        </div>
     </div>
     <div class="input-group">
-        <label for="module1">替代网址</label>
-        <input type="text" id="module1" name="editor[url]" placeholder="老版微信不支持小程序时替代网址">
+        <label for="module3">替代网址</label>
+        <div>
+            <input type="text" id="module3" class="form-control" name="editor[url]" placeholder="老版微信不支持小程序时替代网址">
+            <div class="input-tip">
+                旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。
+            </div>
+        </div>
     </div>
 </ng-container>
 <ng-container *ngIf="value.type == 7">
     <div class="input-group">
         <label for="content">场景</label>
         <div class="">
-            <select id="content" name="content">
+            <select id="content" class="form-control" name="content">
                 <option value="">请选择</option>
                 <option *ngFor="let item of sceneItems" [value]="item.value">{{ item.name }}</option>
             </select>

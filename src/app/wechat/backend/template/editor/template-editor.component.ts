@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IItem } from '../../../theme/models/seo';
+import { IItem } from '../../../../theme/models/seo';
 
 @Component({
   selector: 'app-template-editor',

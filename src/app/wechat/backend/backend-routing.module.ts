@@ -11,12 +11,13 @@ import { LogComponent } from './log/log.component';
 import { EditMediaComponent } from './media/edit/edit-media.component';
 import { MediaComponent } from './media/media.component';
 import { EditNewsComponent } from './media/news/edit-news.component';
-import { EditMenuComponent } from './menu/edit/edit-menu.component';
 import { MenuComponent } from './menu/menu.component';
 import { MessageEditorComponent } from './message-editor/message-editor.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
 import { EditReplyComponent } from './reply/edit/edit-reply.component';
 import { ReplyComponent } from './reply/reply.component';
-import { TemplateEditorComponent } from './template-editor/template-editor.component';
+import { ReplyTemplateComponent } from './reply/template/reply-template.component';
+import { TemplateEditorComponent } from './template/editor/template-editor.component';
 import { TemplateComponent } from './template/template.component';
 import { UserComponent } from './user/user.component';
 import { WechatBackendComponent } from './wechat-backend.component';
@@ -31,8 +32,16 @@ const routes: Routes = [
         component: ReplyComponent,
     },
     {
+        path: 'reply/template',
+        component: ReplyTemplateComponent,
+    },
+    {
         path: 'template',
         component: TemplateComponent,
+    },
+    {
+        path: 'qrcode',
+        component: QrcodeComponent,
     },
     {
         path: 'media',
@@ -72,6 +81,7 @@ export class WechatBackendRoutingModule {}
 
 export const wechatBackendRoutingComponents = [
     WechatBackendComponent, AccountComponent, EditAccountComponent, LogComponent,
-    MenuComponent, MediaComponent, TemplateComponent, ReplyComponent, UserComponent, EditMediaComponent, EditReplyComponent, EditMenuComponent,
+    MenuComponent, MediaComponent, TemplateComponent, ReplyComponent, UserComponent, EditMediaComponent, EditReplyComponent, 
     MessageEditorComponent, EditNewsComponent, TemplateEditorComponent,
+    QrcodeComponent, ReplyTemplateComponent
 ];

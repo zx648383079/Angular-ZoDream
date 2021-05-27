@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { WechatService } from '../wechat.service';
+import { DialogService } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
+import { WechatService } from '../../wechat.service';
 
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss']
+  selector: 'app-reply-template',
+  templateUrl: './reply-template.component.html',
+  styleUrls: ['./reply-template.component.scss']
 })
-export class MediaComponent implements OnInit {
+export class ReplyTemplateComponent implements OnInit {
 
     public items: any[] = [];
 
@@ -23,6 +23,8 @@ export class MediaComponent implements OnInit {
         page: 1,
         per_page: 20
     };
+
+    public editData: any = {};
 
     constructor(
         private service: WechatService,
@@ -70,7 +72,7 @@ export class MediaComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”素材？')) {
+        if (!confirm('确定删除“' + item.name + '”模板？')) {
             return;
         }
         this.service.mediaRemove(item.id).subscribe(res => {

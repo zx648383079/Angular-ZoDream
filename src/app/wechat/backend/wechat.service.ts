@@ -56,6 +56,12 @@ export class WechatService {
         });
     }
 
+    public menuBatchSave(data: any[]) {
+        return this.http.post<IDataOne<boolean>>('wx/admin/menu/batch_save', {data}, {
+            params: {wid: this.baseId}
+        });
+    }
+
     public menuRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/menu/delete', {params: {id, wid: this.baseId}});
     }
@@ -104,12 +110,6 @@ export class WechatService {
         return this.http.get<any>('wx/admin/user/detail', {params: {id, wid: this.baseId}});
     }
 
-    public userSave(data: any) {
-        return this.http.post<any>('wx/admin/user/save', data, {
-            params: {wid: this.baseId}
-        });
-    }
-
     public userRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/user/delete', {params: {id, wid: this.baseId}});
     }
@@ -120,5 +120,23 @@ export class WechatService {
 
     public logRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/log/delete', {params: {id, wid: this.baseId}});
+    }
+
+    public qrcodeList(params: any) {
+        return this.http.get<IPage<any>>('wx/admin/qrcode', {params: {...params, wid: this.baseId}});
+    }
+
+    public qrcode(id: any) {
+        return this.http.get<any>('wx/admin/qrcode/detail', {params: {id, wid: this.baseId}});
+    }
+
+    public qrcodeSave(data: any) {
+        return this.http.post<any>('wx/admin/qrcode/save', data, {
+            params: {wid: this.baseId}
+        });
+    }
+
+    public qrcodeRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('wx/admin/qrcode/delete', {params: {id, wid: this.baseId}});
     }
 }

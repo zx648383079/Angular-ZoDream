@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { emptyValidate } from '../../../theme/validators';
 import { WechatService } from '../wechat.service';
 
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss']
+  selector: 'app-qrcode',
+  templateUrl: './qrcode.component.html',
+  styleUrls: ['./qrcode.component.scss']
 })
-export class MediaComponent implements OnInit {
+export class QrcodeComponent implements OnInit {
 
     public items: any[] = [];
 
@@ -24,6 +25,8 @@ export class MediaComponent implements OnInit {
         per_page: 20
     };
 
+    public editData: any = {};
+
     constructor(
         private service: WechatService,
         private toastrService: DialogService,
@@ -35,6 +38,21 @@ export class MediaComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public open(modal: DialogBoxComponent, item?: any) {
+        this.editData = item ? {...item} : {};
+        modal.open(() => {
+            this.service.qrcodeSave(this.editData).subscribe({
+                next: _ => {
+                    this.toastrService.success('添加成功');
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emptyValidate(this.editData.scene_str));
     }
 
     public tapRefresh() {
@@ -55,7 +73,7 @@ export class MediaComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.mediaList(queries).subscribe(res => {
+        this.service.qrcodeList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
@@ -70,10 +88,10 @@ export class MediaComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”素材？')) {
+        if (!confirm('确定删除“' + item.name + '”二维码？')) {
             return;
         }
-        this.service.mediaRemove(item.id).subscribe(res => {
+        this.service.qrcodeRemove(item.id).subscribe(res => {
             if (!res.data) {
                 return;
             }

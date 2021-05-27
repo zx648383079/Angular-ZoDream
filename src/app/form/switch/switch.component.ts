@@ -21,12 +21,21 @@ import {
 export class SwitchComponent implements ControlValueAccessor {
 
     @Input() public label = '';
+    @Input() public offLabel = '';
+    @Input() public onLabel = '';
 
     public value: boolean | number = false;
     public disable = false;
 
     onChange: any = () => {};
     onTouch: any = () => {};
+
+    public get labelContent(): string {
+        if (this.isActive) {
+            return this.onLabel || this.label;
+        }
+        return this.offLabel || this.label;
+    }
 
     public get isActive(): boolean {
         if (typeof this.value === 'boolean') {

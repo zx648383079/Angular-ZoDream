@@ -6,6 +6,7 @@ import { WechatService } from './wechat.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../dialog';
 import { ZreFormModule } from '../../form';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { ZreFormModule } from '../../form';
         DialogModule,
         WechatBackendRoutingModule,
         ZreFormModule,
+        NgSelectModule,
     ],
     declarations: [...wechatBackendRoutingComponents],
     providers: [

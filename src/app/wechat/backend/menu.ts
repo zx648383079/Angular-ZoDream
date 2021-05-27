@@ -15,6 +15,10 @@ export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
             url: this.renderUrl('menu'),
         },
         {
+            name: '二维码列表',
+            url: this.renderUrl('qrcode'),
+        },
+        {
             name: '用户列表',
             url: this.renderUrl('user'),
         },

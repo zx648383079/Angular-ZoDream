@@ -1,0 +1,90 @@
+ul,li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.mobile-container {
+    position: relative;
+    height: 540px;
+    border: 1px solid #e7e7eb;
+    background-color: #ccc;
+    .mobile-header {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #616161;
+        color: #ffffff;
+    }
+    .menu-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid #e7e7e7;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        margin-bottom: 0px;
+        ul {
+            display: flex;
+        }
+    }
+    .menu-item {
+        position: relative;
+        flex: 1;
+        line-height: 50px;
+        height: 50px;
+        text-align: center;
+        cursor: pointer;
+        background-color: white;
+        &:not(:last-of-type) {
+            border-right: 1px solid #ccc;
+        }
+    }
+    .menu-sub-bar {
+        position: absolute;
+        bottom: 60px;
+        left: 0;
+        right: 0;
+        border-top: 1px solid #d0d0d0;
+        margin-bottom: 0px;
+        background: #fafafa;
+        display: block;
+        padding: 0;
+        ul {
+            display: block;
+        }
+        .menu-item {
+            &:not(:last-of-type) {
+                border-bottom: 1px solid #ccc;
+            }
+        }
+        &::after {
+            position: absolute;
+            content: " ";
+            display: block;
+            width: 0px;
+            height: 0px;
+            border: 10px solid transparent;
+            border-top-color: white;
+            right: 50%;
+            margin-right: -10px;
+        }
+    }
+}
+.panel {
+    background-color: #fff;
+    padding: 0 10px;
+    .panel-header {
+        line-height: 40px;
+        border-bottom: 2px solid;
+        border-left: none;
+        font-size: 18px;
+        .pull-right {
+            float: right;
+            user-select: none;
+            font-size: 13px;
+        }
+    }
+    .panel-body {
+        padding: 10px 0;
+    }
+}

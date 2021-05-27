@@ -4,6 +4,14 @@
             <li>图文及媒体素材</li>
         </ul>
     </app-page-tip>
+
+    <div class="tab-bar">
+        <a [ngClass]="{active: true}">图片素材</a>
+        <a>语音素材</a>
+        <a>视频素材</a>
+        <a>图文素材</a>
+    </div>
+
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
@@ -16,6 +24,22 @@
                     <a routerLink="create" class="btn btn-info">创建</a>
                 </div>
             </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3" *ngFor="let item of items">
+                <div class="media-item">
+                    <div class="thumb">
+                        <img [src]="item.thumb" alt="">
+                    </div>
+                    <div class="name">{{ item.name }}</div>
+                    <div class="time">{{ item.created_at | ago }}</div>
+                    <div class="action">
+                        <a >复制medai_id</a>
+                        <a >删除</a>
+                    </div>
+                </div>
+            </div>
         </div>
     
         <table class="table table-hover">
