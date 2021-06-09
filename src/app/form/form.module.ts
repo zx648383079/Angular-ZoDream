@@ -13,6 +13,7 @@ import { StarComponent } from './star/star.component';
 import { SwitchComponent } from './switch/switch.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { ThemeModule } from '../theme/theme.module';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -26,6 +27,7 @@ const COMPONENTS = [
     StarComponent,
     SwitchComponent,
     TimeInputComponent,
+    AutocompleteComponent,
 ];
 
 @NgModule({

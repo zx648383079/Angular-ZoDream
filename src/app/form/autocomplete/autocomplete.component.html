@@ -1,0 +1,12 @@
+<div class="autocomplete" [ngClass]="{'panel-open': panelVisible && optionItems.length > 0}">
+    <div (click)="tapInput()" class="autocomplete__input-container">
+        <ng-content></ng-content>
+    </div>
+    <div class="autocomplete__container">
+        <ng-container *ngFor="let item of optionItems;let i = index">
+            <div class="option-item" [ngClass]="{selected: isSelected(i)}" (click)="tapSelected(i)">
+                {{ item }}
+            </div>
+        </ng-container>
+    </div>
+</div>

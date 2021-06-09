@@ -1,5 +1,6 @@
 import {
     Component,
+    ElementRef,
     OnDestroy,
     OnInit
 } from '@angular/core';
@@ -103,6 +104,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
+    public onAutocomplete(value: string) {
+        this.loginForm.patchValue({
+            email: value
+        });
+    }
+
     private loopCheckQr() {
         if (this.mode < 1 || this.mode > 2) {
             return;
@@ -193,11 +200,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, true);
     }
 
-    public keyDown(event: KeyboardEvent) {
+    public keyDown(event: KeyboardEvent, next: HTMLInputElement) {
         if (event.code !== 'Enter') {
             return;
         }
-        ((event.target as HTMLInputElement).parentNode.nextSibling as HTMLDivElement).querySelector('input').focus();
+        next.focus();
     }
 
     public tapCaptcha() {

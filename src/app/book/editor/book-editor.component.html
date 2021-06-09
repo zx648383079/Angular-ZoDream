@@ -35,6 +35,9 @@
                 <a title="新增卷" (click)="tapNewFolder()">
                     <i class="iconfont icon-folder-o"></i>
                 </a>
+                <a title="人物关系" (click)="panelOpen = true">
+                    <i class="iconfont icon-chain"></i>
+                </a>
                 <a title="设置" (click)="topVisible = !topVisible">
                     <i class="iconfont icon-cog"></i>
                 </a>
@@ -72,7 +75,7 @@
                 </div>
                 <ng-container *ngIf="data.type < 1">
                     <div class="edit-area" >
-                        <textarea class="form-control" [(ngModel)]="data.content" placeholder="请输入内容"></textarea>
+                        <textarea class="form-control" [(ngModel)]="data.content" placeholder="请输入内容" (keydown)="onKeyDown($event)"></textarea>
                         <div class="edit-tip">
                             已输入 {{ size }} 个字符
                         </div>
@@ -103,3 +106,36 @@
 </div>
 
 <app-context-menu></app-context-menu>
+
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text">
+        <i class="iconfont icon-search"></i>
+    </div>
+    <div class="panel-body">
+        <div class="role-item">
+            <span>主角(主角)</span>
+            <div class="action">
+                <i class="iconfont icon-edit"></i>
+                <i class="iconfont icon-gift"></i>
+                <i class="iconfont icon-key" (click)="subOpen = true"></i>
+            </div>
+        </div>
+        <div class="panel-sub" *ngIf="subOpen">
+            <div class="panel-header">
+                <i class="iconfont icon-chevron-left" (click)="subOpen = false"></i>
+                技能</div>
+            <div class="panel-body">
+                <div class="role-item">
+                    <span>剑(初级)</span>
+                    <div class="action">
+                        <i class="iconfont icon-edit"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { forumRoutedComponents, ForumRoutingModule } from './forum-routing.modul
 import { ForumService } from './forum.service'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { DialogModule } from '../../dialog';
         ReactiveFormsModule,
         ForumRoutingModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...forumRoutedComponents],
     providers: [

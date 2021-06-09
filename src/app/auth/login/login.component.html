@@ -1,11 +1,13 @@
 <form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}">
   <div class="input-box">
-        <div class="input-group" [class]="{error: email.invalid}">
-            <input type="email" formControlName="email" placeholder="请输入账号" autocomplete="off" (keypress)="keyDown($event)">
-            <i class="iconfont icon-user" aria-hidden="true"></i>
-        </div>
+        <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
+            <div class="input-group" [class]="{error: email.invalid}">
+                <input type="email" formControlName="email" placeholder="请输入账号" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
+                <i class="iconfont icon-user" aria-hidden="true"></i>
+            </div>
+        </app-autocomplete>
         <div class="input-group" [class]="{error: password.invalid}">
-            <input [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" autocomplete="off">
+            <input #pwdInput [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" autocomplete="off">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>

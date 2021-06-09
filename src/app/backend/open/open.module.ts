@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StatusPipe } from './status.pipe';
 import { PlatformOptionComponent } from './platform-option/platform-option.component';
 import { OpenService } from './open.service';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { OpenService } from './open.service';
         ThemeModule,
         ReactiveFormsModule,
         OpenRoutingModule,
+        ZreFormModule,
     ],
     declarations: [...openRoutedComponents, StatusPipe, PlatformOptionComponent],
     exports: [PlatformOptionComponent],

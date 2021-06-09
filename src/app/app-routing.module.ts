@@ -55,6 +55,11 @@ const routes: Routes = [
         loadChildren: () => import('./visual/visual.module').then(m => m.VisualModule)
     },
     {
+        path: 'gzo',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./generator/generator.module').then(m => m.GeneratorModule)
+    },
+    {
         path: '**',
         redirectTo: 'frontend'
     },

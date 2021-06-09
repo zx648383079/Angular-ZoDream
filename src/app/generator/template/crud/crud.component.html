@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>生成CRUD 数据库增查改删</li>
+            <li>控制器、模型、视图至少选择一个，不然无法生成</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container form-table">
+        <div class="input-group">
+            <label for="">模块名</label>
+            <div>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">数据表</label>
+            <div>
+                <ng-select [(ngModel)]="selected" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true"></ng-select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">文件名</label>
+            <div>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for=""></label>
+            <div>
+                <app-switch>生成控制器</app-switch>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for=""></label>
+            <div>
+                <app-switch>生成数据模型</app-switch>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for=""></label>
+            <div>
+                <app-switch>生成视图</app-switch>
+            </div>
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-primary">生成</div>
+            <div class="btn btn-info">预览</div>
+        </div>
+    </div>
+</div>

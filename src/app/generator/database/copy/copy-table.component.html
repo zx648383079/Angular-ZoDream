@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>进行数据表复制</li>
+            <li>支持多个表同时复制到一个表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="table-bar">
+            目标表：<span class="dist-item" (click)="tapDist(tableModal)">
+                {{ formatTable(distTable) }}
+            </span>
+            &lt;-
+            数据表：
+            <span class="table-item" *ngFor="let item of srcTable;let i = index">
+                {{ item.table }}
+                <i class="iconfont icon-close" (click)="tapRemoveTable(i)"></i>
+            </span>
+            <span class="iconfont icon-plus" (click)="tapAddTable(tableModal)"></span>
+        </div>
+        <div class="link-body">
+            <div class="link-item" *ngFor="let item of linkItems;let i = index">
+                <span class="dist-column">{{ item.dist.label }}</span>
+                <i>&lt;-</i>
+                <span class="src-column" (click)="tapColumn(columnModal, item)">{{ item.src ? item.src.label : '请设置' }}</span>
+                <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <div class="btn btn-primary">复制</div>
+            <div class="btn btn-info">预览</div>
+            <div class="btn btn-danger" (click)="tapReset()">清空</div>
+        </div>
+    </div>
+</div>
+
+<app-dialog-box #tableModal>
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">数据库</label>
+            <div>
+                <ng-select [(ngModel)]="tableData.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()"></ng-select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">表</label>
+            <div>
+                <ng-select [(ngModel)]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()"></ng-select>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="tableData.type > 1">
+            <label for="">列</label>
+            <div>
+                <ng-select [(ngModel)]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value"></ng-select>
+            </div>
+        </div>
+        <div class="input-group"  *ngIf="tableData.type > 1">
+            <label for="">外接列</label>
+            <div>
+                <ng-select [(ngModel)]="tableData.foreign" [items]="srcColumnItems" bindLabel="label"></ng-select>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #columnModal>
+    <div class="tab-box form-table">
+        <div class="tab-header">
+            <div class="tab-item" [ngClass]="{active: columnData.type < 1}" (click)="columnData.type = 0">固定值</div>
+            <div class="tab-item" [ngClass]="{active: columnData.type == 1}" (click)="columnData.type = 1">关联列</div>
+        </div>
+        <div class="tab-body">
+            <div class="tab-item" [ngClass]="{active: columnData.type < 1}">
+                <div class="input-group">
+                    <label for="">类型</label>
+                    <div>
+                        <select class="form-control" [(ngModel)]="columnData.valueType">
+                            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="">值</label>
+                    <div>
+                        <textarea class="form-control"  [(ngModel)]="columnData.value"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-item" [ngClass]="{active: columnData.type == 1}">
+                <div class="input-group">
+                    <label for="">列</label>
+                    <div>
+                        <ng-select [(ngModel)]="columnData.column" [items]="srcColumnItems" bindLabel="label"></ng-select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="">附加类型</label>
+                    <div>
+                        <select class="form-control" [(ngModel)]="columnData.appendType">
+                            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="">附加值</label>
+                    <div>
+                        <textarea class="form-control" [(ngModel)]="columnData.append"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

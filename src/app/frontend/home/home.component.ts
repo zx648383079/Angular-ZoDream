@@ -82,6 +82,10 @@ export class HomeComponent implements OnInit {
             url: '/wx'
         },
         {
+            name: 'Generator',
+            url: '/gzo'
+        },
+        {
             name: 'Backend',
             url: '/backend'
         }

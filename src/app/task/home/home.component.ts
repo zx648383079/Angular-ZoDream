@@ -1,8 +1,8 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService } from '../../dialog';
+import { DialogBoxComponent, DialogService } from '../../dialog';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
+import { emptyValidate } from '../../theme/validators';
 import { ITask, ITaskDay } from '../model';
 import { TaskService } from '../task.service';
 
@@ -25,12 +25,13 @@ export class HomeComponent {
     public panelOpen = false;
     public taskItems: ITask[] = [];
     public keywords = '';
+    public taskData: ITask = {} as any;
 
     constructor(
         private service: TaskService,
-        private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }
@@ -57,15 +58,17 @@ export class HomeComponent {
         this.isLoading = true;
         this.service.dayList({
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                this.perPage = res.paging.limit;
+            }, error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -101,4 +104,17 @@ export class HomeComponent {
         });
     }
 
+    public tapFastNew(modal: DialogBoxComponent) {
+        modal.open(() => {
+            this.service.taskFastCreate(this.taskData).subscribe({
+                next: res => {
+                    this.items.push(res);
+                    this.toastrService.success('添加成功');
+                    this.taskData = {} as any;
+                }, error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emptyValidate(this.taskData.name));
+    }
 }

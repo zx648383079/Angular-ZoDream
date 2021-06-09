@@ -2,15 +2,19 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../context-menu';
 import { DialogService } from '../../dialog';
+import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { wordLength } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { BookService } from '../book.service';
 import { IBook, IChapter } from '../model';
 
 @Component({
-  selector: 'app-book-editor',
-  templateUrl: './book-editor.component.html',
-  styleUrls: ['./book-editor.component.scss']
+    selector: 'app-book-editor',
+    templateUrl: './book-editor.component.html',
+    styleUrls: ['./book-editor.component.scss'],
+    animations: [
+        PanelAnimation
+    ],
 })
 export class BookEditorComponent implements OnInit {
 
@@ -21,6 +25,8 @@ export class BookEditorComponent implements OnInit {
     public data: IChapter;
     public catalog: IChapter[] = [];
     public topVisible = false;
+    public panelOpen = false;
+    public subOpen = false;
     
     constructor(
         private service: BookService,
@@ -232,4 +238,7 @@ export class BookEditorComponent implements OnInit {
         children.push(data);
     }
 
+    public onKeyDown(event: KeyboardEvent) {
+
+    }
 }

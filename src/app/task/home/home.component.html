@@ -5,9 +5,19 @@
         </ul>
     </app-page-tip>
 
-    <div class="add-btn" (click)="panelOpen = true">
-        <i class="iconfont icon-plus"></i>
-        添加
+    <div class="row">
+        <div class="col-md-6">
+            <div class="add-btn" (click)="panelOpen = true">
+                <i class="iconfont icon-plus"></i>
+                添加
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="add-btn" (click)="tapFastNew(addModal)">
+                <i class="iconfont icon-plus"></i>
+                快捷新增
+            </div>
+        </div>
     </div>
 
     <div class="task-item" *ngFor="let item of items" (click)="tapView(item)">
@@ -42,3 +52,20 @@
         </div>
     </div>
 </div>
+
+<app-dialog-box #addModal title="快捷新增任务">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" [(ngModel)]="taskData.name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">说明</label>
+            <div>
+                <textarea id="description" class="form-control" [(ngModel)]="taskData.description"></textarea>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

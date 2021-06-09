@@ -1,0 +1,97 @@
+<ng-container *ngIf="!loading; else elseTemplate">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th *ngIf="batchable" width="40">
+                    <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                </th>
+                <ng-container *ngFor="let item of nameItems">
+                    <th (click)="tapSort(item.index)">
+                        <span>{{ item.label }}</span>
+                        <i class="iconfont" *ngIf="sortKey == item.index" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                    </th>
+                </ng-container>
+                <th>
+                    <div class="drop-menu-btn" [ngClass]="{'open-drop': openDrop}">
+                        <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
+                        <div class="drop-menu-body">
+                            <div class="menu-item" *ngFor="let item of columnItems">
+                                <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}"></i>
+                                {{ item.label || item.name }}
+                            </div>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr *ngIf="searchable">
+                <td></td>
+                <ng-container *ngFor="let item of nameItems">
+                    <td>
+                        <ng-container *ngIf="item.searchable">
+                            <ng-container *ngIf="item.inputType == 'text' || !item.inputType">
+                                <input type="text" class="form-control" [(ngModel)]="item.value">
+                            </ng-container>
+                            <ng-container *ngIf="item.inputType == 'switch'">
+                                <app-switch [(ngModel)]="item.value"></app-switch>
+                            </ng-container>
+                            <ng-container *ngIf="item.inputType == 'select'">
+                                <select class="form-control" [(ngModel)]="item.value">
+                                    <option *ngFor="let option of item.optionItems" [value]="option.vlaue">{{ option.name }}</option>
+                                </select>
+                            </ng-container>
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of filterItems">
+                <td>
+                    <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
+                </td>
+                <ng-container *ngFor="let name of nameItems">
+                    <th>
+                        <ng-container *ngIf="name.format === 'img'">
+                            <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
+                        </ng-container>
+                        <ng-container *ngIf="name.format === 'switch'">
+                            <app-switch [(ngModel)]="item[name.name]"></app-switch>
+                        </ng-container>
+                        <ng-container *ngIf="name.format !== 'switch' && name.format !== 'img'">
+                            {{ formatValue(item, name) }}
+                        </ng-container>
+                    </th>
+                </ng-container>
+                <td>
+                    <ng-container *ngTemplateOutlet="action; context:item">
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot *ngIf="batchable">
+            <tr>
+                <td>
+                    <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                </td>
+                <td [attr.colspan]="nameItems.length - 1">
+                    <div class="btn-group">
+                        <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems.length < 1">
+                            删除选中
+                        </button>
+                        <ng-content></ng-content>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <ng-container *ngIf="total >= 0">
+        <app-pagination [page]="page" [pageTotal]="total" [perPage]="perPage" (pageChange)="tapPage($event)">
+        </app-pagination>
+    </ng-container>
+</ng-container>
+<ng-template #elseTemplate>
+    <div class="loading-box">
+        <app-loading-ring></app-loading-ring>
+    </div>
+</ng-template>

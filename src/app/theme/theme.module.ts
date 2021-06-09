@@ -49,7 +49,9 @@ import {
     CircleProgressComponent,
     CountdownComponent,
     EmojiPickerComponent,
-    PaginationComponent
+    PaginationComponent,
+    EditableTableComponent,
+    LoadingRingComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -78,6 +80,8 @@ const COMPONENTS = [
     CircleProgressComponent,
     EmojiPickerComponent,
     PaginationComponent,
+    EditableTableComponent,
+    LoadingRingComponent,
 ];
 
 const PIPES = [

@@ -34,6 +34,10 @@ export class TaskService {
         return this.http.post<ITask>('task/home/save', params);
     }
 
+    public taskFastCreate(data: any) {
+        return this.http.post<ITaskDay>('task/home/fast_create', data);
+    }
+
     public taskRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('task/home/delete', {params: {id}});
     }
