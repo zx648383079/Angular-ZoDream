@@ -34,16 +34,24 @@
     }
 }
 .link-item {
-    display: block;
+    display: flex;
     width: auto;
     height: 50px;
     line-height: 50px;
     span {
-        min-width: 30%;
         display: inline-block;
-        text-align: center;
+        // text-align: center;
         cursor: default;
         user-select: none;
+    }
+    .dist-column {
+        flex: 1;
+    }
+    .src-column {
+        flex: 3;
+    }
+    i {
+        padding: 0 .5em;
     }
     &:hover {
         background-color: rgba($color: #ccc, $alpha: .3);

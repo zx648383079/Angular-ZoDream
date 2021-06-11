@@ -9,42 +9,50 @@
         <div class="input-group">
             <label for="">模块名</label>
             <div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" [(ngModel)]="module">
             </div>
         </div>
         <div class="input-group">
             <label for="">数据表</label>
             <div>
-                <ng-select [(ngModel)]="selected" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true"></ng-select>
+                <ng-select [(ngModel)]="selected" [items]="tableItems" bindLabel="name" bindValue="value"></ng-select>
             </div>
         </div>
         <div class="input-group">
             <label for="">文件名</label>
             <div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" [(ngModel)]="name">
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成控制器</app-switch>
+                <app-switch [(ngModel)]="hasController">生成控制器</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成数据模型</app-switch>
+                <app-switch [(ngModel)]="hasModel">生成数据模型</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成视图</app-switch>
+                <app-switch [(ngModel)]="hasView">生成视图</app-switch>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-primary">生成</div>
-            <div class="btn btn-info">预览</div>
+            <div class="btn btn-primary" (click)="tapSubmit(false)">生成</div>
+            <div class="btn btn-info" (click)="tapSubmit(true)">预览</div>
         </div>
     </div>
 </div>
+<app-dialog-box title="预览" [fullscreen]="true">
+    <div class="preview-item" *ngFor="let item of previewItems">
+        <div class="item-path">{{ item.path }}</div>
+        <div class="item-body">
+            <pre><code>{{ item.content }}</code></pre>
+        </div>
+    </div>
+</app-dialog-box>

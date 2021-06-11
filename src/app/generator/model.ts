@@ -36,3 +36,7 @@ export interface IColumn {
     Type: string;
 }
 
+export interface IPreviewFile {
+    path: string;
+    content: string;
+}

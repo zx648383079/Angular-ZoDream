@@ -1,17 +1,44 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IData, IPage } from '../theme/models/page';
+import { IData, IDataOne, IPage } from '../theme/models/page';
 import { IItem } from '../theme/models/seo';
-import { IColumn, ITable, ITableColumn } from './model';
+import { IColumn, IPreviewFile, ITable, ITableColumn } from './model';
 
 @Injectable()
 export class GenerateService {
 
     constructor(private http: HttpClient) { }
 
+    public controller(data: any) {
+        return this.http.post<IData<IPreviewFile>>('gzo/template/controller', data);
+    }
+
+    public model(data: any) {
+        return this.http.post<IData<IPreviewFile>>('gzo/template/model', data);
+    }
+
+    public migration(data: any) {
+        return this.http.post<IData<IPreviewFile>>('gzo/template/migration', data);
+    }
+
+    public crud(data: any) {
+        return this.http.post<IData<IPreviewFile>>('gzo/template/index', data);
+    }
+
     public moduleList() {
         return this.http.get<IData<IItem>>('gzo/module/all');
+    }
+
+    public moduleInstall(data: any) {
+        return this.http.post<IDataOne<boolean>>('gzo/module/install', data);
+    }
+    public moduleUninstall(data: any) {
+        return this.http.post<IDataOne<boolean>>('gzo/module/uninstall', data);
+    }
+
+    public module(data: any) {
+        return this.http.post<IData<IPreviewFile>>('gzo/template/module', data);
     }
 
     public schemaList(): Observable<IData<string>>;
@@ -40,5 +67,13 @@ export class GenerateService {
 
     public query(data: any) {
         return this.http.post<IPage<any>>('gzo/database/query', data);
+    }
+
+    public import(data: FormData) {
+        return this.http.post<IDataOne<boolean>>('gzo/database/import', data);
+    }
+
+    public copy(data: any) {
+        return this.http.post<IDataOne<true>>('gzo/database/copy', data);
     }
 }

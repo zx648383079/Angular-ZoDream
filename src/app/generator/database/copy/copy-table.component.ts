@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -42,6 +42,8 @@ interface IColumnValue {
 })
 export class CopyTableComponent implements OnInit {
 
+    @ViewChild('previewModal')
+    public previewModal: DialogBoxComponent;
     public distTable?: ITableItem;
     public srcTable: ITableItem[] = [];
     public linkItems: ILinkItem[] = [];
@@ -93,6 +95,36 @@ export class CopyTableComponent implements OnInit {
                     value: i,
                 };
             });
+        });
+    }
+
+    public tapSubmit(preview = true) {
+        if (!this.distTable || this.srcTable.length < 1) {
+            this.toastrService.warning('请选择数据表');
+            return;
+        }
+        for (const item of this.linkItems) {
+            if (!item.src) {
+                this.toastrService.warning('请设置完整数据');
+                return;
+            }
+        }
+        this.service.copy({
+            dist: this.distTable,
+            src: this.srcTable,
+            column: this.linkItems,
+            preview
+        }).subscribe({
+            next: res => {
+                if (!preview) {
+                    this.toastrService.success('复制成功');
+                    return;
+                }
+                this.previewModal.open();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -28,4 +28,14 @@ export class ImportComponent implements OnInit {
         });
     }
 
+    public onFileChange(event: any) {
+        const files = event.target.files as FileList;
+        const form = new FormData();
+        form.append('file', files[0]);
+        form.append('schema', this.schema);
+        this.service.import(form).subscribe(_ => {
+            this.toastrService.success('导入成功');
+        });
+    } 
+
 }

@@ -23,40 +23,34 @@
                     <div class="input-group">
                         <label for="">路由</label>
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="installData.name">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="">命名空间</label>
                         <div>
-                            <ng-select [items]="moduleItems" bindLabel="name" bindValue="value"></ng-select>
+                            <ng-select [(ngModel)]="installData.module" [items]="moduleItems" bindLabel="name" bindValue="value" (ngModelChange)="onModuleChange($event)"></ng-select>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for=""></label>
                         <div>
-                            <app-switch>创建数据结构</app-switch>
+                            <app-switch [(ngModel)]="installData.hasTable">创建数据结构</app-switch>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for=""></label>
                         <div>
-                            <app-switch>生成测试数据</app-switch>
+                            <app-switch [(ngModel)]="installData.hasSeed">生成测试数据</app-switch>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for=""></label>
                         <div>
-                            <app-switch>复制资源文件</app-switch>
+                            <app-switch [(ngModel)]="installData.hasAssets">复制资源文件</app-switch>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label for=""></label>
-                        <div>
-                            <app-switch>作为全局模块</app-switch>
-                        </div>
-                    </div>
-                    <div class="btn btn-primary">安装</div>
+                    <div class="btn btn-primary" (click)="tapInstall()">安装</div>
                 </div>
             </div>
             <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
@@ -69,10 +63,10 @@
                     <div class="input-group">
                         <label for="">路由</label>
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="name">
                         </div>
                     </div>
-                    <div class="btn btn-danger">卸载</div>
+                    <div class="btn btn-danger" (click)="tapUninstall()">卸载</div>
                 </div>
             </div>
             <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
@@ -85,18 +79,30 @@
                     <div class="input-group">
                         <label for="">命名空间</label>
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="generateData.module">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="">数据表</label>
                         <div>
-                            <ng-select [items]="tableItems" bindLabel="name" bindValue="value"></ng-select>
+                            <ng-select [(ngModel)]="generateData.table" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true"></ng-select>
                         </div>
                     </div>
-                    <div class="btn btn-info">生成</div>
+                    <div class="btn-group">
+                        <div class="btn btn-info" (click)="tapGenerate(false)">生成</div>
+                        <div class="btn btn-success" (click)="tapGenerate(true)">预览</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<app-dialog-box title="预览" [fullscreen]="true">
+    <div class="preview-item" *ngFor="let item of previewItems">
+        <div class="item-path">{{ item.path }}</div>
+        <div class="item-body">
+            <pre><code>{{ item.content }}</code></pre>
+        </div>
+    </div>
+</app-dialog-box>

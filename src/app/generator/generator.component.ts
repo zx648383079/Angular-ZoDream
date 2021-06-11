@@ -18,11 +18,11 @@ export class GeneratorComponent implements OnInit {
         },
         {
             name: '模板管理',
-            icon: 'icon-desktop',
+            icon: 'icon-calendar-o',
             children: [
                 {
                     name: '控制器',
-                    icon: 'icon-calendar-o',
+                    icon: 'icon-mobile',
                     url: './template/controller'
                 },
                 {
@@ -37,7 +37,7 @@ export class GeneratorComponent implements OnInit {
                 },
                 {
                     name: 'CRUD',
-                    icon: 'icon-plus',
+                    icon: 'icon-rocket',
                     url: './template/crud'
                 },
             ],
@@ -54,7 +54,7 @@ export class GeneratorComponent implements OnInit {
                 },
                 {
                     name: '卸载',
-                    icon: 'icon-area-chart',
+                    icon: 'icon-sign-out',
                     url: './module',
                     urlQuery: {
                         type: 1
@@ -72,22 +72,22 @@ export class GeneratorComponent implements OnInit {
         },
         {
             name: '数据库管理',
-            icon: 'icon-history',
+            icon: 'icon-desktop',
             url: './database',
             children: [
                 {
                     name: '查询',
-                    icon: 'icon-clock-o',
+                    icon: 'icon-search',
                     url: './database/query'
                 },
                 {
                     name: '导出',
-                    icon: 'icon-th-list',
+                    icon: 'icon-download',
                     url: './database/export',
                 },
                 {
                     name: '导入',
-                    icon: 'icon-calendar',
+                    icon: 'icon-upload',
                     url: './database/import',
                 },
                 {

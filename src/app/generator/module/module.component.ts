@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DialogBoxComponent, DialogService } from '../../dialog';
 import { IItem } from '../../theme/models/seo';
+import { emptyValidate } from '../../theme/validators';
 import { GenerateService } from '../generate.service';
+import { IPreviewFile } from '../model';
 
 @Component({
   selector: 'app-module',
@@ -10,13 +13,29 @@ import { GenerateService } from '../generate.service';
 })
 export class ModuleComponent implements OnInit {
 
+    @ViewChild(DialogBoxComponent)
+    public modal: DialogBoxComponent;
     public tabIndex = 0;
     public moduleItems: IItem[] = [];
     public tableItems: IItem[] = [];
+    public name = '';
+    public installData = {
+        name: '',
+        module: '',
+        hasTable: false,
+        hasSeed: false,
+        hasAssets: false,
+    };
+    public generateData = {
+        module: '',
+        table: [],
+    };
+    public previewItems: IPreviewFile[] = [];
 
     constructor(
         private service: GenerateService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -38,6 +57,56 @@ export class ModuleComponent implements OnInit {
 
     public tapTab(i: number) {
         this.tabIndex = i;
+    }
+
+    public tapInstall() {
+        this.service.crud({...this.installData}).subscribe({
+            next: _ => {
+                this.toastrService.success('安装成功');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapUninstall() {
+        this.service.crud({
+            name: this.name,
+        }).subscribe({
+            next: _ => {
+                this.toastrService.success('卸载完成');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapGenerate(preview = true) {
+        this.service.module({...this.generateData,
+            preview,
+        }).subscribe({
+            next: res => {
+                this.previewItems = res.data;
+                this.modal.open();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public onModuleChange(module: string) {
+        if (!emptyValidate(this.installData.name)) {
+            return;
+        }
+        for (const item of this.moduleItems) {
+            if (item.value === module) {
+                this.installData.name = item.name.toLowerCase();
+                return;
+            }
+        }
     }
 
 }

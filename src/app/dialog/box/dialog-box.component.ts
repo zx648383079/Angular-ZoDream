@@ -44,6 +44,10 @@ export class DialogBoxComponent {
      */
     @Input() public scrollable = true;
     /**
+     * 全屏，高度设置失效
+     */
+    @Input() public fullscreen = false;
+    /**
      * 验证方法
      */
     @Input() public checkFn: () => boolean;
@@ -57,6 +61,17 @@ export class DialogBoxComponent {
     constructor() { }
 
     get boxStyle() {
+        if (this.fullscreen) {
+            return {
+                width: '100%',
+                left: 0,
+                'margin-left': 0,
+                top: 0,
+                bottom: 0,
+                right: 0,
+                'margin-top': 0,
+            };
+        }
         if (!this.scrollable) {
             return {
                 'margin-top': '-30vh',

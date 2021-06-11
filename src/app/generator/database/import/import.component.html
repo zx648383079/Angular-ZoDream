@@ -14,11 +14,11 @@
         <div class="input-group">
             <label for="">sql文件</label>
             <div>
-                <input type="file" class="form-control">
+                <div class="file-input">
+                    <label for="fileUpload" class="btn btn-primary">选择并执行</label>
+                    <input type="file" name="file" id="fileUpload" (change)="onFileChange($event)" accept=".sql" />
+                </div>
             </div>
-        </div>
-        <div class="btn-group">
-            <div class="btn btn-primary">执行</div>
         </div>
     </div>
 </div>

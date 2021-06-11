@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
+import { IPreviewFile } from '../../model';
 
 @Component({
   selector: 'app-model',
@@ -10,9 +11,13 @@ import { GenerateService } from '../../generate.service';
 })
 export class ModelComponent implements OnInit {
 
+    @ViewChild(DialogBoxComponent)
+    public modal: DialogBoxComponent;
+    public module = '';
     public tableItems: IItem[] = [];
 
     public selected = '';
+    public previewItems: IPreviewFile[] = [];
 
     constructor(
         private service: GenerateService,
@@ -27,6 +32,22 @@ export class ModelComponent implements OnInit {
                     value: i,
                 };
             });
+        });
+    }
+
+    public tapSubmit(preview = true) {
+        this.service.model({
+            module: this.module,
+            table: this.selected,
+            preview,
+        }).subscribe({
+            next: res => {
+                this.previewItems = res.data;
+                this.modal.open();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

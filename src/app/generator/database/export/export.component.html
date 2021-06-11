@@ -20,31 +20,31 @@
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成结构</app-switch>
+                <app-switch [(ngModel)]="hasStructure">生成结构</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成数据</app-switch>
+                <app-switch [(ngModel)]="hasData">生成数据</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>生成数据库</app-switch>
+                <app-switch [(ngModel)]="hasSchema">生成数据库</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for=""></label>
             <div>
-                <app-switch>添加 DROP</app-switch>
+                <app-switch [(ngModel)]="hasDrop">添加 DROP</app-switch>
             </div>
         </div>
         <div class="input-group">
             <label for="">导出格式</label>
             <div>
-                <select class="form-control">
+                <select class="form-control" [(ngModel)]="format">
                     <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
             </div>
@@ -52,11 +52,11 @@
         <div class="input-group">
             <label for="">有效期（分钟）</label>
             <div>
-                <input type="number" class="form-control">
+                <input type="number" class="form-control" [(ngModel)]="expire">
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-primary">执行</div>
+            <div class="btn btn-primary" (click)="tapSubmit()">执行</div>
         </div>
     </div>
 </div>
