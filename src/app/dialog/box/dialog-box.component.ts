@@ -40,6 +40,10 @@ export class DialogBoxComponent {
     @Input() public confirmText = '确定';
     @Input() public cancelText = '取消';
     /**
+     * 内容框是否滚动，false 设置的高度将无效
+     */
+    @Input() public scrollable = true;
+    /**
      * 验证方法
      */
     @Input() public checkFn: () => boolean;
@@ -53,6 +57,11 @@ export class DialogBoxComponent {
     constructor() { }
 
     get boxStyle() {
+        if (!this.scrollable) {
+            return {
+                'margin-top': '-30vh',
+            };
+        }
         return {
             height: this.height + 'px',
             'margin-top': (- this.height / 2) + 'px'

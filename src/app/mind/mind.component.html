@@ -1,0 +1,19 @@
+<div class="mind-editor">
+    <canvas #lineBox></canvas>
+    <div class="mind-body">
+        <ng-container *ngIf="!readonly">
+            <div class="mind-begin" (click)="tapNew($event)">
+                <i class="iconfont icon-plus"></i>
+            </div>
+        </ng-container>
+        <ng-container *ngFor="let item of pointItems; let i = index">
+            <div class="mind-item" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}" (mouseup)="onLinkFinish($event, i)" (mousedown)="onMoveStart($event, i)" (contextmenu)="onContext($event, i)">
+                {{ item.text }}
+                <div class="mind-action" *ngIf="!readonly" (mousedown)="onNewStart($event, i)">
+                    <i class="iconfont icon-plus"></i>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<app-context-menu></app-context-menu>

@@ -109,7 +109,8 @@
 
 <div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont text-left" [ngClass]="{'icon-chevron-left': !linkOpen, 'icon-chevron-right': linkOpen}" (click)="linkOpen = !linkOpen"></i>
+        <i class="iconfont icon-close" (click)="linkOpen = panelOpen = false"></i>
     </div>
     <div class="panel-search">
         <input type="text">
@@ -139,3 +140,24 @@
         </div>
     </div>
 </div>
+
+<div class="dialog-link" [hidden]="!linkOpen">
+    <app-mind [readonly]="false" [format]="mindFormat" (confirm)="onMindConfirm($event, roleModal)"></app-mind>
+</div>
+
+<app-dialog-box #roleModal [scrollable]="false">
+<div class="form-table">
+    <div class="input-group">
+        <label for="">角色名</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="roleData.name">
+        </div>
+    </div>
+    <div class="input-group" [hidden]="roleData.type == 'new'">
+        <label for="">与“{{ roleData.from }}”的关系</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="roleData.link">
+        </div>
+    </div>
+</div>
+</app-dialog-box>

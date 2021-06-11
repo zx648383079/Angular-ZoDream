@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<app-dialog-box #tableModal>
+<app-dialog-box #tableModal [scrollable]="false">
     <div class="form-table">
         <div class="input-group">
             <label for="">数据库</label>
@@ -64,7 +64,7 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #columnModal>
+<app-dialog-box #columnModal [scrollable]="false">
     <div class="tab-box form-table">
         <div class="tab-header">
             <div class="tab-item" [ngClass]="{active: columnData.type < 1}" (click)="columnData.type = 0">固定值</div>

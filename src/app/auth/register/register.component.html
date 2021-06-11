@@ -12,6 +12,9 @@
           <i class="iconfont icon-lock" aria-hidden="true"></i>
           <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
       </div>
+      <div class="input-tip">
+          <app-password-strong [value]="password.value"></app-password-strong>
+      </div>
       <div class="input-group" [class]="{error: registerForm.errors && registerForm.errors.confirm}">
           <input [type]="isObserve ? 'text' : 'password'" formControlName="confirm_password" placeholder="请确认密码" >
           <i class="iconfont icon-check" aria-hidden="true"></i>

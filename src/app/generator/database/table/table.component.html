@@ -1,3 +1,21 @@
-<p>
-  table works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>数据表列表</li>
+            <li>当前数据库：{{ schema }}</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <app-editable-table [columnItems]="headerItems" [items]="items" [action]="actionTpl" [loading]="isLoading"></app-editable-table>
+    </div>
+</div>
+<ng-template #actionTpl let-name="Name" let-free="Data_free">
+<div class="btn-group">
+    <a class="btn btn-primary" routerLink="../query" [queryParams]="{schema: schema, table: name}">浏览</a>
+    <a class="btn btn-info" routerLink="../column" [queryParams]="{schema: schema, table: name}">结构</a>
+    <div class="btn btn-success">清空</div>
+    <div class="btn btn-info" *ngIf="free > 0">优化</div>
+    <div class="btn btn-danger" [attr.source]="name">删除</div>
+</div>
+</ng-template>

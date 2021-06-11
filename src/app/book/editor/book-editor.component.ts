@@ -1,7 +1,8 @@
 import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../context-menu';
-import { DialogService } from '../../dialog';
+import { DialogBoxComponent, DialogService } from '../../dialog';
+import { MindConfirmEvent, MindLinkSource, MindPointSource } from '../../mind';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { wordLength } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
@@ -27,6 +28,13 @@ export class BookEditorComponent implements OnInit {
     public topVisible = false;
     public panelOpen = false;
     public subOpen = false;
+    public linkOpen = false;
+    public roleData = {
+        name: '',
+        link: '',
+        from: '',
+        type: 'new'
+    };
     
     constructor(
         private service: BookService,
@@ -238,7 +246,41 @@ export class BookEditorComponent implements OnInit {
         children.push(data);
     }
 
+    public mindFormat(data: any) {
+        if (data.name) {
+            return <MindPointSource>{
+                id: data.id || 0,
+                text: data.name,
+            };
+        }
+        return <MindLinkSource>{
+            from: 0,
+            to: 0,
+            text: data.title,
+        };
+    }
+
     public onKeyDown(event: KeyboardEvent) {
 
+    }
+
+    public onMindConfirm(event: MindConfirmEvent, modal: DialogBoxComponent) {
+        this.roleData = {
+            link: '',
+            name: event.to?.name || '',
+            from: event.from?.name || '',
+            type: event.type,
+        };
+        modal.open(() => {
+            if (event.type === 'new') {
+                event.next({name: this.roleData.name});
+                return;
+            }
+            if (event.type === 'link') {
+                event.next({title: this.roleData.link});
+                return;
+            }
+            event.next({name: this.roleData.name}, {title: this.roleData.link});
+        }, '添加角色与关系');
     }
 }

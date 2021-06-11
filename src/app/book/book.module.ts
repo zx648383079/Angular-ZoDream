@@ -8,6 +8,8 @@ import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
 import { ContextMenuModule } from '../context-menu';
 import { ProgressModule } from '../progress';
 import { ZreFormModule } from '../form';
+import { ZreMindModule } from '../mind';
+import { DialogModule } from '../dialog';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { ZreFormModule } from '../form';
         ContextMenuModule,
         ProgressModule,
         ZreFormModule,
+        ZreMindModule,
+        DialogModule,
     ],
     providers: [
         BookService

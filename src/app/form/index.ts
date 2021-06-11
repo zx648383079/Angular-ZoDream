@@ -10,3 +10,5 @@ export * from './date-input/date-input.component';
 export * from './time-input/time-input.component';
 export * from './check-input/check-input.component';
 export * from './file-online/file-online.component';
+export * from './switch/util';
+export * from './password-strong/password-strong.component';

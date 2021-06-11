@@ -15,8 +15,8 @@
                     <div class="drop-menu-btn" [ngClass]="{'open-drop': openDrop}">
                         <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
                         <div class="drop-menu-body">
-                            <div class="menu-item" *ngFor="let item of columnItems">
-                                <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}"></i>
+                            <div class="menu-item" *ngFor="let item of columnItems; let i = index">
+                                <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}" (click)="toggleHidden(i)"></i>
                                 {{ item.label || item.name }}
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                     <td>
                         <ng-container *ngIf="item.searchable">
                             <ng-container *ngIf="item.inputType == 'text' || !item.inputType">
-                                <input type="text" class="form-control" [(ngModel)]="item.value">
+                                <input type="text" class="form-control" [(ngModel)]="item.value" placeholder="请输入关键字">
                             </ng-container>
                             <ng-container *ngIf="item.inputType == 'switch'">
                                 <app-switch [(ngModel)]="item.value"></app-switch>
@@ -58,9 +58,19 @@
                         <ng-container *ngIf="name.format === 'switch'">
                             <app-switch [(ngModel)]="item[name.name]"></app-switch>
                         </ng-container>
-                        <ng-container *ngIf="name.format !== 'switch' && name.format !== 'img'">
-                            {{ formatValue(item, name) }}
+                        <ng-container *ngIf="name.format === 'size'">
+                            {{ item[name.name] | size }}
                         </ng-container>
+                        <ng-container *ngIf="name.format === 'numberFormat'">
+                            {{ item[name.name] | numberFormat }}
+                        </ng-container>
+                        <ng-container *ngIf="name.format === 'ago'">
+                            {{ item[name.name] | ago }}
+                        </ng-container>
+                        <ng-container *ngIf="name.format === 'timestamp'">
+                            {{ item[name.name] | timestamp }}
+                        </ng-container>
+                        {{ formatValue(item, name) }}
                     </th>
                 </ng-container>
                 <td>
@@ -86,7 +96,7 @@
         </tfoot>
     </table>
     <ng-container *ngIf="total >= 0">
-        <app-pagination [page]="page" [pageTotal]="total" [perPage]="perPage" (pageChange)="tapPage($event)">
+        <app-pagination [page]="page" [total]="total" [perPage]="perPage" (pageChange)="tapPage($event)">
         </app-pagination>
     </ng-container>
 </ng-container>

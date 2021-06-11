@@ -3,6 +3,8 @@
     flex-direction: column;
     .dialog-body {
         flex: 1;
-        overflow-y: auto;
+        &.scrollable {
+            overflow-y: auto;
+        }
     }
 }

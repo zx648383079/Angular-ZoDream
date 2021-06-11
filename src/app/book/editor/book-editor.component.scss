@@ -179,6 +179,9 @@ li {
 }
 
 .dialog-panel {
+    .text-left {
+        float: none;
+    }
     .panel-body {
         position: relative;
     }
@@ -206,3 +209,12 @@ li {
     }
 }
 
+.dialog-link {
+    position: fixed;
+    left: 0;
+    right: 18.75rem;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 98;
+}

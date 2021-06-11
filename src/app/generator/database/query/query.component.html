@@ -1,3 +1,29 @@
-<p>
-  query works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>执行sql语句</li>
+            <li *ngIf="schema">当前数据库：{{ schema }}</li>
+            <li *ngIf="table">当前表：{{ table }}</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <textarea class="form-control" [(ngModel)]="sql"></textarea>
+        <div class="btn-group">
+            <div class="btn btn-danger" (click)="tapRun()">执行</div>
+            <div class="btn btn-info" (click)="tapReset()">重置</div>
+        </div>
+    </div>
+
+    <div class="panel-container" [hidden]="total < 0">
+        <app-editable-table [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading" [page]="page" [total]="total" [perPage]="perPage" (pageChange)="onPageChange($event)"></app-editable-table>
+    </div>
+</div>
+
+<ng-template #actionTpl>
+    <div class="btn-group">
+        <div class="btn btn-primary">编辑</div>
+        <div class="btn btn-info">复制</div>
+        <div class="btn btn-danger">删除</div>
+    </div>
+</ng-template>

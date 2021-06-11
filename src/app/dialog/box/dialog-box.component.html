@@ -5,7 +5,7 @@
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
         <ng-content select="[name=header]"></ng-content>
     </div>
-    <div class="dialog-body">
+    <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
         <ng-content></ng-content>
     </div>
     <div class="dialog-footer">

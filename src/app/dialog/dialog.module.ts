@@ -4,6 +4,11 @@ import { DialogService } from './dialog.service';
 import { DialogBoxComponent } from './box/dialog-box.component';
 import { ToastrModule } from 'ngx-toastr';
 
+
+const COMPONENTS = [
+    DialogBoxComponent
+];
+
 @NgModule({
     imports: [
         CommonModule,
@@ -15,13 +20,13 @@ import { ToastrModule } from 'ngx-toastr';
         }),
     ],
     declarations: [
-        DialogBoxComponent,
+        ...COMPONENTS
     ],
     providers: [
         DialogService,
     ],
     exports: [
-        DialogBoxComponent,
+        ...COMPONENTS
     ],
 })
 export class DialogModule {

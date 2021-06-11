@@ -29,7 +29,7 @@
                     <div class="input-group">
                         <label for="">命名空间</label>
                         <div>
-                            <ng-select></ng-select>
+                            <ng-select [items]="moduleItems" bindLabel="name" bindValue="value"></ng-select>
                         </div>
                     </div>
                     <div class="input-group">
@@ -91,7 +91,7 @@
                     <div class="input-group">
                         <label for="">数据表</label>
                         <div>
-                            <ng-select></ng-select>
+                            <ng-select [items]="tableItems" bindLabel="name" bindValue="value"></ng-select>
                         </div>
                     </div>
                     <div class="btn btn-info">生成</div>
