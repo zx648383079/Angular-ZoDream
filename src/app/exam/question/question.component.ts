@@ -58,6 +58,7 @@ export class QuestionComponent implements OnInit {
             id: this.cardItems[i].id
         }).subscribe(res => {
             this.data = res;
+            this.editable = true;
         });
     }
 

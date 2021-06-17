@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
-import { rangeStep } from '../../../../theme/utils';
-import { ICourse, IQuestion } from '../../../model';
+import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { emptyValidate } from '../../../../theme/validators';
+import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
@@ -24,13 +24,20 @@ export class EditQuestionComponent implements OnInit {
         dynamic: [''],
         answer: [''],
         analysis: [''],
-        option: this.fb.array([]),
+        option_items: this.fb.array([]),
     });
 
     public data: IQuestion;
     public courseItems: ICourse[] = [];
-    public easinessItems = rangeStep(1, 10);
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
+    public material: IQuestionMaterial;
+    public materialSelected: IQuestionMaterial;
+    public analysisItems: IQuestionAnalysis[] = [];
+    public analysisTypeItems = ['文本', '音频', '视频'];
+    public analysisData: IQuestionAnalysis = {
+        type: 0,
+        content: '',
+    };
 
     constructor(
         private fb: FormBuilder,
@@ -59,15 +66,35 @@ export class EditQuestionComponent implements OnInit {
                     content: res.content,
                     dynamic: res.dynamic,
                     answer: res.analysis,
-                    analysis: res.analysis,
                 });
-                if (res.option) {
-                    res.option.forEach(i => {
+                if (res.material) {
+                    this.material = res.material;
+                }
+                if (res.option_items) {
+                    res.option_items.forEach(i => {
                         this.optionItems.push(this.fb.group(i));
                     });
                 }
+                if (res.analysis_items) {
+                    this.analysisItems = res.analysis_items;
+                }
             });
         });
+    }
+
+    get easiness() {
+        return this.form.get('easiness').value;
+    }
+
+    get easinessLabel() {
+        const val = this.easiness;
+        if (val < 4) {
+            return '简单';
+        }
+        if (val < 7) {
+            return '一般';
+        }
+        return '困难';
     }
 
     get typeValue() {
@@ -75,7 +102,52 @@ export class EditQuestionComponent implements OnInit {
     }
 
     get optionItems() {
-        return this.form.get('option') as FormArray;
+        return this.form.get('option_items') as FormArray;
+    }
+
+    public onTypeChange() {
+        if (this.typeValue < 4) {
+            return;
+        }
+        const matches = (this.form.get('content').value as string).match(/_{3,}/g);
+        if (!matches || matches.length < 1) {
+            return;
+        }
+        let diff = matches.length - this.optionItems.length;
+        if (diff < 1) {
+            return;
+        }
+        for (; diff > 0; diff--) {
+            this.tapAddItem();
+        }
+    }
+
+    public tapEditAnalysis(modal: DialogBoxComponent, i = -1) {
+        this.analysisData.type = i >= 0 ? this.analysisItems[i].type : 0;
+        this.analysisData.content = i >= 0 ? this.analysisItems[i].content : '';
+        modal.open(() => {
+            if (i >= 0) {
+                this.analysisItems[i].type = this.analysisData.type;
+                this.analysisItems[i].content = this.analysisData.content;
+                return;
+            }
+            this.analysisItems.push({...this.analysisData});
+        }, () => !emptyValidate(this.analysisData.content), i >= 0 ? '编辑解析' : '新增解析');
+    }
+
+    public tapRemoveAnalysis(i: number) {
+        this.analysisItems.splice(i, 1);
+    }
+
+    public tapMaterial(modal: DialogBoxComponent) {
+        modal.open(() => {
+            this.material = this.materialSelected;
+        }, () => !!this.materialSelected);
+    }
+
+    public tapRemoveMaterial(event: MouseEvent) {
+        event.stopPropagation();
+        this.material = undefined;
     }
 
     public tapBack() {
@@ -91,6 +163,8 @@ export class EditQuestionComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        data.analysis_items = this.analysisItems;
+        data.material_id = this.material ? this.material.id : 0;
         this.service.questionSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();

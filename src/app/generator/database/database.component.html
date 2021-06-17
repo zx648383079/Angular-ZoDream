@@ -9,13 +9,13 @@
         <div class="page-search-bar">
             <div class="row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="数据库名">
+                    <input type="text" class="form-control" placeholder="数据库名" [(ngModel)]="editData.name">
                 </div>
                 <div class="col-md-4">
-                    <ng-select [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则"></ng-select>
+                    <ng-select [(ngModel)]="editData.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则"></ng-select>
                 </div>
                 <div class="col-md-4">
-                    <div class="btn btn-primary">新建</div>
+                    <div class="btn btn-primary" (click)="tapSubmit()">新建</div>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@ export class BookEditorComponent implements OnInit {
     public catalog: IChapter[] = [];
     public topVisible = false;
     public panelOpen = false;
-    public subOpen = false;
+    public subOpen = 0;
     public linkOpen = false;
     public roleData = {
         name: '',
@@ -82,6 +82,20 @@ export class BookEditorComponent implements OnInit {
                 }
             })
         });
+    }
+
+    public tapViewLink() {
+        this.panelOpen = true;
+        this.subOpen = 0;
+    }
+
+    public tapCloseLink() {
+        this.linkOpen = this.panelOpen = false
+    }
+
+    public toggleLink() {
+        this.linkOpen = !this.linkOpen;
+        this.subOpen = 0;
     }
 
     public tapEdit(item: IChapter) {

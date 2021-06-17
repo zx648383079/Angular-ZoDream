@@ -41,6 +41,14 @@ export class GenerateService {
         return this.http.post<IData<IPreviewFile>>('gzo/template/module', data);
     }
 
+    public schemaCreate(data: any) {
+        return this.http.post<IDataOne<true>>('gzo/database/schema_create', data);
+    }
+
+    public tableCreate(data: any) {
+        return this.http.post<IDataOne<true>>('gzo/database/table_create', data);
+    }
+
     public schemaList(): Observable<IData<string>>;
     public schemaList(full: true): Observable<IData<any>>;
     public schemaList(full = false) {

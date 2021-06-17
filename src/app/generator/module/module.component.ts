@@ -22,7 +22,7 @@ export class ModuleComponent implements OnInit {
     public installData = {
         name: '',
         module: '',
-        hasTable: false,
+        hasTable: true,
         hasSeed: false,
         hasAssets: false,
     };
@@ -60,7 +60,7 @@ export class ModuleComponent implements OnInit {
     }
 
     public tapInstall() {
-        this.service.crud({...this.installData}).subscribe({
+        this.service.moduleInstall({...this.installData}).subscribe({
             next: _ => {
                 this.toastrService.success('安装成功');
             },
@@ -71,7 +71,7 @@ export class ModuleComponent implements OnInit {
     }
 
     public tapUninstall() {
-        this.service.crud({
+        this.service.moduleUninstall({
             name: this.name,
         }).subscribe({
             next: _ => {

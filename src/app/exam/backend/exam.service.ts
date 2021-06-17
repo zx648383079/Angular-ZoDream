@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
-import { ICourse, IExamPage, IPageEvaluate, IQuestion } from '../model';
+import { ICourse, IExamPage, IPageEvaluate, IQuestion, IQuestionMaterial } from '../model';
 
 @Injectable()
 export class ExamService {
@@ -84,4 +84,24 @@ export class ExamService {
         });
     }
 
+
+    public materialList(params: any) {
+        return this.http.get<IPage<IQuestionMaterial>>('exam/admin/material', {params});
+    }
+
+    public material(id: any) {
+        return this.http.get<IQuestionMaterial>('exam/admin/material/detail', {
+          params: {id},
+        });
+    }
+
+    public materialSave(data: any) {
+        return this.http.post<IQuestionMaterial>('exam/admin/material/save', data);
+    }
+
+    public materialRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/admin/material/delete', {
+          params: {id}
+        });
+    }
 }

@@ -11,14 +11,32 @@ export interface IQuestion {
     content:    string;
     dynamic:    string;
     answer:     any;
-    analysis:   string;
+    material_id?: number;
+    material?: IQuestionMaterial;
+    analysis_items?:  IQuestionAnalysis[];
+    analysis?: string;
     updated_at: string;
     created_at: string;
     course?: ICourse;
+    option_items?: IQuestionOption[];
     option?: IQuestionOption[];
 }
 
+export interface IQuestionMaterial {
+    id?: number;
+    course_id?: number;
+    title: string;
+    description: string;
+    type: number;
+    content: string;
+}
 
+export interface IQuestionAnalysis {
+    id?: number;
+    question_id?: number;
+    type: number;
+    content: string;
+}
 
 export interface IQuestionFormat extends IQuestion {
     order: string;
@@ -37,7 +55,7 @@ export interface IQuestionOption {
     id:          string;
     order: string;
     content:     string;
-    question_id: string;
+    question_id: number;
     type:        string;
     is_right:    string;
     checked?: boolean;

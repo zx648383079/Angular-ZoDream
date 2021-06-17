@@ -1,8 +1,15 @@
 .star-box {
+    font-size: 1em;
+    line-height: 2em;
     .iconfont {
         color: #9b9b9b;
         &.icon-star {
             color: red;
         }
+    }
+    .star-label {
+        display: inline-block;
+        margin-left: .5em;
+        font-size: .8em;
     }
 }

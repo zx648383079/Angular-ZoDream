@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理素材列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <div class="input-group">
+                    <label for="course_id">科目</label>
+                    <select id="course_id" [ngModel]="queries.course" class="form-control" name="course">
+                        <option [value]="0">请选择</option>
+                        <ng-container *ngFor="let item of courseItems">
+                            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" (click)="open(modal)">新增素材</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>简介</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>【{{ item.type|materialType }}】{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-light btn-xs"  (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+  
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+<app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑素材' : '新增素材'">
+    <div class="form-group">
+        <label for="title">标题</label>
+        <input type="text"
+            class="form-control" [(ngModel)]="editData.title" id="title" placeholder="请输入标题">
+    </div>
+    <div class="form-group">
+        <label for="course_id">科目</label>
+        <select class="form-control" id="course_id" [(ngModel)]="editData.course_id">
+            <option [value]="0">请选择</option>
+            <ng-container *ngFor="let item of courseItems">
+                <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="description">简介</label>
+        <textarea
+            class="form-control" [(ngModel)]="editData.description" id="description" placeholder="请输入简介"></textarea>
+    </div>
+    <div class="form-group">
+        <label>内容类型</label>
+        <select class="form-control" [(ngModel)]="editData.type">
+            <ng-container *ngFor="let item of typeItems;let i = index">
+                <option [value]="i">{{ item }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <ng-container *ngIf="editData.type < 1">
+        <textarea class="form-control" [(ngModel)]="editData.content"></textarea>
+    </ng-container>
+    <ng-container *ngIf="editData.type > 0">
+        <app-file-input [(ngModel)]="editData.content" accept="*/*"></app-file-input>
+    </ng-container>
+    
+</app-dialog-box>

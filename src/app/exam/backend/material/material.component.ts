@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { IQuestion } from '../../model';
+import { emptyValidate } from '../../../theme/validators';
+import { ICourse, IQuestionMaterial } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss']
+  selector: 'app-material',
+  templateUrl: './material.component.html',
+  styleUrls: ['./material.component.scss']
 })
-export class QuestionComponent implements OnInit {
+export class MaterialComponent implements OnInit {
 
-    public items: IQuestion[] = [];
+    public items: IQuestionMaterial[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -23,6 +24,15 @@ export class QuestionComponent implements OnInit {
         keywords: '',
         course: 0,
     };
+    public editData: IQuestionMaterial = {
+        title: '',
+        course_id: 0,
+        description: '',
+        type: 0,
+        content: '',
+    };
+    public courseItems: ICourse[] = [];
+    public typeItems = ['文本', '音频', '视频'];
 
     constructor(
         private service: ExamService,
@@ -31,9 +41,30 @@ export class QuestionComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.service.courseAll().subscribe(res => {
+            this.courseItems = res.data;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public open(modal: DialogBoxComponent, item?: IQuestionMaterial) {
+        this.editData = item ? {...item} : {
+            title: '',
+            course_id: 0,
+            description: '',
+            type: 0,
+            content: '',
+        };
+        modal.open(() => {
+            this.service.materialSave({...this.editData}).subscribe(res => {
+                this.toastrService.success('保存成功');
+                this.tapPage();
+            });
+        }, () => {
+            return !emptyValidate(this.editData.title) && !emptyValidate(this.editData.content);
         });
     }
 
@@ -62,7 +93,7 @@ export class QuestionComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.questionList(queries).subscribe(res => {
+        this.service.materialList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
@@ -76,11 +107,11 @@ export class QuestionComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IQuestion) {
-        if (!confirm('确定删除“' + item.title + '”题目？')) {
+    public tapRemove(item: IQuestionMaterial) {
+        if (!confirm('确定删除“' + item.title + '”素材？')) {
             return;
         }
-        this.service.questionRemove(item.id).subscribe(res => {
+        this.service.materialRemove(item.id).subscribe(res => {
             if (!res.data) {
                 return;
             }

@@ -7,6 +7,8 @@ import {
 } from '@angular/router';
 import { CourseComponent } from './course/course.component';
 import { ExamBackendComponent } from './exam-backend.component';
+import { MaterialComponent } from './material/material.component';
+import { MaterialPanelComponent } from './material/panel/material-panel.component';
 import { EditPageComponent } from './page/edit/edit-page.component';
 import { EvaluateComponent } from './page/evaluate/evaluate.component';
 import { PageComponent } from './page/page.component';
@@ -29,6 +31,10 @@ const routes: Routes = [
     {
         path: 'question',
         component: QuestionComponent,
+    },
+    {
+        path: 'material',
+        component: MaterialComponent,
     },
     {
         path: 'page/create',
@@ -59,5 +65,5 @@ const routes: Routes = [
 export class ExamBackendRoutingModule {}
 
 export const examBackendRoutedComponents = [
-    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent
+    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent,
 ];

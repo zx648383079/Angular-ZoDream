@@ -19,7 +19,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class StarComponent {
 
-    @Input() public disable = true;
+    @Input() public disabled = true;
     public value = 10;
     public items = [2, 4, 6, 8, 10];
 
@@ -29,11 +29,10 @@ export class StarComponent {
     constructor() {}
 
     public tapChange(i: number) {
-        if (this.disable) {
+        if (this.disabled) {
             return;
         }
-        this.value = i;
-        this.onChange(this.value);
+        this.onChange(this.value = i);
     }
 
     writeValue(obj: any): void {
@@ -48,6 +47,6 @@ export class StarComponent {
         this.onTouch = fn;
     }
     setDisabledState?(isDisabled: boolean): void {
-        this.disable = isDisabled;
+        this.disabled = isDisabled;
     }
 }

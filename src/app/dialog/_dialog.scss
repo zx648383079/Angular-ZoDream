@@ -108,6 +108,40 @@
     }
 }
 
+.dialog-search-box {
+    .dialog-close {
+        position: absolute;
+        font-size: 30px;
+        right: 0;
+        top: 0;
+        color: #ccc;
+    }
+    .search-bar {
+        select.form-control {
+            width: 100px;
+        }
+    }
+    .search-body {
+        background-color: #f4f4f4;
+    }
+    .option-item {
+        position: relative;
+        &.selected {
+            background-color: #aeffee;
+            &::after {
+                position: absolute;
+                font-size: 3em;
+                color: rgba(255,0,0,.3);
+                font-family: "iconfont";
+                content: "\e648";
+                font-weight: 900;
+                top: 10px;
+                left: 0;
+            }
+        }   
+    }
+}
+
 @media screen and (max-width: 700px) {
     .dialog-box {
         width: 100%;

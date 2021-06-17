@@ -33,7 +33,7 @@
     </div>
     
     <div class="panel-container" *ngIf="finished">
-        <div class="msg-bar">
+        <div class="msg-bar" *ngIf="data.report">
             <span class="left">
                 <span
                     class="gray">答对：</span><span class="count-right">{{ data.report.right }}&nbsp;题</span>

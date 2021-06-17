@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from '../../dialog';
 import { ITableHeaderItem } from '../../theme/components/editable-table/model';
 import { IItem } from '../../theme/models/seo';
+import { emptyValidate } from '../../theme/validators';
 import { GenerateService } from '../generate.service';
 
 @Component({
@@ -21,9 +23,14 @@ export class DatabaseComponent implements OnInit {
         {name: 'UTF8M64编码', value: 'utf8mb4_general_ci'},
     ];
     public isLoading = false;
+    public editData = {
+        name: '',
+        collation: '',
+    };
 
     constructor(
-        private service: GenerateService
+        private service: GenerateService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -36,6 +43,22 @@ export class DatabaseComponent implements OnInit {
                 };
             });
         });
+    }
+
+    public tapSubmit() {
+        if (emptyValidate(this.editData.name)) {
+            this.toastrService.warning('请输入数据库名');
+            return;
+        }
+        this.service.schemaCreate({...this.editData}).subscribe({
+            next: _ => {
+                this.toastrService.success('创建成功');
+                this.editData.name = '';
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
 }

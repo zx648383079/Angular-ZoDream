@@ -1,0 +1,34 @@
+<div class="search-bar">
+    <div class="form-horizontal">
+        <div class="input-group">
+            <label for="keywords">关键字</label>
+            <input type="text" class="form-control" [(ngModel)]="queries.keywords" id="keywords" placeholder="关键词">
+        </div>
+        <div class="input-group">
+            <label >科目</label>
+            <select [(ngModel)]="queries.course" class="form-control">
+                <option [value]="0">请选择</option>
+                <ng-container *ngFor="let item of courseItems">
+                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                </ng-container>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="tapRefresh()">搜索</button>
+    </div>
+</div>
+
+<div class="search-body">
+    <div class="container-fluid">
+        <div class="row">
+            <ng-container *ngFor="let item of items">
+                <div class="col-md-4">
+                    <div class="option-item" [ngClass]="{selected: value && value.id == item.id}" (click)="tapSelected(item)">
+                        <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
+                        <div class="desc">{{ item.description }}</div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

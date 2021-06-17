@@ -21,6 +21,24 @@
             </div>
         </div>
         <div class="input-group">
+            <label for="article">关联素材</label>
+            <div>
+                <ng-container *ngIf="material; else elseTemplate">
+                    <div class="media-item" (click)="tapMaterial(materialModal)">
+                        <div class="title">【{{material.type|materialType}}】{{ material.title }}</div>
+                        <div class="desc">{{ material.description }}</div>
+                        <i class="iconfont icon-close" (click)="tapRemoveMaterial($event)"></i>
+                    </div>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="media-btn" (click)="tapMaterial(materialModal)">
+                        <i class="iconfont icon-plus"></i>
+                    </div>
+                </ng-template>
+                <div class="input-tip">可以不选，同一素材将合并成同一个大题下面的小题</div>
+            </div>
+        </div>
+        <div class="input-group">
             <label for="image">图片</label>
             <div>
                 <app-file-input formControlName="image"></app-file-input>
@@ -29,16 +47,13 @@
         <div class="input-group">
             <label for="easiness">难易程度</label>
             <div>
-                <select id="easiness" class="form-control" formControlName="easiness">
-                    <option *ngFor="let item of easinessItems; let i = index" [value]="i">{{ item }}</option>
-                </select>
-                <div class="input-tip">数值越大越难</div>
+                <app-star formControlName="easiness" [disabled]="false">{{ easinessLabel }}</app-star>
             </div>
         </div>
         <div class="input-group">
             <label for="content">内容</label>
             <div>
-                <textarea id="content" class="form-control" formControlName="content" ></textarea>
+                <textarea id="content" class="form-control" formControlName="content" (change)="onTypeChange()"></textarea>
             </div>
         </div>
         <div class="input-group">
@@ -49,16 +64,9 @@
             </div>
         </div>
         <div class="input-group">
-            <label for="analysis">解析</label>
-            <div>
-                <textarea id="analysis" class="form-control" formControlName="analysis" ></textarea>
-
-            </div>
-        </div>
-        <div class="input-group">
             <label for="type">类型</label>
             <div>
-                <select id="type" class="form-control" formControlName="type">
+                <select id="type" class="form-control" formControlName="type" (change)="onTypeChange()">
                     <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
                 </select>
             </div>
@@ -90,7 +98,7 @@
                             </a>
                         </div>
                     </ng-container>
-                    <a (click)="tapAddItem()" class="add-option">
+                    <a (click)="tapAddItem()" class="add-btn">
                         <i class="iconfont icon-plus"></i>
                     </a>
                 </div>
@@ -104,11 +112,60 @@
                     </select>
                 </div>
             </div>
-            <div class="input-group" *ngIf="typeValue > 2">
+            <div class="input-group" *ngIf="typeValue == 3">
                 <label for="answer">答案</label>
                 <div>
-                    <textarea id="answer" class="form-control" formControlName="answer">1</textarea>
+                    <textarea id="answer" class="form-control" formControlName="answer"></textarea>
                     <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“@1+@2*3”等公式，填空题为一行一个</div>
+                </div>
+            </div>
+            <div class="input-group" *ngIf="typeValue >= 4">
+                <label for="answer">答案</label>
+                <div>
+                    <div>
+                        <ng-container *ngFor="let item of optionItems.controls; let i = index">
+                            <div class="option-item" [formGroup]="item">
+                                <div class="option-value">
+                                    <input type="text" class="form-control" formControlName="content" placeholder="请输入正确的答案">
+                                </div>
+                                <a (click)="tapRemoveItem(i)" class="remove-btn">
+                                    <i class="iconfont icon-close"></i>
+                                </a>
+                            </div>
+                        </ng-container>
+                        <a (click)="tapAddItem()" class="add-btn">
+                            <i class="iconfont icon-plus"></i>
+                        </a>
+                    </div>
+                    <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“@1+@2*3”等公式</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="analysis">解析</label>
+                <div>
+                    <ng-container *ngFor="let item of analysisItems; let i = index">
+                      <div class="edit-row">
+                        <div class="content">
+                            <ng-container *ngIf="item.type < 1">
+                                <textarea class="form-control" [value]="item.content" readonly></textarea>
+                              </ng-container>
+                              <ng-container *ngIf="item.type == 1">
+                                <app-audio-player [src]="item.content"></app-audio-player>
+                              </ng-container>
+                              <ng-container *ngIf="item.type == 2">
+                                <app-video-player [src]="item.content"></app-video-player>
+                              </ng-container>
+                        </div>
+                        <div class="edit-action">
+                            <i class="iconfont icon-edit" (click)="tapEditAnalysis(analysisModal, i)"></i>
+                            <i class="iconfont icon-close" (click)="tapRemoveAnalysis(i)"></i>
+                        </div>
+                      </div>
+                    </ng-container>
+                    
+                    <a class="add-btn" (click)="tapEditAnalysis(analysisModal)">
+                        <i class="iconfont icon-plus"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -118,3 +175,24 @@
         </div>
     </form>
 </div>
+
+<app-dialog-box class="dialog-search-box" #materialModal>
+    <i class="iconfont icon-close dialog-close" (click)="materialModal.close(false)"></i>
+    <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected"></app-material-panel>
+</app-dialog-box>
+<app-dialog-box #analysisModal>
+    <div class="form-group">
+        <label>内容类型</label>
+        <select class="form-control" [(ngModel)]="analysisData.type">
+            <ng-container *ngFor="let item of analysisTypeItems;let i = index">
+                <option [value]="i">{{ item }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <ng-container *ngIf="analysisData.type < 1">
+        <textarea class="form-control" [(ngModel)]="analysisData.content"></textarea>
+    </ng-container>
+    <ng-container *ngIf="analysisData.type > 0">
+        <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
+    </ng-container>
+</app-dialog-box>

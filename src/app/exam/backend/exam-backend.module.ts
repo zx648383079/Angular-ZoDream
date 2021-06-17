@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionTypePipe } from './question-type.pipe';
 import { DialogModule } from '../../dialog';
 import { ZreFormModule } from '../../form';
+import { MaterialTypePipe } from './material-type.pipe';
+import { MediaPlayerModule } from '../../media-player/media-player.module';
 
 @NgModule({
     imports: [
@@ -16,8 +18,9 @@ import { ZreFormModule } from '../../form';
         ExamBackendRoutingModule,
         DialogModule,
         ZreFormModule,
+        MediaPlayerModule,
     ],
-    declarations: [...examBackendRoutedComponents, QuestionTypePipe],
+    declarations: [...examBackendRoutedComponents, QuestionTypePipe, MaterialTypePipe],
     providers: [
         ExamService,
     ]

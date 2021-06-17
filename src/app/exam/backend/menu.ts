@@ -18,6 +18,11 @@ export const ExamBackendMenu: INav[] = [
                 url: './exam/course',
             },
             {
+                name: '素材列表',
+                label: '素',
+                url: './exam/material',
+            },
+            {
                 name: '试卷列表',
                 label: '卷',
                 url: './exam/page',
