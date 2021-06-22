@@ -26,7 +26,7 @@
             </div>
             <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
                 <div class="catalog-box">
-                    <app-catalog-list [items]="weightItems"></app-catalog-list>
+                    <app-catalog-list [items]="weightItems" (tapped)="onWidgetTap($event)"></app-catalog-list>
                 </div>
             </div>
         </div>

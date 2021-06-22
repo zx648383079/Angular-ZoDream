@@ -12,7 +12,7 @@
                 </div>
                 <div class="zoom-area" #zoomBox (contextmenu)="onContext($event)">
                     <ng-container *ngFor="let item of widgetItems$ | async">
-                        <div class="widget-shell" [ngStyle]="item.style">
+                        <div class="widget-shell" [ngStyle]="item.style"  (contextmenu)="onContext($event, item)">
                             <app-editor-widget [value]="item"></app-editor-widget>
                         </div>
                     </ng-container>

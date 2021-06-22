@@ -28,16 +28,14 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     public zoomRef: ElementRef<HTMLDivElement>;
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
-    private status = ACTION.NONE;
     private selectionRect = new SelectionBound();
     public tempWidget: Widget;
     public vBar = new ScrollBar();
     public hBar = new ScrollBar();
-    /**
-     * 临时数据，需要鼠标移动才会使用的数据
-     */
-    private moveData: any;
-    private lastPoint = new LocationPoint();
+    private moveListeners = {
+        move: undefined,
+        finish: undefined,
+    };
     public get widgetItems$() {
         return this.service.widgetCellItems$;
     }
@@ -102,55 +100,42 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
                 const val = clipboardData.getData('text');
             }
         });
-        this.renderer.listen(document, 'mouseup', () => {
-            const old = this.status;
-            this.status = ACTION.NONE;
-            this.lastPoint.isNull = true;
-            if (old === ACTION.MOVE_WIDGET && this.tempWidget) {
-                const item = this.tempWidget;
-                this.tempWidget = undefined;
-                if (this.service.inZoom(item)) {
-                    this.service.pushWidget(this.service.zoomLocation(item));
-                }
-            }
-            if (old === ACTION.RESIZE || old === ACTION.H_SCROLL || old === ACTION.V_SCROLL) {
-                this.refreshZoom();
+        this.renderer.listen(document, 'mouseup', (event: MouseEvent) => {
+            if (this.moveListeners.finish) {
+                this.moveListeners.finish(event);
             }
         });
         this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
-            const point = {
-                x: event.clientX,
-                y: event.clientY
-            };
-            if (this.status === ACTION.SELECTION) {
-                this.selectionRect.end = point;
-            } else if (this.status === ACTION.MOVE_WIDGET) {
-                if (!this.tempWidget && this.moveData) {
-                    const item = this.service.newWidget(this.moveData.data);
-                    item.location = point;
-                    this.tempWidget = item;
-                    this.moveData = undefined;
-                } else if (this.tempWidget) {
-                    this.tempWidget.location = point;
-                }
-            } else if (this.status === ACTION.H_SCROLL) {
-                this.hBar.move(this.lastPoint.xDistance(point));
-                this.lastPoint.move(point);
-            } else if (this.status === ACTION.V_SCROLL) {
-                this.vBar.move(this.lastPoint.yDistance(point));
-                this.lastPoint.move(point);
-            } else if (this.status === ACTION.RESIZE) {
-                this.vBar.innerLength += this.lastPoint.yDistance(point);
-                this.lastPoint.move(point);
+            if (this.moveListeners.move) {
+                this.moveListeners.move(event);
             }
         });
         this.service.moveWidget$.subscribe(res => {
             if (!res.start) {
-                this.service.pushWidget(this.service.newWidget(this.moveData.data));
+                this.clearMove();
+                this.service.pushWidget(this.service.newWidget(res.data));
                 return;
             }
-            this.status = ACTION.MOVE_WIDGET;
-            this.moveData = res;
+            this.move(event => {
+                const point = {
+                    x: event.clientX,
+                    y: event.clientY,
+                };
+                if (!this.tempWidget) {
+                    const item = this.service.newWidget(res.data);
+                    item.location = point;
+                    this.tempWidget = item;
+                } else if (this.tempWidget) {
+                    this.tempWidget.location = point;
+                }
+            }, () => {
+                const item = this.tempWidget;
+                this.tempWidget = undefined;
+                if (item && this.service.inZoom(item)) {
+                    this.service.pushWidget(this.service.zoomLocation(item));
+                }
+            });
+
         });
         this.service.resize$.subscribe(res => {
             if (!res) {
@@ -177,19 +162,29 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
     }
 
     public onSelectStart(event: MouseEvent) {
-        if (this.status !== ACTION.NONE) {
+        if (this.moveListeners.finish) {
             return;
         }
-        this.status = ACTION.SELECTION;
         this.selectionRect.start = {
             x: event.clientX,
             y: event.clientY
         };
+        this.move(event => {
+            this.selectionRect.end = {
+                x: event.clientX,
+                y: event.clientY
+            };
+        });
     }
 
-    public onResizing(event: IPoint) {
-        this.status = ACTION.RESIZE;
-        this.lastPoint.move(event);
+    public onResizing(e: IPoint) {
+        let lastY = e.y;
+        this.move(event => {
+            this.vBar.innerLength += event.clientY - lastY;
+            lastY = event.clientY;
+        }, () => {
+            this.refreshZoom();
+        });
     }
 
     private refreshSize() {
@@ -210,15 +205,28 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
         }, 100);
     }
 
-    public scrolBarMove(hor: boolean, event: MouseEvent) {
-        this.status = hor ? ACTION.H_SCROLL : ACTION.V_SCROLL;
-        this.lastPoint.move(event.clientX, event.clientY);
+    public scrolBarMove(hor: boolean, e: MouseEvent) {
+        let last = hor ? e.clientX : e.clientY;
+        this.move(event => {
+            if (hor) {
+                this.hBar.move(event.clientX - last);
+                last = event.clientX;
+            } else {
+                this.vBar.move(event.clientY - last);
+                last = event.clientY;
+            }
+        }, () => {
+            this.refreshZoom();
+        });
     }
 
-    public onContext(e: MouseEvent) {
+    public onContext(e: MouseEvent, item?: Widget) {
         const navItems = this.inSelection(e.clientX, e.clientY) ? menu.EditorSelected : menu.EditorNotSelected;
-        this.contextMenu.show(e, navItems);
-        return false;
+        return this.contextMenu.show(e, navItems, menu => {
+            if (menu.name === '删除' && item) {
+                this.service.removeWidget(item);
+            }
+        });
     }
 
     private inSelection(x: number, y: number) {
@@ -236,6 +244,20 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
             width: rect.width,
             height: rect.height
         };
+    }
+
+    private move(move: (event: MouseEvent) => void, finish?: (event: MouseEvent) => void) {
+        this.moveListeners = {
+            move,
+            finish: (event: MouseEvent) => {
+                this.clearMove();
+                finish && finish(event);
+            },
+        };
+    }
+
+    private clearMove() {
+        this.moveListeners = {move: undefined, finish: undefined};
     }
 
 }

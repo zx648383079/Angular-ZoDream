@@ -57,6 +57,24 @@ export class EditorService {
         this.widgetCellItems$.next(data);
     }
 
+    public removeWidget(...items: Widget[]) {
+        const data = this.widgetCellItems$.value;
+        this.widgetCellItems$.next(data.filter(i => {
+            for (const item of items) {
+                if (item.id === i.id) {
+                    return false;
+                }
+            }
+            return true;
+        }));
+    }
+
+    public copyWidget(...items: Widget[]) {
+        this.pushWidget(...items.map(i => {
+            return this.newWidget(i);
+        }));
+    }
+
     public pushCatalog(...items: ICatalogItem[]) {
         const data = this.catalogItems$.value;
         items.forEach((item, i) => {

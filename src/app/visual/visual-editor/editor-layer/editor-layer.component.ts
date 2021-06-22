@@ -57,6 +57,17 @@ export class EditorLayerComponent implements OnInit {
         }, () => !emptyValidate(this.editData.name), group ? '新增分组' : '新增页面');
     }
 
+    public onWidgetTap(e: TreeEvent) {
+        if (e.action === TREE_ACTION.TRASH) {
+            this.service.removeWidget(e.data as Widget);
+            return;
+        }
+        if (e.action === TREE_ACTION.COPY) {
+            this.service.copyWidget(e.data as Widget);
+            return;
+        }
+    }
+
     public onCatalogTap(e: TreeEvent) {
         if (e.action === TREE_ACTION.TRASH) {
             this.dialogService.confirm('是否删除' + (e.data.canExpand ? '分组' : '页面') + ' ' + e.data.name, () => {
