@@ -201,7 +201,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public keyDown(event: KeyboardEvent, next: HTMLInputElement) {
-        if (event.code !== 'Enter') {
+        if (event.code !== 'Enter' && event.code !== 'Tab') {
             return;
         }
         next.focus();
