@@ -1,22 +1,43 @@
 <div class="question-editor">
     <div class="editor-header">
         <div class="title">
-            <textarea class="form-control" placeholder="请输入题目内容"></textarea>
+            <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="content" (ngModelChange)="onValueChange()"></textarea>
         </div>
-        <div class="image">
-            <div class="add-btn" (click)="tapUpload()">
-                <i class="iconfont icon-image"></i>
+        <div class="material">
+            <ng-container *ngIf="materialType < 1 && materialFile">
+                <img [src]="materialFile">
+            </ng-container>
+            <ng-container *ngIf="materialType == 1 && materialFile">
+                <app-audio-player [src]="materialFile"></app-audio-player>
+            </ng-container>
+            <ng-container *ngIf="materialType == 2 && materialFile">
+                <app-video-player [src]="materialFile"></app-video-player>
+            </ng-container>
+            <label for="upload-input" class="add-btn" title="上传图片/视频/音频">
+                <i class="iconfont icon-upload"></i>
+                <input type="file" id="upload-input" accept="image/*,audio/*,video/*" (change)="uploadFile($event)">
+            </label>
+            <div class="add-btn btn-danger" *ngIf="materialFile" title="删除素材" (click)="tapRemoveMaterial()">
+                <i class="iconfont icon-trash"></i>
             </div>
         </div>
     </div>
 
     <div class="editor-option">
-        <div *ngFor="let item of opitonItems;let i = index" class="option-item" (click)="tapSelected(i)">
+        <div *ngFor="let item of opitonItems;let i = index" class="option-item" [ngClass]="{'option-edit': editable}" (click)="tapSelected(i)">
             <div class="item-action">
-                <i class="iconfont" [ngClass]="{'icon-check': item.checked, 'icon-close': !item.checked}"></i>
+                <i class="iconfont" [ngClass]="{'icon-check': item.checked, 'icon-close': !item.checked}" title="标记当前选项是否正确"></i>
             </div>
             <div class="item-body">
-                {{ item.content }}
+                <ng-container *ngIf="editable; else elseTemplate">
+                    <textarea [(ngModel)]="item.content" (click)="$event.stopPropagation()" placeholder="请输入选项" (change)="onValueChange()"></textarea>
+                    <div class="flex-icon">
+                        <i class="iconfont icon-minus" (click)="tapRemoveOption($event, i)" title="删除此选项"></i>
+                    </div>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    {{ item.content }}
+                </ng-template>
             </div>
         </div>
 

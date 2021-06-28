@@ -1,3 +1,33 @@
 <div class="container">
-    <app-question-editor></app-question-editor>
+    <div class="tool-bar">
+        <div class="tool-left-bar">
+            <div class="tool-item" title="新增" (click)="tapAdd()">
+                <i class="iconfont icon-plus"></i>
+            </div>
+            <input type="text" [(ngModel)]="name" class="form-control" placeholder="请输入试卷标题">
+            <input type="number" class="form-control time-input" placeholder="限时/分" [(ngModel)]="limitTime">
+        </div>
+        <div class="tool-right-bar">
+            <div class="icon-btn btn-primary" title="保存" (click)="tapSubmit()">
+                <i class="iconfont icon-floppy-o"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="preview-bar" #scrollBar>
+                <ng-container *ngFor="let item of items; let i = index">
+                    <div class="preview-item" [ngClass]="{'active': i === editIndex}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
+                        <div class="item-name">{{ item.title }}</div>
+                        <div class="item-no">{{ i + 1 }}</div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <app-question-editor [value]="editItem" (valueChange)="onValueChange($event)"></app-question-editor>
+        </div>
+    </div>
+    
 </div>
+<app-context-menu></app-context-menu>

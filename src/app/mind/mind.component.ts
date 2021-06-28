@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../context-menu';
 import { randomInt } from '../theme/utils';
-import { MindConfirmEvent, MindLinkSource, MindPointSource } from './model';
+import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from './model';
 
 interface IPointItem {
     id?: number|string;
@@ -41,6 +41,7 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
      */
     @Input() public format: (data: any) => MindPointSource|MindLinkSource;
     @Output() public confirm = new EventEmitter<MindConfirmEvent>();
+    @Output() public update = new EventEmitter<MindUpdateEvent>();
 
     public pointItems: IPointItem[] = [];
     public pointLink: IPointLink[] = [];
@@ -56,7 +57,7 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
 
     constructor(
         private renderer: Renderer2,
-        private elementRef: ElementRef<HTMLDivElement>
+        private elementRef: ElementRef<HTMLDivElement>,
     ) { }
 
     get lineBox(): HTMLCanvasElement {
@@ -101,6 +102,15 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
             this.refresh();
             x = event.clientX;
             y = event.clientY;
+        }, _ => {
+            this.update.emit({
+                type: 'move',
+                source: item.source,
+                point: {
+                    x: item.x,
+                    y: item.y,
+                }
+            });
         });
     }
 
@@ -231,6 +241,10 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
             const element = this.pointLink[i];
             if (element.from === i || element.to === i) {
                 this.pointLink.splice(i, 1);
+                this.update.emit({
+                    type: 'delete',
+                    source: element.source,
+                });
                 continue;
             }
             if (element.from > i) {
@@ -353,7 +367,7 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
             fromX = from.x;
             toX = to.x;
         }
-        this.drawLink(this.ctx, fromX, from.y + this.centerY, toX, to.y + this.centerY, link.text, link.color);
+        this.drawLink(ctx, fromX, from.y + this.centerY, toX, to.y + this.centerY, link.text, link.color);
     }
 
     private drawLink(ctx: CanvasRenderingContext2D, x1: number, y1: number, x2 : number, y2: number, text?: string, color = this.lineColor) {

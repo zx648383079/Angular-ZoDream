@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { map } from 'rxjs/operators';
-import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord, IAuthorProfile } from './model';
+import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRecord, IAuthorProfile, IBookRole, IBookRoleRelation } from './model';
 
 @Injectable()
 export class BookService {
@@ -153,5 +153,29 @@ export class BookService {
         return this.http.delete<IDataOne<boolean>>('book/member/book/chapter_delete', {params: {id}});
     }
 
+    public roleList(book: number) {
+        return this.http.get<{
+            items: IBookRole[];
+            link_items: IBookRoleRelation[];
+        }>('book/member/book/role', {params: {book}});
+    }
+
+    public roleSave(data: any) {
+        return this.http.post<IBookRole>('book/member/book/role_save', data);
+    }
+
+    public roleRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('book/member/book/role_delete', {params: {id}});
+    }
+
+    public LinkAdd(from: number, to: number, title = '') {
+        return this.http.post<IBookRoleRelation>('book/member/book/link_add', {
+            from, to, title
+        });
+    }
+
+    public linkRemove(from: number, to: number) {
+        return this.http.delete<IDataOne<boolean>>('book/member/book/link_delete', {params: {from, to}});
+    }
 
 }

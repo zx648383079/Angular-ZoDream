@@ -10,6 +10,7 @@ import { ProgressModule } from '../progress';
 import { ZreFormModule } from '../form';
 import { ZreMindModule } from '../mind';
 import { DialogModule } from '../dialog';
+import { ZreEditorModule } from '../editor/editor.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { DialogModule } from '../dialog';
         ZreFormModule,
         ZreMindModule,
         DialogModule,
+        ZreEditorModule,
     ],
     providers: [
         BookService

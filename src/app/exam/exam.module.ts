@@ -4,6 +4,8 @@ import { examRoutedComponents, ExamRoutingModule } from './exam-routing.module';
 import { ThemeModule } from '../theme/theme.module';
 import { ExamService } from './exam.service';
 import { ZreFormModule } from '../form';
+import { ContextMenuModule } from '../context-menu';
+import { MediaPlayerModule } from '../media-player/media-player.module';
 
 @NgModule({
     imports: [
@@ -11,6 +13,8 @@ import { ZreFormModule } from '../form';
         ThemeModule,
         ExamRoutingModule,
         ZreFormModule,
+        ContextMenuModule,
+        MediaPlayerModule,
     ],
     declarations: [...examRoutedComponents],
     providers: [

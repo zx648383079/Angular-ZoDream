@@ -1,26 +1,25 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { wordLength } from '../../theme/utils';
-import { IEditor, IEditorRange, IImageUploadEvent } from '../model';
+import { IEditorRange } from '../model';
 
 @Component({
-    selector: 'app-markdown-editor',
-    templateUrl: './markdown-editor.component.html',
-    styleUrls: ['./markdown-editor.component.scss'],
+    selector: 'app-text-editor',
+    templateUrl: './text-editor.component.html',
+    styleUrls: ['./text-editor.component.scss'],
     providers: [
         {
           provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => MarkdownEditorComponent),
+          useExisting: forwardRef(() => TextEditorComponent),
           multi: true
         }
     ]
 })
-export class MarkdownEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor {
+export class TextEditorComponent implements AfterViewInit, ControlValueAccessor {
 
     @ViewChild('editorArea')
     private areaElement: ElementRef<HTMLTextAreaElement>;
-    @Input() public height = 200;
-    @Output() public imageUpload = new EventEmitter<IImageUploadEvent>();
+    @Input() public height: string|number = '80vh';
 
     public disable = false;
     public value = '';
@@ -37,7 +36,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     get areaStyle() {
         return {
-            height: this.height + 'px',
+            height: typeof this.height === 'number' ? this.height + 'px' : this.height,
         };
     }
 
@@ -80,26 +79,6 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     public onValueChange() {
         this.onChange(this.value);
-    }
-
-    public tapTool(name: string) {
-        if (name === 'image') {
-            return;
-        }
-        if (name === 'code') {
-            return this.insert('```js\n\n```', 6, true);
-        }
-        if (name === 'link') {
-            return this.insert('[](https://)', 1, true);
-        }
-    }
-
-    public uploadImage(event: any) {
-        const files = event.target.files as FileList;
-        this.imageUpload.emit({
-            files,
-            target: this
-        });
     }
 
     public insertTab() {
@@ -146,14 +125,6 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
             }
             return val.substr(0, move) + str + val.substr(move);
         }, move, focus);
-    }
-
-    public insertImage(file: string, name?: string) {
-        this.insert('![' + name + '](' + file + ')');
-    }
-
-    public insertLink(text: string, href: string) {
-        this.insert('[' + text + '](' + href + ')');
     }
 
     public clear(focus: boolean = true) {

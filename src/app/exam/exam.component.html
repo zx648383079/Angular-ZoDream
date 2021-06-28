@@ -9,23 +9,27 @@
   </div>
   
   <div class="container">
-    <div class="exam-group" *ngFor="let group of items">
-        <div class="group-header">
+    <div class="catalog-panel" *ngFor="let group of items">
+        <div class="panel-header">
             <a routerLink="{{ group.id }}">{{ group.name }}</a>
         </div>
-        <div class="group-body">
-            <ng-container *ngFor="let item of group.children">
-              <div class="course-item">
-                  <div class="thumb">
-                      <img [src]="item.thumb" alt="">
-                  </div>
-                  <div class="info">
-                      <div class="name">
-                          <a routerLink="{{ item.id }}">{{ item.name }}</a>
-                      </div>
-                  </div>
-              </div>
-            </ng-container>
+        <div class="panel-body">
+            <div class="row">
+                <ng-container *ngFor="let item of group.children">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="catalog-item">
+                            <div class="cover">
+                                <img [src]="item.thumb" alt="">
+                            </div>
+                            <div class="item-body">
+                                <div class="name">
+                                    <a routerLink="{{ item.id }}">{{ item.name }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </ng-container>
+            </div>
         </div>
     </div>
   </div>

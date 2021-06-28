@@ -14,8 +14,8 @@
     </ul>
 </div>
 <div class="container">
-    <div class="forum-group" *ngIf="forum">
-        <div class="group-header">
+    <div class="catalog-panel" *ngIf="forum">
+        <div class="panel-header">
             {{ forum.name }}
         </div>
         <div class="group-content">
@@ -32,23 +32,30 @@
                 {{ forum.description }}
             </div>
         </div>
-        <div class="group-body" *ngIf="forum.children && forum.children.length > 0">
-            <ng-container *ngFor="let item of forum.children">
-            <div class="forum-item">
-                <div class="thumb">
-                    <img [src]="item.thumb" alt="">
-                </div>
-                <div class="info">
-                    <div class="name">
-                        <a [routerLink]="['../', item.id]">{{ item.name }}</a>
+        <div class="panel-body" *ngIf="forum.children && forum.children.length > 0">
+            <div class="row">
+                <ng-container *ngFor="let item of forum.children">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="catalog-item">
+                            <div class="cover">
+                                <img [src]="item.thumb" alt="">
+                            </div>
+                            <div class="item-body">
+                                <div class="name">
+                                    <a routerLink="{{ item.id }}">{{ item.name }}</a>
+                                </div>
+                                <div class="meta">
+                                    <div class="count">主题：{{ item.thread_count | numberFormat }}，帖数：{{ item.post_count | numberFormat }}</div>
+                                    <div class="last-thread" *ngIf="item.last_thread">
+                                    <a [routerLink]="['thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
+                                    {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }} </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="count">主题：{{ item.thread_count | numberFormat }}，帖数：{{ item.post_count | numberFormat }}</div>
-                    <div class="last-thread" *ngIf="item.last_thread">
-                        <a [routerLink]="['../thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
-                        {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }} </div>
-                </div>
+                </ng-container>
             </div>
-            </ng-container>
+            
         </div>
     </div>
 

@@ -103,3 +103,28 @@ export interface IAuthorProfile extends IAuthor {
     word_count: number;
     collect_count: number;
 }
+
+export interface IBookRole {
+    id: number;
+    name: string;
+    avatar: string;
+    description: string;
+    character: string;
+    x: number;
+    y: number;
+    goods_items: {
+        name: string;
+        amount: number;
+    }[];
+    skill_items: {
+        name: string;
+        level: string;
+    }[];
+}
+
+export interface IBookRoleRelation {
+    id?: number;
+    role_id: number;
+    title: string;
+    role_link: number;
+}

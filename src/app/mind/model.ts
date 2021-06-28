@@ -1,12 +1,21 @@
-export interface MindConfirmEvent {
-    next: (data: any, link?: any) => void,
+export interface MindConfirmEvent<T = any, K = any> {
+    next: (data: T|K, link?: K) => void,
     type: 'new' | 'link' | 'new link',
     point?: {
         x: number;
         y: number;
     };
-    from?: any;
-    to?: any;
+    from?: T;
+    to?: T;
+}
+
+export interface MindUpdateEvent<T = any> {
+    type: 'move'|'delete',
+    source: T;
+    point?: {
+        x: number;
+        y: number;
+    };
 }
 
 export interface MindPointSource {

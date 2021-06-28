@@ -1,0 +1,6 @@
+<div class="editor-box">
+    <div class="editor-area">
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"></textarea>
+        <div class="editor-footer">共 {{ size }} 字</div>
+    </div>
+</div>

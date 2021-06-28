@@ -2,12 +2,12 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../dialog';
-import { MindConfirmEvent, MindLinkSource, MindPointSource } from '../../mind';
+import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from '../../mind';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { wordLength } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { BookService } from '../book.service';
-import { IBook, IChapter } from '../model';
+import { IBook, IBookRole, IBookRoleRelation, IChapter } from '../model';
 
 @Component({
     selector: 'app-book-editor',
@@ -29,11 +29,25 @@ export class BookEditorComponent implements OnInit {
     public panelOpen = false;
     public subOpen = 0;
     public linkOpen = false;
+    public roleItems: IBookRole[] = [];
+    public linkItems: IBookRoleRelation[] = [];
+    public roleIndex = -1;
     public roleData = {
         name: '',
+        avatar: '',
+        description: '',
+        character: '',
         link: '',
         from: '',
         type: 'new'
+    };
+    public goodsData = {
+        name: '',
+        amount: 1,
+    };
+    public skillData = {
+        name: '',
+        level: '',
     };
     
     constructor(
@@ -44,11 +58,18 @@ export class BookEditorComponent implements OnInit {
         private renderer: Renderer2,
     ) { }
 
-    public get size() {
-        if (!this.data) {
-            return 0;
+    public get goodsItems() {
+        if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
+            return [];
         }
-        return wordLength(this.data.content);
+        return this.roleItems[this.roleIndex].goods_items || [];
+    }
+
+    public get skillItems() {
+        if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
+            return [];
+        }
+        return this.roleItems[this.roleIndex].skill_items || [];
     }
 
     ngOnInit() {
@@ -76,6 +97,7 @@ export class BookEditorComponent implements OnInit {
                         return i;
                     });
                     this.book = {...res, chapters: undefined};
+                    this.loadRole();
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -175,11 +197,11 @@ export class BookEditorComponent implements OnInit {
             this.toastrService.warning('请输入章节名');
             return;
         }
-        if (this.data.type < 1 && this.size < 1) {
+        if (this.data.type < 1 && this.data.content.length < 1) {
             this.toastrService.warning('请输入内容');
             return;
         }
-        this.service.selfSaveChapter({...this.data, body: undefined, book_id: this.book.id, size: this.size}).subscribe({
+        this.service.selfSaveChapter({...this.data, body: undefined, book_id: this.book.id, size: wordLength(this.data.content)}).subscribe({
             next: res => {
                 this.data.id = res.id;
                 this.toastrService.success('章节保存成功');
@@ -260,41 +282,165 @@ export class BookEditorComponent implements OnInit {
         children.push(data);
     }
 
-    public mindFormat(data: any) {
+    public openSubPanel(t: number, i: number) {
+        this.subOpen = t;
+        this.roleIndex = i;
+    }
+
+    public tapEditGoods(modal: DialogBoxComponent, i = -1) {
+        this.goodsData = i >= 0 ? {
+            name: this.goodsItems[i].name,
+            amount: this.goodsItems[i].amount
+        } : {
+            name: '',
+            amount: 1,
+        };
+        modal.open(() => {
+            if (i < 0) {
+                this.goodsItems.push({...this.goodsData});
+                return;
+            }
+            this.goodsItems[i] = {...this.goodsData};
+        }, () => !emptyValidate(this.goodsData.name));
+    }
+
+    public tapRemoveGoods(i: number) {
+        this.goodsItems.splice(i, 1);
+    }
+
+    public tapEditSkill(modal: DialogBoxComponent, i = -1) {
+        this.skillData = i >= 0 ? {
+            name: this.skillItems[i].name,
+            level: this.skillItems[i].level,
+        } : {
+            name: '',
+            level: '',
+        };
+        modal.open(() => {
+            if (i < 0) {
+                this.skillItems.push({...this.skillData});
+                return;
+            }
+            this.skillItems[i] = {...this.skillData};
+        }, () => !emptyValidate(this.skillData.name));
+    }
+
+    public tapRemoveSkill(i: number) {
+        this.skillItems.splice(i, 1);
+    }
+
+    public tapEditRole(modal: DialogBoxComponent, i: number) {
+        const item = this.roleItems[i];
+        this.roleData = {
+            link: '',
+            name: item.name,
+            avatar: item.avatar,
+            description: item.description,
+            character: item.character,
+            type: 'new',
+            from: '',
+        };
+        modal.open(() => {
+            this.service.roleSave({
+                id: item.id,
+                name: this.roleData.name,
+                avatar: this.roleData.avatar,
+                description: this.roleData.description,
+                character: this.roleData.character,
+            }).subscribe(res => {
+                this.roleItems = this.roleItems.map(j => {
+                    if (j.id === item.id) {
+                        return res;
+                    }
+                    return j;
+                });
+            })
+        }, '编辑角色');
+    }
+
+    public mindFormat(data: IBookRole&IBookRoleRelation) {
         if (data.name) {
             return <MindPointSource>{
                 id: data.id || 0,
                 text: data.name,
+                x: data.x || 0,
+                y: data.y || 0,
             };
         }
         return <MindLinkSource>{
-            from: 0,
-            to: 0,
+            from: data.role_id || 0,
+            to: data.role_link || 0,
             text: data.title,
         };
     }
 
-    public onKeyDown(event: KeyboardEvent) {
-
-    }
-
-    public onMindConfirm(event: MindConfirmEvent, modal: DialogBoxComponent) {
+    public onMindConfirm(event: MindConfirmEvent<IBookRole, IBookRoleRelation>, modal: DialogBoxComponent) {
         this.roleData = {
             link: '',
             name: event.to?.name || '',
+            avatar: '',
+            description: '',
+            character: '',
             from: event.from?.name || '',
             type: event.type,
         };
         modal.open(() => {
             if (event.type === 'new') {
-                event.next({name: this.roleData.name});
+                this.service.roleSave({
+                    book_id: this.book.id,
+                    name: this.roleData.name,
+                    avatar: this.roleData.avatar,
+                    description: this.roleData.description,
+                    character: this.roleData.character,
+                    x: event.point?.x || 0,
+                    y: event.point?.y || 0,
+                }).subscribe(res => {
+                    this.roleItems.push(res);
+                    event.next(res);
+                });
                 return;
             }
             if (event.type === 'link') {
-                event.next({title: this.roleData.link});
+                this.service.LinkAdd(event.from.id, event.to.id, this.roleData.link).subscribe(res => {
+                    event.next(res);
+                });
                 return;
             }
-            event.next({name: this.roleData.name}, {title: this.roleData.link});
+            this.service.roleSave({
+                book_id: this.book.id,
+                name: this.roleData.name,
+                avatar: this.roleData.avatar,
+                description: this.roleData.description,
+                character: this.roleData.character,
+                x: event.point?.x || 0,
+                y: event.point?.y || 0,
+                link_id: event.from?.id,
+                link_title: this.roleData.link
+            }).subscribe(res => {
+                this.roleItems.push(res);
+                event.next(res, {title: this.roleData.link, role_id: event.from?.id, role_link: res.id});
+            });
         }, '添加角色与关系');
+    }
+
+    public onMindUpdate(event: MindUpdateEvent<IBookRole>) {
+        if (event.type === 'delete') {
+            this.service.roleRemove(event.source.id).subscribe(_ => {});
+            return;
+        }
+        if (event.type === 'move') {
+            this.service.roleSave({
+                id: event.source.id,
+                x: event.point.x,
+                y: event.point.y
+            }).subscribe(_ => {});
+        }
+    }
+
+    private loadRole() {
+        this.service.roleList(this.book.id).subscribe(res => {
+            this.roleItems = res.items;
+            this.linkItems = res.link_items;
+        });
     }
 }

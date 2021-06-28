@@ -8,7 +8,7 @@
 .editor-header {
     flex: 1;
     padding: .8em;
-    .image {
+    .material {
         text-align: center;
     }
     .add-btn {
@@ -29,12 +29,18 @@
     border: 1px solid #ccc;
     border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+    input[type='file'] {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
 }
 
 .option-item {
     display: flex;
     background-color: orange;
     cursor: pointer;
+    position: relative;
     .item-action {
         display: flex;
         align-items: center;
@@ -54,6 +60,36 @@
     .item-body {
         flex: 1;
         padding: 1.3em .2em;
+        textarea {
+            background-color: transparent;
+            width: 100%;
+            min-width: auto;
+            border: none;
+            outline: none;
+            color: inherit;
+            resize: none;
+            height: 4em;
+            padding: 1em 0;
+            border-radius: 0;
+        }
+    }
+    .icon-close {
+        opacity: .5;
+    }
+    .flex-icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        z-index: 99;
+    }
+    &.option-edit {
+        .item-body {
+            padding: 0;
+        }
     }
     &:hover {
         .item-action {

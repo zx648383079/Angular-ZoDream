@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IData } from '../theme/models/page';
-import { ICourse, IExamPager, IExamSheet, IQuestion, IQuestionCard, IQuestionFormat } from './model';
+import { IData, IDataOne, IPage } from '../theme/models/page';
+import { ICourse, IExamPage, IExamPager, IExamSheet, IQuestion, IQuestionCard, IQuestionFormat } from './model';
 
 @Injectable()
 export class ExamService {
@@ -44,7 +44,27 @@ export class ExamService {
 
     public pagerCheck(question: {
         [key: number]: IExamSheet
-    } | IExamSheet[], id: number) {
-        return this.http.post<any>('exam/pager/check', {question});
+    } | IExamSheet[], id: number, spentTIme = 0) {
+        return this.http.post<IExamPager>('exam/pager/check', {question, id, spent_time: spentTIme});
+    }
+
+    public pageList(params: any) {
+        return this.http.get<IPage<IExamPage>>('exam/member/page', {params});
+    }
+
+    public page(id: any) {
+        return this.http.get<IExamPage>('exam/member/page/detail', {
+          params: {id},
+        });
+    }
+
+    public pageSave(data: any) {
+        return this.http.post<IExamPage>('exam/member/page/save', data);
+    }
+
+    public pageRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/member/page/delete', {
+          params: {id}
+        });
     }
 }

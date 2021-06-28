@@ -53,10 +53,6 @@ export class ChapterDetailComponent implements OnInit {
         });
     }
 
-    get size() {
-        return wordLength(this.form.get('content').value);
-    }
-
     public tapBack() {
         history.back();
     }
@@ -71,7 +67,7 @@ export class ChapterDetailComponent implements OnInit {
             data.id = this.data.id;
         }
         data.book_id = this.data.book_id;
-        data.size = this.size;
+        data.size = wordLength(data.content);
         this.service.chapterSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();

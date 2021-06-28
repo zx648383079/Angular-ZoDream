@@ -27,7 +27,7 @@ export class PagerComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.service.pager({
-                id: params.id,
+                id: params.id || 0,
                 course: params.course,
                 type: params.type,
             }).subscribe(res => {
@@ -57,11 +57,11 @@ export class PagerComponent implements OnInit {
     }
 
     public tapPage(page: number) {
-        if (page < 1) {
-            page = 1;
-        }
         if (page > this.total) {
             page = this.total;
+        }
+        if (page < 1) {
+            page = 1;
         }
         const items = [];
         let start = (page - 1) * this.perPage;
@@ -92,6 +92,7 @@ export class PagerComponent implements OnInit {
 
     public tapFinish() {
         this.finished = true;
+        const spentTime = Math.min(this.data.time, this.data.time - (this.endTime - new Date().getTime()) / 60000)
         this.service.pagerCheck(this.data.data.map(i => {
             return {
                 id: i.id,

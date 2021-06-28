@@ -25,3 +25,8 @@ export interface IImageUploadEvent {
     files: FileList;
     target: IEditor;
 }
+
+export interface IEditorRange {
+    start: number;
+    end: number;
+}

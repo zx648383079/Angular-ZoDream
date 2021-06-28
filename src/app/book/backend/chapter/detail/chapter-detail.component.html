@@ -8,12 +8,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <div class="edit-area">
-                <textarea formControlName="content" class="form-control"></textarea>
-                <div class="edit-tip">
-                    已输入 {{ size }} 个字符
-                </div>
-            </div>
+            <app-text-editor formControlName="content"></app-text-editor>
         </div>
 
         <app-panel title="附加属性">

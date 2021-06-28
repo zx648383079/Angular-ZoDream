@@ -74,12 +74,7 @@
                     </a>
                 </div>
                 <ng-container *ngIf="data.type < 1">
-                    <div class="edit-area" >
-                        <textarea class="form-control" [(ngModel)]="data.content" placeholder="请输入内容" (keydown)="onKeyDown($event)"></textarea>
-                        <div class="edit-tip">
-                            已输入 {{ size }} 个字符
-                        </div>
-                    </div>
+                    <app-text-editor [(ngModel)]="data.content"></app-text-editor>
                     <app-panel title="附加属性" [min]="true">
                         <div class="form-table">
                             <div class="input-group">
@@ -117,26 +112,30 @@
         <i class="iconfont icon-search"></i>
     </div>
     <div class="panel-body">
-        <div class="role-item">
-            <span>主角(主角)</span>
+        <div class="role-item" *ngFor="let item of roleItems; let i = index">
+            <span>{{ item.name }}
+                <ng-container *ngIf="item.character">
+                    ({{ item.character }})
+                </ng-container>
+            </span>
             <div class="action">
-                <i class="iconfont icon-edit" title="编辑"></i>
-                <i class="iconfont icon-gift" title="物品" (click)="subOpen = 1"></i>
-                <i class="iconfont icon-key" title="技能" (click)="subOpen = 2"></i>
+                <i class="iconfont icon-edit" title="编辑" (click)="tapEditRole(roleModal, i)"></i>
+                <i class="iconfont icon-gift" title="物品" (click)="openSubPanel(1, i)"></i>
+                <i class="iconfont icon-key" title="技能" (click)="openSubPanel(2, i)"></i>
             </div>
         </div>
         <div class="panel-sub" *ngIf="subOpen == 1">
             <div class="panel-header">
                 <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
                 物品
-                <i class="iconfont icon-plus" title="添加物品"></i>
+                <i class="iconfont icon-plus" title="添加物品" (click)="tapEditGoods(goodsModal)"></i>
             </div>
             <div class="panel-body">
-                <div class="role-item">
-                    <span>元宝x20</span>
+                <div class="role-item" *ngFor="let item of goodsItems;let i = index">
+                    <span>{{ item.name }}x{{ item.amount }}</span>
                     <div class="action">
-                        <i class="iconfont icon-edit" title="修改"></i>
-                        <i class="iconfont icon-trash" title="删除"></i>
+                        <i class="iconfont icon-edit" title="修改" (click)="tapEditGoods(goodsModal, i)"></i>
+                        <i class="iconfont icon-trash" title="删除"  (click)="tapRemoveGoods(i)"></i>
                     </div>
                 </div>
             </div>
@@ -145,15 +144,19 @@
             <div class="panel-header">
                 <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
                 技能
-                <i class="iconfont icon-plus" title="添加技能"></i>
+                <i class="iconfont icon-plus" title="添加技能" (click)="tapEditSkill(skillModal)"></i>
             </div>
             <div class="panel-body">
-                <div class="role-item">
-                    <span>剑(初级)</span>
+                <div class="role-item" *ngFor="let item of skillItems; let i = index">
+                    <span>{{ item.name }}
+                        <ng-container *ngIf="item.level">
+                            ({{ item.level }})
+                        </ng-container>
+                    </span>
                     <div class="action">
-                        <i class="iconfont icon-arrow-up" title="升级"></i>
-                        <i class="iconfont icon-edit" title="修改"></i>
-                        <i class="iconfont icon-trash" title="删除"></i>
+                        <i class="iconfont icon-arrow-up" title="升级" (click)="tapEditSkill(skillModal, i)"></i>
+                        <i class="iconfont icon-edit" title="修改" (click)="tapEditSkill(skillModal, i)"></i>
+                        <i class="iconfont icon-trash" title="删除" (click)="tapRemoveSkill(i)"></i>
                     </div>
                 </div>
             </div>
@@ -162,7 +165,7 @@
 </div>
 
 <div class="dialog-link" [hidden]="!linkOpen">
-    <app-mind [readonly]="false" [format]="mindFormat" (confirm)="onMindConfirm($event, roleModal)"></app-mind>
+    <app-mind [readonly]="false" [format]="mindFormat" [items]="roleItems" [linkItems]="linkItems" (confirm)="onMindConfirm($event, roleModal)" (update)="onMindUpdate($event)"></app-mind>
 </div>
 
 <app-dialog-box #roleModal [scrollable]="false">
@@ -173,6 +176,27 @@
             <input type="text" class="form-control" [(ngModel)]="roleData.name">
         </div>
     </div>
+    <ng-container *ngIf="roleData.type != 'link'">
+        <div class="input-group">
+            <label for="">头像</label>
+            <div>
+                <app-file-input [(ngModel)]="roleData.avatar"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">简介</label>
+            <div>
+                <textarea type="text" class="form-control" [(ngModel)]="roleData.description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">角色身份</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="roleData.character" placeholder="主角/配角">
+            </div>
+        </div>
+    </ng-container>
+    
     <div class="input-group" [hidden]="roleData.type == 'new'">
         <label for="">与“{{ roleData.from }}”的关系</label>
         <div>
@@ -182,34 +206,34 @@
 </div>
 </app-dialog-box>
 
-<app-dialog-box [scrollable]="false">
+<app-dialog-box #goodsModal [scrollable]="false">
     <div class="form-table">
         <div class="input-group">
             <label for="">物品</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.name">
+                <input type="text" class="form-control" [(ngModel)]="goodsData.name">
             </div>
         </div>
         <div class="input-group">
             <label for="">物品数量</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.name">
+                <input type="text" class="form-control" [(ngModel)]="goodsData.amount">
             </div>
         </div>
     </div>
 </app-dialog-box>
-<app-dialog-box [scrollable]="false">
+<app-dialog-box #skillModal [scrollable]="false">
     <div class="form-table">
         <div class="input-group">
             <label for="">技能名</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.name">
+                <input type="text" class="form-control" [(ngModel)]="skillData.name">
             </div>
         </div>
         <div class="input-group">
             <label for="">技能等级</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.name">
+                <input type="text" class="form-control" [(ngModel)]="skillData.level">
             </div>
         </div>
     </div>
