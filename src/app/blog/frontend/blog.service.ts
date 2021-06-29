@@ -74,6 +74,10 @@ export class BlogService {
         return this.http.post<IComment>('blog/comment/disagree', {id});
     }
 
+    public suggestion(params: any) {
+        return this.http.get<IData<IBlog>>('blog/home/suggest', {params}).pipe(map(res => res.data));
+    }
+
     public batch(data: {
         categories?: any;
         tags?: any;
@@ -97,4 +101,6 @@ export class BlogService {
             new_blog?: IBlog[];
         }>('blog/batch', data);
     }
+
+    
 }

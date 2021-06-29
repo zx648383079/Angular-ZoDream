@@ -1,0 +1,33 @@
+<div class="container">
+    <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" placeholder="请输入搜索内容">
+        <select class="form-control" name="type" [ngModel]="queries.type">
+            <option *ngFor="let item of typeItems; let i=index" [value]="i">{{ item }}</option>
+        </select>
+        <button type="submit" class="btn btn-primary">
+            <i class="iconfont icon-search"></i>
+        </button>
+    </form>
+
+    <div class="panel-container">
+        <ng-container *ngFor="let item of items">
+        <ng-container *ngIf="queries.type < 1; else elseTemplate">
+            <a class="page-item" [routerLink]="['../pager', item.id]">
+                <span class="name">{{ item.name }}</span>
+                <span class="count">共 {{ formatQuestionCount(item) }} 道{{ item.rule_type < 1 ? '随机' : '固定' }}题</span>
+            </a>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <a class="question-item" [routerLink]="['../question', item.id]">
+                <span class="name">【{{ formatQuestionType(item.type)}}】{{ item.title }}</span>
+                <span class="count">难度：{{ formatEasiness(item.easiness) }}</span>
+            </a>
+        </ng-template>
+        </ng-container>
+        <div class="page-empty-tip" *ngIf="!isLoading && items.length < 1">
+            搜索结果为空
+        </div>
+    </div>
+
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+</div>

@@ -6,6 +6,7 @@ import { AboutComponent } from './about/about.component';
 import { FriendLinkComponent } from './friend-link/friend-link.component';
 import { CanActivateViaAuthGuard } from '../theme/guards';
 import { AgreementComponent } from './agreement/agreement.component';
+import { SearchComponent } from './search/search.component';
 
 
 const routes: Routes = [
@@ -62,5 +63,5 @@ const routes: Routes = [
 export class FrontendRoutingModule { }
 
 export const frontendRoutedComponents = [
-    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent
+    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent, SearchComponent,
 ];

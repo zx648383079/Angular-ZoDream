@@ -13,6 +13,7 @@ export class PaginationComponent implements OnChanges {
     @Input() public total = -1;
     @Input() public pageCount;
     @Input() public directionLinks = false;
+    @Input() public goto = false;
     @Output() public pageChange = new EventEmitter<number>();
 
     public items: number[] = [];
@@ -42,6 +43,13 @@ export class PaginationComponent implements OnChanges {
         }
     }
 
+    public onKeyDown(event: KeyboardEvent) {
+        if (event.key !== 'Enter') {
+            return;
+        }
+        this.paginate(parseInt((event.target as HTMLInputElement).value, 10));
+    }
+
     public tapItem(page: number) {
         if (page < 1) {
             return;
@@ -50,7 +58,7 @@ export class PaginationComponent implements OnChanges {
     }
 
     public paginate(page: number = this.page) {
-        if (page < 1) {
+        if (!page || page < 1) {
             page = 1;
         }
         const total = this.realTotal;
@@ -95,7 +103,6 @@ export class PaginationComponent implements OnChanges {
             length = total - 1;
             i = Math.max(2, length - this.pageCount);
         }
-
         if (i > 2) {
             items.push(0);
         }

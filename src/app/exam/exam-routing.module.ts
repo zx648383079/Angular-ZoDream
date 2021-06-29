@@ -12,6 +12,7 @@ import { PagerComponent } from './pager/pager.component';
 import { QuestionEditorComponent } from './question/editor/question-editor.component';
 import { QuestionInputComponent } from './question/input/question-input.component';
 import { QuestionComponent } from './question/question.component';
+import { SearchComponent } from './search/search.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,10 @@ const routes: Routes = [
         component: PagerComponent,
     },
     {
+        path: 'search',
+        component: SearchComponent,
+    },
+    {
         path: ':id',
         component: CourseComponent,
     },
@@ -56,5 +61,5 @@ const routes: Routes = [
 export class ExamRoutingModule {}
 
 export const examRoutedComponents = [
-    ExamComponent, CourseComponent, QuestionComponent, QuestionInputComponent, PagerComponent, QuestionEditorComponent, EditPagerComponent
+    ExamComponent, CourseComponent, QuestionComponent, QuestionInputComponent, PagerComponent, QuestionEditorComponent, EditPagerComponent, SearchComponent
 ];

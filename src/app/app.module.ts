@@ -14,31 +14,31 @@ import { environment } from '../environments/environment';
 import { DialogModule } from './dialog';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    BrowserModule.withServerTransition({ appId: 'ng-zo' }),
-    BrowserTransferStateModule,
-    HttpClientModule,
-    AppRoutingModule,
-    LazyLoadImageModule,
-    ThemeModule.forRoot(),
-    DialogModule.forRoot(),
-    // 加载store
-    StoreModule.forRoot(reducers, { metaReducers }),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-  ],
-  providers: [
-    { provide: APP_BASE_HREF, useValue: '/' },
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        BrowserModule.withServerTransition({ appId: 'ng-zo' }),
+        BrowserTransferStateModule,
+        HttpClientModule,
+        AppRoutingModule,
+        LazyLoadImageModule,
+        ThemeModule.forRoot(),
+        DialogModule.forRoot(),
+        // 加载store
+        StoreModule.forRoot(reducers, { metaReducers }),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: environment.production,
+        // Register the ServiceWorker as soon as the app is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+        }),
+    ],
+    providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,6 +16,11 @@
                 </ng-container>
             </ul>
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" (click)="searchModal.open();navExpand=false">
+                        <i class="iconfont icon-search"></i>
+                    </a>
+                </li>
                 <li class="nav-item" *ngIf="!user">
                     <a class="nav-link" routerLink="/auth">登录</a>
                 </li>
@@ -59,3 +64,4 @@
     </div>
 </footer>
 <app-online-service></app-online-service>
+<app-search #searchModal></app-search>

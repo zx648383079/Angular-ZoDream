@@ -24,7 +24,8 @@ import {
     DateAdapter,
     CookieService,
     FileUploadService,
-    DownloadService
+    DownloadService,
+    SearchService
 } from './services';
 import {
     AuthActions
@@ -142,7 +143,10 @@ const DIRECTIVES = [
 export class ThemeModule {
     static forRoot(): ModuleWithProviders<ThemeModule> {
         return {
-            ngModule: ThemeModule
+            ngModule: ThemeModule,
+            providers: [
+                SearchService,
+            ]
         };
     }
 }

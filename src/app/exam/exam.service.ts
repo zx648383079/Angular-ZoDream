@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ICourse, IExamPage, IExamPager, IExamSheet, IQuestion, IQuestionCard, IQuestionFormat } from './model';
 
@@ -66,5 +67,13 @@ export class ExamService {
         return this.http.delete<IDataOne<true>>('exam/member/page/delete', {
           params: {id}
         });
+    }
+
+    public search(params: any) {
+        return this.http.get<IPage<IQuestion|IExamPage>>('exam/search', {params});
+    }
+
+    public suggestion(params: any) {
+        return this.http.get<IData<IQuestion|IExamPage>>('exam/search/suggest', {params}).pipe(map(res => res.data));
     }
 }

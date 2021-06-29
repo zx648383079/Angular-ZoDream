@@ -19,7 +19,6 @@ import {
     BackendService
 } from './backend.service';
 import { AuthActions } from '../theme/actions';
-import { backendBottomMenu, backendMenuItems } from './menu';
 import { DialogService } from '../dialog';
 import { MenuService } from './menu.service';
 
@@ -31,10 +30,7 @@ import { MenuService } from './menu.service';
 export class BackendComponent implements OnInit {
 
     public navItems: INav[] = [];
-
     public bottomNavs: INav[] = [];
-
-
 
     constructor(
         private store: Store<AppState>,

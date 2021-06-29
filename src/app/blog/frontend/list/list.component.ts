@@ -1,5 +1,6 @@
 import {
     Component,
+    OnDestroy,
     OnInit
 } from '@angular/core';
 import {
@@ -18,13 +19,14 @@ import {
 } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
     public title = '博客';
     public categories: ICategory[] = [];
@@ -61,9 +63,19 @@ export class ListComponent implements OnInit {
         programming_language: '',
     };
 
+    private searchFn = res => {
+        if (typeof res === 'object') {
+            return;
+        }
+        this.queries.keywords = res;
+        this.tapRefresh();
+        return false;
+    };
+
     constructor(
         private service: BlogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.service.batch({
             categories: {},
@@ -85,6 +97,7 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.searchService.on('confirm', this.searchFn);
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             if (this.queries.tag) {
@@ -92,6 +105,10 @@ export class ListComponent implements OnInit {
             }
             this.tapRefresh();
         });
+    }
+
+    ngOnDestroy() {
+        this.searchService.off('confirm', this.searchFn);
     }
 
     public tapRefresh() {
