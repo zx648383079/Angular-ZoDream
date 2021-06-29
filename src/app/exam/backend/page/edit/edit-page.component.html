@@ -110,15 +110,16 @@
     </form>
 </div>
 
-<app-dialog-box #modal title="选择题目">
-    <div class="page-search-bar">
+<app-dialog-box class="dialog-search-box" #modal>
+    <i class="iconfont icon-close dialog-close" (click)="modal.close(false)"></i>
+    <div class="search-bar">
         <form class="form-horizontal" (ngSubmit)="tapDialogSearch(searchForm.value)" #searchForm="ngForm">
             <div class="input-group">
                 <label for="keywords">关键字</label>
                 <input type="text" class="form-control" [ngModel]="dialogData.keywords" name="keywords" id="keywords" placeholder="关键词">
             </div>
             <div class="input-group">
-                <label for="course">关键字</label>
+                <label for="course">科目</label>
                 <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>
                     <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
@@ -127,24 +128,24 @@
             <button type="submit" class="btn btn-primary">搜索</button>
         </form>
     </div>
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>题目</th>
-                <th>科目</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of dialogData.items" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
-                <td>{{ item.id }}</td>
-                <td>【{{ item.type | questionType }}】{{ item.title }}</td>
-                <td>{{ item.course?.name }}</td>
-            </tr>
-            
-        </tbody>
-    </table>
-
-    <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
+    <div class="search-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>题目</th>
+                    <th>科目</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dialogData.items" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+                    <td>{{ item.id }}</td>
+                    <td>【{{ item.type | questionType }}】{{ item.title }}</td>
+                    <td>{{ item.course?.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
+    </div>
 </app-dialog-box>

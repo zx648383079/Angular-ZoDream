@@ -26,16 +26,45 @@
 
 .page-item,
 .question-item {
-    line-height: 3em;
     padding: 0 .3em;
     cursor: pointer;
-    display: block;
-    text-decoration: none;
+    .item-body {
+        display: block;
+        text-decoration: none;
+        line-height: 3em;
+    }
     .count {
         font-size: .8em;
         color: #777;
         vertical-align: bottom;
         margin-left: .6em;
+    }
+    .item-footer {
+        margin-bottom: .3em;
+        min-height: 1.5em;
+    }
+    .author-bar,
+    .time-bar {
+        display: inline-block;
+        color: #777;
+        font-size: .8em;
+        line-height: 1.5em;
+        margin-right: .8em;
+    }
+    .time-bar {
+        float: right;
+    }
+    .author-bar {
+        .avatar {
+            display: inline-block;
+            width: 2em;
+            height: 2em;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+        }
     }
     &:not(:last-of-type) {
         border-bottom: 1px solid #ccc;
@@ -46,7 +75,9 @@
 }
 
 .question-item {
-    display: flex;
+    .item-body {
+        display: flex;
+    }
     .name {
         flex: 1;
         line-height: 1.5em;

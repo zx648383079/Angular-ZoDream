@@ -41,6 +41,11 @@ export class GenerateService {
         return this.http.post<IData<IPreviewFile>>('gzo/template/module', data);
     }
 
+    public moduleRoute() {
+        return this.http.get<IData<IItem>>('gzo/module/route');
+    }
+
+
     public schemaCreate(data: any) {
         return this.http.post<IDataOne<true>>('gzo/database/schema_create', data);
     }
@@ -83,5 +88,30 @@ export class GenerateService {
 
     public copy(data: any) {
         return this.http.post<IDataOne<true>>('gzo/database/copy', data);
+    }
+
+    public batch(data: {
+        modules?: any,
+        routes?: any;
+        schemas?: {
+            full?: boolean;
+        };
+        tables?: {
+            schema?: string;
+            full?: boolean;
+        };
+        columns?: {
+            table: string;
+            schema?: string;
+            full?: boolean;
+        }
+    }) {
+        return this.http.post<{
+            modules?: IData<IItem>;
+            routes?: IData<IItem>;
+            schemas?: IData<any>;
+            tables?: IData<any>;
+            columns?: IData<any>;
+        }>('gzo/batch', data);
     }
 }

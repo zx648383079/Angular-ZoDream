@@ -31,6 +31,7 @@ export class ModuleComponent implements OnInit {
         table: [],
     };
     public previewItems: IPreviewFile[] = [];
+    public routeItems: IItem[] = [];
 
     constructor(
         private service: GenerateService,
@@ -42,11 +43,14 @@ export class ModuleComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.tapTab(parseInt(params.type, 10) || 0);
         });
-        this.service.moduleList().subscribe(res => {
-            this.moduleItems = res.data;
-        });
-        this.service.tableList().subscribe(res => {
-            this.tableItems = res.data.map(i => {
+        this.service.batch({
+            modules: {},
+            tables: {},
+            routes: {},
+        }).subscribe(res => {
+            this.moduleItems = res.modules.data;
+            this.routeItems = res.routes.data;
+            this.tableItems = res.tables.data.map(i => {
                 return {
                     name: i,
                     value: i

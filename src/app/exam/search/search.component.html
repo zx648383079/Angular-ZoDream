@@ -12,16 +12,42 @@
     <div class="panel-container">
         <ng-container *ngFor="let item of items">
         <ng-container *ngIf="queries.type < 1; else elseTemplate">
-            <a class="page-item" [routerLink]="['../pager', item.id]">
-                <span class="name">{{ item.name }}</span>
-                <span class="count">共 {{ formatQuestionCount(item) }} 道{{ item.rule_type < 1 ? '随机' : '固定' }}题</span>
-            </a>
+            <div class="page-item">
+                <a class="item-body" [routerLink]="['../pager', item.id]">
+                    <span class="name">{{ item.name }}</span>
+                    <span class="count">共 {{ formatQuestionCount(item) }} 道{{ item.rule_type < 1 ? '随机' : '固定' }}题</span>
+                </a>
+                <div class="item-footer">
+                    <div class="author-bar" *ngIf="item.user_id > 0">
+                        <div class="avatar">
+                            <img [src]="item.user.avatar">
+                        </div>
+                        {{ item.user.name }}
+                    </div>
+                    <div class="time-bar">
+                        {{ item.created_at | ago }}
+                    </div>
+                </div>
+            </div>
         </ng-container>
         <ng-template #elseTemplate>
-            <a class="question-item" [routerLink]="['../question', item.id]">
-                <span class="name">【{{ formatQuestionType(item.type)}}】{{ item.title }}</span>
-                <span class="count">难度：{{ formatEasiness(item.easiness) }}</span>
-            </a>
+            <div class="question-item">
+                <a class="item-body" [routerLink]="['../question', item.id]">
+                    <span class="name">【{{ formatQuestionType(item.type)}}】{{ item.title }}</span>
+                    <span class="count">难度：{{ formatEasiness(item.easiness) }}</span>
+                </a>
+                <div class="item-footer">
+                    <div class="author-bar" *ngIf="item.user_id > 0">
+                        <div class="avatar">
+                            <img [src]="item.user.avatar">
+                        </div>
+                        {{ item.user.name }}
+                    </div>
+                    <div class="time-bar">
+                        {{ item.created_at | ago }}
+                    </div>
+                </div>
+            </div>
         </ng-template>
         </ng-container>
         <div class="page-empty-tip" *ngIf="!isLoading && items.length < 1">

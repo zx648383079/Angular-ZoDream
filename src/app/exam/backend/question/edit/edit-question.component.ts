@@ -38,6 +38,7 @@ export class EditQuestionComponent implements OnInit {
         type: 0,
         content: '',
     };
+    public sameItems: IQuestion[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -103,6 +104,21 @@ export class EditQuestionComponent implements OnInit {
 
     get optionItems() {
         return this.form.get('option_items') as FormArray;
+    }
+
+
+    public onTitleChange() {
+        this.sameItems = [];
+        const title = this.form.get('title').value;
+        if (emptyValidate(title)) {
+            return;
+        }
+        this.service.questionCheck({
+            title,
+            id: this.data?.id
+        }).subscribe(res => {
+            this.sameItems = res.data;
+        });
     }
 
     public onTypeChange() {

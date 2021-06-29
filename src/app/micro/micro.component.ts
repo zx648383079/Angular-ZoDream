@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
 import { DialogService } from '../dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,14 @@ import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { DialogBoxComponent } from '../dialog';
 import { IBlockItem } from '../link-rule';
+import { SearchService } from '../theme/services';
 
 @Component({
     selector: 'app-micro',
     templateUrl: './micro.component.html',
     styleUrls: ['./micro.component.scss']
 })
-export class MicroComponent implements OnInit {
+export class MicroComponent implements OnInit, OnDestroy {
 
     public items: IMicro[] = [];
     public hasMore = true;
@@ -48,6 +49,7 @@ export class MicroComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private store: Store<AppState>,
+        private searchService: SearchService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.authUser = user;
@@ -55,6 +57,18 @@ export class MicroComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.searchService.on('change', keywords => {
+            return this.service.suggestion({keywords});
+        }).on('confirm', res => {
+            if (typeof res === 'object') {
+                this.loadTopic(res.id);
+                this.queries.topic = res.id;
+                this.tapRefresh();
+                return;
+            }
+            this.queries.keywords = res;
+            this.tapRefresh();
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             if (this.queries.user > 0) {
@@ -67,14 +81,21 @@ export class MicroComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.searchService.offReceiver();
+    }
+
     private loadUser(user: number) {
         if (user < 1 || this.user?.id === user) {
             return;
         }
-        this.service.user(user).subscribe(res => {
-            this.user = res;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.user(user).subscribe({
+            next: res => {
+                this.user = res;
+            },
+            error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -82,10 +103,13 @@ export class MicroComponent implements OnInit {
         if (topic < 1 || this.topic?.id === topic) {
             return;
         }
-        this.service.topic(topic).subscribe(res => {
-            this.topic = res;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.topic(topic).subscribe({
+            next: res => {
+                this.topic = res;
+            }, 
+            error: err => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -196,17 +220,20 @@ export class MicroComponent implements OnInit {
         }
         this.isLoading = true;
         const params: any = {...this.queries, page};
-        this.service.getList(params).subscribe(res => {
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            res.data = res.data.map(i => {
-                i.comment_open = false;
-                return i;
-            })
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-            applyHistory(this.queries = params, false);
-        }, () => {
-            this.isLoading = false;
+        this.service.getList(params).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                res.data = res.data.map(i => {
+                    i.comment_open = false;
+                    return i;
+                })
+                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                applyHistory(this.queries = params, false);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../theme/models/page';
 import { IComment, IMicro, ITopic } from './model';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MicroService {
@@ -92,5 +93,9 @@ export class MicroService {
 
     public user(id: any) {
         return this.http.get<any>('micro/user', {params: {id}});
+    }
+
+    public suggestion(params: any) {
+        return this.http.get<IPage<ITopic>>('micro/home/suggest', {params}).pipe(map(res => res.data));
     }
 }

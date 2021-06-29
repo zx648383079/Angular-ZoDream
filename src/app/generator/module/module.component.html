@@ -63,7 +63,7 @@
                     <div class="input-group">
                         <label for="">路由</label>
                         <div>
-                            <input type="text" class="form-control" [(ngModel)]="name">
+                            <ng-select [(ngModel)]="name" [items]="routeItems" bindLabel="name" bindValue="name"></ng-select>
                         </div>
                     </div>
                     <div class="btn btn-danger" (click)="tapUninstall()">卸载</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../../dialog';
 import { ExamService } from '../exam.service';
 import { IExamPager, IQuestionCard, IQuestionFormat } from '../model';
 
@@ -22,6 +23,7 @@ export class PagerComponent implements OnInit {
     constructor(
         private service: ExamService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -30,20 +32,26 @@ export class PagerComponent implements OnInit {
                 id: params.id || 0,
                 course: params.course,
                 type: params.type,
-            }).subscribe(res => {
-                this.data = res;
-                this.finished = res.finished;
-                this.cardItems = res.data.map((i, j) => {
-                    return {
-                        order: (j + 1).toString(),
-                        id: i.id,
-                        right: 0,
-                        active: false,
-                    };
-                });
-                this.total = Math.ceil(res.data.length / this.perPage);
-                this.tapPage(1);
-                this.endTime = new Date().getTime() + res.time * 60000;
+            }).subscribe({
+                next: res => {
+                    this.data = res;
+                    this.finished = res.finished;
+                    this.cardItems = res.data.map((i, j) => {
+                        return {
+                            order: (j + 1).toString(),
+                            id: i.id,
+                            right: 0,
+                            active: false,
+                        };
+                    });
+                    this.total = Math.ceil(res.data.length / this.perPage);
+                    this.tapPage(1);
+                    this.endTime = new Date().getTime() + res.time * 60000;
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                    history.back();
+                }
             });
         });
     }

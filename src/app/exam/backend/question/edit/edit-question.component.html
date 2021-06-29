@@ -5,8 +5,11 @@
         <div class="input-group">
             <label for="title">题目</label>
             <div>
-                <input type="text" id="title" class="form-control" formControlName="title">
-
+                <input type="text" id="title" class="form-control" formControlName="title" (change)="onTitleChange()">
+                <div class="input-tip" *ngIf="sameItems.length > 0">
+                    存在{{ sameItems.length }}个相似题目
+                    <a (click)="sameModal.open()">点击查看</a>
+                </div>
             </div>
         </div>
         <div class="input-group">
@@ -195,4 +198,22 @@
     <ng-container *ngIf="analysisData.type > 0">
         <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
     </ng-container>
+</app-dialog-box>
+<app-dialog-box #sameModal title="相似题目" [buttonVisible]="false">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>题目</th>
+                <th>科目</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of sameItems">
+                <td>{{ item.id }}</td>
+                <td>【{{ item.type | questionType }}】{{ item.title }}</td>
+                <td>{{ item.course?.name }}</td>
+            </tr>
+        </tbody>
+    </table>
 </app-dialog-box>

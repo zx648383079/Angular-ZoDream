@@ -30,6 +30,12 @@ export class ExamService {
         });
     }
 
+    public questionCheck(params: any) {
+        return this.http.get<IData<IQuestion>>('exam/admin/question/check', {
+            params,
+        });
+    }
+
     public courseList(params?: any) {
         return this.http.get<IPage<ICourse>>('exam/admin/course', {params});
     }

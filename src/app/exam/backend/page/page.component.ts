@@ -77,16 +77,15 @@ export class PageComponent implements OnInit {
     }
 
     public tapRemove(item: IExamPage) {
-        if (!confirm('确定删除“' + item.name + '”试卷？')) {
-            return;
-        }
-        this.service.questionRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”试卷？', () => {
+            this.service.pageRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
