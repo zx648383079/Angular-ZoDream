@@ -25,10 +25,7 @@
             <label for="scope_type">活动范围</label>
             <div>
                 <select id="scope_type" class="form-control" formControlName="scope_type">
-                    <option [value]="0">全部商品</option>
-                    <option [value]="1">指定分类</option>
-                    <option [value]="2">指定品牌</option>
-                    <option [value]="3">指定商品</option>
+                    <option *ngFor="let item of ruleItems" [value]="item.value">{{ item.name }}</option>
                 </select>
             </div>
         </div>

@@ -6,9 +6,11 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
 import {
     IAd
 } from '../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../theme/query';
 import {
     AdService
 } from '../ad.service';
@@ -21,20 +23,15 @@ import {
 export class AdComponent implements OnInit {
 
     public items: IAd[] = [];
-
     public hasMore = true;
-
-    public page = 1;
-
-    public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
-    public keywords = '';
-
-    public position = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        position_id: 0,
+    };
 
     constructor(
         private service: AdService,
@@ -45,9 +42,12 @@ export class AdComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
             if (res.position) {
-                this.position = parseInt(res.position, 10) || 0;
+                this.queries.position_id = parseInt(res.position, 10) || 0;
             }
-            this.tapRefresh();
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
@@ -59,11 +59,11 @@ export class AdComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -74,22 +74,19 @@ export class AdComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.adList({
-            keywords: this.keywords,
-            position_id: this.position,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.adList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
-        this.position = 0;
+        this.queries = getQueries(form, this.queries);
+        this.queries.position_id = 0;
         this.tapRefresh();
     }
 

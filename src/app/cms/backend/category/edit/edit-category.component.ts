@@ -136,6 +136,10 @@ export class EditCategoryComponent implements OnInit {
         history.back();
     }
 
+    public onTitleChange() {
+        
+    }
+
     public tapSubmit() {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');

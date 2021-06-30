@@ -51,6 +51,9 @@ export class EditComponent implements OnInit {
         video_url: [''],
         cc_license: [''],
         comment_status: [''],
+        seo_title: [''],
+        seo_description: [''],
+        seo_link: [''],
     });
 
     public data: IBlog;
@@ -127,6 +130,9 @@ export class EditComponent implements OnInit {
                 video_url: res.video_url,
                 cc_license: res.cc_license,
                 comment_status: res.comment_status,
+                seo_title: res.seo_title,
+                seo_description: res.seo_description,
+                seo_link: res.seo_link,
             });
         });
     }

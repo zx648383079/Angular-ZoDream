@@ -9,7 +9,7 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="标题">
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a routerLink="./create" class="pull-right btn btn-primary">新增预售</a>
@@ -44,6 +44,6 @@
             </tbody>
         </table>
 
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>

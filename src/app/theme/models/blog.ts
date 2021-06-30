@@ -33,6 +33,9 @@ export interface IBlog {
     source_url?: string;
     source_author?: string;
     is_hide?: number;
+    seo_title?: string;
+    seo_description?: string;
+    seo_link?: string;
     user: IUser;
     term: ICategory;
     tags?: ITag[];

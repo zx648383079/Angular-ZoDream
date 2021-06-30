@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
 import { IWarehouseLog } from '../../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../../theme/query';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
@@ -13,12 +15,14 @@ export class LogComponent implements OnInit {
 
     public items: IWarehouseLog[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
-    public warehouseId = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        warehouse: 0,
+    };
 
     constructor(
         private service: WarehouseService,
@@ -29,11 +33,13 @@ export class LogComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
-                this.tapRefresh();
                 return;
             }
-            this.warehouseId = params.id;
-            this.tapRefresh();
+            this.queries.warehouse = parseInt(params.id, 10);
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
@@ -46,11 +52,11 @@ export class LogComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -61,21 +67,18 @@ export class LogComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.logList({
-            keywords: this.keywords,
-            warehouse: this.warehouseId,
-            page,
-            per_page: this.perPage,
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.logList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 }

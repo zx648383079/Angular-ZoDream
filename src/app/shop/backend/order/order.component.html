@@ -20,6 +20,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
+                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
                     <a routerLink="./create" class="btn btn-success">新增订单</a>
                     <a routerLink="./delivery" class="btn btn-info">发货单</a>
                 </div>
@@ -70,4 +71,75 @@
 
         <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
+</div>
+
+<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+    </div>
+    <form class="panel-body" (ngSubmit)="tapSearch(advancedForm.value)" #advancedForm="ngForm">
+        <div class="form-group">
+            <label for="type1">订单状态</label>
+            <div class="input-group">
+                <select name="status" class="form-control" [ngModel]="queries.status" id="type1">
+                    <option [value]="0">全部</option>
+                    <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="start_at">下单时间</label>
+            <div class="input-group">
+                <app-date-input id="start_at" [ngModel]="queries.start_at" name="start_at"></app-date-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="end_at">至</label>
+            <div class="input-group">
+                <app-date-input id="end_at" [ngModel]="queries.end_at" name="end_at"></app-date-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="goods2">商品</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="goods2" placeholder="商品名称关键字">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="user2">下单账号</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.user" name="user" id="user2" placeholder="会员名关键字">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="conginee2">收货人</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.conginee" name="conginee" id="conginee2" placeholder="收货人">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address2">收货地址</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.address" name="address" id="address2" placeholder="关键字">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tel2">联系电话</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.tel" name="tel" id="tel2" placeholder="关键字">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="series_number2">订单号</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="queries.series_number" name="series_number" id="series_number2" placeholder="订单号">
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">搜索</button>
+            <button type="reset" class="btn btn-danger">重置</button>
+        </div>
+    </form>
 </div>

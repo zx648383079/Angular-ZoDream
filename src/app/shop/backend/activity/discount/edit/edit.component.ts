@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../dialog';
 import { IActivity, IDiscountConfigure } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
+import { ActivityRuleItems } from '../../model';
 
 @Component({
   selector: 'app-edit',
@@ -31,6 +32,7 @@ export class EditDiscountComponent implements OnInit {
     });
 
     public data: IActivity<IDiscountConfigure>;
+    public ruleItems = ActivityRuleItems;
 
     constructor(
         private service: ActivityService,
@@ -46,9 +48,9 @@ export class EditDiscountComponent implements OnInit {
 
     get selectUrl() {
         switch (this.scopeType) {
-            case 1:
-                return 'shop/admin/brand/search';
             case 2:
+                return 'shop/admin/brand/search';
+            case 1:
                 return 'shop/admin/category/search';
             case 3:
                 return 'shop/admin/goods/search';

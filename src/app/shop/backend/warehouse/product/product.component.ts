@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { DialogBoxComponent } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../../theme/query';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
@@ -14,13 +16,16 @@ export class ProductComponent implements OnInit {
 
     public items: IWarehouseGoods[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
     public data: IWarehouse;
     public editData: IWarehouseLog = {} as any;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        warehouse: 0,
+    };
 
     constructor(
         private service: WarehouseService,
@@ -31,14 +36,19 @@ export class ProductComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
-                this.tapRefresh();
                 return;
             }
-            this.data = {id: params.id} as any;
-            this.service.warehouse(params.id).subscribe(res => {
+            this.queries.warehouse = parseInt(params.id, 10);
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+            if (this.queries.warehouse < 1) {
+                return;
+            }
+            this.service.warehouse(this.queries.warehouse).subscribe(res => {
                 this.data = res;
             });
-            this.tapRefresh();
         });
     }
 
@@ -76,11 +86,11 @@ export class ProductComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -91,21 +101,18 @@ export class ProductComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.goodsList({
-            keywords: this.keywords,
-            warehouse: this.data ? this.data.id : 0,
-            page,
-            per_page: this.perPage,
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.goodsList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 }

@@ -8,8 +8,7 @@
                     <div class="input-group">
                         <label for="title">名称</label>
                         <div>
-                            <input type="text" id="title" class="form-control" formControlName="title" >
-
+                            <input type="text" id="title" class="form-control" formControlName="title" (blur)="onTitleChange()">
                         </div>
                     </div>
                     <div class="input-group">

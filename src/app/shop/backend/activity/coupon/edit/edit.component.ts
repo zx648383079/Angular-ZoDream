@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../dialog';
+import { IItem } from '../../../../../theme/models/seo';
 import { ICoupon } from '../../../../../theme/models/shop';
 import { ActivityService } from '../../activity.service';
+import { ActivityRuleItems } from '../../model';
 
 @Component({
   selector: 'app-edit',
@@ -28,6 +30,11 @@ export class EditCouponComponent implements OnInit {
     });
 
     public data: ICoupon;
+    public typeItems: IItem[] = [
+        {name: '优惠', value: 0},
+        {name: '折扣', value: 1},
+    ];
+    public ruleItems: IItem[] = ActivityRuleItems;
 
     constructor(
         private service: ActivityService,
@@ -50,11 +57,11 @@ export class EditCouponComponent implements OnInit {
 
     get selectUrl() {
         switch (parseInt(this.ruleType, 10)) {
-            case 3:
-                return 'shop/admin/brand/search';
             case 2:
-                return 'shop/admin/category/search';
+                return 'shop/admin/brand/search';
             case 1:
+                return 'shop/admin/category/search';
+            case 3:
                 return 'shop/admin/goods/search';
             default:
                 return null;

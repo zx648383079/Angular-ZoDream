@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
 import { IActivity } from '../../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../../theme/query';
 import { ActivityService } from '../activity.service';
 
 @Component({
@@ -13,11 +15,13 @@ export class MixComponent implements OnInit {
 
     public items: IActivity<any>[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+    };
 
     constructor(
         private service: ActivityService,
@@ -26,7 +30,10 @@ export class MixComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     /**
@@ -37,11 +44,11 @@ export class MixComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -52,20 +59,18 @@ export class MixComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.mixList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.mixList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

@@ -1,0 +1,47 @@
+.mini-panel {
+    background-color: white;
+    margin-bottom: .8em;
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        padding: .8em;
+    }
+    .label-item {
+        .name {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        .count {
+            color: rgb(0, 255, 191);
+        }
+        &.danger {
+            .count {
+                color: rgb(255, 104, 104);
+            }
+        }
+    }
+    .panel-title {
+        line-height: 1.5em;
+        font-weight: 700;
+        font-size: .8em;
+        padding: 0 .8em;
+    }
+    .step-item {
+        padding: .4em .8em;
+        display: flex;
+        font-size: .8em;
+        .step-label {
+            flex: 1;
+        }
+        .count {
+            color: #ccc;
+        }
+        .step-count {
+            min-width: 6em;
+            padding: 0 .4em;
+        }
+        &:hover {
+            background-color: rgba($color: #ccc, $alpha: .1);
+        }
+    }
+}

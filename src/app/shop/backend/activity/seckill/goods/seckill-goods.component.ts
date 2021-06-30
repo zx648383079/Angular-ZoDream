@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../../dialog';
+import { IPageQueries } from '../../../../../theme/models/page';
 import { ISeckillGoods } from '../../../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../../../theme/query';
 import { ActivityService } from '../../activity.service';
 
 @Component({
@@ -13,14 +15,16 @@ export class SeckillGoodsComponent implements OnInit {
 
     public items: ISeckillGoods[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
     public editData: ISeckillGoods = {} as any;
-    private activity = 0;
-    private time = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        act_id: 0,
+        time_id: 0
+    };
 
     constructor(
         private service: ActivityService,
@@ -31,12 +35,15 @@ export class SeckillGoodsComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.activity) {
-                this.activity = parseInt(params.activity, 10);
+                this.queries.act_id = parseInt(params.activity, 10);
             }
             if (params.time) {
-                this.activity = parseInt(params.time, 10);
+                this.queries.time_id = parseInt(params.time, 10);
             }
-            this.tapRefresh();
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
@@ -49,11 +56,11 @@ export class SeckillGoodsComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -64,22 +71,18 @@ export class SeckillGoodsComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.goodsList({
-            keywords: this.keywords,
-            act_id: this.activity,
-            time_id: this.time,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.goodsList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -101,8 +104,8 @@ export class SeckillGoodsComponent implements OnInit {
     open(modal: DialogBoxComponent, item?: ISeckillGoods) {
         this.editData = item ? Object.assign({}, item) : {
             id: undefined,
-            act_id: this.activity,
-            time_id: this.time,
+            act_id: this.queries.act_id,
+            time_id: this.queries.time_id,
             goods_id: 0,
             amount: 1,
             every_amount: 1,

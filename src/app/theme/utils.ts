@@ -1,3 +1,5 @@
+import { IItem } from './models/seo';
+
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }
@@ -261,4 +263,19 @@ export const fileToBase64 = (file: File|Blob, callback: (text: string) => void) 
         // target.result 该属性表示目标对象的DataURL
         callback(e.target.result as string)
     };
-  }
+}
+
+export const mapFormat = (value: any, items: any[], def = '--') => {
+    if (items.length < 1) {
+        return def;
+    }
+    if (typeof items[0] !== 'object') {
+        return value < 0 || value >= items.length ? def : items[value];
+    }
+    for (const item of items) {
+        if (item.value === value) {
+            return item.name;
+        }
+    }
+    return def;
+};

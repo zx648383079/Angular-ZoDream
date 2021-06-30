@@ -6,9 +6,11 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
 import {
     IRegion
 } from '../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import {
     RegionService
@@ -23,13 +25,16 @@ export class RegionComponent implements OnInit {
 
     public items: IRegion[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
     public parent: IRegion;
     public editData: IRegion = {} as any;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        parent: 0,
+    };
 
     constructor(
         private service: RegionService,
@@ -38,14 +43,14 @@ export class RegionComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.route.queryParams.subscribe(res => {
-            if (!res.parent_id || res.parent_id <= 0) {
-                this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+            if (this.queries.parent < 1) {
                 return;
             }
-            this.service.region(res.parent_id).subscribe(data => {
+            this.service.region(this.queries.parent).subscribe(data => {
                 this.parent = data;
-                this.tapRefresh();
             });
         });
     }
@@ -58,11 +63,11 @@ export class RegionComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -73,21 +78,18 @@ export class RegionComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.regionList({
-            keywords: this.keywords,
-            parent: this.parent?.id,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.regionList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -107,7 +109,8 @@ export class RegionComponent implements OnInit {
 
     public tapViewRegion(item?: IRegion) {
         this.parent = item;
-        this.keywords = '';
+        this.queries.parent = item?.id || 0;
+        this.queries.keywords = '';
         this.tapRefresh();
     }
 

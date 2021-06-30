@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { IOrder } from '../../../theme/models/shop';
@@ -7,9 +8,12 @@ import { applyHistory, getQueries } from '../../../theme/query';
 import { OrderService } from './order.service';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss'],
+    animations: [
+        PanelAnimation,
+    ]
 })
 export class OrderComponent implements OnInit {
 
@@ -22,6 +26,13 @@ export class OrderComponent implements OnInit {
         status: 0,
         page: 1,
         per_page: 20,
+        keywords: '',
+        user: '',
+        start_at: '',
+        end_at: '',
+        conginee: '',
+        tel: '',
+        address: '',
     };
     public statusItems: IItem[] = [
         {name: '待支付', value: 10},
@@ -34,6 +45,7 @@ export class OrderComponent implements OnInit {
         {name: '待评价', value: 60},
         {name: '已退款', value: 81}
     ];
+    public panelOpen = false;
 
     constructor(
         private service: OrderService,

@@ -130,12 +130,6 @@
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
                         </div>
                     </div>
-                    <div class="input-group" *ngIf="typeInput.value > 0">
-                        <label for="meta_is_hide">是否隐藏</label>
-                        <div>
-                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
-                        </div>
-                    </div>
                     <div class="input-group">
                         <label for="weather">天气</label>
                         <div>
@@ -175,6 +169,32 @@
                         <label for="comment_status">评论状态</label>
                         <div>
                             <app-switch id="comment_status" formControlName="comment_status"></app-switch>
+                        </div>
+                    </div>
+                </app-panel>
+                <app-panel title="SEO优化">
+                    <div class="input-group" *ngIf="typeInput.value > 0">
+                        <label for="meta_is_hide">是否隐藏</label>
+                        <div>
+                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_seo_title">SEO标题</label>
+                        <div>
+                            <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_seo_description">SEO描述</label>
+                        <div>
+                            <textarea id="meta_seo_description" class="form-control" formControlName="seo_description"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_seo_link">链接别名</label>
+                        <div>
+                            <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
                         </div>
                     </div>
                 </app-panel>

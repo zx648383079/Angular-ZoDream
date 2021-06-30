@@ -5,18 +5,20 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { OrderService } from './order.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ZreFormModule } from '../../../form';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbPaginationModule,
-    ReactiveFormsModule,
-    ThemeModule,
-    OrderRoutingModule
-  ],
-  declarations: [...orderRoutedComponents],
-  providers: [
-    OrderService,
-  ],
+    imports: [
+        CommonModule,
+        NgbPaginationModule,
+        ReactiveFormsModule,
+        ThemeModule,
+        OrderRoutingModule,
+        ZreFormModule,
+    ],
+    declarations: [...orderRoutedComponents],
+    providers: [
+        OrderService,
+    ],
 })
 export class OrderModule { }

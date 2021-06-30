@@ -19,8 +19,7 @@
             <label for="type">优惠券类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type">
-                    <option [value]="0">优惠</option>
-                    <option [value]="1">折扣</option>
+                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
             </div>
         </div>
@@ -28,11 +27,7 @@
             <label for="rule">使用规则</label>
             <div>
                 <select id="rule" class="form-control" formControlName="rule">
-                    <option [value]="0">全场通用</option>
-                    <option [value]="1">指定商品</option>
-                    <option [value]="2">指定分类</option>
-                    <option [value]="3">指定品牌</option>
-                    <!-- <option [value]="4">指定店铺</option> -->
+                    <option *ngFor="let item of ruleItems" [value]="item.value">{{ item.name }}</option>
                 </select>
 
             </div>
@@ -46,11 +41,11 @@
         <div class="input-group">
             <label for="min_money">使用门槛</label>
             <div>
-                <input type="text" id="min_money" class="form-control" formControlName="min_money">
+                满<input type="text" id="min_money" class="form-control" formControlName="min_money">元
             </div>
         </div>
         <div class="input-group">
-            <label for="money">{{ typeValue < 1 ? '面值' : '折扣' }}</label>
+            <label for="money">{{ typeValue < 1 ? '面值/元' : '折扣/折' }}</label>
             <div>
                 <input type="text" id="money" class="form-control" formControlName="money">
             </div>

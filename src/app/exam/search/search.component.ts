@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
 import { IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
-import { eachObject } from '../../theme/utils';
+import { eachObject, mapFormat } from '../../theme/utils';
 import { ExamService } from '../exam.service';
 import { ICourse, IExamPage } from '../model';
 
@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit {
     }
 
     public formatQuestionType(value: number) {
-        return ['单选题', '多选题', '判断题', '简答题', '填空题'][value];
+        return mapFormat(value, ['单选题', '多选题', '判断题', '简答题', '填空题']);
     }
 
     public formatEasiness(val: number) {

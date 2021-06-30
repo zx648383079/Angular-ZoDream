@@ -16,11 +16,15 @@ import {
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { DialogService } from '../../../../dialog';
+import { PanelAnimation } from '../../../../theme/constants/panel-animation';
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss']
+    styleUrls: ['./list.component.scss'],
+    animations: [
+        PanelAnimation,
+    ]
 })
 export class ListComponent implements OnInit {
 
@@ -34,9 +38,13 @@ export class ListComponent implements OnInit {
         brand: 0,
         page: 1,
         per_page: 20,
+        is_best: 0,
+        is_hot: 0,
+        is_new: 0,
     };
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
+    public panelOpen = false;
 
     constructor(
         private service: GoodsService,
