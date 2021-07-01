@@ -48,7 +48,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
                 this.output(this.selectedIndex >= this.optionItems.length - 1 ? 0 : (this.selectedIndex + 1));
             } else if (event.code === 'ArrowUp') {
                 this.output(this.selectedIndex <= 0 ? this.optionItems.length - 1 : (this.selectedIndex - 1));
-            } else if (event.code === 'Enter') {
+            } else if (event.code === 'Enter' || event.code === 'Tab') {
                 this.panelVisible = false;
             }
         });

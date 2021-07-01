@@ -152,13 +152,38 @@
         </app-panel>
 
         <div class="panel-container">
-            
             <textarea formControlName="content" class="form-control"  id="editor-container"></textarea>
         </div>
 
-        <app-panel title="规格">
-            <app-sku-form [attrItems]="attrItems" [productItems]="productItems"></app-sku-form>
-        </app-panel>
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="规格">
+                    <app-sku-form [attrItems]="attrItems" [productItems]="productItems"></app-sku-form>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="SEO优化" [min]="true">
+                    <div class="input-group">
+                        <label for="meta_seo_title">SEO标题</label>
+                        <div>
+                            <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_seo_description">SEO描述</label>
+                        <div>
+                            <textarea id="meta_seo_description" class="form-control" formControlName="seo_description"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="meta_seo_link">链接别名</label>
+                        <div>
+                            <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+        </div>
 
 
         <div class="btn-group">

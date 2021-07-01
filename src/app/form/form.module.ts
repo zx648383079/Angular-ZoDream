@@ -15,6 +15,7 @@ import { TimeInputComponent } from './time-input/time-input.component';
 import { ThemeModule } from '../theme/theme.module';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 import { PasswordStrongComponent } from './password-strong/password-strong.component';
+import { ActionButtonComponent } from './action-button/action-button.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -30,6 +31,7 @@ const COMPONENTS = [
     TimeInputComponent,
     AutocompleteComponent,
     PasswordStrongComponent,
+    ActionButtonComponent,
 ];
 
 @NgModule({

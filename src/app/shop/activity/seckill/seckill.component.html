@@ -45,5 +45,7 @@
                 </div>
             </div>
         </div>
+
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>

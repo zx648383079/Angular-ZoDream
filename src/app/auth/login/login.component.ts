@@ -44,7 +44,7 @@ import {
     IErrorResponse, IErrorResult
 } from '../../theme/models/page';
 import { DialogService } from '../../dialog';
-import { CountdownButtonComponent } from '../../form';
+import { ActionButtonComponent, CountdownButtonComponent } from '../../form';
 
 @Component({
     selector: 'app-login',
@@ -149,24 +149,29 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.mode = i;
     }
 
-    public tapSignIn() {
-        if (!this.loginForm.valid) {
+    public tapSignIn(e?: ActionButtonComponent) {
+        if (this.loginForm.invalid) {
             return;
         }
         const data = Object.assign({}, this.loginForm.value);
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
         }
+        e?.enter();
         this.loginSubs = this.authService
             .login(data)
             .subscribe({
                 error: err => {
+                    e?.reset();
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);
                     if (res.captcha_token) {
                         this.captchaToken = res.captcha_token;
                     }
                     this.tapCaptcha();
+                },
+                complete: () => {
+                    e?.reset();
                 }
             });
     }

@@ -69,13 +69,13 @@ export class EditPresaleComponent implements OnInit {
                     scope_type: res.scope_type,
                     start_at: res.start_at,
                     end_at: res.end_at,
-                    configure: this.fb.group(res.configure),
                     step: this.fb.array(
                         res.configure.step.map(i => {
                             return this.fb.group(i);
                         })
                     )
                 });
+                this.form.get('configure').patchValue(res.configure);
             });
         });
     }

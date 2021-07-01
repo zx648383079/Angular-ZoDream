@@ -34,8 +34,7 @@
           记住我
           <a class="find-link" routerLink="find">找回密码</a>
       </div>
-
-      <button type="submit" class="btn" [disabled]="loginForm.invalid">登录</button>
+      <app-action-button class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)">登录</app-action-button>
       <div class="other-box">
           <a routerLink="register">注册账号</a>
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>

@@ -1,0 +1,54 @@
+.slider {
+    position: relative;
+    .slider-previous,
+    .slider-next {
+        position: absolute;
+        top: 50%;
+        font-size:50px;
+        margin-top: -25px;
+        color: #fff;
+        z-index: 99;
+        background: #D0C4AF;
+        padding-bottom: 5px;
+    }
+    .slider-next {
+        right: -50px;
+    }
+    .slider-previous {
+        left: -50px;
+    }
+    .slider-box {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        height: 100%;
+        ul {
+            position: absolute;
+            width: 5000px;
+            padding: 0;
+            margin: 0;
+            transition: left 1s linear;
+            li {
+                list-style: none;
+                float: left;
+            }
+        }
+    }
+
+    .slider-point {
+        position: absolute;
+        bottom: 0;
+        right: 100px;
+        li {
+            list-style: none;
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            &.active {
+                background: #fff;
+            }
+        }
+    }
+}

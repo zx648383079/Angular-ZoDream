@@ -74,26 +74,11 @@
             }
         }
     }
-    .slider-goods {
-        
-    }
     &.floor-out {
         background: #f4f0ea;
         padding: 30px 0;
     }
-    .slider {
-        .slider-previous, 
-        .slider-next {
-            background: #D0C4AF;
-            padding-bottom: 5px;
-        }
-        .slider-next {
-            right: -50px;
-        }
-        .slider-previous {
-            left: -50px;
-        }
-    }
+    
 }
 
 .first-goods-list {

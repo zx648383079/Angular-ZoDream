@@ -97,7 +97,7 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
             return;
         }
         this.getOrSet(url).subscribe(res => {
-            this.init(res.data);
+            this.init(res);
         });
     }
 

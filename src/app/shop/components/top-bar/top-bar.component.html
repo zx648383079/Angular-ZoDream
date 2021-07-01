@@ -1,0 +1,129 @@
+<div class="header-top">
+    <div class="container">
+        <div class="top-body">
+            <div class="top-left">
+                <a class="home" routerLink="/shop/market">
+                    <i class="iconfont icon-home"></i>
+                    首页
+                </a>
+                <div class="top-notice">
+                    <i class="iconfont icon-volume-up"></i>
+                    <ul class="notice-list">
+                        <li *ngFor="let item of noticeItems">
+                            <a [routerLink]="'/shop/market/article/' + item.id">{{ item.title }}</a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="top-right">
+                <div class="top-item">
+                    <ng-container *ngIf="user; else elseTemplate">
+                        <a routerLink="/shop/member">{{ user.name }}</a>
+                        <a (click)="tapLogout()">Sign out</a>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <a routerLink="/shop/market/auth">Sign in</a>
+                        <a routerLink="/shop/market/auth">Sign up</a>
+                    </ng-template>
+                </div>
+                <div class="top-item">
+                    <a routerLink="/shop/member/order">我的订单</a>
+                </div>
+                <div class="top-item">
+                    <a routerLink="/shop/member/account/center">会员</a>
+                </div>
+                <div class="top-item">
+                    <div class="drop-header">
+                        Customer Service
+                        <i class="iconfont icon-chevron-down"></i>
+                    </div>
+                    <div class="drop-menu">
+                        <ul>
+                            <li>
+                                在线客服
+                            </li>
+                            <li>
+                                <a routerLink="/shop/market/article/help">帮助中心</a>
+                            </li>
+                            <li>商务合作</li>
+                            <li>开发平台</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="top-item large-drop">
+                    <div class="drop-header">
+                        网站导航
+                        <i class="iconfont icon-chevron-down"></i>
+                    </div>
+                    <div class="drop-large-menu">
+                        <div class="group">
+                            <div class="group-header">
+                                特色主题
+                            </div>
+                            <div class="group-body">
+                                <ul>
+                                    <li>
+                                        拍卖
+                                    </li>
+                                    <li>
+                                        秒杀
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="group-header">
+                                行业频道
+                            </div>
+                            <div class="group-body">
+                                <ul>
+                                    <li>
+                                        拍卖
+                                    </li>
+                                    <li>
+                                        秒杀
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="group-header">
+                                生活服务
+                            </div>
+                            <div class="group-body">
+                                <ul>
+                                    <li>
+                                        拍卖
+                                    </li>
+                                    <li>
+                                        秒杀
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="group-header">
+                                更多精选
+                            </div>
+                            <div class="group-body">
+                                <ul>
+                                    <li>
+                                        拍卖
+                                    </li>
+                                    <li>
+                                        秒杀
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-item">
+                    <i class="iconfont icon-mobile"></i>
+                    APP
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

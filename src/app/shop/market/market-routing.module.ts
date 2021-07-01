@@ -26,7 +26,6 @@ import { PayResultComponent } from './cashier/pay/result/pay-result.component';
 import {
     CategoryComponent
 } from './category/category.component';
-import { CouponComponent } from './coupon/coupon.component';
 import {
     GoodsComponent
 } from './goods/goods.component';
@@ -40,7 +39,6 @@ import {
 import {
     SearchComponent
 } from './search/search.component';
-import { SeckillComponent } from './seckill/seckill.component';
 
 const routes: Routes = [{
     path: '',
@@ -89,14 +87,7 @@ const routes: Routes = [{
             path: 'cashier',
             component: CashierComponent,
         },
-        {
-            path: 'coupon',
-            component: CouponComponent,
-        },
-        {
-            path: 'seckill',
-            component: SeckillComponent,
-        },
+        { path: 'activity', loadChildren: () => import('../activity/activity.module').then(m => m.ActivityModule) },
         {
             path: '',
             component: HomeComponent
@@ -114,6 +105,5 @@ export const marketRoutingComponents = [
     MarketComponent, HomeComponent, AuthComponent,
     CategoryComponent, SearchComponent, GoodsComponent,
     CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent,
-    PayComponent, CashierComponent, CouponComponent, PayResultComponent,
-    SeckillComponent
+    PayComponent, CashierComponent, PayResultComponent,
 ];

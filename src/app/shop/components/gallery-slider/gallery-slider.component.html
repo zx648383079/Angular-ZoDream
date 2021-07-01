@@ -1,0 +1,12 @@
+<div class="picture-box">
+    <div class="view">
+        <ng-container *ngIf="items.length > 0">
+            <img [src]="currentSrc" alt="">
+        </ng-container>
+    </div>
+    <ul>
+        <li *ngFor="let item of items; let i = index" [ngClass]="{active: i == index}" (click)="index = i">
+            <img [src]="item.thumb" alt="">
+        </li>
+    </ul>
+</div>

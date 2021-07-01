@@ -1,0 +1,40 @@
+.flex-line {
+    display: flex;
+    justify-content: space-between;
+    .count {
+        color: #aaa;
+        font-size: .8em;
+    }
+}
+.price-group {
+    .price {
+        font-size: 24px;
+        color: #e01222;
+        font-family: arial;
+        margin-right: 2px;
+        line-height: 1;
+        display: inline-block;
+        min-width: 50px;
+        em {
+            font-size: 14px;
+            font-style: normal;
+        }
+    }
+    .old-price {
+        display: inline-block;
+        font-size: 12px;
+        color: #999;
+        text-decoration: line-through;
+    }
+}
+
+.thumb {
+    position: relative;
+    .time {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba($color: #ccc, $alpha: .3);
+    }
+}

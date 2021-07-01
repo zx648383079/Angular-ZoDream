@@ -24,7 +24,10 @@ export class EditDiscountComponent implements OnInit {
         configure: this.fb.group({
             type: 0,
             amount: 0,
-            discount_type: 0,
+            check_discount: 0,
+            check_money: 0,
+            check_gift: 0,
+            check_shipping: 0,
             discount_value: 0,
             discount_money: 0,
             discount_goods: 0,
@@ -78,14 +81,24 @@ export class EditDiscountComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(','),
                     scope_type: res.scope_type,
+                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(','),
                     start_at: res.start_at,
                     end_at: res.end_at,
-                    configure: this.fb.group(res.configure),
                 });
+                this.form.get('configure').patchValue(res.configure);
             });
         });
+    }
+
+    public onScopeChange() {
+        this.form.patchValue({
+            scope: [],
+        });
+    }
+
+    public hasType(index = 1) {
+        return this.configureDiscountType >> index % 2 === 1;
     }
 
     public tapBack() {

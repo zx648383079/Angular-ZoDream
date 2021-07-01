@@ -36,7 +36,7 @@ export class FeedbackComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
-        })
+        });
     }
 
 
@@ -92,16 +92,15 @@ export class FeedbackComponent implements OnInit {
     }
 
     public tapRemove(item: IFeedback) {
-        if (!confirm('确认删除此反馈？')) {
-            return;
-        }
-        this.service.feedbackRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确认删除此反馈？', () => {
+            this.service.feedbackRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

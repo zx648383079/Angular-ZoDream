@@ -1,4 +1,7 @@
 @import '../../theme/styles/scrollbar';
+:host {
+    display: inline-block;
+}
 .selector {
     position: relative;
     * {

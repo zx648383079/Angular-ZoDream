@@ -1,0 +1,35 @@
+<div class="cart-button">
+    <a (click)="tapCart()">
+        <i class="iconfont icon-shopping-cart"></i>
+        <i class="cart-num">{{ cart ? cart.subtotal.count : 0 }}</i>
+    </a>
+    <div class="cart-dialog" *ngIf="cart && cartOpen">
+        <div class="dialog-body">
+            <ng-container *ngFor="let group of cart.data">
+                <div class="cart-item" *ngFor="let item of group.goods_list">
+                    <div class="thumb">
+                        <img [src]="item.goods.thumb" alt="">
+                    </div>
+                    <div>
+                        <div class="name">{{ item.goods.name }}</div>
+                        <span class="attr">雾白 </span>
+                        <span class="count">x {{ item.amount }}</span>
+                    </div>
+                    <div class="price">
+                        {{ item.price }}
+                    </div>
+                    <div class="action">
+                        <i class="iconfont icon-close" (click)="tapRemoveCart(item)"></i>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="dialog-footer">
+            <div class="total">
+                <span>SUBTOTAL:</span>
+                <span>{{ cart.subtotal.total }}</span>
+            </div>
+            <a (click)="tapViewCart()" class="btn">VIEW CART</a>
+        </div>
+    </div>
+</div>

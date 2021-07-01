@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './theme/services';
+import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
-  encapsulation: ViewEncapsulation.None // Emulated当前  None全局
+    selector: 'app-root',
+    template: '<router-outlet></router-outlet>',
+    encapsulation: ViewEncapsulation.None // Emulated当前  None全局
 })
 export class AppComponent implements OnInit {
-    title = 'Angular ZoDream';
 
     constructor(
         private auth: AuthService,

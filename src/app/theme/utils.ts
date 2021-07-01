@@ -1,5 +1,3 @@
-import { IItem } from './models/seo';
-
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }

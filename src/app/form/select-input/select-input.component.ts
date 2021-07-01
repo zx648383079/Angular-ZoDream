@@ -126,14 +126,21 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
         }
     }
 
-    private formatSelected(obj: any) {
-        if (!obj) {
+    private formatSelected(obj: any, loop = 0) {
+        if (!obj || (obj instanceof Array && obj.length < 1)) {
+            this.selectedItems = [];
             return;
         }
         if (!this.valueTypeT) {
             this.selectedItems = obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)];
         }
         if (!this.url || !this.valueTypeT) {
+            // 增加延迟，防止在 formbuilder 中url和值通知变动时无法正确获取
+            if (loop < 1) {
+                setTimeout(() => {
+                    this.formatSelected(obj, loop ++ );
+                }, 100);
+            }
             return;
         }
         this.http.get<IData<T>>(this.url, {params: {[this.rangeKey]: obj}}).subscribe(res => {
@@ -144,9 +151,7 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
     writeValue(obj: any): void {
         this.value = obj;
         this.readerType(obj);
-        if (this.selectedItems.length < 1) {
-            this.formatSelected(obj);
-        }
+        this.formatSelected(obj);
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

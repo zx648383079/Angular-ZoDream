@@ -1,6 +1,5 @@
 <div class="coupon-page">
     <div class="container">
-
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../">Home</a>
             <span class="breadcrumb-item active">领券中心</span>
@@ -31,6 +30,8 @@
                 </div>
                 
             </div>
+            
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
 
     </div>

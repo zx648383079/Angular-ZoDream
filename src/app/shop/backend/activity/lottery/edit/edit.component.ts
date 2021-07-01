@@ -71,8 +71,8 @@ export class EditLotteryComponent implements OnInit {
                     scope_type: res.scope_type,
                     start_at: res.start_at,
                     end_at: res.end_at,
-                    configure: this.fb.group(res.configure),
                 });
+                this.form.get('configure').patchValue(res.configure);
             });
         });
     }

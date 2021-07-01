@@ -44,6 +44,9 @@ export class EditComponent implements OnInit, AfterViewInit {
         admin_note: [''],
         type: ['0'],
         position: ['99'],
+        seo_title: [''],
+        seo_description: [''],
+        seo_link: [''],
     });
 
     public categories: ICategory[] = [];
@@ -105,6 +108,9 @@ export class EditComponent implements OnInit, AfterViewInit {
                     admin_note: res.admin_note,
                     type: res.type,
                     position: res.position,
+                    seo_title: res.seo_title,
+                    seo_description: res.seo_description,
+                    seo_link: res.seo_link,
                 });
             });
         });

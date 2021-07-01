@@ -1,15 +1,15 @@
 .panel {
     background-color: #f4f4f4;
     border-radius: 0.1875rem;
-    padding: 0 0.625rem;
     margin-bottom: 0.625rem;
     .panel-header {
         line-height: 2.5rem;
         border-left: none;
         font-size: 1.125rem;
+        padding: 0 0.625rem;
     }
     .panel-body {
-        padding: 0.625rem 0;
+        padding: 0.625rem;
     }
 }
 

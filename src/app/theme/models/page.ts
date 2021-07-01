@@ -8,6 +8,17 @@ export interface IPaging {
 export interface IPage<T> {
     paging: IPaging;
     data: T[];
+    filter?: IFilter[];
+}
+
+export interface IFilter {
+    name: string;
+    label: string;
+    items: {
+        label: string;
+        value: any;
+        selected?: boolean;
+    }[];
 }
 
 export interface IBaseResponse {
@@ -19,6 +30,7 @@ export interface IBaseResponse {
     encrypt_type?: string;
     message?: string;
 }
+
 export interface IData<T> extends IBaseResponse {
     data?: T[];
 }

@@ -9,7 +9,7 @@
           <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
               <div class="input-group">
                   <label for="keywords">关键字</label>
-                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="keywords">
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="queries.keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
           </form>
@@ -40,7 +40,7 @@
               </tbody>
       </table>
   
-      <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+      <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
   </div>
 </div>
 

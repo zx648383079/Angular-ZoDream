@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent } from '../../../dialog';
 import { IAdminLog } from '../../../theme/models/auth';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -11,28 +14,28 @@ import { AuthService } from '../auth.service';
 export class AdminLogComponent implements OnInit {
 
     public items: IAdminLog[] = [];
-
     public hasMore = true;
-
-    public page = 1;
-
-    public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
-    public keywords = '';
-
     public editData: IAdminLog = {} as any;
+    public queries: IPageQueries = {
+        page: 1,
+        keywords: '',
+        per_page: 20,
+    };
 
     constructor(
         private service: AuthService,
+        private route: ActivatedRoute,
     ) {
-        this.tapRefresh();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
 
     /**
      * tapRefresh
@@ -42,11 +45,11 @@ export class AdminLogComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -57,20 +60,18 @@ export class AdminLogComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.adminLogList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {...this.queries, page};
+        this.service.adminLogList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 

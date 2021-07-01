@@ -1,0 +1,126 @@
+.cart-button {
+    position: relative;
+    display: inline-block;
+}
+a {
+    text-decoration: none;
+}
+.cart-num {
+    position: absolute;
+    top: -7px;
+    right: -5px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    z-index: 1;
+    height: 19px;
+    width: 19px;
+    background: #f00;
+    border-radius: 50%;
+    display: block;
+    font-style: normal;
+}
+.iconfont {
+    font-size: 30px;
+    color: #b4a078
+}
+.cart-dialog {
+    position: absolute;
+    right: -19px;
+    top: 30px;
+    z-index: 9;
+    padding-top: 10px;
+    padding-right: 0px;
+    overflow: visible;
+    width: 330px;
+    height: 328px;
+    border: 1px solid #b5a176;
+    border-top: 2px solid #d7ccb6;
+    background-color: #fff;
+    .dialog-body {
+        margin: 14px 0 0;
+        height: 245px;
+        overflow: auto;
+        .cart-item {
+            display: grid;
+            grid-template-columns: 60px 5fr 2fr 30px;
+            height: 70px;
+            grid-gap: 10px;
+            padding: 0 0 10px 15px;
+            .thumb {
+                img {
+                    width: 100%;
+                    height: 60px;
+                }
+            }
+            .name {
+                font-size: 14px;
+                line-height: 14px;
+                padding: 12px 0 11px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 160px;
+            }
+            .count,
+            .attr {
+                color: #999;
+                font-size: 11px;
+                line-height: 12px;
+            }
+            .attr {
+                max-width: 84px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .price {
+                text-align: right;
+                font-size: 11px;
+                color: #b62628;
+                margin-top: 14px;
+                line-height: 11px;
+            }
+            .iconfont-times {
+                margin-top: 14px;
+                font-size: 16px;
+                word-spacing: normal;
+                letter-spacing: normal;
+            }
+        }
+    }
+    .dialog-footer {
+        height: 66px;
+        background-color: #f4f0ea;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        .total {
+            font-size: 14px;
+            line-height: 20px;
+            padding: 12px 0 0 15px;
+            color: #BE4141;
+            float: left;
+            span {
+                display: block;
+                &:first-child {
+                    color: #999;
+                }
+            }
+        }
+        .btn {
+            float: right;
+            margin-right: 31px;
+            color: #fff;
+            border: 1px solid #b4a078;
+            background-color: #b4a078;
+            width: 110px;
+            height: 36px;
+            line-height: 36px;
+            margin-top: 15px;
+            font-size: 12px;
+            padding: 0;
+            text-align: center;
+        }
+    }
+}

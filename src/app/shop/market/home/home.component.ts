@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IAd, IBrand, ICategory, IGoods, IComment } from '../../../theme/models/shop';
+import { ThemeService } from '../../../theme/services';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -18,9 +19,11 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private service: ShopService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
+        this.themeService.setTitle('商城');
         this.service.banners().subscribe(res => {
             this.bannerItems = res.data;
         });

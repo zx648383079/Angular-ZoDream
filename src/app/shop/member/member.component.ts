@@ -18,18 +18,12 @@ import { ShopService } from '../shop.service';
   styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
-
-    public noticeItems: IArticle[] = [];
-
-    public user: IUser;
-
     public site: ISite = {} as any;
 
     constructor(
         private service: ShopService,
         private route: ActivatedRoute,
         private router: Router,
-        private toastrService: DialogService,
         private store: Store<ShopAppState>,
         private authService: AuthService,
     ) {
@@ -38,7 +32,6 @@ export class MemberComponent implements OnInit {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;
             }
-            this.user = user;
         });
         this.store.select(selectSite).subscribe(site => {
             this.site = site;
@@ -46,14 +39,7 @@ export class MemberComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.service.notice().subscribe(res => {
-            this.noticeItems = res.data;
-        });
-    }
-
-    public tapLogout() {
-        this.authService.logout().subscribe(() => {
-        });
+        
     }
 
 }

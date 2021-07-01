@@ -109,3 +109,8 @@ export interface IAgreementGroup {
         b?: boolean;
     }[];
 }
+
+
+export interface ISortItem extends IItem {
+    asc?: boolean;
+}

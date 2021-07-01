@@ -9,6 +9,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageContainerModule } from '../../message-container/message-container.module';
 import { ZreFormModule } from '../../form';
+import { ShopCommonModule } from '../common.module';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
@@ -22,6 +23,7 @@ import { ZreFormModule } from '../../form';
         ThemeModule,
         MessageContainerModule,
         ZreFormModule,
+        ShopCommonModule,
     ],
     exports: [
         UserMenuComponent,

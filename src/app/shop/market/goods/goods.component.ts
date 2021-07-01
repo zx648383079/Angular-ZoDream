@@ -3,7 +3,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog';
-import { IActivity, ICartGroup, IComment, IGoods, IGoodsGallery } from '../../../theme/models/shop';
+import { IActivity, ICartGroup, IComment, ICoupon, IGoods, IGoodsGallery } from '../../../theme/models/shop';
+import { ThemeService } from '../../../theme/services';
+import { mapFormat } from '../../../theme/utils';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
@@ -28,6 +30,8 @@ export class GoodsComponent implements OnInit {
     public commentSubtotal: any;
     public commentItems: IComment[] = [];
     public logItems: any[] = [];
+    public couponItems: ICoupon[] = [];
+    public promoteItems: IActivity[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -36,6 +40,7 @@ export class GoodsComponent implements OnInit {
         private sanitizer: DomSanitizer,
         private toastrService: DialogService,
         private store: Store<ShopAppState>,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
@@ -46,6 +51,7 @@ export class GoodsComponent implements OnInit {
 
     public loadGoods(id: any) {
         this.service.goods(id).subscribe(res => {
+            this.themeService.setTitle(res.name);
             this.data = res;
             this.stock = res.stock;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
@@ -56,7 +62,13 @@ export class GoodsComponent implements OnInit {
                 }
                 return i;
             }) : []);
+            this.couponItems = res.coupons || [];
+            this.promoteItems = res.promotes || [];
         });
+    }
+
+    public formatPromote(value: number) {
+        return mapFormat(value, ['', '拍卖', '秒杀', '团购', '优惠', '组合', '返现', '预售', '砍价', '抽奖', '试用']);
     }
 
     public loadRecommend() {

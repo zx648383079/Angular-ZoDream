@@ -1,0 +1,36 @@
+<div class="container">
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" routerLink="../">Home</a>
+        <span class="breadcrumb-item active">拍卖中心</span>
+    </nav>
+
+    <div>
+        <div class="goods-list">
+            <div class="goods-item item-hover" *ngFor="let item of items">
+                <div class="thumb">
+                    <img [src]="item.goods.thumb" alt="">
+                    <div class="time">
+                        <app-countdown label="距离结束"></app-countdown>
+                    </div>
+                </div>
+                <div class="flex-line">
+                    <div class="price-group">
+                        <div class="price">
+                            <em>￥</em>
+                            {{ item.goods.price }}</div>
+                        <div class="old-price"><em>￥</em>{{ item.goods.market_price }}</div>
+                    </div>
+                    <div class="count">
+                        1人已出价
+                    </div>
+                </div>
+                <div class="name">{{ item.goods.name }}</div>
+                
+                <a class="btn btn-danger" *ngIf="item.status < 1" [routerLink]="item.id">立即出价</a>
+                <a *ngIf="item.status > 0" [routerLink]="item.id" class="btn btn-dark">已结束</a>
+            </div>
+        </div>
+
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

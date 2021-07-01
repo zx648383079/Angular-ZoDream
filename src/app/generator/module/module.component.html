@@ -50,7 +50,9 @@
                             <app-switch [(ngModel)]="installData.hasAssets">复制资源文件</app-switch>
                         </div>
                     </div>
-                    <div class="btn btn-primary" (click)="tapInstall()">安装</div>
+                    <app-action-button class="btn btn-primary" (tapped)="tapInstall($event)">
+                        安装
+                    </app-action-button>
                 </div>
             </div>
             <div class="tab-item" [ngClass]="{active: tabIndex == 1}">

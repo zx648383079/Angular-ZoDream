@@ -75,6 +75,9 @@ export interface IGoods {
     admin_note: string;
     type: number;
     position: number;
+    seo_title?: string;
+    seo_description?: string;
+    seo_link?: string;
     dynamic_position: string;
     deleted_at: number;
     created_at: string;
@@ -85,6 +88,8 @@ export interface IGoods {
     gallery?: IGoodsGallery[];
     properties?: any[];
     products?: IProduct[];
+    coupons?: ICoupon[];
+    promotes?: IActivity<any>[];
     is_collect?: boolean;
 }
 
@@ -448,7 +453,7 @@ export interface IWarehouseLog {
     user?: IUser;
 }
 
-export interface IActivity<T extends object> {
+export interface IActivity<T = any> {
     id: number;
     name: string;
     thumb: string;
@@ -490,7 +495,10 @@ export interface ICashBackConfigure {
 export interface IDiscountConfigure {
     type: number;
     amount: number;
-    discount_type: number;
+    check_discount: number;
+    check_money: number;
+    check_gift: number;
+    check_shipping: number;
     discount_value: number;
     discount_money: number;
     discount_goods: number;

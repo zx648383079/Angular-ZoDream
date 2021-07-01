@@ -283,24 +283,12 @@ export class ShopService {
         return this.http.delete<IDataOne<boolean>>('shop/collect/delete', {params: {id}});
     }
 
-    public couponList(params: any) {
-        return this.http.get<IPage<ICoupon>>('shop/coupon', {params});
-    }
-
     public couponMyList(params: any) {
         return this.http.get<IPage<ICoupon>>('shop/coupon/my', {params});
     }
 
     public couponReceive(id: number) {
         return this.http.post<IDataOne<boolean>>('shop/coupon/receive', {id});
-    }
-
-    public seckillTime() {
-        return this.http.get<IData<IActivityTime>>('shop/activity/seckill/time');
-    }
-
-    public seckillList(params: any) {
-        return this.http.get<IPage<ISeckillGoods>>('shop/activity/seckill/goods', {params});
     }
 
     public batch(data: {

@@ -19,21 +19,11 @@ import { ShopService } from '../shop.service';
 })
 export class MarketComponent implements OnInit {
 
-    public noticeItems: IArticle[] = [];
-
-    public user: IUser;
-
-    public site: ISite = {} as any;
-
     public categories = [];
-
     public tipItems: string[] =  [];
     public hotItems: string[] = [];
-
     public keywords = '';
-
-    public cart: ICart;
-    public cartOpen = false;
+    public site: ISite = {} as any;
 
     constructor(
         private service: ShopService,
@@ -41,16 +31,9 @@ export class MarketComponent implements OnInit {
         private router: Router,
         private toastrService: DialogService,
         private store: Store<ShopAppState>,
-        private authService: AuthService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
-            this.user = user;
-        });
         this.store.select(selectSite).subscribe(site => {
-            this.site = site;
-        });
-        this.store.select(selectShopCart).subscribe(cart => {
-            this.cart = cart;
+            this.site = site || {} as any;
         });
     }
 
@@ -64,7 +47,6 @@ export class MarketComponent implements OnInit {
             this.store.dispatch(setCart({cart: res.cart}));
             this.categories = res.category;
             this.hotItems = res.hot_keywords;
-            this.noticeItems = res.notice;
         });
     }
 
@@ -97,39 +79,6 @@ export class MarketComponent implements OnInit {
                 keywords
             },
             relativeTo: this.route
-        });
-    }
-
-    public tapCart() {
-        if (this.cart && this.cart.data.length > 0) {
-            this.cartOpen = !this.cartOpen;
-            return;
-        }
-        this.tapViewCart();
-    }
-
-    /**
-     * tapViewCart
-     */
-    public tapViewCart() {
-        this.cartOpen = false;
-        this.router.navigate(['cart'], {relativeTo: this.route});
-    }
-
-    /**
-     * tapRemoveCart
-     */
-    public tapRemoveCart(item: ICartItem) {
-        this.service.cartDeleteItem(item.id).subscribe(cart => {
-            this.store.dispatch(setCart({cart}));
-            if (cart.data.length < 1) {
-                this.cartOpen = false;
-            }
-        });
-    }
-
-    public tapLogout() {
-        this.authService.logout().subscribe(() => {
         });
     }
 
