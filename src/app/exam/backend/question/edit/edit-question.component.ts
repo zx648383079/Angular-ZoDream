@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { ActionButtonComponent } from '../../../../form';
 import { emptyValidate } from '../../../../theme/validators';
 import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial } from '../../../model';
 import { ExamService } from '../../exam.service';
@@ -170,7 +171,7 @@ export class EditQuestionComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ActionButtonComponent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -181,9 +182,16 @@ export class EditQuestionComponent implements OnInit {
         }
         data.analysis_items = this.analysisItems;
         data.material_id = this.material ? this.material.id : 0;
-        this.service.questionSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.questionSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

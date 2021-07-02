@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 import { DialogService } from '../../../dialog';
 import { IImageUploadEvent } from '../../../editor/model';
+import { ActionButtonComponent } from '../../../form';
 import {
     IBlog,
     ICategory,
@@ -167,7 +168,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ActionButtonComponent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -180,9 +181,17 @@ export class EditComponent implements OnInit {
             data.language = this.data.language;
         }
         data.tags = this.tags;
-        this.service.blogSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.blogSave(data).subscribe({
+            next: _ => {
+                e.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                this.toastrService.error(err);
+                e?.reset();
+            }
         });
     }
 

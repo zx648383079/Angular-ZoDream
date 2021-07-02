@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { ActionButtonComponent } from '../../../../form';
 import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -71,7 +72,7 @@ export class EditPageComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ActionButtonComponent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -81,9 +82,16 @@ export class EditPageComponent implements OnInit {
             data.id = this.data.id;
         }
         data.rule_value = this.optionItems;
-        this.service.pageSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.pageSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 
