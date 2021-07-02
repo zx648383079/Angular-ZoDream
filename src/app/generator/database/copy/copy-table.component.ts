@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { ActionButtonComponent } from '../../../form';
 import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { ITableColumn } from '../../model';
@@ -98,7 +99,7 @@ export class CopyTableComponent implements OnInit {
         });
     }
 
-    public tapSubmit(preview = true) {
+    public tapSubmit(preview = true, e: ActionButtonComponent) {
         if (!this.distTable || this.srcTable.length < 1) {
             this.toastrService.warning('请选择数据表');
             return;
@@ -109,6 +110,7 @@ export class CopyTableComponent implements OnInit {
                 return;
             }
         }
+        e.enter();
         this.service.copy({
             dist: this.distTable,
             src: this.srcTable,
@@ -116,6 +118,7 @@ export class CopyTableComponent implements OnInit {
             preview
         }).subscribe({
             next: res => {
+                e.reset();
                 if (!preview) {
                     this.toastrService.success('复制成功');
                     return;
@@ -123,6 +126,7 @@ export class CopyTableComponent implements OnInit {
                 this.previewModal.open();
             },
             error: err => {
+                e.reset();
                 this.toastrService.error(err);
             }
         });

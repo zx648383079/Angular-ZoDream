@@ -13,7 +13,7 @@ import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { DialogBoxComponent } from '../dialog';
 import { IBlockItem } from '../link-rule';
-import { SearchService } from '../theme/services';
+import { SearchService, ThemeService } from '../theme/services';
 
 @Component({
     selector: 'app-micro',
@@ -50,7 +50,9 @@ export class MicroComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private store: Store<AppState>,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('微博客');
         this.store.select(getCurrentUser).subscribe(user => {
             this.authUser = user;
         });

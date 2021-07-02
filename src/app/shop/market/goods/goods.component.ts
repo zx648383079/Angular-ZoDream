@@ -19,7 +19,6 @@ export class GoodsComponent implements OnInit {
 
     public data: IGoods;
     public galleryItems: IGoodsGallery[] = [];
-    public galleryIndex = 0;
     public content: SafeHtml;
     public tabIndex = 0;
     public recommendItems: IGoods[] = [];
@@ -27,9 +26,6 @@ export class GoodsComponent implements OnInit {
     public amount = 1;
     public stock = 0;
     public activity: IActivity<any>;
-    public commentSubtotal: any;
-    public commentItems: IComment[] = [];
-    public logItems: any[] = [];
     public couponItems: ICoupon[] = [];
     public promoteItems: IActivity[] = [];
 
@@ -51,11 +47,10 @@ export class GoodsComponent implements OnInit {
 
     public loadGoods(id: any) {
         this.service.goods(id).subscribe(res => {
-            this.themeService.setTitle(res.name);
+            this.themeService.setTitle(res.seo_title || res.name);
             this.data = res;
             this.stock = res.stock;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-            this.galleryIndex = 0;
             this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery ? res.gallery.map(i => {
                 if (!i.thumb) {
                     i.thumb = i.image;
@@ -81,25 +76,6 @@ export class GoodsComponent implements OnInit {
         this.service.hotList(this.data.id).subscribe(res => {
             this.hotItems = res.data;
         });
-    }
-
-    public tapAmountMinus() {
-        this.amount = Math.max(this.amount - 1, 1) || 1;
-    }
-
-    public onAmountChange() {
-        if (this.amount < 1) {
-            this.amount = 1;
-            return;
-        }
-        const stock = this.stock;
-        if (this.amount > stock) {
-            this.amount = stock;
-        }
-    }
-
-    public tapAmountPlus() {
-        this.amount = Math.min(this.amount + 1, this.stock) || 1;
     }
 
     public tapBuy() {

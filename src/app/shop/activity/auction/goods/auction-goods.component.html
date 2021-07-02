@@ -1,3 +1,116 @@
-<p>
-  auction-goods works!
-</p>
+<div class="goods-page" *ngIf="data">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" routerLink="../../">Home</a>
+            <a class="breadcrumb-item" routerLink="../">拍卖中心</a>
+            <span class="breadcrumb-item active">{{ data.name }}</span>
+        </nav>
+
+        <div class="row info-box">
+            <div class="col-md-6">
+                <app-gallery-slider [items]="galleryItems"></app-gallery-slider>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <div class="intro">
+                        <div class="name">
+                            {{ data.name }}
+                        </div>
+                        <div class="desc">
+                            {{ data.brief }}
+                        </div>
+                    </div>
+                    <div class="price-box">
+                        <div class="activity-panel">
+                            <div class="panel-header">
+                                <div class="time">
+                                    距离结束
+                                    <app-countdown [end]="activity.end_at" [auto]="true"></app-countdown>
+                                </div>
+                                <div class="count">
+                                    0次围观
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="label-item">
+                                    当前价
+                                    <span class="price">
+                                        {{ activity.bid || 0 | price }}
+                                    </span>
+                                </div>
+                                <div class="label-item">
+                                    {{ activity.bid_count | numberFormat }}次出价
+                                </div>
+                                <div class="label-item" *ngIf="activity.configure.fixed_price">
+                                    封顶价
+                                    {{ activity.configure.fixed_price | price }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-group">
+                            <div class="group-header">配送
+                            </div>
+                            <div class="group-body">至<app-region url="shop/region/tree"></app-region>
+                            </div>
+                        </div>
+                        <div class="flex-group">
+                            <div class="group-header">
+                                出价
+                            </div>
+                            <div class="group-body">
+                                <app-number-input [(ngModel)]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price"></app-number-input>
+                                <div class="label-item">
+                                    最低加价
+                                    {{ minBid | price }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <a (click)="tapBid()" class="btn btn-danger">
+                            立即出价
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row detail-box">
+            <div class="col-md-12">
+                <div class="tab-box">
+                    <div class="tab-header">
+                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                            Product details
+                        </div>
+                        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                            Comments
+                        </div>
+                        <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                            Issues
+                        </div>
+                        <div class="tab-item" *ngIf="activity && activity.type == 1" [ngClass]="{active: tabIndex == 3}"
+                            (click)="tabIndex = 3">
+                            出价记录
+                        </div>
+                    </div>
+                    <div class="tab-body bg-white">
+                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                            <div class="content-box" [innerHTML]="content">
+                            </div>
+                        </div>
+                        <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1"></app-comment-page>
+                        </div>
+                        <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
+
+                        </div>
+                        <div class="tab-item log-box"
+                            [ngClass]="{active: tabIndex == 3}">
+                            <app-auction-log [activity]="activity.id" [init]="tabIndex == 3"></app-auction-log>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,8 +14,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class ColorPickerComponent  {
-
-
     public disable = true;
     public value = '';
     public visibility = false;

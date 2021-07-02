@@ -1,0 +1,5 @@
+<div class="number-box">
+    <i class="iconfont icon-minus" [ngClass]="{disabled: minDisabled}" (click)="tapMinus()"></i>
+    <input type="text" class="number-input" [ngModel]="value" (change)="onValueChange($event)" [disabled]="disabled">
+    <i class="iconfont icon-plus" [ngClass]="{disabled: maxDisabled}" (click)="tapPlus()"></i>
+</div>

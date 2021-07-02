@@ -76,16 +76,15 @@ export class CommentComponent implements OnInit {
     }
 
     public tapRemove(item: IComment) {
-        if (!confirm('确定删除“' + item.content + '”评论？')) {
-            return;
-        }
-        this.service.commentRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.content + '”评论？', () => {
+            this.service.commentRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

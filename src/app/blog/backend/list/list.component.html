@@ -45,11 +45,13 @@
                             <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                             <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
                         </div>
-                        <a class="btn btn-info btn-xs" [routerLink]="'/blog/' + item.id">预览</a>
-                        <a class="btn btn-light btn-xs"
-                        [routerLink]="'../edit/' + item.id">编辑</a>
-                        <a class="btn btn-danger" (click)="tapRemove(item)"
-                            >删除</a>
+                        <div class="btn-group">
+                            <a class="btn btn-info btn-xs" [routerLink]="'/blog/' + item.id">预览</a>
+                            <a class="btn btn-light btn-xs"
+                            [routerLink]="'../edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)"
+                                >删除</a>
+                        </div>
                     </div>
                 </div>
             </ng-container>

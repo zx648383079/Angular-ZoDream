@@ -21,6 +21,7 @@ import {
 import { AuthActions } from '../theme/actions';
 import { DialogService } from '../dialog';
 import { MenuService } from './menu.service';
+import { ThemeService } from '../theme/services';
 
 @Component({
     selector: 'app-backend',
@@ -38,7 +39,9 @@ export class BackendComponent implements OnInit {
         private service: BackendService,
         private toastrService: DialogService,
         private menuService: MenuService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('管理平台');
         this.menuService.change$.subscribe(res => {
             this.navItems = res.items;
             this.bottomNavs = res.bottom;

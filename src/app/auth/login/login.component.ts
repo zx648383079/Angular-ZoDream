@@ -18,7 +18,7 @@ import {
     Router
 } from '@angular/router';
 import {
-    AuthService
+    AuthService, ThemeService
 } from '../../theme/services';
 import {
     getAuthStatus
@@ -77,7 +77,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private router: Router,
         private toastrService: DialogService,
+        private themeService: ThemeService,
         private authService: AuthService) {
+        this.themeService.setTitle('登录');
         this.redirectIfUserLoggedIn();
     }
 

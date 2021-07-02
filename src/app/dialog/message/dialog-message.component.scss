@@ -1,0 +1,46 @@
+.dialog-message-box {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    transition: all 500ms ease-in;
+    z-index: 999;
+    .dialog-body {
+        display: inline-flex;
+        padding: 0.2em .8em;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,.2);
+        min-width: 300px;
+        border-radius: 0 0 .3em .3em;
+    }
+    .message-icon {
+        font-size: 2em;
+        padding-right: .4em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .message-body {
+        flex: 1;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .message-success {
+        color: white;
+        background-color: #198754;
+    }
+    .message-waining {
+        color: white;
+        background-color: #f89406;
+    }
+    .message-error {
+        color: white;
+        background-color: #dc3545;
+    }
+    .message-info {
+        color: white;
+        background-color: #2f96b4;
+    }
+}

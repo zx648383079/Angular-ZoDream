@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, forwardRef, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, forwardRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IData } from '../../theme/models/page';
 import { cloneObject, hasElementByClass } from '../../theme/utils';

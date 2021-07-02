@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../theme/services';
 
 @Component({
   selector: 'app-visual',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualComponent implements OnInit {
 
-  constructor() {
-  }
+    constructor(
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('可视化编辑');
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

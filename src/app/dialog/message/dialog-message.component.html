@@ -1,0 +1,11 @@
+<div class="dialog-message-box" [@dialogOpen]="visible ? 'open' : 'closed'" (@dialogOpen.done)="animationDone($event)">
+    <div class="dialog-body" [ngClass]="theme">
+        <div class="message-icon" *ngIf="icon">
+            <i class="iconfont" [ngClass]="icon"></i>
+        </div>
+        <div class="message-body">
+            <div class="message-title" *ngIf="title">{{ title }}</div>
+            <div class="message-content" *ngIf="content">{{ content }}</div>
+        </div>
+    </div>
+</div>

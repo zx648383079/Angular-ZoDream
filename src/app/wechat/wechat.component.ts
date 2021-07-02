@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../theme/models/page';
 import { applyHistory, getQueries } from '../theme/query';
+import { ThemeService } from '../theme/services';
 import { IWeChatAccount } from './model';
 import { WechatService } from './wechat.service';
 
@@ -27,7 +28,10 @@ export class WechatComponent implements OnInit {
     constructor(
         private service: WechatService,
         private route: ActivatedRoute,
-    ) { }
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('公众号管理');
+    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

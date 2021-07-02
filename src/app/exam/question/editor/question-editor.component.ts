@@ -17,6 +17,7 @@ export class QuestionEditorComponent implements OnChanges {
         {content: '错', checked: false}
     ];
     public content = '';
+    public score = '';
     public materialType = 0;
     public materialFile = '';
 
@@ -140,6 +141,7 @@ export class QuestionEditorComponent implements OnChanges {
         if (count > 1) {
             value.type = 1;
         }
+        value.score = parseInt(this.score) || 0;
         this.valueChange.emit(this.value = value);
     }
 
@@ -153,6 +155,7 @@ export class QuestionEditorComponent implements OnChanges {
             return;
         }
         this.content = value.title;
+        this.score = value.score as any || '';
         this.materialType = value.material?.type || 0;
         this.materialFile = value.material?.content || '';
         this.opitonItems = value.option_items ? value.option_items.map(i => {

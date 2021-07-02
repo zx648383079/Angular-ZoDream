@@ -1,3 +1,4 @@
+@use "sass:math";
 @import '../theme/styles/scrollbar';
 $size: 40px;
 $boxWidth: $size * 7;
@@ -128,14 +129,14 @@ $minBoxWidth: $size * 7;
                 .list-group {
                     width: 60px;
                     &:first-child {
-                        margin-left: ($boxWidth - 190px) / 2;
+                        margin-left: math.div($boxWidth - 190px, 2);
                     }
                 }
             }
             .year-grid {
                 .list-group {
                     &:first-child {
-                        margin-left: ($boxWidth - 160px) / 2;
+                        margin-left: math.div($boxWidth - 160px, 2);
                     }
                 }
             }

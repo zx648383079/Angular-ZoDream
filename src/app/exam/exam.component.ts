@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchService } from '../theme/services';
+import { SearchService, ThemeService } from '../theme/services';
 import { ExamService } from './exam.service';
 import { ICourse } from './model';
 
@@ -14,11 +14,14 @@ export class ExamComponent implements OnInit, OnDestroy {
     public items: ICourse[] = [];
 
     constructor(
-      private service: ExamService,
-      private searchService: SearchService,
-      private router: Router,
-      private route: ActivatedRoute,
-    ) { }
+        private service: ExamService,
+        private searchService: SearchService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('题库');
+    }
   
     ngOnInit() {
         this.searchService.on('change', keywords => {

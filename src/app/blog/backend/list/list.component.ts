@@ -86,16 +86,15 @@ export class ListComponent implements OnInit {
     }
 
     public tapRemove(item: IBlog) {
-        if (!confirm('确定要删除《' + item.title + '》?')) {
-            return;
-        }
-        this.service.blogRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定要删除《' + item.title + '》?', () => {
+            this.service.blogRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

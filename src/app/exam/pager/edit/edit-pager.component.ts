@@ -79,6 +79,10 @@ export class EditPagerComponent implements OnInit {
         this.scrollBottom();
     }
 
+    public tapFind() {
+        
+    }
+
     public tapEdit(i: number) {
         this.editItem = this.items[i];
         this.editIndex = i;

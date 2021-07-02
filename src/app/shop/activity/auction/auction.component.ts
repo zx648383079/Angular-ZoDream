@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CountdownComponent } from '../../../theme/components';
 import { IPageQueries } from '../../../theme/models/page';
 import { IActivity, IAuctionConfigure } from '../../../theme/models/shop';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -11,8 +12,10 @@ import { ActivityService } from '../activity.service';
   templateUrl: './auction.component.html',
   styleUrls: ['./auction.component.scss']
 })
-export class AuctionComponent implements OnInit {
+export class AuctionComponent implements OnInit, OnDestroy {
 
+    @ViewChildren(CountdownComponent)
+    public countItems: QueryList<CountdownComponent>;
     public items: IActivity<IAuctionConfigure>[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -22,6 +25,7 @@ export class AuctionComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
+    private timerHandle: any;
     
     constructor(
         private themeService: ThemeService,
@@ -35,7 +39,12 @@ export class AuctionComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+            this.startTimer();
         });
+    }
+
+    ngOnDestroy() {
+        this.stopTimer();
     }
 
     public tapRefresh() {
@@ -70,6 +79,25 @@ export class AuctionComponent implements OnInit {
                 this.isLoading = false;
             }
         });
+    }
+
+    private startTimer() {
+        this.stopTimer();
+        this.timerHandle = window.setInterval(() => {
+            if (this.countItems.length < 1) {
+                return;
+            }
+            this.countItems.forEach(item => {
+                item.refresh();
+            });
+        }, 300);
+    }
+
+    private stopTimer() {
+        if (this.timerHandle > 0) {
+            clearInterval(this.timerHandle);
+            this.timerHandle = 0;
+        }
     }
 
 }

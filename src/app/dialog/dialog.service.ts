@@ -1,15 +1,30 @@
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { DOCUMENT } from '@angular/common';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Inject, Injectable, Injector, Type } from '@angular/core';
 import { IErrorResponse, IErrorResult } from '../theme/models/page';
-import { DialogConfirmOption, DialogTipOption } from './model';
+import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
+import { DialogInjector, DialogPackage } from './dialog.injector';
+import { DialogMessageComponent } from './message/dialog-message.component';
+import { DialogConfirmOption, DialogMessageOption, DialogTipOption } from './model';
+
+interface IDialogRef {
+    id: any;
+    element: ComponentRef<any>;
+}
 
 @Injectable({
     providedIn: 'root'
 })
 export class DialogService {
 
+    private static guid: number = 0; // id标记
+
+    private dialogItems: IDialogRef[] = [];
+
     constructor(
-        private toastrService: ToastrService,
+        private resolver: ComponentFactoryResolver,
+        private applicationRef: ApplicationRef,
+        private injector: Injector, 
+        @Inject(DOCUMENT) private document: Document,
     ) { }
 
     private formatError(error: string|IErrorResult|IErrorResponse): string {
@@ -23,15 +38,24 @@ export class DialogService {
     }
 
     public error(message: string|IErrorResponse) {
-        this.toastrService.error(this.formatError(message));
+        this.createMessage({
+            content: this.formatError(message),
+            type: 'error'
+        });
     }
 
     public warning(message: string|IErrorResponse) {
-        this.toastrService.warning(this.formatError(message));
+        this.createMessage({
+            content: this.formatError(message),
+            type: 'waining'
+        });
     }
 
     public success(message: string) {
-        this.toastrService.success(message);
+        this.createMessage({
+            content: this.formatError(message),
+            type: 'success'
+        });
     }
 
     public tip(content: string): void;
@@ -42,20 +66,55 @@ export class DialogService {
             content: option,
             time,
         };
-        this.toastrService.show(opt.content);
+        this.createMessage({
+            content: opt.content,
+            time: opt.time,
+            type: 'info'
+        });
     }
 
     public confirm(content: string, onConfirm: () => void): void;
     public confirm(option: DialogConfirmOption): void;
     public confirm(option: DialogConfirmOption|string, onConfirm?: () => void) {
         const opt = typeof option === 'object' ? option : {
-            title: option,
+            content: option,
             onConfirm,
         };
-        if (confirm(opt.title||opt.content)) {
-            opt.onConfirm && opt.onConfirm();
-            return;
+        this.createDailog(DialogConfirmComponent, opt);
+    }
+
+    private createMessage(option: DialogMessageOption) {
+        this.createDailog(DialogMessageComponent, option);
+    }
+
+    public remove(id: any) {
+        for (let i = this.dialogItems.length - 1; i >= 0; i--) {
+            const element = this.dialogItems[i];
+            if (element.id === id) {
+                this.removeAt(i);
+            }
         }
-        opt.onCancel && opt.onCancel();
+    }
+
+    private createDailog<T>(component: Type<T>, option: any): any {
+        const dialogId = ++ DialogService.guid;
+        const dialogFactory = this.resolver.resolveComponentFactory(component);
+        const dialogInjector = new DialogInjector(new DialogPackage(option, dialogId), this.injector);
+        const dialogRef = dialogFactory.create(dialogInjector);
+        this.applicationRef.attachView(dialogRef.hostView);
+        this.document.body.appendChild(dialogRef.location.nativeElement);
+        this.dialogItems.push({
+            id: dialogId,
+            element: dialogRef
+        });
+        return dialogId;
+    }
+
+    private removeAt(i: number) {
+        const item = this.dialogItems[i];
+        const dialogRef = item.element;
+        this.applicationRef.detachView(dialogRef.hostView);
+        this.document.body.removeChild(dialogRef.location.nativeElement);
+        this.dialogItems.splice(i);
     }
 }

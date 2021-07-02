@@ -1,0 +1,14 @@
+.dialog-box {
+    width: 16.25rem;
+    margin-left: -8.125em;
+    border-radius: 0.25rem;
+    .dialog-footer {
+        text-align: right;
+        // padding: 0.625rem;
+    }
+    .dialog-body {
+        display: flex;
+        padding: 0.2em .8em;
+        min-height: 10rem;
+    }
+}

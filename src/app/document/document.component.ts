@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../theme/services';
 import { DocumentService } from './document.service';
 import { IProject } from './model';
 
@@ -13,9 +14,11 @@ export class DocumentComponent implements OnInit {
 
     constructor(
         private service: DocumentService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
+        this.themeService.setTitle('文档');
         this.service.projectList({}).subscribe(res => {
             this.items = res.data;
         });

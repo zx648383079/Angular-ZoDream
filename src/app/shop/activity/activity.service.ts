@@ -29,4 +29,16 @@ export class ActivityService {
     public auctionList(params: any) {
         return this.http.get<IPage<IActivity>>('shop/activity/auction', {params});
     }
+
+    public auction(id: any) {
+        return this.http.get<IActivity>('shop/activity/auction/detail', {params: {id}});
+    }
+
+    public auctionLogList(params: any) {
+        return this.http.get<IPage<any>>('shop/activity/auction/log', {params});
+    }
+
+    public auctionBid(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/activity/auction/bid', data);
+    }
 }

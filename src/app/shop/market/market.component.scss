@@ -347,34 +347,7 @@ header {
             }
         }
     }
-    .number-box {
-        float: left;
-        border: 1px solid #ddd;
-        display: grid;
-        grid-template: 36px / 36px 60px 36px;
-        .iconfont {
-            border-right: 1px solid #ddd;
-            line-height: 38px;
-            background: #fff;
-            text-align: center;
-            &:last-child {
-                border-left: 1px solid #ddd;
-                border-right: none;
-            }
-        }
-        .number-input {
-            box-sizing: border-box;
-            border-radius: 0;
-            border: 0;
-            margin: 0;
-            font-size: 12px;
-            text-align: center;
-            color: #333;
-            height: 36px;
-            line-height: 36px;
-            background: #fff;
-        }
-    }
+
     
     .goods-item {
         text-align: center;

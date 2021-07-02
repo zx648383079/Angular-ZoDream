@@ -3,7 +3,7 @@ import {
     forwardRef,
     Input,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
     selector: 'app-star',
@@ -11,13 +11,13 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     styleUrls: ['./star.component.scss'],
     providers: [
         {
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => StarComponent),
-          multi: true
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => StarComponent),
+            multi: true
         }
     ]
 })
-export class StarComponent {
+export class StarComponent implements ControlValueAccessor {
 
     @Input() public disabled = true;
     public value = 10;

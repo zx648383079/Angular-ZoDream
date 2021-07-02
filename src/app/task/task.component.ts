@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { ThemeService } from '../theme/services';
 
 @Component({
     selector: 'app-task',
@@ -118,7 +119,10 @@ export class TaskComponent implements OnInit {
     ];
 
     constructor(
-        private store: Store<AppState>) {
+        private store: Store<AppState>,
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('时间管理');
         this.store.select(getCurrentUser).subscribe(user => {
             if (!user) {
                 return;

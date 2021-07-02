@@ -42,6 +42,7 @@
                         <th>科目</th>
                         <th>题目类型</th>
                         <th>数量</th>
+                        <th>分数/每题</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -61,6 +62,9 @@
                             <input type="number" class="form-control" [(ngModel)]="item.amount" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
+                            <input type="number" class="form-control" [(ngModel)]="item.score" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
                         </td>
                     </tr>
@@ -78,6 +82,7 @@
                     <tr>
                         <th>题目ID</th>
                         <th>题目</th>
+                        <th>分数</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -88,6 +93,9 @@
                         </td>
                         <td>
                             【{{ item.type | questionType }}】{{ item.title }}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" [(ngModel)]="item.score" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>

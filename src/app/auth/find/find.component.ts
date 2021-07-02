@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { confirmValidator } from '../../theme/validators';
 import { IErrorResponse } from '../../theme/models/page';
-import { AuthService } from '../../theme/services';
+import { AuthService, ThemeService } from '../../theme/services';
 import { DialogService } from '../../dialog';
 
 @Component({
@@ -31,7 +31,10 @@ export class FindComponent implements OnInit {
         private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
-    ) {}
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('找回密码');
+    }
 
     ngOnInit() {}
 

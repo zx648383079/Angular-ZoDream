@@ -58,6 +58,7 @@ export class EditPageComponent implements OnInit {
                     start_at: res.start_at,
                     end_at: res.end_at,
                 });
+                this.optionItems = res.rule_value;
             });
         });
     }
@@ -80,7 +81,7 @@ export class EditPageComponent implements OnInit {
             data.id = this.data.id;
         }
         data.rule_value = this.optionItems;
-        this.service.questionSave(data).subscribe(_ => {
+        this.service.pageSave(data).subscribe(_ => {
             this.toastrService.success('保存成功');
             this.tapBack();
         });
@@ -99,6 +100,7 @@ export class EditPageComponent implements OnInit {
             course: this.courseItems[0].id,
             type: 0,
             amount: 1,
+            score: 1,
         });
     }
 
@@ -130,6 +132,7 @@ export class EditPageComponent implements OnInit {
                         id: item.id,
                         type: item.type,
                         title: item.title,
+                        score: 1
                     });
                 }
             }

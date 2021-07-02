@@ -23,6 +23,7 @@ import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 import { IErrorResponse, IErrorResult } from '../../../theme/models/page';
 import { DialogService } from '../../../dialog';
+import { ThemeService } from '../../../theme/services';
 
 @Component({
     selector: 'app-detail',
@@ -62,6 +63,7 @@ export class DetailComponent implements OnInit {
         private router: Router,
         private toastrService: DialogService,
         private store: Store<AppState>,
+        private themeService: ThemeService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -87,6 +89,7 @@ export class DetailComponent implements OnInit {
             relation: {blog: id}
         }).subscribe(res => {
             this.data = res.detail;
+            this.themeService.setTitle(this.data.seo_title || this.data.title);
             this.relationItems = res.relation;
             this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
             document.documentElement.scrollTop = 0;

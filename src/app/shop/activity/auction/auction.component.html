@@ -10,18 +10,16 @@
                 <div class="thumb">
                     <img [src]="item.goods.thumb" alt="">
                     <div class="time">
-                        <app-countdown label="距离结束"></app-countdown>
+                        <app-countdown label="距离结束" [end]="item.end_at"></app-countdown>
                     </div>
                 </div>
                 <div class="flex-line">
                     <div class="price-group">
-                        <div class="price">
-                            <em>￥</em>
-                            {{ item.goods.price }}</div>
-                        <div class="old-price"><em>￥</em>{{ item.goods.market_price }}</div>
+                        <div class="price">{{ item.bid || 0 | price }}</div>
+                        <div class="old-price">{{ item.goods.market_price | price }}</div>
                     </div>
                     <div class="count">
-                        1人已出价
+                        {{ item.bid_count | numberFormat }}次出价
                     </div>
                 </div>
                 <div class="name">{{ item.goods.name }}</div>

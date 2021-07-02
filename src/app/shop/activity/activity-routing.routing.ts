@@ -14,6 +14,7 @@ import {
 import { SeckillComponent } from './seckill/seckill.component';
 import { CouponComponent } from './coupon/coupon.component';
 import { AuctionGoodsComponent } from './auction/goods/auction-goods.component';
+import { AuctionLogComponent } from './auction/log/auction-log.component';
 
 const routes: Routes = [
     {
@@ -45,5 +46,5 @@ const routes: Routes = [
 export class ActivityRoutingModule {}
 
 export const activityRoutedComponents = [
-    ActivityComponent, AuctionComponent, SeckillComponent, CouponComponent, AuctionGoodsComponent
+    ActivityComponent, AuctionComponent, SeckillComponent, CouponComponent, AuctionGoodsComponent, AuctionLogComponent,
 ];

@@ -4,6 +4,8 @@ import { activityRoutedComponents, ActivityRoutingModule } from './activity-rout
 import { DialogModule } from '../../dialog';
 import { ActivityService } from './activity.service';
 import { ThemeModule } from '../../theme/theme.module';
+import { ShopCommonModule } from '../common.module';
+import { ZreFormModule } from '../../form';
 
 @NgModule({
     imports: [
@@ -11,6 +13,8 @@ import { ThemeModule } from '../../theme/theme.module';
         DialogModule,
         ThemeModule,
         ActivityRoutingModule,
+        ShopCommonModule,
+        ZreFormModule,
     ],
     declarations: [...activityRoutedComponents],
     providers: [

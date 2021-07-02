@@ -4,6 +4,9 @@
             <div class="tool-item" title="新增" (click)="tapAdd()">
                 <i class="iconfont icon-plus"></i>
             </div>
+            <div class="tool-item" title="题库搜索" (click)="tapFind()">
+                <i class="iconfont icon-search"></i>
+            </div>
             <input type="text" [(ngModel)]="name" class="form-control" placeholder="请输入试卷标题">
             <input type="number" class="form-control time-input" placeholder="限时/分" [(ngModel)]="limitTime">
         </div>

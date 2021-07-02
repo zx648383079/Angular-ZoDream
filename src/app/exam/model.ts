@@ -20,6 +20,7 @@ export interface IQuestion {
     course?: ICourse;
     option_items?: IQuestionOption[];
     option?: IQuestionOption[];
+    score?: number;
 }
 
 export interface IQuestionMaterial {
@@ -80,10 +81,12 @@ export interface IExamPage {
     start_at: string;
     end_at: string;
     rule_value: {
+        id: number;
+        score: number;
+    }[]|{
         course: number;
-        type: {
-            [key: number]: number;
-        }
+        type: number;
+        score: number;
     }[];
 }
 

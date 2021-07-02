@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../dialog';
 import { IPageQueries } from '../theme/models/page';
 import { applyHistory, getQueries } from '../theme/query';
+import { ThemeService } from '../theme/services';
 import { IVideo } from './model';
 import { VideoService } from './video.service';
 
@@ -29,7 +30,10 @@ export class VideoComponent implements OnInit {
         private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
-    ) {}
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('短视频');
+    }
 
     @HostListener('scroll', [
         '$event.target.scrollTop',

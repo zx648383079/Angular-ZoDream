@@ -21,6 +21,8 @@
                 <tr>
                     <th>ID</th>
                     <th>试卷名</th>
+                    <th>题数量</th>
+                    <th>总分</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -28,6 +30,8 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
+                    <td>{{ item.question_count }}</td>
+                    <td>{{ item.score }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-info btn-xs" [routerLink]="['evaluate', item.id]">查看</a>

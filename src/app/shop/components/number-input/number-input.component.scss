@@ -1,0 +1,36 @@
+:host {
+    display: inline-block;
+}
+.number-box {
+    border: 1px solid #ddd;
+    display: flex;
+    .iconfont {
+        display: inline-block;
+        border-right: 1px solid #ddd;
+        line-height: 2.375rem;
+        background: #fff;
+        text-align: center;
+        width: 2em;
+        &:last-child {
+            border-left: 1px solid #ddd;
+            border-right: none;
+        }
+    }
+    .number-input {
+        box-sizing: border-box;
+        border-radius: 0;
+        border: 0;
+        margin: 0;
+        font-size: 0.75rem;
+        text-align: center;
+        color: #333;
+        width: 4em;
+        height: 2.25rem;
+        line-height: 2.25rem;
+        background: #fff;
+    }
+    .disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+}

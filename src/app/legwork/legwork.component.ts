@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { INav } from '../theme/components';
+import { ThemeService } from '../theme/services';
 import { LegworkService } from './legwork.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class LegworkComponent implements OnInit {
 
     constructor(
         private service: LegworkService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('跑腿');
         this.service.role().subscribe(res => {
             this.items = this.renderNav(res.is_waiter === 1, res.is_provider === 1);
         });

@@ -19,3 +19,9 @@ export interface DialogConfirmOption extends DialogOption {
     onConfirm?: () => void;
     onCancel?: () => void;
 }
+
+export interface DialogMessageOption extends DialogOption {
+    time?: number;         //显示时间
+    type?: 'success' | 'info' | 'error' | 'waining';
+    title?: string;
+}

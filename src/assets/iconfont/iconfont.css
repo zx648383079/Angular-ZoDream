@@ -1,9 +1,9 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 1823716 */
-    src: url('iconfont.woff2?t=1625042067687') format('woff2'),
-        url('iconfont.woff?t=1625042067687') format('woff'),
-        url('iconfont.ttf?t=1625042067687') format('truetype');
+    src: url('iconfont.woff2?t=1625190699415') format('woff2'),
+        url('iconfont.woff?t=1625190699415') format('woff'),
+        url('iconfont.ttf?t=1625190699415') format('truetype');
 }
 
 .iconfont {
@@ -12,6 +12,14 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-exclamation-circle:before {
+    content: "\e67f";
+}
+
+.icon-exclamation-triangle:before {
+    content: "\e67c";
 }
 
 .icon-chain-broken:before {

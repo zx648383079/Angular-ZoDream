@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>出价金额</th>
+            <th>出价时间</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td>{{ item.user?.name }}</td>
+            <td>{{ item.bid | price }}</td>
+            <td>{{ item.created_at }}</td>
+            <td>{{ item.status > 0 ? '淘汰' : '领先' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

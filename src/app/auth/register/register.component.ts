@@ -14,7 +14,7 @@ import {
     IErrorResponse
 } from '../../theme/models/page';
 import {
-    AuthService
+    AuthService, ThemeService
 } from '../../theme/services';
 import { DialogService } from '../../dialog';
 
@@ -40,8 +40,11 @@ export class RegisterComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private toastrService: DialogService,
-        private authService: AuthService
-    ) {}
+        private authService: AuthService,
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('注册');
+    }
 
     ngOnInit() {}
 

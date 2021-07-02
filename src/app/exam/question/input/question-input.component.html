@@ -2,6 +2,9 @@
     <div class="title">
         <span class="order">{{ value.order }}.</span>
         {{ value.title }}
+        <ng-container *ngIf="value.score">
+            ({{ value.score }}分)
+        </ng-container>
     </div>
     <div class="content" *ngIf="value.content">
         {{ value.content }}
