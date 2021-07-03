@@ -1,0 +1,27 @@
+
+.profile-dialog {
+    .user-box {
+        text-align: center;
+        .avatar {
+            display: inline-block;
+            img {
+                width: 3.75rem;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.group-dialog {
+    .line-item {
+        line-height: 50px;
+        text-align: center;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        cursor: pointer;
+        &.active {
+            background-color: rgba($color: green, $alpha: .2);
+        }
+    }
+
+}

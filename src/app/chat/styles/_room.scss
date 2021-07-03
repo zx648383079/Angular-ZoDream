@@ -1,0 +1,60 @@
+.chat-room {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .title {
+        border-bottom: 1px solid;
+        text-align: center;
+        line-height: 1.875rem;
+        position: relative;
+        .iconfont {
+            display: none;
+            position: absolute;
+            left: 5px;
+            top: 0;
+        }
+    }
+    .message-box {
+        height: 25rem;
+        flex: 1;
+    }
+    .message-tools {
+        font-size: 1.25rem;
+        line-height: 1.875rem;
+        border-bottom: 0.0625rem solid;
+        border-top: 0.0625rem solid;
+        .tool-item {
+            display: inline-block;
+            width: 1.875rem;
+            text-align: center;
+            cursor: pointer;
+            input[type='file'] {
+                width: 0;
+                height: 0;
+                overflow: hidden;
+            }
+            &:hover {
+                color: #333;
+            }
+            &.active {
+                color: red;
+            }
+        }
+    }
+    .message-text {
+        height: 5rem;
+        overflow-y: auto;
+        outline: none;
+        @include scrollbar();
+    }
+    .message-action {
+        text-align: right;
+        button {
+            width: 6.25rem;
+            line-height: 2.25rem;
+            background-color: #7676;
+            border: 0;
+        }
+    }
+}
