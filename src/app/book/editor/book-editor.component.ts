@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from '../../mind';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
 import { wordLength } from '../../theme/utils';
@@ -192,7 +193,7 @@ export class BookEditorComponent implements OnInit {
         });
     }
 
-    public tapSaveChapter() {
+    public tapSaveChapter(e?: ButtonEvent) {
         if (!this.data || emptyValidate(this.data.title)) {
             this.toastrService.warning('请输入章节名');
             return;
@@ -201,8 +202,10 @@ export class BookEditorComponent implements OnInit {
             this.toastrService.warning('请输入内容');
             return;
         }
+        e?.enter();
         this.service.selfSaveChapter({...this.data, body: undefined, book_id: this.book.id, size: wordLength(this.data.content)}).subscribe({
             next: res => {
+                e?.reset();
                 this.data.id = res.id;
                 this.toastrService.success('章节保存成功');
                 if (res.type > 0) {
@@ -211,6 +214,7 @@ export class BookEditorComponent implements OnInit {
                 this.appendItem(res);
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });

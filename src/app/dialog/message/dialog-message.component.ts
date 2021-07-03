@@ -22,12 +22,12 @@ interface IThemeGroup {
             state('open', style({ opacity: 1 })),
             state('closed', style({ opacity: 0 })),
             transition(
-                'open => closed',
-                animate('500ms ease-in')
+                '* => closed',
+                animate('500ms ease-out')
             ),
             transition(
-                'closed => open',
-                animate('500ms ease-out')
+                '* => open',
+                animate('500ms ease-in')
             )
         ])
     ]

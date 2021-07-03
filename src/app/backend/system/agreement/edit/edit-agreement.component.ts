@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { IAgreement } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
@@ -42,14 +43,22 @@ export class EditAgreementComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (emptyValidate(this.data.name) || emptyValidate(this.data.title) || this.data.content.length < 1) {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        this.service.agreementSave(this.data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.agreementSave(this.data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/router';
 import { DialogService } from '../../../dialog';
 import { IImageUploadEvent } from '../../../editor/model';
-import { ActionButtonComponent } from '../../../form';
+import { ButtonEvent } from '../../../form';
 import {
     IBlog,
     ICategory,
@@ -168,7 +168,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit(e?: ActionButtonComponent) {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
-import { ActionButtonComponent } from '../../../form';
+import { ButtonEvent } from '../../../form';
 import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { ITableColumn } from '../../model';
@@ -99,7 +99,7 @@ export class CopyTableComponent implements OnInit {
         });
     }
 
-    public tapSubmit(preview = true, e: ActionButtonComponent) {
+    public tapSubmit(preview = true, e: ButtonEvent) {
         if (!this.distTable || this.srcTable.length < 1) {
             this.toastrService.warning('请选择数据表');
             return;

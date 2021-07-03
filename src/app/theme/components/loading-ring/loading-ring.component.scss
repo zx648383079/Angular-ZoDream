@@ -1,4 +1,5 @@
 @import '../../styles/prefix';
+/** 几条竖线拉伸 */
 .loading-ring1{   
     width: 5em;   
     height: 2.5em;   
@@ -34,7 +35,7 @@
         background: lightblue;   
     }
 }
-
+/** 横向圆点滚动显示 */
 .loading-ring2{   
     width: 9.375em;   
     height: 0.9375em;   
@@ -75,6 +76,7 @@
     } 
 }
 
+/** 横向方块点显示 */
 .loading-ring3{   
     width: 9.375em;   
     height: 0.9375em;   
@@ -113,6 +115,7 @@
     }
 }
 
+/** 圆形8个点显示 */
 .loading-ring4{   
     width: 6.25em;   
     height: 6.25em;   
@@ -182,6 +185,7 @@
     }
 }
 
+/** 滑动的进度 */
 .loading-ring5 {   
     width: 9.375em;   
     height: 0.25em;   

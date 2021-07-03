@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IProduct } from '../../../../theme/models/shop';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
@@ -138,7 +139,7 @@ export class EditComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -149,9 +150,17 @@ export class EditComponent implements OnInit, AfterViewInit {
         }
         data.attr = this.skuForm.attrFormData();
         data.product = this.skuForm.productFormData();
-        this.service.categorySave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.categorySave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

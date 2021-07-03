@@ -187,7 +187,7 @@
 
 
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

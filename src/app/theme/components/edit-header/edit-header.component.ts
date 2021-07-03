@@ -1,19 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { ButtonEvent } from '../../../form';
 
 @Component({
   selector: 'app-edit-header',
   templateUrl: './edit-header.component.html',
   styleUrls: ['./edit-header.component.scss']
 })
-export class EditHeaderComponent implements OnChanges {
+export class EditHeaderComponent implements OnChanges, ButtonEvent {
 
     @Input() public title = '';
-
     @Input() public min = false;
-
     @Input() public disabled = false;
-
-    @Output() public submited = new EventEmitter();
+    @Input() public loading = false;
+    @Output() public submited = new EventEmitter<ButtonEvent>();
 
     constructor() { }
 
@@ -24,10 +23,24 @@ export class EditHeaderComponent implements OnChanges {
     }
 
     public tapSubmit() {
-        if (this.disabled) {
+        if (this.disabled || this.loading) {
             return;
         }
-        this.submited.emit();
+        this.submited.emit(this);
+    }
+
+    /**
+     * 开始执行加载
+     */
+    public enter() {
+        this.loading = true;
+    }
+
+    /**
+     * 停止执行
+     */
+    public reset() {
+        this.loading = false;
     }
 
 }

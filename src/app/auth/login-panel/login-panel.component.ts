@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../dialog';
-import { CountdownButtonComponent } from '../../form';
+import { CountdownEvent } from '../../form';
 import { AppState } from '../../theme/interfaces';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
@@ -72,7 +72,7 @@ export class LoginPanelComponent {
         this.agree = !this.agree;
     }
 
-    public tapSendCode(event: CountdownButtonComponent) {
+    public tapSendCode(event: CountdownEvent) {
         if (!mobileValidate(this.mobile)) {
             this.toastrService.warning('请输入正确的手机号');
             return;

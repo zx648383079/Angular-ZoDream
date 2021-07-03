@@ -6,13 +6,14 @@ import {
     Output,
     SimpleChanges
 } from '@angular/core';
+import { CountdownEvent } from '../event';
 
 @Component({
   selector: 'app-countdown-button',
   templateUrl: './countdown-button.component.html',
   styleUrls: ['./countdown-button.component.scss']
 })
-export class CountdownButtonComponent implements OnChanges {
+export class CountdownButtonComponent implements OnChanges, CountdownEvent {
 
     @Input() public time = 60;
 

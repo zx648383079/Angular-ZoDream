@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent } from '../../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { IErrorResult } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { IDocPage, IProject, IProjectVersion } from '../../model';
@@ -133,17 +134,23 @@ export class PageEditComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (!this.form.valid) {
             return;
         }
         const data = Object.assign({}, this.data, this.form.value);
-        this.service.pageSave(data).subscribe(res => {
-            this.toastrService.success('保存成功');
-            this.data = res;
-            this.appendData(res);
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        e?.enter();
+        this.service.pageSave(data).subscribe({
+            next: res => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.data = res;
+                this.appendData(res);
+            },
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 

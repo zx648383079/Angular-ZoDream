@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
 import { IOption } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
@@ -76,20 +77,23 @@ export class SystemComponent implements OnInit {
         return items;
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         const option: any = {};
         for (const group of this.groups) {
             for (const item of group.children) {
                 option[item.id] = item.value;
             }
         }
+        e?.enter();
         this.service.optionSave({
             option
         }).subscribe({
             next: () => {
                 this.toastrService.success('保存成功');
+                e?.reset();
             },
             error: err => {
+                e?.reset();
                 this.toastrService.warning(err.error.message);
             }
         });

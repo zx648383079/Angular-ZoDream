@@ -38,7 +38,7 @@
                     <div *ngIf="data.type < 1">
                         <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
                     </div>
-                    <button type="submit" class="btn btn-success">确认保存</button>
+                    <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
                 </form>
             </div>
         </div>

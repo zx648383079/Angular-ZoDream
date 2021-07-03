@@ -1,6 +1,5 @@
 import {
     Component,
-    ElementRef,
     OnDestroy,
     OnInit
 } from '@angular/core';
@@ -44,7 +43,7 @@ import {
     IErrorResponse, IErrorResult
 } from '../../theme/models/page';
 import { DialogService } from '../../dialog';
-import { ActionButtonComponent, CountdownButtonComponent } from '../../form';
+import { ButtonEvent, CountdownEvent } from '../../form';
 
 @Component({
     selector: 'app-login',
@@ -151,7 +150,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.mode = i;
     }
 
-    public tapSignIn(e?: ActionButtonComponent) {
+    public tapSignIn(e?: ButtonEvent) {
         if (this.loginForm.invalid) {
             return;
         }
@@ -222,7 +221,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.captchaImage = environment.assetUri + '/auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random();
     }
 
-    public tapSendCode(event: CountdownButtonComponent) {
+    public tapSendCode(event: CountdownEvent) {
         event.start(120);
     }
 

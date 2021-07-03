@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../dialog';
-import { ActionButtonComponent } from '../../form';
+import { ButtonEvent } from '../../form';
 import { IItem } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
 import { GenerateService } from '../generate.service';
@@ -64,7 +64,7 @@ export class ModuleComponent implements OnInit {
         this.tabIndex = i;
     }
 
-    public tapInstall(e: ActionButtonComponent) {
+    public tapInstall(e: ButtonEvent) {
         e.enter();
         this.service.moduleInstall({...this.installData}).subscribe({
             next: _ => {

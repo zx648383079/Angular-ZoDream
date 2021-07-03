@@ -1,11 +1,17 @@
 <div class="edit-header" [ngClass]="{min: min}">
-  <div class="title">{{ title }}</div>
+    <div class="title">{{ title }}</div>
 
-  <div class="remark">
-    <ng-content></ng-content>
-  </div>
+    <div class="remark">
+        <ng-content></ng-content>
+    </div>
 
-  <div class="submit-btn" [ngClass]="{'btn-disable': disabled}" (click)="tapSubmit()">
-    <i class="iconfont icon-check"></i>
-  </div>
+    <div class="submit-btn" [ngClass]="{'btn-disable': disabled, 'btn-loading': loading}" (click)="tapSubmit()">
+        <i class="iconfont icon-check"></i>
+        <div class="loading-ring">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
 </div>

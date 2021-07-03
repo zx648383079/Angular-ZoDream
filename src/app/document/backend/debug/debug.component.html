@@ -10,7 +10,7 @@
                 <option *ngFor="let item of methodItems" [value]="item">{{ item }}</option>
             </select>
             <input type="text" [(ngModel)]="url" class="form-control">
-            <button class="btn btn-primary" (click)="tapSend()">发送</button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSend($event)">发送</app-action-button>
             <button class="btn btn-danger" (click)="tapReset()">重置</button>
         </div>
         <div class="tab-box">

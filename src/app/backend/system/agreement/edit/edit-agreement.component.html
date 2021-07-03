@@ -36,7 +36,7 @@
         </div>
         
         <div class="btn-group">
-            <button (click)="tapSubmit()" class="btn btn-success">确认保存</button>
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
             <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
         </div>
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { IErrorResult } from '../../../theme/models/page';
 import { eachObject } from '../../../theme/utils';
 import { IDocApi } from '../../model';
@@ -108,7 +109,8 @@ export class DebugComponent implements OnInit {
         }
     }
 
-    public tapSend() {
+    public tapSend(e?: ButtonEvent) {
+        e?.enter();
         this.service.apiDebug({
             url: this.url,
             method: this.method,
@@ -116,32 +118,37 @@ export class DebugComponent implements OnInit {
             raw_type: this.rawItems[this.rawType],
             header: this.headerItems.filter(i => i.checked),
             body: this.body instanceof Array ? this.body.filter(i => i.checked) : this.body,
-        }).subscribe(res => {
-            const data = res.data;
-            this.responseStatus = data.headers.response[0];
-            this.responseTime = data.info.total_time;
-            this.responseSize = data.info.download_content_length;
-            this.responseBody = data.body;
-            this.responseHeader = [];
-            for (const item of data.headers.response) {
-                if (item.indexOf(':') < 0) {
-                    continue
+        }).subscribe({
+            next: res => {
+                e?.reset();
+                const data = res.data;
+                this.responseStatus = data.headers.response[0];
+                this.responseTime = data.info.total_time;
+                this.responseSize = data.info.download_content_length;
+                this.responseBody = data.body;
+                this.responseHeader = [];
+                for (const item of data.headers.response) {
+                    if (item.indexOf(':') < 0) {
+                        continue
+                    }
+                    const [key, value] = item.split(':');
+                    this.responseHeader.push({
+                        key: key.trim(),
+                        value: value.trim()
+                    });
                 }
-                const [key, value] = item.split(':');
-                this.responseHeader.push({
-                    key: key.trim(),
-                    value: value.trim()
+                this.responseInfo = [];
+                eachObject(data.info, (v, k: string) => {
+                    this.responseInfo.push({
+                        key: k,
+                        value: typeof v === 'object' ? JSON.stringify(v) : v, 
+                    });
                 });
+            },
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
             }
-            this.responseInfo = [];
-            eachObject(data.info, (v, k: string) => {
-                this.responseInfo.push({
-                    key: k,
-                    value: typeof v === 'object' ? JSON.stringify(v) : v, 
-                });
-            });
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
         });
         this.setCache();
     }

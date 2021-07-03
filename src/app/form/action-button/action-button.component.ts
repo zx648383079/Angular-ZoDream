@@ -1,15 +1,16 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ButtonEvent } from '../event';
 
 @Component({
     selector: 'app-action-button',
     templateUrl: './action-button.component.html',
     styleUrls: ['./action-button.component.scss']
 })
-export class ActionButtonComponent implements OnChanges, AfterViewInit {
+export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEvent {
 
     @Input() public disabled = false;
     @Input() public loading = false;
-    @Output() public tapped = new EventEmitter<ActionButtonComponent>();
+    @Output() public tapped = new EventEmitter<ButtonEvent>();
     private height = 0;
 
     constructor(

@@ -8,6 +8,7 @@ import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 
 @Component({
   selector: 'app-profile',
@@ -61,16 +62,19 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
         }
+        e?.enter();
         const data: any = Object.assign({}, this.form.value);
         this.service.uploadProfile(data).subscribe({
             next: _ => {
+                e?.reset();
                 this.toastrService.success('保存成功');
             }, error: err => {
+                e?.reset();
                 this.toastrService.warning(err.error.message);
             }
         });

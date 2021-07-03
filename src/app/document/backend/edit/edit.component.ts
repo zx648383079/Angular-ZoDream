@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
@@ -48,7 +49,7 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (!this.form.valid) {
             return;
         }
@@ -65,9 +66,17 @@ export class EditComponent implements OnInit {
                 return;
             }
         }
-        this.service.projectSave(data).subscribe(res => {
-            this.toastrService.success('保存成功');
-            history.back();
+        e?.enter();
+        this.service.projectSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                history.back();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

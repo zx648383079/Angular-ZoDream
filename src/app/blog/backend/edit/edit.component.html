@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 
 
 <div class="container-fluid">

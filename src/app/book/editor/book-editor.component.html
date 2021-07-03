@@ -93,8 +93,7 @@
                         </div>
                     </app-panel>
                 </ng-container>
-                
-                <button class="btn btn-success" (click)="tapSaveChapter()">确认保存</button>
+                <app-action-button class="btn btn-success" (tapped)="tapSaveChapter($event)">确认保存</app-action-button>
             </ng-container>
         </div>
     </div>

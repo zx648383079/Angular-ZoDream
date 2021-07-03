@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../dialog';
-import { ActionButtonComponent } from '../../../../form';
+import { ButtonEvent } from '../../../../form';
 import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -72,7 +72,7 @@ export class EditPageComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit(e?: ActionButtonComponent) {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
