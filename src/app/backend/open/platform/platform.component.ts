@@ -80,17 +80,16 @@ export class PlatformComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”应用？')) {
-            return;
-        }
-        const cb = this.reviewable ? this.service.reviewRemove : this.service.platformRemove;
-        cb.call(this.service, item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”应用？', () => {
+            const cb = this.reviewable ? this.service.reviewRemove : this.service.platformRemove;
+            cb.call(this.service, item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

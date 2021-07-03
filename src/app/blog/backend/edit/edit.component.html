@@ -195,6 +195,10 @@
                         <label for="meta_seo_link">链接别名</label>
                         <div>
                             <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                            <div class="input-tip">
+                                请使用数字字母-_组成，请不要输入空格、/，
+                                <p>{{ pageLink | asset }}</p>
+                            </div>
                         </div>
                     </div>
                 </app-panel>

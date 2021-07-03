@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
 import { DialogAnimation } from '../../theme/constants/dialog-animation';
-
-
-type CheckFn = () => boolean;
-type ConfirmFn = () => void;
-type ActionFn = (data: any) => any;
 
 @Component({
     selector: 'app-dialog-box',
@@ -14,7 +10,7 @@ type ActionFn = (data: any) => any;
         DialogAnimation,
     ],
 })
-export class DialogBoxComponent {
+export class DialogBoxComponent implements DialogEvent {
 
     /**
      * 标题
@@ -54,8 +50,8 @@ export class DialogBoxComponent {
     /**
      * 确认事件
      */
-    @Input() public confirmFn: ConfirmFn;
-    @Input() public actionFn: ActionFn;
+    @Input() public confirmFn: DialogConfirmFn;
+    @Input() public actionFn: DialogActionFn;
     @Output() public confirm = new EventEmitter();
 
     constructor() { }
@@ -112,19 +108,19 @@ export class DialogBoxComponent {
 
     public open(): void;
     public open(confirm: () => void): void;
-    public open(confirm: () => void, check: CheckFn): void;
+    public open(confirm: () => void, check: DialogCheckFn): void;
     public open(confirm: () => void, title: string): void;
-    public open(confirm: () => void, check: CheckFn, title: string): void;
+    public open(confirm: () => void, check: DialogCheckFn, title: string): void;
     /**
      * 显示弹窗
      * @param cb 点击确认按钮事件
      * @param check 判断是否允许关闭
      */
-    public open(cb?: () => void, check?: CheckFn|string, title?: string) {
+    public open(cb?: () => void, check?: DialogCheckFn|string, title?: string) {
         if (typeof check === 'string') {
             [check, title] = [undefined, check];
         }
-        this.checkFn = check as CheckFn;
+        this.checkFn = check as DialogCheckFn;
         this.confirmFn = cb;
         if (title) {
             this.title = title;
@@ -133,18 +129,18 @@ export class DialogBoxComponent {
     }
 
     public openCustom(): void;
-    public openCustom(cb: ActionFn): void;
+    public openCustom(cb: DialogActionFn): void;
     public openCustom(title: string): void;
-    public openCustom(cb: ActionFn, title: string): void;
+    public openCustom(cb: DialogActionFn, title: string): void;
     /**
      * 显示弹窗并处理自定义按钮
      * @param cb 按钮事件，返回false表示不能关闭弹窗
      */
-    public openCustom(cb?: ActionFn| string, title?: string) {
+    public openCustom(cb?: DialogActionFn| string, title?: string) {
         if (typeof cb === 'string') {
             [cb, title] = [undefined, cb];
         }
-        this.actionFn = cb as ActionFn;
+        this.actionFn = cb as DialogActionFn;
         if (title) {
             this.title = title;
         }

@@ -8,6 +8,8 @@ import { StatusPipe } from './status.pipe';
 import { PlatformOptionComponent } from './platform-option/platform-option.component';
 import { OpenService } from './open.service';
 import { ZreFormModule } from '../../form';
+import { DialogModule } from '../../dialog';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -17,6 +19,8 @@ import { ZreFormModule } from '../../form';
         ReactiveFormsModule,
         OpenRoutingModule,
         ZreFormModule,
+        DialogModule,
+        NgSelectModule,
     ],
     declarations: [...openRoutedComponents, StatusPipe, PlatformOptionComponent],
     exports: [PlatformOptionComponent],

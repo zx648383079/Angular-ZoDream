@@ -1,4 +1,4 @@
-::ng-deep {
+.book-container ::ng-deep {
     @import '../theme/styles/admin';
     .book-item {
         display: block;

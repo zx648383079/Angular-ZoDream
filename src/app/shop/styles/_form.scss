@@ -1,0 +1,26 @@
+.radio-label {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+    min-width: 150px;
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 10px;
+    &.checked {
+        background-color: #3498db;
+        color: #fff;
+    }
+}
+
+.btn-primary {
+    color: #fff;
+    border-color:  #b4a078;
+    background-color: #b4a078;
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    &:hover {
+        color: #fff;
+        border-color:  #b4a078;
+        background-color: #b4a078;
+    }
+}

@@ -1,0 +1,19 @@
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.breadcrumb {
+    margin-top: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333333;
+        color: white;
+    }
+}

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { IAuthorize, IPlatform } from '../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 
@@ -26,6 +27,10 @@ export class OpenService {
         return this.http.delete<IDataOne<true>>('open/authorize/clear');
     }
 
+    public authorizeCreate(data: any) {
+        return this.http.post<any>('open/authorize/save', data);
+    }
+
     public platformList(params: any) {
         return this.http.get<IPage<IPlatform>>('open/platform', {
           params,
@@ -36,14 +41,18 @@ export class OpenService {
         return this.http.get<IData<IPlatform>>('open/platform/all');
     }
 
+    public authorizePlatform() {
+        return this.http.get<IData<IPlatform>>('open/authorize/platform');
+    }
+
     public platform(id: any) {
-        return this.http.get<IPlatform>('open/platform/detail', {
+        return this.http.get<IDataOne<IPlatform>>('open/platform/detail', {
           params: {id},
-        });
+        }).pipe(map(res => res.data));
     }
 
     public platformSave(data: any) {
-        return this.http.post<IPlatform>('open/platform/save', data);
+        return this.http.post<IDataOne<IPlatform>>('open/platform/save', data).pipe(map(res => res.data));
     }
 
     public platformRemove(id: any) {
@@ -57,8 +66,15 @@ export class OpenService {
              params,
         });
     }
+
+    public review(id: any) {
+        return this.http.get<IDataOne<IPlatform>>('open/admin/platform/detail', {
+          params: {id},
+        }).pipe(map(res => res.data));
+    }
+
     public reviewSave(data: any) {
-        return this.http.post<IPlatform>('open/admin/platform/save', data);
+        return this.http.post<IDataOne<IPlatform>>('open/admin/platform/save', data);
     }
 
     public reviewRemove(id: any) {

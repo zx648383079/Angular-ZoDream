@@ -135,20 +135,23 @@ export class OnlineServiceComponent implements OnDestroy {
         this.service.getList({
             session_token: this.sessionToken,
             start_time: this.nextTime,
-        }).subscribe((res: any) => {
-            if (res.data.length > 0) {
-                this.items = [].concat(this.items, res.data);
+        }).subscribe({
+            next: (res: any) => {
+                if (res.data.length > 0) {
+                    this.items = [].concat(this.items, res.data);
+                }
+                this.nextTime = res.next_time;
+                if (!this.startTime) {
+                    this.startTime = this.nextTime;
+                }
+                this.sessionToken = res.session_token;
+                this.spaceTime = LOOP_SPACE_TIME;
+                this.isLoading = false;
+                this.startTimer();
+            }, 
+            error: _ => {
+                this.isLoading = false;
             }
-            this.nextTime = res.next_time;
-            if (!this.startTime) {
-                this.startTime = this.nextTime;
-            }
-            this.sessionToken = res.session_token;
-            this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
-            this.startTimer();
-        }, _ => {
-            this.isLoading = false;
         });
     }
 

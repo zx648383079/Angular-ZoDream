@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { IPlatform } from '../../../../theme/models/open';
 import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';
@@ -33,6 +34,7 @@ export class EditComponent implements OnInit {
         'APP',
         '小程序',
         '游戏',
+        '其他',
     ];
 
     public signItems = [
@@ -76,7 +78,8 @@ export class EditComponent implements OnInit {
             if (!params.id) {
                 return;
             }
-            this.service.platform(params.id).subscribe(res => {
+            const cb = this.reviewable ? this.service.review : this.service.platform;
+            cb.call(this.service, params.id).subscribe(res => {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
@@ -111,7 +114,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -120,10 +123,18 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
+        e?.enter();
         const cb = this.reviewable ? this.service.reviewSave : this.service.platformSave;
-        cb.call(this.service, data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        cb.call(this.service, data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -1,0 +1,45 @@
+.menu-box {
+    border: 1px solid #eaeaea;
+    padding-top: 24px;
+    width: 180px;
+    background-color: white;
+    ul, li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .menu-group {
+        color: #333;
+        margin-bottom: 40px;
+        .menu-name {
+            padding-left: 43px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 700;
+            line-height: 20px;
+            margin: 16px 0;
+            &.active {
+                color: #b4a078;
+                border-left: 2px solid #BEA988;
+                border-right: 2px solid #BEA988;
+            }
+        }
+        li {
+            a {
+                font-size: 14px;
+                display: block;
+                padding-left: 41px;
+                border-left: 2px solid #fff;
+                border-right: 2px solid #fff;
+                line-height: 18px;
+                margin: 16px 0;  
+            }
+            &.active {
+                a {
+                    color: #b4a078;
+                    border-left-color: #BEA988;
+                }
+            }
+        }
+    }
+}

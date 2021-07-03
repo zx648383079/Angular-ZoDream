@@ -30,8 +30,8 @@ export class ActivityService {
         return this.http.get<IPage<IActivity>>('shop/activity/auction', {params});
     }
 
-    public auction(id: any) {
-        return this.http.get<IActivity>('shop/activity/auction/detail', {params: {id}});
+    public auction(params: any) {
+        return this.http.get<IActivity>('shop/activity/auction/detail', {params});
     }
 
     public auctionLogList(params: any) {

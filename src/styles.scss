@@ -1,11 +1,5 @@
-/* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-
-body {
-    background-color: #f4f4f4;
-    color: #333;
-}
-
+@import './app/theme/styles/base';
 @import './app/theme/styles/login';
 @import './app/theme/styles/markdown';
 @import './app/theme/styles/form';
@@ -13,10 +7,3 @@ body {
 @import './app/theme/styles/tab';
 @import './app/theme/styles/panel';
 @import './app/dialog/dialog';
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #333333;
-        color: white;
-    }
-}

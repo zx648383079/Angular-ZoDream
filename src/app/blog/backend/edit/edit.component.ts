@@ -90,6 +90,10 @@ export class EditComponent implements OnInit {
         });
     }
 
+    get pageLink() {
+        return '/blog/' + this.form.get('seo_link').value;
+    }
+
     get metaSize() {
         return this.form.get('description').value.length;
     }

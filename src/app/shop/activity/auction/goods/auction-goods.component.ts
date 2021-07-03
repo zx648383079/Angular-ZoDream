@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
@@ -11,7 +11,7 @@ import { ActivityService } from '../../activity.service';
   templateUrl: './auction-goods.component.html',
   styleUrls: ['./auction-goods.component.scss']
 })
-export class AuctionGoodsComponent implements OnInit {
+export class AuctionGoodsComponent implements OnInit, OnDestroy {
 
     public data: IGoods;
     public activity: IActivity<IAuctionConfigure>;
@@ -19,6 +19,9 @@ export class AuctionGoodsComponent implements OnInit {
     public content: SafeHtml;
     public tabIndex = 0;
     public bid = 0;
+    private spaceTime = 10;
+    private isLoading = false;
+    private timer = 0;
 
     constructor(
         private service: ActivityService,
@@ -30,20 +33,28 @@ export class AuctionGoodsComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.service.auction(params.id).subscribe(res => {
+            this.service.auction({
+                id: params.id,
+                full: true,
+            }).subscribe(res => {
                 this.data = res.goods;
                 this.activity = res;
                 this.refreshBid(res.bid, res.bid_count);
                 this.themeService.setTitle(this.data.seo_title || this.data.name);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
                 this.galleryItems = [].concat([{thumb: this.data.thumb, image: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
-                    if (!i.thumb) {
-                        i.thumb = i.image;
-                    }
-                    return i;
-                }) : []);
+                        if (!i.thumb) {
+                            i.thumb = i.image;
+                        }
+                        return i;
+                    }) : []);
                 });
+                this.startTimer();
         });
+    }
+
+    ngOnDestroy() {
+        this.stopTimer();
     }
 
     public get minBid() {
@@ -78,5 +89,50 @@ export class AuctionGoodsComponent implements OnInit {
         }
         this.activity.bid = bid;
         this.bid = this.minBid;
+    }
+
+    private startTimer() {
+        if (this.timer > 0) {
+            return;
+        }
+        this.timer = window.setInterval(() => {
+            if (this.isLoading) {
+                return;
+            }
+            this.spaceTime --;
+            if (this.spaceTime > 0) {
+                return;
+            }
+            this.tapNext();
+        }, 1000);
+    }
+
+    private stopTimer() {
+        if (this.timer > 0) {
+            window.clearInterval(this.timer);
+            this.timer = 0;
+        }
+    }
+
+    private tapNext() {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        this.service.auction({
+            id: this.activity.id,
+            full: false
+        }).subscribe({
+            next: res => {
+                this.activity = res;
+                this.refreshBid(res.bid, res.bid_count);
+                this.spaceTime = 10;
+                this.isLoading = false;
+                this.startTimer();
+            }, 
+            error: _ => {
+                this.isLoading = false;
+            }
+        });
     }
 }
