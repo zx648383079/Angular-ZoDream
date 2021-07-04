@@ -37,8 +37,8 @@
                                 <a >再次购买</a>
                             </div>
                             <div class="price">
-                                {{ goods.price }}
-                                <p>（含运费：¥0.00元）</p>
+                                {{ goods.price | price }}
+                                <p>（含运费：{{ 0 | price }}）</p>
                             </div>
                             <div class="actions">
                                 <a *ngIf="item.status == 10" class="btn" (click)="tapPay(item)">付款</a>

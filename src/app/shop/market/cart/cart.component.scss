@@ -74,19 +74,11 @@
     .total {
         display: none;
     }
-    .number-box {
-        grid-template: 24px / 24px 58px 24px;
+    app-number-input {
         margin: 10px 0 0 0;
         position: absolute;
         bottom: 10px;
         right: 10px;
-        .iconfont {
-            line-height: 27px;
-        }
-        .number-input {
-            line-height: 24px;
-            height: 24px;
-        }
     }
     .actions {
         padding-left: 31px;
@@ -223,7 +215,7 @@
             text-align: center;
             padding-top: 10px;
         }
-        .number-box {
+        app-number-input {
             position: static;
             margin: 10px 31px 0 0;
         }

@@ -40,7 +40,7 @@
                 </ng-container>
                 <ng-template #elseTemplate>
                     <div class="address-view">
-                        <div>
+                        <div class="address-body">
                             <div>
                                 <i class="iconfont icon-map-marker"></i>
                                 <ng-container *ngIf="address.is_default">
@@ -94,10 +94,10 @@
                                 <div class="attr"></div>
                             </div>
                         </div> 
-                        <div>{{ item.price }}</div>
+                        <div>{{ item.price | price }}</div>
                         <div>{{ item.amount }}</div>
-                        <div>{{ item.price * item.amount }}</div>
-                        <div>{{ item.price * item.amount }}</div>
+                        <div>{{ item.price * item.amount | price }}</div>
+                        <div>{{ item.price * item.amount | price }}</div>
                     </div>
                 </ng-container>
                 
@@ -137,13 +137,13 @@
                 <div class="checkout-footer" *ngIf="order">
                     <div class="amount-box">
                         <div>商品合计:
-                            <span class="price">{{ order.goods_amount }}</span>
+                            <span class="price">{{ order.goods_amount | price }}</span>
                         </div>
                         <div>运费:
-                            <span class="price">{{ order.shipping_fee }}</span>
+                            <span class="price">{{ order.shipping_fee | price }}</span>
                         </div>
                         <div>应付总额:
-                            <span class="price">{{ order.order_amount }}</span>
+                            <span class="price">{{ order.order_amount | price }}</span>
                         </div>
                     </div>
                     <a class="btn btn-primary" (click)="tapCheckout()">去付款</a>

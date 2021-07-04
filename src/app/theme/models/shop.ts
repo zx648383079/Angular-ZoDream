@@ -568,6 +568,7 @@ export interface IActivityTime {
     title: string;
     start_at: number|string;
     end_at: number|string;
+    status?: 0|1|2;
 }
 
 export interface ISeckillGoods {

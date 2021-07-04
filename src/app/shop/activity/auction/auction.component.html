@@ -5,28 +5,32 @@
     </nav>
 
     <div>
-        <div class="goods-list">
-            <div class="goods-item item-hover" *ngFor="let item of items">
-                <div class="thumb">
-                    <img [src]="item.goods.thumb" alt="">
-                    <div class="time">
-                        <app-countdown label="距离结束" [end]="item.end_at"></app-countdown>
+        <div class="row">
+            <ng-container *ngFor="let item of items">
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="goods-item item-hover">
+                    <div class="thumb">
+                        <img [src]="item.goods.thumb" alt="">
+                        <div class="time">
+                            <app-countdown label="距离结束" [end]="item.end_at"></app-countdown>
+                        </div>
                     </div>
+                    <div class="flex-line">
+                        <div class="price-group">
+                            <div class="price">{{ item.bid || 0 | price }}</div>
+                            <div class="old-price">{{ item.goods.market_price | price }}</div>
+                        </div>
+                        <div class="count">
+                            {{ item.bid_count | numberFormat }}次出价
+                        </div>
+                    </div>
+                    <div class="name">{{ item.goods.name }}</div>
+                    
+                    <a class="btn btn-danger" *ngIf="item.status < 1" [routerLink]="item.id">立即出价</a>
+                    <a *ngIf="item.status > 0" [routerLink]="item.id" class="btn btn-dark">已结束</a>
                 </div>
-                <div class="flex-line">
-                    <div class="price-group">
-                        <div class="price">{{ item.bid || 0 | price }}</div>
-                        <div class="old-price">{{ item.goods.market_price | price }}</div>
-                    </div>
-                    <div class="count">
-                        {{ item.bid_count | numberFormat }}次出价
-                    </div>
-                </div>
-                <div class="name">{{ item.goods.name }}</div>
-                
-                <a class="btn btn-danger" *ngIf="item.status < 1" [routerLink]="item.id">立即出价</a>
-                <a *ngIf="item.status > 0" [routerLink]="item.id" class="btn btn-dark">已结束</a>
             </div>
+            </ng-container>
         </div>
 
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

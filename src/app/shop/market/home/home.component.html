@@ -22,7 +22,7 @@
             <div class="floor-grid" *ngIf="brandItems.length > 0">
                 <a *ngFor="let item of brandItems">
                     <div class="name">{{ item.name }}</div>
-                    <div class="price">{{ item.price }}</div>
+                    <div class="price">{{ item.price | price }}</div>
                     <img [src]="item.image" alt="">
                 </a>
             </div>
@@ -56,7 +56,7 @@
                         <img [src]="item.thumb" alt="">
                     </div>
                     <div class="name">{{ item.name }}</div>
-                    <div class="price">{{ item.price }}</div>
+                    <div class="price">{{ item.price | price }}</div>
                 </a>
                 </ng-container>
             </div>
@@ -91,7 +91,7 @@
                                     <img [src]="item.thumb" alt="">
                                 </div>
                                 <div class="name">{{ item.name }}</div>
-                                <div class="price">{{ item.price }}</div>
+                                <div class="price">{{ item.price | price }}</div>
                             </a>
                         </div>
                     </ng-container>

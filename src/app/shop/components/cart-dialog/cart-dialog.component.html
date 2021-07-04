@@ -10,13 +10,13 @@
                     <div class="thumb">
                         <img [src]="item.goods.thumb" alt="">
                     </div>
-                    <div>
+                    <div class="item-body">
                         <div class="name">{{ item.goods.name }}</div>
-                        <span class="attr">雾白 </span>
+                        <span class="attr" *ngIf="item.attribute_value">{{ item.attribute_value }}</span>
                         <span class="count">x {{ item.amount }}</span>
                     </div>
                     <div class="price">
-                        {{ item.price }}
+                        {{ item.price | price }}
                     </div>
                     <div class="action">
                         <i class="iconfont icon-close" (click)="tapRemoveCart(item)"></i>
@@ -27,7 +27,7 @@
         <div class="dialog-footer">
             <div class="total">
                 <span>SUBTOTAL:</span>
-                <span>{{ cart.subtotal.total }}</span>
+                <span>{{ cart.subtotal.total | price }}</span>
             </div>
             <a (click)="tapViewCart()" class="btn">VIEW CART</a>
         </div>

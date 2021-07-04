@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog';
 import { ICart, ICartGroup, ICartItem, IGoods } from '../../../theme/models/shop';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
+import { ThemeService } from '../../../theme/services';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCart } from '../../shop.selectors';
@@ -29,7 +30,9 @@ export class CartComponent implements OnInit {
         private service: ShopService,
         private toastrService: DialogService,
         private store: Store<ShopAppState>,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('购物车');
         this.store.select(getAuthStatus).subscribe(logined => {
             this.guest = !logined;
         });
@@ -146,6 +149,17 @@ export class CartComponent implements OnInit {
 
     public tapCollect(item: ICartItem) {
 
+    }
+
+    public onAmountChange(item: ICartItem) {
+        this.service.cartUpdateItem(item.id, item.amount).subscribe({
+            next: cart => {
+                this.store.dispatch(setCart({cart}));
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapRemove(item: ICartItem) {

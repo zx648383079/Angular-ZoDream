@@ -3,13 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog';
 import { ISite } from '../../theme/models/seo';
-import { IArticle, ICart, ICartItem } from '../../theme/models/shop';
-import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
-import { AuthService } from '../../theme/services';
-import { setCart, setSite } from '../shop.actions';
+import { setCart } from '../shop.actions';
 import { ShopAppState } from '../shop.reducer';
-import { selectShopCart, selectSite } from '../shop.selectors';
+import { selectSite } from '../shop.selectors';
 import { ShopService } from '../shop.service';
 
 @Component({

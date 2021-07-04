@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog';
-import { IActivity, ICartGroup, IComment, ICoupon, IGoods, IGoodsGallery } from '../../../theme/models/shop';
+import { IActivity, ICartGroup, ICoupon, IGoods, IGoodsGallery } from '../../../theme/models/shop';
 import { ThemeService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';
 import { setCart, setCheckoutCart } from '../../shop.actions';
@@ -28,6 +28,7 @@ export class GoodsComponent implements OnInit {
     public activity: IActivity<any>;
     public couponItems: ICoupon[] = [];
     public promoteItems: IActivity[] = [];
+    public regionId = 0;
 
     constructor(
         private route: ActivatedRoute,
@@ -40,30 +41,49 @@ export class GoodsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.regionId = this.service.regionId;
         this.route.params.subscribe(params => {
             this.loadGoods(params.id);
         });
     }
 
     public loadGoods(id: any) {
-        this.service.goods(id).subscribe(res => {
-            this.themeService.setTitle(res.seo_title || res.name);
-            this.data = res;
-            this.stock = res.stock;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-            this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery ? res.gallery.map(i => {
-                if (!i.thumb) {
-                    i.thumb = i.image;
-                }
-                return i;
-            }) : []);
-            this.couponItems = res.coupons || [];
-            this.promoteItems = res.promotes || [];
+        this.service.goods(id).subscribe({
+            next: res => {
+                this.themeService.setTitle(res.seo_title || res.name);
+                this.data = res;
+                this.stock = res.stock;
+                this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+                this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery ? res.gallery.map(i => {
+                    if (!i.thumb) {
+                        i.thumb = i.image;
+                    }
+                    return i;
+                }) : []);
+                this.couponItems = res.coupons || [];
+                this.promoteItems = res.promotes || [];
+            },
+            error: err => {
+                this.toastrService.warning(err);
+                history.back();
+            }
         });
     }
 
     public formatPromote(value: number) {
         return mapFormat(value, ['', '拍卖', '秒杀', '团购', '优惠', '组合', '返现', '预售', '砍价', '抽奖', '试用']);
+    }
+
+    public onRegionChange() {
+        this.service.regionId = this.regionId;
+        this.service.goodsStock(this.data.id).subscribe({
+            next: res => {
+                this.stock = res.stock;
+            },
+            error: err => {
+                this.toastrService.warning(err);
+            }
+        });
     }
 
     public loadRecommend() {

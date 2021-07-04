@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { IOrder, IPayment } from '../../../../theme/models/shop';
+import { ThemeService } from '../../../../theme/services';
 import { ShopService } from '../../../shop.service';
 
 @Component({
@@ -20,7 +21,9 @@ export class PayComponent implements OnInit {
         private router: Router,
         private service: ShopService,
         private toastrService: DialogService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('订单支付');
     }
 
     ngOnInit() {

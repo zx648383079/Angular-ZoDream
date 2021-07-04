@@ -5,6 +5,7 @@ import { DialogService } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../../theme/models/shop';
+import { ThemeService } from '../../../theme/services';
 import { setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCheckout } from '../../shop.selectors';
@@ -49,7 +50,9 @@ export class CashierComponent implements OnInit {
         private service: ShopService,
         private toastrService: DialogService,
         private store: Store<ShopAppState>,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('结算');
         this.store.select(selectShopCheckout).subscribe(res => {
             this.items = res;
             this.cartData = this.getGoodsIds(res);

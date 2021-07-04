@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CountdownComponent } from '../../../theme/components';
 import { IPageQueries } from '../../../theme/models/page';
 import { IActivityTime, ISeckillGoods } from '../../../theme/models/shop';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { ThemeService } from '../../../theme/services';
+import { mapFormat } from '../../../theme/utils';
 import { ActivityService } from '../activity.service';
 
 @Component({
@@ -11,8 +13,10 @@ import { ActivityService } from '../activity.service';
   templateUrl: './seckill.component.html',
   styleUrls: ['./seckill.component.scss']
 })
-export class SeckillComponent implements OnInit {
+export class SeckillComponent implements OnInit, OnDestroy {
 
+    @ViewChildren(CountdownComponent)
+    public countItems: QueryList<CountdownComponent>;
     public timeItems: IActivityTime[] = [];
     public items: ISeckillGoods[] = [];
     public hasMore = true;
@@ -24,6 +28,7 @@ export class SeckillComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
+    private timerHandle: any;
 
     constructor(
         private service: ActivityService,
@@ -41,8 +46,21 @@ export class SeckillComponent implements OnInit {
             this.timeItems = res.data;
             if (this.timeItems.length > 0) {
                 this.tapTab(0);
+                this.startTimer();
             }
         });
+    }
+
+    ngOnDestroy() {
+        this.stopTimer();
+    }
+
+    public onTimeEnd(item: IActivityTime) {
+        item.status --;
+    }
+
+    public formatStatus(value: number) {
+        return mapFormat(value, ['已结束', '进行中', '即将开始']);
     }
 
     public tapTab(i: number) {
@@ -82,6 +100,25 @@ export class SeckillComponent implements OnInit {
                 this.isLoading = false;
             }
         });
+    }
+
+    private startTimer() {
+        this.stopTimer();
+        this.timerHandle = window.setInterval(() => {
+            if (this.countItems.length < 1) {
+                return;
+            }
+            this.countItems.forEach(item => {
+                item.refresh();
+            });
+        }, 300);
+    }
+
+    private stopTimer() {
+        if (this.timerHandle > 0) {
+            clearInterval(this.timerHandle);
+            this.timerHandle = 0;
+        }
     }
 
 }

@@ -30,16 +30,16 @@
                             <div>
                             商品合计：
                             </div>
-                            <div>{{ data.goods_amount }}</div>
+                            <div>{{ data.goods_amount | price }}</div>
                             <div>
                             运费：
                             </div>
-                            <div>{{ data.shipping_fee }}</div>
+                            <div>{{ data.shipping_fee | price }}</div>
                             <div class="hr"></div>
                             <div>
                             应付：
                             </div>
-                            <div>{{ data.order_amount }}</div>
+                            <div>{{ data.order_amount | price }}</div>
                         </div>
                     </div>
                 </div>
@@ -78,10 +78,10 @@
                                 <div class="attr">{{ item.type_remark }}</div>
                             </div>
                         </div> 
-                        <div>{{ item.price }}</div>
+                        <div>{{ item.price | price }}</div>
                         <div>{{ item.amount }}</div>
-                        <div>{{ item.price * item.amount }}</div>
-                        <div>{{ data.status > 10 ? item.price * item.amount : 0 }}</div>
+                        <div>{{ item.price * item.amount | price }}</div>
+                        <div>{{ data.status > 10 ? item.price * item.amount : 0  | price}}</div>
                     </div>
                 </div>
            </div>

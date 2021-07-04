@@ -4,7 +4,7 @@
     </div>
     <div class="slider-box" [ngStyle]="boxStyle">
         <ul [ngStyle]="scrollStyle">
-            <li #itemView class="goods-item item-hover" *ngFor="let item of items">
+            <li #itemView class="goods-item item-hover fixed-item" *ngFor="let item of items">
                 <ng-container *ngIf="itemType < 1; else elseTemplate">
                     <div class="thumb">
                         <a [routerLink]="'./goods/' + item.id">
@@ -12,7 +12,7 @@
                         </a>
                     </div>
                     <div class="name">{{ item.name }}</div>
-                    <div class="price">{{ item.price }}</div>
+                    <div class="price">{{ item.price | price }}</div>
                 </ng-container>
                 <ng-template #elseTemplate>
                     <div class="thumb">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="item-middle">
                             <span class="name">{{ item.goods.name }}</span>
-                            <span class="price">{{ item.goods.price }}</span>
+                            <span class="price">{{ item.goods.price | price }}</span>
                         </div>
                         <div class="item-content">
                             {{ item.content }}

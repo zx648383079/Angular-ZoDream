@@ -4,7 +4,8 @@ import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 
 @Pipe({
-    name: 'price'
+    name: 'price',
+    pure: false,
 })
 export class PricePipe implements PipeTransform {
 

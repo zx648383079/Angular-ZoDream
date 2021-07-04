@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ICart, ICartItem } from '../../../theme/models/shop';
+import { hasElementByClass } from '../../../theme/utils';
 import { setCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCart } from '../../shop.selectors';
@@ -12,7 +13,7 @@ import { ShopService } from '../../shop.service';
   templateUrl: './cart-dialog.component.html',
   styleUrls: ['./cart-dialog.component.scss']
 })
-export class CartDialogComponent implements OnInit {
+export class CartDialogComponent {
 
     public cart: ICart;
     public cartOpen = false;
@@ -25,6 +26,12 @@ export class CartDialogComponent implements OnInit {
         this.store.select(selectShopCart).subscribe(cart => {
             this.cart = cart;
         });
+    }
+
+    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+        if (!event.target.closest('.cart-button') && !hasElementByClass(event.path, 'cart-button')) {
+            this.cartOpen = false;
+        }
     }
 
     ngOnInit() {

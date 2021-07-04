@@ -53,7 +53,7 @@
                         </div>
                         <div>包裹1</div>
                         <div>{{ item.status_label }}</div>
-                        <div>{{ item.order_amount }}</div>
+                        <div>{{ item.order_amount | price }}</div>
                         <div>
                             <p *ngIf="item.status == 10">
                                 <a class="btn">付款</a>

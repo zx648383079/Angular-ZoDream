@@ -4,20 +4,36 @@ import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../theme/models
 import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ISite } from '../theme/models/seo';
 import {
-    IActivityTime,
     IAd, IAddress, IArticle, IArticleCategory,
     IBrand, ICart, ICartDialog, ICartItem, ICategory, ICollect, IComment,
     ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IOrder, IOrderCount,
-    IPayment, ISeckillGoods, IShipping
+    IPayment, IShipping
 } from '../theme/models/shop';
 import { IUser } from '../theme/models/user';
 
-@Injectable()
+const REGION_KEY = 'region';
+
+@Injectable({
+    providedIn: 'root',
+})
 export class ShopService {
+
+    private _regionId = 0;
 
     constructor(
         private http: HttpClient
-    ) { }
+    ) {
+        this._regionId = parseInt(window.localStorage.getItem(REGION_KEY), 10) || 0;
+    }
+
+    public get regionId() {
+        return this._regionId;
+    }
+
+    public set regionId(id: number) {
+        window.localStorage.setItem(REGION_KEY, id.toString());
+        this._regionId = id;
+    }
 
     public categories(parent: any = 0) {
         return this.http.get<IData<ICategory>>('shop/category', {
@@ -47,7 +63,13 @@ export class ShopService {
 
     public goods(id: any) {
         return this.http.get<IGoods>('shop/goods', {
-            params: {id}
+            params: {id, region: this.regionId}
+        });
+    }
+
+    public goodsStock(id: any) {
+        return this.http.get<IGoods>('shop/goods/stock', {
+            params: {id, region: this.regionId}
         });
     }
 
