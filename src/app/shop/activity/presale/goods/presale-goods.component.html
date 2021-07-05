@@ -23,27 +23,51 @@
                     <div class="price-box">
                         <div class="activity-panel">
                             <div class="panel-header">
-                                <div class="time">
-                                    距离结束
-                                    <app-countdown [end]="activity.end_at" [auto]="true"></app-countdown>
-                                </div>
-                                <div class="count">
-                                    0次围观
+                                <div class="header-name">预售</div>
+                                <div class="header-meta">
+                                    <div class="label-item">
+                                        <i class="iconfont icon-user"></i>
+                                        {{ activity.log_count | numberFormat }}人预约
+                                    </div>
+                                    <div class="label-item">
+                                        剩余时间
+                                        <app-countdown [auto]="true" [end]="activity.end_at"></app-countdown>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <div class="label-item">
-                                    当前价
-                                    <span class="price">
-                                        {{ activity.price || 0 | price }}
-                                    </span>
+                                <div class="flex-group">
+                                    <div class="group-header">
+                                        预售价
+                                    </div>
+                                    <div class="group-body">
+                                        {{ activity.price | price }}
+                                    </div>
                                 </div>
-                                <div class="label-item">
-                                    {{ activity.log_count | numberFormat }}次出价
+                                <div class="flex-group">
+                                    <div class="group-header">
+                                        定金
+                                    </div>
+                                    <div class="group-body">
+                                        {{ activity.configure.deposit | price }}
+                                    </div>
                                 </div>
-                                <div class="label-item" *ngIf="activity.configure.fixed_price">
-                                    封顶价
-                                    {{ activity.configure.fixed_price | price }}
+                                <div class="flex-group">
+                                    <div class="group-header">
+                                        尾款
+                                    </div>
+                                    <div class="group-body">
+                                        {{ endPrice | price }}
+                                    </div>
+                                </div>
+                                <div class="activity-rule">
+                                    <div class="rule-icon">
+                                        预售规则
+                                        <i class="iconfont icon-question-circle"></i>
+                                    </div>
+                                    <div class="rule-body">
+                                        预售规则
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,20 +79,16 @@
                         </div>
                         <div class="flex-group">
                             <div class="group-header">
-                                出价
+                                数量
                             </div>
                             <div class="group-body">
-                                <app-number-input [(ngModel)]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price"></app-number-input>
-                                <div class="label-item">
-                                    最低加价
-                                    {{ minBid | price }}
-                                </div>
+                                <app-number-input [(ngModel)]="amount" [min]="1" [max]="data.stock"></app-number-input>
                             </div>
                         </div>
                     </div>
                     <div class="activity-action">
-                        <a (click)="tapBid()" class="btn btn-danger">
-                            立即出价
+                        <a class="btn btn-danger">
+                            支付定金
                         </a>
                     </div>
                 </div>
@@ -77,7 +97,7 @@
 
         <div class="activity-progress">
             <div class="progress-label">
-                拍卖流程
+                预售流程
             </div>
             <div class="progress-body">
                 <div class="progress-item">
@@ -85,8 +105,8 @@
                         <i class="iconfont icon-user"></i>
                     </div>
                     <div class="item-body">
-                        <div class="item-name">获取参与资格</div>
-                        <div class="item-meta">用户账号当前京豆大于0</div>
+                        <div class="item-name">1.支付定金</div>
+                        <div class="item-meta">2020-09</div>
                     </div>
                 </div>
                 <div class="progress-item">
@@ -94,8 +114,8 @@
                         <i class="iconfont icon-user"></i>
                     </div>
                     <div class="item-body">
-                        <div class="item-name">拍得商品</div>
-                        <div class="item-meta">保证竞拍结束时出价最高，获得竞拍商品</div>
+                        <div class="item-name">2.支付尾款（在我的订单完成）</div>
+                        <div class="item-meta">2020-09</div>
                     </div>
                 </div>
                 <div class="progress-item">
@@ -103,8 +123,8 @@
                         <i class="iconfont icon-user"></i>
                     </div>
                     <div class="item-body">
-                        <div class="item-name">支付订单</div>
-                        <div class="item-meta">在3小时内付款，否则，将被扣除2000京豆</div>
+                        <div class="item-name">3.商品发货</div>
+                        <div class="item-meta">2020-09</div>
                     </div>
                 </div>
             </div>
@@ -123,10 +143,6 @@
                         <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                             Issues
                         </div>
-                        <div class="tab-item" *ngIf="activity && activity.type == 1" [ngClass]="{active: tabIndex == 3}"
-                            (click)="tabIndex = 3">
-                            出价记录
-                        </div>
                     </div>
                     <div class="tab-body bg-white">
                         <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
@@ -138,10 +154,6 @@
                         </div>
                         <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
 
-                        </div>
-                        <div class="tab-item log-box"
-                            [ngClass]="{active: tabIndex == 3}">
-                            <app-auction-log [activity]="activity.id" [init]="tabIndex == 3"></app-auction-log>
                         </div>
                     </div>
                 </div>

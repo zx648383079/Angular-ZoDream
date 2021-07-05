@@ -1,0 +1,126 @@
+.flex-line {
+    display: flex;
+    justify-content: space-between;
+    .count {
+        color: #aaa;
+        font-size: .8em;
+    }
+}
+
+
+.thumb {
+    position: relative;
+    .time {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba($color: #ccc, $alpha: .3);
+    }
+}
+
+.activity-intro {
+    padding: .8em;
+    .name {
+        font-weight: 700;
+    }
+}
+
+.activity-action {
+    padding: .8em;
+}
+
+.activity-panel {
+    .panel-header {
+        background-color: #fb4b41;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 1em .8em;
+    }
+    .header-name {
+        flex: 1;
+    }
+    .label-item {
+        display: inline-block;
+        margin-left: .8em;
+    }
+    app-countdown {
+        display: inline-block;
+    }
+    .panel-body {
+        background-color: #f3f3f3;
+        padding: .8em;
+        position: relative;
+    }
+    .activity-rule {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        cursor: pointer;
+        .rule-icon {
+            color: #aaa;
+        }
+        .rule-body {
+            position: absolute;
+            display: none;
+            background-color: white;
+            padding: .8em;
+            box-shadow: 0 4px 5px 0 #cccccc94;
+            min-width: 12.5rem;
+            right: 0;
+            min-height: 10rem;
+        }
+        &:hover {
+            .rule-icon {
+                color: #ec5051;
+            }
+            .rule-body {
+                display: block;
+            }
+        }
+    }
+    
+}
+
+.activity-progress {
+    margin: 1em 0;
+    border: 1px solid #eee;
+    background: #f7f7f7;
+    display: flex;
+    .progress-label {
+        padding: 0 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #e4393c;
+        font-size: 1.25rem;
+        border-right: 1px solid #eee;
+    }
+    .progress-body {
+        flex: 1;
+        display: flex;
+    }
+    .progress-item {
+        flex: 1;
+        display: flex;
+        .item-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #767676;
+        }
+        .item-body {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: 700;
+            margin-top: .8em;
+        }
+        .item-meta {
+            font-size: .8em;
+            color: #767676;
+        }
+    }
+}

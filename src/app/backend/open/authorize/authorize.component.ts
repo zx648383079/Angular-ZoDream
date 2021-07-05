@@ -25,6 +25,7 @@ export class AuthorizeComponent implements OnInit {
     public platformItems: IPlatform[] = [];
     public editData = {
         platform_id: 0,
+        expired_at: '',
     };
 
     constructor(

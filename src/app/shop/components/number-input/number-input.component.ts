@@ -19,7 +19,7 @@ export class NumberInputComponent implements ControlValueAccessor {
     @Input() public max: number|string = 0;
     @Input() public step: number|string = 1;
     @Input() public disabled = false;
-    public value = 10;
+    public value = 1;
 
     onChange: any = () => { };
     onTouch: any = () => { };

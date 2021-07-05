@@ -1,7 +1,7 @@
 <div class="container">
     <nav class="breadcrumb">
         <a class="breadcrumb-item" routerLink="../">Home</a>
-        <span class="breadcrumb-item active">拍卖中心</span>
+        <span class="breadcrumb-item active">预售中心</span>
     </nav>
 
     <div>
@@ -10,24 +10,23 @@
             <div class="col-lg-3 col-md-4 col-6">
                 <div class="goods-item item-hover">
                     <div class="thumb">
-                        <img [src]="item.goods.thumb" alt="">
+                        <a [routerLink]="item.id">
+                            <img [src]="item.goods.thumb" alt="">
+                        </a>
                         <div class="time">
                             <app-countdown label="距离结束" [end]="item.end_at"></app-countdown>
                         </div>
                     </div>
                     <div class="flex-line">
                         <div class="price-group">
-                            <div class="price">{{ item.price || 0 | price }}</div>
+                            <div class="price">{{ item.price | price }}</div>
                             <div class="old-price">{{ item.goods.market_price | price }}</div>
                         </div>
                         <div class="count">
-                            {{ item.log_count | numberFormat }}次出价
+                            {{ item.log_count | numberFormat }}人预约
                         </div>
                     </div>
                     <div class="name">{{ item.goods.name }}</div>
-                    
-                    <a class="btn btn-danger" *ngIf="item.status < 1" [routerLink]="item.id">立即出价</a>
-                    <a *ngIf="item.status > 0" [routerLink]="item.id" class="btn btn-dark">已结束</a>
                 </div>
             </div>
             </ng-container>

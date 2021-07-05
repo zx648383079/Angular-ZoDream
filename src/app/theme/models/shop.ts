@@ -468,8 +468,13 @@ export interface IActivity<T = any> {
     created_at: string;
     updated_at: string;
     goods?: IGoods;
-    bid?: number;
-    bid_count?: number;
+    price?: number;
+    log_count?: number;
+    goods_items?: {
+        price: number;
+        amount: number;
+        goods: IGoods,
+    }[];
 }
 
 export interface IAuctionConfigure {

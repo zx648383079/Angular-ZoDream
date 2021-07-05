@@ -99,7 +99,7 @@ export class MenuService {
         return Object.prototype.hasOwnProperty.call(this.option, key) ? this.option[key] : def;
     }
 
-    public asyncRefresh(time = 500) {
+    public asyncRefresh(time = 200) {
         if (this.refreshHandle > 0) {
             clearTimeout(this.refreshHandle);
         }

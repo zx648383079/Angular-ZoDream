@@ -80,3 +80,36 @@
     }
 
 }
+
+.price-group {
+    .price {
+        font-size: 24px;
+        color: #e01222;
+        font-family: arial;
+        margin-right: 2px;
+        line-height: 1;
+        display: inline-block;
+        min-width: 50px;
+        em {
+            font-size: 14px;
+            font-style: normal;
+        }
+    }
+    .old-price {
+        display: inline-block;
+        font-size: 12px;
+        color: #999;
+        text-decoration: line-through;
+    }
+}
+
+.flex-group {
+    padding: .4em .8em;
+    display: flex;
+    .group-header {
+        width: 4em;
+    }
+    .group-body {
+        flex: 1;
+    }
+}

@@ -1,0 +1,50 @@
+<div class="container">
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" routerLink="../">Home</a>
+        <span class="breadcrumb-item active">超值礼包</span>
+    </nav>
+
+    <div>
+        <div class="row">
+            <ng-container *ngFor="let item of items">
+            <div class="col-md-6">
+                <div class="mix-item">
+                    <div class="item-thumb" *ngIf="item.thumb">
+                        <img [src]="item.thumb" alt="">
+                        <div class="item-name">{{ item.name }}</div>
+                    </div>
+                    <div class="item-body">
+                        <div class="flex-row">
+                            <div class="amount">
+                                商品数量：{{ formatAmount(item) }}件
+                            </div>
+                            <div class="time">
+                                {{ item.start_at | timestamp }}~{{ item.end_at | timestamp }}
+                            </div>
+                        </div>
+
+                        <app-mix-slider [items]="item.goods_items"></app-mix-slider>
+
+                        <div class="flex-row">
+                            <div class="price-group">
+                                <div class="price">
+                                    {{ item.configure.price | price }}
+                                </div>
+                                <div class="old-price">
+                                    {{ formatTotal(item) | price }}
+                                </div>
+                            </div>
+                            <div class="action">
+                                省{{ formatDiscount(item) | price }}
+                                <div class="btn btn-danger">立即购买</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+        </div>
+
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

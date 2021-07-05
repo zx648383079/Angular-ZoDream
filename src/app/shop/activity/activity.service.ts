@@ -41,4 +41,16 @@ export class ActivityService {
     public auctionBid(data: any) {
         return this.http.post<IDataOne<boolean>>('shop/activity/auction/bid', data);
     }
+
+    public presaleList(params: any) {
+        return this.http.get<IPage<IActivity>>('shop/activity/presale', {params});
+    }
+
+    public presale(params: any) {
+        return this.http.get<IActivity>('shop/activity/presale/detail', {params});
+    }
+
+    public mixList(params: any) {
+        return this.http.get<IPage<IActivity>>('shop/activity/mix', {params});
+    }
 }

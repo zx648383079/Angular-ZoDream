@@ -1,0 +1,27 @@
+<div class="slider">
+    <div class="slider-previous" (click)="tapPrevious()">
+        <i class="iconfont icon-chevron-left"></i>
+    </div>
+    <div class="slider-box" [ngStyle]="boxStyle">
+        <ul [ngStyle]="scrollStyle">
+            <ng-container *ngFor="let item of items;let i = index">
+                <ng-container *ngIf="i > 0">
+                    <li class="min-link">
+                        <i class="iconfont icon-plus"></i>
+                    </li>
+                </ng-container>
+                <li #itemView class="min-item">
+                    <div class="thumb">
+                        <img [src]="item.goods.thumb" [alt]="item.goods.name">
+                    </div>
+                    <div class="price">{{ item.price | price }}
+                        x {{ item.amount }}
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+    <div class="slider-next" (click)="tapNext()">
+        <i class="iconfont icon-chevron-right"></i>
+    </div>
+</div>

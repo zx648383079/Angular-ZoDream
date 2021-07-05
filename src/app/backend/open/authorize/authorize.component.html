@@ -53,5 +53,18 @@
 </div>
 
 <app-dialog-box #modal [scrollable]="false" title="生成一条token">
-    <ng-select [(ngModel)]="editData.platform_id" [items]="platformItems" bindValue="id" bindLabel="name"></ng-select>
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">应用</label>
+            <div>
+                <ng-select [(ngModel)]="editData.platform_id" [items]="platformItems" bindValue="id" bindLabel="name"></ng-select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">过期时间</label>
+            <div>
+                <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>
+            </div>
+        </div>
+    </div>
 </app-dialog-box>

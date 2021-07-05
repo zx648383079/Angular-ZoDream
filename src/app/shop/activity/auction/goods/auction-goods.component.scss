@@ -1,43 +1,13 @@
-.flex-group {
-    padding: .4em .8em;
-    display: flex;
-    .group-header {
-        width: 4em;
-    }
-    .group-body {
-        flex: 1;
-    }
-}
-.intro {
-    padding: .8em;
-}
+@import '../../../styles/activity';
 .price {
     font-size: 28px;
     line-height: 30px;
     margin-left: 2px;
     color: #d7282d;
 }
-.activity-panel {
-    .panel-header {
-        background-color: #fb4b41;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        padding: .4em .8em;
-    }
-    app-countdown {
-        display: inline-block;
-    }
-    .panel-body {
-        background-color: #f4f4f4;
-        padding: .8em;
-    }
-}
+
 
 .label-item {
     display: inline-block;
     margin-right: .8em;
-}
-.actions {
-    padding: .8em;
 }

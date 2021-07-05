@@ -1,0 +1,53 @@
+.slider {
+    position: relative;
+    background-color: #f4f4f4;
+    padding: 0 30px;
+    .slider-previous,
+    .slider-next {
+        position: absolute;
+        top: 50%;
+        font-size: 30px;
+        margin-top: -25px;
+        color: #aaa;
+        z-index: 99;
+        background: transparent;
+        line-height: 50px;
+    }
+    .slider-next {
+        right: 0;
+    }
+    .slider-previous {
+        left: 0;
+    }
+    .slider-box {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        height: 100%;
+        ul {
+            position: absolute;
+            width: 5000px;
+            padding: 0;
+            margin: 0;
+            transition: left 1s linear;
+            li {
+                list-style: none;
+                float: left;
+            }
+        }
+    }
+}
+
+.min-item {
+    .thumb {
+        img {
+            width: 5.625rem;
+            height: 5.625rem;
+            margin-bottom: 5px;
+        }
+    }
+}
+.min-link {
+    padding: 3rem 1em 0;
+    color: #aaa;
+}

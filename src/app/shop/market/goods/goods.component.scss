@@ -80,31 +80,10 @@
                 color: #d7282d;
             }
         }
-        .flex-line {
-            line-height: 28px;
-            display: flex;
-            >div {
-                &:first-of-type {
-                    width: 4em;
-                }
-                &:last-of-type {
-                    flex: 1;
-                }
-            }
-        }
         .property-box {
             padding: 10px 16px 13px;
             line-height: 40px;
             font-size: 13px;
-        }
-        .group {
-            display: flex;
-            .group-header {
-                width: 4em;
-            }
-            .group-body {
-                flex: 1;
-            }
         }
         .actions { 
             margin-left: 12px;

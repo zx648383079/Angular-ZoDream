@@ -1,0 +1,26 @@
+.mix-item {
+    .item-thumb {
+        position: relative;
+        img {
+            width: 100%;
+        }
+    }
+    .item-name {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        line-height: 2.5em;
+        background: rgba(0,0,0,.5);
+        color: #fff;
+        padding: 0 .8em;
+    }
+    .flex-row {
+        display: flex;
+        justify-content: space-between;
+        line-height: 2.5em;
+    }
+    .item-body {
+        background-color: white;
+    }
+}

@@ -39,7 +39,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
             }).subscribe(res => {
                 this.data = res.goods;
                 this.activity = res;
-                this.refreshBid(res.bid, res.bid_count);
+                this.refreshBid(res.price, res.log_count);
                 this.themeService.setTitle(this.data.seo_title || this.data.name);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
                 this.galleryItems = [].concat([{thumb: this.data.thumb, image: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
@@ -61,8 +61,8 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
         if (!this.activity) {
             return 0;
         }
-        if (this.activity.bid) {
-            return parseFloat(this.activity.bid as any) + parseFloat(this.activity.configure.step_price as any);
+        if (this.activity.price) {
+            return parseFloat(this.activity.price as any) + parseFloat(this.activity.configure.step_price as any);
         }
         return this.activity.configure.begin_price;
     }
@@ -85,9 +85,9 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
 
     private refreshBid(bid: number, count?: number) {
         if (count) {
-            this.activity.bid_count = count;
+            this.activity.log_count = count;
         }
-        this.activity.bid = bid;
+        this.activity.price = bid;
         this.bid = this.minBid;
     }
 
@@ -125,7 +125,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
         }).subscribe({
             next: res => {
                 this.activity = res;
-                this.refreshBid(res.bid, res.bid_count);
+                this.refreshBid(res.price, res.log_count);
                 this.spaceTime = 10;
                 this.isLoading = false;
                 this.startTimer();

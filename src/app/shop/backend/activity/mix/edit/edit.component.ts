@@ -92,7 +92,7 @@ export class EditMixComponent implements OnInit {
             return;
         }
         if (parseFloat(data.configure.price) !== total) {
-            this.toastrService.warning('组合中商品总价与组合价不一致');
+            this.toastrService.warning('组合中商品总价[' + total +']与组合价不一致');
             return;
         }
         this.service.mixSave(data).subscribe(_ => {
