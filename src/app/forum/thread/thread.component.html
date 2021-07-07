@@ -60,8 +60,16 @@
                         <div class="content">
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
-                        <div class="action">
-    
+                        <div class="post-action">
+                            <div class="action-btn" [ngClass]="{active: thread.like_type == 1}" [title]="thread.like_type == 1 ? '取消点赞' : '点赞'" (click)="toggleLike()">
+                                <i class="iconfont icon-thumbs-o-up"></i>
+                            </div>
+                            <div class="action-btn"  [ngClass]="{active: thread.is_reward}" title="打赏" (click)="tapReward(rewardModal)">
+                                {{ thread.is_reward ? '已' : '' }}赏
+                            </div>
+                            <div class="action-btn"  [ngClass]="{active: thread.is_collected}" [title]="thread.is_collected ? '取消收藏' : '收藏'"  (click)="toggleCollect()">
+                                <i class="iconfont" [ngClass]="{'icon-heart-o': !thread.is_collected, 'icon-heart': thread.is_collected}"></i>
+                            </div>
                         </div>
                         <div class="footer">
                             <a *ngIf="user" (click)="tapReply(item)">回复</a>
@@ -117,7 +125,7 @@
                 <form [formGroup]="form" (ngSubmit)="tapSubmit()">
                     <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
                     <div class="footer">
-                        <button class="btn btn-primary" [disabled]="form.invalid">发表回复</button>
+                        <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)">发表回复</app-action-button>
                     </div>
                 </form>
             </div>
@@ -155,4 +163,13 @@
           <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>
         </div>
     </ng-container>
+</app-dialog-box>
+
+<app-dialog-box #rewardModal [scrollable]="false" title="打赏">
+    <div class="link-item">
+        <div class="label">金额</div>
+        <div class="value">
+            <input type="number" class="form-control" [(ngModel)]="rewardData.amount">
+        </div>
+    </div>
 </app-dialog-box>

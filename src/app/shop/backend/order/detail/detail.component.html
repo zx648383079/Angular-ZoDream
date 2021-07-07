@@ -34,6 +34,12 @@
                 <p>积分抵扣：0</p>
             </div>
         </div>
+        <div class="text-center" *ngIf="timeIndex == 2">
+            <div class="btn-group">
+                <a class="btn btn-info" (click)="tapShip(shippingModal)">我要发货</a>
+                <a class="btn btn-danger" (click)="tapRefund(refundModal)">退款</a>
+            </div>
+        </div>
     </app-panel>
     
     <div class="panel-container">
@@ -174,3 +180,66 @@
         </div>
     </div>
 </div>
+
+<app-dialog-box #refundModal title="订单退款" confirmText="确认提交">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">退款方式</label>
+            <div>
+                <select class="form-control" [(ngModel)]="refundData.refund_type">
+                    <option *ngFor="let item of refundTypeItems; let i=index" [value]="i">{{ item }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">退款金额</label>
+            <div>
+                <input type="number" class="form-control" [(ngModel)]="refundData.money">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #shippingModal [fullscreen]="true" title="订单发货">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>货号</th>
+                <th>数量</th>
+                <th>发货数量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of shipData.goods">
+                <td>
+                    <img [src]="item.thumb" width="50" height="50" align="left">
+                    <a href="">{{ item.name }}</a> <br>
+                    <small>{{ item.type_remark }}</small>
+                </td>
+                <td>{{ item.series_number }}</td>
+                <td>
+                    {{ item.amount }} </td>
+                <td>
+                    <input type="number" class="form-control" [(ngModel)]="item.ship_amount">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">物流方式</label>
+            <div>
+                <select class="form-control" [(ngModel)]="shipData.shipping_id">
+                    <option *ngFor="let item of shippingItems" [value]="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">物流单号</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="shipData.logistics_number">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

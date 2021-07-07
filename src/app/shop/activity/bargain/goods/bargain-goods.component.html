@@ -1,0 +1,125 @@
+<div class="goods-page" *ngIf="data">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" routerLink="../../">Home</a>
+            <a class="breadcrumb-item" routerLink="../">砍价中心</a>
+            <span class="breadcrumb-item active">{{ data.name }}</span>
+        </nav>
+
+        <div class="row info-box">
+            <div class="col-md-6">
+                <app-gallery-slider [items]="galleryItems"></app-gallery-slider>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <div class="activity-intro">
+                        <div class="name">
+                            {{ data.name }}
+                        </div>
+                        <div class="desc">
+                            {{ data.brief }}
+                        </div>
+                    </div>
+                    <div class="price-box">
+                        <div class="activity-panel">
+                            <div class="panel-header">
+                                <div class="header-name">砍价</div>
+                                <div class="header-meta">
+                                    <div class="label-item">
+                                        <i class="iconfont icon-user"></i>
+                                        {{ activity.log_count | numberFormat }}人已砍
+                                    </div>
+                                    <div class="label-item">
+                                        剩余时间
+                                        <app-countdown [auto]="true" [end]="activity.end_at"></app-countdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="flex-group">
+                                    <div class="group-header">
+                                        销售价
+                                    </div>
+                                    <div class="group-body">
+                                        {{ activity.price | price }}
+                                    </div>
+                                </div>
+                                <div class="flex-group">
+                                    <div class="group-header">
+                                        当前价格
+                                    </div>
+                                    <div class="group-body">
+                                        {{ 0 | price }}
+                                    </div>
+                                </div>
+                                <div class="activity-rule">
+                                    <div class="rule-icon">
+                                        砍价规则
+                                        <i class="iconfont icon-question-circle"></i>
+                                    </div>
+                                    <div class="rule-body">
+                                        砍价规则
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-group">
+                            <div class="group-header">配送
+                            </div>
+                            <div class="group-body">至<app-region url="shop/region/tree"></app-region>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-action">
+                        <a class="btn btn-danger">
+                            帮砍一刀
+                        </a>
+                        <a class="btn btn-danger">
+                            我要参加
+                        </a>
+                        <a class="btn btn-danger">
+                            邀好友帮砍一刀
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row detail-box">
+            <div class="col-md-12">
+                <div class="tab-box">
+                    <div class="tab-header">
+                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                            Product details
+                        </div>
+                        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                            Comments
+                        </div>
+                        <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                            Issues
+                        </div>
+                        <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
+                            好友助力记录
+                        </div>
+                    </div>
+                    <div class="tab-body bg-white">
+                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                            <div class="content-box" [innerHTML]="content">
+                            </div>
+                        </div>
+                        <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1"></app-comment-page>
+                        </div>
+                        <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
+
+                        </div>
+                        <div class="tab-item log-box"
+                            [ngClass]="{active: tabIndex == 3}">
+                            <app-bargain-log [activity]="activity.id" [init]="tabIndex == 3"></app-bargain-log>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

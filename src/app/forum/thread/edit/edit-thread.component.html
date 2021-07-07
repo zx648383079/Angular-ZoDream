@@ -30,7 +30,7 @@
         </div>
         
         <div class="footer btn-group">
-            <button class="btn btn-primary" [disabled]="form.invalid">发表帖子</button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid">发表帖子</app-action-button>
             <a class="btn btn-danger" href="javascript:history.back()">返回</a>
         </div>
     </form>

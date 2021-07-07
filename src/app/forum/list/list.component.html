@@ -74,6 +74,11 @@
         <div class="thread-item-header">
             <div class="name">
                 标题
+                <div class="sort-bar">
+                    <ng-container *ngFor="let item of sortItems">
+                        <a [ngClass]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
+                    </ng-container>
+                </div>
             </div>
             <div class="time">
                 作者
@@ -185,7 +190,7 @@
             <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
             
             <div class="footer">
-                <button class="btn btn-primary" [disabled]="form.invalid">发表帖子</button>
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid">发表帖子</app-action-button>
             </div>
         </form>
     </div>

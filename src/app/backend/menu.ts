@@ -129,5 +129,10 @@ export const backendBottomMenu: INav[] = [
         icon: 'icon-cog',
         url: './system',
         role: 'system_manage',
+    },
+    {
+        name: '返回前台',
+        icon: 'icon-desktop',
+        url: '/',
     }
 ];

@@ -159,12 +159,7 @@ i {
 
 .form-table {
     .input-group {
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="password"],
-        input[type="url"],
-        input[type="number"] {
+        input.form-control {
             min-width: 200px;
             width: auto;
             // height: 40px;

@@ -61,9 +61,9 @@
                         <p>{{ item.address.tel }}</p>
                     </div>
                     <div class="item-actions">
-                        <a routerLink="4">订单详情</a>
-                        <a >修改运费</a>
-                        <a class="btn btn-danger btn-xs" >删除</a>
+                        <a [routerLink]="item.id">订单详情</a>
+                        <a (click)="tapShip(shipModal, item)">修改运费</a>
+                        <a class="btn btn-danger btn-xs" (click)="tapRemove(item)">删除</a>
                     </div>
                 </div>
             </div>
@@ -143,3 +143,15 @@
         </div>
     </form>
 </div>
+
+
+<app-dialog-box #shipModal title="修改运费" confirmText="确认修改">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">运费金额</label>
+            <div>
+                <input type="number" class="form-control" [(ngModel)]="shipData.fee">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

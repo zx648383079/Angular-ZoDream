@@ -26,6 +26,5 @@
             </div>
         </ng-container>
     </div>
-
-    <button type="submit" class="btn btn-primary" (click)="saveOption()">保存</button>
+    <app-action-button class="btn btn-primary" (tapped)="saveOption($event)">保存</app-action-button>
 </div>

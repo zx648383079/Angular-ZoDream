@@ -76,4 +76,8 @@ export class ForumService {
             content: any
         }>>('forum/thread/do', data);
     }
+
+    public suggestion(params: any) {
+        return this.http.get<IData<IThread>>('forum/home/suggestion', {params}).pipe(map(res => res.data));
+    }
 }

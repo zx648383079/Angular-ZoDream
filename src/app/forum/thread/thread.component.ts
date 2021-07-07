@@ -25,7 +25,7 @@ import {
     IUser
 } from '../../theme/models/user';
 import { FormBuilder, Validators } from '@angular/forms';
-import { DialogService } from '../../dialog';
+import { DialogEvent, DialogService } from '../../dialog';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
@@ -34,6 +34,7 @@ import { openLink } from '../../theme/deeplink';
 import { eachObject } from '../../theme/utils';
 import { emailValidate } from '../../theme/validators';
 import { DialogBoxComponent } from '../../dialog';
+import { ButtonEvent } from '../../form';
 
 @Component({
     selector: 'app-thread',
@@ -62,6 +63,9 @@ export class ThreadComponent implements OnInit {
     });
 
     public editData: any = {};
+    public rewardData = {
+        amount: 10,
+    };
 
     constructor(
         private fb: FormBuilder,
@@ -144,11 +148,14 @@ export class ThreadComponent implements OnInit {
                 id: item.id,
                 index: block.uid,
                 data: block.max > 1 ? items : items[0]
-            }).subscribe(res => {
-                item.content = res.data.content;
-                this.toastrService.success('投票成功');
-            }, (err: IErrorResult) => {
-                this.toastrService.warning(err.error.message);
+            }).subscribe({
+                next: res => {
+                    item.content = res.data.content;
+                    this.toastrService.success('投票成功');
+                }, 
+                error: (err: IErrorResult) => {
+                    this.toastrService.warning(err.error.message);
+                }
             });
             return;
         }
@@ -156,13 +163,16 @@ export class ThreadComponent implements OnInit {
             this.service.postDo({
                 id: item.id,
                 index: block.uid,
-            }).subscribe(res => {
-                if (res.data) {
-                    item.content = res.data.content;
+            }).subscribe({
+                next: res => {
+                    if (res.data) {
+                        item.content = res.data.content;
+                    }
+                    this.toastrService.success('支付成功');
+                }, 
+                error: (err: IErrorResult) => {
+                    this.toastrService.warning(err.error.message);
                 }
-                this.toastrService.success('支付成功');
-            }, (err: IErrorResult) => {
-                this.toastrService.warning(err.error.message);
             });
             return;
         }
@@ -201,14 +211,57 @@ export class ThreadComponent implements OnInit {
         this.editor.insertAt(item.id, item.user.name);
     }
 
+    public toggleLike() {
+        this.service.threadAction(this.thread.id, [
+            'like'
+        ]).subscribe({
+            next: res => {
+                this.thread.like_type = res.like_type;
+            },
+            error: err => {
+                this.toastrService.warning(err.error.message);
+            }
+        });
+    }
+
+    public toggleCollect() {
+        this.service.threadAction(this.thread.id, [
+            'collect'
+        ]).subscribe({
+            next: res => {
+                this.thread.is_collected = res.is_collected;
+            },
+            error: err => {
+                this.toastrService.warning(err.error.message);
+            }
+        });
+    }
+
+    public tapReward(modal: DialogEvent) {
+        modal.open(() => {
+            this.service.threadAction(this.thread.id, {
+                reward: this.rewardData.amount
+            }).subscribe({
+                next: res => {
+                    this.thread.is_reward = res.is_reward;
+                },
+                error: err => {
+                    this.toastrService.warning(err.error.message);
+                }
+            });
+        }, () => this.rewardData.amount > 0);
+        
+    }
+
 
     public toggeTop() {
-        this.service.threadAction(this.thread.id, {
-            0: 'top_type'
-        }).subscribe(res => {
-            this.thread.top_type = res.top_type;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.threadAction(this.thread.id, ['top_type']).subscribe({
+            next: res => {
+                this.thread.top_type = res.top_type;
+            }, 
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -227,22 +280,28 @@ export class ThreadComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('内容没填写完整');
             return;
         }
         const data = {...this.form.value, thread_id: this.thread.id};
-        this.service.postCreate(data).subscribe(res => {
-            this.toastrService.success('回复成功');
-            this.form.patchValue({
-                content: '',
-            });
-            if (this.queries.page < 2) {
-                this.tapRefresh();
+        e?.enter();
+        this.service.postCreate(data).subscribe({
+            next: res => {
+                e?.reset();
+                this.toastrService.success('回复成功');
+                this.form.patchValue({
+                    content: '',
+                });
+                if (this.queries.page < 2) {
+                    this.tapRefresh();
+                }
+            }, 
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
             }
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
         });
     }
 

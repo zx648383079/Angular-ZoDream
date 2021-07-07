@@ -5,6 +5,7 @@ import { DialogService } from '../../../dialog';
 import { IForum, IThread } from '../../model';
 import { IErrorResult } from '../../../theme/models/page';
 import { ForumService } from '../../forum.service';
+import { ButtonEvent } from '../../../form';
 
 @Component({
   selector: 'app-edit-thread',
@@ -50,7 +51,7 @@ export class EditThreadComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('内容没填写完整');
             return;
@@ -59,11 +60,17 @@ export class EditThreadComponent implements OnInit {
         if (this.data.id) {
             data.id = this.data.id;
         }
-        this.service.threadSave(data).subscribe(res => {
-            this.toastrService.success('发表成功');
-            history.back();
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        e?.enter();
+        this.service.threadSave(data).subscribe({
+            next: res => {
+                e?.reset();
+                this.toastrService.success('发表成功');
+                history.back();
+            }, 
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 }

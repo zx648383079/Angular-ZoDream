@@ -72,6 +72,10 @@
                 }
             }
         }
+        .post-action {
+            text-align: center;
+            padding: .8em 0;
+        }
         &.post-new {
             .post-content {
                 .footer {
@@ -136,6 +140,25 @@
     display: flex;
     justify-content: space-between;
     line-height: 2.5rem;
+}
+
+.action-btn {
+    display: inline-flex;
+    width: 2.5em;
+    height: 2.5em;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #0d6efd;
+    border: 1px solid;
+    cursor: pointer;
+    &.active {
+        background-color: #a10000;
+        color: #fff;
+    }
+    &:hover {
+        box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+    }
 }
 
 @media screen and (max-width: 769px) {

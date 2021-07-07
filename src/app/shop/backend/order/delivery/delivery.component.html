@@ -10,40 +10,108 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>
         </div>
     
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>标题</th>
-                    <th>发布者</th>
-                    <th>板块</th>
-                    <th>统计</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of items">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.user?.name }}</td>
-                    <td>{{ item.forum?.name }}</td>
-                    <td>浏览：{{ item.view_count }}/ 回复：{{ item.post_count }}</td>
-                    <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+        <div class="order-box">
+            <div class="order-item" *ngFor="let item of items">
+                <div class="item-header">
+                    <span>{{ item.created_at }}</span>
+                    <span>订单号：{{ item.order.series_number }}</span>
+                    <span>物流方式：{{ item.shipping_name }}</span>
+                    <span>物流单号：{{ item.logistics_number }}</span>
+                    <span>状态：{{ formatStatus(item.status) }}</span>
+                </div>
+                <div class="item-body">
+                    <div class="item-goods">
+                        <div class="goods-item" *ngFor="let goods of item.goods">
+                            <div class="goods-img">
+                                <img [src]="goods.thumb">
+                            </div>
+                            <div class="goods-info">
+                                <h4>{{ goods.name }}</h4>
+                                <p>{{ goods.type_remark }}</p>
+                                <span class="price">{{ goods.price }}</span>
+                                <span class="amount"> x {{ goods.amount }}</span>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
+                    </div>
+                    <div class="item-user">
+                        <p>用户名：{{ item.user.name }}</p>
+                        <p>收货人：{{ item.name }}</p>
+                        <p>{{ item.tel }}</p>
+                    </div>
+                    <div class="item-actions">
+                        <a (click)="tapLogistics(logisticsModal, item)">物流记录</a>
+                        <a class="btn btn-danger btn-xs" (click)="tapRemove(item)">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
   
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+<app-dialog-box #logisticsModal title="物流信息" [buttonVisible]="false">
+<div class="time-axis">
+    <div class="time-item active">
+        <div class="item-icon">收</div>
+        <div class="item-body" *ngIf="logisticsData.data">
+            收货地址：{{ logisticsData.data.region_name }} {{logisticsData.data.address }}
+        </div>
+    </div>
+    <ng-container *ngFor="let item of logisticsData.items; let i = index">
+        <div class="time-group" [ngClass]="{active: i < 1}">
+            <div class="group-icon">
+                <i class="iconfont icon-check" [ngClass]="formatStatusIcon(item.status)"></i>
+            </div>
+            <div class="group-header">
+                {{ formatStatus(item.status) }}
+            </div>
+            <div class="group-body">
+                <div class="time-item" *ngFor="let it of item.items">
+                    <div class="item-icon"></div>
+                    <div class="item-body">
+                        {{ it.content }}
+                    </div>
+                    <div class="item-time">
+                        {{ it.time | timestamp }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<div class="btn btn-primary" *ngIf="!logisticsData.open" (click)="logisticsData.open = true">
+    <i class="iconfont icon-plus"></i>
+</div>
+<div class="form-table" *ngIf="logisticsData.open">
+    <div class="input-group">
+        <label for="">状态</label>
+        <div>
+            <select  class="form-control" [(ngModel)]="logisticsData.status">
+                <option *ngFor="let item of statusItems;let i = index" [value]="i">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="">物流内容</label>
+        <div>
+            <textarea class="form-control" [(ngModel)]="logisticsData.content"></textarea>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="">发生时间</label>
+        <div>
+            <app-date-input format="yyyy-mm-dd hh:ii:ss" [(ngModel)]="logisticsData.time"></app-date-input>
+        </div>
+    </div>
+    <div class="btn-group">
+        <div class="btn btn-primary" (click)="tapAddLogistics()">更新</div>
+        <div class="btn btn-danger" (click)="logisticsData.open = false">取消</div>
+    </div>
+</div>
+</app-dialog-box>

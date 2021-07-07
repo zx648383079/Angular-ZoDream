@@ -116,3 +116,22 @@ a {
     }
 }
 
+@media screen and (max-width: 769px) {
+    .auto-hide {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .auto-hide {
+        display: none;
+    }
+    .form-table {
+        .input-group {
+            input.form-control {
+                min-width: 5em;
+                width: 100%;
+            }
+        }
+    }
+}

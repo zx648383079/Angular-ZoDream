@@ -53,4 +53,32 @@ export class ActivityService {
     public mixList(params: any) {
         return this.http.get<IPage<IActivity>>('shop/activity/mix', {params});
     }
+
+    public groupBuyList(params: any) {
+        return this.http.get<IPage<IActivity>>('shop/activity/group_buy', {params});
+    }
+
+    public groupBuy(params: any) {
+        return this.http.get<IActivity>('shop/activity/group_buy/detail', {params});
+    }
+
+    public freeTrialList(params: any) {
+        return this.http.get<IPage<IActivity>>('shop/activity/free_trial', {params});
+    }
+
+    public freeTrial(params: any) {
+        return this.http.get<IActivity>('shop/activity/free_trial/detail', {params});
+    }
+
+    public bargainList(params: any) {
+        return this.http.get<IPage<IActivity>>('shop/activity/bargain', {params});
+    }
+
+    public bargain(params: any) {
+        return this.http.get<IActivity>('shop/activity/bargain/detail', {params});
+    }
+
+    public bargainLogList(params: any) {
+        return this.http.get<IPage<any>>('shop/activity/bargain/log', {params});
+    }
 }

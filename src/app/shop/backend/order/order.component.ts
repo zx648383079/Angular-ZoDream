@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DialogEvent, DialogService } from '../../../dialog';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
@@ -47,9 +48,14 @@ export class OrderComponent implements OnInit {
     ];
     public panelOpen = false;
 
+    public shipData = {
+        fee: 0, 
+    }
+
     constructor(
         private service: OrderService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) {
         this.tapRefresh();
     }
@@ -57,13 +63,45 @@ export class OrderComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
-            this.tapRefresh();
+            this.tapPage();
         });
     }
 
+
+    public tapShip(modal: DialogEvent, item: IOrder) {
+        this.shipData.fee = item.shipping_fee;
+        modal.open(() => {
+            this.service.orderSave({
+                id: item.id,
+                operate: 'fee',
+                shipping_fee: this.shipData.fee
+            }).subscribe({
+                next: res => {
+                    this.toastrService.success('修改成功');
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        });
+    }
     public tapSearch(form: any) {
         this.queries = getQueries(form, this.queries);
         this.tapRefresh();
+    }
+
+    public tapRemove(item: any) {
+        this.toastrService.confirm('确定删除“' + item.title + '”订单？', () => {
+            this.service.orderRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
     }
 
     /**

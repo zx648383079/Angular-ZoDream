@@ -15,70 +15,63 @@ import { PaymentService } from '../../payment.service';
 })
 export class EditPaymentComponent implements OnInit {
 
-  public data: IPayment;
+    public data: IPayment;
 
-  public items: IItem[] = [];
+    public items: IItem[] = [];
 
-  public shippingItems: IShipping[] = [];
+    public shippingItems: IShipping[] = [];
 
-  public form = this.fb.group({
-    name: ['', Validators.required],
-    code: ['', Validators.required],
-    icon: [''],
-    fee: ['0'],
-    description: [''],
-    shipping: [],
-  });
-
-  constructor(
-    private service: PaymentService,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private toastrService: DialogService,
-    private uploadService: FileUploadService,
-  ) {
-    this.service.paymentPlugin().subscribe(res => {
-      this.items = res;
+    public form = this.fb.group({
+        name: ['', Validators.required],
+        code: ['', Validators.required],
+        icon: [''],
+        fee: ['0'],
+        description: [''],
+        shipping: [],
     });
-    this.service.shippingAll().subscribe(res => {
-      this.shippingItems = res;
-    });
-  }
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (!params.id) {
-        return;
-      }
-      this.service.payment(params.id).subscribe(res => {
-        this.data = res;
-      });
-    });
-  }
-
-  public tapBack() {
-    history.back();
-  }
-
-  public tapSubmit() {
-    if (this.form.invalid) {
-      this.toastrService.warning('表单填写不完整');
-      return;
+    constructor(
+        private service: PaymentService,
+        private route: ActivatedRoute,
+        private fb: FormBuilder,
+        private toastrService: DialogService,
+    ) {
+        this.service.paymentPlugin().subscribe(res => {
+            this.items = res;
+        });
+        this.service.shippingAll().subscribe(res => {
+            this.shippingItems = res;
+        });
     }
-    const data: any = Object.assign({}, this.form.value);
-    if (this.data && this.data.id > 0) {
-      data.id = this.data.id;
-    }
-    this.service.paymentSave(data).subscribe(_ => {
-      this.toastrService.success('保存成功');
-      this.tapBack();
-    });
-  }
 
-  public uploadFile(event: any) {
-    this.uploadService.uploadImage(event.files[0]).subscribe(res => {
-      this.form.get('icon').setValue(res.url);
-    });
-  }
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+        if (!params.id) {
+            return;
+        }
+        this.service.payment(params.id).subscribe(res => {
+            this.data = res;
+        });
+        });
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapSubmit() {
+        if (this.form.invalid) {
+            this.toastrService.warning('表单填写不完整');
+            return;
+        }
+        const data: any = Object.assign({}, this.form.value);
+        if (this.data && this.data.id > 0) {
+            data.id = this.data.id;
+        }
+        this.service.paymentSave(data).subscribe(_ => {
+            this.toastrService.success('保存成功');
+            this.tapBack();
+        });
+    }
 
 }

@@ -19,6 +19,13 @@ import { PresaleComponent } from './presale/presale.component';
 import { PresaleGoodsComponent } from './presale/goods/presale-goods.component';
 import { MixComponent } from './mix/mix.component';
 import { MixSliderComponent } from './mix/slider/mix-slider.component';
+import { GroupBuyGoodsComponent } from './group-buy/goods/group-buy-goods.component';
+import { GroupBuyComponent } from './group-buy/group-buy.component';
+import { FreeTrialGoodsComponent } from './free-trial/goods/free-trial-goods.component';
+import { FreeTrialComponent } from './free-trial/free-trial.component';
+import { BargainGoodsComponent } from './bargain/goods/bargain-goods.component';
+import { BargainComponent } from './bargain/bargain.component';
+import { BargainLogComponent } from './bargain/log/bargain-log.component';
 
 const routes: Routes = [
     {
@@ -50,6 +57,30 @@ const routes: Routes = [
         component: CouponComponent,
     },
     {
+        path: 'group-buy/:id',
+        component: GroupBuyGoodsComponent,
+    },
+    {
+        path: 'group-buy',
+        component: GroupBuyComponent,
+    },
+    {
+        path: 'trial/:id',
+        component: FreeTrialGoodsComponent,
+    },
+    {
+        path: 'trial',
+        component: FreeTrialComponent,
+    },
+    {
+        path: 'bargain/:id',
+        component: BargainGoodsComponent,
+    },
+    {
+        path: 'bargain',
+        component: BargainComponent,
+    },
+    {
         path: '',
         component: ActivityComponent
     },
@@ -62,5 +93,7 @@ const routes: Routes = [
 export class ActivityRoutingModule {}
 
 export const activityRoutedComponents = [
-    ActivityComponent, AuctionComponent, SeckillComponent, CouponComponent, AuctionGoodsComponent, AuctionLogComponent, PresaleComponent, PresaleGoodsComponent, MixComponent, MixSliderComponent,
+    ActivityComponent, AuctionComponent, SeckillComponent, CouponComponent, AuctionGoodsComponent, AuctionLogComponent, PresaleComponent, PresaleGoodsComponent, MixComponent, MixSliderComponent, GroupBuyGoodsComponent, GroupBuyComponent, FreeTrialGoodsComponent,
+    FreeTrialComponent, BargainGoodsComponent, BargainComponent,
+    BargainLogComponent,
 ];

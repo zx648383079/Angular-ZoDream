@@ -45,6 +45,11 @@ export interface IThread {
     content?: string;
     is_private_post?: number;
     classify_id?: number;
+    like_type?: -1|1|2;
+    is_collected?: boolean;
+    is_reward?: boolean;
+    reward_items?: IThreadLog[];
+    reward_count?: number;
 }
 
 export interface IThreadPost {
@@ -67,3 +72,10 @@ export interface IForumClassify {
     forum_id?: number;
 }
 
+
+export interface IThreadLog {
+    id: number;
+    data: any;
+    user?: IUser;
+    created_at: string;
+}
