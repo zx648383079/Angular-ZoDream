@@ -18,6 +18,7 @@ export interface IForum {
     path?: IForum[];
     min?: boolean;
     thread_top?: IThread[];
+    today_count?: number;
 }
 
 export interface IThread {
