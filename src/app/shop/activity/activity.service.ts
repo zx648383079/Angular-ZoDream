@@ -70,6 +70,18 @@ export class ActivityService {
         return this.http.get<IActivity>('shop/activity/free_trial/detail', {params});
     }
 
+    public freeTrialLogList(params: any) {
+        return this.http.get<IPage<any>>('shop/activity/free_trial/log', {params});
+    }
+
+    public freeTrialApply(data: any) {
+        return this.http.post<any>('shop/activity/free_trial/apply', data);
+    }
+
+    public freeTrialSaveReport(data: any) {
+        return this.http.post<any>('shop/activity/free_trial/report', data);
+    }
+
     public bargainList(params: any) {
         return this.http.get<IPage<IActivity>>('shop/activity/bargain', {params});
     }
@@ -80,5 +92,17 @@ export class ActivityService {
 
     public bargainLogList(params: any) {
         return this.http.get<IPage<any>>('shop/activity/bargain/log', {params});
+    }
+
+    public bargainCutLog(params: any) {
+        return this.http.get<IPage<any>>('shop/activity/bargain/cut_log', {params});
+    }
+
+    public bargainCut(data: any) {
+        return this.http.post<any>('shop/activity/bargain/cut', data);
+    }
+
+    public bargainApply(data: any) {
+        return this.http.post<any>('shop/activity/bargain/apply', data);
     }
 }
