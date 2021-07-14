@@ -472,6 +472,7 @@ export interface IActivity<T = any> {
     log_count?: number;
     is_joined?: boolean;
     join_log?: any;
+    log?: any;
     goods_items?: {
         price: number;
         amount: number;

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { IItem } from '../../theme/models/seo';
 import { ICourse, IExamPage, IPageEvaluate, IQuestion, IQuestionMaterial } from '../model';
 
 @Injectable()
@@ -56,6 +57,44 @@ export class ExamService {
 
     public courseRemove(id: any) {
         return this.http.delete<IDataOne<true>>('exam/admin/course/delete', {
+          params: {id}
+        });
+    }
+
+    public gradeList(params: any) {
+        return this.http.get<IPage<any>>('exam/admin/course/grade', {params});
+    }
+
+    public gradeAll(params: any) {
+        return this.http.get<IData<IItem>>('exam/admin/course/grade_all', {params});
+    }
+
+    public gradeSave(data: any) {
+        return this.http.post<any>('exam/admin/course/grade_save', data);
+    }
+
+    public gradeRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/admin/course/grade_delete', {
+          params: {id}
+        });
+    }
+
+    public upgradeList(params?: any) {
+        return this.http.get<IPage<any>>('exam/admin/upgrade', {params});
+    }
+
+    public upgrade(id: any) {
+        return this.http.get<any>('exam/admin/upgrade/detail', {
+          params: {id},
+        });
+    }
+
+    public upgradeSave(data: any) {
+        return this.http.post<any>('exam/admin/upgrade/save', data);
+    }
+
+    public upgradeRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/admin/upgrade/delete', {
           params: {id}
         });
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog';
-import { DialogBoxComponent } from '../../../dialog';
+import { DialogEvent, DialogService } from '../../../dialog';
 import { filterTree } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ICourse } from '../../model';
@@ -34,7 +33,7 @@ export class CourseComponent implements OnInit {
     }
 
 
-    public open(modal: DialogBoxComponent, item?: ICourse) {
+    public open(modal: DialogEvent, item?: ICourse) {
         this.editData = item ? {...item} : {
             id: 0,
             name: '',
@@ -52,16 +51,15 @@ export class CourseComponent implements OnInit {
     }
   
     public tapRemove(item: ICourse) {
-        if (!confirm('确定删除“' + item.name + '”科目？')) {
-            return;
-        }
-        this.service.courseRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”科目, 请注意移动科目下的题目？', () => {
+            this.service.courseRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

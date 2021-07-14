@@ -64,6 +64,11 @@ export class FinanceComponent {
             name: '设置',
             icon: 'icon-cog',
             url: './setting'
+        },
+        {
+            name: '返回前台',
+            icon: 'icon-desktop',
+            url: '/',
         }
     ];
 

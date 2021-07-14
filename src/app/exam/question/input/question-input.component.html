@@ -1,13 +1,13 @@
 <div class="question-box" [ngClass]="{'item-right': !editable && value.right > 0, 'item-wrong': !editable && value.right < 0}">
     <div class="title">
         <span class="order">{{ value.order }}.</span>
-        {{ value.title }}
+        <app-math-mark [content]="value.title"></app-math-mark>
         <ng-container *ngIf="value.score">
             ({{ value.score }}分)
         </ng-container>
     </div>
     <div class="content" *ngIf="value.content">
-        {{ value.content }}
+        <app-math-mark [content]="value.content" [allowInput]="value.type == 4" [(ngModel)]="value.answer" [editable]="editable"></app-math-mark>
     </div>
     <div class="image" *ngIf="value.image">
         <img [src]="value.image | asset">
@@ -18,7 +18,9 @@
                 <div class="option-item" (click)="tapCheckItem(item)">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked}"></i>
                     <span class="order">{{ item.order }}.</span>
-                    <span class="option-label">{{ item.content }}</span>
+                    <span class="option-label">
+                        <app-math-mark [content]="item.content"></app-math-mark>
+                    </span>
                 </div>
             </ng-container>
         </div>
@@ -36,14 +38,18 @@
                     <div class="option-item" [ngClass]="{'right': item.is_right, 'wrong': !item.is_right}">
                         <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
                         <span class="order">{{ item.order }}.</span>
-                        <span class="option-label">{{ item.content }}</span>
+                        <span class="option-label">
+                            <app-math-mark [content]="item.content"></app-math-mark>
+                        </span>
                     </div>
                 </ng-container>
                 <ng-template #elseOptionTemplate>
                     <div class="option-item">
                         <i class="iconfont"></i>
                         <span class="order">{{ item.order }}.</span>
-                        <span class="option-label">{{ item.content }}</span>
+                        <span class="option-label">
+                            <app-math-mark [content]="item.content"></app-math-mark>
+                        </span>
                     </div>
                 </ng-template>
             </ng-container>

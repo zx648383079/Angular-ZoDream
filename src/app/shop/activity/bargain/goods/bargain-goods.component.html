@@ -41,15 +41,15 @@
                                         销售价
                                     </div>
                                     <div class="group-body">
-                                        {{ activity.price | price }}
+                                        {{ activity.goods.price | price }}
                                     </div>
                                 </div>
-                                <div class="flex-group">
+                                <div class="flex-group" *ngIf="log">
                                     <div class="group-header">
                                         当前价格
                                     </div>
                                     <div class="group-body">
-                                        {{ 0 | price }}
+                                        {{ log.price | price }}
                                     </div>
                                 </div>
                                 <div class="activity-rule">
@@ -71,15 +71,17 @@
                         </div>
                     </div>
                     <div class="activity-action">
-                        <a class="btn btn-danger">
-                            帮砍一刀
-                        </a>
-                        <a class="btn btn-danger">
-                            我要参加
-                        </a>
-                        <a class="btn btn-danger">
-                            邀好友帮砍一刀
-                        </a>
+                        <div class="btn-group">
+                            <a class="btn btn-danger" *ngIf="dataType == 1" (click)="tapCut()">
+                                帮砍一刀
+                            </a>
+                            <a class="btn btn-success" *ngIf="dataType != 2" (click)="tapJoin()">
+                                {{ activity.join_log ? '查看我的' : '我要参加' }}
+                            </a>
+                            <a class="btn btn-info" *ngIf="dataType == 2" (click)="tapInviteCut()">
+                                邀好友帮砍一刀
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,7 +100,7 @@
                         <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                             Issues
                         </div>
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
+                        <div class="tab-item" *ngIf="dataType > 0" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                             好友助力记录
                         </div>
                     </div>
@@ -113,9 +115,9 @@
                         <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
 
                         </div>
-                        <div class="tab-item log-box"
+                        <div class="tab-item log-box" *ngIf="dataType > 0" 
                             [ngClass]="{active: tabIndex == 3}">
-                            <app-bargain-log [activity]="activity.id" [init]="tabIndex == 3"></app-bargain-log>
+                            <app-bargain-log [activity]="activity.id" [log]="log.id" [init]="tabIndex == 3"></app-bargain-log>
                         </div>
                     </div>
                 </div>

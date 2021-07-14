@@ -1,4 +1,6 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑题目' : '新增题目'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑题目' : '新增题目'" (submited)="tapSubmit()" [disabled]="form.invalid">
+    数学公式输入请使用“$$”包裹<a href="http://asciimath.org/" target="_blank">查看规则</a>
+</app-edit-header>
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -14,11 +16,16 @@
         </div>
         <div class="input-group">
             <label for="course_id">科目</label>
-            <div>
-                <select id="course_id" formControlName="course_id" class="form-control">
+            <div class="flat-group">
+                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
                     <option [value]="0">请选择</option>
                     <ng-container *ngFor="let item of courseItems">
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </ng-container>
+                </select>
+                <select formControlName="course_grade" class="form-control">
+                    <ng-container *ngFor="let item of gradeItems">
+                        <option [value]="item.value">{{ item.name }}</option>
                     </ng-container>
                 </select>
             </div>
@@ -89,8 +96,7 @@
                                 </ng-template>
                             </div>
                             <select class="form-control" formControlName="type">
-                                <option [value]="0">文字</option>
-                                <option [value]="1">图片</option>
+                                <option *ngFor="let item of optionTypeItems;let j = index" [value]="j">{{ item }}</option>
                             </select>
                             <select class="form-control" formControlName="is_right">
                                 <option [value]="0">错</option>
@@ -165,7 +171,6 @@
                         </div>
                       </div>
                     </ng-container>
-                    
                     <a class="add-btn" (click)="tapEditAnalysis(analysisModal)">
                         <i class="iconfont icon-plus"></i>
                     </a>
@@ -193,7 +198,7 @@
         </select>
     </div>
     <ng-container *ngIf="analysisData.type < 1">
-        <textarea class="form-control" [(ngModel)]="analysisData.content"></textarea>
+        <textarea class="form-control" [(ngModel)]="analysisData.content" rows="15"></textarea>
     </ng-container>
     <ng-container *ngIf="analysisData.type > 0">
         <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>

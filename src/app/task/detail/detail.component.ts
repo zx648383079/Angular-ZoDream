@@ -122,7 +122,7 @@ export class DetailComponent implements OnInit {
     }
 
     public commentEnter(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapComment();

@@ -1,0 +1,18 @@
+<div class="math-mark-bar">
+    <ng-container *ngFor="let item of items">
+        <ng-container [ngSwitch]="item.type">
+            <ng-container *ngSwitchCase="'input'">
+                <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [disabled]="!editable" [size]="item.size">
+            </ng-container>
+            <ng-container *ngSwitchCase="'math'">
+                <span [innerHTML]="item.content"></span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'line'">
+                <br>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                {{ item.content }}
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>

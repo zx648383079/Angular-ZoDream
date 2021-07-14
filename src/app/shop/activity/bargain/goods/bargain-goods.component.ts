@@ -19,6 +19,8 @@ export class BargainGoodsComponent implements OnInit {
     public content: SafeHtml;
     public tabIndex = 0;
     public amount = 1;
+    public dataType: 0|1|2 = 0; // 0 没有记录 1 别人的记录 2 自己的记录
+    public log: any;
 
     constructor(
         private service: ActivityService,
@@ -32,10 +34,17 @@ export class BargainGoodsComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.service.bargain({
                 id: params.id,
-                full: true,
+                log: params.log,
             }).subscribe(res => {
                 this.data = res.goods;
                 this.activity = res;
+                if (res.log) {
+                    this.log = res.log;
+                    this.dataType = res.log?.id === res.join_log?.id ? 2 : 1;
+                }  else if (res.join_log) {
+                    this.log = res.join_log;
+                    this.dataType = 2;
+                } 
                 this.themeService.setTitle(this.data.seo_title || this.data.name);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
                 this.galleryItems = [].concat([{thumb: this.data.thumb, image: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
@@ -46,6 +55,45 @@ export class BargainGoodsComponent implements OnInit {
                     }) : []);
                 });
         });
+    }
+
+    public tapCut() {
+        this.service.bargainCut({
+            activity: this.activity.id,
+            log: this.log.id
+        }).subscribe({
+            next: res => {
+                this.log = res;
+                this.toastrService.success('砍价成功');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapJoin() {
+        if (this.activity.join_log) {
+            this.dataType = 2;
+            this.log = this.activity.join_log;
+            return;
+        }
+        this.service.bargainApply({
+            activity: this.activity.id,
+        }).subscribe({
+            next: res => {
+                this.toastrService.success('开始砍价');
+                this.dataType = 2;
+                this.log = res;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapInviteCut() {
+
     }
 
 }

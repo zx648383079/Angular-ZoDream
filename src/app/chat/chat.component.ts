@@ -480,7 +480,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public onSearchKeyDown(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.request.emit(COMMAND_FRIEND_SEARCH, {keywords: this.searchData.keywords});

@@ -87,7 +87,7 @@ export class HomeComponent {
     }
 
     public searchEnter(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapSearch();

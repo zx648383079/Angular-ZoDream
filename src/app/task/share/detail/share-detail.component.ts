@@ -90,20 +90,23 @@ export class ShareDetailComponent implements OnInit {
         this.service.commentList({
             page,
             task_id: this.data.id
-        }).subscribe(res => {
-            this.commentItems = res.data;
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.commentItems = res.data;
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.total = res.paging.total;
+                this.perPage = res.paging.limit;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public commentEnter(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapComment();

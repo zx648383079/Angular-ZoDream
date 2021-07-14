@@ -27,6 +27,11 @@ export const ExamBackendMenu: INav[] = [
                 label: '卷',
                 url: './exam/page',
             },
+            {
+                name: '晋级列表',
+                label: '级',
+                url: './exam/upgrade',
+            },
         ],
     },
 ];

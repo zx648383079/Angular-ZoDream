@@ -6,6 +6,7 @@ import {
     Routes
 } from '@angular/router';
 import { CourseComponent } from './course/course.component';
+import { CourseGradeComponent } from './course/grade/course-grade.component';
 import { ExamBackendComponent } from './exam-backend.component';
 import { MaterialComponent } from './material/material.component';
 import { MaterialPanelComponent } from './material/panel/material-panel.component';
@@ -14,11 +15,29 @@ import { EvaluateComponent } from './page/evaluate/evaluate.component';
 import { PageComponent } from './page/page.component';
 import { EditQuestionComponent } from './question/edit/edit-question.component';
 import { QuestionComponent } from './question/question.component';
+import { EditUpgradeComponent } from './upgrade/edit/edit-upgrade.component';
+import { UpgradeComponent } from './upgrade/upgrade.component';
 
 const routes: Routes = [
     {
         path: 'course',
         component: CourseComponent,
+    },
+    {
+        path: 'course/grade',
+        component: CourseGradeComponent,
+    },
+    {
+        path: 'upgrade/create',
+        component: EditUpgradeComponent,
+    },
+    {
+        path: 'upgrade/edit/:id',
+        component: EditUpgradeComponent,
+    },
+    {
+        path: 'upgrade',
+        component: UpgradeComponent,
     },
     {
         path: 'question/create',
@@ -65,5 +84,5 @@ const routes: Routes = [
 export class ExamBackendRoutingModule {}
 
 export const examBackendRoutedComponents = [
-    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent,
+    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent
 ];

@@ -34,7 +34,7 @@
             </div>
             <div class="name" *ngIf="item.user">{{ item.user.name }}
 
-                <div class="time">{{ item.created_at }}</div>
+                <div class="time">{{ item.created_at | ago }}</div>
             </div>
             <div class="content">
                 <ng-container *ngIf="item.type == 1; else elseTemplate">

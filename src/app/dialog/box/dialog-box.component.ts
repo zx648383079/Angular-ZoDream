@@ -153,7 +153,7 @@ export class DialogBoxComponent implements DialogEvent {
      * @returns 
      */
     public confirmClose(e: KeyboardEvent) {
-        if (e.code !== 'Enter') {
+        if (e.key !== 'Enter') {
             return;
         }
         this.close((e.target as HTMLInputElement).value);

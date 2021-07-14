@@ -6,7 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <a class="btn btn-success pull-right"  (click)="open(modal)">新增科目</a>
+           <div class="btn-group pull-right">
+                <a routerLink="grade" class="btn btn-primary">查看科目等级</a>
+                <a class="btn btn-success"  (click)="open(modal)">新增科目</a>
+           </div>
         </div>
     
         <table class="table table-hover">

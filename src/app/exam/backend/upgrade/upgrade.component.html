@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理晋级列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" routerLink="create">新增试卷</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>试卷名</th>
+                    <th>题数量</th>
+                    <th>总分</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.question_count }}</td>
+                    <td>{{ item.score }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs" [routerLink]="['evaluate', item.id]">查看</a>
+                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+  
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

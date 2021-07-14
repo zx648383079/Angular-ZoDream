@@ -39,7 +39,7 @@
             题目解析
         </div>
         <div class="panel-body">
-            {{ data.analysis || '暂无解析' }}
+            <app-math-mark [content]="data.analysis || '暂无解析'"></app-math-mark>
         </div>
     </div>
     <div class="panel sheet-panel" *ngIf="cardVisiable">

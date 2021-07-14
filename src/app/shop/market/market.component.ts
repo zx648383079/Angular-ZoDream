@@ -57,7 +57,7 @@ export class MarketComponent implements OnInit {
     }
 
     public onSearchKeyDown(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapSearch();

@@ -73,7 +73,7 @@ const routes: Routes = [
         component: FreeTrialComponent,
     },
     {
-        path: 'bargain/:id',
+        path: 'bargain/:id/:log',
         component: BargainGoodsComponent,
     },
     {

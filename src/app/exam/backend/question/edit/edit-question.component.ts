@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
+import { IItem } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial } from '../../../model';
 import { ExamService } from '../../exam.service';
@@ -17,6 +18,7 @@ export class EditQuestionComponent implements OnInit {
     public form = this.fb.group({
         title: ['', Validators.required],
         course_id: [0, Validators.required],
+        course_grade: [1],
         image: [''],
         parent_id: [0],
         type: [0],
@@ -30,11 +32,13 @@ export class EditQuestionComponent implements OnInit {
 
     public data: IQuestion;
     public courseItems: ICourse[] = [];
+    public gradeItems: IItem[] = [];
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
     public material: IQuestionMaterial;
     public materialSelected: IQuestionMaterial;
     public analysisItems: IQuestionAnalysis[] = [];
     public analysisTypeItems = ['文本', '音频', '视频'];
+    public optionTypeItems = ['文字', '图片', '数学公式'];
     public analysisData: IQuestionAnalysis = {
         type: 0,
         content: '',
@@ -54,6 +58,7 @@ export class EditQuestionComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
+                this.onCourseChange();
                 return;
             }
             this.service.question(params.id).subscribe(res => {
@@ -107,6 +112,13 @@ export class EditQuestionComponent implements OnInit {
         return this.form.get('option_items') as FormArray;
     }
 
+    public onCourseChange() {
+        this.service.gradeAll({
+            course: this.form.get('course_id').value
+        }).subscribe(res => {
+            this.gradeItems = res.data;
+        });
+    }
 
     public onTitleChange() {
         this.sameItems = [];

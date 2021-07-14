@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { CourseComponent } from './course/course.component';
 import { ExamComponent } from './exam.component';
+import { MathMarkComponent } from './math-mark/math-mark.component';
 import { EditPagerComponent } from './pager/edit/edit-pager.component';
 import { PagerComponent } from './pager/pager.component';
 import { QuestionEditorComponent } from './question/editor/question-editor.component';
@@ -61,5 +62,6 @@ const routes: Routes = [
 export class ExamRoutingModule {}
 
 export const examRoutedComponents = [
-    ExamComponent, CourseComponent, QuestionComponent, QuestionInputComponent, PagerComponent, QuestionEditorComponent, EditPagerComponent, SearchComponent
+    ExamComponent, CourseComponent, QuestionComponent, QuestionInputComponent, PagerComponent, QuestionEditorComponent, EditPagerComponent, SearchComponent,
+    MathMarkComponent,
 ];

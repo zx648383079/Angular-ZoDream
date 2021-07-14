@@ -72,7 +72,7 @@ export class CatalogItemComponent implements OnInit, OnChanges {
     }
 
     public onKeyDown(e: KeyboardEvent) {
-        if (e.code === 'Enter') {
+        if (e.key === 'Enter') {
             this.tapFinish();
         }
     }

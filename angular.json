@@ -45,6 +45,7 @@
                             "src/assets/iconfont/iconfont.css",
                             "node_modules/animate.css/animate.css",
                             "node_modules/@ng-select/ng-select/themes/default.theme.css",
+                            "node_modules/katex/dist/katex.css",
                             "node_modules/video.js/dist/video-js.css",
                             "src/styles.scss"
                         ],
@@ -117,6 +118,7 @@
                             "src/assets/iconfont/iconfont.css",
                             "node_modules/animate.css/animate.css",
                             "node_modules/@ng-select/ng-select/themes/default.theme.css",
+                            "node_modules/katex/dist/katex.css",
                             "node_modules/video.js/dist/video-js.css",
                             "src/styles.scss"
                         ],

@@ -66,7 +66,7 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     public onKeyDown(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapSend();

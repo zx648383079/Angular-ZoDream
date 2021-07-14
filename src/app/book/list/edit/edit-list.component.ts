@@ -90,7 +90,7 @@ export class EditListComponent implements OnInit {
     }
 
     public searchEnter(event: KeyboardEvent) {
-        if (event.code !== 'Enter') {
+        if (event.key !== 'Enter') {
             return;
         }
         this.tapSearch();
