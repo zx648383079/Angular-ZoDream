@@ -40,6 +40,7 @@ export class QuestionComponent implements OnInit {
                 id: params.id,
                 course: params.course
             }).subscribe(res => {
+                res.answer = undefined;
                 this.data = res;
             });
         });
@@ -57,6 +58,7 @@ export class QuestionComponent implements OnInit {
         this.service.question({
             id: this.cardItems[i].id
         }).subscribe(res => {
+            res.answer = undefined;
             this.data = res;
             this.editable = true;
         });
