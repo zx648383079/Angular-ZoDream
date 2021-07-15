@@ -29,6 +29,7 @@ export class FileInputComponent implements ControlValueAccessor {
 
     public value: string;
     public disabled = false;
+    public isLoading = false;
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -67,8 +68,15 @@ export class FileInputComponent implements ControlValueAccessor {
         } else {
             upload$ = this.uploadService.uploadFile(files[0]);
         }
-        upload$.subscribe(res => {
-            this.onChange(this.value = res.url);
+        this.isLoading = true;
+        upload$.subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.onChange(this.value = res.url);
+            },
+            error: _ => {
+                this.isLoading = false;
+            },
         });
     }
 

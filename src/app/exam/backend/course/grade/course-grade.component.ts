@@ -34,6 +34,9 @@ export class CourseGradeComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.service.courseAll().subscribe(res => {
+            this.courseItems = res.data;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
@@ -44,7 +47,8 @@ export class CourseGradeComponent implements OnInit {
         this.editData = item ? {...item} : {
             id: 0,
             name: '',
-            grade: 1
+            grade: 1,
+            course_id: 0,
         };
         modal.open(() => {
             this.service.gradeSave(this.editData).subscribe(_ => {

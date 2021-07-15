@@ -9,3 +9,23 @@
     width: auto;
     min-width: auto;
 }
+.input-bar {
+    border: 1px solid #ced4da;
+    cursor: not-allowed;
+    padding: .1rem 0.75rem;
+    border-radius: 0.25rem;
+    background-color: #ced4da;
+    display: inline-block;
+    vertical-align: middle;
+    p {
+        margin: 0;
+        word-break: keep-all;
+        word-wrap: normal;
+        font-size: .5em;
+        padding: 0;
+        line-height: 1rem;
+    }
+    .success-color {
+        color: #198754;
+    }
+}

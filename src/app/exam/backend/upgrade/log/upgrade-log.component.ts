@@ -3,17 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
-import { IPageEvaluate } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
-  selector: 'app-evaluate',
-  templateUrl: './evaluate.component.html',
-  styleUrls: ['./evaluate.component.scss']
+  selector: 'app-upgrade-log',
+  templateUrl: './upgrade-log.component.html',
+  styleUrls: ['./upgrade-log.component.scss']
 })
-export class EvaluateComponent implements OnInit {
+export class UpgradeLogComponent implements OnInit {
 
-    public items: IPageEvaluate[] = [];
+    public items: any[] = [];
 
     public hasMore = true;
     public isLoading = false;
@@ -22,7 +21,8 @@ export class EvaluateComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
-        page_id: 0,
+        user: 0,
+        upgrade: 0,
     };
 
     constructor(
@@ -36,7 +36,7 @@ export class EvaluateComponent implements OnInit {
             if (params.id) {
                 return;
             }
-            this.queries.page_id = params.id;
+            this.queries.upgrade = params.id;
         });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
@@ -69,7 +69,7 @@ export class EvaluateComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.evaluateList(queries).subscribe(res => {
+        this.service.upgradeLogList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
@@ -83,9 +83,9 @@ export class EvaluateComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IPageEvaluate) {
-        this.toastrService.confirm('确定删除“' + item.user.name + '”的评估结果？', () => {
-            this.service.evaluateRemove(item.id).subscribe(res => {
+    public tapRemove(item: any) {
+        this.toastrService.confirm('确定删除“' + item.user.name + '”的记录？', () => {
+            this.service.upgradeLogRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -96,5 +96,6 @@ export class EvaluateComponent implements OnInit {
             });
         });
     }
+
 
 }

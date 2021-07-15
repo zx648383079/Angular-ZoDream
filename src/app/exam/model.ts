@@ -5,6 +5,7 @@ export interface IQuestion {
     title: string;
     image:      string;
     course_id:  number;
+    course_grade?: number;
     parent_id:  number;
     type:       number;
     easiness:   number;
@@ -71,11 +72,14 @@ export interface ICourse {
     parent_id: number;
     level?: number;
     children?: ICourse[];
+    question_count?: number;
 }
 
 export interface IExamPage {
     id: number;
     name: string;
+    course_id:  number;
+    course_grade?: number;
     rule_type: number;
     limit_time: number;
     start_at: string;

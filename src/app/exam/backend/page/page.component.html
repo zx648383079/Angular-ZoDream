@@ -11,6 +11,13 @@
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
+                <div class="input-group">
+                    <label>科目</label>
+                    <select name="course" [ngModel]="queries.course" class="form-control">
+                        <option [value]="0">请选择</option>
+                        <option *ngFor="let item of courseItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" routerLink="create">新增试卷</a>
             </form>
@@ -29,7 +36,7 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td>[{{ item.course?.name }}●{{ item.course_grade_format }}]{{ item.name }}</td>
                     <td>{{ item.question_count }}</td>
                     <td>{{ item.score }}</td>
                     <td>

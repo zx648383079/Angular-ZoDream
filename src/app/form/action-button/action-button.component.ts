@@ -4,7 +4,10 @@ import { ButtonEvent } from '../event';
 @Component({
     selector: 'app-action-button',
     templateUrl: './action-button.component.html',
-    styleUrls: ['./action-button.component.scss']
+    styleUrls: ['./action-button.component.scss'],
+    host: {
+        '(click)': 'tapBody()',
+    },
 })
 export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEvent {
 

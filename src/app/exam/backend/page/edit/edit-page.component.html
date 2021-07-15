@@ -9,6 +9,22 @@
             </div>
         </div>
         <div class="input-group">
+            <label for="course_id">科目</label>
+            <div class="flat-group">
+                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                    <option [value]="0">请选择</option>
+                    <ng-container *ngFor="let item of courseItems">
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </ng-container>
+                </select>
+                <select formControlName="course_grade" class="form-control">
+                    <ng-container *ngFor="let item of gradeItems">
+                        <option [value]="item.value">{{ item.name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
             <label for="rule_type">选题类型</label>
             <div>
                 <select id="rule_type" class="form-control" formControlName="rule_type" (ngModelChange)="onRuleChange()">

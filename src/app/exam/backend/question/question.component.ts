@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { IQuestion } from '../../model';
+import { ICourse, IQuestion } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class QuestionComponent implements OnInit {
         keywords: '',
         course: 0,
     };
+    public courseItems: ICourse[] = [];
 
     constructor(
         private service: ExamService,
@@ -31,6 +32,9 @@ export class QuestionComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.service.courseAll().subscribe(res => {
+            this.courseItems = res.data;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();

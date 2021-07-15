@@ -43,8 +43,11 @@ export class QuestionInputComponent {
         return typeof this.value.your_answer === 'object' && this.value.your_answer.indeOf(option.id) >= 0;
     }
 
-    public onAnswerChange() {
+    public onAnswerChange(value?: any) {
         if (this.editable) {
+            if (value) {
+                this.value.answer = value;
+            }
             this.valueChange.emit(this.value);
         }
     }

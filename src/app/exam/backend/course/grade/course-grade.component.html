@@ -11,6 +11,13 @@
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
+                <div class="input-group">
+                    <label>科目</label>
+                    <select name="course" [ngModel]="queries.course" class="form-control">
+                        <option [value]="0">请选择</option>
+                        <option *ngFor="let item of courseItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" (click)="open(modal)">新增等级</a>
             </form>
@@ -29,8 +36,7 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.course?.name || '' }}</td>
-                    <td>{{ item.score }}</td>
+                    <td>{{ item.course?.name || '--' }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
@@ -46,7 +52,7 @@
     </div>
 </div>
 
-<app-dialog-box #modal [height]="500" [title]="editData && editData.id > 0 ? '编辑科目等级' : '新增科目等级'">
+<app-dialog-box #modal [scrollable]="false" [title]="editData && editData.id > 0 ? '编辑科目等级' : '新增科目等级'">
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group">
@@ -55,7 +61,7 @@
     </div>
     <div class="form-group">
         <label for="parent_id">科目</label>
-        <select id="parent_id" class="form-control"  [(ngModel)]="editData.parent_id" >
+        <select id="parent_id" class="form-control"  [(ngModel)]="editData.course_id" >
             <option [value]="0">-- 无 --</option>
             <option *ngFor="let item of courseItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
         </select>

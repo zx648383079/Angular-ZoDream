@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { IExamPage } from '../../model';
+import { ICourse, IExamPage } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
@@ -22,7 +22,9 @@ export class PageComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
+        course: 0,
     };
+    public courseItems: ICourse[] = [];
 
     constructor(
         private service: ExamService,
@@ -31,6 +33,9 @@ export class PageComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.service.courseAll().subscribe(res => {
+            this.courseItems = res.data;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();

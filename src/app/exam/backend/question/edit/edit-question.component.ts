@@ -66,6 +66,7 @@ export class EditQuestionComponent implements OnInit {
                 this.form.patchValue({
                     title: res.title,
                     course_id: res.course_id,
+                    course_grade: res.course_grade,
                     image: res.image,
                     parent_id: res.parent_id,
                     type: res.type,

@@ -1,3 +1,44 @@
-<p>
-  edit-upgrade works!
-</p>
+<app-edit-header [title]="data && data.id > 0 ? '编辑等级' : '新增等级'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="course_id">科目</label>
+            <div class="flat-group">
+                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                    <option [value]="0">请选择</option>
+                    <ng-container *ngFor="let item of courseItems">
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </ng-container>
+                </select>
+                <select formControlName="course_grade" class="form-control">
+                    <ng-container *ngFor="let item of gradeItems">
+                        <option [value]="item.value">{{ item.name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="icon">图标</label>
+            <div>
+                <app-file-input formControlName="icon" ></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">简介</label>
+            <div>
+                <textarea id="description" formControlName="description" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

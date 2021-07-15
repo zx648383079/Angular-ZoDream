@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { DialogEvent, DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
+import { IItem } from '../../../../theme/models/seo';
 import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -15,6 +16,8 @@ export class EditPageComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
+        course_id: [0],
+        course_grade: [1],
         rule_type: [0],
         limit_time: [120],
         start_at: [''],
@@ -25,6 +28,7 @@ export class EditPageComponent implements OnInit {
     public courseItems: ICourse[] = [];
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
     public optionItems: any[] = [];
+    public gradeItems: IItem[] = [];
 
     public dialogData = {
         items: [],
@@ -48,12 +52,15 @@ export class EditPageComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
+                this.onCourseChange();
                 return;
             }
             this.service.page(params.id).subscribe(res => {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
+                    course_id: res.course_id,
+                    course_grade: res.course_grade,
                     rule_type: res.rule_type,
                     limit_time: res.limit_time,
                     start_at: res.start_at,
@@ -66,6 +73,14 @@ export class EditPageComponent implements OnInit {
 
     get ruleType() {
         return this.form.get('rule_type').value;
+    }
+
+    public onCourseChange() {
+        this.service.gradeAll({
+            course: this.form.get('course_id').value
+        }).subscribe(res => {
+            this.gradeItems = res.data;
+        });
     }
 
     public tapBack() {
@@ -132,7 +147,7 @@ export class EditPageComponent implements OnInit {
         this.tapDialogPage();
     }
 
-    public tapOpen(modal: DialogBoxComponent) {
+    public tapOpen(modal: DialogEvent) {
         modal.open(() => {
             for (const item of this.dialogData.items) {
                 if (item.selected && this.indexOf(item.id) < 0) {

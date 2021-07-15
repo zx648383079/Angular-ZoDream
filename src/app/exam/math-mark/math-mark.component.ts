@@ -7,6 +7,7 @@ interface IMarkItem {
     type: string;
     content?: any;
     value?: string;
+    rightValue?: string;
     size?: number;
 }
 
@@ -19,6 +20,7 @@ export class MathMarkComponent implements OnChanges {
 
     @Input() public content = '';
     @Input() public value: string[] = [];
+    @Input() public rightValue: string[] = [];
     @Input() public allowInput = false;
     @Input() public editable = true;
     public items: IMarkItem[] = [];
@@ -32,7 +34,7 @@ export class MathMarkComponent implements OnChanges {
         if (changes.content) {
             this.formatContent();
         }
-        if (changes.value) {
+        if (changes.value || changes.rightValue) {
             this.applayValue();
         }
     }
@@ -126,17 +128,23 @@ export class MathMarkComponent implements OnChanges {
     }
 
     private applayValue() {
-        const valueItems = this.value instanceof Array ? this.value.map((i: any) => {
-            return typeof i === 'object' ? i.content : i
-        }) : [];
+        const valueItems = this.formatValue(this.value);
+        const rightItems = this.formatValue(this.rightValue);
         let i = 0;
         for (const item of this.items) {
             if (item.type !== 'input') {
                 continue;
             }
             item.value = valueItems.length > i ? valueItems[i] : '';
+            item.rightValue = rightItems.length > i ? rightItems[i] : '';
             i ++;
         }
+    }
+
+    private formatValue(value: any) {
+        return value instanceof Array ? value.map((i: any) => {
+            return typeof i === 'object' ? i.content : i
+        }) : [];
     }
 
     private outputValue() {

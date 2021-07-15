@@ -11,8 +11,15 @@
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
+                <div class="input-group">
+                    <label>科目</label>
+                    <select name="course" [ngModel]="queries.course" class="form-control">
+                        <option [value]="0">请选择</option>
+                        <option *ngFor="let item of courseItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" routerLink="create">新增试卷</a>
+                <a class="btn btn-success pull-right" routerLink="create">新增等级</a>
             </form>
         </div>
     
@@ -20,9 +27,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>试卷名</th>
-                    <th>题数量</th>
-                    <th>总分</th>
+                    <th>名称</th>
+                    <th>科目</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -30,11 +36,10 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.question_count }}</td>
-                    <td>{{ item.score }}</td>
+                    <td>{{ item.course?.name }}●{{ item.course_grade_format }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" [routerLink]="['evaluate', item.id]">查看</a>
+                            <a class="btn btn-info btn-xs" [routerLink]="['log', item.id]">查看</a>
                             <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>

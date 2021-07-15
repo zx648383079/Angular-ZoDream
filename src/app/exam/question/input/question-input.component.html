@@ -7,7 +7,7 @@
         </ng-container>
     </div>
     <div class="content" *ngIf="value.content">
-        <app-math-mark [content]="value.content" [allowInput]="value.type == 4" [(value)]="value.answer" (valueChange)="onAnswerChange()" [editable]="editable"></app-math-mark>
+        <app-math-mark [content]="value.content" [allowInput]="value.type == 4" [value]="editable ? value.answer : value.your_answer" (valueChange)="onAnswerChange($event)" [editable]="editable" [rightValue]="!editable ? value.answer : []"></app-math-mark>
     </div>
     <div class="image" *ngIf="value.image">
         <img [src]="value.image | asset">

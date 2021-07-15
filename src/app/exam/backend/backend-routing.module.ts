@@ -16,6 +16,7 @@ import { PageComponent } from './page/page.component';
 import { EditQuestionComponent } from './question/edit/edit-question.component';
 import { QuestionComponent } from './question/question.component';
 import { EditUpgradeComponent } from './upgrade/edit/edit-upgrade.component';
+import { UpgradeLogComponent } from './upgrade/log/upgrade-log.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
     {
         path: 'upgrade/edit/:id',
         component: EditUpgradeComponent,
+    },
+    {
+        path: 'upgrade/log/:id',
+        component: UpgradeLogComponent,
     },
     {
         path: 'upgrade',
@@ -84,5 +89,5 @@ const routes: Routes = [
 export class ExamBackendRoutingModule {}
 
 export const examBackendRoutedComponents = [
-    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent
+    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent, UpgradeLogComponent
 ];

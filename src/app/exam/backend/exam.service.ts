@@ -99,6 +99,17 @@ export class ExamService {
         });
     }
 
+    public upgradeLogList(params?: any) {
+        return this.http.get<IPage<any>>('exam/admin/upgrade/log', {params});
+    }
+
+    public upgradeLogRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('exam/admin/upgrade/log_delete', {
+          params: {id}
+        });
+    }
+
+
     public pageList(params: any) {
         return this.http.get<IPage<IExamPage>>('exam/admin/page', {params});
     }

@@ -2,7 +2,15 @@
     <ng-container *ngFor="let item of items">
         <ng-container [ngSwitch]="item.type">
             <ng-container *ngSwitchCase="'input'">
-                <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [disabled]="!editable" [size]="item.size">
+                <ng-container *ngIf="editable">
+                    <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
+                </ng-container>
+                <ng-container  *ngIf="!editable">
+                    <div class="input-bar">
+                        <p class="success-color">正确答案：{{ item.rightValue }}</p>
+                        <p>你的回答：{{ item.value }}</p>
+                    </div>
+                </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'math'">
                 <span [innerHTML]="item.content"></span>
