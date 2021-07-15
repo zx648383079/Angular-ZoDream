@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
 import { IItem } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
@@ -44,6 +44,7 @@ export class EditQuestionComponent implements OnInit {
         content: '',
     };
     public sameItems: IQuestion[] = [];
+    public previewData = '';
 
     constructor(
         private fb: FormBuilder,
@@ -133,6 +134,11 @@ export class EditQuestionComponent implements OnInit {
         }).subscribe(res => {
             this.sameItems = res.data;
         });
+    }
+
+    public openPreview(modal: DialogEvent, name: string) {
+        this.previewData = this.form.get(name).value;
+        modal.open();
     }
 
     public onTypeChange() {

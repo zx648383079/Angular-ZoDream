@@ -121,7 +121,7 @@ export class MenuService {
             eachObject(items, (source: MenuReadyItem, key) => {
                 this.currentBasePath = typeof key === 'string' ? key : '';
                 const formatSource = this.filterNavByRole(typeof source === 'function' ? (source as MenuReadyFn).call(this, this.currentBasePath, this.get(this.currentBasePath), this.option) : source, roles);
-                if (!formatSource && formatSource.length > 0) {
+                if (!formatSource || formatSource.length < 1) {
                     return;
                 }
                 if (this.currentBasePath.length > 0 && path.indexOf(this.currentBasePath) === 0) {

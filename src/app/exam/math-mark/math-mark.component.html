@@ -7,8 +7,10 @@
                 </ng-container>
                 <ng-container  *ngIf="!editable">
                     <div class="input-bar">
-                        <p class="success-color">正确答案：{{ item.rightValue }}</p>
-                        <p>你的回答：{{ item.value }}</p>
+                        <p class="success-color">正确答案：
+                            <app-math-mark [content]="item.rightValue"></app-math-mark>
+                        </p>
+                        <p>你的回答：<app-math-mark [content]="item.value"></app-math-mark></p>
                     </div>
                 </ng-container>
             </ng-container>

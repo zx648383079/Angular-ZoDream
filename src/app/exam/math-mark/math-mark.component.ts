@@ -66,6 +66,12 @@ export class MathMarkComponent implements OnChanges {
             index ++;
         };
         const pushText = (end: number) => {
+            if (end > content.length) {
+                end = content.length;
+            }
+            if (start >= end) {
+                return;
+            }
             const text = content.substring(start, end);
             if (text.length < 1) {
                 return;

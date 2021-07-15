@@ -6,6 +6,7 @@ import { ExamService } from './exam.service';
 import { ZreFormModule } from '../form';
 import { ContextMenuModule } from '../context-menu';
 import { MediaPlayerModule } from '../media-player/media-player.module';
+import { ExamCommonModule } from './exam-common';
 
 @NgModule({
     imports: [
@@ -15,10 +16,11 @@ import { MediaPlayerModule } from '../media-player/media-player.module';
         ZreFormModule,
         ContextMenuModule,
         MediaPlayerModule,
+        ExamCommonModule,
     ],
     declarations: [...examRoutedComponents],
     providers: [
         ExamService,
-    ]
+    ],
 })
 export class ExamModule { }

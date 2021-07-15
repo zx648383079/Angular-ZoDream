@@ -9,6 +9,7 @@ import { DialogModule } from '../../dialog';
 import { ZreFormModule } from '../../form';
 import { MaterialTypePipe } from './material-type.pipe';
 import { MediaPlayerModule } from '../../media-player/media-player.module';
+import { ExamCommonModule } from '../exam-common';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { MediaPlayerModule } from '../../media-player/media-player.module';
         DialogModule,
         ZreFormModule,
         MediaPlayerModule,
+        ExamCommonModule,
     ],
     declarations: [...examBackendRoutedComponents, QuestionTypePipe, MaterialTypePipe],
     providers: [

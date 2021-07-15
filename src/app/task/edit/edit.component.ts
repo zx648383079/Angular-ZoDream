@@ -18,6 +18,7 @@ import {
     TaskService
 } from '../task.service';
 import { DialogBoxComponent, DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
 
 @Component({
     selector: 'app-edit',
@@ -80,7 +81,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -89,9 +90,17 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        this.service.taskSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.taskSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 
