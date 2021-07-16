@@ -63,7 +63,6 @@ export class MathMarkComponent implements OnChanges {
                     katex.renderToString(parser.parse(content.substring(start, index)))
                 )
             });
-            index ++;
         };
         const pushText = (end: number) => {
             if (end > content.length) {
@@ -85,6 +84,7 @@ export class MathMarkComponent implements OnChanges {
             start = index;
             while (index < content.length - 1) {
                 if (content.charAt(++index) !== '_') {
+                    index --;
                     break;
                 }
             }
@@ -109,23 +109,23 @@ export class MathMarkComponent implements OnChanges {
         while (index < content.length - 1) {
             const code = content.charAt(++index);
             if (this.allowInput && code === '_' && content.substr(index, 3) === '___') {
-                pushText(index - 1);
+                pushText(index);
                 pushInput();
-                start = index;
+                start = index + 1;
                 continue;
             }
             if (code === '$' && backslashedCount(index - 1) % 2 === 0) {
-                pushText(index - 1);
+                pushText(index);
                 pushMath();
-                start = index;
+                start = index + 1;
                 continue;
             }
             if (code === '\n') {
-                pushText(index - 1);
+                pushText(index);
                 items.push({
                     type: 'line',
                 });
-                start = index;
+                start = index + 1;
                 continue;
             }
         }

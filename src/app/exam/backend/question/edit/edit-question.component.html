@@ -225,5 +225,5 @@
 </app-dialog-box>
 <app-dialog-box #previewModal title="预览" [buttonVisible]="false">
     <textarea class="form-control" [(ngModel)]="previewData"></textarea>
-    <app-math-mark [content]="previewData" [editable]="true"></app-math-mark>
+    <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true"></app-math-mark>
 </app-dialog-box>

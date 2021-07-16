@@ -18,6 +18,15 @@
         color: white;
     }
 }
+.analysis-input {
+    position: absolute;
+    top: 2em;
+    right: -3em;
+    font-size: .8em;
+    padding: .3em;
+    border-radius: .3em;
+    cursor: pointer;
+}
 .editor-header {
     flex: 1;
     padding: .8em;
@@ -84,6 +93,18 @@
             height: 4em;
             padding: 1em 0;
             border-radius: 0;
+        }
+    }
+    .item-text {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+    .item-image {
+        height: 100%;
+        img {
+            max-height: 4em;
+            max-width: 100%;
         }
     }
     .icon-close {

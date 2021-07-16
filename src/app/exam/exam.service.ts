@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IData, IDataOne, IPage } from '../theme/models/page';
+import { IItem } from '../theme/models/seo';
 import { ICourse, IExamPage, IExamPager, IExamSheet, IQuestion, IQuestionCard, IQuestionFormat } from './model';
 
 @Injectable()
@@ -19,6 +20,14 @@ export class ExamService {
         return this.http.get<ICourse>('exam/course', {
           params: {id},
         });
+    }
+
+    public courseAll(full = false) {
+        return this.http.get<IData<ICourse>>('exam/course/tree', {params: {full}});
+    }
+
+    public gradeAll(params: any) {
+        return this.http.get<IData<IItem>>('exam/course/grade', {params});
     }
 
     public question(params: any) {

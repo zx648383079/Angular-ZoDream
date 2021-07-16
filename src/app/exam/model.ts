@@ -22,6 +22,7 @@ export interface IQuestion {
     option_items?: IQuestionOption[];
     option?: IQuestionOption[];
     score?: number;
+    editable?: boolean;
 }
 
 export interface IQuestionMaterial {
@@ -54,12 +55,12 @@ export interface IQuestionCard {
 }
 
 export interface IQuestionOption {
-    id:          string;
-    order: string;
+    id?:       number;
+    order?: string;
     content:     string;
-    question_id: number;
-    type:        string;
-    is_right:    string;
+    question_id?: number;
+    type?:        number;
+    is_right:    boolean;
     checked?: boolean;
 }
 

@@ -59,6 +59,11 @@
         margin-bottom: .6em;
         cursor: default;
         padding: 0.8em;
+        .item-name {
+            height: 100%;
+            overflow: hidden;
+            font-size: .3em;
+        }
         .item-no {
             position: absolute;
             top: -1em;
@@ -80,5 +85,20 @@
             border-width: 3px;
             border-color: red;
         }
+    }
+}
+
+.question-option {
+    padding: .2em;
+    cursor: default;
+    .item-title {
+        line-height: 2rem;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+    &.selected {
+        color: #333;
+        background-color: #ebf5ff;
     }
 }

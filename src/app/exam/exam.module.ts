@@ -7,6 +7,7 @@ import { ZreFormModule } from '../form';
 import { ContextMenuModule } from '../context-menu';
 import { MediaPlayerModule } from '../media-player/media-player.module';
 import { ExamCommonModule } from './exam-common';
+import { DialogModule } from '../dialog';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { ExamCommonModule } from './exam-common';
         ContextMenuModule,
         MediaPlayerModule,
         ExamCommonModule,
+        DialogModule,
     ],
     declarations: [...examRoutedComponents],
     providers: [

@@ -79,7 +79,7 @@ export class CheckInputComponent implements ControlValueAccessor {
             this.selectedItems = obj;
             return;
         }
-        this.selectedItems = [obj];
+        this.selectedItems = [typeof this.rangeKey === 'number' && !obj ? 0 : obj];
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

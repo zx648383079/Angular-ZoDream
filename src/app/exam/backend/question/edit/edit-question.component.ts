@@ -38,7 +38,7 @@ export class EditQuestionComponent implements OnInit {
     public materialSelected: IQuestionMaterial;
     public analysisItems: IQuestionAnalysis[] = [];
     public analysisTypeItems = ['文本', '音频', '视频'];
-    public optionTypeItems = ['文字', '图片', '数学公式'];
+    public optionTypeItems = ['文字', '图片'];
     public analysisData: IQuestionAnalysis = {
         type: 0,
         content: '',
