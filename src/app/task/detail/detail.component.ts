@@ -88,27 +88,61 @@ export class DetailComponent implements OnInit {
             id: this.data.id,
             task_id: this.data.task_id,
             child_id: this.current.id !== this.data.task_id ? this.current.id : 0,
-        }).subscribe(res => {
-            this.data = res;
-            this.maxProgress = res.task.every_time * 60;
-            this.progress = res.log?.time;
-            this.progressor.start(this.progress, this.maxProgress);
+        }).subscribe({
+            next: res => {
+                this.data = res;
+                this.maxProgress = res.task.every_time * 60;
+                this.progress = res.log?.time;
+                this.progressor.start(this.progress, this.maxProgress);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
     public tapPause() {
-        this.service.taskPause(this.data.id).subscribe(res => {
-            this.data = res;
-            this.progressor.stop();
+        this.service.taskPause(this.data.id).subscribe({
+            next: res => {
+                this.data = res;
+                this.progressor.stop();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
     public tapStop() {
-        this.service.taskStop(this.data.id).subscribe(res => {
-            this.data = res;
-            this.progressor.stop();
-            if (res.amount < 1) {
-                history.back();
+        this.service.taskStop(this.data.id).subscribe({
+            next: res => {
+                this.data = res;
+                this.progressor.stop();
+                if (res.amount < 1) {
+                    history.back();
+                }
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapCheck() {
+        this.service.taskCheck(this.data.id).subscribe({
+            next: res => {
+                if (!res.data) {
+                    return;
+                }
+                this.data = res.data;
+                this.toastrService.success(res.message);
+                this.progressor.stop();
+                if (this.data.amount < 1) {
+                    history.back();
+                }
+            },
+            error: err => {
+                this.toastrService.error(err);
             }
         });
     }
@@ -136,10 +170,15 @@ export class DetailComponent implements OnInit {
         this.service.commenSave({
             task_id: this.current.id,
             content: this.comment
-        }).subscribe(_ => {
-            this.comment = '';
-            this.toastrService.success('评论成功');
-            this.refreshComment();
+        }).subscribe({
+            next: _ => {
+                this.comment = '';
+                this.toastrService.success('评论成功');
+                this.refreshComment();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -148,9 +187,14 @@ export class DetailComponent implements OnInit {
         const form = new FormData();
         form.append('task_id', this.current.id.toString());
         form.append('file', files[0], files[0].name);
-        this.service.commenSave(form).subscribe(_ => {
-            this.toastrService.success('评论成功');
-            this.refreshComment();
+        this.service.commenSave(form).subscribe({
+            next: _ => {
+                this.toastrService.success('评论成功');
+                this.refreshComment();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 }

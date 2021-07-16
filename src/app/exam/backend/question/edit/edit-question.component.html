@@ -7,7 +7,7 @@
         <div class="input-group">
             <label for="title">题目</label>
             <div>
-                <input type="text" id="title" class="form-control" formControlName="title" (change)="onTitleChange()">
+                <input type="text" id="title" class="form-control title-input" formControlName="title" (change)="onTitleChange()">
                 <i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'title')"></i>
                 <div class="input-tip" *ngIf="sameItems.length > 0">
                     存在{{ sameItems.length }}个相似题目

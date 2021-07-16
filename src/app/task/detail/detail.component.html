@@ -1,7 +1,7 @@
 <div class="container-fluid" *ngIf="data" [ngClass]="{'on-running': data && data.status != 5}">
     
     <div class="detail-box">
-        <app-circle-progress class="timer-desc" (finished)="tapStop()"></app-circle-progress>
+        <app-circle-progress class="timer-desc" (finished)="tapCheck()"></app-circle-progress>
         <div class="timer-name">{{ current.name }}</div>
         <div class="timer-desc">{{ current.description }}</div>
     </div>

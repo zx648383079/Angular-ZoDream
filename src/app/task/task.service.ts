@@ -55,7 +55,10 @@ export class TaskService {
     }
 
     public taskCheck(id: any) {
-        return this.http.post<ITaskDay>('task/home/check', {id});
+        return this.http.post<{
+            data: ITaskDay|false;
+            message?: string;
+        }>('task/home/check', {id});
     }
 
     public commentList(params: any) {
