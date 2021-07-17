@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'"(submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'"(submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
     <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <app-panel title="基本信息">
@@ -44,7 +44,7 @@
             <editor formControlName="content" [init]="tinyConfigs"></editor>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

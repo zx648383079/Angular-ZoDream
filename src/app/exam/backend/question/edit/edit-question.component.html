@@ -199,7 +199,7 @@
         </select>
     </div>
     <ng-container *ngIf="analysisData.type < 1">
-        <textarea class="form-control" [(ngModel)]="analysisData.content" rows="15"></textarea>
+        <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
     </ng-container>
     <ng-container *ngIf="analysisData.type > 0">
         <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>

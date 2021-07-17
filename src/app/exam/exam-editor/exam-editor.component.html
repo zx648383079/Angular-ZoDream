@@ -4,10 +4,7 @@
             <i class="iconfont icon-image"></i>
             <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
         </label>
-        <div class="tool-item" (click)="tapTool('images')" title="选择在线图片">
-            <i class="iconfont icon-folder-o"></i>
-        </div>
-        <div class="tool-item" (click)="tapTool('code')" title="插入代码">
+        <div class="tool-item" (click)="tapTool('math')" title="插入数学公式">
             <i class="iconfont icon-code"></i>
         </div>
         <div class="tool-item" (click)="tapTool('link')" title="插入链接">
@@ -20,8 +17,8 @@
     <div class="editor-area">
         <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
-        <div class="editor-preview style-markdown" *ngIf="isPreview">
-            <div [innerHTML]="previewValue"></div>
+        <div class="editor-preview" *ngIf="isPreview">
+            <app-math-mark [content]="previewValue" [editable]="true" [allowInput]="true"></app-math-mark>
         </div>
     </div>
     

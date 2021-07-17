@@ -1,33 +1,31 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as marked from 'marked';
+import { IEditor, IEditorRange } from '../../editor/model';
+import { FileUploadService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
-import { IEditor, IEditorRange, IImageUploadEvent } from '../model';
 
 @Component({
-    selector: 'app-markdown-editor',
-    templateUrl: './markdown-editor.component.html',
-    styleUrls: ['./markdown-editor.component.scss'],
+    selector: 'app-exam-editor',
+    templateUrl: './exam-editor.component.html',
+    styleUrls: ['./exam-editor.component.scss'],
     providers: [
         {
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => MarkdownEditorComponent),
-          multi: true
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ExamEditorComponent),
+            multi: true
         }
     ]
 })
-export class MarkdownEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor {
+export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor {
 
     @ViewChild('editorArea')
     private areaElement: ElementRef<HTMLTextAreaElement>;
     @Input() public height = 200;
-    @Output() public imageUpload = new EventEmitter<IImageUploadEvent>();
 
     public disable = false;
     public value = '';
     public isPreview = false;
-    public previewValue: SafeHtml;
+    public previewValue = '';
 
     private range: IEditorRange;
 
@@ -35,7 +33,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     onTouch: any = () => { };
 
     constructor(
-        private sanitizer: DomSanitizer,
+        private uploadService: FileUploadService,
     ) { }
 
     get size() {
@@ -97,8 +95,8 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
         if (name === 'image') {
             return;
         }
-        if (name === 'code') {
-            return this.insert('```js\n\n```', 6, true);
+        if (name === 'math') {
+            return this.insert('$$', 1, true);
         }
         if (name === 'link') {
             return this.insert('[](https://)', 1, true);
@@ -107,9 +105,10 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
-        this.imageUpload.emit({
-            files,
-            target: this
+        this.uploadService.uploadImages(files).subscribe(res => {
+            for (const item of res) {
+                this.insertImage(item.url, item.original);
+            }
         });
     }
 
@@ -160,7 +159,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     }
 
     public insertImage(file: string, name?: string) {
-        this.insert('![' + name + '](' + file + ')');
+        this.insert('![](' + file + ')');
     }
 
     public insertLink(text: string, href: string) {
@@ -222,9 +221,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
             this.isPreview = false;
             return;
         }
-        this.previewValue = this.sanitizer.bypassSecurityTrustHtml(
-            marked(this.value)
-        );
+        this.previewValue = this.value;
         this.isPreview = true;
     }
 

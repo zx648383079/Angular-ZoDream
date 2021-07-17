@@ -17,6 +17,9 @@
             <ng-container *ngSwitchCase="'math'">
                 <span [innerHTML]="item.content"></span>
             </ng-container>
+            <ng-container *ngSwitchCase="'image'">
+                <img [src]="item.content">
+            </ng-container>
             <ng-container *ngSwitchCase="'line'">
                 <br>
             </ng-container>

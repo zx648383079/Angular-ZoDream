@@ -8,6 +8,7 @@ interface IMarkItem {
     content?: any;
     value?: string;
     rightValue?: string;
+    line?: boolean; // 是否是单独一行
     size?: number;
 }
 
@@ -49,19 +50,58 @@ export class MathMarkComponent implements OnChanges {
         let index = -1;
         let start = 0;
         const parser = new AsciiMathParser();
+        /**
+         * 判断下一个字符是否是
+         * @param tag 
+         * @returns 
+         */
+        const nextIs = (tag: string): boolean => {
+            if (content.length < index + tag.length) {
+                return false;
+            }
+            return content.substr(index + 1, tag.length) === tag;
+        };
         const pushMath = () => {
-            index ++;
+            const isBlock = nextIs('$');
+            index += isBlock ? 2 : 1;
+            start = index;
+            let len = 0;
+            while (index < content.length - 1) {
+                len ++;
+                const code = content.charAt(++index);
+                if (code !== '$' || !codeIsValid()) {
+                    continue;
+                }
+                if (!isBlock) {
+                    break;
+                }
+                if (!nextIs('$')) {
+                    continue;
+                }
+                index ++;
+                break;
+            }
+            items.push({
+                type: 'math',
+                line: isBlock,
+                content: this.sanitizer.bypassSecurityTrustHtml(
+                    katex.renderToString(parser.parse(content.substr(start, len)), {
+                        displayMode: isBlock,
+                    })
+                )
+            });
+        };
+        const pushImage = () => {
+            index += 3;
             start = index;
             while (index < content.length - 1) {
-                if (content.charAt(++index) === '$'  && backslashedCount(index - 1) % 2 === 0) {
+                if (content.charAt(++index) === ')' && codeIsValid()) {
                     break;
                 }
             }
             items.push({
-                type: 'math',
-                content: this.sanitizer.bypassSecurityTrustHtml(
-                    katex.renderToString(parser.parse(content.substring(start, index)))
-                )
+                type: 'image',
+                content: content.substring(start, index)
             });
         };
         const pushText = (end: number) => {
@@ -105,18 +145,32 @@ export class MathMarkComponent implements OnChanges {
             }
             return count;
         };
+        /**
+         * 判断当前字符是否有效，没有被 \ 转义
+         * @param i 
+         * @returns 
+         */
+        const codeIsValid = (i: number = index): boolean => {
+            return backslashedCount(i - 1) % 2 === 0;
+        };
 
         while (index < content.length - 1) {
             const code = content.charAt(++index);
-            if (this.allowInput && code === '_' && content.substr(index, 3) === '___') {
+            if (this.allowInput && code === '_'  && codeIsValid() && nextIs('__')) {
                 pushText(index);
                 pushInput();
                 start = index + 1;
                 continue;
             }
-            if (code === '$' && backslashedCount(index - 1) % 2 === 0) {
+            if (code === '$' && codeIsValid()) {
                 pushText(index);
                 pushMath();
+                start = index + 1;
+                continue;
+            }
+            if (code === '!'  && codeIsValid() && nextIs('[](')) {
+                pushText(index);
+                pushImage();
                 start = index + 1;
                 continue;
             }
