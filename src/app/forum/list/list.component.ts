@@ -60,6 +60,9 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+        });
         this.route.params.subscribe(params => {
             this.forum = {id: params.id} as any;
             this.service.getForum(params.id).subscribe(res => {
@@ -68,12 +71,8 @@ export class ListComponent implements OnInit {
                     res.thread_top = this.formatItems(res.thread_top);
                 }
             });
-        });
-        this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
-        
     }
 
     public tapSort(item: ISortItem) {
