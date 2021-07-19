@@ -1,0 +1,89 @@
+<div class="input-group">
+    <label for="title8">题目</label>
+    <div>
+        <textarea id="title8" class="form-control" [(ngModel)]="value.title" (ngModelChange)="onTypeChange()">
+        </textarea>
+    </div>
+</div>
+<div class="input-group">
+    <label for="type8">类型</label>
+    <div>
+        <select id="type8" class="form-control" [(ngModel)]="value.type" (ngModelChange)="onTypeChange()">
+            <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+        </select>
+    </div>
+</div>
+<div class="option-box">
+    <div class="input-group" *ngIf="value.type < 2">
+        <label for="">选项</label>
+        <div>
+            <ng-container *ngFor="let item of value.option_items; let i = index">
+                <div class="option-item">
+                    <div class="option-value">
+                        <ng-container *ngIf="item.type < 1; else elseTemplate">
+                            <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()">
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <app-file-input [(ngModel)]="item.content" (ngModelChange)="onValueChange()"></app-file-input>
+                        </ng-template>
+                    </div>
+                    <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onValueChange()">
+                        <option *ngFor="let item of optionTypeItems;let j = index" [value]="j">{{ item }}</option>
+                    </select>
+                    <select class="form-control" [(ngModel)]="item.is_right" (ngModelChange)="onValueChange()">
+                        <option [value]="0">错</option>
+                        <option [value]="1">对</option>
+                    </select>
+                    <a (click)="tapRemoveItem(i)" class="remove-btn">
+                        <i class="iconfont icon-close"></i>
+                    </a>
+                </div>
+            </ng-container>
+            <a (click)="tapAddItem()" class="add-btn">
+                <i class="iconfont icon-plus"></i>
+            </a>
+        </div>
+    </div>
+    <div class="input-group" *ngIf="value.type == 2">
+        <label for="answer9">答案</label>
+        <div>
+            <select id="answer9" class="form-control" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()">
+                <option value="0">错</option>
+                <option value="1">对</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-group" *ngIf="value.type == 3">
+        <label for="answer0">答案</label>
+        <div>
+            <textarea id="answer0" class="form-control"  [(ngModel)]="value.answer" (ngModelChange)="onValueChange()"></textarea>
+        </div>
+    </div>
+    <div class="input-group" *ngIf="value.type == 4">
+        <label for="answer">答案</label>
+        <div>
+            <div>
+                <ng-container *ngFor="let item of value.option_items; let i = index">
+                    <div class="option-item">
+                        <div class="option-value">
+                            <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()" placeholder="请输入正确的答案">
+                        </div>
+                        <a (click)="tapRemoveItem(i)" class="remove-btn">
+                            <i class="iconfont icon-close"></i>
+                        </a>
+                    </div>
+                </ng-container>
+                <a (click)="tapAddItem()" class="add-btn">
+                    <i class="iconfont icon-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <label for="analysis">解析</label>
+        <div>
+            <app-question-analysis [(value)]="value.analysis_items" (valueChange)="onValueChange()"></app-question-analysis>
+        </div>
+    </div>
+</div>

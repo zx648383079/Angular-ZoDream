@@ -92,7 +92,7 @@ export class MaterialComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries, page, full: true};
         this.service.materialList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;

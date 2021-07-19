@@ -1,0 +1,39 @@
+<ng-container *ngFor="let item of value; let i = index">
+    <div class="edit-row">
+      <div class="content">
+          <ng-container *ngIf="item.type < 1">
+              <textarea class="form-control" [value]="item.content" readonly></textarea>
+            </ng-container>
+            <ng-container *ngIf="item.type == 1">
+              <app-audio-player [src]="item.content"></app-audio-player>
+            </ng-container>
+            <ng-container *ngIf="item.type == 2">
+              <app-video-player [src]="item.content"></app-video-player>
+            </ng-container>
+      </div>
+      <div class="edit-action">
+          <i class="iconfont icon-edit" (click)="tapEdit(analysisModal, i)"></i>
+          <i class="iconfont icon-close" (click)="tapRemove(i)"></i>
+      </div>
+    </div>
+</ng-container>
+<a class="add-btn" (click)="tapEdit(analysisModal)">
+    <i class="iconfont icon-plus"></i>
+</a>
+
+<app-dialog-box #analysisModal>
+    <div class="form-group">
+        <label>内容类型</label>
+        <select class="form-control" [(ngModel)]="analysisData.type">
+            <ng-container *ngFor="let item of analysisTypeItems;let i = index">
+                <option [value]="i">{{ item }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <ng-container *ngIf="analysisData.type < 1">
+        <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
+    </ng-container>
+    <ng-container *ngIf="analysisData.type > 0">
+        <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
+    </ng-container>
+</app-dialog-box>

@@ -1,8 +1,8 @@
 <div class="editor-box">
     <div class="editor-tool-bar">
-        <label for="editor-img" class="tool-item" title="上传图片">
+        <label [for]="fileName" class="tool-item" title="上传图片">
             <i class="iconfont icon-image"></i>
-            <input type="file" name="file" id="editor-img" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
+            <input type="file" name="file" [id]="fileName" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
         </label>
         <div class="tool-item" (click)="tapTool('math')" title="插入数学公式">
             <i class="iconfont icon-code"></i>

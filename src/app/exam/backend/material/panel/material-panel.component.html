@@ -14,21 +14,27 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary" (click)="tapRefresh()">搜索</button>
+        <a class="btn" (click)="tapAdd()">{{ tabIndex ? '返回搜索' : '新增' }}</a>
     </div>
 </div>
 
-<div class="search-body">
-    <div class="container-fluid">
-        <div class="row">
-            <ng-container *ngFor="let item of items">
-                <div class="col-md-4">
-                    <div class="option-item" [ngClass]="{selected: value && value.id == item.id}" (click)="tapSelected(item)">
-                        <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
-                        <div class="desc">{{ item.description }}</div>
+<div class="search-panel" [hidden]="tabIndex">
+    <div class="search-body">
+        <div class="container-fluid">
+            <div class="row">
+                <ng-container *ngFor="let item of items">
+                    <div class="col-md-4">
+                        <div class="option-item" [ngClass]="{selected: value && value.id == item.id}" (click)="tapSelected(item)">
+                            <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
+                            <div class="desc">{{ item.description }}</div>
+                        </div>
                     </div>
-                </div>
-            </ng-container>
+                </ng-container>
+            </div>
         </div>
     </div>
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 </div>
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+<div class="add-panel" [hidden]="!tabIndex">
+    <app-material-form  [(value)]="editData" [courseItems]="courseItems" (valueChange)="tapSelected($event)"></app-material-form>
+</div>

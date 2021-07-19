@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as marked from 'marked';
+import { FileUploadService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 import { IEditor, IEditorRange, IImageUploadEvent } from '../model';
 
@@ -28,6 +29,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     public value = '';
     public isPreview = false;
     public previewValue: SafeHtml;
+    public imageName = this.uploadService.uniqueGuid();
 
     private range: IEditorRange;
 
@@ -36,6 +38,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
     constructor(
         private sanitizer: DomSanitizer,
+        private uploadService: FileUploadService,
     ) { }
 
     get size() {

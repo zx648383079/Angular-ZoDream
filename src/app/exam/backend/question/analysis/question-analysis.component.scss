@@ -1,0 +1,21 @@
+.edit-row {
+    display: flex;
+    .content {
+        flex: 1;
+    }
+    .edit-action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 5em;
+    }
+}
+.add-btn {
+    display: inline-flex;
+    width: 2.5em;
+    height: 2.5em;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5em;
+    border: 1px solid #ccc;
+}

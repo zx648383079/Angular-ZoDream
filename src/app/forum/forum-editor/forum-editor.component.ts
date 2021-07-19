@@ -38,6 +38,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
         title: '',
         mode: 0,
     };
+    public uploadKey = this.uploadService.uniqueId();
 
     onChange: any = () => { };
     onTouch: any = () => { };

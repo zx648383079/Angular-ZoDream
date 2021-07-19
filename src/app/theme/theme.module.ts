@@ -97,7 +97,6 @@ const PIPES = [
 
 const SERVICES = [
     AuthService,
-    FileUploadService,
     DateAdapter,
     CookieService,
     DownloadService,
@@ -146,6 +145,7 @@ export class ThemeModule {
             providers: [
                 SearchService,
                 ThemeService,
+                FileUploadService,
             ]
         };
     }

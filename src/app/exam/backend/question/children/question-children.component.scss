@@ -1,0 +1,27 @@
+.add-btn {
+    display: inline-flex;
+    width: 2.5em;
+    height: 2.5em;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5em;
+    border: 1px solid #ccc;
+}
+.item-panel {
+    position: relative;
+    box-shadow: inset 0 0 5px #ccc;
+    padding: .8em;
+    .iconfont {
+        position: absolute;
+        right: -.6px;
+        top: -.6em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2em;
+        height: 2em;
+        background-color: red;
+        color: #fff;
+        border-radius: 50%;
+    }
+}

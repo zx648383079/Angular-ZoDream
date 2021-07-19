@@ -1,0 +1,21 @@
+.add-btn {
+    display: inline-flex;
+    width: 2.5em;
+    height: 2.5em;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5em;
+    border: 1px solid #ccc;
+}
+.option-item {
+    .option-value {
+        display: inline-block;
+    }
+    .form-control {
+        display: inline-block;
+        width: auto;
+    }
+    select {
+        min-width: 3em;
+    }
+}

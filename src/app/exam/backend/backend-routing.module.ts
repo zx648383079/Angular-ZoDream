@@ -8,12 +8,17 @@ import {
 import { CourseComponent } from './course/course.component';
 import { CourseGradeComponent } from './course/grade/course-grade.component';
 import { ExamBackendComponent } from './exam-backend.component';
+import { MaterialFormComponent } from './material/form/material-form.component';
 import { MaterialComponent } from './material/material.component';
 import { MaterialPanelComponent } from './material/panel/material-panel.component';
 import { EditPageComponent } from './page/edit/edit-page.component';
 import { EvaluateComponent } from './page/evaluate/evaluate.component';
 import { PageComponent } from './page/page.component';
+import { QuestionAnalysisComponent } from './question/analysis/question-analysis.component';
+import { QuestionChildrenComponent } from './question/children/question-children.component';
 import { EditQuestionComponent } from './question/edit/edit-question.component';
+import { QuestionOptionComponent } from './question/option/question-option.component';
+import { QuestionMinComponent } from './question/question-min/question-min.component';
 import { QuestionComponent } from './question/question.component';
 import { EditUpgradeComponent } from './upgrade/edit/edit-upgrade.component';
 import { UpgradeLogComponent } from './upgrade/log/upgrade-log.component';
@@ -89,5 +94,6 @@ const routes: Routes = [
 export class ExamBackendRoutingModule {}
 
 export const examBackendRoutedComponents = [
-    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent, UpgradeLogComponent
+    ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent, UpgradeLogComponent,
+    MaterialFormComponent, QuestionAnalysisComponent, QuestionChildrenComponent, QuestionOptionComponent, QuestionMinComponent
 ];

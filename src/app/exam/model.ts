@@ -23,6 +23,7 @@ export interface IQuestion {
     option?: IQuestionOption[];
     score?: number;
     editable?: boolean;
+    children?: IQuestion[];
 }
 
 export interface IQuestionMaterial {
@@ -32,6 +33,7 @@ export interface IQuestionMaterial {
     description: string;
     type: number;
     content: string;
+    question_count?: number;
 }
 
 export interface IQuestionAnalysis {

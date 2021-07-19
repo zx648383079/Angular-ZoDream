@@ -22,6 +22,7 @@ export class QuestionComponent implements OnInit {
         per_page: 20,
         keywords: '',
         course: 0,
+        material: 0,
     };
     public courseItems: ICourse[] = [];
 

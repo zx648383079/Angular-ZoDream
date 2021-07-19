@@ -58,15 +58,3 @@ a {
     }
 }
 
-.edit-row {
-    display: flex;
-    .content {
-        flex: 1;
-    }
-    .edit-action {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 5em;
-    }
-}

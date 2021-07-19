@@ -24,8 +24,16 @@ export class MaterialPanelComponent implements OnInit {
     };
     @Input() public courseItems: ICourse[] = [];
     public typeItems = ['文本', '音频', '视频'];
+    public tabIndex = false;
     @Input() public value: IQuestionMaterial;
     @Output() public valueChange = new EventEmitter<IQuestionMaterial>();
+    public editData: IQuestionMaterial = {
+        title: '',
+        course_id: 0,
+        description: '',
+        type: 0,
+        content: '',
+    };
 
     constructor(
         private service: ExamService,
@@ -37,6 +45,10 @@ export class MaterialPanelComponent implements OnInit {
 
     public tapSelected(item: IQuestionMaterial) {
         this.valueChange.emit(this.value = item);
+    }
+
+    public tapAdd() {
+        this.tabIndex = !this.tabIndex;
     }
 
     public tapRefresh() {
@@ -71,6 +83,7 @@ export class MaterialPanelComponent implements OnInit {
     public tapSearch(form: any) {
         this.queries = getQueries(form, this.queries);
         this.tapRefresh();
+        this.tabIndex = false;
     }
 
 }

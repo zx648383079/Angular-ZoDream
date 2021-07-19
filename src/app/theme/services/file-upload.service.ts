@@ -5,10 +5,25 @@ import { IPage } from '../models/page';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FileUploadService {
 
+    static guid = 0;
+
     constructor(private http: HttpClient) {
+    }
+
+    public uniqueId(): number {
+        if (FileUploadService.guid > 100000) {
+            FileUploadService.guid = 0;
+        }
+        return ++ FileUploadService.guid;
+    }
+
+    public uniqueGuid(): string {
+        return 'zre_file_' + this.uniqueId();
     }
 
     /**

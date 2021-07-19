@@ -64,7 +64,7 @@
         <div class="input-group">
             <label for="content">内容<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'content')"></i></label>
             <div>
-                <textarea id="content" class="form-control" formControlName="content" (change)="onTypeChange()"></textarea>
+                <app-exam-editor formControlName="content" (ngModelChange)="onTypeChange()"></app-exam-editor>
             </div>
         </div>
         <div class="input-group">
@@ -129,7 +129,7 @@
                     <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“@1+@2*3”等公式，填空题为一行一个</div>
                 </div>
             </div>
-            <div class="input-group" *ngIf="typeValue >= 4">
+            <div class="input-group" *ngIf="typeValue == 4">
                 <label for="answer">答案</label>
                 <div>
                     <div>
@@ -150,31 +150,15 @@
                     <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“@1+@2*3”等公式</div>
                 </div>
             </div>
+            <ng-container *ngIf="typeValue == 5">
+                <div>子题目</div>
+                <app-question-children [(value)]="childrenItems"></app-question-children>
+            </ng-container>
+            
             <div class="input-group">
                 <label for="analysis">解析</label>
                 <div>
-                    <ng-container *ngFor="let item of analysisItems; let i = index">
-                      <div class="edit-row">
-                        <div class="content">
-                            <ng-container *ngIf="item.type < 1">
-                                <textarea class="form-control" [value]="item.content" readonly></textarea>
-                              </ng-container>
-                              <ng-container *ngIf="item.type == 1">
-                                <app-audio-player [src]="item.content"></app-audio-player>
-                              </ng-container>
-                              <ng-container *ngIf="item.type == 2">
-                                <app-video-player [src]="item.content"></app-video-player>
-                              </ng-container>
-                        </div>
-                        <div class="edit-action">
-                            <i class="iconfont icon-edit" (click)="tapEditAnalysis(analysisModal, i)"></i>
-                            <i class="iconfont icon-close" (click)="tapRemoveAnalysis(i)"></i>
-                        </div>
-                      </div>
-                    </ng-container>
-                    <a class="add-btn" (click)="tapEditAnalysis(analysisModal)">
-                        <i class="iconfont icon-plus"></i>
-                    </a>
+                    <app-question-analysis [(value)]="analysisItems"></app-question-analysis>
                 </div>
             </div>
         </div>
@@ -189,22 +173,7 @@
     <i class="iconfont icon-close dialog-close" (click)="materialModal.close(false)"></i>
     <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected"></app-material-panel>
 </app-dialog-box>
-<app-dialog-box #analysisModal>
-    <div class="form-group">
-        <label>内容类型</label>
-        <select class="form-control" [(ngModel)]="analysisData.type">
-            <ng-container *ngFor="let item of analysisTypeItems;let i = index">
-                <option [value]="i">{{ item }}</option>
-            </ng-container>
-        </select>
-    </div>
-    <ng-container *ngIf="analysisData.type < 1">
-        <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
-    </ng-container>
-    <ng-container *ngIf="analysisData.type > 0">
-        <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
-    </ng-container>
-</app-dialog-box>
+
 <app-dialog-box #sameModal title="相似题目" [buttonVisible]="false">
     <table class="table table-hover">
         <thead>

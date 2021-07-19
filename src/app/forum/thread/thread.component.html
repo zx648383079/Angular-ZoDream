@@ -98,6 +98,7 @@
                             </div>
                         </div>
                         <div class="content">
+                            <div class="stamp" *ngIf="item.status == 2">Done</div>
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">

@@ -17,7 +17,6 @@ import { FileOnlineComponent } from '../file-online/file-online.component';
 })
 export class FileInputComponent implements ControlValueAccessor {
 
-    private static guid = 0;
     @Input() public accept = 'image/*';
     @Input() public placeholder = '请选择文件';
     /**
@@ -25,11 +24,10 @@ export class FileInputComponent implements ControlValueAccessor {
      */
     @Input() public online = false;
 
-    public uniqueId = ++ FileInputComponent.guid;
-
     public value: string;
     public disabled = false;
     public isLoading = false;
+    public fileName = this.uploadService.uniqueGuid();
 
     onChange: any = () => {};
     onTouch: any = () => {};

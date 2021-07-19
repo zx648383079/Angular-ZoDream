@@ -63,6 +63,7 @@ export interface IThreadPost {
     deleteable?: boolean;
     is_public_post?: boolean;
     html?: any;
+    status?: number;
 }
 
 export interface IForumClassify {

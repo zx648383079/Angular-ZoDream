@@ -142,6 +142,24 @@
     line-height: 2.5rem;
 }
 
+
+.stamp {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: rotate(30deg);
+    color: rgba($color: #ccc, $alpha: .4);
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    transition: transform 2s;
+}
+
 .action-btn {
     display: inline-flex;
     width: 2.5em;

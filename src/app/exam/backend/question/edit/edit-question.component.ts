@@ -5,7 +5,7 @@ import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../dial
 import { ButtonEvent } from '../../../../form';
 import { IItem } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
-import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial } from '../../../model';
+import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, IQuestionOption } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
@@ -33,16 +33,13 @@ export class EditQuestionComponent implements OnInit {
     public data: IQuestion;
     public courseItems: ICourse[] = [];
     public gradeItems: IItem[] = [];
-    public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
+    public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题', '大题目'];
     public material: IQuestionMaterial;
     public materialSelected: IQuestionMaterial;
     public analysisItems: IQuestionAnalysis[] = [];
-    public analysisTypeItems = ['文本', '音频', '视频'];
     public optionTypeItems = ['文字', '图片'];
-    public analysisData: IQuestionAnalysis = {
-        type: 0,
-        content: '',
-    };
+    public childrenItems: IQuestion[] = [];
+
     public sameItems: IQuestion[] = [];
     public previewData = '';
 
@@ -142,10 +139,14 @@ export class EditQuestionComponent implements OnInit {
     }
 
     public onTypeChange() {
-        if (this.typeValue < 4) {
+        if (this.typeValue != 4) {
             return;
         }
-        const matches = (this.form.get('content').value as string).match(/_{3,}/g);
+        const content = this.form.get('content').value as string;
+        if (!content) {
+            return;
+        }
+        const matches = content.match(/_{3,}/g);
         if (!matches || matches.length < 1) {
             return;
         }
@@ -156,23 +157,6 @@ export class EditQuestionComponent implements OnInit {
         for (; diff > 0; diff--) {
             this.tapAddItem();
         }
-    }
-
-    public tapEditAnalysis(modal: DialogBoxComponent, i = -1) {
-        this.analysisData.type = i >= 0 ? this.analysisItems[i].type : 0;
-        this.analysisData.content = i >= 0 ? this.analysisItems[i].content : '';
-        modal.open(() => {
-            if (i >= 0) {
-                this.analysisItems[i].type = this.analysisData.type;
-                this.analysisItems[i].content = this.analysisData.content;
-                return;
-            }
-            this.analysisItems.push({...this.analysisData});
-        }, () => !emptyValidate(this.analysisData.content), i >= 0 ? '编辑解析' : '新增解析');
-    }
-
-    public tapRemoveAnalysis(i: number) {
-        this.analysisItems.splice(i, 1);
     }
 
     public tapMaterial(modal: DialogBoxComponent) {
@@ -201,6 +185,10 @@ export class EditQuestionComponent implements OnInit {
         }
         data.analysis_items = this.analysisItems;
         data.material_id = this.material ? this.material.id : 0;
+        data.material = data.material_id > 0 ? undefined : this.material;
+        if (data.type == 5) {
+            data.children = this.childrenItems;
+        }
         e?.enter();
         this.service.questionSave(data).subscribe({
             next: _ => {

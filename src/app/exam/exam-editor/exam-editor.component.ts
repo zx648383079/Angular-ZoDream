@@ -26,6 +26,7 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     public value = '';
     public isPreview = false;
     public previewValue = '';
+    public fileName = this.uploadService.uniqueGuid();
 
     private range: IEditorRange;
 
