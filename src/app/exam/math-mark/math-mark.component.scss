@@ -3,6 +3,10 @@
 }
 .math-mark-bar {
     display: inline-block;
+    img {
+        max-width: 100%;
+        max-height: 50vh;
+    }
 }
 .form-control {
     display: inline-block;

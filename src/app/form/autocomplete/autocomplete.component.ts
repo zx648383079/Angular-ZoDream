@@ -1,5 +1,4 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { hasElementByClass } from '../../theme/utils';
 
 const MailSuffixMap = [
@@ -64,7 +63,8 @@ export class AutocompleteComponent implements OnChanges, OnInit {
             if (this.realValue(changes.value.currentValue) !== this.realValue(changes.value.previousValue)) {
                 this.selectedIndex = -1;
                 this.refreshOption();
-
+            } else {
+                this.panelVisible = this.optionItems.indexOf(this.value) < 0;
             }
         }
     }
@@ -107,7 +107,4 @@ export class AutocompleteComponent implements OnChanges, OnInit {
         }
         this.optionItems = items;
     }
-
-
-
 }
