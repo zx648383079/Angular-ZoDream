@@ -4,11 +4,27 @@ import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
 
 export interface IMarkItem {
-    type: 'text'|'input'|'image'|'line'|'math';
+    type: 'text'|'input'|'image'|'line'|'math'|'table';
+    header?: ITableHeader[];
     content?: any;
     value?: string;
     rightValue?: string;
     size?: number;
+}
+
+interface ITableHeader {
+    text: string;
+    align: 'left'|'center'|'right';
+}
+
+interface ITableTd {
+    items: IMarkItem[];
+    align: 'left'|'center'|'right';
+}
+
+interface ITable {
+    header: ITableHeader[];
+    items: ITableTd[][];
 }
 
 export interface IMatchParserOption {
@@ -40,6 +56,14 @@ export class MathMarkParser {
             });
             text = '';
         };
+        const pushTable = () => {
+            const block = this.renderTable(reader);
+            if (!block) {
+                return;
+            }
+            items.push(block);
+        }
+        pushTable();
         while (reader.moveNext()) {
             const code = reader.current;
             if (code === '\n') {
@@ -47,6 +71,7 @@ export class MathMarkParser {
                 items.push({
                     type: 'line',
                 });
+                pushTable();
                 continue;
             }
             if ((!this.option.input || code !== '_') && code !== '!' && (!this.option.math || code !== '$')) {
@@ -133,8 +158,93 @@ export class MathMarkParser {
         reader.position = i;
         return {
             type: 'image',
-            content,
+            content: this.sanitizer.bypassSecurityTrustResourceUrl(content),
         };
+    }
+
+    private renderTable(reader: CharIterator): IMarkItem|undefined {
+        let old = reader.position;
+        let line = this.readLine(reader);
+        if (!line || line.indexOf('|', 1) < 0) {
+            reader.position = old;
+            return;
+        }
+        const header: ITableHeader[] = this.splitTr(line).map(i => {
+            return {
+                text: i,
+                align: 'left'
+            };
+        });
+        line = this.readLine(reader);
+        if (!line || !this.isTrAlign(line)) {
+            reader.position = old;
+            return;
+        }
+        this.splitTr(line).forEach((v, i) => {
+            if (header.length <= i) {
+                return;
+            }
+            header[i].align = this.formatAlign(v);
+        });
+        old = reader.position; 
+        const items: ITableTd[][] = [];
+        while (true) {
+            line = this.readLine(reader)
+            if (!line || line.indexOf('|', 1) < 0) {
+                reader.position = old;
+                break;
+            }
+            items.push(this.splitTr(line).map((text, i) => {
+                return {
+                    items: this.render(text),
+                    align: header.length > i ? header[i].align : 'left'
+                };
+            }));
+            old = reader.position;
+        }
+        return {
+            type: 'table',
+            header,
+            content: items
+        }
+    }
+
+    private formatAlign(line: string) {
+        const left = line.charAt(0) === ':';
+        const right = line.charAt(line.length - 1) === ':';
+        if (left) {
+            return right ? 'center' : 'left';
+        }
+        return right ? 'right' : 'left';
+    }
+
+    private isTrAlign(line: string): boolean {
+        return /^[\|\:-\s]{2,}$/.test(line);
+    }
+
+    private splitTr(line: string): string[] {
+        let start = 0;
+        let end = line.length;
+        if (line.charAt(0) === '|') {
+            start = 1;
+        }
+        if (line.charAt(end - 1) === '|') {
+            end --;
+        }
+        // TODO 当前只是简单的判断 | ,没有区分是否在公式中
+        return line.substring(start, end).split('|').map(i => i.trim());
+    }
+
+    private readLine(reader: CharIterator): string {
+        let line = '';
+        while (reader.moveNext()) {
+            const code = reader.current;
+            if (code === '\n') {
+                break;
+            }
+            line += code;
+        }
+        return line;
     }
 
     /**

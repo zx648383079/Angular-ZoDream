@@ -84,6 +84,11 @@ export class DiskComponent implements OnInit {
           name: '设置',
           icon: 'icon-cog',
           url: './system'
+      },
+      {
+          name: '返回前台',
+          icon: 'icon-desktop',
+          url: '/',
       }
   ];
 

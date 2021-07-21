@@ -136,6 +136,10 @@ export class DetailComponent implements OnInit {
                 }
                 this.data = res.data;
                 this.toastrService.success(res.message);
+                this.toastrService.notify({
+                    title: '提示',
+                    content: res.message
+                });
                 this.progressor.stop();
                 if (this.data.amount < 1) {
                     history.back();

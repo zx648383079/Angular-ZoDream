@@ -19,17 +19,11 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
 
     @ViewChild('playerVideo')
     private videoElement: ElementRef;
-
     private audioElement: HTMLAudioElement;
-
     private videoPlayer: VideoJsPlayer;
-
     public progress = 0;
-
     public volume = 100;
-
     public isPlaying = false;
-
     public file: IFile = {
         name: '未知',
         thumb: 'http://zodream.localhost/assets/images/favicon.png',
@@ -37,6 +31,7 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
 
     @Output() public nextFile = new EventEmitter();
     @Output() public previousFile = new EventEmitter();
+    @Output() public closed = new EventEmitter();
 
     constructor() {}
 
@@ -97,9 +92,12 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public tapStop() {
+    public tapStop(emit = true) {
         this.isPlaying = false;
         this.stop();
+        if (emit) {
+            this.closed.emit();
+        }
     }
 
     public tapPrevious() {
@@ -113,7 +111,7 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
     public play(file?: IFile) {
         this.isPlaying = true;
         if (file) {
-            this.tapStop();
+            this.tapStop(false);
             this.file = file;
         }
         if (this.file.type === 'image') {
@@ -130,7 +128,7 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
             if (file) {
                 this.video.src({
                     src: this.file.url,
-                    type: 'application/x-mpegURL'
+                    type: this.file.url.indexOf('m3u8') > 0 ?  'application/x-mpegURL' : 'video/mp4'
                 });
                 if (this.file.subtitles && this.file.subtitles.length > 0) {
                     const subtitle = this.file.subtitles[0];
@@ -160,10 +158,9 @@ export class MediaPlayerComponent implements OnInit, AfterViewInit {
     public stop() {
         if (this.file.type === 'music') {
             this.audio.src = '';
-            return;
         }
         if (this.file.type === 'movie') {
-            this.video.src('');
+            this.video.reset();
         }
     }
 

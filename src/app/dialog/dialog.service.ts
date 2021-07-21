@@ -4,7 +4,7 @@ import { IErrorResponse, IErrorResult } from '../theme/models/page';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
 import { DialogMessageComponent } from './message/dialog-message.component';
-import { DialogConfirmOption, DialogMessageOption, DialogTipOption } from './model';
+import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption } from './model';
 
 interface IDialogRef {
     id: any;
@@ -85,6 +85,18 @@ export class DialogService {
 
     private createMessage(option: DialogMessageOption) {
         this.createDailog(DialogMessageComponent, option);
+    }
+
+    public notify(option: DialogNotifyOption) {
+        Notification.requestPermission().then(permission => {
+            if (permission !== 'granted') {
+                return;
+            }
+            new Notification(option.title, {
+                body: option.content,
+                icon: option.icon,
+            })
+        });
     }
 
     public remove(id: any) {

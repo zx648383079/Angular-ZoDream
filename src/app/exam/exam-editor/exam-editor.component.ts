@@ -97,7 +97,7 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             return;
         }
         if (name === 'math') {
-            return this.insert('$$', 1, true);
+            return this.insertMath();
         }
         if (name === 'link') {
             return this.insert('[](https://)', 1, true);
@@ -215,6 +215,16 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     }
     setDisabledState?(isDisabled: boolean): void {
         this.disable = isDisabled;
+    }
+
+    private insertMath() {
+        if (!this.range || this.range.start === this.range.end) {
+            this.insert('$$', 1, true);
+            return;
+        }
+        this.replace(val => {
+            return '$' + val + '$';
+        });
     }
 
     private enterPreview() {
