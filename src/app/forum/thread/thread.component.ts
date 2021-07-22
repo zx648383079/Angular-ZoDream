@@ -31,7 +31,7 @@ import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
 import { DownloadService } from '../../theme/services';
 import { openLink } from '../../theme/deeplink';
-import { eachObject } from '../../theme/utils';
+import { eachObject, mapFormat } from '../../theme/utils';
 import { emailValidate } from '../../theme/validators';
 import { DialogBoxComponent } from '../../dialog';
 import { ButtonEvent } from '../../form';
@@ -65,6 +65,10 @@ export class ThreadComponent implements OnInit {
     public editData: any = {};
     public rewardData = {
         amount: 10,
+    };
+    public statusData = {
+        items: ['无', '已阅', 'Done'],
+        selected: 0,
     };
 
     constructor(
@@ -198,6 +202,25 @@ export class ThreadComponent implements OnInit {
             });
             return;
         }
+    }
+
+    public formatStatus(item: IThreadPost) {
+        return mapFormat(item.status || 0, this.statusData.items);
+    }
+
+    public tapChange(modal: DialogEvent, item: IThreadPost) {
+        if (!this.thread.editable) {
+            return;
+        }
+        this.statusData.selected = item.status || 0;
+        modal.open(() => {
+            this.service.postChange({
+                id: item.id,
+                status: this.statusData.selected
+            }).subscribe(res => {
+                item.status = res.status;
+            });
+        });
     }
 
     public tapReply(item: IThreadPost) {

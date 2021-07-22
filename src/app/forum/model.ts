@@ -36,6 +36,7 @@ export interface IThread {
     forum_id: number;
     forum?: IForum;
     path?: IForum[];
+    editable?: boolean;
     digestable?: boolean;
     highlightable?: boolean;
     closeable?: boolean;

@@ -70,6 +70,10 @@ export class ForumService {
         return this.http.delete<IDataOne<boolean>>('forum/thread/remove_post', {params: {id}});
     }
 
+    public postChange(data: any) {
+        return this.http.post<IThreadPost>('forum/thread/change_post', data);
+    }
+
     public postDo(data: any) {
         return this.http.post<IDataOne<{
             id: number;

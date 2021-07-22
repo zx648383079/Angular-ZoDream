@@ -37,34 +37,8 @@
         </div>
     </div>
     <div class="fixed-icon">
-        <i class="iconfont icon-comments" (click)="panelOpen = true"></i>
+        <i class="iconfont icon-comments" (click)="panel.open()"></i>
     </div>
 </div>
 
-<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
-    <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
-    </div>
-    <div class="panel-search">
-        <input type="text" [(ngModel)]="comment" (keypress)="commentEnter($event)">
-        <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
-        <label for="file-upload" class="file-btn">
-            <i class="iconfont icon-upload"></i>
-            <input type="file" name="file" id="file-upload" (change)="uploadFile($event)" accept="image/*"/>
-        </label>
-    </div>
-    <div class="panel-body">
-        <div class="comment-item" *ngFor="let item of commentItems">
-            <div class="content">
-                <ng-container *ngIf="item.type == 1; else elseTemplate">
-                    <img [src]="item.content" alt="">
-                </ng-container>
-                <ng-template #elseTemplate>
-                    {{ item.content }}
-                </ng-template>
-                
-            </div>
-            <div class="time">{{ item.created_at }}</div>
-        </div>
-    </div>
-</div>
+<app-comment-panel #panel [itemId]="current?.id"></app-comment-panel>

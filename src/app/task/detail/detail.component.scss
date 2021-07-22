@@ -72,21 +72,6 @@
     }
 }
 
-.comment-item {
-    background-color: white;
-    margin: 10px 0;
-    padding: 5px;
-    .time {
-        font-size: 12px;
-        color: #ccc;
-    }
-    .content {
-        img {
-            max-width: 100%;
-        }
-    }
-}
-
 .fixed-icon {
     position: absolute;
     top: 20px;
@@ -94,18 +79,7 @@
     font-size: 30px;
 }
 
-.file-btn {
-    display: inline-block;
-    cursor: pointer;
-    margin-bottom: 0;
-    height: 40px;
-    input[type='file'] {
-        width: 0;
-        height: 0;
-        overflow: hidden;
-        flex: none;
-    }
-}
+
 
 .on-running {
     .fixed-icon,

@@ -6,10 +6,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog';
 import { CircleProgressComponent } from '../../theme/components';
-import { PanelAnimation } from '../../theme/constants/panel-animation';
 import {
     ITask,
-    ITaskComment,
     ITaskDay
 } from '../model';
 import { TaskService } from '../task.service';
@@ -17,10 +15,7 @@ import { TaskService } from '../task.service';
 @Component({
     selector: 'app-detail',
     templateUrl: './detail.component.html',
-    styleUrls: ['./detail.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
 
@@ -31,14 +26,8 @@ export class DetailComponent implements OnInit {
 
     public data: ITaskDay;
     public current: ITask;
-
     public items: ITask[] = [];
-
     public expanded = false;
-
-    public panelOpen = false;
-    public commentItems: ITaskComment[] = [];
-    public comment = '';
 
     constructor(
         private service: TaskService,
@@ -58,7 +47,6 @@ export class DetailComponent implements OnInit {
                 if (res.task && res.task.children) {
                     this.items = res.task.children;
                 }
-                this.refreshComment();
                 if (res.log && res.status === 9) {
                     this.maxProgress = res.task.every_time * 60;
                     this.progress = res.log?.time;
@@ -144,57 +132,6 @@ export class DetailComponent implements OnInit {
                 if (this.data.amount < 1) {
                     history.back();
                 }
-            },
-            error: err => {
-                this.toastrService.error(err);
-            }
-        });
-    }
-
-    public refreshComment() {
-        this.service.commentList({
-            task_id: this.data.task_id
-        }).subscribe(res => {
-            this.commentItems = res.data;
-        });
-    }
-
-    public commentEnter(event: KeyboardEvent) {
-        if (event.key !== 'Enter') {
-            return;
-        }
-        this.tapComment();
-    }
-
-    public tapComment() {
-        if (!this.comment) {
-            this.toastrService.warning('请输入内容');
-            return;
-        }
-        this.service.commenSave({
-            task_id: this.current.id,
-            content: this.comment
-        }).subscribe({
-            next: _ => {
-                this.comment = '';
-                this.toastrService.success('评论成功');
-                this.refreshComment();
-            },
-            error: err => {
-                this.toastrService.error(err);
-            }
-        });
-    }
-
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        const form = new FormData();
-        form.append('task_id', this.current.id.toString());
-        form.append('file', files[0], files[0].name);
-        this.service.commenSave(form).subscribe({
-            next: _ => {
-                this.toastrService.success('评论成功');
-                this.refreshComment();
             },
             error: err => {
                 this.toastrService.error(err);

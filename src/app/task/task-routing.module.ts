@@ -12,6 +12,7 @@ import { MyShareComponent } from './share/my/my-share.component';
 import { ShareComponent } from './share/share.component';
 import { TaskComponent } from './task.component';
 import { HourPipe } from './hour.pipe';
+import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 
 const routes: Routes = [
     {
@@ -75,6 +76,6 @@ export class TaskRoutingModule { }
 export const taskRoutingComponents = [
     TaskComponent, DetailComponent, EditComponent, ListComponent,
     HomeComponent, SettingComponent, ReviewComponent, RecordComponent, ShareDetailComponent, MyShareComponent, ShareComponent,
-
+    CommentPanelComponent,
     HourPipe,
 ];

@@ -101,10 +101,10 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
             return;
         }
         if (name === 'code') {
-            return this.insert('```js\n\n```', 6, true);
+            return this.insertOrInclude('```js\n\n```', 6);
         }
         if (name === 'link') {
-            return this.insert('[](https://)', 1, true);
+            return this.parseSelectionLink();
         }
     }
 
@@ -120,7 +120,24 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
         return this.insert('    ', 4, true);
     }
 
-    public insert(val: string, move: number = 0, focus: boolean = true) {
+    /**
+        是否有选择字符串
+     */
+    public get hasSelection() {
+        return this.range && this.range.start < this.range.end;
+    }
+
+    public insertOrInclude(val: string, move = 0) {
+        if (!this.hasSelection) {
+            this.insert(val, move);
+            return;
+        }
+        this.replace(v => {
+            return val.substr(0, move) + v + val.substr(move);
+        }, move);
+    }
+
+    public insert(val: string, move = 0, focus: boolean = true) {
         this.checkRange();
         this.setContent(this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start))
         this.move(move);
@@ -229,6 +246,16 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
             marked(this.value)
         );
         this.isPreview = true;
+    }
+
+    private parseSelectionLink() {
+        if (!this.hasSelection) {
+            this.insert('[](https://)', 1, true);
+            return;
+        }
+        this.replace(v => {
+            return '[](' + v + ')';
+        }, 1);
     }
 
 }

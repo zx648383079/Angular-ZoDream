@@ -98,11 +98,12 @@
                             </div>
                         </div>
                         <div class="content">
-                            <div class="stamp" *ngIf="item.status == 2">Done</div>
+                            <div class="stamp" *ngIf="item.status > 0">{{ formatStatus(item) }}</div>
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">
                             <a *ngIf="user && item.is_public_post" (click)="tapReply(item)">回复</a>
+                            <a *ngIf="thread.editable" (click)="tapChange(statusModal, item)">编辑</a>
                             <a *ngIf="item.deleteable" (click)="tapRemove(item)">删除</a>
                         </div>
                     </div>
@@ -173,4 +174,8 @@
             <input type="number" class="form-control" [(ngModel)]="rewardData.amount">
         </div>
     </div>
+</app-dialog-box>
+
+<app-dialog-box #statusModal [scrollable]="false" title="修改状态">
+    <app-check-input [items]="statusData.items" [rangeKey]="1"[(ngModel)]="statusData.selected"></app-check-input>
 </app-dialog-box>
