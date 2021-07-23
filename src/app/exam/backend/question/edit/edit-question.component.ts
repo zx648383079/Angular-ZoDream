@@ -71,7 +71,7 @@ export class EditQuestionComponent implements OnInit {
                     easiness: res.easiness,
                     content: res.content,
                     dynamic: res.dynamic,
-                    answer: res.analysis,
+                    answer: res.answer,
                 });
                 if (res.material) {
                     this.material = res.material;
