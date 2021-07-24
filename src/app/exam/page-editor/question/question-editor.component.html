@@ -1,0 +1,80 @@
+<div class="question-editor">
+    <div class="editor-tool-bar">
+        <div class="tool-item">
+            <div class="score-input">
+                <input type="text" class="form-control btn-info" [(ngModel)]="score" placeholder="分数" maxLength="2" (ngModelChange)="onValueChange()">
+            </div>
+        </div>
+        <div class="tool-item">
+            <div class="analysis-input btn-success" *ngIf="canEdit" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
+                <i class="iconfont icon-key"></i>
+            </div>
+        </div>
+        <div class="tool-item" *ngIf="canEdit">
+            <div class="drop-icon btn-primary" (click)="typeOpen = !typeOpen">
+                <i class="iconfont icon-exchange"></i>
+            </div>
+            <ul class="drop-body" [hidden]="!typeOpen">
+                <ng-container *ngFor="let item of typeItems;let i = index">
+                    <li [ngClass]="{active: i == value.type}" (click)="tapType(i)">{{ item }}</li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+    <div class="editor-header">
+        <div class="title">
+            <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="content" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
+        </div>
+        <div class="material">
+            <ng-container *ngIf="materialType < 1 && materialFile">
+                <img [src]="materialFile">
+            </ng-container>
+            <ng-container *ngIf="materialType == 1 && materialFile">
+                <app-audio-player [src]="materialFile"></app-audio-player>
+            </ng-container>
+            <ng-container *ngIf="materialType == 2 && materialFile">
+                <app-video-player [src]="materialFile"></app-video-player>
+            </ng-container>
+            <label for="upload-input" class="add-btn" title="上传图片/视频/音频" *ngIf="canEdit">
+                <i class="iconfont icon-upload"></i>
+                <input type="file" id="upload-input" accept="image/*,audio/*,video/*" (change)="uploadFile($event)">
+            </label>
+            <div class="add-btn btn-danger" *ngIf="materialFile && canEdit" title="删除素材" (click)="tapRemoveMaterial()">
+                <i class="iconfont icon-trash"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-option">
+       <ng-container *ngIf="value.type == 2">
+           <app-bool-input [(value)]="value.answer" (valueChange)="onValueChange()" [editable]="canEdit"></app-bool-input>
+       </ng-container>
+       <ng-container *ngIf="!value.type || value.type < 2 || value.type == 4">
+           <app-option-input [(value)]="optionItems" (valueChange)="onValueChange()" [editable]="canEdit"></app-option-input>
+       </ng-container>
+       <ng-container *ngIf="value.type == 3">
+            <textarea class="form-control" placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
+       </ng-container>
+       <ng-container *ngIf="value.type == 5">
+            <app-question-children [(value)]="kidItems" (valueChange)="onValueChange()"></app-question-children>
+       </ng-container>
+       
+    </div>
+</div>
+
+<app-dialog-box #analysisModal title="管理题目解析">
+    <div class="form-group">
+        <label>内容类型</label>
+        <select class="form-control" [(ngModel)]="analysisData.type">
+            <ng-container *ngFor="let item of analysisTypeItems;let i = index">
+                <option [value]="i">{{ item }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <ng-container *ngIf="analysisData.type < 1">
+        <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
+    </ng-container>
+    <ng-container *ngIf="analysisData.type > 0">
+        <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
+    </ng-container>
+</app-dialog-box>

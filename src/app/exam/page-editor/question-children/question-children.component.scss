@@ -1,0 +1,7 @@
+@import '../option';
+@media (min-width: 769px) {
+    .option-item,
+    .empty-option {
+        width: 100%;
+    }
+}

@@ -1,63 +1,3 @@
-.question-editor {
-    background-color: #fff;
-    min-height: 60vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-.score-input {
-    position: absolute;
-    top: -1em;
-    right: -1em;
-    .form-control {
-        width: 2.5em;
-        height: 2.5em;
-        padding: .1em;
-        font-size: .8em;
-        text-align: center;
-        color: white;
-    }
-}
-.analysis-input {
-    position: absolute;
-    top: 2em;
-    right: -3em;
-    font-size: .8em;
-    padding: .3em;
-    border-radius: .3em;
-    cursor: pointer;
-}
-.editor-header {
-    flex: 1;
-    padding: .8em;
-    .material {
-        text-align: center;
-    }
-    .add-btn {
-        margin-top: .4em;
-    }
-}
-
-.editor-option {
-    position: relative;
-}
-
-.add-btn {
-    display: inline-flex;
-    width: 3em;
-    height: 3em;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
-    input[type='file'] {
-        width: 0;
-        height: 0;
-        overflow: hidden;
-    }
-}
-
 .option-item {
     display: flex;
     background-color: orange;
@@ -143,6 +83,22 @@
         background-color: red;
         color: #fff;
     }     
+}
+
+.add-btn {
+    display: inline-flex;
+    width: 3em;
+    height: 3em;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+    input[type='file'] {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
 }
 
 .empty-option {

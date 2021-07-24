@@ -1,20 +1,21 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContextMenuComponent } from '../../../context-menu';
-import { DialogEvent, DialogService } from '../../../dialog';
-import { ButtonEvent } from '../../../form';
-import { IItem } from '../../../theme/models/seo';
-import { mapFormat } from '../../../theme/utils';
-import { emptyValidate } from '../../../theme/validators';
-import { ExamService } from '../../exam.service';
-import { ICourse, IExamPage, IQuestion } from '../../model';
+import { ContextMenuComponent } from '../../context-menu';
+import { DialogEvent, DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
+import { IItem } from '../../theme/models/seo';
+import { mapFormat } from '../../theme/utils';
+import { emptyValidate } from '../../theme/validators';
+import { ExamService } from '../exam.service';
+import { ICourse, IExamPage, IQuestion, QuestionTypeItems } from '../model';
 
 @Component({
-  selector: 'app-edit-pager',
-  templateUrl: './edit-pager.component.html',
-  styleUrls: ['./edit-pager.component.scss']
+    selector: 'app-page-editor',
+    templateUrl: './page-editor.component.html',
+    styleUrls: ['./page-editor.component.scss']
 })
-export class EditPagerComponent implements OnInit {
+export class PageEditorComponent implements OnInit {
+
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
     @ViewChild('scrollBar')
@@ -60,7 +61,7 @@ export class EditPagerComponent implements OnInit {
     }
 
     public formatQuestionType(value: number) {
-        return mapFormat(value, ['单选题', '多选题', '判断题', '简答题', '填空题']);
+        return mapFormat(value, QuestionTypeItems);
     }
 
     public tapSubmit(e?: ButtonEvent) {
@@ -71,16 +72,7 @@ export class EditPagerComponent implements OnInit {
         const items = this.items.filter(i => {
             return !emptyValidate(i.title) && i.option_items.length > 0 || i.option_items.filter(j => j.is_right).length < 1;
         }).map(i => {
-            i.option_items = i.option_items.filter(j => !emptyValidate(j.content))
-            if (i.option_items.length == 1) {
-                i.type = 3;
-                i.answer = i.option_items[0].content;
-                i.option_items = [];
-            } else if (i.option_items.length == 2 && i.option_items[0].content === '对' && i.option_items[1].content === '错') {
-                i.type = 2;
-                i.answer = i.option_items[0].is_right ? 1 : 0;
-                i.option_items = [];
-            }
+            i.option_items = i.option_items?.filter(j => !emptyValidate(j.content))
             i.course_id = this.data.course_id;
             i.course_grade = this.data.course_grade;
             return i;

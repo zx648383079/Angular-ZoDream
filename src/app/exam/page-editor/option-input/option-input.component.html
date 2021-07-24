@@ -1,0 +1,39 @@
+<div *ngFor="let item of value;let i = index" class="option-item" (click)="tapEditOption(optionModal, i)">
+    <div class="item-action" (click)="tapSelected($event, i)">
+        <i class="iconfont" [ngClass]="{'icon-check': item.checked, 'icon-close': !item.checked}" title="标记当前选项是否正确"></i>
+    </div>
+    <div class="item-body">
+        <div class="item-text" *ngIf="item.type != 1">
+            {{ item.content }}
+        </div>
+        <div class="item-image" *ngIf="item.type == 1">
+            <img [src]="item.content">
+        </div>
+        <div class="flex-icon" *ngIf="editable">
+            <i class="iconfont icon-minus" (click)="tapRemoveOption($event, i)" title="删除此选项"></i>
+        </div>
+    </div>
+</div>
+
+<div class="empty-option" *ngIf="editable">
+    <div class="add-btn" (click)="tapEditOption(optionModal)">
+        <i class="iconfont icon-plus"></i>
+    </div>
+</div>
+
+<app-dialog-box #optionModal title="编辑选项" [scrollable]="false">
+    <div class="form-group">
+        <label>内容类型</label>
+        <app-check-input [items]="optionTypeItems" [(ngModel)]="optionData.type" [rangeKey]="1"></app-check-input>
+    </div>
+    <ng-container *ngIf="optionData.type < 1">
+        <textarea class="form-control" [(ngModel)]="optionData.content"></textarea>
+    </ng-container>
+    <ng-container *ngIf="optionData.type > 0">
+        <app-file-input [(ngModel)]="optionData.content"></app-file-input>
+    </ng-container>
+    <div class="form-group">
+        <label>是否正确</label>
+        <app-switch [(ngModel)]="optionData.checked"></app-switch>
+    </div>
+</app-dialog-box>

@@ -1,5 +1,7 @@
 import { IUser } from '../theme/models/user';
 
+export const QuestionTypeItems = ['单选题', '多选题', '判断题', '简答题', '填空题', '大题'];
+
 export interface IQuestion {
     id: number;
     title: string;
@@ -24,6 +26,7 @@ export interface IQuestion {
     score?: number;
     editable?: boolean;
     children?: IQuestion[];
+    parent?: IQuestion;
 }
 
 export interface IQuestionMaterial {

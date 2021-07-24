@@ -1,0 +1,10 @@
+<div *ngFor="let item of items;let i = index" class="option-item" (click)="tapSelected(item)">
+    <div class="item-action">
+        <i class="iconfont" [ngClass]="{'icon-check': item.value == value, 'icon-close': item.value != value}" title="标记当前选项是否正确"></i>
+    </div>
+    <div class="item-body">
+        <div class="item-text">
+            {{ item.name }}
+        </div>
+    </div>
+</div>

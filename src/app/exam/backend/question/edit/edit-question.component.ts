@@ -5,7 +5,7 @@ import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../dial
 import { ButtonEvent } from '../../../../form';
 import { IItem } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
-import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, IQuestionOption } from '../../../model';
+import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, IQuestionOption, QuestionTypeItems } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class EditQuestionComponent implements OnInit {
     public data: IQuestion;
     public courseItems: ICourse[] = [];
     public gradeItems: IItem[] = [];
-    public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题', '大题目'];
+    public typeItems = QuestionTypeItems;
     public material: IQuestionMaterial;
     public materialSelected: IQuestionMaterial;
     public analysisItems: IQuestionAnalysis[] = [];
@@ -83,6 +83,9 @@ export class EditQuestionComponent implements OnInit {
                 }
                 if (res.analysis_items) {
                     this.analysisItems = res.analysis_items;
+                }
+                if (res.children) {
+                    this.childrenItems = res.children;
                 }
             });
         });

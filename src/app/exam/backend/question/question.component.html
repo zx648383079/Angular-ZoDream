@@ -35,7 +35,12 @@
             <tbody>
                 <tr *ngFor="let item of items" [title]="item.created_at|ago">
                     <td>{{ item.id }}</td>
-                    <td>【{{ item.type | questionType }}】{{ item.title }}</td>
+                    <td>【
+                        <ng-container *ngIf="item.parent_id > 0">
+                            小题●
+                        </ng-container>
+                        
+                        {{ item.type | questionType }}】{{ item.title }}</td>
                     <td>{{ item.course?.name }}●{{ item.course_grade_format }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">

@@ -55,6 +55,13 @@ export interface DialogEvent {
      */
     open(confirm: () => void, check: DialogCheckFn, title: string): void;
     /**
+     * 为自定义事件
+     * @param data 
+     * @param confirm 
+     * @param check 
+     */
+    open<T>(data: T, confirm: (data: T) => void, check: (data: T) => boolean): void;
+    /**
      * 显示弹窗绑定自定义关闭事件
      */
     openCustom(): void;
@@ -69,5 +76,17 @@ export interface DialogEvent {
      * 绑定输入框事件，确认件关闭绑定input的确认按键事件
      * @param e 
      */
-    confirmClose(e: KeyboardEvent)
+    confirmClose(e: KeyboardEvent): void;
+}
+
+export interface CustomDialogEvent {
+    /**
+     * 为自定义事件
+     * @param data 
+     * @param confirm 
+     * @param check 
+     */
+    open<T>(data: T, confirm: (data: T) => void): void;
+    open<T>(data: T, confirm: (data: T) => void, check: (data: T) => boolean): void;
+    
 }

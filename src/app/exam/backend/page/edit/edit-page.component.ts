@@ -133,7 +133,8 @@ export class EditPageComponent implements OnInit {
             keywords: this.dialogData.keywords,
             course: this.dialogData.course,
             page: this.dialogData.page,
-            per_page: this.dialogData.perPage
+            per_page: this.dialogData.perPage,
+            filter: true,
         }).subscribe(res => {
             this.dialogData.items = res.data;
             this.dialogData.total = res.paging.total;

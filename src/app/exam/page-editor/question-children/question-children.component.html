@@ -1,0 +1,16 @@
+<div class="option-item" *ngFor="let item of value;let i = index" (click)="tapEdit(modal, i)">
+    <div class="item-body">
+        <div class="item-text">
+            {{ item.title }}
+        </div>
+        <div class="flex-icon" *ngIf="editable">
+            <i class="iconfont icon-minus" (click)="tapRemove($event, i)" title="删除此题目"></i>
+        </div>
+    </div>
+</div>
+<div class="empty-option" *ngIf="editable">
+    <div class="add-btn" (click)="tapEdit(modal)">
+        <i class="iconfont icon-plus"></i>
+    </div>
+</div>
+<app-question-dialog #modal></app-question-dialog>

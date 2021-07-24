@@ -20,8 +20,9 @@
                     <th>ID</th>
                     <th>称呼</th>
                     <th>邮箱</th>
-                    <th>联系方式</th>
+                    <th class="auto-hide">联系方式</th>
                     <th>状态</th>
+                    <th class="auto-hide">留言时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -32,10 +33,11 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.email }}
                         </td>
-                        <td>
+                        <td class="auto-hide">
                             {{ item.phone }}
                         </td>
                         <td>{{ item.status | status }}</td>
+                        <td class="auto-hide">{{ item.created_at | ago }}</td>
                         <td>
                             <div class="btn-group  btn-group-xs">
                                 <a class="btn btn-info btn-xs"
@@ -65,6 +67,10 @@
     <div class="line-item">
         <span class="label">联系方式：</span>
         <span class="value">{{ editData.phone }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">留言时间：</span>
+        <span class="value">{{ editData.created_at | ago }}</span>
     </div>
     <div class="line-item">
         <span class="label">反馈内容：</span>
