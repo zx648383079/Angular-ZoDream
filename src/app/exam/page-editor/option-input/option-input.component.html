@@ -1,6 +1,6 @@
 <div *ngFor="let item of value;let i = index" class="option-item" (click)="tapEditOption(optionModal, i)">
     <div class="item-action" (click)="tapSelected($event, i)">
-        <i class="iconfont" [ngClass]="{'icon-check': item.checked, 'icon-close': !item.checked}" title="标记当前选项是否正确"></i>
+        <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}" title="标记当前选项是否正确"></i>
     </div>
     <div class="item-body">
         <div class="item-text" *ngIf="item.type != 1">
@@ -34,6 +34,6 @@
     </ng-container>
     <div class="form-group">
         <label>是否正确</label>
-        <app-switch [(ngModel)]="optionData.checked"></app-switch>
+        <app-switch [(ngModel)]="optionData.is_right"></app-switch>
     </div>
 </app-dialog-box>

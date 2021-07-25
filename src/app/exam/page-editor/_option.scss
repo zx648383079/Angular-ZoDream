@@ -106,6 +106,74 @@
     padding: .4em;
 }
 
+.panel-tool-bar {
+    position: absolute;
+    right: -1em;
+    top: 0;
+    width: 2em;
+    ul,
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .tool-item {
+        display: flex;
+        margin-bottom: .4rem;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: .3rem;
+        font-size: .8rem;
+        &.active {
+            box-shadow: inset 1px 0 2px #ccc;
+        }
+    }
+    .tool-drop-item {
+        display: block;
+        margin-bottom: .4rem;
+    }
+    .drop-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: .3rem;
+    }
+    .form-control {
+        width: 2rem;
+        height: 2rem;
+        font-size: .8rem;
+        text-align: center;
+        color: white;
+        border-radius: .3rem;
+        padding: 0;
+    }
+    .drop-body {
+        position: absolute;
+        width: 6rem;
+        left: -6em;
+        // top: 0;
+        background-color: white;
+        z-index: 910;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+        user-select: none;
+        li {
+            line-height: 2rem;
+            text-align: center;
+            cursor: pointer;
+            &:hover {
+                background-color: #eee;
+            }
+            &.active {
+                background-color: #ccc;
+            }
+        }
+    }
+}
+
 @media (min-width: 769px) {
     .option-item {
         display: inline-flex;

@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { DialogEvent } from '../../../dialog';
 import { FileUploadService } from '../../../theme/services';
-import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionTypeItems } from '../../model';
+import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionDefaultOption, QuestionTypeItems } from '../../model';
+import { questionNeedOption } from '../../util';
 
 @Component({
   selector: 'app-question-editor',
@@ -13,12 +14,7 @@ export class QuestionEditorComponent implements OnChanges {
     @Input() public editable = true;
     @Input() public value: IQuestion;
 
-    public optionItems: any[] = [
-        {content: '对', checked: false},
-        {content: '错', checked: false}
-    ];
-    public content = '';
-    public score = '';
+    public optionItems: any[] = [...QuestionDefaultOption];
     public materialType = 0;
     public materialFile = '';
     public analysisItems: IQuestionAnalysis[] = [];
@@ -36,6 +32,7 @@ export class QuestionEditorComponent implements OnChanges {
     } as any;
     public typeItems = QuestionTypeItems;
     public typeOpen = false;
+    public extendOpen = false;
 
     @Output() public valueChange = new EventEmitter<IQuestion>();
 
@@ -61,6 +58,39 @@ export class QuestionEditorComponent implements OnChanges {
             return;
         }
         this.value.type = i;
+        if (i == 4) {
+            this.extendOpen = true;
+        }
+        this.onValueChange();
+    }
+
+    public onExtendChange() {
+        this.onTypeChange();
+        this.onValueChange();
+    }
+
+    private onTypeChange() {
+        if (this.value.type != 4) {
+            return;
+        }
+        const content = this.value.content;
+        const matches = content.match(/_{3,}/g);
+        if (!matches || matches.length < 1) {
+            return;
+        }
+        let diff = matches.length - this.optionItems.length;
+        if (diff < 1) {
+            return;
+        }
+        this.optionItems.forEach(i => {
+            i.is_right = true;
+        })
+        for (; diff > 0; diff--) {
+            this.optionItems.push({
+                content: '答案' + diff,
+                is_right: true,
+            });
+        }
     }
 
     public tapEditAnalysis(modal: DialogEvent) {
@@ -113,6 +143,7 @@ export class QuestionEditorComponent implements OnChanges {
     public tapRemoveMaterial() {
         this.materialFile = '';
         this.value.material_id = 0;
+        this.value.image = '';
         this.onValueChange();
     }
 
@@ -133,54 +164,46 @@ export class QuestionEditorComponent implements OnChanges {
     private output() {
         const value: IQuestion = {
             ...this.value,
-            title: this.content,
             material: undefined,
+            type: this.value.type || 0,
         } as any;
         if (this.materialFile) {
-            value.material = {
-                id: this.value.material_id,
-                type: this.materialType,
-                content: this.materialFile
-            } as any;
-        }
-        if (this.value.type < 2 || this.value.type == 3) {
-            value.option_items = this.optionItems.map(i => {
-                return {
-                    id: i.id,
-                    type: i.type,
-                    content: i.content,
-                    is_right: i.checked
+            if (this.materialType > 0) {
+                value.material = {
+                    id: this.value.material_id,
+                    type: this.materialType,
+                    content: this.materialFile
                 } as any;
-            });
+            } else {
+                value.image = this.materialFile;
+            }
         }
-        value.score = parseInt(this.score) || 0;
+        if (questionNeedOption(value)) {
+            value.option_items = this.optionItems;
+        }
+        if (value.type == 5) {
+            value.children = this.kidItems;
+        }
         value.analysis_items = this.analysisItems;
         this.valueChange.emit(this.value = value);
     }
 
     private formatValue(value?: IQuestion) {
-        const def = this.canEdit ? [{content: '对', checked: false},
-        {content: '错', checked: false}] : [];
+        const def = this.canEdit ? [...QuestionDefaultOption] : [];
         if (!value) {
-            this.content = '';
             this.materialFile = '';
             this.optionItems = def;
             this.analysisItems = [];
             this.kidItems = [];
             return;
         }
-        this.content = value.title;
-        this.score = value.score as any || '';
         this.materialType = value.material?.type || 0;
         this.materialFile = value.material?.content || '';
-        this.optionItems = value.option_items ? value.option_items.map(i => {
-            return {
-                id: i.id,
-                type: i.type,
-                content: i.content,
-                checked: i.is_right
-            };
-        }) : def;
+        if (!this.materialFile && value.image) {
+            this.materialType = 0;
+            this.materialFile = value.image;
+        }
+        this.optionItems = value.option_items ? value.option_items : def;
         this.analysisItems = value.analysis_items || [];
         this.kidItems = value.children || [];
     }

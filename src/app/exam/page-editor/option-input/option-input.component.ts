@@ -14,7 +14,7 @@ export class OptionInputComponent {
     public optionData: IQuestionOption = {
         type: 0,
         content: '',
-        checked: false,
+        is_right: false,
     } as any;
     public optionTypeItems = ['文字', '图片'];
 
@@ -26,7 +26,7 @@ export class OptionInputComponent {
             return;
         }
         const item = this.value[i];
-        item.checked = !item.checked;
+        item.is_right = !item.is_right;
         this.onValueChange();
     }
 
@@ -38,7 +38,6 @@ export class OptionInputComponent {
             type: 0,
             content: this.getNewOptionLabel(),
             is_right: false,
-            checked: false,
         } as any;
         modal.open(() => {
             if (i >= 0) {
@@ -69,7 +68,6 @@ export class OptionInputComponent {
         }
         this.value.push({
             content: this.getNewOptionLabel(),
-            checked: false,
             is_right: false,
         });
         this.onValueChange();

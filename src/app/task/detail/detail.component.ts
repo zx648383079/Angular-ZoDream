@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog';
-import { CircleProgressComponent } from '../../theme/components';
+import { SearchService } from '../../theme/services';
+import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
 import {
     ITask,
     ITaskDay
@@ -33,7 +34,8 @@ export class DetailComponent implements OnInit {
         private service: TaskService,
         private toastrService: DialogService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
@@ -48,6 +50,7 @@ export class DetailComponent implements OnInit {
                     this.items = res.task.children;
                 }
                 if (res.log && res.status === 9) {
+                    this.searchService.emit('toggle', 3);
                     this.maxProgress = res.task.every_time * 60;
                     this.progress = res.log?.time;
                     setTimeout(() => {
@@ -78,6 +81,7 @@ export class DetailComponent implements OnInit {
             child_id: this.current.id !== this.data.task_id ? this.current.id : 0,
         }).subscribe({
             next: res => {
+                this.searchService.emit('toggle', 3);
                 this.data = res;
                 this.maxProgress = res.task.every_time * 60;
                 this.progress = res.log?.time;
@@ -90,6 +94,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapPause() {
+        this.searchService.emit('toggle', 0);
         this.service.taskPause(this.data.id).subscribe({
             next: res => {
                 this.data = res;
@@ -102,6 +107,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapStop() {
+        this.searchService.emit('toggle', 0);
         this.service.taskStop(this.data.id).subscribe({
             next: res => {
                 this.data = res;
@@ -122,6 +128,7 @@ export class DetailComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
+                this.searchService.emit('toggle', 0);
                 this.data = res.data;
                 this.toastrService.success(res.message);
                 this.toastrService.notify({

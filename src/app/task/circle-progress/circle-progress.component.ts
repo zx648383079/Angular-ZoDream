@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { formatHour } from '../../utils';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { formatHour } from '../../theme/utils';
 
 @Component({
     selector: 'app-circle-progress',
@@ -58,6 +58,7 @@ export class CircleProgressComponent implements AfterViewInit {
         this.timer = window.setInterval(() => {
             const diff = Math.ceil((new Date().getTime() - this.startTime) / 1000);
             if (this.max > 0 && diff > this.max) {
+                this.computed();
                 this.stop();
                 return;
             }

@@ -8,6 +8,7 @@ import { mapFormat } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { ExamService } from '../exam.service';
 import { ICourse, IExamPage, IQuestion, QuestionTypeItems } from '../model';
+import { questionNeedOption } from '../util';
 
 @Component({
     selector: 'app-page-editor',
@@ -55,7 +56,16 @@ export class PageEditorComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             this.data.course_id = parseInt(params.course, 10);
-            this.onCourseChange();
+            if (!params.id) {
+                this.onCourseChange();
+                return;
+            }
+            this.service.page(params.id).subscribe(res => {
+                this.data = {...this.data, ...res};
+                this.items = res.rule_value as any;
+                this.onCourseChange();
+                this.tapEdit(0);
+            });
         });
         this.tapAdd();
     }
@@ -70,9 +80,15 @@ export class PageEditorComponent implements OnInit {
             return;
         }
         const items = this.items.filter(i => {
-            return !emptyValidate(i.title) && i.option_items.length > 0 || i.option_items.filter(j => j.is_right).length < 1;
+            if (emptyValidate(i.title)) {
+                return false;
+            }
+            if (!questionNeedOption(i)) {
+                return true;
+            }
+            return i.option_items && i.option_items.length > 0 && i.option_items.filter(j => j.is_right).length > 0;
         }).map(i => {
-            i.option_items = i.option_items?.filter(j => !emptyValidate(j.content))
+            i.option_items = i.option_items ? i.option_items?.filter(j => !emptyValidate(j.content)) : [];
             i.course_id = this.data.course_id;
             i.course_grade = this.data.course_grade;
             return i;
@@ -84,10 +100,11 @@ export class PageEditorComponent implements OnInit {
         e?.enter();
         this.service.pageSave({
             ...this.data,
+            rule_value: undefined,
             question_items: items
         }).subscribe({
             next: res => {
-                this.data = res;
+                this.data = {...this.data, ...res};
                 this.items = res.rule_value as any;
                 e?.reset();
                 this.toastrService.success('保存成功');
@@ -101,7 +118,9 @@ export class PageEditorComponent implements OnInit {
 
     public tapAdd() {
         this.editItem = {
+            title: '',
             content: '',
+            score: '',
         } as any;
         this.items.push(this.editItem);
         this.editIndex = this.items.length - 1;

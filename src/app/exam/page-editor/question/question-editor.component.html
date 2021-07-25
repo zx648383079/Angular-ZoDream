@@ -1,16 +1,15 @@
 <div class="question-editor">
-    <div class="editor-tool-bar">
-        <div class="tool-item">
-            <div class="score-input">
-                <input type="text" class="form-control btn-info" [(ngModel)]="score" placeholder="分数" maxLength="2" (ngModelChange)="onValueChange()">
-            </div>
+    <div class="panel-tool-bar editor-tool-bar">
+        <div class="tool-item" title="编辑分数">
+            <input type="text" class="form-control btn-info" [(ngModel)]="value.score" placeholder="分数" maxLength="2" (ngModelChange)="onValueChange()">
         </div>
-        <div class="tool-item">
-            <div class="analysis-input btn-success" *ngIf="canEdit" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
-                <i class="iconfont icon-key"></i>
-            </div>
+        <div class="tool-item btn-primary" [ngClass]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
+            <i class="iconfont icon-plus"></i>
         </div>
-        <div class="tool-item" *ngIf="canEdit">
+        <div class="tool-item btn-success" *ngIf="canEdit" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
+            <i class="iconfont icon-key"></i>
+        </div>
+        <div class="tool-drop-item" *ngIf="canEdit">
             <div class="drop-icon btn-primary" (click)="typeOpen = !typeOpen">
                 <i class="iconfont icon-exchange"></i>
             </div>
@@ -23,7 +22,7 @@
     </div>
     <div class="editor-header">
         <div class="title">
-            <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="content" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
+            <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="value.title" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
         </div>
         <div class="material">
             <ng-container *ngIf="materialType < 1 && materialFile">
@@ -43,6 +42,9 @@
                 <i class="iconfont icon-trash"></i>
             </div>
         </div>
+        <div class="content" [hidden]="!extendOpen">
+            <app-exam-editor placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()" [disabled]="!canEdit"></app-exam-editor>
+        </div>
     </div>
 
     <div class="editor-option">
@@ -53,7 +55,7 @@
            <app-option-input [(value)]="optionItems" (valueChange)="onValueChange()" [editable]="canEdit"></app-option-input>
        </ng-container>
        <ng-container *ngIf="value.type == 3">
-            <textarea class="form-control" placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
+            <app-exam-editor class="form-control" placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></app-exam-editor>
        </ng-container>
        <ng-container *ngIf="value.type == 5">
             <app-question-children [(value)]="kidItems" (valueChange)="onValueChange()"></app-question-children>

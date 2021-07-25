@@ -1,6 +1,6 @@
 <div class="option-item" *ngFor="let item of value;let i = index" (click)="tapEdit(modal, i)">
     <div class="item-body">
-        <div class="item-text">
+        <div class="item-text" title="点击编辑子题目">
             {{ item.title }}
         </div>
         <div class="flex-icon" *ngIf="editable">

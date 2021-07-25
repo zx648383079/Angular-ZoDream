@@ -1,6 +1,10 @@
 import { IUser } from '../theme/models/user';
 
 export const QuestionTypeItems = ['单选题', '多选题', '判断题', '简答题', '填空题', '大题'];
+export const QuestionDefaultOption = [
+    {content: '对', is_right: false},
+    {content: '错', is_right: false}
+];
 
 export interface IQuestion {
     id: number;

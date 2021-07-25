@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
         <div class="editor-preview" *ngIf="isPreview">
             <app-math-mark [content]="previewValue" [editable]="true" [allowInput]="true"></app-math-mark>

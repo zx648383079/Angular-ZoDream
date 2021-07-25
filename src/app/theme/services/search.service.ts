@@ -37,6 +37,7 @@ export class SearchService {
     public on(event: 'change', cb: (keywords: string) => void|boolean|Observable<any[]>): this;
     public on(event: 'confirm', cb: (keywords: any) => void|false): this;
     public on(event: 'suggest', cb: (items: any[]) => void): this;
+    public on(event: 'toggle', cb: (toggle: number) => void): this;
     public on(event: string, cb: (...items: any[]) => void|boolean|Observable<any>): this;
     public on(event: string, cb: any) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
@@ -49,6 +50,7 @@ export class SearchService {
     public emit(event: 'change', keywords: string): this;
     public emit(event: 'confirm', keywords: any): this;
     public emit(event: 'suggest', items: any[]): this;
+    public emit(event: 'toggle', toggle: number): this;
     public emit(event: string, ...items: any[]): this;
     public emit(event: string, ...items: any[]) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {

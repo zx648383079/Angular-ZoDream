@@ -3,7 +3,6 @@ export * from './page-tip/page-tip.component';
 export * from './edit-header/edit-header.component';
 export * from './pull-to-refresh/pull-to-refresh.component';
 export * from './panel/panel.component';
-export * from './circle-progress/circle-progress.component';
 export * from './countdown/countdown.component';
 export * from './emoji-picker/emoji-picker.component';
 export * from './pagination/pagination.component';

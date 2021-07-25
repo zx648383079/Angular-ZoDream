@@ -8,17 +8,16 @@ li {
 .nav-bar {
     position: fixed;
     left: 0;
-    width: 200px;
+    width: 12.5rem;
     bottom: 0;
     background-color: #eee;
     top: 0;
     z-index: 99;
-    box-shadow: rgba(51,51,51,.7) 0 0 10px;
     display: flex;
     flex-direction: column;
     .nav-toggle-icon {
-        font-size: 30px;
-        padding: 0 10px;
+        font-size: 1.875rem;
+        padding: 0 0.625rem;
         display: inline-block;
         &:hover {
             background-color: #ccc;
@@ -35,9 +34,9 @@ li {
     }
     .bar-item {
         list-style: none;
-        line-height: 40px;
+        line-height: 2.5rem;
         text-align: center;
-        font-size: 16px;
+        font-size: 1rem;
         a {
             display: block;
             box-sizing: border-box;
@@ -45,14 +44,14 @@ li {
         }
         .iconfont {
             position: absolute;
-            left: 10px;
+            left: 0.625rem;
             top: 0;
-            font-size: 30px;
+            font-size: 1.875rem;
             display: block;
         }
         .bar-icon {
             display: none;
-            font-size: 16px;
+            font-size: 1rem;
         }
         &:hover {
             >a {
@@ -66,8 +65,8 @@ li {
                     display: block;
                     position: absolute;
                     left: 0;
-                    width: 5px;
-                    height: 40px;
+                    width: 0.3125rem;
+                    height: 2.5rem;
                     background-color: red;
                 }
             }
@@ -81,11 +80,11 @@ li {
     .search-input {
         position: relative;
         background-color: #fff;
-        padding-right: 30px;
+        padding-right: 1.875rem;
         .iconfont {
             position: absolute;
-            top: 9px;
-            right: 10px;
+            top: 0.5625rem;
+            right: 0.625rem;
             color: #777;
         }
         input {
@@ -93,7 +92,7 @@ li {
             background-color: transparent;
             border: none;
             outline: none;
-            height: 40px;
+            height: 2.5rem;
         }
     }
     .bar-children {
@@ -103,12 +102,21 @@ li {
 }
 
 .page-body {
-    margin-left: 200px;
+    margin-left: 12.5rem;
 }
 
-.nav-toggle {
+.nav-flow {
     .nav-bar {
-        width: 50px;
+        box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}
+
+.nav-min {
+    .nav-bar {
+        width: 3.125rem;
         .bar-name {
             display: none;
         }
@@ -126,7 +134,7 @@ li {
             text-align: center;
             .iconfont {
                 position: static;
-                font-size: 30px;
+                font-size: 1.875rem;
                 display: block;
                 color: #333;
             }
@@ -136,73 +144,34 @@ li {
         }
     }
     .page-body {
-        margin-left: 50px;
+        margin-left: 3.125rem;
     }
 }
 
-@media screen and (max-width: 769px) {
+.nav-mini {
     .nav-bar {
-        width: 50px;
-        .bar-name {
+        width: 3.125rem;
+        bottom: auto;
+        .bar-top,
+        .bar-bottom {
             display: none;
         }
-        .bar-item {
-            .iconfont {
-                position: static;
-            }
-            .bar-icon {
-                display: inline-block;
-            }
-        }
-        .search-input {
-            background-color: transparent;
-            padding-right: 0;
-            text-align: center;
-            .iconfont {
-                position: static;
-                font-size: 30px;
-                display: block;
-                color: #333;
-            }
-            input {
-                display: none;
-            }
-        }
     }
     .page-body {
-        margin-left: 50px;
-    }
-
-    .nav-toggle {
-        .nav-bar {
-            width: 200px;
-            .bar-name {
-                display: inline-block;
-            }
-            .bar-item {
-                .iconfont {
-                    position: absolute;
-                }
-                .bar-icon {
-                    display: none;
-                }
-            }
-            .search-input {
-                background-color: #fff;
-                padding-right: 30px;
-                text-align: left;
-                .iconfont {
-                    position: absolute;
-                    font-size: 16px;
-                    color: #777;
-                }
-                input {
-                    display: block;
-                }
-            }
-        }
+        margin-left: 0;
+        margin-top: 3rem;
     }
 }
+
+.nav-hide {
+    .nav-bar {
+        display: none;
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}
+
 
 @media (prefers-color-scheme: dark) {
     .nav-bar {

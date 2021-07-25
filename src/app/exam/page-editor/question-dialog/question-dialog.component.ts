@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CustomDialogEvent } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants';
-import { IQuestion } from '../../model';
+import { IQuestion, QuestionDefaultOption } from '../../model';
+import { questionNeedOption } from '../../util';
 
 @Component({
     selector: 'app-question-dialog',
@@ -17,11 +18,9 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
     public typeOpen = false;
     public analysisOpen = false;
+    public extendOpen = false;
     @Input() public value: IQuestion = {} as any;
-    public optionItems: any[] = [
-        {content: '对', checked: false},
-        {content: '错', checked: false}
-    ];
+    public optionItems: any[] = [...QuestionDefaultOption];
     @Output() public valueChange = new EventEmitter<IQuestion>();
     private actionFn: any;
 
@@ -47,8 +46,14 @@ export class QuestionDialogComponent implements CustomDialogEvent {
 
     public open<T>(data: T, confirm: (data: T) => void, check?: (data: T) => boolean) {
         this.value = data as any;
+        if (questionNeedOption(this.value)) {
+            this.optionItems = this.value.option_items || [...QuestionDefaultOption];
+        }
         this.visible = true;
         this.actionFn = () => {
+            if (questionNeedOption(this.value)) {
+                this.value.option_items = this.optionItems;
+            }
             if (check && !check(this.value as any)) {
                 return;
             }
