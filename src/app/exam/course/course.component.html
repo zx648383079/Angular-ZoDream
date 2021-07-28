@@ -44,13 +44,18 @@
                 顺序练习</a>
             <a [routerLink]="['../pager', data.id, 1]">
                 <i class="iconfont icon-random"></i>
-                随机练习</a>
+                随机练习
+            </a>
             <a [routerLink]="['../pager', data.id, 2]">
                 <i class="iconfont icon-question-circle"></i>
                 难题练习</a>
             <a [routerLink]="['../pager', data.id, 3]">
                 <i class="iconfont icon-file-text-o"></i>
                 全真模拟</a>
+            <a routerLink="../search" [queryParams]="{course: data.id}">
+                    <i class="iconfont icon-search"></i>
+                模拟试卷
+            </a>
             <a [routerLink]="['../publish', data.id]">
                 <i class="iconfont icon-plus"></i>
                 创建题目

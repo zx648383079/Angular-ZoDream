@@ -22,6 +22,7 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     private areaElement: ElementRef<HTMLTextAreaElement>;
     @Input() public height = 200;
     @Input() public placeholder = '';
+    @Input() public label = '';
 
     public disable = false;
     public value = '';

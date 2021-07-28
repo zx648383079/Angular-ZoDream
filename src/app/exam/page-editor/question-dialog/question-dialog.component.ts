@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CustomDialogEvent } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants';
-import { IQuestion, QuestionDefaultOption } from '../../model';
+import { cloneObject } from '../../../theme/utils';
+import { emptyValidate } from '../../../theme/validators';
+import { IQuestion, IQuestionAnalysis, QuestionDefaultOption } from '../../model';
 import { questionNeedOption } from '../../util';
 
 @Component({
@@ -19,8 +21,12 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public typeOpen = false;
     public analysisOpen = false;
     public extendOpen = false;
+    public analysisData: IQuestionAnalysis = {
+        type: 0,
+        content: '',
+    };
     @Input() public value: IQuestion = {} as any;
-    public optionItems: any[] = [...QuestionDefaultOption];
+    public optionItems: any[] = cloneObject(QuestionDefaultOption);
     @Output() public valueChange = new EventEmitter<IQuestion>();
     private actionFn: any;
 
@@ -46,14 +52,19 @@ export class QuestionDialogComponent implements CustomDialogEvent {
 
     public open<T>(data: T, confirm: (data: T) => void, check?: (data: T) => boolean) {
         this.value = data as any;
+        this.analysisData = this.value.analysis_items && this.value.analysis_items.length > 0 ? this.value.analysis_items[0] : {type: 0, content: ''};
         if (questionNeedOption(this.value)) {
-            this.optionItems = this.value.option_items || [...QuestionDefaultOption];
+            this.optionItems = this.value.option_items || cloneObject(QuestionDefaultOption);
         }
+        this.analysisOpen = false;
+        this.extendOpen = false;
+        this.typeOpen = false;
         this.visible = true;
         this.actionFn = () => {
             if (questionNeedOption(this.value)) {
                 this.value.option_items = this.optionItems;
             }
+            this.value.analysis_items = emptyValidate(this.analysisData.content) ? [] : [{...this.analysisData}];
             if (check && !check(this.value as any)) {
                 return;
             }

@@ -1,4 +1,5 @@
 @import '../option';
+@import '../../../theme/styles/scrollbar';
 .dialog-box {
     margin-top: -35vh;
     .dialog-body {
@@ -15,4 +16,10 @@
 .dialog-tool-bar {
     right: -1em;
     top: -1rem;
+}
+
+.editor-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    @include scrollbar();
 }

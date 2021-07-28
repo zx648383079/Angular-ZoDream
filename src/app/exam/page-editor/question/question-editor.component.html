@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="content" [hidden]="!extendOpen">
-            <app-exam-editor placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()" [disabled]="!canEdit"></app-exam-editor>
+            <app-exam-editor label="附加内容："  placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()" [disabled]="!canEdit"></app-exam-editor>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
            <app-option-input [(value)]="optionItems" (valueChange)="onValueChange()" [editable]="canEdit"></app-option-input>
        </ng-container>
        <ng-container *ngIf="value.type == 3">
-            <app-exam-editor class="form-control" placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></app-exam-editor>
+            <app-exam-editor label="答案："  placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></app-exam-editor>
        </ng-container>
        <ng-container *ngIf="value.type == 5">
             <app-question-children [(value)]="kidItems" (valueChange)="onValueChange()"></app-question-children>

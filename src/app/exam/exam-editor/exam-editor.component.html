@@ -1,5 +1,8 @@
 <div class="editor-box">
     <div class="editor-tool-bar">
+        <div class="tool-item editor-label" *ngIf="label">
+            {{ label }}
+        </div>
         <label [for]="fileName" class="tool-item" title="上传图片">
             <i class="iconfont icon-image"></i>
             <input type="file" name="file" [id]="fileName" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
