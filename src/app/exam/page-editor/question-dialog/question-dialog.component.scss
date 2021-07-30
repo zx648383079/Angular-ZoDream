@@ -21,5 +21,6 @@
 .editor-body {
     max-height: 60vh;
     overflow-y: auto;
+    margin-right: 1rem;
     @include scrollbar();
 }

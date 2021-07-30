@@ -27,7 +27,7 @@
         <app-check-input [items]="optionTypeItems" [(ngModel)]="optionData.type" [rangeKey]="1"></app-check-input>
     </div>
     <ng-container *ngIf="optionData.type < 1">
-        <textarea class="form-control" [(ngModel)]="optionData.content"></textarea>
+        <app-exam-editor [(ngModel)]="optionData.content"></app-exam-editor>
     </ng-container>
     <ng-container *ngIf="optionData.type > 0">
         <app-file-input [(ngModel)]="optionData.content"></app-file-input>

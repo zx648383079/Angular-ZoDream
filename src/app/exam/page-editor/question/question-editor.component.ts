@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { DialogEvent } from '../../../dialog';
 import { FileUploadService } from '../../../theme/services';
+import { cloneObject } from '../../../theme/utils';
 import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionDefaultOption, QuestionTypeItems } from '../../model';
 import { questionNeedOption } from '../../util';
 
@@ -14,7 +15,7 @@ export class QuestionEditorComponent implements OnChanges {
     @Input() public editable = true;
     @Input() public value: IQuestion;
 
-    public optionItems: any[] = [...QuestionDefaultOption];
+    public optionItems: any[] = cloneObject(QuestionDefaultOption);
     public materialType = 0;
     public materialFile = '';
     public analysisItems: IQuestionAnalysis[] = [];
@@ -189,7 +190,7 @@ export class QuestionEditorComponent implements OnChanges {
     }
 
     private formatValue(value?: IQuestion) {
-        const def = this.canEdit ? [...QuestionDefaultOption] : [];
+        const def = this.canEdit ? cloneObject(QuestionDefaultOption) : [];
         if (!value) {
             this.materialFile = '';
             this.optionItems = def;

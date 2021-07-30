@@ -1,8 +1,8 @@
-<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-mask" *ngIf="visible"></div>
 <div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
     <div class="panel-tool-bar dialog-tool-bar">
-        <div class="tool-item btn-danger" title="关闭">
-            <i class="iconfont icon-close" (click)="close()"></i>
+        <div class="tool-item btn-danger" title="关闭" (click)="close()">
+            <i class="iconfont icon-close"></i>
         </div>
         <div class="tool-item btn-info" title="分数">
             <input type="text" class="form-control btn-info" placeholder="分数" maxLength="2" [(ngModel)]="value.score">
