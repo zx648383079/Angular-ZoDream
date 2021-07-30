@@ -35,6 +35,39 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public tapType(i: number) {
         this.typeOpen = false;
         this.value.type = i;
+        this.onTypeChange();
+    }
+
+    public onExtendChange() {
+        this.onTypeChange();
+    }
+
+    private onTypeChange() {
+        if (this.value.type != 4) {
+            return;
+        }
+        const content = this.value.content;
+        const matches = content.match(/_{3,}/g);
+        if (!matches || matches.length < 1) {
+            return;
+        }
+        const items = this.optionItems.filter(i => i.is_right);
+        if (items.length < 1) {
+            this.optionItems = [];
+        }
+        let diff = matches.length - this.optionItems.length;
+        if (diff < 1) {
+            return;
+        }
+        this.optionItems.forEach(i => {
+            i.is_right = true;
+        })
+        for (; diff > 0; diff--) {
+            this.optionItems.push({
+                content: '答案' + diff,
+                is_right: true,
+            });
+        }
     }
 
     public close(result?: any) {

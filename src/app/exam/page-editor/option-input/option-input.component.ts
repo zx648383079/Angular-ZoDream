@@ -39,13 +39,23 @@ export class OptionInputComponent {
             content: this.getNewOptionLabel(),
             is_right: false,
         } as any;
-        modal.open(() => {
+        modal.openCustom(action => {
+            if (typeof action === 'undefined') {
+                return false;
+            }
+            if (!action) {
+                return;
+            }
             if (i >= 0) {
                 this.value[i] = {...this.optionData};
             } else {
                 this.value.push({...this.optionData});
             }
             this.onValueChange();
+            if (action === 'next') {
+                this.tapEditOption(modal, i >= this.value.length - 1 || i < 0 ? -1 : i + 1 );
+                return false;
+            }
         });
     }
 

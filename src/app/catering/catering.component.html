@@ -3,14 +3,24 @@
         <div class="tab-bar">
             <a [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">推荐</a>
             <a [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">商品</a>
+            <a>
+                <app-search-input></app-search-input>
+            </a>
         </div>
 
         <div class="user-icon">
             <div class="avatar" (click)="tapAvatar()">
                 <img [src]="user.avatar | asset">
             </div>
+            <ul class="drop-body" [hidden]="!authOpen">
+                <li>注销</li>
+            </ul>
         </div>
     </div>
+</div>
+
+<div class="container-fluid">
+
 </div>
 
 

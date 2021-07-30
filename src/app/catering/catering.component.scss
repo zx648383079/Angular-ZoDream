@@ -1,15 +1,21 @@
 .header-bar {
     background-color: #fff;
+    ul,
+    li {
+        list-style: none;
+        padding: 0;
+        padding: 0;
+    }
     a {
         text-decoration: none;
     }
     .tab-bar {
         display: inline-block;
-        margin-top: 30px;
+        margin-top: 1.875rem;
         a {
             color: #999;
-            font-size: 16px;
-            padding: 10px 20px;
+            font-size: 1rem;
+            padding: 0.625rem 1.25rem;
             cursor: pointer;
             display: inline-block;
             &:hover {
@@ -23,15 +29,36 @@
     }
     .user-icon {
         float: right;
+        position: relative;
         .avatar {
-            padding: 5px;
+            padding: 0.625rem 0.3125rem;
             img {
-                width: 60px;
-                height: 60px;
+                width: 3rem;
+                height: 3rem;
                 border-radius: 50%;
             }
             &:hover {
                 background-color: #ccc;
+            }
+        }
+        .drop-body {
+            position: absolute;
+            width: 6rem;
+            right: 0;
+            background-color: white;
+            z-index: 910;
+            box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+            user-select: none;
+            li {
+                line-height: 2rem;
+                text-align: center;
+                cursor: pointer;
+                &:hover {
+                    background-color: #eee;
+                }
+                &.active {
+                    background-color: #ccc;
+                }
             }
         }
     }

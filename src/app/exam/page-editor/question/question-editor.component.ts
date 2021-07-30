@@ -79,6 +79,10 @@ export class QuestionEditorComponent implements OnChanges {
         if (!matches || matches.length < 1) {
             return;
         }
+        const items = this.optionItems.filter(i => i.is_right);
+        if (items.length < 1) {
+            this.optionItems = [];
+        }
         let diff = matches.length - this.optionItems.length;
         if (diff < 1) {
             return;

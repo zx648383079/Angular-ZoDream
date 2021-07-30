@@ -33,7 +33,7 @@
         </div>
         <div class="editor-body">
             <div class="content" [hidden]="!extendOpen">
-                <app-exam-editor label="附加内容：" placeholder="请输入附加内容" [(ngModel)]="value.content"></app-exam-editor>
+                <app-exam-editor label="附加内容：" placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()"></app-exam-editor>
             </div>
             <div class="editor-option">
                 <ng-container *ngIf="value.type == 2">

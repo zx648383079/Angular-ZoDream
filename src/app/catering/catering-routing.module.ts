@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CateringComponent } from './catering.component';
+import { SearchInputComponent } from './search-input/search-input.component';
 
 
 const routes: Routes = [
@@ -19,4 +20,5 @@ export class CateringRoutingModule {}
 
 export const cateringRoutingComponents = [
     CateringComponent,
+    SearchInputComponent,
 ];

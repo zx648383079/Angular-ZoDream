@@ -1,0 +1,96 @@
+.dialog-search {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 99;
+    background-color: rgba($color: #e97474, $alpha: .7);
+    .dialog-close {
+        position: absolute;
+        right: 0;
+        background-color: yellow;
+        padding: 5px 10px;
+        font-size: 2rem;
+    }
+    .dialog-body {
+        padding: 80px 20px;
+    }
+    .search-input {
+        position: relative;
+        .input-search,
+        .input-clear {
+            position: absolute;
+            top: 0;
+            width: 50px;
+            line-height: 48px;
+            background: 0 0;
+            border: none;
+            color: #ddd;
+            outline: 0;
+            padding: 0 10px;
+            font-size: 1.5625rem;
+        }
+        .input-search {
+            left: 0;
+        }
+        .input-clear {
+            right: 0;
+            display: none;
+        }
+        input {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 16px;
+            color: #999;
+            border: none;
+            outline: 0;
+            padding: 0 0 0 45px;
+            border: 1px solid #e6e6e6;
+        }
+    }
+    .search-suggestion {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+        background: #fff;
+        box-shadow: 0 4px 5px 0 #cccccc94;
+        overflow: hidden;
+        li {
+            border-top: 1px solid #f2f2f2;
+            line-height: 50px;
+            font-size: 14px;
+            padding: 0 10px;
+            color: #777;
+            cursor: pointer;
+            list-style: none;
+            span {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+                line-height: 30px;
+                text-align: center;
+                background: #e5e5e5;
+                margin-right: 10px;
+                border-radius: 50%;
+                color: #999;
+            }
+            &.active {
+                background-color: rgba(153,153,153,.1);
+            }
+        }
+    }
+    &.inputting {
+        .search-input {
+            .input-clear {
+                display: block;
+            }
+            input {
+                padding: 0 45px;
+            }
+        }
+    }
+}
