@@ -10,6 +10,7 @@ import { IQuestionOption } from '../../model';
 export class OptionInputComponent {
     @Input() public value: IQuestionOption[] = [];
     @Input() public editable = true;
+    @Input() public multiple = false;
     @Output() public valueChange = new EventEmitter<IQuestionOption[]>();
     public optionData: IQuestionOption = {
         type: 0,
@@ -27,6 +28,14 @@ export class OptionInputComponent {
         }
         const item = this.value[i];
         item.is_right = !item.is_right;
+        if (item.is_right && !this.multiple) {
+            this.value.forEach((v, j) => {
+                if (i === j) {
+                    return;
+                }
+                v.is_right = false;
+            });
+        }
         this.onValueChange();
     }
 
@@ -36,7 +45,7 @@ export class OptionInputComponent {
         }
         this.optionData = i >= 0 ? {...this.value[i], type: this.value[i].type || 0} : {
             type: 0,
-            content: this.getNewOptionLabel(),
+            content: '',
             is_right: false,
         } as any;
         modal.openCustom(action => {
@@ -50,6 +59,17 @@ export class OptionInputComponent {
                 this.value[i] = {...this.optionData};
             } else {
                 this.value.push({...this.optionData});
+            }
+            if (this.optionData.is_right && !this.multiple) {
+                this.value.forEach((v, j) => {
+                    if (i < 0 && j === this.value.length - 1) {
+                        return;
+                    }
+                    if (i === j) {
+                        return;
+                    }
+                    v.is_right = false;
+                });
             }
             this.onValueChange();
             if (action === 'next') {

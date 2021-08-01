@@ -62,6 +62,7 @@ export class QuestionEditorComponent implements OnChanges {
         if (i == 4) {
             this.extendOpen = true;
         }
+        this.onTypeChange();
         this.onValueChange();
     }
 
