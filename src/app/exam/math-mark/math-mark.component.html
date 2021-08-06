@@ -19,7 +19,19 @@
                     <thead>
                         <tr>
                             <th *ngFor="let th of item.header" [ngStyle]="{'text-align': th.align}">
-                                {{ th.text }}
+                                <ng-container *ngFor="let it of th.items">
+                                    <ng-container [ngSwitch]="it.type">
+                                        <ng-container *ngSwitchCase="'math'">
+                                            <span [innerHTML]="it.content"></span>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'image'">
+                                            <img [src]="it.content">
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{ it.content }}
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
                             </th>
                         </tr>
                     </thead>
@@ -38,7 +50,7 @@
                                             {{ it.content }}
                                         </ng-container>
                                     </ng-container>
-                            </ng-container>
+                                </ng-container>
                             </td>
                         </tr>
                     </tbody>
@@ -49,6 +61,12 @@
             </ng-container>
             <ng-container *ngSwitchCase="'image'">
                 <img [src]="item.content">
+            </ng-container>
+            <ng-container *ngSwitchCase="'underline'">
+                <span class="underline">{{ item.content }}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'wavyline'">
+                <span class="wavyline">{{ item.content }}</span>
             </ng-container>
             <ng-container *ngSwitchCase="'line'">
                 <br>

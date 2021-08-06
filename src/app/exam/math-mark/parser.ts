@@ -4,17 +4,12 @@ import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
 
 export interface IMarkItem {
-    type: 'text'|'input'|'image'|'line'|'math'|'table';
-    header?: ITableHeader[];
+    type: 'text'|'input'|'image'|'line'|'math'|'table'|'underline'|'wavyline';
+    header?: ITableTd[];
     content?: any;
     value?: string;
     rightValue?: string;
     size?: number;
-}
-
-interface ITableHeader {
-    text: string;
-    align: 'left'|'center'|'right';
 }
 
 interface ITableTd {
@@ -23,7 +18,7 @@ interface ITableTd {
 }
 
 interface ITable {
-    header: ITableHeader[];
+    header: ITableTd[];
     items: ITableTd[][];
 }
 
@@ -74,10 +69,6 @@ export class MathMarkParser {
                 pushTable();
                 continue;
             }
-            if ((!this.option.input || code !== '_') && code !== '!' && (!this.option.math || code !== '$')) {
-                text += code;
-                continue;
-            }
             if (!this.codeIsValid(reader)) {
                 text = text.substr(0, text.length - 1) + code;
                 continue;
@@ -97,13 +88,34 @@ export class MathMarkParser {
     private renderNext(reader: CharIterator): IMarkItem|undefined {
         switch (reader.current) {
             case '_':
-                return this.renderInput(reader);
+                return !this.option.input ? undefined : this.renderInput(reader);
             case '$':
-                return this.renderMath(reader);
+                return !this.option.math ? undefined : this.renderMath(reader);
             case '!':
-                return this.renderImage(reader);
+                return this.renderRange(reader, '![](', ')', 'image', true);
+            case '-':
+                return this.renderRange(reader, '--', '--', 'underline');
+            case '~':
+                return this.renderRange(reader, '~~', '~~', 'wavyline');
         }
         return;
+    }
+
+    private renderRange(reader: CharIterator, begin: string, end: string, name: string, pass = false): IMarkItem|undefined {
+        const next = begin.substr(1);
+        if (next !== '' && !reader.nextIs(next)) {
+            return;
+        }
+        const i = reader.indexOf(end, begin.length);
+        if (i < 0) {
+            return;
+        }
+        const content = reader.read(i - reader.position - begin.length, begin.length);
+        reader.position = i + end.length - 1;
+        return {
+            type: name as any,
+            content: pass ? this.sanitizer.bypassSecurityTrustResourceUrl(content) : content,
+        };
     }
 
     private renderInput(reader: CharIterator): IMarkItem|undefined {
@@ -146,22 +158,6 @@ export class MathMarkParser {
         };
     }
 
-    private renderImage(reader: CharIterator): IMarkItem|undefined {
-        if (!reader.nextIs('[](')) {
-            return;
-        }
-        const i = reader.indexOf(')', 3);
-        if (i < 0) {
-            return;
-        }
-        const content = reader.read(i - reader.position - 3, 3);
-        reader.position = i;
-        return {
-            type: 'image',
-            content: this.sanitizer.bypassSecurityTrustResourceUrl(content),
-        };
-    }
-
     private renderTable(reader: CharIterator): IMarkItem|undefined {
         let old = reader.position;
         let line = this.readLine(reader);
@@ -169,9 +165,9 @@ export class MathMarkParser {
             reader.position = old;
             return;
         }
-        const header: ITableHeader[] = this.splitTr(line).map(i => {
+        const header: ITableTd[] = this.splitTr(line).map(i => {
             return {
-                text: i,
+                items: this.render(i),
                 align: 'left'
             };
         });

@@ -10,6 +10,15 @@
         <div class="tool-item" (click)="tapTool('math')" title="插入数学公式">
             <i class="iconfont icon-code"></i>
         </div>
+        <div class="tool-item" (click)="tapTool('input')" title="插入输入框">
+            <i class="iconfont icon-edit"></i>
+        </div>
+        <div class="tool-item" (click)="tapTool('underline')" title="插入下划线">
+            _
+        </div>
+        <div class="tool-item" (click)="tapTool('wavyline')" title="插入波浪线">
+            ~
+        </div>
         <div class="tool-item" (click)="tapTool('link')" title="插入链接">
             <i class="iconfont icon-chain"></i>
         </div>
@@ -18,7 +27,7 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
         <div class="editor-footer">共 {{ size }} 字</div>
         <div class="editor-preview" *ngIf="isPreview">
             <app-math-mark [content]="previewValue" [editable]="true" [allowInput]="true"></app-math-mark>

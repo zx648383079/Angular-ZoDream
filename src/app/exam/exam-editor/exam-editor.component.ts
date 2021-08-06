@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IEditor, IEditorRange } from '../../editor/model';
+import { DialogService } from '../../dialog';
+import { EditorContainer, IEditor } from '../../editor';
 import { FileUploadService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 
@@ -16,7 +17,7 @@ import { wordLength } from '../../theme/utils';
         }
     ]
 })
-export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor {
+export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor, OnInit {
 
     @ViewChild('editorArea')
     private areaElement: ElementRef<HTMLTextAreaElement>;
@@ -29,14 +30,14 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     public isPreview = false;
     public previewValue = '';
     public fileName = this.uploadService.uniqueGuid();
-
-    private range: IEditorRange;
+    private container = new EditorContainer();
 
     onChange: any = () => { };
     onTouch: any = () => { };
 
     constructor(
         private uploadService: FileUploadService,
+        private toastrService: DialogService,
     ) { }
 
     get size() {
@@ -48,42 +49,15 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             height: this.height + 'px',
         };
     }
-
-    get area(): HTMLTextAreaElement {
-        return this.areaElement.nativeElement as HTMLTextAreaElement;
+    ngOnInit() {
+        this.container.on('change', () => {
+            this.value = this.container.value;
+            this.onValueChange();
+        });
     }
 
     ngAfterViewInit() {
-        this.bindAreaEvent();
-    }
-
-    private bindAreaEvent() {
-        this.area.addEventListener('keydown', e => {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                this.saveRange();
-                this.insertTab();
-            }
-        });
-        this.area.addEventListener('blur', e => {
-            this.saveRange();
-        });
-    }
-
-    private checkRange() {
-        if (!this.range) {
-            this.range = {
-                start: this.area.value.length,
-                end: this.area.value.length
-            };
-        }
-    }
-
-    private saveRange() {
-        this.range = {
-            start: this.area.selectionStart,
-            end: this.area.selectionEnd
-        };
+        this.container.ready(this.areaElement.nativeElement);
     }
 
     public onValueChange() {
@@ -99,115 +73,55 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             return;
         }
         if (name === 'math') {
-            return this.insertMath();
+            this.container.insertOrInclude('$$', 1);
+            return ;
         }
         if (name === 'link') {
             return this.insert('[](https://)', 1, true);
+        }
+        if (name === 'input') {
+            this.container.insert('____', 3);
+            return;
+        }
+        if (name === 'underline') {
+            this.container.insertOrInclude('----', 2);
+            return;
+        }
+        if (name === 'wavyline') {
+            this.container.insertOrInclude('~~~~', 2);
+            return;
         }
     }
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
-        this.uploadService.uploadImages(files).subscribe(res => {
-            for (const item of res) {
-                this.insertImage(item.url, item.original);
+        this.uploadService.uploadImages(files).subscribe({
+            next: res => {
+                for (const item of res) {
+                    this.insertImage(item.url, item.original);
+                }
+            },
+            error: err => {
+                this.toastrService.error(err);
             }
         });
     }
 
-    public insertTab() {
-        return this.insert('    ', 4, true);
-    }
-
-    public insert(val: string, move: number = 0, focus: boolean = true) {
-        this.checkRange();
-        this.setContent(this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start))
-        this.move(move);
-        if (!focus) {
-            return;
-        }
-        this.focus();
-    }
-
-    /**
-     * replace
-     */
-    public replace(val: (str: string) => string | string, move: number = 0, focus: boolean = true) {
-        this.checkRange();
-        if (this.range.start === this.range.end) {
-            return this.insert(typeof val === 'function' ? val('') : val, move, focus);
-        }
-        const str = typeof val === 'function' ? val(this.area.value.substr(this.range.start, this.range.end - this.range.start)) : val;
-        this.setContent(this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end));
-        this.move(move);
-        if (!focus) {
-            return;
-        }
-        this.focus();
-    }
-
-    public append(val: string, move: number = 0, focus: boolean = true) {
-        this.replace(str => {
-            if (str.length < 1) {
-                return val;
-            }
-            if (move < 1) {
-                return str + val;
-            }
-            if (move > val.length) {
-                return val + str;
-            }
-            return val.substr(0, move) + str + val.substr(move);
-        }, move, focus);
+    public insert(val: string, move?: number, focus?: boolean) {
+        this.container.insert(val, move, focus);
     }
 
     public insertImage(file: string, name?: string) {
-        this.insert('![](' + file + ')');
+        this.container.insert('![](' + file + ')');
     }
 
     public insertLink(text: string, href: string) {
-        this.insert('[' + text + '](' + href + ')');
-    }
-
-    public clear(focus: boolean = true) {
-        this.setContent('');
-        if (!focus) {
-            return;
-        }
-        this.focus();
-    }
-
-    /**
-     * move
-     */
-    public move(x: number) {
-        if (x === 0) {
-            return;
-        }
-        x = this.range.start + x;
-        this.range = {
-            start: x,
-            end: Math.max(x, this.range.end)
-        };
-    }
-
-    /**
-     * focus
-     */
-    public focus() {
-        this.checkRange();
-        this.area.selectionStart = this.range.start;
-        this.area.selectionEnd = this.range.end;
-        this.area.focus();
-    }
-
-    public setContent(value: string) {
-        this.value = this.area.value = value;
-        this.onValueChange();
+        this.container.insert('[' + text + '](' + href + ')');
     }
 
     writeValue(obj: any): void {
         this.value = obj;
+        this.container.value = this.value;
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;
@@ -217,16 +131,6 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     }
     setDisabledState?(isDisabled: boolean): void {
         this.disable = isDisabled;
-    }
-
-    private insertMath() {
-        if (!this.range || this.range.start === this.range.end) {
-            this.insert('$$', 1, true);
-            return;
-        }
-        this.replace(val => {
-            return '$' + val + '$';
-        });
     }
 
     private enterPreview() {
