@@ -91,6 +91,10 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             this.container.insertOrInclude('~~~~', 2);
             return;
         }
+        if (name === 'dashed') {
+            this.container.insertOrInclude('····', 2);
+            return;
+        }
     }
 
     public uploadImage(event: any) {

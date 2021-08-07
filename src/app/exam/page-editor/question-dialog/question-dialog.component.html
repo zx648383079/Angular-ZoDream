@@ -40,7 +40,7 @@
                     <app-bool-input [(value)]="value.answer"></app-bool-input>
                 </ng-container>
                 <ng-container *ngIf="!value.type || value.type < 2 || value.type == 4">
-                    <app-option-input  [multiple]="value.type > 1"  [(value)]="optionItems"></app-option-input>
+                    <app-option-input  [multiple]="value.type > 0"  [(value)]="optionItems"></app-option-input>
                 </ng-container>
                 <ng-container *ngIf="value.type == 3">
                     <app-exam-editor label="答案：" placeholder="请输入答案" [(ngModel)]="value.answer"></app-exam-editor>

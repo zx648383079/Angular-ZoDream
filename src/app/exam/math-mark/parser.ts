@@ -92,16 +92,20 @@ export class MathMarkParser {
             case '$':
                 return !this.option.math ? undefined : this.renderMath(reader);
             case '!':
-                return this.renderRange(reader, '![](', ')', 'image', true);
+                return this.renderRange(reader, '![](', ')', 'image', v => {
+                    return this.sanitizer.bypassSecurityTrustResourceUrl(v);
+                });
             case '-':
                 return this.renderRange(reader, '--', '--', 'underline');
             case '~':
                 return this.renderRange(reader, '~~', '~~', 'wavyline');
+            case '·':
+                return this.renderRange(reader, '··', '··', 'dashed');
         }
         return;
     }
 
-    private renderRange(reader: CharIterator, begin: string, end: string, name: string, pass = false): IMarkItem|undefined {
+    private renderRange(reader: CharIterator, begin: string, end: string, name: string, cb?: (v: string) => any): IMarkItem|undefined {
         const next = begin.substr(1);
         if (next !== '' && !reader.nextIs(next)) {
             return;
@@ -114,7 +118,7 @@ export class MathMarkParser {
         reader.position = i + end.length - 1;
         return {
             type: name as any,
-            content: pass ? this.sanitizer.bypassSecurityTrustResourceUrl(content) : content,
+            content: cb ? cb(content) : content,
         };
     }
 

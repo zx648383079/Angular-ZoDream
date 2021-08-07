@@ -27,7 +27,7 @@ export class TextareaElement implements IEditorElement {
 
     get selectedValue(): string {
         const s = this.selection;
-        if (!s || s.start <= s.end) {
+        if (!s || s.start >= s.end) {
             return '';
         }
         return this.value.substring(s.start, s.end);
@@ -36,7 +36,7 @@ export class TextareaElement implements IEditorElement {
     set selectedValue(val: string) {
         const s = this.selection;
         const v = this.value;
-        this.value = v.substr(0, s.start) + val + v.substr(s.start)
+        this.value = v.substr(0, s.start) + val + v.substr(s.end);
     }
 
     get value(): string {

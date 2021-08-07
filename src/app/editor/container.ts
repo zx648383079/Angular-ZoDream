@@ -46,7 +46,7 @@ export class EditorContainer implements IEditorContainer {
         if (!this.element) {
             return;
         }
-        this.element.value = content;
+        this.element.value = typeof content === 'undefined' ? '' : content;
         this.emit(EVENT_EDITOR_CHANGE);
     }
 
@@ -67,7 +67,7 @@ export class EditorContainer implements IEditorContainer {
         }
         this.replace(v => {
             return val.substr(0, move) + v + val.substr(move);
-        }, move);
+        });
     }
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
@@ -85,11 +85,14 @@ export class EditorContainer implements IEditorContainer {
      */
     public replace(val: (str: string) => string | string, move: number = 0, focus: boolean = true) {
         this.checkSelection();
-        if (this.selection.start === this.selection.end) {
-            return this.insert(typeof val === 'function' ? val('') : val, move, focus);
+        if (!this.hasSelection) {
+            this.insert(typeof val === 'function' ? val('') : val);
+            return;
         }
-        this.element.selectedValue = typeof val === 'function' ? val(this.element.selectedValue) : val;
-        this.move(move);
+        this.element.selection = this.selection;
+        const v = typeof val === 'function' ? val(this.element.selectedValue) : val;
+        this.element.selectedValue = v;
+        this.move(move === 0 ? v.length : 0);
         if (!focus) {
             return;
         }
