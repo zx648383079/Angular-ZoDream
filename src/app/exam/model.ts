@@ -61,6 +61,13 @@ export interface IQuestionCard {
     id: number;
     right: number;
     active: boolean;
+    page?: number;
+}
+
+export interface IQuestionPageItem {
+    page: number;
+    material?: IQuestion;
+    items: IQuestionFormat[];
 }
 
 export interface IQuestionOption {

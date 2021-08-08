@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
 import { ExamService } from '../exam.service';
-import { IExamPager, IQuestionCard, IQuestionFormat } from '../model';
+import { IExamPager, IQuestionCard, IQuestionFormat, IQuestionPageItem } from '../model';
+import { formatPager } from '../util';
+
 
 @Component({
   selector: 'app-pager',
@@ -12,13 +14,12 @@ import { IExamPager, IQuestionCard, IQuestionFormat } from '../model';
 export class PagerComponent implements OnInit {
 
     public data: IExamPager;
-    public items: IQuestionFormat[] = [];
     public finished = false;
     public cardItems: IQuestionCard[] = [];
-    public total = 0;
     public page = 1;
-    public perPage = 10;
     public endTime = 0;
+    public pageItems: IQuestionPageItem[] = [];
+    public current: IQuestionPageItem;
 
     constructor(
         private service: ExamService,
@@ -36,15 +37,7 @@ export class PagerComponent implements OnInit {
                 next: res => {
                     this.data = res;
                     this.finished = res.finished;
-                    this.cardItems = res.data.map((i, j) => {
-                        return {
-                            order: (j + 1).toString(),
-                            id: i.id,
-                            right: 0,
-                            active: false,
-                        };
-                    });
-                    this.total = Math.ceil(res.data.length / this.perPage);
+                    [this.pageItems, this.cardItems] = formatPager(res.data);
                     this.tapPage(1);
                     this.endTime = new Date().getTime() + res.time * 60000;
                 },
@@ -65,20 +58,8 @@ export class PagerComponent implements OnInit {
     }
 
     public tapPage(page: number) {
-        if (page > this.total) {
-            page = this.total;
-        }
-        if (page < 1) {
-            page = 1;
-        }
-        const items = [];
-        let start = (page - 1) * this.perPage;
-        const end = Math.min(start + this.perPage, this.data.data.length);
-        for (; start < end; start ++) {
-            items.push(this.data.data[start]);
-        }
-        this.items = items;
         this.page = page;
+        this.current = this.pageItems[page - 1];
         document.documentElement.scrollTop = 0;
     }
 
@@ -90,12 +71,13 @@ export class PagerComponent implements OnInit {
     }
 
     public tapItem(i: number) {
-        this.tapPage(Math.floor(i / this.perPage));
+        const card = this.cardItems[i];
+        this.tapPage(card.page);
     }
 
     public onQuestionChange(event: IQuestionFormat, i: number) {
-        this.items[i].answer = event.answer;
-        this.items[i].option = event.option;
+        this.current.items[i].answer = event.answer;
+        this.current.items[i].option = event.option;
     }
 
     public tapFinish() {

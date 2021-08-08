@@ -4,7 +4,7 @@ import { DialogAnimation } from '../../../theme/constants';
 import { cloneObject } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { IQuestion, IQuestionAnalysis, QuestionDefaultOption } from '../../model';
-import { questionNeedOption } from '../../util';
+import { formatFillOption, questionNeedOption } from '../../util';
 
 @Component({
     selector: 'app-question-dialog',
@@ -46,28 +46,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
         if (this.value.type != 4) {
             return;
         }
-        const content = this.value.content;
-        const matches = content.match(/_{3,}/g);
-        if (!matches || matches.length < 1) {
-            return;
-        }
-        const items = this.optionItems.filter(i => i.is_right);
-        if (items.length < 1) {
-            this.optionItems = [];
-        }
-        let diff = matches.length - this.optionItems.length;
-        if (diff < 1) {
-            return;
-        }
-        this.optionItems.forEach(i => {
-            i.is_right = true;
-        })
-        for (; diff > 0; diff--) {
-            this.optionItems.push({
-                content: '答案' + diff,
-                is_right: true,
-            });
-        }
+        this.optionItems = formatFillOption(this.value.content, this.optionItems);
     }
 
     public close(result?: any) {

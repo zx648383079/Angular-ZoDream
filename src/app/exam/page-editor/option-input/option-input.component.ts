@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogEvent } from '../../../dialog';
 import { IQuestionOption } from '../../model';
+import { intToABC } from '../../util';
 
 @Component({
   selector: 'app-option-input',
@@ -76,7 +77,7 @@ export class OptionInputComponent {
                 this.tapEditOption(modal, i >= this.value.length - 1 || i < 0 ? -1 : i + 1 );
                 return false;
             }
-        });
+        }, '编辑' + intToABC(i >= 0 ? i : this.value.length) + '选项');
     }
 
     private getNewOptionLabel(): string {
