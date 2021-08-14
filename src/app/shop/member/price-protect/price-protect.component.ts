@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -8,37 +11,61 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./price-protect.component.scss']
 })
 export class PriceProtectComponent implements OnInit {
-
+    public title = '价格保护';
     public items: any[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+    };
 
     constructor(
         private service: ShopService,
         private router: Router,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) {
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
-    ngOnInit() {}
+    public tapRemove(item: any) {
+        this.toastrService.confirm('确认删除此“' + item.id + '”记录？', () => {
+            // this.service.subscribeRemove(item.id).subscribe(res => {
+            //     if (!res.data) {
+            //         return;
+            //     }
+            //     this.toastrService.success('删除成功');
+            //     this.items = this.items.filter(it => {
+            //         return it.id !== item.id;
+            //     });
+            // });
+        });
+    }
 
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         this.goPage(1);
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -49,14 +76,13 @@ export class PriceProtectComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {... this.queries, page};
+        this.service.orderList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 

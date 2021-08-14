@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SwiperModule } from 'swiper/angular';
 
 import { marketRoutingComponents, MarketRoutingModule } from './market-routing.module';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GameModule } from '../game/game.module';
 import { ZreFormModule } from '../../form';
 import { ShopCommonModule } from '../common.module';
@@ -16,12 +16,12 @@ import { ShopCommonModule } from '../common.module';
         CommonModule,
         MarketRoutingModule,
         ThemeModule,
-        NgbModule,
         ReactiveFormsModule,
         LazyLoadImageModule,
         GameModule,
         ZreFormModule,
         ShopCommonModule,
+        SwiperModule,
     ]
 })
 export class MarketModule { }

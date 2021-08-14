@@ -233,6 +233,18 @@ export class ShopService {
         return this.http.get<IOrder>('shop/order', {params: {id}});
     }
 
+    public orderRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('shop/order/delete', {params: {id}});
+    }
+
+    public orderCancel(id: any) {
+        return this.http.delete<IOrder>('shop/order/cancel', {params: {id}});
+    }
+
+    public orderRepurchase(id: any) {
+        return this.http.get<IDataOne<boolean>>('shop/order/repurchase', {params: {id}});
+    }
+
     public orderSubtotal() {
         return this.http.get<IOrderCount>('shop/order/count');
     }

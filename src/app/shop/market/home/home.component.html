@@ -1,15 +1,15 @@
 
-<div class="banner">
-    <ngb-carousel *ngIf="bannerItems && bannerItems.length > 0">
-        <ng-template ngbSlide *ngFor="let item of bannerItems">
+<div class="banner" *ngIf="bannerItems && bannerItems.length > 0">
+    <swiper [navigation]="true">
+        <ng-template *ngFor="let item of bannerItems" swiperSlide>
             <div class="picsum-img-wrapper">
-              <img [src]="item.content" alt="Random slide">
+                <img [src]="item.content" style="width: 100%;">
             </div>
             <div class="carousel-caption" *ngIf="item.name">
-              <h3>{{ item.name }}</h3>
+                <h3>{{ item.name }}</h3>
             </div>
         </ng-template>
-    </ngb-carousel>
+    </swiper>
 </div>
 <div class="floor">
     <div class="container">

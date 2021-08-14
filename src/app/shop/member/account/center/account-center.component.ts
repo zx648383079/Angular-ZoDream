@@ -8,7 +8,7 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./account-center.component.scss']
 })
 export class AccountCenterComponent implements OnInit {
-
+    public title = '安全中心';
     public items: IConnect[] = [];
 
     constructor(

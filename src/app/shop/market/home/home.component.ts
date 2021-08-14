@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import SwiperCore from 'swiper/core';
+
 import { IAd, IBrand, ICategory, IGoods, IComment } from '../../../theme/models/shop';
 import { ThemeService } from '../../../theme/services';
 import { ShopService } from '../../shop.service';

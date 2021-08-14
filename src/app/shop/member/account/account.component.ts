@@ -9,6 +9,7 @@ import { ShopService } from '../../shop.service';
 })
 export class AccountComponent implements OnInit {
 
+    public title = '我的账户';
     public items: any[] = [];
     public hasMore = true;
     public page = 1;

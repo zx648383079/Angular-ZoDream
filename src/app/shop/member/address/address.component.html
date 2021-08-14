@@ -5,8 +5,7 @@
         </div>
         <div class="address-box">
             <div class="header">
-                <span>收货地址</span>
-                <a class="add-btn" (click)="tapEdit()">
+                <a class="btn btn-primary" (click)="tapEdit()">
                     <i class="iconfont icon-add"></i>
                     新建地址
                 </a>
@@ -74,7 +73,9 @@
             </div>
             设为默认
         </div>
-        <button type="button" class="btn btn-primary" (click)="tapSave()">确认</button>
-        <button type="button" class="btn btn-danger" (click)="dialogOpen = false">取消</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" (click)="tapSave()">确认</button>
+            <button type="button" class="btn btn-danger" (click)="dialogOpen = false">取消</button>
+        </div>
     </div>
 </div>

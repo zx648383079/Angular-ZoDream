@@ -47,31 +47,48 @@ header {
     .user-page {
         padding: 20px 0 30px;
     }
-    .order-search {
-        display: grid;
-        grid-template-columns: 1fr 290px;
-        margin-bottom: 14px;
-        .search-box {
-            margin-top: 10px;
-            font-size: 13px;
-            input {
-                width: 240px;
-                height: 28px;
-                border: 1px solid #ddd;
-                float: left;
-                padding-left: 12px;
+    .flat-search {
+        display: flex;
+        font-size: 0.8125rem;
+        input {
+            height: 2rem;
+            border: 1px solid #ddd;
+            padding-left: 0.75rem;
+            flex: 1;
+        }
+        button {
+            width: 3.1875rem;
+            height: 2rem;
+            margin-left: -1px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+        }
+    }
+    .header-tab {
+        border-bottom: 2px solid #eaeaea;
+        display: inline-block;
+        a {
+            display: inline-block;
+            padding: 0.625rem .5rem;
+            height: 2.5rem;
+            color: #333;
+            margin-bottom: -2px;
+            min-width: 5rem;
+            text-align: center;
+            cursor: pointer;
+            em {
+                font-style: normal;
+                font-size: 0.75rem;
             }
-            button {
-                width: 51px;
-                height: 28px;
-                margin-left: -1px;
-                border: 1px solid #ddd;
-                border-radius: 0;
-                float: left;
+            &.active {
+                border-bottom: 2px solid #b4a078;
+                font-weight: 900;
             }
         }
     }
-    
+    .order-search {
+        margin-bottom: 0.875rem;
+    }
     .applyed-list {
         thead {
             margin-top: 22px;

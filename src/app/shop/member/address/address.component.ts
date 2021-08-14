@@ -14,7 +14,7 @@ import { ShopService } from '../../shop.service';
     ]
 })
 export class AddressComponent implements OnInit {
-
+    public title = '地址管理';
     public items: IAddress[] = [];
     public hasMore = true;
     public page = 1;

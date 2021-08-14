@@ -8,7 +8,7 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./collect.component.scss']
 })
 export class CollectComponent implements OnInit {
-
+    public title = '我的收藏';
     public items: any[] = [];
     public hasMore = true;
     public page = 1;

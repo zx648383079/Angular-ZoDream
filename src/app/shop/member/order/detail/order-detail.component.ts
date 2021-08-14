@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from '../../../../dialog';
 import { IOrder } from '../../../../theme/models/shop';
 import { ShopService } from '../../../shop.service';
 
@@ -15,6 +16,8 @@ export class OrderDetailComponent implements OnInit {
     constructor(
         private service: ShopService,
         private route: ActivatedRoute,
+        private router: Router,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -29,4 +32,15 @@ export class OrderDetailComponent implements OnInit {
         });
     }
 
+    public tapRepurchase(item: IOrder) {
+        this.service.orderRepurchase(item.id).subscribe({
+            next: () => {
+                this.toastrService.success('已加入购物车');
+                this.router.navigate(['../../../market/cart'], {relativeTo: this.route});
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
+    }
 }

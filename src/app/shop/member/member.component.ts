@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog';
 import { ISite } from '../../theme/models/seo';
@@ -7,7 +7,6 @@ import { IArticle } from '../../theme/models/shop';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { AuthService } from '../../theme/services';
-import { setSite } from '../shop.actions';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 import { ShopService } from '../shop.service';
@@ -17,8 +16,9 @@ import { ShopService } from '../shop.service';
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnInit {
+export class MemberComponent {
     public site: ISite = {} as any;
+    public title = '个人中心';
 
     constructor(
         private service: ShopService,
@@ -38,8 +38,8 @@ export class MemberComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        
+    public onRouterActivate(componentRef: any) {
+        this.title = componentRef.title || '个人中心';
     }
 
 }

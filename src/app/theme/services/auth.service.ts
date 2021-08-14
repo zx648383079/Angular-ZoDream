@@ -53,8 +53,8 @@ export class AuthService {
         private router: Router,
         @Inject(PLATFORM_ID) private platformId: any) {}
 
-    public login(data: any): Observable < IUser > {
-        return this.http.post < IUser > ('auth/login', data).pipe(
+    public login(data: any): Observable<IUser> {
+        return this.http.post<IUser>('auth/login', data).pipe(
             map(user => {
                 this.setTokenInLocalStorage(user, USER_KEY);
                 this.authenticateUser(user);
@@ -70,8 +70,8 @@ export class AuthService {
      * @returns Observable<User>
      *
      */
-    public register(data: any): Observable < IUser > {
-        return this.http.post < IUser > ('auth/register', data).pipe(
+    public register(data: any): Observable<IUser> {
+        return this.http.post<IUser>('auth/register', data).pipe(
             map(user => {
                 this.setTokenInLocalStorage(user, USER_KEY);
                 this.authenticateUser(user);

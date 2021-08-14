@@ -20,6 +20,8 @@ interface IMessageGroup {
 })
 export class MessageComponent implements OnInit {
 
+    public title = '消息中心';
+
     public navItems: IMessageGroup[] = [
         {
             icon: 'icon-mobile',

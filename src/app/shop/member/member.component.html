@@ -7,12 +7,12 @@
                 <img [src]="site.logo" alt="">
             </div>
             <div class="header-title">
-                个人中心
+                {{ title }}
             </div>
         </div>
     </div>
 </header>
 
-<router-outlet></router-outlet>
+<router-outlet (activate)="onRouterActivate($event)"></router-outlet>
 
 <app-bottom-bar></app-bottom-bar>

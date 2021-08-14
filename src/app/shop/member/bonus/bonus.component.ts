@@ -8,7 +8,7 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./bonus.component.scss']
 })
 export class BonusComponent implements OnInit {
-
+    public title = '我的红包';
     public items: any[] = [];
     public hasMore = true;
     public page = 1;

@@ -9,7 +9,7 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
-
+    public title = '我的优惠券';
     public items: ICoupon[] = [];
     public hasMore = true;
     public page = 1;

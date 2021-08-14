@@ -8,7 +8,7 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-
+    public title = '浏览记录';
     public items: any[] = [];
     public hasMore = true;
     public page = 1;

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { IOrder } from '../../../theme/models/shop';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -10,11 +13,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-
+    public title = '我的订单';
     public items: IOrder[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
     public tabItems: IItem[] = [
@@ -39,22 +40,31 @@ export class OrderComponent implements OnInit {
             value: 60,
         },
     ];
-    public tabSelected = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        status: 0,
+        page: 1,
+        per_page: 20,
+    };
 
     constructor(
         private service: ShopService,
         private router: Router,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) {
-        this.tapRefresh();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
 
 
     public tapTab(item: IItem) {
-        this.tabSelected = item.value as number;
+        this.queries.status = item.value as number;
         this.tapRefresh();
     }
 
@@ -67,23 +77,57 @@ export class OrderComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapRepurchase(item: IOrder) {
+        this.service.orderRepurchase(item.id).subscribe({
+            next: () => {
+                this.toastrService.success('已加入购物车');
+                this.router.navigate(['../../market/cart'], {relativeTo: this.route});
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
+    }
+
+    public tapRemove(item: IOrder) {
+        this.toastrService.confirm('确认删除此“' + item.series_number + '”订单？', () => {
+            this.service.orderRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
+
+    public tapCancel(item: IOrder) {
+        this.toastrService.confirm('确认取消此“' + item.series_number + '”订单？', () => {
+            this.service.orderCancel(item.id).subscribe(res => {
+                this.toastrService.success('取消成功');
+                this.items = this.items.map(it => {
+                    return it.id !== item.id ? it : item;
+                });
+            });
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -94,16 +138,13 @@ export class OrderComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
-            keywords: this.keywords,
-            status: this.tabSelected,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
+        const queries = {... this.queries, page};
+        this.service.orderList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
+            applyHistory(this.queries = queries);
         });
     }
 

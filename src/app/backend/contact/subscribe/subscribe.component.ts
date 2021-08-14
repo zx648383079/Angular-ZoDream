@@ -77,16 +77,15 @@ export class SubscribeComponent implements OnInit {
     }
 
     public tapRemove(item: ISubscribe) {
-        if (!confirm('确认删除此“' + item.email + '”的订阅？')) {
-            return;
-        }
-        this.service.subscribeRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确认删除此“' + item.email + '”的订阅？', () => {
+            this.service.subscribeRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
