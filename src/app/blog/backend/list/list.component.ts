@@ -38,12 +38,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.queries = getQueries(res, {
-                keywords: '',
-                term: 0,
-                page: 1,
-                per_page: 20,
-            });
+            this.queries = getQueries(res, this.queries);
             this.tapPage();
         });
     }
@@ -65,14 +60,17 @@ export class ListComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.getPage(queries).subscribe(res => {
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
-        }, () => {
-            this.isLoading = false;
+        this.service.getPage(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

@@ -3,6 +3,9 @@ import { IBook, ICategory } from '../model';
 import { IItem } from '../../theme/models/seo';
 import { BookService } from './book.service';
 import { DialogService } from '../../dialog';
+import { IPageQueries } from '../../theme/models/page';
+import { ActivatedRoute } from '@angular/router';
+import { applyHistory, getQueries } from '../../theme/query';
 
 @Component({
   selector: 'app-backend',
@@ -12,12 +15,9 @@ import { DialogService } from '../../dialog';
 export class BackendComponent implements OnInit {
 
     public items: IBook[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
     public categories: ICategory[] = [];
     public classifyItems: IItem[] = [
         {
@@ -29,17 +29,31 @@ export class BackendComponent implements OnInit {
             value: 1,
         },
     ];
-    public classify = 0;
-    public category = 0;
-    public author = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        category: 0,
+        author: 0,
+        classify: 0,
+        page: 1,
+        per_page: 20,
+    };
+
 
     constructor(
         private service: BookService,
+        private route: ActivatedRoute,
         private toastrService: DialogService,
-    ) {}
+    ) {
+        this.service.categoryAll().subscribe(res => {
+            this.categories = res.data;
+        });
+    }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(res => {
+            this.queries = getQueries(res, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapRefresh() {
@@ -50,7 +64,7 @@ export class BackendComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -58,47 +72,40 @@ export class BackendComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.bookList({
-            keywords: this.keywords,
-            category: this.category,
-            classify: this.classify,
-            author: this.author,
-            page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page};
+        this.service.bookList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
-        this.category = form.cat_id || 0;
-        this.classify = form.classify || 0;
-        this.author = 0;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapRemove(item: IBook) {
-        if (!confirm('确定删除“' + item.name + '”书籍？')) {
-            return;
-        }
-        this.service.bookRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”书籍？', () => {
+            this.service.bookRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

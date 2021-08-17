@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { IBook, IBookList } from '../../model';
 import { BookService } from '../book.service';
 
@@ -11,20 +14,27 @@ import { BookService } from '../book.service';
 export class ListComponent implements OnInit {
 
     public items: IBookList[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        category: 0,
+        page: 1,
+        per_page: 20,
+    };
 
     constructor(
         private service: BookService,
+        private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {}
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(res => {
+            this.queries = getQueries(res, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapRefresh() {
@@ -35,7 +45,7 @@ export class ListComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -43,41 +53,40 @@ export class ListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.listList({
-            keywords: this.keywords,
-            page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page};
+        this.service.listList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapRemove(item: IBookList) {
-        if (!confirm('确定删除“' + item.title + '”书单？')) {
-            return;
-        }
-        this.service.listRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”书单？', () => {
+            this.service.listRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
