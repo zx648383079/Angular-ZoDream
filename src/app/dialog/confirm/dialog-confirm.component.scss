@@ -1,5 +1,6 @@
 .dialog-box {
     width: 16.25rem;
+    left: 50%;
     margin-left: -8.125em;
     border-radius: 0.25rem;
     .dialog-footer {
@@ -10,5 +11,12 @@
         display: flex;
         padding: 0.2em .8em;
         min-height: 10rem;
+    }
+}
+@media screen and (max-width: 320px) {
+    .dialog-box {
+        width: 100%;
+        left: 0;
+        margin-left: 0;
     }
 }

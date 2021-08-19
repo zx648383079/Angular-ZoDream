@@ -149,6 +149,14 @@ export class BookService {
         return this.http.post<IChapter>('book/member/book/chapter_save', data);
     }
 
+    public selfMoveChapter(data: any) {
+        return this.http.post<IDataOne<boolean>>('book/member/book/move', data);
+    }
+
+    public selfRefreshPosition(id: number) {
+        return this.http.post<IDataOne<boolean>>('book/member/book/refresh', {id});
+    }
+
     public selfRemoveChapter(id: any) {
         return this.http.delete<IDataOne<boolean>>('book/member/book/chapter_delete', {params: {id}});
     }

@@ -2,9 +2,11 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../dialog';
+import { TextEditorComponent } from '../../editor/text-editor/text-editor.component';
 import { ButtonEvent } from '../../form';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from '../../mind';
 import { PanelAnimation } from '../../theme/constants/panel-animation';
+import { ThemeService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { BookService } from '../book.service';
@@ -22,6 +24,10 @@ export class BookEditorComponent implements OnInit {
 
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
+    @ViewChild(TextEditorComponent)
+    public editor: TextEditorComponent;
+    @ViewChild('moveModal')
+    public moveModal: DialogBoxComponent;
 
     public book: IBook;
     public data: IChapter;
@@ -50,6 +56,11 @@ export class BookEditorComponent implements OnInit {
         name: '',
         level: '',
     };
+    public moveData = {
+        source: 0,
+        target: 0,
+        type: 0,
+    };
     
     constructor(
         private service: BookService,
@@ -57,7 +68,10 @@ export class BookEditorComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private renderer: Renderer2,
-    ) { }
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle('编辑书籍');
+    }
 
     public get goodsItems() {
         if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
@@ -86,24 +100,40 @@ export class BookEditorComponent implements OnInit {
             }
         });
         this.route.params.subscribe(params => {
-            this.service.selfBook(params.id).subscribe({
-                next: res => {
-                    this.catalog = res.chapters.map(i => {
-                        if (i.type > 0 && !i.children) {
-                            i.children = [];
-                        }
-                        if (i.type > 0) {
-                            i.expanded = false;
-                        }
-                        return i;
-                    });
-                    this.book = {...res, chapters: undefined};
-                    this.loadRole();
-                },
-                error: err => {
-                    this.toastrService.error(err);
+            this.loadBook(params.id);
+        });
+    }
+
+    private loadBook(id: any, only = false) {
+        this.service.selfBook(id).subscribe({
+            next: res => {
+                this.catalog = res.chapters.map(i => {
+                    if (i.type > 0 && !i.children) {
+                        i.children = [];
+                    }
+                    if (i.type > 0) {
+                        i.expanded = false;
+                    }
+                    return i;
+                });
+                this.book = {...res, chapters: undefined};
+                if (only) {
+                    return;
                 }
-            })
+                this.loadRole();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapRefreshPosition() {
+        this.toastrService.confirm('确定更新排序？', () => {
+            this.service.selfRefreshPosition(this.book.id).subscribe(() => {
+                this.toastrService.success('更新成功！');
+                this.loadBook(this.book.id, true);
+            });
         });
     }
 
@@ -130,6 +160,7 @@ export class BookEditorComponent implements OnInit {
         this.service.selfChapter(item.id).subscribe({
             next: res => {
                 this.data = res;
+                this.editor?.scrollToTop();
             },
             error: err => {
                 this.toastrService.error(err);
@@ -150,7 +181,15 @@ export class BookEditorComponent implements OnInit {
                 name: '新建章节',
                 icon: 'icon-file-text-o',
                 onTapped: () => {
-                    this.tapNewFile(parent);
+                    this.tapNewFile(parent ? (parent.type > 0 ? parent : {id: parent.parent_id} as any) : undefined);
+                }
+            },
+            {
+                name: '移动章节',
+                icon: 'icon-arrow-up',
+                disable: !parent,
+                onTapped: () => {
+                    this.tapMove(parent)
                 }
             },
             {
@@ -191,6 +230,27 @@ export class BookEditorComponent implements OnInit {
         }).subscribe(_ => {
             this.toastrService.success('书籍信息保存成功');
         });
+    }
+
+    public tapMove(item: IChapter) {
+        this.moveData.source = item.id;
+        this.moveModal.open(() => {
+            const data: any = {id: this.moveData.source};
+            if (this.moveData.type < 1) {
+                data.before = this.moveData.target;
+            } else {
+                data.after = this.moveData.target;
+            }
+            this.service.selfMoveChapter(data).subscribe({
+                next: () => {
+                    this.toastrService.success('移动成功');
+                    this.loadBook(this.book.id, true);
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => this.moveData.target > 0 && this.moveData.target != item.id, `移动章节《${item.title}》到`);
     }
 
     public tapSaveChapter(e?: ButtonEvent) {

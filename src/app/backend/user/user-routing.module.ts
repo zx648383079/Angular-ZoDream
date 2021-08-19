@@ -7,6 +7,7 @@ import { LogComponent } from './log/log.component';
 import { LoginLogComponent } from './login-log/login-log.component';
 import { PasswordComponent } from './password/password.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserSettingComponent } from './setting/user-setting.component';
 import { UserComponent } from './user.component';
 
 const routes: Routes = [
@@ -42,6 +43,10 @@ const routes: Routes = [
         path: 'bulletin/send',
         component: BulletinSendComponent
     },
+    {
+        path: 'setting',
+        component: UserSettingComponent
+    },
 ];
 
 @NgModule({
@@ -53,5 +58,5 @@ export class UserRoutingModule {}
 export const userRoutedComponents = [
     UserComponent, ConnectComponent,
     LogComponent, LoginLogComponent,
-    PasswordComponent, ProfileComponent, BulletinComponent, BulletinSendComponent
+    PasswordComponent, ProfileComponent, BulletinComponent, BulletinSendComponent, UserSettingComponent
 ];

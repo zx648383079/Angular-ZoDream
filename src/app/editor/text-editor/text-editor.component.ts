@@ -135,6 +135,18 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
         this.focus();
     }
 
+    public scrollToTop() {
+        if (this.area) {
+            this.area.focus();
+            this.area.scrollTo({
+                top: 0
+            });
+            this.area.selectionStart = 0;
+            this.area.selectionEnd = 0;
+
+        }
+    }
+
     /**
      * move
      */

@@ -127,8 +127,7 @@ export const backendBottomMenu: INav[] = [
     {
         name: '设置',
         icon: 'icon-cog',
-        url: './system',
-        role: 'system_manage',
+        url: './user/setting',
     },
     {
         name: '返回前台',

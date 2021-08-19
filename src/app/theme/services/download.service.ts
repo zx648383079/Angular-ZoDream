@@ -39,6 +39,13 @@ export class DownloadService {
         URL.revokeObjectURL(objectUrl);
     }
 
+    /**
+     * 导出文件
+     * @param url 
+     * @param data 
+     * @param fileName 备选，以 headers 获取的为首选项  
+     * @param fileType 可不填，自动获取
+     */
     public export(url: string, data: any, fileName?: string, fileType?: any) {
         this.requestBlob(url, data).subscribe((res: HttpResponse<Blob>) => {
             this.downFile(res, fileName, fileType);

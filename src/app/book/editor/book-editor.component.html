@@ -29,6 +29,9 @@
     <div class="editor-body">
         <div class="catalog-container">
             <div class="tool-bar">
+                <a title="刷新排序" (click)="tapRefreshPosition()">
+                    <i class="iconfont icon-refresh"></i>
+                </a>
                 <a title="新增章节" (click)="tapNewFile()">
                     <i class="iconfont icon-file-text-o"></i>
                 </a>
@@ -166,6 +169,30 @@
 <div class="dialog-link" [hidden]="!linkOpen">
     <app-mind [readonly]="false" [format]="mindFormat" [items]="roleItems" [linkItems]="linkItems" (confirm)="onMindConfirm($event, roleModal)" (update)="onMindUpdate($event)"></app-mind>
 </div>
+
+<app-dialog-box #moveModal [scrollable]="false">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">移动到章节</label>
+            <div>
+                <select [(ngModel)]="moveData.target" class="form-control">
+                    <ng-container *ngFor="let item of catalog">
+                        <option [value]="item.id">{{ item.title }}</option>
+                        <ng-container *ngFor="let it of item.children">
+                            <option [value]="it.id">{{ it.title }}</option>
+                        </ng-container>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for=""></label>
+            <div>
+                <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1"></app-check-input>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
 
 <app-dialog-box #roleModal [scrollable]="false">
 <div class="form-table">
