@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { DialogService } from '../dialog';
+import { ButtonEvent } from '../form';
 import { hasElementByClass, twoPad } from '../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
@@ -167,12 +168,20 @@ export class CheckinComponent {
         }
     }
 
-    public tapCheck() {
-        this.service.checkIn().subscribe(res => {
-            if (res.data) {
-                this.data = res.data;
-                this.checkDay(new Date(res.data.created_at).getDate());
-                this.toastrService.success('签到成功');
+    public tapCheck(e?: ButtonEvent) {
+        e?.enter();
+        this.service.checkIn().subscribe({
+            next: res => {
+                e?.reset();
+                if (res.data) {
+                    this.data = res.data;
+                    this.checkDay(new Date(res.data.created_at).getDate());
+                    this.toastrService.success('签到成功');
+                }
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
             }
         });
     }

@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { IMenuItem } from '../context-menu';
 import { DialogAnimation } from '../theme/constants/dialog-animation';
 import { AppState } from '../theme/interfaces';
 import { IUser } from '../theme/models/user';
@@ -20,6 +21,36 @@ export class CateringComponent implements OnInit {
     public user: IUser;
     public authOpen = false;
     public searchOpen = false;
+    public menuItems: IMenuItem[] = [
+        {
+            name: '个人中心',
+        },
+        {
+            name: '我的订单',
+        },
+        {
+            name: '商家中心',
+            children: [
+                {
+                    name: '订单管理'
+                },
+                {
+                    name: '商品管理'
+                },
+                {
+                    name: '员工管理'
+                },
+                {
+                    name: '库存管理'
+                },
+            ]
+        },
+        {},
+        {
+            icon: 'icon-sign-out',
+            name: '退出'
+        }
+    ];
 
     constructor(private store: Store<AppState>) {
         this.store.select(getCurrentUser).subscribe(user => {

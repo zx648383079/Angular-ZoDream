@@ -1,0 +1,7 @@
+<div class="lyrics-scroller">
+    <ng-container *ngFor="let item of items">
+        <div class="lyrics-item" [ngClass]="{active: item.active}">
+            {{ item.text }}
+        </div>
+    </ng-container>
+</div>

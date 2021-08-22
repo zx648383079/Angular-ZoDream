@@ -63,15 +63,18 @@ export class ListComponent implements OnInit {
         this.isLoading = true;
         this.service.list({
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                this.perPage = res.paging.limit;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

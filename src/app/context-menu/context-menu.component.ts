@@ -11,7 +11,7 @@ export class ContextMenuComponent {
 
     @Input() public items: IMenuItem[] = [];
 
-    public fixedLeft = false;
+    public flowLeft = false;
     public isOpen = false;
 
     private x: number;
@@ -61,15 +61,6 @@ export class ContextMenuComponent {
     }
 
     public tapMenuItem(item: IMenuButton) {
-        if (item.disable) {
-            return;
-        }
-        if (item.children && item.children.length > 0) {
-            return;
-        }
-        if (item.onTapped) {
-            item.onTapped();
-        }
         if (this.finished) {
             this.finished(item);
         }

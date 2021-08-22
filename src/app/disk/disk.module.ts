@@ -6,6 +6,7 @@ import { DiskService } from './disk.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogModule } from '../dialog';
 import { ProgressModule } from '../progress';
+import { MediaPlayerModule } from '../media-player';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ProgressModule } from '../progress';
         DiskRoutingModule,
         DialogModule,
         ProgressModule,
+        MediaPlayerModule,
     ],
     providers: [
         DiskService

@@ -1,3 +1,4 @@
+@import '../context-menu/menu';
 .header-bar {
     background-color: #fff;
     ul,
@@ -41,26 +42,9 @@
                 background-color: #ccc;
             }
         }
-        .drop-body {
-            position: absolute;
-            width: 6rem;
-            right: 0;
-            background-color: white;
-            z-index: 910;
-            box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
-            user-select: none;
-            li {
-                line-height: 2rem;
-                text-align: center;
-                cursor: pointer;
-                &:hover {
-                    background-color: #eee;
-                }
-                &.active {
-                    background-color: #ccc;
-                }
-            }
-        }
+    }
+    .drop-menu {
+        right: 0;
     }
 }
 

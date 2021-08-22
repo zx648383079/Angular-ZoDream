@@ -1,15 +1,17 @@
 <div class="container-fluid">
-    
-    <ng-container *ngFor="let item of items">
-        <div class="book-item" (click)="tapRead(item)">
-            <div class="cover">
-                <img [src]="item.book.cover">
+    <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
+        <ng-container *ngFor="let item of items">
+            <div class="book-item" (click)="tapRead(item)" (contextmenu)="tapContextMenu($event, item)">
+                <div class="cover">
+                    <img [src]="item.book.cover">
+                </div>
+                <div class="info">
+                    <div class="name">{{ item.book.name }}</div>
+                    <div class="tag">{{ item.book.author?.name }}</div>
+                    <div class="desc">{{ item.updated_at | ago }}· {{ item.chapter ? item.chapter.title : '未读' }}</div>
+                </div>
             </div>
-            <div class="info">
-                <div class="name">{{ item.book.name }}</div>
-                <div class="tag">{{ item.book.author?.name }}</div>
-                <div class="desc">{{ item.updated_at | ago }}· {{ item.chapter ? item.chapter.title : '未读' }}</div>
-            </div>
-        </div>
-    </ng-container>
+        </ng-container>
+    </app-pull-to-refresh>
 </div>
+<app-context-menu></app-context-menu>

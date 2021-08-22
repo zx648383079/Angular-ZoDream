@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckinComponent } from './checkin.component';
 import { CheckinService } from './checkin.service';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        ZreFormModule,
     ],
     declarations: [CheckinComponent],
     providers: [

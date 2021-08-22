@@ -1,11 +1,7 @@
-.audio-player {
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 7%), 0 1px 5px 0 rgb(0 0 0 / 10%);
+.player-bar {
     display: flex;
     box-sizing: border-box;
     line-height: 2.5em;
-    i {
-        font-style: normal;
-    }
     .icon {
         width: 2.5em;
         text-align: center;
@@ -25,10 +21,8 @@
         padding-top: 1em;
         padding-right: .5em;
     }
-    &.player-mini {
-        .volume-icon,
-        .volume-slider {
-            display: none;
-        }
+    .full-icon {
+        width: 2em;
+        text-align: center;
     }
 }

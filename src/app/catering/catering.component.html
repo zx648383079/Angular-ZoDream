@@ -12,9 +12,9 @@
             <div class="avatar" (click)="tapAvatar()">
                 <img [src]="user.avatar | asset">
             </div>
-            <ul class="drop-body" [hidden]="!authOpen">
-                <li>注销</li>
-            </ul>
+            <div class="drop-menu" [hidden]="!authOpen">
+                <app-menu-body [items]="menuItems" [flowLeft]="true"></app-menu-body>
+            </div>
         </div>
     </div>
 </div>

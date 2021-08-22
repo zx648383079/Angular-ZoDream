@@ -197,7 +197,7 @@ export class PageEditorComponent implements OnInit {
         setTimeout(() => {
             const ele = this.scrollBar.nativeElement;
             ele.scrollTo({
-                top: ele.clientHeight + 300
+                top: ele.scrollHeight + 300
             });
         }, 100);
     }

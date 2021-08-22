@@ -1,0 +1,14 @@
+.lyrics-scroller {
+    .lyrics-item {
+        color: #989898;
+        word-wrap: break-word;
+        text-align: center;
+        line-height: 2rem;
+        font-size: .8rem;
+        transition: color 0.7s linear;
+        &.active {
+            color: #fff;
+            font-size: 0.875rem;
+        }
+    }
+}

@@ -16,8 +16,8 @@
                 </ng-container>
             </ul>
         </div>
-        <div class="picker-footer" *ngIf="!data" (click)="tapCheck()">
+        <app-action-button class="picker-footer" *ngIf="!data" (tapped)="tapCheck($event)">
             签到
-        </div>
+        </app-action-button>
     </div>
 </div>

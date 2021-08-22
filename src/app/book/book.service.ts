@@ -85,6 +85,10 @@ export class BookService {
         return this.http.post<any>('book/history/record', {book, chapter, progress});
     }
 
+    public removeHistory(id: any) {
+        return this.http.delete<IDataOne<boolean>>('book/history/delete', {params: {id}});
+    }
+
     public getTheme(): Observable<any>{
         return this.http.get<IData<any>>('book/theme');
     }

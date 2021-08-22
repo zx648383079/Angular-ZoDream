@@ -4,6 +4,7 @@ import { cateringRoutingComponents, CateringRoutingModule } from './catering-rou
 import { ThemeModule } from '../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
+import { ContextMenuModule } from '../context-menu';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from '../auth/auth.module';
         ReactiveFormsModule,
         CateringRoutingModule,
         AuthModule,
+        ContextMenuModule,
     ],
     declarations: [...cateringRoutingComponents]
 })

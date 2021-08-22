@@ -70,6 +70,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         if (isFlow && this.navToggle < 1) {
             this.navToggle = 1;
         }
+        this.searchService.emit('nav.resize', this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
     }
 
     public get navClass() {
