@@ -44,6 +44,7 @@ const routes: Routes = [
     { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
     { path: 'doc', loadChildren: () => import('./document/document.module').then(m => m.DocumentModule) },
     { path: 'wx', loadChildren: () => import('./wechat/wechat.module').then(m => m.WechatModule) },
+    { path: 'navigation', loadChildren: () => import('./navigation/navigation.module').then(m => m.NavigationModule) },
     {
         path: 'finance',
         canActivate: [CanActivateViaAuthGuard],

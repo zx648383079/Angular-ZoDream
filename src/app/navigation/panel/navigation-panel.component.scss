@@ -1,0 +1,94 @@
+.panel {
+    .panel-header {
+        line-height: 40px;
+        background-color: #fff;
+        padding: 0 10px;
+        border-bottom: 1px solid #f90;
+        .more {
+            float: right;
+        }
+    }
+}
+.self-box {
+    background-color: #fff;
+    margin-bottom: 10px;
+    .custom-btn,
+    .add-btn {
+        float: right;
+    }
+    .add-btn {
+        display: none;
+    }
+    .group-item {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        grid-gap: 10px;
+        .group-name {
+            line-height: 50px;
+            text-align: right;
+            font-weight: 700;
+        }
+    }
+    .site-item {
+        display: inline-block;
+        text-align: center;
+        line-height: 45px;
+        border-radius: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+        width: 120px;
+        .fa {
+            display: none;
+        }
+        &:hover {
+            color: #FFF;
+            font-size: 16px;
+            font-weight: bold;
+            background: #6b7184;
+        }
+    }
+    .panel-footer {
+        background: #6b7184;
+        height: 0;
+        line-height: 35px;
+        text-align: center;
+        overflow: hidden;
+        transition: all .2s;
+        .btn {
+            display: inline-block;
+            margin: 30px 15px;
+            padding: 0 20px;
+            color: rgba(255, 255, 255, 0.60);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            background-color: transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .2s;
+            &:hover {
+                color: #6b7184;
+                border-color: #fff;
+                background: #fff
+            }
+            &.panel-close {
+                color: #6b7184;
+                border-color: #fff;
+                background: #fff;
+            }
+        }
+    }
+    &.edit-mode {
+        .add-btn {
+            display: block;
+        }
+        .panel-footer {
+            height: 100px;
+        }
+        .site-item {
+            .fa {
+                display: inline-block;
+            }
+        }
+    }
+}

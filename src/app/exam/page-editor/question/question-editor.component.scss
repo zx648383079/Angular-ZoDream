@@ -20,6 +20,9 @@
     padding: .8em;
     .material {
         text-align: center;
+        img {
+            max-width: 100%;
+        }
     }
     .add-btn {
         margin-top: .4em;

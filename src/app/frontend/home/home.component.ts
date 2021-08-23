@@ -33,6 +33,10 @@ export class HomeComponent implements OnInit {
             url: 'forum'
         },
         {
+            name: 'Navigation',
+            url: 'navigation'
+        },
+        {
             name: 'Video',
             url: '/video'
         },

@@ -7,21 +7,27 @@
                 <app-search-input></app-search-input>
             </a>
         </div>
-
-        <div class="user-icon">
-            <div class="avatar" (click)="tapAvatar()">
-                <img [src]="user.avatar | asset">
-            </div>
-            <div class="drop-menu" [hidden]="!authOpen">
-                <app-menu-body [items]="menuItems" [flowLeft]="true"></app-menu-body>
+        <div class="tab-bar pull-right">
+            <a>
+                <i class="iconfont icon-scan"></i>
+            </a>
+            <a>
+                <i class="iconfont icon-shopping-cart"></i>
+            </a>
+            <div class="user-icon">
+                <div class="avatar" (click)="tapAvatar()">
+                    <img [src]="user.avatar | asset">
+                </div>
+                <div class="drop-menu" [hidden]="!authOpen">
+                    <app-menu-body [items]="menuItems" [flowLeft]="true"></app-menu-body>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
 
-<div class="container-fluid">
-
-</div>
+<router-outlet></router-outlet>
 
 
 <div class="dialog-mask" *ngIf="dialogOpen">

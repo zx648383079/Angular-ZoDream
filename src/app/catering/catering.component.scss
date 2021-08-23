@@ -29,8 +29,10 @@
         }
     }
     .user-icon {
-        float: right;
+        display: inline-block;
         position: relative;
+        margin-top: - 1.875rem;
+        vertical-align: bottom;
         .avatar {
             padding: 0.625rem 0.3125rem;
             img {
@@ -46,6 +48,10 @@
     .drop-menu {
         right: 0;
     }
+}
+
+.pull-right {
+    float: right;
 }
 
 .dialog-box {
