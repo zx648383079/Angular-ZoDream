@@ -96,6 +96,10 @@ const routes: Routes = [{
             loadChildren: () => import('../checkin/backend/checkin-backend.module').then(m => m.CheckinBackendModule)
         },
         {
+            path: 'navigation',
+            loadChildren: () => import('../navigation/backend/navigation-backend.module').then(m => m.NavigationBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

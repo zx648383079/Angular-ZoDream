@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
         },
         {
             name: 'Navigation',
-            url: 'navigation'
+            url: '/navigation'
         },
         {
             name: 'Video',

@@ -9,6 +9,7 @@ import { ExamBackendMenu } from '../exam/backend/menu';
 import { ForumBackendMenu } from '../forum/backend/menu';
 import { LegworkBackendMenu } from '../legwork/backend/menu';
 import { MicroBackendMenu } from '../micro/backend/menu';
+import { NavigationBackendMenu } from '../navigation/backend/menu';
 import { OnlineServiceBackendMenu } from '../online-service/backend/menu';
 import { ShopBackendMenu } from '../shop/backend/menu';
 import { INav } from '../theme/components';
@@ -55,6 +56,7 @@ export class MenuService {
             forum: ForumBackendMenu,
             book: BookBackendMenu,
             video: VideoBackendMenu,
+            navigation: NavigationBackendMenu,
             legwork: LegworkBackendMenu,
             os: OnlineServiceBackendMenu,
             doc: DocumentBackendMenu,

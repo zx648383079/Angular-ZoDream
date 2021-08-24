@@ -3,18 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { mapFormat } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
-import { ISite, ISiteCategory, ISiteTag } from '../../model';
+import { IWebPageKeywords } from '../../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
-  selector: 'app-site',
-  templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+  selector: 'app-keyword',
+  templateUrl: './keyword.component.html',
+  styleUrls: ['./keyword.component.scss']
 })
-export class SiteComponent implements OnInit {
+export class KeywordComponent implements OnInit {
 
-    public items: ISite[] = [];
+    public items: IWebPageKeywords[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -22,13 +23,9 @@ export class SiteComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
-        category: 0,
-        user: 0,
-        tag: 0,
     };
-    public categories: ISiteCategory[] = [];
-    public tagItems: ISiteTag[] = [];
-    public editData: ISite = {} as any;
+    public typeItems = ['词语', '长尾词'];
+    public editData: IWebPageKeywords = {} as any;
 
     constructor(
         private service: NavigationService,
@@ -37,31 +34,24 @@ export class SiteComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
-        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
-    public addTagFn(name: string) {
-        return {name};
+    public formatType(v: number) {
+        return mapFormat(v, this.typeItems);
     }
 
-    public open(modal: DialogEvent, item?: ISite) {
+    public open(modal: DialogEvent, item?: IWebPageKeywords) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
-            name: '',
-            logo: '',
-            description: '',
-            cat_id: 0,
-            schema: 'https',
-            domain: '',
+            word: '',
+            type: 0,
         };
         modal.open(() => {
-            this.service.siteSave(this.editData).subscribe({
+            this.service.keywordSave(this.editData).subscribe({
                 next: () => {
                     this.toastrService.success('保存成功');
                     this.tapRefresh();
@@ -71,7 +61,7 @@ export class SiteComponent implements OnInit {
                 }
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editData.word);
         });
     }
 
@@ -97,7 +87,7 @@ export class SiteComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.siteList(queries).subscribe({
+        this.service.keywordList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -116,9 +106,9 @@ export class SiteComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: ISite) {
-        this.toastrService.confirm('确定删除“' + item.name + '”站点？', () => {
-            this.service.siteRemove(item.id).subscribe(res => {
+    public tapRemove(item: IWebPageKeywords) {
+        this.toastrService.confirm('确定删除“' + item.word + '”关键词？', () => {
+            this.service.keywordRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -129,4 +119,6 @@ export class SiteComponent implements OnInit {
             });
         });
     }
+
+
 }

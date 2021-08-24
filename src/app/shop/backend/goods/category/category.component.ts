@@ -10,33 +10,32 @@ import { GoodsService } from '../goods.service';
 })
 export class CategoryComponent implements OnInit {
 
-  public categories: ICategory[] = [];
+    public categories: ICategory[] = [];
 
-  constructor(
-    private service: GoodsService,
-    private toastrService: DialogService,
-  ) {
-    this.service.categoryTree().subscribe(res => {
-      this.categories = res.data;
-    });
-  }
-
-  ngOnInit() {
-  }
-
-  public tapRemove(item: ICategory) {
-    if (!confirm('确定删除“' + item.name + '”分类？')) {
-      return;
+    constructor(
+        private service: GoodsService,
+        private toastrService: DialogService,
+    ) {
     }
-    this.service.categoryRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.categories = this.categories.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    ngOnInit() {
+        this.service.categoryTree().subscribe(res => {
+            this.categories = res.data;
+        });
+    }
+
+    public tapRemove(item: ICategory) {
+        this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {
+            this.service.categoryRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.categories = this.categories.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
 
 }

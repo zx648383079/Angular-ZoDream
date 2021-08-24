@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { ISiteCollectGroup } from '../model';
 
 @Component({
   selector: 'app-navigation-panel',
   templateUrl: './navigation-panel.component.html',
   styleUrls: ['./navigation-panel.component.scss']
 })
-export class NavigationPanelComponent implements OnInit {
+export class NavigationPanelComponent {
 
-  constructor() { }
+    public editMode = false;
+    public items: ISiteCollectGroup[] = [];
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

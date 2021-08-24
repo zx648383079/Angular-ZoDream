@@ -4,17 +4,17 @@ import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
-import { ISite, ISiteCategory, ISiteTag } from '../../model';
+import { ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
-  selector: 'app-site',
-  templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+  selector: 'app-tag',
+  templateUrl: './tag.component.html',
+  styleUrls: ['./tag.component.scss']
 })
-export class SiteComponent implements OnInit {
+export class TagComponent implements OnInit {
 
-    public items: ISite[] = [];
+    public items: ISiteTag[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -22,13 +22,8 @@ export class SiteComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
-        category: 0,
-        user: 0,
-        tag: 0,
     };
-    public categories: ISiteCategory[] = [];
-    public tagItems: ISiteTag[] = [];
-    public editData: ISite = {} as any;
+    public editData: ISiteTag = {} as any;
 
     constructor(
         private service: NavigationService,
@@ -37,31 +32,19 @@ export class SiteComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
-        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
-    public addTagFn(name: string) {
-        return {name};
-    }
-
-    public open(modal: DialogEvent, item?: ISite) {
+    public open(modal: DialogEvent, item?: ISiteTag) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',
-            logo: '',
-            description: '',
-            cat_id: 0,
-            schema: 'https',
-            domain: '',
         };
         modal.open(() => {
-            this.service.siteSave(this.editData).subscribe({
+            this.service.tagSave(this.editData).subscribe({
                 next: () => {
                     this.toastrService.success('保存成功');
                     this.tapRefresh();
@@ -97,7 +80,7 @@ export class SiteComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.siteList(queries).subscribe({
+        this.service.tagList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -116,9 +99,9 @@ export class SiteComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: ISite) {
-        this.toastrService.confirm('确定删除“' + item.name + '”站点？', () => {
-            this.service.siteRemove(item.id).subscribe(res => {
+    public tapRemove(item: ISiteTag) {
+        this.toastrService.confirm('确定删除“' + item.name + '”标签？', () => {
+            this.service.tagRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -129,4 +112,5 @@ export class SiteComponent implements OnInit {
             });
         });
     }
+
 }

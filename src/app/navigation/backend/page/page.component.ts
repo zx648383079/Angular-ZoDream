@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DialogEvent, DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
+import { emptyValidate } from '../../../theme/validators';
+import { IWebPage, IWebPageKeywords } from '../../model';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-page',
@@ -7,9 +14,120 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageComponent implements OnInit {
 
-  constructor() { }
+    public items: IWebPage[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        site: 0,
+        user: 0,
+    };
+    public editData: IWebPage = {} as any;
+    public wordItems: IWebPageKeywords[] = [];
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: NavigationService,
+        private toastrService: DialogService,
+        private route: ActivatedRoute,
+    ) {}
 
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
+    public formatDomain(v: string) {
+        const i = v.indexOf('//');
+        const s = i < 0 ? 0 : (i + 2);
+        const j = v.indexOf('/', s + 1);
+        return j < 0 ? v.substring(s) : v.substring(s, j);
+    }
+
+    public addWordFn(word: string) {
+        return {word};
+    }
+
+    public open(modal: DialogEvent, item?: IWebPage) {
+        this.editData = item ? Object.assign({}, item) : {
+            id: 0,
+            title: '',
+            description: '',
+            link: '',
+            thumb: '',
+            site_id: 0,
+            page_rank: 1,
+        };
+        modal.open(() => {
+            this.service.pageSave(this.editData).subscribe({
+                next: () => {
+                    this.toastrService.success('保存成功');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => {
+            return !emptyValidate(this.editData.title) && !emptyValidate(this.editData.link);
+        });
+    }
+
+    /**
+     * tapRefresh
+     */
+    public tapRefresh() {
+        this.goPage(1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.pageList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapRemove(item: IWebPage) {
+        this.toastrService.confirm('确定删除“' + item.title + '”网页？', () => {
+            this.service.pageRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
 }

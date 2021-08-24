@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理网页列表</li>
+            <li>管理关键词列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -13,8 +13,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-success" routerLink="../keyword">关键字管理</a>
-                    <a class="btn btn-info" (click)="open(modal)">新增网页</a>
+                    <a class="btn btn-info" (click)="open(modal)">新增关键词</a>
                 </div>
             </form>
         </div>
@@ -23,8 +22,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>标题</th>
-                    <th>站点</th>
+                    <th>关键词</th>
+                    <th>类型</th>
                     <th>统计</th>
                     <th>操作</th>
                 </tr>
@@ -32,12 +31,13 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td [title]="item.link">{{ item.title }}</td>
-                    <td [title]="item.site?.domain">{{ item.site?.name || formatDomain(item.link) }}</td>
+                    <td>{{ item.word }}</td>
+                    <td>{{ formatType(item.type) }}</td>
                     <td></td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-info" [href]="item.link" target="_blank" rel="noopener">查看</a>
+                            <a class="btn btn-info"
+                                routerLink="../page" [queryParams]="{keywords: item.word}">查看</a>
                             <a class="btn btn-light" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -50,34 +50,19 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
-
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑网页' : '新增网页'">
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑关键词' : '新增关键词'" [scrollable]="false">
     <div class="form-group">
-        <label for="name-input">标题</label>
+        <label for="name-input">关键词</label>
         <div class="input-group">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.title" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.word" placeholder="请输入关键词">
         </div>
     </div>
     <div class="form-group">
-        <label>预览图</label>
+        <label>类型</label>
         <div class="input-group">
-            <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+            <select class="form-control" [(ngModel)]="editData.type">
+                <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
+            </select>
         </div>
-    </div>
-    <div class="form-group">
-        <label>说明</label>
-        <div class="input-group">
-            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>网址</label>
-        <div class="input-group">
-            <input class="form-control" [(ngModel)]="editData.link" placeholder="请输入网址">
-        </div>
-    </div>
-    <div class="form-group">
-        <label>关键词</label>
-        <ng-select [multiple]="true" [items]="wordItems" bindLabel="word" [(ngModel)]="editData.keywords" [addTag]="addWordFn" placeholder="选择关键词"></ng-select>
     </div>
 </app-dialog-box>

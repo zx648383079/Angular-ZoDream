@@ -20,16 +20,12 @@
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
-
             </div>
         </div>
         <div class="input-group">
             <label for="thumb">图片</label>
-            <div class="file-input">
-                <input type="text" id="thumb" class="form-control" formControlName="thumb">
-                <label for="fileUpload" class="btn btn-primary">上传</label>
-                <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
-                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+            <div>
+                <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
         <div class="input-group">

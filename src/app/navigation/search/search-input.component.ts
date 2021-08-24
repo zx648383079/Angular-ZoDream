@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss']
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent {
 
-  constructor() { }
+    @Input() public value = '';
+    public suggestItems: string[] = [];
+    public histories: string[] = [];
+    public openType = 0;
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

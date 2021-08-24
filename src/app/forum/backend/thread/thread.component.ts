@@ -84,16 +84,15 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapRemove(item: IThread) {
-        if (!confirm('确定删除“' + item.title + '”帖子？')) {
-            return;
-        }
-        this.service.threadRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”帖子？', () => {
+            this.service.threadRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

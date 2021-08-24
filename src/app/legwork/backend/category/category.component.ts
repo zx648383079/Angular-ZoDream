@@ -70,25 +70,29 @@ export class CategoryComponent implements OnInit {
         this.service.categoryList({
             page,
             per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        }).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+            },
+            error: () => {
+                this.isLoading = false; 
+            }
         });
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”分类？')) {
-            return;
-        }
-        this.service.categoryRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {
+            this.service.categoryRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
