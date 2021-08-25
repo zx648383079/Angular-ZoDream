@@ -15,6 +15,10 @@ export class NavigationService {
         return this.http.get<IPage<IWebPage>>('navigation/search', {params});
     }
 
+    public searchSuggest(keywords: string) {
+        return this.http.get<IData<string>>('navigation/search/suggest', {params: {keywords}});
+    }
+
     public categoryAll() {
         return this.http.get<IData<ISiteCategory>>('navigation/site/category');
     }

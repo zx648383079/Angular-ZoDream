@@ -1,16 +1,27 @@
 <div class="container">
-    <app-search-input></app-search-input>
+    <app-search-input [value]="queries.keywords" (valueChange)="tapSearch($event)"></app-search-input>
 
-    <ng-container>
+    <ng-container *ngIf="openType < 1">
         <app-navigation-panel></app-navigation-panel>
     </ng-container>
 
-    <ng-container>
+    <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()">
+    </div>
+
+    <ng-container *ngIf="openType == 1">
         <app-site></app-site>
     </ng-container>
-    <ng-container>
+    <ng-container *ngIf="openType == 2">
+        <div class="loading-tip" *ngIf="isLoading">
+            加载中。。。
+        </div>
+        
+        <div class="empty-tip" *ngIf="!isLoading && total < 1">
+            搜索结果为空
+        </div>
+
         <ng-container *ngFor="let item of items">
-          <app-page-container></app-page-container>
+          <app-page-container [value]="item"></app-page-container>
         </ng-container>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </ng-container>

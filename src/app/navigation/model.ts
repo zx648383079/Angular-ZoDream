@@ -6,6 +6,7 @@ export interface ISiteCategory {
     icon: string;
     parent_id: number;
     children?: ISiteCategory[];
+    lazy_booted?: boolean;
 }
 
 export interface ISite {
@@ -16,6 +17,7 @@ export interface ISite {
     domain: string;
     cat_id: number;
     description: string;
+    top_type: number;
     user?: IUser;
     category?: ISiteCategory;
     tags?: ISiteTag[];
@@ -36,6 +38,7 @@ export interface IWebPage {
     page_rank: number;
     site?: ISite;
     keywords?: IWebPageKeywords[];
+    updated_at?: string;
 }
 
 export interface IWebPageKeywords {
@@ -48,6 +51,7 @@ export interface ISiteCollect {
     id: number;
     name: string;
     link: string;
+    group_id: number;
 }
 
 export interface ISiteCollectGroup {

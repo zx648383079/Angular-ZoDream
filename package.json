@@ -35,7 +35,7 @@
     "immutable": "^4.0.0-rc.12",
     "jsonapi-deserializer": "^0.1.1",
     "katex": "^0.13.13",
-    "marked": "^3.0.1",
+    "marked": "^3.0.2",
     "ng-lazyload-image": "^9.1.0",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-echarts": "^7.0.2",

@@ -1,19 +1,23 @@
 <div class="panel">
     <div class="panel-header">
-        分类
+        {{ header }}
     </div>
     <div class="panel-body">
-        <div class="site-item" title="">
-                <div class="item-name">
-                    <a href=""><img class="lazy" src="" alt=""></a>
-                    <a href=""></a>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let item of items">
+                <div class="site-item" [title]="item.name">
+                    <div class="item-name">
+                        <a [href]="formatLink(item)" target="_blank" rel="noopener"><img class="lazy" [src]="item.logo" [alt]="item.name"></a>
+                        <a [href]="formatLink(item)" target="_blank" rel="noopener">{{ item.name }}</a>
+                    </div>
+                    <div class="item-desc">
+                        {{ item.description }}
+                    </div>
+                    <a class="go-btn" [href]="formatLink(item)" target="_blank" rel="noopener" title="直接访问">
+                        <i class="iconfont icon-arrow-right"></i>
+                    </a>
                 </div>
-                <div class="item-desc">
-
-                </div>
-                <a class="go-btn" href="" target="_blank" rel="noopener noreferrer" title="直接访问">
-                    <i class="iconfont icon-arrow-right"></i>
-                </a>
+            </div>
         </div>
     </div>
 </div>

@@ -78,6 +78,6 @@
     </div>
     <div class="form-group">
         <label>关键词</label>
-        <ng-select [multiple]="true" [items]="wordItems" bindLabel="word" [(ngModel)]="editData.keywords" [addTag]="addWordFn" placeholder="选择关键词"></ng-select>
+        <ng-select [multiple]="true" [items]="wordItems$ | async" [loading]="wordLoading" [typeahead]="wordInput$" bindLabel="word" [(ngModel)]="editData.keywords" [addTag]="addWordFn" placeholder="选择关键词"></ng-select>
     </div>
 </app-dialog-box>

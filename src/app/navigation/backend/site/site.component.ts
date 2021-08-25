@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -27,7 +28,10 @@ export class SiteComponent implements OnInit {
         tag: 0,
     };
     public categories: ISiteCategory[] = [];
-    public tagItems: ISiteTag[] = [];
+    public tagItems$: Observable<ISiteTag[]>;
+    public tagInput$ = new Subject<string>();
+    public tagLoading = false;
+    public topItems = ['无', '推荐'];
     public editData: ISite = {} as any;
 
     constructor(
@@ -44,6 +48,18 @@ export class SiteComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+        this.tagItems$ = concat(
+            of([]), // default items
+            this.tagInput$.pipe(
+                distinctUntilChanged(),
+                tap(() => this.tagLoading = true),
+                switchMap(keywords => this.service.tagList({keywords}).pipe(
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.tagLoading = false),
+                    map(res => res instanceof Array ? res : res.data)
+                ))
+            )
+        );
     }
 
     public addTagFn(name: string) {
@@ -59,6 +75,8 @@ export class SiteComponent implements OnInit {
             cat_id: 0,
             schema: 'https',
             domain: '',
+            top_type: 0,
+            tags: [],
         };
         modal.open(() => {
             this.service.siteSave(this.editData).subscribe({

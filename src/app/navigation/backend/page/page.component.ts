@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import { IWebPage, IWebPageKeywords } from '../../model';
+import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -26,7 +28,9 @@ export class PageComponent implements OnInit {
         user: 0,
     };
     public editData: IWebPage = {} as any;
-    public wordItems: IWebPageKeywords[] = [];
+    public wordItems$: Observable<IWebPageKeywords[]>;
+    public wordInput$ = new Subject<string>();
+    public wordLoading = false;
 
     constructor(
         private service: NavigationService,
@@ -39,13 +43,22 @@ export class PageComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+        this.wordItems$ = concat(
+            of([]), // default items
+            this.wordInput$.pipe(
+                distinctUntilChanged(),
+                tap(() => this.wordLoading = true),
+                switchMap(keywords => this.service.keywordList({keywords}).pipe(
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.wordLoading = false),
+                    map(res => res instanceof Array ? res : res.data)
+                ))
+            )
+        );
     }
 
     public formatDomain(v: string) {
-        const i = v.indexOf('//');
-        const s = i < 0 ? 0 : (i + 2);
-        const j = v.indexOf('/', s + 1);
-        return j < 0 ? v.substring(s) : v.substring(s, j);
+        return formatDomain(v);
     }
 
     public addWordFn(word: string) {
@@ -61,6 +74,7 @@ export class PageComponent implements OnInit {
             thumb: '',
             site_id: 0,
             page_rank: 1,
+            keywords: [],
         };
         modal.open(() => {
             this.service.pageSave(this.editData).subscribe({

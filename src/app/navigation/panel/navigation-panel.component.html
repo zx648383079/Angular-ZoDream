@@ -7,7 +7,7 @@
                 <i class="iconfont icon-cog"></i>
                 自定义
             </div>
-            <div class="add-btn">
+            <div class="add-btn" (click)="tapAdd(modal)">
                 <i class="iconfont icon-plus"></i>
                 添加
             </div>
@@ -34,3 +34,28 @@
         </div>
     </div>
 </div>
+<app-dialog-box #modal [scrollable]="false">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="group">分组</label>
+            <div>
+                <select id="group" class="form-control" [(ngModel)]="editData.group_id">
+                    <option [value]="0">作为分组名</option>
+                    <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+                <label for="name">名称</label>
+                <div>
+                    <input type="text" id="name" class="form-control" [(ngModel)]="editData.name" placeholder="请输入 名称">
+                </div>
+        </div>
+        <div class="input-group" *ngIf="editData.group_id > 0">
+                <label for="link">链接</label>
+                <div>
+                    <input type="text" id="link" class="form-control" [(ngModel)]="editData.link" placeholder="请输入网址">
+                </div>
+        </div>
+    </div>
+</app-dialog-box>

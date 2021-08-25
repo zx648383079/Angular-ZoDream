@@ -1,0 +1,50 @@
+.open-icon {
+    width: 8rem;
+    position: relative;
+    margin: 0 auto;
+    padding: 2rem 0;
+    cursor: pointer;
+    &::after,
+    &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 4rem;
+        height: .3rem;
+        border-radius: .15rem;
+        background-color: #fff;
+        transition: all .5s;
+    }
+    &::before {
+        transform: rotateZ(-30deg);
+        transform-origin: 4rem 0;
+    }
+    &::after {
+        left: 4rem;
+        transform: rotateZ(30deg);
+        transform-origin: 0 0;
+    }
+    &:hover {
+        &::after,
+        &::before {
+            background-color: #f90;
+        }
+    }
+    &.opened {
+        &::after,
+        &::before {
+            transform: rotateZ(0deg);
+        }
+    }
+}
+
+.loading-tip,
+.empty-tip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    height: 60vh;
+    color: #ccc;
+    user-select: none;
+}

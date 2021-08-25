@@ -4,6 +4,7 @@ import { NavigationComponent } from './navigation.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
 import { SearchInputComponent } from './search/search-input.component';
+import { CategoryPanelComponent } from './site/category-panel/category-panel.component';
 import { SiteGroupComponent } from './site/group/site-group.component';
 import { SiteComponent } from './site/site.component';
 
@@ -24,4 +25,5 @@ export const navigationRoutingComponents = [
     SiteGroupComponent,
     NavigationPanelComponent,
     PageContainerComponent,
+    CategoryPanelComponent,
 ];

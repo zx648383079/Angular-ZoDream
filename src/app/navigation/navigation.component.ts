@@ -13,7 +13,7 @@ import { NavigationService } from './navigation.service';
 })
 export class NavigationComponent implements OnInit {
 
-    public keywords = '';
+    public openType = 0;
     public items: IWebPage[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -33,14 +33,32 @@ export class NavigationComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
+            if (!this.queries.keywords) {
+                return;
+            }
             this.tapPage();
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public toggleOpen() {
+        if (this.openType < 1) {
+            this.openType = 1;
+        } else if (this.openType === 1) {
+            this.openType = 0;
+        } 
+    }
+
+    public tapSearch(v: string) {
+        this.queries.keywords = v.trim();
+        if (this.queries.keywords.length > 0) {
+            this.tapRefresh();
+            return;
+        }
+        this.openType = 0;
+    }
+
     public tapRefresh() {
+        this.items = [];
         this.goPage(1);
     }
 
@@ -60,6 +78,7 @@ export class NavigationComponent implements OnInit {
             return;
         }
         this.isLoading = true;
+        this.openType = 2;
         const queries = {...this.queries, page};
         this.service.search(queries).subscribe({
             next: res => {
@@ -70,6 +89,7 @@ export class NavigationComponent implements OnInit {
                 applyHistory(this.queries = queries);
             },
             error: err => {
+                this.isLoading = false;
                 this.toastrService.error(err);
             },
         });
