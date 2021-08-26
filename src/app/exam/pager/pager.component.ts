@@ -89,7 +89,7 @@ export class PagerComponent implements OnInit {
                 answer: i.answer,
                 dynamic: i.dynamic
             };
-        }), this.data.id).subscribe(res => {
+        }), this.data.page_id).subscribe(res => {
             this.data = res;
             this.tapPage(this.page);
         });

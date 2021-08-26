@@ -4,6 +4,8 @@
     margin: 0 auto;
     padding: 2rem 0;
     cursor: pointer;
+    margin-top: 60vh;
+    transition: all .5s;
     &::after,
     &::before {
         content: '';
@@ -31,6 +33,7 @@
         }
     }
     &.opened {
+        margin-top: 0;
         &::after,
         &::before {
             transform: rotateZ(0deg);

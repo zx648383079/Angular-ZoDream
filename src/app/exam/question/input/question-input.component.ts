@@ -14,6 +14,16 @@ export class QuestionInputComponent {
 
     constructor() { }
 
+    public get yourAnswer() {
+        if (this.value.your_answer) {
+            return this.value.your_answer;
+        }
+        if (this.value.log) {
+            return this.value.log.answer;
+        }
+        return '';
+    }
+
     public tapCheckItem(item: IQuestionOption) {
         if (!this.value || !this.editable) {
             return;
@@ -38,9 +48,9 @@ export class QuestionInputComponent {
             return false;
         }
         if (this.value.type < 1) {
-            return this.value.your_answer == option.id;
+            return this.yourAnswer == option.id;
         }
-        return typeof this.value.your_answer === 'object' && this.value.your_answer.indeOf(option.id) >= 0;
+        return typeof this.yourAnswer === 'object' && this.yourAnswer.indeOf(option.id) >= 0;
     }
 
     public onAnswerChange(value?: any) {

@@ -134,6 +134,10 @@ export class ExamService {
         return this.http.get<IPage<IPageEvaluate>>('exam/admin/page/evaluate', {params});
     }
 
+    public evaluate(id: any) {
+        return this.http.get<IPageEvaluate>('exam/admin/page/evaluate_detail', {params: {id}});
+    }
+
     public evaluateRemove(id: any) {
         return this.http.delete<IDataOne<true>>('exam/admin/page/evaluate_delete', {
             params: {id}

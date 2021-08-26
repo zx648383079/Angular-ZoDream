@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { DialogEvent } from '../../../dialog';
 import { FileUploadService } from '../../../theme/services';
 import { cloneObject } from '../../../theme/utils';
-import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionDefaultOption, QuestionTypeItems } from '../../model';
-import { formatFillOption, questionNeedOption } from '../../util';
+import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionCheckOption, QuestionDefaultOption, QuestionTypeItems } from '../../model';
+import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../util';
 
 @Component({
   selector: 'app-question-editor',
@@ -59,6 +59,9 @@ export class QuestionEditorComponent implements OnChanges {
             return;
         }
         this.value.type = i;
+        if (i === 2 && questionOptionIsEmpty(this.optionItems)) {
+            this.optionItems = cloneObject(QuestionCheckOption);
+        }
         if (i == 4) {
             this.extendOpen = true;
         }

@@ -3,8 +3,8 @@ import { CustomDialogEvent } from '../../../dialog';
 import { DialogAnimation } from '../../../theme/constants';
 import { cloneObject } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
-import { IQuestion, IQuestionAnalysis, QuestionDefaultOption } from '../../model';
-import { formatFillOption, questionNeedOption } from '../../util';
+import { IQuestion, IQuestionAnalysis, QuestionCheckOption, QuestionDefaultOption } from '../../model';
+import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../util';
 
 @Component({
     selector: 'app-question-dialog',
@@ -35,6 +35,9 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public tapType(i: number) {
         this.typeOpen = false;
         this.value.type = i;
+        if (i === 2 && questionOptionIsEmpty(this.optionItems)) {
+            this.optionItems = cloneObject(QuestionCheckOption);
+        }
         this.onTypeChange();
     }
 

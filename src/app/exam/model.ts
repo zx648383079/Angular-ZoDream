@@ -2,6 +2,10 @@ import { IUser } from '../theme/models/user';
 
 export const QuestionTypeItems = ['单选题', '多选题', '判断题', '简答题', '填空题', '大题'];
 export const QuestionDefaultOption = [
+    {content: '', is_right: false},
+    {content: '', is_right: false}
+];
+export const QuestionCheckOption = [
     {content: '对', is_right: false},
     {content: '错', is_right: false}
 ];
@@ -54,6 +58,7 @@ export interface IQuestionFormat extends IQuestion {
     order: string;
     right: number;
     your_answer: any;
+    log?: IQuestionEvaluate;
 }
 
 export interface IQuestionCard {
@@ -109,6 +114,7 @@ export interface IExamPage {
         type: number;
         score: number;
     }[];
+    question_count?: number;
 }
 
 export interface IPageEvaluate {
@@ -122,6 +128,16 @@ export interface IPageEvaluate {
     remark: string;
     updated_at: string;
     created_at: string;
+    page?: IExamPage;
+    data?: IQuestionFormat[];
+}
+
+export interface IQuestionEvaluate {
+    id: number;
+    answer: string;
+    status: number;
+    score: number;
+    max_score: number;
 }
 
 export interface IExamSheet {
@@ -132,8 +148,10 @@ export interface IExamSheet {
 
 export interface IExamPager {
     id: number;
+    page_id: number;
     title: string;
     time: number;
+    start_time: number;
     finished: boolean;
     data: IQuestionFormat[];
     report?: {

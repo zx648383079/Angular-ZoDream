@@ -7,30 +7,32 @@
                 <i class="iconfont icon-cog"></i>
                 自定义
             </div>
-            <div class="add-btn" (click)="tapAdd(modal)">
+            <div class="add-btn" (click)="tapAdd()">
                 <i class="iconfont icon-plus"></i>
                 添加
             </div>
         </div>
         <div class="panel-body">
-            <div class="group-item" *ngFor="let group of items">
+            <div class="group-item" *ngFor="let group of items; let i = index">
                 <div class="group-name">{{ group.name }}</div>
                 <div>
-                    <ng-container *ngFor="let item of group.items">
+                    <ng-container *ngFor="let item of group.items; let j = index">
                         <a [href]="item.link" target="_blank" class="site-item" rel="noopener noreferrer">
-                            <i class="iconfont icon-close"></i>
+                            <i class="iconfont icon-close" (click)="tapRemove(i, j)"></i>
                             {{ item.name }}
-                            <i class="iconfont icon-edit"></i>
+                            <i class="iconfont icon-edit" (click)="tapEdit(i, j)"></i>
                         </a>
                     </ng-container>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
-            <a href="javascript:;" class="btn">本 地 保 存</a>
-            <a href="javascript:;" class="btn">云 端 保 存</a>
-            <a href="javascript:;" class="btn">恢 复 默 认</a>
-            <a href="javascript:;" class="btn panel-close">关 闭 面 板</a>
+            <div class="btn-group">
+                <a href="javascript:;" class="btn">本 地 保 存</a>
+                <a href="javascript:;" class="btn">云 端 保 存</a>
+                <a href="javascript:;" class="btn">恢 复 默 认</a>
+                <a href="javascript:;" class="btn panel-close" (click)="editMode = false">关 闭 面 板</a>
+            </div>
         </div>
     </div>
 </div>

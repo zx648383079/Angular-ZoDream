@@ -14,7 +14,6 @@ import { QuestionChildrenComponent } from './page-editor/question-children/quest
 import { QuestionDialogComponent } from './page-editor/question-dialog/question-dialog.component';
 import { QuestionEditorComponent } from './page-editor/question/question-editor.component';
 import { PagerComponent } from './pager/pager.component';
-import { QuestionInputComponent } from './question/input/question-input.component';
 import { QuestionComponent } from './question/question.component';
 import { SearchComponent } from './search/search.component';
 
@@ -65,5 +64,5 @@ const routes: Routes = [
 export class ExamRoutingModule {}
 
 export const examRoutedComponents = [
-    ExamComponent, CourseComponent, QuestionComponent, QuestionInputComponent, PagerComponent, QuestionEditorComponent, PageEditorComponent, SearchComponent, BoolInputComponent, OptionInputComponent, QuestionChildrenComponent, QuestionDialogComponent,
+    ExamComponent, CourseComponent, QuestionComponent, PagerComponent, QuestionEditorComponent, PageEditorComponent, SearchComponent, BoolInputComponent, OptionInputComponent, QuestionChildrenComponent, QuestionDialogComponent,
 ];

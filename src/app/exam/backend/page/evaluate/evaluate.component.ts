@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
+import { mapFormat } from '../../../../theme/utils';
 import { IPageEvaluate } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -32,16 +33,14 @@ export class EvaluateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.route.params.subscribe(params => {
-            if (params.id) {
-                return;
-            }
-            this.queries.page_id = params.id;
-        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatStatus(v: number): string {
+        return mapFormat(v, ['答卷中', '已交卷', '已完成']);
     }
 
 

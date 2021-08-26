@@ -5,6 +5,10 @@ export const questionNeedOption = (value: IQuestion) => {
     return !value.type || value.type < 2 || value.type == 4;
 };
 
+export const questionOptionIsEmpty = (items: IQuestionOption[]) => {
+    return items.filter(i => i.content).length === 0;
+}
+
 /**
  * 序号转AA
  * @param v 从0 开始 0 : A

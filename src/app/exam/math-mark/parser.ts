@@ -38,6 +38,9 @@ export class MathMarkParser {
     private asciiMath = new AsciiMathParser();
 
     public render(content: string): IMarkItem[] {
+        if (typeof content === 'undefined' || content === null) {
+            content = '';
+        }
         const reader = new CharIterator(content.toString().trim());
         const items: IMarkItem[] = [];
         let text = '';

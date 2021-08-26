@@ -1,0 +1,66 @@
+<ng-container *ngIf="data">
+    <app-edit-header [title]="data.page?.name">
+        <p>答题人：{{ data.user?.name }}</p>
+        <p>耗时：{{ formatHour(data.spent_time) }}</p>
+    </app-edit-header>
+</ng-container>
+
+
+<div class="container-fluid" *ngIf="data">
+    <div class="panel-container">
+        <div class="material-panel" *ngIf="current.material">
+            <h3>
+                <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false"></app-math-mark>
+            </h3>
+            <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false"></app-math-mark>
+            <ng-container *ngIf="current.material.image">
+                <img [src]="current.material.image">
+            </ng-container>
+        </div>
+        <div class="question-panel">
+            <ng-container *ngFor="let item of current.items; let i = index">
+                <app-question-input [value]="item" [editable]="false"></app-question-input>
+            </ng-container>
+        </div>
+        <div class="tool-bar">
+            <div class="btn-group">
+                <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
+                <a class="btn btn-danger" >阅卷完毕</a>
+                <a class="btn btn-primary" *ngIf="page < pageItems.length" (click)="tapNext()">下一页</a>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="panel-container">
+        <div class="msg-bar">
+            <span class="left">
+                <span
+                    class="gray">答对：</span><span class="count-right">{{ data.right }}&nbsp;题</span>
+            </span>
+            <span
+                class="left">
+                <span class="gray">答错：</span>
+                <span class="count-wrong">{{ data.wrong }}&nbsp;题</span>
+                </span>
+            <span class="left">
+                <span
+                    class="gray">正确率：</span>{{ formatScale }}%</span>
+        </div>
+        <div class="panel sheet-panel">
+            <div class="panel-header">
+                答题卡
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <ng-container *ngFor="let item of cardItems; let i = index">
+                        <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
+                            <a (click)="tapItem(i)">{{ item.order }}</a>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+</div>

@@ -124,7 +124,7 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     }
 
     writeValue(obj: any): void {
-        this.value = obj;
+        this.value = typeof obj === 'undefined' ? '' : obj;
         this.container.value = this.value;
     }
     registerOnChange(fn: any): void {
