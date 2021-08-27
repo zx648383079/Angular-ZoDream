@@ -31,10 +31,10 @@
             </ng-container>
         </div>
         <div class="tool-bar">
-            <app-countdown [end]="endTime" [auto]="true" (finished)="onTimeEnd()"></app-countdown>
+            <app-countdown *ngIf="!finished" [end]="endTime" [auto]="true" (finished)="onTimeEnd()"></app-countdown>
             <div class="btn-group">
                 <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
-                <a class="btn btn-danger" *ngIf="!finished" (click)="tapFinish()">交卷</a>
+                <app-action-button class="btn btn-danger" *ngIf="!finished" (tapped)="tapFinish($event)">交卷</app-action-button>
                 <a class="btn btn-primary" *ngIf="page < pageItems.length" (click)="tapNext()">下一页</a>
             </div>
             

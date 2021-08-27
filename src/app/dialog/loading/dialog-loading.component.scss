@@ -1,0 +1,27 @@
+@import '../../theme/styles/prefix';
+@import '../../theme/styles/loading/cute';
+.dialog-loading {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 200;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.loading-full-bg {
+        .dialog-body {
+            padding: 2rem;
+            background-color: rgba($color: #fff, $alpha: .1);
+            border-radius: 1rem;
+            text-align: center;
+            user-select: none;
+            .loading-message {
+                margin-top: 2rem;
+                color: lightgreen;
+            }
+        }
+    }
+}

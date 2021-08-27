@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CustomDialogEvent } from '../../../dialog';
-import { DialogAnimation } from '../../../theme/constants';
-import { cloneObject } from '../../../theme/utils';
-import { emptyValidate } from '../../../theme/validators';
-import { IQuestion, IQuestionAnalysis, QuestionCheckOption, QuestionDefaultOption } from '../../model';
-import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../util';
+import { CustomDialogEvent } from '../../../../dialog';
+import { DialogAnimation } from '../../../../theme/constants';
+import { cloneObject } from '../../../../theme/utils';
+import { emptyValidate } from '../../../../theme/validators';
+import { IQuestion, IQuestionAnalysis, QuestionCheckOption, QuestionDefaultOption } from '../../../model';
+import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../../util';
 
 @Component({
     selector: 'app-question-dialog',

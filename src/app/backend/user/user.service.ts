@@ -57,4 +57,12 @@ export class UserService {
     public uploadProfile(data: any) {
         return this.http.post<IUser>('auth/user/update', data);
     }
+
+    public settings() {
+        return this.http.get<IDataOne<any>>('auth/user/option').pipe(map(res => res.data));
+    }
+
+    public settingsSave(data: any) {
+        return this.http.post<IDataOne<any>>('auth/user/option_save', data);
+    }
 }

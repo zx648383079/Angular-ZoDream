@@ -14,7 +14,7 @@ import { MaterialPanelComponent } from './material/panel/material-panel.componen
 import { EditPageComponent } from './page/edit/edit-page.component';
 import { EvaluateComponent } from './page/evaluate/evaluate.component';
 import { PageComponent } from './page/page.component';
-import { PageReaderComponent } from './page/reader/page-reader.component';
+import { PageScoringComponent } from './page/scoring/page-scoring.component';
 import { QuestionAnalysisComponent } from './question/analysis/question-analysis.component';
 import { QuestionChildrenComponent } from './question/children/question-children.component';
 import { EditQuestionComponent } from './question/edit/edit-question.component';
@@ -79,8 +79,8 @@ const routes: Routes = [
         component: EvaluateComponent,
     },
     {
-        path: 'page/reader/:id',
-        component: PageReaderComponent,
+        path: 'page/scoring/:id',
+        component: PageScoringComponent,
     },
     {
         path: 'page',
@@ -101,5 +101,5 @@ export class ExamBackendRoutingModule {}
 export const examBackendRoutedComponents = [
     ExamBackendComponent, QuestionComponent, CourseComponent, PageComponent, EditQuestionComponent, EditPageComponent, EvaluateComponent, MaterialComponent, MaterialPanelComponent, CourseGradeComponent, EditUpgradeComponent, UpgradeComponent, UpgradeLogComponent,
     MaterialFormComponent, QuestionAnalysisComponent, QuestionChildrenComponent, QuestionOptionComponent, QuestionMinComponent,
-    PageReaderComponent,
+    PageScoringComponent,
 ];

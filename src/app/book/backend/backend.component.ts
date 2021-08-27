@@ -56,6 +56,28 @@ export class BackendComponent implements OnInit {
         });
     }
 
+    public tapSortOut() {
+        this.toastrService.confirm('确定整理书籍？', () => {
+            let loading = this.toastrService.loading({
+                time: 0,
+                title: '整理进行中。。。',
+                closeable: false,
+            });
+            this.service.sortOut().subscribe({
+                next: () => {
+                    this.toastrService.remove(loading);
+                    this.toastrService.success('整理完成!');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.remove(loading);
+                    this.toastrService.error(err.error?.message || '整理超时，连接中断！');
+                    this.tapRefresh();
+                }
+            });
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

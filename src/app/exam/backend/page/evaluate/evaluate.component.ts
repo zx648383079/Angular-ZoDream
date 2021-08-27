@@ -40,7 +40,7 @@ export class EvaluateComponent implements OnInit {
     }
 
     public formatStatus(v: number): string {
-        return mapFormat(v, ['答卷中', '已交卷', '已完成']);
+        return mapFormat(v, ['答卷中', '已交卷', '阅卷中', '已完成']);
     }
 
 

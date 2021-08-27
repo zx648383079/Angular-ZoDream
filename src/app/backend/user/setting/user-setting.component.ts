@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../dialog';
 import { ButtonEvent } from '../../../form';
+import { getQueries } from '../../../theme/query';
 import { UserService } from '../user.service';
 
 interface IGroupHeader {
@@ -18,9 +19,12 @@ interface IGroupHeader {
 })
 export class UserSettingComponent implements OnInit {
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-    });
+    public data: any = {
+        accept_new_bulletin: true,
+        open_not_disturb: false,
+        post_expiration: 0,
+    };
+    public isChanged = false;
 
     public tabItems: IGroupHeader[] = [
         {
@@ -47,6 +51,10 @@ export class UserSettingComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.service.settings().subscribe(res => {
+            this.data = getQueries(res, this.data);
+            this.isChanged = false;
+        });
     }
 
     public get tabIndex() {
@@ -72,17 +80,22 @@ export class UserSettingComponent implements OnInit {
         this.crumbs.pop();
     }
 
+    public onValueChange() {
+        this.isChanged = true;
+    }
+
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
+        if (!this.isChanged) {
+            this.toastrService.warning('表单填写未改变');
             return;
         }
         e?.enter();
-        const data: any = Object.assign({}, this.form.value);
-        this.service.uploadProfile(data).subscribe({
+        const data: any = Object.assign({}, this.data);
+        this.service.settingsSave(data).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success('保存成功');
+                this.isChanged = false;
             }, error: err => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);

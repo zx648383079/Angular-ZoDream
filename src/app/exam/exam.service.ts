@@ -54,8 +54,14 @@ export class ExamService {
 
     public pagerCheck(question: {
         [key: number]: IExamSheet
-    } | IExamSheet[], id: number, spentTIme = 0) {
-        return this.http.post<IExamPager>('exam/pager/check', {question, id, spent_time: spentTIme});
+    } | IExamSheet[], id: number, pageId: number) {
+        return this.http.post<IExamPager>('exam/pager/check', {question, id, page_id: pageId});
+    }
+
+    public pagerSave(question: {
+        [key: number]: IExamSheet
+    } | IExamSheet[], id: number, pageId: number) {
+        return this.http.post<IDataOne<true>>('exam/pager/save', {question, id, page_id: pageId});
     }
 
     public pageList(params: any) {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IItem } from '../../../theme/models/seo';
+import { IItem } from '../../../../theme/models/seo';
 
 @Component({
     selector: 'app-bool-input',

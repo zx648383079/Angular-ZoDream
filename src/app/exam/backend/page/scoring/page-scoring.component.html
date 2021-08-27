@@ -1,7 +1,8 @@
 <ng-container *ngIf="data">
-    <app-edit-header [title]="data.page?.name">
+    <app-edit-header [title]="data.page?.name" (submited)="tapSubmit($event)">
         <p>答题人：{{ data.user?.name }}</p>
         <p>耗时：{{ formatHour(data.spent_time) }}</p>
+        <p>得分：{{ data.score || 0 }}</p>
     </app-edit-header>
 </ng-container>
 
@@ -19,13 +20,13 @@
         </div>
         <div class="question-panel">
             <ng-container *ngFor="let item of current.items; let i = index">
-                <app-question-input [value]="item" [editable]="false"></app-question-input>
+                <app-question-scoring [value]="item" (valueChange)="onScoring(i, $event)"></app-question-scoring>
             </ng-container>
         </div>
         <div class="tool-bar">
             <div class="btn-group">
                 <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
-                <a class="btn btn-danger" >阅卷完毕</a>
+                <app-action-button class="btn btn-danger" (tapped)="tapSubmit($event)">阅卷完毕</app-action-button>
                 <a class="btn btn-primary" *ngIf="page < pageItems.length" (click)="tapNext()">下一页</a>
             </div>
             
@@ -64,3 +65,7 @@
     </div>
     
 </div>
+
+<app-dialog-box #modal title="总体点评">
+    <app-exam-editor [(ngModel)]="editData.remark"></app-exam-editor>
+</app-dialog-box>

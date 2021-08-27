@@ -1,12 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 
+/**
+ * 题目选择
+ */
 @Component({
-    selector: 'app-question-input',
-    templateUrl: './question-input.component.html',
-    styleUrls: ['./question-input.component.scss']
+  selector: 'app-question-input',
+  templateUrl: './question-input.component.html',
+  styleUrls: ['./question-input.component.scss']
 })
-export class QuestionInputComponent {
+export class QuestionInputComponent implements OnChanges {
 
     @Input() public value: IQuestionFormat;
     @Input() public editable = true;
@@ -22,6 +25,12 @@ export class QuestionInputComponent {
             return this.value.log.answer;
         }
         return '';
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.value) {
+            this.formatOption();
+        }
     }
 
     public tapCheckItem(item: IQuestionOption) {
@@ -61,4 +70,14 @@ export class QuestionInputComponent {
             this.valueChange.emit(this.value);
         }
     }
+
+    private formatOption() {
+        if (this.value.type > 1 || !this.yourAnswer) {
+            return;
+        }
+        this.value.option.forEach(i => {
+            i.checked = this.optionChecked(i);
+        });
+    }
+
 }

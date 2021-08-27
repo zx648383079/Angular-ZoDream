@@ -7,12 +7,7 @@ import {
 } from '@angular/router';
 import { CourseComponent } from './course/course.component';
 import { ExamComponent } from './exam.component';
-import { BoolInputComponent } from './page-editor/bool-input/bool-input.component';
-import { OptionInputComponent } from './page-editor/option-input/option-input.component';
 import { PageEditorComponent } from './page-editor/page-editor.component';
-import { QuestionChildrenComponent } from './page-editor/question-children/question-children.component';
-import { QuestionDialogComponent } from './page-editor/question-dialog/question-dialog.component';
-import { QuestionEditorComponent } from './page-editor/question/question-editor.component';
 import { PagerComponent } from './pager/pager.component';
 import { QuestionComponent } from './question/question.component';
 import { SearchComponent } from './search/search.component';
@@ -64,5 +59,5 @@ const routes: Routes = [
 export class ExamRoutingModule {}
 
 export const examRoutedComponents = [
-    ExamComponent, CourseComponent, QuestionComponent, PagerComponent, QuestionEditorComponent, PageEditorComponent, SearchComponent, BoolInputComponent, OptionInputComponent, QuestionChildrenComponent, QuestionDialogComponent,
+    ExamComponent, CourseComponent, QuestionComponent, PagerComponent,  PageEditorComponent, SearchComponent, 
 ];

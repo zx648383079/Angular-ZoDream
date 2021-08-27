@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DialogService } from '../../dialog';
-import { EditorContainer, IEditor } from '../../editor';
-import { FileUploadService } from '../../theme/services';
-import { wordLength } from '../../theme/utils';
+import { DialogService } from '../../../dialog';
+import { EditorContainer, IEditor } from '../../../editor';
+import { FileUploadService } from '../../../theme/services';
+import { wordLength } from '../../../theme/utils';
 
 @Component({
     selector: 'app-exam-editor',

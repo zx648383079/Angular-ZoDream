@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
 import { ExamService } from '../exam.service';
 import { IExamPager, IQuestionCard, IQuestionFormat, IQuestionPageItem } from '../model';
 import { formatPager } from '../util';
@@ -20,6 +21,8 @@ export class PagerComponent implements OnInit {
     public endTime = 0;
     public pageItems: IQuestionPageItem[] = [];
     public current: IQuestionPageItem;
+    private saveHandle = 0;
+    private saveData = [];
 
     constructor(
         private service: ExamService,
@@ -39,7 +42,7 @@ export class PagerComponent implements OnInit {
                     this.finished = res.finished;
                     [this.pageItems, this.cardItems] = formatPager(res.data);
                     this.tapPage(1);
-                    this.endTime = new Date().getTime() + res.time * 60000;
+                    this.endTime = (res.start_time > 0 ? res.start_time * 1000 : new Date().getTime()) + res.time * 60000;
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -78,20 +81,64 @@ export class PagerComponent implements OnInit {
     public onQuestionChange(event: IQuestionFormat, i: number) {
         this.current.items[i].answer = event.answer;
         this.current.items[i].option = event.option;
+        if (this.data.id < 1) {
+            return;
+        }
+        this.asyncSave({
+            id: event.id,
+            answer: event.answer,
+            dynamic: event.dynamic,
+        });
     }
 
-    public tapFinish() {
+    private asyncSave(item: any) {
+        const indexOf = () => {
+            for (let i = this.saveData.length - 1; i >= 0; i--) {
+                if (this.saveData[i].id == item.id) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+        if (this.saveHandle > 0) {
+            clearTimeout(this.saveHandle);
+        }
+        const j = indexOf();
+        if (j < 0) {
+            this.saveData.push(item);
+        } else {
+            this.saveData[j] = item;
+        }
+        this.saveHandle = window.setTimeout(() => {
+            this.saveHandle = 0;
+            if (this.saveData.length < 1) {
+                return;
+            }
+            this.service.pagerSave([...this.saveData], this.data.id, this.data.page_id).subscribe(() => {});
+            this.saveData = [];
+        }, 500);
+    }
+
+    public tapFinish(e?: ButtonEvent) {
         this.finished = true;
-        const spentTime = Math.min(this.data.time, this.data.time - (this.endTime - new Date().getTime()) / 60000)
+        e?.enter();
         this.service.pagerCheck(this.data.data.map(i => {
             return {
                 id: i.id,
                 answer: i.answer,
                 dynamic: i.dynamic
             };
-        }), this.data.page_id).subscribe(res => {
-            this.data = res;
-            this.tapPage(this.page);
+        }), this.data.id, this.data.page_id).subscribe({
+            next: res => {
+                e?.reset();
+                this.data = res;
+                this.tapPage(this.page);
+            },
+            error: err => {
+                e?.reset();
+                this.finished = false;
+                this.toastrService.error(err);
+            }
         });
     }
 }

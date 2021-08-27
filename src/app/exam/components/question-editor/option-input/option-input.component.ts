@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogEvent } from '../../../dialog';
-import { IQuestionOption } from '../../model';
-import { intToABC } from '../../util';
+import { DialogEvent } from '../../../../dialog';
+import { IQuestionOption } from '../../../model';
+import { intToABC } from '../../../util';
 
 @Component({
   selector: 'app-option-input',

@@ -1,0 +1,13 @@
+<div class="dialog-loading" [ngClass]="{'loading-full-bg': title}" (click)="close()">
+    <div class="dialog-body">
+        <div class="loading-ring1">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="loading-message" *ngIf="title">{{ title  }}
+        </div>
+    </div>
+</div>

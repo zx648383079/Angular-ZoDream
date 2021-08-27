@@ -1,0 +1,71 @@
+<div class="question-box" [ngClass]="{'item-right': value.right > 0, 'item-wrong': value.right < 0}">
+    <div class="title">
+        <span class="order">{{ value.order }}.</span>
+        <app-math-mark [content]="value.title"></app-math-mark>
+        <ng-container *ngIf="value.score">
+            ({{ value.score }}分)
+        </ng-container>
+    </div>
+    <div class="edit-btn" (click)="tapEdit(modal)">
+        <i class="iconfont icon-edit"></i>
+    </div>
+    <div class="content" *ngIf="value.content">
+        <app-math-mark [content]="value.content" [allowInput]="value.type == 4" [value]="yourAnswer"  [editable]="false" [rightValue]="value.answer"></app-math-mark>
+    </div>
+    <div class="image" *ngIf="value.image">
+        <img [src]="value.image | asset">
+    </div>
+        <div class="option-list" *ngIf="value.type < 2">
+            <ng-container *ngFor="let item of value.option">
+                <ng-container *ngIf="optionChecked(item) || item.is_right; else elseOptionTemplate">
+                    <div class="option-item" [ngClass]="{'right': item.is_right, 'wrong': !item.is_right}">
+                        <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
+                        <span class="order">{{ item.order }}.</span>
+                        <span class="option-label">
+                            <app-math-mark [content]="item.content"></app-math-mark>
+                        </span>
+                    </div>
+                </ng-container>
+                <ng-template #elseOptionTemplate>
+                    <div class="option-item">
+                        <i class="iconfont"></i>
+                        <span class="order">{{ item.order }}.</span>
+                        <span class="option-label">
+                            <app-math-mark [content]="item.content"></app-math-mark>
+                        </span>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </div>
+        <div class="option-list" *ngIf="value.type == 2">
+            <div class="option-item right" *ngIf="value.right > 0">
+                <i class="iconfont icon-check"></i>
+                {{ value.answer > 0 ? '对' : '错' }}
+            </div>
+            <div class="option-item wrong" *ngIf="value.right < 0">
+                <i class="iconfont icon-close"></i>
+                正确答案：{{ value.answer > 0 ? '对' : '错' }}
+            </div>
+        </div>
+        <div *ngIf="value.type == 3">
+            <div class="answer-text" [ngClass]="{'right': value.right > 0, 'wrong': value.right < 0}">
+                <label>填写的答案:</label>
+                <textarea rows="4" class="form-control" readonly>{{ value.your_answer }}</textarea>
+            </div>
+            <div class="answer-text right">
+                <label>参考答案:</label>
+                <textarea rows="4" class="form-control" readonly>{{ value.answer }}</textarea>
+            </div>
+        </div>
+</div>
+
+<app-dialog-box #modal [title]="'调整评分'">
+    <div class="form-group">
+        <label for="">得分</label>
+        <div class="score-input">
+            <input type="number" class="form-control" [(ngModel)]="editData.score">
+            / <span title="本题分值">{{ value.score || 0 }}</span>
+        </div>
+    </div>
+    <app-exam-editor label="点评" [(ngModel)]="editData.remark"></app-exam-editor>
+</app-dialog-box>

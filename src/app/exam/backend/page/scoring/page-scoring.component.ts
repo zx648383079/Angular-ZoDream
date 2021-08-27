@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
+import { DialogEvent, DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { formatHour } from '../../../../theme/utils';
-import { IPageEvaluate, IQuestionCard, IQuestionPageItem } from '../../../model';
+import { IPageEvaluate, IQuestionCard, IQuestionFormat, IQuestionPageItem } from '../../../model';
 import { formatPager } from '../../../util';
 import { ExamService } from '../../exam.service';
 
 @Component({
-  selector: 'app-page-reader',
-  templateUrl: './page-reader.component.html',
-  styleUrls: ['./page-reader.component.scss']
+  selector: 'app-page-scoring',
+  templateUrl: './page-scoring.component.html',
+  styleUrls: ['./page-scoring.component.scss']
 })
-export class PageReaderComponent implements OnInit {
+export class PageScoringComponent implements OnInit {
+
+    @ViewChild('modal')
+    public modal: DialogEvent;
 
     public data: IPageEvaluate;
     public cardItems: IQuestionCard[] = [];
@@ -19,6 +23,9 @@ export class PageReaderComponent implements OnInit {
     public endTime = 0;
     public pageItems: IQuestionPageItem[] = [];
     public current: IQuestionPageItem;
+    public editData = {
+        remark: '',
+    };
 
     constructor(
         private service: ExamService,
@@ -42,7 +49,41 @@ export class PageReaderComponent implements OnInit {
     }
 
     public formatHour(v: number) {
-        return formatHour(v);
+        return formatHour(v, undefined, true);
+    }
+
+    public onScoring(i: number, e: IQuestionFormat) {
+        this.current.items[i].log = e.log;
+        this.service.pageQuestionScoring({
+            id: this.data.id,
+            question: [
+                {
+                    id: e.id,
+                    score: e.log.score,
+                    remark: e.log.remark,
+                }
+            ]
+        }).subscribe(() => {});
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
+        this.modal.open(() => {
+            e?.enter();
+            this.service.pageScoring({
+                id: this.data.id,
+                remark: this.editData.remark
+            }).subscribe({
+                next: () => {
+                    this.toastrService.success('阅卷完成');
+                    e?.reset();
+                    history.back();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                    e?.reset();
+                }
+            });
+        });
     }
 
     private loadData(id: any) {

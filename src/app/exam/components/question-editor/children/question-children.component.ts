@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CustomDialogEvent } from '../../../dialog';
-import { IQuestion } from '../../model';
+import { CustomDialogEvent } from '../../../../dialog';
+import { IQuestion } from '../../../model';
 
 @Component({
   selector: 'app-question-children',

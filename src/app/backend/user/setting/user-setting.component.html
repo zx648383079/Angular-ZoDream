@@ -1,4 +1,4 @@
-<app-edit-header [title]="crumbTitle" (submited)="tapSubmit($event)">
+<app-edit-header [title]="crumbTitle" (submited)="tapSubmit($event)" [disabled]="!isChanged">
     <div class="back-btn" [hidden]="tabIndex < 1" (click)="tapBack()">
         <i class="iconfont icon-arrow-left"></i>
     </div>
@@ -28,7 +28,7 @@
             <div class="item-name">新消息通知</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关"></app-switch>
+            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.accept_new_bulletin" (ngModelChange)="onValueChange()"></app-switch>
         </div>
     </div>
     <div class="input-item">
@@ -39,7 +39,7 @@
             <div class="item-name">勿扰模式</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关"></app-switch>
+            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.open_not_disturb" (ngModelChange)="onValueChange()"></app-switch>
         </div>
     </div>
 </div>
@@ -54,7 +54,7 @@
             <div class="item-meta">超过时间自动隐藏动态</div>
         </div>
         <div class="item-action">
-            <input type="number" class="form-control">天
+            <input type="number" class="form-control" [(ngModel)]="data.post_expiration" (ngModelChange)="onValueChange()">天
         </div>
     </div>
 </div>

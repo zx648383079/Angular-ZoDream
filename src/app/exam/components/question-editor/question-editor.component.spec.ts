@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { PageReaderComponent } from './page-reader.component';
+import { QuestionEditorComponent } from './question-editor.component';
 
-describe('PageReaderComponent', () => {
-  let component: PageReaderComponent;
-  let fixture: ComponentFixture<PageReaderComponent>;
+describe('QuestionEditorComponent', () => {
+  let component: QuestionEditorComponent;
+  let fixture: ComponentFixture<QuestionEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageReaderComponent ]
+      declarations: [ QuestionEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageReaderComponent);
+    fixture = TestBed.createComponent(QuestionEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

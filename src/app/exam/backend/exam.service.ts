@@ -144,6 +144,13 @@ export class ExamService {
         });
     }
 
+    public pageQuestionScoring(data: any) {
+        return this.http.post<IDataOne<true>>('exam/admin/page/question_scoring', data);
+    }
+
+    public pageScoring(data: any) {
+        return this.http.post<IDataOne<true>>('exam/admin/page/scoring', data);
+    }
 
     public materialList(params: any) {
         return this.http.get<IPage<IQuestionMaterial>>('exam/admin/material', {params});

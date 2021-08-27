@@ -138,6 +138,7 @@ export interface IQuestionEvaluate {
     status: number;
     score: number;
     max_score: number;
+    remark: string;
 }
 
 export interface IExamSheet {

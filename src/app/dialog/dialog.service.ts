@@ -1,8 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Inject, Injectable, Injector, Type } from '@angular/core';
+import { DialogLoadingOption } from '.';
 import { IErrorResponse, IErrorResult } from '../theme/models/page';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
+import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogMessageComponent } from './message/dialog-message.component';
 import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption } from './model';
 
@@ -83,8 +85,21 @@ export class DialogService {
         this.createDailog(DialogConfirmComponent, opt);
     }
 
-    private createMessage(option: DialogMessageOption) {
-        this.createDailog(DialogMessageComponent, option);
+    /**
+     * 加载loading
+     * @param option 
+     * @returns loading 的id, 使用 remove(id: any) 进行关闭
+     */
+    public loading(option?: DialogLoadingOption): any {
+        option = Object.assign({}, option, {
+            time: 2000,
+            closeable: true,
+        });
+        return this.createDailog(DialogLoadingComponent, option);
+    }
+
+    private createMessage(option: DialogMessageOption): any {
+        return this.createDailog(DialogMessageComponent, option);
     }
 
     public notify(option: DialogNotifyOption) {

@@ -112,4 +112,8 @@ export class BookService {
           params: {id}
         });
     }
+
+    public sortOut() {
+        return this.http.post<IDataOne<true>>('book/admin/book/sort_out', {});
+    }
 }

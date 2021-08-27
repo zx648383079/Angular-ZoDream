@@ -31,6 +31,15 @@ export interface DialogMessageOption extends DialogOption {
     title?: string;
 }
 
+export interface DialogLoadingOption {
+    time?: number;
+    title?: string;
+    /**
+     * 是否允许点击关闭
+     */
+    closeable?: boolean;
+}
+
 export type DialogCheckFn = () => boolean;
 export type DialogConfirmFn = () => void;
 export type DialogActionFn = (data: any) => any;

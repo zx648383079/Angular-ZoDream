@@ -1,10 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DialogEvent } from '../../../dialog';
 import { FileUploadService } from '../../../theme/services';
 import { cloneObject } from '../../../theme/utils';
 import { IQuestion, IQuestionAnalysis, IQuestionOption, QuestionCheckOption, QuestionDefaultOption, QuestionTypeItems } from '../../model';
 import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../util';
 
+/**
+ * 题目编辑
+ */
 @Component({
   selector: 'app-question-editor',
   templateUrl: './question-editor.component.html',
@@ -195,4 +198,5 @@ export class QuestionEditorComponent implements OnChanges {
         this.analysisItems = value.analysis_items || [];
         this.kidItems = value.children || [];
     }
+
 }
