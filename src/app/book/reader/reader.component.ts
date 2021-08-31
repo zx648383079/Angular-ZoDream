@@ -1,6 +1,7 @@
 import {
     Component,
     ElementRef,
+    OnDestroy,
     OnInit,
     Renderer2,
     ViewChild
@@ -9,13 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
+import { SearchService } from '../../theme/services';
 
 @Component({
     selector: 'app-reader',
     templateUrl: './reader.component.html',
     styleUrls: ['./reader.component.scss']
 })
-export class ReaderComponent implements OnInit {
+export class ReaderComponent implements OnInit, OnDestroy {
 
     @ViewChild('container')
     public containerElement: ElementRef<HTMLDivElement>;
@@ -56,9 +58,11 @@ export class ReaderComponent implements OnInit {
         private router: Router,
         private service: BookService,
         private renderer: Renderer2,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
+        this.searchService.emit('toggle', 2);
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
         this.scrollTop = this.getScrollTop();
         this.route.params.subscribe(params => {
@@ -74,6 +78,10 @@ export class ReaderComponent implements OnInit {
                 }});
             }
         });
+    }
+
+    ngOnDestroy() {
+        this.searchService.emit('toggle', 0);
     }
 
     get container() {

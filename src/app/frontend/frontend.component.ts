@@ -18,7 +18,7 @@ interface IMenuItem {
   templateUrl: './frontend.component.html',
   styleUrls: ['./frontend.component.scss']
 })
-export class FrontendComponent implements OnInit {
+export class FrontendComponent {
 
     public menus: IMenuItem[] = [
         {name: 'Home', url: '../'},
@@ -52,7 +52,8 @@ export class FrontendComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
+    public get locationHref() {
+        return window.location.href;
     }
 
     public toggleDropDown() {

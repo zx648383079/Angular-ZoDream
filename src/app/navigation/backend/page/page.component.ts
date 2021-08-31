@@ -73,7 +73,7 @@ export class PageComponent implements OnInit {
             link: '',
             thumb: '',
             site_id: 0,
-            page_rank: 1,
+            score: 60,
             keywords: [],
         };
         modal.open(() => {

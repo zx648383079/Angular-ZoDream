@@ -46,6 +46,9 @@ export class NavigationService {
         return this.http.delete<IDataOne<boolean>>('navigation/admin/site/delete', {params: {id}});
     }
 
+    public siteScoring(data: any) {
+        return this.http.post<ISite>('navigation/admin/site/scoring', data);
+    }
 
     public tagList(params: any) {
         return this.http.get<IPage<ISiteTag>>('navigation/admin/tag', {params});

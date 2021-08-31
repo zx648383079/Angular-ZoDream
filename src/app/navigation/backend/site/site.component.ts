@@ -33,6 +33,10 @@ export class SiteComponent implements OnInit {
     public tagLoading = false;
     public topItems = ['无', '推荐'];
     public editData: ISite = {} as any;
+    public scoringData = {
+        score: 60,
+        change_reason: '',
+    };
 
     constructor(
         private service: NavigationService,
@@ -66,6 +70,26 @@ export class SiteComponent implements OnInit {
         return {name};
     }
 
+    public tapScoring(modal: DialogEvent, item: ISite) {
+        this.scoringData = {
+            score: item.score,
+            change_reason: '',
+        };
+        modal.open(() => {
+            this.service.siteScoring({
+                ...this.scoringData,
+                id: item.id
+            }).subscribe({
+                next: res => {
+                    item.score = res.score;
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => this.scoringData.score > 0 && !emptyValidate(this.scoringData.change_reason));
+    }
+
     public open(modal: DialogEvent, item?: ISite) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
@@ -77,7 +101,7 @@ export class SiteComponent implements OnInit {
             domain: '',
             top_type: 0,
             tags: [],
-        };
+        } as any;
         modal.open(() => {
             this.service.siteSave(this.editData).subscribe({
                 next: () => {

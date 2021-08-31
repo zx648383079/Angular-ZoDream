@@ -1,4 +1,4 @@
-<div class="container-fluid" #container [ngClass]="{'scroll-up': scrollToUp}" >
+<div class="container-fluid" #container [ngClass]="{'scroll-up': scrollToUp || mode > 0}" >
   
     <div class="reader-box">
         <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
@@ -8,7 +8,7 @@
         加载中。。。
     </div>
 
-    <footer class="reader-footer" [ngStyle]="footerStyle">
+    <footer class="reader-footer" [ngStyle]="footerStyle" (click)="$event.stopPropagation()">
         <div class="pager">
             <a (click)="tapPrev()">上一章</a>
             <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()"></app-progress-bar>

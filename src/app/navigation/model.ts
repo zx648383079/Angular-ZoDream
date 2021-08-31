@@ -18,9 +18,19 @@ export interface ISite {
     cat_id: number;
     description: string;
     top_type: number;
+    score: number;
     user?: IUser;
     category?: ISiteCategory;
     tags?: ISiteTag[];
+}
+
+export interface ISiteScoringLog {
+    id: number;
+    change_reason: string;
+    last_score: number;
+    score: number;
+    user?: IUser;
+    site?: ISite;
 }
 
 export interface ISiteTag {
@@ -35,7 +45,7 @@ export interface IWebPage {
     thumb: string;
     link: string;
     site_id: number;
-    page_rank: number;
+    score: number;
     site?: ISite;
     keywords?: IWebPageKeywords[];
     updated_at?: string;
