@@ -57,7 +57,7 @@
     "@types/jasminewd2": "^2.0.10",
     "@types/katex": "^0.11.1",
     "@types/marked": "^3.0.0",
-    "@types/node": "^16.7.8",
+    "@types/node": "^16.7.10",
     "@types/video.js": "^7.3.26",
     "codelyzer": "^6.0.2",
     "jasmine-core": "^3.9.0",
