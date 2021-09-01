@@ -87,6 +87,10 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             this.container.insertOrInclude('----', 2);
             return;
         }
+        if (name === 'bold') {
+            this.container.insertOrInclude('b__b', 2);
+            return;
+        }
         if (name === 'wavyline') {
             this.container.insertOrInclude('~~~~', 2);
             return;

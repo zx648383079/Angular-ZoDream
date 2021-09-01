@@ -4,7 +4,7 @@ import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
 
 export interface IMarkItem {
-    type: 'text'|'input'|'image'|'line'|'math'|'table'|'underline'|'wavyline';
+    type: 'text'|'input'|'image'|'line'|'math'|'table'|'underline'|'wavyline' | 'bold';
     header?: ITableTd[];
     content?: any;
     value?: string;
@@ -104,6 +104,8 @@ export class MathMarkParser {
                 return this.renderRange(reader, '~~', '~~', 'wavyline');
             case '·':
                 return this.renderRange(reader, '··', '··', 'dashed');
+            case 'b':
+                return this.renderRange(reader, 'b_', '_b', 'bold');
         }
         return;
     }
