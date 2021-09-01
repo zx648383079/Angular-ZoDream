@@ -8,16 +8,18 @@ import { BlogService } from './blog.service';
 })
 export class BlogComponent implements OnInit {
 
-  public items = [];
+    public isLoading = true;
+    public data: any = {};
 
-  constructor(
-    private service: BlogService
-  ) { }
+    constructor(
+        private service: BlogService
+    ) { }
 
-  ngOnInit(): void {
-    this.service.getSubtotal().subscribe(res => {
-      this.items = res;
-    });
-  }
+    ngOnInit(): void {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

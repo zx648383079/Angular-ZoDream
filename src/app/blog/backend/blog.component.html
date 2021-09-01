@@ -4,15 +4,78 @@
             <li>统计</li>
         </ul>
     </app-page-tip>
-    <ng-container *ngFor="let item of items">
-        <div class="column-item">
-            <div class="icon">
-                <div class="iconfont" [ngClass]="item.icon"></div>
-            </div>
-            <div class="content">
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.count | numberFormat }}</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.term_count || 0 | numberFormat }}</h3>
+                    <p>分类</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-folder-o"></i>
+                </div>
+                <a class="column-footer" routerLink="category">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
             </div>
         </div>
-    </ng-container>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.blog_today || 0 | numberFormat }}/{{ data.blog_count || 0 | numberFormat }}</h3>
+                    <p>今日/总文章</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-file-o"></i>
+                </div>
+                <a class="column-footer" routerLink="list">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.comment_today || 0 | numberFormat }}/{{ data.comment_count || 0 | numberFormat }}</h3>
+                    <p>今日/总评论</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-commenting"></i>
+                </div>
+                <a class="column-footer" routerLink="comment">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
+                    <p>今日/总流量</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-eye"></i>
+                </div>
+                <a class="column-footer" routerLink="list">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -4,4 +4,60 @@
             <li>微博</li>
         </ul>
     </app-page-tip>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.post_today || 0 | numberFormat }}/{{ data.post_count || 0 | numberFormat }}</h3>
+                    <p>今日/总动态</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-file-o"></i>
+                </div>
+                <a class="column-footer" routerLink="post">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.comment_today || 0 | numberFormat }}/{{ data.comment_count || 0 | numberFormat }}</h3>
+                    <p>今日/总评论</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-commenting"></i>
+                </div>
+                <a class="column-footer" routerLink="comment">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.topic_today || 0 | numberFormat }}/{{ data.topic_count || 0 | numberFormat }}</h3>
+                    <p>今日/总话题</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont">#</i>
+                </div>
+                <a class="column-footer" routerLink="topic">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

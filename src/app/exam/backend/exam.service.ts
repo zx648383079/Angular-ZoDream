@@ -171,4 +171,8 @@ export class ExamService {
           params: {id}
         });
     }
+
+    public statistics() {
+        return this.http.get<any>('exam/admin/statistics');
+    }
 }

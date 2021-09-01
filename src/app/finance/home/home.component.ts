@@ -8,11 +8,18 @@ import { FinanceService } from '../finance.service';
 })
 export class HomeComponent implements OnInit {
 
+    public isLoading = true;
+    public data: any = {};
+
     constructor(
         private service: FinanceService,
     ) { }
 
     ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
     }
 
 }

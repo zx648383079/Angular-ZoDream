@@ -178,4 +178,8 @@ export class FinanceService {
             product: IFinancialProduct[],
         }>('finance/batch', data);
     }
+
+    public statistics() {
+        return this.http.get<any>('finance/statistics');
+    }
 }

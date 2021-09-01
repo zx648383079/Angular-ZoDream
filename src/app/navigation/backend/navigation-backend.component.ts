@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from './navigation.service';
 
 @Component({
   selector: 'app-navigation-backend',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBackendComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: NavigationService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

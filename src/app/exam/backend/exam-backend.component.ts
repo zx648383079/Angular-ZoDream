@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExamService } from './exam.service';
 
 @Component({
   selector: 'app-exam-backend',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExamBackendComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: ExamService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

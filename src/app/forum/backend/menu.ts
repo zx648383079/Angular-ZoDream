@@ -10,7 +10,7 @@ export const ForumBackendMenu: INav[] = [
             {
                 name: '板块管理',
                 label: '板',
-                url: './forum',
+                url: './forum/list',
             },
             {
                 name: '帖子管理',

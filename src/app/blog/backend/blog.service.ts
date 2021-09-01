@@ -13,8 +13,8 @@ export class BlogService {
         private http: HttpClient
     ) { }
 
-    public getSubtotal(): Observable<ISubtotal[]> {
-        return this.http.get<IData<ISubtotal>>('blog/home/subtotal').pipe(map(res => res.data));
+    public statistics() {
+        return this.http.get<any>('blog/admin/statistics');
     }
 
     /**

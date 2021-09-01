@@ -1,6 +1,12 @@
-<div class="page-container">
+<div class="page-container" [ngClass]="{'page-not-thumb': !value.thumb}">
     <div class="page-header">
         <a [href]="value.link" target="_blank" rel="noopener">{{ value.title }}</a>
+        <ng-container *ngIf="value.score > 80">
+            <i class="iconfont icon-shield" title="此网页安全"></i>
+        </ng-container>
+        <ng-container *ngIf="value.score < 60">
+            <i class="iconfont icon-exclamation-triangle" title="此网页存在疑问"></i>
+        </ng-container>
     </div>
     <div class="page-flex-body">
         <div class="page-thumb" *ngIf="value.thumb">

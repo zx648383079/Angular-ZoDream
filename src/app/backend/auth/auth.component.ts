@@ -8,11 +8,19 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(
-    private service: AuthService,
-  ) {
-  }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {}
+    constructor(
+        private service: AuthService,
+    ) {
+    }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

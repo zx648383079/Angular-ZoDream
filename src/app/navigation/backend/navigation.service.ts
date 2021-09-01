@@ -91,4 +91,8 @@ export class NavigationService {
         return this.http.delete<IDataOne<boolean>>('navigation/admin/page/delete', {params: {id}});
     }
 
+    public statistics() {
+        return this.http.get<any>('navigation/admin/statistics');
+    }
+
 }

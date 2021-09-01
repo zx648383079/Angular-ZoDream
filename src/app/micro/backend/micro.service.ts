@@ -40,4 +40,8 @@ export class MicroService {
             params: {id}
         });
     }
+
+    public statistics() {
+        return this.http.get<any>('micro/admin/statistics');
+    }
 }

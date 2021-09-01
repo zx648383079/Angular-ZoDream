@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MicroService } from './micro.service';
 
 @Component({
   selector: 'app-micro',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MicroComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: MicroService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }
