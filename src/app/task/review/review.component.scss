@@ -1,20 +1,24 @@
 .tab-bar {
     float: right;
-    line-height: 40px;
+    line-height: 2.5rem;
     .item {
         display: inline-block;
-        padding: 0 20px;
+        padding: 0 1.25rem;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba($color: #ccc, $alpha: .3);
+        }
         &.active {
             background-color: red;
             color: #fff;
         }
         &:first-of-type {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
+            border-top-left-radius: 0.3125rem;
+            border-bottom-left-radius: 0.3125rem;
         }
         &:last-of-type {
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
+            border-top-right-radius: 0.3125rem;
+            border-bottom-right-radius: 0.3125rem;
         }
     }
 }

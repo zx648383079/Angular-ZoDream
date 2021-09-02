@@ -179,7 +179,7 @@ export class FinanceService {
         }>('finance/batch', data);
     }
 
-    public statistics() {
-        return this.http.get<any>('finance/statistics');
+    public statistics(params: any) {
+        return this.http.get<any>('finance/statistics', {params});
     }
 }

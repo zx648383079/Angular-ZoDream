@@ -5,4 +5,82 @@
         </ul>
     </app-page-tip>
     
+    <div class="page-search-bar">
+        <div class="form-horizontal">
+            <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+            ~
+            <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+
+            <div class="tab-bar">
+                <ng-container *ngFor="let item of typeItems;let i = index">
+                    <div class="item" [ngClass]="{active: queries.type == i}" (click)="tapType(i)">
+                        按{{ item }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.money_total || 0 | numberFormat }}</h3>
+                    <p>总资产</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-area-chart"></i>
+                </div>
+                <a class="column-footer" routerLink="money">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.expenditure_current || 0 | numberFormat }}/{{ data.expenditure_last || 0 | numberFormat }}/{{ data.expenditure_total || 0 | numberFormat }}</h3>
+                    <p>当{{ formatType(queries.type) }}/上{{ formatType(queries.type) }}/总支出</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-shopping-cart"></i>
+                </div>
+                <a class="column-footer" routerLink="income">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.income_current || 0 | numberFormat }}/{{ data.income_last || 0 | numberFormat }}/{{ data.income_total || 0 | numberFormat }}</h3>
+                    <p>当{{ formatType(queries.type) }}/上{{ formatType(queries.type) }}/总收入</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-gift"></i>
+                </div>
+                <a class="column-footer" routerLink="income">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div echarts [options]="options" class="chart-lg"></div>
+        </div>
+    </div>
+
 </div>
