@@ -60,12 +60,22 @@ export class EditorContainer implements IEditorContainer {
         this.selection = this.element.selection;
     }
 
-    public insertOrInclude(val: string, move = 0) {
+    public insertOrInclude(val: string);
+    public insertOrInclude(val: string, move: number);
+    public insertOrInclude(begin: string, end: string);
+    public insertOrInclude(val: string, move: string|number = 0) {
         if (!this.hasSelection) {
+            if (typeof move === 'string') {
+                this.insert(val + move, val.length);
+                return;
+            }
             this.insert(val, move);
             return;
         }
         this.replace(v => {
+            if (typeof move === 'string') {
+                return val + v + move;
+            }
             return val.substr(0, move) + v + val.substr(move);
         });
     }

@@ -2,6 +2,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CharIterator } from '../../../theme/char';
 import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
+import { eachObject } from '../../../theme/utils';
 
 export interface IMarkItem {
     type: 'text'|'input'|'image'|'line'|'math'|'table'|'underline'|'wavyline' | 'bold';
@@ -27,10 +28,31 @@ export interface IMatchParserOption {
     math?: boolean;
 }
 
+interface IMarkRange {
+    begin: string;
+    end: string;
+    format?: (this: MathMarkParser, v: string) => any;
+}
+
+export const MarkRangeMap: {[type: string]: IMarkRange} = {
+    image: {
+        begin: '![](',
+        end: ')',
+        format: function(v) {
+            return this.sanitizer.bypassSecurityTrustResourceUrl(v)
+        }
+    },
+    underline: {begin: '--', end: '--'},
+    wavyline: {begin: '~~', end: '~~'},
+    dashed: {begin: '··', end: '··'},
+    bold: {begin: 'b_', end: '_b'},
+};
+
+
 export class MathMarkParser {
 
     constructor(
-        private sanitizer: DomSanitizer,
+        public sanitizer: DomSanitizer,
         public option: IMatchParserOption = {},
     ) {
     }
@@ -38,6 +60,10 @@ export class MathMarkParser {
     private asciiMath = new AsciiMathParser();
 
     public render(content: string): IMarkItem[] {
+        return this.renderInner(content);
+    }
+
+    private renderInner(content: string, defType: any = 'text'): IMarkItem[] {
         if (typeof content === 'undefined' || content === null) {
             content = '';
         }
@@ -49,7 +75,7 @@ export class MathMarkParser {
                 return;
             }
             items.push({
-                type: 'text',
+                type: defType,
                 content: text,
             });
             text = '';
@@ -82,49 +108,56 @@ export class MathMarkParser {
                 continue;
             }
             pushText();
+            if (block instanceof Array) {
+                items.push(...block);
+                continue;
+            }
             items.push(block);
         }
         pushText();
         return items;
     }
 
-    private renderNext(reader: CharIterator): IMarkItem|undefined {
+    private renderNext(reader: CharIterator): IMarkItem[]|IMarkItem|undefined {
+        for (const key in MarkRangeMap) {
+            if (Object.prototype.hasOwnProperty.call(MarkRangeMap, key)) {
+                const element = MarkRangeMap[key];
+                if (!this.isRange(reader, element)) {
+                    continue;
+                }
+                return this.renderRange(reader, element.begin, element.end, key, element.format);
+            }
+        }
         switch (reader.current) {
             case '_':
                 return !this.option.input ? undefined : this.renderInput(reader);
             case '$':
                 return !this.option.math ? undefined : this.renderMath(reader);
-            case '!':
-                return this.renderRange(reader, '![](', ')', 'image', v => {
-                    return this.sanitizer.bypassSecurityTrustResourceUrl(v);
-                });
-            case '-':
-                return this.renderRange(reader, '--', '--', 'underline');
-            case '~':
-                return this.renderRange(reader, '~~', '~~', 'wavyline');
-            case '·':
-                return this.renderRange(reader, '··', '··', 'dashed');
-            case 'b':
-                return this.renderRange(reader, 'b_', '_b', 'bold');
         }
         return;
     }
 
-    private renderRange(reader: CharIterator, begin: string, end: string, name: string, cb?: (v: string) => any): IMarkItem|undefined {
-        const next = begin.substr(1);
-        if (next !== '' && !reader.nextIs(next)) {
-            return;
+    private isRange(reader: CharIterator, item: IMarkRange): boolean {
+        if (!reader.is(0, item.begin)) {
+            return false;
         }
+        return reader.indexOf(item.end, item.begin.length) > 0;
+    }
+
+    private renderRange(reader: CharIterator, begin: string, end: string, name: string, cb?: (v: string) => any): IMarkItem[]|IMarkItem|undefined {
         const i = reader.indexOf(end, begin.length);
         if (i < 0) {
             return;
         }
         const content = reader.read(i - reader.position - begin.length, begin.length);
         reader.position = i + end.length - 1;
-        return {
-            type: name as any,
-            content: cb ? cb(content) : content,
-        };
+        if (cb) {
+            return {
+                type: name as any,
+                content: cb.call(this, content),
+            };
+        }
+        return this.renderInner(content, name);
     }
 
     private renderInput(reader: CharIterator): IMarkItem|undefined {

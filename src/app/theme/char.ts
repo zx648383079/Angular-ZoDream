@@ -47,16 +47,18 @@ export class CharIterator {
     reset(): void {
         this.position = -1;
     }
+
     /**
-     * 后续的值
+     * 判断后面的字符串是否是
+     * @param offset 
      * @param items 
      * @returns 
      */
-    nextIs(...items: string[]): boolean {
-        if (!this.canNext) {
+    is(offset: number, ...items: string[]): boolean {
+        if (offset > 0 && !this.canNext) {
             return false;
         }
-        const code = this.content.charAt(this.position + 1);
+        const code = this.content.charAt(this.position);
         for (const item of items) {
             if (item === '') {
                 continue;
@@ -67,11 +69,20 @@ export class CharIterator {
                 }
                 continue;
             }
-            if (this.content.substr(this.position + 1, item.length) === item) {
+            if (this.content.substr(this.position, item.length) === item) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 后续的值
+     * @param items 
+     * @returns 
+     */
+    nextIs(...items: string[]): boolean {
+        return this.is(0, ...items);
     }
     read(length = 1, offset = 0): string | undefined {
         if (length === 0) {

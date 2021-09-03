@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
 
     public tapRemove(item: IBookRecord) {
         this.toastrService.confirm('确定将《' + item.book?.name + '》移出书架？', () => {
-            this.service.removeHistory(item.id).subscribe(res => {
+            this.service.removeHistory(item.book_id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }

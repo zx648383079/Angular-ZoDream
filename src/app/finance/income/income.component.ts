@@ -162,17 +162,27 @@ export class IncomeComponent implements OnInit {
         const files = event.target.files as FileList;
         const form = new FormData();
         form.append('file', files[0]);
-        this.service.logImport(form).subscribe(_ => {
-            this.tapRefresh();
-            this.toastrService.success('导入成功');
+        this.service.logImport(form).subscribe({
+            next: _ => {
+                this.tapRefresh();
+                this.toastrService.success('导入成功');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
     public tapBatch(modal: DialogBoxComponent) {
         this.editData.keywords = '';
         modal.open(() => {
-            this.service.logBatchEdit(this.editData).subscribe(res => {
-                this.toastrService.success(res.message);
+            this.service.logBatchEdit(this.editData).subscribe({
+                next: res => {
+                    this.toastrService.success(res.message);
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
             });
         }, () => {
             return !emptyValidate(this.editData.keywords);

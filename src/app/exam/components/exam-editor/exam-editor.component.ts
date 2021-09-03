@@ -4,6 +4,7 @@ import { DialogService } from '../../../dialog';
 import { EditorContainer, IEditor } from '../../../editor';
 import { FileUploadService } from '../../../theme/services';
 import { wordLength } from '../../../theme/utils';
+import { MarkRangeMap } from '../math-mark/parser';
 
 @Component({
     selector: 'app-exam-editor',
@@ -83,20 +84,9 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             this.container.insert('____', 3);
             return;
         }
-        if (name === 'underline') {
-            this.container.insertOrInclude('----', 2);
-            return;
-        }
-        if (name === 'bold') {
-            this.container.insertOrInclude('b__b', 2);
-            return;
-        }
-        if (name === 'wavyline') {
-            this.container.insertOrInclude('~~~~', 2);
-            return;
-        }
-        if (name === 'dashed') {
-            this.container.insertOrInclude('····', 2);
+        if (Object.prototype.hasOwnProperty.call(MarkRangeMap, name)) {
+            const item = MarkRangeMap[name];
+            this.container.insertOrInclude(item.begin, item.end);
             return;
         }
     }
