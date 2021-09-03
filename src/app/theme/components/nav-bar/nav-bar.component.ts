@@ -74,7 +74,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     public get navClass() {
-        return {'nav-flow': this.navFlow && this.navToggle < 1, 'nav-min': this.navToggle === 1, 'nav-mini': this.navToggle === 2, 'nav-hide': this.navToggle > 2};
+        return {'nav-flow': this.navFlow && this.navToggle < 1, 'nav-min': this.navToggle === 1, 'nav-mini': this.navToggle === 2, 'nav-hide': this.navToggle > 3, 'nav-unreal': this.navToggle === 3};
     }
 
     public tapToggle() {

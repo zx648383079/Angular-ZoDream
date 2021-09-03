@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { DialogService } from '../../../dialog';
 import { IChapter } from '../../model';
+import { windowScollTop } from '../../util';
 
 export interface IFlipProgress {
     item: IBlockItem;
@@ -141,7 +142,7 @@ export class FlipPagerComponent implements OnChanges {
         }
         const bound = element.nativeElement.getBoundingClientRect();
         window.scrollTo({
-            top: bound.top + progress * bound.height / 100
+            top: windowScollTop() + bound.top + progress * bound.height / 100
         });
     }
 

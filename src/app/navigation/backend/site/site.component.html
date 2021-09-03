@@ -45,9 +45,7 @@
                     <td>{{ item.name }}</td>
                     <td>
                         <ng-container *ngIf="item.schema">
-                            {{ item.schema }}://
-                        </ng-container>
-                        {{ item.domain }}</td>
+                            {{ item.schema }}://</ng-container>{{ item.domain }}</td>
                     <td>{{ item.user?.name }}</td>
                     <td>{{ item.category?.name }}</td>
                     <td title="点击修改评分" (click)="tapScoring(scoringModal, item)">{{ item.score || '--' }}</td>

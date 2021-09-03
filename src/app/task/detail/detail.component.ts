@@ -50,7 +50,7 @@ export class DetailComponent implements OnInit {
                     this.items = res.task.children;
                 }
                 if (res.log && res.status === 9) {
-                    this.searchService.emit('toggle', 3);
+                    this.searchService.emit('toggle', 4);
                     this.maxProgress = res.task.every_time * 60;
                     this.progress = res.log?.time;
                     setTimeout(() => {
@@ -81,7 +81,7 @@ export class DetailComponent implements OnInit {
             child_id: this.current.id !== this.data.task_id ? this.current.id : 0,
         }).subscribe({
             next: res => {
-                this.searchService.emit('toggle', 3);
+                this.searchService.emit('toggle', 4);
                 this.data = res;
                 this.maxProgress = res.task.every_time * 60;
                 this.progress = res.log?.time;

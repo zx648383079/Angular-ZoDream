@@ -163,6 +163,24 @@ li {
     }
 }
 
+.nav-unreal {
+    .nav-bar {
+        width: 3.125rem;
+        bottom: auto;
+        opacity: .2;
+        .bar-top,
+        .bar-bottom {
+            display: none;
+        }
+        &:hover {
+            opacity: 1;
+        }
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}
+
 .nav-hide {
     .nav-bar {
         display: none;

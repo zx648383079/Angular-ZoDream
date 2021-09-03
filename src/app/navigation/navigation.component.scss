@@ -1,10 +1,19 @@
+.main-container {
+    padding-top: 30vh;
+    transition: all .5s;
+    &.on-search {
+        padding-top: 0;
+    }
+}
+
 .open-icon {
     width: 8rem;
     position: relative;
     margin: 0 auto;
     padding: 2rem 0;
     cursor: pointer;
-    margin-top: 60vh;
+    margin-top: 30vh;
+    margin-bottom: 2rem;
     transition: all .5s;
     &::after,
     &::before {
@@ -34,6 +43,7 @@
     }
     &.opened {
         margin-top: 0;
+        margin-bottom: 0;
         &::after,
         &::before {
             transform: rotateZ(0deg);

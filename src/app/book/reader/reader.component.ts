@@ -11,6 +11,7 @@ import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
 import { SearchService } from '../../theme/services';
+import { scrollBottom, windowHeight, windowScollTop } from '../util';
 
 @Component({
     selector: 'app-reader',
@@ -62,9 +63,9 @@ export class ReaderComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.searchService.emit('toggle', 2);
+        this.searchService.emit('toggle', 3);
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
-        this.scrollTop = this.getScrollTop();
+        this.scrollTop = windowScollTop();
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -129,13 +130,16 @@ export class ReaderComponent implements OnInit, OnDestroy {
             this.booted = true;
             return;
         }
-        this.service.getChapter(event.id, this.bookId).subscribe(res => {
-            this.cacheChapters[event.id] = res;
-            event.callback(res);
-            this.isLoading = false;
-            this.booted = true;
-        }, _ => {
-            this.isLoading = false;
+        this.service.getChapter(event.id, this.bookId).subscribe({
+            next: res => {
+                this.cacheChapters[event.id] = res;
+                event.callback(res);
+                this.isLoading = false;
+                this.booted = true;
+            }, 
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -222,53 +226,13 @@ export class ReaderComponent implements OnInit, OnDestroy {
 
     private onScroll(_: any) {
         const oldTop = this.scrollTop;
-        this.scrollTop = this.getScrollTop();
-        const scrollWindowBottom = this.scrollTop + this.getWindowHeight();
+        this.scrollTop = windowScollTop();
+        const scrollWindowBottom = this.scrollTop + windowHeight();
         this.scrollToUp = this.scrollTop < oldTop;
-        if (this.booted && !this.isLoading && this.getScrollBottomHeight() < 30) {
+        if (this.booted && !this.isLoading && scrollBottom() < 30) {
             this.tapNext();
         }
         this.flipPager.onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);
-    }
-
-     // 滚动条到底部的距离
-     private getScrollBottomHeight() {
-        const scrollTop = this.getScrollTop();
-        return this.getPageHeight() - scrollTop - this.getWindowHeight();
-    }
-
-    // 页面高度
-    private getPageHeight() {
-        const box = document.querySelector('html');
-        if (!box) {
-            return 0;
-        }
-        return box.scrollHeight;
-    }
-
-    // 滚动条顶 高度
-    private getScrollTop() {
-        let scrollTop = 0;
-        let bodyScrollTop = 0;
-        let documentScrollTop = 0;
-        if (document.body) {
-            bodyScrollTop = document.body.scrollTop;
-        }
-        if (document.documentElement) {
-            documentScrollTop = document.documentElement.scrollTop;
-        }
-        scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        return scrollTop;
-    }
-
-    private getWindowHeight() {
-        let windowHeight = 0;
-        if (document.compatMode === 'CSS1Compat') {
-            windowHeight = document.documentElement.clientHeight;
-        } else {
-            windowHeight = document.body.clientHeight;
-        }
-        return windowHeight;
     }
 
 }
