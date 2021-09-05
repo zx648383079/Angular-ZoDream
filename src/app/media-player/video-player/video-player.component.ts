@@ -31,14 +31,6 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
         private render: Renderer2,
     ) { }
 
-    public get formatProgress() {
-        return this.formatMinute(this.progress);
-    }
-
-    public get formatDuration() {
-        return this.formatMinute(this.duration);
-    }
-
     public get videoPlayer() {
         return this.videoElement && this.videoElement.nativeElement ? this.videoElement.nativeElement : undefined;
     }
@@ -200,10 +192,6 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
             }
         }
         return false;
-    }
-
-    private formatMinute(time: number): string {
-        return [Math.floor(time / 60), Math.floor(time % 60)].map(twoPad).join(':');
     }
 
 }

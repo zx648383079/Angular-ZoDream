@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 interface ILyricsItem {
     text: string;
@@ -6,6 +6,7 @@ interface ILyricsItem {
     end: number;
     active?: boolean;
     offset?: number;
+    style?: any;
 }
 
 @Component({
@@ -16,11 +17,43 @@ interface ILyricsItem {
 export class LyricsViewerComponent implements OnChanges {
 
     public items: ILyricsItem[] = [];
+    @Input() public value = '';
+    @Input() public duration = 0;
+    @Input() public currentTime = 0;
 
-    constructor() { }
+    constructor() {
+        this.items = this.format(`
+        [00:00-00:20]歌词部分就是这样
+        `);
+        setInterval(() => {
+            this.currentTime ++;
+            this.refreshItems();
+        }, 1000);
+    }
 
     ngOnChanges(changes: SimpleChanges) {
-        
+        if (changes.value) {
+            this.items = this.format(this.value, this.duration);
+        }
+        if (changes.currentTime) {
+            this.refreshItems();
+        }
+    }
+
+    private refreshItems() {
+        for (const item of this.items) {
+            if (!item.text) {
+                continue;
+            }
+            item.active = this.isActive(item, this.currentTime);
+            item.offset = this.formatOffset(item, this.currentTime);
+            // item.style = item.offset > 0 ? {
+            //     'background-image': 'linear-gradient(to right, red, #fff ' + (item.offset * 100) +'%)',
+            //     'background-clip': 'text',
+            //     '-webkit-background-clip': 'text',
+            //     'color': 'transparent',
+            // } : {};
+        }
     }
 
     private formatOffset(item: ILyricsItem, time: number): number {
@@ -57,7 +90,7 @@ export class LyricsViewerComponent implements OnChanges {
             let len = 1;
             if (i > 0)
             {
-                var e = line.indexOf('>', i);
+                const e = line.indexOf('>', i);
                 if (e > 0)
                 {
                     len = e - i;
@@ -82,7 +115,7 @@ export class LyricsViewerComponent implements OnChanges {
                 return;
             }
             t ++;
-            const [start, end] = timeToQuantum(line.substring(t, c - t));
+            const [start, end] = timeToQuantum(line.substring(t, c));
             items.push({text: line.substring(c + 1).trim(), start, end});
         });
         return items.map((item, i) => {

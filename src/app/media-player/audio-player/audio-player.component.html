@@ -6,7 +6,7 @@
         <app-progress-bar [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
     </div>
     <div class="time">
-        {{ formatProgress }}/{{ formatDuration }}
+        {{ progress | duration }}/{{ duration | duration }}
     </div>
     <div class="volume-icon">
         <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>

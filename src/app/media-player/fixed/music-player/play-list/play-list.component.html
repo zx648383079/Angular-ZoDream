@@ -1,0 +1,24 @@
+<div class="play-list-container">
+    <ng-container *ngFor="let item of items">
+        <div class="music-item" [ngClass]="{active: item.active}">
+            <div class="icon">
+                <i class="iconfont icon-play" *ngIf="item.active"></i>
+            </div>
+            <div class="name">
+                {{ item.name }}
+                <div class="action">
+                    <i class="iconfont icon-heart-o"></i>
+                    <i class="iconfont icon-share-alt"></i>
+                    <i class="iconfont icon-download"></i>
+                    <i class="iconfont icon-trash"></i>
+                </div>
+            </div>
+            <div class="artist">
+                {{ item.artist }}
+            </div>
+            <div class="time">
+                {{ item.duration | duration }}
+            </div>
+        </div>
+    </ng-container>
+</div>

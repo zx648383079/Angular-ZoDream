@@ -41,7 +41,7 @@
     "ngx-echarts": "^7.0.2",
     "reselect": "^4.0.0",
     "rxjs": "^7.3.0",
-    "swiper": "^7.0.2",
+    "swiper": "^7.0.3",
     "tinymce": "^5.9.1",
     "ts-md5": "^1.2.9",
     "tslib": "^2.3.1",

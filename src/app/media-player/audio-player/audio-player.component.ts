@@ -31,14 +31,6 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
         return this.audioElement;
     }
 
-    public get formatProgress() {
-        return this.formatMinute(this.progress);
-    }
-
-    public get formatDuration() {
-        return this.formatMinute(this.duration);
-    }
-
     ngOnChanges(changes: SimpleChanges) {
         if (changes.src) {
             this.booted = false;
@@ -112,10 +104,6 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
         if (this.volume > 0) {
             this.volume = this.audioElement.volume * 100;
         }
-    }
-    
-    private formatMinute(time: number): string {
-        return [Math.floor(time / 60), Math.floor(time % 60)].map(twoPad).join(':');
     }
 
 }

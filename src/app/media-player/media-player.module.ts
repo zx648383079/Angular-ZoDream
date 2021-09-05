@@ -8,6 +8,8 @@ import { MusicPlayerComponent } from './fixed/music-player/music-player.componen
 import { MoviePlayerComponent } from './fixed/movie-player/movie-player.component';
 import { LyricsViewerComponent } from './fixed/music-player/lyrics-viewer/lyrics-viewer.component';
 import { SpectrumPanelComponent } from './fixed/music-player/spectrum-panel/spectrum-panel.component';
+import { PlayListComponent } from './fixed/music-player/play-list/play-list.component';
+import { DurationPipe } from './duration.pipe';
 
 const COMPONENTS = [
     AudioPlayerComponent,
@@ -22,11 +24,13 @@ const COMPONENTS = [
         ThemeModule,
         ProgressModule,
     ],
-    declarations: [
+    declarations: [	
         ... COMPONENTS,
         LyricsViewerComponent,
         SpectrumPanelComponent,
-    ],
+        PlayListComponent,
+        DurationPipe
+   ],
     exports: [
         ... COMPONENTS
     ]

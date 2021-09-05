@@ -1,4 +1,14 @@
 .lyrics-scroller {
+    position: relative;
+    .lyrics-mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #333;
+        opacity: .2;
+    }
     .lyrics-item {
         color: #989898;
         word-wrap: break-word;

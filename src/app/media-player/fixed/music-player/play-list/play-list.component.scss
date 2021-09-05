@@ -1,0 +1,43 @@
+.play-list-container {
+    max-height: 15rem;
+    overflow-y: auto;
+}
+.music-item {
+    display: flex;
+    line-height: 2.5rem;
+    height: 2.5rem;
+    .icon {
+        width: 2rem;
+        text-align: center;
+    }
+    .name {
+        flex: 1;
+        position: relative;
+    }
+    .action {
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: none;
+        z-index: 8;
+        .iconfont {
+            margin-right: .4rem;
+        }
+    }
+    .artist {
+        width: 4rem;
+    }
+    .time {
+        width: 4rem;
+    }
+    &:hover {
+        cursor: pointer;
+        .action {
+            display: block;
+        }
+    }
+    &.active {
+        background-color: rgba($color: #666, $alpha: 0.3);
+        color: white;
+    }
+}
