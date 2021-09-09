@@ -55,6 +55,8 @@ export class ThreadComponent implements OnInit {
         page: 1,
         per_page: 20,
         user: 0,
+        order: '',
+        status: 0,
     };
 
     public user: IUser;
@@ -67,7 +69,7 @@ export class ThreadComponent implements OnInit {
         amount: 10,
     };
     public statusData = {
-        items: ['无', '已阅', 'Done'],
+        items: ['无', '已阅', 'Done', '正方', '反方'],
         selected: 0,
     };
 
@@ -102,6 +104,15 @@ export class ThreadComponent implements OnInit {
 
     public tapSeeUser(user: number = 0) {
         this.queries.user = user;
+        this.tapRefresh();
+    }
+
+    public tapSortOrder() {
+        this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
+        this.tapRefresh();
+    }
+
+    public onStatusChange() {
         this.tapRefresh();
     }
 

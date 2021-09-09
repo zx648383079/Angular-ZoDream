@@ -33,6 +33,12 @@
                 <span class="title-text">{{ thread.title }} </span>
                 <i class="iconfont icon-fire" *ngIf="thread.is_digest"></i>
                 <a class="new-tag" *ngIf="thread.is_new">New</a>
+                <div class="pull-right">
+                    <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': queries.order == 'desc', 'icon-sort-alpha-desc': queries.order != 'desc'}" [title]="queries.order != 'desc' ? '倒叙浏览' : '正序浏览'" (click)="tapSortOrder()"></i>
+                    <select [(ngModel)]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
+                        <option *ngFor="let item of statusData.items; let i = index" [value]="i">{{ item }}</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="post-list">

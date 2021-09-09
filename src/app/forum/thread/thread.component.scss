@@ -87,6 +87,14 @@
     }
 }
 .thread-title {
+    .pull-right {
+        float: right;
+        .form-control {
+            width: auto;
+            display: inline-block;
+            min-width: auto;
+        }
+    }
     .title-text {
         color: #333;
     }
@@ -134,6 +142,7 @@
 .split {
     margin: 0 5px;
     color: #CCC;
+    font-style: normal;
 }
 
 .link-item {
