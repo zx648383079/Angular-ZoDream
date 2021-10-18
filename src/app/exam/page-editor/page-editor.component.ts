@@ -74,9 +74,33 @@ export class PageEditorComponent implements OnInit {
         return mapFormat(value, QuestionTypeItems);
     }
 
+    private checkQuestion(items: IQuestion[]): boolean {
+        for (const item of items) {
+            if (item.type === 5) {
+                if (!item.children || item.children.length < 0) {
+                    return false;
+                }
+                if (!this.checkQuestion(item.children)) {
+                    return false;
+                }
+            }
+            if (item.type > 1) {
+                continue;
+            }
+            if (!item.option_items || item.option_items.length < 1 || item.option_items.filter(j => j.is_right).length < 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (emptyValidate(this.data.name)) {
             this.toastrService.warning('请输入试卷标题');
+            return;
+        }
+        if (!this.checkQuestion(this.items)) {
+            this.toastrService.warning('有部分题目未输入完整！');
             return;
         }
         const items = this.items.filter(i => {

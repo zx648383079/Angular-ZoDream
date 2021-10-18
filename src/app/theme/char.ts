@@ -58,7 +58,8 @@ export class CharIterator {
         if (offset > 0 && !this.canNext) {
             return false;
         }
-        const code = this.content.charAt(this.position);
+        const pos = this.position + offset;
+        const code = this.content.charAt(pos);
         for (const item of items) {
             if (item === '') {
                 continue;
@@ -69,7 +70,7 @@ export class CharIterator {
                 }
                 continue;
             }
-            if (this.content.substr(this.position, item.length) === item) {
+            if (this.content.substr(pos, item.length) === item) {
                 return true;
             }
         }
@@ -82,7 +83,7 @@ export class CharIterator {
      * @returns 
      */
     nextIs(...items: string[]): boolean {
-        return this.is(0, ...items);
+        return this.is(1, ...items);
     }
     read(length = 1, offset = 0): string | undefined {
         if (length === 0) {
