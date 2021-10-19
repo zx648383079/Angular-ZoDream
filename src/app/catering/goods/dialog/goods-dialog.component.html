@@ -1,0 +1,35 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box goods-dialog" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="item-thumb">
+        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
+    </div>
+    <div class="item-name">
+        食物名称
+    </div>
+    <div class="item-group">
+        <div class="group-header">口味</div>
+        <div class="group-body">
+            <span>辣</span>
+            <span class="active">微辣</span>
+            <span>辣</span>
+        </div>
+    </div>
+    <div class="item-group">
+        <div class="group-header">数量</div>
+        <div class="group-body">
+            <app-number-input></app-number-input>
+        </div>
+    </div>
+    <div class="item-group">
+        <div class="group-header">合计</div>
+        <div class="group-body">
+            <div class="item-price">
+                <em>￥</em>0.01
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary" (click)="close()">取消</div>
+        <div class="btn btn-primary">加入购物车</div>
+    </div>
+</div>

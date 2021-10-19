@@ -1,3 +1,45 @@
-<p>
-  store works!
-</p>
+<div class="flex-2">
+    <div class="flex-menu">
+        <div class="menu-item active">
+            分类
+        </div>
+        <div class="menu-item">
+            分类
+        </div>
+        <div class="menu-item">
+            分类
+        </div>
+    </div>
+    <div class="flex-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="food-item" (click)="goodsModal.open()">
+                    <div class="item-thumb">
+                        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
+                    </div>
+                    <div class="item-name">
+                        食物名称
+                    </div>
+                    <div class="item-price">
+                        <em>￥</em>0.1
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="food-item" (click)="goodsModal.open()">
+                    <div class="item-thumb">
+                        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
+                    </div>
+                    <div class="item-name">
+                        食物名称
+                    </div>
+                    <div class="item-price">
+                        <em>￥</em>0.1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-goods-dialog #goodsModal></app-goods-dialog>

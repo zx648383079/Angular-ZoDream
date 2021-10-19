@@ -11,7 +11,7 @@
             <a>
                 <i class="iconfont icon-scan"></i>
             </a>
-            <a>
+            <a (click)="cartModal.open()">
                 <i class="iconfont icon-shopping-cart"></i>
             </a>
             <div class="user-icon">
@@ -30,9 +30,5 @@
 <router-outlet></router-outlet>
 
 
-<div class="dialog-mask" *ngIf="dialogOpen">
-</div>
-<div class="dialog-box"  [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
-    <app-login-panel></app-login-panel>
-    <i class="iconfont icon-close" (click)="dialogOpen = false"></i>
-</div>
+<app-login-dialog></app-login-dialog>
+<app-cart-dialog></app-cart-dialog>

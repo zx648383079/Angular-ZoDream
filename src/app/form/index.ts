@@ -13,4 +13,5 @@ export * from './file-online/file-online.component';
 export * from './switch/util';
 export * from './password-strong/password-strong.component';
 export * from './action-button/action-button.component';
+export * from './number-input/number-input.component';
 export * from './event';

@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateViaAuthGuard } from '../theme/guards';
 import { CartComponent } from './cart/cart.component';
+import { CartDialogComponent } from './cart/dialog/cart-dialog.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { CateringComponent } from './catering.component';
+import { GoodsDialogComponent } from './goods/dialog/goods-dialog.component';
 import { GoodsComponent } from './goods/goods.component';
+import { LoginDialogComponent } from './member/dialog/login-dialog.component';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { StoreComponent } from './store/store.component';
 
@@ -58,4 +61,7 @@ export const cateringRoutingComponents = [
     StoreComponent,
     CartComponent,
     CashierComponent,
+    GoodsDialogComponent,
+    CartDialogComponent,
+    LoginDialogComponent,
 ];

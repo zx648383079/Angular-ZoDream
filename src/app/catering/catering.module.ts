@@ -5,6 +5,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
 import { ContextMenuModule } from '../context-menu';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { ContextMenuModule } from '../context-menu';
         CateringRoutingModule,
         AuthModule,
         ContextMenuModule,
+        ZreFormModule,
     ],
     declarations: [...cateringRoutingComponents]
 })

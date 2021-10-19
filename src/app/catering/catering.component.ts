@@ -1,10 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IMenuItem } from '../context-menu';
 import { DialogAnimation } from '../theme/constants/dialog-animation';
 import { AppState } from '../theme/interfaces';
 import { IUser } from '../theme/models/user';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { CartDialogComponent } from './cart/dialog/cart-dialog.component';
+import { LoginDialogComponent } from './member/dialog/login-dialog.component';
 
 @Component({
     selector: 'app-catering',
@@ -16,7 +18,11 @@ import { getCurrentUser } from '../theme/reducers/auth.selectors';
 })
 export class CateringComponent implements OnInit {
 
-    public dialogOpen = false;
+    @ViewChild(LoginDialogComponent)
+    public loginModal: LoginDialogComponent;
+    @ViewChild(CartDialogComponent)
+    public cartModal: CartDialogComponent;
+
     public tabIndex = 0;
     public user: IUser;
     public authOpen = false;
@@ -84,7 +90,7 @@ export class CateringComponent implements OnInit {
             this.authOpen = !this.authOpen;
             return;
         }
-        this.dialogOpen = true;
+        this.loginModal.open();
     }
 
 }
