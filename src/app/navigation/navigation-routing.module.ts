@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NavigationComponent } from './navigation.component';
+import { PageCardComponent } from './page-card/page-card.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
 import { SearchInputComponent } from './search/search-input.component';
@@ -26,4 +27,5 @@ export const navigationRoutingComponents = [
     NavigationPanelComponent,
     PageContainerComponent,
     CategoryPanelComponent,
+    PageCardComponent,
 ];

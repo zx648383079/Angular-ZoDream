@@ -55,6 +55,7 @@ export class NavigationComponent implements OnInit {
             return;
         }
         this.openType = 0;
+        applyHistory(this.queries);
     }
 
     public tapRefresh() {

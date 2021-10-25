@@ -19,10 +19,16 @@
             "root": "",
             "sourceRoot": "src",
             "prefix": "app",
+            "i18n": {
+                "sourceLocale": "en-US",
+                "locales": {
+                }
+            },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
+                        "localize": true,
                         "outputPath": "dist/angular-zodream",
                         "index": "src/index.html",
                         "main": "src/main.ts",

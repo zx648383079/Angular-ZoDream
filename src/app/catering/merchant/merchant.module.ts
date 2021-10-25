@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { merchantRoutingComponents, MerchantRoutingModule } from './member-routing.module';
+import { merchantRoutingComponents, MerchantRoutingModule } from './merchant-routing.module';
 
 @NgModule({
     imports: [
