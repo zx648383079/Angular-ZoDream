@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../dialog';
 import { IPageQueries } from '../theme/models/page';
 import { applyHistory, getQueries } from '../theme/query';
 import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
+import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-navigation',
@@ -12,6 +13,9 @@ import { NavigationService } from './navigation.service';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+
+    @ViewChild(ReportDialogComponent)
+    public reportModal: ReportDialogComponent;
 
     public openType = 0;
     public items: IWebPage[] = [];
@@ -38,6 +42,12 @@ export class NavigationComponent implements OnInit {
             }
             this.tapPage();
         });
+    }
+
+    public tapItem(e: {type: number, data: IWebPage}) {
+        if (e.type == 2) {
+            this.reportModal.open(e.data);
+        }
     }
 
     public toggleOpen() {

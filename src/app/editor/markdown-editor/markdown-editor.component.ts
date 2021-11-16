@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as marked from 'marked';
+import { marked } from 'marked';
 import { FileUploadService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 import { IEditor, IEditorRange, IImageUploadEvent } from '../model';

@@ -8,6 +8,9 @@
     <ng-container *ngIf="block.type > 1 && block.type < 5">
         <a (click)="tapBlock(block)" [title]="block.content">{{ block.content }}</a>
     </ng-container>
+    <ng-container *ngIf="block.type == 9">
+        <em>{{ block.content }}</em>
+    </ng-container>
     <ng-container *ngIf="block.type === 99">
         <br/>
     </ng-container>

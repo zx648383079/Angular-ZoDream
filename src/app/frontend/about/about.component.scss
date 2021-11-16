@@ -55,7 +55,6 @@
             color: rgb(179, 177, 177);
             font-size: 15px;
             margin: 1.2% 0px;
-            font-family: 'Play-Regular';
             line-height: 1.6em;
         }
     }
@@ -70,13 +69,12 @@
         color: #808080;
         outline: none;
         font-weight: 400;
-        font-family: 'Play-Regular';
     }
     textarea {
         resize: none;
         height: 192px;
     }
-    button {
+    .btn {
         width: 100px;
         border: 1px solid #a10000;
         border-radius: 0;

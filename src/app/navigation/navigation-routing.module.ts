@@ -4,6 +4,7 @@ import { NavigationComponent } from './navigation.component';
 import { PageCardComponent } from './page-card/page-card.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
+import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { SearchInputComponent } from './search/search-input.component';
 import { CategoryPanelComponent } from './site/category-panel/category-panel.component';
 import { SiteGroupComponent } from './site/group/site-group.component';
@@ -28,4 +29,5 @@ export const navigationRoutingComponents = [
     PageContainerComponent,
     CategoryPanelComponent,
     PageCardComponent,
+    ReportDialogComponent,
 ];

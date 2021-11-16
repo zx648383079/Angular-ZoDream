@@ -1,0 +1,12 @@
+.dialog-box {
+    width: 320px;
+    margin-left: -160px;
+    margin-top: -200px;
+    .icon-close {
+        position: absolute;
+        font-size: 30px;
+        right: 0;
+        top: 0;
+        color: #ccc;
+    }
+}

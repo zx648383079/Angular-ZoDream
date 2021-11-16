@@ -7,6 +7,7 @@ import { OnlineServiceModule } from '../online-service/online-service.module';
 import { ThemeModule } from '../theme/theme.module';
 import { CheckinModule } from '../checkin/checkin.module';
 import { DialogModule } from '../dialog';
+import { ZreFormModule } from '../form';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { DialogModule } from '../dialog';
         FrontendRoutingModule,
         OnlineServiceModule,
         DialogModule,
+        ZreFormModule,
     ],
     providers: [
         FrontendService

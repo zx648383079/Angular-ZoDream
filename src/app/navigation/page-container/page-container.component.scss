@@ -53,11 +53,6 @@
     .page-action {
         position: relative;
         display: inline-block;
-        &:hover {
-            .drop-body {
-                display: block;
-            }
-        }
     }
     .drop-icon {
         line-height: 1.3125rem;
@@ -82,8 +77,12 @@
         cursor: pointer;
         user-select: none;
         &:hover {
-            background-color: rgba(0, 0, 0, 0.1);;
+            background-color: rgba(0, 0, 0, 0.1);
         }
+    }
+    .menu-item-close {
+        display: none;
+        border-top: .3rem solid #f4f4f4;
     }
     &.page-not-thumb {
         .page-content {
@@ -98,6 +97,20 @@
             bottom: 0;
             left: 0;
             width: 100%;
+            top: 0;
+            background: rgba(0, 0, 0, 0.2);
+            .menu-body {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+            }
+        }
+        .open {
+            .menu-item-close {
+                display: block;
+            }
         }
         .menu-item {
             line-height: 2.5rem;

@@ -1,0 +1,47 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()">
+</div>
+<div class="dialog-box"  [@dialogOpen]="visible ? 'open' : 'closed'">
+    <i class="iconfont icon-close" (click)="close()"></i>
+    <div class="feedback-box">
+        <div class="line-item">
+            举报内容：
+            <span class="form-control">{{ data?.link }}</span>
+        </div>
+        <div class="line-header">
+            <em>*</em>举报类型
+        </div>
+        <div class="tab-bar">
+            <div class="tab-item" *ngFor="let item of typeItems; let i=index" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i">{{ item.label }}</div>
+        </div>
+        <div class="row form-group">
+            <ng-container *ngFor="let item of typeOptionItems">
+            <div class="col-6">
+                <div class="check-input" (click)="item.checked = !item.checked">
+                    <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}"></i>
+                    {{ item.name }}
+                </div>
+            </div>
+            </ng-container>
+        </div>
+        <div class="line-header">
+            <em>*</em>问题描述
+        </div>
+        <div class="edit-body">
+            <textarea class="form-control" [(ngModel)]="content" maxlength="500"></textarea>
+            <span class="edit-tip">{{ wordSize }}字</span>
+        </div>
+        <div class="line-header">
+            <em>*</em>联系方式
+        </div>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="email">
+        </div>
+        <div class="line-footer">
+            <div class="btn-group">
+                <div class="btn btn-secondary" (click)="close()">取消</div>
+                <app-action-button class="btn btn-primary" (click)="tapSubmit($event)">提交</app-action-button>
+            </div>
+        </div>
+        
+    </div>
+</div>

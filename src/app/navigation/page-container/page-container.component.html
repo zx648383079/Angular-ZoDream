@@ -1,6 +1,8 @@
 <div class="page-container" [ngClass]="{'page-not-thumb': !value.thumb}">
     <div class="page-header">
-        <a [href]="value.link" target="_blank" rel="noopener">{{ value.title }}</a>
+        <a [href]="value.link" target="_blank" rel="noopener">
+            <app-rule-block [value]="value.title" [rules]="rules"></app-rule-block>
+        </a>
         <ng-container *ngIf="value.score >= 80">
             <i class="iconfont icon-shield" title="此网页安全"></i>
         </ng-container>
@@ -10,10 +12,12 @@
     </div>
     <div class="page-flex-body">
         <div class="page-thumb" *ngIf="value.thumb">
-            <img [src]="value.thumb" alt="">
+            <img [src]="value.thumb" [alt]="value.title">
         </div>
         <div class="page-body">
-            <span class="page-time">{{ value.updated_at | ago }}</span> <span class="page-content">{{ value.description }}</span>
+            <span class="page-time">{{ value.updated_at | ago }}</span> <span class="page-content">
+                <app-rule-block [value]="value.description" [rules]="rules"></app-rule-block>
+            </span>
             <div class="page-footer">
                 <a class="page-site" *ngIf="value.site" [href]="formatLink(value.site)" target="_blank" rel="noopener">
                     <div class="site-logo" *ngIf="value.site.logo">
@@ -24,15 +28,14 @@
                 <a class="page-site" *ngIf="!value.site" [href]="value.link" target="_blank" rel="noopener">
                     <span class="site-name">{{ formatDomain(value.link) }}</span>
                 </a>
-                <div class="page-action">
-                    <div class="drop-icon">
+                <div class="page-action" (mouseenter)="menuOpen = true" (mouseleave)="menuOpen = false">
+                    <div class="drop-icon" (click)="menuOpen = true">
                         <i class="iconfont icon-ellipsis-h"></i>
                     </div>
-                    <div class="drop-body">
-                        <div class="menu-body">
-                            <div class="menu-item">收藏</div>
-                            <div class="menu-item">分享</div>
-                            <div class="menu-item">举报</div>
+                    <div class="drop-body" [ngClass]="{open: menuOpen}" (click)="menuOpen = false">
+                        <div class="menu-body" (click)="$event.stopPropagation()">
+                            <div class="menu-item" *ngFor="let item of menuItems; let i=index" (click)="tapMenu(i)">{{ item }}</div>
+                            <div class="menu-item menu-item-close" (click)="menuOpen = false">取消</div>
                         </div>
                     </div>
                 </div>

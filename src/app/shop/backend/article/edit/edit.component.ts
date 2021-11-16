@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 import { DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
 import { IArticle, IArticleCategory } from '../../../../theme/models/shop';
@@ -25,36 +26,39 @@ export class EditArticleComponent implements OnInit {
 
     public data: IArticle;
     public categories: IArticleCategory[] = [];
-    public tinyConfigs = {
-        height: 500,
-        base_url: '/tinymce',
-        suffix: '.min',
-        language_url: '../../../../../assets/tinymce/langs/zh_CN.js',
-        language: 'zh_CN',
-        plugins: [
-            'advlist autolink lists link image imagetools charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-        ],
-        toolbar:
-            'undo redo | formatselect | bold italic backcolor | \
-            alignleft aligncenter alignright alignjustify | \
-            bullist numlist outdent indent | removeformat | help',
-        image_caption: true,
-        paste_data_images: true,
-        imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
-        images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
-            const form = new FormData();
-            form.append('file', blobInfo.blob(), blobInfo.filename());
-            this.uploadService.uploadImages(form).subscribe({
-                next: res => {
-                    success(res[0].url);
-                }, 
-                error: err => {
-                    failure(err.error.message);
-                }
-            });
-        },
+    public editorConfigs = {
+        key: environment.editorKey,
+        init: {
+            height: 500,
+            base_url: '/tinymce',
+            suffix: '.min',
+            language_url: '../../../../../assets/tinymce/langs/zh_CN.js',
+            language: 'zh_CN',
+            plugins: [
+                'advlist autolink lists link image imagetools charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar:
+                'undo redo | formatselect | bold italic backcolor | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help',
+            image_caption: true,
+            paste_data_images: true,
+            imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
+            images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
+                const form = new FormData();
+                form.append('file', blobInfo.blob(), blobInfo.filename());
+                this.uploadService.uploadImages(form).subscribe({
+                    next: res => {
+                        success(res[0].url);
+                    }, 
+                    error: err => {
+                        failure(err.error.message);
+                    }
+                });
+            },
+        }
     };
 
     constructor(

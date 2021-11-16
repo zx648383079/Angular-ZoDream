@@ -4,6 +4,8 @@ import { navigationRoutingComponents, NavigationRoutingModule } from './navigati
 import { ThemeModule } from '../theme/theme.module';
 import { NavigationService } from './navigation.service';
 import { DialogModule } from '../dialog';
+import { LinkRuleModule } from '../link-rule';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     imports: [
@@ -11,6 +13,8 @@ import { DialogModule } from '../dialog';
         ThemeModule,
         DialogModule,
         NavigationRoutingModule,
+        LinkRuleModule,
+        ZreFormModule,
     ],
     declarations: [...navigationRoutingComponents],
     providers: [

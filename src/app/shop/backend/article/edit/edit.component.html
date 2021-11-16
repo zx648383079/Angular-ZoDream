@@ -41,7 +41,7 @@
         </app-panel>
 
         <div class="panel-container">
-            <editor formControlName="content" [init]="tinyConfigs"></editor>
+            <editor formControlName="content" [apiKey]="editorConfigs.key" [init]="editorConfigs.init"></editor>
         </div>
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>

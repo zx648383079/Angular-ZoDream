@@ -36,4 +36,9 @@ export class FrontendService {
     public agreement(name: string) {
         return this.http.get<IAgreement>('seo/agreement', {params: {name}});
     }
+
+    public feedback(data: any) {
+        return this.http.post<IDataOne<Boolean>>('contact/home/feedback', data);
+    }
+
 }
