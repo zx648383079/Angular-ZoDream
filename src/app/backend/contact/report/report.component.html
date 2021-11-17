@@ -1,0 +1,92 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>投诉举报列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>投诉人</th>
+                    <th>投诉内容</th>
+                    <th>状态</th>
+                    <th class="auto-hide">投诉时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of items">
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>
+                            {{ item.user ? item.user.name : '[游客]' }}
+                            <ng-container *ngIf="item.email">
+                                ({{ item.email }})
+                            </ng-container>
+                        </td>
+                        <td>
+                            {{ item.title }}
+                        </td>
+                        <td>{{ item.status | status }}</td>
+                        <td class="auto-hide">{{ item.created_at | ago }}</td>
+                        <td>
+                            <div class="btn-group  btn-group-xs">
+                                <a class="btn btn-info btn-xs"
+                                    (click)="tapView(modal, item)">查看</a>
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+
+<app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editData.id + ')'">
+    <div class="line-item">
+        <span class="label">投诉人：</span>
+        <span class="value">{{ editData.user?.name }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">联系方式：</span>
+        <span class="value">{{ editData.email }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">IP：</span>
+        <span class="value">{{ editData.ip }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">投诉时间：</span>
+        <span class="value">{{ editData.created_at | ago }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">投诉简介：</span>
+        <span class="value">{{ editData.title }}</span>
+    </div>
+    <div class="line-item">
+        <span class="label">投诉内容：</span>
+        <span class="value">{{ editData.content }}</span>
+    </div>
+    <ng-container name="footer" *ngIf="editData.status < 1">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>
+            <button type="button" class="btn btn-info" (click)="modal.close(2)">已处理</button>
+            <button type="button" class="btn btn-danger" (click)="modal.close(3)">已忽略</button>
+        </div>
+    </ng-container>
+</app-dialog-box>

@@ -12,6 +12,11 @@ export const SystemtBackendMenu: INav[] = [
                 url: './contact/feedback',
             },
             {
+                name: '投诉举报',
+                label: '诉',
+                url: './contact/report',
+            },
+            {
                 name: '友情链接',
                 label: '链',
                 url: './contact/friend-link',

@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { DialogService } from '../dialog';
+import { AppState } from '../theme/interfaces';
 import { IPageQueries } from '../theme/models/page';
+import { IUser } from '../theme/models/user';
 import { applyHistory, getQueries } from '../theme/query';
+import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
@@ -27,12 +31,18 @@ export class NavigationComponent implements OnInit {
         keywords: '',
         per_page: 20,
     };
+    public user: IUser;
 
     constructor(
         private service: NavigationService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
-    ) { }
+        private store: Store<AppState>,
+    ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.user = user;
+        });
+    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -47,6 +57,21 @@ export class NavigationComponent implements OnInit {
     public tapItem(e: {type: number, data: IWebPage}) {
         if (e.type == 2) {
             this.reportModal.open(e.data);
+            return;
+        }
+        if (e.type == 0) {
+            this.service.collectSave({
+                name: e.data.title,
+                link: e.data.link
+            }).subscribe({
+                next: _ => {
+                    this.toastrService.success('已收藏');
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+            return;
         }
     }
 

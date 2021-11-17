@@ -7,6 +7,8 @@ import { DetailComponent } from './detail/detail.component';
 import { ArchivesComponent } from './archives/archives.component';
 import { TagComponent } from './tag/tag.component';
 import { CategoryComponent } from './category/category.component';
+import { CommentComponent } from './comment/comment.component';
+import { CommentItemComponent } from './comment/item/comment-item.component';
 
 const routes: Routes = [
   {
@@ -48,5 +50,6 @@ const routes: Routes = [
 export class BlogRoutingModule { }
 
 export const blogRoutingComponents = [
-  BlogComponent, TagComponent, ListComponent, DetailComponent, CategoryComponent, ArchivesComponent
+    BlogComponent, TagComponent, ListComponent, DetailComponent, CategoryComponent, ArchivesComponent,
+    CommentComponent, CommentItemComponent
 ];

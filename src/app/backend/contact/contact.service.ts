@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne, IPage } from '../../theme/models/page';
-import { IFriendLink, IFeedback, ISubscribe } from '../../theme/models/seo';
+import { IFriendLink, IFeedback, ISubscribe, IReport } from '../../theme/models/seo';
 
 @Injectable()
 export class ContactService {
@@ -33,7 +33,7 @@ export class ContactService {
     }
 
     public feedback(id: any) {
-        return this.http.get < IFeedback > ('contact/admin/feedback/detail', {
+        return this.http.get<IFeedback>('contact/admin/feedback/detail', {
             params: {
                 id
             },
@@ -46,6 +46,33 @@ export class ContactService {
 
     public feedbackRemove(id: any) {
         return this.http.delete<IDataOne<true>>('contact/admin/feedback/delete', {
+            params: {
+                id
+            }
+        });
+    }
+
+
+    public reportList(params: any) {
+        return this.http.get<IPage<IReport>>('contact/admin/report', {
+            params
+        });
+    }
+
+    public report(id: any) {
+        return this.http.get<IReport> ('contact/admin/report/detail', {
+            params: {
+                id
+            },
+        });
+    }
+
+    public reportSave(data: any) {
+        return this.http.post<IReport>('contact/admin/report/change', data);
+    }
+
+    public reportRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('contact/admin/report/delete', {
             params: {
                 id
             }

@@ -46,4 +46,8 @@ export class NavigationService {
     public groupRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('navigation/collect/group_delete', {params: {id}});
     }
+
+    public report(data: any) {
+        return this.http.post<IDataOne<boolean>>('navigation/report', data);
+    }
 }

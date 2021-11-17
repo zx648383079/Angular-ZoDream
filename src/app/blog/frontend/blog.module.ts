@@ -6,6 +6,7 @@ import { BlogService } from './blog.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme/theme.module';
 import { MediaPlayerModule } from '../../media-player/media-player.module';
+import { ZreFormModule } from '../../form';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { MediaPlayerModule } from '../../media-player/media-player.module';
         FormsModule,
         BlogRoutingModule,
         MediaPlayerModule,
+        ZreFormModule,
     ],
     providers: [
         BlogService

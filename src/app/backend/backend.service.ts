@@ -13,4 +13,8 @@ export class BackendService {
         return this.http.get<IUserRole>('auth/user/role');
     }
 
+    public statistics() {
+        return this.http.get<any>('seo/admin/statistics');
+    }
+
 }

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { IData, IDataOne, IPage } from '../theme/models/page';
+import { eachObject } from '../theme/utils';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProduct, IFinancialProject, ILog } from './model';
 
 @Injectable()
@@ -181,5 +183,25 @@ export class FinanceService {
 
     public statistics(params: any) {
         return this.http.get<any>('finance/statistics', {params});
+    }
+
+    public budgetStatistics(id: number) {
+        return this.http.get<{
+            data: IBudget;
+            log_list: any;
+            sum: number;
+            budget_sum: number;
+        }>('finance/budget/statistics', {params: {id}}).pipe(map(res => {
+            const items = [];
+            eachObject(res.log_list, (v, k) => {
+                if (typeof v === 'object') {
+                    items.push({date: k, budget: res.data.budget, ...v});
+                } else {
+                    items.push({date: k, budget: res.data.budget, count: v});
+                }
+            });
+            res.log_list = items;
+            return res;
+        }));
     }
 }

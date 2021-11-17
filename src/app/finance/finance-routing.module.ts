@@ -6,6 +6,7 @@ import {
     Routes
 } from '@angular/router';
 import { BudgetComponent } from './budget/budget.component';
+import { BudgetContainerComponent } from './budget/container/budget-container.component';
 import { FinanceComponent } from './finance.component';
 import { HomeComponent } from './home/home.component';
 import { ChannelComponent } from './income/channel/channel.component';
@@ -25,6 +26,10 @@ const routes: Routes = [
             {
                 path: 'budget',
                 component: BudgetComponent,
+            },
+            {
+                path: 'budget/:id',
+                component: BudgetContainerComponent,
             },
             {
                 path: 'income/channel',
@@ -75,5 +80,5 @@ export class FinanceRoutingModule {}
 export const financeRoutedComponents = [
     FinanceComponent, HomeComponent, MoneyComponent, IncomeComponent,
     BudgetComponent, ProductComponent, ProjectComponent, ChannelComponent,
-    EditIncomeComponent, SettingComponent
+    EditIncomeComponent, SettingComponent, BudgetContainerComponent
 ];

@@ -28,6 +28,7 @@ npm i --legacy-peer-deps
 |√|√|商城||
 |√|-|任务||
 |√|√|短视频||
+|√|√|搜索导航||
 |-|o|在线模板编辑||
 |o|o|公众号管理||
 |-|√|数据库管理|支持数据复制迁移|
@@ -102,7 +103,7 @@ npm i --legacy-peer-deps
 页面制作中，已进行服务端数据对接
 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
 
 ## Development server
 

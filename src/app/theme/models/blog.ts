@@ -82,6 +82,7 @@ export interface IComment {
     created_at?: string;
     agree_count?: number;
     disagree_count?: number;
+    reply_count?: number;
     position?: number;
     replies?: IComment[];
 }

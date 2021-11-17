@@ -1,0 +1,58 @@
+@import "../form";
+.book-comment-form {
+    .btn-secondary {
+        margin-left: 10px;
+    }
+}
+
+.comment-item {
+    padding: 8px 0;
+    position: relative;
+    .info {
+        line-height: 30px;
+        border: none;
+        .user {
+            font-weight: 600;
+        }
+        .time {
+            margin-left: 20px;
+            color: #b3b1b1;
+        }
+        .floor {
+            float: right;
+        }
+    }
+    .content {
+        margin-bottom: 0;
+        p {
+            margin: 5px 0;
+        }
+        .expand {
+            font-size: 12px;
+        }
+        .comment,
+        .report {
+            float: right;
+            margin-left: 20px;
+        }
+    }
+    .actions {
+        float: right;
+        span {
+            padding: 0 3px;
+        }
+    }
+    .comments {
+        padding-left: 100px;
+        margin-top: 8px;
+        border-top: 1px solid #a10000;
+        .comment-item:last-child {
+            border: none;
+            padding-bottom: 0;
+        }
+    }
+    &:not(:last-child) {
+        border-bottom: 1px solid #a10000;
+    }
+}
+

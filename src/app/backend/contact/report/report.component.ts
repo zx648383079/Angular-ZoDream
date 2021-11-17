@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
-import { IFeedback } from '../../../theme/models/seo';
+import { IReport } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { ContactService } from '../contact.service';
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss'],
+  selector: 'app-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss']
 })
-export class FeedbackComponent implements OnInit {
+export class ReportComponent implements OnInit {
 
-    public items: IFeedback[] = [];
+    public items:  IReport[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -21,8 +21,11 @@ export class FeedbackComponent implements OnInit {
         page: 1,
         keywords: '',
         per_page: 20,
+        item_type: 0,
+        item_id: 0,
+        type: 0,
     };
-    public editData: IFeedback = {} as any;
+    public editData:  IReport = {} as any;
 
     constructor(
         private service: ContactService,
@@ -64,7 +67,7 @@ export class FeedbackComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.feedbackList(queries).subscribe(res => {
+        this.service.reportList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
@@ -78,13 +81,13 @@ export class FeedbackComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogEvent, item: IFeedback) {
+    public tapView(modal: DialogEvent, item: IReport) {
         this.editData = item;
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;
             }
-            this.service.feedbackSave({
+            this.service.reportSave({
                 status: value,
                 id: this.editData?.id
             }).subscribe(_ => {
@@ -94,9 +97,9 @@ export class FeedbackComponent implements OnInit {
         });
     }
 
-    public tapRemove(item: IFeedback) {
-        this.toastrService.confirm('确认删除此反馈？', () => {
-            this.service.feedbackRemove(item.id).subscribe(res => {
+    public tapRemove(item: IReport) {
+        this.toastrService.confirm('确认删除此投诉？', () => {
+            this.service.reportRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -107,5 +110,6 @@ export class FeedbackComponent implements OnInit {
             });
         });
     }
+
 
 }

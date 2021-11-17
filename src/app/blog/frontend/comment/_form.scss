@@ -1,0 +1,48 @@
+.book-comment-form {
+    background-color: #fff;
+    .title {
+        font-size: 20px;
+        border-left: 5px solid #a10000;
+        padding-left: 10px;
+        margin-top: 15px;
+    }
+    .form-table {
+        display: table;
+        width: 100%;
+        .form-group {
+            display: table-row;
+            label {
+                line-height: 30px;
+                width: 200px;
+                display: table-cell;
+                text-align: center;
+            }
+            input,
+            select {
+                display: table-cell;
+                background: transparent;
+                border: none;
+                border-bottom: 1px solid #a10000;
+                font-size: 20px;
+                width: 100%;
+            }
+        }
+    }
+    textarea {
+        width: 100%;
+        height: 100px;
+        resize: none;
+        background: transparent;
+        border: 1px solid #a10000;
+        font-size: 20px;
+    }
+    .btn {
+        line-height: 30px;
+        padding: 0 20px;
+        border: none;
+    }
+    .btn-primary {
+        background: #a10000;
+        color: #fff;
+    }
+}

@@ -17,11 +17,18 @@
                 <div class="group-name">{{ group.name }}</div>
                 <div>
                     <ng-container *ngFor="let item of group.items; let j = index">
-                        <a [href]="item.link" target="_blank" class="site-item" rel="noopener noreferrer">
-                            <i class="iconfont icon-close" (click)="tapRemove(i, j)"></i>
-                            {{ item.name }}
-                            <i class="iconfont icon-edit" (click)="tapEdit(i, j)"></i>
-                        </a>
+                        <ng-container *ngIf="editMode">
+                            <a class="site-item" rel="noopener noreferrer">
+                                <i class="iconfont icon-close" (click)="tapRemove(i, j)"></i>
+                                {{ item.name }}
+                                <i class="iconfont icon-edit" (click)="tapEdit(i, j)"></i>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="!editMode">
+                            <a [href]="item.link" target="_blank" class="site-item" rel="noopener noreferrer">
+                                {{ item.name }}
+                            </a>
+                        </ng-container>
                     </ng-container>
                 </div>
             </div>

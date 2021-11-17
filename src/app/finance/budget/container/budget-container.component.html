@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>预算支出曲线图</li>
+        </ul>
+    </app-page-tip>
+    
+    <div class="row" *ngIf="data">
+        <div class="col-md-12">
+            <h2> 
+                <strong>{{ data.name }}</strong>    
+                预算支出曲线图&nbsp;<small>按 
+                <strong>{{ cycleFormat }}</strong>    
+                周期统计</small></h2>
+            <div>
+                总支出：{{ total }}，总预算：{{ budgetTotal }}，超出：{{ overTotal }}
+        
+                <a routerLink="../../income" [queryParams]="{type: 1, budget: data.id}">查看消费记录</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div echarts [options]="options" class="chart-lg"></div>
+        </div>
+    </div>
+
+</div>

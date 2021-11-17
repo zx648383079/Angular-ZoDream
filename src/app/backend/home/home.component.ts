@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: BackendService,
+    ) {
+    }
 
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 }

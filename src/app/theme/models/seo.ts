@@ -1,3 +1,5 @@
+import { IUser } from './user';
+
 export interface ILink {
     name: string;
     url: string;
@@ -31,6 +33,23 @@ export interface IFeedback {
     status: number;
     created_at: string;
     updated_at: string;
+}
+
+export interface IReport {
+    id: number;
+    name: string;
+    email: string;
+    ip: string;
+    item_type: number;
+    item_id: number;
+    type: number;
+    title: string;
+    content: string;
+    status: number;
+    files: string[];
+    created_at: string;
+    updated_at: string;
+    user?: IUser;
 }
 
 export interface ISubscribe {

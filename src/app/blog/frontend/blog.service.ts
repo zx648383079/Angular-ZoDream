@@ -74,6 +74,10 @@ export class BlogService {
         return this.http.post<IComment>('blog/comment/disagree', {id});
     }
 
+    public commentReport(id: any) {
+        return this.http.post<IDataOne<boolean>>('blog/comment/report', {id});
+    }
+
     public suggestion(params: any) {
         return this.http.get<IData<IBlog>>('blog/home/suggest', {params}).pipe(map(res => res.data));
     }
