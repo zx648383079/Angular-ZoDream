@@ -7,6 +7,7 @@ import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { AuthService } from '../theme/services';
+import { DialogService } from '../dialog';
 
 interface IMenuItem {
   name: string;
@@ -38,6 +39,7 @@ export class FrontendComponent {
         private router: Router,
         private store: Store<AppState>,
         private authService: AuthService,
+        private toastrService: DialogService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -61,7 +63,9 @@ export class FrontendComponent {
     }
 
     public tapLogout() {
-        this.authService.logout().subscribe(_ => {
+        this.toastrService.confirm('确认退出账号？', () => {
+            this.authService.logout().subscribe(_ => {
+            });
         });
     }
 

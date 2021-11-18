@@ -1,11 +1,13 @@
-<div class="comment-item">
+<div class="comment-item" [id]="'comment-' + value.id">
     <div class="info">
         <span class="user">{{ value.name }}</span>
         <span class="time">{{ value.created_at | ago }}</span>
         <span class="floor">{{ value.position }}楼</span>
     </div>
-    <div class="content">
-        <p>{{ value.content }}</p>
+    <div class="item-body">
+        <div class="content">
+            <app-rule-block [value]="value.content" [rules]="value.extra_rule"(tapped)="tapBlock($event)"></app-rule-block>
+        </div>
         <ng-container *ngIf="value.reply_count && value.reply_count > 0">
             <span class="expand" *ngIf="!expanded" (click)="toggleExpand()">展开({{ value.reply_count }})</span>
             <span class="expand" *ngIf="expanded" (click)="toggleExpand()">折叠</span>
@@ -21,14 +23,16 @@
     </div>
 
     <div *ngIf="expanded || editData.parent_id > 0" class="comments">
-        <div class="comment-item" *ngFor="let it of value.replies">
+        <div class="comment-item" *ngFor="let it of value.replies"  [id]="'comment-' + it.id">
             <div class="info">
                 <span class="user">{{ it.name }}</span>
                 <span class="time">{{ it.created_at }}</span>
                 <span class="floor">{{ it.position }}#</span>
             </div>
-            <div class="content">
-                <p>{{ it.content }}</p>
+            <div class="item-body">
+                <div class="content">
+                    <app-rule-block [value]="it.content" [rules]="it.extra_rule"(tapped)="tapBlock($event)"></app-rule-block>
+                </div>
                 <span>&nbsp;</span>
                 <span class="comment" (click)="tapCommenting(it)"><i class="iconfont icon-commenting"></i></span>
                 <span class="report" (click)="tapReport(it)">举报</span>

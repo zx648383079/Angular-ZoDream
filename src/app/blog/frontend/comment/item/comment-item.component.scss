@@ -1,4 +1,12 @@
 @import "../form";
+
+:host {
+    display: block;
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #a10000;
+    }
+}
+
 .book-comment-form {
     .btn-secondary {
         margin-left: 10px;
@@ -6,34 +14,36 @@
 }
 
 .comment-item {
-    padding: 8px 0;
+    padding: 0.5rem 0;
     position: relative;
     .info {
-        line-height: 30px;
+        line-height: 1.875rem;
         border: none;
         .user {
             font-weight: 600;
         }
         .time {
-            margin-left: 20px;
+            margin-left: 1.25rem;
             color: #b3b1b1;
         }
         .floor {
             float: right;
         }
     }
-    .content {
+    .item-body {
         margin-bottom: 0;
-        p {
+        .content {
             margin: 5px 0;
         }
         .expand {
-            font-size: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: #4d93f2;
         }
         .comment,
         .report {
             float: right;
-            margin-left: 20px;
+            margin-left: 1.25rem;
         }
     }
     .actions {
@@ -43,15 +53,19 @@
         }
     }
     .comments {
-        padding-left: 100px;
-        margin-top: 8px;
-        border-top: 1px solid #a10000;
+        margin-left: 6.25rem;
+        margin-top: 0.5rem;
+        background-color: #fafafa;
+        // border-top: 1px solid #a10000;
+        .comment-item {
+            padding: 0.5rem;
+        }
         .comment-item:last-child {
             border: none;
             padding-bottom: 0;
         }
     }
-    &:not(:last-child) {
+    &:not(:last-of-type) {
         border-bottom: 1px solid #a10000;
     }
 }

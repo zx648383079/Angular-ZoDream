@@ -1,5 +1,8 @@
 a {
     cursor: pointer;
+    &:not([href]):not([class]) {
+        color: #0a58ca;
+    }
 }
 em {
     color: #f73131;

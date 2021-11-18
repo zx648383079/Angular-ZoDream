@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
+import { IBlockItem } from '../../../../link-rule';
+import { openLink } from '../../../../theme/deeplink';
 import { IComment } from '../../../../theme/models/blog';
 import { IUser } from '../../../../theme/models/user';
 import { emptyValidate } from '../../../../theme/validators';
@@ -28,10 +31,25 @@ export class CommentItemComponent {
 
     constructor(
         private service: BlogService,
-        private toastrService: DialogService,) { }
+        private toastrService: DialogService,
+        private router: Router,
+        private route: ActivatedRoute) { }
 
     public toggleExpand() {
         this.expanded = !this.expanded;
+    }
+
+    public tapBlock(item: IBlockItem) {
+        if (item.user) {
+            this.router.navigate(['../'], {relativeTo: this.route, queryParams: {
+                user: item.user
+            }});
+            return;
+        }
+        if (item.link) {
+            openLink(this.router, item.link);
+            return;
+        }
     }
 
     public tapComment(e?: ButtonEvent) {
@@ -58,6 +76,9 @@ export class CommentItemComponent {
     public tapCommenting(item?: IComment) {
         if (item) {
             this.editData.blog_id = item.blog_id;
+            if (item.parent_id > 0) {
+                this.editData.content += `@${item.position}# `;
+            }
         }
         this.editData.parent_id = item?.id || 0;
     }

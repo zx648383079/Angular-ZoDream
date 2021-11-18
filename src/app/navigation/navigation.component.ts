@@ -7,6 +7,7 @@ import { IPageQueries } from '../theme/models/page';
 import { IUser } from '../theme/models/user';
 import { applyHistory, getQueries } from '../theme/query';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { ThemeService } from '../theme/services';
 import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
@@ -38,10 +39,12 @@ export class NavigationComponent implements OnInit {
         private toastrService: DialogService,
         private route: ActivatedRoute,
         private store: Store<AppState>,
+        private themeService: ThemeService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
         });
+        this.themeService.setTitle('ZoDream 搜索');
     }
 
     ngOnInit() {

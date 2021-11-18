@@ -2,7 +2,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CharIterator } from '../../../theme/char';
 import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
-import { eachObject } from '../../../theme/utils';
 
 export interface IMarkItem {
     type: 'text'|'input'|'image'|'line'|'math'|'table'|'underline'|'wavyline' | 'bold';
@@ -99,7 +98,7 @@ export class MathMarkParser {
                 continue;
             }
             if (!this.codeIsValid(reader)) {
-                text = text.substr(0, text.length - 1) + code;
+                text = text.substring(0, text.length - 1) + code;
                 continue;
             }
             const block = this.renderNext(reader);

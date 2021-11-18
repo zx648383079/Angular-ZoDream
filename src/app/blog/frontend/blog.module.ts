@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme/theme.module';
 import { MediaPlayerModule } from '../../media-player/media-player.module';
 import { ZreFormModule } from '../../form';
+import { LinkRuleModule } from '../../link-rule';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ZreFormModule } from '../../form';
         BlogRoutingModule,
         MediaPlayerModule,
         ZreFormModule,
+        LinkRuleModule,
     ],
     providers: [
         BlogService

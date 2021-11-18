@@ -1,3 +1,4 @@
+import { IExtraRule } from '../../link-rule';
 import { IUser } from './user';
 
 export interface ISubtotal {
@@ -74,6 +75,7 @@ export interface IComment {
     id: number;
     content?: string;
     recommend_count: number;
+    parent_id: number;
     user: IUser;
     blog_id: number;
     blog?: IBlog;
@@ -85,6 +87,7 @@ export interface IComment {
     reply_count?: number;
     position?: number;
     replies?: IComment[];
+    extra_rule?: IExtraRule[];
 }
 
 export interface ITag {
