@@ -7,7 +7,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 })
 export class PanelComponent implements OnChanges {
 
-  @Input() public title = '提示';
+  @Input() public title = $localize `Tip`;
   @Input() public theme = '';
   @Input() public min = false;
   public isOpen = true;

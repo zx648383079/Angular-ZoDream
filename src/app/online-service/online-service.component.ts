@@ -44,7 +44,7 @@ export class OnlineServiceComponent implements OnDestroy {
     public tapSend() {
         const content = this.content;
         if (content.length < 1) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input the content of the inquiry`);
             return;
         }
         this.send({content});

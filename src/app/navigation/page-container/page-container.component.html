@@ -4,10 +4,13 @@
             <app-rule-block [value]="value.title" [rules]="rules"></app-rule-block>
         </a>
         <ng-container *ngIf="value.score >= 80">
-            <i class="iconfont icon-shield" title="此网页安全"></i>
+            <i class="iconfont icon-shield" i18n-title title="This page is safe"></i>
         </ng-container>
-        <ng-container *ngIf="value.score < 60">
-            <i class="iconfont icon-exclamation-triangle" [title]="value.score < 10 ? '此网页含有危险内容' : '此网页不推荐访问'"></i>
+        <ng-container *ngIf="value.score >= 10 && value.score < 60">
+            <i class="iconfont icon-exclamation-triangle" i18n-title title="This page is not recommended to visit"></i>
+        </ng-container>
+        <ng-container *ngIf="value.score < 10">
+            <i class="iconfont icon-exclamation-triangle" i18n-title title="This page contains dangerous content"></i>
         </ng-container>
     </div>
     <div class="page-flex-body">
@@ -35,7 +38,7 @@
                     <div class="drop-body" [ngClass]="{open: menuOpen}" (click)="menuOpen = false">
                         <div class="menu-body" (click)="$event.stopPropagation()">
                             <div class="menu-item" *ngFor="let item of menuItems; let i=index" (click)="tapMenu(i)">{{ item }}</div>
-                            <div class="menu-item menu-item-close" (click)="menuOpen = false">取消</div>
+                            <div class="menu-item menu-item-close" (click)="menuOpen = false" i18n>Cancel</div>
                         </div>
                     </div>
                 </div>

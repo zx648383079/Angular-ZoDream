@@ -36,7 +36,7 @@ export class FriendLinkComponent implements OnInit {
     public openApply(modal: DialogBoxComponent) {
         modal.open(() => {
             this.service.linkApply(this.editData).subscribe(_ => {
-                this.toastrService.success('提交成功，等待管理员处理');
+                this.toastrService.success($localize `Submitted successfully, waiting for the administrator to process`);
             });
         }, () => {
             return !emptyValidate(this.editData.url) && !emptyValidate(this.editData.name)

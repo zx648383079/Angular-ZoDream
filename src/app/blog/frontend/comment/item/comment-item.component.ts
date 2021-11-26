@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
@@ -14,10 +14,21 @@ import { BlogService } from '../../blog.service';
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent {
+export class CommentItemComponent implements OnChanges {
 
     @Input() public value: IComment;
     @Input() public user: IUser;
+
+    public hasMore = true;
+    public isLoading = false;
+    public queries = {
+        page: 1,
+        per_page: 5,
+        parent_id: 0,
+        blog_id: 0,
+        sort: 'created_at',
+        order: 'asc',
+    };
 
     public expanded = false;
     public editData = {
@@ -34,6 +45,26 @@ export class CommentItemComponent {
         private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute) { }
+
+    public get moreCount() {
+        if (!this.hasMore) {
+            return 0;
+        }
+        return this.value.reply_count - this.value.replies.length;
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.value) {
+            if (!this.value.replies) {
+                this.value.replies = [];
+            }
+            this.hasMore = this.value.reply_count > this.value.replies?.length;
+            this.queries.blog_id = this.value.blog_id;
+            this.queries.parent_id = this.value.id;
+            this.queries.page = 1;
+        }
+        
+    }
 
     public toggleExpand() {
         this.expanded = !this.expanded;
@@ -54,7 +85,7 @@ export class CommentItemComponent {
 
     public tapComment(e?: ButtonEvent) {
         if (emptyValidate(this.editData.content)) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input content`);
             return;
         }
         const data = {...this.editData};
@@ -62,7 +93,7 @@ export class CommentItemComponent {
         this.service.commentSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('回复成功！');
+                this.toastrService.success($localize `Comment successful`);
                 this.editData.content = '';
                 this.editData.parent_id = 0;
             }, 
@@ -107,6 +138,32 @@ export class CommentItemComponent {
         this.service.commentDisagree(item.id).subscribe(res => {
             item.agree_count = res.agree_count;
             item.disagree_count = res.disagree_count;
+        });
+    }
+
+    public tapMore() {
+        if (!this.hasMore) {
+            return;
+        }
+        this.goPage(this.queries.page + 1);
+    }
+
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.commentList({...queries}).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.value.replies = [].concat(this.value.replies, res.data);
+                this.queries = queries;
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 }

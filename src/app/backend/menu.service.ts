@@ -117,7 +117,7 @@ export class MenuService {
             bottom: [],
         };
         const roles = this.get<string[]>(ROLE_OPTION_KEY, []);
-        const path = window.location.pathname.substr(9);
+        const path = window.location.pathname.substring(9);
         eachObject(this.readyMap, (items, k) => {
             let formatItems = [];
             eachObject(items, (source: MenuReadyItem, key) => {
@@ -143,7 +143,7 @@ export class MenuService {
 
     public renderUrl(path: string): string {
         const base = this.currentBasePath !== '' && path.length > 0 ? this.currentBasePath + '/' : this.currentBasePath;
-        return './' + base + (path.length > 0 && path.charAt(0) === '/' ? path.substr(1) : path);
+        return './' + base + (path.length > 0 && path.charAt(0) === '/' ? path.substring(1) : path);
     }
 
     public filterNavByRole(items: INav[], roles: string[], parentRole?: string): INav[] {

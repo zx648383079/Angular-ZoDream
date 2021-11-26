@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('注册');
+        this.themeService.setTitle($localize `Sign up`);
     }
 
     ngOnInit() {}

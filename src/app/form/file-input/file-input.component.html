@@ -1,8 +1,8 @@
 <div class="file-input">
     <input type="text" class="form-control" [(ngModel)]="value" [disabled]="disabled" (ngModelChange)="onValueChange()" [placeholder]="placeholder">
-    <label [for]="fileName" class="btn btn-primary">{{ isLoading ? '上传中...' : '上传' }}</label>
-    <label class="btn btn-info" *ngIf="canPreview" (click)="tapPreview()">预览</label>
-    <label class="btn btn-success" *ngIf="online" (click)="openOnline(modal)">在线</label>
+    <label [for]="fileName" class="btn btn-primary" i18n>{isLoading, plural, =true {Uploading...} =false {Upload}}</label>
+    <label class="btn btn-info" *ngIf="canPreview" (click)="tapPreview()" i18n>Preview</label>
+    <label class="btn btn-success" *ngIf="online" (click)="openOnline(modal)" i18n>Online</label>
     <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept"  [disabled]="disabled"/>
 </div>
 

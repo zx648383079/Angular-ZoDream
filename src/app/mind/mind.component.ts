@@ -178,7 +178,7 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
     public onContext(event: MouseEvent, i: number) {
         return this.contextMenu.show(event, [
             {
-                name: '删除',
+                name: $localize `Delete`,
                 icon: 'icon-trash',
                 onTapped: () => {
                     this.removePoint(i);

@@ -8,6 +8,7 @@ import { MicroService } from '../micro.service';
 import { IUploadResult } from '../../theme/models/open';
 import { emptyValidate } from '../../theme/validators';
 import { DialogBoxComponent } from '../../dialog';
+import { ButtonEvent } from '../../form';
 
 @Component({
   selector: 'app-publish-form',
@@ -25,7 +26,10 @@ export class PublishFormComponent {
     public openType = 0;
 
     public typeItems = [
-        '公开', '吐槽', '仅关注', '私人'
+        $localize `Public`, 
+        $localize `Tucao`, 
+        $localize `Only Followers`, 
+        $localize `Private`
     ];
 
     public topic = '';
@@ -65,11 +69,12 @@ export class PublishFormComponent {
         this.fileItems.splice(i, 1);
     }
 
-    public tapPublish() {
+    public tapPublish(e?: ButtonEvent) {
         if (this.content.length < 1) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input content`);
             return;
         }
+        e?.enter();
         this.service.create({
             content: this.content,
             open_type: this.openType,
@@ -81,11 +86,13 @@ export class PublishFormComponent {
             }),
         }).subscribe({
             next: res => {
-                this.toastrService.success('发布成功！');
+                e?.reset();
+                this.toastrService.success($localize `Successfully released!`);
                 this.fileItems = [];
                 this.content = '';
                 this.published.emit(res);
             }, error: err => {
+                e?.reset();
                 const res = err.error as IErrorResponse;
                 this.toastrService.warning(res.message);
             }

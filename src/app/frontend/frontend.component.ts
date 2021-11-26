@@ -22,10 +22,10 @@ interface IMenuItem {
 export class FrontendComponent {
 
     public menus: IMenuItem[] = [
-        {name: 'Home', url: '../'},
-        {name: 'Blog', url: 'blog'},
-        {name: 'Friend Link', url: 'friend_link'},
-        {name: 'Abount', url: 'about'}
+        {name: $localize `Home`, url: '../'},
+        {name: $localize `Blog`, url: 'blog'},
+        {name: $localize `Friend Link`, url: 'friend_link'},
+        {name: $localize `Abount`, url: 'about'}
     ];
 
     public friendLinks: ILink[] = [];

@@ -1,7 +1,8 @@
 <div class="micro-publish-box">
-    <div class="title">有什么新鲜事想分享给大家?
-        <div class="tip" [hidden]="!data.content">
-            已输入<em>{{ data.content.length }}</em>字
+    <div class="title">
+        <ng-container i18n>Are there any new things you want to share with everyone? </ng-container>
+        <div class="tip" [hidden]="!data.content" i18n>
+            <em>{{ data.content.length }}</em>characters have been entered 
         </div>
     </div>
     <div class="input-box">
@@ -18,7 +19,7 @@
     </div>
     <div class="pic-box">
         <div class="img-item" *ngFor="let item of data.pics;let i = index">
-            <img [src]="item" alt="图片">
+            <img [src]="item" i18n-alt alt="Photo">
             <i class="iconfont icon-close" (click)="tapRemoveImage(i)"></i>
         </div>
     </div>
@@ -28,6 +29,6 @@
                 <option [value]="i">{{ item }}</option>
             </ng-container>
         </select>
-        <button class="btn btn-primary" (click)="tapSubmit()">分享</button>
+        <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Share</app-action-button>
     </div>
 </div>

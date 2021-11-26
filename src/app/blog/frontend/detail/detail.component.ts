@@ -27,9 +27,7 @@ import { ThemeService } from '../../../theme/services';
 export class DetailComponent implements OnInit {
 
     public content: SafeHtml;
-
     public data: IBlog;
-
     public relationItems: IBlog[] = [];
     public commentLoaded = false;
 

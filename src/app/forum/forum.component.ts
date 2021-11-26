@@ -17,7 +17,7 @@ export class ForumComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private service: ForumService,
     ) {
-        this.themeService.setTitle('圈子');
+        this.themeService.setTitle($localize `Forum`);
     }
 
     ngOnInit() {

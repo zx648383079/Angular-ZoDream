@@ -57,7 +57,7 @@ export class AttachmentViewerComponent implements OnChanges  {
             return 0;
         }
         const item = files[0];
-        const ext = item.file.substr(item.file.lastIndexOf('.'));
+        const ext = item.file.substring(item.file.lastIndexOf('.'));
         if (['.mp3', '.wav', '.mid', '.flac', '.ape'].indexOf(ext) >= 0) {
             return 3;
         }

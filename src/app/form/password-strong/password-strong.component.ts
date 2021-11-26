@@ -47,10 +47,10 @@ export class PasswordStrongComponent implements OnChanges {
     public get formatLabel() {
         const maps = [
             '',
-            '弱',
-            '一般',
-            '强',
-            '极强'
+            $localize `weak`,
+            $localize `general`,
+            $localize `strong`,
+            $localize `stronger`
         ];
         return maps[this.formatRating];
     }

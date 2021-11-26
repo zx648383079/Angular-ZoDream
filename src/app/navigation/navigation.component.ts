@@ -44,7 +44,7 @@ export class NavigationComponent implements OnInit {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
         });
-        this.themeService.setTitle('ZoDream 搜索');
+        this.themeService.setTitle('ZoDream Search');
     }
 
     ngOnInit() {
@@ -68,7 +68,7 @@ export class NavigationComponent implements OnInit {
                 link: e.data.link
             }).subscribe({
                 next: _ => {
-                    this.toastrService.success('已收藏');
+                    this.toastrService.success($localize `Collected`);
                 },
                 error: err => {
                     this.toastrService.error(err);

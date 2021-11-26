@@ -2,20 +2,20 @@
     <div class="info">
         <span class="user">{{ value.name }}</span>
         <span class="time">{{ value.created_at | ago }}</span>
-        <span class="floor">{{ value.position }}楼</span>
+        <span class="floor" i18n>{{ value.position }} floor</span>
     </div>
     <div class="item-body">
         <div class="content">
             <app-rule-block [value]="value.content" [rules]="value.extra_rule"(tapped)="tapBlock($event)"></app-rule-block>
         </div>
         <ng-container *ngIf="value.reply_count && value.reply_count > 0">
-            <span class="expand" *ngIf="!expanded" (click)="toggleExpand()">展开({{ value.reply_count }})</span>
-            <span class="expand" *ngIf="expanded" (click)="toggleExpand()">折叠</span>
+            <span class="expand" *ngIf="!expanded" (click)="toggleExpand()" i18n>Expand({{ value.reply_count }})</span>
+            <span class="expand" *ngIf="expanded" (click)="toggleExpand()" i18n>Fold</span>
         </ng-container>
         
         <span>&nbsp;</span>
         <span class="comment" (click)="tapCommenting(value)"><i class="iconfont icon-commenting"></i></span>
-        <span class="report" (click)="tapReport(value)">举报</span>
+        <span class="report" (click)="tapReport(value)" i18n>Report</span>
         <div class="actions">
             <span class="agree" (click)="tapAgree(value)"><i class="iconfont icon-thumbs-up"></i><b>{{ value.agree_count }}</b></span>
             <span class="disagree" (click)="tapDisagree(value)"><i class="iconfont icon-thumbs-down"></i><b>{{ value.disagree_count }}</b></span>
@@ -35,32 +35,36 @@
                 </div>
                 <span>&nbsp;</span>
                 <span class="comment" (click)="tapCommenting(it)"><i class="iconfont icon-commenting"></i></span>
-                <span class="report" (click)="tapReport(it)">举报</span>
+                <span class="report" (click)="tapReport(it)" i18n>Report</span>
                 <div class="actions">
                     <span class="agree" (click)="tapAgree(it)"><i class="iconfont icon-thumbs-up"></i><b>{{ it.agree_count }}</b></span>
                     <span class="disagree" (click)="tapDisagree(it)"><i class="iconfont icon-thumbs-down"></i><b>{{ it.disagree_count }}</b></span>
                 </div>
             </div>
         </div>
+        <div class="comment-more" *ngIf="hasMore" >
+            <ng-container i18n>There are {{ moreCount | numberFormat }} more replies,</ng-container>
+            <a (click)="tapMore()" i18n>Click to view </a>
+        </div>
         <div class="book-comment-form" *ngIf="editData.parent_id > 0">
-            <div class="title"> 回复评论 </div>
+            <div class="title" i18n>Reply</div>
             <div class="form-table" *ngIf="!user">
                 <div class="form-group">
-                    <label>称呼</label>
-                    <input type="text" [(ngModel)]="editData.name" placeholder="请输入姓名">
+                    <label i18n>Nickname</label>
+                    <input type="text" [(ngModel)]="editData.name" i18n-placeholder placeholder="Please input your nickname">
                 </div>
                 <div class="form-group">
-                    <label>邮箱</label>
-                    <input type="email" [(ngModel)]="editData.email" placeholder="请输入邮箱">
+                    <label i18n>Email</label>
+                    <input type="email" [(ngModel)]="editData.email" i18n-placeholder placeholder="Please input your email">
                 </div>
                 <div class="form-group">
-                    <label>网址</label>
-                    <input type="url" [(ngModel)]="editData.url" placeholder="请输入网址">
+                    <label i18n>Link</label>
+                    <input type="url" [(ngModel)]="editData.url" i18n-placeholder placeholder="Please input your link">
                 </div>
             </div>
-            <textarea [(ngModel)]="editData.content" placeholder="请输入内容"></textarea>
-            <app-action-button class="btn btn-primary" (tapped)="tapComment($event)">回复</app-action-button>
-            <button class="btn btn-secondary" (click)="tapCommenting()">取消</button>
+            <textarea [(ngModel)]="editData.content" i18n-placeholder placeholder="Please input content"></textarea>
+            <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Reply</app-action-button>
+            <button class="btn btn-secondary" (click)="tapCommenting()" i18n>Cancel</button>
         </div>
     </div>
     

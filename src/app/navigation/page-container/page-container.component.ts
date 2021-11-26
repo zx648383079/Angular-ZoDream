@@ -12,7 +12,7 @@ export class PageContainerComponent implements OnChanges {
 
     @Input() public value: IWebPage;
     public rules: IExtraRule[] = [];
-    public menuItems = ['收藏', '分享', '举报'];
+    public menuItems = [$localize `Collect`, $localize `Share`, $localize `Report`];
     public menuOpen = false;
 
     @Output() public onAction = new EventEmitter<{

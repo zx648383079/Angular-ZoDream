@@ -22,8 +22,9 @@ export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd h
         'S': date.getMilliseconds() // 毫秒
     };
     for (const k in o) {
-        if (new RegExp('(' + k + ')').test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+        const match = fmt.match(new RegExp('(' + k + ')'));
+        if (!match) {
+            fmt = fmt.replace(match[1], (match[1].length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substring(('' + o[k]).length)));
         }
     }
     return fmt;
@@ -50,26 +51,29 @@ export function formatAgo(value: any, now: Date = new Date()): string {
         return '--';
     }
     const timeDate = new Date(/^\d{10}$/.test(value) ? value * 1000 : value);
-    const diff = Math.floor((now.getTime() - timeDate.getTime()) / 1000);
-    if (diff < 1) {
-        return '刚刚';
+    let time = Math.floor((now.getTime() - timeDate.getTime()) / 1000);
+    if (time < 1) {
+        return $localize `now`;
     }
-    if (diff < 60) {
-        return diff + '秒前';
+    if (time < 60) {
+        return $localize `${time} seconds ago`;
     }
-    if (diff < 3600) {
-        return Math.floor(diff / 60) + '分钟前';
+    if (time < 3600) {
+        time = Math.floor(time / 60);
+        return $localize `${time} minutes ago`;
     }
-    if (diff < 86400) {
-        return Math.floor(diff / 3600) + '小时前';
+    if (time < 86400) {
+        time = Math.floor(time / 3600);
+        return $localize `${time} hours ago`;
     }
-    if (diff < 2592000) {
-        return Math.floor(diff / 86400) + '天前';
+    if (time < 2592000) {
+        time = Math.floor(time / 86400);
+        return $localize `${time} days ago`;
     }
     if (timeDate.getFullYear() === now.getFullYear()) {
-        return timeDate.getMonth() + 1 + '月' + timeDate.getDate();
+        return timeDate.getMonth() + 1 + '-' + timeDate.getDate();
     }
-    return timeDate.getFullYear() + '年' + (timeDate.getMonth() + 1) + '月';
+    return timeDate.getFullYear() + '-' + (timeDate.getMonth() + 1);
 }
 
 export function getCurrentTime() {

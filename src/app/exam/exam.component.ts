@@ -20,7 +20,7 @@ export class ExamComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('题库');
+        this.themeService.setTitle($localize `Exam`);
     }
   
     ngOnInit() {

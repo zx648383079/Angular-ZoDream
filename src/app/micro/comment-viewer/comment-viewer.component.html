@@ -14,8 +14,9 @@
                     </app-emoji-picker>
                 </div>
                 <i class="iconfont" [ngClass]="{'icon-square-o': !editData.is_forward, 'icon-check-square-o': editData.is_forward}" (click)="editData.is_forward = !editData.is_forward"></i>
-                同时转发到我的微博
-                <a class="btn btn-primary" (click)="tapComment()">评论</a>
+                <ng-container i18n>At the same time forward to my posts</ng-container>
+                
+                <a class="btn btn-primary" (click)="tapComment()" i18n>Comment</a>
             </div>
         </div>
     </div>
@@ -31,12 +32,14 @@
             <div class="actions">
                 <span class="time">{{ item.created_at | ago }}</span>
                 <div class="tools">
-                    <a (click)="tapCommenting(item)">回复
+                    <a (click)="tapCommenting(item)">
+                        <ng-container i18n>Comment</ng-container>
                         <ng-container *ngIf="item.reply_count > 0">
                             ({{ item.reply_count | numberFormat }})
                         </ng-container>
                     </a>
-                    <a (click)="tapAgreeComment(item)" [ngClass]="{active: item.agree_type == 3}">赞
+                    <a (click)="tapAgreeComment(item)" [ngClass]="{active: item.agree_type == 3}">
+                        <ng-container i18n>Like</ng-container>
                         <ng-container *ngIf="item.agree > 0">
                             ({{ item.agree | numberFormat }})
                         </ng-container>
@@ -52,12 +55,14 @@
                     <div class="actions">
                         <span class="time">{{ it.created_at | ago }}</span>
                         <div class="tools">
-                            <a (click)="tapCommenting(it)">回复
+                            <a (click)="tapCommenting(it)">
+                                <ng-container i18n>Comment</ng-container>
                                 <ng-container *ngIf="it.reply_count > 0">
                                     ({{ it.reply_count | numberFormat }})
                                 </ng-container>
                             </a>
-                            <a (click)="tapAgreeComment(it)" [ngClass]="{active: it.agree_type == 3}">赞
+                            <a (click)="tapAgreeComment(it)" [ngClass]="{active: it.agree_type == 3}">
+                                <ng-container i18n>Like</ng-container>
                                 <ng-container *ngIf="it.agree > 0">
                                     ({{ it.agree | numberFormat }})
                                 </ng-container></a>
@@ -67,7 +72,7 @@
             </div>
         </div>
     </div>
-    <div class="more-btn" [ngClass]="{disabled: !hasMore}" (click)="tapMore()">
-        {{ hasMore ? '查看更多评论' : '没有更多了～' }}
+    <div class="more-btn" [ngClass]="{disabled: !hasMore}" (click)="tapMore()" i18n>
+        {hasMore, plural, =true {Read more} =false {No more~}}
     </div>
 </div>

@@ -29,7 +29,7 @@
                     <td>
                         <ng-container *ngIf="item.searchable">
                             <ng-container *ngIf="item.inputType == 'text' || !item.inputType">
-                                <input type="text" class="form-control" [(ngModel)]="item.value" placeholder="请输入关键字">
+                                <input type="text" class="form-control" [(ngModel)]="item.value" i18n-placeholder placeholder="Please input keywords">
                             </ng-container>
                             <ng-container *ngIf="item.inputType == 'switch'">
                                 <app-switch [(ngModel)]="item.value"></app-switch>
@@ -86,8 +86,8 @@
                 </td>
                 <td [attr.colspan]="nameItems.length - 1">
                     <div class="btn-group">
-                        <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems.length < 1">
-                            删除选中
+                        <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems.length < 1" i18n>
+                            Delete Selected
                         </button>
                         <ng-content></ng-content>
                     </div>

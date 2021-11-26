@@ -2,26 +2,26 @@
   <div class="input-box">
         <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
             <div class="input-group" [class]="{error: email.invalid}">
-                <input type="email" formControlName="email" placeholder="请输入账号" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
+                <input type="email" formControlName="email" i18n-placeholder placeholder="Please input Username" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
         <div class="input-group" [class]="{error: password.invalid}">
-            <input #pwdInput [type]="isObserve ? 'text' : 'password'" formControlName="password" placeholder="请输入密码" autocomplete="off">
+            <input #pwdInput [type]="isObserve ? 'text' : 'password'" formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
         <div class="input-group captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
-            <input type="text" formControlName="captcha" placeholder="请输入验证码" autocomplete="off">
+            <input type="text" formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off">
             <i class="iconfont icon-key" aria-hidden="true"></i>
-            <a (click)="tapCaptcha()" class="btn" title="点击刷新">
-                <img [src]="captchaImage" alt="刷新重试">
+            <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
+                <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
 
         <!-- <div class="input-group code-input" [class]="{error: password.invalid}">
-            <input type="text" formControlName="code" placeholder="请输入验证码">
+            <input type="text" formControlName="code" i18n-placeholder placeholder="lease enter verification code">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div> -->
@@ -31,16 +31,14 @@
               <input type="checkbox" formControlName="remember" value="1" id="checkboxInput">
               <label for="checkboxInput"></label>
           </div>
-          记住我
-          <a class="find-link" routerLink="find">找回密码</a>
+          <ng-container i18n>Remember</ng-container>
+          <a class="find-link" routerLink="find" i18n>Forgot your password?</a>
       </div>
-      <app-action-button class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)">登录</app-action-button>
+      <app-action-button class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
       <div class="other-box">
-          <a routerLink="register">注册账号</a>
+          <a routerLink="register" i18n>Sign up</a>
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>
       </div>
-
-      <input type="hidden" name="redirect_uri" value="">
   </div>
   <div class="login-qr-box" [ngClass]="{'waiting_confirm': mode == 2, 'qr_expired': mode == 3, 'qr_reject': mode == 4, 'qr_success': mode == 5}">
       <div class="qr-box">
@@ -49,24 +47,24 @@
       </div>
       <div class="scan-box">
           <i class="iconfont icon-check-circle"></i>
-          <p>扫描成功，等待确认</p>
+          <p i18n>Scanning is successful, waiting for confirmation</p>
       </div>
       <div class="success-box">
           <i class="iconfont icon-check-circle"></i>
-          <p>登陆成功</p>
+          <p i18n>Sign in successfully</p>
       </div>
       <div class="failure-box">
           <i class="iconfont icon-refresh"></i>
-          <p>登陆失败</p>
+          <p i18n>Sign in failed</p>
       </div>
-      <button type="button" class="btn" (click)="tapMode(0)">返回登录</button>
+      <button type="button" class="btn" (click)="tapMode(0)" i18n>Back</button>
   </div>
 </form>
 
 <div class="login-oauth-box">
-    <div class="box-title">第三方登录</div>
-    <a (click)="tapOAuth('qq')" title="QQ登录"><i class="iconfont icon-qq"></i></a>
-    <a  (click)="tapOAuth('wechat')" title="微信登录"><i class="iconfont icon-wechat"></i></a>
-    <a  (click)="tapOAuth('weibo')" title="微博登录"><i class="iconfont icon-weibo"></i></a>
-    <a  (click)="tapOAuth('github')" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+    <div class="box-title" i18n>Sign in with</div>
+    <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
+    <a (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
+    <a (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
+    <a (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
 </div>

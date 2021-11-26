@@ -92,7 +92,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
             return '';
         }
         const i = value.indexOf(this.suffix);
-        return i > 0 ? value.substr(0, i) : value;
+        return i > 0 ? value.substring(0, i) : value;
     }
 
     private refreshOption() {

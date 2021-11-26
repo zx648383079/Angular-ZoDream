@@ -24,7 +24,7 @@
         <div class="col-md-8">
             <div class="about-box">
                 <div class="about-top heading">
-                    <h1>关于本站</h1>
+                    <h1 i18n>About Us</h1>
                 </div>
                 <div class="about-bottom">
                     <h4>本站是基于 zodream 框架开发的展示站。</h4>
@@ -39,18 +39,18 @@
 
     <div class="contact-box">
         <div class="heading">
-            <h2>意见反馈</h2>
-            <p>本站及其框架接受任何友好建议，欢迎任何友好朋友在此留下意见。</p>
+            <h2 i18n>Feedback</h2>
+            <p i18n>This site and its framework accept any friendly suggestions, and any friendly friends are welcome to leave comments here. </p>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <input type="text" name="name" [(ngModel)]="data.name" placeholder="称呼" >
-                <input type="email" name="email" [(ngModel)]="data.email" placeholder="邮箱" >
-                <input type="text" name="phone" [(ngModel)]="data.phone" placeholder="联系方式">
+                <input type="text" name="name" [(ngModel)]="data.name" i18n-placeholder placeholder="Nick Name" >
+                <input type="email" name="email" [(ngModel)]="data.email"  i18n-placeholder placeholder="Email" >
+                <input type="text" name="phone" [(ngModel)]="data.phone"  i18n-placeholder placeholder="Contact">
             </div>
             <div class="col-md-6">
-                <textarea name="content" [(ngModel)]="data.content" placeholder="建议内容"></textarea>
-                <app-action-button class="btn btn-show" (click)="tapSubmit($event)">发送</app-action-button>
+                <textarea name="content" [(ngModel)]="data.content"  i18n-placeholder placeholder="Feedback Content"></textarea>
+                <app-action-button class="btn btn-show" (click)="tapSubmit($event)" i18n>Send</app-action-button>
             </div>
         </div>
     </div>

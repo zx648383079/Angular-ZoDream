@@ -3,7 +3,7 @@
         <button class="search-btn">
             <i class="iconfont icon-search"></i>
         </button>
-        <input type="text" [(ngModel)]="value" placeholder="请输入关键字，按回车 / Enter 搜索" (ngModelChange)="onSuggestChange()" (keydown)="suggestKeyPress($event)">
+        <input type="text" [(ngModel)]="value" i18n-placeholder placeholder="Please enter a keyword, press Enter to search" (ngModelChange)="onSuggestChange()" (keydown)="suggestKeyPress($event)">
         <div class="clear-btn" [hidden]="value.length < 1" (click)="tapClear()">
             <i class="iconfont icon-close"></i>
         </div>
@@ -23,9 +23,7 @@
                 <span class="item-text">{{ item }}</span>
                 <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
             </li>
-            <li class="clear-line" (click)="tapClearHistory()">
-                清空历史
-            </li>
+            <li class="clear-line" (click)="tapClearHistory()" i18n>Clear</li>
         </ul>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog';
+import { ButtonEvent } from '../../form';
 import { IErrorResult } from '../../theme/models/page';
 import { emptyValidate } from '../../theme/validators';
 import { MicroService } from '../micro.service';
@@ -24,7 +25,9 @@ export class ShareComponent implements OnInit {
     };
 
     public typeItems = [
-        '公开', '吐槽', '私人'
+        $localize `Public`, 
+        $localize `Tucao`, 
+        $localize `Private`
     ];
 
     constructor(
@@ -46,25 +49,31 @@ export class ShareComponent implements OnInit {
                 content: '',
                 open_type: 0,
             };
-            this.service.shareCheck(this.data).subscribe(_ => {
-
-            }, (err: IErrorResult) => {
-                this.toastrService.warning(err.error.message);
-                // this.router.navigate(['../'], {relativeTo: this.route});
+            this.service.shareCheck(this.data).subscribe({
+                error: err => {
+                    this.toastrService.warning(err);
+                    // this.router.navigate(['../'], {relativeTo: this.route});
+                }
             });
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (emptyValidate(this.data.content)) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input content`);
             return;
         }
-        this.service.shareSave(this.data).subscribe(_ => {
-            this.toastrService.success('分享成功');
-            this.router.navigate(['../'], {relativeTo: this.route});
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        e?.enter();
+        this.service.shareSave(this.data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Successful sharing`);
+                this.router.navigate(['../'], {relativeTo: this.route});
+            }, 
+            error: err => {
+                e?.reset();
+                this.toastrService.warning(err);
+            }
         });
     }
 

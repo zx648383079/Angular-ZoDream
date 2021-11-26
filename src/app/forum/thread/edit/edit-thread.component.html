@@ -3,10 +3,10 @@
         <li class="breadcrumb-item">
             <a routerLink="/" class="iconfont icon-home"></a>
         </li><li class="breadcrumb-item">
-            <a routerLink="../">圈子首页</a>
+            <a routerLink="../" i18n>Home</a>
         </li>
-        <li class="breadcrumb-item active">
-            {{ data.id ? '编辑帖子' : '发布帖子' }}
+        <li class="breadcrumb-item active" i18n>
+            {data.id, plural, =true {Edit thread} =false {New thread}}
         </li>
     </ul>
 </div>
@@ -14,24 +14,24 @@
     <form class="thread-new-box" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="title">
             <select formControlName="classify_id" class="form-control" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
-                <option [value]="0">选择主题分类</option>
+                <option [value]="0" i18n>Select classify</option>
                 <ng-container *ngFor="let item of forum.classifies">
                     <option [value]="item.id">{{ item.name }}</option>
                 </ng-container>
             </select>
-            <input type="text" class="form-control" formControlName="title" placeholder="请输入主题标题">
+            <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
         </div>
 
-        <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
+        <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
 
         <div class="form-group">
             <app-switch id="is_private" formControlName="is_private_post"></app-switch> 
-            <label for="is_private">开启回帖仅楼主可见</label>
+            <label for="is_private" i18n>Only the host can see the reply after opening</label>
         </div>
         
         <div class="footer btn-group">
-            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid">发表帖子</app-action-button>
-            <a class="btn btn-danger" href="javascript:history.back()">返回</a>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid" i18n>Publish</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.back()" i18n>Back</a>
         </div>
     </form>
 </div>

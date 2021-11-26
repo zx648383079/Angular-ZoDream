@@ -12,18 +12,18 @@
         </div>
         <div class="body">
             <div class="month-grid" *ngIf="gridMode == 0">
-                <ol><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li><li>日</li></ol>
+                <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
                 <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ item.val | twoPad }}</li></ul>
             </div>
             <div class="year-grid" *ngIf="gridMode == 1">
                 <div class="list-group year">
-                    <div class="title">年</div>
+                    <div class="title" i18n>Year</div>
                     <ul>
                         <li *ngFor="let item of yearItems" [ngClass]="{active: item == currentYear}" (click)="changeYear(item)">{{ item }}</li>
                     </ul>
                 </div>
                 <div class="list-group month">
-                <div class="title">月</div>
+                <div class="title" i18n>Month</div>
                 <ul>
                     <li *ngFor="let item of monthItems" [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ item | twoPad }}</li>
                 </ul>
@@ -32,19 +32,19 @@
             </div>
             <div class="day-grid" *ngIf="hasTime && gridMode == 2">
                 <div class="list-group hour">
-                <div class="title">小时</div>
+                <div class="title" i18n>Hour</div>
                 <ul>
                     <li *ngFor="let item of hourItems" [ngClass]="{active: item == currentHour}" (click)="changeHour(item)">{{ item | twoPad }}</li>
                 </ul>
                 </div>
                 <div class="list-group minute">
-                <div class="title">分钟</div>
+                <div class="title" i18n>Minute</div>
                 <ul>
                     <li *ngFor="let item of minuteItems" [ngClass]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ item | twoPad }}</li>
                 </ul>
                 </div>
                 <div class="list-group second">
-                <div class="title">秒钟</div>
+                <div class="title" i18n>Second</div>
                 <ul>
                     <li *ngFor="let item of secondItems" [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ item | twoPad }}</li>
                 </ul>
@@ -58,7 +58,7 @@
                 <span>{{ currentMinute | twoPad }}</span>:
                 <span>{{ currentSecond | twoPad }}</span>
             </div>
-            <button type="button" (click)="enterChange()">确定</button>
+            <button type="button" (click)="enterChange()" i18n>Ok</button>
         </div>
 
     </div>

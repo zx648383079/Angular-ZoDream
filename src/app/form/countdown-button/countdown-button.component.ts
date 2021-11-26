@@ -17,9 +17,9 @@ export class CountdownButtonComponent implements OnChanges, CountdownEvent {
 
     @Input() public time = 60;
 
-    @Input() public label = '获取验证码';
+    @Input() public label = $localize `Get code`;
 
-    @Input() public againLabel = '重新获取';
+    @Input() public againLabel = $localize `Reacquire`;
 
     @Output() public tapped: EventEmitter<CountdownButtonComponent> = new EventEmitter();
 

@@ -2,7 +2,7 @@
     <div class="nav-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
         <div class="bar-version">
-            <label for="version">版本</label>
+            <label for="version" i18n>Version</label>
             <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
                 <ng-container *ngFor="let item of versionItems">
                     <option [value]="item.id">{{ item.name }}</option>
@@ -10,7 +10,7 @@
             </select>
         </div>
         <div class="bar-search">
-            <input type="text" placeholder="请输入搜索关键词..." [(ngModel)]="keywords">
+            <input type="text" i18n-placeholder placeholder="Please input a keywods..." [(ngModel)]="keywords">
             <i class="iconfont" [ngClass]="{'icon-search': this.keywords.length < 1, 'icon-close': this.keywords.length > 0}" (click)="this.keywords = ''"></i>
         </div>
         <div class="bar-top">
@@ -43,25 +43,24 @@
             <ng-template #elseTemplate>
                 <div class="title">
                     {{ data.name }}
-
                     <div class="pull-right">
-                        <div class="btn btn-primary" (click)="openCode(codeModal)">代码</div>
+                        <div class="btn btn-primary" (click)="openCode(codeModal)" i18n>Code</div>
                     </div>
                 </div>
                 <div class="panel">
-                    <div class="panel-header">
-                        接口详情
+                    <div class="panel-header" i18n>
+                        Interface detail
                     </div>
                     <div class="panel-body">
-                        <p class="text-muted"><label>接口名称：</label>{{ data.name }}</p>
-                        <p class="text-muted"><label>所属项目：</label>{{ project.name }}</p>
-                        <p class="text-muted"><label>请求类型：</label>{{ data.method }}</p>
-                        <p class="text-muted"><label>接口描述：</label>{{ data.description }}</p>
+                        <p class="text-muted"><label i18n>Name:</label>{{ data.name }}</p>
+                        <p class="text-muted"><label i18n>Project:</label>{{ project.name }}</p>
+                        <p class="text-muted"><label i18n>Method:</label>{{ data.method }}</p>
+                        <p class="text-muted"><label i18n>Brief:</label>{{ data.description }}</p>
                     </div>
                 </div>
                 <div class="panel">
-                    <div class="panel-header">
-                        接口地址
+                    <div class="panel-header" i18n>
+                        Interface URL
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
@@ -71,9 +70,10 @@
                                     <td style="width: 50%;">
                                         <code>{{ item.domain }}{{ data.uri }}</code></td>
                                     <td style="width: 15%;">
-                                        <button type="button"
-                                            class="btn btn-xs btn-success btn-copy"><i
-                                                class="fa fa-fw fa-copy"></i>复制链接</button>
+                                        <button type="button" class="btn btn-xs btn-success btn-copy">
+                                            <i class="fa fa-fw fa-copy"></i>
+                                            <ng-container i18n>Copy</ng-container>
+                                        </button>
                                     </td>
                                 </tr>
                             
@@ -82,8 +82,8 @@
                     </div>
                 </div>
                 <div class="panel" *ngIf="data.header && data.header.length > 0">
-                    <div class="panel-header">
-                        Header参数
+                    <div class="panel-header" i18n>
+                        Header parameters
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
@@ -106,19 +106,19 @@
                     </div>
                 </div>
                 <div class="panel" *ngIf="data.request && data.request.length > 0">
-                    <div class="panel-header">
-                        请求参数
+                    <div class="panel-header" i18n>
+                        Request parameters
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>字段别名</th>
-                                    <th>字段含义</th>
-                                    <th>字段类型</th>
-                                    <th>是否必填</th>
-                                    <th>默认值</th>
-                                    <th>备注说明</th>
+                                    <th i18n>Alias</th>
+                                    <th i18n>Title</th>
+                                    <th i18n>Type</th>
+                                    <th i18n>Required </th>
+                                    <th i18n>Default</th>
+                                    <th i18n>Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,28 +126,28 @@
                                     <td>{{ item.name }}</td>
                                     <td>{{ item.title }}</td>
                                     <td>{{ item.type }}</td>
-                                    <td>{{ item.is_required ? '是' : '否' }}</td>
+                                    <td i18n>
+                                        {item.is_required, plural, =true {Yes} =false {No}}</td>
                                     <td>{{ item.default_value }}</td>
                                     <td style="width: 20%;">{{ item.remark }}</td>
                                 </tr>
-                            
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="panel" *ngIf="data.response && data.response.length > 0">
-                    <div class="panel-header">
-                        响应参数
+                    <div class="panel-header" i18n>
+                        Response parameters
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>字段别名</th>
-                                    <th>字段含义</th>
-                                    <th>字段类型</th>
-                                    <th>MOCK规则</th>
-                                    <th>备注说明</th>
+                                    <th i18n>Alias</th>
+                                    <th i18n>Title</th>
+                                    <th i18n>Type</th>
+                                    <th i18n>MOCK rule</th>
+                                    <th i18n>Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -166,8 +166,8 @@
                     </div>
                 </div>
                 <div class="panel" *ngIf="data.example">
-                    <div class="panel-header">
-                        返回示例
+                    <div class="panel-header" i18n>
+                        Example
                     </div>
                     <div class="panel-body code-box">
                         <pre><code class="language-json">{{ data.example }}</code></pre>
@@ -176,11 +176,11 @@
             </ng-template>
 
             <div class="navigation-bar">
-                <span class="prev" *ngIf="previous" (click)="tapRead(previous)">
-                    上一篇：{{ previous.name }}
+                <span class="prev" *ngIf="previous" (click)="tapRead(previous)" i18n>
+                    Previous: {{ previous.name }}
                 </span>
-                <span class="next" *ngIf="next" (click)="tapRead(next)">
-                    下一篇：{{ next.name }}
+                <span class="next" *ngIf="next" (click)="tapRead(next)" i18n>
+                    Next: {{ next.name }}
                 </span>
             </div>
         </div>
@@ -188,7 +188,7 @@
     </div>
 </div>
 
-<app-dialog-box #codeModal title="代码生成" [buttonVisible]="false">
+<app-dialog-box #codeModal i18n-title title="Code generation" [buttonVisible]="false">
     <form class="search-bar" (ngSubmit)="tapGenerate(searchForm.value)" #searchForm="ngForm">
         <select name="kind" ngModel class="form-control">
             <option *ngFor="let item of kindItems;let i = index" [value]="i">{{ item }}</option>
@@ -196,8 +196,8 @@
         <select name="lang" ngModel class="form-control">
             <option *ngFor="let item of langItems" [value]="item">{{ item }}</option>
         </select>
-        <button type="submit" class="btn btn-primary">生成</button>
-        <a class="btn btn-info" *ngIf="codeData.content" (click)="tapCopy($event)">复制</a>
+        <button type="submit" class="btn btn-primary" i18n>Generate</button>
+        <a class="btn btn-info" *ngIf="codeData.content" (click)="tapCopy($event)" i18n>Copy</a>
     </form>
     <div class="code-box" *ngIf="codeData.content">
         <pre><code class="language-json">{{ codeData.content }}</code></pre>

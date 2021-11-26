@@ -18,7 +18,7 @@ export class DocumentComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.themeService.setTitle('文档');
+        this.themeService.setTitle($localize `Document`);
         this.service.projectList({}).subscribe(res => {
             this.items = res.data;
         });

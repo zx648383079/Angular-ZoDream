@@ -70,7 +70,7 @@ export class CharIterator {
                 }
                 continue;
             }
-            if (this.content.substr(pos, item.length) === item) {
+            if (this.content.substring(pos, item.length + pos) === item) {
                 return true;
             }
         }
@@ -94,7 +94,7 @@ export class CharIterator {
             return undefined;
         }
         const len = length < 0 ? -length : length;
-        return this.content.substr(pos, len);
+        return this.content.substring(pos, len + pos);
     }
 
     /**
@@ -104,7 +104,7 @@ export class CharIterator {
      * @returns 
      */
     readSeek(pos: number, length = 1) {
-        return this.content.substr(pos, length);
+        return this.content.substring(pos, length + pos);
     }
     /**
      * 读取数据

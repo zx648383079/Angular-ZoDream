@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../../theme/services';
 
 interface ILink {
     name: string;
@@ -13,89 +14,91 @@ interface ILink {
 })
 export class HomeComponent implements OnInit {
 
-    public title = 'Home';
-
     public links: ILink[] = [
         {
-            name: 'Blog',
+            name: $localize `Blog`,
             url: '/blog'
         },
         {
-            name: 'Book',
+            name: $localize `Book`,
             url: '/book'
         },
         {
-            name: 'Micro',
+            name: $localize `Micro`,
             url: 'micro'
         },
         {
-            name: 'Forum',
+            name: $localize `Forum`,
             url: 'forum'
         },
         {
-            name: 'Navigation',
+            name: $localize `Navigation`,
             url: '/navigation'
         },
         {
-            name: 'Video',
+            name: $localize `Video`,
             url: '/video'
         },
         {
-            name: 'Document',
+            name: $localize `Document`,
             url: '/doc'
         },
         {
-            name: 'Exam',
+            name: $localize `Exam`,
             url: 'exam'
         },
         {
-            name: 'Finance',
+            name: $localize `Finance`,
             url: '/finance'
         },
         {
-            name: 'Disk',
+            name: $localize `Disk`,
             url: '/disk',
-            description: 'ONLINE DISK'
+            description: $localize `ONLINE DISK`
         },
         {
-            name: 'Chat',
+            name: $localize `Chat`,
             url: '/chat'
         },
         {
-            name: 'Shop',
+            name: $localize `Shop`,
             url: '/shop',
         },
         {
-            name: 'Task',
+            name: $localize `Task`,
             url: '/task'
         },
         {
-            name: 'Legwork',
+            name: $localize `Legwork`,
             url: 'legwork'
         },
         {
-            name: 'Catering',
+            name: $localize `Catering`,
             url: '/catering'
         },
         {
-            name: 'Visual',
+            name: $localize `Visual`,
             url: '/visual'
         },
         {
-            name: 'WeChat',
+            name: $localize `WeChat`,
             url: '/wx'
         },
         {
-            name: 'Generator',
+            name: $localize `Generator`,
             url: '/gzo'
         },
         {
-            name: 'Backend',
+            name: $localize `Backend`,
             url: '/backend'
         }
     ];
 
-    constructor() { }
+    constructor(
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle($localize `Home`);
+    }
 
     ngOnInit(): void {
     }

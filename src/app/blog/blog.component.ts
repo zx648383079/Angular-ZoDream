@@ -44,14 +44,14 @@ export class BlogComponent implements OnInit {
 
     public sortItems = [{
             value: 'new',
-            name: '最新',
+            name: $localize `New`,
         },
         {
-            name: '热门',
+            name: $localize `Hot`,
             value: 'hot',
         },
         {
-            name: '推荐',
+            name: $localize `Best`,
             value: 'best',
         }
     ];
@@ -111,15 +111,18 @@ export class BlogComponent implements OnInit {
             keywords: this.keywords,
             sort: this.sort,
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-            this.pullBox?.endLoad();
-        }, () => {
-            this.isLoading = false;
-            this.pullBox?.endLoad();
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.pullBox?.endLoad();
+            }, 
+            error: () => {
+                this.isLoading = false;
+                this.pullBox?.endLoad();
+            }
         });
     }
 

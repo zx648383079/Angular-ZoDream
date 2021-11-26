@@ -3,7 +3,7 @@
         <div class="search-box">
             <div class="search-input">
                 <i class="iconfont icon-search"></i>
-                <input type="text" [(ngModel)]="keywords" placeholder="搜索相关文章" (ngModelChange)="tapRefresh()">
+                <input type="text" [(ngModel)]="keywords" i18n-placeholder placeholder="Search related articles" (ngModelChange)="tapRefresh()">
             </div>
         </div>
         <div class="filter-box">
@@ -74,19 +74,20 @@
                         <app-video-player [src]="blog.video_url"></app-video-player>
                     </ng-container>
                     <div [innerHTML]="content"></div>
-                    <p class="book-copyright" *ngIf="blog.url">转载请保留原文链接：
+                    <p class="book-copyright" *ngIf="blog.url">
+                        <ng-container i18n>Please keep the original link for reprinting:</ng-container>
                         <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>
                     </p>
                   </article>
                   <div class="book-bottom">
                         <div class="book-source" *ngIf="blog.type == 1">
-                            <span>转载于：</span>
+                            <span i18n>Reprinted in:</span>
                             <a [href]="blog.source_url"
-                                target="_blank" title="本文为转载内容，点击查看原网页">
+                                target="_blank" i18n-title title="This article is reprinted, click to view the original page">
                                 {{blog.source_url}} </a>
                         </div>
                         <div class="book-tags" *ngIf="blog.tags">
-                            <span>标签：</span>
+                            <span i18n>Tags:</span>
                             <ng-container *ngFor="let tag of blog.tags">
                               <a (click)="tapTag(tag.name)">{{ tag.name }}</a>，
                             </ng-container>

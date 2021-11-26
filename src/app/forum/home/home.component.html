@@ -2,8 +2,8 @@
     <ul class="breadcrumb">
         <li class="breadcrumb-item">
             <a routerLink="/" class="iconfont icon-home"></a>
-        </li><li class="breadcrumb-item active">
-            圈子首页
+        </li><li class="breadcrumb-item active" i18n>
+            Home
         </li>
     </ul>
 </div>
@@ -32,7 +32,7 @@
                                 </ng-container>
                             </div>
                             <div class="meta">
-                                <div class="count">主题：{{ item.thread_count | numberFormat }}，帖数：{{ item.post_count | numberFormat }}</div>
+                                <div class="count" i18n>Threads:{{ item.thread_count | numberFormat }}, Posts:{{ item.post_count | numberFormat }}</div>
                             </div>
                             <div class="last-thread" *ngIf="item.last_thread">
                                 <a [routerLink]="['thread', item.last_thread.id]">{{ item.last_thread.title }}</a>

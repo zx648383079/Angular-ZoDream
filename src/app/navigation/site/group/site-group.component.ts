@@ -9,7 +9,7 @@ import { NavigationService } from '../../navigation.service';
 })
 export class SiteGroupComponent implements OnChanges {
 
-    @Input() public header = '推荐';
+    @Input() public header = $localize `Recommend`;
     @Input() public category = 0;
     @Input() public init = false;
 

@@ -14,8 +14,8 @@
     </div>
     <div class="dialog-footer" *ngIf="multiple">
         <div class="btn-group">
-            <div class="btn btn-primary" (click)="close(true)">确认({{ selectedItems.length }})</div>
-            <div class="btn btn-danger" (click)="close()">取消</div>
+            <div class="btn btn-primary" (click)="close(true)" i18n>Selected({{ selectedItems.length }})</div>
+            <div class="btn btn-danger" (click)="close()" i18n>Cancel</div>
         </div>
     </div>
 </div>

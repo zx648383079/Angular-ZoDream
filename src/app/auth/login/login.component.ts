@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private toastrService: DialogService,
         private themeService: ThemeService,
         private authService: AuthService) {
-        this.themeService.setTitle('登录');
+        this.themeService.setTitle($localize `Sign in`);
         this.redirectIfUserLoggedIn();
     }
 
@@ -95,13 +95,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public tapQr() {
-        this.authService.qrRefresh().subscribe(res => {
-            this.qrImage = res.qr;
-            this.qrToken = res.token;
-            this.mode = 1;
-            this.loopCheckQr();
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.authService.qrRefresh().subscribe({
+            next: res => {
+                this.qrImage = res.qr;
+                this.qrToken = res.token;
+                this.mode = 1;
+                this.loopCheckQr();
+            }, 
+            error: err => {
+                this.toastrService.warning(err);
+            }
         });
     }
 
@@ -116,11 +119,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             return;
         }
         window.setTimeout(() => {
-            this.authService.qrCheck(this.qrToken).subscribe(
-                _ => {
+            this.authService.qrCheck(this.qrToken).subscribe({
+                next: _ => {
                     this.mode = 5;
                 },
-                (err: IErrorResult) => {
+                error: (err: IErrorResult) => {
                     if (err.error.code === 201) {
                         this.loopCheckQr();
                         return;
@@ -136,6 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                     this.mode = 4;
                 }
+            }
             );
         }, 2000);
     }

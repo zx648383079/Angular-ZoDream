@@ -36,7 +36,7 @@ export class TextareaElement implements IEditorElement {
     set selectedValue(val: string) {
         const s = this.selection;
         const v = this.value;
-        this.value = v.substr(0, s.start) + val + v.substr(s.end);
+        this.value = v.substring(0, s.start) + val + v.substring(s.end);
     }
 
     get value(): string {
@@ -47,7 +47,7 @@ export class TextareaElement implements IEditorElement {
     }
     insert(val: string): void {
         const v = this.value;
-        this.value = v.substr(0, this.selection.start) + val + v.substr(this.selection.start)
+        this.value = v.substring(0, this.selection.start) + val + v.substring(this.selection.start)
     }
     focus(): void {
         this.element.focus();

@@ -4,11 +4,11 @@
     <i class="iconfont icon-close" (click)="close()"></i>
     <div class="feedback-box">
         <div class="line-item">
-            举报内容：
+            <ng-container i18n>Report content:</ng-container>
             <span class="form-control">{{ data?.link }}</span>
         </div>
         <div class="line-header">
-            <em>*</em>举报类型
+            <em>*</em><ng-container i18n>Report type:</ng-container>
         </div>
         <div class="tab-bar">
             <div class="tab-item" *ngFor="let item of typeItems; let i=index" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i">{{ item.label }}</div>
@@ -24,22 +24,22 @@
             </ng-container>
         </div>
         <div class="line-header">
-            <em>*</em>问题描述
+            <em>*</em><ng-container i18n>Problem Description:</ng-container>
         </div>
         <div class="edit-body">
             <textarea class="form-control" [(ngModel)]="content" maxlength="500"></textarea>
-            <span class="edit-tip">{{ wordSize }}字</span>
+            <span class="edit-tip" i18n>{{ wordSize }} words</span>
         </div>
         <div class="line-header">
-            <em>*</em>联系方式
+            <em>*</em><ng-container i18n>Contact information:</ng-container>
         </div>
         <div>
             <input type="text" class="form-control" [(ngModel)]="email">
         </div>
         <div class="line-footer">
             <div class="btn-group">
-                <div class="btn btn-secondary" (click)="close()">取消</div>
-                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">提交</app-action-button>
+                <div class="btn btn-secondary" (click)="close()" i18n>Cancel</div>
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Submit</app-action-button>
             </div>
         </div>
         

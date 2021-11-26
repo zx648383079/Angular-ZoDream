@@ -18,7 +18,7 @@ import { FileOnlineComponent } from '../file-online/file-online.component';
 export class FileInputComponent implements ControlValueAccessor {
 
     @Input() public accept = 'image/*';
-    @Input() public placeholder = '请选择文件';
+    @Input() public placeholder = $localize `Please select file`;
     /**
      * 是否开启在线选择
      */

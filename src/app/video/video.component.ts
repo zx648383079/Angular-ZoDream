@@ -32,7 +32,7 @@ export class VideoComponent implements OnInit {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('短视频');
+        this.themeService.setTitle($localize `Short video`);
     }
 
     @HostListener('scroll', [
@@ -53,7 +53,7 @@ export class VideoComponent implements OnInit {
 
     public tapPlay(item: IVideo) {
         if (!item.video_path) {
-            this.toastrService.warning('文件不存在');
+            this.toastrService.warning($localize `video is not exsit`);
             return;
         }
         this.router.navigate(['video', item.id], {relativeTo: this.route});

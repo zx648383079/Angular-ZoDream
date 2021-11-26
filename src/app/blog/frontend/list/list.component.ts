@@ -19,7 +19,7 @@ import {
 } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { SearchService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
 
 @Component({
     selector: 'app-list',
@@ -27,21 +27,19 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
-
-    public title = '博客';
     public categories: ICategory[] = [];
     public newItems: IBlog[] = [];
     public commentItems: IComment[] = [];
     public sortItems = [{
             value: 'new',
-            name: '最新',
+            name: $localize `New`,
         },
         {
-            name: '热门',
+            name: $localize `Hot`,
             value: 'hot',
         },
         {
-            name: '推荐',
+            name: $localize `Best`,
             value: 'best',
         }
     ];
@@ -76,7 +74,9 @@ export class ListComponent implements OnInit, OnDestroy {
         private service: BlogService,
         private route: ActivatedRoute,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle('Blog');
         this.service.batch({
             categories: {},
             new_comment: {},

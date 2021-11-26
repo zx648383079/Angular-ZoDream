@@ -16,7 +16,7 @@ export class TimeInputComponent implements ControlValueAccessor, OnChanges {
 
     @Input() public min = '00:00';
     @Input() public max = '23:59';
-    @Input() public placeholder = '请选择';
+    @Input() public placeholder = $localize `Please select...`;
     public value: string;
     public disabled = false;
     public hourItems: number[] = [];

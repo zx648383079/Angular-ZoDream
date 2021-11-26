@@ -29,19 +29,19 @@ export class ReportDialogComponent {
         label: string;
         items: IItem[];
     }[] = [
-        {label: '违法和不良信息举报', items: [
-            {name: '色情低俗', value: 11},  
-            {name: '涉嫌违法犯罪', value: 12},  
-            {name: '赌博博彩', value: 13},  
-            {name: '恐怖暴力', value: 14},  
-            {name: '违禁物品', value: 15},  
-            {name: '购物交易诈骗', value: 16},
-            {name: '钓鱼网站/病毒木马', value: 17},  
-            {name: '其他', value: 99},
+        {label: $localize `Report illegal and bad information`, items: [
+            {name: $localize `Pornographic vulgarity`, value: 11},  
+            {name: $localize `Suspected of illegal crime`, value: 12},  
+            {name: $localize `Gambling`, value: 13},  
+            {name: $localize `Terrorist violence`, value: 14},  
+            {name: $localize `Prohibited items`, value: 15},  
+            {name: $localize `Shopping transaction fraud`, value: 16},
+            {name: $localize `Phishing website/virus Trojan`, value: 17},  
+            {name: $localize `Others`, value: 99},
         ]},
-        {label: '知识产权侵权', items:[
-            {name: '著作权/版权', value: 20},  
-            {name: '专利权', value: 21},
+        {label: $localize `Intellectual property infringement`, items:[
+            {name: $localize `Copyright`, value: 20},  
+            {name: $localize `Patent`, value: 21},
         ]},
     ];
     public typeIndex = 0;
@@ -82,7 +82,7 @@ export class ReportDialogComponent {
             email: this.email
         };
         if (emptyValidate(data.content)) {
-            this.toastrService.warning('请输入问题描述');
+            this.toastrService.warning($localize `Please input a problem description`);
             return;
         }
         const option = [];
@@ -93,7 +93,7 @@ export class ReportDialogComponent {
             }
         }
         if (option.length < 1) {
-            this.toastrService.warning('请选择举报类型');
+            this.toastrService.warning($localize `Please select report type`);
             return;
         }
         data.title = option.join('、');
@@ -101,7 +101,7 @@ export class ReportDialogComponent {
         this.service.report(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('举报成功，等待人工审核');
+                this.toastrService.success($localize `Report successful, waiting for manual review`);
                 this.visible = false;
                 this.confirmFn && this.confirmFn();
             },

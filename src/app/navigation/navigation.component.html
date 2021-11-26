@@ -12,12 +12,12 @@
         <app-site></app-site>
     </ng-container>
     <ng-container *ngIf="openType == 2">
-        <div class="loading-tip" *ngIf="isLoading">
-            加载中。。。
+        <div class="loading-tip" *ngIf="isLoading" i18n>
+            Loading ...
         </div>
         
-        <div class="empty-tip" *ngIf="!isLoading && total < 1">
-            搜索结果为空
+        <div class="empty-tip" *ngIf="!isLoading && total < 1" i18n>
+            Search results are empty
         </div>
 
         <ng-container *ngFor="let item of items">

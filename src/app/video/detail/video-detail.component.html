@@ -28,7 +28,7 @@
             </div>
             <div class="btn-item">
                 <i class="iconfont icon-share-alt"></i>
-                <span class="label">分享</span>
+                <span class="label" i18n>Share</span>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
 
 <div class="comment-panel">
     <div class="commtent-form">
-        <input type="text" [(ngModel)]="commentData.content" placeholder="请输入评论内容">
+        <input type="text" [(ngModel)]="commentData.content" i18n-placeholder placeholder="Please input the comment">
         <i class="iconfont icon-paper-plane" (click)="tapCommentSubmit"></i>
     </div>
 

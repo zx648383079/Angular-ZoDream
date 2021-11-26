@@ -4,12 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { BlogComponent } from './blog.component';
 
 const routes: Routes = [
-  { path: ':id', component: BlogComponent },
-  { path: '', component: BlogComponent }
+    { path: ':id', component: BlogComponent },
+    { path: '', component: BlogComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class BlogRoutingModule { }

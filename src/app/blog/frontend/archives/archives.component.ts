@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { IArchives } from '../../../theme/models/blog';
+import { ThemeService } from '../../../theme/services';
 
 @Component({
   selector: 'app-archives',
@@ -9,19 +10,19 @@ import { IArchives } from '../../../theme/models/blog';
 })
 export class ArchivesComponent implements OnInit {
 
-  public items: IArchives[] = [];
+    public items: IArchives[] = [];
 
-  public title = '归档';
+    constructor(
+        private service: BlogService,
+        private themeService: ThemeService,
+        ) {
+        this.themeService.setTitle($localize `Archives`);
+        this.service.getArchives().subscribe(res => {
+            this.items = res;
+        });
+    }
 
-  constructor(
-    private service: BlogService
-  ) {
-    this.service.getArchives().subscribe(res => {
-      this.items = res;
-    });
-  }
-
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

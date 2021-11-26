@@ -87,7 +87,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkRange();
-        this.setContent(this.area.value.substr(0, this.range.start) + val + this.area.value.substr(this.range.start))
+        this.setContent(this.area.value.substring(0, this.range.start) + val + this.area.value.substring(this.range.start))
         this.move(move);
         if (!focus) {
             return;
@@ -103,8 +103,8 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
         if (this.range.start === this.range.end) {
             return this.insert(typeof val === 'function' ? val('') : val, move, focus);
         }
-        const str = typeof val === 'function' ? val(this.area.value.substr(this.range.start, this.range.end - this.range.start)) : val;
-        this.setContent(this.area.value.substr(0, this.range.start) + str + this.area.value.substr(this.range.end));
+        const str = typeof val === 'function' ? val(this.area.value.substring(this.range.start, this.range.end)) : val;
+        this.setContent(this.area.value.substring(0, this.range.start) + str + this.area.value.substring(this.range.end));
         this.move(move);
         if (!focus) {
             return;
@@ -123,7 +123,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
             if (move > val.length) {
                 return val + str;
             }
-            return val.substr(0, move) + str + val.substr(move);
+            return val.substring(0, move) + str + val.substring(move);
         }, move, focus);
     }
 

@@ -10,23 +10,23 @@
         <div class="count-bar">
             <div class="count-item">
                 <div class="count">{{ 0 | numberFormat }}</div>
-                <span>关注</span>
+                <span i18n>Following</span>
             </div>
             <div class="count-item">
                 <div class="count">{{ 0 | numberFormat }}</div>
-                <span>粉丝</span>
+                <span i18n>Followers</span>
             </div>
             <div class="count-item">
                 <div class="count">{{ user.micro_count | numberFormat }}</div>
-                <span>博文</span>
+                <span i18n>Posts</span>
             </div>
         </div>
     </div>
 
     <div class="topic-card" *ngIf="topic">
         <div class="name">#{{ topic.name }}#</div>
-        <div class="count-bar">
-            {{ topic.micro_count | numberFormat }}讨论
+        <div class="count-bar" i18n>
+            {{ topic.micro_count | numberFormat }}Posts
         </div>
     </div>
 
@@ -41,8 +41,8 @@
                         <div class="name" (click)="tapUser(item)">{{ item.user.name }}</div>
                         <p>
                             <span class="time">{{ item.created_at | ago }}</span>
-                            <span class="from" *ngIf="item.source">来自{{ item.source }}</span>
-                            <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)">[删除]</a>
+                            <span class="from" *ngIf="item.source" i18n>From {{ item.source }}</span>
+                            <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)" i18n>[Delete]</a>
                         </p>
                         <div class="content">
                             <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
@@ -52,22 +52,26 @@
                 </div>
     
                 <div class="ations">
-                    <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">{{ item.is_collected ? '已' : '' }}收藏
+                    <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">
+                        <ng-container i18n>{item.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
                         <ng-container *ngIf="item.collect_count > 0">
                             ({{ item.collect_count | numberFormat }})
                         </ng-container>
                     </a>
-                    <a (click)="tapForward(modal, item)">转发 
+                    <a (click)="tapForward(modal, item)">
+                        <ng-container i18n>Forward</ng-container>
                         <ng-container *ngIf="item.collect_count > 0">
                             ({{ item.forward_count | numberFormat }})
                         </ng-container>
                     </a>
-                    <a (click)="tapToggleComment(item)" [ngClass]="{open: item.comment_open}">评论
+                    <a (click)="tapToggleComment(item)" [ngClass]="{open: item.comment_open}">
+                        <ng-container i18n>Comment</ng-container>
                         <ng-container *ngIf="item.comment_count > 0">
                             ({{ item.comment_count | numberFormat }})
                         </ng-container>
                     </a>
-                    <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">{{ item.is_recommended ? '已' : '' }}赞 
+                    <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">
+                        <ng-container i18n>{item.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
                         <ng-container *ngIf="item.recommend_count > 0">
                             ({{ item.recommend_count | numberFormat }})
                         </ng-container>
@@ -81,17 +85,19 @@
     </app-pull-to-refresh>
 </div>
 
-<app-dialog-box #modal confirmText="转发" title="转发">
+<app-dialog-box #modal i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
         <div class="simple" *ngIf="forwardItem">
             @{{ forwardItem.user.name }} ：{{ forwardItem.content }}
         </div>
         <div class="input">
-            <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入转发理由"></textarea>
+            <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
             <app-switch [(ngModel)]="editData.is_comment"></app-switch>
-            同时评论给 {{ forwardItem ? forwardItem.user.name : '' }}
+            <ng-container i18n>
+                Also comment to {{ forwardItem ? forwardItem.user.name : '' }}
+            </ng-container>
         </div>
     </div>
 </app-dialog-box>

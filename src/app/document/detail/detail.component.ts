@@ -26,7 +26,9 @@ export class DetailComponent implements OnInit {
     public next: IDocApi&IDocPage;
     public keywords = '';
     public kindItems = [
-        '整体', '请求', '响应',
+        $localize `All`,
+        $localize `Request`,
+        $localize `Response`,
     ];
     public langItems: string[] = [];
     public codeData = {
@@ -186,10 +188,13 @@ export class DetailComponent implements OnInit {
             id: this.data.id,
             lang: form.lang,
             kind: form.kind,
-        }).subscribe(res => {
-            this.codeData.content = res.data;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        }).subscribe({
+            next: res => {
+                this.codeData.content = res.data;
+            }, 
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -200,11 +205,11 @@ export class DetailComponent implements OnInit {
             },
         });
         clipboard.on('success', (e) => {
-            this.toastrService.success('复制成功');
+            this.toastrService.success($localize `Copy successfully`);
             e.clearSelection();
         });
         clipboard.on('error', (e) => {
-            this.toastrService.warning('复制失败');
+            this.toastrService.warning($localize `Copy failed`);
         });
         clipboard.onClick(e);
     }

@@ -3,7 +3,7 @@
       <li class="breadcrumb-item">
           <a routerLink="/" class="iconfont icon-home"></a>
       </li><li class="breadcrumb-item">
-          <a routerLink="../../">圈子首页</a>
+          <a routerLink="../../" i18n>Home</a>
       </li>
       <li class="breadcrumb-item" *ngFor="let item of thread.path">
         <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
@@ -17,12 +17,12 @@
     <div class="thread-box">
         <div class="thread-title" *ngIf="thread"  [ngClass]="{'thread-highlight': thread.is_highlight}">
             <div class="count">
-                <span>查看：{{ thread.view_count | numberFormat }}</span>
-                <span>回复：{{ thread.post_count | numberFormat }}</span>
+                <span i18n>View: {{ thread.view_count | numberFormat }}</span>
+                <span i18n>Reply: {{ thread.post_count | numberFormat }}</span>
             </div>
             <div class="title">
                 <ng-container *ngIf="thread.is_closed">
-                    <i class="iconfont icon-lock" title="主题已关闭"></i>
+                    <i class="iconfont icon-lock" i18n-title title="Thread is closed "></i>
                 </ng-container>
                 <ng-container *ngIf="!thread.is_closed">
                     <i class="iconfont icon-file-o"></i>

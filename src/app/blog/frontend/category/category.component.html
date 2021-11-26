@@ -1,9 +1,9 @@
 <div class="container">
   <div class="book-full-body">
     <div class="book-sort">
-        <a class="active">分类</a>
-        <a routerLink="../tag">标签</a>
-        <a routerLink="../archives">归档</a>
+        <a class="active" i18n>Categories</a>
+        <a routerLink="../tag" i18n>Tags</a>
+        <a routerLink="../archives" i18n>Archives</a>
     </div>
     <div class="cat-item" *ngFor="let item of items">
       <a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>

@@ -3,7 +3,7 @@
         <li class="page-item" *ngIf="directionLinks" [ngClass]="{disabled: canPrevious}">
             <a class="page-link" (click)="previous()" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">上一页</span>
+                <span class="sr-only" i18n>Previous</span>
             </a>
         </li>
         <ng-container *ngFor="let item of items">
@@ -14,7 +14,7 @@
         <li class="page-item" *ngIf="directionLinks" [ngClass]="{disabled: canNext}">
             <a class="page-link" (click)="next()" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">下一页</span>
+                <span class="sr-only" i18n>Next</span>
             </a>
         </li>
     </ul>

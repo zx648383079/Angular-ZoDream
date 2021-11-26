@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { ICategory } from '../../..//theme/models/blog';
+import { ThemeService } from '../../../theme/services';
 
 @Component({
   selector: 'app-category',
@@ -9,19 +10,19 @@ import { ICategory } from '../../..//theme/models/blog';
 })
 export class CategoryComponent implements OnInit {
 
-  public items: ICategory[] = [];
+    public items: ICategory[] = [];
 
-  public title = '分类';
+    constructor(
+        private service: BlogService,
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle($localize `Categories`);
+        this.service.getCategories().subscribe(res => {
+            this.items = res;
+        });
+    }
 
-  constructor(
-    private service: BlogService
-  ) {
-    this.service.getCategories().subscribe(res => {
-      this.items = res;
-    });
-  }
-
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

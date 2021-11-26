@@ -8,8 +8,8 @@
                 <div class="name">{{ data.user.name }}</div>
                 <p>
                     <span class="time">{{ data.created_at | ago }}</span>
-                    <span class="from" *ngIf="data.source">来自{{ data.source }}</span>
-                    <a class="remove" *ngIf="data.editable" (click)="tapRemove(data)">[删除]</a>
+                    <span class="from" *ngIf="data.source" i18n>From {{ data.source }}</span>
+                    <a class="remove" *ngIf="data.editable" (click)="tapRemove(data)" i18n>[Delete]</a>
                 </p>
                 <div class="content">
                     <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
@@ -19,22 +19,26 @@
         </div>
 
         <div class="ations">
-            <a [ngClass]="{active: data.is_collected}" (click)="tapCollect()">{{ data.is_collected ? '已' : '' }}收藏
+            <a [ngClass]="{active: data.is_collected}" (click)="tapCollect()">
+                <ng-container i18n>{data.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
                 <ng-container *ngIf="data.collect_count > 0">
                     ({{ data.collect_count | numberFormat }})
                 </ng-container>
             </a>
-            <a (click)="tapForward(modal)">转发
+            <a (click)="tapForward(modal)">
+                <ng-container i18n>Forward</ng-container>
                 <ng-container *ngIf="data.collect_count > 0">
                     ({{ data.forward_count | numberFormat }})
                 </ng-container>
             </a>
-            <a >评论
+            <a >
+                <ng-container i18n>Comment</ng-container>
                 <ng-container *ngIf="data.comment_count > 0">
                     ({{ data.comment_count | numberFormat }})
                 </ng-container>
             </a>
-            <a [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()">{{ data.is_recommended ? '已' : '' }}赞 
+            <a [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()">
+                <ng-container i18n>{data.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
                 <ng-container *ngIf="data.recommend_count > 0">
                     ({{ data.recommend_count | numberFormat }})
                 </ng-container>
@@ -47,17 +51,19 @@
     </div>
 </div>
 
-<app-dialog-box #modal confirmText="转发" title="转发">
+<app-dialog-box #modal  i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
         <div class="simple" *ngIf="data">
             @{{ data.user.name }} ：{{ data.content }}
         </div>
         <div class="input">
-            <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入转发理由"></textarea>
+            <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
             <app-switch [(ngModel)]="editData.is_comment"></app-switch>
-            同时评论给 {{ data ? data.user.name : '' }}
+            <ng-container i18n>
+                Also comment to {{ data ? data.user.name : '' }}
+            </ng-container>
         </div>
     </div>
 </app-dialog-box>

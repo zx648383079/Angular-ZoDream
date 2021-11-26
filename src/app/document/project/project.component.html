@@ -10,16 +10,16 @@
             <div class="description">
                 {{ data.description }}
             </div>
-            <div class="btn btn-primary" (click)="tapRead()">阅读</div>
+            <div class="btn btn-primary" (click)="tapRead()" i18n>Read</div>
         </div>
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">
-            概要
+        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)" i18n>
+            Summary
         </div>
-        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">
-            目录
+        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)" i18n>
+            Catalog
         </div>
     </div>
 

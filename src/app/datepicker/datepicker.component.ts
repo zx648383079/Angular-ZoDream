@@ -12,7 +12,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
     @Input() max: Date = new Date('2099/12/31 23:59:59');
     @Input() minYear = 1900;
     @Input() maxYear = 2099;
-    @Input() titleFormat = 'y年mm月dd日';
+    @Input() titleFormat = $localize `y-mm-dd`;
     @Input() format = 'y-mm-dd hh:ii:ss';
     @Input('value') currentDate = new Date();
 

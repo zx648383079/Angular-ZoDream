@@ -33,13 +33,13 @@ export class FindComponent implements OnInit {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('找回密码');
+        this.themeService.setTitle($localize `Retrieve password`);
     }
 
     ngOnInit() {}
 
     get btnLabel() {
-        return this.sended ? '重置密码' : '发送验证邮件';
+        return this.sended ? $localize `Reset Password ` : $localize `Send verification email`;
     }
 
     public tapSubmit() {
@@ -57,16 +57,16 @@ export class FindComponent implements OnInit {
         }
         const data = Object.assign({}, this.findForm.value);
         if (!data.code) {
-            this.toastrService.warning('请输入安全代码');
+            this.toastrService.warning($localize `Please input the security code`);
             return;
         }
         if (!data.password) {
-            this.toastrService.warning('请输入新密码');
+            this.toastrService.warning($localize `Please input a new password `);
             return;
         }
         this.service.resetPassword(data).subscribe({
             next: _ => {
-                this.toastrService.success('成功找回密码');
+                this.toastrService.success($localize `Successfully retrieve the password`);
                 this.router.navigate(['../'], {relativeTo: this.route});
             }, error: err => {
                 const res = err.error as IErrorResponse;

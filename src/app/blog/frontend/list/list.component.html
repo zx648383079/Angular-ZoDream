@@ -11,7 +11,7 @@
                 </ul>
             </div>
             <div class="book-new" *ngIf="newItems.length > 0">
-                <h3>最新日记</h3>
+                <h3 i18n>Latest Blog</h3>
                 <ul>
                     <li *ngFor="let item of newItems">
                         <i class="iconfont icon-bookmark"></i><a [routerLink]="item.id">{{ item.title }}</a></li>
@@ -19,9 +19,11 @@
                 </ul>
             </div>
             <div class="book-dynamic" *ngIf="commentItems.length > 0">
-                <h3>最新评论</h3>
+                <h3 i18n>Latest Comment</h3>
                 <dl *ngFor="let item of commentItems">
-                    <dt><a [routerLink]="item.blog_id">{{ item.name }}</a> 评论了 《<a [routerLink]="item.blog_id">{{ item.blog.title }}</a>》</dt>
+                    <dt><a [routerLink]="item.blog_id">{{ item.name }}</a> 
+                        <ng-container i18n> commented </ng-container>
+                        《<a [routerLink]="item.blog_id">{{ item.blog.title }}</a>》</dt>
                     <dd>
                         <p>{{ item.content }}</p>
                         <span class="book-time">{{ item.created_at|ago }}</span>
@@ -31,8 +33,8 @@
         </div>
         <div class="book-body">
             <div class="book-sort">
-                <a routerLink="./tag">标签</a>
-                <a routerLink="./archives">归档</a>
+                <a routerLink="./tag" i18n>Tags</a>
+                <a routerLink="./archives" i18n>Archives</a>
                 <ng-container *ngFor="let item of sortItems">
                     <a [ngClass]="{active: item.value == queries.sort}" (click)="tapSort(item)">{{ item.name }}</a>
                 </ng-container>

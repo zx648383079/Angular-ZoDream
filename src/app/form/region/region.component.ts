@@ -27,7 +27,7 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
         [key: number]: T
     } | T[];
     @Input() public canYes = false;
-    @Input() public placeholder = '请选择';
+    @Input() public placeholder = $localize `Please select...`;
     @Input() public rangeKey = 'id';
     @Input() public rangeLabel = 'name';
     @Input() public rangeChildren = 'children';

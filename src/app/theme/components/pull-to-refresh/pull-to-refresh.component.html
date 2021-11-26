@@ -3,23 +3,23 @@
     <div class="scroll-top" [style]="style">
         <div *ngIf="state == ESTATE.PULL">
             <i class="iconfont icon-arrow-down"></i>
-            下拉刷新
+            <ng-container i18n>Pull to refresh</ng-container>
         </div>
         <div *ngIf="state == ESTATE.PULLED">
             <i class="iconfont icon-arrow-up"></i>
-            松开刷新
+            <ng-container i18n>Release to refresh </ng-container>
         </div>
         <div *ngIf="state == ESTATE.REFRESHING">
             <i class="iconfont icon-refresh"></i>
-            刷新中
+            <ng-container i18n>Refresh...</ng-container>
         </div>
         <div *ngIf="state == ESTATE.REFRESHED">
             <i class="iconfont icon-check"></i>
-            刷新完成
+            <ng-container i18n>Refresh finished</ng-container>
         </div>
         <div *ngIf="state == ESTATE.CANCEL">
             <i class="iconfont icon-arrow-up"></i>
-            停止刷新
+            <ng-container i18n>Stop refresh</ng-container>
         </div>
     </div>
     <div class="scroll-body">
@@ -28,15 +28,15 @@
     <div class="scroll-bottom">
         <div *ngIf="state == ESTATE.MORE">
             <i class="iconfont icon-refresh"></i>
-            加载更多
+            <ng-container i18n>Load More</ng-container>
         </div>
         <div *ngIf="state == ESTATE.LOADING">
             <i class="iconfont icon-check"></i>
-            加载中
+            <ng-container i18n>Loading</ng-container>
         </div>
         <div *ngIf="state == ESTATE.LOADED">
             <i class="iconfont icon-arrow-up"></i>
-            加载完成
+            <ng-container i18n>Loaded</ng-container>
         </div>
     </div>
 </div>

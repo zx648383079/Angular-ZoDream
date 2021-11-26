@@ -74,12 +74,12 @@ export class LoginPanelComponent {
 
     public tapSendCode(event: CountdownEvent) {
         if (!mobileValidate(this.mobile)) {
-            this.toastrService.warning('请输入正确的手机号');
+            this.toastrService.warning($localize `Please input phone number`);
             return;
         }
         this.authService.sendMobileCode(this.mobile).subscribe(res => {
             event.start(120);
-            this.toastrService.success(res.message || '验证码已发送至手机');
+            this.toastrService.success(res.message || $localize `The verification code has been sent to the phone `);
         });
     }
 
@@ -92,14 +92,17 @@ export class LoginPanelComponent {
     }
 
     public tapRefreshQr() {
-        this.authService.qrRefresh().subscribe(res => {
-            this.qrImage = res.qr;
-            this.qrToken = res.token;
-            this.tabIndex = 3;
-            this.qrStatus = 0;
-            this.loopCheckQr();
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.authService.qrRefresh().subscribe({
+            next: res => {
+                this.qrImage = res.qr;
+                this.qrToken = res.token;
+                this.tabIndex = 3;
+                this.qrStatus = 0;
+                this.loopCheckQr();
+            }, 
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -109,11 +112,11 @@ export class LoginPanelComponent {
             code: this.code,
         };
         if (!mobileValidate(data.mobile)) {
-            this.toastrService.warning('请输入正确的手机号');
+            this.toastrService.warning($localize `Please input phone number`);
             return;
         }
         if (data.code.length < 4) {
-            this.toastrService.warning('请输入正确的短信验证码');
+            this.toastrService.warning($localize `Please input the SMS verification code`);
             return;
         }
         this.login(data);
@@ -125,11 +128,11 @@ export class LoginPanelComponent {
             password: this.password,
         };
         if (!mobileValidate(data.mobile)) {
-            this.toastrService.warning('请输入正确的手机号');
+            this.toastrService.warning($localize `Please input phone number`);
             return;
         }
         if (passwordValidate(data.password)) {
-            this.toastrService.warning('请输入正确的密码');
+            this.toastrService.warning($localize `Please input the password`);
             return;
         }
         this.login(data);
@@ -141,11 +144,11 @@ export class LoginPanelComponent {
             password: this.password,
         };
         if (!emailValidate(data.email)) {
-            this.toastrService.warning('请输入正确的邮箱');
+            this.toastrService.warning($localize `Please input your email`);
             return;
         }
         if (passwordValidate(data.password)) {
-            this.toastrService.warning('请输入正确的密码');
+            this.toastrService.warning($localize `Please input the password`);
             return;
         }
         this.login(data);
@@ -168,14 +171,15 @@ export class LoginPanelComponent {
             data.captcha_token = this.captchaToken;
             data.captcha = this.captcha;
         }
-        this.authService.login(data).subscribe(_ => {},
-                (err: IErrorResult) => {
-                    this.toastrService.warning(err.error.message);
-                    if (err.error.captcha_token) {
-                        this.captchaToken = err.error.captcha_token;
-                    }
-                    this.tapCaptcha();
-                });
+        this.authService.login(data).subscribe({
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+                if (err.error.captcha_token) {
+                    this.captchaToken = err.error.captcha_token;
+                }
+                this.tapCaptcha();
+            }
+        });
     }
 
     private loopCheckQr() {
@@ -183,14 +187,14 @@ export class LoginPanelComponent {
             return;
         }
         window.setTimeout(() => {
-            this.authService.qrCheck(this.qrToken).subscribe(
-                _ => {
+            this.authService.qrCheck(this.qrToken).subscribe({
+                next: _ => {
                     this.qrStatus = 3;
                 },
-                (err: IErrorResult) => {
+                error: (err: IErrorResult) => {
                     this.checkHttp(err.error);
                 }
-            );
+            });
         }, 2000);
     }
 

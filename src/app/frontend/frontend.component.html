@@ -12,7 +12,7 @@
                 <ul class="navbar-nav mr-auto">
                     <ng-container *ngFor="let item of menus">
                         <li class="nav-item" [ngClass]="{active: activeUri === item.url}">
-                            <a class="nav-link" [routerLink]="item.url">{{ item.name }}<span class="sr-only" *ngIf="activeUri === item.url">(current)</span></a>
+                            <a class="nav-link" [routerLink]="item.url">{{ item.name }}<span class="sr-only" *ngIf="activeUri === item.url" i18n>(current)</span></a>
                         </li>
                     </ng-container>
                 </ul>
@@ -23,12 +23,12 @@
                         </a>
                     </li>
                     <li class="nav-item" *ngIf="!user">
-                        <a class="nav-link" routerLink="/auth" [queryParams]="{redirect_uri: locationHref}">登录</a>
+                        <a class="nav-link" routerLink="/auth" [queryParams]="{redirect_uri: locationHref}" i18n>Sign in</a>
                     </li>
                     <ng-container *ngIf="user">
                         <li class="nav-item">
                             <app-checkin>
-                                <a class="nav-link">签到</a>
+                                <a class="nav-link" i18n>Check in</a>
                             </app-checkin>
                         </li>
                         <li class="nav-item dropdown" [ngClass]="{show: dropDownVisiable}">
@@ -36,10 +36,10 @@
                                 {{ user.name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisiable}">
-                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/bulletin">私信</a></li>
-                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/profile">账号设置</a></li>
+                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/bulletin" i18n>Message</a></li>
+                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/profile" i18n>Profile</a></li>
                                 <li ngbDropdownItem><hr class="dropdown-divider"></li>
-                                <li ngbDropdownItem><a class="dropdown-item" (click)="tapLogout()">退出</a></li>
+                                <li ngbDropdownItem><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>
                     </ng-container>
@@ -53,7 +53,7 @@
 <footer>
     <div class="container">
         <div class="friend-link">
-            <div>友情链接</div>
+            <div i18n>Friend Link</div>
             <div>
                 <ng-container *ngFor="let item of friendLinks">
                     <a [href]="item.url" target="_blank" rel="noopener"

@@ -80,21 +80,24 @@ export class CommentViewerComponent implements OnChanges {
 
     public tapComment() {
         if (this.editData.content.length < 1) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input content`);
             return;
         }
         if (this.micro < 1) {
-            this.toastrService.warning('操作失败');
+            this.toastrService.warning($localize `operation failed`);
             return;
         }
         const data = Object.assign({micro_id: this.micro}, this.editData);
-        this.service.commentSave(data).subscribe(_ => {
-            this.toastrService.success('评论成功！');
-            this.editData.content = '';
-            this.editData.parent_id = 0;
-        }, err => {
-            const res = err.error as IErrorResponse;
-            this.toastrService.warning(res.message);
+        this.service.commentSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Successful comment`);
+                this.editData.content = '';
+                this.editData.parent_id = 0;
+            }, 
+            error: err => {
+                const res = err.error as IErrorResponse;
+                this.toastrService.warning(res.message);
+            }
         });
     }
 
@@ -143,15 +146,18 @@ export class CommentViewerComponent implements OnChanges {
         this.service.commentList({
             id: this.micro,
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.total = res.paging.total;
+                this.perPage = res.paging.limit;
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 }

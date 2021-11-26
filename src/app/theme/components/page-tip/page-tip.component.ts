@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PageTipComponent {
 
-  @Input() public title = '提示';
+  @Input() public title = $localize `Tip`;
 
   public isMin = false;
 

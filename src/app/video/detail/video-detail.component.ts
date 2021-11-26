@@ -141,7 +141,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private flipVideo(from: number, to: number) {
         this.tapStop();
         if (to < 0) {
-            this.toastrService.warning('无法继续向前了')
+            this.toastrService.warning($localize `Can't move on anymore`)
             return;
         }
         if (this.items.length <= to) {
@@ -224,7 +224,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public tapCommentSubmit() {
         if (!this.commentData.content || this.commentData.content.trim().length < 1) {
-            this.toastrService.warning('请输入评论内容');
+            this.toastrService.warning($localize `Please input the comment`);
             return;
         }
         this.service.commentSave({
@@ -232,7 +232,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             content: this.commentData.content,
             parent_id: this.commentData.content.indexOf('回复 @') === 0 ? this.commentData.parent_id : 0,
         }).subscribe(_ => {
-            this.toastrService.success('评论已提交');
+            this.toastrService.success($localize `Successfully comment`);
             this.commentData.parent_id = 0;
             this.commentData.content = '';
         });

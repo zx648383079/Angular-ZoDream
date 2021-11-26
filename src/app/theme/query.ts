@@ -65,11 +65,11 @@ export function applyHistory(queries: any, scrollTop: boolean): void;
  * @param check 移除一些默认的参数
  * @param scrollTop 是否回到顶部
  */
-export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn = '查询列表', check: HistoryCheckFn = queriesCheckFn, scrollTop = true): void {
+export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn = $localize `Query results`, check: HistoryCheckFn = queriesCheckFn, scrollTop = true): void {
     if (typeof title === 'function') {
-        [check, title] = [title, '查询列表']
+        [check, title] = [title, $localize `Query results`]
     } else if (typeof title === 'boolean') {
-        [scrollTop, title] = [title, '查询列表'];
+        [scrollTop, title] = [title, $localize `Query results`];
     }
     let params: any = {};
     eachObject(queries, (val, key) => {

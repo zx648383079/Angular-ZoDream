@@ -62,7 +62,7 @@ export class EditableTableComponent implements OnChanges {
             if (typeof av === 'number') {
                 return av > bv ? 1 : -1;
             }
-            return (av as string).localeCompare(bv, 'zh');
+            return (av as string).localeCompare(bv, $localize `en`);
         });
     }
 

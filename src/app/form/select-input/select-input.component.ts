@@ -17,7 +17,7 @@ import { cloneObject, hasElementByClass } from '../../theme/utils';
 export class SelectInputComponent<T = any> implements ControlValueAccessor, OnChanges {
 
     @Input() public url: string;
-    @Input() public placeholder = '请选择';
+    @Input() public placeholder = $localize `Please select...`;
     @Input() public rangeKey = 'id';
     @Input() public rangeLabel = 'name';
     @Input() public searchKey = 'keywords';

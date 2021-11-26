@@ -52,7 +52,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('微博客');
+        this.themeService.setTitle($localize `Micro Blog`);
         this.store.select(getCurrentUser).subscribe(user => {
             this.authUser = user;
         });
@@ -149,20 +149,26 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     public tapCollect(item: IMicro) {
-        this.service.collect(item.id).subscribe(res => {
-            item.is_collected = res.is_collected;
-            item.collect_count = res.collect_count;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.collect(item.id).subscribe({
+            next: res => {
+                item.is_collected = res.is_collected;
+                item.collect_count = res.collect_count;
+            }, 
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
     public tapRecommend(item: IMicro) {
-        this.service.recommend(item.id).subscribe(res => {
-            item.is_recommended = res.is_recommended;
-            item.recommend_count = res.recommend_count;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.recommend(item.id).subscribe({
+            next: res => {
+                item.is_recommended = res.is_recommended;
+                item.recommend_count = res.recommend_count;
+            }, 
+            error: (err: IErrorResult) => {
+                this.toastrService.warning(err.error.message);
+            }
         });
     }
 
@@ -175,7 +181,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         };
         modal.open(() => {
             this.service.forward(this.editData).subscribe(res => {
-                this.toastrService.success('已转发');
+                this.toastrService.success($localize `Forwarded`);
             });
         }, () => !emptyValidate(this.editData.content));
     }
@@ -185,19 +191,21 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     public tapRemove(item: IMicro) {
-        if (!confirm('确定要删除这条微博?')) {
-            return;
-        }
-        this.service.remove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm($localize `Are you sure you want to delete this Weibo? `, () => {
+            this.service.remove(item.id).subscribe({
+                next: res => {
+                    if (!res.data) {
+                        return;
+                    }
+                    this.toastrService.success($localize `successfully deleted! `);
+                    this.items = this.items.filter(it => {
+                        return it.id !== item.id;
+                    });
+                }, 
+                error: err => {
+                    this.toastrService.warning(err);
+                }
             });
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
         });
     }
 

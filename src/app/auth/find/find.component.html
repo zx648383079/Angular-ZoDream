@@ -1,21 +1,21 @@
 <form class="form-ico login-form" [formGroup]="findForm" (ngSubmit)="tapSubmit()">
     <div class="input-group">
-        <input type="email" formControlName="email" placeholder="请输入邮箱" >
+        <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
     <ng-container *ngIf="sended">
         <div class="input-group">
-            <input type="text" formControlName="code" placeholder="请输入安全代码" >
+            <input type="text" formControlName="code" i18n-placeholder placeholder="Please input the security code" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
         </div>
         <div class="input-group">
-            <input [type]="isObserve ? 'text' : 'password'" placeholder="请输入密码" formControlName="password" required>
+            <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please input the password" formControlName="password" required>
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
                 (click)="isObserve = !isObserve"></i>
         </div>
         <div class="input-group">
-            <input [type]="isObserve ? 'text' : 'password'" placeholder="请确认密码" formControlName="confirm_password"
+            <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please confirm your password" formControlName="confirm_password"
                 required>
             <i class="iconfont icon-check" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
@@ -26,6 +26,6 @@
 
     <button type="submit" class="btn btn-full" [disabled]="findForm.invalid">{{ btnLabel }}</button>
     <div class="other-box">
-        <a routerLink="../">返回登录</a>
+        <a routerLink="../" i18n>Back</a>
     </div>
 </form>

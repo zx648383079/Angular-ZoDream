@@ -1,6 +1,6 @@
 <div class="container-fluid main-box" [ngClass]="{'fixed-top': isFixed}">
     <form class="search-box" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" name="keywords" placeholder="请输入搜索内容" [ngModel]="queries.keywords">
+        <input type="text" name="keywords" i18n-placeholder placeholder="Please enter a keyword" [ngModel]="queries.keywords">
         <button type="submit"><i class="iconfont icon-search"></i></button>
     </form>
     

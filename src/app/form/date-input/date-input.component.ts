@@ -14,7 +14,7 @@ import { formatDate } from '../../theme/utils';
 })
 export class DateInputComponent {
 
-    @Input() public placeholder = '请选择日期';
+    @Input() public placeholder = $localize `Please select a date`;
     @Input() public format = 'yyyy-mm-dd';
     @Input() min: Date = new Date('2000/01/01 00:00:00');
     @Input() max: Date = new Date('2090/12/31 23:59:59');

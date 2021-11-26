@@ -52,15 +52,15 @@ export class CheckinComponent {
 
     public formatDayTitle(item: IDay): string {
         if (!item.active) {
-            return '未签到';
+            return $localize `Not checked in`;
         }
         if (!item.log) {
-            return '已签到';
+            return $localize `Checked in`;
         }
         if (item.log.running < 2) {
-            return '已签到';
+            return $localize `Checked in`;
         }
-        return '已连续签到' + item.log.running  + '天';
+        return $localize `Checked in for ${item.log.running} consecutive days`;
     }
 
     private load() {
@@ -91,7 +91,7 @@ export class CheckinComponent {
         date.setDate(1);
         const now = new Date();
         this.monthDate = date;
-        this.month = now.getFullYear() === date.getFullYear() ? (date.getMonth() + 1).toString() : [date.getFullYear(), '年', twoPad(date.getMonth() + 1)].join('');
+        this.month = now.getFullYear() === date.getFullYear() ? (date.getMonth() + 1).toString() : [date.getFullYear(), '-', twoPad(date.getMonth() + 1)].join('');
         now.setDate(1);
         now.setHours(0, 0, 0);
         this.canNext = date.getTime() < now.getTime();
@@ -176,7 +176,7 @@ export class CheckinComponent {
                 if (res.data) {
                     this.data = res.data;
                     this.checkDay(new Date(res.data.created_at).getDate());
-                    this.toastrService.success('签到成功');
+                    this.toastrService.success($localize `Check in successfully `);
                 }
             },
             error: err => {

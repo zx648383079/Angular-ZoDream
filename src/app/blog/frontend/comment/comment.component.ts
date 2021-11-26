@@ -79,7 +79,7 @@ export class CommentComponent implements OnChanges {
     
     public tapComment(e?: ButtonEvent) {
         if (emptyValidate(this.commentData.content)) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Please input content`);
             return;
         }
         const data = Object.assign({blog_id: this.itemId}, this.commentData);
@@ -87,7 +87,7 @@ export class CommentComponent implements OnChanges {
         this.service.commentSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('评论成功！');
+                this.toastrService.success($localize `Comment successful`);
                 this.commentData.content = '';
                 this.commentData.parent_id = 0;
             }, 

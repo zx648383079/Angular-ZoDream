@@ -11,7 +11,7 @@ import { FileUploadService } from '../../theme/services';
 export class FileOnlineComponent implements OnChanges {
     @Input() public accept = 'image/*';
     @Input() public multiple = false;
-    @Input() public title = '选择在线文件';
+    @Input() public title = $localize `Select online file`;
     @Input() public height = 400;
     /**
      * 是否显示

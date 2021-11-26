@@ -20,8 +20,15 @@
             "sourceRoot": "src",
             "prefix": "app",
             "i18n": {
-                "sourceLocale": "en-US",
+                "sourceLocale": {
+                    "code": "en",
+                    "baseHref": "/en/"
+                },
                 "locales": {
+                    "zh": {
+                        "translation": "src/locale/messages.zh.xlf",
+                        "baseHref": ""
+                    }
                 }
             },
             "architect": {
@@ -29,6 +36,7 @@
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "localize": true,
+                       
                         "outputPath": "dist/angular-zodream",
                         "index": "src/index.html",
                         "main": "src/main.ts",
@@ -85,7 +93,8 @@
                             "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
-                            "namedChunks": true
+                            "namedChunks": true,
+                            "localize": false
                         }
                     },
                     "defaultConfiguration": "production"

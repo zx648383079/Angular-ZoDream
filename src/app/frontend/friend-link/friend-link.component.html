@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <div class="friend-box">
                 <div class="friend-link">
-                    <div class="link-header">友情链接</div>
+                    <div class="link-header" i18n>Friend link</div>
                     <div>
                         <ng-container *ngFor="let item of friendLinks">
                             <a [href]="item.url" target="_blank" rel="noopener" [title]="item.description || item.name">{{ item.name }}</a>
@@ -14,45 +14,52 @@
         </div>
         <div class="col-md-4">
             <div class="panel link-box">
-                <div class="panel-header">
-                    友链信息
+                <div class="panel-header" i18n>
+                    Site Information
                 </div>
                 <div class="panel-body">
                     <p>
-                        名称：zodream
+                        <ng-container i18n>Name:</ng-container>
+                        zodream
                     </p>
                     <p>
-                        地址：https://zodream.cn
+                        <ng-container i18n>Link:</ng-container>https://zodream.cn
                     </p>
-                    <p>
-                        描述：zodream开发博客
+                    <p >
+                        <ng-container i18n>Description:</ng-container>
+                        <ng-container i18n>zodream's Blog</ng-container>
+                        
                     </p>
                 </div>
             </div>
             <div class="friend-apply">
-                <p>申请前请收录本站，接受新站，拒绝一切非法网站。</p>
-                <a href="javascript:;" class="btn btn-primary" (click)="openApply(modal)">申请互换友链</a>
+                <p i18n>Before applying, please include this site, accept the new site, and reject all illegal sites. </p>
+                <a href="javascript:;" class="btn btn-primary" (click)="openApply(modal)" i18n>Apply Excharge Link</a>
             </div>
         </div>
     </div>
 </div>
 
 
-<app-dialog-box #modal title="申请互换友链" confirmText="申请">
+<app-dialog-box #modal i18n-title title="Apply Excharge Link" i18n-confirmText confirmText="Apply">
     <div class="form-group">
-        <label for="name">*站点名:</label>
-        <input type="text" [(ngModel)]="editData.name" class="form-control" id="name" placeholder="显示的网站名称" >
+        <label for="name">*
+            <ng-container i18n>Site Name:</ng-container>
+        </label>
+        <input type="text" [(ngModel)]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
     </div>
     <div class="form-group">
-        <label for="url">*网址:</label>
-        <input type="text" [(ngModel)]="editData.url" class="form-control" id="url" placeholder="跳转的网站链接：例如:https://zodream.cn" >
+        <label for="url">*
+            <ng-container i18n>Site Link:</ng-container>
+        </label>
+        <input type="text" [(ngModel)]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
     </div>
     <div class="form-group">
-        <label for="url">简介:</label>
-        <input type="text" [(ngModel)]="editData.brief" class="form-control" id="brief" placeholder="网站简介">
+        <label for="url" i18n>Site Description:</label>
+        <input type="text" [(ngModel)]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description">
     </div>
     <div class="form-group">
-        <label for="email">邮箱:</label>
-        <input type="email" [(ngModel)]="editData.email" class="form-control" id="email" placeholder="将发送结果到你的邮箱">
+        <label for="email" i18n>Email:</label>
+        <input type="email" [(ngModel)]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
     </div>
 </app-dialog-box>

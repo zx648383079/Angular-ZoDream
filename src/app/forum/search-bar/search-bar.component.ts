@@ -12,7 +12,9 @@ export class SearchBarComponent {
     @Output() public confirm = new EventEmitter<any>();
 
     public typeItems = [
-        '全部', '本版', '用户'
+        $localize `All`,
+        $localize `Current`,
+        $localize `Users`,
     ];
 
     constructor() { }

@@ -76,7 +76,7 @@ export class EditorContainer implements IEditorContainer {
             if (typeof move === 'string') {
                 return val + v + move;
             }
-            return val.substr(0, move) + v + val.substr(move);
+            return val.substring(0, move) + v + val.substring(move);
         });
     }
 
@@ -120,7 +120,7 @@ export class EditorContainer implements IEditorContainer {
             if (move > val.length) {
                 return val + str;
             }
-            return val.substr(0, move) + str + val.substr(move);
+            return val.substring(0, move) + str + val.substring(move);
         }, move, focus);
     }
 

@@ -109,23 +109,25 @@ export class DetailComponent implements OnInit {
         };
         modal.open(() => {
             this.service.forward(this.editData).subscribe(res => {
-                this.toastrService.success('已转发');
+                this.toastrService.success($localize `Forwarded`);
             });
         }, () => !emptyValidate(this.editData.content));
     }
 
     public tapRemove(item: IMicro) {
-        if (!confirm('确定要删除这条微博?')) {
-            return;
-        }
-        this.service.remove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.router.navigate(['../']);
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.toastrService.confirm($localize `Are you sure you want to delete this Weibo? `, () => {
+            this.service.remove(item.id).subscribe({
+                next: res => {
+                    if (!res.data) {
+                        return;
+                    }
+                    this.toastrService.success($localize `successfully deleted! `);
+                    this.router.navigate(['../']);
+                }, 
+                error: (err: IErrorResult) => {
+                    this.toastrService.warning(err.error.message);
+                }
+            });
         });
     }
 

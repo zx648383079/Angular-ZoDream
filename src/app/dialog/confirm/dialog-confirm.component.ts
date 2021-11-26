@@ -27,11 +27,11 @@ export class DialogConfirmComponent {
         private service: DialogService,
     ) {
         const option = data.data;
-        this.title = option.title || '提示';
+        this.title = option.title || $localize `Tip`;
         this.content = option.content || '';
         this.icon = option.icon || '';
-        this.confirmText = option.confirmText || '确定';
-        this.cancelText = option.cancelText || '取消';
+        this.confirmText = option.confirmText || $localize `Ok`;
+        this.cancelText = option.cancelText || $localize `Cancel`;
     }
 
     public close(result?: boolean) {

@@ -27,18 +27,19 @@
                     <app-video-player [src]="data.video_url"></app-video-player>
                 </ng-container>
                 <div [innerHTML]="content"></div>
-                <p class="book-copyright" *ngIf="data.url">转载请保留原文链接：
+                <p class="book-copyright" *ngIf="data.url">
+                    <ng-container i18n>Please keep the original link for reprinting:</ng-container>
                     <a [href]="data.url" [title]="data.title">{{ data.url }}</a>
                 </p>
             </article>
             <div class="book-bottom">
                 <div class="book-source" *ngIf="data.type == 1">
-                    <span>转载于：</span>
+                    <span i18n>Reprinted in:</span>
                     <a [href]="data.source_url" target="_blank" title="本文为转载内容，点击查看原网页">
                         {{data.source_url}} </a>
                 </div>
                 <div class="book-tags" *ngIf="data.tags">
-                    <span>标签：</span>
+                    <span i18n>Tags:</span>
                     <ng-container *ngFor="let tag of data.tags">
                         <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>，
                     </ng-container>
@@ -56,13 +57,13 @@
             <a class="prev" *ngIf="data.previous" (click)="loadBlog(data.previous.id)">
                 <i class="iconfont icon-chevron-left"></i>
                 <div class="prev-text">
-                    <span class="prev-label">上一篇</span>
+                    <span class="prev-label" i18n>Previous</span>
                     <span class="prev-title">{{ data.previous.title }}</span>
                 </div>
             </a>
             <a class="next" *ngIf="data.next" (click)="loadBlog(data.next.id)">
                 <div class="next-text">
-                    <span class="next-label">上一篇</span>
+                    <span class="next-label" i18n>Next</span>
                     <span class="next-title">{{ data.next.title }}</span>
                 </div>
                 <i class="iconfont icon-chevron-right"></i>
@@ -70,7 +71,7 @@
         </div>
         <div class="panel" *ngIf="relationItems && relationItems.length > 0">
             <div class="panel-header">
-                <a routerLink="../">相关文章</a>
+                <a routerLink="../" i18n>Related Articles</a>
             </div>
             <div class="panel-body">
                 <ng-container *ngFor="let blog of relationItems">

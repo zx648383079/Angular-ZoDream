@@ -33,8 +33,8 @@ export class DialogBoxComponent implements DialogEvent {
      * 底部按钮是否显示
      */
     @Input() public buttonVisible = true;
-    @Input() public confirmText = '确定';
-    @Input() public cancelText = '取消';
+    @Input() public confirmText = $localize `Ok`;
+    @Input() public cancelText =  $localize `Cancel`;
     /**
      * 内容框是否滚动，false 设置的高度将无效
      */

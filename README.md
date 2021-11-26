@@ -1,88 +1,91 @@
 # Angular-ZoDream
-使用Angular实现界面
 
-强制更新安装依赖
+Use Angular to implement the interface 
+
+[中文](README.zh.md)
+
+Mandatory update installation dependencies 
 ```
 npm i --legacy-peer-deps
 ```
 
-## 模块列表
+## Module list
 
-|前台状态|后台状态|模块名|特色功能|
+|Frontend|Backend|Name|Feature|
 |:--:|:--:|:--:|:--:|
-|√|√|登录||
-|√|√|博客||
-|√|√|小说|支持书单、支持人物关系图|
+|√|√|Auth||
+|√|√|Blog||
+|√|√|Book|Include list|
 |-|-|catering||
-|√|-|聊天||
-|√|√|签到||
+|√|-|Chat room||
+|√|√|Check in||
 |-|√|CMS||
-|√|-|网盘||
-|√|√|文档|支持API调试|
-|o|√|题库||
-|√|-|个人记账||
-|√|√|圈子||
-|√|√|跑腿||
-|√|√|微博客||
-|√|√|在线客服||
-|√|√|商城||
-|√|-|任务||
-|√|√|短视频||
-|√|√|搜索导航||
-|-|o|在线模板编辑||
-|o|o|公众号管理||
-|-|√|数据库管理|支持数据复制迁移|
+|√|-|Online Disk||
+|√|√|Document|suport debug API|
+|o|√|Exam||
+|√|-|Finance||
+|√|√|Forum||
+|√|√|Legwork||
+|√|√|Micro Blog||
+|√|√|Online Service||
+|√|√|Shop||
+|√|-|Task||
+|√|√|Short Video||
+|√|√|Search||
+|-|o|Online Template Editor||
+|o|o|WeChat ||
+|-|√|Database Manage|suport copy table|
 
-    - 表示未开始或未做
-    o 表示做了一部分，未完成
-    √ 便是已完成，或完成大部分功能
+    - Means not started or not done 
+    o Indicates that a part has been done but not completed 
+    √ Is completed, or most of the functions are completed 
 
-## 组件
+## Component
 
-√ 弹窗组件
+√ [Dialog](src/app/dialog)
 
-√ 表单组件：自动完成、单复选框、颜色选择、倒计时按钮、日期选择、文件上传、密码验证、地区选择、下拉选择、评价、开关、时间选择
+√ Form Input：[autocomplete](src/app/form/autocomplete), [action button](src/app/form/action-button) etc
 
-√ 签到组件
+√ [Check in](src/app/checkin)
 
-√ 关系编辑组件
+√ [Mind editor](src/app/mind)
 
-√ Markdown编辑器组件
+√ [Markdown editor](src/app/editor/markdown-editor)
 
-√ 日期选择组件
+√ [datepicker](src/app/datepicker)
 
-√ 右键菜单组件
+√ [context menu](src/app/context-menu)
 
-√ 富文本显示组件
+√ [editor](src/app/editor)
 
-√ 音视频播放组件
+√ [media player](src/app/media-player)
 
-√ 消息对话框组件
+√ [toast](src/app/dialog)
 
-√ emoji选择组件
+√ [emoji picker](src/app/theme/components/emoji-picker)
 
-√ 分页组件
+√ [pagination](src/app/theme/components/pagination)
 
-√ 自定义分页表格组件
+√ [editable table](src/app/theme/components/editable-table)
 
-√ 下拉刷新触底加载更多组件
+√ [pull to refresh](src/app/theme/components/pull-to-refresh)
 
-√ 圆形进度条组件
+√ circle progress
 
-√ 刮刮乐组件
+√ Gua gua le
 
-√ 九宫格抽奖组件
+√ turntable
 
-√ 转盘抽奖组件
+√ lattice
 
 
-## 预览图
+## Preview
 
 👉【[DEMO](https://job.zodream.cn/)】
 
-1. 博客样式
+1. Blog Preview
 
-参考样式 [https://zodream.cn/](https://zodream.cn/)
+Like [https://zodream.cn/](https://zodream.cn/)
 
 ![](screen/blog.png)
 
@@ -90,41 +93,28 @@ npm i --legacy-peer-deps
 
 ![](screen/detail.png)
 
-2. 网盘样式
+2. Disk Preview
 
 ![](screen/nav.gif)
 
-2. 聊天室样式
+2. Chat Room Preview
 
 ![](screen/chat.gif)
 
-## 当前状态
+## Process
 
-页面制作中，已进行服务端数据对接
+Continue to improve 
 
+## Command
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+```shell
+# Installation dependencies 
+npm i
+# Start local preview 
+ng serve
+# Generate official code 
+npm run prod
+# Extract files to be translated 
+npm run i18n
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
