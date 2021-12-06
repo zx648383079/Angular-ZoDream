@@ -8,6 +8,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { CheckinModule } from '../checkin/checkin.module';
 import { DialogModule } from '../dialog';
 import { ZreFormModule } from '../form';
+import { AuthSharedModule } from '../auth/auth-shared.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ZreFormModule } from '../form';
         OnlineServiceModule,
         DialogModule,
         ZreFormModule,
+        AuthSharedModule,
     ],
     providers: [
         FrontendService

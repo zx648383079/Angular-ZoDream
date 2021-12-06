@@ -32,51 +32,6 @@ li {
         text-decoration: none;
         color: #333;
     }
-    .bar-item {
-        list-style: none;
-        line-height: 2.5rem;
-        text-align: center;
-        font-size: 1rem;
-        a {
-            display: block;
-            box-sizing: border-box;
-            position: relative;
-        }
-        .iconfont {
-            position: absolute;
-            left: 0.625rem;
-            top: 0;
-            font-size: 1.875rem;
-            display: block;
-        }
-        .bar-icon {
-            display: none;
-            font-size: 1rem;
-        }
-        &:hover {
-            >a {
-                background-color: #ccc;
-            }
-        }
-        &.active {
-            >a {
-                &::before {
-                    content: " ";
-                    display: block;
-                    position: absolute;
-                    left: 0;
-                    width: 0.3125rem;
-                    height: 2.5rem;
-                    background-color: red;
-                }
-            }
-        }
-        &.open {
-            >.bar-children {
-                display: block;
-            }
-        }
-    }
     .search-input {
         position: relative;
         background-color: #fff;
@@ -94,10 +49,6 @@ li {
             outline: none;
             height: 2.5rem;
         }
-    }
-    .bar-children {
-        box-shadow: inset 0 5px 5px -5px #000, inset 0 -5px 5px -5px #000;
-        display: none;
     }
 }
 
@@ -117,14 +68,14 @@ li {
 .nav-min {
     .nav-bar {
         width: 3.125rem;
-        .bar-name {
+        .menu-name {
             display: none;
         }
-        .bar-item {
+        .menu-item {
             .iconfont {
                 position: static;
             }
-            .bar-icon {
+            .menu-icon {
                 display: inline-block;
             }
         }
@@ -203,7 +154,7 @@ li {
         a {
             color: #eee;
         }
-        .bar-item {
+        .menu-item {
             &:hover {
                 >a {
                     background-color: #3b3b3b;

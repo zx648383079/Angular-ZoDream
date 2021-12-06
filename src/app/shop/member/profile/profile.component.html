@@ -3,56 +3,102 @@
         <div>
             <app-user-menu currentUrl="member/profile"></app-user-menu>
         </div>
-        <div class="panel history-panel">
-            <div class="panel-header">
-                <span>帐号信息</span>
+        <div>
+            <div class="header-tab">
+                <a class="active">
+                    基本
+                </a>
+                <a>
+                    隐私
+                </a>
             </div>
-            <div class="panel-body" *ngIf="user">
-                <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
-                    <div class="input-group">
-                        <label for="fileUpload">用户头像</label>
-                        <div class="avatar-input">
-                            <img [src]="user.avatar">
-                            <label class="iconfont icon-camera" for="fileUpload"></label>
-                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+            <div class="row" *ngIf="user">
+                <div class="col-md-4">
+                    <h2>基本</h2>
+                    <p>个人资料编辑</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel-container">
+                        <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+                            <div class="input-group">
+                                <label for="fileUpload">用户头像</label>
+                                <div class="avatar-input">
+                                    <img [src]="user.avatar">
+                                    <label class="iconfont icon-camera" for="fileUpload"></label>
+                                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="name">昵　　称</label>
+                                <div>
+                                    <input type="text" id="name" class="form-control " formControlName="name">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="email">邮　　箱</label>
+                                <div>
+                                    <input type="email" id="email" class="form-control" formControlName="email" 
+                                        placeholder="请输入 邮箱">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="性　　别">性　　别</label>
+                                <div>
+                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex"></app-check-input>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="mobile">手机号码</label>
+                                <div>
+                                    <input type="text" id="mobile" class="form-control " formControlName="mobile">
+            
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="birthday">出生日期</label>
+                                <div>
+                                    <app-date-input formControlName="birthday"></app-date-input>
+                                </div>
+                            </div>
+                            <div class="offset-md-3">
+                                <button class="btn btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>隐私</h2>
+                    <p>个人隐私设置</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel-container">
+                        <div class="input-item">
+                            <div class="item-icon">
+                                <i class="iconfont icon-bookmark"></i>
+                            </div>
+                            <div class="item-body">
+                                <div class="item-name">新消息通知</div>
+                                <div class="item-meta">是否接收新的消息通知，包括关注、评论、@等</div>
+                            </div>
+                            <div class="item-action">
+                                <app-switch></app-switch>
+                            </div>
+                        </div>
+                        <div class="input-item">
+                            <div class="item-icon">
+                                <i class="iconfont icon-wifi"></i>
+                            </div>
+                            <div class="item-body">
+                                <div class="item-name">勿扰模式</div>
+                            </div>
+                            <div class="item-action">
+                                <app-switch></app-switch>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label for="name">昵　　称</label>
-                        <div>
-                            <input type="text" id="name" class="form-control " formControlName="name">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="email">邮　　箱</label>
-                        <div>
-                            <input type="email" id="email" class="form-control" formControlName="email" 
-                                placeholder="请输入 邮箱">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="性　　别">性　　别</label>
-                        <div>
-                            <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex"></app-check-input>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="mobile">手机号码</label>
-                        <div>
-                            <input type="text" id="mobile" class="form-control " formControlName="mobile">
-    
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="birthday">出生日期</label>
-                        <div>
-                            <app-date-input formControlName="birthday"></app-date-input>
-                        </div>
-                    </div>
-                    <div class="offset-md-3">
-                        <button class="btn btn-primary">保存</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

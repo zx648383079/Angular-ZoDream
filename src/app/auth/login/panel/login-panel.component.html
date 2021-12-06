@@ -7,20 +7,20 @@
         <a class="mobile-toggle" (click)="tapTab(1)" i18n>Login with password</a>
         <div class="icon-input">
             <i class="iconfont icon-mobile" aria-hidden="true"></i>
-            <input type="text" [(ngModel)]="mobile" i18n-placeholder placeholder="Please input phone number">
+            <input type="text" name="mobile" [(ngModel)]="mobile" i18n-placeholder placeholder="Please input phone number">
             <i class="iconfont icon-close-circle" *ngIf="mobile.length > 0" (click)="tapClearMobile()"></i>
         </div>
         <div class="code-input">
-            <input type="text" [(ngModel)]="code" i18n-placeholder placeholder="Please input the SMS verification code">
+            <input type="text" [(ngModel)]="code" i18n-placeholder placeholder="SMS verification code">
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div>
         <div class="captcha-input" *ngIf="captchaImage">
-            <input type="text" [(ngModel)]="captcha" i18n-placeholder placeholder="Please input the captcha">
+            <input type="text" [(ngModel)]="captcha" i18n-placeholder placeholder="Captcha">
             <a (click)="tapCaptcha()" class="img-btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <button type="button" class="btn btn-primary" (click)="tapMobileCodeLogin()" i18n>Sign in</button>
+        <app-action-button class="btn btn-primary" (tapped)="tapMobileCodeLogin($event)" i18n>Sign in</app-action-button>
         <div class="agree-bar">
             <i class="iconfont" [ngClass]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
             <ng-container i18n>I agree to</ng-container>
@@ -31,12 +31,12 @@
         <a class="mobile-toggle" (click)="tapTab(0)" i18n>Back</a>
         <div class="icon-input">
             <i class="iconfont icon-mobile" aria-hidden="true"></i>
-            <input type="text" [(ngModel)]="mobile" i18n-placeholder placeholder="Please input phone number">
+            <input type="text" name="mobile" [(ngModel)]="mobile" i18n-placeholder placeholder="Please input phone number">
             <i class="iconfont icon-close-circle" *ngIf="mobile.length > 0" (click)="tapClearMobile()"></i>
         </div>
         <div class="icon-input">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <input [type]="passwordObserve ? 'text' : 'password'" [(ngModel)]="password" i18n-placeholder placeholder="Please input the password">
+            <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [(ngModel)]="password" i18n-placeholder placeholder="Please input the password">
             <i class="iconfont" *ngIf="password.length > 0" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
         </div>
         <div class="captcha-input" *ngIf="captchaImage">
@@ -45,17 +45,17 @@
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <button type="button" class="btn btn-primary" (click)="tapMobileLogin()" i18n>Sign in</button>
+        <app-action-button class="btn btn-primary" (tapped)="tapMobileLogin($event)" i18n>Sign in</app-action-button>
     </div>
     <div class="email-body" [hidden]="tabIndex != 2">
         <div class="icon-input">
             <i class="iconfont icon-user" aria-hidden="true"></i>
-            <input type="text" [(ngModel)]="email" i18n-placeholder placeholder="Please input Username">
+            <input type="text" name="email" [(ngModel)]="email" i18n-placeholder placeholder="Please input Username">
             <i class="iconfont icon-close-circle" *ngIf="email.length > 0" (click)="tapClearEmail()"></i>
         </div>
         <div class="icon-input">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <input [type]="passwordObserve ? 'text' : 'password'" [(ngModel)]="password" i18n-placeholder placeholder="Please input the password">
+            <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [(ngModel)]="password" i18n-placeholder placeholder="Please input the password">
             <i class="iconfont" *ngIf="password.length > 0" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
         </div>
         <div class="captcha-input" *ngIf="captchaImage">
@@ -64,7 +64,7 @@
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <button type="button" class="btn btn-primary" (click)="tapEmailLogin()" i18n>Sign in</button>
+        <app-action-button class="btn btn-primary" (tapped)="tapEmailLogin($event)" i18n>Sign in</app-action-button>
     </div>
     <div class="qr-body" *ngIf="tabIndex == 3">
         <div class="qr-img">

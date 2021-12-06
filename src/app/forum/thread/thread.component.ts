@@ -29,7 +29,7 @@ import { DialogEvent, DialogService } from '../../dialog';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
-import { DownloadService } from '../../theme/services';
+import { DownloadService, SearchService } from '../../theme/services';
 import { openLink } from '../../theme/deeplink';
 import { eachObject, mapFormat } from '../../theme/utils';
 import { emailValidate } from '../../theme/validators';
@@ -81,6 +81,7 @@ export class ThreadComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private downloadService: DownloadService,
+        private searchService: SearchService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -334,6 +335,10 @@ export class ThreadComponent implements OnInit {
             }, 
             error: (err: IErrorResult) => {
                 e?.reset();
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin();
+                    return;
+                }
                 this.toastrService.warning(err.error.message);
             }
         });

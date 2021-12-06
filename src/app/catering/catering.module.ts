@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
 import { ContextMenuModule } from '../context-menu';
 import { ZreFormModule } from '../form';
+import { AuthSharedModule } from '../auth/auth-shared.module';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { ZreFormModule } from '../form';
         AuthModule,
         ContextMenuModule,
         ZreFormModule,
+        AuthSharedModule,
     ],
     declarations: [...cateringRoutingComponents]
 })

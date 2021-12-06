@@ -4,8 +4,8 @@
             <a routerLink="/" class="iconfont icon-home"></a>
         </li>
         <li class="breadcrumb-item">
-            <a routerLink="../">
-                题库
+            <a routerLink="../" i18n>
+                Home
             </a>
         </li>
         <li class="breadcrumb-item active" *ngIf="data">
@@ -41,24 +41,27 @@
         <div class="menu-box">
             <a [routerLink]="['../course', data.id]">
                 <i class="iconfont icon-sort-alpha-asc"></i>
-                顺序练习</a>
+                <ng-container i18n>Sequential practice</ng-container>
+            </a>
             <a [routerLink]="['../pager', data.id, 1]">
                 <i class="iconfont icon-random"></i>
-                随机练习
+                <ng-container i18n>Random practice</ng-container>
             </a>
             <a [routerLink]="['../pager', data.id, 2]">
                 <i class="iconfont icon-question-circle"></i>
-                难题练习</a>
+                <ng-container i18n>Puzzle exercise</ng-container>
+            </a>
             <a [routerLink]="['../pager', data.id, 3]">
                 <i class="iconfont icon-file-text-o"></i>
-                全真模拟</a>
+                <ng-container i18n>Mock real</ng-container>
+            </a>
             <a routerLink="../search" [queryParams]="{course: data.id}">
-                    <i class="iconfont icon-search"></i>
-                模拟试卷
+                <i class="iconfont icon-search"></i>
+                <ng-container i18n>Mock test</ng-container>
             </a>
             <a [routerLink]="['../publish', data.id]">
                 <i class="iconfont icon-plus"></i>
-                创建题目
+                <ng-container i18n>Create Page</ng-container>
             </a>
         </div>
   </div>

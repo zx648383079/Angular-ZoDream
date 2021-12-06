@@ -1,6 +1,8 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { DialogService } from '../dialog';
 import { ButtonEvent } from '../form';
+import { IErrorResponse, IErrorResult } from '../theme/models/page';
+import { SearchService } from '../theme/services';
 import { hasElementByClass, twoPad } from '../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
@@ -38,6 +40,7 @@ export class CheckinComponent {
         private service: CheckinService,
         private elementRef: ElementRef<HTMLDivElement>,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     get panelStyle() {
@@ -75,9 +78,16 @@ export class CheckinComponent {
             month: {
                 month: [now.getFullYear(), now.getMonth() + 1].join('-')
             }
-        }).subscribe(res => {
-            this.data = res.today;
-            this.checkDay(...res.month);
+        }).subscribe({
+            next: res => {
+                this.data = res.today;
+                this.checkDay(...res.month);
+            },
+            error: (err: IErrorResult) => {
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin(false);
+                }
+            }
         })
         
     }
@@ -182,6 +192,9 @@ export class CheckinComponent {
             error: err => {
                 e?.reset();
                 this.toastrService.error(err);
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin(false);
+                }
             }
         });
     }

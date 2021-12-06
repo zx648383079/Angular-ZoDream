@@ -9,6 +9,7 @@ import { IUploadResult } from '../../theme/models/open';
 import { emptyValidate } from '../../theme/validators';
 import { DialogBoxComponent } from '../../dialog';
 import { ButtonEvent } from '../../form';
+import { SearchService } from '../../theme/services';
 
 @Component({
   selector: 'app-publish-form',
@@ -41,6 +42,7 @@ export class PublishFormComponent {
         private service: MicroService,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
+        private searchService: SearchService,
     ) { }
 
     public onTopicChange() {
@@ -94,6 +96,10 @@ export class PublishFormComponent {
             }, error: err => {
                 e?.reset();
                 const res = err.error as IErrorResponse;
+                if (res.code === 401) {
+                    this.searchService.emitLogin();
+                    return;
+                }
                 this.toastrService.warning(res.message);
             }
         });

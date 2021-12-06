@@ -1,0 +1,79 @@
+<div class="flex-2">
+    <div class="flex-menu">
+        <app-merchant-menu currentUrl="staff"></app-merchant-menu>
+    </div>
+    <div class="flex-body">
+        <div class="panel-container">
+            <div class="page-search-bar">
+                <form class="form-horizontal">
+                    <div class="input-group">
+                        <label for="keywords">标题</label>
+                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题">
+                    </div>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+
+                    <div class="btn-group pull-right">
+                        <div class="btn btn-info">
+                            <i class="iconfont icon-plus"></i>
+                        </div>
+                        <div class="btn btn-success">
+                            <i class="iconfont icon-download"></i>
+                        </div>
+                        <div class="btn btn-danger">
+                            <i class="iconfont icon-upload"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="offset-md-3 col-md-9">
+                    <div class="head-row">
+                        <div class="td">
+                            货品
+                        </div>
+                        <div class="td-2">
+                            库存
+                        </div>
+                        <div class="td-2">
+                            操作
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="nav-menu">
+                        <h2>分组</h2>
+                        <ul>
+                            <li class="menu-item active">
+                                <a >分类</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="person-item">
+                        <div class="item-avatar">
+                            <img [src]="'assets/images/avatar/18.png' | asset" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="item-name">姓名</div>
+                            <div class="item-meta">备注</div>
+                        </div>
+                    </div>
+                    <div class="person-item">
+                        <div class="item-avatar">
+                            <img [src]="'assets/images/avatar/18.png' | asset" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="item-name">姓名</div>
+                            <div class="item-meta">备注</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

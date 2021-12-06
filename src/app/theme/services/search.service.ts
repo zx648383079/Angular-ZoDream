@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,6 +20,7 @@ export class SearchService {
      * 根据文字设置搜索建议
      */
     static EVENT_CHANGE_SUGGEST = 'suggest';
+    static EVENT_LOGIN = 'login';
 
     private eventPair: {
         [trigger: string]: string;
@@ -31,6 +33,7 @@ export class SearchService {
     } = {};
 
     constructor(
+        private router: Router
     ) {
     }
 
@@ -38,6 +41,7 @@ export class SearchService {
     public on(event: 'confirm', cb: (keywords: any) => void|false): this;
     public on(event: 'suggest', cb: (items: any[]) => void): this;
     public on(event: 'toggle', cb: (toggle: number) => void): this;
+    public on(event: 'login', cb: () => void): this;
     public on(event: string, cb: (...items: any[]) => void|boolean|Observable<any>): this;
     public on(event: string, cb: any) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
@@ -51,6 +55,7 @@ export class SearchService {
     public emit(event: 'confirm', keywords: any): this;
     public emit(event: 'suggest', items: any[]): this;
     public emit(event: 'toggle', toggle: number): this;
+    public emit(event: 'login'): this;
     public emit(event: string, ...items: any[]): this;
     public emit(event: string, ...items: any[]) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
@@ -77,6 +82,16 @@ export class SearchService {
             this.emit(pair, res);
         }
         return this;
+    }
+
+    public emitLogin(allowGo = true) {
+        if (Object.prototype.hasOwnProperty.call(this.listeners, 'login')) {
+            this.emit('login');
+            return;
+        }
+        if (allowGo) {
+            this.router.navigate(['/auth']);
+        }
     }
 
     public off(...events: string[]): this;

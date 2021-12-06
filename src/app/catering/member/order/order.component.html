@@ -1,3 +1,74 @@
-<p>
-  order works!
-</p>
+<div class="flex-2">
+    <div class="flex-menu">
+        <app-member-menu currentUrl="order"></app-member-menu>
+    </div>
+    <div class="flex-body">
+        <div class="order-item">
+            <div class="item-header">
+                <div class="item-logo">
+                    <img [src]="'assets/images/avatar/18.png' | asset">
+                </div>
+                <div class="item-name">店铺</div>
+                <div class="item-status">已完成</div>
+            </div>
+            <div class="item-body">
+                <div class="goods-item">
+                    <div class="goods-thumb">
+                        <img [src]="'assets/images/avatar/18.png' | asset">
+                    </div>
+                    <div class="goods-body">
+                        <div class="goods-name">商品</div>
+                        <div class="goods-meta">加辣 x1</div>
+                    </div>
+                </div>
+                <div class="item-subtotal">
+                    <span>￥10</span>
+                    <span>共1件</span>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="btn-group">
+                    <a class="btn btn-primary">再来一单</a>
+                </div>
+            </div>
+        </div>
+        <div class="order-item">
+            <div class="item-header">
+                <div class="item-logo">
+                    <img [src]="'assets/images/avatar/18.png' | asset">
+                </div>
+                <div class="item-name">店铺</div>
+                <div class="item-status">已完成</div>
+            </div>
+            <div class="item-body item-scroll">
+                <div class="goods-item">
+                    <div class="goods-thumb">
+                        <img [src]="'assets/images/avatar/18.png' | asset">
+                    </div>
+                    <div class="goods-body">
+                        <div class="goods-name">商品</div>
+                        <div class="goods-meta">加辣 x1</div>
+                    </div>
+                </div>
+                <div class="goods-item">
+                    <div class="goods-thumb">
+                        <img [src]="'assets/images/avatar/18.png' | asset">
+                    </div>
+                    <div class="goods-body">
+                        <div class="goods-name">商品</div>
+                        <div class="goods-meta">加辣 x1</div>
+                    </div>
+                </div>
+                <div class="item-subtotal">
+                    <span>￥20</span>
+                    <span>共2件</span>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="btn-group">
+                    <a class="btn btn-primary">再来一单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

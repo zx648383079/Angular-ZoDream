@@ -7,7 +7,6 @@ import { CashierComponent } from './cashier/cashier.component';
 import { CateringComponent } from './catering.component';
 import { GoodsDialogComponent } from './goods/dialog/goods-dialog.component';
 import { GoodsComponent } from './goods/goods.component';
-import { LoginDialogComponent } from './member/dialog/login-dialog.component';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { StoreComponent } from './store/store.component';
 
@@ -63,5 +62,4 @@ export const cateringRoutingComponents = [
     CashierComponent,
     GoodsDialogComponent,
     CartDialogComponent,
-    LoginDialogComponent,
 ];

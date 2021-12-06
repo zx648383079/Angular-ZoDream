@@ -1,0 +1,36 @@
+@import '../style';
+.order-item {
+	margin-bottom: 1rem;
+	background-color: white;
+	.item-header {
+		line-height: 2.5rem;
+        border-bottom: 1px solid #ccc;
+        padding-left: .5rem;
+		span {
+			margin-right: 1.25rem;
+		}
+	}
+	.item-body {
+		.goods-item {
+			display: grid;
+			grid-template-columns: 4.375rem 1fr;
+			.goods-img {
+				img {
+					width: 4.375rem;
+					height: 4.375rem;
+				}
+			}
+			&:not(:last-child) {
+				border-bottom: 1px solid #fff;
+			}
+		}
+	}
+	.item-subtotal,
+	.item-actions,
+	.item-user {
+		padding-top: 0.625rem;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}

@@ -14,27 +14,27 @@ import { getCurrentTime } from '../utils';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private injector: Injector) { }
+    constructor(private injector: Injector) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const auth = this.injector.get(AuthService);
-    const timestamp = getCurrentTime();
-    const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
-    const clonedRequest = request.clone({
-      headers: auth.getTokenHeader(request),
-      url: this.fixUrl(request.url),
-      params: request.params
-              .set('appid', environment.appid)
-              .set('timestamp', timestamp)
-              .set('sign', sign + '')
-    });
-    return next.handle(clonedRequest);
-  }
-
-  private fixUrl(url: string) {
-    if (url.indexOf('http://') >= 0 || url.indexOf('https://') >= 0) {
-      return url;
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const auth = this.injector.get(AuthService);
+        const timestamp = getCurrentTime();
+        const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
+        const clonedRequest = request.clone({
+            headers: auth.getTokenHeader(request),
+            url: this.fixUrl(request.url),
+            params: request.params
+                    .set('appid', environment.appid)
+                    .set('timestamp', timestamp)
+                    .set('sign', sign + '')
+        });
+        return next.handle(clonedRequest);
     }
-    return environment.apiEndpoint + url;
-  }
+
+    private fixUrl(url: string) {
+        if (url.indexOf('http://') >= 0 || url.indexOf('https://') >= 0) {
+            return url;
+        }
+        return environment.apiEndpoint + url;
+    }
 }

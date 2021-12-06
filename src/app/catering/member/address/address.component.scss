@@ -1,0 +1,27 @@
+.address-item {
+    display: flex;
+    background-color: white;
+    .item-body {
+        flex: 1;
+        padding: .5rem;
+    }
+    .item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span {
+            background-color: #ccc;
+            display: block;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .item-footer {
+        display: flex;
+        align-items: center;
+    }
+}

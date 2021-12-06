@@ -1,6 +1,7 @@
 export interface IMenuButton {
     name: string;
     icon?: string;
+    data?: any;
     children?: IMenuItem[];
     expand?: boolean;
     disable?: boolean;

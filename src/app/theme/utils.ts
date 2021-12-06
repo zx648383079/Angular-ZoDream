@@ -23,7 +23,7 @@ export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd h
     };
     for (const k in o) {
         const match = fmt.match(new RegExp('(' + k + ')'));
-        if (!match) {
+        if (match) {
             fmt = fmt.replace(match[1], (match[1].length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substring(('' + o[k]).length)));
         }
     }
@@ -71,9 +71,9 @@ export function formatAgo(value: any, now: Date = new Date()): string {
         return $localize `${time} days ago`;
     }
     if (timeDate.getFullYear() === now.getFullYear()) {
-        return timeDate.getMonth() + 1 + '-' + timeDate.getDate();
+        return twoPad(timeDate.getMonth() + 1) + '-' + twoPad(timeDate.getDate());
     }
-    return timeDate.getFullYear() + '-' + (timeDate.getMonth() + 1);
+    return timeDate.getFullYear() + '-' + twoPad(timeDate.getMonth() + 1);
 }
 
 export function getCurrentTime() {

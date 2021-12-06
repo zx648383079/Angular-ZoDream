@@ -12,6 +12,7 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { IUser } from '../../theme/models/user';
 import { ISortItem } from '../../theme/models/seo';
 import { ButtonEvent } from '../../form';
+import { SearchService } from '../../theme/services';
 
 @Component({
   selector: 'app-list',
@@ -41,10 +42,10 @@ export class ListComponent implements OnInit {
     public sortKey = 'updated_at';
     public orderAsc = false;
     public sortItems: ISortItem[] = [
-        {name: '发帖时间', value: 'created_at', asc: false},
-        {name: '回复时间', value: 'updated_at', asc: false},
-        {name: '回复数', value: 'post_count', asc: false},
-        {name: '精华', value: 'top_type', asc: false},
+        {name: $localize `Publish time`, value: 'created_at', asc: false},
+        {name: $localize `Reply time`, value: 'updated_at', asc: false},
+        {name: $localize `Reply count`, value: 'post_count', asc: false},
+        {name: $localize `Better`, value: 'top_type', asc: false},
     ];
 
     constructor(
@@ -53,6 +54,7 @@ export class ListComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private store: Store<AppState>,
+        private searchService: SearchService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -97,7 +99,7 @@ export class ListComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
-            this.toastrService.warning('内容没填写完整');
+            this.toastrService.warning($localize `The content is not filled in completely`);
             return;
         }
         const data = {...this.form.value, forum_id: this.forum.id};
@@ -105,7 +107,7 @@ export class ListComponent implements OnInit {
         this.service.threadSave(data).subscribe({
             next: res => {
                 e?.reset();
-                this.toastrService.success('发表成功');
+                this.toastrService.success($localize `Successfully publish`);
                 this.form.patchValue({
                     title: '',
                     content: '',
@@ -116,6 +118,10 @@ export class ListComponent implements OnInit {
             }, 
             error: (err: IErrorResult) => {
                 e?.reset();
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin();
+                    return;
+                }
                 this.toastrService.warning(err.error.message);
             }
         });

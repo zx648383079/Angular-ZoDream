@@ -1,7 +1,7 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
 <div class="dialog-box goods-dialog" [@dialogOpen]="visible ? 'open' : 'closed'">
     <div class="item-thumb">
-        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
+        <img [src]="'assets/images/wap_logo.png' | asset" alt="">
     </div>
     <div class="item-name">
         食物名称

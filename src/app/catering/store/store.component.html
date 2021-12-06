@@ -11,30 +11,32 @@
         </div>
     </div>
     <div class="flex-body">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="food-item" (click)="goodsModal.open()">
-                    <div class="item-thumb">
-                        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
-                    </div>
-                    <div class="item-name">
-                        食物名称
-                    </div>
-                    <div class="item-price">
-                        <em>￥</em>0.1
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="food-item" (click)="goodsModal.open()">
+                        <div class="item-thumb">
+                            <img [src]="'assets/images/wap_logo.png'|asset" alt="">
+                        </div>
+                        <div class="item-name">
+                            食物名称
+                        </div>
+                        <div class="item-price">
+                            <em>￥</em>0.1
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="food-item" (click)="goodsModal.open()">
-                    <div class="item-thumb">
-                        <img src="https://zodream.cn/assets/images/wap_logo.png" alt="">
-                    </div>
-                    <div class="item-name">
-                        食物名称
-                    </div>
-                    <div class="item-price">
-                        <em>￥</em>0.1
+                <div class="col-md-3">
+                    <div class="food-item" (click)="goodsModal.open()">
+                        <div class="item-thumb">
+                            <img [src]="'assets/images/wap_logo.png'|asset" alt="">
+                        </div>
+                        <div class="item-name">
+                            食物名称
+                        </div>
+                        <div class="item-price">
+                            <em>￥</em>0.1
+                        </div>
                     </div>
                 </div>
             </div>

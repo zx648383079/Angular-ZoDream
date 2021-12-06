@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Md5 } from 'ts-md5';
-import { environment } from '../../../environments/environment';
-import { DialogService } from '../../dialog';
-import { CountdownEvent } from '../../form';
-import { AppState } from '../../theme/interfaces';
-import { IErrorResponse, IErrorResult } from '../../theme/models/page';
-import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
-import { AuthService } from '../../theme/services';
-import { getCurrentTime, uriEncode } from '../../theme/utils';
-import { emailValidate, mobileValidate, passwordValidate } from '../../theme/validators';
+import { environment } from '../../../../environments/environment';
+import { DialogService } from '../../../dialog';
+import { ButtonEvent, CountdownEvent } from '../../../form';
+import { AppState } from '../../../theme/interfaces';
+import { IErrorResponse, IErrorResult } from '../../../theme/models/page';
+import { IUser } from '../../../theme/models/user';
+import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { AuthService } from '../../../theme/services';
+import { getCurrentTime, uriEncode } from '../../../theme/utils';
+import { emailValidate, mobileValidate, passwordValidate } from '../../../theme/validators';
 
 @Component({
   selector: 'app-login-panel',
@@ -106,7 +106,7 @@ export class LoginPanelComponent {
         });
     }
 
-    public tapMobileCodeLogin() {
+    public tapMobileCodeLogin(e?: ButtonEvent) {
         const data = {
             mobile: this.mobile,
             code: this.code,
@@ -119,10 +119,10 @@ export class LoginPanelComponent {
             this.toastrService.warning($localize `Please input the SMS verification code`);
             return;
         }
-        this.login(data);
+        this.login(data, e);
     }
 
-    public tapMobileLogin() {
+    public tapMobileLogin(e?: ButtonEvent) {
         const data = {
             mobile: this.mobile,
             password: this.password,
@@ -131,14 +131,14 @@ export class LoginPanelComponent {
             this.toastrService.warning($localize `Please input phone number`);
             return;
         }
-        if (passwordValidate(data.password)) {
+        if (!passwordValidate(data.password)) {
             this.toastrService.warning($localize `Please input the password`);
             return;
         }
-        this.login(data);
+        this.login(data, e);
     }
 
-    public tapEmailLogin() {
+    public tapEmailLogin(e?: ButtonEvent) {
         const data = {
             email: this.email,
             password: this.password,
@@ -147,11 +147,11 @@ export class LoginPanelComponent {
             this.toastrService.warning($localize `Please input your email`);
             return;
         }
-        if (passwordValidate(data.password)) {
+        if (!passwordValidate(data.password)) {
             this.toastrService.warning($localize `Please input the password`);
             return;
         }
-        this.login(data);
+        this.login(data, e);
     }
 
     public tapOAuth(type: string) {
@@ -166,13 +166,18 @@ export class LoginPanelComponent {
         }, true);
     }
 
-    private login(data: any) {
+    private login(data: any, e?: ButtonEvent) {
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
             data.captcha = this.captcha;
         }
+        e?.enter();
         this.authService.login(data).subscribe({
+            next: _ => {
+                e?.reset();
+            },
             error: (err: IErrorResult) => {
+                e?.reset();
                 this.toastrService.warning(err.error.message);
                 if (err.error.captcha_token) {
                     this.captchaToken = err.error.captcha_token;

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
 import { MemberComponent } from './member.component';
+import { MemberMenuComponent } from './menu/member-menu.component';
 import { OrderComponent } from './order/order.component';
 
 
@@ -30,5 +31,6 @@ export class MemberRoutingModule {}
 export const memberRoutingComponents = [
     MemberComponent,
     OrderComponent,
-    AddressComponent
+    AddressComponent,
+    MemberMenuComponent,
 ];

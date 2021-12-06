@@ -20,10 +20,11 @@
         </div>
         <div class="group-content">
             <p class="moderator-line" *ngIf="forum.moderators && forum.moderators.length > 0">
-                版主：
+                <ng-container i18n>Moderators:</ng-container>
+                
                 <ng-container *ngFor="let item of forum.moderators; let i = index">
                     <ng-container *ngIf="i > 0">
-                        ，
+                        ,
                     </ng-container>
                     <a >{{ item.name }}</a>
                 </ng-container>
@@ -48,7 +49,7 @@
                                     </ng-container>
                                 </div>
                                 <div class="meta">
-                                    <div class="count">主题：{{ item.thread_count | numberFormat }}，帖数：{{ item.post_count | numberFormat }}</div>
+                                    <div class="count" i18n>Threads:{{ item.thread_count | numberFormat }}, Posts:{{ item.post_count | numberFormat }}</div>
                                 </div>
                                 <div class="last-thread" *ngIf="item.last_thread">
                                     <a [routerLink]="['../thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
@@ -64,8 +65,8 @@
     </div>
 
     <div class="classify-bar" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
-        <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()">
-            全部
+        <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()" i18n>
+            All
         </div>
         <ng-container *ngFor="let item of forum.classifies">
             <div class="item" [ngClass]="{active: item.id === queries.classify}" (click)="tapClassify(item)">
@@ -77,21 +78,21 @@
     <div class="thread-list">
         <div class="thread-item-header">
             <div class="name">
-                标题
+                <ng-container i18n>Title</ng-container>
                 <div class="sort-bar">
                     <ng-container *ngFor="let item of sortItems">
                         <a [ngClass]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
                     </ng-container>
                 </div>
             </div>
-            <div class="time">
-                作者
+            <div class="time" i18n>
+                Author
             </div>
-            <div class="count">
-                回复/查看
+            <div class="count" i18n>
+                Reply/View
             </div>
-            <div class="reply">
-                最后发表
+            <div class="reply" i18n>
+                Last publish
             </div>
         </div>
         <ng-container *ngIf="forum && forum.thread_top && forum.thread_top.length > 0">
@@ -99,10 +100,10 @@
                 <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
                   <div class="title">
                       <ng-container *ngIf="item.top_type > 0">
-                          <i class="iconfont icon-arrow-up" title="置顶"></i>
+                          <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
                       </ng-container>
                       <ng-container *ngIf="item.top_type < 1 && item.is_closed">
-                          <i class="iconfont icon-lock" title="主题已关闭"></i>
+                          <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
                       </ng-container>
                       <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
                           <i class="iconfont icon-file-o"></i>
@@ -137,10 +138,10 @@
           <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
             <div class="title">
                 <ng-container *ngIf="item.top_type > 0">
-                    <i class="iconfont icon-arrow-up" title="置顶"></i>
+                    <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
                 </ng-container>
                 <ng-container *ngIf="item.top_type < 1 && item.is_closed">
-                    <i class="iconfont icon-lock" title="主题已关闭"></i>
+                    <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
                 </ng-container>
                 <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
                     <i class="iconfont icon-file-o"></i>
@@ -176,25 +177,27 @@
 
     </div>
     <div class="thread-new-box" *ngIf="forum && user">
-        <div class="header">快速发帖
+        <div class="header">
+            <ng-container i18n>Quickly post</ng-container>
+            
 
-            <a class="pull-right" routerLink="create">完整模式&gt;</a>
+            <a class="pull-right" routerLink="create" i18n>Full mode&gt;</a>
         </div>
         <form [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="title">
                 <select formControlName="classify_id" class="form-control" *ngIf="forum.classifies && forum.classifies.length > 0">
-                    <option [value]="0">选择主题分类</option>
+                    <option [value]="0" i18n>Select classify</option>
                     <ng-container *ngFor="let item of forum.classifies">
                         <option [value]="item.id">{{ item.name }}</option>
                     </ng-container>
                 </select>
-                <input type="text" class="form-control" formControlName="title" placeholder="请输入主题标题">
+                <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
             </div>
 
-            <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
+            <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
             
             <div class="footer">
-                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid">发表帖子</app-action-button>
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid" i18n>Publish</app-action-button>
             </div>
         </form>
     </div>

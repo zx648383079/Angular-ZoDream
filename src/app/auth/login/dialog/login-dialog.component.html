@@ -1,6 +1,6 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()">
 </div>
 <div class="dialog-box"  [@dialogOpen]="visible ? 'open' : 'closed'">
-    <app-login-panel></app-login-panel>
+    <app-login-panel (logined)="close($event)"></app-login-panel>
     <i class="iconfont icon-close" (click)="close()"></i>
 </div>

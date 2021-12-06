@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
 import { ILink } from '../theme/models/seo';
@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
-import { AuthService } from '../theme/services';
+import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../dialog';
+import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
 
 interface IMenuItem {
   name: string;
@@ -19,7 +20,10 @@ interface IMenuItem {
   templateUrl: './frontend.component.html',
   styleUrls: ['./frontend.component.scss']
 })
-export class FrontendComponent {
+export class FrontendComponent implements OnDestroy {
+
+    @ViewChild(LoginDialogComponent)
+    private loginModal: LoginDialogComponent;
 
     public menus: IMenuItem[] = [
         {name: $localize `Home`, url: '../'},
@@ -40,6 +44,7 @@ export class FrontendComponent {
         private store: Store<AppState>,
         private authService: AuthService,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -52,10 +57,17 @@ export class FrontendComponent {
                 this.routerChanged(event.url);
             }
         });
+        this.searchService.on('login', () => {
+            this.loginModal.open();
+        });
     }
 
     public get locationHref() {
         return window.location.href;
+    }
+
+    ngOnDestroy(): void {
+        this.searchService.off('login');
     }
 
     public toggleDropDown() {

@@ -4,12 +4,11 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../theme/theme.module';
-import { LoginPanelComponent } from './login-panel/login-panel.component';
 import { ZreFormModule } from '../form';
 
 
 @NgModule({
-    declarations: [...authRoutedComponents, LoginPanelComponent],
+    declarations: [...authRoutedComponents],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -17,8 +16,5 @@ import { ZreFormModule } from '../form';
         ThemeModule,
         ZreFormModule,
     ],
-    exports: [
-        LoginPanelComponent,
-    ]
 })
 export class AuthModule { }

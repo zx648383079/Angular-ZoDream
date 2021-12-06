@@ -1,7 +1,7 @@
 <div class="header-bar">
     <div class="container-fluid">
         <div class="tab-bar">
-            <a [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">推荐</a>
+            <a [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)" routerLink="store">推荐</a>
             <a [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">商品</a>
             <a>
                 <app-search-input></app-search-input>
@@ -19,7 +19,7 @@
                     <img [src]="user.avatar | asset">
                 </div>
                 <div class="drop-menu" [hidden]="!authOpen">
-                    <app-menu-body [items]="menuItems" [flowLeft]="true"></app-menu-body>
+                    <app-menu-body [items]="menuItems" [flowLeft]="true" (tapped)="onMenuTap($event)"></app-menu-body>
                 </div>
             </div>
         </div>
