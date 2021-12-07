@@ -230,7 +230,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
         const scrollWindowBottom = this.scrollTop + windowHeight();
         this.scrollToUp = this.scrollTop < oldTop;
         if (this.booted && !this.isLoading && scrollBottom() < 30) {
-            this.tapNext();
+            this.flipPager.loadNext();
         }
         this.flipPager.onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);
     }

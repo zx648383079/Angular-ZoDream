@@ -97,22 +97,29 @@ export class FlipPagerComponent implements OnChanges {
     }
 
     public tapNext() {
+        this.loadNext(true);
+    }
+
+    public loadNext(scroll = false) {
         const next = this.current?.next;
         if (!next) {
             this.toastrService.warning('已到最新章节，没有更多了');
             return;
         }
-        this.showChanpter(next);
+        this.showChanpter(next, scroll);
     }
 
-    public showChanpter(item: number|IChapter) {
+    public showChanpter(item: number|IChapter, scroll = true) {
         if (typeof item !== 'object') {
             this.previewRequest.emit({id: item, callback: (res) => {
-                this.showChanpter(res);
+                this.showChanpter(res, scroll);
             }});
             return;
         }
         const i = this.insertTo(this.formatToBlock(item));
+        if (!scroll) {
+            return;
+        }
         setTimeout(() => {
             this.scrollTo(i);
         }, 50);

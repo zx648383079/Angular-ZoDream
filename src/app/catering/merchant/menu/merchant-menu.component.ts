@@ -14,6 +14,7 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
         {name: '商品管理', url: 'goods'},
         {name: '库存管理', url: 'stock'},
         {name: '采购单管理', url: 'stock/order'},
+        {name: '食谱管理', url: 'recipe'},
         {name: '员工管理', url: 'staff'},
         {name: '会员管理', url: 'users'},
     ];

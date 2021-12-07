@@ -19,7 +19,11 @@ export class NumberInputComponent implements ControlValueAccessor {
     @Input() public max: number|string = 0;
     @Input() public step: number|string = 1;
     @Input() public disabled = false;
-    public value = 1;
+    /**
+     * 是否仅允许数字
+     */
+    @Input() public only = true;
+    public value: string|number = 1;
 
     onChange: any = () => { };
     onTouch: any = () => { };
@@ -30,35 +34,40 @@ export class NumberInputComponent implements ControlValueAccessor {
         if (this.disabled) {
             return true;
         }
-        return this.value <= this.min;
+        return this.valueInt <= this.min;
     }
 
     public get maxDisabled() {
         if (this.disabled) {
             return true;
         }
-        return this.max > 0 && this.value >= this.max;
+        return this.max > 0 && this.valueInt >= this.max;
+    }
+
+    public get valueInt(): number {
+        return this.parseInt(this.value);
     }
 
     public tapMinus() {
         if (this.minDisabled) {
             return;
         }
-        this.tapChange(this.value - Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
+        this.tapChange(this.valueInt - Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
     }
 
     public tapPlus() {
         if (this.maxDisabled) {
             return;
         }
-        this.tapChange(this.value + Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
+        this.tapChange(this.valueInt + Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
     }
 
     public onValueChange(e: Event) {
-        this.tapChange(parseFloat((e.target as HTMLInputElement).value));
+        const v = (e.target as HTMLInputElement).value;
+        this.tapChange(this.parseInt(v), v);
     }
 
-    public tapChange(i: number) {
+    public tapChange(i: number, format?: string) {
         if (this.disabled) {
             return;
         }
@@ -67,7 +76,37 @@ export class NumberInputComponent implements ControlValueAccessor {
         } else if (this.max > 0 && i > this.max) {
             i = typeof this.max === 'string' ? parseFloat(this.max) : this.max;
         }
-        this.onChange(this.value = i);
+        this.onChange(this.value = this.renderInt(i, format));
+    }
+
+    private parseInt(value: number|string) {
+        if (!value) {
+            return 0;
+        }
+        if (typeof value === 'number') {
+            return value;
+        }
+        if (this.only) {
+            const v = parseFloat(value)
+            return isNaN(v) ? 0 : v;
+        }
+        const match = value.match(/[\d.]+/);
+        if (!match) {
+            return 0;
+        }
+        const v = parseFloat(match[0]);
+        return isNaN(v) ? 0 : v;
+    }
+
+    private renderInt(value: number, format = this.value): number|string {
+        if (this.only || !format || typeof format === 'number') {
+            return value;
+        }
+        const match = format.match(/[\d.]+/);
+        if (!match) {
+            return value + format;
+        }
+        return format.substring(0, match.index) + value + format.substring(match.index + match[0].length);
     }
 
     writeValue(obj: any): void {

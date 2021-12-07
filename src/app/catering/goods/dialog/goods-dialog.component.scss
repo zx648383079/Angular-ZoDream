@@ -1,13 +1,6 @@
+@import '../../dialog';
 .goods-dialog {
-    width: 20rem;
-    margin-left: -10rem;
-    .dialog-footer {
-        display: flex;
-        .btn {
-            flex: 1;
-            border-radius: 0;
-        }
-    }
+    @include dialogSet(20rem);
 }
 .item-price {
     display: inline-block;

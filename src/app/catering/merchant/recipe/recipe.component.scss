@@ -1,0 +1,8 @@
+@import '../style';
+.head-row {
+    .td-2 {
+        &:first-of-type {
+            text-align: left;
+        }
+    }
+}

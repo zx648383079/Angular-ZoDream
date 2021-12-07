@@ -1,0 +1,30 @@
+@use "sass:math";
+@mixin dialogSet($w, $h: 0) {
+    width: $w;
+    margin-left: math.div(-$w, 2);
+    @if $h > 0 {
+        height: $h;
+        margin-top: math.div(-$h, 2);
+    }
+}
+
+.input-label {
+    line-height: 2rem;
+    padding-left: .5rem;
+}
+
+.input-flex {
+    display: flex;
+    justify-content: space-between;
+    label {
+        line-height: 2rem;
+    }
+}
+
+.dialog-footer {
+    display: flex;
+    .btn {
+        flex: 1;
+        border-radius: 0;
+    }
+}

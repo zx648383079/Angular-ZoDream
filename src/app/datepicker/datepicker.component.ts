@@ -67,11 +67,11 @@ export class DatepickerComponent implements OnInit, OnChanges {
         }
         const bound = this.elementRef.nativeElement.getBoundingClientRect();
         const diff = window.innerWidth - bound.left - 300;
-        if (diff > 0) {
-            return;
-        }
+        const x = diff > 0 ? 0 : diff;
+        const y = bound.top + 350 > window.innerHeight ? -350 : 0;
         return {
-            'margin-left': diff + 'px'
+            'margin-left': x + 'px',
+            'margin-top': y + 'px',
         };
     }
 

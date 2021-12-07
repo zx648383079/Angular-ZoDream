@@ -1,0 +1,28 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="input-label">采购单</div>
+    <div class="item-name">
+        <input type="text" class="form-control">
+    </div>
+    <div class="input-label">清单
+        <i class="iconfont icon-plus"></i>
+    </div>
+    <div class="input-flex">
+        <span>材料名</span>
+        <span>单价</span>
+        <span>数量</span>
+    </div>
+    <div class="input-flex">
+        <input type="text" class="form-control">
+        <app-number-input [only]="false"></app-number-input>
+        <app-number-input [only]="false"></app-number-input>
+    </div>
+    <div class="input-label">指定采购员</div>
+    <ng-select></ng-select>
+    <div class="input-label">预计采购时间</div>
+    <app-date-input></app-date-input>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary" (click)="close()">取消</div>
+        <div class="btn btn-primary">保存</div>
+    </div>
+</div>

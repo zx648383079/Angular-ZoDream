@@ -3,6 +3,7 @@
     margin-bottom: 1rem;
     .item-header {
         display: flex;
+        padding: .5rem;
         .item-logo {
             display: inline-block;
             img {
@@ -13,11 +14,22 @@
         }
         .item-name {
             flex: 1;
+            padding-left: .5rem;
         }
+    }
+    .tag-item {
+        display: inline-block;
+        padding: 0 .3rem;
+        background-color: #dd2222;
+        color: #fff;
+        font-size: .5rem;
+        border-radius: .5rem;
+        margin-right: .5rem;
     }
     .item-body {
         position: relative;
         background-color: #fefefe;
+        padding-left: .5rem;
         .item-subtotal {
             position: absolute;
             right: 0;
