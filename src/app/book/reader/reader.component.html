@@ -4,19 +4,19 @@
         <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
     </div>
     
-    <div class="loading-bar" *ngIf="isLoading">
-        加载中。。。
+    <div class="loading-bar" *ngIf="isLoading" i18n>
+        Loading ...
     </div>
 
     <footer class="reader-footer" [ngStyle]="footerStyle" (click)="$event.stopPropagation()">
         <div class="pager">
-            <a (click)="tapPrev()">上一章</a>
+            <a (click)="tapPrev()" i18n>Previous</a>
             <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()"></app-progress-bar>
-            <a (click)="tapNext()">下一章</a>
+            <a (click)="tapNext()" i18n>Next</a>
         </div>
         <div class="setting" *ngIf="mode == 2">
             <div class="line-item">
-                <span>字体颜色</span>
+                <span i18n>Foreground</span>
                 <div class="color-box">
                     <app-color-picker [(ngModel)]="configs.color">
                         <span class="color" [ngStyle]="{'background-color': configs.color}"></span>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>背景颜色</span>
+                <span i18n>Background</span>
                 <div class="color-box">
                     <app-color-picker [(ngModel)]="configs.background" (ngModelChange)="onBackgroundChange()">
                         <span class="color" [ngStyle]="{'background-color': configs.background}"></span>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>翻页效果</span>
+                <span i18n>Effect</span>
                 <div class="font-box">
                     <ng-container *ngFor="let item of flipItems; let i=index">
                         <span [ngClass]="{active: configs.flip == i}" (click)="configs.flip = i">{{ item }}</span>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>字体</span>
+                <span i18n>Font Family</span>
                 <div class="font-box">
                     <ng-container *ngFor="let item of fontItems; let i=index">
                         <span [ngClass]="{active: configs.font == i}" (click)="configs.font = i">{{ item }}</span>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>字体大小</span>
+                <span i18n>Font Size</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('size')"></i>
                     <span class="lang">{{ configs.size }}</span>
@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>行距</span>
+                <span i18n>Line spacing</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('line')"></i>
                     <span class="lang">{{ configs.line }}</span>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="line-item">
-                <span>间距</span>
+                <span i18n>Letter spacing</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('letter')"></i>
                     <span class="lang">{{ configs.letter }}</span>
@@ -79,15 +79,15 @@
         <div class="tab-bar">
             <a (click)="tapChapter()">
                 <i class="iconfont icon-bars"></i>
-                目录
+                <ng-container i18n>Catalog</ng-container>
             </a>
             <a (click)="tapEye()" [ngClass]="{active: configs.theme == 7}">
                 <i class="iconfont icon-eye"></i>
-                夜间
+                <ng-container i18n>Black</ng-container>
             </a>
             <a (click)="tapSetting()" [ngClass]="{active: mode == 2}">
                 <i class="iconfont icon-cog"></i>
-                设置
+                <ng-container i18n>Setting</ng-container>
             </a>
         </div>
     </footer>

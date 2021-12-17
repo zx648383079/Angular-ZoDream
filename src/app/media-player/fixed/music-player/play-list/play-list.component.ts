@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IMediaFile } from '../../model';
+import { PlayerService } from '../../player.service';
 
 @Component({
   selector: 'app-play-list',
@@ -7,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PlayListComponent {
 
-    @Input() public items: any[] = [
+    @Input() public items: IMediaFile[] = [
         {
             name: '歌曲名',
             artist: '专辑',
@@ -16,6 +18,11 @@ export class PlayListComponent {
         }
     ];
 
-    constructor() { }
+    @Input() public min = false;
+
+    constructor(
+        private service: PlayerService
+    ) { }
+
 
 }

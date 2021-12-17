@@ -2,13 +2,13 @@
     <ng-container *ngIf="!orderAsc; else elseTemplate">
         <a class="right" (click)="tapOrder()">
             <i class="iconfont icon-arrow-up"></i>
-            正序
+            <ng-container i18n>ASC</ng-container>
         </a>
     </ng-container>
     <ng-template #elseTemplate>
         <a class="right" (click)="tapOrder()">
             <i class="iconfont icon-arrow-down"></i>
-            倒序
+            <ng-container i18n>DESC</ng-container>
         </a>
     </ng-template>
 </div>
@@ -30,7 +30,7 @@
                 <ng-container *ngFor="let it of item.children">
                     <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == it.id}">
                         <div class="title">
-                            <i class="iconfont" *ngIf="it.price > 0" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" title="收费章节"></i>
+                            <i class="iconfont" *ngIf="it.price > 0" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
                             {{ it.title }}</div>
                         <div class="time">{{ it.created_at | ago }}</div>
                     </div>

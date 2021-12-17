@@ -2,7 +2,7 @@
   <div class="input-box">
         <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
             <div class="input-group" [class]="{error: email.invalid}">
-                <input type="email" formControlName="email" i18n-placeholder placeholder="Please input Username" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
+                <input type="email" formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>

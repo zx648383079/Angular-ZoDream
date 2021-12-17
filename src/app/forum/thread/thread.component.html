@@ -54,15 +54,15 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                                发表于 {{ item.created_at | ago }} 
+                            <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
-                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)">只看该作者</a>
-                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)">查看全部楼层</a>
+                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
+                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>
                             <div class="action">
     
                             </div>
                         </div>
-                        <div class="last-time">最后编辑于 {{ item.updated_at | ago }}</div>
+                        <div class="last-time" i18n>Last edit {{ item.updated_at | ago }}</div>
                         <div class="content">
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
@@ -78,8 +78,8 @@
                             </div>
                         </div>
                         <div class="footer">
-                            <a *ngIf="user" (click)="tapReply(item)">回复</a>
-                            <a *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable"  (click)="open(modal)">编辑</a>
+                            <a *ngIf="user" (click)="tapReply(item)" i18n>Reply</a>
+                            <a *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable"  (click)="open(modal)" i18n>Edit</a>
                         </div>
                     </div>
                 </div>
@@ -95,12 +95,13 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                                发表于 {{ item.created_at | ago }} 
+                                <ng-container>Published {{ item.created_at | ago }} </ng-container>
+                                
                             <i class="split">|</i>
-                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)">只看该作者</a>
-                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)">查看全部楼层</a>
-                            <div class="action">
-                                {{ item.grade }}楼
+                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
+                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>
+                            <div class="action" i18n>
+                                {{ item.grade }} floor
                             </div>
                         </div>
                         <div class="content">
@@ -108,9 +109,9 @@
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">
-                            <a *ngIf="user && item.is_public_post" (click)="tapReply(item)">回复</a>
-                            <a *ngIf="thread.editable" (click)="tapChange(statusModal, item)">编辑</a>
-                            <a *ngIf="item.deleteable" (click)="tapRemove(item)">删除</a>
+                            <a *ngIf="user && item.is_public_post" (click)="tapReply(item)" i18n>Reply</a>
+                            <a *ngIf="thread.editable" (click)="tapChange(statusModal, item)" i18n>Edit</a>
+                            <a *ngIf="item.deleteable" (click)="tapRemove(item)" i18n>Delete</a>
                         </div>
                     </div>
                 </div>
@@ -131,9 +132,9 @@
             </div>
             <div id="post-editor" class="post-content">
                 <form [formGroup]="form" (ngSubmit)="tapSubmit()">
-                    <app-forum-editor formControlName="content" placeholder="请输入帖子内容"></app-forum-editor>
+                    <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
                     <div class="footer">
-                        <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)">发表回复</app-action-button>
+                        <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
                     </div>
                 </form>
             </div>

@@ -10,23 +10,30 @@
                 <div class="title">{{ data.name }}</div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="line-item">作者：{{ data.author?.name }}</div>
-                        <div class="line-item">最后更新：{{ data.updated_at|ago }}</div>
+                        <div class="line-item">
+                            <ng-container i18n>Author:</ng-container>
+                            {{ data.author?.name }}</div>
+                        <div class="line-item">
+                            <ng-container i18n>Last update:</ng-container>
+                            {{ data.updated_at|ago }}</div>
                     </div>
                     <div class="col-md-6">
-                        <div class="line-item">动作：
+                        <div class="line-item">
+                            <ng-container i18n>Action:</ng-container>
                             <a (click)="tapAddBook()">{{ data.on_shelf ? '已在书架' : '加入书架' }}</a>
                         </div>
-                        <div class="line-item">最新章节：{{ data.updated_at|ago }}</div>
+                        <div class="line-item">
+                            <ng-container i18n>Last chapter:</ng-container>
+                            {{ data.last_chapter?.title }}</div>
                     </div>
                 </div>
 
                 <div class="content">{{ data.description }}</div>
                 <div class="action-bar">
                     <div class="btn-group">
-                        <div class="btn btn-primary" (click)="tapRead()">立即阅读</div>
+                        <div class="btn btn-primary" (click)="tapRead()" i18n>Read now</div>
                         <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                            <button class="btn btn-success" ngbDropdownToggle>下载</button>
+                            <button class="btn btn-success" ngbDropdownToggle i18n>Download</button>
                             <div class="dropdown-menu" ngbDropdownMenu>
                               <button ngbDropdownItem (click)="tapDownload()">TXT</button>
                               <button ngbDropdownItem (click)="tapDownload(true)">ZIP</button>

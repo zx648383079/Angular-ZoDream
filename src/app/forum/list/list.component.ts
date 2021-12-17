@@ -12,7 +12,7 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { IUser } from '../../theme/models/user';
 import { ISortItem } from '../../theme/models/seo';
 import { ButtonEvent } from '../../form';
-import { SearchService } from '../../theme/services';
+import { SearchService, ThemeService } from '../../theme/services';
 
 @Component({
   selector: 'app-list',
@@ -55,6 +55,7 @@ export class ListComponent implements OnInit {
         private toastrService: DialogService,
         private store: Store<AppState>,
         private searchService: SearchService,
+        private themeService: ThemeService
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -69,6 +70,7 @@ export class ListComponent implements OnInit {
             this.forum = {id: params.id} as any;
             this.service.getForum(params.id).subscribe(res => {
                 this.forum = res;
+                this.themeService.setTitle(res.name);
                 if (res.thread_top) {
                     res.thread_top = this.formatItems(res.thread_top);
                 }

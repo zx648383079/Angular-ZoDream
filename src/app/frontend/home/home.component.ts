@@ -17,6 +17,10 @@ export class HomeComponent implements OnInit {
     public links: ILink[] = [
         {
             name: $localize `Blog`,
+            url: 'blog'
+        },
+        {
+            name: $localize `Blog(SPA)`,
             url: '/blog'
         },
         {

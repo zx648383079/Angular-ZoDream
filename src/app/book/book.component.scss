@@ -56,6 +56,13 @@
             }
             .info {
                 margin-left: 0;
+                width: 5.625rem;
+                .name {
+                    line-height: 1rem;
+                    font-size: .8em;
+                    height: 2.5em;
+                    overflow: hidden;
+                }
             }
             .tag,
             .desc {
@@ -65,5 +72,14 @@
         &:not(:last-of-type) {
             border-bottom: 1px solid #f4f4f4;
         }
+    }
+    .page-empty-tip {
+        font-size: 3em;
+        color: rgb(226, 226, 226);
+        font-weight: 700;
+        text-align: center;
+        padding: 2em 0;
+        cursor: default;
+        user-select: none;
     }
 }

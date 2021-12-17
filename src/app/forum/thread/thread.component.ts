@@ -29,7 +29,7 @@ import { DialogEvent, DialogService } from '../../dialog';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
-import { DownloadService, SearchService } from '../../theme/services';
+import { DownloadService, SearchService, ThemeService } from '../../theme/services';
 import { openLink } from '../../theme/deeplink';
 import { eachObject, mapFormat } from '../../theme/utils';
 import { emailValidate } from '../../theme/validators';
@@ -82,6 +82,7 @@ export class ThreadComponent implements OnInit {
         private router: Router,
         private downloadService: DownloadService,
         private searchService: SearchService,
+        private themeService: ThemeService
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -94,6 +95,7 @@ export class ThreadComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             this.service.getThread(params.id).subscribe(res => {
+                this.themeService.setTitle(res.title);
                 if (res.classify && res.classify instanceof Array) {
                     res.classify = undefined;
                 }

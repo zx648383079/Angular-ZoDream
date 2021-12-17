@@ -14,22 +14,22 @@ export class BookComponent implements OnInit {
 
     public navItems: INav[] = [
         {
-            name: '首页',
+            name: $localize `Home`,
             icon: 'icon-home',
             url: './'
         },
         {
-            name: '分类',
+            name: $localize `Category`,
             icon: 'icon-th-large',
             url: './category'
         },
         {
-            name: '搜索',
+            name: $localize `Search`,
             icon: 'icon-search',
             url: './search'
         },
         {
-            name: '书单',
+            name: $localize `Book list`,
             icon: 'icon-gift',
             url: './list'
         },
@@ -37,17 +37,17 @@ export class BookComponent implements OnInit {
 
     public bottomNavs: INav[] = [
         {
-            name: '请登录',
+            name: $localize `Login in`,
             icon: 'icon-user',
             url: './member'
         },
         {
-            name: '设置',
+            name: $localize `Setting`,
             icon: 'icon-cog',
             url: './setting'
         },
         {
-            name: '返回前台',
+            name: $localize `Back to home`,
             icon: 'icon-desktop',
             url: '/',
         }
@@ -55,8 +55,11 @@ export class BookComponent implements OnInit {
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
-        this.themeService.setTitle('书城');
+        this.themeService.setTitle($localize `Book`);
         this.store.select(getCurrentUser).subscribe(user => {
+            if (!user) {
+                return;
+            }
             this.bottomNavs[0].name = user.name;
         });
     }

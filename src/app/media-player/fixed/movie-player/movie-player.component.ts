@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScreenFull } from '../../screen-full';
 
 @Component({
   selector: 'app-movie-player',
@@ -7,9 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviePlayerComponent implements OnInit {
 
-  constructor() { }
+    public isFull = false;
+    public openCatalog = true;
 
-  ngOnInit() {
-  }
+    constructor() { }
+
+    ngOnInit() {
+    }
+
+    public tapFullScreen() {
+        if (this.isFull) {
+            this.exitFullscreen();
+            this.isFull = false;
+            return;
+        }
+        this.fullScreen();
+        this.isFull = true;
+        this.openCatalog = false;
+    }
+
+    private fullScreen() {
+        ScreenFull.request();
+    }
+    
+    private exitFullscreen() {
+        ScreenFull.exit();
+    }
 
 }

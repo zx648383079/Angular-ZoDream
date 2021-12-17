@@ -12,6 +12,10 @@
                 </div>
             </div>
         </ng-container>
+        <ng-container *ngIf="!isLoading && total < 1">
+            <div class="page-empty-tip">The bookshelf is empty</div>
+        </ng-container>
+        
     </app-pull-to-refresh>
 </div>
 <app-context-menu></app-context-menu>

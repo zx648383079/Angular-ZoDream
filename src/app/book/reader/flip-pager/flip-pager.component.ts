@@ -90,7 +90,7 @@ export class FlipPagerComponent implements OnChanges {
     public tapPrevious() {
         const previous = this.current?.previous;
         if (!previous) {
-            this.toastrService.warning('已到第一章节，无法前进了');
+            this.toastrService.warning($localize `We have reached the first chapter and cannot move forward`);
             return;
         }
         this.showChanpter(previous);
@@ -103,7 +103,7 @@ export class FlipPagerComponent implements OnChanges {
     public loadNext(scroll = false) {
         const next = this.current?.next;
         if (!next) {
-            this.toastrService.warning('已到最新章节，没有更多了');
+            this.toastrService.warning($localize `The latest chapter has been reached, there are no more`);
             return;
         }
         this.showChanpter(next, scroll);
@@ -187,8 +187,8 @@ export class FlipPagerComponent implements OnChanges {
             book: item.book_id,
             title: item.title,
             tags: [
-                '字数：' + item.size,
-                '更新时间：' + item.created_at,
+                $localize `Words:` + item.size,
+                $localize `Published:` + item.created_at,
             ],
             lines: item.content.split('\n')
         };

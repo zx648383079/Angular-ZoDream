@@ -13,11 +13,11 @@ export class TopComponent implements OnInit {
     public categories ?: ICategory[] = [];
     public category = 0;
     public barItems = [
-        '推荐榜',
-        '阅读榜',
-        '字数榜',
-        '完本榜',
-        '新书榜',
+        $localize `Recommend`,
+        $localize `Readings`,
+        $localize `Words`,
+        $localize `Finished`,
+        $localize `News`,
     ];
     public barIndex = 0;
     public items: IBook[] = [];
@@ -77,15 +77,18 @@ export class TopComponent implements OnInit {
         this.service.getBookList({
             category: this.category,
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                this.perPage = res.paging.limit;
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

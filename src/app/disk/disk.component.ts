@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { ThemeService } from '../theme/services';
 
 @Component({
     selector: 'app-disk',
@@ -93,13 +94,15 @@ export class DiskComponent implements OnInit {
   ];
 
   constructor(
-        private store: Store < AppState > ) {
+        private store: Store<AppState>,
+        private themeService: ThemeService,) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;
         });
   }
 
   ngOnInit(): void {
+      this.themeService.setTitle($localize `Disk`);
   }
 
 }

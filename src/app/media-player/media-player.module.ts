@@ -10,6 +10,7 @@ import { LyricsViewerComponent } from './fixed/music-player/lyrics-viewer/lyrics
 import { SpectrumPanelComponent } from './fixed/music-player/spectrum-panel/spectrum-panel.component';
 import { PlayListComponent } from './fixed/music-player/play-list/play-list.component';
 import { DurationPipe } from './duration.pipe';
+import { PlayerService } from './fixed/player.service';
 
 const COMPONENTS = [
     AudioPlayerComponent,
@@ -29,10 +30,13 @@ const COMPONENTS = [
         LyricsViewerComponent,
         SpectrumPanelComponent,
         PlayListComponent,
-        DurationPipe
-   ],
+        DurationPipe,
+    ],
+    providers: [
+        PlayerService
+    ],
     exports: [
-        ... COMPONENTS
+        ... COMPONENTS,
     ]
 })
 export class MediaPlayerModule { }
