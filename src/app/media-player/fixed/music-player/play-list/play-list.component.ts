@@ -11,6 +11,7 @@ export class PlayListComponent {
 
     @Input() public items: IMediaFile[] = [
         {
+            source: '',
             name: '歌曲名',
             artist: '专辑',
             duration: 120,
