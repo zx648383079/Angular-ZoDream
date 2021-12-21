@@ -2368,6 +2368,7 @@
       </trans-unit>
       <trans-unit id="3ecbc9f3b274ef8261a2f02990393720b816d26a" datatype="html">
         <source>The length is greater than 6, including numbers, uppercase and lowercase letters, and special characters</source>
+        <target>长度大于6，包含数字、大小写字母、特殊字符</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/password-strong/password-strong.component.html</context>
           <context context-type="linenumber">1</context>
@@ -2375,6 +2376,7 @@
       </trans-unit>
       <trans-unit id="4958046255624795305" datatype="html">
         <source>weak</source>
+        <target>弱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/password-strong/password-strong.component.ts</context>
           <context context-type="linenumber">50</context>
@@ -2382,6 +2384,7 @@
       </trans-unit>
       <trans-unit id="4398319084395770130" datatype="html">
         <source>general</source>
+        <target>一般</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/password-strong/password-strong.component.ts</context>
           <context context-type="linenumber">51</context>
@@ -2389,6 +2392,7 @@
       </trans-unit>
       <trans-unit id="6369686988511877150" datatype="html">
         <source>strong</source>
+        <target>强</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/password-strong/password-strong.component.ts</context>
           <context context-type="linenumber">52</context>
@@ -2396,6 +2400,7 @@
       </trans-unit>
       <trans-unit id="798358439806392719" datatype="html">
         <source>stronger</source>
+        <target>极强</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/password-strong/password-strong.component.ts</context>
           <context context-type="linenumber">53</context>
@@ -2403,6 +2408,7 @@
       </trans-unit>
       <trans-unit id="1503905231656505102" datatype="html">
         <source>Please select...</source>
+        <target>请选择...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/region/region.component.ts</context>
           <context context-type="linenumber">30</context>
@@ -3361,6 +3367,7 @@
       </trans-unit>
       <trans-unit id="6406a50691d73c026b52225fe3b1e3b5479e2b3e" datatype="html">
         <source><x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/><x id="INTERPOLATION" equiv-text="{{ content.length }}"/><x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>characters have been entered </source>
+        <target>已输入<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/><x id="INTERPOLATION" equiv-text="{{ content.length }}"/><x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>字</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/publish-form/publish-form.component.html</context>
           <context context-type="linenumber">5,6</context>
@@ -3368,6 +3375,7 @@
       </trans-unit>
       <trans-unit id="1247cab2ae165c023ebef084c1b450eeb5fc885c" datatype="html">
         <source>Upload photo</source>
+        <target>上传图片</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/publish-form/publish-form.component.html</context>
           <context context-type="linenumber">16</context>
@@ -3375,6 +3383,7 @@
       </trans-unit>
       <trans-unit id="c09084269b31a3421e4f5a7c32b87d45e5059731" datatype="html">
         <source>Upload video</source>
+        <target>上传视频</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/publish-form/publish-form.component.html</context>
           <context context-type="linenumber">20</context>
@@ -3382,6 +3391,7 @@
       </trans-unit>
       <trans-unit id="0c0ee571f7f479c6c09c45b187092efb932b6433" datatype="html">
         <source>Upload voice</source>
+        <target>上传音频</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/publish-form/publish-form.component.html</context>
           <context context-type="linenumber">24</context>
@@ -3397,6 +3407,7 @@
       </trans-unit>
       <trans-unit id="87b23e202fd9493339aaa9a78f884aded4a6a3f5" datatype="html">
         <source>Participate in the topic</source>
+        <target>参与话题</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/publish-form/publish-form.component.html</context>
           <context context-type="linenumber">46</context>
@@ -3470,6 +3481,7 @@
       </trans-unit>
       <trans-unit id="1794ec3e4de8be2e172285251d5d9067eae01d55" datatype="html">
         <source><x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.content.length }}"/><x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>characters have been entered </source>
+        <target>已输入<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/><x id="INTERPOLATION" equiv-text="{{ data.content.length }}"/><x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>字</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/micro/share/share.component.html</context>
           <context context-type="linenumber">5,6</context>
