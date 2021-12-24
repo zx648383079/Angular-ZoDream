@@ -10,6 +10,7 @@ import { SkuFormComponent } from './sku-form/sku-form.component';
 import { SearchPanelComponent } from './search-panel/search-panel.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ZreFormModule } from '../../../form';
+import { DialogModule } from '../../../dialog';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { ZreFormModule } from '../../../form';
         GoodsRoutingModule,
         ReactiveFormsModule,
         EditorModule,
+        DialogModule,
         ZreFormModule,
     ],
     declarations: [

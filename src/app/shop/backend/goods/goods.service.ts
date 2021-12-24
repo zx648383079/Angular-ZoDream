@@ -14,7 +14,8 @@ import {
     IBrand,
     ICategory,
     IGoods,
-    IGoodsAttribute
+    IGoodsAttribute,
+    IGoodsCard
 } from '../../../theme/models/shop';
 
 @Injectable()
@@ -140,6 +141,28 @@ export class GoodsService {
 
     public brandAll() {
         return this.http.get<IData<IBrand>>('shop/admin/brand/all');
+    }
+
+    public cardList(params: any) {
+        return this.http.get<IPage<IGoodsCard>>('shop/admin/goods/card', {
+            params,
+        });
+    }
+
+    public cardRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('shop/admin/goods/card_delete', {
+            params: {
+                id
+            }
+        });
+    }
+
+    public cardGenerate(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/admin/goods/card_generate', data);
+    }
+
+    public cardImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/admin/goods/card_import', data);
     }
 
     public search(params: any) {

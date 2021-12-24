@@ -4,12 +4,12 @@
         <ng-container *ngIf="items.length < 1; else elseTemplate">
             <div class="empty-cart-box">
                 <ng-container *ngIf="guest; else elseGuestTemplate">
-                    <p>After login, you can synchronize the products in the shopping cart</p>
-                    <a class="btn btn-primary" routerLink="../auth">Sign up now</a>
+                    <p i18n>After login, you can synchronize the products in the shopping cart</p>
+                    <a class="btn btn-primary" routerLink="../auth" i18n>Sign up now</a>
                 </ng-container>
                 <ng-template #elseGuestTemplate>
-                    <p>Your cart is empty</p>
-                <a class="btn btn-primary" routerLink="../">Go Shopping</a>
+                    <p i18n>Your cart is empty</p>
+                <a class="btn btn-primary" routerLink="../" i18n>Go Shopping</a>
                 </ng-template>
             </div>
         </ng-container>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="total">
-                    <span>SUBTOTAL : </span>
+                    <span i18n>SUBTOTAL:</span>
                     <span class="price">{{ total | price }}</span>
                     <span>活动优惠 : </span>
                     <span class="price">{{ 0 | price }}</span>
@@ -86,14 +86,14 @@
                     <div class="tip" *ngIf="cart.promotion_cell.length > 0">{{ cart.promotion_cell[0].popup_tip }}></div>
                 </div>
                 <div class="checkout">
-                    <a class="btn" (click)="tapCashier()">CHECKOUT</a>
+                    <a class="btn" (click)="tapCashier()" i18n>CHECKOUT</a>
                 </div>
             </div>
         </ng-template>
         
 
         <div class="panel" appLazyLoad (lazyLoading)="loadLike()">
-            <div class="panel-header">
+            <div class="panel-header" i18n>
             You like
             </div>
             <div class="panel-body" *ngIf="likeItems.length > 0">

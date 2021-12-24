@@ -143,14 +143,11 @@
     </form>
 </div>
 
-<app-dialog-box #importModal title="导入" [buttonVisible]="false">
+<app-dialog-box #importModal title="导入" [footerVisible]="false">
     <div class="form-group">
         <label for="content-input">选择文件</label>
         <div class="input-group">
-            <div class="file-input">
-                <label for="fileUpload" class="btn btn-primary">上传</label>
-                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept=".csv" />
-            </div>
+            <app-upload-button class="btn btn-primary" accept=".csv" (uploading)="uploadFile($event)">上传</app-upload-button>
         </div>
     </div>
 </app-dialog-box>
@@ -202,7 +199,7 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #previewModal [title]="'预览:' + previewData.id" [buttonVisible]="false">
+<app-dialog-box #previewModal [title]="'预览:' + previewData.id" [footerVisible]="false">
     <div class="line-item">
         <span class="label">类型：</span>
         <span class="value">{{ previewData.type | logType }}</span>

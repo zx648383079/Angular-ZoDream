@@ -5,7 +5,7 @@ import { IData, IDataOne, IPage } from '../theme/models/page';
 import { ISite } from '../theme/models/seo';
 import {
     IAd, IAddress, IArticle, IArticleCategory,
-    IBrand, ICart, ICartDialog, ICartItem, ICategory, ICollect, IComment,
+    IBrand, ICart, ICartDialog, ICartItem, ICashierData, ICategory, ICollect, IComment,
     ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IOrder, IOrderCount,
     IPayment, IShipping
 } from '../theme/models/shop';
@@ -155,14 +155,16 @@ export class ShopService {
         return this.http.post<IData<IShipping>>('shop/cashier/shipping', {goods, address, type});
     }
 
-    public previewOrder(goods: number[] | ICartItem[],
-                        address: number, shipping: number = 0, payment: number = 0, type: number = 0) {
-        return this.http.post<IOrder>('shop/cashier/preview', {goods, address, shipping, payment, type});
+    public orderCouponList(goods: number[] | ICartItem[], type: number = 0) {
+        return this.http.post<IData<ICoupon>>('shop/cashier/coupon', {goods, type});
     }
 
-    public checkoutOrder(goods: number[] | ICartItem[],
-                         address: number, shipping: number, payment: number, type: number = 0) {
-        return this.http.post<IOrder>('shop/cashier/checkout', {goods, address, shipping, payment, type});
+    public previewOrder(data: ICashierData) {
+        return this.http.post<IOrder>('shop/cashier/preview', data);
+    }
+
+    public checkoutOrder(data: ICashierData) {
+        return this.http.post<IOrder>('shop/cashier/checkout', data);
     }
 
     public site() {

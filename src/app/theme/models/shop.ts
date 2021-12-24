@@ -312,6 +312,17 @@ export interface ICartGroup {
     goods_list: ICartItem[];
 }
 
+export interface ICashierData {
+    type?: number;
+    goods: number[] | ICartItem[];
+    address: number|IAddress;
+    shipping?: number;
+    payment?: number;
+    coupon?: number;
+    invoice?: IInvoiceTitle|number;
+    use_money?: boolean;
+}
+
 export interface IButton {
     action: string;
     text: string;
@@ -399,6 +410,27 @@ export interface ICoupon {
     end_at: number;
     created_at: string;
     updated_at: string;
+    open?: boolean;
+    expired?: boolean;
+}
+
+export interface ICouponLog {
+    id: number;
+    coupon_id: number;
+    serial_number: string;
+    user_id: number;
+    order_id: number;
+    used_at: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IGoodsCard {
+    id: number;
+    goods_id: number;
+    card_no: string;
+    card_pwd: string;
+    order_id?: number;
 }
 
 export interface IInvoiceTitle {

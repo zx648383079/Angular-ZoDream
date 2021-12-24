@@ -4,6 +4,7 @@ import { IErrorResult } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { UploadButtonEvent } from '../../../form';
 
 @Component({
   selector: 'app-emoji',
@@ -113,15 +114,20 @@ export class EmojiComponent implements OnInit {
         modal.open();
     }
 
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
+    public uploadFile(event: UploadButtonEvent) {
         const form = new FormData();
-        form.append('file', files[0]);
-        this.service.emojiImport(form).subscribe(_ => {
-            this.tapRefresh();
-            this.toastrService.success('导入成功！');
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        form.append('file', event.files[0]);
+        event.enter();
+        this.service.emojiImport(form).subscribe({
+            next: _ => {
+                event.reset();
+                this.tapRefresh();
+                this.toastrService.success('导入成功！');
+            }, 
+            error: err => {
+                event.reset();
+                this.toastrService.warning(err);
+            }
         });
     }
 

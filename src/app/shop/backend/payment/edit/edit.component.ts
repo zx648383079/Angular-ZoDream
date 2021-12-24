@@ -3,9 +3,9 @@ import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { IItem } from '../../../../theme/models/seo';
 import { IPayment, IShipping } from '../../../../theme/models/shop';
-import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { PaymentService } from '../../payment.service';
 
 @Component({
@@ -59,7 +59,7 @@ export class EditPaymentComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -68,9 +68,17 @@ export class EditPaymentComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        this.service.paymentSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.paymentSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -8,9 +8,9 @@
     <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
         <ng-content></ng-content>
     </div>
-    <div class="dialog-footer">
+    <div class="dialog-footer" *ngIf="footerVisible">
         <div class="btn-group">
-            <ng-container  *ngIf="buttonVisible">
+            <ng-container *ngIf="buttonVisible">
                 <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>
                 <div class="btn btn-danger" (click)="close(false)">{{ cancelText }}</div>
             </ng-container>

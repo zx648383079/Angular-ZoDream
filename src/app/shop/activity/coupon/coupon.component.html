@@ -1,8 +1,8 @@
 <div class="coupon-page">
     <div class="container">
         <nav class="breadcrumb">
-            <a class="breadcrumb-item" routerLink="../">Home</a>
-            <span class="breadcrumb-item active">领券中心</span>
+            <a class="breadcrumb-item" routerLink="../" i18n>Home</a>
+            <span class="breadcrumb-item active" i18n>Coupon</span>
         </nav>
 
         <div>
@@ -12,9 +12,16 @@
                 </div>
                 <div class="info">
                     <div class="price">
-                        <em>
-                            {{ item.type > 0 ? item.money + '折' : item.money }}
-                        </em>
+                        <ng-container *ngIf="item.type > 0; else elseTemplate">
+                            <em>
+                                {{ item.money }}折
+                            </em>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <em>
+                                ￥{{ item.money }}
+                            </em>
+                        </ng-template>
                         <span class="limit">满{{ item.min_money }}元可用</span>
                     </div>
                     <div class="rang">

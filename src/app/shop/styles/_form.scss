@@ -24,3 +24,22 @@
         background-color: #b4a078;
     }
 }
+
+.price-input {
+    display: inline-flex;
+    align-items: center;
+    .form-control {
+        width: 4rem;
+        height: 2rem;
+        padding: 0;
+        text-align: center;
+        &:first-of-type {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &:last-of-type {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}

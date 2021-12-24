@@ -4,7 +4,7 @@
             <div class="top-left">
                 <a class="home" routerLink="/shop/market">
                     <i class="iconfont icon-home"></i>
-                    首页
+                    <ng-container i18n>Home</ng-container>
                 </a>
                 <div class="top-notice">
                     <i class="iconfont icon-volume-up"></i>
@@ -20,94 +20,79 @@
                 <div class="top-item">
                     <ng-container *ngIf="user; else elseTemplate">
                         <a routerLink="/shop/member">{{ user.name }}</a>
-                        <a (click)="tapLogout()">Sign out</a>
+                        <a (click)="tapLogout()" i18n>Sign out</a>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <a routerLink="/shop/market/auth">Sign in</a>
-                        <a routerLink="/shop/market/auth">Sign up</a>
+                        <a routerLink="/shop/market/auth" i18n>Sign in</a>
+                        <a routerLink="/shop/market/auth" i18n>Sign up</a>
                     </ng-template>
                 </div>
                 <div class="top-item">
-                    <a routerLink="/shop/member/order">我的订单</a>
+                    <a routerLink="/shop/member/order" i18n>My Orders</a>
                 </div>
                 <div class="top-item">
-                    <a routerLink="/shop/member/account/center">会员</a>
+                    <a routerLink="/shop/member/account/center" i18n>Account</a>
                 </div>
                 <div class="top-item">
                     <div class="drop-header">
-                        Customer Service
+                        <ng-container i18n>Customer Service</ng-container>
                         <i class="iconfont icon-chevron-down"></i>
                     </div>
                     <div class="drop-menu">
                         <ul>
-                            <li>
-                                在线客服
+                            <li i18n>
+                                Online service
                             </li>
                             <li>
-                                <a routerLink="/shop/market/article/help">帮助中心</a>
+                                <a routerLink="/shop/market/article/help" i18n>Help center</a>
                             </li>
-                            <li>商务合作</li>
-                            <li>开发平台</li>
+                            <li i18n>Business</li>
+                            <li i18n>Development</li>
                         </ul>
                     </div>
                 </div>
                 <div class="top-item large-drop">
                     <div class="drop-header">
-                        网站导航
+                        <ng-container i18n>Sitemap</ng-container>
                         <i class="iconfont icon-chevron-down"></i>
                     </div>
                     <div class="drop-large-menu">
                         <div class="group">
-                            <div class="group-header">
-                                特色主题
+                            <div class="group-header" i18n>
+                                Featured
                             </div>
                             <div class="group-body">
                                 <ul>
                                     <li>
-                                        <a routerLink="/shop/market/activity/auction">拍卖</a>
+                                        <a routerLink="/shop/market/activity/auction" i18n>Auction</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/seckill">秒杀</a>
+                                        <a routerLink="/shop/market/activity/seckill" i18n>Seckill</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/presale">预售</a>
+                                        <a routerLink="/shop/market/activity/presale" i18n>Presale</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/trial">新品试用</a>
+                                        <a routerLink="/shop/market/activity/trial" i18n>Free trial</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/bargain">砍价</a>
+                                        <a routerLink="/shop/market/activity/bargain" i18n>Bargain</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/group_buy">团购</a>
+                                        <a routerLink="/shop/market/activity/group_buy" i18n>Group buy</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/mix">超值礼包</a>
+                                        <a routerLink="/shop/market/activity/mix" i18n>Mix</a>
                                     </li>
                                     <li>
-                                        <a routerLink="/shop/market/activity/coupon">优惠券</a>
+                                        <a routerLink="/shop/market/activity/coupon" i18n>Coupon</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="group">
-                            <div class="group-header">
-                                行业频道
-                            </div>
-                            <div class="group-body">
-                                <ul>
-                                    <li>
-                                        拍卖
-                                    </li>
-                                    <li>
-                                        秒杀
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="group">
-                            <div class="group-header">
-                                生活服务
+                            <div class="group-header" i18n>
+                                Industry Channel
                             </div>
                             <div class="group-body">
                                 <ul>
@@ -121,8 +106,23 @@
                             </div>
                         </div>
                         <div class="group">
-                            <div class="group-header">
-                                更多精选
+                            <div class="group-header" i18n>
+                                Domestic services
+                            </div>
+                            <div class="group-body">
+                                <ul>
+                                    <li>
+                                        拍卖
+                                    </li>
+                                    <li>
+                                        秒杀
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="group-header" i18n>
+                                More
                             </div>
                             <div class="group-body">
                                 <ul>

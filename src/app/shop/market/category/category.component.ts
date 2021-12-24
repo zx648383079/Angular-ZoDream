@@ -32,6 +32,10 @@ export class CategoryComponent implements OnInit {
     ];
     public sortKey = '';
     public orderAsc = true;
+    public price = {
+        min: '',
+        max: ''
+    };
 
     constructor(
         private route: ActivatedRoute,
@@ -61,6 +65,19 @@ export class CategoryComponent implements OnInit {
             this.sortKey = item.value as string;
             this.orderAsc = !!item.asc;
         }
+    }
+
+    public tapFilter(key: string, val: string) {
+        this.queries[key] = val;
+        for (const item of this.filterItems) {
+            if (item.name !== key) {
+                continue;
+            }
+            for (const it of item.items) {
+                it.selected = it.value === val;
+            }
+        }
+        this.tapRefresh();
     }
 
     public tapRefresh() {

@@ -174,7 +174,7 @@
     <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected"></app-material-panel>
 </app-dialog-box>
 
-<app-dialog-box #sameModal title="相似题目" [buttonVisible]="false">
+<app-dialog-box #sameModal title="相似题目" [footerVisible]="false">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -192,7 +192,7 @@
         </tbody>
     </table>
 </app-dialog-box>
-<app-dialog-box #previewModal title="预览" [buttonVisible]="false">
+<app-dialog-box #previewModal title="预览" [footerVisible]="false">
     <textarea class="form-control" [(ngModel)]="previewData"></textarea>
     <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true"></app-math-mark>
 </app-dialog-box>

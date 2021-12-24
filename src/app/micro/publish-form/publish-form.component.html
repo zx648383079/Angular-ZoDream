@@ -43,7 +43,7 @@
         </div>
     </div>
 </div>
-<app-dialog-box #topicModal i18n-title title="Participate in the topic" [buttonVisible]="false">
+<app-dialog-box #topicModal i18n-title title="Participate in the topic" [footerVisible]="false">
     <div class="flat-input">
         <input type="text" class="form-control" i18n-placeholder placeholder="Topic" [(ngModel)]="topic" (ngModelChange)="onTopicChange()" (keydown)="topicModal.confirmClose($event)">
         <div class="btn btn-primary" (click)="topicModal.close(topic)">

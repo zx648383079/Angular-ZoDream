@@ -161,7 +161,7 @@
 <app-context-menu></app-context-menu>
 
 <!-- 搜索弹窗 -->
-<app-dialog-box class="search-dialog" #searchModal [customHeader]="true" [buttonVisible]="false">
+<app-dialog-box class="search-dialog" #searchModal [customHeader]="true" [footerVisible]="false">
     <ng-container name="header">
         <div class="tab-header">
             <div class="tab-item" [ngClass]="{active: searchData.tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>

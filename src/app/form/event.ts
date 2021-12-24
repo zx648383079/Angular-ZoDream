@@ -19,3 +19,7 @@ export interface CountdownEvent {
      */
     reset(): void;
 }
+
+export interface UploadButtonEvent extends ButtonEvent {
+    files: FileList;
+}

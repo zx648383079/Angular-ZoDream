@@ -29,10 +29,14 @@ export class DialogBoxComponent implements DialogEvent {
      * 整体高度
      */
     @Input() public height = 400;
+
+    @Input() public width = 0;
+
     /**
      * 底部按钮是否显示
      */
     @Input() public buttonVisible = true;
+    @Input() public footerVisible = true;
     @Input() public confirmText = $localize `Ok`;
     @Input() public cancelText =  $localize `Cancel`;
     /**
@@ -68,15 +72,18 @@ export class DialogBoxComponent implements DialogEvent {
                 'margin-top': 0,
             };
         }
-        if (!this.scrollable) {
-            return {
-                'margin-top': '-30vh',
-            };
+        const res: any = {};
+        if (this.width > 0 && this.width < window.innerWidth) {
+            res.width = this.width + 'px';
+            res['margin-left'] = (- this.width / 2) + 'px';
         }
-        return {
-            height: this.height + 'px',
-            'margin-top': (- this.height / 2) + 'px'
-        };
+        if (!this.scrollable) {
+            res['margin-top'] = '-30vh';
+            return res;
+        }
+        res.height = this.height + 'px';
+        res['margin-top'] = (- this.height / 2) + 'px';
+        return res;
     }
 
     /**

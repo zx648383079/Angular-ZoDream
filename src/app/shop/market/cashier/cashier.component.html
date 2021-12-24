@@ -74,8 +74,8 @@
                <div>商品信息</div> 
                <div>单价</div>
                <div>数量</div>
-               <div>小计</div>
-               <div>实付</div>
+               <div class="auto-hide">小计</div>
+               <div class="auto-hide">实付</div>
             </div>
             <div class="panel-body">
                 <ng-container *ngFor="let group of items">
@@ -96,8 +96,8 @@
                         </div> 
                         <div>{{ item.price | price }}</div>
                         <div>{{ item.amount }}</div>
-                        <div>{{ item.price * item.amount | price }}</div>
-                        <div>{{ item.price * item.amount | price }}</div>
+                        <div class="auto-hide">{{ item.price * item.amount | price }}</div>
+                        <div class="auto-hide">{{ item.price * item.amount | price }}</div>
                     </div>
                 </ng-container>
                 
@@ -123,11 +123,54 @@
                 </div>
                 <div class="invoice-box">
                     <h4>发票信息：</h4>
-                    <input type="checkbox">我要开发票
+                    <div class="invoice-line">
+                        <input type="checkbox">我要开发票
+                        <a (click)="tapEditInvoice()">修改</a>
+                    </div>
                 </div>
                 <div class="coupon-box">
-                    <h4>使用优惠券(0张)</h4>
-                    
+                    <h4>使用优惠券({{ couponItems.length }}张)</h4>
+                    <div class="tab-box">
+                        <div class="tab-header">
+                            <div class="tab-item" [ngClass]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
+                            <div class="tab-item" [ngClass]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
+                        </div>
+                        <div class="tab-body">
+                            <div class="tab-item" [ngClass]="{active: couponIndex < 1}">
+                                <ng-container *ngFor="let item of couponItems">
+                                    <div class="coupon-item" [ngClass]="{active: item.id == coupon?.id, expired: item.expired}" (click)="couponChanged(item)">
+                                        <div class="item-body">
+                                            <div class="money">
+                                                <ng-container *ngIf="item.type > 0; else elseTemplate">
+                                                    <em>
+                                                        {{ item.money }}折
+                                                    </em>
+                                                </ng-container>
+                                                <ng-template #elseTemplate>
+                                                    <em>
+                                                        ￥{{ item.money }}
+                                                    </em>
+                                                </ng-template>
+                                                <span class="limit">满{{ item.min_money }}元可用</span>
+                                            </div>
+                                            <div class="time">
+                                                有效期至{{ item.end_at | timestamp }}
+                                            </div>
+                                        </div>
+                                        <div class="item-footer">
+                                            <div class="item-tag">[限品类]</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
+                                <div class="flat-input">
+                                    <input type="text" class="form-control">
+                                    <button class="btn btn-primary">兑换</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card-box">
@@ -159,7 +202,7 @@
 <div id="address-dialog" class="dialog dialog-box"  [@dialogOpen]="dialogOpen == 1 ? 'open' : 'closed'">
     <div class="dialog-header">
         <div class="dialog-title">选择地址</div>
-        <i class="fa fa-close dialog-close"></i>
+        <i class="iconfont icon-close dialog-close" (click)="dialogOpen = 0"></i>
     </div>
     <div class="dialog-body">
         <ng-container *ngFor="let item of addressItems">
@@ -170,24 +213,13 @@
                 <span class="default" *ngIf="item.is_default">默认地址</span>
             </div>
         </ng-container>
-        
     </div>
     <div class="dialog-footer">
-        <button type="button" class="btn btn-primary" (click)="tapDialogYes()">确认</button>
-        <button type="button" class="btn btn-danger" (click)="dialogOpen = 0">取消</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" (click)="tapDialogYes()">确认</button>
+            <button type="button" class="btn btn-danger" (click)="dialogOpen = 0">取消</button>
+        </div>
     </div>
 </div>
 
-<div class="dialog dialog-box" [@dialogOpen]="dialogOpen == 2 ? 'open' : 'closed'">
-    <div class="dialog-header">
-        <div class="dialog-title">发票信息</div>
-        <i class="fa fa-close dialog-close"></i>
-    </div>
-    <div class="dialog-body">
-        
-    </div>
-    <div class="dialog-footer">
-        <button type="button" class="btn btn-primary"  (click)="tapDialogYes()">确认</button>
-        <button type="button" class="btn btn-danger" (click)="dialogOpen = 0">取消</button>
-    </div>
-</div>
+<app-invoice-dialog></app-invoice-dialog>

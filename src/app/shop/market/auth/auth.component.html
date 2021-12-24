@@ -1,40 +1,40 @@
-<div class="login-page" style="background-image: url(https://yanxuan.nosdn.127.net/6c20940c7b36612b0ed4d7b0a8a4aafe.jpg);">
+<div class="login-page" [ngStyle]="boxStyle">
   <div class="container">
       <div class="page-box">
           <div class="login-box">
               <div class="box-main">
                     <div class="box-header">
-                        <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">手机号登录</a>
-                        <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">邮箱登录</a>
+                        <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Quick login</a>
+                        <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Account login</a>
                     </div>
                     <div class="box-tab">
                           <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                                 <form [formGroup]="mobileForm" (ngSubmit)="tapSignIn()">
                                     <div class="input-group">
-                                        <input type="text" placeholder="请输入手机号" formControlName="mobile" autocomplete="off">
+                                        <input type="text" i18n-placeholder placeholder="Please input phone number" formControlName="mobile" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group code-input">
-                                        <input type="text" formControlName="code" placeholder="请输入验证码">
+                                        <input type="text" formControlName="code" i18n-placeholder placeholder="SMS verification code">
                                         <i class="iconfont icon-lock" aria-hidden="true"></i>
                                         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
                                     </div>
-                                    <button class="btn">登录</button>
+                                    <button class="btn" i18n>Sign in</button>
                                 </form>
                           </div>
                           <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
                                 <form [formGroup]="emailForm" (ngSubmit)="tapSignIn()">
                                     <div class="input-group">
-                                        <input type="email" formControlName="email" placeholder="请输入邮箱" autocomplete="off">
+                                        <input type="email" formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group">
-                                        <input type="password" formControlName="password" placeholder="请输入密码" autocomplete="off">
+                                        <input type="password" formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
                                         <i class="iconfont icon-lock" aria-hidden="true" ></i>
                                     </div>
-                                    <button class="btn">登录</button>
+                                    <button class="btn" i18n>Sign in</button>
                                 </form>
                           </div>
                           <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
@@ -45,10 +45,10 @@
               </div>
               <div class="box-footer">
                   <div class="login-oauth-box">
-                    <a (click)="tapOAuth('qq')" title="QQ登录"><i class="iconfont icon-qq"></i></a>
-                    <a  (click)="tapOAuth('wechat')" title="微信登录"><i class="iconfont icon-wechat"></i></a>
-                    <a  (click)="tapOAuth('weibo')" title="微博登录"><i class="iconfont icon-weibo"></i></a>
-                    <a  (click)="tapOAuth('github')" title="GITHUB登录"><i class="iconfont icon-github"></i></a>
+                    <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
+                    <a  (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
+                    <a  (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
+                    <a  (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
                   </div>
               </div>
           </div>

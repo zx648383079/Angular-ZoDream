@@ -14,6 +14,7 @@ import { AttributeComponent } from './attribute/attribute.component';
 import { EditAttributeComponent } from './attribute/edit/edit-attribute.component';
 import { SearchTypePipe } from './search-type.pipe';
 import { AttributeTypePipe } from './attribute-type.pipe';
+import { GoodsCardComponent } from './card/goods-card.component';
 
 const routes: Routes = [
     {
@@ -31,6 +32,10 @@ const routes: Routes = [
     {
         path: 'edit/:id',
         component: EditComponent,
+    },
+    {
+        path: 'card/:goods',
+        component: GoodsCardComponent,
     },
     {
         path: 'trash',
@@ -100,6 +105,7 @@ export class GoodsRoutingModule {
 
 export const goodsRoutedComponents = [
     GoodsComponent,
+    GoodsCardComponent,
     ListComponent,
     EditComponent,
     TrashComponent,

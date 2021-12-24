@@ -104,14 +104,11 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #importModal [buttonVisible]="false" title="导入表情包">
+<app-dialog-box #importModal [footerVisible]="false" title="导入表情包">
     <div class="form-group">
         <label for="content-input">选择文件</label>
         <div class="input-group">
-            <div class="file-input">
-                <label for="fileUpload" class="btn btn-primary">上传</label>
-                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="application/x-zip-compressed" />
-            </div>
+            <app-upload-button class="btn btn-primary" accept="application/x-zip-compressed" (uploading)="uploadFile($event)">上传</app-upload-button>
         </div>
     </div>
 </app-dialog-box>

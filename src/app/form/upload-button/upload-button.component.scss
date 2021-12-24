@@ -1,0 +1,15 @@
+@import '../action-button/actionButton';
+:host {
+    padding: 0;
+}
+.action-body {
+    label {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+    }
+    input[type='file'] {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+}

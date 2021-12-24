@@ -159,15 +159,17 @@ export class IncomeComponent implements OnInit {
     }
 
     public uploadFile(event: any) {
-        const files = event.target.files as FileList;
         const form = new FormData();
-        form.append('file', files[0]);
+        form.append('file', event.files[0]);
+        event.enter();
         this.service.logImport(form).subscribe({
             next: _ => {
+                event.reset();
                 this.tapRefresh();
                 this.toastrService.success('导入成功');
             },
             error: err => {
+                event.reset();
                 this.toastrService.error(err);
             }
         });

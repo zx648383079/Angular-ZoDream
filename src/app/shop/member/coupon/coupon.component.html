@@ -31,34 +31,40 @@
                 <div class="tab-body">
                     <div class="tab-item active">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="coupon-item">
+                            <div class="col-md-4" *ngFor="let item of items">
+                                <div class="coupon-item" [ngClass]="{open: item.open, expired: item.expired}">
                                     <div class="coupon-info">
-                                        <div class="money">15</div>
+                                        <div class="money">
+                                            <ng-container *ngIf="item.type > 0; else elseTemplate">
+                                                <em>
+                                                    {{ item.money }}折
+                                                </em>
+                                            </ng-container>
+                                            <ng-template #elseTemplate>
+                                                <em>
+                                                    ￥{{ item.money }}
+                                                </em>
+                                            </ng-template>
+                                        </div>
                                         <div>
-                                            <div>name</div>
-                                            <div class="time">2018.11.23-2018.11.23</div>
-                                            <a href="">去使用</a>
+                                            <div>{{ item.name }}</div>
+                                            <div class="time">{{ item.start_at |timestamp }}-{{ item.end_at | timestamp }}</div>
+                                            <a *ngIf="!item.expired">去使用</a>
                                         </div>
                                     </div>
                                     <div class="coupon-tip">
                                         <div class="tip-body">
                                             厨房配件专享；限时购、特价等特惠商品，处于新品期的商品及详情页标注不可用券的商品除外
                                         </div>
-                                        <i class="iconfont icon-chevron-down"></i>
+                                        <i class="iconfont" [ngClass]="{'icon-chevron-down': !item.open, 'icon-chevron-up': item.open}" (click)="item.open = !item.open"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-item">
-                        <div class="empty-box">
-                            <div class="icon"></div>
+                        <div class="empty-box" *ngIf="!isLoading && total < 1">
+                            <div class="iconfont icon-search"></div>
                             <div class="tip">优惠券列表还是空的</div>
                         </div>
-                    </div>
-                    <div class="tab-item">
-
                     </div>
                 </div>
             </div>

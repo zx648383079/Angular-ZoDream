@@ -9,12 +9,16 @@ ul,li {
     grid-template-columns: 112px 1fr;
     background-color: #c0ae8a;
     color: white;
+    height: 6rem;
     .money {
         height: 36px;
         overflow: hidden;
         text-align: center;
         line-height: 1.2;
         font-size: 36px;
+        em {
+            font-style: normal;
+        }
     }
     .time {
         font-size: 12px;
@@ -56,6 +60,14 @@ ul,li {
         .tip-body {
             word-break: break-all;
             white-space: inherit;
+        }
+    }
+    &.expired {
+        .coupon-info {
+            background-color: #999;
+        }
+        .coupon-tip {
+            background-color: #ccc;
         }
     }
 }

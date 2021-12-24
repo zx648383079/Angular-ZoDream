@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import {
     IActivity, IActivityTime, IAuctionConfigure, IBargainConfigure, ICashBackConfigure,
-    ICoupon, IDiscountConfigure, IFreeTrialConfigure, IGroupBuyConfigure,
+    ICoupon, ICouponLog, IDiscountConfigure, IFreeTrialConfigure, IGroupBuyConfigure,
     ILotteryConfigure, 
     IMixConfigure,
     IPreSaleConfigure,
@@ -120,6 +120,28 @@ export class ActivityService {
                 id
             }
         });
+    }
+
+    public couponCodeList(params: any) {
+        return this.http.get<IPage<ICouponLog>>('shop/admin/activity/coupon/code', {
+            params,
+        });
+    }
+
+    public couponCodeRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('shop/admin/activity/coupon/code_delete', {
+            params: {
+                id
+            }
+        });
+    }
+
+    public couponCodeGenerate(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/admin/activity/coupon/code_generate', data);
+    }
+
+    public couponCodeImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/admin/activity/coupon/code_import', data);
     }
 
     public discountList(params: any) {

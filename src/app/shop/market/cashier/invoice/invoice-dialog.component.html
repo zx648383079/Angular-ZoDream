@@ -1,0 +1,48 @@
+<div class="dialog dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <div class="dialog-title">发票信息</div>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+    </div>
+    <div class="dialog-body">
+        <div class="input-group">
+            <label>发票类型</label>
+            <div class="radio-box">
+                <ng-container *ngFor="let item of typeItems;let i = index">
+                 <span [ngClass]="{active: editData.type == i}" (click)="editData.type = i">{{ item }}</span>
+                </ng-container>
+                <span class="disable">增值税专用发票</span>
+            </div>
+            <div class="tip">电子普通发票与纸质普通发票具备同等法律效力，可支持报销入账</div>
+        </div>
+        <div class="input-group">
+            <label>发票抬头</label>
+            <div class="radio-box">
+                <ng-container *ngFor="let item of titleTypeItems;let i = index">
+                    <span [ngClass]="{active: editData.title_type == i}" (click)="editData.title_type = i">{{ item }}</span>
+                </ng-container>
+            </div>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="抬头" [(ngModel)]="editData.title">
+            <input type="text" placeholder="税号" [(ngModel)]="editData.tax_no">
+        </div>
+        <div class="input-line">
+            <p><span>收票人手机</span><span></span></p>
+            <p><span>收票人邮箱</span><span></span></p>
+        </div>
+        <div class="input-group">
+            <label>发票内容</label>
+            <div class="radio-box">
+                <ng-container *ngFor="let item of contentItems;let i = index">
+                    <span [ngClass]="{active: editData.content == i}" (click)="editData.content = i">{{ item }}</span>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary"  (click)="close()">确认</button>
+            <button type="button" class="btn btn-danger" (click)="close()">取消</button>
+        </div>
+    </div>
+</div>

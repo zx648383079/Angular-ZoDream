@@ -2,8 +2,8 @@
   <div class="container">
 
       <nav class="breadcrumb">
-          <a class="breadcrumb-item" routerLink="../">All Products</a>
-          <span class="breadcrumb-item active">Search "{{ queries.keywords }}"</span>
+          <a class="breadcrumb-item" routerLink="../" i18n>All Products</a>
+          <span class="breadcrumb-item active" i18n>Search "{{ queries.keywords }}"</span>
       </nav>
 
       <div class="goods-area">
@@ -19,8 +19,8 @@
                 </div>
               </div>
               <div class="filter-line">
-                <div class="filter-header">
-                    排序
+                <div class="filter-header" i18n>
+                    Sort by
                 </div>
                 <div class="filter-body">
                     <ng-container *ngFor="let item of sortItems">

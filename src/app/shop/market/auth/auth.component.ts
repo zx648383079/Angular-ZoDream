@@ -9,7 +9,7 @@ import { CountdownEvent } from '../../../form';
 import { IErrorResponse } from '../../../theme/models/page';
 import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../theme/services';
-import { getCurrentTime, uriEncode } from '../../../theme/utils';
+import { assetUri, getCurrentTime, uriEncode } from '../../../theme/utils';
 import { mobileValidator, passwordValidator } from '../../../theme/validators';
 import { ShopAppState } from '../../shop.reducer';
 
@@ -37,6 +37,13 @@ export class AuthComponent implements OnInit {
         remember: [false],
         captcha: [''],
     });
+
+    public get boxStyle() {
+        const bg = assetUri('assets/images/sd_bg.png');
+        return {
+            'background-image': `url(${bg})`
+        };
+    }
 
     constructor(
         private fb: FormBuilder,
@@ -69,11 +76,12 @@ export class AuthComponent implements OnInit {
         const data = Object.assign({}, form.value);
         this.authService
             .login(data)
-            .subscribe(_ => {},
-                err => {
+            .subscribe({
+                error: err => {
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);
-                });
+                }
+            });
     }
 
     public tapOAuth(type: string) {

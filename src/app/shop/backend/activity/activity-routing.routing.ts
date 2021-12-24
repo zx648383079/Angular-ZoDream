@@ -76,6 +76,7 @@ import {
 } from './seckill/seckill.component';
 import { SeckillGoodsComponent } from './seckill/goods/seckill-goods.component';
 import { TimeComponent } from './seckill/time/time.component';
+import { CouponCodeComponent } from './coupon/code/coupon-code.component';
 
 const routes: Routes = [{
         path: 'auction/create',
@@ -116,6 +117,10 @@ const routes: Routes = [{
     {
         path: 'coupon/create',
         component: EditCouponComponent,
+    },
+    {
+        path: 'coupon/code/:coupon',
+        component: CouponCodeComponent,
     },
     {
         path: 'coupon/edit/:id',
@@ -235,7 +240,7 @@ export class ActivityRoutingModule {}
 
 export const activityRoutedComponents = [
     ActivityComponent, AuctionComponent, EditAuctionComponent, BargainComponent, EditBargainComponent, CashBackComponent,
-    EditCashBackComponent, CouponComponent, EditCouponComponent, DiscountComponent, EditDiscountComponent,
+    EditCashBackComponent, CouponComponent, EditCouponComponent, CouponCodeComponent, DiscountComponent, EditDiscountComponent,
     FreeTrialComponent, EditFreeTrialComponent,
     GroupBuyComponent,
     EditGroupBuyComponent,

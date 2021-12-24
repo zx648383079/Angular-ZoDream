@@ -55,7 +55,7 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
-<app-dialog-box #logisticsModal title="物流信息" [buttonVisible]="false">
+<app-dialog-box #logisticsModal title="物流信息" [footerVisible]="false">
 <div class="time-axis">
     <div class="time-item active">
         <div class="item-icon">收</div>

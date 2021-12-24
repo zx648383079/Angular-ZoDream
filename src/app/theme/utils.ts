@@ -1,3 +1,5 @@
+import { environment } from '../../environments/environment';
+
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }
@@ -74,6 +76,19 @@ export function formatAgo(value: any, now: Date = new Date()): string {
         return twoPad(timeDate.getMonth() + 1) + '-' + twoPad(timeDate.getDate());
     }
     return timeDate.getFullYear() + '-' + twoPad(timeDate.getMonth() + 1);
+}
+
+export function assetUri(value: string) {
+    if (!value) {
+        return null;
+    }
+    if (value.indexOf('//') >= 0) {
+        return value;
+    }
+    if (value.startsWith('/')) {
+        return environment.assetUri + value;
+    }
+    return environment.assetUri + '/' + value;
 }
 
 export function getCurrentTime() {

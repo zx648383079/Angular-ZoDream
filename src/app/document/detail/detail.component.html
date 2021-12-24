@@ -188,7 +188,7 @@
     </div>
 </div>
 
-<app-dialog-box #codeModal i18n-title title="Code generation" [buttonVisible]="false">
+<app-dialog-box #codeModal i18n-title title="Code generation" [footerVisible]="false">
     <form class="search-bar" (ngSubmit)="tapGenerate(searchForm.value)" #searchForm="ngForm">
         <select name="kind" ngModel class="form-control">
             <option *ngFor="let item of kindItems;let i = index" [value]="i">{{ item }}</option>

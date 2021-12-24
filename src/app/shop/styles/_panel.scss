@@ -9,3 +9,20 @@
     }
 }
 
+.empty-box {
+    margin: 9.375rem auto 0;
+    text-align: center;
+    .tip {
+        font-size: 2rem;
+        color: #999;
+    }
+    .iconfont {
+        height: 11.25rem;
+        width: 11.25rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 4rem;
+        color: #ccc;
+    }
+}

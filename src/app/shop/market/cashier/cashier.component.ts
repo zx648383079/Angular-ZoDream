@@ -34,6 +34,8 @@ export class CashierComponent implements OnInit {
     public payment: IPayment;
     public shippingItems: IShipping[] = [];
     public couponItems: ICoupon[] = [];
+    private couponLoaded = false;
+    public couponIndex = 0;
     public shipping: IShipping;
     public invoice: IInvoiceTitle;
     public invoiceItems: IInvoiceTitle[] = [];
@@ -54,6 +56,10 @@ export class CashierComponent implements OnInit {
     ) {
         this.themeService.setTitle('结算');
         this.store.select(selectShopCheckout).subscribe(res => {
+            if (res.length < 1) {
+                history.back();
+                return;
+            }
             this.items = res;
             this.cartData = this.getGoodsIds(res);
         });
@@ -91,6 +97,16 @@ export class CashierComponent implements OnInit {
         });
     }
 
+    public tapEditInvoice() {
+        this.dialogOpen = 0;
+        
+    }
+
+    public couponChanged(item: ICoupon) {
+        this.coupon = {...item};
+        this.refreshPrice();
+    }
+
     public paymentChanged(item: IPayment) {
         this.payment = item;
         this.refreshPrice();
@@ -99,19 +115,33 @@ export class CashierComponent implements OnInit {
     public shippingChanged(item: IShipping) {
         this.shipping = item;
         this.refreshPrice();
+        if (this.couponLoaded) {
+            return;
+        }
+        this.service.orderCouponList(this.cartData.goods, this.cartData.type).subscribe(res => {
+            this.couponItems = res.data;
+        });
     }
 
     public refreshPrice() {
         if (!this.address || !this.cartData) {
             return;
         }
-        this.service.previewOrder(
-            this.cartData.goods,
-            this.address.id,
-            this.shipping ? this.shipping.id : 0,
-            this.payment ? this.payment.id : 0,
-            this.cartData.type).subscribe(res => {
-            this.order = res;
+        this.service.previewOrder({
+            goods: this.cartData.goods,
+            address: this.address.id,
+            shipping: this.shipping ? this.shipping.id : 0,
+            payment: this.payment ? this.payment.id : 0,
+            type: this.cartData.type,
+            coupon: this.coupon ? this.coupon.id : 0,
+            invoice: this.invoice || 0
+        }).subscribe({
+            next: res => {
+                this.order = res;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -132,14 +162,22 @@ export class CashierComponent implements OnInit {
             this.toastrService.warning('请选择支付方式');
             return;
         }
-        this.service.checkoutOrder(
-            this.cartData.goods,
-            this.address.id,
-            this.shipping.id,
-            this.payment.id,
-            this.cartData.type).subscribe(res => {
-            this.store.dispatch(setCheckoutCart({items: []}));
-            this.router.navigate(['pay', res.id]);
+        this.service.checkoutOrder({
+            goods: this.cartData.goods,
+            address: this.address.id,
+            shipping: this.shipping.id,
+            payment: this.payment.id,
+            type: this.cartData.type,
+            coupon: this.coupon ? this.coupon.id : 0,
+            invoice: this.invoice || 0
+        }).subscribe({
+            next: res => {
+                this.store.dispatch(setCheckoutCart({items: []}));
+                this.router.navigate(['pay', res.id]);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

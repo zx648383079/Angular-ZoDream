@@ -25,6 +25,9 @@ export class PricePipe implements PipeTransform {
         if (typeof value !== 'number') {
             value = parseFloat(value);
         }
+        if (isNaN(value)) {
+            value = 0;
+        }
         return this.currency + value.toLocaleString();
     }
 

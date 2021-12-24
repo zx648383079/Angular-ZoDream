@@ -15,9 +15,11 @@
     <div class="container">
         <div class="template-lazy" appLazyLoad (lazyLoading)="loadBrand()">
             <div class="floor-header">
-                <h3>Featured Brands</h3>
+                <h3 i18n>Featured Brands</h3>
                 <small></small>
-                <a class="header-right">More &gt;</a>
+                <a class="header-right">
+                    <ng-container i18n>More</ng-container>
+                    &gt;</a>
             </div>
             <div class="floor-grid" *ngIf="brandItems.length > 0">
                 <a *ngFor="let item of brandItems">
@@ -33,9 +35,9 @@
     <div class="floor">
         <div class="container">
             <div class="floor-header">
-                <h3>New Products</h3>
+                <h3 i18n>New Products</h3>
                 <small></small>
-                <a class="header-right">More &gt;</a>
+                <a class="header-right"><ng-container i18n>More</ng-container>&gt;</a>
             </div>
             <app-goods-slider *ngIf="newItems.length > 0" [items]="newItems"></app-goods-slider>
         </div>
@@ -44,10 +46,10 @@
     <div class="floor floor-out">
         <div class="container">
             <div class="floor-header">
-                <h3>Featured Products</h3>
+                <h3 i18n>Featured Products</h3>
                 <small></small>
                 <small></small>
-                <a href="" class="header-right">More &gt;</a>
+                <a class="header-right"><ng-container i18n>More</ng-container>&gt;</a>
             </div>
             <div class="first-goods-list" *ngIf="bestItems.length > 0">
                 <ng-container *ngFor="let item of bestItems">
@@ -75,7 +77,7 @@
                         <b class="spilt" *ngIf="i > 0">/</b>
                         <a [routerLink]="'category/' + item.id">{{ item.name }}</a>
                     </ng-container>
-                    <a [routerLink]="'category/' + floor.id">More &gt;</a>
+                    <a [routerLink]="'category/' + floor.id"><ng-container i18n>More</ng-container>&gt;</a>
                 </div>
                 
             </div>
@@ -105,7 +107,7 @@
     <div class="container">
         <div class="template-lazy" appLazyLoad (lazyLoading)="loadComment()">
             <div class="floor-header">
-                <h3>Customer reviews</h3>
+                <h3 i18n>Customer reviews</h3>
                 <small></small>
             </div>
             <app-goods-slider *ngIf="commentItems.length > 0" [items]="commentItems"></app-goods-slider>

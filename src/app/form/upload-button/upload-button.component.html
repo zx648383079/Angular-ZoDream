@@ -1,0 +1,13 @@
+<div class="action-btn" [ngClass]="{disabled: disabled, loading: loading}">
+    <div class="action-body">
+        <label [for]="fileName">
+            <ng-content></ng-content>
+        </label>
+        <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept" [disabled]="disabled || loading" [multiple]="multiple"/>
+    </div>
+    <div class="action-loading">
+        <span [ngStyle]="loadingStyle"></span>
+        <span [ngStyle]="loadingStyle"></span>
+        <span [ngStyle]="loadingStyle"></span>
+    </div>
+</div>

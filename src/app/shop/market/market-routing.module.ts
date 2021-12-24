@@ -21,6 +21,7 @@ import {
     CartComponent
 } from './cart/cart.component';
 import { CashierComponent } from './cashier/cashier.component';
+import { InvoiceDialogComponent } from './cashier/invoice/invoice-dialog.component';
 import { PayComponent } from './cashier/pay/pay.component';
 import { PayResultComponent } from './cashier/pay/result/pay-result.component';
 import {
@@ -106,4 +107,5 @@ export const marketRoutingComponents = [
     CategoryComponent, SearchComponent, GoodsComponent,
     CartComponent, ArticleDetailComponent, HelpComponent, ArticleComponent,
     PayComponent, CashierComponent, PayResultComponent,
+    InvoiceDialogComponent
 ];

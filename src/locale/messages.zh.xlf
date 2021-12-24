@@ -1348,6 +1348,7 @@
       </trans-unit>
       <trans-unit id="5886728553531638641" datatype="html">
         <source>Book list</source>
+        <target>书单</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/book/book.component.ts</context>
           <context context-type="linenumber">32</context>
@@ -1355,6 +1356,7 @@
       </trans-unit>
       <trans-unit id="829993084781218225" datatype="html">
         <source>Login in</source>
+        <target>登录</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/book/book.component.ts</context>
           <context context-type="linenumber">40</context>
@@ -1369,6 +1371,7 @@
       </trans-unit>
       <trans-unit id="6801535761978393212" datatype="html">
         <source>Back to home</source>
+        <target>返回前台</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/book/book.component.ts</context>
           <context context-type="linenumber">50</context>
@@ -1627,7 +1630,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="841934696444961534" datatype="html">
-        <source>最新</source>
+        <source>News</source>
+        <target>最新</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/book/top/top.component.ts</context>
           <context context-type="linenumber">20</context>
@@ -1635,6 +1639,7 @@
       </trans-unit>
       <trans-unit id="c2c3205d0eb0d896fba8d0b0245f61926db635de" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ month }}"/> cumulative checked in</source>
+        <target><x id="INTERPOLATION" equiv-text="{{ month }}"/>月累计签到</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1642,6 +1647,7 @@
       </trans-unit>
       <trans-unit id="3382aa5d7f520e197fb59a4995fe1beffca2d0ff" datatype="html">
         <source>Mon</source>
+        <target>一</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1653,6 +1659,7 @@
       </trans-unit>
       <trans-unit id="f883ec926274974df0fc46c037cbffd6a863ebc9" datatype="html">
         <source>Tue</source>
+        <target>二</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1664,6 +1671,7 @@
       </trans-unit>
       <trans-unit id="242b4f4b5651e24f9a9007ef153a57981e4b989d" datatype="html">
         <source>Wed</source>
+        <target>三</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1675,6 +1683,7 @@
       </trans-unit>
       <trans-unit id="5a2c39d56b8f00a6a4670a63b53caacbda953be6" datatype="html">
         <source>Thu</source>
+        <target>四</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1686,6 +1695,7 @@
       </trans-unit>
       <trans-unit id="4cdf23d523a0e52e0dec9cd650ffd9bd6952792c" datatype="html">
         <source>Fri</source>
+        <target>五</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1697,6 +1707,7 @@
       </trans-unit>
       <trans-unit id="1283d165a942d7f4c469ba34f99dbb9e927d0261" datatype="html">
         <source>Sat</source>
+        <target>六</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1708,6 +1719,7 @@
       </trans-unit>
       <trans-unit id="6549890cd0d6b59fb0e1aa383b00483a68a55eef" datatype="html">
         <source>Sun</source>
+        <target>七</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/checkin/checkin.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1838,6 +1850,7 @@
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
+        <target>取消</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dialog/box/dialog-box.component.ts</context>
           <context context-type="linenumber">37</context>
@@ -1849,6 +1862,7 @@
       </trans-unit>
       <trans-unit id="6642490651687261039" datatype="html">
         <source>Tip</source>
+        <target>提示</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dialog/confirm/dialog-confirm.component.ts</context>
           <context context-type="linenumber">30</context>
@@ -2683,6 +2697,7 @@
       </trans-unit>
       <trans-unit id="6726510033a53e436cb5510d1cab2945653c4c08" datatype="html">
         <source>Only author</source>
+        <target>只看该作者</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forum/thread/thread.component.html</context>
           <context context-type="linenumber">59</context>
@@ -2694,6 +2709,7 @@
       </trans-unit>
       <trans-unit id="bd1c33f157c04605f89d87b1c3478d12efcf1c62" datatype="html">
         <source>Back to all</source>
+        <target>查看全部楼层</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forum/thread/thread.component.html</context>
           <context context-type="linenumber">60</context>

@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑支付方式' : '新增支付方式'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑支付方式' : '新增支付方式'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
