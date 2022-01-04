@@ -20,7 +20,7 @@
                     <div class="col-md-6">
                         <div class="line-item">
                             <ng-container i18n>Action:</ng-container>
-                            <a (click)="tapAddBook()">{{ data.on_shelf ? '已在书架' : '加入书架' }}</a>
+                            <a (click)="tapAddBook()" i18n>{data.on_shelf, plural, =true {In the bookshelf} =false {Add to bookshelf }}</a>
                         </div>
                         <div class="line-item">
                             <ng-container i18n>Last chapter:</ng-container>

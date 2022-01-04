@@ -1,15 +1,15 @@
 <div class="title-bar">
-    <span>编辑服务</span>
+    <span i18n>Edit Service</span>
 </div>
 <form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
     <div class="form-group row">
-        <label for="name" class="col-md-3 col-form-label">服务名</label>
+        <label for="name" class="col-md-3 col-form-label" i18n>Name</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="name" id="name" placeholder="请输入服务名">
+            <input type="text" class="form-control" formControlName="name" id="name" i18n-placeholder placeholder="Please input name">
         </div>
     </div>
     <div class="form-group row">
-        <label for="cat_id" class="col-md-3 col-form-label">分类</label>
+        <label for="cat_id" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
             <select class="form-control" formControlName="cat_id" id="cat_id">
                 <ng-container *ngFor="let item of categories">
@@ -19,36 +19,36 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="price" class="col-md-3 col-form-label">价格</label>
+        <label for="price" class="col-md-3 col-form-label" i18n>Price</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="price" id="price" placeholder="请输入价格">
+            <input type="text" class="form-control" formControlName="price" id="price" i18n-placeholder placeholder="Please input price">
         </div>
     </div>
     <div class="form-group row">
-        <label for="thumb" class="col-md-3 col-form-label">图片</label>
+        <label for="thumb" class="col-md-3 col-form-label" i18n>Image</label>
         <div class="col-md-9">
             <app-file-input formControlName="thumb"></app-file-input>
         </div>
     </div>
     <div class="form-group row">
-        <label for="brief" class="col-md-3 col-form-label">描述</label>
+        <label for="brief" class="col-md-3 col-form-label" i18n>Description</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="brief" id="brief" placeholder="请输入描述"></textarea>
+            <textarea class="form-control" formControlName="brief" id="brief" i18n-placeholder placeholder="Please input description"></textarea>
         </div>
     </div>
     <div class="form-group row">
-        <label for="content" class="col-md-3 col-form-label">详情</label>
+        <label for="content" class="col-md-3 col-form-label" i18n>Detail</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="content" id="content" placeholder="请输入详情"></textarea>
+            <textarea class="form-control" formControlName="content" id="content" i18n-placeholder placeholder="Please input detail"></textarea>
         </div>
     </div>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>名称</th>
-                <th>别名</th>
-                <th>是否必填</th>
-                <th>不公开</th>
+                <th i18n>Name</th>
+                <th i18n>Alias</th>
+                <th i18n>Required</th>
+                <th i18n>Private</th>
                 <th></th>
             </tr>
         </thead>
@@ -82,6 +82,6 @@
         </tfoot>
     </table>
     <div class="row">
-        <button class="btn btn-primary offset-md-3">保存</button>
+        <button class="btn btn-primary offset-md-3" i18n>Save</button>
     </div>
 </form>

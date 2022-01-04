@@ -42,13 +42,18 @@ export class ProfileComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        if (this.data.status === 1 && !confirm('继续保存将需要重新审核？')) {
+        if (this.data.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
             return;
         }
         const data = Object.assign({}, this.form.value);
-        this.service.waiterSave(data).subscribe(res => {
-            this.data = res;
-            this.toastrService.success('提交成功，等待审核!');
+        this.service.waiterSave(data).subscribe({
+            next: res => {
+                this.data = res;
+                this.toastrService.success($localize `Submitted successfully, waiting for review!`);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

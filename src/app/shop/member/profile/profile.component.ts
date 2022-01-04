@@ -32,11 +32,13 @@ export class ProfileComponent implements OnInit {
     public user: IUser;
     public form = this.fb.group({
         name: ['', Validators.required],
-        email: ['', [Validators.email, Validators.required]],
-        mobile: [''],
         sex: [0],
         birthday: [''],
-      });
+    });
+    public tabIndex = 0;
+    public stepData = {
+        name: '',
+    };
 
     constructor(
         private service: ShopService,
@@ -51,8 +53,6 @@ export class ProfileComponent implements OnInit {
                 this.user = user;
                 this.form.patchValue({
                     name: user.name,
-                    email: user.email,
-                    mobile: '',
                     sex: user.sex,
                     birthday: user.birthday,
                 });
@@ -61,6 +61,11 @@ export class ProfileComponent implements OnInit {
                 this.toastrService.warning(res.message);
             }
         });
+    }
+
+    public tapStepEdit(name = 'email') {
+        this.tabIndex = 2;
+        this.stepData.name = name;
     }
 
 

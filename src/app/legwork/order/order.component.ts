@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
-import { IErrorResult } from '../../theme/models/page';
+import { IErrorResult, IPageQueries } from '../../theme/models/page';
+import { applyHistory, getQueries } from '../../theme/query';
 import { LegworkService } from '../legwork.service';
 import { IOrder } from '../model';
 
@@ -12,17 +14,25 @@ import { IOrder } from '../model';
 export class OrderComponent implements OnInit {
 
     public items: IOrder[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
 
     constructor(
         private service: LegworkService,
         private toastrService: DialogService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapPay(item: IOrder) {
@@ -34,14 +44,16 @@ export class OrderComponent implements OnInit {
     }
 
     public tapCancel(item: IOrder) {
-        if (!confirm('请确认取消此订单？')) {
-            return;
-        }
-        this.service.orderCancel(item.id).subscribe(_ => {
-            this.toastrService.success('取消成功');
-            this.tapRefresh();
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.toastrService.confirm($localize `Please confirm to cancel this order? `, () => {
+            this.service.orderCancel(item.id).subscribe({
+                next: _ => {
+                    this.toastrService.success($localize `Cancelled successfully`);
+                    this.tapRefresh();
+                }, 
+                error: (err: IErrorResult) => {
+                    this.toastrService.warning(err.error.message);
+                }
+            });
         });
     }
 
@@ -49,11 +61,15 @@ export class OrderComponent implements OnInit {
         this.goPage(1);
     }
 
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -61,15 +77,17 @@ export class OrderComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
-            page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page};
+        this.service.orderList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                applyHistory(this.queries = queries);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

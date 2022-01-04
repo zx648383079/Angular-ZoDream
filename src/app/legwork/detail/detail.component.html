@@ -1,10 +1,12 @@
 <div class="title-bar">
-    <span>服务详情</span>
+    <span i18n>Service detail</span>
 </div>
 <div class="panel-container" *ngIf="data">
     <div class="line-item">
-        <span>服务</span>
-        <span class="name">[{{ data.category.name }}]{{ data.name }}</span>
+        <span i18n>Service</span>
+        <span class="name">
+            <ng-container *ngIf="data.category">[{{ data.category.name }}]</ng-container>
+            {{ data.name }}</span>
     </div>
     <div class="line-tip">
         {{ data.brief }}
@@ -14,12 +16,12 @@
         <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [(ngModel)]="item.value">
     </div>
     <div class="line-item">
-        <span>数量</span>
-        <input type="number" class="form-control" name="amount" [(ngModel)]="amount" min="1" (ngModelChange)="onAmountChange()">
+        <span i18n>Amount</span>
+        <app-number-input [(ngModel)]="amount" min="1" (ngModelChange)="onAmountChange()"></app-number-input>
     </div>
     <div class="line-item">
-        <span>服务费</span>
-        <span class="name">{{ total }}</span>
+        <span i18n>Service charge</span>
+        <span class="name">￥{{ total }}</span>
     </div>
-    <button class="btn btn-primary" (click)="tapSubmit()">下单</button>
+    <button class="btn btn-primary" (click)="tapSubmit()" i18n>Place order</button>
 </div>

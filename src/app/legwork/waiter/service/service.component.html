@@ -1,9 +1,9 @@
 <div class="row">
     <div class="offset-md-8 col-md-4">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" [ngModel]="keywords">
-            <button class="btn btn-primary">搜索</button>
-            <a class="btn btn-info" routerLink="apply">申请服务</a>
+            <input type="text" class="form-control" name="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
+            <button class="btn btn-primary" i18n>Search</button>
+            <a class="btn btn-info" routerLink="apply" i18n>Apply for service</a>
         </form>
     </div>
 </div>
@@ -17,7 +17,7 @@
             {{ item.brief }}
         </div>
         <a class="btn">
-            <span>已申请</span>
+            <span i18n>Applied</span>
         </a>
     </div>
 </ng-container>

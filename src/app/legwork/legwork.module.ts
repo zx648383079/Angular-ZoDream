@@ -12,6 +12,7 @@ import { LegworkService } from './legwork.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../theme/theme.module';
+import { ZreFormModule } from '../form';
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import { ThemeModule } from '../theme/theme.module';
         FormsModule,
         NgSelectModule,
         ReactiveFormsModule,
+        ZreFormModule,
     ],
     declarations: [...legworkRoutingComponents],
     providers: [

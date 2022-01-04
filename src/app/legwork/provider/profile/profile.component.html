@@ -1,42 +1,39 @@
 <div class="title-bar">
-    <span>我的信息(服务商)</span>
+    <span i18n>My profile(Provider)</span>
 </div>
 <form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
     <div class="form-group row">
-        <label for="name" class="col-md-3 col-form-label">称呼</label>
+        <label for="name" class="col-md-3 col-form-label" i18n>Company</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="name" id="name" placeholder="请输入称呼">
+            <input type="text" class="form-control" formControlName="name" id="name" i18n-placeholder placeholder="Please input company's name">
         </div>
     </div>
     <div class="form-group row">
         <label for="logo" class="col-md-3 col-form-label">LOGO</label>
-        <div class="col-md-9 file-input">
-            <input type="text" class="form-control" formControlName="logo" id="logo" placeholder="请选择LOGO">
-            <label for="fileUpload" class="btn btn-primary">上传</label>
-            <button type="button" class="btn btn-info" (click)="tapPreview()">预览</button>
-            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+        <div class="col-md-9">
+            <app-file-input formControlName="logo"></app-file-input>
         </div>
     </div>
     <div class="form-group row">
-        <label for="tel" class="col-md-3 col-form-label">联系方式</label>
+        <label for="tel" class="col-md-3 col-form-label" i18n>Tel</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="tel" id="tel" placeholder="请输入联系方式">
+            <input type="text" class="form-control" formControlName="tel" id="tel" i18n-placeholder placeholder="Please input tel">
         </div>
     </div>
     <div class="form-group row">
-        <label for="address" class="col-md-3 col-form-label">联系地址</label>
+        <label for="address" class="col-md-3 col-form-label" i18n>Address</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="address" id="address" placeholder="请输入联系地址"></textarea>
+            <textarea class="form-control" formControlName="address" id="address" i18n-placeholder placeholder="Please input address"></textarea>
         </div>
     </div>
     <div class="form-group row">
-        <label for="address" class="col-md-3 col-form-label">分类</label>
+        <label for="address" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
-            <ng-select [multiple]="true" [items]="categories" bindValue="id" bindLabel="name" formControlName="categories" placeholder="选择分类"></ng-select>
+            <ng-select [multiple]="true" [items]="categories" bindValue="id" bindLabel="name" formControlName="categories" i18n-placeholder placeholder="Select categories"></ng-select>
         </div>
     </div>
     
     <div class="row">
-        <button class="btn btn-primary offset-md-3">保存</button>
+        <button class="btn btn-primary offset-md-3" i18n>Save</button>
     </div>
 </form>

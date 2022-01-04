@@ -1,8 +1,8 @@
 <div class="row">
     <div class="offset-md-8 col-md-4">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" [ngModel]="keywords">
-            <button class="btn btn-primary">搜索</button>
+            <input type="text" class="form-control" name="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
+            <button class="btn btn-primary" i18n>Search</button>
         </form>
     </div>
 </div>
@@ -12,10 +12,11 @@
         <span class="status">{{ item.status_label }}</span>
     </div>
     <div class="order-amount">
-        <span>【{{ item.service.name }}】</span>
+        <span>[{{ item.service.name }}]</span>
         <span class="amount">x {{ item.amount }}</span>
         <span class="price">
-            服务费：￥{{ item.order_amount }}
+            <ng-container i18n>Serive charge</ng-container>
+            :￥{{ item.order_amount }}
         </span>
     </div>
     <div class="order-remark" *ngIf="item.remark">
@@ -26,7 +27,7 @@
     </div>
     <div class="order-footer">
         <div class="order-actions">
-            <a *ngIf="item.status == 40" (click)="tapTaken(item)">结单</a>
+            <a *ngIf="item.status == 40" (click)="tapTaken(item)" i18n>Taken</a>
         </div>
     </div>
 </div>

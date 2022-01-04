@@ -46,12 +46,18 @@ export class EditPaymentComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-        if (!params.id) {
-            return;
-        }
-        this.service.payment(params.id).subscribe(res => {
-            this.data = res;
-        });
+            if (!params.id) {
+                return;
+            }
+            this.service.payment(params.id).subscribe(res => {
+                this.data = res;
+                this.form.patchValue({
+                    name: res.name,
+                    code: res.code,
+                    icon: res.icon,
+                    description: res.description,
+                });
+            });
         });
     }
 

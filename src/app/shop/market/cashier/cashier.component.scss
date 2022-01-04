@@ -198,7 +198,7 @@
 
 .coupon-item {
     display: inline-block;
-    width: 20rem;
+    width: 15rem;
     .money {
         margin-bottom: 0.3125rem;
         em {
@@ -216,6 +216,9 @@
         background-color: #b4a078;
         color: #fff;
         padding: .5rem;
+        .time {
+            font-size: 0.75rem;
+        }
     }
     .item-footer {
         line-height: 2rem;
@@ -229,6 +232,7 @@
     }
     &.active {
         border: 2px solid red;
+        box-sizing: content-box;
         .item-footer {
             border: none;
         }

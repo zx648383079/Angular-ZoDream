@@ -5,20 +5,20 @@
         </div>
         <div>
             <div class="header-tab">
-                <a class="active">
+                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
                     基本
                 </a>
-                <a>
+                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
                     隐私
                 </a>
             </div>
-            <div class="row" *ngIf="user">
+            <div class="row" *ngIf="user" [hidden]="tabIndex == 1">
                 <div class="col-md-4">
                     <h2>基本</h2>
                     <p>个人资料编辑</p>
                 </div>
                 <div class="col-md-8">
-                    <div class="panel-container">
+                    <div class="panel-container" [hidden]="tabIndex > 0">
                         <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
                             <div class="input-group">
                                 <label for="fileUpload">用户头像</label>
@@ -37,8 +37,7 @@
                             <div class="input-group">
                                 <label for="email">邮　　箱</label>
                                 <div>
-                                    <input type="email" id="email" class="form-control" formControlName="email" 
-                                        placeholder="请输入 邮箱">
+                                    <input type="email" id="email" class="form-control" placeholder="请输入 邮箱" [value]="user?.email" (click)="tapStepEdit()" readonly>
                                 </div>
                             </div>
                             <div class="input-group">
@@ -50,8 +49,7 @@
                             <div class="input-group">
                                 <label for="mobile">手机号码</label>
                                 <div>
-                                    <input type="text" id="mobile" class="form-control " formControlName="mobile">
-            
+                                    <input type="text" id="mobile" class="form-control" [value]="user?.mobile" (click)="tapStepEdit('mobile')" readonly>
                                 </div>
                             </div>
                             <div class="input-group">
@@ -65,9 +63,13 @@
                             </div>
                         </form>
                     </div>
+
+                    <ng-container *ngIf="tabIndex == 2">
+                        <app-bind-step [name]="stepData.name" [user]="user"></app-bind-step>
+                    </ng-container>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" [hidden]="tabIndex > 1">
                 <div class="col-md-4">
                     <h2>隐私</h2>
                     <p>个人隐私设置</p>

@@ -35,7 +35,7 @@ export class EditServiceComponent implements OnInit {
         this.service.providerCategory().subscribe(res => {
             this.categories = res.data.filter(i => i.status === 1);
             if (this.categories.length < 1) {
-                this.toastrService.warning('您还没有审核通过的分类，无法发布服务');
+                this.toastrService.warning($localize `You have not approved the classification and cannot publish the service`);
             }
         });
         this.route.params.subscribe(params => {
@@ -97,9 +97,14 @@ export class EditServiceComponent implements OnInit {
             }
             return i;
         });
-        this.service.providerServiceSave(data).subscribe(res => {
-            this.toastrService.success('保存成功');
-            history.back();
+        this.service.providerServiceSave(data).subscribe({
+            next: res => {
+                this.toastrService.success($localize `Save successfully`);
+                history.back();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

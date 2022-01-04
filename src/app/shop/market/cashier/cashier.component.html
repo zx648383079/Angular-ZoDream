@@ -124,7 +124,7 @@
                 <div class="invoice-box">
                     <h4>发票信息：</h4>
                     <div class="invoice-line">
-                        <input type="checkbox">我要开发票
+                        <input type="checkbox">{{ invoice ? '发票抬头：' + invoice.title : '我要开发票' }}
                         <a (click)="tapEditInvoice()">修改</a>
                     </div>
                 </div>
@@ -165,8 +165,8 @@
                             </div>
                             <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
                                 <div class="flat-input">
-                                    <input type="text" class="form-control">
-                                    <button class="btn btn-primary">兑换</button>
+                                    <input type="text" class="form-control" [(ngModel)]="couponCode">
+                                    <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                             <span class="price">{{ order.order_amount | price }}</span>
                         </div>
                     </div>
-                    <a class="btn btn-primary" (click)="tapCheckout()">去付款</a>
+                    <app-action-button class="btn btn-primary" (tapped)="tapCheckout($event)">去付款</app-action-button>
                     <ng-container *ngIf="order.address">
                         <div>{{ order.address.name }} {{ order.address.tel }}</div>
                         <div>{{ order.address.region_name }} {{ order.address.address }}</div>
@@ -222,4 +222,4 @@
     </div>
 </div>
 
-<app-invoice-dialog></app-invoice-dialog>
+<app-invoice-dialog [user]="user"></app-invoice-dialog>

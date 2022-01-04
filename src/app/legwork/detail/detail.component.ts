@@ -47,13 +47,13 @@ export class DetailComponent implements OnInit {
 
     public tapSubmit() {
         if (this.amount < 1) {
-            this.toastrService.warning('购买数量不对');
+            this.toastrService.warning($localize `Incorrect purchase quantity `);
             return;
         }
         const remark: any = {};
         for (const item of this.remark) {
             if (!item.value && item.required) {
-                this.toastrService.warning(item.label + '必填');
+                this.toastrService.warning($localize `${item.label} is required`);
                 return;
             }
             remark[item.name] = item.value + '';
@@ -62,8 +62,13 @@ export class DetailComponent implements OnInit {
             service_id: this.data.id,
             amount: this.amount,
             remark
-        }).subscribe(res => {
-            this.toastrService.success('下单成功，等待支付');
+        }).subscribe({
+            next: res => {
+                this.toastrService.success($localize `The order is successfully placed, waiting for payment `);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

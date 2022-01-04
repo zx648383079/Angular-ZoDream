@@ -7,7 +7,8 @@
         <span>【{{ item.service.name }}】</span>
         <span class="amount">x {{ item.amount }}</span>
         <span class="price">
-            服务费：￥{{ item.order_amount }}
+            <ng-container i18n>Service charge</ng-container>
+            : ￥{{ item.order_amount }}
         </span>
     </div>
     <div class="order-remark" *ngIf="item.remark">
@@ -18,9 +19,9 @@
     </div>
     <div class="order-footer">
         <div class="order-actions">
-            <a *ngIf="item.status == 10" (click)="tapPay(item)">支付</a>
-            <a data-action="comment"  *ngIf="item.status == 60" (click)="tapComment(item)">评价</a>
-            <a  *ngIf="item.status == 10" (click)="tapCancel(item)">取消</a>
+            <a *ngIf="item.status == 10" (click)="tapPay(item)" i18n>Pay</a>
+            <a data-action="comment"  *ngIf="item.status == 60" (click)="tapComment(item)" i18n>Comment</a>
+            <a  *ngIf="item.status == 10" (click)="tapCancel(item)" i18n>Cancel</a>
         </div>
     </div>
 </div>

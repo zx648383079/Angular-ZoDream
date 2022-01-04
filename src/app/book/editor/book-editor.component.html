@@ -2,28 +2,28 @@
     <div class="top-container">
         <div class="form-table">
             <div class="input-group">
-                <label for="name2">书名</label>
+                <label for="name2" i18n>Name</label>
                 <div>
                     <input type="text" id="name2" [(ngModel)]="book.name" class="form-control">
                 </div>
             </div>
             <div class="input-group">
-                <label for="cover">封面</label>
+                <label for="cover" i18n>Cover</label>
                 <div>
                     <app-file-input  [(ngModel)]="book.cover"></app-file-input>
                 </div>
             </div>
             <div class="input-group">
-                <label for="description2">简介</label>
+                <label for="description2" i18n>Summary</label>
                 <div>
                     <textarea id="description2" [(ngModel)]="book.description" class="form-control"></textarea>
                 </div>
             </div>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary" (click)="tapSaveBook()">保存</button>
-            <a class="btn btn-danger" *ngIf="book.over_at < 1" (click)="tapOver()">设为完结</a>
-            <a class="btn btn-light" (click)="topVisible = false">收起</a>
+            <button class="btn btn-primary" (click)="tapSaveBook()" i18n>Save</button>
+            <a class="btn btn-danger" *ngIf="book.over_at < 1" (click)="tapOver()" i18n>As over</a>
+            <a class="btn btn-light" (click)="topVisible = false" i18n>Pack up</a>
         </div>
     </div>
     <div class="editor-body">
@@ -59,8 +59,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="tip">
-                    右键新增章节
+                <li class="tip" i18n>
+                    Right click to add chapter
                 </li>
             </ul>
         </div>

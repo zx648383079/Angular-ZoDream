@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
         private service: LegworkService,
         private fb: FormBuilder,
         private toastrService: DialogService,
-        private uploadService: FileUploadService,
     ) { }
 
     ngOnInit() {
@@ -52,23 +51,18 @@ export class ProfileComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        if (this.data.status === 1 && !confirm('继续保存将需要重新审核？')) {
+        if (this.data.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
             return;
         }
         const data = Object.assign({}, this.form.value);
-        this.service.providerSave(data).subscribe(res => {
-            this.data = res;
-            this.toastrService.success('提交成功，等待审核!');
+        this.service.providerSave(data).subscribe({
+            next: res => {
+                this.data = res;
+                this.toastrService.success($localize `Submitted successfully, waiting for review!`);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
-    }
-
-    public uploadFile(event: any) {
-        const files = event.target.files as FileList;
-        this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.form.get('logo').setValue(res.url);
-        });
-    }
-    public tapPreview() {
-        window.open(this.form.get('logo').value, '_blank');
     }
 }

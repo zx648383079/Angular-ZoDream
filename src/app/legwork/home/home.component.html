@@ -1,29 +1,29 @@
 <div class="row">
     <div class="offset-md-8 col-md-4">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" [ngModel]="keywords">
-            <button class="btn btn-primary">搜索</button>
+            <input type="text" class="form-control" name="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
+            <button class="btn btn-primary" i18n>Search</button>
         </form>
     </div>
 </div>
 <div class="tab-bar">
-    <a [ngClass]="{active: category < 1}" (click)="tapCategory()">全部</a>
+    <a [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
     <ng-container *ngFor="let item of categories">
-        <a  [ngClass]="{active: category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
+        <a  [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
     </ng-container>
 </div>
 
 <ng-container *ngFor="let item of items">
     <div class="service-item">
         <div class="title">
-            <span class="tag">[{{ item.category.name }}]</span>
+            <span class="tag" *ngIf="item.category">[{{ item.category?.name }}]</span>
             {{ item.name }}
         </div>
         <div class="brief">
             {{ item.brief }}
         </div>
         <a class="btn btn-info" [routerLink]="'service/' + item.id">
-            <span>我要下单</span>
+            <span i18n>Place order</span>
         </a>
     </div>
 </ng-container>

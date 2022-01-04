@@ -147,8 +147,8 @@ export class ShopService {
         return this.http.post<ICart>('shop/cart/delete_invalid', {});
     }
 
-    public paymentList(goods?: number[], shipping?: number) {
-        return this.http.post<IData<IPayment>>('shop/cashier/payment', {goods, shipping});
+    public paymentList(goods?: number[] | ICartItem[], shipping?: number, type = 0) {
+        return this.http.post<IData<IPayment>>('shop/cashier/payment', {goods, shipping, type});
     }
 
     public shippingList(goods: number[] | ICartItem[], address: number, type: number = 0) {
@@ -325,6 +325,10 @@ export class ShopService {
 
     public couponReceive(id: number) {
         return this.http.post<IDataOne<boolean>>('shop/coupon/receive', {id});
+    }
+
+    public couponExchange(code: string) {
+        return this.http.post<IDataOne<boolean>>('shop/coupon/exchange', {code});
     }
 
     public batch(data: {

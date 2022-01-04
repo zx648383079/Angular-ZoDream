@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../../theme/models/shop';
+import { IUser } from '../../../theme/models/user';
+import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../theme/services';
-import { setCheckoutCart } from '../../shop.actions';
+import { emptyValidate } from '../../../theme/validators';
+import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCheckout } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
+import { InvoiceDialogComponent } from './invoice/invoice-dialog.component';
 
 interface ICartData {
     type: number;
@@ -26,6 +31,10 @@ interface ICartData {
 })
 export class CashierComponent implements OnInit {
 
+    @ViewChild(InvoiceDialogComponent)
+    private invoiceModal: InvoiceDialogComponent;
+
+    public user: IUser;
     public address: IAddress;
     public addressItems: IAddress[] = [];
     public items: ICartGroup[] = [];
@@ -40,6 +49,7 @@ export class CashierComponent implements OnInit {
     public invoice: IInvoiceTitle;
     public invoiceItems: IInvoiceTitle[] = [];
     public coupon: ICoupon;
+    public couponCode = '';
     public addressIsEdit = true;
     public editData: IAddress;
     private cartData: ICartData;
@@ -56,17 +66,28 @@ export class CashierComponent implements OnInit {
     ) {
         this.themeService.setTitle('结算');
         this.store.select(selectShopCheckout).subscribe(res => {
-            if (res.length < 1) {
-                history.back();
+            if (!res || res.length < 1) {
+                // 判断是否是结算时清空的
+                if (this.items.length < 1) {
+                    history.back();
+                }
                 return;
             }
             this.items = res;
             this.cartData = this.getGoodsIds(res);
+            this.load();
         });
         this.tapEditAddress();
     }
 
     ngOnInit() {
+        
+    }
+
+    private load() {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.user = user;
+        });
         this.service.addressList({}).subscribe(res => {
             this.addressItems = res.data;
             if (res.data.length < 1) {
@@ -99,7 +120,9 @@ export class CashierComponent implements OnInit {
 
     public tapEditInvoice() {
         this.dialogOpen = 0;
-        
+        this.invoiceModal.open(this.invoice, data => {
+            this.invoice = data;
+        });
     }
 
     public couponChanged(item: ICoupon) {
@@ -115,11 +138,37 @@ export class CashierComponent implements OnInit {
     public shippingChanged(item: IShipping) {
         this.shipping = item;
         this.refreshPrice();
+        this.service.paymentList(this.cartData.goods, item.id, this.cartData.type).subscribe(res => {
+            this.paymentItems = res.data;
+        });
         if (this.couponLoaded) {
             return;
         }
+        this.loadCoupon();
+    }
+
+    private loadCoupon() {
+        this.couponLoaded = true;
         this.service.orderCouponList(this.cartData.goods, this.cartData.type).subscribe(res => {
             this.couponItems = res.data;
+        });
+    }
+
+    public tapExchange() {
+        if (emptyValidate(this.couponCode)) {
+            this.toastrService.warning('请输入优惠码');
+            return;
+        }
+        this.service.couponExchange(this.couponCode).subscribe({
+            next: _ => {
+                this.toastrService.success('兑换成功');
+                this.loadCoupon();
+                this.couponCode = '';
+                this.couponIndex = 0;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -145,7 +194,7 @@ export class CashierComponent implements OnInit {
         });
     }
 
-    public tapCheckout() {
+    public tapCheckout(e?: ButtonEvent) {
         if (!this.address) {
             this.toastrService.warning('请选择收货地址');
             return;
@@ -162,6 +211,7 @@ export class CashierComponent implements OnInit {
             this.toastrService.warning('请选择支付方式');
             return;
         }
+        e?.enter();
         this.service.checkoutOrder({
             goods: this.cartData.goods,
             address: this.address.id,
@@ -172,10 +222,13 @@ export class CashierComponent implements OnInit {
             invoice: this.invoice || 0
         }).subscribe({
             next: res => {
-                this.store.dispatch(setCheckoutCart({items: []}));
-                this.router.navigate(['pay', res.id]);
+                e?.reset();
+                // 清空结算，同时需要修改购物车的商品
+                this.updateStore();
+                this.router.navigate(['pay', res.id], {relativeTo: this.route});
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });
@@ -249,6 +302,26 @@ export class CashierComponent implements OnInit {
             }
         }
         return type > 0 ? {type, goods} : {type, goods: cart};
+    }
+
+    private updateStore() {
+        const cartItems = [];
+        for (const group of this.items) {
+            for (const item of group.goods_list) {
+                if (item.id > 0) {
+                    cartItems.push(item.id);
+                }
+            }
+        }
+        this.store.dispatch(setCheckoutCart({
+            items: []
+        }));
+        if (cartItems.length < 0) {
+            return;
+        }
+        this.service.cart().subscribe(cart => {
+            this.store.dispatch(setCart({cart}));
+        });
     }
 
 }

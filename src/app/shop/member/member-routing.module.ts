@@ -14,6 +14,7 @@ import { MessageComponent } from './message/message.component';
 import { OrderDetailComponent } from './order/detail/order-detail.component';
 import { OrderComponent } from './order/order.component';
 import { PriceProtectComponent } from './price-protect/price-protect.component';
+import { BindStepComponent } from './profile/bind-step/bind-step.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RefundComponent } from './refund/refund.component';
 
@@ -92,4 +93,5 @@ export const memberRoutingComponents = [
     MemberComponent, HomeComponent, AccountCenterComponent, AccountComponent, AddressComponent,
     BonusComponent, CollectComponent, CouponComponent, HistoryComponent, MessageComponent,
     OrderDetailComponent, OrderComponent, PriceProtectComponent, ProfileComponent, RefundComponent,
+    BindStepComponent,
 ];

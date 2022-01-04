@@ -7,8 +7,8 @@
     </div>
     <div class="col-md-5">
         <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <input type="text" class="form-control" name="keywords" placeholder="请输入搜索内容" [ngModel]="keywords">
-            <button class="btn btn-primary">搜索</button>
+            <input type="text" class="form-control" name="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
+            <button class="btn btn-primary" i18n>Search</button>
         </form>
     </div>
 </div>
@@ -20,7 +20,7 @@
         <div class="title">
             {{ item.name }}
         </div>
-        <a class="btn btn-danger" *ngIf="item.status < 1" (click)="tapChange(item)">同意</a>
-        <a class="btn btn-danger" *ngIf="item.status == 1" (click)="tapChange(item, 2)">禁止</a>
+        <a class="btn btn-danger" *ngIf="item.status < 1" (click)="tapChange(item)" i18n>Agree</a>
+        <a class="btn btn-danger" *ngIf="item.status == 1" (click)="tapChange(item, 2)" i18n>Forbid</a>
     </div>
 </ng-container>

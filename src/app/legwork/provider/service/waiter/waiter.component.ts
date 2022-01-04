@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
+import { applyHistory, getQueries } from '../../../../theme/query';
 import { LegworkService } from '../../../legwork.service';
 import { IService } from '../../../model';
 
@@ -13,10 +15,13 @@ import { IService } from '../../../model';
 export class WaiterComponent implements OnInit {
 
     public items: IUser[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
     public data: IService;
 
     constructor(
@@ -26,6 +31,9 @@ export class WaiterComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+        });
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -37,7 +45,7 @@ export class WaiterComponent implements OnInit {
     private loadService(id: any) {
         this.service.providerService(id).subscribe(res => {
             this.data = res;
-            this.tapRefresh();
+            this.tapPage();
         });
     }
 
@@ -46,13 +54,18 @@ export class WaiterComponent implements OnInit {
             id: this.data.id,
             user_id: item.id,
             status
-        }).subscribe(_ => {
-            this.toastrService.success('已修改');
+        }).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Edit successfully`);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -60,11 +73,15 @@ export class WaiterComponent implements OnInit {
         this.goPage(1);
     }
 
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -72,17 +89,17 @@ export class WaiterComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.providerWaiterList({
-            id: this.data.id,
-            keywords: this.keywords,
-            page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page, id: this.data.id};
+        this.service.providerWaiterList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                applyHistory(this.queries = queries);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
