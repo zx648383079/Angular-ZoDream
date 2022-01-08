@@ -198,7 +198,7 @@ li {
 
 @media screen and (max-width: 769px) {
     .book-body {
-        margin-right: 0;
+        margin-right: 0 !important;
     }
     .book-item {
         margin: 0 -8px;

@@ -2700,7 +2700,7 @@
                 <source>Published <x id="INTERPOLATION" equiv-text="{{ item.created_at | ago }}"/> </source>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/forum/thread/thread.component.html</context>
-                    <context context-type="linenumber">57</context>
+                    <context context-type="linenumber">57,98</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6726510033a53e436cb5510d1cab2945653c4c08" datatype="html">

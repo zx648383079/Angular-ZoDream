@@ -95,8 +95,7 @@
                     <div class="post-content">
                         <div class="header">
                             <i class="iconfont icon-user"></i>
-                                <ng-container>Published {{ item.created_at | ago }} </ng-container>
-                                
+                                <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
                             <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
                             <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>

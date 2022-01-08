@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn: oasis:names: tc:xliff: document:1.2">
-    <file source-language="en" target-language="zh-CN" datatype="plaintext" original="ng2.template">
+    <file source-language="en" target-language="zh" datatype="plaintext" original="ng2.template">
         <body>
             <trans-unit id="ngb.alert.close" datatype="html">
                 <source>Close</source>
@@ -2968,7 +2968,7 @@
                 <target>发表于<x id="INTERPOLATION" equiv-text="{{ item.created_at | ago }}"/> </target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/forum/thread/thread.component.html</context>
-                    <context context-type="linenumber">57</context>
+                    <context context-type="linenumber">57,98</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6726510033a53e436cb5510d1cab2945653c4c08" datatype="html">
@@ -3245,6 +3245,7 @@
             </trans-unit>
             <trans-unit id="eb98135e35af26a9a326ee69bd8ff104d36dd8ec" datatype="html">
                 <source>(current)</source>
+                <target></target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/frontend.component.html</context>
                     <context context-type="linenumber">15</context>
