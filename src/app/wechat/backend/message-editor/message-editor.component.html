@@ -1,70 +1,71 @@
 <div class="input-group">
     <label for="type">响应类型</label>
     <div>
-        <select id="type" [(ngModel)]="value.type" class="form-control">
+        <select id="type" [(ngModel)]="data.type" class="form-control" (ngModelChange)="onTypeChange()">
             <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+            <option *ngIf="other" [value]="99">{{ other }}</option>
         </select>
     </div>
 </div>
-<ng-container *ngIf="value.type < 1">
-    <textarea class="form-control"></textarea>
+<ng-container *ngIf="data.type < 1">
+    <textarea class="form-control" [(ngModel)]="data.text" (ngModelChange)="onContentChange()"></textarea>
 </ng-container>
 
-<ng-container *ngIf="value.type == 3">
+<ng-container *ngIf="data.type == 3">
     <div class="input-group">
         <label for="template_id">模板ID</label>
-        <input type="text" id="template_id" class="form-control" name="editor[template_id]" placeholder="示例：模板ID">
+        <input type="text" id="template_id" class="form-control" [(ngModel)]="data.template_id" (ngModelChange)="onContentChange()" placeholder="示例：模板ID">
     </div>
     <div class="input-group">
         <label for="template_id">链接</label>
-        <input type="text" id="template_url" name="editor[template_url]" class="form-control">
+        <input type="text" id="template_url" [(ngModel)]="data.template_url" (ngModelChange)="onContentChange()" class="form-control">
     </div>
-    <textarea class="form-control" placeholder="模板参数：key=value 换行"></textarea>
+    <textarea class="form-control" [(ngModel)]="data.parameters" (ngModelChange)="onContentChange()" placeholder="模板参数：key=value 换行"></textarea>
 </ng-container>
-<ng-container *ngIf="value.type == 4">
+<ng-container *ngIf="data.type == 4">
     <div class="input-group">
         <label for="content">参数</label>
         <div>
-            <input type="text" id="content" class="form-control" name="content" placeholder="示例：参数">
+            <input type="text" id="content" class="form-control" placeholder="示例：参数" [(ngModel)]="data.parameter" (ngModelChange)="onContentChange()">
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="value.type == 5">
+<ng-container *ngIf="data.type == 5">
     <div class="input-group">
         <label for="content">网址</label>
         <div>
-            <input type="text" id="content" class="form-control" name="content" placeholder="示例：网址">
+            <input type="text" id="content" class="form-control" [(ngModel)]="data.url" (ngModelChange)="onContentChange()" placeholder="示例：网址">
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="value.type == 6">
+<ng-container *ngIf="data.type == 6">
     <div class="input-group">
         <label for="module1">APPID</label>
         <div>
-            <input type="text" id="module1" class="form-control" name="editor[appid]" placeholder="小程序APPID">
+            <input type="text" id="module1" class="form-control" [(ngModel)]="data.appid" (ngModelChange)="onContentChange()" placeholder="小程序APPID">
         </div>
     </div>
     <div class="input-group">
         <label for="module2">路径</label>
         <div>
-            <input type="text" id="module2" class="form-control" name="editor[path]" placeholder="小程序页面路径">
+            <input type="text" id="module2" class="form-control" [(ngModel)]="data.path" (ngModelChange)="onContentChange()" placeholder="小程序页面路径">
         </div>
     </div>
     <div class="input-group">
         <label for="module3">替代网址</label>
         <div>
-            <input type="text" id="module3" class="form-control" name="editor[url]" placeholder="老版微信不支持小程序时替代网址">
+            <input type="text" id="module3" class="form-control" [(ngModel)]="data.url" (ngModelChange)="onContentChange()" placeholder="老版微信不支持小程序时替代网址">
             <div class="input-tip">
                 旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。
             </div>
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="value.type == 7">
+<ng-container *ngIf="data.type == 7">
     <div class="input-group">
         <label for="content">场景</label>
         <div class="">
-            <select id="content" class="form-control" name="content">
+            <select id="content" class="form-control" [(ngModel)]="data.scene" (ngModelChange)="onContentChange()">
                 <option value="">请选择</option>
                 <option *ngFor="let item of sceneItems" [value]="item.value">{{ item.name }}</option>
             </select>

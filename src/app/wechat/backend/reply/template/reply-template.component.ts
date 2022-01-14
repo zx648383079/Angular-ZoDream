@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { WechatService } from '../../wechat.service';
@@ -39,6 +40,23 @@ export class ReplyTemplateComponent implements OnInit {
         });
     }
 
+    public tapAsync(e?: ButtonEvent) {
+        this.toastrService.confirm('确定要同步公众号模板？', () => {
+            e?.enter();
+            this.service.wxTemplateAsync().subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.toastrService.success('同步成功！');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            })
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -57,7 +75,7 @@ export class ReplyTemplateComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.mediaList(queries).subscribe(res => {
+        this.service.wxTemplateList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
@@ -69,21 +87,6 @@ export class ReplyTemplateComponent implements OnInit {
     public tapSearch(form: any) {
         this.queries = getQueries(form, this.queries);
         this.tapRefresh();
-    }
-
-    public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”模板？')) {
-            return;
-        }
-        this.service.mediaRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
-            });
-        });
     }
 
 }

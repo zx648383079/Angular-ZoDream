@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
+import { eachObject } from '../../../theme/utils';
+import { IWeChatMenuItem } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -10,8 +13,9 @@ import { WechatService } from '../wechat.service';
 })
 export class MenuComponent implements OnInit {
 
-    public menuItems: any = [];
+    public menuItems: IWeChatMenuItem[] = [];
     public editData: any;
+    public editorData: any;
 
     constructor(
         private service: WechatService,
@@ -37,6 +41,21 @@ export class MenuComponent implements OnInit {
             items.push(newItem);
         }
         this.editData = newItem;
+        this.editorData = {};
+    }
+
+    public tapEditMenu(item: any) {
+        this.editData = item;
+        this.editorData = {...item};
+    }
+
+    public onEditorChange() {
+        eachObject(this.editorData, (v, k) => {
+            this.editData[k] = v;
+        });
+        if (!this.editData.children && this.editData.type == 99) {
+            this.editData.children = [];
+        }
     }
 
     public tapClear() {
@@ -45,15 +64,42 @@ export class MenuComponent implements OnInit {
     }
 
     public tapRemoveItem() {
-        
+        if (!this.editData) {
+            return;
+        }
+        this.toastrService.confirm('确定删除此菜单项？', () => {
+            for (let i = 0; i < this.menuItems.length; i++) {
+                const element = this.menuItems[i];
+                if (element === this.editData) {
+                    this.menuItems.splice(i);
+                    this.editData = null;
+                    return;
+                }
+                if (!element.children) {
+                    continue;
+                }
+                for (let j = 0; j < element.children.length; j++) {
+                    const it = element.children[j];
+                    if (it === this.editData) {
+                        element.children.splice(i);
+                        this.editData = null;
+                        return;
+                    }
+                }
+            }
+        });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
+        e?.enter();
         this.service.menuBatchSave(this.menuItems).subscribe({
-            next: _ => {
+            next: res => {
+                this.menuItems = res.data;
+                e?.reset();
                 this.toastrService.success('保存成功');
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });

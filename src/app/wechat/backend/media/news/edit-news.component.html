@@ -1,3 +1,4 @@
+<app-edit-header title="编辑图文"></app-edit-header>
 <div class="form-table">
     <div class="input-group">
         <label for="title">素材标题</label>
@@ -8,15 +9,13 @@
     <div class="input-group">
         <label for="parent_id">主素材</label>
         <div>
-            <select id="parent_id" name="parent_id" class="form-control">
-                <option value="0" selected="">无</option>
-            </select>
+            <app-select-input id="parent_id"></app-select-input>
         </div>
     </div>
     <div class="input-group">
         <label for="thumb">封面</label>
         <div>
-            <input type="text" id="thumb" class="form-control" name="thumb">
+            <app-file-input id="thumb"></app-file-input>
         </div>
     </div>
     <div class="input-group">

@@ -70,7 +70,7 @@ export class LogComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”公众号？')) {
+        if (!confirm('确定删除“' + item.name + '”历史记录？')) {
             return;
         }
         this.service.logRemove(item.id).subscribe(res => {

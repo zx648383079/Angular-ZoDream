@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { WechatService } from '../wechat.service';
@@ -34,6 +35,23 @@ export class UserComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public tapAsync(e?: ButtonEvent) {
+        this.toastrService.confirm('确定要同步公众号用户？', () => {
+            e?.enter();
+            this.service.userAsync().subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.toastrService.success('同步成功！');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            })
         });
     }
 

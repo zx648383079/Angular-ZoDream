@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-info">同步公众号模板</a>
+                    <app-action-button class="btn btn-info" (tapped)="tapAsync($event)">同步公众号模板</app-action-button>
                 </div>
             </form>
         </div>
@@ -41,7 +41,6 @@
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs">配置</a>
-                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>

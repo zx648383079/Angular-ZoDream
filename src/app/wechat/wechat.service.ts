@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPage } from '../theme/models/page';
+import { IDataOne, IPage } from '../theme/models/page';
 import { IWeChatAccount } from './model';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class WechatService {
     }
 
     public reply(data: any) {
-        return this.http.post<any>('wx/emulate/reply', data);
+        return this.http.post<IDataOne<any|any[]>>('wx/emulate/reply', data);
     }
 
     public media(id: any) {

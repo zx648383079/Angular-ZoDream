@@ -61,6 +61,7 @@
             <label for="type">类型</label>
             <div>
                 <select id="type" [(ngModel)]="editData.type" class="form-control">
+                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
             </div>
         </div>
@@ -73,9 +74,18 @@
             </div>
         </div>
         <div class="input-group">
-            <label for="content">内容</label>
+            <label for="content">内容
+                <i class="iconfont" [ngClass]="{'icon-eye-slash': previewData.toggle, 'icon-eye': !previewData.toggle}" (click)="tapPreview()"></i>
+            </label>
             <div>
-                <textarea id="content" class="form-control" [(ngModel)]="editData.content"></textarea>
+                <ng-container *ngIf="!previewData.toggle; else elseTemplate">
+                    <textarea id="content" class="form-control" [(ngModel)]="editData.content"></textarea>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="rich_media_content" [innerHTML]="previewData.content">
+                    </div>
+                </ng-template>
+                
             </div>
         </div>
     </div>

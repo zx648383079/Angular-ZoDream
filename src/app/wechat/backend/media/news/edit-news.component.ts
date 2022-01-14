@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchService } from '../../../../theme/services';
 
 @Component({
   selector: 'app-edit-news',
@@ -7,11 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditNewsComponent implements OnInit {
 
+    
     public onlyItems = ['所有人', '粉丝'];
 
-    constructor() { }
+    constructor(
+        private searchService: SearchService,
+    ) { }
 
     ngOnInit() {
+        this.searchService.emit('toggle', 2);
     }
 
 }

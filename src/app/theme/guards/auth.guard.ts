@@ -9,34 +9,34 @@ import { ThemeService } from '../services';
 
 @Injectable()
 export class CanActivateViaAuthGuard implements CanActivate, OnDestroy {
-  isAuthenticated: boolean;
-  subscription: Subscription;
+    isAuthenticated: boolean;
+    subscription: Subscription;
 
-  constructor(
-    private store: Store<AppState>,
-    private router: Router,
-    private theme: ThemeService,
-  ) {
-  }
+    constructor(
+        private store: Store<AppState>,
+        private router: Router,
+        private theme: ThemeService,
+    ) {
+    }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.subscription = this.store
-      .select(getAuthStatus)
-      .subscribe(isAuthenticated => {
-        this.isAuthenticated = isAuthenticated;
-        if (!isAuthenticated) {
-          this.router.navigate(
-            [this.theme.isMobile() ? '/auth' : '/auth'],
-            { queryParams: { redirect_uri: state.url }}
-          );
-        }
-      });
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        this.subscription = this.store
+        .select(getAuthStatus)
+        .subscribe(isAuthenticated => {
+            this.isAuthenticated = isAuthenticated;
+            if (!isAuthenticated) {
+                this.router.navigate(
+                    [this.theme.isMobile() ? '/auth' : '/auth'],
+                    { queryParams: { redirect_uri: state.url }}
+                );
+            }
+        });
 
-    return this.isAuthenticated;
-  }
+        return this.isAuthenticated;
+    }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 
 }

@@ -6,9 +6,9 @@
     </app-page-tip>
 
     <div class="tab-bar">
-        <a [ngClass]="{active: true}">关键词回复</a>
-        <a>收到消息回复</a>
-        <a>被关注回复</a>
+        <ng-container *ngFor="let item of tabItems">
+            <a [ngClass]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+        </ng-container>
     </div>
 
     <div class="panel-container">
@@ -20,7 +20,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a routerLink="create" class="btn btn-info">创建</a>
+                    <a (click)="open(modal)" class="btn btn-info">创建</a>
                     <a routerLink="template" class="btn btn-success">模板消息</a>
                 </div>
             </form>
@@ -33,20 +33,20 @@
                     <th>事件</th>
                     <th>响应类型</th>
                     <th>关键字</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.appid }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.status }}</td>
+                    <td>{{ formatEvent(item.event) }}</td>
+                    <td>{{ formatType(item.type) }}</td>
+                    <td>{{ item.keywords }}</td>
+                    <td>{{ item.status == 1 ? '已激活' : '未激活' }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -58,3 +58,7 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+
+<app-dialog-box #modal [title]="'编辑回复'">
+    <app-edit-reply [(value)]="editData"></app-edit-reply>
+</app-dialog-box>

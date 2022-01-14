@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>关注公众号时自动回复</li>
+            <li>公众号请求消息历史记录</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -12,9 +12,6 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="btn-group pull-right">
-                    <a routerLink="create" class="btn btn-info">创建</a>
-                </div>
             </form>
         </div>
     

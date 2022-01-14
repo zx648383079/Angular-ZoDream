@@ -23,6 +23,16 @@
                             <i class="iconfont icon-download" title="下载" (click)="tapDownFile(item)"></i>
                         </div>
                     </ng-container>
+                    <ng-container *ngIf="item.type == 80">
+                        <div class="news-block">
+                            <a class="news-item" [href]="news.url" target="_blank" *ngFor="let news of item.items">
+                                <div class="news-thumb">
+                                    <img [src]="news.thumb | asset" [alt]="news.title">
+                                </div>
+                                <div class="news-title">{{ news.title }}</div>
+                            </a>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="item.type < 1">
                         <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)"></app-rule-block>
                     </ng-container>

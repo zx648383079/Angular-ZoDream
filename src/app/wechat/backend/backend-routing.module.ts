@@ -21,18 +21,22 @@ import { TemplateEditorComponent } from './template/editor/template-editor.compo
 import { TemplateComponent } from './template/template.component';
 import { UserComponent } from './user/user.component';
 import { WechatBackendComponent } from './wechat-backend.component';
+import { CanActivateMainId } from './wid.guard';
 
 const routes: Routes = [
     {
         path: 'user',
+        canActivate: [CanActivateMainId],
         component: UserComponent,
     },
     {
         path: 'reply',
+        canActivate: [CanActivateMainId],
         component: ReplyComponent,
     },
     {
         path: 'reply/template',
+        canActivate: [CanActivateMainId],
         component: ReplyTemplateComponent,
     },
     {
@@ -41,18 +45,27 @@ const routes: Routes = [
     },
     {
         path: 'qrcode',
+        canActivate: [CanActivateMainId],
         component: QrcodeComponent,
     },
     {
+        path: 'media/create',
+        canActivate: [CanActivateMainId],
+        component: EditNewsComponent,
+    },
+    {
         path: 'media',
+        canActivate: [CanActivateMainId],
         component: MediaComponent,
     },
     {
         path: 'menu',
+        canActivate: [CanActivateMainId],
         component: MenuComponent,
     },
     {
         path: 'log',
+        canActivate: [CanActivateMainId],
         component: LogComponent,
     },
     {

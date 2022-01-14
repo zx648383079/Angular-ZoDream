@@ -45,7 +45,7 @@ export class MessageContainerComponent {
         const now = new Date();
         const exist = [];
         for (const item of sortItems) {
-            if (exist.indexOf(item.id) >= 0) {
+            if (item.id && exist.indexOf(item.id) >= 0) {
                 continue;
             }
             const time = this.formatTime(item.created_at);
@@ -56,7 +56,9 @@ export class MessageContainerComponent {
                     content: formatAgo(time, now)
                 });
             }
-            exist.push(item.id);
+            if (item.id) {
+                exist.push(item.id);
+            }
             if (!item.extra_rule) {
                 item.extra_rule = [];
             } else if (typeof item.extra_rule === "string") {

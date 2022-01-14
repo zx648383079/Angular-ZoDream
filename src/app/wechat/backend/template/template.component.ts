@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
+import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import { WechatService } from '../wechat.service';
@@ -25,17 +27,26 @@ export class TemplateComponent implements OnInit {
         per_page: 20
     };
     public editData: any = {};
+    public previewData = {
+        toggle: false,
+        content: null,
+    };
+    public typeItems: IItem[] = [];
 
     constructor(
         private service: WechatService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private sanitizer: DomSanitizer,
     ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+        this.service.batch({template_type: {}}).subscribe(res => {
+            this.typeItems = res.template_type;
         });
     }
 
@@ -52,6 +63,15 @@ export class TemplateComponent implements OnInit {
                 }
             })
         }, () => !emptyValidate(this.editData.content));
+    }
+
+    public tapPreview() {
+        if (this.previewData.toggle) {
+            this.previewData.toggle = false;
+            return;
+        }
+        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editData.content);
+        this.previewData.toggle = true;
     }
 
     public tapRefresh() {

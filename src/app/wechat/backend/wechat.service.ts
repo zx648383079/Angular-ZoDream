@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataOne, IPage } from '../../theme/models/page';
-import { IWeChatAccount } from '../model';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { IItem } from '../../theme/models/seo';
+import { IWeChatAccount, IWeChatMenuItem } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,17 +48,17 @@ export class WechatService {
     }
 
     public menuList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/menu', {params: {...params, wid: this.baseId}});
+        return this.http.get<IData<IWeChatMenuItem>>('wx/admin/menu', {params: {...params, wid: this.baseId}});
     }
 
     public menuSave(data: any) {
-        return this.http.post<any>('wx/admin/menu/save', data, {
+        return this.http.post<IWeChatMenuItem>('wx/admin/menu/save', data, {
             params: {wid: this.baseId}
         });
     }
 
-    public menuBatchSave(data: any[]) {
-        return this.http.post<IDataOne<boolean>>('wx/admin/menu/batch_save', {data}, {
+    public menuBatchSave(data: IWeChatMenuItem[]) {
+        return this.http.post<IData<IWeChatMenuItem>>('wx/admin/menu/batch_save', {data}, {
             params: {wid: this.baseId}
         });
     }
@@ -102,6 +103,14 @@ export class WechatService {
         return this.http.delete<IDataOne<boolean>>('wx/admin/reply/delete', {params: {id, wid: this.baseId}});
     }
 
+    public wxTemplateList(params: any) {
+        return this.http.get<IPage<any>>('wx/admin/reply/template', {params: {...params, wid: this.baseId}});
+    }
+
+    public wxTemplateAsync() {
+        return this.http.post<IDataOne<boolean>>('wx/admin/reply/refresh_template', {wid: this.baseId});
+    }
+
     public userList(params: any) {
         return this.http.get<IPage<any>>('wx/admin/user', {params: {...params, wid: this.baseId}});
     }
@@ -112,6 +121,10 @@ export class WechatService {
 
     public userRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/user/delete', {params: {id, wid: this.baseId}});
+    }
+
+    public userAsync() {
+        return this.http.post<IDataOne<boolean>>('wx/admin/user/refresh', {wid: this.baseId});
     }
 
     public logList(params: any) {
@@ -138,5 +151,15 @@ export class WechatService {
 
     public qrcodeRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/qrcode/delete', {params: {id, wid: this.baseId}});
+    }
+
+    public batch(data: {
+        template_type?: any;
+        scenes?: any;
+    }) {
+        return this.http.post<{
+            template_type?: IItem[];
+            scenes?: IItem[];
+        }>('wx/admin/batch', data);
     }
 }

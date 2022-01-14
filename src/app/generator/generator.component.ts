@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { INav } from '../theme/components';
 import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { ThemeService } from '../theme/services';
 
 @Component({
   selector: 'app-generator',
@@ -12,7 +13,7 @@ import { getCurrentUser } from '../theme/reducers/auth.selectors';
 export class GeneratorComponent implements OnInit {
 
     public navItems: INav[] = [{
-            name: '首页',
+            name: $localize `Home`,
             icon: 'icon-home',
             url: './'
         },
@@ -100,19 +101,26 @@ export class GeneratorComponent implements OnInit {
     ];
 
     public bottomNavs: INav[] = [{
-            name: 'zodream',
+            name: $localize `Login in`,
             icon: 'icon-user',
             url: './'
         },
         {
-            name: '设置',
+            name: $localize `Setting`,
             icon: 'icon-cog',
             url: './setting'
+        },
+        {
+            name: $localize `Back to home`,
+            icon: 'icon-desktop',
+            url: '/',
         }
     ];
 
     constructor(
-        private store: Store<AppState>) {
+        private store: Store<AppState>,
+        private themeService: ThemeService,) {
+        this.themeService.setTitle($localize `Generator`);
         this.store.select(getCurrentUser).subscribe(user => {
             if (!user) {
                 return;

@@ -1,5 +1,34 @@
 import { environment } from '../../environments/environment';
 
+/**
+ * 格式化数字
+ * @param val 
+ * @returns 
+ */
+export function parseNumber(val: any): number {
+    if (!val || isNaN(val)) {
+        return 0;
+    }
+    if (typeof val === 'number') {
+        return val;
+    }
+    if (typeof val === 'boolean') {
+        return val ? 1 : 0;
+    }
+    if (typeof val !== 'string') {
+        val = val.toString();
+    }
+    if (val.indexOf(',') > 0) {
+        val = val.replace(/,/g, '');
+    }
+    if (val.indexOf('.') > 0) {
+        val = parseFloat(val);
+    } else {
+        val = parseInt(val, 10);
+    }
+    return isNaN(val) ? 0 : val;
+}
+
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }
@@ -282,7 +311,18 @@ export const fileToBase64 = (file: File|Blob, callback: (text: string) => void) 
     };
 }
 
-export const mapFormat = (value: any, items: any[], def = '--') => {
+
+export function mapFormat(value: string|number, items: {[key: string|number]: string}, def?: string): string;
+export function mapFormat(value: number, items: string[], def?: string): string;
+export function mapFormat(value: any, items: {name: string;value: any}[], def?: string): string;
+
+export function mapFormat(value: any, items: any, def = '--') {
+    if (typeof items !== 'object') {
+        return def;
+    }
+    if (!(items instanceof Array)) {
+        return Object.prototype.hasOwnProperty.call(items, value) ? items[value] : def;
+    }
     if (items.length < 1) {
         return def;
     }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
+import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { WechatService } from '../wechat.service';
 
@@ -17,8 +18,14 @@ export class MediaComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public selected = 0;
+    public tabItems: IItem[] = [
+        {name: '图片素材', value: 'image'},
+        {name: '语音素材', value: 'voice'},
+        {name: '视频素材', value: 'video'},
+        {name: '图文素材', value: 'news'},
+    ];
     public queries: IPageQueries = {
+        type: this.tabItems[0].value,
         keywords: '',
         page: 1,
         per_page: 20
@@ -35,6 +42,15 @@ export class MediaComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public open(modal: DialogEvent) {
+        modal.open();
+    }
+
+    public tapTab(i: string) {
+        this.queries.type = i;
+        this.tapRefresh();
     }
 
     public tapRefresh() {

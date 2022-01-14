@@ -14,12 +14,12 @@
                 <div class="menu-bar">
                     <ul>
                         <li class="menu-item" *ngFor="let item of menuItems">
-                            <div class="menu-title">
+                            <div class="menu-title" (click)="tapEditMenu(item)">
                                 {{ item.name }}
                             </div>
                             <div class="menu-sub-bar" *ngIf="item.children">
                                 <ul>
-                                    <li class="menu-item" *ngFor="let it of item.children">
+                                    <li class="menu-item" *ngFor="let it of item.children" (click)="tapEditMenu(it)">
                                         {{ it.name }}
                                     </li>
                                     <li class="menu-item" *ngIf="item.children.length < 5" (click)="tapAddMenu(item)">
@@ -52,7 +52,7 @@
                                 <div class="input-tip">字数不超过八个汉字</div>
                             </div>
                         </div>
-                        <app-message-editor></app-message-editor>
+                        <app-message-editor [(value)]="editorData" (valueChange)="onEditorChange()" other="父菜单"></app-message-editor>
                     </div>
                 </div>
             </div>
@@ -60,12 +60,9 @@
 
         <div class="col-md-12 text-center">
             <div class="btn-group">
-                <a class="btn btn-primary">
-                    发布
-                </a>
-                <a class="btn btn-danger" (click)="tapClear()">
-                    清空
-                </a>
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">保存</app-action-button>
+                <app-action-button class="btn btn-success">发布</app-action-button>
+                <a class="btn btn-danger" (click)="tapClear()">清空</a>
             </div>
         </div>
     </div>

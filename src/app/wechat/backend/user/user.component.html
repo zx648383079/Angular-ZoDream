@@ -13,7 +13,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-info">同步公众号</a>
+                    <app-action-button class="btn btn-info" (tapped)="tapAsync($event)">同步公众号</app-action-button>
                 </div>
             </form>
         </div>

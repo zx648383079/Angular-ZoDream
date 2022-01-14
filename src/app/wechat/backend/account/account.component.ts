@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../backend/menu.service';
 import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { mapFormat } from '../../../theme/utils';
 import { IWeChatAccount } from '../../model';
 import { WechatService } from '../wechat.service';
 
@@ -25,11 +26,13 @@ export class AccountComponent implements OnInit {
         page: 1,
         per_page: 20
     };
+    public redirectUri = '';
 
     constructor(
         private service: WechatService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private router: Router,
         private menuService: MenuService,
     ) {}
 
@@ -38,13 +41,27 @@ export class AccountComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+            if (params.redirect_uri) {
+                this.redirectUri = params.redirect_uri;
+            }
         });
+    }
+
+    public formatStatus(val: number) {
+        return mapFormat(val, ['未接入', '已接入']);
+    }
+
+    public formatType(val: number) {
+        return mapFormat(val, ['订阅号', '认证订阅号', '企业号', '认证服务号']);
     }
 
     public tapChange(item: IWeChatAccount) {
         this.selected = item.id;
         this.menuService.put('wx', item.id);
         this.service.baseId = item.id;
+        if (this.redirectUri) {
+            this.router.navigateByUrl(this.redirectUri);
+        }
     }
 
     public tapRefresh() {
