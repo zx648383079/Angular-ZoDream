@@ -22,7 +22,7 @@ npm i --legacy-peer-deps
 |-|√|CMS||
 |√|-|Online Disk||
 |√|√|Document|suport debug API|
-|o|√|Exam||
+|√|√|Exam||
 |√|-|Finance||
 |√|√|Forum||
 |√|√|Legwork||
@@ -33,7 +33,7 @@ npm i --legacy-peer-deps
 |√|√|Short Video||
 |√|√|Search||
 |-|o|Online Template Editor||
-|o|o|WeChat ||
+|√|√|WeChat ||
 |-|√|Database Manage|suport copy table|
 
     - Means not started or not done 
