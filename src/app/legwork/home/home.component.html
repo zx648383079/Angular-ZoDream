@@ -7,9 +7,9 @@
     </div>
 </div>
 <div class="tab-bar">
-    <a [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
+    <a class="item" [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
     <ng-container *ngFor="let item of categories">
-        <a  [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
+        <a  class="item" [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
     </ng-container>
 </div>
 

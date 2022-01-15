@@ -4,10 +4,11 @@ a {
 .login-panel {
     .tab-bar {
         display: flex;
-        padding: 30px 0 10px;
+        padding: 1.875rem 0 0.625rem;
+        line-height: inherit;
         a {
             color: #999;
-            font-size: 18px;
+            font-size: 1.125rem;
             flex: 1;
             text-align: center;
             &:hover {

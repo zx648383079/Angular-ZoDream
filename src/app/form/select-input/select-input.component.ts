@@ -23,6 +23,10 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
     @Input() public searchKey = 'keywords';
     @Input() public items: T[] = [];
     @Input() public multiple = false;
+    /**
+     * 只有通过url请求的才会触发，参数为http响应内容
+     */
+    @Input() public formatFn: (data: any) => T[];
 
     public value: T | T[] | number | string;
     public disabled = false;
@@ -95,7 +99,10 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
             return;
         }
         this.http.get<IData<T>>(this.url, {params: {[this.searchKey]: this.keywords}}).subscribe(res => {
-            this.optionItems = res.data;
+            const items = this.formatFn ?  this.formatFn(res) : res.data;
+            if (items instanceof Array) {
+                this.optionItems = items;
+            }
         });
     }
 

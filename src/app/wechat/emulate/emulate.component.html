@@ -13,13 +13,13 @@
             </div>
         </div>
     </div>
-    <app-message-container class="scroll-body" [items]="messageItems" [hasMore]="false" [currentId]="user.id"></app-message-container>
+    <app-message-container class="scroll-body" [items]="messageItems" [hasMore]="false" [currentId]="user.id" (tapped)="onBlockTap($event)"></app-message-container>
     <div class="box-footer toggle-input" [ngClass]="{'toggle-input': footerIndex > 0, 'toggle-more': footerIndex == 2}">
         <div class="input-box">
             <div *ngIf="menuItems.length > 0" (click)="footerIndex = 0">
                 <i class="iconfont icon-th-list"></i>
             </div>
-            <textarea [(ngModel)]="content" (keydown)="onKeydown($event)"></textarea>
+            <textarea autocomplete="off" [(ngModel)]="content" (keydown)="onKeydown($event)"></textarea>
             <div (click)="toggleMore()">
                 <i class="iconfont icon-ellipsis-h"></i>
             </div>
@@ -27,15 +27,15 @@
         <div class="input-more-box">
             <div class="icon-item">
                 <i class="iconfont icon-image"></i>
-                图片
+                <ng-container i18n>Photo</ng-container>
             </div>
             <div class="icon-item">
                 <i class="iconfont icon-microphone"></i>
-                语音
+                <ng-container i18n>Voice</ng-container>
             </div>
             <div class="icon-item">
                 <i class="iconfont icon-map-marker"></i>
-                地址
+                <ng-container i18n>Location</ng-container>
             </div>
         </div>
         <div class="menu-box">

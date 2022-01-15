@@ -93,6 +93,10 @@ export class MessageContainerComponent {
         this.tapped.emit(item);
     }
 
+    public tapNewsItem(item: any) {
+        this.tapped.emit({...item, type: 80});
+    }
+
     public tapDownFile(item: IMessageBase) {
         if (!item.extra_rule || item.extra_rule.length < 1) {
             return;

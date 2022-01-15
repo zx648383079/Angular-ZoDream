@@ -2,33 +2,29 @@
     <div class="input-group">
         <label for="title">素材标题</label>
         <div>
-            <input type="text" id="title" class="form-control" name="title">
+            <input type="text" id="title" class="form-control" [(ngModel)]="value.title" (ngModelChange)="onValueChange()">
         </div>
     </div>
     <div class="input-group">
         <label for="type">类型</label>
         <div>
-            <select id="type" name="type" class="form-control">
-                <option value="image">图片</option>
-                <option value="thumb">缩略图</option>
-                <option value="voice">语音</option>
-                <option value="video">视频</option>
+            <select id="type" [(ngModel)]="value.type" (ngModelChange)="onValueChange()" class="form-control">
+                <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
             </select>
         </div>
     </div>
     <div class="input-group">
         <label for="material_type">素材类别</label>
         <div>
-            <select id="material_type" name="material_type" class="form-control">
-                <option value="0">临时素材</option>
-                <option value="1">永久素材</option>
+            <select id="material_type" [(ngModel)]="value.material_type" (ngModelChange)="onValueChange()" class="form-control">
+                <option *ngFor="let item of materialTypeItems;let i = index" [value]="i">{{ item }}</option>
             </select>
         </div>
     </div>
     <div class="input-group">
         <label for="content">文件</label>
         <div>
-            <app-file-input></app-file-input>
+            <app-file-input [accept]="fileFilter" [(ngModel)]="value.content" (ngModelChange)="onValueChange()" (fileUploaded)="onFileUpload($event)"></app-file-input>
         </div>
     </div>
 </div>

@@ -7,7 +7,7 @@
 
     <div class="tab-bar">
         <ng-container *ngFor="let item of tabItems">
-            <a [ngClass]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+            <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         </ng-container>
     </div>
 
@@ -33,11 +33,11 @@
                         <div class="thumb">
                             <img [src]="item.thumb" alt="">
                         </div>
-                        <div class="name">{{ item.name }}</div>
+                        <div class="name">{{ item.title }}</div>
                         <div class="time">{{ item.created_at | ago }}</div>
                         <div class="action">
-                            <a >复制medai_id</a>
-                            <a >删除</a>
+                            <a (click)="tapCopy(item.media_id, $event)" *ngIf="item.media_id">复制media_id</a>
+                            <a (click)="tapRemove(item)">删除</a>
                         </div>
                     </div>
                 </div>
@@ -50,21 +50,19 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类型</th>
-                        <th>状态</th>
+                        <th>Media Id</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of items">
                         <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.type }}</td>
-                        <td>{{ item.appid }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.status }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ formatType(item.type) }}</td>
+                        <td>{{ item.media_id }}</td>
                         <td>
                             <div class="btn-group  btn-group-xs">
-                                <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                                <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]" *ngIf="item.type == 'news'">编辑</a>
                                 <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                             </div>
                         </td>
@@ -78,6 +76,6 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="'编辑素材'">
-    <app-edit-media></app-edit-media>
+<app-dialog-box #modal [title]="'新增素材'">
+    <app-edit-media [(value)]="editData"></app-edit-media>
 </app-dialog-box>

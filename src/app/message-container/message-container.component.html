@@ -25,12 +25,14 @@
                     </ng-container>
                     <ng-container *ngIf="item.type == 80">
                         <div class="news-block">
-                            <a class="news-item" [href]="news.url" target="_blank" *ngFor="let news of item.items">
-                                <div class="news-thumb">
-                                    <img [src]="news.thumb | asset" [alt]="news.title">
+                            <ng-container *ngFor="let news of item.items;let j = index">
+                                <div [ngClass]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
+                                    <div class="news-title">{{ news.title }}</div>
+                                    <div class="news-thumb">
+                                        <img [src]="news.thumb | asset" [alt]="news.title">
+                                    </div>
                                 </div>
-                                <div class="news-title">{{ news.title }}</div>
-                            </a>
+                            </ng-container>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="item.type < 1">

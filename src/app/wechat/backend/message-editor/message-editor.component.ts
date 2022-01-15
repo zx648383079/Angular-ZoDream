@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
-import { parseNumber } from '../../../theme/utils';
+import { mapFormat, parseNumber } from '../../../theme/utils';
+import { IWeChatMedia, MediaTypeItems } from '../../model';
 import { WechatService } from '../wechat.service';
 
 interface IEditorData {
@@ -43,21 +45,33 @@ export class MessageEditorComponent implements OnChanges {
         {name: '场景', value: 7},
     ];
     public sceneItems: IItem[] = [];
+    public requestUrl = 'wx/admin/media/search';
     @Output() public valueChange = new EventEmitter<any>();
 
     constructor(
         private service: WechatService,
     ) {
+        this.requestUrl += '?wid=' + this.service.baseId;
         this.service.batch({scenes: {}}).subscribe(res => {
             this.sceneItems = res.scenes;
         });
     }
+
+    
+    public formatFn = (res: IPage<IWeChatMedia>): IWeChatMedia[] => {
+        return res.data.map(i => {
+            const tag = mapFormat(i.type, MediaTypeItems);
+            i.title = `[${tag}]${i.title}`;
+            return i;
+        });
+    };
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
             this.data = this.parseData(changes.value.currentValue);
         }
     }
+
 
     public onTypeChange() {
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { IWeChatAccount, IWeChatMenuItem } from '../model';
+import { IWeChatAccount, IWeChatMedia, IWeChatMenuItem, IWeChatTemplate } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -30,15 +30,15 @@ export class WechatService {
     }
 
     public mediaList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/media', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatMedia>>('wx/admin/media', {params: {...params, wid: this.baseId}});
     }
 
     public media(id: any) {
-        return this.http.get<any>('wx/admin/media/detail', {params: {id, wid: this.baseId}});
+        return this.http.get<IWeChatMedia>('wx/admin/media/detail', {params: {id, wid: this.baseId}});
     }
 
     public mediaSave(data: any) {
-        return this.http.post<any>('wx/admin/media/save', data, {
+        return this.http.post<IWeChatMedia>('wx/admin/media/save', data, {
             params: {wid: this.baseId}
         });
     }
@@ -68,21 +68,19 @@ export class WechatService {
     }
 
     public templateList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/template', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatTemplate>>('wx/admin/template', {params});
     }
 
     public template(id: any) {
-        return this.http.get<any>('wx/admin/template/detail', {params: {id, wid: this.baseId}});
+        return this.http.get<IWeChatTemplate>('wx/admin/template/detail', {params: {id}});
     }
 
     public templateSave(data: any) {
-        return this.http.post<any>('wx/admin/template/save', data, {
-            params: {wid: this.baseId}
-        });
+        return this.http.post<IWeChatTemplate>('wx/admin/template/save', data);
     }
 
     public templateRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('wx/admin/template/delete', {params: {id, wid: this.baseId}});
+        return this.http.delete<IDataOne<boolean>>('wx/admin/template/delete', {params: {id}});
     }
 
     public replyList(params: any) {

@@ -5,7 +5,9 @@ import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { mapFormat } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
+import { IWeChatTemplate } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -15,13 +17,13 @@ import { WechatService } from '../wechat.service';
 })
 export class TemplateComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IWeChatTemplate[] = [];
 
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public selected = 0;
     public queries: IPageQueries = {
+        type: 0,
         keywords: '',
         page: 1,
         per_page: 20
@@ -50,7 +52,11 @@ export class TemplateComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item?: any) {
+    public formatType(val: number) {
+        return mapFormat(val, this.typeItems);
+    }
+
+    public open(modal: DialogBoxComponent, item?: IWeChatTemplate) {
         this.editData = item ? {...item} : {};
         modal.open(() => {
             this.service.templateSave(this.editData).subscribe({
@@ -106,17 +112,16 @@ export class TemplateComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”公众号？')) {
-            return;
-        }
-        this.service.templateRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+    public tapRemove(item: IWeChatTemplate) {
+        this.toastrService.confirm('确定删除“' + item.name + '”模板？', () => {
+            this.service.templateRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

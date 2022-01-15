@@ -11,7 +11,7 @@ import { WechatComponent } from './wechat.component';
 
 const routes: Routes = [
     {
-        path: 'emulate/:id/:media',
+        path: 'emulate/:wid/:id',
         component: DetailComponent
     },
     {

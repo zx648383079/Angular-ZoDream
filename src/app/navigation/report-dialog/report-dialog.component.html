@@ -11,7 +11,7 @@
             <em>*</em><ng-container i18n>Report type:</ng-container>
         </div>
         <div class="tab-bar">
-            <div class="tab-item" *ngFor="let item of typeItems; let i=index" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i">{{ item.label }}</div>
+            <div class="item" *ngFor="let item of typeItems; let i=index" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
         </div>
         <div class="row form-group">
             <ng-container *ngFor="let item of typeOptionItems">

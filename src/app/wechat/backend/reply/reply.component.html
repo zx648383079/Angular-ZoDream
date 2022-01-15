@@ -7,7 +7,7 @@
 
     <div class="tab-bar">
         <ng-container *ngFor="let item of tabItems">
-            <a [ngClass]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+            <a class="item" [ngClass]="{active: queries.event == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         </ng-container>
     </div>
 

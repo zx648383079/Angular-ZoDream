@@ -54,6 +54,11 @@ const routes: Routes = [
         component: EditNewsComponent,
     },
     {
+        path: 'media/edit/:id',
+        canActivate: [CanActivateMainId],
+        component: EditNewsComponent,
+    },
+    {
         path: 'media',
         canActivate: [CanActivateMainId],
         component: MediaComponent,

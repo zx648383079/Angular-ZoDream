@@ -43,10 +43,14 @@ export class WordsInputComponent implements ControlValueAccessor {
 
     public onKeydown(e: KeyboardEvent) {
         if (e.key === 'Enter') {
-            this.push(this.keywords);
-            this.keywords = '';
-            this.output();
+            this.onBlur();
         }
+    }
+
+    public onBlur() {
+        this.push(this.keywords);
+        this.keywords = '';
+        this.output();
     }
 
     public push(v: any) {

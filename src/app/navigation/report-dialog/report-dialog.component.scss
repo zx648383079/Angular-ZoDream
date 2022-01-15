@@ -35,29 +35,14 @@
     }
 }
 .tab-bar {
-    line-height: 2.5rem;
     font-size: .8rem;
-    cursor: pointer;
-    .tab-item {
-        display: inline-block;
-        padding: 0 1.25rem;
-        text-decoration: none;
-        color: #fff;
-        background-color: #6c757d;
-        &.active {
-            background-color: red;
-        }
-        &:first-of-type {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-        }
-        &:last-of-type {
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
-        &:not(:last-of-type) {
-            border-right: 1px solid rgba($color: #000000, $alpha: .1);
-        }
+    .item {
+        padding: 0 .4rem;
+        max-width: 10rem;
+        min-width: 4rem;
+        text-align: center;
+        overflow-y: hidden;
+        height: 2.5rem;
     }
 }
 .edit-body {

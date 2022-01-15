@@ -18,6 +18,14 @@ export const EditorTypeItems: IItem[] = [
     {name: '场景', value: 7},
 ];
 
+export const MediaTypeItems: IItem[] = [
+    {name: '图片', value: 'image'},
+    {name: '语音', value: 'voice'},
+    {name: '视频', value: 'video'},
+    {name: '缩略图', value: 'thumb'},
+    {name: '图文', value: 'news'},
+]
+
 export interface IWeChatAccount {
     id: number;
     name: string;
@@ -65,5 +73,37 @@ export interface IWeChatMenuItem {
     children?: IWeChatMenuItem[];
     open?: boolean;
 }
+
+export interface IWeChatMedia {
+    id:            number;
+    wid:           number;
+    type:          string;
+    material_type: number;
+    title:         string;
+    thumb:         string;
+    show_cover:    number;
+    open_comment:  number;
+    only_comment:  number;
+    content:       string;
+    parent_id:     number;
+    media_id:      string;
+    url:           string;
+    expired_at:    number;
+    updated_at:    string;
+    created_at:    string;
+    account?: IWeChatAccount;
+}
+
+export interface IWeChatTemplate {
+    id:         number;
+    type:       number;
+    category:   number;
+    name:       string;
+    content:    string;
+    updated_at: string;
+    created_at: string;
+    html?: any;
+}
+
 
 

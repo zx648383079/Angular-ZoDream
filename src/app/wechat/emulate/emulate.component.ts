@@ -29,7 +29,7 @@ export class EmulateComponent implements OnInit {
     public content = '';
     public user: IUser = {
         id: -1,
-        name: '[游客]',
+        name: $localize `[Guest]`,
         avatar: '/assets/images/favicon.png',
     };
 
@@ -82,7 +82,7 @@ export class EmulateComponent implements OnInit {
         }
         this.messageBody.append([this.formatByUser({
             type: 99,
-            content: `你点击了“${item.name}”菜单`,
+            content: $localize `You tap "${item.name}" menu`,
         })]);
         if (item.type == 5) {
             window.open(item.content, '_blank');
@@ -132,6 +132,17 @@ export class EmulateComponent implements OnInit {
         }
     }
 
+    public onBlockTap(data: any) {
+        if (data.type == 80) {
+            window.open(data.url, '_blank');
+            return;
+        }
+        if (data.type == 4) {
+            window.open(data.link, '_blank');
+            return;
+        }
+    }
+
     private appendResp(res: any) {
         const items = res.data instanceof Array ? res.data : [res.data];
         this.messageBody.append(items.map(i => {
@@ -141,10 +152,40 @@ export class EmulateComponent implements OnInit {
                     content: i.content,
                 });
             }
+            if (i.type === 'url') {
+                return this.formatByAccount({
+                    type: 0,
+                    content: i.content,
+                    extra_rule: [
+                        {s: i.content, l: i.content}
+                    ]
+                });
+            }
+            if (i.type === 'image' || i.type === 'thumb') {
+                return this.formatByAccount({
+                    type: 1,
+                    content: i.content,
+                });
+            }
+            if (i.type === 'video') {
+                return this.formatByAccount({
+                    type: 2,
+                    content: i.content,
+                });
+            }
+            if (i.type === 'voice') {
+                return this.formatByAccount({
+                    type: 3,
+                    content: i.content,
+                });
+            }
             if (i.type === 'news') {
                 return this.formatByAccount({
                     type: 80,
-                    items: i.items,
+                    items: i.items.map(it => {
+                        it.url = `/wx/emulate/${this.account.id}/${it.id}`;
+                        return it;
+                    }),
                 });
             }
             return this.formatByAccount(i);

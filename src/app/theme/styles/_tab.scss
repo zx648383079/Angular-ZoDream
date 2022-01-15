@@ -59,3 +59,31 @@
         }
     }
 }
+
+.tab-bar {
+    display: block;
+    line-height: 2.5rem;
+    a {
+        color: #333;
+    }
+    .item {
+        display: inline-block;
+        padding: 0 1.25rem;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba($color: #ccc, $alpha: .3);
+        }
+        &.active {
+            background-color: red;
+            color: #fff;
+        }
+        &:first-of-type {
+            border-top-left-radius: 0.3125rem;
+            border-bottom-left-radius: 0.3125rem;
+        }
+        &:last-of-type {
+            border-top-right-radius: 0.3125rem;
+            border-bottom-right-radius: 0.3125rem;
+        }
+    }
+}

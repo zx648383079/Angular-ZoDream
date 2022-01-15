@@ -20,7 +20,7 @@ export class WechatService {
         return this.http.post<IDataOne<any|any[]>>('wx/emulate/reply', data);
     }
 
-    public media(id: any) {
-        return this.http.get<any>('wx/emulate/media', {params: {id}});
+    public media(data: any) {
+        return this.http.get<any>('wx/emulate/media', {params: data});
     }
 }

@@ -30,7 +30,7 @@ export class WechatComponent implements OnInit {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('公众号管理');
+        this.themeService.setTitle($localize `WeChat`);
     }
 
     ngOnInit() {
@@ -58,12 +58,17 @@ export class WechatComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.getList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+        this.service.getList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

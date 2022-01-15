@@ -1,22 +1,78 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../../../../dialog';
+import { ButtonEvent } from '../../../../form';
 import { SearchService } from '../../../../theme/services';
+import { emptyValidate } from '../../../../theme/validators';
+import { WechatService } from '../../wechat.service';
 
 @Component({
   selector: 'app-edit-news',
   templateUrl: './edit-news.component.html',
   styleUrls: ['./edit-news.component.scss']
 })
-export class EditNewsComponent implements OnInit {
+export class EditNewsComponent implements OnInit, OnDestroy {
 
-    
+    public data: any = {
+        title: '',
+        parent_id: 0,
+        type: 'news',
+        content: '',
+        show_cover: 0,
+        only_comment: 0,
+        open_comment: 0,
+    };
     public onlyItems = ['所有人', '粉丝'];
+    public requestUrl = 'wx/admin/media/search?type=news';
 
     constructor(
         private searchService: SearchService,
+        private route: ActivatedRoute,
+        private service: WechatService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
         this.searchService.emit('toggle', 2);
+        this.requestUrl += '&wid=' + this.service.baseId;
+        this.route.params.subscribe(params => {
+            if (!params.id) {
+                return;
+            }
+            this.service.media(params.id).subscribe({
+                next: res => {
+                    this.data = res;
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                    history.back();
+                }
+            })
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.searchService.emit('toggle', 0);
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
+        if (emptyValidate(this.data.title)) {
+            this.toastrService.error('请输入标题');
+            return;
+        }
+        if (emptyValidate(this.data.content)) {
+            this.toastrService.error('请输入内容');
+            return;
+        }
+        this.service.mediaSave(this.data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+                history.back();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
 }

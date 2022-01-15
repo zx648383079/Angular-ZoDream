@@ -138,12 +138,7 @@
         }
     }
     .tab-bar {
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 10px;
-        a {
-            display: inline-block;
-            padding: 5px 10px;
+        .item {
             border: 1px solid #ccc;
             &:hover {
                 background-color: #f4f4f4;

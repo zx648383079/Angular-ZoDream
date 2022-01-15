@@ -11,6 +11,10 @@
     <textarea class="form-control" [(ngModel)]="data.text" (ngModelChange)="onContentChange()"></textarea>
 </ng-container>
 
+<ng-container *ngIf="data.type >= 1 && data.type <= 2">
+    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(ngModel)]="data.media" (ngModelChange)="onContentChange()"></app-select-input>
+</ng-container>
+
 <ng-container *ngIf="data.type == 3">
     <div class="input-group">
         <label for="template_id">模板ID</label>

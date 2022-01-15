@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IUploadFile, IUploadResult } from '../../theme/models/open';
@@ -29,6 +29,8 @@ export class FileInputComponent implements ControlValueAccessor {
     public isLoading = false;
     public fileName = this.uploadService.uniqueGuid();
 
+    @Output() public fileUploaded = new EventEmitter<IUploadResult | IUploadFile>();
+
     onChange: any = () => {};
     onTouch: any = () => {};
 
@@ -51,6 +53,7 @@ export class FileInputComponent implements ControlValueAccessor {
         }
         modal.open((item: IUploadFile) => {
             this.onChange(this.value = item.url);
+            this.fileUploaded.emit(item);
         });
     }
 
@@ -71,6 +74,7 @@ export class FileInputComponent implements ControlValueAccessor {
             next: res => {
                 this.isLoading = false;
                 this.onChange(this.value = res.url);
+                this.fileUploaded.emit(res);
             },
             error: _ => {
                 this.isLoading = false;

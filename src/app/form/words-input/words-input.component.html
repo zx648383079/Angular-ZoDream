@@ -7,5 +7,5 @@
             </div>
         </ng-container>
     </div>
-    <input type="text" [(ngModel)]="keywords" [placeholder]="placeholder" [disabled]="disabled" (keydown)="onKeydown($event)">
+    <input type="text" [(ngModel)]="keywords" [placeholder]="placeholder" [disabled]="disabled" (keydown)="onKeydown($event)" (blur)="onBlur()">
 </div>

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as ClipboardJS from 'clipboard';
 import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { mapFormat } from '../../../theme/utils';
+import { emptyValidate } from '../../../theme/validators';
+import { IWeChatMedia, MediaTypeItems } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -13,7 +17,7 @@ import { WechatService } from '../wechat.service';
 })
 export class MediaComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IWeChatMedia[] = [];
 
     public hasMore = true;
     public isLoading = false;
@@ -30,6 +34,7 @@ export class MediaComponent implements OnInit {
         page: 1,
         per_page: 20
     };
+    public editData: any = {};
 
     constructor(
         private service: WechatService,
@@ -44,8 +49,27 @@ export class MediaComponent implements OnInit {
         });
     }
 
+    public formatType(val: string) {
+        return mapFormat(val, MediaTypeItems);
+    }
+
     public open(modal: DialogEvent) {
-        modal.open();
+        this.editData = {
+            title: '',
+            type: 'image',
+            material_type: 0
+        };
+        modal.open(() => {
+            this.service.mediaSave(this.editData).subscribe({
+                next: _ => {
+                    this.toastrService.success('保存成功');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emptyValidate(this.editData.content));
     }
 
     public tapTab(i: string) {
@@ -85,19 +109,35 @@ export class MediaComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”素材？')) {
-            return;
-        }
-        this.service.mediaRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+    public tapRemove(item: IWeChatMedia) {
+        this.toastrService.confirm('确定删除“' + item.title + '”素材？', () => {
+            this.service.mediaRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
+        
+    }
+
+    public tapCopy(val: string, e: MouseEvent) {
+        const clipboard: any = new ClipboardJS(e.currentTarget as HTMLDivElement, {
+            text: () => {
+              return val;
+            },
+        });
+        clipboard.on('success', (e) => {
+            this.toastrService.success($localize `Copy successfully`);
+            e.clearSelection();
+        });
+        clipboard.on('error', (e) => {
+            this.toastrService.warning($localize `Copy failed`);
+        });
+        clipboard.onClick(e);
     }
 
 }
