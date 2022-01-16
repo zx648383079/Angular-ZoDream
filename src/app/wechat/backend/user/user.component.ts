@@ -4,6 +4,7 @@ import { DialogService } from '../../../dialog';
 import { ButtonEvent } from '../../../form';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { IWeChatFans } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { WechatService } from '../wechat.service';
 })
 export class UserComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IWeChatFans[] = [];
 
     public hasMore = true;
     public isLoading = false;

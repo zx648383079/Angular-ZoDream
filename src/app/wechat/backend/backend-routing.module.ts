@@ -17,6 +17,7 @@ import { QrcodeComponent } from './qrcode/qrcode.component';
 import { EditReplyComponent } from './reply/edit/edit-reply.component';
 import { ReplyComponent } from './reply/reply.component';
 import { ReplyTemplateComponent } from './reply/template/reply-template.component';
+import { TemplateCategoryComponent } from './template/category/template-category.component';
 import { TemplateEditorComponent } from './template/editor/template-editor.component';
 import { TemplateComponent } from './template/template.component';
 import { UserComponent } from './user/user.component';
@@ -38,6 +39,10 @@ const routes: Routes = [
         path: 'reply/template',
         canActivate: [CanActivateMainId],
         component: ReplyTemplateComponent,
+    },
+    {
+        path: 'template/category',
+        component: TemplateCategoryComponent,
     },
     {
         path: 'template',
@@ -101,5 +106,5 @@ export const wechatBackendRoutingComponents = [
     WechatBackendComponent, AccountComponent, EditAccountComponent, LogComponent,
     MenuComponent, MediaComponent, TemplateComponent, ReplyComponent, UserComponent, EditMediaComponent, EditReplyComponent, 
     MessageEditorComponent, EditNewsComponent, TemplateEditorComponent,
-    QrcodeComponent, ReplyTemplateComponent
+    QrcodeComponent, ReplyTemplateComponent, TemplateCategoryComponent
 ];

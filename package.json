@@ -37,7 +37,7 @@
     "jsonapi-deserializer": "^0.1.1",
     "katex": "~0.13.24",
     "marked": "^4.0.10",
-    "ng-lazyload-image": "^9.1.1",
+    "ng-lazyload-image": "^9.1.2",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-echarts": "^8.0.1",
     "reselect": "^4.1.5",

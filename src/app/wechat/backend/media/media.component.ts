@@ -109,19 +109,40 @@ export class MediaComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IWeChatMedia) {
-        this.toastrService.confirm('确定删除“' + item.title + '”素材？', () => {
-            this.service.mediaRemove(item.id).subscribe(res => {
-                if (!res.data) {
-                    return;
+    public tapAsync(item: IWeChatMedia) {
+        this.toastrService.confirm('确定推送“' + item.title + '”素材到公众号？', () => {
+            this.service.mediaAsync(item.id).subscribe({
+                next: res => {
+                    if (!res.data) {
+                        return;
+                    }
+                    this.tapPage();
+                    this.toastrService.success('推送成功');
+                },
+                error: err => {
+                    this.toastrService.error(err);
                 }
-                this.toastrService.success('删除成功');
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
-                });
             });
         });
-        
+    }
+
+    public tapRemove(item: IWeChatMedia) {
+        this.toastrService.confirm('确定删除“' + item.title + '”素材？', () => {
+            this.service.mediaRemove(item.id).subscribe({
+                next: res => {
+                    if (!res.data) {
+                        return;
+                    }
+                    this.toastrService.success('删除成功');
+                    this.items = this.items.filter(it => {
+                        return it.id !== item.id;
+                    });
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        });
     }
 
     public tapCopy(val: string, e: MouseEvent) {

@@ -48,6 +48,7 @@ export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
                     name: '模板样式',
                     label: '模',
                     url: this.renderUrl('template'),
+                    role: 'wechat_manage',
                 },
                 ...items,
             ]

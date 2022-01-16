@@ -21,22 +21,29 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>微信ID</th>
                     <th>昵称</th>
                     <th>状态</th>
+                    <th>黑名单</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
+                    <td>
+                        <img [src]="item.user.avatar" [alt]="item.user.nickname" width="60" height="60">
+                    </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.openid }}</td>
-                    <td>{{ item.nickname }}</td>
-                    <td>{{ item.status }}</td>
+                    <td>{{ item.user.nickname }}</td>
+                    <td>{{ item.status >= 0 ? '关注' : '取消关注' }}</td>
+                    <td>
+                        <app-switch [(ngModel)]="item.is_black"></app-switch>
+                    </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

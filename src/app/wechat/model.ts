@@ -105,5 +105,38 @@ export interface IWeChatTemplate {
     html?: any;
 }
 
+export interface IWeChatTemplateCategory {
+    id: number;
+    name: string;
+    parent_id?: number;
+    level?: number;
+}
 
+export interface IWeChatFans {
+    id: number;
+    openid: string;
+    status: number;
+    is_black: boolean;
+    user?: IWeChatUser;
+}
 
+export interface IWeChatUser {
+    id: number;
+    openid: string;
+    nickname: string;
+    avatar: string;
+}
+
+export interface IWeChatMessageHistory {
+    id: number;
+    wid: number; // 所属微信公众号ID
+    item_type: string; // 发送类型
+    item_id: number; //相应规则ID
+    from: string; // 请求用户ID
+    to: string; // 相应用户ID
+    content: string; // 消息体内容
+    is_mark?: boolean;
+    created_at: string; // 创建时间
+    from_user?: IWeChatUser;
+    to_user?: IWeChatUser;
+}

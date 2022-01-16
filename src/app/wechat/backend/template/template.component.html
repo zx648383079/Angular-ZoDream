@@ -18,9 +18,17 @@
                         <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                     </select>
                 </div>
+                <div class="input-group">
+                    <label>分类</label>
+                    <select name="category" [ngModel]="queries.category" class="form-control">
+                        <option [value]="0">全部</option>
+                        <option *ngFor="let item of categoryItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a (click)="open(modal)" class="btn btn-info">创建</a>
+                    <a routerLink="category" class="btn btn-success">分类管理</a>
                 </div>
             </form>
         </div>
@@ -73,8 +81,9 @@
         <div class="input-group">
             <label for="category">分类</label>
             <div>
-                <select id="category" [(ngModel)]="editData.category" class="form-control">
-                    <option value="0">不限</option>
+                <select id="category" [(ngModel)]="editData.cat_id" class="form-control">
+                    <option [value]="0">请选择</option>
+                    <option *ngFor="let item of categoryItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
             </div>
         </div>

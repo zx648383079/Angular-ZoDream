@@ -43,7 +43,9 @@
                     <td>{{ formatEvent(item.event) }}</td>
                     <td>{{ formatType(item.type) }}</td>
                     <td>{{ item.keywords }}</td>
-                    <td>{{ item.status == 1 ? '已激活' : '未激活' }}</td>
+                    <td>
+                        <app-switch [(ngModel)]="item.status" offLabel="未激活" onLabel="已激活" (ngModelChange)="onStatusChange(item)"></app-switch>
+                    </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>

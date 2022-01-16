@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { DialogEvent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { mapFormat } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
-import { IWeChatTemplate } from '../../model';
+import { IWeChatTemplate, IWeChatTemplateCategory } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -24,6 +24,7 @@ export class TemplateComponent implements OnInit {
     public total = 0;
     public queries: IPageQueries = {
         type: 0,
+        category: 0,
         keywords: '',
         page: 1,
         per_page: 20
@@ -34,6 +35,7 @@ export class TemplateComponent implements OnInit {
         content: null,
     };
     public typeItems: IItem[] = [];
+    public categoryItems: IWeChatTemplateCategory[] = [];
 
     constructor(
         private service: WechatService,
@@ -47,8 +49,12 @@ export class TemplateComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
-        this.service.batch({template_type: {}}).subscribe(res => {
+        this.service.batch({
+            template_type: {},
+            template_category: {}
+        }).subscribe(res => {
             this.typeItems = res.template_type;
+            this.categoryItems = res.template_category;
         });
     }
 
@@ -56,7 +62,7 @@ export class TemplateComponent implements OnInit {
         return mapFormat(val, this.typeItems);
     }
 
-    public open(modal: DialogBoxComponent, item?: IWeChatTemplate) {
+    public open(modal: DialogEvent, item?: IWeChatTemplate) {
         this.editData = item ? {...item} : {};
         modal.open(() => {
             this.service.templateSave(this.editData).subscribe({

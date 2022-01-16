@@ -72,6 +72,19 @@ export class ReplyComponent implements OnInit {
             });
         });
     }
+
+    public onStatusChange(item: IWeChatReply) {
+        this.service.replyUpdate(item.id, {
+            status: item.status
+        }).subscribe({
+            next: _ => {
+                this.toastrService.success('修改成功');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
     
     public tapTab(i = '') {
         this.queries.event = i;

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { IWeChatAccount, IWeChatMedia, IWeChatMenuItem, IWeChatTemplate } from '../model';
+import { IWeChatAccount, IWeChatFans, IWeChatMedia, IWeChatMenuItem, IWeChatTemplate, IWeChatTemplateCategory } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,6 +47,12 @@ export class WechatService {
         return this.http.delete<IDataOne<boolean>>('wx/admin/media/delete', {params: {id, wid: this.baseId}});
     }
 
+    public mediaAsync(id: any) {
+        return this.http.post<IDataOne<boolean>>('wx/admin/media/async', {id}, {
+            params: {wid: this.baseId}
+        });
+    }
+
     public menuList(params: any) {
         return this.http.get<IData<IWeChatMenuItem>>('wx/admin/menu', {params: {...params, wid: this.baseId}});
     }
@@ -83,6 +89,14 @@ export class WechatService {
         return this.http.delete<IDataOne<boolean>>('wx/admin/template/delete', {params: {id}});
     }
 
+    public categorySave(data: any) {
+        return this.http.post<IWeChatTemplate>('wx/admin/template/category_save', data);
+    }
+
+    public categoryRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('wx/admin/template/category_delete', {params: {id}});
+    }
+
     public replyList(params: any) {
         return this.http.get<IPage<any>>('wx/admin/reply', {params: {...params, wid: this.baseId}});
     }
@@ -93,6 +107,12 @@ export class WechatService {
 
     public replySave(data: any) {
         return this.http.post<any>('wx/admin/reply/save', data, {
+            params: {wid: this.baseId}
+        });
+    }
+
+    public replyUpdate(id: any, data: any) {
+        return this.http.post<any>('wx/admin/reply/update', {id, data}, {
             params: {wid: this.baseId}
         });
     }
@@ -110,7 +130,7 @@ export class WechatService {
     }
 
     public userList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/user', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatFans>>('wx/admin/user', {params: {...params, wid: this.baseId}});
     }
 
     public user(id: any) {
@@ -153,10 +173,12 @@ export class WechatService {
 
     public batch(data: {
         template_type?: any;
+        template_category?: any;
         scenes?: any;
     }) {
         return this.http.post<{
             template_type?: IItem[];
+            template_category?: IWeChatTemplateCategory[];
             scenes?: IItem[];
         }>('wx/admin/batch', data);
     }
