@@ -10,7 +10,7 @@
             <a routerLink="../" [queryParams]="{tag: item.name}" class="tag-item" [style]="item.style">{{ item.name }}</a>
         </ng-container>
     </div>
-    
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || tagItems.length == 0"></app-loading-tip>
   </div>
 
 </div>

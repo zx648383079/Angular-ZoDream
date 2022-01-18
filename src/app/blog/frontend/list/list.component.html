@@ -5,7 +5,7 @@
                     <ng-container *ngFor="let item of categories">
                         <li [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">
                             <i class="iconfont icon-bookmark"></i><a>{{ item.name }}</a>
-                            <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count }}</span>
+                            <span class="count" *ngIf="item.blog_count > 0">{{ item.blog_count > 99 ? '99+' : item.blog_count }}</span>
                         </li>
                     </ng-container>
                 </ul>
@@ -73,7 +73,6 @@
             </div>
             </ng-container>
             <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-            
         </div>
         <div class="book-footer">
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

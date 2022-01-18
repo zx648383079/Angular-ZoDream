@@ -10,46 +10,49 @@ import { BlogService } from '../blog.service';
 })
 export class CategoryComponent implements OnInit {
 
-  public items: ICategory[] = [];
+    public items: ICategory[] = [];
 
-  public isLoading = false;
+    public isLoading = false;
 
-  constructor(
-    private service: BlogService,
-    private toastrService: DialogService,
-  ) {
-    this.tapRefresh();
-  }
-
-  ngOnInit() {}
-
-  /**
-   * tapRefresh
-   */
-  public tapRefresh() {
-    if (this.isLoading) {
-        return;
+    constructor(
+        private service: BlogService,
+        private toastrService: DialogService,
+    ) {
+        this.tapRefresh();
     }
-    this.isLoading = true;
-    this.service.getCategories().subscribe(res => {
-        this.isLoading = false;
-        this.items = res;
-    });
-  }
 
-  public tapRemove(item: ICategory) {
-    if (!confirm('确定删除“' + item.name + '”分类？')) {
-      return;
+    ngOnInit() {}
+
+    /**
+     * tapRefresh
+     */
+    public tapRefresh() {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        this.service.getCategories().subscribe({
+            next: res => {
+                this.items = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
+        });
     }
-    this.service.categoryRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.items = this.items.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    public tapRemove(item: ICategory) {
+        this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {
+            this.service.categoryRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
 
 }

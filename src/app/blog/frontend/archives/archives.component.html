@@ -21,5 +21,6 @@
             </ng-container>
 
         </div>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     </div>
 </div>

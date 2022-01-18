@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { ITag } from '../../../theme/models/blog';
 import { ThemeService } from '../../../theme/services';
@@ -12,17 +12,24 @@ import { ThemeService } from '../../../theme/services';
 export class TagComponent {
 
     public tagItems: ITag[] = [];
+    public isLoading = false;
 
     constructor(
         private service: BlogService,
         private themeService: ThemeService,
     ) {
         this.themeService.setTitle($localize `Tags`);
-        this.service.getTags().subscribe(res => {
-            this.tagItems = res.map(item => {
-                item.style = 'font-size:' + (Math.sqrt(item.count)  + 12) + 'px';
-                return item;
-            });
+        this.isLoading = true;
+        this.service.getTags().subscribe({
+            next: res => {
+                this.tagItems = res.map(item => {
+                    item.style = 'font-size:' + (Math.sqrt(item.blog_count) + 12) + 'px';
+                    return item;
+                });
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

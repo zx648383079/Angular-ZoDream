@@ -11,6 +11,7 @@ import { ThemeService } from '../../../theme/services';
 export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
+    public isLoading = false;
 
     constructor(
         private service: BlogService,

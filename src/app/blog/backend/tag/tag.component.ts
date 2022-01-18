@@ -10,46 +10,48 @@ import { BlogService } from '../blog.service';
 })
 export class TagComponent implements OnInit {
 
-  public items: ITag[] = [];
+    public items: ITag[] = [];
+    public isLoading = false;
 
-  public isLoading = false;
-
-  constructor(
-    private service: BlogService,
-    private toastrService: DialogService,
-  ) {
-    this.tapRefresh();
-  }
-
-  ngOnInit() {}
-
-  /**
-   * tapRefresh
-   */
-  public tapRefresh() {
-    if (this.isLoading) {
-        return;
+    constructor(
+        private service: BlogService,
+        private toastrService: DialogService,
+    ) {
+        this.tapRefresh();
     }
-    this.isLoading = true;
-    this.service.getTags().subscribe(res => {
-        this.isLoading = false;
-        this.items = res;
-    });
-  }
 
-  public tapRemove(item: ITag) {
-    if (!confirm('确定删除“' + item.name + '”标签？')) {
-      return;
+    ngOnInit() {}
+
+    /**
+     * tapRefresh
+     */
+    public tapRefresh() {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        this.service.getTags().subscribe({
+            next: res => {
+                this.items = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
+        });
     }
-    this.service.tagRemove(item.id).subscribe(res => {
-      if (!res.data) {
-        return;
-      }
-      this.toastrService.success('删除成功');
-      this.items = this.items.filter(it => {
-        return it.id !== item.id;
-      });
-    });
-  }
+
+    public tapRemove(item: ITag) {
+        this.toastrService.confirm('确定删除“' + item.name + '”标签？', () => {
+            this.service.tagRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
+        });
+    }
 
 }

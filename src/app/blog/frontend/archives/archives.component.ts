@@ -11,6 +11,7 @@ import { ThemeService } from '../../../theme/services';
 export class ArchivesComponent implements OnInit {
 
     public items: IArchives[] = [];
+    public isLoading = false;
 
     constructor(
         private service: BlogService,
