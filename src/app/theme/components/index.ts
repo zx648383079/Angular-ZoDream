@@ -8,3 +8,4 @@ export * from './emoji-picker/emoji-picker.component';
 export * from './pagination/pagination.component';
 export * from './editable-table/editable-table.component';
 export * from './loading-ring/loading-ring.component';
+export * from './loading-tip/loading-tip.component';

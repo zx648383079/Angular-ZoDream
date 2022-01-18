@@ -89,13 +89,12 @@ export class KeywordComponent implements OnInit {
         const queries = {...this.queries, page};
         this.service.keywordList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 applyHistory(this.queries = queries);
             },
-            error: () => {
+            complete: () => {
                 this.isLoading = false;
             }
         });

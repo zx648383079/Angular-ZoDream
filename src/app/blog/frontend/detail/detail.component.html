@@ -1,4 +1,5 @@
-<div class="container loading-box">
+<div class="container">
+    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
     <div *ngIf="data">
         <div class="book-title">
             {{ data.title }}
@@ -54,14 +55,14 @@
         </div>
 
         <div class="book-navigation">
-            <a class="prev" *ngIf="data.previous" (click)="loadBlog(data.previous.id)">
+            <a class="prev" *ngIf="data.previous" (click)="loadBlog(data.previous.id)" i18n-title [title]="'Previous: ' + data.previous.title">
                 <i class="iconfont icon-chevron-left"></i>
                 <div class="prev-text">
                     <span class="prev-label" i18n>Previous</span>
                     <span class="prev-title">{{ data.previous.title }}</span>
                 </div>
             </a>
-            <a class="next" *ngIf="data.next" (click)="loadBlog(data.next.id)">
+            <a class="next" *ngIf="data.next" (click)="loadBlog(data.next.id)" i18n-title [title]="'Next: ' + data.next.title">
                 <div class="next-text">
                     <span class="next-label" i18n>Next</span>
                     <span class="next-title">{{ data.next.title }}</span>

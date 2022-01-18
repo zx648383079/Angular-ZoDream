@@ -13,6 +13,7 @@ import { ExamService } from '../exam.service';
 export class CourseComponent implements OnInit {
 
     public items: ICourse[] = [];
+    public isLoading = false;
     public editData: ICourse = {} as any;
     public optionItems: ICourse[] = [];
 
@@ -27,8 +28,14 @@ export class CourseComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.service.courseList().subscribe(res => {
-            this.items = res.data;
+        this.isLoading = true;
+        this.service.courseList().subscribe({
+            next: res => {
+                this.items = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

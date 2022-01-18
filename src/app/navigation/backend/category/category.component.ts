@@ -13,6 +13,7 @@ import { NavigationService } from '../navigation.service';
 export class CategoryComponent implements OnInit {
 
     public items: ISiteCategory[] = [];
+    public isLoading = false;
     public editData: ISiteCategory = {} as any;
     public categories: ISiteCategory[] = [];
 
@@ -50,8 +51,14 @@ export class CategoryComponent implements OnInit {
     }
 
     private load() {
-        this.service.categoryTree().subscribe(res => {
-            this.items = res.data;
+        this.isLoading = true;
+        this.service.categoryTree().subscribe({
+            next: res => {
+                this.items = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

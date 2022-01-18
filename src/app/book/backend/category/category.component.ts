@@ -12,6 +12,7 @@ import { DialogBoxComponent, DialogService } from '../../../dialog';
 export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
+    public isLoading = false;
     public editData: ICategory = {} as any;
 
     constructor(
@@ -39,22 +40,27 @@ export class CategoryComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.service.categoryList().subscribe(res => {
-            this.items = res.data;
+        this.isLoading = true;
+        this.service.categoryList().subscribe({
+            next: res => {
+                this.items = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapRemove(item: ICategory) {
-        if (!confirm('确定删除“' + item.name + '”分类？')) {
-            return;
-        }
-        this.service.categoryRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {
+            this.service.categoryRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

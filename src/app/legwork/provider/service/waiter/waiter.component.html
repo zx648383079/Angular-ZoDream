@@ -24,3 +24,4 @@
         <a class="btn btn-danger" *ngIf="item.status == 1" (click)="tapChange(item, 2)" i18n>Forbid</a>
     </div>
 </ng-container>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

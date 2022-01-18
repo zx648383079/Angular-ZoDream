@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
-import { IErrorResult } from '../../../theme/models/page';
+import { IErrorResult, IPageQueries } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { UploadButtonEvent } from '../../../form';
+import { ActivatedRoute } from '@angular/router';
+import { applyHistory, getQueries } from '../../../theme/query';
 
 @Component({
   selector: 'app-emoji',
@@ -15,42 +17,45 @@ export class EmojiComponent implements OnInit {
 
     public items: IEmoji[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        cat_id: 0,
+    };
 
     public categories: IEmojiCategory[] = [];
-    public category = 0;
     public editData: IEmoji = {} as any;
 
     constructor(
         private service: SystemService,
         private toastrService: DialogService,
+        private route: ActivatedRoute,
     ) {
-        this.tapRefresh();
         this.service.emojiCategoryList({}).subscribe(res => {
             this.categories = res.data;
         });
     }
 
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         this.goPage(1);
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -61,36 +66,35 @@ export class EmojiComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.emojiList({
-            keywords: this.keywords,
-            cat_id: this.category,
-            page,
-            per_page: this.perPage,
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries, page};
+        this.service.emojiList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
-        this.category = form.cat_id || 0;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”表情？')) {
-            return;
-        }
-        this.service.emojiRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”表情？', () => {
+            this.service.emojiRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

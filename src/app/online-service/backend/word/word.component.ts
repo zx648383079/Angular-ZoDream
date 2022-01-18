@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import { IWord } from '../../model';
 import { OnlineBackendService } from '../online.service';
@@ -14,13 +16,15 @@ export class WordComponent implements OnInit {
 
     public items: IWord[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: '',
+        category: 0,
+    };
     public editData: IWord;
-    public category = 0;
 
     constructor(
         private service: OnlineBackendService,
@@ -31,9 +35,12 @@ export class WordComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.category) {
-                this.category = parseInt(params.category, 10);
+                this.queries.category = parseInt(params.category, 10);
             }
-            this.tapRefresh();
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
@@ -41,7 +48,7 @@ export class WordComponent implements OnInit {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             content: '',
-            cat_id: this.category,
+            cat_id: this.queries.category,
         };
         modal.open(() => {
             this.service.wordSave(this.editData).subscribe(_ => {
@@ -52,7 +59,7 @@ export class WordComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -61,11 +68,11 @@ export class WordComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -73,29 +80,30 @@ export class WordComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.wordList({
-            category: this.category,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries, page};
+        this.service.wordList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapRemove(item: IWord) {
-        if (!confirm('确定删除“' + item.content + '”？')) {
-            return;
-        }
-        this.service.wordRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.content + '”？', () => {
+            this.service.wordRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

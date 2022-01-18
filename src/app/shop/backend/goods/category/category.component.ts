@@ -11,6 +11,7 @@ import { GoodsService } from '../goods.service';
 export class CategoryComponent implements OnInit {
 
     public categories: ICategory[] = [];
+    public isLoading = false;
 
     constructor(
         private service: GoodsService,
@@ -19,8 +20,14 @@ export class CategoryComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+        this.isLoading = true;
+        this.service.categoryTree().subscribe({
+            next: res => {
+                this.categories = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

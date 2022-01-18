@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { IPageQueries } from '../../../theme/models/page';
 import { ISignature } from '../../../theme/models/sms';
+import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import { SmsService } from '../sms.service';
 
@@ -9,44 +12,43 @@ import { SmsService } from '../sms.service';
   templateUrl: './signature.component.html',
   styleUrls: ['./signature.component.scss']
 })
-export class SignatureComponent {
+export class SignatureComponent implements OnInit {
 
     public items: ISignature[] = [];
-
     public hasMore = true;
-
-    public page = 1;
-
-    public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
-    public keywords = '';
-
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+        keywords: ''
+    };
     public editData: ISignature = {id: undefined, name: '', sign_no: ''};
 
     constructor(
         private service: SmsService,
+        private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {
-        this.tapRefresh();
     }
 
-    /**
-     * tapRefresh
-     */
+    ngOnInit(): void {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -57,34 +59,35 @@ export class SignatureComponent {
             return;
         }
         this.isLoading = true;
-        this.service.signatureList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries, page};
+        this.service.signatureList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapRemove(item: ISignature) {
-        if (!confirm('确定删除“' + item.name + '”签名？')) {
-            return;
-        }
-        this.service.signatureRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”签名？', () => {
+            this.service.signatureRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
@@ -105,9 +108,14 @@ export class SignatureComponent {
                 name: this.editData.name,
                 sign_no: this.editData.sign_no,
                 id: this.editData?.id
-            }).subscribe(res => {
-                this.toastrService.success('保存成功');
-                this.tapPage();
+            }).subscribe({
+                next: res => {
+                    this.toastrService.success('保存成功');
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
             });
         }, () => {
             return !emptyValidate(this.editData.name);

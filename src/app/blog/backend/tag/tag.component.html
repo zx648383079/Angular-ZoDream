@@ -10,7 +10,7 @@
             <a class="btn btn-success pull-right" routerLink="./create">新增标签</a>
         </div>
     
-        <table class="table  table-bordered well">
+        <table class="table table-bordered well">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -34,6 +34,7 @@
                 </tr>
             </tbody>
         </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     </div>
     
 </div>

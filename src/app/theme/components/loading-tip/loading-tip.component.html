@@ -1,0 +1,17 @@
+<div class="loading-tip-box" *ngIf="visible">
+    <ng-container *ngIf="loading; else elseTemplate">
+        <div class="loading-ring1">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <div class="page-empty-tip">
+            <i class="iconfont" *ngIf="emptyIcon" [ngClass]="emptyIcon"></i>
+            <p>{{ emptyTip }}</p>
+        </div>
+    </ng-template>
+</div>

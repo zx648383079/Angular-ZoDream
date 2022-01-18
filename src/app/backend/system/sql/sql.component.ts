@@ -10,7 +10,6 @@ import { SystemService } from '../system.service';
 export class SqlComponent implements OnInit {
 
     public items: any[] = [];
-
     public isLoading = false;
 
     constructor(

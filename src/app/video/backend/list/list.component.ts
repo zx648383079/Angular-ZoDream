@@ -13,9 +13,7 @@ import { VideoService } from '../video.service';
 })
 export class ListComponent implements OnInit {
 
-
     public items: IVideo[] = [];
-
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -71,12 +69,16 @@ export class ListComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.videoList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+        this.service.videoList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -86,18 +88,18 @@ export class ListComponent implements OnInit {
     }
 
     public tapRemove(item: IVideo) {
-        if (!confirm('确定删除“' + item.content + '”视频？')) {
-            return;
-        }
-        this.service.videoRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.content + '”视频？', () => {
+            this.service.videoRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
+        
     }
 
 }

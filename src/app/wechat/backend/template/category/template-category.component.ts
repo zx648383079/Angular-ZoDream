@@ -13,6 +13,7 @@ import { WechatService } from '../../wechat.service';
 export class TemplateCategoryComponent implements OnInit {
 
     public items: IWeChatTemplateCategory[] = [];
+    public isLoading = false;
     public editData: any;
     public filterItems: IWeChatTemplateCategory[] = [];
 
@@ -27,10 +28,16 @@ export class TemplateCategoryComponent implements OnInit {
     }
 
     public tapRefresh() {
+        this.isLoading = true;
         this.service.batch({
             template_category: {}
-        }).subscribe(res => {
-            this.items = res.template_category;
+        }).subscribe({
+            next: res => {
+                this.items = res.template_category;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

@@ -32,6 +32,7 @@
             <i class="iconfont icon-stop" *ngIf="item.status === 9"></i>
         </div>
     </div>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>
 
 <div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">

@@ -36,9 +36,13 @@ export class EmojiCategoryComponent implements OnInit {
         this.isLoading = true;
         this.service.emojiCategoryList({
             keywords: this.keywords,
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+        }).subscribe({
+            next: res => {
+                this.items = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -48,16 +52,15 @@ export class EmojiCategoryComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”分组？')) {
-            return;
-        }
-        this.service.emojiCategoryRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”分组？', () => {
+            this.service.emojiCategoryRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

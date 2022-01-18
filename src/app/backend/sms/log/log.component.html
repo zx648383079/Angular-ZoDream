@@ -9,11 +9,11 @@
           <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
               <div class="input-group">
                   <label for="keywords">关键字</label>
-                  <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="关键字">
+                  <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键字">
               </div>
               <div class="input-group">
                 <label for="type">类型</label>
-                <select name="type"class="form-control" [ngModel]="type">
+                <select name="type"class="form-control" [ngModel]="queries.type">
                   <option [value]="0">请选择</option>
                   <ng-container *ngFor="let item of typeItems">
                       <option [value]="item.value">{{ item.name }}</option>
@@ -53,7 +53,7 @@
               
           </tbody>
       </table>
-
-      <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+      <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+      <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
   </div>
 </div>

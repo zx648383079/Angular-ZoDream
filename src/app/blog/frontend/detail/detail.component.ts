@@ -28,6 +28,7 @@ export class DetailComponent implements OnInit {
 
     public content: SafeHtml;
     public data: IBlog;
+    public isLoading = false;
     public relationItems: IBlog[] = [];
     public commentLoaded = false;
 
@@ -57,15 +58,26 @@ export class DetailComponent implements OnInit {
         if (this.data && this.data.id === id) {
             return;
         }
+        this.isLoading = true;
         this.service.batch({
             detail: {id},
             relation: {blog: id}
-        }).subscribe(res => {
-            this.data = res.detail;
-            this.themeService.setTitle(this.data.seo_title || this.data.title);
-            this.relationItems = res.relation;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-            document.documentElement.scrollTop = 0;
+        }).subscribe({
+            next: res => {
+                this.data = res.detail;
+                this.themeService.setTitle(this.data.seo_title || this.data.title);
+                this.relationItems = res.relation;
+                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
+                history.pushState(null, this.data.title,
+                    window.location.href.replace(/blog.*$/, 'blog/' + this.data.id.toString()));
+                document.documentElement.scrollTop = 0;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

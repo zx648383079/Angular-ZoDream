@@ -26,5 +26,6 @@
                 </tr>
             </tbody>
         </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     </div>
 </div>

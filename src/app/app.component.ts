@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './theme/services';
-import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',

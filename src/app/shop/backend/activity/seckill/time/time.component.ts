@@ -13,6 +13,7 @@ import { ActivityService } from '../../activity.service';
 export class TimeComponent implements OnInit {
 
     public items: IActivityTime[] = [];
+    public isLoading = false;
     public activity = 0;
     public editData: IActivityTime = {} as any;
 
@@ -32,8 +33,14 @@ export class TimeComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.service.timeList().subscribe(res => {
-            this.items = res.data;
+        this.isLoading = true;
+        this.service.timeList().subscribe({
+            next: res => {
+                this.items = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

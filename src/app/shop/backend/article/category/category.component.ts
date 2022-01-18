@@ -11,13 +11,20 @@ import { ArticleService } from '../../article.service';
 export class CategoryComponent implements OnInit {
 
     public categories: IArticleCategory[] = [];
+    public isLoading = false;
 
     constructor(
         private service: ArticleService,
         private toastrService: DialogService,
     ) {
-        this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+        this.isLoading = true;
+        this.service.categoryTree().subscribe({
+            next: res => {
+                this.categories = res.data;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

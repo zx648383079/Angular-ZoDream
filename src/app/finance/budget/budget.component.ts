@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
 import { DialogBoxComponent } from '../../dialog';
+import { IPageQueries } from '../../theme/models/page';
+import { applyHistory, getQueries } from '../../theme/query';
 import { emptyValidate } from '../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IBudget } from '../model';
@@ -14,11 +17,13 @@ export class BudgetComponent implements OnInit {
 
     public items: IBudget[] = [];
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public keywords = '';
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+    };
     public editData: IBudget = {
         id: undefined,
         name: '',
@@ -30,10 +35,14 @@ export class BudgetComponent implements OnInit {
     constructor(
         private service: FinanceService,
         private toastrService: DialogService,
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     /**
@@ -44,11 +53,11 @@ export class BudgetComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     /**
@@ -59,34 +68,35 @@ export class BudgetComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.budgetList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries, page};
+        this.service.budgetList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapRemove(item: IBudget) {
-        if (!confirm('确定删除“' + item.name + '”预算计划？')) {
-            return;
-        }
-        this.service.budgetRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”预算计划？', () => {
+            this.service.budgetRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
