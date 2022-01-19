@@ -69,6 +69,12 @@ export class WechatService {
         });
     }
 
+    public menuAsync() {
+        return this.http.post<IDataOne<boolean>>('wx/admin//menu/apply', {}, {
+            params: {wid: this.baseId}
+        });
+    }
+
     public menuRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('wx/admin/menu/delete', {params: {id, wid: this.baseId}});
     }

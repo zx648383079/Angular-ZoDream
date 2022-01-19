@@ -61,7 +61,7 @@
         <div class="col-md-12 text-center">
             <div class="btn-group">
                 <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">保存</app-action-button>
-                <app-action-button class="btn btn-success">发布</app-action-button>
+                <app-action-button class="btn btn-success" (tapped)="tapAsync($event)">发布</app-action-button>
                 <a class="btn btn-danger" (click)="tapClear()">清空</a>
             </div>
         </div>

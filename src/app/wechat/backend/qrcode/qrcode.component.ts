@@ -42,7 +42,7 @@ export class QrcodeComponent implements OnInit {
     }
 
     public open(modal: DialogBoxComponent, item?: any) {
-        this.editData = item ? {...item} : {};
+        this.editData = item ? {...item} : {scene_type: 0};
         modal.open(() => {
             this.service.qrcodeSave(this.editData).subscribe({
                 next: _ => {

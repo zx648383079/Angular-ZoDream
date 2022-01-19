@@ -133,6 +133,7 @@ export interface IWeChatQr {
     id:          number;
     wid:         number;
     type:        number;
+    scene_type: number;
     scene_str:   string;
     scene_id:    number;
     expire_time: number;

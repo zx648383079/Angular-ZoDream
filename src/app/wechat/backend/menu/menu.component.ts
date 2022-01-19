@@ -105,4 +105,20 @@ export class MenuComponent implements OnInit {
         });
     }
 
+    public tapAsync(e?: ButtonEvent) {
+        this.toastrService.confirm('请先保存菜单，继续发布？', () => {
+            e?.enter();
+            this.service.menuAsync().subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.toastrService.success('发布成功');
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
 }
