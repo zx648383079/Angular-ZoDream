@@ -33,17 +33,23 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>
-                        <img [src]="item.user.avatar" [alt]="item.user.nickname" width="60" height="60">
+                        <img [src]="item.user?.avatar" [alt]="item.user?.nickname" width="60" height="60">
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.openid }}</td>
-                    <td>{{ item.user.nickname }}</td>
-                    <td>{{ item.status >= 0 ? '关注' : '取消关注' }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.is_black"></app-switch>
+                        {{ item.user?.nickname }}
+                        <ng-container *ngIf="item.name">
+                            ({{item.name}})
+                        </ng-container>
+                    </td>
+                    <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
+                    <td>
+                        <app-switch [(ngModel)]="item.is_black" (ngModelChange)="onBlackChange(item)"></app-switch>
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info" (click)="tapEdit(modal, item)">备注</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -55,3 +61,19 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+<app-dialog-box #modal>
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">备注名</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">是否拉黑</label>
+            <div>
+                <app-switch [(ngModel)]="editData.is_black"></app-switch>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

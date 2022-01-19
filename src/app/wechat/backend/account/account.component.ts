@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../backend/menu.service';
 import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
+import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { mapFormat } from '../../../theme/utils';
 import { IWeChatAccount } from '../../model';
@@ -48,7 +49,11 @@ export class AccountComponent implements OnInit {
     }
 
     public formatStatus(val: number) {
-        return mapFormat(val, ['未接入', '已接入']);
+        return mapFormat(val, <IItem[]>[
+            {name: '未接入', value: 4},
+            {name: '已接入', value: 5},
+            {name: '已禁止', value: 0},
+        ]);
     }
 
     public formatType(val: number) {

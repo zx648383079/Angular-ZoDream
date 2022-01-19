@@ -161,6 +161,15 @@ export class EmulateComponent implements OnInit {
                     ]
                 });
             }
+            if (i.type === 'template') {
+                return this.formatByAccount({
+                    type: 0,
+                    content: `${i.content}\n\n查看详情`,
+                    extra_rule: [
+                        {s: '查看详情', l: i.url}
+                    ]
+                });
+            }
             if (i.type === 'image' || i.type === 'thumb') {
                 return this.formatByAccount({
                     type: 1,

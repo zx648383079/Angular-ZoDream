@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
+import { DialogEvent, DialogService } from '../../../../dialog';
 import { ButtonEvent } from '../../../../form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
+import { IWeChatReplyTemplate } from '../../../model';
+import { formatTemplateField, renderTemplateField } from '../../../util';
 import { WechatService } from '../../wechat.service';
+
+
 
 @Component({
   selector: 'app-reply-template',
@@ -13,7 +17,7 @@ import { WechatService } from '../../wechat.service';
 })
 export class ReplyTemplateComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IWeChatReplyTemplate[] = [];
 
     public hasMore = true;
     public isLoading = false;
@@ -38,6 +42,20 @@ export class ReplyTemplateComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public open(modal: DialogEvent, item: IWeChatReplyTemplate) {
+        this.editData = {
+            template: item,
+            link_type: 0,
+            items: formatTemplateField(item.content),
+        };
+        modal.open();
+        this.onFieldChange();
+    }
+
+    public onFieldChange() {
+        this.editData.content = renderTemplateField(this.editData.template.content, this.editData.items);
     }
 
     public tapAsync(e?: ButtonEvent) {

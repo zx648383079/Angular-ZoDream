@@ -4,6 +4,7 @@ import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
+import { IWeChatQr } from '../../model';
 import { WechatService } from '../wechat.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { WechatService } from '../wechat.service';
 })
 export class QrcodeComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IWeChatQr[] = [];
 
     public hasMore = true;
     public isLoading = false;

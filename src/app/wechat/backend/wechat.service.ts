@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { IWeChatAccount, IWeChatFans, IWeChatMedia, IWeChatMenuItem, IWeChatTemplate, IWeChatTemplateCategory } from '../model';
+import { IWeChatAccount, IWeChatFans, IWeChatMedia, IWeChatMenuItem, IWeChatQr, IWeChatReply, IWeChatReplyTemplate, IWeChatTemplate, IWeChatTemplateCategory } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -98,21 +98,21 @@ export class WechatService {
     }
 
     public replyList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/reply', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatReply>>('wx/admin/reply', {params: {...params, wid: this.baseId}});
     }
 
     public reply(id: any) {
-        return this.http.get<any>('wx/admin/reply/detail', {params: {id, wid: this.baseId}});
+        return this.http.get<IWeChatReply>('wx/admin/reply/detail', {params: {id, wid: this.baseId}});
     }
 
     public replySave(data: any) {
-        return this.http.post<any>('wx/admin/reply/save', data, {
+        return this.http.post<IWeChatReply>('wx/admin/reply/save', data, {
             params: {wid: this.baseId}
         });
     }
 
     public replyUpdate(id: any, data: any) {
-        return this.http.post<any>('wx/admin/reply/update', {id, data}, {
+        return this.http.post<IWeChatReply>('wx/admin/reply/update', {id, data}, {
             params: {wid: this.baseId}
         });
     }
@@ -122,7 +122,11 @@ export class WechatService {
     }
 
     public wxTemplateList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/reply/template', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatReplyTemplate>>('wx/admin/reply/template', {params: {...params, wid: this.baseId}});
+    }
+
+    public wxTemplate(id: string) {
+        return this.http.get<IWeChatReplyTemplate>('wx/admin/reply/template_detail', {params: {id, wid: this.baseId}});
     }
 
     public wxTemplateAsync() {
@@ -135,6 +139,12 @@ export class WechatService {
 
     public user(id: any) {
         return this.http.get<any>('wx/admin/user/detail', {params: {id, wid: this.baseId}});
+    }
+
+    public userUpdate(id: any, data: any) {
+        return this.http.post<IWeChatFans>('wx/admin/user/update', {id, data}, {
+            params: {wid: this.baseId}
+        });
     }
 
     public userRemove(id: any) {
@@ -154,15 +164,15 @@ export class WechatService {
     }
 
     public qrcodeList(params: any) {
-        return this.http.get<IPage<any>>('wx/admin/qrcode', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatQr>>('wx/admin/qrcode', {params: {...params, wid: this.baseId}});
     }
 
     public qrcode(id: any) {
-        return this.http.get<any>('wx/admin/qrcode/detail', {params: {id, wid: this.baseId}});
+        return this.http.get<IWeChatQr>('wx/admin/qrcode/detail', {params: {id, wid: this.baseId}});
     }
 
     public qrcodeSave(data: any) {
-        return this.http.post<any>('wx/admin/qrcode/save', data, {
+        return this.http.post<IWeChatQr>('wx/admin/qrcode/save', data, {
             params: {wid: this.baseId}
         });
     }

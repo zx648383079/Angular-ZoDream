@@ -24,23 +24,18 @@
                 <tr>
                     <th>模板ID</th>
                     <th>标题</th>
-                    <th>模板名称</th>
-                    <th>模板字段</th>
-                    <th>是否有效</th>
+                    <th>模板内容</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.appid }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.status }}</td>
+                    <td>{{ item.template_id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.content }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs">配置</a>
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">配置</a>
                         </div>
                     </td>
                 </tr>
@@ -53,53 +48,53 @@
 </div>
 
 <app-dialog-box #modal [title]="'配置模板消息'">
-<div class="form-table">
+<div class="form-table" *ngIf="editData.template">
     <div class="input-group">
         <label for="">模板名称</label>
         <div>
-            <input type="text" class="form-control">
-            <app-switch offLabel="无效" onLabel="有效"></app-switch>
+            <input type="text" class="form-control" [(ngModel)]="editData.template.title">
+            <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.template.status"></app-switch>
         </div>
     </div>
     <div class="input-group">
         <label for="">标题</label>
         <div>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" [(ngModel)]="editData.title">
         </div>
     </div>
     <div class="input-group">
         <label for="">跳转</label>
         <div>
-            <select class="form-control">
-                <option value="0">链接</option>
-                <option value="1">小程序</option>
+            <select class="form-control" [(ngModel)]="editData.link_type">
+                <option [value]="0">链接</option>
+                <option [value]="1">小程序</option>
             </select>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group" *ngIf="editData.link_type == 0">
         <label for="">链接</label>
         <div>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" [(ngModel)]="editData.url">
         </div>
     </div>
-    <div>
+    <div  *ngIf="editData.link_type == 1">
         <div class="input-group">
             <label for="">小程序appid</label>
             <div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" [(ngModel)]="editData.appid">
             </div>
         </div>
         <div class="input-group">
             <label for="">小程序路径</label>
             <div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" [(ngModel)]="editData.path">
             </div>
         </div>
     </div>
     <div class="input-group">
         <label for="">模板内容</label>
         <div>
-            <textarea class="form-control" readonly></textarea>
+            <textarea class="form-control" readonly [(ngModel)]="editData.content"></textarea>
         </div>
     </div>
     <table class="table table-hover">
@@ -111,13 +106,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>00</td>
+            <tr *ngFor="let item of editData.items">
+                <td>{{ item.name }}</td>
                 <td>
-                    <textarea class="form-control"></textarea>
+                    <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onFieldChange()"></textarea>
                 </td>
                 <td>
-                    <input type="color" class="form-control">
+                    <input type="color" class="form-control" [(ngModel)]="item.color">
                 </td>
             </tr>
         </tbody>

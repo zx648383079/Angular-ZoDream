@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>标识</th>
                     <th>类型</th>
                     <th>场景值</th>
                     <th>二维码图片</th>
@@ -33,12 +34,12 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.type }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.type > 0 ? '永久' : '临时' }}</td>
                     <td>{{ item.scene_str }}</td>
                     <td>
                         <img [src]="item.qr_url">
                     </td>
-                    <td>{{ item.description }}</td>
                     <td>{{ item.expire_time }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">

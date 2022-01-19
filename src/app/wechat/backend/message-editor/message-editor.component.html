@@ -18,7 +18,7 @@
 <ng-container *ngIf="data.type == 3">
     <div class="input-group">
         <label for="template_id">模板ID</label>
-        <input type="text" id="template_id" class="form-control" [(ngModel)]="data.template_id" (ngModelChange)="onContentChange()" placeholder="示例：模板ID">
+        <input type="text" id="template_id" class="form-control" [(ngModel)]="data.template_id" (ngModelChange)="onTemplateChange()" placeholder="示例：模板ID">
     </div>
     <div class="input-group">
         <label for="template_id">链接</label>

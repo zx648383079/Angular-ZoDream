@@ -94,6 +94,23 @@ export interface IWeChatMedia {
     account?: IWeChatAccount;
 }
 
+export interface IWeChatReplyTemplate {
+    id:          number;
+    wid:         number;
+    template_id: string;
+    title:       string;
+    content:     string;
+    example:     string;
+    status?: number;
+}
+
+export interface IWeChatReplyTemplateField {
+    name?: string;
+    value?: string;
+    color?: string;
+}
+
+
 export interface IWeChatTemplate {
     id:         number;
     type:       number;
@@ -112,20 +129,50 @@ export interface IWeChatTemplateCategory {
     level?: number;
 }
 
+export interface IWeChatQr {
+    id:          number;
+    wid:         number;
+    type:        number;
+    scene_str:   string;
+    scene_id:    number;
+    expire_time: number;
+    qr_url:      string;
+    url:         string;
+    updated_at:  string;
+    created_at:  string;
+    name:        string;
+}
+
+
 export interface IWeChatFans {
-    id: number;
-    openid: string;
-    status: number;
-    is_black: boolean;
+    id:         number;
+    wid:        number;
+    openid:     string;
+    name:     string;
+    status:     number;
+    is_black:   number;
+    updated_at: string;
+    created_at: string;
     user?: IWeChatUser;
 }
 
 export interface IWeChatUser {
     id: number;
-    openid: string;
-    nickname: string;
-    avatar: string;
+    openid:         string;
+    nickname:       string;
+    sex:            number;
+    city:           string;
+    country:        string;
+    province:       string;
+    language:       string;
+    avatar:         string;
+    subscribe_time: number;
+    union_id:       string;
+    remark:         string;
+    group_id:       number;
+    updated_at:     string;
 }
+
 
 export interface IWeChatMessageHistory {
     id: number;

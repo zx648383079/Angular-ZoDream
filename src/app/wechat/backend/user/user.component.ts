@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogEvent, DialogService } from '../../../dialog';
 import { ButtonEvent } from '../../../form';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -26,6 +26,8 @@ export class UserComponent implements OnInit {
         per_page: 20
     };
 
+    public editData: any = {};
+
     constructor(
         private service: WechatService,
         private toastrService: DialogService,
@@ -36,6 +38,39 @@ export class UserComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public tapEdit(modal: DialogEvent, item: IWeChatFans) {
+        this.editData = {
+            id: item.id,
+            name: item.name,
+            is_black: item.is_black
+        };
+        modal.open(() => {
+            this.service.userUpdate(item.id, {
+                name: this.editData.name,
+                is_black: this.editData.is_black
+            }).subscribe({
+                next: res => {
+                    this.toastrService.success('修改成功');
+                    item.is_black = res.is_black;
+                    item.name = res.name;
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        },  `修改会员(${item.user?.nickname})`);
+    }
+
+    public onBlackChange(item: IWeChatFans) {
+        this.service.userUpdate(item.id, {
+            is_black: item.is_black
+        }).subscribe({
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

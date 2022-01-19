@@ -3,13 +3,14 @@ import { IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { mapFormat, parseNumber } from '../../../theme/utils';
 import { IWeChatMedia, MediaTypeItems } from '../../model';
+import { formatTemplateField } from '../../util';
 import { WechatService } from '../wechat.service';
 
 interface IEditorData {
     type: number;
     text?: string;
     media?: number;
-    template_id?: number;
+    template_id?: string;
     template_url?: string;
     parameters?: string;
     parameter?: string;
@@ -75,11 +76,20 @@ export class MessageEditorComponent implements OnChanges {
 
     public onTypeChange() {
 
-        this.valueChange.emit(this.value = this.renderData(this.data));
+        this.onContentChange();
     }
 
     public onContentChange() {
         this.valueChange.emit(this.value = this.renderData(this.data));
+    }
+
+    public onTemplateChange() {
+        this.service.wxTemplate(this.data.template_id).subscribe({
+            next: res => {
+                this.data.parameters = formatTemplateField(res.content).map(i => `${i.name}=`).join('\n');
+                this.onContentChange();
+            }
+        });
     }
 
 

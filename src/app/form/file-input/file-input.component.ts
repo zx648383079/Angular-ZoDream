@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IUploadFile, IUploadResult } from '../../theme/models/open';
 import { FileUploadService } from '../../theme/services/file-upload.service';
+import { assetUri } from '../../theme/utils';
 import { FileOnlineComponent } from '../file-online/file-online.component';
 
 @Component({
@@ -86,7 +87,7 @@ export class FileInputComponent implements ControlValueAccessor {
         if (!this.value) {
             return;
         }
-        window.open(this.value, '_blank');
+        window.open(assetUri(this.value), '_blank');
     }
 
     writeValue(obj: any): void {
