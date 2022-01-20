@@ -1,0 +1,23 @@
+<app-edit-header title="发送消息" (submited)="tapSubmit($event)"></app-edit-header>
+
+<div class="container-fluid">
+    <div class="form-table panel-container">
+        <div class="input-group">
+            <label for="">接收者</label>
+            <div>
+                <select class="form-control" [(ngModel)]="data.to_type">
+                    <option *ngFor="let item of toTypeItems;let i = index" [value]="i">{{ item }}</option>
+                </select>
+                <div [hidden]="data.to_type < 1">
+                    <app-select-input [url]="selectUrl" [(ngModel)]="data.to" [formatFn]="formatUser"></app-select-input>
+                </div>
+            </div>
+        </div>
+        <app-message-editor [(value)]="editorData" (valueChange)="onEditorChange()"></app-message-editor>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">发送</app-action-button>
+            <a class="btn btn-danger">取消发送</a>
+        </div>
+    </div>
+</div>

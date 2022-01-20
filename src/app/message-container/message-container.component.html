@@ -1,5 +1,5 @@
 <div class="message-container">
-    <p class="message-more" *ngIf="hasMore" (click)="tapMore()">加载更多</p>
+    <p class="message-more" *ngIf="hasMore" (click)="tapMore()" i18n>Load more</p>
     <ng-container *ngFor="let item of formatItems">
         <ng-container *ngIf="item.type === 99; else elseTemplate">
             <p class="message-line">{{ item.content }}</p>
@@ -20,7 +20,14 @@
                     <ng-container *ngIf="item.type == 4">
                         <div class="file-block">
                             {{ item.content }}
-                            <i class="iconfont icon-download" title="下载" (click)="tapDownFile(item)"></i>
+                            <i class="iconfont icon-download" i18n-title title="Download" (click)="tapDownFile(item)"></i>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 66">
+                        <div class="bonus-block" [ngClass]="{'bonus-open': item.is_open, 'bonus-expired': item.is_expired}" (click)="onRuleTap(item)">
+                            <div class="bonus-header"></div>
+                            <div class="bonus-body"></div>
+                            <div class="bonus-icon" i18n>Open</div>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="item.type == 80">

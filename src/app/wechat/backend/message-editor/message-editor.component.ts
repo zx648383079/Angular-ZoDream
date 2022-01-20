@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { mapFormat, parseNumber } from '../../../theme/utils';
-import { IWeChatMedia, MediaTypeItems } from '../../model';
+import { EditorTypeItems, IWeChatMedia, IWeChatReplyTemplate, IWeChatReplyTemplateField, MediaTypeItems, MenuTypeItems } from '../../model';
 import { formatTemplateField } from '../../util';
 import { WechatService } from '../wechat.service';
 
@@ -12,7 +12,7 @@ interface IEditorData {
     media?: number;
     template_id?: string;
     template_url?: string;
-    parameters?: string;
+    parameters?: IWeChatReplyTemplateField[];
     parameter?: string;
     url?: string;
     appid?: string;
@@ -28,6 +28,7 @@ interface IEditorData {
 export class MessageEditorComponent implements OnChanges {
 
     @Input() public other = '';
+    @Input() public source = 0;
     @Input() public value: any = {
         type: 0,
     };
@@ -35,19 +36,11 @@ export class MessageEditorComponent implements OnChanges {
         type: 0,
     };
 
-    public typeItems: IItem[] = [
-        {name: '文本', value: 0},
-        {name: '媒体素材', value: 1},
-        {name: '图文', value: 2},
-        {name: '模板消息', value: 3},
-        {name: '事件', value: 4},
-        {name: '网址', value: 5},
-        {name: '小程序', value: 6},
-        {name: '场景', value: 7},
-    ];
+    public typeItems: IItem[] = [...EditorTypeItems];
     public sceneItems: IItem[] = [];
     public requestUrl = 'wx/admin/media/search';
     @Output() public valueChange = new EventEmitter<any>();
+    private template: IWeChatReplyTemplate;
 
     constructor(
         private service: WechatService,
@@ -68,6 +61,9 @@ export class MessageEditorComponent implements OnChanges {
     };
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (changes.source) {
+            this.typeItems = changes.source.currentValue > 0 ? [...MenuTypeItems] : [...EditorTypeItems]
+        }
         if (changes.value) {
             this.data = this.parseData(changes.value.currentValue);
         }
@@ -75,7 +71,9 @@ export class MessageEditorComponent implements OnChanges {
 
 
     public onTypeChange() {
-
+        if (this.data.type == 3) {
+            this.data.parameters = [];
+        }
         this.onContentChange();
     }
 
@@ -84,10 +82,19 @@ export class MessageEditorComponent implements OnChanges {
     }
 
     public onTemplateChange() {
+        if (this.template && this.template.template_id === this.data.template_id) {
+            this.data.parameters = formatTemplateField(this.template.content);
+            this.onContentChange();
+            return;
+        }
         this.service.wxTemplate(this.data.template_id).subscribe({
             next: res => {
-                this.data.parameters = formatTemplateField(res.content).map(i => `${i.name}=`).join('\n');
+                this.template = res;
+                this.data.parameters = formatTemplateField(res.content);
                 this.onContentChange();
+            },
+            error: err => {
+                // TODO 模板不存在请先添加
             }
         });
     }
@@ -117,7 +124,20 @@ export class MessageEditorComponent implements OnChanges {
             case 3:
                 data.template_id = getVal('template_id');
                 data.template_url = getVal('template_url');
-                data.parameters = getVal('template_data');
+                data.appid = getVal('appid');
+                data.path = getVal('path');
+                let p = getVal('template_data');
+                if (typeof p === 'string') {
+                    if (p.indexOf('{') < 0) {
+                        p = p.split('\n').map(i => {
+                            let [name, value] = i.split('=');
+                            return {name, value}
+                        });
+                    } else {
+                        p = JSON.parse(p);
+                    }
+                }
+                data.parameters = p;
                 break;
             case 4:
                 data.parameter = value.content;
@@ -155,6 +175,8 @@ export class MessageEditorComponent implements OnChanges {
                 res.content = {
                     template_id: data.template_id,
                     template_url: data.template_url,
+                    appid: data.appid,
+                    path: data.path,
                     template_data: data.parameters
                 };
                 break;

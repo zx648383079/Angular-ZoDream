@@ -23,6 +23,11 @@ export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
             url: this.renderUrl('qrcode'),
         },
         {
+            name: '发送消息',
+            label: '发',
+            url: this.renderUrl('send'),
+        },
+        {
             name: '用户列表',
             label: '用',
             url: this.renderUrl('user'),

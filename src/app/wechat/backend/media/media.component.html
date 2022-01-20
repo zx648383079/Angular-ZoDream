@@ -22,6 +22,7 @@
                 <div class="btn-group pull-right">
                     <a routerLink="create" class="btn btn-info" *ngIf="queries.type == 'news'">创建</a>
                     <a (click)="open(modal)" class="btn btn-info" *ngIf="queries.type != 'news'">创建</a>
+                    <app-action-button class="btn btn-danger" (tapped)="tapPull($event)">拉取同步</app-action-button>
                 </div>
             </form>
         </div>

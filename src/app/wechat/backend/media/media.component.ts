@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as ClipboardJS from 'clipboard';
 import { DialogEvent, DialogService } from '../../../dialog';
+import { ButtonEvent } from '../../../form';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';
@@ -72,6 +73,25 @@ export class MediaComponent implements OnInit {
         }, () => !emptyValidate(this.editData.content));
     }
 
+    public tapPull(e?: ButtonEvent) {
+        this.toastrService.confirm('确定要拉取公众号永久素材？', () => {
+            e?.enter();
+            this.service.mediaPull({
+                type: this.queries.type
+            }).subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.toastrService.success('拉取成功！');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            })
+        });
+    }
+
     public tapTab(i: string) {
         this.queries.type = i;
         this.tapRefresh();
@@ -95,12 +115,16 @@ export class MediaComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.mediaList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+        this.service.mediaList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

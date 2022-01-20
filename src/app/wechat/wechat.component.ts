@@ -14,7 +14,6 @@ import { WechatService } from './wechat.service';
 export class WechatComponent implements OnInit {
 
     public items: IWeChatAccount[] = [];
-
     public hasMore = true;
     public isLoading = false;
     public total = 0;

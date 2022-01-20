@@ -57,4 +57,8 @@ export class VideoService {
     public commentRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('video/admin/comment/delete', {params: {id}});
     }
+
+    public statistics() {
+        return this.http.get<any>('video/admin/statistics');
+    }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VideoService } from './video.service';
 
 @Component({
   selector: 'app-video',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoComponent implements OnInit {
 
-    constructor() { }
+    public isLoading = false;
+    public data: any = {};
+
+    constructor(
+        private service: VideoService
+    ) { }
 
     ngOnInit() {
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
+        });
     }
 
 }

@@ -14,6 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
+                    <a class="btn btn-success" (click)="tapEdit(editModal)">新增</a>
                     <app-action-button class="btn btn-info" (tapped)="tapAsync($event)">同步公众号模板</app-action-button>
                 </div>
             </form>
@@ -35,7 +36,9 @@
                     <td>{{ item.content }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">配置</a>
+                            <a class="btn btn-danger btn-xs" (click)="open(modal, item)">使用</a>
+                            <a class="btn btn-success" (click)="tapEdit(editModal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>
@@ -47,54 +50,81 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="'配置模板消息'">
-<div class="form-table" *ngIf="editData.template">
+<app-dialog-box #editModal [title]="editData.id ? '编辑模板' : '新增模板'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">模板名称</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.title">
+                <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.status"></app-switch>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">模板ID</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.template_id">
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label for="">内容</label>
+            <div>
+                <textarea class="form-control" [(ngModel)]="editData.content"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">示例</label>
+            <div>
+                <textarea class="form-control" [(ngModel)]="editData.example"></textarea>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+<app-dialog-box #modal [title]="'发送模板消息'">
+<div class="form-table" *ngIf="sendData.template">
     <div class="input-group">
         <label for="">模板名称</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="editData.template.title">
-            <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.template.status"></app-switch>
+            <input type="text" class="form-control" [(ngModel)]="sendData.template.title">
+            <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status"></app-switch>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="">接收者</label>
+        <div>
+            <div>
+                <app-select-input [url]="selectUrl" [(ngModel)]="sendData.to" [formatFn]="formatUser"></app-select-input>
+            </div>
         </div>
     </div>
     <div class="input-group">
         <label for="">标题</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="editData.title">
+            <input type="text" class="form-control" [(ngModel)]="sendData.title">
         </div>
     </div>
     <div class="input-group">
-        <label for="">跳转</label>
-        <div>
-            <select class="form-control" [(ngModel)]="editData.link_type">
-                <option [value]="0">链接</option>
-                <option [value]="1">小程序</option>
-            </select>
-        </div>
-    </div>
-    <div class="input-group" *ngIf="editData.link_type == 0">
         <label for="">链接</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="editData.url">
+            <input type="text" class="form-control" [(ngModel)]="sendData.template_url">
         </div>
     </div>
-    <div  *ngIf="editData.link_type == 1">
-        <div class="input-group">
-            <label for="">小程序appid</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="editData.appid">
-            </div>
+    <div class="input-group">
+        <label for="">小程序appid</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="sendData.appid">
         </div>
-        <div class="input-group">
-            <label for="">小程序路径</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="editData.path">
-            </div>
+    </div>
+    <div class="input-group">
+        <label for="">小程序路径</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="sendData.path">
         </div>
     </div>
     <div class="input-group">
         <label for="">模板内容</label>
         <div>
-            <textarea class="form-control" readonly [(ngModel)]="editData.content"></textarea>
+            <textarea class="form-control" readonly [(ngModel)]="sendData.content"></textarea>
         </div>
     </div>
     <table class="table table-hover">
@@ -106,7 +136,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of editData.items">
+            <tr *ngFor="let item of sendData.items">
                 <td>{{ item.name }}</td>
                 <td>
                     <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onFieldChange()"></textarea>

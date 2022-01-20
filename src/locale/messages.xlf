@@ -1474,6 +1474,10 @@
           <context context-type="sourcefile">src/app/book/detail/book-detail.component.html</context>
           <context context-type="linenumber">36</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/message-container/message-container.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
         <source>Name</source>
@@ -2211,7 +2215,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/wechat/backend/media/media.component.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3462619539465434942" datatype="html">
@@ -2222,7 +2226,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/wechat/backend/media/media.component.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">163</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0f27553360da34c643f3a84d6e15e59a0776d598" datatype="html">
@@ -2439,7 +2443,7 @@
         <source>Please select file</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/form/file-input/file-input.component.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="514e36c3227b4d7a21b268569561c217f0490b03" datatype="html">
@@ -3283,7 +3287,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/wechat/wechat.component.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8010994039154340953" datatype="html">
@@ -3815,6 +3819,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legwork/waiter/service/service.component.html</context>
           <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="31666662b7bff1dd199884aad3f418197d8f0b3c" datatype="html">
+        <source>Load more</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/message-container/message-container.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c9039b1b13b3ef165b66b3c5d79f810ab1ebb050" datatype="html">
+        <source>Open</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/message-container/message-container.component.html</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3db62fa673600829e51213b7689ceb3b49933740" datatype="html">

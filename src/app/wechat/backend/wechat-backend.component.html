@@ -4,4 +4,61 @@
             <li>公众号平台</li>
         </ul>
     </app-page-tip>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.account_count || 0 | numberFormat }}</h3>
+                    <p>公众号</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-folder-o"></i>
+                </div>
+                <a class="column-footer" routerLink="account">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.user_today || 0 | numberFormat }}/{{ data.user_count || 0 | numberFormat }}</h3>
+                    <p>会员今日新增/总数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-user"></i>
+                </div>
+                <a class="column-footer" routerLink="user">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.message_today || 0 | numberFormat }}/{{ data.message_count || 0 | numberFormat }}</h3>
+                    <p>互动今日/总记录</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-commenting"></i>
+                </div>
+                <a class="column-footer" routerLink="log">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

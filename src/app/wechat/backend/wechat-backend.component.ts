@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WechatService } from './wechat.service';
 
 @Component({
   selector: 'app-wechat-backend',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WechatBackendComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = false;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: WechatService
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
+        });
+    }
 
 }

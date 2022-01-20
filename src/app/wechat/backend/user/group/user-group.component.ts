@@ -1,31 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService } from '../../../dialog';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { mapFormat } from '../../../theme/utils';
-import { IWeChatMessageHistory } from '../../model';
-import { WechatService } from '../wechat.service';
+import { DialogEvent, DialogService } from '../../../../dialog';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
+import { emptyValidate } from '../../../../theme/validators';
+import { IWeChatUserGroup } from '../../../model';
+import { WechatService } from '../../wechat.service';
 
 @Component({
-  selector: 'app-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+  selector: 'app-user-group',
+  templateUrl: './user-group.component.html',
+  styleUrls: ['./user-group.component.scss']
 })
-export class LogComponent implements OnInit {
+export class UserGroupComponent implements OnInit {
 
-    public items: IWeChatMessageHistory[] = [];
+    public items: IWeChatUserGroup[] = [];
+
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public selected = 0;
     public queries: IPageQueries = {
         keywords: '',
         page: 1,
         per_page: 20
     };
 
-    public editData: IWeChatMessageHistory = {} as any;
+    public editData: any = {};
 
     constructor(
         private service: WechatService,
@@ -40,13 +40,19 @@ export class LogComponent implements OnInit {
         });
     }
 
-    public formatType(val: number) {
-        return mapFormat(val, ['--', '请求', '响应', '自定义']);
-    }
-
-    public open(modal: DialogEvent, item: IWeChatMessageHistory) {
-        this.editData = item;
-        modal.open();
+    public tapEdit(modal: DialogEvent, item?: IWeChatUserGroup) {
+        this.editData = item ? {...item} : {};
+        modal.open(() => {
+            this.service.userGroupSave(this.editData).subscribe({
+                next: _ => {
+                    this.toastrService.success('保存成功');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emptyValidate(this.editData.name));
     }
 
     public tapRefresh() {
@@ -67,7 +73,7 @@ export class LogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.logList(queries).subscribe({
+        this.service.userGroupList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
@@ -86,8 +92,8 @@ export class LogComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        this.toastrService.confirm('确定删除“' + item.name + '”历史记录？', () => {
-            this.service.logRemove(item.id).subscribe(res => {
+        this.toastrService.confirm('确定删除“' + item.name + '”分组？', () => {
+            this.service.userRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }

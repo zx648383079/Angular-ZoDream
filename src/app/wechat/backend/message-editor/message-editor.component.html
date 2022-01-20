@@ -24,7 +24,38 @@
         <label for="template_id">链接</label>
         <input type="text" id="template_url" [(ngModel)]="data.template_url" (ngModelChange)="onContentChange()" class="form-control">
     </div>
-    <textarea class="form-control" [(ngModel)]="data.parameters" (ngModelChange)="onContentChange()" placeholder="模板参数：key=value 换行"></textarea>
+    <div class="input-group">
+        <label for="">小程序appid</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="data.appid" (ngModelChange)="onContentChange()">
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="">小程序路径</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="data.path" (ngModelChange)="onContentChange()">
+        </div>
+    </div>
+    <table class="table table-hover" [hidden]="!data.template_id">
+        <thead>
+            <tr>
+                <th>字段</th>
+                <th>内容</th>
+                <th>颜色</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.parameters">
+                <td>{{ item.name }}</td>
+                <td>
+                    <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onContentChange()"></textarea>
+                </td>
+                <td>
+                    <input type="color" class="form-control" [(ngModel)]="item.color" (ngModelChange)="onContentChange()">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </ng-container>
 <ng-container *ngIf="data.type == 4">
     <div class="input-group">
@@ -65,7 +96,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="data.type == 7">
+<ng-container *ngIf="data.type == 7 || (data.type >= 20 && data.type <= 23)">
     <div class="input-group">
         <label for="content">场景</label>
         <div class="">

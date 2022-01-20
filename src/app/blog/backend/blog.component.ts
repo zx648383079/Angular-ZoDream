@@ -16,9 +16,13 @@ export class BlogComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.service.statistics().subscribe(res => {
-            this.isLoading = false;
-            this.data = res;
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

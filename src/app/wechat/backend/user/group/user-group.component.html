@@ -1,15 +1,9 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>关注公众号时自动回复</li>
+            <li>用户分组标签</li>
         </ul>
     </app-page-tip>
-
-    <div class="tab-bar">
-        <ng-container *ngFor="let item of tabItems">
-            <a class="item" [ngClass]="{active: queries.event == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
-        </ng-container>
-    </div>
 
     <div class="panel-container">
         <div class="page-search-bar">
@@ -20,8 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a (click)="open(modal)" class="btn btn-info">创建</a>
-                    <a routerLink="template" class="btn btn-success">模板消息</a>
+                    <a (click)="tapEdit(modal)" class="btn btn-info">新增</a>
                 </div>
             </form>
         </div>
@@ -30,25 +23,20 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>事件</th>
-                    <th>响应类型</th>
-                    <th>关键字</th>
-                    <th>状态</th>
+                    <th>名称</th>
+                    <th>统计</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ formatEvent(item.event) }}</td>
-                    <td>{{ formatType(item.type) }}</td>
-                    <td>{{ item.keywords }}</td>
-                    <td>
-                        <app-switch [(ngModel)]="item.status" offLabel="未激活" onLabel="已激活" (ngModelChange)="onStatusChange(item)"></app-switch>
-                    </td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-info btn-xs" routerLink="../" [queryParams]="{group: item.id}">查看</a>
+                            <a class="btn btn-light btn-xs" (click)="tapEdit(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -61,6 +49,13 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑回复' : '新增回复'">
-    <app-edit-reply [(value)]="editData"></app-edit-reply>
+<app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新增分组'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">名称</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+    </div>
 </app-dialog-box>

@@ -18,6 +18,14 @@ export const EditorTypeItems: IItem[] = [
     {name: '场景', value: 7},
 ];
 
+export const MenuTypeItems: IItem[] = [
+    ...EditorTypeItems,
+    {name: '扫码', value: 20},
+    {name: '上传图片', value: 21},
+    {name: '拍照', value: 22},
+    {name: '发送定位', value: 23},
+];
+
 export const MediaTypeItems: IItem[] = [
     {name: '图片', value: 'image'},
     {name: '语音', value: 'voice'},
@@ -144,21 +152,9 @@ export interface IWeChatQr {
     name:        string;
 }
 
-
-export interface IWeChatFans {
-    id:         number;
-    wid:        number;
-    openid:     string;
-    name:     string;
-    status:     number;
-    is_black:   number;
-    updated_at: string;
-    created_at: string;
-    user?: IWeChatUser;
-}
-
 export interface IWeChatUser {
     id: number;
+    wid: number;
     openid:         string;
     nickname:       string;
     sex:            number;
@@ -171,14 +167,27 @@ export interface IWeChatUser {
     union_id:       string;
     remark:         string;
     group_id:       number;
+    note_name:     string;
+    status:     number;
+    is_black:   number;
     updated_at:     string;
+    created_at:     string;
+    group?: IWeChatUserGroup;
+}
+
+export interface IWeChatUserGroup {
+    id: number;
+    wid: number;
+    name: string;
+    tag_id: string;
 }
 
 
 export interface IWeChatMessageHistory {
     id: number;
     wid: number; // 所属微信公众号ID
-    item_type: string; // 发送类型
+    type: number;
+    item_type: number; // 发送类型
     item_id: number; //相应规则ID
     from: string; // 请求用户ID
     to: string; // 相应用户ID

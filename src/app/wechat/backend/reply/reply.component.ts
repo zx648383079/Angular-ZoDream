@@ -31,7 +31,7 @@ export class ReplyComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-    public editData: any;
+    public editData: any = {};
 
     constructor(
         private service: WechatService,
@@ -129,7 +129,7 @@ export class ReplyComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        this.toastrService.confirm('确定删除“' + item.name + '”公众号？', () => {
+        this.toastrService.confirm('确定删除“' + item.name + '”回复？', () => {
             this.service.replyRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
@@ -140,7 +140,6 @@ export class ReplyComponent implements OnInit {
                 });
             });
         });
-        
     }
 
 }

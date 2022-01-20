@@ -16,15 +16,22 @@ import { MessageEditorComponent } from './message-editor/message-editor.componen
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { EditReplyComponent } from './reply/edit/edit-reply.component';
 import { ReplyComponent } from './reply/reply.component';
+import { SendComponent } from './reply/send/send.component';
 import { ReplyTemplateComponent } from './reply/template/reply-template.component';
 import { TemplateCategoryComponent } from './template/category/template-category.component';
 import { TemplateEditorComponent } from './template/editor/template-editor.component';
 import { TemplateComponent } from './template/template.component';
+import { UserGroupComponent } from './user/group/user-group.component';
 import { UserComponent } from './user/user.component';
 import { WechatBackendComponent } from './wechat-backend.component';
 import { CanActivateMainId } from './wid.guard';
 
 const routes: Routes = [
+    {
+        path: 'user/group',
+        canActivate: [CanActivateMainId],
+        component: UserGroupComponent,
+    },
     {
         path: 'user',
         canActivate: [CanActivateMainId],
@@ -34,6 +41,11 @@ const routes: Routes = [
         path: 'reply',
         canActivate: [CanActivateMainId],
         component: ReplyComponent,
+    },
+    {
+        path: 'send',
+        canActivate: [CanActivateMainId],
+        component: SendComponent,
     },
     {
         path: 'reply/template',
@@ -106,5 +118,5 @@ export const wechatBackendRoutingComponents = [
     WechatBackendComponent, AccountComponent, EditAccountComponent, LogComponent,
     MenuComponent, MediaComponent, TemplateComponent, ReplyComponent, UserComponent, EditMediaComponent, EditReplyComponent, 
     MessageEditorComponent, EditNewsComponent, TemplateEditorComponent,
-    QrcodeComponent, ReplyTemplateComponent, TemplateCategoryComponent
+    QrcodeComponent, ReplyTemplateComponent, TemplateCategoryComponent, UserGroupComponent, SendComponent
 ];
