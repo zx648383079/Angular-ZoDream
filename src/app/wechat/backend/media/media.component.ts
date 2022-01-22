@@ -54,6 +54,14 @@ export class MediaComponent implements OnInit {
         return mapFormat(val, MediaTypeItems);
     }
 
+    public formatPublishStatus(val: number) {
+        return mapFormat(val, [
+            {name: '草稿', value: 6},
+            {name: '发布中', value: 7},
+            {name: '已发布', value: 8},
+        ])
+    }
+
     public open(modal: DialogEvent) {
         this.editData = {
             title: '',

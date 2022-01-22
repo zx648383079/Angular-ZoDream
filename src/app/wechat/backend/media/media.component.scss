@@ -3,6 +3,21 @@
 }
 
 .media-item {
+    .thumb {
+        width: 8rem;
+        height: 8rem;
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            word-break: break-all;
+            color: #ccc;
+        }
+    }
+    .name {
+        word-break: break-all;
+        height: 3rem;
+        overflow: hidden;
+    }
     .time {
         font-size: .8rem;
         color: #ccc;

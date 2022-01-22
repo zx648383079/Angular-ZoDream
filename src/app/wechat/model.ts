@@ -99,6 +99,8 @@ export interface IWeChatMedia {
     expired_at:    number;
     updated_at:    string;
     created_at:    string;
+    publish_status: number;
+    publish_id: string;
     account?: IWeChatAccount;
 }
 

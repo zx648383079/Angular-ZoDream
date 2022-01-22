@@ -31,14 +31,14 @@
             <div class="row">
                 <div class="col-md-3" *ngFor="let item of items">
                     <div class="media-item">
-                        <div class="thumb">
-                            <img [src]="item.thumb" alt="">
+                        <div class="thumb" [title]="item.title">
+                            <img [src]="item.thumb" [alt]="item.title">
                         </div>
-                        <div class="name">{{ item.title }}</div>
+                        <div class="name" [title]="item.title">{{ item.title }}</div>
                         <div class="time">{{ item.created_at | ago }}</div>
                         <div class="action">
                             <div class="btn-group">
-                                <a class="btn btn-info" (click)="tapCopy(item.media_id, $event)" *ngIf="item.media_id" title="复制media_id">
+                                <a class="btn btn-info" (click)="tapCopy(item.media_id, $event)" *ngIf="item.media_id" [title]="'复制media_id:' + item.media_id">
                                     <i class="iconfont icon-copy"></i>
                                 </a>
                                 <a class="btn btn-primary" *ngIf="!item.media_id" (click)="tapAsync(item)" title="同步到公众号">
@@ -62,19 +62,31 @@
                         <th>标题</th>
                         <th>类型</th>
                         <th>Media Id</th>
+                       <ng-container *ngIf="queries.type == 'news'">
+                        <th>发布状态</th>
+                        <th>当前发布ID</th>
+                       </ng-container>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of items">
                         <td>{{ item.id }}</td>
-                        <td>{{ item.title }}</td>
+                        <td>
+                            <ng-container *ngIf="item.type === 'news' && item.parent_id > 0">
+                                [子素材]
+                            </ng-container>
+                            {{ item.title }}</td>
                         <td>{{ formatType(item.type) }}</td>
                         <td>
                             <div *ngIf="item.media_id" (click)="tapCopy(item.media_id, $event)" title="复制media_id">
                                 {{ item.media_id }}
                             </div>
                         </td>
+                        <ng-container *ngIf="queries.type == 'news'">
+                            <td>{{ formatPublishStatus(item.publish_status) }}</td>
+                            <td>{{ item.publish_id }}</td>
+                           </ng-container>
                         <td>
                             <div class="btn-group  btn-group-xs">
                                 <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]" *ngIf="item.type == 'news'" title="编辑">

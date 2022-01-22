@@ -19,7 +19,6 @@ interface IDialogRef {
 export class DialogService {
 
     private static guid: number = 0; // id标记
-
     private dialogItems: IDialogRef[] = [];
 
     constructor(
