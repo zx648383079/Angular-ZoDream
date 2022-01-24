@@ -1,32 +1,82 @@
-.navbar {
-    background-color: #a10000;
-    color: #fff;
-    .navbar-brand,
-    .navbar-toggler-icon,
-    .nav-link {
-        color: #fff;
-    }
-    .nav-item{
-        &.active {
-            .nav-link {
-                font-weight: 700;
-            }
+$primary: #a10000;
+$primaryText: #fff;
+
+@mixin navbarCustom($bg, $fg) {
+    background-color: $bg;
+    .navbar-brand {
+        color: $fg;
+        &:hover,
+        &:focus {
+            color: $fg;
         }
     }
     .navbar-collapse {
         justify-content: space-between;
     }
+  
+    .navbar-nav {
+        .nav-link {
+            color: $fg;;
+    
+            &:hover,
+            &:focus {
+                color: $fg;
+            }
+    
+            &.disabled {
+                color: $fg;
+            }
+            &.active {
+                .nav-link {
+                    font-weight: 700;
+                }
+            }
+        }
+    
+        .show > .nav-link,
+        .nav-link.active {
+            color: $fg;
+        }
+    }
+  
+    .navbar-toggler {
+        color: rgba($fg, 0.55);
+        border-color: rgba($fg, 0.1);
+    }
+  
+    .navbar-toggler-icon {
+        color: rgba($fg, 0.55);
+        line-height: 1.5em;
+    }
+  
+    .navbar-text {
+        color: $fg;
+        a,
+        a:hover,
+        a:focus {
+            color: $fg;
+        }
+    }
 }
 
+.navbar-custom {
+    @include navbarCustom($primary, $primaryText);
+}
+
+.navbar-not {
+    @include navbarCustom(transparent, #333);
+}
+
+
 footer {
-    background-color: #a10000;
-    color: #fff;
+    background-color: $primary;
+    color: $primaryText;
     padding: 20px 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: #fff;
+        color: $primaryText;
         text-decoration: none;
     }
 }
@@ -38,7 +88,7 @@ footer {
         position: absolute;
         left: 0;
         width: 90px;
-        border-right: 5px solid #fff;
+        border-right: 5px solid $primaryText;
         text-align: center;
     }
     a {
@@ -47,7 +97,7 @@ footer {
 }
 
 @media (min-width: 992px) {
-    .navbar {
+    .navbar-custom {
         .dropdown-menu {
             margin-left: -50px;
         }
@@ -56,12 +106,12 @@ footer {
 
 ::ng-deep {
     .panel {
-        background-color: #fff;
+        background-color: $primaryText;
         margin-bottom: 20px;
         .panel-header {
             line-height: 50px;
             padding-left: 20px;
-            border-left: 5px solid #a10000;
+            border-left: 5px solid $primary;
             font-size: 20px;
             font-weight: 700;
         }

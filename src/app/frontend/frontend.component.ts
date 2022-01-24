@@ -34,6 +34,8 @@ export class FrontendComponent implements OnDestroy {
 
     public friendLinks: ILink[] = [];
     public navExpand = false;
+    public fixedTop = false;
+    public navStyle = true;
     public activeUri = '';
     public user: IUser;
     public dropDownVisiable = false;
@@ -59,6 +61,8 @@ export class FrontendComponent implements OnDestroy {
         });
         this.searchService.on('login', () => {
             this.loginModal.open();
+        }).on('navbar', res => {
+            this.navStyle = res;
         });
     }
 
@@ -67,7 +71,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.off('login');
+        this.searchService.off('login', 'navbar');
     }
 
     public toggleDropDown() {

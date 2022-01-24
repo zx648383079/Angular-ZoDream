@@ -1,11 +1,11 @@
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg" [ngClass]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
             <button class="navbar-toggler" type="button" (click)="navExpand = !navExpand" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon iconfont icon-bars"></span>
             </button>
 
             <div class="collapse navbar-collapse" [ngClass]="{show: navExpand}" id="navbarSupportedContent">
