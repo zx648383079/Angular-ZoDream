@@ -32,7 +32,7 @@ export class SiteComponent implements OnInit {
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
     public topItems = ['无', '推荐'];
-    public editData: ISite = {} as any;
+    public editData: any = {} as any;
     public scoringData = {
         score: 60,
         change_reason: '',
@@ -91,16 +91,18 @@ export class SiteComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: ISite) {
-        this.editData = item ? Object.assign({}, item) : {
+        this.editData = item ? {...item} : {
             id: 0,
             name: '',
             logo: '',
             description: '',
-            cat_id: 0,
+            cat_id: this.queries.category,
             schema: 'https',
             domain: '',
             top_type: 0,
             tags: [],
+            also_page: 0,
+            keywords: '',
         } as any;
         modal.open(() => {
             this.service.siteSave(this.editData).subscribe({

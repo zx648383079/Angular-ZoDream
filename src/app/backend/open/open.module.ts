@@ -4,7 +4,6 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from '../../theme/theme.module';
 import { openRoutedComponents, OpenRoutingModule } from './open-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StatusPipe } from './status.pipe';
 import { PlatformOptionComponent } from './platform-option/platform-option.component';
 import { OpenService } from './open.service';
 import { ZreFormModule } from '../../form';
@@ -22,7 +21,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         DialogModule,
         NgSelectModule,
     ],
-    declarations: [...openRoutedComponents, StatusPipe, PlatformOptionComponent],
+    declarations: [...openRoutedComponents, PlatformOptionComponent],
     exports: [PlatformOptionComponent],
     providers: [
         OpenService,

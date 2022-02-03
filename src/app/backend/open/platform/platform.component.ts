@@ -4,6 +4,7 @@ import { DialogService } from '../../../dialog';
 import { IPlatform } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { mapFormat } from '../../../theme/utils';
 import { OpenService } from '../open.service';
 
 @Component({
@@ -37,6 +38,13 @@ export class PlatformComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatStatus(val: number) {
+        return mapFormat(val, [
+            {name: '正常', value: 1},
+            {name: '审核中', value: 9},
+        ]);
     }
 
 

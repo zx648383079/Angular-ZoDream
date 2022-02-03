@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OpenService } from './open.service';
 
 @Component({
   selector: 'app-open',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OpenComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: OpenService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

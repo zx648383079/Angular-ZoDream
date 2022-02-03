@@ -82,4 +82,8 @@ export class OpenService {
             params: {id}
         });
     }
+
+    public statistics() {
+        return this.http.get<any>('open/admin/statistics');
+    }
 }

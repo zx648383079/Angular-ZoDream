@@ -128,4 +128,12 @@
         <label>标签</label>
         <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="editData.tags" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
     </div>
+    <div class="form-group" *ngIf="!editData.id">
+        <label>同时收录到页面</label>
+        <app-switch [(ngModel)]="editData.also_page"></app-switch>
+    </div>
+    <div class="form-group" *ngIf="!editData.id && editData.also_page">
+        <label>关键词</label>
+        <app-words-input [(ngModel)]="editData.keywords"></app-words-input>
+    </div>
 </app-dialog-box>
