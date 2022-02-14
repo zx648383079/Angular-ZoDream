@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { last, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +12,7 @@ export class FileUploadService {
 
     static guid = 0;
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
     public uniqueId(): number {
         if (FileUploadService.guid > 100000) {
@@ -156,5 +155,76 @@ export class FileUploadService {
         }
         formData.append(partName, image);
         return this.http.post<T>(url, formData, options).pipe(map((res: any) => res));
+    }
+
+    /**
+     * 上传文件显示进度条
+     * @param url 
+     * @param file 
+     * @param onProgress 
+     * @returns 
+     */
+    public uploadWithProgress<T = any>(url: string, file: File|FormData, onProgress: (loaded: number, total: number) => void): Observable<T> {
+        const req = new HttpRequest('POST', url, file, {
+            reportProgress: true
+        });
+        return this.http.request(req).pipe(
+            map((event: HttpEvent<any>) => {
+                switch (event.type) {
+                    case HttpEventType.Response:
+                        return event.body;
+                    case HttpEventType.UploadProgress:
+                        onProgress(event.loaded, event.total ?? 0);
+                    default:
+                        return 'uploading';
+                }
+            }),
+            last(),
+        );
+    }
+
+    /**
+     * 切片上传
+     * @param url 
+     * @param file 
+     * @param onProgress 
+     * @param partName 
+     * @param customFormData 
+     * @param chunkSize 
+     * @returns 
+     */
+    public uploadChunk(url: string, file: File, onProgress: (loaded: number, total: number) => void, 
+        partName: string = 'file',
+        customFormData?: { [name: string]: any }, chunkSize = 1024 * 1024) {
+        const finish$ = new Subject<void>();
+        let loaded = 0;
+        const total = file.size;
+        const uploadFn = (start: number) => {
+            if (start >= total) {
+                finish$.next();
+                return;
+            }
+            const end = Math.min(start + chunkSize, total);
+            let form = new FormData();
+            for (const key in customFormData) {
+                if (customFormData.hasOwnProperty(key)) {
+                    form.append(key, customFormData[key]);
+                }
+            }
+            form.append(partName, file.slice(start, end));
+            this.uploadWithProgress(url, form, l => {
+                loaded = start + l;
+                onProgress(loaded, total);
+            }).subscribe({
+                next: _ => {
+                    uploadFn(end);
+                },
+                error: err => {
+                    finish$.error(err);
+                }
+            });
+        };
+        uploadFn(0);
+        return finish$;
     }
 }

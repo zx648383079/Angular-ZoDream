@@ -8,42 +8,43 @@ import { ShareComponent } from './share/share.component';
 import { TrashComponent } from './trash/trash.component';
 import { PasswordComponent } from './password/password.component';
 import { MediaPlayerComponent } from './media-player/media-player.component';
+import { UploaderComponent } from './uploader/uploader.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: DiskComponent,
-    children: [
-      {
-        path: 'catalog',
-        component: CatalogComponent
-      },
-      {
-        path: 'share',
-        component: ShareComponent
-      },
-      {
-        path: 'password',
-        component: PasswordComponent
-      },
-      {
-        path: 'trash',
-        component: TrashComponent
-      },
-      {
+    {
         path: '',
-        component: HomeComponent
-      }
-    ]
-  }
+        component: DiskComponent,
+        children: [
+            {
+                path: 'catalog',
+                component: CatalogComponent
+            },
+            {
+                path: 'share',
+                component: ShareComponent
+            },
+            {
+                path: 'password',
+                component: PasswordComponent
+            },
+            {
+                path: 'trash',
+                component: TrashComponent
+            },
+            {
+                path: '',
+                component: HomeComponent
+            }
+        ]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class DiskRoutingModule { }
 
 export const diskRoutingComponents = [
-  DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent, MediaPlayerComponent
+    DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent, MediaPlayerComponent, UploaderComponent
 ];

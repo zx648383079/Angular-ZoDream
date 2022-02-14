@@ -6,9 +6,10 @@
         <a class="nav-item disable" (click)="tapForward()">
             <i class="iconfont icon-chevron-right"></i>
         </a>
-        <a class="nav-item nav-hide">
+        <label class="nav-item nav-hide" for="upload-file">
+            <input type="file" name="file" id="upload-file" (change)="tapUpload($event)"/>
             <i class="iconfont icon-upload"></i>
-        </a>
+        </label>
         <a class="nav-item nav-hide" (click)="tapOpenEdit(editFile)">
             <i class="iconfont icon-plus"></i>
         </a>
@@ -28,19 +29,19 @@
             <span class="nav-name">排序</span>
             <i class="iconfont icon-chevron-down"></i>
             <div class="nav-children">
-                <a class="nav-item">
+                <a class="nav-item" (click)="tapSort('name', true)">
                     <i class="iconfont icon-sort-alpha-asc"></i>
                     <span class="nav-name">名称</span>
                 </a>
-                <a class="nav-item">
+                <a class="nav-item" (click)="tapSort('name', false)">
                     <i class="iconfont icon-sort-alpha-desc"></i>
                     <span class="nav-name">名称</span>
                 </a>
-                <a class="nav-item">
+                <a class="nav-item" (click)="tapSort('updated_at', true)">
                     <i class="iconfont icon-sort-alpha-asc"></i>
                     <span class="nav-name">修改日期</span>
                 </a>
-                <a class="nav-item">
+                <a class="nav-item" (click)="tapSort('updated_at', false)">
                     <i class="iconfont icon-sort-alpha-desc"></i>
                     <span class="nav-name">修改日期</span>
                 </a>
@@ -61,10 +62,10 @@
         <a class="nav-item">
             <i class="iconfont icon-ellipsis-v"></i>
             <div class="nav-children">
-                <a class="nav-item nav-hide">
+                <label class="nav-item nav-hide" for="upload-file">
                     <i class="iconfont icon-upload"></i>
                     <span class="nav-name">上传</span>
-                </a>
+                </label>
                 <a class="nav-item nav-hide" (click)="tapOpenEdit(editFile)">
                     <i class="iconfont icon-plus"></i>
                     <span class="nav-name">新建文件夹</span>
@@ -86,18 +87,18 @@
     <div class="catalog-body" [ngClass]="{'file-view': viewMode, 'file-edit': editMode}">
         <div class="file-header">
             <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
-            <div class="name sort-asc">文件名</div>
-            <div class="size">大小</div>
-            <div class="time">修改日期</div>
+            <div class="name" [ngClass]="{'sort-asc': sortKey == 'name' && orderAsc, 'sort-desc': sortKey == 'name' && !orderAsc}" (click)="tapSort('name')">文件名</div>
+            <div class="size" [ngClass]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
+            <div class="time" [ngClass]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
-        <ng-container *ngFor="let item of items">
+        <ng-container *ngFor="let item of filterItems">
             <ng-container *ngIf="item.type === 'group'; else elseTemplate">
                 <div class="file-group">
                     {{ item.name }}
                 </div>
             </ng-container>
             <ng-template #elseTemplate>
-                <div class="file-item" (click)="tapFile(item)">
+                <div class="file-item" (click)="tapFile(item)" [title]="item.name">
                     <div class="check-box" [ngClass]="{checked: item.checked}"></div>
                     <div class="file-icon">
                         <i class="iconfont" [ngClass]="item.icon"></i>
@@ -124,3 +125,5 @@
         </div>
     </div>
 </app-dialog-box>
+
+<app-uploader (uploading)="onUploading($event)"></app-uploader>

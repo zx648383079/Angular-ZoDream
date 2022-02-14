@@ -8,6 +8,7 @@ import { CheckinService } from './checkin.service';
 })
 export class CheckinBackendComponent implements OnInit {
 
+    public isLoading = true;
     public data: any = {};
 
     constructor(
@@ -15,8 +16,13 @@ export class CheckinBackendComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.service.statistics().subscribe(res => {
-            this.data = res;
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
         });
     }
 

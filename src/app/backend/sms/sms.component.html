@@ -4,4 +4,62 @@
             <li>短信平台</li>
         </ul>
     </app-page-tip>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.today_count | numberFormat}}
+                        /
+                        {{ data.yesterday_count | numberFormat}}</h3>
+                    <p>今日/昨日发送量</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-calendar"></i>
+                </div>
+                <a class="column-footer" routerLink="log">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.max_day | numberFormat}}</h3>
+                    <p>最多发送量</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-bar-chart"></i>
+                </div>
+                <a class="column-footer" routerLink="log">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.avg_day | numberFormat}}</h3>
+                    <p>平均发送量</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-area-chart"></i>
+                </div>
+                <a class="column-footer" routerLink="log">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

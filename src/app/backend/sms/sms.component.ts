@@ -1,15 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+import { SmsService } from './sms.service';
 
 @Component({
-  selector: 'app-sms',
-  templateUrl: './sms.component.html',
-  styleUrls: ['./sms.component.scss']
+    selector: 'app-sms',
+    templateUrl: './sms.component.html',
+    styleUrls: ['./sms.component.scss']
 })
 export class SmsComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: SmsService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+            },
+            complete: () => {
+                this.isLoading = false;
+            }
+        });
+    }
 
 }

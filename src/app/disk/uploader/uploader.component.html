@@ -1,0 +1,37 @@
+<div class="upload-dialog-box" [hidden]="!visible" [ngClass]="{'dialog-min': min}">
+    <div class="dialog-header">
+        <div class="header-title" (click)="min = false">{{ title }}</div>
+        <div class="header-action">
+            <i class="iconfont icon-minus" (click)="min = true"></i>
+            <i class="iconfont icon-close" (click)="visible = false"></i>
+        </div>
+    </div>
+    <div class="dialog-body" appFileDrop (fileDrop)="uploadFile($event)">
+        <ng-container *ngFor="let group of formatedItems">
+            <div class="upload-group">
+                {{ group.name }}
+            </div>
+            <div class="upload-item" *ngFor="let item of group.items" [ngClass]="{'item-cancel': item.status == 9, 'item-running': item.status == 5, 'item-checked': item.checked}">
+                <div class="item-progress" [ngStyle]="item.style"></div>
+                <div class="item-body">
+                    <div class="item-info">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-meta">
+                            <span *ngIf="item.status == 5">{{ item.speed | size }}/s</span>
+                            <span *ngIf="item.status < 3 || item.status == 5">{{ item.progress | size }}/{{ item.total | size }}</span>
+                            <span>{{ formatStatus(item.status) }}</span>
+                        </div>
+                    </div>
+                    <div class="item-action">
+                        <i class="iconfont icon-folder-open-o" *ngIf="item.status == 6 || item.status == 7"></i>
+                        <i class="iconfont icon-refresh" *ngIf="item.status == 8 || item.status == 9"></i>
+                        <i class="iconfont icon-play" *ngIf="item.status < 3"></i>
+                        <i class="iconfont icon-pause" *ngIf="item.status == 3"></i>
+                        <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <app-loading-tip [loading]="false" [visible]="formatedItems.length == 0"></app-loading-tip>
+    </div>
+</div>

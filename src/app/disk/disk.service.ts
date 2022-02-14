@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IDisk, IFile, IShare } from './model';
+import { FileTypeMap, IDisk, IFile, IShare } from './model';
 import { IDataOne, IPage } from '../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 
@@ -15,10 +15,26 @@ export class DiskService {
         return this.http.get<IPage<IDisk>>('disk', {params});
     }
 
+    public create(data: any) {
+        return this.http.post<IDisk>('disk/home/create', data);
+    }
+
     public file(id: any) {
         return this.http.get<IFile>('disk/home/file', {
             params: {id}
         });
+    }
+
+    public uploadCheck(data: any) {
+        return this.http.post<any>('disk/upload/check', data);
+    }
+
+    public upload(data: any) {
+        return this.http.post<any>('disk/upload', data);
+    }
+
+    public uploadFinish(data: any) {
+        return this.http.post<IDisk>('disk/upload/finish', data);
     }
 
     public shareList(params: any) {
@@ -43,15 +59,10 @@ export class DiskService {
         if (!ext) {
             return 'icon-folder-o';
         }
-        const type = this.getTypeByExt(ext);
-        if (type === 'image') {
-            return 'icon-file-image-o';
-        }
-        if (type === 'music') {
-            return 'icon-music';
-        }
-        if (type === 'movie') {
-            return 'icon-file-movie-o';
+        for (const key in FileTypeMap) {
+            if (Object.prototype.hasOwnProperty.call(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
+                return FileTypeMap[key].icon;
+            }
         }
         return 'icon-file-o';
     }
@@ -60,14 +71,10 @@ export class DiskService {
         if (!ext) {
             return '';
         }
-        if (['png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif'].indexOf(ext) >= 0) {
-            return 'image';
-        }
-        if (['mp3', 'flac', 'ape', 'wav'].indexOf(ext) >= 0) {
-            return 'music';
-        }
-        if (['mp4', 'mkv', '3gp', 'avi'].indexOf(ext) >= 0) {
-            return 'movie';
+        for (const key in FileTypeMap) {
+            if (Object.prototype.hasOwnProperty.call(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
+                return key;
+            }
         }
         return '';
     }

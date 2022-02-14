@@ -1,30 +1,65 @@
 <div class="container-fluid">
-    <div class="column-item">
-        <div class="icon">
-            {{ data.today_count | numberFormat}}
-            /
-            {{ data.yesterday_count | numberFormat}}
+    <app-page-tip>
+        <ul>
+            <li>签到统计</li>
+        </ul>
+    </app-page-tip>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.today_count | numberFormat}}
+                        /
+                        {{ data.yesterday_count | numberFormat}}</h3>
+                    <p>今日/昨日签到</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-calendar"></i>
+                </div>
+                <a class="column-footer" routerLink="">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
         </div>
-        <div class="content">
-            <h3>今日签到</h3>
-            <p>昨日签到</p>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.max_day | numberFormat}}</h3>
+                    <p>最长签到</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-bar-chart"></i>
+                </div>
+                <a class="column-footer" routerLink="">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="column-item">
-        <div class="icon">
-            {{ data.max_day | numberFormat}}
-        </div>
-        <div class="content">
-            <h3>最长签到</h3>
-        </div>
-    </div>
-    <div class="column-item">
-        <div class="icon">
-            {{ data.avg_day | numberFormat}}
-        </div>
-        <div class="content">
-            <h3>平均签到</h3>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.avg_day | numberFormat}}</h3>
+                    <p>平均签到</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-area-chart"></i>
+                </div>
+                <a class="column-footer" routerLink="">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>

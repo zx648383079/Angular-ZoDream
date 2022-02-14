@@ -96,6 +96,10 @@ export class SmsService {
         });
     }
 
+    public statistics() {
+        return this.http.get<any>('sms/admin/statistics');
+    }
+
     public typeItems() {
         return of([
             {

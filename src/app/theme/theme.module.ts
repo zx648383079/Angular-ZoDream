@@ -64,6 +64,7 @@ import {
 import {
     FormsModule
 } from '@angular/forms';
+import { FileDropDirective } from './directives/file-drop.directive';
 
 const BASE_MODULES = [
     CommonModule,
@@ -110,6 +111,7 @@ const DIRECTIVES = [
     PasswordValidatorDirective,
     InfiniteScrollDirective,
     LazyLoadDirective,
+    FileDropDirective,
 ];
 
 @NgModule({

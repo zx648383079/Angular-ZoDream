@@ -46,10 +46,16 @@
                             "lodash",
                             "jsonapi-deserializer"
                         ],
-                        "assets": [{
+                        "assets": [
+                            {
                                 "glob": "**/*",
                                 "input": "node_modules/tinymce",
                                 "output": "/tinymce/"
+                            },
+                            {
+                                "glob": "md5_worker.js",
+                                "input": "node_modules/ts-md5/dist",
+                                "output": "/md5/"
                             },
                             "src/favicon.ico",
                             "src/assets",
