@@ -9,7 +9,7 @@ export interface IFileTypeMap {
 
 export const FileTypeMap: IFileTypeMap = {
     text: {
-        extension: ['txt', 'sql'],
+        extension: ['txt', 'sql', 'c', 'cs', 'html', 'js', 'java', 'kt'],
         icon: 'icon-file-text-o',
     },
     image: {

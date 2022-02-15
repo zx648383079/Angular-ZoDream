@@ -25,7 +25,7 @@ export class DiskComponent implements OnInit {
           children: [{
                   name: '图片',
                   icon: 'icon-file-image-o',
-                  url: './catalog'
+                  url: './catalog',
               },
               {
                   name: '文档',

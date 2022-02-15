@@ -91,6 +91,20 @@
             <div class="size" [ngClass]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
             <div class="time" [ngClass]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
+        <div class="file-edit-header" *ngIf="editMode">
+            <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="check-count">
+                已选中 {{ checkCount }} 个文件/文件夹
+            </div>
+            <div class="edit-action">
+                <i class="iconfont icon-share-alt"></i>
+                <i class="iconfont icon-download"></i>
+                <i class="iconfont icon-trash"></i>
+                <i class="iconfont icon-copy"></i>
+                <i class="iconfont icon-exchange"></i>
+                <i class="iconfont icon-edit"></i>
+            </div>
+        </div>
         <ng-container *ngFor="let item of filterItems">
             <ng-container *ngIf="item.type === 'group'; else elseTemplate">
                 <div class="file-group">
@@ -107,6 +121,14 @@
                     <div class="file-info">
                         <div class="file-size">{{ item.file?.size | size }}</div>
                         <div class="file-time">{{ item.updated_at | timestamp }}</div>
+                    </div>
+                    <div class="item-action">
+                        <i class="iconfont icon-share-alt"></i>
+                        <i class="iconfont icon-download"></i>
+                        <i class="iconfont icon-copy"></i>
+                        <i class="iconfont icon-exchange"></i>
+                        <i class="iconfont icon-edit"></i>
+                        <i class="iconfont icon-trash"></i>
                     </div>
                 </div>
             </ng-template>

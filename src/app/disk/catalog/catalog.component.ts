@@ -85,6 +85,16 @@ export class CatalogComponent implements OnInit {
         return this.crumbs[this.crumbs.length - 1].id;
     }
 
+    get checkCount() {
+        let count = 0;
+        for (const item of this.items) {
+            if (item.checked) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
     public get filterItems() {
         const items = this.items;
         if (!this.sortKey) {
