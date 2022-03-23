@@ -1,38 +1,46 @@
 <form class="form-ico login-form" [formGroup]="registerForm" (ngSubmit)="tapSignUp()">
-  <div class="input-group">
-          <input type="text" formControlName="name" i18n-placeholder placeholder="Please input nickname" >
-          <i class="iconfont icon-user" aria-hidden="true"></i>
-      </div>
-      <div class="input-group" [class]="{error: email.invalid}">
-          <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email" >
-          <i class="iconfont icon-at" aria-hidden="true"></i>
-      </div>
-      <div class="input-group" [class]="{error: password.invalid}">
-          <input [type]="isObserve ? 'text' : 'password'" formControlName="password" i18n-placeholder placeholder="Please input password" >
-          <i class="iconfont icon-lock" aria-hidden="true"></i>
-          <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
-      </div>
-      <div class="input-tip">
-          <app-password-strong [value]="password.value"></app-password-strong>
-      </div>
-      <div class="input-group" [class]="{error: registerForm.errors && registerForm.errors.confirm}">
-          <input [type]="isObserve ? 'text' : 'password'" formControlName="confirm_password" i18n-placeholder placeholder="Please confirm your password" >
-          <i class="iconfont icon-check" aria-hidden="true"></i>
-          <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
-      </div>
+    <div class="input-group">
+        <input type="text" formControlName="name" i18n-placeholder placeholder="Please input nickname">
+        <i class="iconfont icon-user" aria-hidden="true"></i>
+    </div>
+    <div class="input-group" [class]="{error: email.invalid}">
+        <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email">
+        <i class="iconfont icon-at" aria-hidden="true"></i>
+    </div>
+    <div class="input-group" [class]="{error: password.invalid}">
+        <input [type]="isObserve ? 'text' : 'password'" formControlName="password" i18n-placeholder
+            placeholder="Please input password">
+        <i class="iconfont icon-lock" aria-hidden="true"></i>
+        <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
+            (click)="isObserve = !isObserve"></i>
+    </div>
+    <div class="input-tip">
+        <app-password-strong [value]="password.value"></app-password-strong>
+    </div>
+    <div class="input-group" [class]="{error: registerForm.errors && registerForm.errors.confirm}">
+        <input [type]="isObserve ? 'text' : 'password'" formControlName="confirm_password" i18n-placeholder
+            placeholder="Please confirm your password">
+        <i class="iconfont icon-check" aria-hidden="true"></i>
+        <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
+            (click)="isObserve = !isObserve"></i>
+    </div>
+    <div class="input-group">
+        <input type="text" formControlName="invite_code" i18n-placeholder placeholder="Please input the invite code">
+        <i class="iconfont icon-gift" aria-hidden="true"></i>
+    </div>
 
-      <div class="input-group">
-          <div class="checkbox">
-              <input type="checkbox" formControlName="agree" value="1" id="checkboxInput">
-              <label for="checkboxInput"></label>
-          </div>
-          <ng-container i18n>I agree to</ng-container>
-            <a routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
-      </div>
+    <div class="input-group">
+        <div class="checkbox">
+            <input type="checkbox" formControlName="agree" value="1" id="checkboxInput">
+            <label for="checkboxInput"></label>
+        </div>
+        <ng-container i18n>I agree to</ng-container>
+        <a routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
+    </div>
 
-      <button type="submit" class="btn" [disabled]="registerForm.invalid" i18n>Sign up</button>
-      <div class="other-box">
-          <a routerLink="../" i18n>Back</a>
-      </div>
-      
-  </form>
+    <button type="submit" class="btn" [disabled]="registerForm.invalid" i18n>Sign up</button>
+    <div class="other-box">
+        <a routerLink="../" i18n>Back</a>
+    </div>
+
+</form>

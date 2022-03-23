@@ -32,6 +32,10 @@ export class HomeComponent implements OnInit {
             url: 'micro'
         },
         {
+            name: $localize `Note`,
+            url: 'note'
+        },
+        {
             name: $localize `Forum`,
             url: 'forum'
         },

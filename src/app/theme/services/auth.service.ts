@@ -27,9 +27,6 @@ import {
     IUser
 } from '../models/user';
 import {
-    Router
-} from '@angular/router';
-import {
     CookieService
 } from './cookie.service';
 import {
@@ -50,13 +47,12 @@ export class AuthService {
         private store: Store < AppState > ,
         private toastrService: DialogService,
         private cookieService: CookieService,
-        private router: Router,
         @Inject(PLATFORM_ID) private platformId: any) {}
 
     public login(data: any): Observable<IUser> {
         return this.http.post<IUser>('auth/login', data).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user, USER_KEY);
+                this.setTokenInLocalStorage(user);
                 this.authenticateUser(user);
                 return user;
             }),
@@ -73,7 +69,7 @@ export class AuthService {
     public register(data: any): Observable<IUser> {
         return this.http.post<IUser>('auth/register', data).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user, USER_KEY);
+                this.setTokenInLocalStorage(user);
                 this.authenticateUser(user);
                 return user;
             }),
@@ -108,7 +104,7 @@ export class AuthService {
     public qrCheck(token: string) {
         return this.http.post<IUser>('auth/qr/check', {token}).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user, USER_KEY);
+                this.setTokenInLocalStorage(user);
                 this.authenticateUser(user);
                 return user;
             }),
@@ -143,7 +139,7 @@ export class AuthService {
         return headers;
     }
 
-    private setTokenInLocalStorage(user: any, keyName: string): void {
+    private setTokenInLocalStorage(user: any, keyName = USER_KEY): void {
         const jsonData = JSON.stringify(user);
         if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(keyName, jsonData);
@@ -187,7 +183,7 @@ export class AuthService {
             }
         }).subscribe(user => {
             user.token = token;
-            this.setTokenInLocalStorage(user, USER_KEY);
+            this.setTokenInLocalStorage(user);
         });
     }
 

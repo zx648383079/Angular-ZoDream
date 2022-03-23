@@ -82,6 +82,31 @@ export class AuthService {
         return this.http.post<IApplyLog>('auth/admin/account/apply_save', data);
     }
 
+    public inviteCodeList(params: any) {
+        return this.http.get<IPage<any>>('auth/admin/invite', {
+            params,
+        });
+    }
+    public inviteLogList(params: any) {
+        return this.http.get<IPage<any>>('auth/admin/invite/log', {
+            params,
+        });
+    }
+
+    public inviteCodeCreate(data: any) {
+        return this.http.post<any>('auth/admin/invite/create', data);
+    }
+
+    public inviteCodeRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('auth/admin/invite/delete', {
+            params: {id}
+        });
+    }
+
+    public inviteCodeClear() {
+        return this.http.delete<IDataOne<true>>('auth/admin/invite/clear');
+    }
+
     public statistics() {
         return this.http.get<any>('auth/admin/statistics');
     }

@@ -1,18 +1,19 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>这是所有的授权列表</li>
+            <li>这是所有的邀请码列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
-                    <label for="keywords">应用</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索应用">
+                    <label for="keywords">邀请码</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索邀请码">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
+                    <a class="btn btn-info" routerLink="../log">邀请记录</a>
                     <a class="btn btn-danger" (click)="tapClear()">清除所有</a>
                     <a class="btn btn-primary" (click)="open(modal)">生成</a>
                 </div>
@@ -22,21 +23,21 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>应用名</th>
-                <th>Token</th>
-                <th>状态</th>
+                <th>邀请人</th>
+                <th>邀请码</th>
+                <th>邀请次数/成功</th>
                 <th>过期时间</th>
-                <th>授权时间</th>
+                <th>创建时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.platform.name }}</td>
-                    <td>{{ item.token }}</td>
-                    <td>{{ item.status }}</td>
-                    <td>{{ item.expired_at }}</td>
+                    <td>{{ item.user?.name }}</td>
+                    <td>{{ item.code }}</td>
+                    <td>{{ item.amount | numberFormat }}/{{ item.invite_count | numberFormat }}</td>
+                    <td>{{ item.expired_at | date }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
@@ -52,12 +53,12 @@
     </div>
 </div>
 
-<app-dialog-box #modal [scrollable]="false" title="生成一条token">
+<app-dialog-box #modal [scrollable]="false" title="生成邀请码">
     <div class="form-table">
         <div class="input-group">
-            <label for="">应用</label>
+            <label for="">可使用次数</label>
             <div>
-                <ng-select [(ngModel)]="editData.platform_id" [items]="platformItems" bindValue="id" bindLabel="name"></ng-select>
+                <app-number-input [(ngModel)]="editData.amount"></app-number-input>
             </div>
         </div>
         <div class="input-group">

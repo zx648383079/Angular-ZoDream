@@ -3,16 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { ITopic } from '../../model';
-import { MicroService } from '../micro.service';
+import { INote } from '../../model';
+import { NoteService } from '../note.service';
 
 @Component({
-  selector: 'app-topic',
-  templateUrl: './topic.component.html',
-  styleUrls: ['./topic.component.scss']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-export class TopicComponent implements OnInit {
-    public items: ITopic[] = [];
+export class ListComponent implements OnInit {
+
+    public items: INote[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -20,10 +21,11 @@ export class TopicComponent implements OnInit {
         keywords: '',
         page: 1,
         per_page: 20,
+        user: 0,
     };
 
     constructor(
-        private service: MicroService,
+        private service: NoteService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {}
@@ -33,6 +35,11 @@ export class TopicComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapUser(user: number) {
+        this.queries.user = user;
+        this.tapRefresh();
     }
 
     public tapRefresh() {
@@ -52,7 +59,7 @@ export class TopicComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.topicList(queries).subscribe({
+        this.service.noteList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
@@ -75,12 +82,11 @@ export class TopicComponent implements OnInit {
         this.tapRefresh();
     }
 
-
-    public tapRemove(item: ITopic) {
-        if (!confirm('确定删除“' + item.name + '”话题？')) {
+    public tapRemove(item: INote) {
+        if (!confirm('确定删除“' + item.id + '”便签？')) {
             return;
         }
-        this.service.topicRemove(item.id).subscribe(res => {
+        this.service.noteRemove(item.id).subscribe(res => {
             if (!res.data) {
                 return;
             }

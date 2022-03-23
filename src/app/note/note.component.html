@@ -1,0 +1,31 @@
+<div class="container">
+    <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+        <div class="row">
+            <div class="col-md-4" *ngIf="authUser">
+                <div class="note-form">
+                    <div class="item-body">
+                        <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入内容"></textarea>
+                    </div>
+                    <div class="item-action">
+                        <span class="length-box">{{ size }}/255</span>
+                        <app-action-button (tapped)="tapSubmit($event)"><i class="iconfont icon-check"></i></app-action-button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4" *ngFor="let item of items">
+                <div class="note-item">
+                    <div class="item-body">{{ item.content }}</div>
+                    <div class="item-footer">
+                        <span *ngIf="item.user">{{ item.user.name }}</span>
+                        <span>{{ item.created_at | ago }}</span>
+                    </div>
+                    <div class="item-action" *ngIf="item.editable">
+                        <i class="iconfont icon-close" (click)="tapRemove(item)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    </app-pull-to-refresh>
+</div>

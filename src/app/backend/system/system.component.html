@@ -89,7 +89,9 @@
             <div class="input-group">
                 <label for="field_visibility">公开</label>
                 <div>
-                    <app-switch [(ngModel)]="editData.visibility"></app-switch>
+                    <select class="form-control" [(ngModel)]="editData.visibility">
+                        <option *ngFor="let item of visibleItems;let i = index" [value]="i">{{ item }}</option>
+                    </select>
                 </div>
             </div>
             <div class="input-group">

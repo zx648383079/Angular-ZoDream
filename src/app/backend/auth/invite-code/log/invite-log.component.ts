@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../dialog';
-import { IAdminLog } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { AuthService } from '../auth.service';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
+import { AuthService } from '../../auth.service';
 
 @Component({
-  selector: 'app-admin-log',
-  templateUrl: './admin-log.component.html',
-  styleUrls: ['./admin-log.component.scss']
+  selector: 'app-invite-log',
+  templateUrl: './invite-log.component.html',
+  styleUrls: ['./invite-log.component.scss']
 })
-export class AdminLogComponent implements OnInit {
+export class InviteLogComponent implements OnInit {
 
-    public items: IAdminLog[] = [];
+    public items: any[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public editData: IAdminLog = {} as any;
     public queries: IPageQueries = {
         page: 1,
         keywords: '',
         per_page: 20,
+        user: 0,
+        inviter: 0,
     };
 
     constructor(
@@ -61,7 +60,7 @@ export class AdminLogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.adminLogList(queries).subscribe({
+        this.service.inviteLogList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -80,8 +79,4 @@ export class AdminLogComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogBoxComponent, item: IAdminLog) {
-        this.editData = item;
-        modal.open();
-    }
 }

@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { eachObject } from '../../theme/utils';
 
@@ -13,6 +13,9 @@ import { eachObject } from '../../theme/utils';
     }]
 })
 export class WordsInputComponent implements ControlValueAccessor {
+
+    @ViewChild('inputBox')
+    private inputBoxRef: ElementRef<HTMLInputElement>;
 
     @Input() public placeholder = $localize `Please input...`;
     @Input() public join = ',';
@@ -39,6 +42,16 @@ export class WordsInputComponent implements ControlValueAccessor {
             }
         }
         this.output();
+    }
+
+    public tapEdit(item: string) {
+        this.keywords = item;
+        for (let i = this.selectedItems.length - 1; i >= 0; i--) {
+            if (this.selectedItems[i] == item) {
+                this.selectedItems.splice(i, 1);
+            }
+        }
+        this.inputBoxRef.nativeElement?.focus();
     }
 
     public onKeydown(e: KeyboardEvent) {

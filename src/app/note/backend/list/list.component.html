@@ -1,10 +1,9 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>话题表</li>
+            <li>便签列表</li>
         </ul>
     </app-page-tip>
-
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
@@ -20,14 +19,20 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>话题</th>
+                    <th>昵称</th>
+                    <th>内容</th>
+                    <th>发布时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td>
+                        <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a>
+                    </td>
+                    <td>{{ item.content }}</td>
+                    <td>{{ item.created_at }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

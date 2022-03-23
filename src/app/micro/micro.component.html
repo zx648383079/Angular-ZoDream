@@ -1,88 +1,99 @@
 <div class="container">
     <app-publish-form (published)="onPublish($event)"></app-publish-form>
 
-    <div class="user-card" *ngIf="!topic && user">
-        <div class="avatar">
-            <img [src]="user.avatar" alt="">
-        </div>
-        <div class="name">{{ user.name }}</div>
-        <div class="remark"></div>
-        <div class="count-bar">
-            <div class="count-item">
-                <div class="count">{{ 0 | numberFormat }}</div>
-                <span i18n>Following</span>
-            </div>
-            <div class="count-item">
-                <div class="count">{{ 0 | numberFormat }}</div>
-                <span i18n>Followers</span>
-            </div>
-            <div class="count-item">
-                <div class="count">{{ user.micro_count | numberFormat }}</div>
-                <span i18n>Posts</span>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="nav-tab">
+                <ng-container *ngFor="let item of tabItems">
+                    <a class="nav-item" [ngClass]="{active: item.value == queries.sort}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                </ng-container>
             </div>
         </div>
-    </div>
-
-    <div class="topic-card" *ngIf="topic">
-        <div class="name">#{{ topic.name }}#</div>
-        <div class="count-bar" i18n>
-            {{ topic.micro_count | numberFormat }}Posts
-        </div>
-    </div>
-
-    <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
-        <ng-container *ngFor="let item of items">
-            <div class="micro-item">
-                <div class="body">
-                    <div class="avatar">
-                        <img [src]="item.user.avatar" alt="">
+        <div class="col-md-8">
+            <div class="user-card" *ngIf="!topic && user">
+                <div class="avatar">
+                    <img [src]="user.avatar" alt="">
+                </div>
+                <div class="name">{{ user.name }}</div>
+                <div class="remark"></div>
+                <div class="count-bar">
+                    <div class="count-item">
+                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <span i18n>Following</span>
                     </div>
-                    <div>
-                        <div class="name" (click)="tapUser(item)">{{ item.user.name }}</div>
-                        <p>
-                            <span class="time">{{ item.created_at | ago }}</span>
-                            <span class="from" *ngIf="item.source" i18n>From {{ item.source }}</span>
-                            <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)" i18n>[Delete]</a>
-                        </p>
-                        <div class="content">
-                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+                    <div class="count-item">
+                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <span i18n>Followers</span>
+                    </div>
+                    <div class="count-item">
+                        <div class="count">{{ user.micro_count | numberFormat }}</div>
+                        <span i18n>Posts</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="topic-card" *ngIf="topic">
+                <div class="name">#{{ topic.name }}#</div>
+                <div class="count-bar" i18n>
+                    {{ topic.micro_count | numberFormat }}Posts
+                </div>
+            </div>
+        
+            <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+                <ng-container *ngFor="let item of items">
+                    <div class="micro-item">
+                        <div class="body">
+                            <div class="avatar">
+                                <img [src]="item.user.avatar" alt="">
+                            </div>
+                            <div>
+                                <div class="name" (click)="tapUser(item)">{{ item.user.name }}</div>
+                                <p>
+                                    <span class="time">{{ item.created_at | ago }}</span>
+                                    <span class="from" *ngIf="item.source" i18n>From {{ item.source }}</span>
+                                    <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)" i18n>[Delete]</a>
+                                </p>
+                                <div class="content">
+                                    <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+                                </div>
+                                <app-attachment-viewer [items]="item.attachment"></app-attachment-viewer>
+                            </div>
                         </div>
-                        <app-attachment-viewer [items]="item.attachment"></app-attachment-viewer>
+            
+                        <div class="ations">
+                            <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">
+                                <ng-container i18n>{item.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
+                                <ng-container *ngIf="item.collect_count > 0">
+                                    ({{ item.collect_count | numberFormat }})
+                                </ng-container>
+                            </a>
+                            <a (click)="tapForward(modal, item)">
+                                <ng-container i18n>Forward</ng-container>
+                                <ng-container *ngIf="item.collect_count > 0">
+                                    ({{ item.forward_count | numberFormat }})
+                                </ng-container>
+                            </a>
+                            <a (click)="tapToggleComment(item)" [ngClass]="{open: item.comment_open}">
+                                <ng-container i18n>Comment</ng-container>
+                                <ng-container *ngIf="item.comment_count > 0">
+                                    ({{ item.comment_count | numberFormat }})
+                                </ng-container>
+                            </a>
+                            <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">
+                                <ng-container i18n>{item.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
+                                <ng-container *ngIf="item.recommend_count > 0">
+                                    ({{ item.recommend_count | numberFormat }})
+                                </ng-container>
+                            </a>
+                        </div>
+                        <div class="comment-box">
+                            <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)"></app-comment-viewer>
+                        </div>
                     </div>
-                </div>
-    
-                <div class="ations">
-                    <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">
-                        <ng-container i18n>{item.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
-                        <ng-container *ngIf="item.collect_count > 0">
-                            ({{ item.collect_count | numberFormat }})
-                        </ng-container>
-                    </a>
-                    <a (click)="tapForward(modal, item)">
-                        <ng-container i18n>Forward</ng-container>
-                        <ng-container *ngIf="item.collect_count > 0">
-                            ({{ item.forward_count | numberFormat }})
-                        </ng-container>
-                    </a>
-                    <a (click)="tapToggleComment(item)" [ngClass]="{open: item.comment_open}">
-                        <ng-container i18n>Comment</ng-container>
-                        <ng-container *ngIf="item.comment_count > 0">
-                            ({{ item.comment_count | numberFormat }})
-                        </ng-container>
-                    </a>
-                    <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">
-                        <ng-container i18n>{item.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
-                        <ng-container *ngIf="item.recommend_count > 0">
-                            ({{ item.recommend_count | numberFormat }})
-                        </ng-container>
-                    </a>
-                </div>
-                <div class="comment-box">
-                    <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)"></app-comment-viewer>
-                </div>
-            </div>
-        </ng-container>
-    </app-pull-to-refresh>
+                </ng-container>
+            </app-pull-to-refresh>
+        </div>
+    </div>
 </div>
 
 <app-dialog-box #modal i18n-confirmText confirmText="Forward" i18n-title title="Forward">

@@ -10,6 +10,7 @@ import { ForumBackendMenu } from '../forum/backend/menu';
 import { LegworkBackendMenu } from '../legwork/backend/menu';
 import { MicroBackendMenu } from '../micro/backend/menu';
 import { NavigationBackendMenu } from '../navigation/backend/menu';
+import { NoteBackendMenu } from '../note/backend/menu';
 import { OnlineServiceBackendMenu } from '../online-service/backend/menu';
 import { ShopBackendMenu } from '../shop/backend/menu';
 import { INav } from '../theme/components';
@@ -57,6 +58,7 @@ export class MenuService {
             book: BookBackendMenu,
             video: VideoBackendMenu,
             navigation: NavigationBackendMenu,
+            note: NoteBackendMenu,
             legwork: LegworkBackendMenu,
             os: OnlineServiceBackendMenu,
             doc: DocumentBackendMenu,

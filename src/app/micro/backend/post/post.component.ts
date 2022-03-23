@@ -55,14 +55,17 @@ export class PostComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.postList(queries).subscribe(res => {
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
-        }, () => {
-            this.isLoading = false;
+        this.service.postList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

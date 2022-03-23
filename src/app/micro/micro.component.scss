@@ -1,5 +1,28 @@
 @import './micro';
 
+
+.nav-tab {
+    background-color: #fff;
+    margin-bottom: 1rem;
+    .nav-item {
+        display: block;
+        line-height: 2.5rem;
+        height: 2.5rem;
+        padding: 0 .8rem;
+        overflow: hidden;
+        color: #333;
+        cursor: pointer;
+        &.active {
+            color: #a10000;
+        }
+        &:hover {
+            background-color: #ccc;
+        }
+    }
+}
+
+
+
 .forward-box {
     .simple {
         background-color: #f2f2f5;

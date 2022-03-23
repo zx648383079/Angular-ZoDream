@@ -13,7 +13,6 @@ import { SystemService } from './system.service';
 export class SystemComponent implements OnInit {
 
     public groups: IOption[] = [];
-
     public editData: IOption = {} as any;
     public typeItems = [
         {
@@ -33,6 +32,7 @@ export class SystemComponent implements OnInit {
         {value: 'json', name: 'JSON'},
         {value: 'hide', name: '隐藏'}
     ];
+    public visibleItems = ['隐藏', '后台可见', '前台可见'];
 
     constructor(
         private service: SystemService,
@@ -121,6 +121,9 @@ export class SystemComponent implements OnInit {
 
     public tapOpenModal(modal: DialogBoxComponent) {
         modal.openCustom(value => {
+            if (!value) {
+                return;
+            }
             if (value === 'remove') {
                 if (!confirm('确定删除此项')) {
                     return;

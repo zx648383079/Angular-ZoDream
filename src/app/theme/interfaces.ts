@@ -8,5 +8,5 @@ import { AuthState } from './reducers/auth.state';
  *
  */
 export interface AppState {
-  auth: AuthState;
+    auth: AuthState;
 }

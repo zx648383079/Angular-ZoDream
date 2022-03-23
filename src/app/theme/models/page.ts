@@ -49,8 +49,7 @@ export interface IErrorResult {
     error: IErrorResponse;
 }
 
-export interface IPageQueries {
-    [key: string]: any;
+export interface IPageQueries extends Record<string, any> {
     page: number;
     per_page: number;
     keywords?: string;

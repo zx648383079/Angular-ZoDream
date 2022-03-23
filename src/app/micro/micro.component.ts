@@ -14,6 +14,7 @@ import { IUser } from '../theme/models/user';
 import { DialogBoxComponent } from '../dialog';
 import { IBlockItem } from '../link-rule';
 import { SearchService, ThemeService } from '../theme/services';
+import { IItem } from '../theme/models/seo';
 
 @Component({
     selector: 'app-micro',
@@ -31,6 +32,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         keywords: '',
         user: 0,
         topic: 0,
+        sort: 'new',
     }
     public forwardItem: IMicro;
     public editData = {
@@ -42,6 +44,20 @@ export class MicroComponent implements OnInit, OnDestroy {
     public user: any;
     public topic: ITopic;
     public authUser: IUser;
+    public tabItems: IItem[] = [
+        {
+            name: $localize `Recommend`,
+            value: 'recommend',
+        },
+        {
+            value: 'new',
+            name: $localize `New`,
+        },
+        {
+            name: $localize `Hot`,
+            value: 'hot',
+        }
+    ];
 
     constructor(
         private service: MicroService,
@@ -113,6 +129,11 @@ export class MicroComponent implements OnInit, OnDestroy {
                 this.toastrService.warning(err.error.message);
             }
         });
+    }
+
+    public tapTab(val: string) {
+        this.queries.sort = val;
+        this.tapRefresh();
     }
 
     public tapBlock(item: IBlockItem) {
@@ -191,7 +212,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     public tapRemove(item: IMicro) {
-        this.toastrService.confirm($localize `Are you sure you want to delete this Weibo? `, () => {
+        this.toastrService.confirm($localize `Are you sure you want to delete this post? `, () => {
             this.service.remove(item.id).subscribe({
                 next: res => {
                     if (!res.data) {

@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 import * as fromAuth from './reducers/auth.reducer';
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
@@ -32,17 +32,19 @@ import { AppState as State } from './interfaces';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 export const reducers: ActionReducerMap<State> = {
-  auth: fromAuth.reducer,
+    auth: fromAuth.reducer,
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<State>): ActionReducer<State, Action> {
-  return (state: State, action: Action): State => {
-    // console.log('state', state);
-    // console.log('action', action);
+export function logger(
+    reducer: ActionReducer<State>
+): ActionReducer<State, Action> {
+    return (state: State, action: Action): State => {
+        // console.log('state', state);
+        // console.log('action', action);
 
-    return reducer(state, action);
-  };
+        return reducer(state, action);
+    };
 }
 
 /**
@@ -51,5 +53,5 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State, Acti
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [logger, storeFreeze]
-  : [];
+    ? [logger, storeFreeze]
+    : [];

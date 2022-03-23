@@ -21,6 +21,7 @@ const routes: Routes = [
             { path: 'blog', loadChildren: () => import('../blog/frontend/blog.module').then(m => m.BlogModule) },
             { path: 'forum', loadChildren: () => import('../forum/forum.module').then(m => m.ForumModule) },
             { path: 'micro', loadChildren: () => import('../micro/micro.module').then(m => m.MicroModule) },
+            { path: 'note', loadChildren: () => import('../note/note.module').then(m => m.NoteModule) },
             {
                 path: 'legwork',
                 canActivate: [CanActivateViaAuthGuard],

@@ -100,6 +100,10 @@ const routes: Routes = [{
             loadChildren: () => import('../navigation/backend/navigation-backend.module').then(m => m.NavigationBackendModule)
         },
         {
+            path: 'note',
+            loadChildren: () => import('../note/backend/note-backend.module').then(m => m.NoteBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },
