@@ -23,14 +23,13 @@
                 <app-switch id="is_main" formControlName="is_main"></app-switch>
             </div>
         </div>
-        <div *ngIf="data && data.is_system < 1">
+        <div *ngIf="!data || data.is_system < 1">
             <div class="input-group">
                 <label for="type">类型</label>
                 <div>
                     <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
                         <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                     </select>
-    
                 </div>
             </div>
             <div class="option-box">

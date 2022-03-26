@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog';
-import { IComment } from '../../../theme/models/blog';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { BlogService } from '../blog.service';
+import { ICmsComment } from '../../model';
+import { CmsService } from '../cms.service';
 
 @Component({
   selector: 'app-comment',
@@ -13,7 +13,7 @@ import { BlogService } from '../blog.service';
 })
 export class CommentComponent implements OnInit {
 
-    public items: IComment[] = [];
+    public items: ICmsComment[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -22,16 +22,22 @@ export class CommentComponent implements OnInit {
         page: 1,
         per_page: 20,
         user: 0,
-        blog: 0,
+        category: 0,
+        article: 0,
+        model: 0,
+        site: 0,
     };
 
     constructor(
-        private service: BlogService,
+        private service: CmsService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {}
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
@@ -55,7 +61,7 @@ export class CommentComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.getComment(queries).subscribe({
+        this.service.commentList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
@@ -78,9 +84,15 @@ export class CommentComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IComment) {
+    public tapRemove(item: ICmsComment) {
         this.toastrService.confirm('确定删除“' + item.content + '”评论？', () => {
-            this.service.commentRemove(item.id).subscribe(res => {
+            this.service.commentRemove({
+                article: this.queries.article,
+                site: this.queries.site,
+                category: this.queries.category,
+                model: this.queries.model,
+                id: item.id
+            }).subscribe(res => {
                 if (!res.data) {
                     return;
                 }

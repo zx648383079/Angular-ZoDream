@@ -8,6 +8,7 @@ import {
 import { CategoryComponent } from './category/category.component';
 import { EditCategoryComponent } from './category/edit/edit-category.component';
 import { CmsBackendComponent } from './cms-backend.component';
+import { CommentComponent } from './comment/comment.component';
 import { ContentComponent } from './content/content.component';
 import { EditContentComponent } from './content/edit/edit-content.component';
 import { FormDetailComponent } from './form/detail/detail.component';
@@ -59,6 +60,10 @@ const routes: Routes = [
     {
         path: 'site/:site/content/:category/:model/:parent',
         component: ContentComponent,
+    },
+    {
+        path: 'site/:site/content/:category/:model/:parent/comment/:article',
+        component: CommentComponent,
     },
     {
         path: 'site/:site/form/:model/:id',
@@ -127,5 +132,5 @@ export class CMSBackendRoutingModule {}
 export const cmsBackendRoutedComponents = [
     CmsBackendComponent, CategoryComponent, SiteComponent, ModelComponent, GroupComponent, LinkageComponent, LinkageDataComponent, EditModelComponent,
     ModelFieldComponent, EditFieldComponent, SiteOptionComponent, ContentComponent, EditCategoryComponent, EditContentComponent,
-    FormComponent, FormDetailComponent, EditSiteComponent
+    FormComponent, FormDetailComponent, EditSiteComponent, CommentComponent
 ];

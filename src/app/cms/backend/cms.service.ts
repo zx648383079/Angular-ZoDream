@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { ICmsCategory, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
+import { ICmsCategory, ICmsComment, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
 
 @Injectable()
 export class CmsService {
@@ -193,6 +193,18 @@ export class CmsService {
         return this.http.delete<IDataOne<true>>('cms/admin/linkage/data_delete', {
           params: {id}
         });
+    }
+
+    public commentList(params: any) {
+        return this.http.get<IPage<ICmsComment>>('cms/admin/comment', {
+            params
+        });
+    }
+
+    public commentRemove(params: any) {
+        return this.http.delete<IDataOne<true>>('cms/admin/comment/delete', {
+            params
+          });
     }
 
     public batch(data: {

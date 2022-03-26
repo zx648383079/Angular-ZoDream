@@ -1,3 +1,4 @@
+import { IExtraRule } from '../link-rule';
 import { IUser } from '../theme/models/user';
 
 export interface ICmsSite {
@@ -116,6 +117,22 @@ export interface ICmsContent {
     category?: ICmsCategory;
     user?: IUser;
     form_data?: ICmsFormGroup[];
+}
+
+export interface ICmsComment {
+    id: number;
+    content?: string;
+    parent_id: number;
+    user: IUser;
+    model_id: number;
+    content_id: number;
+    created_at?: string;
+    agree_count?: number;
+    disagree_count?: number;
+    reply_count?: number;
+    position?: number;
+    children?: ICmsComment[];
+    extra_rule?: IExtraRule[];
 }
 
 export interface ICmsFormGroup {

@@ -106,7 +106,9 @@ export class EditFieldComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: ICmsModelField = Object.assign({}, this.form.value);
+        const data: ICmsModelField = Object.assign({
+            model_id: this.model,
+        }, this.form.value);
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
@@ -118,9 +120,14 @@ export class EditFieldComponent implements OnInit {
             data.setting = {};
         }
         data.setting.option = option;
-        this.service.fieldSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        this.service.fieldSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
