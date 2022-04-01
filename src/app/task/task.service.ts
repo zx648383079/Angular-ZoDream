@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../theme/models/page';
-import { IShare, ITask, ITaskComment, ITaskDay, ITaskReview } from './model';
+import { IShare, ITask, ITaskComment, ITaskDay, ITaskPlan, ITaskReview } from './model';
 
 @Injectable()
 export class TaskService {
@@ -69,13 +69,22 @@ export class TaskService {
         return this.http.post<ITaskComment>('task/comment/save', params);
     }
 
+    public planList(params: any) {
+        return this.http.get<IPage<ITaskPlan>>('task/plan', {params});
+    }
+
+    public planSave(data: any) {
+        return this.http.post<ITaskPlan>('task/plan/save', data);
+    }
+
+    public planRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('task/plan/delete', {params: {id}});
+    }
+
     public review(params: any) {
         return this.http.get<IData<ITaskReview>>('task/review', {params});
     }
 
-    /**
-     * record
-     */
     public record(params: any) {
         return this.http.get<IPage<any>>('task/record', {params});
     }

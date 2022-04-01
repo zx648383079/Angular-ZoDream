@@ -1,0 +1,18 @@
+<div class="dialog-panel" [@panelOpen]="visible ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="visible = false"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text" [(ngModel)]="keywords" (keypress)="searchEnter($event)">
+        <i class="iconfont icon-search" (click)="tapSearch()"></i>
+    </div>
+    <div class="panel-body">
+        <div class="task-item" *ngFor="let item of items">
+            <div class="name">{{ item.name }}</div>
+            <div class="desc">{{ item.description }}</div>
+            <div class="action">
+                <i class="iconfont icon-plus" (click)="tapItem(item)"></i>
+            </div>
+        </div>
+    </div>
+</div>

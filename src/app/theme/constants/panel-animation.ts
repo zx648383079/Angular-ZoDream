@@ -6,7 +6,7 @@ export const PanelAnimation = trigger('panelOpen', [
         opacity: 1,
     })),
     state('closed', style({
-        right: '-300px',
+        right: '-30rem',
         opacity: 0,
     })),
     transition('* => closed', [

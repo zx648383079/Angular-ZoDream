@@ -14,6 +14,8 @@ import { TaskComponent } from './task.component';
 import { HourPipe } from './hour.pipe';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CircleProgressComponent } from './circle-progress/circle-progress.component';
+import { PlanComponent } from './plan/plan.component';
+import { TaskSelectComponent } from './task-select/task-select.component';
 
 const routes: Routes = [
     {
@@ -35,6 +37,10 @@ const routes: Routes = [
             {
                 path: 'list',
                 component: ListComponent,
+            },
+            {
+                path: 'plan',
+                component: PlanComponent,
             },
             {
                 path: 'setting',
@@ -77,6 +83,6 @@ export class TaskRoutingModule { }
 export const taskRoutingComponents = [
     TaskComponent, DetailComponent, EditComponent, ListComponent,
     HomeComponent, SettingComponent, ReviewComponent, RecordComponent, ShareDetailComponent, MyShareComponent, ShareComponent,
-    CommentPanelComponent, CircleProgressComponent,
-    HourPipe,
+    CommentPanelComponent, CircleProgressComponent, PlanComponent, TaskSelectComponent,
+    HourPipe, 
 ];

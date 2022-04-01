@@ -1,0 +1,131 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>这是所有任务计划列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <div class="tab-bar">
+                <ng-container *ngFor="let item of typeItems;let i = index">
+                    <div class="item" [ngClass]="{active: queries.type == i}" (click)="tapType(i)">
+                        按{{ item }}
+                    </div>
+                </ng-container>
+            </div>
+    
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" (click)="tapAdd()">添加</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="plan-box">
+        <ng-container *ngIf="queries.type < 1">
+            <div class="task-item" *ngFor="let item of items">
+                <div class="name">{{ item.task.name }}</div>
+                <div class="desc">{{ item.task.description }}</div>
+                <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
+                <div class="action">
+                    <a ><i class="iconfont icon-edit"></i></a>
+                    <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
+                </div>
+            </div>
+        </ng-container>
+        
+        <ng-container *ngIf="queries.type == 1">
+            <div class="week-box">
+                <div class="week-header">
+                    <section *ngFor="let item of weekItems">
+                        {{ item.label }}
+                    </section>
+                </div>
+                <div class="week-body">
+                    <ng-container *ngFor="let item of weekItems">
+                        <ng-container *ngFor="let it of item.items">
+                            <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
+                                <div class="name">{{ it.task.name }}</div>
+                                <div class="desc">{{ it.task.description }}</div>
+                                <div class="count" *ngIf="it.amount > 1">{{ it.amount }}</div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="queries.type == 2">
+            <div class="month-box">
+                <div class="day-item" *ngFor="let item of monthItems">
+                    <span class="day-label">{{ item.label }}</span>
+                    <ul class="day-box">
+                        <li class="task-item" *ngFor="let it of item.items">
+                            <div class="name">{{ it.task.name }}</div>
+                            <div class="desc">{{ it.task.description }}</div>
+                            <div class="count" *ngIf="it.amount > 1">{{ it.amount }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+
+<app-task-select></app-task-select>
+
+<app-dialog-box #addModal title="新增计划">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="name">名称</label>
+            <div>
+                {{ editData.task?.name }}
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="description">说明</label>
+            <div>
+                {{ editData.task?.description }}
+            </div>
+        </div>
+        <div class="input-group">
+            <label>数量</label>
+            <div>
+                <app-number-input [(ngModel)]="editData.amount" [min]="1" [max]="20"></app-number-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>优先级</label>
+            <div>
+                <app-number-input [(ngModel)]="editData.priority" [min]="1"  [max]="99"></app-number-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>类型</label>
+            <div>
+                <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="editData.plan_type"></app-check-input>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="editData.plan_type < 0">
+            <label>时间</label>
+            <div>
+                <app-date-input [(ngModel)]="editData.plan_time"></app-date-input>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="editData.plan_type == 1">
+            <label>星期</label>
+            <div>
+                <select class="form-control" [(ngModel)]="editData.plan_time">
+                    <option *ngFor="let item of weekNameItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="editData.plan_type == 2">
+            <label>天数</label>
+            <div>
+                <select class="form-control" [(ngModel)]="editData.plan_time">
+                    <option *ngFor="let item of monthNameItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

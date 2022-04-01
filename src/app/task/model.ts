@@ -1,4 +1,12 @@
+import { IItem } from '../theme/models/seo';
 import { IUser } from '../theme/models/user';
+
+export const TaskStatusItems: IItem[] = [
+    {name: '已完成', value: 1},
+    {name: '无', value: 5},
+    {name: '暂停中', value: 8},
+    {name: '执行中', value: 9},
+];
 
 export interface ITask {
     id?: number;
@@ -8,12 +16,14 @@ export interface ITask {
     status?: number;
     every_time?: number;
     time_length?: number;
-    time_format?: string;
     checked?: boolean;
     children?: ITask[];
     space_time?: number;
     duration?: number;
     start_at?: string;
+    formated_time?: string;
+    formated_status?: string;
+    tooltip?: string;
 }
 
 export interface ITaskComment {
@@ -53,6 +63,17 @@ export interface ITaskLog {
     time: number;
     time_format: string;
     task: ITask;
+}
+
+export interface ITaskPlan {
+    id?: number;
+    task_id: number;
+    amount: number;
+    plan_type: number;
+    plan_time: number|string;
+    priority: number;
+    created_at?: string;
+    task?: ITask;
 }
 
 export interface ITaskReview {

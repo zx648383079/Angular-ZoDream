@@ -58,9 +58,9 @@
 
 .dialog-panel {
     position: fixed;
-    right: -18.75rem;
+    right: -30rem;
     opacity: 0;
-    width: 18.75rem;
+    width: 30rem;
     top: 0;
     bottom: 0;
     background-color: #eee;
@@ -68,6 +68,7 @@
     box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
     display: flex;
     flex-direction: column;
+    transition: all .5s;
     .panel-header {
         min-height: 3.125rem;
         .iconfont {
@@ -147,5 +148,8 @@
         width: 100%;
         left: 0;
         margin-left: 0;
+    }
+    .dialog-panel {
+        width: 18.75rem;
     }
 }

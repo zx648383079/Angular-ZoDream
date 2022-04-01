@@ -11,11 +11,11 @@
                 <div class="input-group">
                     <label for="keywords">标题</label>
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题"
-                        [ngModel]="keywords">
+                        [ngModel]="queries.keywords">
                 </div>
                 <div class="input-group">
                     <label>状态</label>
-                    <select name="status" [ngModel]="status" class="form-control">
+                    <select name="status" [ngModel]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>
                         <ng-container *ngFor="let item of statusItems">
                             <option [value]="item.value">{{ item.name }}</option>
@@ -43,7 +43,7 @@
 
     <div class="panel-container">
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="page"
-            (pageChange)="tapPage()" [perPage]="perPage"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page"
+            (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
     </div>
 </div>

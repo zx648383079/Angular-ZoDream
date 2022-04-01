@@ -10,14 +10,14 @@
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="keywords">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
                 </div>
                 <div class="input-group">
                     <label>状态</label>
                     <select name="status" ngModel>
                         <option value="0">请选择</option>
                         <ng-container *ngFor="let item of statusItems">
-                            <option [value]="item.value" [selected]="status == item.value">{{ item.name }}</option>
+                            <option [value]="item.value" [selected]="queries.status == item.value">{{ item.name }}</option>
                         </ng-container>
                     </select>
                 </div>
@@ -27,13 +27,13 @@
         </div>
     </div>
 
-    <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
+    <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}" [title]="item.tooltip">
         <i class="checkbox" [ngClass]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
-        <div class="time">{{ item.time_length | hour }}</div>
+        <div class="time">{{ item.formated_time }}</div>
         <div class="action">
-            <i class="iconfont icon-plus" title="添加到今日任务" (click)="addToday(item)"></i>
+            <i class="iconfont icon-plus" title="添加到今日任务" *ngIf="item.status >= 5" (click)="addToday(item)"></i>
             <a [routerLink]="'../edit/' + item.id" title="编辑"><i class="iconfont icon-edit"></i></a>
             <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
         </div>
@@ -42,6 +42,6 @@
 
     <div class="panel-container">
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>

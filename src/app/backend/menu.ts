@@ -3,7 +3,7 @@ import { MenuReadyFn } from './menu.service';
 
 export const backendMenuItems = [
     {
-        name: '首页',
+        name: $localize `Home`,
         icon: 'icon-home',
         url: './'
     },
@@ -125,17 +125,17 @@ export const SmsBackendMenu: MenuReadyFn = function() {
 
 export const backendBottomMenu: INav[] = [
     {
-        name: '登录',
+        name: $localize `Login in`,
         icon: 'icon-user',
         url: './user/profile'
     },
     {
-        name: '设置',
+        name: $localize `Setting`,
         icon: 'icon-cog',
         url: './user/setting',
     },
     {
-        name: '返回前台',
+        name: $localize `Back to home`,
         icon: 'icon-desktop',
         url: '/',
     }

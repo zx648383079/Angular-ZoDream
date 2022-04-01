@@ -14,7 +14,7 @@ export class FinanceComponent {
 
     public navItems: INav[] = [
         {
-            name: '首页',
+            name: $localize `Home`,
             icon: 'icon-home',
             url: './'
         },
@@ -56,17 +56,17 @@ export class FinanceComponent {
 
     public bottomNavs: INav[] = [
         {
-            name: '请登录',
+            name: $localize `Login in`,
             icon: 'icon-user',
             url: './'
         },
         {
-            name: '设置',
+            name: $localize `Setting`,
             icon: 'icon-cog',
             url: './setting'
         },
         {
-            name: '返回前台',
+            name: $localize `Back to home`,
             icon: 'icon-desktop',
             url: '/',
         }

@@ -1,0 +1,74 @@
+.tab-bar {
+    display: inline-block;
+}
+.month-box {
+    height: 1100px;
+    .day-item {
+        width: 200px;
+        height: 200px;
+        float: left;
+        position: relative;
+        border-bottom: 1px solid;
+        .day-label {
+            font-size: 60px;
+            color: #ccc;
+        }
+        .day-box {
+            position: absolute;
+            bottom: 0;
+            list-style: none;
+            width: 100%;
+        }
+        .task-item {
+            position: static;
+        }
+        &:hover {
+            background-color: #fff;
+        }
+    }
+}
+
+.week-box,
+.month-box {
+    position: relative;
+    height: 600px;
+    width: 1400px;
+    .week-header,
+    .month-header {
+        height: 100%;
+        section {
+            height: 100%;
+            width: 200px;
+            line-height: 30px;
+            float: left;
+            text-align: center;
+            border-right: 1px dotted;
+            &:hover {
+                background-color: rgba(#f00, .1);
+            }
+        }
+    }
+    .week-body,
+    .month-body {
+        border-top: 1px solid;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        right: 0;
+        bottom: 0;   
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    .task-item {
+        min-height: 0;
+        margin: 0;
+        padding: 5px;
+        width: 200px;
+    }
+    .add-btn {
+        display: block;
+        line-height: 2rem;
+    }
+}

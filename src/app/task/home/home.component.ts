@@ -1,30 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../dialog';
-import { PanelAnimation } from '../../theme/constants/panel-animation';
+import { IPageQueries } from '../../theme/models/page';
+import { applyHistory, getQueries } from '../../theme/query';
 import { emptyValidate } from '../../theme/validators';
 import { ITask, ITaskDay } from '../model';
+import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    animations: [
-        PanelAnimation
-    ],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+
+    @ViewChild(TaskSelectComponent)
+    private taskModal: TaskSelectComponent;
 
     public items: ITaskDay[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public panelOpen = false;
-    public taskItems: ITask[] = [];
-    public keywords = '';
+    public queries: IPageQueries = {
+        page: 1,
+        per_page: 20,
+    };
     public taskData: ITask = {} as any;
 
     constructor(
@@ -33,7 +34,13 @@ export class HomeComponent {
         private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {
-        this.tapRefresh();
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapView(item: ITaskDay) {
@@ -44,11 +51,15 @@ export class HomeComponent {
         this.goPage(1);
     }
 
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -56,19 +67,24 @@ export class HomeComponent {
             return;
         }
         this.isLoading = true;
-        this.service.dayList({
-            page
-        }).subscribe({
+        const queries = {...this.queries, page};
+        this.service.dayList(queries).subscribe({
             next: res => {
-                this.page = page;
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                this.perPage = res.paging.limit;
-            }, error: () => {
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
                 this.isLoading = false;
             }
+        });
+    }
+
+    public tapAdd() {
+        this.taskModal.open(item => {
+            this.tapAddTo(item);
         });
     }
 
@@ -83,24 +99,6 @@ export class HomeComponent {
                 }
             }
             this.items.push(res);
-        });
-    }
-
-    public searchEnter(event: KeyboardEvent) {
-        if (event.key !== 'Enter') {
-            return;
-        }
-        this.tapSearch();
-    }
-
-    public tapSearch() {
-        this.service.taskList({
-            page: 1,
-            parent_id: 0,
-            status: 1,
-            keywords: this.keywords,
-        }).subscribe(res => {
-            this.taskItems = res.data;
         });
     }
 

@@ -28,6 +28,12 @@ export class IncomeComponent implements OnInit {
     public queries: IPageQueries = {
         keywords: '',
         type: 0,
+        account: 0,
+        project: 0,
+        channel: 0,
+        budget: 0,
+        start_at: '',
+        end_at: '',
         page: 1,
         per_page: 20,
     };
@@ -70,18 +76,7 @@ export class IncomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, {
-                keywords: '',
-                type: 0,
-                account: 0,
-                project: 0,
-                channel: 0,
-                budget: 0,
-                start_at: '',
-                end_at: '',
-                page: 1,
-                per_page: 20,
-            });
+            this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -115,25 +110,17 @@ export class IncomeComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
+                this.isLoading = false;
                 applyHistory(this.queries = queries);
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = {
-            page: this.queries.page,
-            per_page: this.queries.per_page,
-        };
-        eachObject(form, (val, key) => {
-            if (val === undefined || val === null) {
-                val = '';
-            }
-            this.queries[key] = val;
-        });
+        this.queries = getQueries(form, this.queries);
         this.panelOpen = false;
         this.tapRefresh();
     }

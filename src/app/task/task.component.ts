@@ -33,6 +33,11 @@ export class TaskComponent implements OnInit {
                     url: './list'
                 },
                 {
+                    name: '任务计划',
+                    icon: 'icon-calendar',
+                    url: './plan'
+                },
+                {
                     name: '添加任务',
                     icon: 'icon-plus',
                     url: './create'
@@ -107,17 +112,17 @@ export class TaskComponent implements OnInit {
     ];
 
     public bottomNavs: INav[] = [{
-            name: 'zodream',
+            name: $localize `Login in`,
             icon: 'icon-user',
             url: './'
         },
         {
-            name: '设置',
+            name: $localize `Setting`,
             icon: 'icon-cog',
             url: './setting'
         },
         {
-            name: '返回前台',
+            name: $localize `Back to home`,
             icon: 'icon-desktop',
             url: '/',
         }

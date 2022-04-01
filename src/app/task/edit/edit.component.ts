@@ -37,11 +37,8 @@ export class EditComponent implements OnInit {
     });
 
     public data: ITask;
-
     public items: ITask[] = [];
-
     public editData: ITask = {} as any;
-
     public shareData: IShare = {} as any;
 
     constructor(

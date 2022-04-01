@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog';
+import { IPageQueries } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
-import { ITask } from '../model';
+import { applyHistory, getQueries } from '../../theme/query';
+import { formatHour, mapFormat } from '../../theme/utils';
+import { ITask, TaskStatusItems } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -9,16 +13,19 @@ import { TaskService } from '../task.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
 
     public items: ITask[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
-    public status = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+        status: 0,
+        parent_id: 0,
+    };
     public statusItems: IItem[] = [
         {
             name: '进行中',
@@ -33,19 +40,18 @@ export class ListComponent {
     constructor(
         private service: TaskService,
         private toastrService: DialogService,
+        private route: ActivatedRoute,
     ) {
-        this.tapRefresh();
     }
 
-    public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
-        this.status = form.status || 0;
-        this.tapRefresh();
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
-    public tapPage() {
-        this.goPage(this.page);
-    }
+
 
     public addToday(item: ITask) {
         this.service.daySave({
@@ -70,6 +76,14 @@ export class ListComponent {
         });
     }
 
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
 
     public tapRefresh() {
         this.goPage(1);
@@ -79,7 +93,7 @@ export class ListComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -87,21 +101,26 @@ export class ListComponent {
             return;
         }
         this.isLoading = true;
-        this.service.taskList({
-            page,
-            status: this.status,
-            keywords: this.keywords,
-            parent_id: 0,
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page};
+        this.service.taskList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data.map(this.formatItem);
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
+    }
+
+    private formatItem(item: ITask): ITask {
+        item.formated_time = formatHour(item.time_length, undefined, true);
+        item.formated_status = mapFormat(item.status, TaskStatusItems);
+        item.tooltip = `已执行时间: ${item.formated_time}\n状态: ${item.formated_status}`;
+        return item;
     }
 
 }

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog';
+import { IPageQueries } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
+import { applyHistory, getQueries } from '../../theme/query';
 import { IShare } from '../model';
 import { TaskService } from '../task.service';
 
@@ -10,16 +12,18 @@ import { TaskService } from '../task.service';
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.scss']
 })
-export class ShareComponent {
+export class ShareComponent implements OnInit {
 
     public items: IShare[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
-    public status = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        status: 0,
+        page: 1,
+        per_page: 20,
+    };
     public statusItems: IItem[] = [
         {
             name: '进行中',
@@ -34,9 +38,16 @@ export class ShareComponent {
     constructor(
         private service: TaskService,
         private toastrService: DialogService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
-        this.tapRefresh();
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapView(item: IShare) {
@@ -44,13 +55,12 @@ export class ShareComponent {
     }
 
     public tapSearch(form: any) {
-        this.keywords = form.keywords || '';
-        this.status = form.status || 0;
+        this.queries = getQueries(form, this.queries);
         this.tapRefresh();
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapRemove(item: IShare) {
@@ -77,7 +87,7 @@ export class ShareComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -85,20 +95,18 @@ export class ShareComponent {
             return;
         }
         this.isLoading = true;
-        this.service.shareList({
-            page,
-            status: this.status,
-            keywords: this.keywords,
-            parent_id: 0,
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries, page};
+        this.service.shareList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.isLoading = false;
+                applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
