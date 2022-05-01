@@ -1,6 +1,6 @@
 import { AppState } from '../interfaces';
 import { createSelector } from 'reselect';
-import { AuthState } from './auth.state';
+import { AuthState } from './auth.reducer';
 import { IUser } from '../models/user';
 
 // Base state function

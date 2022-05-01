@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ShopAppState, shopFeatureKey, ShopState } from './shop.reducer';
+import { shopFeatureKey, ShopState } from './shop.reducer';
 
-export const selectShop = createFeatureSelector<ShopAppState, ShopState>(shopFeatureKey);
+export const selectShop = createFeatureSelector<ShopState>(shopFeatureKey);
 
 export const selectShopCart = createSelector(
     selectShop,

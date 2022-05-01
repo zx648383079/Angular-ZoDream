@@ -17,8 +17,7 @@ export class AppComponent implements OnInit {
         if (loading) {
             loading.style.display = 'none';
         }
-        this.auth.loginFromStorage();
-        this.auth.loginFromCookie();
+        this.auth.systemBoot();
     }
 
     ngOnInit() {

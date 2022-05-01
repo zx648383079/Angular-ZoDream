@@ -13,15 +13,20 @@
                             <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
                         </div>
                         <div *ngIf="item.type == 'select'">
-                            <select class="form-control"  [(ngModel)]="item.value">
-                                <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
+                            <select class="form-control" [(ngModel)]="item.value">
+                                <ng-container *ngIf="item.itemKey == 1">
+                                    <option *ngFor="let val of item.items;let i = index" [value]="i">{{ val }}</option>
+                                </ng-container>
+                                <ng-container *ngIf="item.itemKey != 1">
+                                    <option *ngFor="let val of item.items" [value]="val.value">{{ val.name }}</option>
+                                </ng-container>
                             </select>
                         </div>
                         <div *ngIf="item.type == 'radio'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                            <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value"></app-check-input>
                         </div>
                         <div *ngIf="item.type == 'checkbox'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                            <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
                         </div>
                         <div *ngIf="item.type == 'switch'">
                             <app-switch [(ngModel)]="item.value"></app-switch>

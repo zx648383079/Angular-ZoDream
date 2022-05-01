@@ -94,7 +94,7 @@ export class AuthService {
     }
 
     public inviteCodeCreate(data: any) {
-        return this.http.post<any>('auth/admin/invite/create', data);
+        return this.http.post<any>('auth/admin/invite/save', data);
     }
 
     public inviteCodeRemove(id: any) {

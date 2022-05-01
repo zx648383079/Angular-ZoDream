@@ -1,5 +1,6 @@
 import { environment } from '../../environments/environment';
 import * as fromAuth from './reducers/auth.reducer';
+import * as fromSys from './reducers/system.reducer';
 import { Action } from '@ngrx/store';
 
 /**
@@ -32,7 +33,8 @@ import { AppState as State } from './interfaces';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 export const reducers: ActionReducerMap<State> = {
-    auth: fromAuth.reducer,
+    [fromAuth.AuthFeatureKey]: fromAuth.reducer,
+    [fromSys.SystemFeatureKey]: fromSys.reducer,
 };
 
 // console.log all actions

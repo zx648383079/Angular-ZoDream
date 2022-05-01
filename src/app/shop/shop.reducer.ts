@@ -1,8 +1,8 @@
 import { Action, createReducer, on, State } from '@ngrx/store';
 import { Map, Record } from 'immutable';
+import { AppState } from '../theme/interfaces';
 import { ISite } from '../theme/models/seo';
 import { IAddress, ICart, ICartGroup } from '../theme/models/shop';
-import { AuthState } from '../theme/reducers/auth.state';
 import { logoutClear, setCart, setCheckoutCart, setSite } from './shop.actions';
 
 interface IShopState {
@@ -35,8 +35,7 @@ const shopReducer = createReducer(
 );
 
 export const shopFeatureKey = 'shop';
-export interface ShopAppState {
-    auth: AuthState;
+export interface ShopAppState extends AppState {
     [shopFeatureKey]: ShopState;
 }
 

@@ -68,10 +68,11 @@ export interface IOption {
     type: string;
     visibility: number;
     default_value: string;
-    value: string;
+    value: string|number;
     position: number;
-    items?: string[];
-    values?: string[];
+    items?: any[];
+    itemKey?: any;
+    values?: any[];
     children?: IOption[];
 }
 

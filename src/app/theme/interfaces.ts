@@ -1,4 +1,5 @@
-import { AuthState } from './reducers/auth.state';
+import * as fromAuth from './reducers/auth.reducer';
+import * as fromSys from './reducers/system.reducer';
 
 // This should hold the AppState interface
 // Ideally importing all the substate for the application
@@ -8,5 +9,6 @@ import { AuthState } from './reducers/auth.state';
  *
  */
 export interface AppState {
-    auth: AuthState;
+    [fromAuth.AuthFeatureKey]: fromAuth.AuthState;
+    [fromSys.SystemFeatureKey]: fromSys.SystemState;
 }

@@ -35,6 +35,7 @@ import {
 import { IDataOne } from '../models/page';
 import { map } from 'rxjs/operators';
 import { DialogService } from '../../dialog';
+import { setSystemConfig } from '../actions/system.actions';
 
 const USER_KEY = 'user';
 
@@ -44,7 +45,7 @@ export class AuthService {
     constructor(
         private http: HttpClient,
         private actions: AuthActions,
-        private store: Store < AppState > ,
+        private store: Store<AppState>,
         private toastrService: DialogService,
         private cookieService: CookieService,
         @Inject(PLATFORM_ID) private platformId: any) {}
@@ -156,27 +157,18 @@ export class AuthService {
     }
 
     public loginFromStorage() {
-        let user: any = localStorage.getItem(USER_KEY);
+        const user = this.loadFromStorage();
         if (!user) {
             return false;
         }
-        user = JSON.parse(user);
         return this.authenticateUser(user);
     }
 
     public loginFromCookie() {
-        const key = environment.appid + 'token';
-        const data = this.cookieService.get(key);
-        if (!data) {
+        const token = this.loadFromCookie();
+        if (!token) {
             return;
         }
-        this.cookieService.delete(key);
-        const res = JSON.parse(data);
-        if (res.code !== 200) {
-            this.toastrService.warning(res.error);
-            return;
-        }
-        const token = res.token;
         this.http.get<IUser>('auth/user', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -185,6 +177,65 @@ export class AuthService {
             user.token = token;
             this.setTokenInLocalStorage(user);
         });
+    }
+
+    /**
+     * 系统启动时调用, 加载系统设置和用户登录信息
+     */
+    public systemBoot() {
+        let token = '';
+        const user = this.loadFromStorage();
+        if (user) {
+            token = user.token;
+        }
+        const key = this.loadFromCookie();
+        if (key) {
+            token = key;
+        }
+        const options = token ? {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        } : {};
+        this.http.post<{
+            seo_configs: any,
+            auth_profile: IUser|undefined,
+        }>('open/batch', {
+            seo_configs: {},
+            auth_profile: {},
+        }, options).subscribe(res => {
+            if (res.seo_configs) {
+                this.store.dispatch(setSystemConfig({configs: res.seo_configs}));
+            }
+            if (res.auth_profile && !(res.auth_profile instanceof Array)) {
+                const user = res.auth_profile;
+                user.token = token;
+                this.authenticateUser(user);
+            }
+        });
+    }
+
+    private loadFromStorage(): IUser|undefined {
+        let user: any = localStorage.getItem(USER_KEY);
+        if (!user) {
+            return undefined;
+        }
+        return JSON.parse(user);
+    }
+
+    private loadFromCookie(): string|undefined {
+        const key = environment.appid + 'token';
+        const data = this.cookieService.get(key);
+        if (!data) {
+            return undefined;
+        }
+        this.cookieService.delete(key);
+        const res = JSON.parse(data);
+        if (res.code !== 200) {
+            this.toastrService.warning(res.error);
+            return undefined;
+        }
+        return res.token;
     }
 
     private authenticateUser(user: IUser) {

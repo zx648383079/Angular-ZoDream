@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../dialog';
 import { ButtonEvent } from '../../form';
-import { IOption } from '../../theme/models/seo';
+import { IItem, IOption } from '../../theme/models/seo';
+import { parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 
@@ -46,9 +47,13 @@ export class SystemComponent implements OnInit {
                 group.children = group.children.map(item => {
                     if (['select', 'radio', 'checkbox'].indexOf(item.type)) {
                         item.items = this.strToArr(item.default_value);
-                    }
+                        item.itemKey = 1;
+                        if (item.items instanceof Array && typeof item.items === 'object') {
+                            item.itemKey = 'value';
+                        }
+                    } 
                     if (item.type === 'checkbox') {
-                        item.values = item.value.split(',');
+                        item.values = (item.value as string).split(',');
                     }
                     return item;
                 });
@@ -59,20 +64,24 @@ export class SystemComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    private strToArr(val: any): string[] {
+    private strToArr(val: any): string[]|IItem[] {
         if (typeof val === 'object') {
             return val;
         }
-        const items: string[] = [];
-        val.toString().split('\n').forEach((item: string) => {
+        const items: any[] = [];
+        val.toString().split('\n').forEach((item: string, i: number) => {
+            let key: number|string = i;
             item = item.replace('\r', '').trim();
             if (!item || item.length < 1) {
                 return;
             }
-            if (items.indexOf(item) >= 0) {
-                return;
+            if (item.indexOf(':') > 0) {
+                [key, item] = splitStr(item, ':', 2);
             }
-            items.push(item);
+            items.push({
+                name: item,
+                value: key
+            });
         });
         return items;
     }

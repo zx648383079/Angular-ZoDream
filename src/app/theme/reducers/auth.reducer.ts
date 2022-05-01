@@ -1,8 +1,27 @@
 import { Action } from '@ngrx/store';
 import { AuthActions } from '../actions/auth.actions';
-import { AuthState, AuthStateRecord } from './auth.state';
+import { Map, Record } from 'immutable';
+import { IUser } from '../models/user';
+
+interface IAuthState {
+    guest: boolean;
+    user: IUser;
+    roles: string[];
+}
+
+export interface AuthState extends Map<string, any>, IAuthState {
+}
+
+export const AuthStateRecord = Record({
+    guest: true,
+    user: null,
+    roles: [],
+});
+
 
 export const initialState: any = new AuthStateRecord();
+
+export const AuthFeatureKey = 'auth';
 
 export function reducer(state = initialState, { type, payload }: Action & { payload }): AuthState {
     switch (type) {

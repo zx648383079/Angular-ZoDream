@@ -8,7 +8,8 @@ import {
 } from '@angular/forms';
 import {
     passwordValidator,
-    confirmValidator
+    confirmValidator,
+    emptyValidate
 } from '../../theme/validators';
 import {
     IErrorResponse
@@ -17,6 +18,10 @@ import {
     AuthService, ThemeService
 } from '../../theme/services';
 import { DialogService } from '../../dialog';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../theme/interfaces';
+import { selectSystemConfig } from '../../theme/reducers/system.selectors';
+import { parseNumber } from '../../theme/utils';
 
 @Component({
     selector: 'app-register',
@@ -26,7 +31,7 @@ import { DialogService } from '../../dialog';
 export class RegisterComponent implements OnInit {
 
     public isObserve = false;
-
+    public openStatus = 0;
     public registerForm = this.fb.group({
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -43,8 +48,12 @@ export class RegisterComponent implements OnInit {
         private toastrService: DialogService,
         private authService: AuthService,
         private themeService: ThemeService,
+        private store: Store<AppState>,
     ) {
         this.themeService.setTitle($localize `Sign up`);
+        this.store.select(selectSystemConfig).subscribe(res => {
+            this.openStatus = parseNumber(res.auth_register);
+        });
     }
 
     ngOnInit() {}
@@ -58,11 +67,20 @@ export class RegisterComponent implements OnInit {
     }
 
     public tapSignUp() {
+        if (this.openStatus == 2) {
+            this.toastrService.error($localize `Sorry, membership registration is closed, opening hours are undecided!`);
+            return;
+        }
         if (!this.registerForm.valid) {
             return;
         }
+        const data = Object.assign({}, this.registerForm.value);
+        if (this.openStatus == 1 && emptyValidate(data.invite_code)) {
+            this.toastrService.warning($localize `Please input your invitation code!`);
+            return;
+        }
         this.authService
-            .register(Object.assign({}, this.registerForm.value)).subscribe({
+            .register(data).subscribe({
                 error: err => {
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);

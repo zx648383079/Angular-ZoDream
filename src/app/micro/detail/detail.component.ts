@@ -115,7 +115,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapRemove(item: IMicro) {
-        this.toastrService.confirm($localize `Are you sure you want to delete this Weibo? `, () => {
+        this.toastrService.confirm($localize `Are you sure you want to delete this post? `, () => {
             this.service.remove(item.id).subscribe({
                 next: res => {
                     if (!res.data) {

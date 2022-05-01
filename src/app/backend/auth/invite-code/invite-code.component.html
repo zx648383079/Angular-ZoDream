@@ -37,7 +37,7 @@
                     <td>{{ item.user?.name }}</td>
                     <td>{{ item.code }}</td>
                     <td>{{ item.amount | numberFormat }}/{{ item.invite_count | numberFormat }}</td>
-                    <td>{{ item.expired_at | date }}</td>
+                    <td>{{ item.expired_at | timestamp }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
