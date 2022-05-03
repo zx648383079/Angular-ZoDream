@@ -258,8 +258,10 @@ export class Widget implements WidgetBound {
             };
         }
         const data: IStyle = {
+            position: 'absolute',
             left: this.x + this.unit,
             top: this.y  + this.unit,
+            'z-index': this.zIndex,
         };
         if (this.width > 0 || this.height > 0) {
             data.width = this.width + this.unit;

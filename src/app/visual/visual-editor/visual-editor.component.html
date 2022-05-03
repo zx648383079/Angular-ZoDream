@@ -4,42 +4,7 @@
         <app-editor-soul></app-editor-soul>
     </div>
     <div class="panel-main" #mainBox>
-        <div class="flex-container" (mousedown)="onSelectStart($event)">
-            <div class="zoom-box" [ngStyle]="zoomStyle">
-                <!-- 模拟样式 -->
-                <div class="shell-box">
-                    <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
-                </div>
-                <div class="zoom-area" #zoomBox (contextmenu)="onContext($event)">
-                    <ng-container *ngFor="let item of widgetItems$ | async">
-                        <div class="widget-shell" [ngStyle]="item.style"  (contextmenu)="onContext($event, item)">
-                            <app-editor-widget [value]="item"></app-editor-widget>
-                        </div>
-                    </ng-container>
-                </div>
-                <!-- 编辑widget的样式 -->
-                <div class="widget-reflection">
-                    <app-editor-reflection></app-editor-reflection>
-                </div>
-            </div>
-             <!-- 选中区域rect -->
-            <div class="selection-rect" [ngStyle]="selectionStyle">
-
-            </div>
-        </div>
-        <!-- 标尺 -->
-        <div class="rule-box">
-            <app-editor-rule-bar></app-editor-rule-bar>
-        </div>
-        <!-- 滚动条 -->
-        <div class="track-box">
-            <div class="x-track" (mousedown)="scrolBarMove(true, $event)">
-                <div class="x-handler" [ngStyle]="barHStyle" ></div>
-            </div>
-            <div class="y-track" (mousedown)="scrolBarMove(false, $event)">
-                <div class="y-handler" [ngStyle]="barVStyle"></div>
-            </div>
-        </div>
+        <app-editor-work-body></app-editor-work-body>
         <!-- 属性编辑 -->
         <div class="property-box">
             <app-editor-property></app-editor-property>
@@ -63,5 +28,3 @@
         </div>
     </ng-container>
 </div>
-
-<app-context-menu></app-context-menu>

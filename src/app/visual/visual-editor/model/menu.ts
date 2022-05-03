@@ -7,41 +7,43 @@ export const EditorNotSelected: IMenuItem[]  = [
     },
 ];
 
-export const EditorSelected: IMenuItem[]  = [
-    {
-        name: '复制',
-        icon: 'icon-copy'
-    },
-    {
-        name: '剪切',
-        icon: 'icon-cut'
-    },
-    {},
-    {
-        name: '组合',
-        icon: 'icon-zuhe',
-        disable: true,
-    },
-    {
-        name: '打散',
-        icon: 'icon-quxiaozuhe',
-        disable: true,
-    },
-    {},
-    {
-        name: '置顶',
-        icon: 'icon-chevron-up',
-    },
-    {
-        name: '置底',
-        icon: 'icon-chevron-down',
-    },
-    {},
-    {
-        name: '删除',
-        icon: 'icon-trash',
-    },
-];
+export const EditorSelected = (canMerge = false, canSplit = false): IMenuItem[] => {
+    return [
+        {
+            name: '复制',
+            icon: 'icon-copy'
+        },
+        {
+            name: '剪切',
+            icon: 'icon-cut'
+        },
+        {},
+        {
+            name: '组合',
+            icon: 'icon-zuhe',
+            disable: !canMerge,
+        },
+        {
+            name: '打散',
+            icon: 'icon-quxiaozuhe',
+            disable: !canSplit,
+        },
+        {},
+        {
+            name: '置顶',
+            icon: 'icon-chevron-up',
+        },
+        {
+            name: '置底',
+            icon: 'icon-chevron-down',
+        },
+        {},
+        {
+            name: '删除',
+            icon: 'icon-trash',
+        },
+    ];
+}
 
 
 export const EditorLayer: IMenuItem[] = [

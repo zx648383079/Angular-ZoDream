@@ -6,7 +6,6 @@ import { ContextMenuModule } from '../../context-menu/context-menu.module';
 import { DialogModule } from '../../dialog';
 import { EditorLayerComponent } from './editor-layer/editor-layer.component';
 import { EditorPropertyComponent } from './editor-property/editor-property.component';
-import { EditorRuleBarComponent } from './editor-rule-bar/editor-rule-bar.component';
 import { EditorShellComponent } from './editor-shell/editor-shell.component';
 import { EditorSoulComponent } from './editor-soul/editor-soul.component';
 import { EditorToolBarComponent } from './editor-tool-bar/editor-tool-bar.component';
@@ -33,6 +32,11 @@ import { ShadowInputComponent } from './editor-property/shadow-input/shadow-inpu
 import { SideSelectComponent } from './editor-property/side-select/side-select.component';
 import { ZreFormModule } from '../../form';
 import { ProgressModule } from '../../progress';
+import { EditorWorkBodyComponent } from './editor-work-body/editor-work-body.component';
+import { EditorScrollBarComponent } from './editor-scroll-bar/editor-scroll-bar.component';
+import { EditorRuleBarComponent } from './editor-rule-panel/editor-rule-bar/editor-rule-bar.component';
+import { EditorRulePanelComponent } from './editor-rule-panel/editor-rule-panel.component';
+import { EditorScaleBarComponent } from './editor-scale-bar/editor-scale-bar.component';
 
 @NgModule({
     imports: [
@@ -46,14 +50,18 @@ import { ProgressModule } from '../../progress';
     ],
     declarations: [	
         VisualEditorComponent, 
+        EditorWorkBodyComponent,
         EditorLayerComponent, 
         EditorPropertyComponent,
+        EditorRulePanelComponent,
+        EditorScaleBarComponent,
         EditorRuleBarComponent,
         EditorShellComponent,
         EditorSoulComponent,
         EditorToolBarComponent,
         EditorWidgetComponent,
         EditorReflectionComponent,
+        EditorScrollBarComponent,
 
         MobileBarComponent,
         TabBarComponent,

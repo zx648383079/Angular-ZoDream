@@ -1,0 +1,80 @@
+:host {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.work-container {
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.work-outer-panel {
+    position: relative;
+}
+.work-inner-panel {
+    position: absolute;
+    width: 414px;
+    height: 600px;
+    background-color: #fff;
+    transition: all .3s;
+}
+.work-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px #d9d9d9;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+.widget-cell {
+    position: absolute;
+    cursor: pointer;
+}
+
+$trackWidth: .4rem;
+
+.x-track,
+.y-track {
+    position: absolute;
+    z-index: 200;
+}
+.x-track {
+    height: $trackWidth;
+    left: 0;
+    right: $trackWidth;
+    bottom: 0;
+}
+.y-track {
+    top: 0;
+    bottom: $trackWidth;
+    right: 0;
+    width: $trackWidth;
+}
+
+app-editor-scale-bar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 5rem;
+}
+
+.selection-rect {
+    position: fixed;
+    background: rgba(38,168,255,.1);
+    outline: #1e98ea solid 1px;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}

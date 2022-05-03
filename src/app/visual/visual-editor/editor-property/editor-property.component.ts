@@ -7,7 +7,7 @@ import { alginOptions, WidgetType } from '../model';
   templateUrl: './editor-property.component.html',
   styleUrls: ['./editor-property.component.scss']
 })
-export class EditorPropertyComponent implements OnInit {
+export class EditorPropertyComponent {
 
     public panelToggle: any = {
         
@@ -18,21 +18,25 @@ export class EditorPropertyComponent implements OnInit {
     public widgetType = WidgetType.CONTROL;
 
     public alginItems = alginOptions;
+    private baseHeight = 600;
 
     public get boxStyle() {
         return {
-            height: 600 + 'px',
+            height: this.baseHeight + 'px',
         };
     }
 
     constructor(
         private service: EditorService,
-    ) { }
-
-
-    public ngOnInit() {
-        this.service.editWidget$.subscribe(res => {
+    ) {
+        this.service.resize$.subscribe(res => {
             if (!res) {
+                return;
+            }
+            this.baseHeight = res.zoom.height - 80;
+        });
+        this.service.selectionChanged$.subscribe(res => {
+            if (res.length != 1) {
                 this.panelVisible = false;
                 return;
             }

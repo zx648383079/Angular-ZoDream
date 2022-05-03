@@ -1,9 +1,9 @@
-<div class="rule-bar" #ruleBar>
+<div class="rule-bar">
     <div class="rule-icon" (click)="tapIcon($event)">
         <i class="iconfont icon-cog"></i>
     </div>
     <div class="h-container" (mouseleave)="onLineEnd()">
-        <canvas #hCanvas (click)="tapBar($event, true)" (mousemove)="onLineMove($event, true)"></canvas>
+        <app-editor-rule-bar [offset]="offsetX" [scale]="scale" (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
         <div class="line-bar" *ngIf="lineVisible">
             <ng-container *ngFor="let item of hLines; let i = index">
                 <div class="line line-h" [ngStyle]="{left: item.value + 'px'}">
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="v-container" (mouseleave)="onLineEnd()">
-        <canvas #vCanvas (click)="tapBar($event, false)" (mousemove)="onLineMove($event, false)"></canvas>
+        <app-editor-rule-bar [orientation]="false" [offset]="offsetY" [scale]="scale" (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
         <div class="line-bar" *ngIf="lineVisible">
             <ng-container *ngFor="let item of vLines; let i = index">
                 <div class="line line-v" [ngStyle]="{top: item.value + 'px'}">

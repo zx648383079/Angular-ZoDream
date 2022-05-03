@@ -1,0 +1,28 @@
+.scroll-bar {
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    .inner-bar {
+        position: absolute;
+        cursor: pointer;
+        background-color: rgba(0,0,0,0.2);
+        transition: background 0.3s ease-in-out;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+    }
+    &.vertical-bar {
+        .inner-bar {
+            bottom: auto;
+            right: 0;
+            height: 100%;
+            height: 100%;
+        }
+    }
+    &:hover {
+        .inner-bar {
+            background-color: rgba(0,0,0,0.5);
+        }
+    }
+}

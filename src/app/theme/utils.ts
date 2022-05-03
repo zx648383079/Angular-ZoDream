@@ -29,6 +29,16 @@ export function parseNumber(val: any): number {
     return isNaN(val) ? 0 : val;
 }
 
+export function checkRange(val: number, min = 0, max = 100): number {
+    if (val < min) {
+        return min;
+    }
+    if (max > min && val > max) {
+        return max;
+    }
+    return val;
+}
+
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }

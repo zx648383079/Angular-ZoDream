@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { cloneObject } from '../../theme/utils';
+import { CommandManager, ICommandManager } from './command';
 import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
 import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType } from './model';
-import { IActionItem, ICatalogItem, IPoint, IResetEvent } from './model/core';
-import { ActionHistory } from './model/history';
+import { ICatalogItem, IPoint, IResetEvent } from './model/core';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,12 @@ export class EditorService {
      * 主窗口变化事件
      */
     public readonly resize$ = new BehaviorSubject<IResetEvent|null>(null);
+    public readonly mouseMove$ = new Subject<IPoint>();
+    public readonly mouseUp$ = new Subject<IPoint>();
+    private mouseMoveListeners = {
+        move: undefined,
+        finish: undefined,
+    };
 
     public readonly catalogItems$ = new BehaviorSubject<ICatalogItem[]>([]);
     // 当前自由面板内的组件列表内容
@@ -30,14 +36,38 @@ export class EditorService {
     /**
      * 编辑控件
      */
-    public readonly editWidget$ = new BehaviorSubject<Widget>(null);
+    public readonly selectionChanged$ = new BehaviorSubject<Widget[]>([]);
 
     public readonly widgetItems = [...controlSource, ...inputSource, ...panelSource];
 
-    public readonly histories = new ActionHistory();
+    public commandManager: ICommandManager;
 
-    constructor() { }
+    constructor() {
+        this.mouseMove$.subscribe(res => {
+            if (this.mouseMoveListeners.move) {
+                this.mouseMoveListeners.move(res);
+            }
+        });
+        this.mouseUp$.subscribe(res => {
+            if (this.mouseMoveListeners.finish) {
+                this.mouseMoveListeners.finish(res);
+            }
+        });
+    }
 
+    public get hasMoveListener() {
+        return typeof this.mouseMoveListeners.move !== 'undefined';
+    }
+
+    public mouseMove(move?: (p: IPoint) => void, finish?: (p: IPoint) => void) {
+        this.mouseMoveListeners = {
+            move,
+            finish: !move && !finish ? undefined : (p: IPoint) => {
+                this.mouseMoveListeners = {move: undefined, finish: undefined};
+                finish && finish(p);
+            },
+        };
+    }
 
     /**
      * 获取唯一值
@@ -55,6 +85,7 @@ export class EditorService {
             data.push(item);
         });
         this.widgetCellItems$.next(data);
+        
     }
 
     public removeWidget(...items: Widget[]) {
@@ -105,11 +136,11 @@ export class EditorService {
      * @returns 
      */
     public zoomLocation<T extends IPoint>(p: T, clone = false): T {
+        const obj = clone ? cloneObject(p) : p;
         const res = this.resize$.value;
         if (!res || !res.zoom) {
-            return;
+            return obj;
         }
-        const obj = clone ? cloneObject(p) : p;
         obj.x -= res.zoom.x;
         obj.y -= res.zoom.y;
         return obj;

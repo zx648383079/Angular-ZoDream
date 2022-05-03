@@ -2,7 +2,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 3;
+    z-index: 99;
     pointer-events: none;
     font-size: 12px;
     overflow: hidden;
@@ -24,14 +24,8 @@
 .h-container,
 .v-container {
     position: absolute;
-    canvas {
-        width: 100%;
-        height: 100%;
-        pointer-events: auto;
-    }
     .line {
         position: absolute;
-        
     }
     .action {
         position: absolute;
@@ -77,4 +71,10 @@
     width: 17px;
     height: calc(100% - 16px);
     border-right: 1px solid #dadadc;
+}
+
+::ng-deep {
+    .dialog-menu {
+        z-index: 200;
+    }
 }

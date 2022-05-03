@@ -11,6 +11,11 @@ export interface IPoint {
     y: number;
 }
 
+export interface IRect extends IPoint {
+    right: number;
+    bottom: number;
+}
+
 export interface IBound extends ISize, IPoint {
 }
 

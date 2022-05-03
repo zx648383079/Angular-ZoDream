@@ -49,5 +49,10 @@ export class SelectionBound {
         };
     }
 
+    public clear() {
+        this._start = this._end = {x: 0, y: 0};
+        this.box = this.refreshBox();
+    }
+
     
 }

@@ -1,0 +1,3 @@
+<div class="scroll-bar" [ngClass]="{'vertical-bar': !orientation}">
+    <div class="inner-bar" [ngStyle]="innerStyle" (mousedown)="onMouseDown($event)"></div>
+</div>
