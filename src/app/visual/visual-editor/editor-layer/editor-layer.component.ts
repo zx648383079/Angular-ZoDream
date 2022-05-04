@@ -3,7 +3,7 @@ import { ContextMenuComponent } from '../../../context-menu';
 import { DialogBoxComponent, DialogService } from '../../../dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { EditorService } from '../editor.service';
-import { ICatalogItem, TreeEvent, TREE_ACTION, Widget } from '../model';
+import { ICatalogItem, MENU_ACTION, TreeEvent, TREE_ACTION, Widget } from '../model';
 import { EditorLayer } from '../model/menu';
 
 @Component({
@@ -59,11 +59,17 @@ export class EditorLayerComponent implements OnInit {
 
     public onWidgetTap(e: TreeEvent) {
         if (e.action === TREE_ACTION.TRASH) {
-            this.service.removeWidget(e.data as Widget);
+            this.service.workEditor.execute({
+                action: MENU_ACTION.DELETE,
+                data: [e.data]
+            });
             return;
         }
         if (e.action === TREE_ACTION.COPY) {
-            this.service.copyWidget(e.data as Widget);
+            this.service.workEditor.execute({
+                action: MENU_ACTION.COPY,
+                data: [e.data]
+            });
             return;
         }
     }

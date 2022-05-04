@@ -97,9 +97,13 @@ Like [https://zodream.cn/](https://zodream.cn/)
 
 ![](screen/nav.gif)
 
-2. Chat Room Preview
+3. Chat Room Preview
 
 ![](screen/chat.gif)
+
+4. Visual Editor
+
+![](screen/visual.jpg)
 
 ## Process
 

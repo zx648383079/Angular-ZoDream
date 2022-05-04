@@ -17,8 +17,8 @@ export enum MENU_ACTION {
     PASTE,
     DELETE,
 
-    BACK,
-    FORWARD,
+    BACK, // 撤销操作
+    FORWARD, // 撤销上一步撤销，即重新执行操作
 
     MERGE,
     SPLIT,
@@ -28,6 +28,13 @@ export enum MENU_ACTION {
     ZINDEX_UP,
     ZINDEX_DOWN,
     ALIGN,
+
+    SELECT_ALL,
+    SCALE_UP,
+    SCALE_DOWN,
+
+    HIDE_RULE,
+    VISIBLE_RULE,
 }
 
 export interface IEditorAction {

@@ -94,9 +94,13 @@ npm i --legacy-peer-deps
 
 ![](screen/nav.gif)
 
-2. 聊天室样式
+3. 聊天室样式
 
 ![](screen/chat.gif)
+
+4. 可视化编辑器
+
+![](screen/visual.jpg)
 
 ## 当前状态
 

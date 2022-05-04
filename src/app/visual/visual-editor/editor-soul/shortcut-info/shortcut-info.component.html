@@ -3,54 +3,38 @@
         <div class="shortcut col-md-6">
             <div class="name">保存</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
                     +
-                    <kbd>S</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>S</kbd>
-                </div>
+                <kbd>S</kbd>
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">删除</div>
             <div class="key">
-                <div class="for-all">
-                    <kbd>del</kbd>
-                    /
-                    <kbd>backspace</kbd>
-                </div>
+                <kbd>del</kbd>
+                /
+                <kbd>backspace</kbd>
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">撤销</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>Z</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>Z</kbd>
-                </div>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>Z</kbd>
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">重做</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>⌥</kbd>
                     +
                     <kbd>⌘</kbd>
                     +
                     <kbd>Z</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>ctrl</kbd>
                     +
                     <kbd>shift</kbd>
@@ -63,92 +47,40 @@
         <div class="shortcut col-md-6">
             <div class="name">复制</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>C</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>C</kbd>
-                </div>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>C</kbd>
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">复制并粘贴</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>D</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>D</kbd>
-                </div>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>D</kbd>
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">粘贴</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>V</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>V</kbd>
-                </div>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>V</kbd>
             </div>
         </div>
-        <div class="shortcut col-md-6">
-            <div class="name">隐藏标尺辅助线</div>
-            <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>H</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>shift</kbd>
-                    +
-                    <kbd>H</kbd>
-                </div>
-            </div>
-        </div>
+        
         <div class="shortcut"></div>
-        <div class="shortcut col-md-6">
-            <div class="name">组合</div>
-            <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>G</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>G</kbd>
-                </div>
-            </div>
-        </div>
         <div class="shortcut col-md-6">
             <div class="name">左移/左移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>←</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>←</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>←</kbd>
                     ／
                     <kbd>shift</kbd>
@@ -160,14 +92,14 @@
         <div class="shortcut col-md-6">
             <div class="name">右移/右移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>→</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>→</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>→</kbd>
                     ／
                     <kbd>shift</kbd>
@@ -179,14 +111,14 @@
         <div class="shortcut col-md-6">
             <div class="name">上移/上移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>↑</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>↑</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>↑</kbd>
                     ／
                     <kbd>shift</kbd>
@@ -198,14 +130,14 @@
         <div class="shortcut col-md-6">
             <div class="name">下移/下移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>↓</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>↓</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>↓</kbd>
                     ／
                     <kbd>shift</kbd>
@@ -222,12 +154,12 @@
         <div class="shortcut col-md-6">
             <div class="name">加选</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>⇧</kbd>
                     +
                     <span>鼠标单击</span>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>shift</kbd>
                     +
                     <span>鼠标单击</span>
@@ -241,30 +173,74 @@
         <div class="shortcut col-md-6">
             <div class="name">全选</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
-                    <kbd>⌘</kbd>
-                    +
-                    <kbd>A</kbd>
-                </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
-                    <kbd>ctrl</kbd>
-                    +
-                    <kbd>A</kbd>
-                </div>
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>A</kbd>
             </div>
         </div>
         <div class="shortcut"></div>
         <div class="shortcut col-md-6">
+            <div class="name">缩放</div>
+            <div class="key">
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>-</kbd>
+            </div>
+        </div>
+        <div class="shortcut col-md-6">
+            <div class="name">放大</div>
+            <div class="key">
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>+</kbd>
+            </div>
+        </div>
+        <div class="shortcut col-md-6">
+            <div class="name">显示标尺辅助线</div>
+            <div class="key">
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>H</kbd>
+            </div>
+        </div>
+        <div class="shortcut col-md-6">
+            <div class="name">隐藏标尺辅助线</div>
+            <div class="key">
+                <div class="for-mac" *ngIf="isMac">
+                    <kbd>⌥</kbd>
+                    +
+                    <kbd>⌘</kbd>
+                    +
+                    <kbd>H</kbd>
+                </div>
+                <div class="for-others" *ngIf="!isMac">
+                    <kbd>ctrl</kbd>
+                    +
+                    <kbd>shift</kbd>
+                    +
+                    <kbd>H</kbd>
+                </div>
+            </div>
+        </div>
+        <div class="shortcut col-md-6">
+            <div class="name">组合</div>
+            <div class="key">
+                <kbd>{{ isMac ? '⌘' : 'ctrl' }}</kbd>
+                +
+                <kbd>G</kbd>
+            </div>
+        </div>
+        <div class="shortcut col-md-6">
             <div class="name">打散</div>
             <div class="key">
-                <div class="for-mac" *ngIf="osVersion == 'Mac'">
+                <div class="for-mac" *ngIf="isMac">
                     <kbd>⌥</kbd>
                     +
                     <kbd>⌘</kbd>
                     +
                     <kbd>G</kbd>
                 </div>
-                <div class="for-others" *ngIf="osVersion == 'Windows'">
+                <div class="for-others" *ngIf="!isMac">
                     <kbd>ctrl</kbd>
                     +
                     <kbd>shift</kbd>

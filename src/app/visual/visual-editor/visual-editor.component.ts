@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { EditorWorkBodyComponent } from './editor-work-body/editor-work-body.component';
 import { EditorService } from './editor.service';
-import { Widget, AddWeightCommand } from './model';
+import { Widget, AddWeightCommand, MENU_ACTION } from './model';
 import { elementBound } from './util';
 
 @Component({
@@ -28,29 +28,47 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
             this.refreshSize();
         });
         this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
+            if (event.code === 'Delete' || event.code === 'Backspace') {
+                this.workBody.execute(MENU_ACTION.DELETE);
+                return;
+            }
             if (event.ctrlKey) {
                 // if (event.code === 'KeyV') {
                 //     // 粘贴
                 //     console.log(window.clipboardData.getData('text/plain'));
                     
                 // }
+                if (event.code === 'KeyA') {
+                    event.preventDefault();
+                    this.workBody.execute(MENU_ACTION.SELECT_ALL);
+                    return;
+                }
                 if (event.code === 'KeyZ') {
                     event.stopPropagation();
-                    if (event.shiftKey) {
-                        this.service.workEditor.reverseUndo();
-                    } else {
-                        this.service.workEditor.undo();
-                    }
+                    this.workBody.execute(event.shiftKey ? MENU_ACTION.FORWARD : MENU_ACTION.BACK);
+                    return;
+                }
+                if (event.code === 'KeyG') {
+                    event.preventDefault();
+                    this.workBody.execute(event.shiftKey ? MENU_ACTION.SPLIT : MENU_ACTION.MERGE);
+                    return;
+                }
+                if (event.code === 'KeyH') {
+                    event.preventDefault();
+                    this.workBody.execute(event.shiftKey ? MENU_ACTION.HIDE_RULE : MENU_ACTION.VISIBLE_RULE);
+                    return;
                 }
                 if (event.code === 'Equal') {
                     event.preventDefault();
                     // 放大
-                    this.workBody.scale(0, 10);
+                    this.workBody.execute(MENU_ACTION.SCALE_UP);
+                    return;
                 }
                 if (event.code === 'Minus') {
                     event.preventDefault();
                     // 缩小
-                    this.workBody.scale(0, -10);
+                    this.workBody.execute(MENU_ACTION.SCALE_DOWN);
+                    return;
                 }
             }
         });

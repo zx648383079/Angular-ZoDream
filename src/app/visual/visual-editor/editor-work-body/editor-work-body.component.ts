@@ -5,6 +5,7 @@ import { EditorService } from '../editor.service';
 import { IBound, IPoint, ISize, IWorkEditor, SelectionBound, Widget, IEditorAction, BatchCommand, CommandManager, RemoveWeightCommand, ResizeCommand, MENU_ACTION } from '../model';
 import { boundFromScale, filterItems, isIntersect, isMergeable, isSplitable, pointFromScale, relativePoint, scaleBound, wordRect } from '../util';
 import * as menu from '../model/menu';
+import { EditorRulePanelComponent } from '../editor-rule-panel/editor-rule-panel.component';
 
 @Component({
   selector: 'app-editor-work-body',
@@ -14,7 +15,9 @@ import * as menu from '../model/menu';
 export class EditorWorkBodyComponent extends CommandManager implements IWorkEditor {
 
     @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
+    private contextMenu: ContextMenuComponent;
+    @ViewChild(EditorRulePanelComponent)
+    private rulePanel: EditorRulePanelComponent;
     public scaleValue = 100;
     public shellBound: IBound = {
         x: 0,
@@ -221,6 +224,21 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
                 return;
             case MENU_ACTION.FORWARD:
                 this.reverseUndo();
+                return;
+            case MENU_ACTION.VISIBLE_RULE:
+                this.rulePanel.lineVisible = true;
+                return;
+            case MENU_ACTION.HIDE_RULE:
+                this.rulePanel.lineVisible = false;
+                return;
+            case MENU_ACTION.SELECT_ALL:
+                this.service.selectionChanged$.next(this.widgetItems$.value);
+                return;
+            case MENU_ACTION.SCALE_UP:
+                this.scale(undefined, 10);
+                return;
+            case MENU_ACTION.SCALE_DOWN:
+                this.scale(undefined, -10);
                 return;
         }
     }

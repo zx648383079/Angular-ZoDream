@@ -39,13 +39,13 @@ export class EditorToolBarComponent {
         if (!this.canBack) {
             return;
         }
-        this.editor.undo();
+        this.editor.execute(MENU_ACTION.BACK);
     }
     public tapForward() {
         if (!this.canForward) {
             return;
         }
-        this.editor.reverseUndo();
+        this.editor.execute(MENU_ACTION.FORWARD);
     }
 
     public tapAction(i: number, enable = true) {

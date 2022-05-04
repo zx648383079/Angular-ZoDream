@@ -109,5 +109,28 @@ export class PropertyUtil {
         };
         each(args);
         return data;
-    } 
+    }
+
+    public static filterStyle(data: IStyle, keys: string[]): IStyle {
+        if (keys.length === 0) {
+            return {};
+        }
+        const items: IStyle = {};
+        eachObject(data, (v, k: string) => {
+            if (keys.indexOf(k) >= 0) {
+                items[k] = v;
+                return;
+            }
+            if (k.indexOf('-') <= 0) {
+                return;
+            }
+            for (const key of keys) {
+                if (k.startsWith(key)) {
+                    items[k] = v;
+                    return;
+                }
+            }
+        });
+        return items;
+    }
 }

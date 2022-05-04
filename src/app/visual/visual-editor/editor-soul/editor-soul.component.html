@@ -35,15 +35,15 @@
                 </div>
             </div>
             <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
-                <div class="add-btn">
+                <div class="add-btn" (click)="gridModal.open()">
                     <i class="iconfont icon-plus"></i>
                     新建
                 </div>
             </div>
         </div>
     </div>
-    <div class="soul-footer">
-        <i class="iconfont icon-keyboard" (click)="shortcutModal.open()"></i>
+    <div class="soul-footer" (click)="shortcutModal.open()">
+        <i class="iconfont icon-keyboard"></i>
     </div>
 </div>
 
@@ -52,7 +52,7 @@
     <app-shortcut-info></app-shortcut-info>
 </app-dialog-box>
 
-<app-dialog-box title="新建动态容器">
+<app-dialog-box #gridModal title="新建动态容器">
     <div class="form-group">
       <label for="name">名称</label>
       <input type="text" class="form-control" name="name" id="name">

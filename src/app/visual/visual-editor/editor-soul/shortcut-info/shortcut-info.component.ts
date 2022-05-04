@@ -7,16 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShortcutInfoComponent implements OnInit {
 
-    public osVersion: 'Mac' | 'Windows';
+    public isMac = false;
 
     constructor() { }
 
     ngOnInit() {
-        const _nav = navigator.appVersion;
-        if (_nav.includes('Mac')) {
-            this.osVersion = 'Mac';
-        } else if (_nav.includes('Windows')) {
-            this.osVersion = 'Windows';
-        }
+        this.isMac = navigator.userAgent.indexOf('Mac') >= 0;
     }
 }

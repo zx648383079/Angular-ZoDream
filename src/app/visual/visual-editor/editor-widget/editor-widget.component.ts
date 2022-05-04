@@ -33,7 +33,9 @@ export class EditorWidgetComponent {
             return;
         }
         event.stopPropagation();
-        this.service.selectionChanged$.next([this.value]);
+        const items = event.ctrlKey ? this.service.selectionChanged$.value : [];
+        items.push(this.value);
+        this.service.selectionChanged$.next(items);
     }
 
     public onMouseEnter() {
