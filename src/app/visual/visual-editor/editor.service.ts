@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { cloneObject } from '../../theme/utils';
-import { CommandManager, ICommandManager } from './command';
 import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
-import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType } from './model';
-import { ICatalogItem, IPoint, IResetEvent } from './model/core';
+import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IResetEvent, IWorkEditor } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +38,7 @@ export class EditorService {
 
     public readonly widgetItems = [...controlSource, ...inputSource, ...panelSource];
 
-    public commandManager: ICommandManager;
+    public workEditor: IWorkEditor;
 
     constructor() {
         this.mouseMove$.subscribe(res => {

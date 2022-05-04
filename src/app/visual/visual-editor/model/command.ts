@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
-import { IBound, IPoint, ISize, Widget } from './model';
+import { IBound, IPoint, ISize } from './core';
+import { Widget } from './widget';
 
 export interface ICommand {
     execute(): boolean;
@@ -184,6 +185,24 @@ export class ResizeWidgetCommand implements IBackableCommand {
     }
     execute(): boolean {
         this.target.bound = this.newValue;
+        return true;
+    }
+}
+
+export class ZIndexWidgetCommand implements IBackableCommand {
+
+    constructor(
+        private target: Widget|any,
+        private oldValue: number,
+        private newValue: number,
+    ) {
+    }
+
+    undo(): void {
+        this.target.zindex = this.oldValue;
+    }
+    execute(): boolean {
+        this.target.zindex = this.newValue;
         return true;
     }
 }

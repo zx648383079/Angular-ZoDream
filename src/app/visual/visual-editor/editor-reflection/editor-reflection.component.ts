@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BatchCommand, ResizeWidgetCommand } from '../command';
 import { EditorService } from '../editor.service';
-import { IBound, IPoint, Widget } from '../model';
-import { maxBound } from '../util';
+import { IBound, IPoint, Widget, BatchCommand, ResizeWidgetCommand, MENU_ACTION } from '../model';
+import { isMergeable, isSplitable, maxBound } from '../util';
 
 enum EditMode {
     NONE,
@@ -18,6 +17,8 @@ enum EditMode {
 export class EditorReflectionComponent implements OnInit {
 
     public mode = EditMode.NONE;
+    public canMerge = false;
+    public canSplit = false;
 
     private widgetBound?: IBound;
     private widgetItems: Widget[] = [];
@@ -64,8 +65,21 @@ export class EditorReflectionComponent implements OnInit {
                 return;
             }
             this.widgetBound = maxBound(res);
+            this.canMerge = isMergeable(res);
+            this.canSplit = isSplitable(res);
             this.mode = EditMode.EDIT;
         });
+    }
+
+    public tapToggleGroup() {
+        if (this.canMerge) {
+            this.service.workEditor.execute(MENU_ACTION.MERGE);
+            return;
+        }
+        if (this.canSplit) {
+            this.service.workEditor.execute(MENU_ACTION.SPLIT);
+            return;
+        }
     }
 
     public onMoveLt(e: MouseEvent) {
@@ -158,7 +172,7 @@ export class EditorReflectionComponent implements OnInit {
             }
             last = p;
         }, _ => {
-            this.service.commandManager.executeCommand(
+            this.service.workEditor.executeCommand(
                 new BatchCommand(
                     ...this.widgetItems.map((i, j) => new ResizeWidgetCommand(i, oldItems[j], i.bound)),
                     new ResizeWidgetCommand(this, oldBound, this.widgetBound)

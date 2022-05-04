@@ -7,7 +7,7 @@
             </div>
             <div class="work-body" (contextmenu)="onContext($event)">
                 <ng-container *ngFor="let item of widgetItems$ | async">
-                    <div class="widget-shell" [ngStyle]="item.style"  (contextmenu)="onContext($event, item)">
+                    <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
                         <app-editor-widget [value]="item"></app-editor-widget>
                     </div>
                 </ng-container>

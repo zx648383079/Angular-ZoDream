@@ -1,18 +1,8 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { AddWeightCommand } from './command';
 import { EditorWorkBodyComponent } from './editor-work-body/editor-work-body.component';
 import { EditorService } from './editor.service';
-import { Widget } from './model';
+import { Widget, AddWeightCommand } from './model';
 import { elementBound } from './util';
-
-enum ACTION {
-    NONE,
-    SELECTION,
-    MOVE_WIDGET,
-    H_SCROLL,
-    V_SCROLL,
-    RESIZE,
-}
 
 @Component({
   selector: 'app-visual-editor',
@@ -47,9 +37,9 @@ export class VisualEditorComponent implements OnInit, AfterViewInit {
                 if (event.code === 'KeyZ') {
                     event.stopPropagation();
                     if (event.shiftKey) {
-                        this.service.commandManager.reverseUndo();
+                        this.service.workEditor.reverseUndo();
                     } else {
-                        this.service.commandManager.undo();
+                        this.service.workEditor.undo();
                     }
                 }
                 if (event.code === 'Equal') {

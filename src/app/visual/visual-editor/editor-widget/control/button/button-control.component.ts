@@ -10,6 +10,22 @@ export class ButtonControlComponent {
 
     @Input() public value: Widget;
 
+
+    public get innerStyle() {
+        if (!this.value) {
+            return {};
+        }
+        return this.value.innerStyle;
+    }
+
+    public get innerCls() {
+        if (!this.value) {
+            return {};
+        }
+        return this.value.classList.toString();
+    }
+
     constructor() { }
+
 
 }

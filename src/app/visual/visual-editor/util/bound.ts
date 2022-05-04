@@ -204,21 +204,22 @@ export function maxBound(items: IBound[]): IBound {
     let bottom = 0;
     let init = false;
     for (const item of items) {
-        const r = item.x + item.width;
-        const b = item.y + item.height;
+        const bound = item instanceof Widget ? item.actualBound : item;
+        const r = bound.x + bound.width;
+        const b = bound.y + bound.height;
         if (!init) {
-            x = item.x;
-            y = item.y;
+            x = bound.x;
+            y = bound.y;
             right = r;
             bottom = b;
             init = true;
             continue;
         }
-        if (item.x < x) {
-            x = item.x;
+        if (bound.x < x) {
+            x = bound.x;
         }
-        if (item.y < y) {
-            y = item.y;
+        if (bound.y < y) {
+            y = bound.y;
         }
         if (r > right) {
             right = r;

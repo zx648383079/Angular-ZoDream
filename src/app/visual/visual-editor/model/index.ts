@@ -6,3 +6,6 @@ export * from './menu';
 export * from './selection';
 export * from './tree';
 export * from './widget';
+export * from './action';
+export * from './command';
+export * from './editor';

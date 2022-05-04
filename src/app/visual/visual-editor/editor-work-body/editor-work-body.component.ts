@@ -1,10 +1,9 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../context-menu';
 import { checkRange } from '../../../theme/utils';
-import { BatchCommand, CommandManager, RemoveWeightCommand, ResizeCommand } from '../command';
 import { EditorService } from '../editor.service';
-import { IBound, IPoint, ISize, SelectionBound, Widget } from '../model';
-import { boundFromScale, filterItems, isIntersect, isMergeable, isSplitable, pointFromScale, relativePoint, scaleBound, wordBound, wordRect } from '../util';
+import { IBound, IPoint, ISize, IWorkEditor, SelectionBound, Widget, IEditorAction, BatchCommand, CommandManager, RemoveWeightCommand, ResizeCommand, MENU_ACTION } from '../model';
+import { boundFromScale, filterItems, isIntersect, isMergeable, isSplitable, pointFromScale, relativePoint, scaleBound, wordRect } from '../util';
 import * as menu from '../model/menu';
 
 @Component({
@@ -12,7 +11,7 @@ import * as menu from '../model/menu';
   templateUrl: './editor-work-body.component.html',
   styleUrls: ['./editor-work-body.component.scss']
 })
-export class EditorWorkBodyComponent extends CommandManager {
+export class EditorWorkBodyComponent extends CommandManager implements IWorkEditor {
 
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
@@ -37,7 +36,7 @@ export class EditorWorkBodyComponent extends CommandManager {
         private ngZone: NgZone,
     ) {
         super();
-        this.service.commandManager = this;
+        this.service.workEditor = this;
         this.service.resize$.subscribe(res => {
             if (!res) {
                 return;
@@ -110,7 +109,7 @@ export class EditorWorkBodyComponent extends CommandManager {
      * @param point 
      * @returns 
      */
-    public shellLocation<T extends IPoint>(point: T): T {
+    public getPosition<T extends IPoint>(point: T): T {
         if (this.scaleValue === 100) {
             return relativePoint(this.wordShellBound, point);
         }
@@ -133,12 +132,16 @@ export class EditorWorkBodyComponent extends CommandManager {
     }
 
     public onContext(e: MouseEvent, item?: Widget|boolean) {
-        const items: Widget[] = item && item instanceof Widget ? [item] : (item === true ? this.service.selectionChanged$.value : filterItems(this.widgetItems$.value, this.shellLocation({x: e.clientX, y: e.clientY})));
+        const items: Widget[] = item && item instanceof Widget ? [item] : (item === true ? this.service.selectionChanged$.value : filterItems(this.widgetItems$.value, this.getPosition({x: e.clientX, y: e.clientY})));
         const navItems = items.length > 0 ? menu.EditorSelected(isMergeable(items), isSplitable(items)) : menu.EditorNotSelected;
         return this.contextMenu.show(e, navItems, menu => {
-            if (menu.name === '删除' && item) {
-                this.executeCommand(new BatchCommand(...items.map(i => new RemoveWeightCommand(this, i))));
+            if (typeof menu.data === 'undefined') {
+                return;
             }
+            this.execute({
+                action: menu.data,
+                data: items
+            });
         });
     }
 
@@ -158,13 +161,15 @@ export class EditorWorkBodyComponent extends CommandManager {
         this.service.mouseMove(event => {
             this.selectionRect.end = event;
         }, _ => {
-            const bound = boundFromScale(this.shellLocation(this.selectionRect.box), this.scaleValue, 100);
+            this.select(this.selectionRect.box);
             this.selectionRect.clear();
-            const items = filterItems(this.widgetItems$.value, bound);
-            console.log(bound, items, this.widgetItems$.value);
-            
-            this.service.selectionChanged$.next(items);
         });
+    }
+
+    public select(rect: IBound) {
+        const bound = boundFromScale(this.getPosition(rect), this.scaleValue, 100);
+        const items = filterItems(this.widgetItems$.value, bound);
+        this.service.selectionChanged$.next(items);
     }
 
     public scale(value: number = this.scaleValue, offset?: number) {
@@ -186,7 +191,7 @@ export class EditorWorkBodyComponent extends CommandManager {
             return false;
         }
         if (location) {
-            weight.location = this.shellLocation(location);
+            weight.location = this.getPosition(location);
         }
         this.service.pushWidget(weight);
         return true;
@@ -198,5 +203,25 @@ export class EditorWorkBodyComponent extends CommandManager {
 
     private inBound(p: IPoint) {
         return isIntersect(this.wordShellBound, p);
+    }
+
+    public execute(action: IEditorAction|MENU_ACTION) {
+        const act = typeof action === 'object' ? action.action : action;
+        const data = typeof action === 'object' ?  action.data : undefined;
+        switch (act) {
+            case MENU_ACTION.DELETE:
+                const items = data || this.service.selectionChanged$.value;
+                if (!items || items.length < 0) {
+                    return;
+                }
+                this.executeCommand(new BatchCommand(...(items as Widget[]).map(i => new RemoveWeightCommand(this, i))));
+                return;
+            case MENU_ACTION.BACK:
+                this.undo();
+                return;
+            case MENU_ACTION.FORWARD:
+                this.reverseUndo();
+                return;
+        }
     }
 }

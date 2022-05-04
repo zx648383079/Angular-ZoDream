@@ -18,6 +18,96 @@ export interface IStyle {
     [key: string]: any;
 }
 
+export class WidgetClass {
+    constructor(
+        items?: string[]|string,
+    ) {
+        if (!items) {
+            return;
+        }
+        eachObject(items, v => {
+            this.push(v);
+        });
+    }
+
+    public data: string[] = [];
+
+    public has(cls: string) {
+        return this.indexOf(cls) >= 0;
+    }
+
+    public indexOf(cls: string): number {
+        return this.data.indexOf(cls);
+    }
+
+    public toggle(cls: string, add?: boolean) {
+        const isNo = typeof add === 'undefined';
+        this.each(v => {
+            if (isNo) {
+                const i = this.indexOf(v);
+                if (i >= 0) {
+                    this.data.splice(i, 1);
+                } else {
+                    this.data.push(v);
+                }
+                return;
+            }
+            const i = this.indexOf(v);
+            if (add) {
+                if (i >= 0) {
+                    return;
+                }
+                this.data.push(v);
+                return;
+            }
+            if (i < 0) {
+                return;
+            }
+            this.data.splice(i, 1);
+        }, cls)
+        return this;
+    }
+
+    public remove(cls: string) {
+        this.each(v => {
+            const i = this.indexOf(v);
+            if (i >= 0) {
+                this.data.splice(i, 1);
+            }
+        }, cls);
+        return this;
+    }
+
+    public push(...items: string[]) {
+        this.each(v => {
+            const i = this.indexOf(v);
+            if (i >= 0) {
+                return;
+            }
+            this.data.push(v);
+        }, ...items);
+        return this;
+    }
+
+    private each(cb: (v: string) => void, ...items: string[]) {
+        items.forEach(item => {
+            if (!item) {
+                return;
+            }
+            item.split(' ').forEach(val => {
+                if (val === '') {
+                    return;
+                }
+                cb(val);
+            });
+        });
+    }
+
+    public toString() {
+        return this.data.join(' ');
+    }
+}
+
 export class WidgetProperty {
 
     constructor(
@@ -82,6 +172,8 @@ export class WidgetProperty {
 
 }
 
+type UnitType = 'px' | '%' | 'em' | 'rem';
+
 export class EventManager {
     constructor(
         private readonly target: Widget,
@@ -141,7 +233,7 @@ export class EventManager {
 }
 
 export class Widget implements WidgetBound {
-    public unit: 'px' | '%' = 'px';
+    public unit: UnitType = 'px';
     public x: number = 0;
     public y: number = 0;
 
@@ -153,6 +245,11 @@ export class Widget implements WidgetBound {
     public tag: string;
     public preview?: string;
     public id: string|number;
+    /**
+     * 真实尺寸
+     */
+    public actualBound?: IBound;
+    public classList = new WidgetClass();
     public readonly properties = new WidgetProperty(this);
     public readonly events = new EventManager(this);
     public readonly propertyChange$ = new Subject<void>();
@@ -268,6 +365,48 @@ export class Widget implements WidgetBound {
             data.height = this.height + this.unit;
         }
         return {...data, ...this.properties.style};
+    }
+
+    /**
+     * 调试时外包装的样式
+     */
+    public get outerStyle(): IStyle {
+        if (this.opacity <= 0) {
+            return {
+                display: 'none',
+            };
+        }
+        const data: IStyle = {
+            left: this.x + this.unit,
+            top: this.y  + this.unit,
+            'z-index': this.zIndex,
+        };
+        if (this.width > 0 || this.height > 0) {
+            data.width = this.width + this.unit;
+            data.height = this.height + this.unit;
+        }
+        if (this.properties.has('position')) {
+            data.position = 'absolute';
+        }
+        return data;
+    }
+
+    /**
+     * 调试时内部的样式
+     */
+    public get innerStyle(): IStyle {
+        if (this.opacity <= 0) {
+            return {
+                display: 'none',
+            };
+        }
+        const data: IStyle = this.properties.style;
+        if (this.width > 0 || this.height > 0) {
+            data.width = this.width + this.unit;
+            data.height = this.height + this.unit;
+        }
+        delete data.position;
+        return data;
     }
 }
 
