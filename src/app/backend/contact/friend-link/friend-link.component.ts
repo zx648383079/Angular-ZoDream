@@ -77,42 +77,39 @@ export class FriendLinkComponent implements OnInit {
     }
 
     public tapPass(item: IFriendLink) {
-        if (!confirm('确认审核通过此友情链接？')) {
-            return;
-        }
-        this.service.friendLinkToggle(item.id).subscribe(res => {
-            if (!res) {
-                return;
-            }
-            this.toastrService.success('已审核通过！');
-            item.status = res.status;
+        this.toastrService.confirm('确认审核通过此友情链接？', () => {
+            this.service.friendLinkToggle(item.id).subscribe(res => {
+                if (!res) {
+                    return;
+                }
+                this.toastrService.success('已审核通过！');
+                item.status = res.status;
+            });
         });
     }
 
     public tapOff(item: IFriendLink) {
-        if (!confirm('确认下架此友情链接？')) {
-            return;
-        }
-        this.service.friendLinkToggle(item.id).subscribe(res => {
-            if (!res) {
-                return;
-            }
-            this.toastrService.success('已下架！');
-            item.status = res.status;
+        this.toastrService.confirm('确认下架此友情链接？', () => {
+            this.service.friendLinkToggle(item.id).subscribe(res => {
+                if (!res) {
+                    return;
+                }
+                this.toastrService.success('已下架！');
+                item.status = res.status;
+            });
         });
     }
 
     public tapRemove(item: IFriendLink) {
-        if (!confirm('确认删除此友情链接？')) {
-            return;
-        }
-        this.service.friendLinkRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确认删除此友情链接？', () => {
+            this.service.friendLinkRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

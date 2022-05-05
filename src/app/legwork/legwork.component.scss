@@ -47,105 +47,107 @@
     }
 }
 
-::ng-deep {
-    .line-item {
-        line-height: 30px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: #fff;
-        margin-bottom: 10px;
-        padding: 0 10px;
-    }
-    .line-tip {
-        color: #777;
-        line-height: 30px;
-        margin-top: -10px;
-        text-align: right;
-    }
-    .title-bar {
-        padding: 10px 20px;
-        line-height: 30px;
-        background-color: white;
-        border: 1px solid #eaeaea;
-        span {
-            border-left: 3px solid #a10000;
-            padding-left: 5px;
-        }
-    }
-    .panel-container {
-        background-color: white;
-        padding: 15px;
-    }
-    .search-bar {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: stretch;
-        width: 100%;
-        .form-control,
-        .btn {
-            border-radius: 0;
-        }
-        .form-control:first-child {
-            position: relative;
-            flex: 1 1 auto;
-            width: 1%;
-            margin-bottom: 0;
-            border-radius: .25rem 0 0 .25rem;
-        }
-        .btn:last-child {
+.legwork-container {
+    ::ng-deep {
+        .line-item {
+            line-height: 30px;
             display: flex;
-            border-radius: 0 .25rem .25rem 0;
+            flex-direction: row;
+            justify-content: space-between;
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 0 10px;
         }
-    }
-    .service-item {
-        margin-bottom: 10px;
-        background-color: #fff;
-        display: block;
-        position: relative;
-        padding-right: 80px;
-        padding-left: 10px;
-        min-height: 80px;
-        .title {
-            line-height: 40px;
-            font-weight: 700;
-            .tag {
-                font-weight: 400;
-            }
-        }
-        .brief {
+        .line-tip {
             color: #777;
+            line-height: 30px;
+            margin-top: -10px;
+            text-align: right;
         }
-        .btn {
-            position: absolute;
-            right: 0;
-            width: 80px;
-            top: 0;
-            bottom: 0;
-            line-height: 20px;
+        .title-bar {
+            padding: 10px 20px;
+            line-height: 30px;
+            background-color: white;
+            border: 1px solid #eaeaea;
+            span {
+                border-left: 3px solid #a10000;
+                padding-left: 5px;
+            }
+        }
+        .panel-container {
+            background-color: white;
+            padding: 15px;
+        }
+        .search-bar {
+            position: relative;
+            display: -ms-flexbox;
             display: flex;
-            padding: 0 20px;
-            text-align: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-        &:hover {
+            flex-wrap: wrap;
+            align-items: stretch;
+            width: 100%;
+            .form-control,
             .btn {
-                font-weight: 700;
+                border-radius: 0;
+            }
+            .form-control:first-child {
+                position: relative;
+                flex: 1 1 auto;
+                width: 1%;
+                margin-bottom: 0;
+                border-radius: .25rem 0 0 .25rem;
+            }
+            .btn:last-child {
+                display: flex;
+                border-radius: 0 .25rem .25rem 0;
             }
         }
-    }
-    .tab-bar {
-        .item {
-            border: 1px solid #ccc;
-            &:hover {
-                background-color: #f4f4f4;
+        .service-item {
+            margin-bottom: 10px;
+            background-color: #fff;
+            display: block;
+            position: relative;
+            padding-right: 80px;
+            padding-left: 10px;
+            min-height: 80px;
+            .title {
+                line-height: 40px;
+                font-weight: 700;
+                .tag {
+                    font-weight: 400;
+                }
             }
-            &.active {
-                background-color: green;
-                color: #fff;
+            .brief {
+                color: #777;
+            }
+            .btn {
+                position: absolute;
+                right: 0;
+                width: 80px;
+                top: 0;
+                bottom: 0;
+                line-height: 20px;
+                display: flex;
+                padding: 0 20px;
+                text-align: center;
+                flex-direction: column;
+                justify-content: center;
+            }
+            &:hover {
+                .btn {
+                    font-weight: 700;
+                }
+            }
+        }
+        .tab-bar {
+            .item {
+                border: 1px solid #ccc;
+                &:hover {
+                    background-color: #f4f4f4;
+                }
+                &.active {
+                    background-color: green;
+                    color: #fff;
+                }
             }
         }
     }
