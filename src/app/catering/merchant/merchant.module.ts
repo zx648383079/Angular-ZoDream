@@ -4,12 +4,14 @@ import { merchantRoutingComponents, MerchantRoutingModule } from './merchant-rou
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../form';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DialogModule } from '../../dialog';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         ZreFormModule,
+        DialogModule,
         NgSelectModule,
         MerchantRoutingModule
     ],

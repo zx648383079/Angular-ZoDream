@@ -2,22 +2,16 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { INav } from '../../../theme/components';
 
 @Component({
-  selector: 'app-merchant-menu',
-  templateUrl: './merchant-menu.component.html',
-  styleUrls: ['./merchant-menu.component.scss']
+  selector: 'app-waiter-menu',
+  templateUrl: './waiter-menu.component.html',
+  styleUrls: ['./waiter-menu.component.scss']
 })
-export class MerchantMenuComponent implements OnChanges, OnInit {
+export class WaiterMenuComponent implements OnChanges, OnInit {
 
     public items: INav[] = [
         {name: '统计', url: '', active: true},
-        {name: '订单管理', url: 'order'},
-        {name: '商品管理', url: 'goods'},
-        {name: '库存管理', url: 'stock'},
-        {name: '采购单管理', url: 'stock/order'},
-        {name: '食谱管理', url: 'recipe'},
-        {name: '员工管理', url: 'staff'},
-        {name: '会员管理', url: 'users'},
-        {name: '店铺设置', url: 'setting'},
+        {name: '订单中心', url: 'order'},
+        {name: '记录管理', url: 'log'},
     ];
 
     @Input() public currentUrl: string = '';
@@ -56,9 +50,9 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
 
     private getBasePath() {
         const path = window.location.pathname;
-        const i = path.indexOf('merchant');
+        const i = path.indexOf('waiter');
         if (i < 0) {
-            return 'catering/merchant/';
+            return 'catering/waiter/';
         }
         const args = path.substring(i + 8).split('/');
         const uri = args.filter(i => i !== '').map(i => {
@@ -66,4 +60,5 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
         }).join('/');
         return uri.length > 1 ? uri + '/' : uri;
     }
+
 }

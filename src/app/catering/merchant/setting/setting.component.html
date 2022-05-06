@@ -1,0 +1,112 @@
+<div class="flex-2">
+    <div class="flex-menu">
+        <app-merchant-menu currentUrl="setting"></app-merchant-menu>
+    </div>
+    <div class="flex-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-table">
+                        <div class="input-group avatar-input">
+                            <label for="avatar">LOGO</label>
+                            <div>
+                                <div class="avatar">
+                                    <img >
+                                </div>
+                                <label for="fileUpload" class="btn btn-light">更改LOGO</label>
+                                <input type="file" name="file" id="fileUpload" accept="image/*" />
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="name">店铺名</label>
+                            <div>
+                                <input type="text" id="name" class="form-control" 
+                                    placeholder="请输入店铺名">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="address">店铺地址</label>
+                            <div>
+                                <textarea id="address" class="form-control" placeholder="请输入店铺地址"></textarea>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="time">营业时间</label>
+                            <div>
+                                <app-time-input></app-time-input>
+                                -
+                                <app-time-input></app-time-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <app-panel title="状态管理">
+                        <a class="btn-light btn-line">营业中</a>
+                        <a class="btn-danger btn-line">关店休息</a>
+                    </app-panel>
+                </div>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-chain-broken"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">开启堂吃</div>
+                <div class="item-meta">是否支持到店点餐</div>
+            </div>
+            <div class="item-action">
+                <app-switch></app-switch>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-chain-broken"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">支持外卖</div>
+                <div class="item-meta">是否支持外送</div>
+            </div>
+            <div class="item-action">
+                <app-switch></app-switch>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-chain-broken"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">支持外卖自取</div>
+                <div class="item-meta">是否支持外卖订单上门自取</div>
+            </div>
+            <div class="item-action">
+                <app-switch></app-switch>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-chain-broken"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">支持预定</div>
+                <div class="item-meta">是否支持提前预定</div>
+            </div>
+            <div class="item-action">
+                <app-switch></app-switch>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-chain-broken"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">提前预定时间</div>
+                <div class="item-meta">只是提前多久预定</div>
+            </div>
+            <div class="item-action">
+                <app-number-input></app-number-input> 小时
+            </div>
+        </div>
+    </div>
+</div>

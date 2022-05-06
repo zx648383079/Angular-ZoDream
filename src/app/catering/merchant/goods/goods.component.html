@@ -13,7 +13,7 @@
                     <button type="submit" class="btn btn-primary">搜索</button>
 
                     <div class="btn-group pull-right">
-                        <div class="btn btn-info">
+                        <div class="btn btn-info" (click)="tapEdit()">
                             <i class="iconfont icon-plus"></i>
                         </div>
                         <div class="btn btn-success">
@@ -45,10 +45,16 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="nav-menu">
-                        <h2>分类</h2>
+                        <h2>分类
+                            <i class="iconfont icon-plus" (click)="tapEditCategory()"></i>
+                        </h2>
                         <ul>
                             <li class="menu-item active">
                                 <a >分类</a>
+                            </li>
+                            <li class="menu-item">
+                                <a >分类</a>
+                                <i class="iconfont icon-close" (click)="tapRemoveCategory()"></i>
                             </li>
                         </ul>
                     </div>
@@ -66,7 +72,7 @@
                         </div>
                         <div class="td-2">
                             <div class="btn-group">
-                                <div class="btn btn-primary">
+                                <div class="btn btn-primary" (click)="tapEdit()">
                                     <i class="iconfont icon-edit"></i>
                                 </div>
                                 <div class="btn btn-danger">
@@ -84,7 +90,7 @@
                         </div>
                         <div class="td-2">
                             <div class="btn-group">
-                                <div class="btn btn-primary">
+                                <div class="btn btn-primary" (click)="tapEdit()">
                                     <i class="iconfont icon-edit"></i>
                                 </div> 
                                 <div class="btn btn-danger">
@@ -98,3 +104,6 @@
         </div>
     </div>
 </div>
+
+<app-goods-dialog></app-goods-dialog>
+<app-custom-dialog></app-custom-dialog>

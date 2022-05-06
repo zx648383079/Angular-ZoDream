@@ -1,0 +1,12 @@
+@import '../../../dialog';
+.dialog-box {
+    @include dialogSet(25rem, 39rem);
+}
+
+.tab-bar {
+    display: flex;
+    .item {
+        flex: 1;
+        text-align: center;
+    }
+}

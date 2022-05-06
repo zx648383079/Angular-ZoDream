@@ -43,6 +43,19 @@ export class CateringComponent implements OnInit {
             data: 'member/order',
         },
         {
+            name: '服务员中心',
+            children: [
+                {
+                    name: '订单管理',
+                    data: 'waiter/order',
+                },
+                {
+                    name: '记录管理',
+                    data: 'waiter/log',
+                },
+            ]
+        },
+        {
             name: '商家中心',
             children: [
                 {

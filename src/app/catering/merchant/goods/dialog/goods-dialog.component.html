@@ -1,0 +1,38 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="input-label">商品名</div>
+    <div class="item-name">
+        <input type="text" class="form-control">
+    </div>
+    <div class="input-label">Thumb</div>
+    <app-file-input></app-file-input>
+    <div class="input-label">图片</div>
+    <app-file-input></app-file-input>
+    <div class="input-label">数量</div>
+    <app-number-input></app-number-input>
+    <div class="input-label">售价</div>
+    <app-number-input></app-number-input>
+    <div class="input-label">描述</div>
+    <textarea class="form-control"></textarea>
+    <div class="tab-bar">
+        <div class="item">食谱</div>
+        <div class="item">食材</div>
+    </div>
+    <div>
+        <ng-select></ng-select>
+    </div>
+    <div>
+        <div class="input-flex">
+            <span>材料名</span>
+            <span>数量</span>
+        </div>
+        <div class="input-flex">
+            <input type="text" class="form-control">
+            <app-number-input [only]="false"></app-number-input>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary" (click)="close()">取消</div>
+        <div class="btn btn-primary">保存</div>
+    </div>
+</div>

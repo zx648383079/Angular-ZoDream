@@ -1,0 +1,11 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="input-label">{{ title }}</div>
+    <div class="item-name">
+        <input type="text" class="form-control">
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary" (click)="close()">取消</div>
+        <div class="btn btn-primary">保存</div>
+    </div>
+</div>

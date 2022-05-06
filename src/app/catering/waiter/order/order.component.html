@@ -1,0 +1,95 @@
+<div class="flex-2">
+    <div class="flex-menu">
+        <app-waiter-menu currentUrl="order"></app-waiter-menu>
+    </div>
+    <div class="flex-body">
+        <div class="panel-container">
+            <div class="page-search-bar">
+                <form class="form-horizontal">
+                    <div class="input-group">
+                        <label for="keywords">标题</label>
+                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题">
+                    </div>
+                    <div class="input-group">
+                        <label for="keywords">状态</label>
+                        <select class="form-control">
+                            <option value="">全部</option>
+                            <option value="">待确认</option>
+                            <option value="">待制作</option>
+                            <option value="">待出餐</option>
+                            <option value="">待配送</option>
+                            <option value="">待结算</option>
+                            <option value="">待服务</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </form>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="head-row">
+                <div class="td">
+                    商品
+                </div>
+                <div class="td-2">
+                    金额
+                </div>
+                <div class="td-2">
+                    配送信息
+                </div>
+                <div class="td-2">
+                    操作
+                </div>
+            </div>
+
+            <div class="order-item">
+                <div class="item-header">
+                    <span>刚刚</span>
+                    <span>订单号：SN—7677</span>
+                    <span>订单总额：￥2</span>
+                    <span>状态：待确认</span>
+                    <span>售后：无</span>
+                </div>
+                <div class="item-body body-row">
+                    <div class="item-goods td">
+                        <div class="goods-item" >
+                            <div class="goods-img">
+                                <img [src]="'assets/images/avatar/18.png' | asset">
+                            </div>
+                            <div class="goods-info">
+                                <h4>套餐</h4>
+                                <p>加火腿</p>
+                                <span class="price">￥9</span>
+                                <span class="amount"> x 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-subtotal td-2 td-center">
+                        <p>应付：
+                            <span>￥3</span>
+                        </p>
+                        <p>配送费：￥1</p>
+                    </div>
+                    <div class="item-user td-2 td-center">
+                        <p>收货人：有(1362739)</p>
+                        <p>大街15弄101</p>
+                        <p>送货人：哈(1362739)</p>
+                    </div>
+                    <div class="item-actions td-2 td-center">
+                        <div class="btn-group">
+                            <div class="btn btn-primary">
+                                <i class="iconfont icon-eye"></i>
+                            </div>
+                            <div class="btn btn-info">
+                                <i class="iconfont icon-edit"></i>
+                            </div> 
+                            <div class="btn btn-danger">
+                                <i class="iconfont icon-close"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,6 +22,11 @@ const routes: Routes = [
                 canActivate: [CanActivateViaAuthGuard],
             },
             {
+                path: 'waiter',
+                loadChildren: () => import('./waiter/waiter.module').then(m => m.WaiterModule),
+                canActivate: [CanActivateViaAuthGuard],
+            },
+            {
                 path: 'member',
                 loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
                 canActivate: [CanActivateViaAuthGuard],
