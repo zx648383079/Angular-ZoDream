@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog';
+import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
 

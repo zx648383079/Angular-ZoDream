@@ -1,0 +1,80 @@
+@import '../../theme/styles/scrollbar';
+@import './styles/main';
+@import './styles/room';
+@import './styles/search';
+@import './styles/user';
+
+
+.expand-box {
+    .expand-header {
+        cursor: pointer;
+        line-height: 30px;
+        .expand-icon {
+            margin-right: 10px;
+            &:before {
+                content: "\e64c";
+                font-family: 'iconfont';
+                font-style: normal;
+            }
+        }
+    }
+    .expand-body {
+        display: none;
+    }
+    &.open {
+        .expand-header {
+            .expand-icon {
+                &:before {
+                    content: "\e649";
+                }
+            }
+        }
+        .expand-body {
+            display: block;
+        }
+    }
+}
+
+
+
+
+
+::ng-deep {
+    .dialog-box {
+        .dialog-header {
+            line-height: 3.125rem;
+            height: 3.125rem;
+            border: none;
+            .dialog-close {
+                right: auto;
+                left: 10px;
+                top: 10px;
+                font-size: 2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .chat-box {
+        width: 100%;
+        display: block;
+    }
+    .chat-room {
+        display: none;
+        margin-left: 0;
+        .title {
+            .iconfont {
+                display: block;
+            }
+        }
+    }
+    .room-mode {
+        .chat-box {
+            display: none;
+        }
+        .chat-room {
+            display: flex;
+        }
+    }
+}

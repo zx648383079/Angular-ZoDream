@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../dialog';
+import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ISignature } from '../../../theme/models/sms';
 import { applyHistory, getQueries } from '../../../theme/query';

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ButtonEvent } from '../../../form';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
   selector: 'app-edit-header',

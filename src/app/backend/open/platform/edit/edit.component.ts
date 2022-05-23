@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
-import { ButtonEvent } from '../../../../form';
+import { DialogService } from '../../../../components/dialog';
+import { ButtonEvent } from '../../../../components/form';
 import { IPlatform } from '../../../../theme/models/open';
 import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';

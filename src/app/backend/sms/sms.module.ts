@@ -6,7 +6,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpenModule } from '../open/open.module';
 import { SmsService } from './sms.service';
-import { DialogModule } from '../../dialog';
+import { DialogModule } from '../../components/dialog';
 
 @NgModule({
     imports: [

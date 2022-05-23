@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { DialogModule } from './dialog';
+import { DialogModule } from './components/dialog';
 
 @NgModule({
     declarations: [

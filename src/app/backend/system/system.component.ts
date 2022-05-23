@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../dialog';
-import { ButtonEvent } from '../../form';
+import { DialogBoxComponent, DialogService } from '../../components/dialog';
+import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
 import { parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';

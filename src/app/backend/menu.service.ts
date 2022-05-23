@@ -1,26 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BlogBackendMenu } from '../blog/backend/menu';
-import { BookBackendMenu } from '../book/backend/menu';
-import { CheckInBackendMenu } from '../checkin/backend/menu';
-import { CMSBackendMenu } from '../cms/backend/menu';
-import { DocumentBackendMenu } from '../document/backend/menu';
-import { ExamBackendMenu } from '../exam/backend/menu';
-import { ForumBackendMenu } from '../forum/backend/menu';
-import { LegworkBackendMenu } from '../legwork/backend/menu';
-import { MicroBackendMenu } from '../micro/backend/menu';
-import { NavigationBackendMenu } from '../navigation/backend/menu';
-import { NoteBackendMenu } from '../note/backend/menu';
-import { OnlineServiceBackendMenu } from '../online-service/backend/menu';
-import { ShopBackendMenu } from '../shop/backend/menu';
+import { BlogBackendMenu } from '../modules/blog/backend/menu';
+import { BookBackendMenu } from '../modules/book/backend/menu';
+import { CheckInBackendMenu } from '../modules/checkin/backend/menu';
+import { CMSBackendMenu } from '../modules/cms/backend/menu';
+import { DocumentBackendMenu } from '../modules/document/backend/menu';
+import { ExamBackendMenu } from '../modules/exam/backend/menu';
+import { ForumBackendMenu } from '../modules/forum/backend/menu';
+import { LegworkBackendMenu } from '../modules/legwork/backend/menu';
+import { MicroBackendMenu } from '../modules/micro/backend/menu';
+import { NavigationBackendMenu } from '../modules/navigation/backend/menu';
+import { NoteBackendMenu } from '../modules/note/backend/menu';
+import { OnlineServiceBackendMenu } from '../modules/online-service/backend/menu';
+import { ShopBackendMenu } from '../modules/shop/backend/menu';
 import { INav } from '../theme/components';
 import { IUser } from '../theme/models/user';
 import { eachObject } from '../theme/utils';
-import { VideoBackendMenu } from '../video/backend/menu';
-import { WechatBackendMenu } from '../wechat/backend/menu';
+import { VideoBackendMenu } from '../modules/video/backend/menu';
+import { WechatBackendMenu } from '../modules/wechat/backend/menu';
 import { AuthBackendMenu, backendBottomMenu, backendMenuItems, SmsBackendMenu } from './menu';
 import { OpenBackendMenu } from './open/menu';
 import { SystemtBackendMenu } from './system/menu';
+import { AppBackendMenu } from '../modules/app-store/backend/menu';
+import { TVBackendMenu } from '../modules/tv/backend/menu';
+import { ResourceBackendMenu } from '../modules/resource-store/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -57,6 +60,9 @@ export class MenuService {
             forum: ForumBackendMenu,
             book: BookBackendMenu,
             video: VideoBackendMenu,
+            app: AppBackendMenu,
+            tv: TVBackendMenu,
+            res: ResourceBackendMenu,
             navigation: NavigationBackendMenu,
             note: NoteBackendMenu,
             legwork: LegworkBackendMenu,

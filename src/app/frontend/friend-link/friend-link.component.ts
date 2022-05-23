@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FrontendService } from '../frontend.service';
 import { IFriendLink, ILink } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
-import { DialogService } from '../../dialog';
-import { DialogBoxComponent } from '../../dialog';
+import { DialogService } from '../../components/dialog';
+import { DialogBoxComponent } from '../../components/dialog';
 
 @Component({
   selector: 'app-friend-link',

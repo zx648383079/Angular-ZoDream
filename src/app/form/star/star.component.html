@@ -1,8 +1,0 @@
-<div class="star-box">
-    <ng-container *ngFor="let item of items">
-        <i class="iconfont" [ngClass]="{'icon-star': value >= item, 'icon-star-o': value < item}" (click)="tapChange(item)"></i>
-    </ng-container>
-    <div class="star-label">
-        <ng-content></ng-content>
-    </div>
-</div>

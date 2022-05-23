@@ -34,7 +34,7 @@ import {
 } from '../../../environments/environment';
 import { IDataOne } from '../models/page';
 import { map } from 'rxjs/operators';
-import { DialogService } from '../../dialog';
+import { DialogService } from '../../components/dialog';
 import { setSystemConfig } from '../actions/system.actions';
 
 const USER_KEY = 'user';

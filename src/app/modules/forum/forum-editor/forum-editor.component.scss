@@ -1,0 +1,7 @@
+@import '../../../components/editor/editor';
+.vote-item {
+    display: flex;
+    .form-control {
+        flex: 1;
+    }
+}

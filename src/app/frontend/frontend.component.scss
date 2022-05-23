@@ -96,6 +96,10 @@ footer {
     }
 }
 
+.inner-body {
+    min-height: 70vh;
+}
+
 @media (min-width: 992px) {
     .navbar-custom {
         .dropdown-menu {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DialogService } from '../../../dialog';
+import { DialogService } from '../../../components/dialog';
 import { confirmValidator } from '../../../theme/validators';
 import { UserService } from '../user.service';
 

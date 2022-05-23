@@ -1,4 +1,4 @@
-import { IExtraRule } from '../../link-rule';
+import { IExtraRule } from '../../components/link-rule';
 import { IUser } from './user';
 
 export interface IBulletinUser {

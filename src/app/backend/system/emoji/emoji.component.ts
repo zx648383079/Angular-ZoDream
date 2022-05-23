@@ -3,8 +3,8 @@ import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
-import { DialogBoxComponent, DialogService } from '../../../dialog';
-import { UploadButtonEvent } from '../../../form';
+import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { UploadButtonEvent } from '../../../components/form';
 import { ActivatedRoute } from '@angular/router';
 import { applyHistory, getQueries } from '../../../theme/query';
 

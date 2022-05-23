@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog';
-import { ButtonEvent } from '../../../form';
+import { DialogService } from '../../../components/dialog';
+import { ButtonEvent } from '../../../components/form';
 import { IPlatform } from '../../../theme/models/open';
 import { IData, IDataOne } from '../../../theme/models/page';
 

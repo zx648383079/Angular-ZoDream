@@ -8,8 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OpenModule } from '../open/open.module';
 import { AuthService } from './auth.service';
-import { DialogModule } from '../../dialog';
-import { ZreFormModule } from '../../form';
+import { DialogModule } from '../../components/dialog';
+import { ZreFormModule } from '../../components/form';
 
 
 @NgModule({

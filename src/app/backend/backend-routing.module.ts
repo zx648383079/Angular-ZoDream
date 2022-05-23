@@ -29,7 +29,7 @@ const routes: Routes = [{
         },
         {
             path: 'shop',
-            loadChildren: () => import('../shop/backend/shop.module').then(m => m.ShopBackendModule)
+            loadChildren: () => import('../modules/shop/backend/shop.module').then(m => m.ShopBackendModule)
         },
         {
             path: 'system',
@@ -37,7 +37,7 @@ const routes: Routes = [{
         },
         {
             path: 'blog',
-            loadChildren: () => import('../blog/backend/blog.module').then(m => m.BlogBackendModule)
+            loadChildren: () => import('../modules/blog/backend/blog.module').then(m => m.BlogBackendModule)
         },
         {
             path: 'contact',
@@ -53,55 +53,67 @@ const routes: Routes = [{
         },
         {
             path: 'forum',
-            loadChildren: () => import('../forum/backend/forum.module').then(m => m.ForumModule)
+            loadChildren: () => import('../modules/forum/backend/forum.module').then(m => m.ForumModule)
         },
         {
             path: 'video',
-            loadChildren: () => import('../video/backend/video.module').then(m => m.VideoModule)
+            loadChildren: () => import('../modules/video/backend/video.module').then(m => m.VideoModule)
+        },
+        {
+            path: 'app',
+            loadChildren: () => import('../modules/app-store/backend/app-backend.module').then(m => m.AppBackendModule)
+        },
+        {
+            path: 'tv',
+            loadChildren: () => import('../modules/tv/backend/tv-backend.module').then(m => m.TvBackendModule)
+        },
+        {
+            path: 'res',
+            loadChildren: () => import('../modules/resource-store/backend/resource-backend.module').then(m => m.ResourceBackendModule)
         },
         {
             path: 'legwork',
-            loadChildren: () => import('../legwork/backend/legwork-backend.module').then(m => m.LegworkBackendModule)
+            loadChildren: () => import('../modules/legwork/backend/legwork-backend.module').then(m => m.LegworkBackendModule)
         },
         {
             path: 'book',
-            loadChildren: () => import('../book/backend/backend.module').then(m => m.BackendModule)
+            loadChildren: () => import('../modules/book/backend/backend.module').then(m => m.BackendModule)
         },
         {
             path: 'os',
-            loadChildren: () => import('../online-service/backend/service-backend.module').then(m => m.ServiceBackendModule)
+            loadChildren: () => import('../modules/online-service/backend/service-backend.module').then(m => m.ServiceBackendModule)
         },
         {
             path: 'doc',
-            loadChildren: () => import('../document/backend/document-backend.module').then(m => m.DocumentBackendModule)
+            loadChildren: () => import('../modules/document/backend/document-backend.module').then(m => m.DocumentBackendModule)
         },
         {
             path: 'exam',
-            loadChildren: () => import('../exam/backend/exam-backend.module').then(m => m.ExamBackendModule)
+            loadChildren: () => import('../modules/exam/backend/exam-backend.module').then(m => m.ExamBackendModule)
         },
         {
             path: 'micro',
-            loadChildren: () => import('../micro/backend/micro.module').then(m => m.MicroModule)
+            loadChildren: () => import('../modules/micro/backend/micro.module').then(m => m.MicroModule)
         },
         {
             path: 'cms',
-            loadChildren: () => import('../cms/backend/cms-backend.module').then(m => m.CmsBackendModule)
+            loadChildren: () => import('../modules/cms/backend/cms-backend.module').then(m => m.CmsBackendModule)
         },
         {
             path: 'wx',
-            loadChildren: () => import('../wechat/backend/wechat-backend.module').then(m => m.WechatBackendModule)
+            loadChildren: () => import('../modules/wechat/backend/wechat-backend.module').then(m => m.WechatBackendModule)
         },
         {
             path: 'checkin',
-            loadChildren: () => import('../checkin/backend/checkin-backend.module').then(m => m.CheckinBackendModule)
+            loadChildren: () => import('../modules/checkin/backend/checkin-backend.module').then(m => m.CheckinBackendModule)
         },
         {
             path: 'navigation',
-            loadChildren: () => import('../navigation/backend/navigation-backend.module').then(m => m.NavigationBackendModule)
+            loadChildren: () => import('../modules/navigation/backend/navigation-backend.module').then(m => m.NavigationBackendModule)
         },
         {
             path: 'note',
-            loadChildren: () => import('../note/backend/note-backend.module').then(m => m.NoteBackendModule)
+            loadChildren: () => import('../modules/note/backend/note-backend.module').then(m => m.NoteBackendModule)
         },
         {
             path: '',

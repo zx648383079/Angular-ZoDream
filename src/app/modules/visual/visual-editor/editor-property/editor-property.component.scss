@@ -1,0 +1,145 @@
+@import "../../../../theme/styles/scrollbar";
+.property-panel {
+    position: fixed;
+    z-index: 102;
+    width: 15em;
+    background-color: #fff;
+    box-shadow: 0 -2px 1.5em 0 rgb(39 54 78 / 11%);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.tab-box {
+    .tab-header {
+        display: flex;
+        font-size: .8em;
+        .tab-item {
+            flex: 1;
+            width: auto;
+            line-height: 2em;
+            height: 2em;
+        }
+    }
+    .tab-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        @include scrollbar();
+    }
+}
+.panel {
+    .panel-header {
+        padding: 0 .5em;
+        line-height: 2em;
+        border-bottom: 2px solid;
+        border-left: none;
+        font-size: 1em;
+        background: #f6f7f8;
+        border-bottom: 1px solid #d9d9d9;
+        .iconfont {
+            float: right;
+            user-select: none;
+            font-size: .8em;
+        }
+    }
+    .panel-body {
+        // padding: .5em;
+    }
+    &.open {
+        >.panel-body {
+            display: block;
+        }
+    }
+}
+.panel-body {
+    .panel-body {
+        display: none;
+    }
+}
+.icon-bar {
+    i {
+        display: inline-block;
+        margin: .5em;
+    }
+}
+.inner-input {
+    display: block;
+    border-radius: .3em;
+    border: 1px solid #ccc;
+    display: flex;
+    label {
+        width: 2em;
+        font-size: .8em;
+        display: inline-block;
+        text-align: center;
+        color: #777;
+    }
+    input {
+        flex: 1;
+        border: none;
+        outline: none;
+        width: 100%;
+    }
+}
+
+.line-input {
+    display: flex;
+    label {
+        width: 5em;
+        font-size: .8em;
+        display: inline-block;
+        text-align: center;
+        color: #777;
+    }
+    input,
+    select {
+        flex: 1;
+        width: 100%;
+    }
+    app-progress-bar {
+        margin-top: .5em;
+    }
+    input[type="number"] {
+        width: 3em;
+    }
+}
+
+.side-input {
+    label {
+        width: 5em;
+        font-size: .8em;
+        display: inline-block;
+        text-align: center;
+        color: #777;
+    }
+    .side-body {
+        flex: 1;
+        position: relative;
+    }
+    .inner-input {
+        display: inline-flex;
+        width: 50%;
+    }
+}
+
+.style-item {
+    line-height: 60px;
+    border: 1px dotted red;
+    text-align: center;
+    color: #999;
+    font-weight: 700;
+    font-size: 20px;
+    user-select: none;
+    &.active {
+        border: 1px dotted green;
+    }
+}
+.form-control {
+    display: inline-block;
+    padding: .1em;
+}
+:ng-deep {
+    .form-control {
+        display: inline-block;
+        padding: .1em;
+    }
+}

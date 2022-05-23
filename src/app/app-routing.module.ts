@@ -12,11 +12,11 @@ const routes: Routes = [
     {
         path: 'task',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./task/task.module').then(m => m.TaskModule)
+        loadChildren: () => import('./modules/task/task.module').then(m => m.TaskModule)
     },
     {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+        loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
     },
     {
         path: 'frontend',
@@ -30,35 +30,36 @@ const routes: Routes = [
     {
         path: 'disk',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./disk/disk.module').then(m => m.DiskModule)
+        loadChildren: () => import('./modules/disk/disk.module').then(m => m.DiskModule)
     },
     {
         path: 'chat',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
+        loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
     },
-    { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
-    { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
-    { path: 'book', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
-    { path: 'catering', loadChildren: () => import('./catering/catering.module').then(m => m.CateringModule) },
-    { path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule) },
-    { path: 'doc', loadChildren: () => import('./document/document.module').then(m => m.DocumentModule) },
-    { path: 'wx', loadChildren: () => import('./wechat/wechat.module').then(m => m.WechatModule) },
-    { path: 'navigation', loadChildren: () => import('./navigation/navigation.module').then(m => m.NavigationModule) },
+    { path: 'shop', loadChildren: () => import('./modules/shop/shop.module').then(m => m.ShopModule) },
+    { path: 'blog', loadChildren: () => import('./modules/blog/blog.module').then(m => m.BlogModule) },
+    { path: 'book', loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule) },
+    { path: 'catering', loadChildren: () => import('./modules/catering/catering.module').then(m => m.CateringModule) },
+    { path: 'video', loadChildren: () => import('./modules/video/video.module').then(m => m.VideoModule) },
+    { path: 'doc', loadChildren: () => import('./modules/document/document.module').then(m => m.DocumentModule) },
+    { path: 'wx', loadChildren: () => import('./modules/wechat/wechat.module').then(m => m.WechatModule) },
+    { path: 'navigation', loadChildren: () => import('./modules/navigation/navigation.module').then(m => m.NavigationModule) },
+    { path: 'tv', loadChildren: () => import('./modules/tv/tv.module').then(m => m.TvModule) },
     {
         path: 'finance',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./finance/finance.module').then(m => m.FinanceModule)
+        loadChildren: () => import('./modules/finance/finance.module').then(m => m.FinanceModule)
     },
     {
         path: 'visual',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./visual/visual.module').then(m => m.VisualModule)
+        loadChildren: () => import('./modules/visual/visual.module').then(m => m.VisualModule)
     },
     {
         path: 'gzo',
         canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./generator/generator.module').then(m => m.GeneratorModule)
+        loadChildren: () => import('./modules/generator/generator.module').then(m => m.GeneratorModule)
     },
     {
         path: '**',

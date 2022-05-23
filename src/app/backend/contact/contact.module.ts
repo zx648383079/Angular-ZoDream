@@ -5,7 +5,7 @@ import { ContactRoutingModule, contactRoutedComponents } from './contact-routing
 import { ThemeModule } from '../../theme/theme.module';
 import { ContactService } from './contact.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { DialogModule } from '../../dialog';
+import { DialogModule } from '../../components/dialog';
 
 
 @NgModule({

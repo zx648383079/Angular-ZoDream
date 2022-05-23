@@ -1,0 +1,33 @@
+@import '../../../theme/styles/scrollbar';
+.scroll-nav {
+    margin-left: 80px;
+    line-height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: auto;
+    @include scrollbar();
+    .item {
+        display: inline-block;
+        padding: 0 10px;
+        cursor: pointer;
+        &.active {
+            border-bottom: 2px solid red;
+        }
+    }
+}
+
+.bar-panel {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    .bar-container {
+        line-height: 40px;
+        .item {
+            text-align: center;
+            cursor: pointer;
+            &.active {
+                border-left: 2px solid red;
+                background-color: #fff;
+            }
+        }
+    }
+}

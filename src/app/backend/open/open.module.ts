@@ -6,8 +6,8 @@ import { openRoutedComponents, OpenRoutingModule } from './open-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlatformOptionComponent } from './platform-option/platform-option.component';
 import { OpenService } from './open.service';
-import { ZreFormModule } from '../../form';
-import { DialogModule } from '../../dialog';
+import { ZreFormModule } from '../../components/form';
+import { DialogModule } from '../../components/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({

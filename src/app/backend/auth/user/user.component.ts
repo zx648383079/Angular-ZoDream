@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../../dialog';
+import { DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
 import { getUserRole } from '../../../theme/reducers/auth.selectors';

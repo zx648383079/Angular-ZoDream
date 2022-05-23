@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { SystemRoutingModule, systemRoutedComponents } from './system-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { SystemService } from './system.service';
-import { DialogModule } from '../../dialog';
-import { ZreFormModule } from '../../form';
+import { DialogModule } from '../../components/dialog';
+import { ZreFormModule } from '../../components/form';
 
 
 @NgModule({

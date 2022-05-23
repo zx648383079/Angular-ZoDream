@@ -18,18 +18,20 @@ const routes: Routes = [
                 path: 'home',
                 component: HomeComponent,
             },
-            { path: 'blog', loadChildren: () => import('../blog/frontend/blog.module').then(m => m.BlogModule) },
-            { path: 'forum', loadChildren: () => import('../forum/forum.module').then(m => m.ForumModule) },
-            { path: 'micro', loadChildren: () => import('../micro/micro.module').then(m => m.MicroModule) },
-            { path: 'note', loadChildren: () => import('../note/note.module').then(m => m.NoteModule) },
+            { path: 'blog', loadChildren: () => import('../modules/blog/frontend/blog.module').then(m => m.BlogModule) },
+            { path: 'forum', loadChildren: () => import('../modules/forum/forum.module').then(m => m.ForumModule) },
+            { path: 'micro', loadChildren: () => import('../modules/micro/micro.module').then(m => m.MicroModule) },
+            { path: 'note', loadChildren: () => import('../modules/note/note.module').then(m => m.NoteModule) },
+            { path: 'app', loadChildren: () => import('../modules/app-store/app-store.module').then(m => m.AppStoreModule) },
+            { path: 'res', loadChildren: () => import('../modules/resource-store/resource-store.module').then(m => m.ResourceStoreModule) },
             {
                 path: 'legwork',
                 canActivate: [CanActivateViaAuthGuard],
-                loadChildren: () => import('../legwork/legwork.module').then(m => m.LegworkModule)
+                loadChildren: () => import('../modules/legwork/legwork.module').then(m => m.LegworkModule)
             },
             {
                 path: 'exam',
-                loadChildren: () => import('../exam/exam.module').then(m => m.ExamModule)
+                loadChildren: () => import('../modules/exam/exam.module').then(m => m.ExamModule)
             },
             {
                 path: 'about',

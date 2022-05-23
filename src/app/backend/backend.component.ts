@@ -19,7 +19,7 @@ import {
     BackendService
 } from './backend.service';
 import { AuthActions } from '../theme/actions';
-import { DialogService } from '../dialog';
+import { DialogService } from '../components/dialog';
 import { MenuService } from './menu.service';
 import { ThemeService } from '../theme/services';
 

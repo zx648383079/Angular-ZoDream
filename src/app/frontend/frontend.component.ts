@@ -7,8 +7,8 @@ import { AppState } from '../theme/interfaces';
 import { getCurrentUser } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { AuthService, SearchService } from '../theme/services';
-import { DialogService } from '../dialog';
-import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
+import { DialogService } from '../components/dialog';
+import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
 
 interface IMenuItem {
   name: string;

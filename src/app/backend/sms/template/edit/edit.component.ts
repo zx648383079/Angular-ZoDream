@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
+import { DialogService } from '../../../../components/dialog';
 import { ISignature, ITemplate } from '../../../../theme/models/sms';
 import { SmsService } from '../../sms.service';
 

@@ -8,8 +8,8 @@
 @import './app/theme/styles/tab';
 @import './app/theme/styles/panel';
 @import './app/theme/styles/menu';
-@import './app/dialog/dialog';
+@import './app/components/dialog/dialog';
 
 // 一些通过innerHTML用到全局的样式
 @import './app/theme/styles/markdown';
-@import './app/wechat/rich';
+@import './app/modules/wechat/rich';

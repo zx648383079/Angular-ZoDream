@@ -1,0 +1,102 @@
+@import '../../../theme/styles/scrollbar';
+.upload-dialog-box {
+    position: fixed;
+    z-index: 920;
+    width: 40em;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    box-shadow: 0 0 1.5em rgba(0, 0, 0, 0.2);
+    .dialog-header {
+        line-height: 3em;
+        display: flex;
+        .header-title {
+            flex: 1;
+            padding-left: .8rem;
+            user-select: none;
+        }
+        .header-action {
+            i {
+                display: inline-block;
+                width: 3em;
+                text-align: center;
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+            }
+        }
+    }
+    .dialog-body {
+        display: block;
+        height: 20em;
+        overflow-y: auto;
+        background-color: #f4f4f4;
+        @include scrollbar();
+    }
+    .upload-group {
+        line-height: 2rem;
+        padding-left: .8rem;
+    }
+    .upload-item {
+        margin-bottom: .2em;
+        background-color: #fff;
+        position: relative;
+        .item-body {
+            display: flex;
+            padding: 0 .8em;
+            position: relative;
+            z-index: 9;
+        }
+        .item-action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-meta {
+            font-size: .8em;
+            color: #767676;
+            span {
+                margin-right: .5em;
+            }
+        }
+        .item-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #6ea4f7;
+            background-size: 1rem 1rem;
+            transition: width .6s ease;
+            
+        }
+        &.item-cancel {
+            .item-progress {
+                background: #ccc;
+            }
+        }
+        &.item-running {
+            .item-progress {
+                background-color: #2479f8;
+                background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+                animation: 1s linear infinite upload-progress;
+            }
+        }
+    }
+    &.dialog-min {
+        .dialog-header {
+            .header-action {
+                display: none;
+            }
+        }
+        .dialog-body {
+            display: none;
+        }
+    }
+}
+
+@keyframes upload-progress {
+    0% { background-position-x: 3em; }
+}

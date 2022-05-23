@@ -1,0 +1,104 @@
+@import '../../../theme/styles/scrollbar';
+.container {
+    padding: 2em 0;
+}
+.tool-bar {
+    display: flex;
+    margin-bottom: .8em;
+    line-height: 2.5rem;
+    padding: 0 .8rem;
+    color: #777;
+    background-color: #fff;
+    .form-control {
+        display: inline-block;
+        width: auto;
+    }
+    .time-input {
+        width: 6em;
+    }
+    .tool-left-bar {
+        flex: 1;
+    }
+    .tool-right-bar {
+        min-width: 8em;
+        text-align: right;
+    }
+    .tool-item {
+        display: inline-block;
+        padding: 0 .5rem;
+        margin: 0;
+        cursor: pointer;
+        &:hover {
+            color: #333;
+        }
+    }
+    .icon-btn {
+        display: inline-flex;
+        width: 2em;
+        height: 2em;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        &:hover {
+            box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+        }
+    }
+}
+
+.preview-bar {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: .8em .4em 6em .8em;
+    @include scrollbar();
+    .preview-item {
+        position: relative;
+        background-color: white;
+        border: 1px solid #ccc;
+        height: 6em;
+        margin-bottom: .6em;
+        cursor: default;
+        padding: 0.8em;
+        .item-name {
+            height: 100%;
+            overflow: hidden;
+            font-size: .3em;
+        }
+        .item-no {
+            position: absolute;
+            top: -1em;
+            left:-1em;
+            background-color: green;
+            color: #fff;
+            border-radius: 50%;
+            font-size: .5em;
+            display: flex;
+            width: 3em;
+            height: 3em;
+            align-items: center;
+            justify-content: center;
+        }
+        &:hover {
+            border-width: 3px;
+        }
+        &.active {
+            border-width: 3px;
+            border-color: red;
+        }
+    }
+}
+
+.question-option {
+    padding: .2em;
+    cursor: default;
+    .item-title {
+        line-height: 2rem;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+    &.selected {
+        color: #333;
+        background-color: #ebf5ff;
+    }
+}

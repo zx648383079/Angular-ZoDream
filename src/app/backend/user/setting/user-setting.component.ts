@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { DialogService } from '../../../dialog';
-import { ButtonEvent } from '../../../form';
+import { DialogService } from '../../../components/dialog';
+import { ButtonEvent } from '../../../components/form';
 import { getQueries } from '../../../theme/query';
 import { UserService } from '../user.service';
 

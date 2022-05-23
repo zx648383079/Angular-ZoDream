@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../dialog';
+import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';

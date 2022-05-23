@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService } from '../../../dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../theme/query';

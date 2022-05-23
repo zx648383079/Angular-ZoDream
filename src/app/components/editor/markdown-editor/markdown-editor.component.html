@@ -1,0 +1,28 @@
+<div class="editor-box">
+    <div class="editor-tool-bar">
+        <label [for]="imageName" class="tool-item" i18n-title title="upload image">
+            <i class="iconfont icon-image"></i>
+            <input type="file" name="file" [id]="imageName" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
+        </label>
+        <div class="tool-item" (click)="tapTool('images')" i18n-title title="Choose online pictures">
+            <i class="iconfont icon-folder-o"></i>
+        </div>
+        <div class="tool-item" (click)="tapTool('code')" i18n-title title="Insert code">
+            <i class="iconfont icon-code"></i>
+        </div>
+        <div class="tool-item" (click)="tapTool('link')" i18n-title title="Insert link">
+            <i class="iconfont icon-chain"></i>
+        </div>
+        <div class="tool-item" [ngClass]="{active: isPreview}" (click)="tapTool('preview')" i18n-title title="Preview">
+            <i class="iconfont" [ngClass]="{'icon-eye': !isPreview, 'icon-eye-slash': isPreview}"></i>
+        </div>
+    </div>
+    <div class="editor-area">
+        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
+        <div class="editor-footer" i18n>{{ size }} words</div>
+        <div class="editor-preview style-markdown" *ngIf="isPreview">
+            <div [innerHTML]="previewValue"></div>
+        </div>
+    </div>
+    
+</div>

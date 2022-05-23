@@ -1,0 +1,100 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑应用' : '新增应用'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+
+
+<div class="container-fluid">
+    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="panel-container">
+            <div class="title-input">
+                <label for="title">应用名</label>
+                <input type="text" id="title" class="form-control" formControlName="name">
+            </div>
+            
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="应用描述"></app-markdown-editor>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="高级属性">
+                    <div class="input-group">
+                        <label for="cat_id">分类</label>
+                        <div>
+                            <select id="cat_id" class="form-control" formControlName="cat_id">
+                                <ng-container *ngFor="let item of categories">
+                                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+        
+                        </div>
+                    </div>
+                   
+                    <div class="input-group">
+                        <label for="thumb">图标</label>
+                        <div>
+                            <app-file-input formControlName="icon"></app-file-input>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="input-group">
+                        <label for="keywords">关键字</label>
+                        <div>
+                            <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">说明</label>
+                        <div>
+                            <app-text-editor formControlName="description" height="100"></app-text-editor>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>标签</label>
+                        <div>
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="附加属性">
+                    <div class="input-group">
+                        <label for="is_free">免费应用</label>
+                        <div>
+                            <app-switch formControlName="is_free"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_open_source">是否开源</label>
+                        <div>
+                            <app-switch formControlName="is_open_source"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group" *ngIf="isOpenSource">
+                        <label for="git_url">源码地址</label>
+                        <div>
+                            <input type="text" id="git_url" class="form-control" formControlName="git_url">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="official_website">官网</label>
+                        <div>
+                            <input type="text" id="official_website" class="form-control" formControlName="official_website">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="score">评分</label>
+                        <div>
+                            <app-star formControlName="score" [disabled]="false" [labelVisible]="true">分</app-star>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

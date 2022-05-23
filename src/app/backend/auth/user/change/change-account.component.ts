@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../dialog';
+import { DialogService } from '../../../../components/dialog';
 import { IUser } from '../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 

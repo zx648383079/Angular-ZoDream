@@ -48,6 +48,18 @@ export class HomeComponent implements OnInit {
             url: '/video'
         },
         {
+            name: $localize `App Store`,
+            url: '/app'
+        },
+        {
+            name: $localize `Resource Store`,
+            url: '/res'
+        },
+        {
+            name: $localize `TV`,
+            url: '/tv'
+        },
+        {
             name: $localize `Document`,
             url: '/doc'
         },

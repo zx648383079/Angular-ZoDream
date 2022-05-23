@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog';
+import { DialogService } from '../../../components/dialog';
 import { IRole } from '../../../theme/models/auth';
 import { RoleService } from './role.service';
 

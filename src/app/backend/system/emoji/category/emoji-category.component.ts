@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../../../dialog';
+import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IEmojiCategory } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../../dialog';
+import { DialogBoxComponent } from '../../../../components/dialog';
 import { IAccountLog } from '../../../../theme/models/auth';
 import { IUser } from '../../../../theme/models/user';
 import { AuthService } from '../../auth.service';

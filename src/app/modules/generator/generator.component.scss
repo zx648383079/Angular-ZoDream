@@ -1,0 +1,16 @@
+::ng-deep {
+    @import '../../theme/styles/admin';
+    .preview-item {
+        .item-path {
+            line-height: 3em;
+            background-color: rgb(253, 229, 184);
+            border-radius: .2em;
+            box-shadow: inset 2px 2px 2px #777;
+            padding: 0 .8em;
+        }
+        .item-body {
+            padding: .8em;
+            box-shadow: inset 2px 2px 2px #777;
+        }
+    }
+}

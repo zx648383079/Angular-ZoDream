@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-routing.module';
 import { FrontendService } from './frontend.service';
-import { OnlineServiceModule } from '../online-service/online-service.module';
+import { OnlineServiceModule } from '../modules/online-service/online-service.module';
 import { ThemeModule } from '../theme/theme.module';
-import { CheckinModule } from '../checkin/checkin.module';
-import { DialogModule } from '../dialog';
-import { ZreFormModule } from '../form';
-import { AuthSharedModule } from '../auth/auth-shared.module';
+import { CheckinModule } from '../modules/checkin/checkin.module';
+import { DialogModule } from '../components/dialog';
+import { ZreFormModule } from '../components/form';
+import { AuthSharedModule } from '../modules/auth/auth-shared.module';
 
 
 @NgModule({

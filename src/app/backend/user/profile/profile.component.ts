@@ -7,8 +7,8 @@ import { IUser } from '../../../theme/models/user';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../dialog';
-import { ButtonEvent } from '../../../form';
+import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
   selector: 'app-profile',

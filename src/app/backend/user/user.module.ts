@@ -6,9 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { userRoutedComponents, UserRoutingModule } from './user-routing.module';
 import { UserService } from './user.service';
-import { DialogModule } from '../../dialog';
-import { ZreFormModule } from '../../form';
-import { LinkRuleModule } from '../../link-rule';
+import { DialogModule } from '../../components/dialog';
+import { ZreFormModule } from '../../components/form';
+import { LinkRuleModule } from '../../components/link-rule';
 
 @NgModule({
     imports: [
