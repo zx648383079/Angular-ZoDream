@@ -38,7 +38,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
 
     get areaStyle() {
         return {
-            height: typeof this.height === 'number' ? this.height + 'px' : this.height,
+            height: typeof this.height === 'number' || /^[\d\.]+$/.test(this.height) ? this.height + 'px' : this.height,
         };
     }
 

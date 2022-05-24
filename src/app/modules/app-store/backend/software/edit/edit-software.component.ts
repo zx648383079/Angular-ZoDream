@@ -55,6 +55,9 @@ export class EditSoftwareComponent implements OnInit {
             this.service.software(params.id).subscribe({
                 next: res => {
                     this.data = res;
+                    if (res.tags) {
+                        this.tags = res.tags;
+                    }
                     this.form.patchValue({
                         name: res.name,
                         keywords: res.keywords,

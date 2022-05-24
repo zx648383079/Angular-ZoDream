@@ -24,6 +24,7 @@ export class FileInputComponent implements ControlValueAccessor {
      * 是否开启在线选择
      */
     @Input() public online = false;
+    @Input() public custom = false;
 
     public value: string;
     public disabled = false;
@@ -31,6 +32,7 @@ export class FileInputComponent implements ControlValueAccessor {
     public fileName = this.uploadService.uniqueGuid();
 
     @Output() public fileUploaded = new EventEmitter<IUploadResult | IUploadFile>();
+    @Output() public customUpload = new EventEmitter<File>();
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -41,7 +43,7 @@ export class FileInputComponent implements ControlValueAccessor {
     }
 
     get canPreview() {
-        return this.accept.indexOf('image') >= 0;
+        return !this.custom && this.accept.indexOf('image') >= 0;
     }
 
     public onValueChange() {
@@ -60,6 +62,10 @@ export class FileInputComponent implements ControlValueAccessor {
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
+        if (this.custom) {
+            this.customUpload.emit(files[0]);
+            return;
+        }
         let upload$: Observable<IUploadResult>;
         if (this.accept.indexOf('image') >= 0) {
             upload$ = this.uploadService.uploadImage(files[0]);

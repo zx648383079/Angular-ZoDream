@@ -20,7 +20,7 @@
                         <div>
                             <select id="cat_id" class="form-control" formControlName="cat_id">
                                 <ng-container *ngFor="let item of categories">
-                                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                                 </ng-container>
                             </select>
         

@@ -8,6 +8,8 @@ import {
 import { CategoryComponent } from './category/category.component';
 import { CommentComponent } from './comment/comment.component';
 import { ResourceBackendComponent } from './resource-backend.component';
+import { EditResourceComponent } from './resource/edit/edit-resource.component';
+import { ResourceComponent } from './resource/resource.component';
 import { TagComponent } from './tag/tag.component';
 
 const routes: Routes = [
@@ -22,6 +24,18 @@ const routes: Routes = [
     {
         path: 'category',
         component: CategoryComponent,
+    },
+    {
+        path: 'resource/create',
+        component: EditResourceComponent,
+    },
+    {
+        path: 'resource/edit/:id',
+        component: EditResourceComponent,
+    },
+    {
+        path: 'resource',
+        component: ResourceComponent,
     },
     {
         path: '',
@@ -40,6 +54,6 @@ const routes: Routes = [
 export class BackendRoutingModule {}
 
 export const backendRoutedComponents = [
-    ResourceBackendComponent,
+    ResourceBackendComponent, ResourceComponent, EditResourceComponent,
     CommentComponent, TagComponent, CategoryComponent,
 ];

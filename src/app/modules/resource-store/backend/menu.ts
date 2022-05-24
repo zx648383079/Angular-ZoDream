@@ -10,7 +10,12 @@ export const ResourceBackendMenu: INav[] = [
             {
                 name: '资源列表',
                 label: '列',
-                url: './res/list',
+                url: './res/resource',
+            },
+            {
+                name: '分类列表',
+                label: 'app',
+                url: './res/category',
             },
             {
                 name: '标签列表',

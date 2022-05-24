@@ -14,4 +14,5 @@ export * from './switch/util';
 export * from './password-strong/password-strong.component';
 export * from './action-button/action-button.component';
 export * from './number-input/number-input.component';
+export * from './data-size/data-size.component';
 export * from './event';

@@ -4,6 +4,10 @@ import { backendRoutedComponents, BackendRoutingModule } from './backend-routing
 import { ThemeModule } from '../../../theme/theme.module';
 import { ResourceService } from './resource.service';
 import { DialogModule } from '../../../components/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ZreEditorModule } from '../../../components/editor';
+import { ZreFormModule } from '../../../components/form';
 
 @NgModule({
     imports: [
@@ -11,6 +15,10 @@ import { DialogModule } from '../../../components/dialog';
         ThemeModule,
         BackendRoutingModule,
         DialogModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ZreEditorModule,
+        ZreFormModule,
     ],
     declarations: [...backendRoutedComponents],
     providers: [

@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>短视频平台</li>
+            <li>应用商店平台</li>
         </ul>
     </app-page-tip>
 
@@ -12,13 +12,31 @@
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 <div class="inner">
-                    <h3>{{ data.video_today || 0 | numberFormat }}/{{ data.video_count || 0 | numberFormat }}</h3>
-                    <p>视频今日新增/总数</p>
+                    <h3>{{ data.download_today | numberFormat }}/{{ data.download_yesterday | numberFormat }}/{{ data.download_count | numberFormat }}</h3>
+                    <p>应用下载今日/昨日/总数</p>
                 </div>
                 <div class="icon">
-                    <i class="iconfont icon-folder-o"></i>
+                    <i class="iconfont icon-download"></i>
                 </div>
-                <a class="column-footer" routerLink="list">
+                <a class="column-footer" routerLink="software">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.app_today || 0 | numberFormat }}/{{ data.app_count || 0 | numberFormat }}</h3>
+                    <p>应用今日新增/总数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-APP"></i>
+                </div>
+                <a class="column-footer" routerLink="software">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>

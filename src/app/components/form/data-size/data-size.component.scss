@@ -1,0 +1,15 @@
+.data-size-input {
+    .form-control {
+        border-radius: 0%;
+        display: inline-block;
+        width: auto;
+        &:first-child {
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+        &:last-child {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+    }
+}

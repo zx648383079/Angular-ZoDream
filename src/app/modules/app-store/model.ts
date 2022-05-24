@@ -17,18 +17,34 @@ export interface ISoftware {
     score: number,
     updated_at: string;
     created_at: string;
+    download_count: number;
+    view_count: number;
+    comment_count: number;
     tags?: ITag[];
     user?: IUser;
     category?: ICategory;
+    version?: ISoftwareVersion;
 }
 
 export interface ISoftwareVersion {
     id: number;
     name: string;
+    description: string;
+    created_at?: string;
+    app_id: number;
 }
 
 export interface ISoftwarePackage {
     id: number;
+    name: string;
+    created_at?: string;
+    app_id: number;
+    version_id: number;
+    os: string;
+    framework: string;
+    url_type: number;
+    url: string;
+    size: number;
 }
 
 export interface ICategory {

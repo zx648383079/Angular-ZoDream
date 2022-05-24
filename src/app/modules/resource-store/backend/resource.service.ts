@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { ICategory, IComment, ITag } from '../model';
+import { ICategory, IComment, IResource, ITag } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +26,22 @@ export class ResourceService {
 
     public categoryRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('res/admin/category/delete', {params: {id}});
+    }
+
+    public resourceList(params: any) {
+        return this.http.get<IPage<IResource>>('res/admin/resource', {params});
+    }
+
+    public resource(id: any) {
+        return this.http.get<IResource>('res/admin/resource/detail', {params: {id}});
+    }
+
+    public resourceSave(data: any) {
+        return this.http.post<IResource>('res/admin/resource/save', data);
+    }
+
+    public resourceRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('res/admin/resource/delete', {params: {id}});
     }
 
     public tagList(params: any) {

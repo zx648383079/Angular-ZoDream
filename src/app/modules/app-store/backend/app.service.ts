@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { ICategory, IComment, ISoftware, ISoftwareVersion, ITag } from '../model';
+import { ICategory, IComment, ISoftware, ISoftwarePackage, ISoftwareVersion, ITag } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -32,8 +32,12 @@ export class AppService {
         return this.http.get<IPage<ISoftware>>('app/admin/software', {params});
     }
 
-    public software(id: any) {
-        return this.http.get<ISoftware>('app/admin/software/detail', {params: {id}});
+    public software(id: any, version?: any) {
+        const data: any = {id};
+        if (version) {
+            data.version = version;
+        }
+        return this.http.get<ISoftware>('app/admin/software/detail', {params: data});
     }
 
     public softwareSave(data: any) {
@@ -57,11 +61,11 @@ export class AppService {
     }
 
     public packageList(params: any) {
-        return this.http.get<IPage<ISoftwareVersion>>('app/admin/software/package', {params});
+        return this.http.get<IPage<ISoftwarePackage>>('app/admin/software/package', {params});
     }
 
     public packageSave(data: any) {
-        return this.http.post<ISoftwareVersion>('app/admin/software/package_save', data);
+        return this.http.post<ISoftwarePackage>('app/admin/software/package_save', data);
     }
 
     public packageRemove(id: any) {

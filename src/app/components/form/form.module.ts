@@ -19,6 +19,7 @@ import { ActionButtonComponent } from './action-button/action-button.component';
 import { NumberInputComponent } from './number-input/number-input.component';
 import { UploadButtonComponent } from './upload-button/upload-button.component';
 import { WordsInputComponent } from './words-input/words-input.component';
+import { DataSizeComponent } from './data-size/data-size.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -38,6 +39,7 @@ const COMPONENTS = [
     NumberInputComponent,
     UploadButtonComponent,
     WordsInputComponent,
+    DataSizeComponent,
 ];
 
 @NgModule({

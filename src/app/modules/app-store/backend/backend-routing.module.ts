@@ -36,12 +36,12 @@ const routes: Routes = [
         component: EditSoftwareComponent,
     },
     {
-        path: 'software/version/:id',
-        component: VersionComponent,
+        path: 'software/:app/version/:version',
+        component: PackageComponent,
     },
     {
-        path: 'software/package/:id/:version',
-        component: PackageComponent,
+        path: 'software/:app/version',
+        component: VersionComponent,
     },
     {
         path: 'software',

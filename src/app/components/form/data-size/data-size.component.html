@@ -1,0 +1,6 @@
+<div class="data-size-input">
+    <input type="number" class="form-control" [(ngModel)]="unitValue" [disabled]="disabled" (ngModelChange)="onValueChange()" [placeholder]="placeholder">
+    <select class="form-control" [(ngModel)]="unitIndex" (ngModelChange)="onUnitChange()" [disabled]="disabled">
+        <option *ngFor="let item of unitItems;let i = index" [value]="i">{{ item }}</option>
+    </select>
+</div>

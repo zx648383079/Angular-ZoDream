@@ -1,3 +1,66 @@
-<p>
-  version works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理 “{{ software?.name }}” 应用的版本</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right" *ngIf="software">
+                    <a class="btn btn-success" (click)="open(modal)">新增版本</a>
+                </div>
+                
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>版本号</th>
+                    <th>更新日志</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.created_at | ago }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info" [routerLink]="[item.id]">程序包</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal title="新增版本" [scrollable]="false">
+    <div class="form-group">
+        <label for="name-input">版本号</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入版本号">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>更新日志</label>
+        <div>
+            <app-text-editor [(ngModel)]="editData.description" height="200"></app-text-editor>
+        </div>
+    </div>
+</app-dialog-box>
