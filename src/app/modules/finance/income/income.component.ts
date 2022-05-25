@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
+import { UploadButtonEvent } from '../../../components/form';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { DownloadService } from '../../../theme/services';
-import { eachObject } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../model';
@@ -144,11 +144,7 @@ export class IncomeComponent implements OnInit {
         this.downloadService.export('finance/log/export', {}, '流水记录.xlsx');
     }
 
-    public tapImport(modal: DialogBoxComponent) {
-        modal.open();
-    }
-
-    public uploadFile(event: any) {
+    public tapImport(event: UploadButtonEvent) {
         const form = new FormData();
         form.append('file', event.files[0]);
         event.enter();

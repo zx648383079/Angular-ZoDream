@@ -4,26 +4,19 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../../theme/query';
 import { emptyValidate } from '../../../../../theme/validators';
-import { IMovieScore } from '../../../model';
+import { IMovieArea } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
-  selector: 'app-movie-score',
-  templateUrl: './movie-score.component.html',
-  styleUrls: ['./movie-score.component.scss']
+  selector: 'app-movie-area',
+  templateUrl: './movie-area.component.html',
+  styleUrls: ['./movie-area.component.scss']
 })
-export class MovieScoreComponent implements OnInit {
+export class MovieAreaComponent implements OnInit {
 
-    public items: IMovieScore[] = [];
-    public hasMore = true;
+    public items: IMovieArea[] = [];
     public isLoading = false;
-    public total = 0;
-    public queries: IPageQueries = {
-        keywords: '',
-        page: 1,
-        per_page: 20
-    };
-    public editData: IMovieScore = {} as any;
+    public editData: IMovieArea = {} as any;
 
     constructor(
         private service: TVService,
@@ -33,36 +26,17 @@ export class MovieScoreComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
-            this.tapPage();
-        });
+        this.load()
     }
 
-    public tapRefresh() {
-        this.goPage(1);
-    }
-
-    public tapPage() {
-        this.goPage(this.queries.page);
-    }
-
-    public tapMore() {
-        this.goPage(this.queries.page + 1);
-    }
-
-    public goPage(page: number) {
+    public load() {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
-        this.service.scoreList(queries).subscribe({
+        this.service.areaList().subscribe({
             next: res => {
                 this.items = res.data;
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                applyHistory(this.queries = queries);
             },
             complete: () => {
                 this.isLoading = false;
@@ -70,23 +44,16 @@ export class MovieScoreComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
-        this.tapRefresh();
-    }
-
-    public open(modal: DialogEvent, item?: IMovieScore) {
+    public open(modal: DialogEvent, item?: IMovieArea) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',
-            score: 10,
-            url: '',
         };
         modal.open(() => {
-            this.service.scoreSave(this.editData).subscribe({
+            this.service.areaSave(this.editData).subscribe({
                 next: () => {
                     this.toastrService.success('保存成功');
-                    this.tapPage();
+                    this.load();
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -97,9 +64,9 @@ export class MovieScoreComponent implements OnInit {
         });
     }
 
-    public tapRemove(item: IMovieScore) {
-        this.toastrService.confirm('确定删除“' + item.name + '”歌曲？', () => {
-            this.service.scoreRemove(item.id).subscribe(res => {
+    public tapRemove(item: IMovieArea) {
+        this.toastrService.confirm('确定删除“' + item.name + '”地区？', () => {
+            this.service.areaRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -110,5 +77,6 @@ export class MovieScoreComponent implements OnInit {
             });
         })
     }
+
 
 }

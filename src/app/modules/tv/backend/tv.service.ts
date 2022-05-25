@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { ICategory, IComment, ILive, IMovie, IMusic, ITag } from '../model';
+import { ICategory, IComment, ILive, IMovie, IMovieArea, IMovieFile, IMovieScore, IMovieSeries, IMusic, ITag } from '../model';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +45,54 @@ export class TVService {
         return this.http.delete<IDataOne<boolean>>('tv/admin/movie/delete', {params: {id}});
     }
 
+    public scoreList(params: any) {
+        return this.http.get<IPage<IMovieScore>>('tv/admin/movie/score', {params});
+    }
+
+    public scoreSave(data: any) {
+        return this.http.post<IMovieScore>('tv/admin/movie/score_save', data);
+    }
+
+    public scoreRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('tv/admin/movie/score_delete', {params: {id}});
+    }
+
+    public areaList() {
+        return this.http.get<IData<IMovieArea>>('tv/admin/movie/area');
+    }
+
+    public areaSave(data: any) {
+        return this.http.post<IMovieArea>('tv/admin/movie/area_save', data);
+    }
+
+    public areaRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('tv/admin/movie/area_delete', {params: {id}});
+    }
+
+    public seriesList(params: any) {
+        return this.http.get<IPage<IMovieSeries>>('tv/admin/movie/series', {params});
+    }
+
+    public seriesSave(data: any) {
+        return this.http.post<IMovieSeries>('tv/admin/movie/series_save', data);
+    }
+
+    public seriesRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('tv/admin/movie/series_delete', {params: {id}});
+    }
+
+    public movieFileList(params: any) {
+        return this.http.get<IPage<IMovieFile>>('tv/admin/movie/file', {params});
+    }
+
+    public movieFileSave(data: any) {
+        return this.http.post<IMovieFile>('tv/admin/movie/file_save', data);
+    }
+
+    public movieFileRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('tv/admin/movie/file_delete', {params: {id}});
+    }
+
     public liveList(params: any) {
         return this.http.get<IPage<ILive>>('tv/admin/live', {params});
     }
@@ -55,6 +103,10 @@ export class TVService {
 
     public liveRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('tv/admin/live/delete', {params: {id}});
+    }
+
+    public liveImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('tv/admin/live/import', data);
     }
 
     public musicList(params: any) {
@@ -92,5 +144,15 @@ export class TVService {
 
     public statistics() {
         return this.http.get<any>('tv/admin/statistics');
+    }
+
+    public batch(data: {
+        categories?: any;
+        areas?: any;
+    }) {
+        return this.http.post<{
+            categories?: ICategory[];
+            areas?: IMovieArea[];
+        }>('tv/batch', data);
     }
 }

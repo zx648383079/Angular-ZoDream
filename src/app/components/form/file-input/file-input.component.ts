@@ -62,6 +62,9 @@ export class FileInputComponent implements ControlValueAccessor {
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
+        if (files.length < 1) {
+            return;
+        }
         if (this.custom) {
             this.customUpload.emit(files[0]);
             return;

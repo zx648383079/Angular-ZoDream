@@ -21,7 +21,7 @@
                 <div class="pull-right btn-group">
                     <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
-                    <a class="btn btn-info" (click)="tapImport(importModal)">导入</a>
+                    <app-upload-button class="btn btn-info" accept=".csv" (uploading)="tapImport($event)">导入</app-upload-button>
                     <a class="btn btn-success" (click)="tapExport()">导出</a>
                     <a class="btn btn-secondary" (click)="tapBatch(updateModal)">批量编辑</a>
                 </div>
@@ -143,14 +143,6 @@
     </form>
 </div>
 
-<app-dialog-box #importModal title="导入" [footerVisible]="false">
-    <div class="form-group">
-        <label for="content-input">选择文件</label>
-        <div class="input-group">
-            <app-upload-button class="btn btn-primary" accept=".csv" (uploading)="uploadFile($event)">上传</app-upload-button>
-        </div>
-    </div>
-</app-dialog-box>
 
 <app-dialog-box #updateModal title="批量编辑">
     <div class="form-group">

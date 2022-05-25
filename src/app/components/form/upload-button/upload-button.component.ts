@@ -71,8 +71,12 @@ export class UploadButtonComponent {
         if (this.disabled || this.loading) {
             return;
         }
+        const files = e.target.files as FileList;
+        if (files.length < 1) {
+            return;
+        }
         this.uploading.emit({
-            files: e.target.files as FileList,
+            files,
             enter: this.enter.bind(this),
             reset: this.reset.bind(this),
         });

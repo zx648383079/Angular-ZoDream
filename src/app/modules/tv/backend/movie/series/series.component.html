@@ -1,3 +1,64 @@
-<p>
-  series works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>剧集列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a class="btn btn-success pull-right" (click)="open(modal)">新增剧集</a>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>
+                        {{ item.episode }}
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-xs">
+                            <a class="btn btn-primary" [routerLink]="[item.id]">文件</a>
+                            <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+    
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑剧集' : '新增剧集'" [scrollable]="false">
+    <div class="form-group">
+        <label for="name-input">标题</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.title" placeholder="请输入标题">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name-input">分数</label>
+        <div class="input-group">
+            <app-number-input [(ngModel)]="editData.episode"></app-number-input>
+        </div>
+    </div>
+</app-dialog-box>

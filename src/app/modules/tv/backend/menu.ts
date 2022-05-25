@@ -8,9 +8,19 @@ export const TVBackendMenu: INav[] = [
         role: 'tv_manage',
         children: [
             {
-                name: '资源列表',
-                label: '列',
-                url: './tv/list',
+                name: '影音列表',
+                label: '影',
+                url: './tv/movie',
+            },
+            {
+                name: '歌曲列表',
+                label: '歌',
+                url: './tv/music',
+            },
+            {
+                name: '直播列表',
+                label: '播',
+                url: './tv/live',
             },
             {
                 name: '标签列表',

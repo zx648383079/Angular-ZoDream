@@ -1,3 +1,125 @@
-<p>
-  edit-movie works!
-</p>
+<app-edit-header [title]="data && data.id > 0 ? '编辑剧' : '新增剧'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+
+
+<div class="container-fluid">
+    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="panel-container">
+            <div class="title-input">
+                <label for="title">剧名</label>
+                <input type="text" id="title" class="form-control" formControlName="title">
+            </div>
+            
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="剧描述"></app-markdown-editor>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="高级属性">
+                    <div class="input-group">
+                        <label for="cat_id">分类</label>
+                        <div>
+                            <select id="cat_id" class="form-control" formControlName="cat_id">
+                                <ng-container *ngFor="let item of categories">
+                                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="area_id">地区</label>
+                        <div>
+                            <select id="area_id" class="form-control" formControlName="area_id">
+                                <ng-container *ngFor="let item of areaItems">
+                                    <option [value]="item.id">{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                   
+                    <div class="input-group">
+                        <label for="thumb">封面</label>
+                        <div>
+                            <app-file-input formControlName="cover"></app-file-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">说明</label>
+                        <div>
+                            <app-text-editor formControlName="description" height="100"></app-text-editor>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>标签</label>
+                        <div>
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="附加属性">
+                    <div class="input-group">
+                        <label>片名</label>
+                        <div>
+                            <input type="text" class="form-control" formControlName="film_title">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>译名</label>
+                        <div>
+                            <input type="text" class="form-control" formControlName="translation_title">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>导演</label>
+                        <div>
+                            <app-words-input formControlName="director"></app-words-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>主演</label>
+                        <div>
+                            <app-words-input formControlName="leader"></app-words-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>年代</label>
+                        <div>
+                            <input type="number" class="form-control" formControlName="age">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>语言</label>
+                        <div>
+                            <input type="number" class="form-control" formControlName="language">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>上映日期</label>
+                        <div>
+                            <app-date-input formControlName="release_date"></app-date-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>集数</label>
+                        <div>
+                            <app-number-input formControlName="series_count"></app-number-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>总时长</label>
+                        <div>
+                            <input type="number" class="form-control" formControlName="duration">
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

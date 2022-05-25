@@ -12,7 +12,11 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" (click)="open(modal)">新增直播源</a>
+                <div class="btn-group pull-right">
+                    <app-upload-button class="btn btn-info" (uploading)="tapImport($event)">导入</app-upload-button>
+                    <a class="btn btn-danger" (click)="tapExport()">导出</a>
+                    <a class="btn btn-success" (click)="open(modal)">新增直播源</a>
+                </div>
             </form>
         </div>
     
@@ -23,6 +27,7 @@
                     <th>ID</th>
                     <th>直播源</th>
                     <th>地址</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -36,9 +41,10 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
                     <td>
-                    <pre>
-                        <code>{{ item.source }}</code>
-                    </pre>
+                        <div class="source-label">{{ item.source }}</div>
+                    </td>
+                    <td>
+                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)" onLabel="有效" offLabel="已失效"></app-switch>
                     </td>
                     <td>
                         <div class="btn-group btn-group-xs">

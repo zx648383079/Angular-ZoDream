@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
+import { UploadButtonEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
+import { DownloadService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { ILive } from '../../model';
 import { TVService } from '../tv.service';
@@ -29,6 +31,7 @@ export class LiveComponent implements OnInit {
         private service: TVService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private downloadService: DownloadService,
     ) {
     }
 
@@ -36,6 +39,31 @@ export class LiveComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public onStatusChange(item: ILive) {
+        this.service.liveSave(item).subscribe(_ => {});
+    }
+
+    public tapExport() {
+        this.downloadService.export('tv/admin/live/export', {}, 'live.dpl');
+    }
+
+    public tapImport(event: UploadButtonEvent) {
+        const form = new FormData();
+        form.append('file', event.files[0]);
+        event.enter();
+        this.service.liveImport(form).subscribe({
+            next: _ => {
+                event.reset();
+                this.tapRefresh();
+                this.toastrService.success('导入成功');
+            },
+            error: err => {
+                event.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -84,6 +112,7 @@ export class LiveComponent implements OnInit {
             title: '',
             thumb: '',
             source: '',
+            status: 1,
         };
         modal.open(() => {
             this.service.liveSave(this.editData).subscribe({

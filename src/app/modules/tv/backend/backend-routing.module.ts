@@ -8,6 +8,7 @@ import {
 import { CategoryComponent } from './category/category.component';
 import { CommentComponent } from './comment/comment.component';
 import { LiveComponent } from './live/live.component';
+import { MovieAreaComponent } from './movie/area/movie-area.component';
 import { EditMovieComponent } from './movie/edit/edit-movie.component';
 import { MovieFileComponent } from './movie/file/movie-file.component';
 import { MovieComponent } from './movie/movie.component';
@@ -51,20 +52,24 @@ const routes: Routes = [
         component: MovieScoreComponent,
     },
     {
-        path: 'movie/series/:movie/:series',
+        path: 'movie/:movie/file',
         component: MovieFileComponent,
     },
     {
-        path: 'movie/series/:movie',
+        path: 'movie/:movie/series/:series',
+        component: MovieFileComponent,
+    },
+    {
+        path: 'movie/:movie/series',
         component: SeriesComponent,
-    },
-    {
-        path: 'movie/file/:movie',
-        component: MovieFileComponent,
     },
     {
         path: 'movie',
         component: MovieComponent,
+    },
+    {
+        path: 'area',
+        component: MovieAreaComponent,
     },
     {
         path: '',
@@ -84,6 +89,6 @@ export class BackendRoutingModule {}
 
 export const backendRoutedComponents = [
     TvBackendComponent, LiveComponent, MusicComponent,
-    MovieComponent, MovieFileComponent, SeriesComponent, MovieScoreComponent, EditMovieComponent,
+    MovieComponent, MovieFileComponent, SeriesComponent, MovieScoreComponent, EditMovieComponent, MovieAreaComponent, 
     CommentComponent, TagComponent, CategoryComponent,
 ];
