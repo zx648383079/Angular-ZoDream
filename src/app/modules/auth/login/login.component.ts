@@ -158,7 +158,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this.loginForm.invalid) {
             return;
         }
-        const data = Object.assign({}, this.loginForm.value);
+        const data: any = Object.assign({}, this.loginForm.value);
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
         }
@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                     this.tapCaptcha();
                 },
-                complete: () => {
+                next: () => {
                     e?.reset();
                 }
             });

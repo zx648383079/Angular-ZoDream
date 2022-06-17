@@ -83,8 +83,8 @@ export class EditDiscountComponent implements OnInit {
                     description: res.description,
                     scope_type: res.scope_type,
                     scope: typeof res.scope === 'object' ? res.scope : res.scope.split(','),
-                    start_at: res.start_at,
-                    end_at: res.end_at,
+                    start_at: res.start_at as string,
+                    end_at: res.end_at as string,
                 });
                 this.form.get('configure').patchValue(res.configure);
             });
@@ -110,7 +110,7 @@ export class EditDiscountComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value);
+        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

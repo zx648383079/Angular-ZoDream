@@ -60,7 +60,7 @@ export class EditModelComponent implements OnInit {
                 });
                 if (res.setting) {
                     this.form.patchValue({
-                        setting: this.fb.group(res.setting)
+                        setting: this.fb.group(res.setting) as any
                     });
                 }
             });
@@ -80,7 +80,7 @@ export class EditModelComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: ICmsModel = Object.assign({}, this.form.value);
+        const data: ICmsModel = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

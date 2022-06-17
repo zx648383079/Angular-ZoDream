@@ -52,7 +52,7 @@ export class CreateComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        const data = Object.assign({}, this.form.value);
+        const data = Object.assign({}, this.form.value) as any;
         data.type = this.data.type;
         if (data.type > 0) {
             data.environment = this.data.environment.filter(i => {

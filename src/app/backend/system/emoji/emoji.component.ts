@@ -73,8 +73,9 @@ export class EmojiComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 applyHistory(this.queries = queries);
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

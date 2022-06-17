@@ -63,12 +63,11 @@ export class QueryComponent implements OnInit {
                 this.items = res.data;
                 this.page = page;
                 this.total = res.paging.total;
+                this.isLoading = false;
             },
             error: err => {
-                this.toastrService.error(err);
-            },
-            complete: () => {
                 this.isLoading = false;
+                this.toastrService.error(err);
             }
         })
     }

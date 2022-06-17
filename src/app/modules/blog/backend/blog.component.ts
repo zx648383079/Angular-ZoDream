@@ -19,8 +19,9 @@ export class BlogComponent implements OnInit {
         this.service.statistics().subscribe({
             next: res => {
                 this.data = res;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

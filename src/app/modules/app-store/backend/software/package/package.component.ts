@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
+import { UploadCustomEvent } from '../../../../../components/form';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../../theme/query';
 import { parseNumber } from '../../../../../theme/utils';
@@ -82,6 +83,19 @@ export class PackageComponent implements OnInit {
         });
     }
 
+    public onFileUpload(e: UploadCustomEvent) {
+        this.service.upload(e.file).subscribe({
+            next: res => {
+                this.editData.size = res.size;
+                e.next(res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+                e.next();
+            }
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -107,8 +121,9 @@ export class PackageComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 applyHistory(this.queries = queries);
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

@@ -37,8 +37,9 @@ export class TimeComponent implements OnInit {
         this.service.timeList().subscribe({
             next: res => {
                 this.items = res.data;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

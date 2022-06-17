@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
 import { IImageUploadEvent } from '../../../../../components/editor';
-import { ButtonEvent } from '../../../../../components/form';
+import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { ICategory, IResource, IResourceFile, ITag } from '../../../model';
 import { ResourceService } from '../../resource.service';
@@ -106,6 +106,18 @@ export class EditResourceComponent implements OnInit {
         return {name};
     }
 
+    public onFileUpload(e: UploadCustomEvent) {
+        this.service.upload(e.file).subscribe({
+            next: res => {
+                e.next(res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+                e.next();
+            }
+        });
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
@@ -115,7 +127,7 @@ export class EditResourceComponent implements OnInit {
             this.toastrService.warning('请上传文件');
             return;
         }
-        const data: IResource = Object.assign({}, this.form.value);
+        const data: IResource = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

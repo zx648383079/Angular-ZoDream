@@ -41,7 +41,7 @@ export class EditSeckillComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    start_at: res.start_at,
+                    start_at: res.start_at as string,
                     end_at: res.end_at,
                     status: res.status,
                 });
@@ -58,7 +58,7 @@ export class EditSeckillComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value);
+        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

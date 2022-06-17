@@ -248,8 +248,8 @@ export interface IAd {
 export interface IAdPosition {
     id: number;
     name: string;
-    width: number;
-    height: number;
+    width: string;
+    height: string;
     template: string;
     created_at: string;
     updated_at: string;

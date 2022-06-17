@@ -45,9 +45,9 @@ export class EditFreeTrialComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope: res.scope,
+                    scope: res.scope as any,
                     scope_type: res.scope_type,
-                    start_at: res.start_at,
+                    start_at: res.start_at as string,
                     end_at: res.end_at,
                 });
                 this.form.get('configure').patchValue(res.configure);
@@ -64,7 +64,7 @@ export class EditFreeTrialComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value);
+        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

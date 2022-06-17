@@ -87,7 +87,7 @@ export class EditServiceComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
-        const data: IService = Object.assign({}, this.form.value);
+        const data: IService = Object.assign({}, this.form.value) as any;
         if (this.data) {
             data.id = this.data.id;
         }

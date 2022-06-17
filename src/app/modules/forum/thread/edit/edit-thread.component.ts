@@ -56,7 +56,7 @@ export class EditThreadComponent implements OnInit {
             this.toastrService.warning('内容没填写完整');
             return;
         }
-        const data = {...this.form.value, forum_id: this.data.forum_id};
+        const data: any = {...this.form.value, forum_id: this.data.forum_id};
         if (this.data.id) {
             data.id = this.data.id;
         }

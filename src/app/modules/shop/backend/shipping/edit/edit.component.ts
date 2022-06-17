@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
+import { parseNumber } from '../../../../../theme/utils';
 import { IRegion, IShipping, IShippingGroup } from '../../../model';
 import { PaymentService } from '../../payment.service';
 import { RegionService } from '../../region.service';
@@ -73,7 +74,7 @@ export class EditShippingComponent implements OnInit {
     }
 
     get method() {
-        return this.form.get('method').value;
+        return parseNumber(this.form.get('method').value);
     }
 
     private formatRegion(item: IShippingGroup): string {

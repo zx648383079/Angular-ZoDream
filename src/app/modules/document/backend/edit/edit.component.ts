@@ -53,7 +53,7 @@ export class EditComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        const data = Object.assign({
+        const data: any = Object.assign({
             id: this.data.id,
         }, this.form.value);
         data.type = this.data.type;

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IUploadFile, IUploadResult } from '../../../theme/models/open';
 import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { assetUri } from '../../../theme/utils';
+import { UploadCustomEvent } from '../event';
 import { FileOnlineComponent } from '../file-online/file-online.component';
 
 @Component({
@@ -32,7 +33,7 @@ export class FileInputComponent implements ControlValueAccessor {
     public fileName = this.uploadService.uniqueGuid();
 
     @Output() public fileUploaded = new EventEmitter<IUploadResult | IUploadFile>();
-    @Output() public customUpload = new EventEmitter<File>();
+    @Output() public customUpload = new EventEmitter<UploadCustomEvent>();
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -66,7 +67,17 @@ export class FileInputComponent implements ControlValueAccessor {
             return;
         }
         if (this.custom) {
-            this.customUpload.emit(files[0]);
+            this.isLoading = true;
+            this.customUpload.emit({
+                file: files[0],
+                next: res => {
+                    this.isLoading = false;
+                    if (res) {
+                        this.onChange(this.value = res.url);
+                        this.fileUploaded.emit(res);
+                    }
+                }
+            });
             return;
         }
         let upload$: Observable<IUploadResult>;

@@ -5,6 +5,7 @@ import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { IUser } from '../../../../theme/models/user';
+import { parseNumber } from '../../../../theme/utils';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -72,7 +73,7 @@ export class ProfileComponent implements OnInit {
     public tapSex(item: IItem) {
         this.user.sex = item.value as number;
         this.user.sex_label = item.name;
-        this.form.get('sex').setValue(item.value);
+        this.form.get('sex').setValue(parseNumber(item.value));
     }
 
     public tapSubmit() {

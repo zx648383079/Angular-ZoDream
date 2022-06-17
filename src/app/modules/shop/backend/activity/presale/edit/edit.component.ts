@@ -65,10 +65,10 @@ export class EditPresaleComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope: res.scope,
+                    scope: res.scope as any,
                     scope_type: res.scope_type,
-                    start_at: res.start_at,
-                    end_at: res.end_at,
+                    start_at: res.start_at as string,
+                    end_at: res.end_at as string,
                 });
                 if (res.configure.step) {
                     res.configure.step.forEach(i => {

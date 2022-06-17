@@ -60,7 +60,7 @@ export class EditPermissionComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: IPermission = Object.assign({}, this.form.value);
+    const data: IPermission = Object.assign({}, this.form.value) as any;
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

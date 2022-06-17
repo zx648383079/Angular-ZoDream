@@ -117,7 +117,7 @@
                                 <input type="text" class="form-control" [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}">
                             </ng-container>
                             <ng-template #elseTemplate>
-                                <app-file-input [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}"></app-file-input>
+                                <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}"></app-file-input>
                             </ng-template>
                         </td>
                         <td>

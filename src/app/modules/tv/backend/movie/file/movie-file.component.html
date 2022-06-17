@@ -84,7 +84,7 @@
     <div class="form-group" *ngIf="editData.file_type < 1">
         <label>文件</label>
         <div class="input-group">
-            <app-file-input [ngModel]="editData.file" accept="*/*"></app-file-input>
+            <app-file-input [ngModel]="editData.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.file_type > 0">
@@ -96,7 +96,7 @@
     <div class="form-group">
         <label>字幕文件</label>
         <div class="input-group">
-            <app-file-input [ngModel]="editData.subtitle_file" accept="*/*"></app-file-input>
+            <app-file-input [ngModel]="editData.subtitle_file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>
         </div>
     </div>
 </app-dialog-box>

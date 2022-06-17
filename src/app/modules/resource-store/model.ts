@@ -12,12 +12,12 @@ export interface IResource {
     size: number;
     type: number;
     price: number;
-    is_commercial: boolean;
-    is_reprint: boolean;
+    is_commercial: number;
+    is_reprint: number;
     updated_at: string;
     created_at: string;
     download_count: number;
-    click_count: number;
+    view_count: number;
     comment_count: number;
     tags?: ITag[];
     user?: IUser;

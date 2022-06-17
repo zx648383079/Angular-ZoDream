@@ -37,8 +37,9 @@ export class MovieAreaComponent implements OnInit {
         this.service.areaList().subscribe({
             next: res => {
                 this.items = res.data;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

@@ -16,89 +16,89 @@ import { AuthService } from '../../auth.service';
 })
 export class EditUserComponent implements OnInit {
 
-  public form = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    sex: ['0'],
-    birthday: [this.dateAdapter.fromModel()],
-    roles: [[]],
-    password: [''],
-    confirm_password: [''],
-  }, {
-    validators: confirmValidator()
-  });
-
-  public data: IUser;
-
-  public roleItems: IRole[] = [];
-
-  constructor(
-    private fb: FormBuilder,
-    private service: AuthService,
-    private route: ActivatedRoute,
-    private toastrService: DialogService,
-    private dateAdapter: DateAdapter,
-    private uploadService: FileUploadService,
-  ) {}
-
-  ngOnInit() {
-    this.service.roleAll().subscribe(res => {
-      this.roleItems = res.data;
+    public form = this.fb.group({
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        sex: [0],
+        birthday: [this.dateAdapter.fromModel()],
+        roles: [[]],
+        password: [''],
+        confirm_password: [''],
+    }, {
+        validators: confirmValidator()
     });
-    this.route.params.subscribe(params => {
-      if (!params.id) {
-        return;
-      }
-      this.service.userDetail(params.id).subscribe(res => {
-        this.data = res;
-        this.form.patchValue({
-          name: res.name,
-          sex: res.sex,
-          email: res.email,
-          birthday: this.dateAdapter.fromModel(res.birthday),
-          roles: res.roles.map(i => {
-                return typeof i === 'string' ? parseInt(i, 10) : i;
-            }),
-          password: '',
-          confirm_password: '',
+
+    public data: IUser;
+
+    public roleItems: IRole[] = [];
+
+    constructor(
+        private fb: FormBuilder,
+        private service: AuthService,
+        private route: ActivatedRoute,
+        private toastrService: DialogService,
+        private dateAdapter: DateAdapter,
+        private uploadService: FileUploadService,
+    ) {}
+
+    ngOnInit() {
+        this.service.roleAll().subscribe(res => {
+            this.roleItems = res.data;
         });
-      });
-    });
-  }
-
-  get name() {
-    return this.form.get('name');
-  }
-
-  get email() {
-    return this.form.get('email');
-  }
-
-  public tapBack() {
-    history.back();
-  }
-
-  public tapSubmit() {
-    if (this.form.invalid) {
-      this.toastrService.warning('表单填写不完整');
-      return;
+        this.route.params.subscribe(params => {
+        if (!params.id) {
+            return;
+        }
+        this.service.userDetail(params.id).subscribe(res => {
+            this.data = res;
+            this.form.patchValue({
+            name: res.name,
+            sex: res.sex,
+            email: res.email,
+            birthday: this.dateAdapter.fromModel(res.birthday),
+            roles: res.roles.map(i => {
+                    return typeof i === 'string' ? parseInt(i, 10) : i;
+                }),
+            password: '',
+            confirm_password: '',
+            });
+        });
+        });
     }
-    const data: any = Object.assign({}, this.form.value);
-    if (this.data && this.data.id > 0) {
-      data.id = this.data.id;
-    }
-    data.birthday = this.dateAdapter.toModel(data.birthday);
-    this.service.userSave(data).subscribe(_ => {
-      this.toastrService.success('保存成功');
-      this.tapBack();
-    });
-  }
 
-  public uploadFile(event: any) {
-    const files = event.target.files as FileList;
-    this.uploadService.uploadImage(files[0]).subscribe(res => {
-      this.form.get('avatar').setValue(res.url);
-    });
-  }
+    get name() {
+        return this.form.get('name');
+    }
+
+    get email() {
+        return this.form.get('email');
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapSubmit() {
+        if (this.form.invalid) {
+            this.toastrService.warning('表单填写不完整');
+            return;
+        }
+        const data: any = Object.assign({}, this.form.value);
+        if (this.data && this.data.id > 0) {
+            data.id = this.data.id;
+        }
+        data.birthday = this.dateAdapter.toModel(data.birthday);
+        this.service.userSave(data).subscribe(_ => {
+            this.toastrService.success('保存成功');
+            this.tapBack();
+        });
+    }
+
+    public uploadFile(event: any) {
+        const files = event.target.files as FileList;
+        this.uploadService.uploadImage(files[0]).subscribe(res => {
+            this.data.avatar = res.url;
+        });
+    }
 
 }

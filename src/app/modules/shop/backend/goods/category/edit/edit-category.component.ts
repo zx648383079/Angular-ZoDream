@@ -16,13 +16,13 @@ export class EditCategoryComponent implements OnInit {
 
   public form = this.fb.group({
     name: ['', Validators.required],
-    parent_id: ['0'],
+    parent_id: [0],
     keywords: [''],
     description: [''],
     icon: [''],
     banner: [''],
     app_banner: [''],
-    position: ['99'],
+    position: [99],
   });
 
   public data: ICategory;
@@ -71,7 +71,7 @@ export class EditCategoryComponent implements OnInit {
       this.toastrService.warning('表单填写不完整');
       return;
     }
-    const data: ICategory = Object.assign({}, this.form.value);
+    const data: ICategory = Object.assign({}, this.form.value) as any;
     if (this.data && this.data.id > 0) {
       data.id = this.data.id;
     }

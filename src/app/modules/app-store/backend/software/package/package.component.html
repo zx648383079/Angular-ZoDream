@@ -88,7 +88,7 @@
     <div class="form-group" *ngIf="editData.url_type < 1">
         <label>文件</label>
         <div class="input-group">
-            <app-file-input [ngModel]="editData.url" accept="*/*"></app-file-input>
+            <app-file-input [ngModel]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.url_type > 0">

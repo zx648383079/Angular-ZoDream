@@ -64,7 +64,7 @@ export class EditBrandComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IBrand = Object.assign({}, this.form.value);
+        const data: IBrand = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

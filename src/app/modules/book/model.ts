@@ -21,7 +21,7 @@ export interface IBook {
     source?: string;
     cat_id?: number;
     author_id?: number;
-    cover?: number;
+    cover?: string;
     description?: string;
     size?: number;
     click_count?: number;

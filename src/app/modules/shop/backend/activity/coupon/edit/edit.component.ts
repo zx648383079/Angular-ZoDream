@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IItem } from '../../../../../../theme/models/seo';
+import { parseNumber } from '../../../../../../theme/utils';
 import { ICoupon } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
@@ -56,7 +57,7 @@ export class EditCouponComponent implements OnInit {
     }
 
     get selectUrl() {
-        switch (parseInt(this.ruleType, 10)) {
+        switch (parseNumber(this.ruleType)) {
             case 2:
                 return 'shop/admin/brand/search';
             case 1:
@@ -80,14 +81,14 @@ export class EditCouponComponent implements OnInit {
                     thumb: res.thumb,
                     type: res.type,
                     rule: res.rule,
-                    rule_value: typeof res.rule_value === 'object' ? res.rule_value : res.rule_value.split(','),
+                    rule_value: typeof res.rule_value === 'object' ? res.rule_value as any : res.rule_value.split(','),
                     min_money: res.min_money,
                     money: res.money,
                     send_type: res.send_type,
                     send_value: res.send_value,
                     every_amount: res.every_amount,
-                    start_at: res.start_at,
-                    end_at: res.end_at,
+                    start_at: res.start_at as any,
+                    end_at: res.end_at as any,
                 });
             });
         });
@@ -102,7 +103,7 @@ export class EditCouponComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: ICoupon = Object.assign({}, this.form.value);
+        const data: ICoupon = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

@@ -135,8 +135,9 @@ export class ListComponent implements OnInit, OnDestroy {
                 this.items = res.data;
                 this.total = res.paging.total;
                 applyHistory(this.queries = queries);
-            }, 
-            complete: () => {
+                this.isLoading = false;
+            },
+            error: () => {
                 this.isLoading = false;
             }
         });

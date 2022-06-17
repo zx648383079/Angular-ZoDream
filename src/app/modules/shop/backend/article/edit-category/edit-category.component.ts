@@ -32,7 +32,7 @@ export class EditCategoryComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
-        parent_id: ['0'],
+        parent_id: [0],
         thumb: [''],
         keywords: [''],
         description: ['']
@@ -81,7 +81,7 @@ export class EditCategoryComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IArticleCategory = Object.assign({}, this.form.value);
+        const data: IArticleCategory = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

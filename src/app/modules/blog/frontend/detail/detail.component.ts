@@ -64,6 +64,7 @@ export class DetailComponent implements OnInit {
             relation: {blog: id}
         }).subscribe({
             next: res => {
+                this.isLoading = false;
                 this.data = res.detail;
                 this.themeService.setTitle(this.data.seo_title || this.data.title);
                 this.relationItems = res.relation;
@@ -73,11 +74,9 @@ export class DetailComponent implements OnInit {
                 document.documentElement.scrollTop = 0;
             },
             error: err => {
+                this.isLoading = false;
                 this.toastrService.error(err);
             },
-            complete: () => {
-                this.isLoading = false;
-            }
         });
     }
 

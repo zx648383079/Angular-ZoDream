@@ -33,8 +33,9 @@ export class TagComponent implements OnInit {
         this.service.getTags().subscribe({
             next: res => {
                 this.items = res;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

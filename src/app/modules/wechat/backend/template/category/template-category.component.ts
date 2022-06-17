@@ -34,8 +34,9 @@ export class TemplateCategoryComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.items = res.template_category;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

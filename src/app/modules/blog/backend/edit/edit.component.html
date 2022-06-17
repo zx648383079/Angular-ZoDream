@@ -72,7 +72,7 @@
         
                         </div>
                     </div>
-                    <div class="input-group" *ngIf="openType.value > 4">
+                    <div class="input-group" *ngIf="openType > 4">
                         <label for="open_rule">{{ ruleLabel }}</label>
                         <div>
                             <input type="text" id="open_rule" class="form-control" formControlName="open_rule">
@@ -116,14 +116,14 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="附加属性">
-                    <div class="input-group" *ngIf="typeInput.value > 0">
+                    <div class="input-group" *ngIf="typeValue > 0">
                         <label for="meta_source_author">原文作者</label>
                         <div>
                             <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
                     
                         </div>
                     </div>
-                    <div class="input-group" *ngIf="typeInput.value > 0">
+                    <div class="input-group" *ngIf="typeValue > 0">
                         <label for="source_url">原文链接</label>
                         <div>
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
@@ -172,7 +172,7 @@
                     </div>
                 </app-panel>
                 <app-panel title="SEO优化" [min]="true">
-                    <div class="input-group" *ngIf="typeInput.value > 0">
+                    <div class="input-group" *ngIf="typeValue > 0">
                         <label for="meta_is_hide">是否隐藏</label>
                         <div>
                             <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>

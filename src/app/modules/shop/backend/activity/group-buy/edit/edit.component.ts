@@ -52,15 +52,15 @@ export class EditGroupBuyComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope: res.scope,
+                    scope: res.scope as any,
                     scope_type: res.scope_type,
-                    start_at: res.start_at,
+                    start_at: res.start_at as string,
                     end_at: res.end_at,
                     step: this.fb.array(
                         res.configure.step.map(i => {
                             return this.fb.group(i);
                         })
-                    )
+                    ) as any
                 });
                 this.form.get('configure').patchValue(res.configure);
             });

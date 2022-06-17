@@ -23,6 +23,7 @@ import {
 import {
     AdService
 } from '../../ad.service';
+import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
     selector: 'app-edit',
@@ -33,8 +34,8 @@ export class EditAdComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
-        position_id: ['0'],
-        type: ['0'],
+        position_id: [0],
+        type: [0],
         url: [''],
         content: [''],
         start_at: [this.dateAdapter.fromModel()],
@@ -82,7 +83,7 @@ export class EditAdComponent implements OnInit {
     }
 
     get uploadType() {
-        const val = parseInt(this.typeInput.value, 10);
+        const val = parseNumber(this.typeInput.value);
         if (val < 1 || val === 2) {
             return 0;
         }
@@ -101,7 +102,7 @@ export class EditAdComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IAd = Object.assign({}, this.form.value);
+        const data: IAd = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

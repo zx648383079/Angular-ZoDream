@@ -55,8 +55,9 @@ export class CategoryComponent implements OnInit {
         this.service.categoryTree().subscribe({
             next: res => {
                 this.items = res.data;
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });

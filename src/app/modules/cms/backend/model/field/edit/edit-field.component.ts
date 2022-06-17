@@ -72,7 +72,7 @@ export class EditFieldComponent implements OnInit {
                     is_main: res.is_main,
                     is_required: res.is_required,
                     is_search: res.is_search,
-                    length: res.length,
+                    length: res.length as any,
                     match: res.match,
                     tip_message: res.tip_message,
                     error_message: res.error_message,
@@ -108,7 +108,7 @@ export class EditFieldComponent implements OnInit {
         }
         const data: ICmsModelField = Object.assign({
             model_id: this.model,
-        }, this.form.value);
+        }, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

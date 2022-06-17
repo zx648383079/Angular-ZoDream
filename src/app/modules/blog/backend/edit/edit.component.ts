@@ -24,6 +24,7 @@ import {
 import {
     BlogService
 } from '../blog.service';
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     selector: 'app-edit',
@@ -122,11 +123,11 @@ export class EditComponent implements OnInit {
                 description: res.description,
                 term_id: res.term_id,
                 programming_language: res.programming_language,
-                type: res.type,
+                type: res.type as any,
                 thumb: res.thumb,
-                open_type: res.open_type,
+                open_type: res.open_type as any,
                 open_rule: res.open_rule,
-                edit_type: res.edit_type,
+                edit_type: res.edit_type as any,
                 source_url: res.source_url,
                 source_author: res.source_author,
                 is_hide: res.is_hide,
@@ -134,7 +135,7 @@ export class EditComponent implements OnInit {
                 audio_url: res.audio_url,
                 video_url: res.video_url,
                 cc_license: res.cc_license,
-                comment_status: res.comment_status,
+                comment_status: res.comment_status as any,
                 seo_title: res.seo_title,
                 seo_description: res.seo_description,
                 seo_link: res.seo_link,
@@ -142,16 +143,16 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public get typeInput() {
-        return this.form.get('type');
+    public get typeValue() {
+        return parseNumber(this.form.get('type').value);
     }
 
     public get openType() {
-        return this.form.get('open_type');
+        return parseNumber(this.form.get('open_type').value);
     }
 
     public get ruleLabel() {
-        const val = parseInt(this.openType.value, 10);
+        const val = this.openType;
         if (val < 5) {
             return '';
         }
@@ -177,7 +178,7 @@ export class EditComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IBlog = Object.assign({}, this.form.value);
+        const data: IBlog = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

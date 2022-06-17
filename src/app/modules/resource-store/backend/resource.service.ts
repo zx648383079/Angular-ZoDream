@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IUploadResult } from '../../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, IComment, IResource, ITag } from '../model';
 
@@ -58,6 +59,12 @@ export class ResourceService {
 
     public commentRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('res/admin/comment/delete', {params: {id}});
+    }
+
+    public upload(file: File) {
+        const data = new FormData();
+        data.append('file', file);
+        return this.http.post<IUploadResult>('res/admin/home/upload', data);
     }
 
     public statistics() {

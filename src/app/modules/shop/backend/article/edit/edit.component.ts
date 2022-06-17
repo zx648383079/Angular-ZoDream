@@ -17,7 +17,7 @@ export class EditArticleComponent implements OnInit {
 
     public form = this.fb.group({
         title: ['', Validators.required],
-        cat_id: ['0'],
+        cat_id: [0],
         thumb: [''],
         keywords: [''],
         description: [''],
@@ -101,7 +101,7 @@ export class EditArticleComponent implements OnInit {
             this.toastrService.warning('表单填写不完整');
             return;
         }
-        const data: IArticle = Object.assign({}, this.form.value);
+        const data: IArticle = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }

@@ -1,3 +1,5 @@
+import { IUploadResult } from '../../theme/models/open';
+
 export interface ButtonEvent {
     /**
      * 开始显示loading动画
@@ -22,4 +24,9 @@ export interface CountdownEvent {
 
 export interface UploadButtonEvent extends ButtonEvent {
     files: FileList;
+}
+
+export interface UploadCustomEvent {
+    file: File;
+    next: (data?: IUploadResult) => void;
 }

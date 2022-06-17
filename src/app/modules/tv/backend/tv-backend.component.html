@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>短视频平台</li>
+            <li>TV平台</li>
         </ul>
     </app-page-tip>
 
@@ -12,13 +12,13 @@
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 <div class="inner">
-                    <h3>{{ data.video_today || 0 | numberFormat }}/{{ data.video_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data.movie_today | numberFormat }}/{{ data.movie_count | numberFormat }}</h3>
                     <p>视频今日新增/总数</p>
                 </div>
                 <div class="icon">
-                    <i class="iconfont icon-folder-o"></i>
+                    <i class="iconfont icon-file-movie-o"></i>
                 </div>
-                <a class="column-footer" routerLink="list">
+                <a class="column-footer" routerLink="movie">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>
@@ -30,13 +30,13 @@
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 <div class="inner">
-                    <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
-                    <p>浏览量今日新增/总数</p>
+                    <h3>{{ data.music_today | numberFormat }}/{{ data.music_count || 0 | numberFormat }}</h3>
+                    <p>音乐今日新增/总数</p>
                 </div>
                 <div class="icon">
-                    <i class="iconfont icon-eye"></i>
+                    <i class="iconfont icon-music"></i>
                 </div>
-                <a class="column-footer" routerLink="list">
+                <a class="column-footer" routerLink="music">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>
@@ -48,13 +48,13 @@
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 <div class="inner">
-                    <h3>{{ data.comment_today || 0 | numberFormat }}/{{ data.comment_count || 0 | numberFormat }}</h3>
-                    <p>评论今日/总记录</p>
+                    <h3>{{ data.live_count | numberFormat }}</h3>
+                    <p>有效直播源</p>
                 </div>
                 <div class="icon">
-                    <i class="iconfont icon-commenting"></i>
+                    <i class="iconfont icon-desktop"></i>
                 </div>
-                <a class="column-footer" routerLink="comment">
+                <a class="column-footer" routerLink="live">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>

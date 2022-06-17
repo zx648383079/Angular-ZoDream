@@ -125,7 +125,7 @@ export class EditCategoryComponent implements OnInit {
                 });
                 if (res.setting) {
                     this.form.patchValue({
-                        setting: this.fb.group(res.setting)
+                        setting: this.fb.group(res.setting) as any
                     });
                 }
             });

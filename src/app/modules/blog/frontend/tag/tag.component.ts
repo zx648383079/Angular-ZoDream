@@ -26,8 +26,9 @@ export class TagComponent {
                     item.style = 'font-size:' + (Math.sqrt(item.blog_count) + 12) + 'px';
                     return item;
                 });
+                this.isLoading = false;
             },
-            complete: () => {
+            error: () => {
                 this.isLoading = false;
             }
         });
