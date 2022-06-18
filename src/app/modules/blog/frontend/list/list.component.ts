@@ -129,7 +129,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         const queries = {...this.queries, page};
         this.items = [];
-        this.service.getPage(queries).subscribe({
+        this.service.getPage(queries as any).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.items = res.data;

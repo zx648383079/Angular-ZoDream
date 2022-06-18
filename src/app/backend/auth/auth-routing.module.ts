@@ -11,6 +11,7 @@ import { ApplyLogComponent } from './user/apply/apply-log.component';
 import { ChangeAccountComponent } from './user/change/change-account.component';
 import { InviteLogComponent } from './invite-code/log/invite-log.component';
 import { InviteCodeComponent } from './invite-code/invite-code.component';
+import { BanComponent } from './user/ban/ban.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'users/account/log', component: AccountLogComponent },
     { path: 'users/action/log', component: ActionLogComponent },
     { path: 'users/apply/log', component: ApplyLogComponent },
+    { path: 'users/ban', component: BanComponent },
     { path: 'users/account/change/:id', component: ChangeAccountComponent },
     { path: 'users', component: UserComponent },
     {
@@ -64,5 +66,6 @@ export const authRoutedComponents = [
     ApplyLogComponent,
     ChangeAccountComponent,
     InviteLogComponent,
-    InviteCodeComponent
+    InviteCodeComponent,
+    BanComponent
 ];

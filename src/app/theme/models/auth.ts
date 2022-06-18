@@ -138,6 +138,14 @@ export interface IActionLog {
     created_at: string;
 }
 
+export interface IBanAccount {
+    id: number;
+    item_key: string;
+    item_type: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+}
 
 
 

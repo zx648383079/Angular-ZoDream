@@ -1,5 +1,18 @@
 import { IUploadResult } from '../../theme/models/open';
 
+export interface IButton {
+    name: string;
+    icon: string;
+    color?: string;
+    disable?: boolean;
+    onTapped?: (event: ButtonEvent) => void;
+}
+
+export interface ButtonGroupEvent extends ButtonEvent {
+    data: IButton;
+    index: number;
+}
+
 export interface ButtonEvent {
     /**
      * 开始显示loading动画

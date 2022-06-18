@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../../components/dialog';
-import { IApplyLog } from '../../../../theme/models/auth';
+import { Store } from '@ngrx/store';
+import { DialogService } from '../../../../components/dialog';
+import { AppState } from '../../../../theme/interfaces';
+import { IBanAccount } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
+import { getUserRole } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../auth.service';
 
 @Component({
-  selector: 'app-apply-log',
-  templateUrl: './apply-log.component.html',
-  styleUrls: ['./apply-log.component.scss']
+  selector: 'app-ban',
+  templateUrl: './ban.component.html',
+  styleUrls: ['./ban.component.scss']
 })
-export class ApplyLogComponent implements OnInit {
-
-    public items: IApplyLog[] = [];
+export class BanComponent implements OnInit {
+    public items: IBanAccount[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -22,12 +24,18 @@ export class ApplyLogComponent implements OnInit {
         keywords: '',
         per_page: 20,
     };
-    public editData: IApplyLog = {} as any;
+    public editable = false;
+
 
     constructor(
         private service: AuthService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
+        private store: Store<AppState>,
     ) {
+        this.store.select(getUserRole).subscribe(roles => {
+            this.editable = roles.indexOf('user_manage') >= 0;
+        });
     }
 
     ngOnInit() {
@@ -36,7 +44,6 @@ export class ApplyLogComponent implements OnInit {
             this.tapPage();
         });
     }
-
 
     /**
      * tapRefresh
@@ -62,7 +69,7 @@ export class ApplyLogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.applyLogList(queries).subscribe({
+        this.service.banList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
@@ -81,17 +88,20 @@ export class ApplyLogComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogBoxComponent, item: IApplyLog) {
-        this.editData = item;
-        this.service.userAccount(item.user_id).subscribe(res => {
-            this.editData.user = res;
-        });
-        modal.openCustom(value => {
-            this.service.applySave({
-                id: this.editData.id,
-                status: value
-            }).subscribe(res => {
-                item.status = res.status;
+    public tapRemove(item: IBanAccount) {
+        if (!this.editable) {
+            return;
+        }
+        if (!confirm('确定移除“' + item.item_key + '”？')) {
+            return;
+        }
+        this.service.banRemove(item.id).subscribe(res => {
+            if (!res.data) {
+                return;
+            }
+            this.toastrService.success('删除成功');
+            this.items = this.items.filter(it => {
+                return it.id !== item.id;
             });
         });
     }

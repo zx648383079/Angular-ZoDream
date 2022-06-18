@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IActionLog } from '../../../../theme/models/auth';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -10,68 +13,72 @@ import { AuthService } from '../../auth.service';
 })
 export class ActionLogComponent implements OnInit {
 
-  public items: IActionLog[] = [];
+    public items: IActionLog[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public queries: IPageQueries = {
+        page: 1,
+        keywords: '',
+        per_page: 20,
+    };
 
-  public hasMore = true;
-
-  public page = 1;
-
-  public perPage = 20;
-
-  public isLoading = false;
-
-  public total = 0;
-
-  public keywords = '';
-
-  constructor(
-    private service: AuthService,
-    private toastrService: DialogService,
-  ) {
-    this.tapRefresh();
-  }
-
-  ngOnInit() {}
-
-
-  /**
-   * tapRefresh
-   */
-  public tapRefresh() {
-    this.goPage(1);
-  }
-
-  public tapPage() {
-    this.goPage(this.page);
-  }
-
-  public tapMore() {
-    this.goPage(this.page + 1);
-  }
-
-  /**
-   * goPage
-   */
-  public goPage(page: number) {
-    if (this.isLoading) {
-        return;
+    constructor(
+        private service: AuthService,
+        private route: ActivatedRoute,
+        private toastrService: DialogService,
+    ) {
     }
-    this.isLoading = true;
-    this.service.actionLogList({
-      keywords: this.keywords,
-      page,
-      per_page: this.perPage
-    }).subscribe(res => {
-        this.isLoading = false;
-        this.items = res.data;
-        this.hasMore = res.paging.more;
-        this.total = res.paging.total;
-    });
-  }
 
-  public tapSearch(form: any) {
-    this.keywords = form.keywords;
-    this.tapRefresh();
-  }
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
+
+    /**
+    * tapRefresh
+    */
+    public tapRefresh() {
+        this.goPage(1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    /**
+    * goPage
+    */
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.actionLogList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                applyHistory(this.queries = queries);
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
+    }
 
 }

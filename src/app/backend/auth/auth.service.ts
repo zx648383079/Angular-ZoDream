@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IRole } from '../../theme/models/auth';
+import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IRole } from '../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
@@ -34,6 +34,10 @@ export class AuthService {
         return this.http.post<IUser>('auth/admin/user/save', data);
     }
 
+    public userVerify(data: any) {
+        return this.http.post<IUser>('auth/admin/user/verify', data);
+    }
+
     public userRemove(id: any) {
         return this.http.delete<IDataOne<true>>('auth/admin/user/delete', {
             params: {id}
@@ -42,6 +46,24 @@ export class AuthService {
 
     public roleAll() {
         return this.http.get<IData<IRole>>('auth/admin/role/all');
+    }
+
+    public banList(params: any) {
+        return this.http.get<IPage<IBanAccount>>('auth/admin/ban', {
+            params,
+        });
+    }
+
+    public ban(user: number) {
+        return this.http.post<IDataOne<boolean>>('auth/admin/ban/add', {user});
+    }
+
+    public banRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/admin/ban/delete', {params: {id}});
+    }
+
+    public banRemoveUser(user: number) {
+        return this.http.post<IDataOne<boolean>>('auth/admin/ban/delete_user', {user});
     }
 
     public accountLogList(params: any) {

@@ -9,10 +9,14 @@
           <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
               <div class="input-group">
                   <label for="keywords">昵称</label>
-                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索昵称" [ngModel]="keywords">
+                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索昵称" [ngModel]="queries.keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
-              <a class="btn btn-info pull-right" routerLink="./create" *ngIf="editable">新增用户</a>
+              <div class="btn-group pull-right">
+                <a class="btn btn-info" routerLink="create" *ngIf="editable">新增用户</a>
+                <a routerLink="ban" class="btn btn-danger" *ngIf="editable">管理黑名单</a>
+              </div>
+             
           </form>
       </div>
       <table class="table  table-bordered well">
@@ -20,16 +24,17 @@
           <tr>
               <th (click)="tapSort('id')">
                   ID
-                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': sortKey == 'id' && !orderAsc, 'icon-sort-alpha-asc': sortKey == 'id' && orderAsc}"></i>
+                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': queries.sort == 'id' && queries.order != 'asc', 'icon-sort-alpha-asc': queries.sort == 'id' && queries.order == 'asc'}"></i>
               </th>
               <th (click)="tapSort('name')">用户名
-                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': sortKey == 'name' && !orderAsc, 'icon-sort-alpha-asc': sortKey == 'name' && orderAsc}"></i>
+                <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': queries.sort == 'name' && queries.order != 'asc', 'icon-sort-alpha-asc': queries.sort == 'name' && queries.order == 'asc'}"></i>
               </th>
               <th class="auto-hide">邮箱</th>
               <th class="auto-hide">性别</th>
               <th>余额</th>
-              <th>状态</th>
-              <th class="auto-hide">最近登陆时间</th>
+              <th *ngIf="editable">实名认证</th>
+              <th *ngIf="editable">状态</th>
+              <th class="auto-hide">更新时间</th>
               <th class="auto-hide">注册时间</th>
               <th>操作</th>
           </tr>
@@ -38,25 +43,38 @@
               <tr *ngFor="let item of items">
                   <td>{{ item.id }}</td>
                   <td>{{ item.name }}</td>
-                  <td class="auto-hide">{{ item.email }}</td>
-                  <td class="auto-hide">{{ item.sex }}</td>
+                  <td class="auto-hide">
+                    <div class="inner-label">{{ item.email }}</div>
+                  </td>
+                  <td class="auto-hide">{{ item.sex_label }}</td>
                   <td>{{ item.money }}</td>
-                  <td>{{ item.status }}</td>
-                  <td class="auto-hide">{{ item.last_at }}</td>
-                  <td class="auto-hide">{{ item.created_at }}</td>
+                  <td *ngIf="editable">
+                        <app-switch [(ngModel)]="item.is_verified" (ngModelChange)="onVerify(item, modal)"></app-switch>
+                  </td>
+                  <td *ngIf="editable">{{ formatStatus(item.status) }}</td>
+                  <td class="auto-hide" [title]="item.updated_at">{{ item.updated_at | ago }}</td>
+                  <td class="auto-hide" [title]="item.created_at">{{ item.created_at | ago }}</td>
                   <td>
-                      <div class="btn-group  btn-group-xs">
-                          <a class="btn btn-info btn-xs"
-                          routerLink="./account/log" [queryParams]="{user: item.id}">明细</a>
-                          <a class="btn btn-light btn-xs"
-                              [routerLink]="'./edit/' + item.id" *ngIf="editable">编辑</a>
-                          <a class="btn btn-danger" (click)="tapRemove(item)" *ngIf="editable">删除</a>
-                      </div>
+                        <app-button-group [items]="formatButtons(item)" (tapped)="onActionTap($event, item)"></app-button-group>
                   </td>
               </tr>
               </tbody>
       </table>
       <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-      <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
   </div>
 </div>
+<app-dialog-box #modal [scrollable]="false">
+    <div class="form-group">
+        <label for="">真实姓名</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="editData.name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="">身份证</label>
+        <div>
+            <input type="text" class="form-control" [(ngModel)]="editData.id_card">
+        </div>
+    </div>
+</app-dialog-box>

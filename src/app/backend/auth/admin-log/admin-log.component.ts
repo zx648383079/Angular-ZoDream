@@ -17,12 +17,13 @@ export class AdminLogComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public editData: IAdminLog = {} as any;
     public queries: IPageQueries = {
         page: 1,
         keywords: '',
         per_page: 20,
     };
+    public editData: IAdminLog = {} as any;
+
 
     constructor(
         private service: AuthService,

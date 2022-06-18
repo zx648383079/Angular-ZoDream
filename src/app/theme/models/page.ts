@@ -56,4 +56,6 @@ export interface IPageQueries extends Record<string, any> {
     category?: number;
     parent?: number;
     user?: any;
+    sort?: string;
+    order?: string|boolean|number;
 }

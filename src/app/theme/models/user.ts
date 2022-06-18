@@ -15,6 +15,8 @@ export interface IUser {
     sex_label?: string;
     roles?: number[];
     checked?: boolean;
+    is_admin?: boolean;
+    is_verified?: boolean;
 }
 
 export interface IUserItem {

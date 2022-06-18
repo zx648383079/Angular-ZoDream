@@ -116,6 +116,12 @@ a {
     }
 }
 
+@media screen and (min-width: 770px) {
+    .auto-xl-hide {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 769px) {
     .auto-hide {
         display: none;
@@ -123,9 +129,6 @@ a {
 }
 
 @media screen and (max-width: 576px) {
-    .auto-hide {
-        display: none;
-    }
     .form-table {
         .input-group {
             input.form-control {
