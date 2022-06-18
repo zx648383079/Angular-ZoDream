@@ -24,6 +24,14 @@ export interface ButtonEvent {
     reset(): void;
 }
 
+export interface SuggestEvent {
+    suggest(item: any[]): void;
+}
+
+export interface SuggestChangeEvent extends SuggestEvent {
+    text: string;
+}
+
 export interface CountdownEvent {
     /**
      * 开始显示倒计时

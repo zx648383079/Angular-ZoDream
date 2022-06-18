@@ -1,10 +1,10 @@
 <div class="search-box">
     <div class="search-input">
-        <button class="search-btn">
+        <button class="search-btn" (click)="tapConfirm()">
             <i class="iconfont icon-search"></i>
         </button>
-        <input type="text" [(ngModel)]="value" i18n-placeholder placeholder="Please enter a keyword, press Enter to search" (ngModelChange)="onSuggestChange()" (keydown)="suggestKeyPress($event)">
-        <div class="clear-btn" [hidden]="value.length < 1" (click)="tapClear()">
+        <input type="text" [(ngModel)]="text" [placeholder]="placeholder" (ngModelChange)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
+        <div class="clear-btn" [hidden]="text.length < 1" (click)="tapClear()">
             <i class="iconfont icon-close"></i>
         </div>
     </div>
@@ -12,7 +12,7 @@
         <ul>
             <li *ngFor="let item of suggestItems; let i=index" (click)="tapItem(item)">
                 <span class="item-no">{{ i + 1 }}</span>
-                <span class="item-text">{{ item }}</span>
+                <span class="item-text">{{ formatTitle(item) }}</span>
             </li>
         </ul>
     </div>

@@ -25,6 +25,17 @@
     }
 }
 
+.dropdown-toggle {
+    &::after {
+        transition: transform 500ms;
+    }
+    &.show {
+        &::after {
+            transform: rotateZ(180deg);
+        }
+    }
+}
+
 .action-loading {
     background-color: #f4f4f4;
 }

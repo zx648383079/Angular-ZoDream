@@ -6,8 +6,7 @@ li {
 }
 .search-box {
     position: relative;
-    margin: 1.875rem auto 2.5rem;
-    width: 43.75rem;
+    display: block;
     .search-input {
         position: relative;
         .search-icon {

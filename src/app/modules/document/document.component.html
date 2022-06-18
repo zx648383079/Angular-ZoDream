@@ -1,8 +1,12 @@
 <div class="container-fluid">
-    <div class="panel">
+    <div class="search-bar">
+        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
+    </div>
+
+    <div class="panel" *ngIf="!queries.keywords">
         <div class="panel-header">
             <ng-container i18n>Recommend</ng-container>
-            <div class="pull-right">
+            <div class="pull-right" (click)="tapRefresh()">
                 <i class="iconfont icon-refresh"></i>
                 <ng-container i18n>Refresh</ng-container>
             </div>
@@ -21,6 +25,30 @@
                         </div>
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-body" *ngIf="queries.keywords">
+        <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let item of items">
+                <a class="card-item" [routerLink]="['project', item.id]" routerLinkActive="router-link-active" >
+                    <div class="cover">
+                        <img [src]="item.cover" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="name">
+                            {{ item.name }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+                <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
             </div>
         </div>
     </div>

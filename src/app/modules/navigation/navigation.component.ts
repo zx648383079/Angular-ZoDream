@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
+import { SuggestChangeEvent } from '../../components/form';
 import { AppState } from '../../theme/interfaces';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
@@ -76,6 +77,12 @@ export class NavigationComponent implements OnInit {
             });
             return;
         }
+    }
+
+    public onSuggestChange(e: SuggestChangeEvent) {
+        this.service.searchSuggest(e.text).subscribe(res => {
+            e.suggest(res.data);
+        });
     }
 
     public toggleOpen() {

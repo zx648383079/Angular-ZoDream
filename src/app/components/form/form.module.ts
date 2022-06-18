@@ -21,6 +21,7 @@ import { UploadButtonComponent } from './upload-button/upload-button.component';
 import { WordsInputComponent } from './words-input/words-input.component';
 import { DataSizeComponent } from './data-size/data-size.component';
 import { ButtonGroupComponent } from './button-group/button-group.component';
+import { AutoSuggestBoxComponent } from './auto-suggest-box/auto-suggest-box.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -42,6 +43,7 @@ const COMPONENTS = [
     WordsInputComponent,
     DataSizeComponent,
     ButtonGroupComponent,
+    AutoSuggestBoxComponent,
 ];
 
 @NgModule({

@@ -1,5 +1,7 @@
 <div class="container main-container" [ngClass]="{'on-search': openType > 0}">
-    <app-search-input [value]="queries.keywords" (valueChange)="tapSearch($event)"></app-search-input>
+    <div class="search-bar">
+        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
+    </div>
 
     <ng-container *ngIf="openType < 1 && user">
         <app-navigation-panel></app-navigation-panel>

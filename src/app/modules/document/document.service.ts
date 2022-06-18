@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from './model';
 
@@ -48,6 +49,10 @@ export class DocumentService {
 
     public apiCode(params: any) {
         return this.http.get<IDataOne<string>>('doc/api/code', {params});
+    }
+
+    public suggestion(params: any) {
+        return this.http.get<IData<IProject>>('doc/project/suggest', {params}).pipe(map(res => res.data));
     }
 
     public batch(data: {

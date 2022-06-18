@@ -5,7 +5,6 @@ import { PageCardComponent } from './page-card/page-card.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
-import { SearchInputComponent } from './search/search-input.component';
 import { CategoryPanelComponent } from './site/category-panel/category-panel.component';
 import { SiteGroupComponent } from './site/group/site-group.component';
 import { SiteComponent } from './site/site.component';
@@ -22,7 +21,6 @@ export class NavigationRoutingModule { }
 
 export const navigationRoutingComponents = [
     NavigationComponent,
-    SearchInputComponent,
     SiteComponent,
     SiteGroupComponent,
     NavigationPanelComponent,

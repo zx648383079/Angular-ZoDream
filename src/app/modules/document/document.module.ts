@@ -8,6 +8,7 @@ import { documentRoutedComponents, DocumentRoutingModule } from './document-rout
 import { DocumentService } from './document.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { DialogModule } from '../../components/dialog';
+import { ZreFormModule } from '../../components/form';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { DialogModule } from '../../components/dialog';
         ThemeModule,
         DocumentRoutingModule,
         DialogModule,
+        ZreFormModule,
     ],
     declarations: [...documentRoutedComponents],
     providers: [
