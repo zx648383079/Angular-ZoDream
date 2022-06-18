@@ -30,19 +30,19 @@ export class ResourceService {
     }
 
     public resourceList(params: any) {
-        return this.http.get<IPage<IResource>>('res/admin/resource', {params});
+        return this.http.get<IPage<IResource>>('res/admin/home', {params});
     }
 
     public resource(id: any) {
-        return this.http.get<IResource>('res/admin/resource/detail', {params: {id}});
+        return this.http.get<IResource>('res/admin/home/detail', {params: {id}});
     }
 
     public resourceSave(data: any) {
-        return this.http.post<IResource>('res/admin/resource/save', data);
+        return this.http.post<IResource>('res/admin/home/save', data);
     }
 
     public resourceRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('res/admin/resource/delete', {params: {id}});
+        return this.http.delete<IDataOne<boolean>>('res/admin/home/delete', {params: {id}});
     }
 
     public tagList(params: any) {

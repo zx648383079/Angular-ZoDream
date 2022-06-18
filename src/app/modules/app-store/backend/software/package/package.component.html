@@ -27,7 +27,8 @@
                 <tr>
                     <th>ID</th>
                     <th>文件名</th>
-                    <th>更新日志</th>
+                    <th>安装环境</th>
+                    <th>文件大小</th>
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
@@ -36,8 +37,12 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.os }}({{ item.framework }})</td>
-                    <td>{{ item.size }}</td>
+                    <td>{{ item.os }}
+                        <ng-container *ngIf="item.framework">
+                            ({{ item.framework }})
+                        </ng-container>
+                    </td>
+                    <td>{{ item.size | size }}</td>
                     <td>{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
@@ -57,10 +62,10 @@
     <div class="form-group">
         <label>目标系统</label>
         <div class="form-control-group">
-            <select class="form-control" [ngModel]="editData.os">
+            <select class="form-control" [(ngModel)]="editData.os">
                 <option *ngFor="let item of osItems" [value]="item">{{ item }}</option>
             </select>
-            <select class="form-control" [ngModel]="editData.framework">
+            <select class="form-control" [(ngModel)]="editData.framework">
                 <option *ngFor="let item of frameworkItems" [value]="item">{{ item }}</option>
             </select>
         </div>
@@ -88,13 +93,13 @@
     <div class="form-group" *ngIf="editData.url_type < 1">
         <label>文件</label>
         <div class="input-group">
-            <app-file-input [ngModel]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>
+            <app-file-input [(ngModel)]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.url_type > 0">
         <label>{{ editData.url_type > 2 ? '内容' : '网址' }}</label>
         <div>
-            <app-text-editor [ngModel]="editData.url" height="100"></app-text-editor>
+            <app-text-editor [(ngModel)]="editData.url" height="100"></app-text-editor>
         </div>
     </div>
 </app-dialog-box>

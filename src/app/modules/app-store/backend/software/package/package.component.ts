@@ -86,6 +86,7 @@ export class PackageComponent implements OnInit {
     public onFileUpload(e: UploadCustomEvent) {
         this.service.upload(e.file).subscribe({
             next: res => {
+                this.editData.name = res.title;
                 this.editData.size = res.size;
                 e.next(res);
             },
