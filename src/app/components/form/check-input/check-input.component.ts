@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -27,6 +27,16 @@ export class CheckInputComponent implements ControlValueAccessor {
     private onTouch: any = () => {};
 
     constructor() { }
+
+    public format(item: any) {
+        if (this.rangeLabel != '') {
+            return typeof item === 'object' ? item[this.rangeLabel] : item;
+        }
+        if (this.rangeKey === 'value') {
+            return item.name;
+        }
+        return item;
+    }
 
     public isSelected(item: any, index: number) {
         const value = this.itemValue(item, index);

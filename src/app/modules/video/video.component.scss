@@ -1,27 +1,6 @@
-.search-box {
-    margin: 0 10px;
-    display: flex;
-    line-height: 44px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    input {
-        padding-left: 10px;
-        height: 44px;
-        border: none;
-        flex: 1;
-        background-color: transparent;
-        outline: none;
-    }
-    button {
-        background-color: transparent;
-        border: none;
-        outline: none;
-    }
-    .iconfont {
-        display: inline-block;
-        width: 44px;
-        text-align: center;
-    }
+.search-bar {
+    margin: 0 auto;
+    max-width: 40rem;
 }
 .main-box {
     padding-top: 40vh;

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TvComponent } from './tv.component';
+import { tvRoutedComponents, TvRoutingModule } from './tv-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [TvComponent]
+    imports: [
+        CommonModule,
+        TvRoutingModule,
+    ],
+    declarations: [...tvRoutedComponents]
 })
 export class TvModule { }

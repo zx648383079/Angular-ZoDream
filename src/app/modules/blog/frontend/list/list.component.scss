@@ -8,9 +8,9 @@ li {
 }
 .book-sidebar {
     position: absolute;
-    width: 200px;
+    width: 12.5rem;
     right: 0;
-    top: 50px;
+    top: 3.125rem;
     a {
         color: #333;
         text-decoration: none;
@@ -22,11 +22,11 @@ li {
             // background: #fff;
             list-style: none;
             // width: 150px;
-            line-height: 30px;
-            padding-left: 20px;
+            line-height: 1.875rem;
+            padding-left: 1.25rem;
             box-sizing: border-box;
             .iconfont {
-                margin-right: 5px;
+                margin-right: 0.3125rem;
             }
             .count {
                 position: absolute;
@@ -34,13 +34,13 @@ li {
                 background-color: #a10000;
                 border-radius: 50%;
                 display: inline-block;
-                width: 25px;
-                height: 25px;
-                line-height: 25px;
+                width: 1.5625rem;
+                height: 1.5625rem;
+                line-height: 1.5625rem;
                 text-align: center;
-                left: 11px;
-                margin-top: 2px;
-                font-size: 10px;
+                left: 0.6875rem;
+                margin-top: 0.125rem;
+                font-size: 0.625rem;
                 overflow: hidden;
             }
             &.active {
@@ -72,33 +72,33 @@ li {
         }
     }
     .book-new {
-        margin-top: 50px;
+        margin-top: 3.125rem;
         h3 {
-            padding-left: 10px;
+            padding-left: 0.625rem;
         }
         li {
             width: 100%;
-            padding: 3px 0 3px 20px;
-            line-height: 20px;
+            padding: 0.1875rem 0 0.1875rem 1.25rem;
+            line-height: 1.25rem;
             a {
-                font-size: 14px;
+                font-size: 0.875rem;
             }
         }
     }
 }
 .book-header {
-    font-size: 16px;
-    line-height: 40px;
+    font-size: 1rem;
+    line-height: 2.5rem;
     border-bottom: 1px solid #eee;
     color: #484848;
     font-weight: 400;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 .book-term {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     .term-info {
         position: relative;
-        min-height: 50px;
+        min-height: 3.125rem;
         img {
             width: 100%;
         }
@@ -110,7 +110,7 @@ li {
             background: rgba(0, 0, 0, 0.6);
             width: 100%;
             color: #fff;
-            padding: 0 10px;
+            padding: 0 0.625rem;
             box-sizing: border-box;
             margin-bottom: 0;
         }
@@ -119,13 +119,14 @@ li {
 
 .book-item {
     display: flex;
-    margin: 0 -15px;
+    margin: 0 -0.9375rem;
     animation-duration: 1.5s;
     animation-timing-function: linear;
     transition: box-shadow 1s;
     .item-body {
-        padding: 15px 20px 5px;
+        padding: 0.9375rem 1.25rem 0.3125rem;
         flex: 1;
+        margin: 0;
     }
     .item-cover {
         width: 10em;
@@ -137,35 +138,36 @@ li {
             max-height: 100%;
         }        
     }
+    .book-time {
+        float: right;
+        text-align: right;
+    }
     a {
         text-decoration: none;
         color: #333;
     }
     dt {
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: 600;
-        .book-time {
-            float: right;
-            text-align: right;
-        }
+        
     }
     dd {
         //display: none;
-        p {
-            margin: 5px 0;
-            min-height: 40px;
-        }
-        .author,
-        .comment,
-        .category,
-        .language {
-            margin-right: 20px;
-        }
-        .agree,
-        .disagree {
-            float: right;
-            margin-left: 10px;
-        }
+    }
+    p {
+        margin: 0.3125rem 0;
+        min-height: 2.5rem;
+    }
+    .author,
+    .comment,
+    .category,
+    .language {
+        margin-right: 1.25rem;
+    }
+    .agree,
+    .disagree {
+        float: right;
+        margin-left: 0.625rem;
     }
     &:hover,
     &:nth-child(2),
@@ -193,7 +195,7 @@ li {
 }
 
 .book-footer {
-    margin-top: -50px;
+    margin-top: -3.125rem;
 }
 
 @media screen and (max-width: 769px) {
@@ -201,31 +203,40 @@ li {
         margin-right: 0 !important;
     }
     .book-item {
-        margin: 0 -8px;
+        margin: 0 -0.5rem;
         .item-body {
-            padding: 15px 13px 5px;
+            padding: 0.9375rem 0.8125rem 0.3125rem;
         }
         .item-cover {
             width: 7em;
         }
         dd {
             display: block;
-            .author,
-            .category,
-            .comment,
-            .agree,
-            .disagree,
-            .click {
-                font-size: 12px;
-            }
-            .agree,
-            .disagree {
-                margin-top: 3px;
-            }
+        }
+        .comment,
+        .agree,
+        .disagree {
+            margin-right: .8rem;
+        }
+        .agree {
+            float: none;
+            margin-left: 0;
+        }
+        .author,
+        .category,
+        .comment,
+        .agree,
+        .disagree,
+        .click {
+            font-size: 0.75rem;
+        }
+        .agree,
+        .disagree {
+            margin-top: 0.1875rem;
         }
         .book-time {
-            font-size: 12px;
-            width: 70px;
+            font-size: 0.75rem;
+            width: 4.375rem;
         }
     }
     .book-sidebar {
@@ -233,9 +244,12 @@ li {
         width: auto;
         .book-chapter {
             position: static;
-            margin-bottom: 30px;
+            margin-bottom: 1.875rem;
             li {
                 width: 100%;
+                .count {
+                    left: 1.5625rem;
+                }
                 &.active {
                     width: 100%;
                     background: #a10000;
@@ -256,6 +270,7 @@ li {
                     }
                 }
             }
+            
         }
         .book-dynamic,
         .book-new,

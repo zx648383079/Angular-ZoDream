@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
+import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
 import { applyHistory, getQueries } from '../../theme/query';
 import { ThemeService } from '../../theme/services';
@@ -95,8 +96,8 @@ export class VideoComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+    public tapSearch(keywords: string) {
+        this.queries.keywords = keywords;
         this.tapRefresh();
     }
 

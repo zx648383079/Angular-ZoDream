@@ -71,7 +71,7 @@ export class MenuComponent implements OnInit {
             for (let i = 0; i < this.menuItems.length; i++) {
                 const element = this.menuItems[i];
                 if (element === this.editData) {
-                    this.menuItems.splice(i);
+                    this.menuItems.splice(i, 1);
                     this.editData = null;
                     return;
                 }
@@ -81,7 +81,7 @@ export class MenuComponent implements OnInit {
                 for (let j = 0; j < element.children.length; j++) {
                     const it = element.children[j];
                     if (it === this.editData) {
-                        element.children.splice(i);
+                        element.children.splice(i, 1);
                         this.editData = null;
                         return;
                     }

@@ -20,6 +20,10 @@ import {
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { SearchService, ThemeService } from '../../../../theme/services';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../theme/interfaces';
+import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     selector: 'app-list',
@@ -60,6 +64,7 @@ export class ListComponent implements OnInit, OnDestroy {
         language: '',
         programming_language: '',
     };
+    public listView = 0;
 
     private searchFn = res => {
         if (typeof res === 'object') {
@@ -75,8 +80,12 @@ export class ListComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private searchService: SearchService,
         private themeService: ThemeService,
+        private store: Store<AppState>,
     ) {
-        this.themeService.setTitle('Blog');
+        this.themeService.setTitle($localize `Blog`);
+        this.store.select(selectSystemConfig).subscribe(res => {
+            this.listView = parseNumber(res.blog_list_view);
+        });
         this.service.batch({
             categories: {},
             new_comment: {},

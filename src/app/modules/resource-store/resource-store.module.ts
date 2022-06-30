@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResourceStoreComponent } from './resource-store.component';
+import { resourceStoreRoutedComponents, ResourceStoreRoutingModule } from './resource-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [ResourceStoreComponent]
+    imports: [
+        CommonModule,
+        ResourceStoreRoutingModule
+    ],
+    declarations: [...resourceStoreRoutedComponents]
 })
 export class ResourceStoreModule { }

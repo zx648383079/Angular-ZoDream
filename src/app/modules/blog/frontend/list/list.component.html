@@ -49,6 +49,9 @@
             </div>
             <ng-container *ngFor="let item of items">
             <div class="book-item">
+                <div class="item-cover" *ngIf="listView == 1">
+                    <img [src]="item.thumb">
+                </div>
                 <dl class="item-body">
                     <dt>
                         <a [routerLink]="[item.id]" [title]="item.title">{{ item.title }}</a>
@@ -67,7 +70,7 @@
                         <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
                     </dd>
                 </dl>
-                <div class="item-cover">
+                <div class="item-cover" *ngIf="listView == 2">
                     <img [src]="item.thumb">
                 </div>
             </div>

@@ -39,8 +39,15 @@ export class DialogMessageComponent implements OnDestroy {
     public title = '';
     public content = '';
     public visible = true;
+    public offset = 0;
 
     private timeHandle: any;
+
+    public get boxStyle() {
+        return {
+            top: this.offset + 'px'
+        };
+    }
 
     constructor(
         private data: DialogPackage<DialogMessageOption>,

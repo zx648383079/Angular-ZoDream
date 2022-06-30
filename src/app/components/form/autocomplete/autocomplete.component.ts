@@ -49,6 +49,8 @@ export class AutocompleteComponent implements OnChanges, OnInit {
                 this.output(this.selectedIndex <= 0 ? this.optionItems.length - 1 : (this.selectedIndex - 1));
             } else if (event.key === 'Enter' || event.key === 'Tab') {
                 this.panelVisible = false;
+            } else {
+                this.selectedIndex = -1;
             }
         });
     }
@@ -63,7 +65,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
             if (this.realValue(changes.value.currentValue) !== this.realValue(changes.value.previousValue)) {
                 this.selectedIndex = -1;
                 this.refreshOption();
-            } else {
+            } else if (this.selectedIndex < 0) {
                 this.panelVisible = this.optionItems.indexOf(this.value) < 0;
             }
         }
@@ -84,7 +86,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
 
     private output(i: number) {
         this.selectedIndex = i;
-        this.valueChange.emit(this.optionItems[i]);
+        this.valueChange.emit(this.value = this.optionItems[i]);
     }
 
     private realValue(value: string) {

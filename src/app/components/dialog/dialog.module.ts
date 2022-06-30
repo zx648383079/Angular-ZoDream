@@ -5,6 +5,7 @@ import { DialogBoxComponent } from './box/dialog-box.component';
 import { DialogMessageComponent } from './message/dialog-message.component';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogLoadingComponent } from './loading/dialog-loading.component';
+import { DialogContainerComponent } from './container/dialog-container.component';
 
 
 const COMPONENTS = [
@@ -12,6 +13,7 @@ const COMPONENTS = [
     DialogMessageComponent,
     DialogConfirmComponent,
     DialogLoadingComponent,
+    DialogContainerComponent,
 ];
 
 @NgModule({
@@ -30,7 +32,7 @@ export class DialogModule {
         return {
             ngModule: DialogModule,
             providers: [
-                DialogService,
+                DialogService
             ]
         };
     }

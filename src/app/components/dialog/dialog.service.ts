@@ -1,15 +1,16 @@
-import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Inject, Injectable, Injector, Type } from '@angular/core';
-import { DialogLoadingOption } from '.';
+import { ComponentRef, Injectable, Injector, NgZone, Type, ViewContainerRef } from '@angular/core';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
 import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogMessageComponent } from './message/dialog-message.component';
-import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption } from './model';
+import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption, DialogLoadingOption } from './model';
+
+
 
 interface IDialogRef {
     id: any;
+    isMessage: boolean;
     element: ComponentRef<any>;
 }
 
@@ -19,14 +20,18 @@ interface IDialogRef {
 export class DialogService {
 
     private static guid: number = 0; // id标记
+    private readonly messageOuterHeight = 60;
+    private messageCount = 0;
+    
     private dialogItems: IDialogRef[] = [];
+    public containerRef: ViewContainerRef;
 
     constructor(
-        private resolver: ComponentFactoryResolver,
-        private applicationRef: ApplicationRef,
-        private injector: Injector, 
-        @Inject(DOCUMENT) private document: Document,
-    ) { }
+        private injector: Injector,
+        private ngZone: NgZone,
+    ) {
+        
+    }
 
     private formatError(error: string|IErrorResult|IErrorResponse): string {
         if (typeof error != 'object') {
@@ -118,29 +123,69 @@ export class DialogService {
             const element = this.dialogItems[i];
             if (element.id === id) {
                 this.removeAt(i);
+                break;
             }
         }
     }
 
     private createDailog<T>(component: Type<T>, option: any): any {
         const dialogId = ++ DialogService.guid;
-        const dialogFactory = this.resolver.resolveComponentFactory(component);
+        if (!this.containerRef) {
+            return;
+        }
         const dialogInjector = new DialogInjector(new DialogPackage(option, dialogId), this.injector);
-        const dialogRef = dialogFactory.create(dialogInjector);
-        this.applicationRef.attachView(dialogRef.hostView);
-        this.document.body.appendChild(dialogRef.location.nativeElement);
+        const dialogRef = this.containerRef.createComponent(component, {
+            injector: dialogInjector
+        });
+        const isMessage = this.isMessage(dialogRef);
         this.dialogItems.push({
             id: dialogId,
+            isMessage,
             element: dialogRef
         });
+        if (isMessage) {
+            (dialogRef as any).instance.offset = this.messageOuterHeight * this.messageCount;
+            this.messageCount ++;
+        }
         return dialogId;
     }
 
     private removeAt(i: number) {
         const item = this.dialogItems[i];
+        this.dialogItems.splice(i, 1);
         const dialogRef = item.element;
-        this.applicationRef.detachView(dialogRef.hostView);
-        this.document.body.removeChild(dialogRef.location.nativeElement);
-        this.dialogItems.splice(i);
+        dialogRef.destroy();
+        if (item.isMessage) {
+            this.messageCount --;
+            this.refreshMessage();
+        }
+    }
+
+    private refreshMessage() {
+        if (this.messageCount <= 0) {
+            this.messageCount = 0;
+            return;
+        }
+        let i = -1;
+        for (const item of this.dialogItems) {
+            if (!item.isMessage) {
+                continue;
+            }
+            i ++;
+            (item.element as any).instance.offset = this.messageOuterHeight * i;
+        }
+    }
+
+    private isMessage(ref: IDialogRef|ComponentRef<any>|DialogMessageComponent) {
+        if (ref instanceof DialogMessageComponent) {
+            return true;
+        }
+        if (ref instanceof ComponentRef<DialogMessageComponent>) {
+            return ref.instance instanceof DialogMessageComponent;
+        }
+        if (ref.id && ref.element) {
+            return ref.element.instance instanceof DialogMessageComponent;
+        }
+        return false;
     }
 }

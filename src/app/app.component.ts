@@ -4,7 +4,8 @@ import { AuthService } from './theme/services';
 
 @Component({
     selector: 'app-root',
-    template: '<router-outlet></router-outlet>',
+    template: `<router-outlet></router-outlet>
+                <app-dialog-container></app-dialog-container>`,
     encapsulation: ViewEncapsulation.None // Emulated当前  None全局
 })
 export class AppComponent implements OnInit {

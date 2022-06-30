@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from '../environments/environment';
 import { CanActivateViaAuthGuard } from './theme/guards';
 
 
@@ -45,6 +46,8 @@ const routes: Routes = [
     { path: 'doc', loadChildren: () => import('./modules/document/document.module').then(m => m.DocumentModule) },
     { path: 'wx', loadChildren: () => import('./modules/wechat/wechat.module').then(m => m.WechatModule) },
     { path: 'navigation', loadChildren: () => import('./modules/navigation/navigation.module').then(m => m.NavigationModule) },
+    { path: 'app', loadChildren: () => import('./modules/app-store/app-store.module').then(m => m.AppStoreModule) },
+    { path: 'res', loadChildren: () => import('./modules/resource-store/resource-store.module').then(m => m.ResourceStoreModule) },
     { path: 'tv', loadChildren: () => import('./modules/tv/tv.module').then(m => m.TvModule) },
     {
         path: 'finance',
@@ -57,15 +60,17 @@ const routes: Routes = [
         loadChildren: () => import('./modules/visual/visual.module').then(m => m.VisualModule)
     },
     {
-        path: 'gzo',
-        canActivate: [CanActivateViaAuthGuard],
-        loadChildren: () => import('./modules/generator/generator.module').then(m => m.GeneratorModule)
-    },
-    {
         path: '**',
         redirectTo: 'frontend'
     },
 ];
+
+if (!environment.production) {
+    routes.unshift({
+        path: 'gzo',
+        loadChildren: () => import('./modules/generator/generator.module').then(m => m.GeneratorModule)
+    });
+}
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

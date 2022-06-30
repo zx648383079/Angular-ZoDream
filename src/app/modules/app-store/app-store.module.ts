@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppStoreComponent } from './app-store.component';
+import { appStoreRoutedComponents, AppStoreRoutingModule } from './app-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [AppStoreComponent]
+    imports: [
+        CommonModule,
+        AppStoreRoutingModule,
+    ],
+    declarations: [...appStoreRoutedComponents]
 })
 export class AppStoreModule { }

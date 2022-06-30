@@ -76,6 +76,23 @@ export interface IOption {
     children?: IOption[];
 }
 
+export interface ISystemOption extends Record<string, any> {
+    name:             string;
+    version:          string;
+    logo:             string;
+    site_title:       string;
+    site_keywords:    string;
+    site_description: string;
+    site_logo:        string;
+    site_close:       boolean;
+    site_close_tip:   string;
+    site_close_retry: string;
+    site_gray:        boolean;
+    micro_time_limit: string;
+    auth_register:    number;
+    blog_list_view:   number;
+}
+
 export interface ISite {
     name: string;
     version: string;

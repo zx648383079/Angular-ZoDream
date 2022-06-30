@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 
 interface ILink {
@@ -12,7 +12,7 @@ interface ILink {
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
     public links: ILink[] = [
         {
@@ -119,8 +119,4 @@ export class HomeComponent implements OnInit {
     ) {
         this.themeService.setTitle($localize `Home`);
     }
-
-    ngOnInit(): void {
-    }
-
 }

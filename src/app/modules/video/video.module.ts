@@ -11,13 +11,15 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme/theme.module';
 import { VideoService } from './video.service';
+import { ZreFormModule } from '../../components/form';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ThemeModule,
-        VideoRoutingModule
+        VideoRoutingModule,
+        ZreFormModule,
     ],
     declarations: [...videoRoutingComponents],
     providers: [

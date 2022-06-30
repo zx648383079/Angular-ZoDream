@@ -22,8 +22,6 @@ const routes: Routes = [
             { path: 'forum', loadChildren: () => import('../modules/forum/forum.module').then(m => m.ForumModule) },
             { path: 'micro', loadChildren: () => import('../modules/micro/micro.module').then(m => m.MicroModule) },
             { path: 'note', loadChildren: () => import('../modules/note/note.module').then(m => m.NoteModule) },
-            { path: 'app', loadChildren: () => import('../modules/app-store/app-store.module').then(m => m.AppStoreModule) },
-            { path: 'res', loadChildren: () => import('../modules/resource-store/resource-store.module').then(m => m.ResourceStoreModule) },
             {
                 path: 'legwork',
                 canActivate: [CanActivateViaAuthGuard],

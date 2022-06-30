@@ -45,7 +45,7 @@ export class SystemComponent implements OnInit {
                     group.children = [];
                 }
                 group.children = group.children.map(item => {
-                    if (['select', 'radio', 'checkbox'].indexOf(item.type)) {
+                    if (['select', 'radio', 'checkbox'].indexOf(item.type) >= 0) {
                         item.items = this.strToArr(item.default_value);
                         item.itemKey = 1;
                         if (item.items instanceof Array && typeof item.items === 'object') {
@@ -59,6 +59,8 @@ export class SystemComponent implements OnInit {
                 });
                 return group;
             });
+            console.log(this.groups);
+            
         });
     }
 
