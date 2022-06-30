@@ -13,7 +13,7 @@ npm i --legacy-peer-deps
 
 |Frontend|Backend|Name|Feature|
 |:--:|:--:|:--:|:--:|
-|√|√|Auth||
+|√|√|[Auth](src/app/modules/auth)||
 |√|√|Blog||
 |√|√|Book|Include list|
 |-|-|catering||
@@ -42,25 +42,25 @@ npm i --legacy-peer-deps
 
 ## Component
 
-√ [Dialog](src/app/dialog)
+√ [Dialog](src/app/components/dialog)
 
-√ Form Input：[autocomplete](src/app/form/autocomplete), [action button](src/app/form/action-button) etc
+√ Form Input：[autocomplete](src/app/components/form/autocomplete), [action button](src/app/components/form/action-button) etc
 
-√ [Check in](src/app/checkin)
+√ [Check in](src/app/modules/checkin)
 
-√ [Mind editor](src/app/mind)
+√ [Mind editor](src/app/components/mind)
 
-√ [Markdown editor](src/app/editor/markdown-editor)
+√ [Markdown editor](src/app/components/editor/markdown-editor)
 
-√ [datepicker](src/app/datepicker)
+√ [datepicker](src/app/components/datepicker)
 
-√ [context menu](src/app/context-menu)
+√ [context menu](src/app/components/context-menu)
 
-√ [editor](src/app/editor)
+√ [editor](src/app/components/editor)
 
-√ [media player](src/app/media-player)
+√ [media player](src/app/components/media-player)
 
-√ [toast](src/app/dialog)
+√ [toast](src/app/components/dialog)
 
 √ [emoji picker](src/app/theme/components/emoji-picker)
 

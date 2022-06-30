@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CmsService } from './cms.service';
 
 @Component({
   selector: 'app-cms-backend',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CmsBackendComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit() {
-  }
+    public isLoading = false;
+    public data: any = {};
+
+    constructor(
+        private service: CmsService
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
 
 }

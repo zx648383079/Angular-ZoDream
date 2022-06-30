@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, Injector, NgZone, Type, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector, Type, ViewContainerRef } from '@angular/core';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
@@ -28,7 +28,6 @@ export class DialogService {
 
     constructor(
         private injector: Injector,
-        private ngZone: NgZone,
     ) {
         
     }
@@ -128,6 +127,12 @@ export class DialogService {
         }
     }
 
+    /**
+     * 创建组件
+     * @param component 
+     * @param option 
+     * @returns 
+     */
     private createDailog<T>(component: Type<T>, option: any): any {
         const dialogId = ++ DialogService.guid;
         if (!this.containerRef) {
@@ -149,7 +154,10 @@ export class DialogService {
         }
         return dialogId;
     }
-
+    /**
+     * 删除组件
+     * @param i 
+     */
     private removeAt(i: number) {
         const item = this.dialogItems[i];
         this.dialogItems.splice(i, 1);

@@ -207,6 +207,10 @@ export class CmsService {
           });
     }
 
+    public statistics() {
+        return this.http.get<any>('cms/admin/statistics');
+    }
+
     public batch(data: {
         category?: {
             site: number; 
