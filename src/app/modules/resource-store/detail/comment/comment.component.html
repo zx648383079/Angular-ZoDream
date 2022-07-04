@@ -1,0 +1,84 @@
+<div class="comment-container">
+    <div class="title-bar">
+        <h3>Leave a Reply</h3>
+        <p class="bar-text">Your email address will not be published. Required fields are marked *</p>
+    </div>
+    
+    <div class="comment-form">
+        <form method="post">
+            <fieldset>
+                <div class="row">
+                    <div class="col-lg-6 mb-35 col-md-6 col-sm-6">
+                        <input class="form-control" type="text" id="name" name="name" placeholder="Name*">
+                    </div> 
+                    <div class="col-lg-6 mb-35 col-md-6 col-sm-6">
+                        <input class="form-control" type="text" id="email" name="email" placeholder="E-Mail*">
+                    </div>
+                    <div class="col-lg-12 mb-30">
+                        <textarea class="form-control" id="message" name="message" placeholder="Your message Here" ></textarea>
+                    </div>
+                </div>
+                <div class="form-group mb-0">
+                    <button class="btn btn-primary">Post Comment</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="comment-group">
+        <div class="title-bar">
+            <h3>All Comment</h3>
+            <div class="bar-right">
+                <div class="btn-group">
+                    <a href="#" class="btn btn-outline-default active">Newest</a>
+                    <a href="#" class="btn btn-outline-default">Oldest</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="comment-item" *ngFor="let item of items">
+            <article class="comment">
+                <div class="comment-author">
+                    <img [src]="item.user.avatar" alt="">
+                    <div class="comment-meta">
+                        <span class="name">{{ item.user.name }}</span>
+                        <div class="date">{{ item.created_at|ago }}</div>
+                    </div>
+                </div>
+                <div class="comment-content">
+                    <app-rule-block [value]="item.content" [rules]="item.extra_rule" ></app-rule-block>
+                </div>
+                <div class="comment-footer">
+                    <i class="iconfont icon-reply"></i>
+                    <a href="">回复</a>
+                </div>
+            </article>
+            <div class="children" *ngIf="item.reply_items">
+                <div class="comment-item" *ngFor="let it of item.reply_items">
+                    <article class="comment">
+                        <div class="comment-author">
+                            <img [src]="it.user.avatar" alt="">
+                            <div class="comment-meta">
+                                <span class="name">{{ it.user.name }}</span>
+                                <div class="date">{{ it.created_at|ago }}</div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <app-rule-block [value]="it.content" [rules]="it.extra_rule" ></app-rule-block>
+                        </div>
+                        <div class="comment-footer">
+                            <i class="iconfont icon-reply"></i>
+                            <a href="">回复</a>
+                        </div>
+                    </article>
+                </div>
+                
+            </div>
+        </div>
+
+
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

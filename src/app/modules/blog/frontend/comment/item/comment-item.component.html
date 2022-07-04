@@ -6,7 +6,7 @@
     </div>
     <div class="item-body">
         <div class="content">
-            <app-rule-block [value]="value.content" [rules]="value.extra_rule"(tapped)="tapBlock($event)"></app-rule-block>
+            <app-rule-block [value]="value.content" [rules]="value.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
         </div>
         <ng-container *ngIf="value.reply_count && value.reply_count > 0">
             <span class="expand" *ngIf="!expanded" (click)="toggleExpand()" i18n>Expand({{ value.reply_count }})</span>

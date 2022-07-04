@@ -5,7 +5,8 @@ import {
     EventEmitter,
     ViewChild,
     ElementRef,
-    AfterViewInit
+    AfterViewInit,
+    HostListener
 } from '@angular/core';
 
 @Component({
@@ -30,10 +31,10 @@ export class ProgressBarComponent implements AfterViewInit {
      * 最小移动值
      */
     @Input() public min = 0;
-
     @Input() public label = true;
-
+    @Input() public theme = 'progress'; // .progress-primary
     @Output() public valueChange = new EventEmitter();
+    private isMouseMove = false;
 
     constructor() {}
 
@@ -43,12 +44,37 @@ export class ProgressBarComponent implements AfterViewInit {
         };
     }
 
+    @HostListener('document:mousemove', ['$event'])
+    onMouseMove(event: any) {
+        if (!this.isMouseMove) {
+            return;
+        }
+        const div = this.box.nativeElement as HTMLDivElement;
+        const bound = div.getBoundingClientRect();
+        const offset = event.clientX - bound.left;
+        this.tapProgress(offset * 100 / bound.width);
+    }
+
+    @HostListener('document:mouseup')
+    onMouseUp() {
+        this.isMouseMove = false;
+    }
+
     ngAfterViewInit(): void {
         const div = this.box.nativeElement as HTMLDivElement;
         div.addEventListener('click', (event) => {
             const bound = div.getBoundingClientRect();
             this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
         });
+        div.addEventListener('mousedown', (event) => {
+            const bound = div.getBoundingClientRect();
+            const offset = event.clientX - bound.left;
+            const innerWidth = div.querySelector('.progress-bar').getBoundingClientRect().width;
+            if (Math.abs(offset - innerWidth) < 3) {
+                this.isMouseMove = true;
+            }
+        });
+
     }
 
     public tapProgress(i: number) {

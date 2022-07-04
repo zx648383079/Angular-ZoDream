@@ -1,0 +1,72 @@
+<div class="play-container">
+    <div class="play-title-bar">
+        <div class="back-btn">
+            <i class="iconfont icon-chevron-left"></i>
+        </div>
+        标题
+    </div>
+    <div class="play-body">
+        <video class="play-video" src=""></video>
+        <div class="play-catalog">
+            <ul>
+                <li class="active">
+                    分集
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="play-bar">
+        <div class="progress--bar">
+            <app-progress-bar theme="progress-primary" [label]="false" [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
+        </div>
+        <div class="bar-body">
+            <div class="bar-action">
+                <div class="btn">
+                    <i class="iconfont icon-step-backward"></i>
+                </div>
+                <div class="btn btn-max">
+                    <i class="iconfont icon-play" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}"></i>
+                </div>
+                <div class="btn">
+                    <i class="iconfont icon-step-forward"></i>
+                </div>
+                
+                <div class="time-bar">
+                    {{ formatTime(progress) }}/{{ formatTime(duration) }}
+                </div>
+            </div>
+            <div class="bar-footer">
+                <select class="speed-btn">
+                    <option>0.5X</option>
+                    <option selected>1.0X</option>
+                    <option>1.2X</option>
+                    <option>1.5X</option>
+                    <option>2.0X</option>
+                    <option>3.0X</option>
+                </select>
+                <i class="iconfont icon-volume-up volume-icon" (click)="toggleVolume()"></i>
+                <i class="iconfont icon-th-list catalog-icon"></i>
+                <i class="iconfont icon-full-screen full-icon"></i>
+            </div>
+        </div>
+        <div class="volume-dialog" *ngIf="volumeVisible">
+            <div class="group-item">
+                <span class="item-label">
+                    <i class="iconfont icon-sun"></i>
+                </span>
+                <div class="item-body">
+                    <app-progress-bar theme="progress-primary" [label]="false"></app-progress-bar>
+                </div>
+            </div>
+            <div class="group-item">
+                <span class="item-label">
+                    <i class="iconfont icon-volume-up"></i>
+                </span>
+                <div class="item-body">
+                    <app-progress-bar theme="progress-primary" [label]="false"></app-progress-bar>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

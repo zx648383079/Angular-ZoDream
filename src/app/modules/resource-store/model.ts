@@ -25,6 +25,13 @@ export interface IResource {
     files?: IResourceFile[];
 }
 
+export interface IResourceCatalog {
+    type: number;
+    icon: string;
+    name: string;
+    children?: IResourceCatalog[];
+}
+
 export interface IResourceFile {
     id: number;
     res_id: number;
@@ -55,4 +62,5 @@ export interface IComment {
     reply_count?: number;
     extra_rule?: IExtraRule[];
     created_at: string;
+    reply_items?: IComment[];
 }

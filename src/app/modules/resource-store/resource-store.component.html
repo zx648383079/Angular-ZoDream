@@ -1,3 +1,84 @@
-<p>
-  resource-store works!
-</p>
+<header>
+    <div class="container-fluid">
+        <div class="top-bar">
+            <div class="brand-logo">
+                <img [src]="'assets/images/logo.png' | asset" alt="">
+            </div>
+            <div class="more-bar">
+                <a href="">Forums</a>
+                <a href="">
+                    <i class="iconfont icon-th-list"></i>
+                    Our Products</a>
+                <div class="inner-group">
+                    <a href="">
+                        <i class="iconfont icon-shopping-cart"></i>
+                    </a>
+                    <a routerLink="/auth" *ngIf="!user">Sign In</a>
+                    <a routerLink="/backend" *ngIf="user">{{ user.name }}</a>
+                    <div class="navbar-icon" (click)="toggleNav()">
+                        <i class="iconfont icon-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar" [ngClass]="{open: navOpen}">
+        <div class="container-fluid">
+            <ul class="navbar-main">
+                <li>
+                    <a routerLink="./">推荐</a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="['category', 1]">电影</a>
+                </li>
+                <li><a [routerLink]="['category', 1]">电视剧</a></li>
+                <li><a [routerLink]="['category', 1]">音乐</a></li>
+            </ul>
+        </div>
+        <div class="container-fluid navbar-next-bar">
+            <ul class="navbar-next">
+                <li>
+                    <a [routerLink]="['category', 1]">推荐</a>
+                    <div class="nav-sub">
+                        <ul>
+                            <li><a [routerLink]="['category', 1]">电视剧</a></li>
+                            <li class="divider"></li>
+                            <li><a [routerLink]="['category', 1]">音乐</a></li>
+                            <li><a [routerLink]="['category', 1]">频道</a></li>
+                            <li><a [routerLink]="['category', 1]">直播</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="active">
+                    <a [routerLink]="['category', 1]">电影</a>
+                </li>
+                <li><a [routerLink]="['category', 1]">电视剧</a></li>
+                <li><a [routerLink]="['category', 1]">音乐</a></li>
+                <li><a [routerLink]="['category', 1]">频道</a></li>
+                <li><a [routerLink]="['category', 1]">直播</a></li>
+            </ul>
+            <form class="search-inline" *ngIf="searchVisible" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <i class="iconfont icon-search"></i>
+                <input type="text" class="form-control" placeholder="Search ..." name="keywords">
+            </form>
+        </div>
+        
+    </div>
+</header>
+
+<div class="inner-body">
+    <router-outlet></router-outlet>
+</div>
+
+
+<footer>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    Copyright ©zodream.cn, All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

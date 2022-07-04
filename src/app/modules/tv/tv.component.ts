@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { INav } from '../../theme/components';
 
 @Component({
   selector: 'app-tv',
@@ -7,9 +8,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TvComponent implements OnInit {
 
-  constructor() { }
+    public items: INav[] = [
+        {
+            name: $localize `Home`,
+            url: './',
+        },
+        {
+            name: $localize `Movie`,
+            url: 'movie',
+        },
+        {
+            name: $localize `Teleplay`,
+            url: 'teleplay',
+        },
+        {
+            name: $localize `Music`,
+            url: 'music',
+        },
+        {
+            name: $localize `Live`,
+            url: 'live',
+        },
+    ];
 
-  ngOnInit() {
-  }
+    constructor() { }
+
+    ngOnInit() {
+    }
 
 }

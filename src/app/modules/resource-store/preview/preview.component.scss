@@ -1,0 +1,16 @@
+.frame-box {
+    text-align: center;
+}
+
+.frame-resize {
+    text-align: center;
+    a {
+        padding: 5px 10px;
+        display: inline-block;
+        color: #777;
+        &.active {
+            color: #333;
+            font-weight: 700;
+        }
+    }
+}

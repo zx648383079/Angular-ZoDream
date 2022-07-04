@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Category</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-12">
+            <div class="title-bar">
+                category
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="filter-floor">
+    <div class="container-fluid">
+        <div class="filter-bar">
+            <a href="">All categories</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+            <a href="">tag</a>
+        </div>
+        <div class="filter-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="res-item" *ngFor="let item of items">
+                        <div class="item-thumb">
+                            <a [routerLink]="[item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                            <div class="item-hat"></div>
+                        </div>
+                        <div class="item-body">
+                            <a class="item-name" [routerLink]="[item.id]">
+                                {{ item.title }}
+                            </a>
+                            <div class="item-meta">
+                                by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                            </div>
+                            <div class="item-action">
+                                <div class="item-price">
+                                    <p>
+                                        <ng-container *ngIf="item.price > 0">
+                                            {{ item.price | currency }}
+                                        </ng-container>
+                                        <ng-container *ngIf="item.price <= 0">
+                                            Free
+                                        </ng-container>
+                                    </p>
+                                    <p class="sale">{{ item.download_count | numberFormat }} Sales</p>
+                                </div>
+                                <div class="btn-group">
+                                    <a class="btn btn-outline-primary">
+                                        <i class="iconfont icon-shopping-cart"></i>
+                                    </a>
+                                    <a [routerLink]="[item.id, 'preview']" class="btn btn-primary">
+                                        Live Preview
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

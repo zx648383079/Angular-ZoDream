@@ -1,0 +1,195 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="search-input">
+                <input type="text" class="form-control">
+                <i class="iconfont icon-close"></i>
+                <div class="btn btn-primary">Search</div>
+            </div>
+            <div class="search-tip-bar">
+                You found 8,723 resources.
+            </div>
+            <div class="sort-bar">
+                <a href="" class="sort-clear">
+                    <i class="iconfont icon-close"></i>
+                    Filter & Refine
+                </a>
+                <div class="sort-view-bar">
+                    <div class="sort-tip">
+                        Price is in US dollars and excludes tax
+                    </div>
+                    <div class="view-bar">
+                        <i class="iconfont icon-table"></i>
+                        <i class="iconfont icon-list"></i>
+                    </div>
+                </div>
+                <div class="tab-bar">
+                    <div class="item active">
+                        Best match
+                    </div>
+                    <div class="item">
+                        Best sellers
+                    </div>
+                    <div class="item">
+                        Newest
+                    </div>
+                    <div class="item">
+                        Best rated
+                    </div>
+                    <div class="item">
+                        Trending
+                    </div>
+                    <div class="item">
+                        Price
+                        <i class="iconfont icon-sort-desc"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel">
+                <div class="panel-header">
+                    Category
+
+                    <div class="panel-icon">
+                        <i class="iconfont icon-angle-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li class="active">
+                            <a href="">All categories</a>
+                            <span class="count">199</span>
+                        </li>
+                        <li>
+                            <a href="">a</a>
+                            <span class="count">199</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    Tags
+                    <div class="panel-icon">
+                        <i class="iconfont icon-angle-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            <div class="check-input">
+                                <i class="iconfont icon-check-square-o"></i>
+                            </div>
+                            <a href="">a</a>
+                            <span class="count">199</span>
+                        </li>
+                        <li>
+                            <div class="check-input">
+                                <i class="iconfont icon-square-o"></i>
+                            </div>
+                            <a href="">a</a>
+                            <span class="count">199</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    Price
+                    <div class="panel-icon">
+                        <i class="iconfont icon-angle-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="price-input">
+                        <input type="text" class="form-control">-
+                        <input type="text" class="form-control">
+                        <div class="btn btn-primary">
+                            <i class="iconfont icon-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    Rating
+                    <div class="panel-icon">
+                        <i class="iconfont icon-angle-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            <div class="radio-input">
+                                <i class="iconfont icon-circle"></i>
+                            </div>
+                            <a href="">Show all</a>
+                            <span class="count">199</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="filter-wall">
+                88 items 
+                <div class="filter-item">
+                    <span>Term: 'store'</span>
+                    <i class="iconfont icon-close"></i>
+                </div>
+
+                <a class="filter-clear">
+                    Clear all
+                </a>
+            </div>
+
+            <div class="res-large-item" *ngFor="let item of items">
+                <div class="item-thumb">
+                    <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                    <div class="item-hat"></div>
+                </div>
+                <div class="item-body">
+                    <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
+                        {{ item.title }}
+                    </a>
+                    <div class="item-meta">
+                        by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                    </div>
+                    <div class="item-desc">
+                        {{ item.description }}
+                    </div>
+                </div>
+                <div class="item-action">
+                    <div class="item-price">
+                        <ng-container *ngIf="item.price > 0">
+                            {{ item.price | currency }}
+                        </ng-container>
+                        <ng-container *ngIf="item.price <= 0">
+                            Free
+                        </ng-container>
+                    </div>
+                    <app-star></app-star>
+                    <p>{{ item.download_count | numberFormat }} Sales</p>
+                    <p>{{ item.updated_at | ago }}</p>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary">
+                            <i class="iconfont icon-shopping-cart"></i>
+                        </a>
+                        <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary">
+                            Live Preview
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        </div>
+    </div>
+</div>

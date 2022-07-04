@@ -10,3 +10,47 @@
         margin-top: 0;
     }
 }
+
+.progress-primary {
+    height: .2rem;
+    border-radius: .1rem;
+    background-color: rgba($color: #ccc, $alpha: .1);
+    .progress-bar {
+        height: .2rem;
+        border-radius: .1rem;
+        background-color: #ccc;
+        position: relative;
+        overflow: inherit;
+        &::before,
+        &::after {
+            content: " ";
+            display: block;
+            width: .6rem;
+            height: .6rem;
+            border-radius: 50%;
+            position: absolute;
+            right: -.3rem;
+            top: -.2rem;
+        }
+        &::before {
+            background-color: #555;
+            width: 1rem;
+            height: 1rem;
+            right: -.5rem;
+            top: -.4rem;
+        }
+        &::after {
+            background-color: #fff;
+            width: .6rem;
+            height: .6rem;
+            right: -.3rem;
+            top: -.2rem;
+            transition: all .5s;
+        }
+        &:hover {
+            &::after {
+                transform: scale(1.3);
+            }
+        }
+    }
+}

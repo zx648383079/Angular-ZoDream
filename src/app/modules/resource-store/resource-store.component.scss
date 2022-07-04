@@ -1,0 +1,280 @@
+header,
+footer {
+    background-color: #333;
+    color: #fff;
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+    ul,
+    li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+footer {
+    padding: 3rem 0;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    .brand-logo {
+        height: 2.5rem;
+        padding-left: .6rem;
+        img {
+            height: 100%;
+        }
+    }
+    .more-bar {
+        line-height: 2.5rem;
+        a {
+            &:not(:last-child) {
+                padding-right: .8rem;
+            }
+        }
+    }
+    .inner-group {
+        display: inline-block;
+        background-color: #666;
+        padding: 0 .8rem;
+        border-radius: 0 0 .25rem .25rem;
+    }
+    .navbar-icon {
+        display: inline-block;
+    }
+}
+
+.navbar {
+    display: none;
+    li {
+        a {
+            line-height: 2.5rem;
+            display: block;
+            padding: 0 1rem;
+        }
+        li {
+            a {
+                padding: 0 2rem; 
+            }
+            li {
+                a {
+                    padding: 0 2rem; 
+                }
+            }
+        }
+    }
+    .search-inline {
+        position: relative;
+        color: #0a0a0a;
+        .form-control {
+            padding-left: 2rem;
+        }
+        .iconfont {
+            position: absolute;
+            left: .5rem;
+            top: .4rem;
+        }
+    }
+    .navbar-next-bar {
+        display: block;
+    }
+    &.open {
+        display: block;
+    }
+}
+
+.inner-body ::ng-deep {
+    .header-bg {
+        background-color: #fff;
+    }
+    .title-bar {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        .title-desc {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+    }
+    .filter-floor {
+        .title-bar {
+            text-align: center;
+        }
+        .filter-bar {
+            padding: 0 -.8rem;
+            a {
+                display: inline-block;
+                margin: .5rem .8rem;
+                padding: .3rem 1rem;
+                border: 1px solid #ccc;
+                background-color: #bb0b0b;
+                color: #fff;
+                &.active {
+                    border-color: #c43434;
+                }
+            }
+        }
+    }
+    .res-item {
+        border-radius: 0.5rem;
+        background-color: #fff;
+        position: relative;
+        margin-bottom: 1rem;
+        .item-thumb {
+            height: 15rem;
+            overflow: hidden;
+            img {
+                min-width: 100%;
+                height: 100%;
+                border-radius: 0.5rem .5rem 0 0;
+            }
+        }
+        .item-hat {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-top-left-radius: .5rem;
+            img {
+                border-top-left-radius: .5rem;
+            }
+        }
+        .item-name {
+            font-weight: bold;
+        }
+        .item-meta {
+            color: #777;
+        }
+        .item-body {
+            padding: .8rem;
+            p {
+                margin: 0;
+            }
+        }
+        .item-action {
+            display: flex;
+            justify-content: space-between;
+            .btn {
+                display: inline-flex;
+                align-items: center;
+            }
+            p {
+                color: red;
+            }
+            .sale {
+                color: #ccc;
+                font-size: .8rem;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 991px) {
+    .top-bar {
+        .navbar-icon {
+            display: none;
+        }
+    }
+    .navbar {
+        display: block;
+        padding: 0;
+        .container-fluid {
+            display: block;
+        }
+        .navbar-next-bar {
+            display: flex;
+        }
+    }
+    .navbar-main {
+        display: block;
+        margin-bottom: 0;
+        li {
+            display: inline-block;
+            position: relative;
+            a {
+                color: #ccc;
+                padding: .6rem 1rem;
+                display: inline-block;
+            }
+            &.active {
+                &::after {
+                    position: absolute;
+                    bottom: -.3rem;
+                    left: 50%;
+                    margin-left: -.75rem;
+                    border: .6rem solid transparent;
+                    border-bottom-color: #fff;
+                    content: " ";
+                    display: block;
+                }
+                a {
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .navbar-next-bar {
+        background-color: #fff;
+        display: flex;
+        a {
+            color: #333;
+        }
+        .navbar-next {
+            flex: 1;
+        }
+        .search-inline {
+            width: 10rem;
+        }
+    }
+    .navbar-next {
+        li {
+            display: inline-block;
+            position: relative;
+            padding: .5rem 1rem;
+            &:hover {
+                background-color: #aaa;
+                .nav-sub {
+                    display: block;
+                }
+            }
+        }
+    }
+    .nav-sub {
+        position: absolute;
+        display: none;
+        background-color: #fff;
+        color: #0a0a0a;
+        box-shadow: 0 0 20px rgba(0, 0, 0, .25);
+        width: 8rem;
+        left: 0;
+        z-index: 99;
+        ul {
+            display: block;
+            li {
+                padding: .5rem 0;
+                text-align: center;
+                display: block;
+                a {
+                    padding: 0;
+                } 
+            }
+            .divider {
+                height: .1rem;
+                background-color: #ccc;
+                padding: 0;
+            }
+        }
+    }
+    .floor-header {
+        &::after {
+            left: .8rem;
+            top: .8rem;
+        }
+    }
+    .sort-bar {
+        display: flex;
+    }
+}

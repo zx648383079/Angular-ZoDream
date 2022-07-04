@@ -1,7 +1,7 @@
-<div class="progress" #progressBox [title]="value.toFixed(2)">
-  <div class="progress-bar" role="progressbar" [style]="progressStyle">
-      <ng-container *ngIf="label">
-        {{ value.toFixed(2) }}/{{ max.toFixed(2) }}
-      </ng-container>
-  </div>
+<div [ngClass]="theme" #progressBox [title]="value.toFixed(2)">
+    <div class="progress-bar" role="progressbar" [style]="progressStyle">
+        <ng-container *ngIf="label">
+            {{ value.toFixed(2) }}/{{ max.toFixed(2) }}
+        </ng-container>
+    </div>
 </div>

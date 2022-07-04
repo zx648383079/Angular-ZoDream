@@ -84,6 +84,8 @@ export interface ICategory {
     name: string;
     icon: string;
     parent_id: number;
+    recommend_items?: IMovie[];
+    new_items?: IMovie[];
 }
 
 export interface ITag {

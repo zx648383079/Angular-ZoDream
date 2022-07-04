@@ -1,0 +1,116 @@
+.banner-floor {
+    .title-bar {
+        margin-top: 5rem;
+        margin-bottom: 1rem;
+    }
+    img {
+        max-height: 25rem;
+        max-width: 100%;
+    }
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 5rem;
+    .form-control {
+        padding: 1rem 6rem 1rem .75rem;
+    }
+    .btn {
+        position: absolute;
+        right: .5rem;
+        top: .65rem;
+    }
+}
+
+.cat-item {
+    background: #fff;
+    border-radius: 0.5rem;
+    position: relative;
+    margin-bottom: 1rem;
+    .item-name {
+        font-weight: bold;
+        text-align: center;
+        padding-top: 2rem;
+    }
+    .item-desc {
+        text-align: center;
+    }
+    .item-meta {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .item-body {
+        background-color: gray;
+        height: 15rem;
+        position: relative;
+        border-radius: 0 0 0.5rem 0.5rem;
+        img {
+            min-width: 100%;
+            height: 100%;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+    }
+    .item-icon {
+        position: absolute;
+        top: -3rem;
+        left: 50%;
+        margin-left: -3rem;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        border: .3rem solid rgba($color: #fff, $alpha: .5);
+        padding: .3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+        }
+    }
+}
+
+.floor-header {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+    padding: 2rem;
+    background-color: rgba($color: #fff, $alpha: .7);
+    color: #333;
+    border-radius: .8rem;
+    position: relative;
+    .title-bar {
+        margin-bottom: 1rem;
+    }
+    &::after {
+        position: absolute;
+        left: .8rem;
+        top: -.8rem;
+        width: 100%;
+        height: 100%;
+        display: block;
+        content: "";
+        border: .2rem dotted #c43434;
+        border-radius: .8rem;
+        z-index: -1;
+    }
+}
+
+.template-lazy {
+    min-height: 200px;
+}
+
+.category-floor {
+    margin-top: 5rem;
+}
+
+.banner-floor {
+    padding-bottom: 5rem;
+}
+.feature-floor,
+.filter-floor {
+    padding: 5rem 0;
+}

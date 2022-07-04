@@ -1,0 +1,44 @@
+<div class="detail-floor">
+    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
+    <div *ngIf="data">
+        <div class="row">
+            <div class="col-md-6 image-box">
+                <img [src]="data.cover|asset" alt="">
+            </div>
+            <div class="col-md-6 detail-header">
+                <div class="title-bar">
+                    {{ data.title }}
+                    <app-star></app-star>
+                </div>
+                <div class="meta-bar">
+                    <p>类型：{{ data.category?.name }}</p>
+                    <p>主演：{{ data.leader }}</p>
+                </div>
+                <div class="description-bar">
+                    {{ data.description }}
+                    <div class="bar-more">更多</div>
+                </div>
+        
+                <div class="btn-group">
+                    <a class="btn-icon play-btn" [routerLink]="['play', data.id]">
+                        <i class="fa fa-play icon"></i>
+                        <span class="label">播放</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel play-mini" *ngIf="seriesItems && seriesItems.length > 0">
+            <div class="panel-header">选集</div>
+            <div class="panel-body">
+                <ng-container *ngFor="let item of seriesItems">
+                    <a class="play-item"  [routerLink]="['play', data.id, item.id]">
+                        <span class="item-no">{{ item.episode }}</span>
+                        <span class="item-label">{{ item.title }}</span>
+                    </a>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    
+</div>

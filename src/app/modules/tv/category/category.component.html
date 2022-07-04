@@ -1,0 +1,37 @@
+<div class="search-floor">
+    <div class="search-bar">
+        <input type="text" placeholder="搜索">
+        <i class="fa fa-search"></i>
+    </div>
+</div>
+<div class="cat-row" *ngFor="let cat of items">
+    <div class="row-header">
+        <div class="item-name">{{ cat.name }}</div>
+        <ul class="item-more">
+            <li *ngFor="let item of cat.recommend_items">
+                <a  [routerLink]="['movie', item.id]">{{ item.title }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row-body">
+        <ng-container *ngFor="let item of cat.new_items">
+            <a class="movie-item" [routerLink]="['movie', item.id]">
+                <div class="item-image">
+                    <img [src]="item.cover | asset" alt="">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.title }}</div>
+                    <div class="item-leader">{{ item.leader }}</div>
+                    <app-star></app-star>
+                </div>
+            </a>
+        </ng-container>
+        
+    </div>
+    <a class="row-more" routerLink="search" [queryParams]="{category: cat.id}" >
+        <div class="more-icon">
+            <i class="iconfont icon-ellipsis"></i>
+        </div>
+        <div class="more-label">更多</div>
+    </a>
+</div>
