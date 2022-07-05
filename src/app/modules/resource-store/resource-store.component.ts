@@ -13,7 +13,10 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 })
 export class ResourceStoreComponent implements OnInit {
 
-    public navItems: INav[] = [];
+    public navItems: INav[] = [
+        {name: '推荐'}
+    ];
+    public navIndex = 0;
     public user: IUser;
     public searchVisible = false;
     public navOpen = false;
@@ -23,6 +26,12 @@ export class ResourceStoreComponent implements OnInit {
         private route: ActivatedRoute,
         private store: Store<AppState>,
     ) { }
+
+    public get subNavItems(): INav[] {
+        return [
+            {name: '推荐'}
+        ];
+    }
 
     ngOnInit() {
         this.searchVisible = window.location.pathname.indexOf('category') > 0;

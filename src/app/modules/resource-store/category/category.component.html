@@ -16,6 +16,30 @@
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="panel">
+        <div class="panel-header">
+            <div class="inner-header">
+                All categories
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3" *ngFor="let item of categories">
+                    <a class="link-item">
+                        <span>Tag</span>
+                        <i class="iconfont icon-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a routerLink="/res/search">Browse New</a>
+            <a routerLink="/res/search">Browse Bestsellers</a>
+        </div>
+    </div>
+</div>
+
 <div class="filter-floor">
     <div class="container-fluid">
         <div class="filter-bar">

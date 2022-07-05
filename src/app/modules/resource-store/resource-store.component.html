@@ -5,8 +5,8 @@
                 <img [src]="'assets/images/logo.png' | asset" alt="">
             </div>
             <div class="more-bar">
-                <a href="">Forums</a>
-                <a href="">
+                <a routerLink="/frontend/forum">Forums</a>
+                <a routerLink="/">
                     <i class="iconfont icon-th-list"></i>
                     Our Products</a>
                 <div class="inner-group">
@@ -25,37 +25,31 @@
     <div class="navbar" [ngClass]="{open: navOpen}">
         <div class="container-fluid">
             <ul class="navbar-main">
-                <li>
-                    <a routerLink="./">推荐</a>
-                </li>
-                <li class="active">
-                    <a [routerLink]="['category', 1]">电影</a>
-                </li>
-                <li><a [routerLink]="['category', 1]">电视剧</a></li>
-                <li><a [routerLink]="['category', 1]">音乐</a></li>
+                <ng-container *ngFor="let item of navItems;let i = index">
+                    <li [ngClass]="{active: i == navIndex}" (click)="navIndex = i">
+                        <a >{{ item.name }}</a>
+                    </li>
+                </ng-container>
             </ul>
         </div>
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
-                <li>
-                    <a [routerLink]="['category', 1]">推荐</a>
-                    <div class="nav-sub">
-                        <ul>
-                            <li><a [routerLink]="['category', 1]">电视剧</a></li>
-                            <li class="divider"></li>
-                            <li><a [routerLink]="['category', 1]">音乐</a></li>
-                            <li><a [routerLink]="['category', 1]">频道</a></li>
-                            <li><a [routerLink]="['category', 1]">直播</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="active">
-                    <a [routerLink]="['category', 1]">电影</a>
-                </li>
-                <li><a [routerLink]="['category', 1]">电视剧</a></li>
-                <li><a [routerLink]="['category', 1]">音乐</a></li>
-                <li><a [routerLink]="['category', 1]">频道</a></li>
-                <li><a [routerLink]="['category', 1]">直播</a></li>
+                <ng-container *ngFor="let item of subNavItems">
+                    <li [ngClass]="{active: item.active}">
+                        <a >{{ item.name }}</a>
+                        <div class="nav-sub" *ngIf="item.children">
+                            <ul>
+                                <ng-container *ngIf="item.name; else elseTemplate">
+                                    <li>
+                                        <a [routerLink]="['category', 1]">{{ item.name }}</a></li>
+                                </ng-container>
+                                <ng-template #elseTemplate>
+                                    <li class="divider"></li>
+                                </ng-template>
+                            </ul>
+                        </div>
+                    </li>
+                </ng-container>
             </ul>
             <form class="search-inline" *ngIf="searchVisible" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <i class="iconfont icon-search"></i>

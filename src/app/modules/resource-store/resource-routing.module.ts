@@ -26,6 +26,10 @@ const routes: Routes = [
                 component: CategoryComponent
             },
             {
+                path: 'category',
+                component: CategoryComponent
+            },
+            {
                 path: 'search',
                 component: SearchComponent
             },

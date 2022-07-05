@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
-import { IResource } from '../model';
+import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
 
 @Component({
@@ -25,6 +25,7 @@ export class CategoryComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
+    public categories: ICategory[] = [1,2,3,4,4] as any;
 
     constructor(
         private service: ResourceService,

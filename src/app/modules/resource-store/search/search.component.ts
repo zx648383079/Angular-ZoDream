@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
         page: 1,
         per_page: 20,
         category: 0,
+        user: 0,
+        tag: '',
         sort: '',
         order: '',
     };
