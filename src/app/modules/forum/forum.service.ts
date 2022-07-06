@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { IForum, IThread, IThreadPost } from './model';
+import { IForum, IThread, IThreadPost, IThreadUser } from './model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -44,6 +44,10 @@ export class ForumService {
 
     public threadSave(data: any) {
         return this.http.post<IThread>(data.id && data.id > 0 ? 'forum/thread/update' : 'forum/thread/create', data);
+    }
+
+    public threadUser(id: any) {
+        return this.http.get<IThreadUser>('forum/thread/user', {params: {id}});
     }
 
     public postCreate(data: any) {

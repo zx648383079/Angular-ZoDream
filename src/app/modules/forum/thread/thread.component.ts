@@ -105,6 +105,21 @@ export class ThreadComponent implements OnInit {
         });
     }
 
+    public loadUser(item: IThreadPost) {
+        item.is_hover_user = true;
+        if (item.is_loaded) {
+            return;
+        }
+        this.service.threadUser(item.user_id).subscribe(res => {
+            for (const it of this.items) {
+                if (it.user_id == res.id) {
+                    it.is_loaded = true;
+                    it.user = res;
+                }
+            }
+        });
+    }
+
     public tapSeeUser(user: number = 0) {
         this.queries.user = user;
         this.tapRefresh();

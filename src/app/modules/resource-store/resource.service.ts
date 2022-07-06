@@ -16,6 +16,10 @@ export class ResourceService {
         return this.http.get<IData<ICategory>>('res/category', {params});
     }
 
+    public category(id: any) {
+        return this.http.get<ICategory>('res/category/detail', {params: id});
+    }
+
     public resourceList(params: any) {
         return this.http.get<IPage<IResource>>('tv/movie', {params});
     }

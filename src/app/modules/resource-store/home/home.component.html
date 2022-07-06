@@ -64,7 +64,7 @@
                                 Every week
                             </div>
                         </div>
-                        <div class="btn btn-primary">View all featured</div>
+                        <a class="btn btn-primary" routerLink="search" [queryParams]="{sort: 'hot'}">View all featured</a>
                     </div>
                 </div>
             </div>
@@ -126,16 +126,8 @@
             </div>
         </div>
         <div class="filter-bar">
-            <a href="">All categories</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
+            <a routerLink="category">All categories</a>
+            <a *ngFor="let item of categories" routerLink="search" [queryParams]="{category: item.id, sort: 'new'}">{{ item.name }}</a>
         </div>
         <div class="filter-body" appLazyLoad (lazyLoading)="loadNewest()">
             <app-loading-tip [loading]="newLoading" [visible]="newLoading || newItems.length == 0"></app-loading-tip>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { parseNumber } from '../../../theme/utils';
 import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
 
@@ -20,12 +21,12 @@ export class CategoryComponent implements OnInit {
         sort: '',
         order: '',
     };
-
     public items: IResource[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public categories: ICategory[] = [1,2,3,4,4] as any;
+    public data: ICategory;
+    public categories: ICategory[] = [];
 
     constructor(
         private service: ResourceService,
@@ -33,9 +34,28 @@ export class CategoryComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (params.id) {
+                this.load(parseNumber(params.id));
+            }
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    private load(id: number) {
+        this.service.category(id).subscribe(res => {
+            this.data = res;
+            this.categories = res.children;
+        });
+    }
+
+    public tapCategory(item: ICategory) {
+        this.data = item;
+        this.service.categoryList(item.id).subscribe(res => {
+            this.categories = res.data;
         });
     }
 

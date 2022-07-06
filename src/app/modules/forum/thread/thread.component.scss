@@ -1,92 +1,87 @@
-.thread-box {
-    .thread-title,
-    .post-item {
-        display: grid;
-        grid-template-columns: 160px 1fr;
-        .count,
-        .post-user {
-            background-color: #E5EDF2;
-        }
-        .title,
-        .post-content {
-            background-color: #fff;
-        }
+.thread-title,
+.post-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    .count,
+    .post-user {
+        background-color: #E5EDF2;
     }
-    .thread-title {
-        border-bottom: 4px solid #f4f4f4;
-        line-height: 40px;
-        .count {
-            text-align: center;
-        }
-        .title {
-            padding-left: 20px;
-        }
+    .title,
+    .post-content {
+        background-color: #fff;
     }
-    .post-item {
-        border-bottom: 4px solid #f4f4f4;
-        .post-user {
-            text-align: center;
-            .avatar {
-                img {
-                    width: 120px;
+}
 
-                }
+.post-item {
+    border-bottom: 4px solid #f4f4f4;
+    .post-user {
+        text-align: center;
+        position: relative;
+        min-height: 10rem;
+    }
+    .avatar {
+        img {
+            width: 7.5rem;
+        }
+    }
+    .post-content .header,
+    .post-user .name {
+        line-height: 30px;
+        border-bottom: 1px dotted #ccc;
+    }
+    .post-content {
+        position: relative;
+        padding-bottom: 30px;
+        .header {
+            padding: 0 20px;
+            .action {
+                float: right;
             }
         }
-        .post-content .header,
-        .post-user .name {
+        .content {
+            padding: 0 20px;
+            word-break: break-word;
+            a {
+                color: #369;
+            }
+        }
+        .last-time {
+            text-align: right;
+            color: #888;
+        }
+        .footer {
+            padding: 0 20px;
+            border-top: 1px dotted #888;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
             line-height: 30px;
-            border-bottom: 1px dotted #ccc;
+            a {
+                padding-right: 10px;
+                text-decoration: none;
+                cursor: pointer;
+            }
         }
+    }
+    .post-action {
+        text-align: center;
+        padding: .8em 0;
+    }
+    &.post-new {
         .post-content {
-            position: relative;
-            padding-bottom: 30px;
-            .header {
-                padding: 0 20px;
-                .action {
-                    float: right;
-                }
-            }
-            .content {
-                padding: 0 20px;
-                word-break: break-word;
-                a {
-                    color: #369;
-                }
-            }
-            .last-time {
-                text-align: right;
-                color: #888;
-            }
             .footer {
-                padding: 0 20px;
-                border-top: 1px dotted #888;
-                position: absolute;
-                width: 100%;
-                bottom: 0;
-                line-height: 30px;
-                a {
-                    padding-right: 10px;
-                    text-decoration: none;
-                    cursor: pointer;
-                }
+                position: static;
             }
-        }
-        .post-action {
-            text-align: center;
-            padding: .8em 0;
-        }
-        &.post-new {
-            .post-content {
-                .footer {
-                    position: static;
-                }
-            } 
-            
-        }
+        } 
+        
     }
 }
 .thread-title {
+    border-bottom: 4px solid #f4f4f4;
+    line-height: 40px;
+    .count {
+        text-align: center;
+    }
     .pull-right {
         float: right;
         .form-control {
@@ -99,6 +94,7 @@
         color: #333;
     }
     .title {
+        padding-left: 20px;
         .icon-arrow-up {
             color: #ffaa00;
         }
@@ -188,6 +184,71 @@
     }
 }
 
+.user-inner-box {
+    .count-bar {
+        display: none;
+        margin-top: 10px;
+        .count-item {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            &:not(:last-of-type) {
+                border-right: 1px solid #ccc;
+            }
+        }
+    }
+    .meta-more {
+        text-align: left;
+        margin: 0 .8rem 1rem;
+        a {
+            margin: .2rem;
+        }
+        .iconfont {
+            font-size: 1.1rem;
+        }
+        img {
+            width: 1rem;
+            max-height: 1rem;
+        }
+    }
+}
+
+.open {
+    position: relative;
+    .user-inner-box {
+        position: absolute;
+        width: 20rem;
+        min-height: 10rem;
+        background-color: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        padding: 2rem .8rem .8rem 6.6rem;
+        border-radius: .25rem;
+        z-index: 88;
+        .avatar {
+            position: absolute;
+            left: .8rem;
+            top: .8rem;
+            img {
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+            }
+        }
+        .name {
+            position: absolute;
+            left: 6.6rem;
+            top: .8rem;
+            border-bottom: none !important;
+        }
+        .count-bar {
+            display: flex;
+        }
+        .meta-more {
+            margin: 0 -.2rem;
+        }
+    } 
+}
+
 @media screen and (max-width: 769px) {
     .thread-box {
         .thread-title {
@@ -196,35 +257,45 @@
                 display: none;
             }
         }
-        .post-item {
-            display: block;
-            position: relative;
-            .post-user {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                z-index: 99;
-                background-color: transparent;
-                .name {
-                    border: none;
+    }
+    
+    .post-item {
+        display: block;
+        position: relative;
+        .post-user {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 55;
+            background-color: transparent;
+            .name {
+                border: none;
+            }
+            .avatar {
+                width: 40px;
+                img {
+                    width: 100%;
+                    height: 100%;
                 }
+            }
+            &.open {
+                z-index: 66;
                 .avatar {
-                    width: 40px;
                     img {
-                        width: 100%;
-                        height: 100%;
+                        width: 5rem;
+                        height: 5rem;
                     }
                 }
             }
-            .post-content {
-                .header {
-                    padding: 0 0 0 80px;
-                    font-size: 12px;
-                }
-                .content {
-                    padding: 0 0 0 45px;
-                    min-height: 40px;
-                }
+        }
+        .post-content {
+            .header {
+                padding: 0 0 0 80px;
+                font-size: 12px;
+            }
+            .content {
+                padding: 0 0 0 45px;
+                min-height: 40px;
             }
         }
     }

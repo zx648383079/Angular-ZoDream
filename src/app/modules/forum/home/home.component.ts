@@ -10,14 +10,22 @@ import { ForumService } from '../forum.service';
 export class HomeComponent implements OnInit {
 
     public items: IForum[] = [];
+    public isLoading = false;
 
     constructor(
         private service: ForumService
     ) { }
 
     ngOnInit() {
-        this.service.getForumList().subscribe(res => {
-            this.items = res;
+        this.isLoading = true;
+        this.service.getForumList().subscribe({
+            next: res => {
+                this.items = res;
+                this.isLoading = false;
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

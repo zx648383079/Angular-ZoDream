@@ -4,56 +4,44 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Category</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ data ? data.name : 'All categories' }}</li>
               </ol>
             </nav>
         </div>
         <div class="col-md-12">
             <div class="title-bar">
-                category
+                {{ data ? data.name : 'All categories' }}
             </div>
         </div>
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="categories.length > 0">
     <div class="panel">
         <div class="panel-header">
             <div class="inner-header">
-                All categories
+                {{ data ? data.name : 'All categories' }}
             </div>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3" *ngFor="let item of categories">
-                    <a class="link-item">
-                        <span>Tag</span>
+                    <a class="link-item" (click)="tapCategory(item)">
+                        <span>{{ item.name }}</span>
                         <i class="iconfont icon-chevron-right"></i>
                     </a>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
-            <a routerLink="/res/search">Browse New</a>
-            <a routerLink="/res/search">Browse Bestsellers</a>
+            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'new'}">Browse New</a>
+            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'hot'}">Browse Bestsellers</a>
         </div>
     </div>
 </div>
 
 <div class="filter-floor">
     <div class="container-fluid">
-        <div class="filter-bar">
-            <a href="">All categories</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-            <a href="">tag</a>
-        </div>
         <div class="filter-body">
             <div class="row">
                 <div class="col-md-3">

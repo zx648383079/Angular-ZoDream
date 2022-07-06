@@ -14,7 +14,7 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 export class ResourceStoreComponent implements OnInit {
 
     public navItems: INav[] = [
-        {name: '推荐'}
+        {name: '推荐'},
     ];
     public navIndex = 0;
     public user: IUser;

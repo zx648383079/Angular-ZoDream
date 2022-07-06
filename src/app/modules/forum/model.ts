@@ -57,7 +57,8 @@ export interface IThread {
 export interface IThreadPost {
     id: number;
     content: string;
-    user: IUser;
+    user_id: number;
+    user: IThreadUser;
     grade: number;
     created_at: string;
     updated_at?: string;
@@ -65,6 +66,8 @@ export interface IThreadPost {
     is_public_post?: boolean;
     html?: any;
     status?: number;
+    is_loaded?: boolean; // 是否加载了完整的用户统计信息
+    is_hover_user?: boolean;
 }
 
 export interface IForumClassify {
@@ -75,6 +78,17 @@ export interface IForumClassify {
     forum_id?: number;
 }
 
+
+export interface IThreadUser extends IUser {
+    medal_items: {
+        name: string;
+        icon: string;
+    }[];
+    count_items: {
+        name: string;
+        count: number;
+    }[];
+}
 
 export interface IThreadLog {
     id: number;

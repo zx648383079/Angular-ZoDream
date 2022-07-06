@@ -46,6 +46,7 @@ export interface ICategory {
     name: string;
     icon: string;
     parent_id: number;
+    children?: ICategory[];
 }
 
 export interface ITag {
