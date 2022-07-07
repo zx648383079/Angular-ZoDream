@@ -1,5 +1,12 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { DialogService } from '../../../../components/dialog';
+import { ButtonEvent } from '../../../../components/form';
+import { AppState } from '../../../../theme/interfaces';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IUser } from '../../../../theme/models/user';
+import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
+import { emptyValidate } from '../../../../theme/validators';
 import { IComment } from '../../model';
 import { ResourceService } from '../../resource.service';
 
@@ -22,10 +29,21 @@ export class CommentComponent {
         per_page: 20,
     };
     private booted = 0;
+    public commentData = {
+        content: '',
+        parent_id: 0,
+    };
+    public user: IUser;
 
     constructor(
         public service: ResourceService,
-    ) { }
+        private store: Store<AppState>,
+        private toastrService: DialogService,
+    ) {
+        this.store.select(getCurrentUser).subscribe(user => {
+            this.user = user;
+        });
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
@@ -39,6 +57,30 @@ export class CommentComponent {
             return;
         }
         this.tapRefresh();
+    }
+
+    public tapComment(e?: ButtonEvent) {
+        if (!this.user) {
+            this.toastrService.warning($localize `Please login in first`);
+            return;
+        }
+        if (emptyValidate(this.commentData.content)) {
+            this.toastrService.warning($localize `Please input content`);
+            return;
+        }
+        e?.enter();
+        this.service.commentSave({...this.commentData, resource: this.itemId}).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Comment successful`);
+                this.commentData.content = '';
+                this.commentData.parent_id = 0;
+            }, 
+            error: err => {
+                e?.reset();
+                this.toastrService.warning(err);
+            }
+        })
     }
 
     public tapRefresh() {

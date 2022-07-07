@@ -5,6 +5,8 @@ import { INav } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { ICategory } from './model';
+import { ResourceService } from './resource.service';
 
 @Component({
   selector: 'app-resource-store',
@@ -13,8 +15,8 @@ import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 })
 export class ResourceStoreComponent implements OnInit {
 
-    public navItems: INav[] = [
-        {name: '推荐'},
+    public navItems: ICategory[] = [
+        {name: '推荐'} as any,
     ];
     public navIndex = 0;
     public user: IUser;
@@ -25,12 +27,11 @@ export class ResourceStoreComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private store: Store<AppState>,
+        private service: ResourceService,
     ) { }
 
     public get subNavItems(): INav[] {
-        return [
-            {name: '推荐'}
-        ];
+        return this.navItems[this.navIndex].children;
     }
 
     ngOnInit() {
@@ -42,6 +43,13 @@ export class ResourceStoreComponent implements OnInit {
             if (event instanceof NavigationStart) {
                 this.searchVisible = event.url.indexOf('category') > 0;
             }
+        }); 
+        this.service.batch({
+            categories: {},
+            recommend: {}
+        }).subscribe(res => {
+            this.navItems = [this.navItems[0]].concat(res.categories);
+            this.navItems[0].children = res.recommend;
         });
     }
 

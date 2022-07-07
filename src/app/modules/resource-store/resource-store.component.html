@@ -36,16 +36,19 @@
             <ul class="navbar-next">
                 <ng-container *ngFor="let item of subNavItems">
                     <li [ngClass]="{active: item.active}">
-                        <a >{{ item.name }}</a>
+                        <a [routerLink]="['category', item.id]">{{ item.name }}</a>
                         <div class="nav-sub" *ngIf="item.children">
                             <ul>
-                                <ng-container *ngIf="item.name; else elseTemplate">
-                                    <li>
-                                        <a [routerLink]="['category', 1]">{{ item.name }}</a></li>
+                                <ng-container *ngFor="let it of item.children">
+                                    <ng-container *ngIf="it.name; else elseTemplate">
+                                        <li>
+                                            <a [routerLink]="['category', it.id]">{{ it.name }}</a></li>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        <li class="divider"></li>
+                                    </ng-template>
                                 </ng-container>
-                                <ng-template #elseTemplate>
-                                    <li class="divider"></li>
-                                </ng-template>
+                                
                             </ul>
                         </div>
                     </li>

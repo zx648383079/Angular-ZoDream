@@ -6,7 +6,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { IImageUploadEvent } from '../../../../../components/editor';
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
-import { ICategory, IResource, IResourceFile, ITag } from '../../../model';
+import { FileTypeItems, ICategory, IResource, IResourceFile, ITag } from '../../../model';
 import { ResourceService } from '../../resource.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class EditResourceComponent implements OnInit {
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
     public typeItems = ['HTML模板', '脚本', '图片', '源码', '3D模型', '音乐'];
-    public fileTypeItems = ['文件', '网址', '网盘', '种子'];
+    public fileTypeItems = FileTypeItems;
 
     constructor(
         private fb: FormBuilder,

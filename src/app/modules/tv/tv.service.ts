@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
-import { ICategory, ILive, IMovie, IMusic } from './model';
+import { ICategory, ILive, IMovie, IMovieArea, IMusic } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +43,15 @@ export class TvService {
 
     public musicSuggest(params: any) {
         return this.http.get<IData<IMusic>>('tv/music/suggestion', {params});
+    }
+
+    public batch(data: {
+        categories?: any;
+        areas?: any;
+    }) {
+        return this.http.post<{
+            categories?: ICategory[];
+            areas?: IMovieArea[];
+        }>('tv/batch', data);
     }
 }

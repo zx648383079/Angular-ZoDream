@@ -1,13 +1,24 @@
 .comment-container {
-    margin-top: 100px;
     .title-bar {
-        margin-bottom: 35px;
+        margin-bottom: 1rem;
     }
     .comment-form {
         .form-control,
         .star-input {
             margin-bottom: 1rem;
         }
+    }
+}
+
+.comment-form {
+    .btn {
+        margin-top: 1rem;
+    }
+}
+
+.title-bar {
+    h3 {
+        display: inline-block;
     }
 }
 

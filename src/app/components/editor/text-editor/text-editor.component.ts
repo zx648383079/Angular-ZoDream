@@ -23,7 +23,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
     @Input() public maxLength = 0;
     @Input() public placeholder = '';
 
-    public disable = false;
+    @Input() public disabled = false;
     public value = '';
     private range: IEditorRange;
 
@@ -184,7 +184,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
         this.onTouch = fn;
     }
     setDisabledState?(isDisabled: boolean): void {
-        this.disable = isDisabled;
+        this.disabled = isDisabled;
     }
 
 }

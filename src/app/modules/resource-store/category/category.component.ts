@@ -17,7 +17,6 @@ export class CategoryComponent implements OnInit {
         keywords: '',
         page: 1,
         per_page: 20,
-        category: 0,
         sort: '',
         order: '',
     };
@@ -35,6 +34,7 @@ export class CategoryComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
+            this.data = {id: params.id} as any;
             if (params.id) {
                 this.load(parseNumber(params.id));
             }
@@ -80,7 +80,7 @@ export class CategoryComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.resourceList(queries).subscribe({
+        this.service.resourceList({...queries, category: this.data?.id}).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;

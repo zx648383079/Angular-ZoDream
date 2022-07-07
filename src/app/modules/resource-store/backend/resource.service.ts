@@ -17,6 +17,10 @@ export class ResourceService {
         return this.http.get<IData<ICategory>>('res/admin/category/all');
     }
 
+    public categoryList() {
+        return this.http.get<IData<ICategory>>('res/admin/category');
+    }
+
     public category(id: any) {
         return this.http.get<ICategory>('res/admin/category/detail', {params: {id}});
     }

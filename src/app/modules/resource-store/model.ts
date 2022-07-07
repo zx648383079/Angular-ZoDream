@@ -1,5 +1,13 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
+
+export const FileTypeItems: IItem[] = [
+    {name: '文件', value: 0},
+    {name: '网址', value: 1},
+    {name: '网盘', value: 2},
+    {name: '种子', value: 3},
+]
 
 export interface IResource {
     id: number;
@@ -30,6 +38,7 @@ export interface IResourceCatalog {
     icon: string;
     name: string;
     children?: IResourceCatalog[];
+    open?: boolean;
 }
 
 export interface IResourceFile {
@@ -46,6 +55,7 @@ export interface ICategory {
     name: string;
     icon: string;
     parent_id: number;
+    is_hot?: number;
     children?: ICategory[];
 }
 

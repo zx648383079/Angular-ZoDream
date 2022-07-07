@@ -27,12 +27,24 @@ export class CategoryComponent implements OnInit {
         this.load();
     }
 
+    public onHotChange(item: ICategory) {
+        this.service.categorySave(item).subscribe({
+            next: () => {
+                this.toastrService.success('保存成功');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
     public open(modal: DialogEvent, item?: ICategory) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',
             icon: '',
             parent_id: 0,
+            is_hot: 0,
         };
         this.categories = !item ? this.items : filterTree(this.items, item.id);
         modal.open(() => {
@@ -52,7 +64,7 @@ export class CategoryComponent implements OnInit {
 
     private load() {
         this.isLoading = true;
-        this.service.categoryTree().subscribe({
+        this.service.categoryList().subscribe({
             next: res => {
                 this.items = res.data;
                 this.isLoading = false;

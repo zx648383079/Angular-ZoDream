@@ -17,11 +17,11 @@ export class ResourceService {
     }
 
     public category(id: any) {
-        return this.http.get<ICategory>('res/category/detail', {params: id});
+        return this.http.get<ICategory>('res/category/detail', {params: {id}});
     }
 
     public resourceList(params: any) {
-        return this.http.get<IPage<IResource>>('tv/movie', {params});
+        return this.http.get<IPage<IResource>>('res', {params});
     }
 
     public resource(id: any) {
@@ -29,7 +29,7 @@ export class ResourceService {
     }
 
     public resourceCatalog(id: any) {
-        return this.http.get<IResourceCatalog>('res/home/catalog', {params: {id}});
+        return this.http.get<IData<IResourceCatalog>>('res/home/catalog', {params: {id}});
     }
 
     public resourceSuggest(params: any) {
@@ -38,5 +38,19 @@ export class ResourceService {
 
     public commentList(params: any) {
         return this.http.get<IPage<IComment>>('res/comment', {params});
+    }
+
+    public commentSave(data: any) {
+        return this.http.post<IComment>('res/comment/save', data);
+    }
+
+    public batch(data: {
+        categories?: any;
+        recommend?: any;
+    }) {
+        return this.http.post<{
+            categories?: ICategory[];
+            recommend?: ICategory[];
+        }>('res/batch', data);
     }
 }

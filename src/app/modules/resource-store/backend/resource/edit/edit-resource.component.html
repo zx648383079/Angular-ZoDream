@@ -109,7 +109,7 @@
                     <tr *ngFor="let item of fileItems;let i = index">
                         <td>
                             <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let type of fileTypeItems;let j = index" [value]="j">{{ type }}</option>
+                                <option *ngFor="let type of fileTypeItems" [value]="type.value">{{ type.name }}</option>
                             </select>
                         </td>
                         <td>

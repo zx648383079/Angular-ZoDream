@@ -92,6 +92,7 @@
     background-color: #ebebeb;
     position: relative;
     margin-bottom: 5rem;
+    padding: .8rem;
     img {
         max-width: 100%;
     }
@@ -121,6 +122,25 @@
             img {
                 width: 100%;
             }
+        }
+    }
+}
+
+.file-panel {
+    margin: 0;
+    padding: 0;
+    li {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        line-height: 2.5rem;
+        padding-left: .8rem;
+        border-radius: .25rem;
+        &:hover {
+            background-color: #fff;
+        }
+        &:not(:last-of-type) {
+            border-bottom: 1px solid #ccc;
         }
     }
 }
