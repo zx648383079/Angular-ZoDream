@@ -15,11 +15,11 @@ export class TvComponent implements OnInit {
         },
         {
             name: $localize `Movie`,
-            url: 'movie',
+            url: 'category/1',
         },
         {
             name: $localize `Teleplay`,
-            url: 'teleplay',
+            url: 'category/2',
         },
         {
             name: $localize `Music`,

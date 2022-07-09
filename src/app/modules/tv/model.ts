@@ -17,6 +17,7 @@ export interface IMusic {
     album: string;
     artist: string;
     duration: number;
+    files?: IMusicFile[];
 }
 export interface IMusicFile {
     id: number;

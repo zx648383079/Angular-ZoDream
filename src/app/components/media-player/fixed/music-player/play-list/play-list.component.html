@@ -5,7 +5,7 @@
                 <i class="iconfont icon-play" *ngIf="item.active"></i>
             </div>
             <div class="name">
-                {{ item.name }}
+                <span class="wrap-block">{{ item.name }}</span>
                 <div class="action">
                     <i class="iconfont icon-heart-o"></i>
                     <i class="iconfont icon-share-alt"></i>
@@ -16,7 +16,7 @@
             <div class="artist" *ngIf="!min">
                 {{ item.artist }}
             </div>
-            <div class="time">
+            <div class="time" *ngIf="item.duration > 0">
                 {{ item.duration | duration }}
             </div>
         </div>

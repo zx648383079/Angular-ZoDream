@@ -31,7 +31,7 @@
                 <tr *ngFor="let item of items">
                     <td>
                         <ng-container *ngIf="item.cover">
-                            <img [src]="item.cover" alt="">
+                            <img class="cover-img" [src]="item.cover" alt="">
                         </ng-container>
                     </td>
                     <td>{{ item.id }}</td>
@@ -88,4 +88,42 @@
             <input class="form-control" [(ngModel)]="editData.duration">
         </div>
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>文件类型</th>
+                <th>文件路径</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of editData.files;let i = index">
+                <td>
+                    <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let type of fileTypeItems" [value]="type.value">{{ type.name }}</option>
+                    </select>
+                </td>
+                <td>
+                    <ng-container *ngIf="item.file_type > 0; else elseTemplate">
+                        <input type="text" class="form-control" [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}">
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}"></app-file-input>
+                    </ng-template>
+                </td>
+                <td>
+                    <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <a class="btn btn-primary" (click)="tapAddFile()">
+                        <i class="iconfont icon-plus"></i>
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </app-dialog-box>

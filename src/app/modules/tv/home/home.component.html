@@ -7,7 +7,7 @@
 
 <div class="banner-floor">
     <ng-container *ngFor="let item of items">
-        <a class="recommend-item" [routerLink]="['movie', item.id]">
+        <a class="recommend-item" [routerLink]="['category', item.cat_id, item.id]">
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
             </div>

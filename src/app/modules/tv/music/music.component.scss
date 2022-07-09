@@ -1,0 +1,74 @@
+.search-bar {
+    margin-top: 20vh;
+    margin-bottom: 2rem;
+}
+.panel {
+    background-color: #fff;
+    padding: 0 10px;
+    .panel-header {
+        line-height: 40px;
+        border-bottom: 2px solid;
+        border-left: none;
+        font-size: 18px;
+        .pull-right {
+            float: right;
+            user-select: none;
+            font-size: 13px;
+        }
+    }
+    .panel-body {
+        padding: 10px 0;
+    }
+}
+.music-item {
+    display: flex;
+    border-radius: .25rem;
+    padding: .3rem;
+    .item-cover {
+        width: 3rem;
+        img {
+            width: 3rem;
+            height: 3rem;
+        }
+    }
+    .item-body {
+        flex: 1;
+        padding: 0 .8rem;
+    }
+    .item-meta {
+        font-size: .8rem;
+        color: #ccc;
+    }
+    .item-time {
+        width: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &.active {
+        background-color: #f4f4f4;
+    }
+    &:hover {
+        background-color: #f4f4f4;
+    }
+}
+
+.item-mini-view {
+    .music-item {
+        .item-cover {
+            display: none;
+        }
+        .item-body {
+            display: flex;
+        }
+        .item-meta {
+            margin-left: .8rem;
+        }
+    }
+}
+
+::ng-deep {
+    .music-player {
+        left: 20rem !important;
+    }
+}

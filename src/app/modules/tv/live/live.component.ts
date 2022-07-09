@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MoviePlayerComponent } from '../../../components/media-player';
+import { PlayerEvent } from '../../../components/media-player/fixed/model';
+import { TvService } from '../tv.service';
 
 @Component({
   selector: 'app-live',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LiveComponent implements OnInit {
 
-  constructor() { }
+    @ViewChild(MoviePlayerComponent)
+    public player: PlayerEvent;
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: TvService,
+    ) { }
+
+    ngOnInit() {
+        this.service.liveList().subscribe(res => {
+            this.player.push(...res.data.map(i => {
+                return {
+                    name: i.title,
+                    source: i.source,
+                    cover: i.thumb,
+                    duration: -1,
+                };
+            }));
+        });
+    }
 
 }

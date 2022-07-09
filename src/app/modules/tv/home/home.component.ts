@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICategory, IMovie } from '../model';
+import { TvService } from '../tv.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,9 @@ export class HomeComponent implements OnInit {
     public items: IMovie[] = [];
     public categories: ICategory[] = [];
 
-    constructor() { }
+    constructor(
+        private service: TvService,
+    ) { }
 
     ngOnInit() {
     }

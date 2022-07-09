@@ -9,16 +9,7 @@ import { PlayerService } from '../../player.service';
 })
 export class PlayListComponent {
 
-    @Input() public items: IMediaFile[] = [
-        {
-            source: '',
-            name: '歌曲名',
-            artist: '专辑',
-            duration: 120,
-            active: true
-        }
-    ];
-
+    @Input() public items: IMediaFile[] = [];
     @Input() public min = false;
 
     constructor(

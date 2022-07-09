@@ -1,13 +1,17 @@
 .movie-player {
-    position: fixed;
     z-index: 999;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #f4f4f4;
+    height: 100vh;
+    &.fixed-player {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
     &.max-player {
         .player-bar {
             background-color: rgba(43,51,63,.7);

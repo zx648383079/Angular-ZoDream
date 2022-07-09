@@ -14,18 +14,22 @@ const routes: Routes = [
         path: '',
         component: TvComponent,
         children: [
+            // {
+            //     path: 'teleplay',
+            //     component: CategoryComponent
+            // },
             {
-                path: 'teleplay',
-                component: CategoryComponent
-            },
-            {
-                path: 'movie/:id',
+                path: 'category/:category/:id',
                 component: DetailComponent
             },
             {
-                path: 'movie',
+                path: 'category/:id',
                 component: CategoryComponent
             },
+            // {
+            //     path: 'movie',
+            //     component: CategoryComponent
+            // },
             {
                 path: 'music',
                 component: MusicComponent

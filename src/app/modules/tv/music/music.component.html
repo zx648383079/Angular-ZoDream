@@ -1,3 +1,57 @@
-<p>
-  music works!
-</p>
+<div class="container-fluid">
+    <div class="search-bar">
+        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
+    </div>
+
+    <div class="panel" *ngIf="!queries.keywords">
+        <div class="panel-header">
+            <ng-container i18n>Recommend</ng-container>
+            <div class="pull-right" (click)="tapRefresh()">
+                <i class="iconfont icon-refresh"></i>
+                <ng-container i18n>Refresh</ng-container>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ng-container *ngFor="let item of items">
+                <a class="music-item">
+                    <div class="item-cover">
+                        <img [src]="item.cover | asset" [alt]="item.name">
+                    </div>
+                    <div class="item-body">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-meta">{{ item.artist }}</div>
+                    </div>
+                    <div class="item-time">
+                        {{ formatTime(item.duration) }}
+                    </div>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="search-body" *ngIf="queries.keywords">
+        <ng-container *ngFor="let item of items">
+            <a class="music-item">
+                <div class="item-cover">
+                    <img [src]="item.cover | asset" [alt]="item.name">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-meta">{{ item.artist }}</div>
+                </div>
+                <div class="item-time">
+                    {{ formatTime(item.duration) }}
+                </div>
+            </a>
+        </ng-container>
+
+        <div class="row">
+            <div class="col-md-12">
+                <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+                <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-music-player></app-music-player>

@@ -6,6 +6,10 @@
     display: flex;
     line-height: 2.5rem;
     height: 2.5rem;
+    .wrap-block {
+        word-wrap: unset;
+        word-break: keep-all;
+    }
     .icon {
         width: 2rem;
         text-align: center;

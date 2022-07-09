@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { IMediaFile } from './model';
+import { IMediaFile, PlayerEvent } from './model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class PlayerService {
+export class PlayerService implements PlayerEvent {
 
     private listeners: {
         [key: string]: Function[];

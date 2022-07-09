@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
+import { UploadCustomEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IItem } from '../../../../theme/models/seo';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { emptyValidate } from '../../../../theme/validators';
 import { IMusic } from '../../model';
@@ -24,6 +26,13 @@ export class MusicComponent implements OnInit {
         per_page: 20
     };
     public editData: IMusic = {} as any;
+    public fileTypeItems: IItem[] = [
+        {name: '标准音质', value: 0},
+        {name: '低音质', value: 1},
+        {name: '高音质', value: 2},
+        {name: '超高音质', value: 3},
+        {name: '歌词', value: 11},
+    ]
 
     constructor(
         private service: TVService,
@@ -37,6 +46,29 @@ export class MusicComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public onFileUpload(e: UploadCustomEvent) {
+        this.service.musicUpload(e.file).subscribe({
+            next: res => {
+                e.next(res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+                e.next();
+            }
+        });
+    }
+
+    public tapRemoveFile(i: number) {
+        this.editData.files.splice(i, 1);
+    }
+
+    public tapAddFile() {
+        this.editData.files.push({
+            file_type: 0,
+            file: '',
+        } as any);
     }
 
     public tapRefresh() {
@@ -80,14 +112,31 @@ export class MusicComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IMusic) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            cover: '',
-            album: '',
-            artist: '',
-            duration: 0,
-        };
+        if (!item) {
+            this.editMusic(modal, {
+                id: 0,
+                name: '',
+                cover: '',
+                album: '',
+                artist: '',
+                duration: 0,
+                files: [],
+            });
+            return;
+        }
+        this.service.music(item.id).subscribe({
+            next: res => {
+                this.editMusic(modal, res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+                this.tapPage();
+            }
+        });
+    }
+
+    private editMusic(modal: DialogEvent, item: IMusic) {
+        this.editData = item;
         modal.open(() => {
             this.service.musicSave(this.editData).subscribe({
                 next: () => {

@@ -26,10 +26,12 @@
         <div class="bar-footer">
             <i class="iconfont icon-volume-up"></i>
             <i class="iconfont icon-random"></i>
-            <i class="iconfont icon-th-list"></i>
+            <i class="iconfont icon-th-list" (click)="openCatalog = !openCatalog"></i>
             <i class="iconfont icon-bar-chart"></i>
             <i class="iconfont icon-file-text-o"></i>
         </div>
     </div>
-    <app-play-list></app-play-list>
+    <div class="player-catalog" *ngIf="openCatalog">
+        <app-play-list [min]="true"></app-play-list>
+    </div>
 </div>

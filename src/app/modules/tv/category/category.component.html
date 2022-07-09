@@ -9,13 +9,13 @@
         <div class="item-name">{{ cat.name }}</div>
         <ul class="item-more">
             <li *ngFor="let item of cat.recommend_items">
-                <a  [routerLink]="['movie', item.id]">{{ item.title }}</a>
+                <a  [routerLink]="[item.id]">{{ item.title }}</a>
             </li>
         </ul>
     </div>
     <div class="row-body">
         <ng-container *ngFor="let item of cat.new_items">
-            <a class="movie-item" [routerLink]="['movie', item.id]">
+            <a class="movie-item" [routerLink]="[item.id]">
                 <div class="item-image">
                     <img [src]="item.cover | asset" alt="">
                 </div>

@@ -129,13 +129,13 @@ export class TVService {
     public musicUpload(file: File) {
         const data = new FormData();
         data.append('file', file);
-        return this.http.post<IUploadResult>('res/admin/music/upload', data);
+        return this.http.post<IUploadResult>('tv/admin/music/upload', data);
     }
 
     public movieUpload(file: File) {
         const data = new FormData();
         data.append('file', file);
-        return this.http.post<IUploadResult>('res/admin/movie/upload', data);
+        return this.http.post<IUploadResult>('tv/admin/movie/upload', data);
     }
 
 
