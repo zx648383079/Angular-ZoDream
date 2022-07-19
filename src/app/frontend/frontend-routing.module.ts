@@ -32,6 +32,10 @@ const routes: Routes = [
                 loadChildren: () => import('../modules/exam/exam.module').then(m => m.ExamModule)
             },
             {
+                path: 'short',
+                loadChildren: () => import('../modules/short-link/short-link.module').then(m => m.ShortLinkModule)
+            },
+            {
                 path: 'about',
                 component: AboutComponent,
             },

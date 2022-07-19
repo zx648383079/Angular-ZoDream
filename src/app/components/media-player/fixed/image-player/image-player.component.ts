@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 
 @Component({
-  selector: 'app-music-player',
-  templateUrl: './music-player.component.html',
-  styleUrls: ['./music-player.component.scss']
+  selector: 'app-image-player',
+  templateUrl: './image-player.component.html',
+  styleUrls: ['./image-player.component.css']
 })
-export class MusicPlayerComponent implements PlayerEvent {
+export class ImagePlayerComponent implements PlayerEvent {
 
-    public openCatalog = false;
+    public items: IMediaFile[] = [];
+    public index = -1;
+    public visible = false;
     private listeners: {
         [key: string]: Function[];
     } = {};

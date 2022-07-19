@@ -15,6 +15,7 @@ import { DialogBoxComponent } from '../../components/dialog';
 import { IBlockItem } from '../../components/link-rule';
 import { SearchService, ThemeService } from '../../theme/services';
 import { IItem } from '../../theme/models/seo';
+import { SearchEvents } from '../../theme/models/event';
 
 @Component({
     selector: 'app-micro',
@@ -75,9 +76,10 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on('change', keywords => {
+        this.searchService.on(SearchEvents.CHANGE, keywords => {
             return this.service.suggestion({keywords});
-        }).on('confirm', res => {
+        });
+        this.searchService.on(SearchEvents.CONFIRM, res => {
             if (typeof res === 'object') {
                 this.loadTopic(res.id);
                 this.queries.topic = res.id;

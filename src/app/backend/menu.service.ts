@@ -24,6 +24,7 @@ import { SystemtBackendMenu } from './system/menu';
 import { AppBackendMenu } from '../modules/app-store/backend/menu';
 import { TVBackendMenu } from '../modules/tv/backend/menu';
 import { ResourceBackendMenu } from '../modules/resource-store/backend/menu';
+import { ShortLinkBackendMenu } from '../modules/short-link/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -66,6 +67,7 @@ export class MenuService {
             navigation: NavigationBackendMenu,
             note: NoteBackendMenu,
             legwork: LegworkBackendMenu,
+            short: ShortLinkBackendMenu,
             os: OnlineServiceBackendMenu,
             doc: DocumentBackendMenu,
             exam: ExamBackendMenu,

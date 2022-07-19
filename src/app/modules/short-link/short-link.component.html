@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="flat-input">
+                <input type="text" class="form-control" [(ngModel)]="source" i18n-placeholder placeholder="Please input source link">
+                <app-action-button class="btn btn-primary" (tapped)="tapGenerate($event)" i18n>Generate</app-action-button>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="result">
+        <div class="col-12">
+            <div class="result-input">
+                <p i18n>Generate successfull!</p>
+                <input type="text" class="form-control" [ngModel]="result.complete_short_url" readonly>
+            </div>
+
+        </div>
+    </div>
+</div>

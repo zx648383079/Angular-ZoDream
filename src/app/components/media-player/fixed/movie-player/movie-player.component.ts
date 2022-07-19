@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { ScreenFull } from '../../screen-full';
-import { IMediaFile, PlayerEvent } from '../model';
+import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
+import Hls from 'hls.js';
 
 @Component({
   selector: 'app-movie-player',
@@ -21,6 +22,9 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
     public duration = 0;
     public volume = 100;
     private volumeLast = 100;
+    private listeners: {
+        [key: string]: Function[];
+    } = {};
 
     constructor(
         private render: Renderer2,
@@ -58,7 +62,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!this.videoPlayer) {
             return;
         }
-        this.videoPlayer.src = this.items[i].source;
+        this.loadSource(this.items[i].source);
         this.videoPlayer.play();
     }
     public pause(): void {
@@ -135,6 +139,19 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         ScreenFull.exit();
     }
 
+    private loadSource(src: string) {
+        const video = this.videoPlayer;
+        if (src.indexOf('.m3u8') < 0 || video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = src;
+            //
+            // If no native HLS support, check if HLS.js is supported
+            //
+        } else if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(src);
+            hls.attachMedia(video);
+        }
+    }
 
     private bindVideoEvent() {
         if (this.booted) {
@@ -165,6 +182,53 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         });
         if (this.volume > 0) {
             this.volume = video.volume * 100;
+        }
+    }
+
+    public on<E extends keyof PlayerListeners>(event: E, listener: PlayerListeners[E]): void;
+    public on(event: string, cb: any) {
+        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(cb);
+        return this;
+    }
+
+    public emit<E extends keyof PlayerListeners>(event: E, ...eventObject: Parameters<PlayerListeners[E]>): void;
+    public emit(event: string, ...items: any[]) {
+        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+            return;
+        }
+        const listeners = this.listeners[event];
+        for (let i = listeners.length - 1; i >= 0; i--) {
+            const cb = listeners[i];
+            const res = cb(...items);
+            //  允许事件不进行传递
+            if (res === false) {
+                break;
+            }
+        }
+    }
+
+    public off<E extends keyof PlayerListeners>(event: E, listener?: PlayerListeners[E] | undefined): void;
+    public off(...events: any[]) {
+        if (events.length == 2 && typeof events[1] === 'function') {
+            return this.offListener(events[0], events[1]);
+        }
+        for (const event of events) {
+            delete this.listeners[event];
+        }
+    }
+
+    private offListener(event: string, cb: Function) {
+        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+            return;
+        }
+        const items = this.listeners[event];
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i] === cb) {
+                items.splice(i, 1);
+            }
         }
     }
 }

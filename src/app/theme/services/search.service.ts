@@ -1,31 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SearchEventEmitter, SearchEvents, SearchListeners } from '../models/event';
 
 @Injectable({
     providedIn: 'root',
 })
-export class SearchService {
-
-    /**
-     * 输入文字发送改变
-     */
-    static EVENT_CHANGE = 'change';
-    /**
-     * 确认搜索
-     */
-    static EVENT_CONFIRM = 'confirm';
-
-    /**
-     * 根据文字设置搜索建议
-     */
-    static EVENT_CHANGE_SUGGEST = 'suggest';
-    static EVENT_LOGIN = 'login';
+export class SearchService implements SearchEventEmitter {
 
     private eventPair: {
         [trigger: string]: string;
     } = {
-        [SearchService.EVENT_CHANGE]: SearchService.EVENT_CHANGE_SUGGEST
+        [SearchEvents.CHANGE]: SearchEvents.SUGGEST
     };
 
     private listeners: {
@@ -37,11 +23,7 @@ export class SearchService {
     ) {
     }
 
-    public on(event: 'change', cb: (keywords: string) => void|boolean|Observable<any[]>): this;
-    public on(event: 'confirm', cb: (keywords: any) => void|false): this;
-    public on(event: 'suggest', cb: (items: any[]) => void): this;
-    public on(event: 'toggle', cb: (toggle: number) => void): this;
-    public on(event: 'login', cb: () => void): this;
+    public on<E extends keyof SearchListeners>(event: E, listener: SearchListeners[E]): void;
     public on(event: string, cb: (...items: any[]) => void|boolean|Observable<any>): this;
     public on(event: string, cb: any) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
@@ -51,11 +33,7 @@ export class SearchService {
         return this;
     }
 
-    public emit(event: 'change', keywords: string): this;
-    public emit(event: 'confirm', keywords: any): this;
-    public emit(event: 'suggest', items: any[]): this;
-    public emit(event: 'toggle', toggle: number): this;
-    public emit(event: 'login'): this;
+    public emit<E extends keyof SearchListeners>(event: E, ...eventObject: Parameters<SearchListeners[E]>): void;
     public emit(event: string, ...items: any[]): this;
     public emit(event: string, ...items: any[]) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
@@ -94,6 +72,7 @@ export class SearchService {
         }
     }
 
+    public off<E extends keyof SearchListeners>(event: E, listener?: SearchListeners[E] | undefined): void;
     public off(...events: string[]): this;
     public off(event: string, cb: Function): this;
     public off(...events: any[]) {
@@ -110,14 +89,14 @@ export class SearchService {
      * 移除搜索框页面的接受事件
      */
     public offTrigger() {
-        return this.off(SearchService.EVENT_CHANGE_SUGGEST);
+        return this.off(SearchEvents.SUGGEST);
     }
 
     /**
      * 移除搜索结果页面的接受事件
      */
     public offReceiver() {
-        return this.off(SearchService.EVENT_CHANGE, SearchService.EVENT_CONFIRM);
+        return this.off(SearchEvents.CHANGE, SearchEvents.CONFIRM);
     }
 
     private offListener(event: string, cb: Function): this {

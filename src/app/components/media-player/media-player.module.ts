@@ -11,12 +11,14 @@ import { SpectrumPanelComponent } from './fixed/music-player/spectrum-panel/spec
 import { PlayListComponent } from './fixed/music-player/play-list/play-list.component';
 import { DurationPipe } from './duration.pipe';
 import { PlayerService } from './fixed/player.service';
+import { ImagePlayerComponent } from './fixed/image-player/image-player.component';
 
 const COMPONENTS = [
     AudioPlayerComponent,
     VideoPlayerComponent,
     MusicPlayerComponent,
     MoviePlayerComponent,
+    ImagePlayerComponent,
 ];
 
 @NgModule({

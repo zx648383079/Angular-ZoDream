@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="player-box">
-        <video #player></video>
+        <app-movie-player></app-movie-player>
         <div class="info-box" *ngIf="data">
             <div class="title">@{{ data.user.name }}</div>
             <div class="content">{{ data.content }}</div>

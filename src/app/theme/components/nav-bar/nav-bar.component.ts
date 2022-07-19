@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, Renderer2, OnDestroy } from '@angular/core';
+import { SearchEvents } from '../../models/event';
 import { SearchService } from '../../services';
 
 export interface INav {
@@ -39,10 +40,10 @@ export class NavBarComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.searchService.on('toggle', (res: number) => {
+        this.searchService.on(SearchEvents.NAV_TOGGLE, (res: number) => {
             this.navToggle = typeof res === 'number' ? res : 0;
         });
-        this.searchService.on('suggest', items => {
+        this.searchService.on(SearchEvents.SUGGEST, items => {
             this.suggestIndex = -1;
             this.suggestItems = items;
         });
@@ -54,7 +55,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.searchService.offTrigger();
-        this.searchService.off('toggle');
+        this.searchService.off(SearchEvents.NAV_TOGGLE);
     }
 
     public formatTitle(item: any) {
@@ -70,7 +71,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         if (isFlow && this.navToggle < 1) {
             this.navToggle = 1;
         }
-        this.searchService.emit('nav.resize', this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
+        this.searchService.emit(SearchEvents.NAV_RESIZE, this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
     }
 
     public get navClass() {
@@ -89,7 +90,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     public suggestKeyPress(e: KeyboardEvent) {
         if (e.key === 'Enter') {
             const item = this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText;
-            this.searchService.emit('confirm', item);
+            this.searchService.emit(SearchEvents.CONFIRM, item);
             this.querySubmitted.emit(item);
             return;
         }
@@ -114,7 +115,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     public tapSuggestion(i: number) {
         this.suggestionChosen.emit(i);
-        this.searchService.emit('confirm', this.suggestItems[i]);
+        this.searchService.emit(SearchEvents.CONFIRM, this.suggestItems[i]);
     }
 
     public tapItem(item: INav, e: MouseEvent) {

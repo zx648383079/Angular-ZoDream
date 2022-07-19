@@ -24,6 +24,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../theme/interfaces';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../../theme/utils';
+import { SearchEvents } from '../../../../theme/models/event';
 
 @Component({
     selector: 'app-list',
@@ -106,7 +107,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on('confirm', this.searchFn);
+        this.searchService.on(SearchEvents.CONFIRM, this.searchFn);
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             if (this.queries.tag) {
@@ -117,7 +118,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.off('confirm', this.searchFn);
+        this.searchService.off(SearchEvents.CONFIRM, this.searchFn);
     }
 
     public tapRefresh() {

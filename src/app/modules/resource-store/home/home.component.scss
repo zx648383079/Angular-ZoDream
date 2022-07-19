@@ -3,9 +3,13 @@
         margin-top: 5rem;
         margin-bottom: 1rem;
     }
-    img {
-        max-height: 25rem;
-        max-width: 100%;
+    .banner-inner-body {
+        height: 25rem;
+        overflow: hidden;
+        img {
+            min-height: 25rem;
+            min-width: 100%;
+        }
     }
 }
 

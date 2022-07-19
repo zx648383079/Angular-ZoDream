@@ -13,7 +13,6 @@ import {
     PullToRefreshComponent
 } from '../../../theme/components';
 import { emptyValidate } from '../../../theme/validators';
-import { MediaPlayerComponent } from '../media-player/media-player.component';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
 import { ParallelHasher } from 'ts-md5/dist/parallel_hasher';
@@ -38,8 +37,6 @@ export class CatalogComponent implements OnInit {
     public pullBox: PullToRefreshComponent;
     @ViewChild(UploaderComponent)
     private uploader: UploaderComponent;
-    @ViewChild(MediaPlayerComponent)
-    private player: MediaPlayerComponent;
 
     public playerVisiable = false;
     public viewMode = false;
@@ -173,7 +170,7 @@ export class CatalogComponent implements OnInit {
         ]).subscribe(res => {
             this.playerVisiable = true;
             res.type = this.service.getTypeByExt(res.extension);
-            this.player.play(res);
+            // this.player.play(res);
         });
     }
 

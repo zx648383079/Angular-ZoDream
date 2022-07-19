@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchEvents } from '../../../theme/models/event';
 import { SearchService } from '../../../theme/services';
 import { BlogService } from './blog.service';
 
@@ -19,9 +20,10 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on('change', keywords => {
+        this.searchService.on(SearchEvents.CHANGE, keywords => {
             return this.service.suggestion({keywords});
-        }).on('confirm', res => {
+        });
+        this.searchService.on(SearchEvents.CONFIRM, res => {
             if (typeof res === 'object') {
                 this.router.navigate([res.id], {relativeTo: this.route});
                 return;

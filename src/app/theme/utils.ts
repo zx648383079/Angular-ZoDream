@@ -77,8 +77,10 @@ export function formatHour(time: number, format?: string, isSecond = false): str
     }
     if (!isSecond) {
         time = Math.floor(time / 1000);
+    } else {
+        time = Math.floor(time);
     }
-    const s = time % 60;
+    let s = time % 60;
     const m = format && format.indexOf('h') < 0 ? Math.floor(time / 60) : (Math.floor(time / 60) % 60);
     const h = Math.floor(time / 3600);
     if (!format) {

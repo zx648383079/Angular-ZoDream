@@ -135,9 +135,6 @@
         </ng-container>
     </div>
 </app-pull-to-refresh>
-<div class="player-box" [hidden]="!playerVisiable">
-    <app-media-player (closed)="playerVisiable = false"></app-media-player>
-</div>
 
 <app-dialog-box #editFile [title]="editData.id > 0 ? '编辑文件名' : '新增文件夹'">
     <div class="form-group">

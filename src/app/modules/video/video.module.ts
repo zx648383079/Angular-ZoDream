@@ -12,12 +12,14 @@ import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme/theme.module';
 import { VideoService } from './video.service';
 import { ZreFormModule } from '../../components/form';
+import { MediaPlayerModule } from '../../components/media-player';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ThemeModule,
+        MediaPlayerModule,
         VideoRoutingModule,
         ZreFormModule,
     ],

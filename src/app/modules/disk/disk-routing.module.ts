@@ -7,7 +7,6 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { ShareComponent } from './share/share.component';
 import { TrashComponent } from './trash/trash.component';
 import { PasswordComponent } from './password/password.component';
-import { MediaPlayerComponent } from './media-player/media-player.component';
 import { UploaderComponent } from './uploader/uploader.component';
 
 const routes: Routes = [
@@ -46,5 +45,5 @@ const routes: Routes = [
 export class DiskRoutingModule { }
 
 export const diskRoutingComponents = [
-    DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent, MediaPlayerComponent, UploaderComponent
+    DiskComponent, HomeComponent, CatalogComponent, TrashComponent, ShareComponent, PasswordComponent, UploaderComponent
 ];

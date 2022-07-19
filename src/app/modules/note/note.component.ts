@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { AppState } from '../../theme/interfaces';
+import { SearchEvents } from '../../theme/models/event';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { applyHistory, getQueries } from '../../theme/query';
@@ -54,7 +55,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on('confirm', res => {
+        this.searchService.on(SearchEvents.CONFIRM, res => {
             this.queries.keywords = res;
             this.tapRefresh();
         });

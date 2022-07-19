@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
-import videojs, { VideoJsPlayer } from 'video.js';
+import { MoviePlayerComponent, PlayerEvent, PlayerEvents } from '../../../components/media-player';
 import { IComment, IVideo } from '../model';
 import { VideoService } from '../video.service';
 
@@ -11,10 +11,9 @@ import { VideoService } from '../video.service';
 })
 export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    @ViewChild('player')
-    private videoElement: ElementRef;
+    @ViewChild(MoviePlayerComponent)
+    private videoPlayer: PlayerEvent;
     private audioElement: HTMLAudioElement;
-    private videoPlayer: VideoJsPlayer;
 
     public isPlaying = false;
     public data: IVideo;
@@ -57,13 +56,6 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.bindAudioEvent();
         }
         return this.audioElement;
-    }
-
-    get video(): VideoJsPlayer {
-        if (!this.videoPlayer) {
-            this.videoPlayer = videojs(this.videoElement.nativeElement);
-        }
-        return this.videoPlayer;
     }
 
     ngAfterViewInit() {
@@ -110,8 +102,12 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public play() {
         this.isPlaying = true;
-        this.video.src(this.data.video_path);
-        this.video.play();
+        this.videoPlayer.play({
+            source: this.data.video_path,
+            name: this.data.content,
+            cover: this.data.cover,
+            duration: this.data.video_duration
+        });
         if (this.data.music && this.data.music.path) {
             this.audio.src = this.data.music.path;
             this.audio.play();
@@ -120,13 +116,13 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public pause() {
         this.isPlaying = false;
-        this.video.pause();
+        this.videoPlayer.pause();
         this.audio.pause();
     }
 
     public stop() {
         this.isPlaying = false;
-        this.video.src('');
+        this.videoPlayer.stop();
         this.audio.src = '';
     }
 
@@ -161,17 +157,17 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private bindVideoEvent() {
-        const video = this.video;
-        video.on('timeupdate', () => {
+        const video = this.videoPlayer;
+        video.on(PlayerEvents.TIME_UPDATE, () => {
         });
-        video.on('ended', () => {
+        video.on(PlayerEvents.ENDED, () => {
             this.isPlaying = false;
             this.tapNext();
         });
-        video.on('pause', () => {
+        video.on(PlayerEvents.PAUSE, () => {
             this.isPlaying = false;
         });
-        video.on('play', () => {
+        video.on(PlayerEvents.PLAY, () => {
             this.isPlaying = true;
         });
     }

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { MediaPlayerComponent } from './media-player.component';
+import { ImagePlayerComponent } from './image-player.component';
 
-describe('MediaPlayerComponent', () => {
-  let component: MediaPlayerComponent;
-  let fixture: ComponentFixture<MediaPlayerComponent>;
+describe('ImagePlayerComponent', () => {
+  let component: ImagePlayerComponent;
+  let fixture: ComponentFixture<ImagePlayerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MediaPlayerComponent ]
+      declarations: [ ImagePlayerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MediaPlayerComponent);
+    fixture = TestBed.createComponent(ImagePlayerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -93,6 +93,10 @@ export class HomeComponent {
             url: 'legwork'
         },
         {
+            name: $localize `Short Link`,
+            url: 'short'
+        },
+        {
             name: $localize `Catering`,
             url: '/catering'
         },

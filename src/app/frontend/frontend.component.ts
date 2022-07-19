@@ -9,6 +9,7 @@ import { IUser } from '../theme/models/user';
 import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
+import { SearchEvents } from '../theme/models/event';
 
 interface IMenuItem {
   name: string;
@@ -59,9 +60,10 @@ export class FrontendComponent implements OnDestroy {
                 this.routerChanged(event.url);
             }
         });
-        this.searchService.on('login', () => {
+        this.searchService.on(SearchEvents.LOGIN, () => {
             this.loginModal.open();
-        }).on('navbar', res => {
+        });
+        this.searchService.on('navbar', res => {
             this.navStyle = res;
         });
     }
@@ -71,7 +73,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.off('login', 'navbar');
+        this.searchService.off(SearchEvents.LOGIN, 'navbar');
     }
 
     public toggleDropDown() {

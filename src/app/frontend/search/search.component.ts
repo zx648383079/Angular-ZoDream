@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SearchEvents } from '../../theme/models/event';
 import { SearchService } from '../../theme/services';
 
 @Component({
@@ -19,7 +20,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.searchService.on('suggest', items => {
+        this.searchService.on(SearchEvents.SUGGEST, items => {
             this.suggestIndex = -1;
             this.suggestItems = items;
         });
@@ -38,7 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     public suggestKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.searchService.emit('confirm', this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
+            this.searchService.emit(SearchEvents.CONFIRM, this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
             this.close();
             return;
         }
@@ -67,7 +68,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     public tapItem(item: any) {
-        this.searchService.emit('confirm', item);
+        this.searchService.emit(SearchEvents.CONFIRM, item);
         this.close();
     }
 
@@ -96,7 +97,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                 this.suggestItems = [];
                 return;
             }
-            this.searchService.emit('change', this.suggestText);
+            this.searchService.emit(SearchEvents.CHANGE, this.suggestText);
         }, 300);
     }
 }

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
+import { SearchEvents } from '../../../../../theme/models/event';
 import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 import { WechatService } from '../../wechat.service';
@@ -33,7 +34,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.searchService.emit('toggle', 2);
+        this.searchService.emit(SearchEvents.NAV_TOGGLE, 2);
         this.requestUrl += '&wid=' + this.service.baseId;
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -52,7 +53,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.emit('toggle', 0);
+        this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
     }
 
     public tapSubmit(e?: ButtonEvent) {

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchEvents } from '../../theme/models/event';
 import { SearchService, ThemeService } from '../../theme/services';
 import { ExamService } from './exam.service';
 import { ICourse } from './model';
@@ -24,9 +25,10 @@ export class ExamComponent implements OnInit, OnDestroy {
     }
   
     ngOnInit() {
-        this.searchService.on('change', keywords => {
+        this.searchService.on(SearchEvents.CHANGE, keywords => {
             return this.service.suggestion({keywords});
-        }).on('confirm', res => {
+        });
+        this.searchService.on(SearchEvents.CONFIRM, res => {
             if (typeof res === 'object') {
                 this.router.navigate(['pager', res.id], {relativeTo: this.route});
                 return;
