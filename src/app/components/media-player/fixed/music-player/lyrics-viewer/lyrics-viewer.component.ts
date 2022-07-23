@@ -23,7 +23,7 @@ export class LyricsViewerComponent implements OnChanges {
 
     constructor() {
         this.items = this.format(`
-        [00:00-00:20]歌词部分就是这样
+        [00:00,00:20]歌词部分就是这样
         `);
         setInterval(() => {
             this.currentTime ++;
@@ -86,7 +86,7 @@ export class LyricsViewerComponent implements OnChanges {
             return count;
         };
         const timeToQuantum = (line: string, end = 0) => {
-            const i = line.indexOf('-');
+            const i = line.indexOf(',');
             let len = 1;
             if (i > 0)
             {

@@ -3,7 +3,7 @@ export interface IMediaFile {
     name: string;
     cover?: string;
     artist?: string;
-    duration: number;
+    duration?: number;
     active?: boolean;
     lyrics?: string;
 }

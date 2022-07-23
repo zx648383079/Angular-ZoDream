@@ -1,9 +1,13 @@
 .music-player {
-    position: fixed;
-    z-index: 999;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    z-index: 66;
+    &.fixed-player {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
 }
 .player-bar {
     background-color: #fff;

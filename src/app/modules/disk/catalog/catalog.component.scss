@@ -200,6 +200,12 @@
             height: 3rem;
             overflow: hidden;
         }
+        &:hover {
+            .item-action {
+                display: block;
+                background-color: #fff;
+            }
+        }
     }
     &.file-edit {
         .file-item {
@@ -216,7 +222,7 @@
     left: 12.5rem;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 98;
 }
 
 @media screen and (max-width: 769px) {

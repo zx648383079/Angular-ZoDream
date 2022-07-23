@@ -1,4 +1,4 @@
-<div class="music-player">
+<div class="music-player" [ngClass]="{'fixed-player': isFixed}">
     <div class="player-bar">
         <div class="bar-action">
             <i class="iconfont icon-step-backward"></i>
@@ -12,13 +12,13 @@
             </div>
             <div class="bar-flex-body">
                 <div class="bar-name">
-                    <span>名称</span>
-                    <span class="name-meta">作者</span>
+                    <span>{{ data?.name || 'unknown' }}</span>
+                    <span class="name-meta">{{ data?.artist }}</span>
                 </div>
                 <div class="bar-progress">
-                    <app-progress-bar></app-progress-bar>
+                    <app-progress-bar [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
                     <div class="time">
-                        {{ 0 | duration }}/{{ 0 | duration }}
+                        {{ progress | duration }}/{{ duration | duration }}
                     </div>
                 </div>
             </div>

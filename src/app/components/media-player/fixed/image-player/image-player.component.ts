@@ -4,12 +4,13 @@ import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 @Component({
   selector: 'app-image-player',
   templateUrl: './image-player.component.html',
-  styleUrls: ['./image-player.component.css']
+  styleUrls: ['./image-player.component.scss']
 })
 export class ImagePlayerComponent implements PlayerEvent {
 
     public items: IMediaFile[] = [];
     public index = -1;
+    public data: IMediaFile;
     public visible = false;
     private listeners: {
         [key: string]: Function[];
@@ -17,19 +18,68 @@ export class ImagePlayerComponent implements PlayerEvent {
 
     constructor() { }
 
+    public get canPrevious() {
+        return this.items.length > 1 && this.index > 0;
+    }
+
+    public get canNext() {
+        return this.items.length > 1 && this.index < this.items.length - 1;
+    }
+
+    public tapPrevious() {
+        if (!this.canPrevious) {
+            return;
+        }
+        this.index --;
+        this.data = this.items[this.index];
+    }
+
+    public tapNext() {
+        if (!this.canNext) {
+            return;
+        }
+        this.index ++;
+        this.data = this.items[this.index];
+    }
+
     public play(): void;
     public play(item: IMediaFile): void;
     public play(item?: IMediaFile): void {
-        throw new Error('Method not implemented.');
+        let i = 0;
+        if (item) {
+            this.push(item);
+            i = this.indexOf(item);
+        }
+        if (i < 0 || i >= this.items.length) {
+            return;
+        }
+        this.index = i;
+        this.data = this.items[i];
     }
     public pause(): void {
-        throw new Error('Method not implemented.');
+        
     }
     public stop(): void {
-        throw new Error('Method not implemented.');
+        this.items = [];
+        this.index = -1;
+        this.data = undefined;
     }
     public push(...items: IMediaFile[]): void {
-        throw new Error('Method not implemented.');
+        for (const item of items) {
+            if (this.indexOf(item) >= 0) {
+                continue;
+            }
+            this.items.push(item);
+        }
+    }
+
+    public indexOf(item: IMediaFile): number {
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            if (this.items[i].source === item.source) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public on<E extends keyof PlayerListeners>(event: E, listener: PlayerListeners[E]): void;

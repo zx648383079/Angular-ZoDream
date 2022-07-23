@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { ScreenFull } from '../../screen-full';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 import Hls from 'hls.js';
@@ -12,12 +12,14 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
 
     @ViewChild('playerVideo')
     private videoElement: ElementRef<HTMLVideoElement>;
+    @Input() public isFixed = true;
     public paused = true;
     public booted = false;
     public isFull = false;
     public openCatalog = false;
     public items: IMediaFile[] = [];
     public data: IMediaFile;
+    public index = -1;
     public progress = 0;
     public duration = 0;
     public volume = 100;
@@ -46,6 +48,18 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         this.render.listen(document, ScreenFull.changeEvent, () => {
             this.isFull = ScreenFull.isFullScreen;
         });
+        this.render.listen(window, 'resize', () => {
+            this.resize();
+        });
+        this.resize();
+    }
+
+    private resize() {
+        const video = this.videoPlayer;
+        if (!video) {
+            return;
+        }
+        video.height = window.innerHeight - 64;
     }
 
     public play(): void;
@@ -62,6 +76,8 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!this.videoPlayer) {
             return;
         }
+        this.index = i;
+        this.data = this.items[i];
         this.loadSource(this.items[i].source);
         this.videoPlayer.play();
     }

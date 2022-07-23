@@ -1,5 +1,6 @@
 import {
     Component,
+    OnDestroy,
     OnInit,
     ViewChild
 } from '@angular/core';
@@ -16,7 +17,9 @@ import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
 import { ParallelHasher } from 'ts-md5/dist/parallel_hasher';
-import { FileUploadService } from '../../../theme/services';
+import { FileUploadService, SearchService } from '../../../theme/services';
+import { SearchEvents } from '../../../theme/models/event';
+import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
 
 
 interface ICrumb {
@@ -31,14 +34,20 @@ interface ICrumb {
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss']
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit, OnDestroy {
 
     @ViewChild(PullToRefreshComponent)
     public pullBox: PullToRefreshComponent;
     @ViewChild(UploaderComponent)
     private uploader: UploaderComponent;
+    @ViewChild(MoviePlayerComponent)
+    private moviePlayer: PlayerEvent;
+    @ViewChild(MusicPlayerComponent)
+    private musicPlayer: PlayerEvent;
+    @ViewChild(ImagePlayerComponent)
+    private imagePlayer: PlayerEvent;
 
-    public playerVisiable = false;
+    public playerMode = 0; // 1 视频 2 音频 3 图片
     public viewMode = false;
     public editMode = false;
     public checkedAll = false;
@@ -56,16 +65,28 @@ export class CatalogComponent implements OnInit {
     public sortKey = '';
     public orderAsc = true;
     public editData: any = {};
+    public playerStyle: any = {};
 
     constructor(
         private service: DiskService,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.tapRefresh();
+        this.searchService.on(SearchEvents.NAV_RESIZE, (_, w) => {
+            this.playerStyle = {
+                left: w + 'px',
+            }
+        });
     }
+
+    ngOnDestroy(): void {
+        this.searchService.off(SearchEvents.NAV_RESIZE);
+    }
+
 
     get path() {
         const items = [];
@@ -148,7 +169,7 @@ export class CatalogComponent implements OnInit {
     }
 
     public tapFile(item: IDisk) {
-        this.playerVisiable = false;
+        this.playerMode = 0;
         if (this.editMode) {
             item.checked = !item.checked;
             if (!item.checked) {
@@ -165,12 +186,49 @@ export class CatalogComponent implements OnInit {
         if (!item.file.url) {
             return;
         }
-        this.service.file([
-            item.id,
-        ]).subscribe(res => {
-            this.playerVisiable = true;
-            res.type = this.service.getTypeByExt(res.extension);
-            // this.player.play(res);
+        this.play(item);
+    }
+
+    private play(item: IDisk) {
+        const items = this.filterItems.filter(i => i.type === item.type);
+        this.service.files(items.map(i => i.id)).subscribe(res => {
+            if (!res.data || res.data.length === 0) {
+                return;
+            }
+            let player: PlayerEvent;
+            if (item.type === 'image') {
+                this.playerMode = 3;
+                player = this.imagePlayer;
+            } else if (item.type === 'music') {
+                this.playerMode = 2;
+                player = this.musicPlayer;
+            } else if (item.type === 'movie') {
+                this.playerMode = 1;
+                player = this.moviePlayer;
+            } else {
+                return;
+            }
+            player.stop();
+            let j = 0;
+            const formatItems = res.data.map((i, k) => {
+                if (i.id === item.id) {
+                    j = k;
+                }
+                let lyrics: string;
+                if (i.subtitles && i.subtitles.length > 0) {
+                    lyrics = i.subtitles[0].url;
+                } else if (i.lyrics && i.lyrics.length > 0) {
+                    lyrics = i.lyrics[0].url;
+                }
+                return {
+                    name: i.name,
+                    source: i.url,
+                    cover: i.thumb,
+                    lyrics 
+                };
+            });
+            player.push(...formatItems);
+            player.play(formatItems[j]);
         });
     }
 
@@ -339,6 +397,7 @@ export class CatalogComponent implements OnInit {
     }
 
     private formatItem(item: IDisk): IDisk {
+        item.type = this.service.getTypeByExt(item.file_id < 1 ? undefined : item.file?.extension);
         item.icon = this.service.getIconByExt(item.file_id < 1 ? undefined : item.file?.extension);
         return item;
     }

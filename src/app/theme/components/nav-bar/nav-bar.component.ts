@@ -56,6 +56,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.searchService.offTrigger();
         this.searchService.off(SearchEvents.NAV_TOGGLE);
+        this.searchService.off(SearchEvents.NAV_RESIZE);
     }
 
     public formatTitle(item: any) {
@@ -71,7 +72,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         if (isFlow && this.navToggle < 1) {
             this.navToggle = 1;
         }
-        this.searchService.emit(SearchEvents.NAV_RESIZE, this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
+        this.emitResize();
     }
 
     public get navClass() {
@@ -80,6 +81,11 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     public tapToggle() {
         this.navToggle = this.navToggle > 1 ? 0 : (this.navToggle + 1);
+        this.emitResize();
+    }
+
+    private emitResize() {
+        this.searchService.emit(SearchEvents.NAV_RESIZE, this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
     }
 
     public tapSuggest() {

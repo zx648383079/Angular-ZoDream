@@ -21,7 +21,7 @@ export const FileTypeMap: IFileTypeMap = {
         icon: 'icon-music',
     },
     movie: {
-        extension: ['mp4', 'mkv', '3gp', 'avi', 'm3u8'],
+        extension: [ 'avi', 'mp4', 'rmvb', 'mkv', '3gp', 'm3u8'],
         icon: 'icon-file-movie-o',
     },
     archive: {
@@ -70,6 +70,7 @@ export interface IFile {
     url: string;
     type?: string;
     subtitles?: ISubtitle[];
+    lyrics?: ISubtitle[];
 }
 
 export interface IDisk {

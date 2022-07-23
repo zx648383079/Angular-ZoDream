@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileTypeMap, IDisk, IFile, IShare } from './model';
-import { IDataOne, IPage } from '../../theme/models/page';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -23,6 +23,10 @@ export class DiskService {
         return this.http.get<IFile>('disk/home/file', {
             params: {id}
         });
+    }
+
+    public files(id: any[]) {
+        return this.http.post<IData<IFile>>('disk/home/files', {id});
     }
 
     public uploadCheck(data: any) {

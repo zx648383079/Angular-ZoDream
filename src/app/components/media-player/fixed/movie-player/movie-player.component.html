@@ -1,4 +1,4 @@
-<div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFull}">
+<div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFixed || isFull}">
     <div class="player-container">
         <div class="player-body">
             <video class="player-video" #playerVideo></video>
@@ -16,7 +16,7 @@
         </div>
         <div class="bar-body">
             <div class="bar-name">
-                <span>{{ data?.name ?? 'unknow' }}</span>
+                <span>{{ data?.name ?? 'unknown' }}</span>
             </div>
             <div class="bar-progress">
                 <app-progress-bar [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
