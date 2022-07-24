@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 
 interface ILyricsItem {
     text: string;
@@ -16,24 +17,52 @@ interface ILyricsItem {
 })
 export class LyricsViewerComponent implements OnChanges {
 
+    @ViewChild('scoller')
+    private scroller: ElementRef<HTMLDivElement>;
+    @ViewChildren('innerItem')
+    private innerItems: QueryList<ElementRef<HTMLDivElement>>;
     public items: ILyricsItem[] = [];
     @Input() public value = '';
+    @Input() public height = 200;
+    @Input() public width = 0;
+    @Input() public src = '';
     @Input() public duration = 0;
     @Input() public currentTime = 0;
+    private valueSrc = '';
 
-    constructor() {
-        this.items = this.format(`
-        [00:00,00:20]歌词部分就是这样
-        `);
-        setInterval(() => {
-            this.currentTime ++;
-            this.refreshItems();
-        }, 1000);
+    constructor(
+        private http: HttpClient
+    ) {
+    }
+
+    public get boxStyle() {
+        const style: any = {
+            height: this.height + 'px',
+        };
+        if (this.width) {
+            style.width = this.width + 'px';
+        }
+        return style;
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.value) {
+            this.valueSrc = '';
             this.items = this.format(this.value, this.duration);
+        }
+        if (changes.src && changes.src.currentValue && this.valueSrc !== changes.src.currentValue) {
+            this.http.get(changes.src.currentValue, {
+                responseType: 'text'
+            }).subscribe({
+                next: res => {
+                    this.valueSrc = changes.src.currentValue;
+                    this.value = res;
+                    this.items = this.format(this.value, this.duration);
+                },
+                error: err => {
+                    // TODO
+                }
+            });
         }
         if (changes.currentTime) {
             this.refreshItems();
@@ -41,18 +70,32 @@ export class LyricsViewerComponent implements OnChanges {
     }
 
     private refreshItems() {
-        for (const item of this.items) {
+        let activeIndex = 0;
+        for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i];
             if (!item.text) {
                 continue;
             }
             item.active = this.isActive(item, this.currentTime);
             item.offset = this.formatOffset(item, this.currentTime);
+            if (item.active) {
+                activeIndex = i;
+            }
             // item.style = item.offset > 0 ? {
             //     'background-image': 'linear-gradient(to right, red, #fff ' + (item.offset * 100) +'%)',
             //     'background-clip': 'text',
             //     '-webkit-background-clip': 'text',
             //     'color': 'transparent',
             // } : {};
+        }
+        if (this.scroller && this.scroller.nativeElement) {
+            const ele = this.innerItems.get(activeIndex);
+            if (ele && ele.nativeElement) {
+                this.scroller.nativeElement.scrollTo({
+                    top: ele.nativeElement.offsetTop - this.scroller.nativeElement.offsetTop - this.height / 2,
+                    behavior: 'smooth',
+                });
+            }
         }
     }
 

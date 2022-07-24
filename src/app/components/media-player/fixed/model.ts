@@ -8,6 +8,19 @@ export interface IMediaFile {
     lyrics?: string;
 }
 
+export enum SpectrumType {
+    Columnar,
+    SymmetryColumnar, // 上下对称
+    InverseColumnar, // 左右镜像
+    Ring,
+    SymmetryRing,
+    RingLine,
+    Polyline,
+    InversePolyline,
+    PolylineRing,
+    InversePolylineRing,
+}
+
 export enum PlayerEvents {
     TIME_UPDATE = 'timeupdate',
     ENDED = 'ended',

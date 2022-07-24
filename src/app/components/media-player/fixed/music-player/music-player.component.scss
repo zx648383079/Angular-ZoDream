@@ -13,6 +13,12 @@
     background-color: #fff;
     display: flex;
     padding: .8rem;
+    .bar-cover {
+        img {
+            width: 3rem;
+            height: 3rem;
+        }
+    }
     .bar-footer,
     .bar-action {
         padding: 0 .8rem;

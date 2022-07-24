@@ -1,7 +1,6 @@
-<div class="lyrics-scroller">
-    <div class="lyrics-mark"></div>
+<div class="lyrics-scroller" #scoller [ngStyle]="boxStyle">
     <ng-container *ngFor="let item of items">
-        <div class="lyrics-item" [ngClass]="{active: item.active}" [ngStyle]="item.style">
+        <div class="lyrics-item" #innerItem [ngClass]="{active: item.active}" [ngStyle]="item.style">
             {{ item.text }}
         </div>
     </ng-container>

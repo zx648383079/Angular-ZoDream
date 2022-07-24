@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 
 @Component({
@@ -6,10 +6,15 @@ import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
   templateUrl: './music-player.component.html',
   styleUrls: ['./music-player.component.scss']
 })
-export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
+export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit {
 
-    public openCatalog = false;
     @Input() public isFixed = true;
+    public lyricsWidth = 0;
+    public lyricsHeight = 200;
+    public catalogVisible = false;
+    public lyricsVisible = false;
+    public spectrumVisible = false;
+    public loop = 0;
     public paused = true;
     public booted = false;
     public items: IMediaFile[] = [];
@@ -18,13 +23,19 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
     public progress = 0;
     public duration = 0;
     public volume = 100;
+    public channelData: number[] = [];
+    public lyricsSrc = '';
     private audioElement: HTMLAudioElement;
+    private spectrumTimer = -1;
     private volumeLast = 100;
     private listeners: {
         [key: string]: Function[];
     } = {};
 
-    constructor() { }
+    constructor(
+        private render: Renderer2,
+        private elementRef: ElementRef<HTMLDivElement>
+    ) { }
 
     public get canPrevious() {
         return this.items.length > 1 && this.index > 0;
@@ -37,9 +48,21 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
     private get audio(): HTMLAudioElement {
         if (!this.audioElement) {
             this.audioElement = document.createElement('audio');
+            this.audioElement.crossOrigin = "anonymous";
             this.bindAudioEvent();
         }
         return this.audioElement;
+    }
+
+    ngAfterViewInit() {
+        this.render.listen(window, 'resize', () => {
+            this.resize();
+        });
+        this.resize();
+    }
+
+    private resize() {
+        this.lyricsWidth = this.elementRef.nativeElement.clientWidth;
     }
 
     ngOnDestroy() {
@@ -63,6 +86,35 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
         }
         this.index ++;
         this.data = this.items[this.index];
+    }
+
+    public togglePlay() {
+        if (!this.paused) {
+            this.pause();
+            return;
+        }
+        if (this.data) {
+            this.audio.play();
+            return;
+        }
+        this.index = this.nextIndex();
+        if (this.index < 0) {
+            return;
+        }
+        this.data = this.items[this.index];
+        this.audio.src = this.data.source;
+        this.audio.play();
+    }
+
+    private nextIndex(): number {
+        if (this.items.length < 1) {
+            return -1;
+        }
+        const i = this.index ++;
+        if (i >= this.items.length) {
+            return 0;
+        }
+        return i;
     }
 
     public play(): void;
@@ -111,6 +163,40 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
     public onProgressChange(i: number) {
         this.audio.currentTime = i;
         this.audio.play();
+    }
+
+    public toggleSpectrum() {
+        this.spectrumVisible = !this.spectrumVisible;
+        if (this.spectrumVisible) {
+            this.bootSpectrum();
+        }
+    }
+
+    private bootSpectrum() {
+        const context = new AudioContext();
+        const fen = context.createAnalyser();
+        const src = context.createMediaElementSource(this.audio);
+        src.connect(fen);
+        fen.connect(context.destination);
+        this.spectrumTimer = window.setInterval(() => {
+            if (this.paused || !this.spectrumVisible) {
+                clearInterval(this.spectrumTimer);
+                return;
+            }
+            const items = new Uint8Array(fen.frequencyBinCount);
+            fen.getByteFrequencyData(items);
+            this.channelData = [];
+            for (let index = 0; index < 200; index++) {
+                this.channelData.push(items[index]);
+            }
+        }, 50);
+    }
+
+    public toggleLyrics() {
+        this.lyricsVisible = !this.lyricsVisible;
+        if (this.lyricsVisible) {
+            this.lyricsSrc = this.data.lyrics;
+        }
     }
 
     public push(...items: IMediaFile[]): void {
@@ -189,9 +275,15 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy {
             this.duration = this.audioElement.duration;
         });
         this.audioElement.addEventListener('ended', () => {
+            if (this.spectrumTimer) {
+                clearInterval(this.spectrumTimer);
+            }
             this.paused = true;
         });
         this.audioElement.addEventListener('pause', () => {
+            if (this.spectrumTimer) {
+                clearInterval(this.spectrumTimer);
+            }
             this.paused = true;
         });
         this.audioElement.addEventListener('play', () => {

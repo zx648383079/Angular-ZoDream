@@ -1,14 +1,18 @@
 <div class="music-player" [ngClass]="{'fixed-player': isFixed}">
+    <div class="player-body">
+        <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData"></app-spectrum-panel>
+        <app-lyrics-viewer  [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress"></app-lyrics-viewer>
+    </div>
     <div class="player-bar">
         <div class="bar-action">
-            <i class="iconfont icon-step-backward"></i>
-            <i class="iconfont icon-play play-btn"></i>
-            <i class="iconfont icon-stop"></i>
-            <i class="iconfont icon-step-forward"></i>
+            <i class="iconfont icon-step-backward" [ngClass]="{disabled: canPrevious}" (click)="tapPrevious()"></i>
+            <i class="iconfont play-btn" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}" (click)="togglePlay()"></i>
+            <i class="iconfont icon-stop" [ngClass]="{disabled: !data}" (click)="stop()"></i>
+            <i class="iconfont icon-step-forward" [ngClass]="{disabled: canNext}" (click)="tapNext()"></i>
         </div>
         <div class="bar-body">
             <div class="bar-cover">
-                <img src="" alt="">
+                <img [src]="data?.cover|asset" alt="">
             </div>
             <div class="bar-flex-body">
                 <div class="bar-name">
@@ -24,14 +28,14 @@
             </div>
         </div>
         <div class="bar-footer">
-            <i class="iconfont icon-volume-up"></i>
+            <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()" (click)="tapVolume()"></i>
             <i class="iconfont icon-random"></i>
-            <i class="iconfont icon-th-list" (click)="openCatalog = !openCatalog"></i>
-            <i class="iconfont icon-bar-chart"></i>
-            <i class="iconfont icon-file-text-o"></i>
+            <i class="iconfont icon-th-list" (click)="catalogVisible = !catalogVisible"></i>
+            <i class="iconfont icon-bar-chart" (click)="toggleSpectrum()"></i>
+            <i class="iconfont icon-file-text-o" (click)="toggleLyrics()"></i>
         </div>
     </div>
-    <div class="player-catalog" *ngIf="openCatalog">
+    <div class="player-catalog" [hidden]="!catalogVisible">
         <app-play-list [min]="true"></app-play-list>
     </div>
 </div>
