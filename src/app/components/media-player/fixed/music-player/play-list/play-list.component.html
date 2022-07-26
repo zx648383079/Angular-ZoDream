@@ -1,6 +1,6 @@
 <div class="play-list-container">
     <ng-container *ngFor="let item of items">
-        <div class="music-item" [ngClass]="{active: item.active}">
+        <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">
                 <i class="iconfont icon-play" *ngIf="item.active"></i>
             </div>

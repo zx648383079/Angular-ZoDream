@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, NgZone, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 
 @Component({
@@ -6,9 +6,12 @@ import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
   templateUrl: './music-player.component.html',
   styleUrls: ['./music-player.component.scss']
 })
-export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit {
+export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit, OnChanges {
 
+    @ViewChild('playerBar')
+    private boxBody: ElementRef<HTMLDivElement>;
     @Input() public isFixed = true;
+    @Input() public hidden = false;
     public lyricsWidth = 0;
     public lyricsHeight = 200;
     public catalogVisible = false;
@@ -26,7 +29,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     public channelData: number[] = [];
     public lyricsSrc = '';
     private audioElement: HTMLAudioElement;
-    private spectrumTimer = -1;
+    private spectrumFunc: () => void;
     private volumeLast = 100;
     private listeners: {
         [key: string]: Function[];
@@ -34,7 +37,6 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
 
     constructor(
         private render: Renderer2,
-        private elementRef: ElementRef<HTMLDivElement>
     ) { }
 
     public get canPrevious() {
@@ -58,11 +60,21 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         this.render.listen(window, 'resize', () => {
             this.resize();
         });
-        this.resize();
+        // this.resize();
+        this.booted = true;
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.hidden && this.booted) {
+            this.resize();
+        }
     }
 
     private resize() {
-        this.lyricsWidth = this.elementRef.nativeElement.clientWidth;
+        const width = this.boxBody?.nativeElement?.offsetWidth
+        if (width && width > 0) {
+            this.lyricsWidth = width;
+        }
     }
 
     ngOnDestroy() {
@@ -173,14 +185,16 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     }
 
     private bootSpectrum() {
+        if (this.spectrumFunc) {
+            return;
+        }
         const context = new AudioContext();
         const fen = context.createAnalyser();
         const src = context.createMediaElementSource(this.audio);
         src.connect(fen);
         fen.connect(context.destination);
-        this.spectrumTimer = window.setInterval(() => {
+        this.spectrumFunc = () => {
             if (this.paused || !this.spectrumVisible) {
-                clearInterval(this.spectrumTimer);
                 return;
             }
             const items = new Uint8Array(fen.frequencyBinCount);
@@ -189,7 +203,19 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             for (let index = 0; index < 200; index++) {
                 this.channelData.push(items[index]);
             }
-        }, 50);
+        };
+        const cb = () => {
+            const handle = window.requestAnimationFrame(() => {
+                if (this.spectrumFunc) {
+                    this.spectrumFunc();
+                    cb();
+                    return;
+                }
+                window.cancelAnimationFrame(handle);
+            });
+            
+        };
+        cb();
     }
 
     public toggleLyrics() {
@@ -275,15 +301,9 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             this.duration = this.audioElement.duration;
         });
         this.audioElement.addEventListener('ended', () => {
-            if (this.spectrumTimer) {
-                clearInterval(this.spectrumTimer);
-            }
             this.paused = true;
         });
         this.audioElement.addEventListener('pause', () => {
-            if (this.spectrumTimer) {
-                clearInterval(this.spectrumTimer);
-            }
             this.paused = true;
         });
         this.audioElement.addEventListener('play', () => {

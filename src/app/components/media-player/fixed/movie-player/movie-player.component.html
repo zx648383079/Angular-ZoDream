@@ -4,7 +4,7 @@
             <video class="player-video" #playerVideo></video>
         </div>
         <div class="player-catalog" *ngIf="openCatalog">
-            <app-play-list [min]="true" [items]="items"></app-play-list>
+            <app-play-list [min]="true" [items]="items" (tapped)="play($event)"></app-play-list>
         </div>
     </div>
     <div class="player-bar">

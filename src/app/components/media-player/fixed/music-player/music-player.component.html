@@ -1,7 +1,10 @@
-<div class="music-player" [ngClass]="{'fixed-player': isFixed}">
+<div class="music-player" #playerBar [ngClass]="{'fixed-player': isFixed, hidden: hidden}">
     <div class="player-body">
         <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData"></app-spectrum-panel>
         <app-lyrics-viewer  [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress"></app-lyrics-viewer>
+    </div>
+    <div class="player-catalog" [hidden]="!catalogVisible">
+        <app-play-list [min]="true" [items]="items" (tapped)="play($event)"></app-play-list>
     </div>
     <div class="player-bar">
         <div class="bar-action">
@@ -34,8 +37,5 @@
             <i class="iconfont icon-bar-chart" (click)="toggleSpectrum()"></i>
             <i class="iconfont icon-file-text-o" (click)="toggleLyrics()"></i>
         </div>
-    </div>
-    <div class="player-catalog" [hidden]="!catalogVisible">
-        <app-play-list [min]="true"></app-play-list>
     </div>
 </div>

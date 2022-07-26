@@ -8,6 +8,20 @@
         left: 0;
         right: 0;
     }
+    &.hidden {
+        .player-bar,
+        .player-body {
+            display: none;
+        }
+    }
+}
+.player-body {
+    position: relative;
+    app-lyrics-viewer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
 }
 .player-bar {
     background-color: #fff;

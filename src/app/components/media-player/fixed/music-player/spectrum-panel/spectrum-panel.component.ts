@@ -31,14 +31,14 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
     @Input() public height = 200;
     @Input() public width = 0;
     public fill = 'red';
-    private kind = SpectrumType.SymmetryColumnar;
+    private kind = SpectrumType.Columnar;
     private ctx: CanvasRenderingContext2D;
     private hatItems: IHatItem[] = [];
 
     private space = 2;
     private columnWidth = 10;
-    private hatSpeed = 10;
-    private rate = 400;
+    private hatSpeed = .1;
+    private rate = .5;
     private rectHeight = 0;
 
     constructor() {
@@ -145,7 +145,7 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
     }
 
     private renderColumnar(drawingContext: CanvasRenderingContext2D) {
-        this.renderEach2(drawingContext, this.renderColumnarHat);
+        this.renderEach2(drawingContext, this.renderColumnarHat.bind(this));
     }
 
 
@@ -179,7 +179,7 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
         func: RenderSpectumHatFunc)
     {
         const outerWidth = this.columnWidth + this.space;
-        const maxWidth = isSymmetry ? this.width / 2 : this.height;
+        const maxWidth = isSymmetry ? this.width / 2 : this.width;
         const leftX = isSymmetry ? maxWidth - this.space / 2 : 0;
         const rightX = isSymmetry ? maxWidth + this.space / 2 : 0;
         this.renderEach(drawingContext, 0,
@@ -232,7 +232,7 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     private renderInverseColumnar(drawingContext: CanvasRenderingContext2D)
     {
-        this.renderEach3(drawingContext, true, this.renderColumnarHat);
+        this.renderEach3(drawingContext, true, this.renderColumnarHat.bind(this));
     }
 
     private renderColumnar2(drawingContext: CanvasRenderingContext2D, pen: string, index: number,
@@ -340,13 +340,13 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
         maxAngle: number, perimeterRate: number, hasCircle: boolean, 
         func: RenderSpectumRingFunc)
     {
-        var outerWidth = this.columnWidth + this.space;
-        var centerX = this.width / 2;
-        var centerY = this.height / 2;
-        var radius = Math.min(centerX, centerY) * radiusRate;
-        var columnCount = Math.min(Math.max(this.value.length, 10), 
+        const outerWidth = this.columnWidth + this.space;
+        const centerX = this.width / 2;
+        const centerY = this.height / 2;
+        const radius = Math.min(centerX, centerY) * radiusRate;
+        const columnCount = Math.min(Math.max(this.value.length, 10), 
             Math.floor(Math.PI * radius * 2 * perimeterRate / outerWidth));
-        var preAngle = maxAngle / columnCount;
+        const preAngle = maxAngle / columnCount;
         if (this.value.length < 1)
         {
             return;
@@ -356,8 +356,8 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
             this.drawEllipse(drawingContext, '',
                             this.fill, centerX, centerY, radius);
         }
-        var y = centerY - radius;
-        var x = centerX - this.columnWidth / 2;
+        const y = centerY - radius;
+        const x = centerX - this.columnWidth / 2;
         this.renderEach(drawingContext, 0, columnCount, this.rate, y, (d, p, i, _, __, ___, h) =>
         {
             func(d, p, i, x, y, this.columnWidth, h, i * preAngle, centerX, centerY, radius);
@@ -368,10 +368,10 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     private renderSymmetryColumnar(drawingContext: CanvasRenderingContext2D)
     {
-        var outerWidth = this.columnWidth + this.space;
+        const outerWidth = this.columnWidth + this.space;
         this.renderEach(drawingContext, 0,
             Math.floor(this.width / outerWidth),
-            this.rate, this.height / 2, this.renderSymmetryColumnar);
+            this.rate, this.height / 2, this.renderSymmetryColumnar2.bind(this));
     }
 
     private renderSymmetryColumnar2(drawingContext: CanvasRenderingContext2D, pen: string, index: number,
@@ -459,10 +459,10 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     private renderPolylineRing(drawingContext: CanvasRenderingContext2D)
     {
-        var i = -1;
-        var first = {x: 0, y: 0};
-        var last = {x: 0, y: 0};
-        var pen = this.fill;
+        let i = -1;
+        let first = {x: 0, y: 0};
+        let last = {x: 0, y: 0};
+        const pen = this.fill;
         this.renderRingEach(drawingContext, false, (d, _, x, y) =>
         {
             i++;
@@ -484,10 +484,10 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     private renderInversePolylineRing(drawingContext: CanvasRenderingContext2D)
     {
-        var i = -1;
-        var last1 = {x: 0, y: 0};
-        var last2 = {x: 0, y: 0};
-        var pen = this.fill;
+        let i = -1;
+        let last1 = {x: 0, y: 0};
+        let last2 = {x: 0, y: 0};
+        const pen = this.fill;
         this.renderRingEach(drawingContext, true, (d, _, x, y) =>
         {
             i++;
