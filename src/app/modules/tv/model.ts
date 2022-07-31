@@ -39,6 +39,7 @@ export interface IMovie {
     cover: string;
     director: string;
     leader: string;
+    screenwriter: string;
     cat_id: number;
     area_id: number;
     age: string;

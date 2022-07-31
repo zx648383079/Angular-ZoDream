@@ -39,6 +39,37 @@ ul {
 }
 
 .flex-body ::ng-deep {
+    .btn-icon {
+        border-radius: .3rem;
+        background-color: #bb0b0b;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        width: 4rem;
+        height: 4rem;
+        color: #fff;
+        .icon {
+            font-size: 3rem;
+            line-height: 2rem;
+        }
+        .label {
+            display: none;
+            font-size: .8rem;
+        }
+        &:hover,
+        &.active {
+            background-color: #c43434;
+            color: #fff;
+            .icon {
+                font-size: 2rem;
+            }
+            .label {
+                display: block;
+            }
+        }
+    }
     .movie-item {
         position: relative;
         width: 15rem;

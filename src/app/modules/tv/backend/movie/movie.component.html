@@ -32,10 +32,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>应用名</th>
+                    <th>标题</th>
                     <th>分类</th>
-                    <th>发布者</th>
-                    <th>下载量</th>
+                    <th>地区</th>
+                    <th>分集</th>
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
@@ -43,10 +43,10 @@
             <tbody>
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.title }}</td>
                     <td>{{ item.category?.name }}</td>
-                    <td>{{ item.user?.name }}</td>
-                    <td>{{ item.download_count }}</td>
+                    <td>{{ item.area?.name }}</td>
+                    <td>{{ item.series_count }}</td>
                     <td>{{ item.updated_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">

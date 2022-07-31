@@ -26,6 +26,12 @@
         }
     }
 }
+
+ul,li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 .cat-row {
     display: flex;
     height: 20rem;

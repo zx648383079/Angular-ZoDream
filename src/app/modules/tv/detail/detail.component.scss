@@ -11,9 +11,12 @@
     .image-box {
         max-height: 20rem;
         overflow: hidden;
+        img {
+            width: 100%;
+        }
     }
     .detail-header {
-        margin-left: .8rem;
+        // margin-left: .8rem;
     }
     
     .title-bar {

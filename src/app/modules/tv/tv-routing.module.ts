@@ -19,6 +19,10 @@ const routes: Routes = [
             //     component: CategoryComponent
             // },
             {
+                path: 'category/:category/:movie/play/:series',
+                component: PlayComponent
+            },
+            {
                 path: 'category/:category/:id',
                 component: DetailComponent
             },
