@@ -1,0 +1,33 @@
+.score-panel {
+    background-color: #ebebeb;
+    border-radius: .35rem;
+    padding: .8rem;
+    margin-bottom: 1rem;
+    .rate {
+        font-size: 36px;
+        color: #E36844;
+        line-height: 36px;
+        margin-bottom: 8px;
+    }
+    .tag-box {
+        span {
+            display: inline-block;
+            margin: 0 10px 10px 0;
+            padding: 0 7px 0 16px;
+            line-height: 26px;
+            border-radius: 100px;
+            background-color: #F5F3EF;
+            cursor: pointer;
+            &.active {
+                background-color: #b4a078;
+                color: #fff;
+            }
+        }
+    }
+    .score-input {
+        margin-top: 3rem;
+    }
+    .text-right {
+        text-align: right;
+    }
+}

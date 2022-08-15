@@ -1,4 +1,4 @@
-<div class="play-list-container">
+<div class="play-list-container" [ngStyle]="boxStyle">
     <ng-container *ngFor="let item of items">
         <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">

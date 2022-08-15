@@ -19,6 +19,7 @@ export interface IResource {
     cat_id: number,
     size: number;
     type: number;
+    score: number;
     price: number;
     is_commercial: number;
     is_reprint: number;

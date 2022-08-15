@@ -8,6 +8,19 @@ export interface IMediaFile {
     lyrics?: string;
 }
 
+export enum MediaAction {
+    Play,
+    Collect,
+    Share,
+    Download,
+    Delete,
+}
+
+export interface IMediaActionEvent {
+    action: MediaAction;
+    data: IMediaFile;
+}
+
 export enum SpectrumType {
     Columnar,
     SymmetryColumnar, // 上下对称

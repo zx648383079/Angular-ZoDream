@@ -1,5 +1,5 @@
 .play-list-container {
-    max-height: 15rem;
+    // max-height: 15rem;
     overflow-y: auto;
 }
 .music-item {
@@ -17,6 +17,9 @@
     .name {
         flex: 1;
         position: relative;
+        height: 2.5rem;
+        overflow: hidden;
+        display: block;
     }
     .action {
         position: absolute;
@@ -24,6 +27,7 @@
         top: 0;
         display: none;
         z-index: 8;
+        background-color: #fff;
         .iconfont {
             margin-right: .4rem;
         }

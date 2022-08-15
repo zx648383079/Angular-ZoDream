@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
+import { IScoreSubtotal } from '../../theme/models/seo';
 import { ICategory, IComment, IResource, IResourceCatalog } from './model';
 
 @Injectable({
@@ -42,6 +43,16 @@ export class ResourceService {
 
     public commentSave(data: any) {
         return this.http.post<IComment>('res/comment/save', data);
+    }
+
+    public scoreSubtotal(params: any) {
+        return this.http.get<IScoreSubtotal>('res/comment/score_count', {params});
+    }
+
+    public scoreGrade(data: any) {
+        return this.http.post<{
+            avg: number;
+        }>('res/comment/grade', data);
     }
 
     public batch(data: {

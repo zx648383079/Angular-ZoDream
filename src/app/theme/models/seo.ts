@@ -151,3 +151,17 @@ export interface IAgreementGroup {
 export interface ISortItem extends IItem {
     asc?: boolean;
 }
+
+export interface IScoreSubtotal {
+    total: number;
+    good: number;
+    middle: number;
+    bad: number;
+    avg: number; // 平均的得分
+    favorable_rate: number; // 好评率
+    tags: {
+        name: 'good'|'middle'|'bad';
+        label: string;
+        count: number;
+    }[];
+}

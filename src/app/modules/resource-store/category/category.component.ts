@@ -33,16 +33,17 @@ export class CategoryComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+        });
         this.route.params.subscribe(params => {
             this.data = {id: params.id} as any;
             if (params.id) {
                 this.load(parseNumber(params.id));
             }
-        });
-        this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+        
     }
 
     private load(id: number) {

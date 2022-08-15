@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CategoryComponent } from './category/category.component';
+import { CatalogComponent } from './detail/catalog/catalog.component';
 import { CommentComponent } from './detail/comment/comment.component';
 import { DetailComponent } from './detail/detail.component';
+import { ScoreComponent } from './detail/score/score.component';
 import { HomeComponent } from './home/home.component';
 import { PreviewComponent } from './preview/preview.component';
 import { ResourceStoreComponent } from './resource-store.component';
@@ -48,5 +50,5 @@ const routes: Routes = [
 export class ResourceStoreRoutingModule { }
 
 export const resourceStoreRoutedComponents = [
-    ResourceStoreComponent, CategoryComponent, DetailComponent, HomeComponent, PreviewComponent, SearchComponent, CommentComponent,
+    ResourceStoreComponent, CategoryComponent, DetailComponent, HomeComponent, PreviewComponent, SearchComponent, CommentComponent, ScoreComponent, CatalogComponent
 ];

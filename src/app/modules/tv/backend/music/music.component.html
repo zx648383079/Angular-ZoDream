@@ -104,12 +104,7 @@
                     </select>
                 </td>
                 <td>
-                    <ng-container *ngIf="item.file_type > 0; else elseTemplate">
-                        <input type="text" class="form-control" [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}">
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}"></app-file-input>
-                    </ng-template>
+                    <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}"></app-file-input>
                 </td>
                 <td>
                     <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>

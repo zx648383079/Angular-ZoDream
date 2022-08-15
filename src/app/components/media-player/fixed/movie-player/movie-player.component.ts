@@ -23,6 +23,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
     public progress = 0;
     public duration = 0;
     public volume = 100;
+    public bodyHeight = 100;
     private volumeLast = 100;
     private listeners: {
         [key: string]: Function[];
@@ -59,7 +60,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!video) {
             return;
         }
-        video.height = window.innerHeight - (this.isFull ? 0 : 64);
+        this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : 64);
     }
 
     public play(): void;

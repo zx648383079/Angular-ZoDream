@@ -4,8 +4,9 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../../theme/query';
+import { parseNumber } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
-import { IMovieFile } from '../../../model';
+import { IMovie, IMovieFile, IMovieSeries } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class MovieFileComponent implements OnInit {
         per_page: 20
     };
     public editData: IMovieFile = {} as any;
-    public urlTypeItems = ['文件', '网址', '网盘', '种子'];
+    public series: IMovieSeries = {} as any;
+    public urlTypeItems = ['文件', '网址', '网盘', '种子', '字幕文件'];
     public definitionItems = ['标清', '高清', '蓝光'];
 
     constructor(
@@ -36,6 +38,10 @@ export class MovieFileComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.series.movie_id = parseNumber(params.movie);
+            this.series.id = parseNumber(params.series);
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
@@ -75,7 +81,7 @@ export class MovieFileComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.movieFileList(queries).subscribe({
+        this.service.movieFileList({...queries, movie: this.series.movie_id, series: this.series.id}).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
@@ -97,14 +103,13 @@ export class MovieFileComponent implements OnInit {
     public open(modal: DialogEvent, item?: IMovieFile) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
-            movie_id: 0,
-            series_id: 0,
+            movie_id: this.series.movie_id,
+            series_id: this.series.id,
             name: '',
             file_type: 0,
             definition: 0,
             file: '',
             size: 0,
-            subtitle_file: '',
         };
         modal.open(() => {
             this.service.movieFileSave(this.editData).subscribe({

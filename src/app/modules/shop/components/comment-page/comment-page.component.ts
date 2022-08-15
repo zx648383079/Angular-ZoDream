@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { IComment } from '../../model';
 import { ShopService } from '../../shop.service';
 
@@ -13,7 +14,7 @@ export class CommentPageComponent implements OnChanges {
     @Input() public itemId = 0;
     @Input() public init = false;
     public items: IComment[] = [];
-    public subtotal: any;
+    public subtotal: IScoreSubtotal;
     public hasMore = true;
     public isLoading = false;
     public total = 0;

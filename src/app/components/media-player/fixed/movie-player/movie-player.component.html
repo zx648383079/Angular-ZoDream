@@ -1,10 +1,10 @@
 <div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFixed || isFull}">
     <div class="player-container">
-        <div class="player-body">
+        <div class="player-body" [ngStyle]="{height: bodyHeight + 'px'}">
             <video class="player-video" #playerVideo></video>
         </div>
         <div class="player-catalog" *ngIf="openCatalog">
-            <app-play-list [min]="true" [items]="items" (tapped)="play($event)"></app-play-list>
+            <app-play-list [min]="true" [height]="bodyHeight" [items]="items" (playing)="play($event)"></app-play-list>
         </div>
     </div>
     <div class="player-bar">

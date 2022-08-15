@@ -1,3 +1,4 @@
+import { IScoreSubtotal } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
 
 export interface IBrand {
@@ -361,14 +362,7 @@ export interface ICart {
 }
 
 
-export interface ICommentSubtotal {
-    total: number;
-    good: number;
-    middle: number;
-    bad: number;
-    avg: number;
-    favorable_rate: number;
-    tags: ITag[];
+export interface ICommentSubtotal extends IScoreSubtotal {
     comments: IComment[];
 }
 
@@ -385,11 +379,6 @@ export interface IComment {
     images?: IImage[];
     goods?: IGoods;
     created_at: string;
-}
-
-export interface ITag {
-    label: string;
-    count: number;
 }
 
 export interface ICoupon {

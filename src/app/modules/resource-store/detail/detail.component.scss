@@ -51,32 +51,6 @@
     }
 }
 
-.tree-box {
-    list-style: none;
-    li {
-        line-height: 30px;
-        .name {
-            cursor: pointer;
-            user-select: none;
-        }
-        .iconfont {
-            margin-right: .5rem;
-        }
-    }
-    ul {
-        display: none;
-        list-style: none;
-        margin-left: 40px;
-    }
-    .tree-parent {
-        &.open {
-            >ul {
-                display: block;
-            }
-        }
-    }
-}
-
 .group-box {
     background-color: #ebebeb;
     border-radius: .35rem;

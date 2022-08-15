@@ -31,7 +31,7 @@
                 <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">Download</a>
                 <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     Reviews 
-                    <app-star [ngModel]="7"></app-star>
+                    <app-star [ngModel]="data.score"></app-star>
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
                 <a [ngClass]="{active: tabIndex == 4}" (click)="tabIndex = 4">
@@ -77,24 +77,7 @@
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
                     <div class="group-box">
-                        <ul class="tree-box">
-                            <ng-container *ngFor="let item of catalogItems">
-                            <ng-container *ngIf="item.type < 1; else elseTemplate">
-                                <li class="tree-parent open"><div class="name"> <i class="iconfont" [ngClass]="{'icon-folder-open-o': item.open, 'icon-folder-o': false}"></i>{{ item.name }}</div>
-                                    <ul>
-                                        <li *ngFor="let it of item.children"><div class="tree-name"><i class="iconfont icon-file-o"></i>{{ it.name }}</div></li>
-                                    </ul>
-                                </li>
-                            </ng-container>
-                            <ng-template #elseTemplate>
-                                <li><div class="tree-name"><i class="iconfont icon-file-o"></i>{{ item.name }}</div></li>
-                            </ng-template>
-                            
-                            </ng-container>
-                            
-                            
-                            
-                        </ul>
+                        <app-catalog [items]="catalogItems"></app-catalog>
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
@@ -110,7 +93,7 @@
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 3}">
-                    
+                    <app-score [itemId]="data.id" [init]="tabIndex == 3"></app-score>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 4}">
                     <div class="group-box">

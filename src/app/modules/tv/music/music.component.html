@@ -13,7 +13,7 @@
         </div>
         <div class="panel-body">
             <ng-container *ngFor="let item of items">
-                <a class="music-item">
+                <a class="music-item" (click)="tapPlay(item)">
                     <div class="item-cover">
                         <img [src]="item.cover | asset" [alt]="item.name">
                     </div>
@@ -31,7 +31,7 @@
 
     <div class="search-body" *ngIf="queries.keywords">
         <ng-container *ngFor="let item of items">
-            <a class="music-item">
+            <a class="music-item" (click)="tapPlay(item)">
                 <div class="item-cover">
                     <img [src]="item.cover | asset" [alt]="item.name">
                 </div>
@@ -54,4 +54,6 @@
     </div>
 </div>
 
-<app-music-player></app-music-player>
+<div class="player-box">
+    <app-music-player [isFixed]="false"></app-music-player>
+</div>

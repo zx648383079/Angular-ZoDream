@@ -30,15 +30,8 @@ import {
     passwordValidator
 } from '../../../theme/validators';
 import {
-    environment
-} from '../../../../environments/environment';
-import {
-    getCurrentTime,
-    uriEncode
+    apiUri, assetUri
 } from '../../../theme/utils';
-import {
-    Md5
-} from 'ts-md5';
 import {
     IErrorResponse, IErrorResult
 } from '../../../theme/models/page';
@@ -199,15 +192,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public tapOAuth(type: string) {
-        const timestamp = getCurrentTime();
-        const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
-        window.location.href = uriEncode(environment.apiEndpoint + 'auth/oauth', {
-            appid: environment.appid,
-            timestamp,
-            sign,
+        window.location.href = apiUri('auth/oauth', {
             type,
-            redirect_uri: window.location.href,
-        }, true);
+            redirect_uri: window.location.href});
     }
 
     public keyDown(event: KeyboardEvent, next: HTMLInputElement) {
@@ -222,7 +209,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.captchaImage = '';
             return;
         }
-        this.captchaImage = environment.assetUri + '/auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random();
+        this.captchaImage = assetUri('auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random());
     }
 
     public tapSendCode(event: CountdownEvent) {

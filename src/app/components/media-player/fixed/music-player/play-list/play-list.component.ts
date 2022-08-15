@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IMediaFile } from '../../model';
-import { PlayerService } from '../../player.service';
+import { IMediaActionEvent, IMediaFile, MediaAction } from '../../model';
 
 @Component({
   selector: 'app-play-list',
@@ -11,14 +10,27 @@ export class PlayListComponent {
 
     @Input() public items: IMediaFile[] = [];
     @Input() public min = false;
-    @Output() public tapped = new EventEmitter<IMediaFile>();
+    @Input() public height = 0;
+    @Output() public tapped = new EventEmitter<IMediaActionEvent>();
+    @Output() public playing = new EventEmitter<IMediaFile>();
 
     constructor(
-        private service: PlayerService
     ) { }
 
+    public get boxStyle() {
+        if (this.height > 0) {
+            return {
+                height: this.height + 'px',
+            };
+        }
+        return {};
+    }
 
     public tapItem(item: IMediaFile) {
-        this.tapped.emit(item);
+        this.playing.emit(item);
+        this.tapped.emit({
+            action: MediaAction.Play,
+            data: item,
+        });
     }
 }

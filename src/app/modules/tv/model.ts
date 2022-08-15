@@ -24,6 +24,7 @@ export interface IMusicFile {
     music_id: number;
     file_type: number;
     file: string;
+    url?: string;
 }
 
 export interface IMovieArea {
@@ -65,7 +66,7 @@ export interface IMovieFile {
     definition: number;
     file: string;
     size: number;
-    subtitle_file: string;
+    url?: string;
 }
 
 export interface IMovieSeries {

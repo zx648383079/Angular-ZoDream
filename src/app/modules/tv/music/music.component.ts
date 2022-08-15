@@ -51,6 +51,16 @@ export class MusicComponent implements OnInit {
         return formatHour(v, undefined, true);
     }
 
+    public tapPlay(item: IMusic) {
+        this.player.play({
+            name: item.name,
+            cover: item.cover,
+            artist: item.artist,
+            source: item.files.filter(i => i.file_type < 5).sort((a, b) => a.file_type - b.file_type)[0].url,
+            lyrics: item.files.filter(i => i.file_type === 11)[0].url
+        });
+    }
+
     public tapRefresh() {
         this.service.musicList({}).subscribe(res => {
             this.items = res.data;

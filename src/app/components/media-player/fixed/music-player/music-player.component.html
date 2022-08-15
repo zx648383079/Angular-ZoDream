@@ -4,7 +4,7 @@
         <app-lyrics-viewer  [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress"></app-lyrics-viewer>
     </div>
     <div class="player-catalog" [hidden]="!catalogVisible">
-        <app-play-list [min]="true" [items]="items" (tapped)="play($event)"></app-play-list>
+        <app-play-list [min]="true" [items]="items" (playing)="play($event)"></app-play-list>
     </div>
     <div class="player-bar">
         <div class="bar-action">

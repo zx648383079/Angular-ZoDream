@@ -12,7 +12,7 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" (click)="open(modal)">新增评分</a>
+                <a class="btn btn-success pull-right" (click)="open(modal)">新增文件</a>
             </form>
         </div>
     
@@ -81,22 +81,23 @@
             <app-data-size [(ngModel)]="editData.size"></app-data-size>
         </div>
     </div>
-    <div class="form-group" *ngIf="editData.file_type < 1">
-        <label>文件</label>
-        <div class="input-group">
-            <app-file-input [ngModel]="editData.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
+    <ng-container *ngIf="editData.file_type < 1 || editData.file_type == 4; else elseTemplate">
+        <div class="form-group">
+            <label>文件</label>
+            <div class="input-group">
+                <app-file-input [(ngModel)]="editData.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
+            </div>
         </div>
-    </div>
-    <div class="form-group" *ngIf="editData.file_type > 0">
-        <label>{{ editData.file_type > 2 ? '内容' : '网址' }}</label>
-        <div>
-            <app-text-editor [ngModel]="editData.file" height="100"></app-text-editor>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <div class="form-group">
+            <label>{{ editData.file_type > 2 ? '内容' : '网址' }}</label>
+            <div>
+                <app-text-editor [(ngModel)]="editData.file" height="100"></app-text-editor>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>字幕文件</label>
-        <div class="input-group">
-            <app-file-input [ngModel]="editData.subtitle_file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>
-        </div>
-    </div>
+    </ng-template>
+    
+
+
 </app-dialog-box>

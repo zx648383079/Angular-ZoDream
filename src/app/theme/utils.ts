@@ -1,3 +1,4 @@
+import { Md5 } from 'ts-md5';
 import { environment } from '../../environments/environment';
 
 /**
@@ -132,6 +133,17 @@ export function assetUri(value: string) {
     return environment.assetUri + '/' + value;
 }
 
+export function apiUri(path: string, queries: Object = {}): string {
+    const timestamp = getCurrentTime();
+    const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
+    return uriEncode(environment.apiEndpoint + (path.startsWith('/') ? path.substring(1) : path), {
+        ...queries,
+        appid: environment.appid,
+        timestamp,
+        sign,
+    }, true);
+}
+
 export function getCurrentTime() {
     return formatTime(new Date());
 }
@@ -174,7 +186,7 @@ export function filterTree(items: any[], id: number) {
     return data;
 }
 
-export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean): string {
+export function uriEncode(path: string, obj: Object = {}, unEncodeURI?: boolean): string {
     const result: string[] = [];
     const pushQuery = (key: string, value: any) => {
         if (typeof value !== 'object') {
