@@ -51,7 +51,8 @@ export class DetailComponent implements OnInit {
                 this.themeSerive.setTitle(res.title);
                 this.data = res;
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                this.loadCatalog();
+                this.catalogItems = res.file_catalog;
+                // this.loadCatalog();
             },
             error: err => {
                 this.isLoading = false;

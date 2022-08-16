@@ -18,7 +18,6 @@ export interface IResource {
     description: string,
     cat_id: number,
     size: number;
-    type: number;
     score: number;
     price: number;
     is_commercial: number;
@@ -28,6 +27,9 @@ export interface IResource {
     download_count: number;
     view_count: number;
     comment_count: number;
+    preview_type: number;
+    preview_file: string;
+    file_catalog?: IResourceCatalog[];
     tags?: ITag[];
     user?: IUser;
     category?: ICategory;

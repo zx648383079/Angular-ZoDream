@@ -6,6 +6,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { IImageUploadEvent } from '../../../../../components/editor';
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
+import { parseNumber } from '../../../../../theme/utils';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag } from '../../../model';
 import { ResourceService } from '../../resource.service';
 
@@ -23,11 +24,12 @@ export class EditResourceComponent implements OnInit {
         content: ['', Validators.required],
         description: [''],
         cat_id: [0, Validators.required],
-        type: [0],
         size: [0],
         price: [0],
         is_commercial: [0],
         is_reprint: [0],
+        preview_type: [0],
+        preview_file: [''],
     });
     public data: IResource;
     public fileItems: IResourceFile[] = [];
@@ -36,7 +38,7 @@ export class EditResourceComponent implements OnInit {
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
-    public typeItems = ['HTML模板', '脚本', '图片', '源码', '3D模型', '音乐'];
+    public previewTypeItems = ['无', '图片', '视频', 'HTML压缩包', '3D模型'];
     public fileTypeItems = FileTypeItems;
 
     constructor(
@@ -67,7 +69,6 @@ export class EditResourceComponent implements OnInit {
                     this.form.patchValue({
                         title: res.title,
                         thumb: res.thumb,
-                        type: res.type,
                         keywords: res.keywords,
                         content: res.content,
                         description: res.description,
@@ -76,6 +77,8 @@ export class EditResourceComponent implements OnInit {
                         price: res.price,
                         is_commercial: res.is_commercial,
                         is_reprint: res.is_reprint,
+                        preview_type: res.preview_type,
+                        preview_file: res.preview_file
                     });
                 },
                 error: err => {
@@ -100,6 +103,10 @@ export class EditResourceComponent implements OnInit {
 
     public get isOpenSource() {
         return this.form.get('is_open_source').value;
+    }
+
+    public get previewType() {
+        return parseNumber(this.form.get('preview_type').value);
     }
 
     public addTagFn(name: string) {

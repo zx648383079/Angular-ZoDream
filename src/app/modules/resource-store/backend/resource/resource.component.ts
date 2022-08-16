@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
@@ -30,6 +30,7 @@ export class ResourceComponent implements OnInit {
         private service: ResourceService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private router: Router,
     ) {
     }
 
@@ -41,6 +42,15 @@ export class ResourceComponent implements OnInit {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapCreate() {
+        if (this.categories.length > 0) {
+            this.router.navigate(['create'], {relativeTo: this.route});
+            return;
+        }
+        this.toastrService.warning($localize `Please add categories first`);
+        this.router.navigate(['../category'], {relativeTo: this.route});
     }
 
     public tapRefresh() {

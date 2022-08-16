@@ -27,18 +27,6 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label>资源类型</label>
-                        <div>
-                            <select class="form-control" formControlName="type">
-                                <ng-container *ngFor="let item of typeItems;let i = index">
-                                    <option [value]="i">{{ item }}</option>
-                                </ng-container>
-                            </select>
-        
-                        </div>
-                    </div>
-                   
-                    <div class="input-group">
                         <label for="thumb">图标</label>
                         <div>
                             <app-file-input formControlName="thumb"></app-file-input>
@@ -90,6 +78,22 @@
                         <label for="official_website">文件大小</label>
                         <div>
                             <app-data-size formControlName="size"></app-data-size>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>预览类型</label>
+                        <div>
+                            <select class="form-control" formControlName="preview_type">
+                                <ng-container *ngFor="let item of previewTypeItems;let i = index">
+                                    <option [value]="i">{{ item }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group" *ngIf="previewType > 0">
+                        <label for="official_website">预览文件</label>
+                        <div>
+                            <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'"></app-file-input>
                         </div>
                     </div>
                 </app-panel>
