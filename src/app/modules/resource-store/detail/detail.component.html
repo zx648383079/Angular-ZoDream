@@ -53,7 +53,7 @@
                     <div class="group-box">
                         <img [src]="data.thumb|asset" alt="">
                         <div class="box-hat"></div>
-                        <div class="group-footer">
+                        <div class="group-footer" *ngIf="data.preview_type > 0">
                             <a class="btn btn-primary" routerLink="preview">
                                 Live Preview 
                                 <i class="iconfont icon-th-large"></i>

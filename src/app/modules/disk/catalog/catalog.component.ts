@@ -16,10 +16,10 @@ import {
 import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
-import { ParallelHasher } from 'ts-md5/dist/parallel_hasher';
 import { FileUploadService, SearchService } from '../../../theme/services';
 import { SearchEvents } from '../../../theme/models/event';
 import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
+import { ParallelHasher } from 'ts-md5';
 
 
 interface ICrumb {

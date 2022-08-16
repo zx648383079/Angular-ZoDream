@@ -29,6 +29,10 @@ export class ResourceService {
         return this.http.get<IResource>('res/home/detail', {params: {id}});
     }
 
+    public resourcePreview(id: any) {
+        return this.http.get<IResource>('res/home/preview', {params: {id}});
+    }
+
     public resourceCatalog(id: any) {
         return this.http.get<IData<IResourceCatalog>>('res/home/catalog', {params: {id}});
     }

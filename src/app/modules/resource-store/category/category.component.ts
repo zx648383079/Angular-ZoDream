@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
 
     public tapCategory(item: ICategory) {
         this.data = item;
-        this.service.categoryList(item.id).subscribe(res => {
+        this.service.categoryList({parent: item.id}).subscribe(res => {
             this.categories = res.data;
         });
     }

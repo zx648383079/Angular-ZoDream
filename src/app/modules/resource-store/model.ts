@@ -34,6 +34,7 @@ export interface IResource {
     user?: IUser;
     category?: ICategory;
     files?: IResourceFile[];
+    preview_url?: string;
 }
 
 export interface IResourceCatalog {

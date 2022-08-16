@@ -1,31 +1,29 @@
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="data">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Category</li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ data.title }}</li>
               </ol>
             </nav>
         </div>
         <div class="col-md-12">
             <div class="frame-resize">
-                <a href="" target="_blank">
+                <a [href]="data.preview_url" target="_blank">
                     <i class="iconfont icon-close"></i>
                     移除其他内容
                 </a>
-                <a href="">全屏</a>
-                <a href="">768x1024</a>
-                <a href="">1024x768</a>
-                <a href="">375x812</a>
-                <a href="">812x275</a>
+                <ng-container *ngFor="let item of resizeItems;let i = index">
+                    <a (click)="resizeIndex = i" [ngClass]="{active: resizeIndex == i}">{{ item.name }}</a>
+                </ng-container>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="frame-box">
-    <iframe id="main-frame" src="" frameborder="0"></iframe>
+<div class="frame-box" *ngIf="data">
+    <iframe id="main-frame" [src]="previewSrc" frameborder="0" [ngStyle]="frameStyle"></iframe>
 </div>

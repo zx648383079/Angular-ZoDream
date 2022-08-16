@@ -113,11 +113,11 @@ export class EditResourceComponent implements OnInit {
         return {name};
     }
 
-    public onFileUpload(e: UploadCustomEvent) {
+    public onFileUpload(e: UploadCustomEvent, isPreview = false) {
         const sizeInput = this.form.get('size');
         this.service.upload(e.file).subscribe({
             next: res => {
-                if (!sizeInput.value) {
+                if (!isPreview && !sizeInput.value) {
                     sizeInput.setValue(res.size);
                 }
                 e.next(res);

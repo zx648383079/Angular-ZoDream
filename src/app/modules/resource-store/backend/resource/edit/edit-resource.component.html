@@ -93,7 +93,7 @@
                     <div class="input-group" *ngIf="previewType > 0">
                         <label for="official_website">预览文件</label>
                         <div>
-                            <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'"></app-file-input>
+                            <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
                         </div>
                     </div>
                 </app-panel>
