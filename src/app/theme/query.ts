@@ -72,13 +72,24 @@ export function applyHistory(queries: any, title: string|boolean|HistoryCheckFn 
     const url = window.location.href;
     const path = url.split('?', 2)[0];
     const newUrl = uriEncode(path, params);
-    if (url !== newUrl) {
-        history.pushState(null, title, newUrl);
-    }
+    pushHistoryState(title, newUrl);
     if (scrollTop) {
         document.documentElement.scrollTop = 0;
     }
 };
+
+/**
+ * 设置当前网址
+ * @param title 
+ * @param url 
+ * @returns 
+ */
+export function pushHistoryState(title: string, url: string) {
+    if (url === window.location.href) {
+        return;
+    }
+    history.pushState(null, title, url);
+}
 
 export function queriesDefaultCheck(params: any): HistoryCheckFn {
     return (val, name) => {

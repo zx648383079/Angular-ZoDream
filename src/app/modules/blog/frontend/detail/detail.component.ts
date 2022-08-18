@@ -1,5 +1,6 @@
 import {
     Component,
+    NgZone,
     OnInit
 } from '@angular/core';
 import {
@@ -18,6 +19,8 @@ import {
 } from '../../model';
 import { DialogService } from '../../../../components/dialog';
 import { ThemeService } from '../../../../theme/services';
+import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/deeplink';
+import { pushHistoryState } from '../../../../theme/query';
 
 @Component({
     selector: 'app-detail',
@@ -40,8 +43,13 @@ export class DetailComponent implements OnInit {
         private router: Router,
         private toastrService: DialogService,
         private themeService: ThemeService,
+        private ngZoon: NgZone,
     ) {
-        
+        (window as any).deeplinkOpen = path => {
+            this.ngZoon.run(() => {
+                openLink(this.router, path);
+            });
+        };
     }
 
     ngOnInit() {
@@ -68,8 +76,8 @@ export class DetailComponent implements OnInit {
                 this.data = res.detail;
                 this.themeService.setTitle(this.data.seo_title || this.data.title);
                 this.relationItems = res.relation;
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                history.pushState(null, this.data.title,
+                this.renderContent(this.data.content);
+                pushHistoryState(this.data.title,
                     window.location.href.replace(/blog.*$/, 'blog/' + this.data.id.toString()));
                 document.documentElement.scrollTop = 0;
             },
@@ -89,5 +97,10 @@ export class DetailComponent implements OnInit {
                 this.toastrService.warning(err);
             }
         });
+    }
+
+    public renderContent(html: string) {
+        const reg = new RegExp(`href="(${DEEPLINK_SCHEMA}://.+?)"`, 'g');
+        this.content = this.sanitizer.bypassSecurityTrustHtml(html.replace(reg, 'href="javascript:deeplinkOpen(\'$1\');"'));
     }
 }

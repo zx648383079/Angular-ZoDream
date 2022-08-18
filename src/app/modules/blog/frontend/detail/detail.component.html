@@ -36,13 +36,13 @@
             <div class="book-bottom">
                 <div class="book-source" *ngIf="data.type == 1">
                     <span i18n>Reprinted in:</span>
-                    <a [href]="data.source_url" target="_blank" title="本文为转载内容，点击查看原网页">
+                    <a [href]="data.source_url" target="_blank" i18n-title title="This article is reprinted, click to view the original page">
                         {{data.source_url}} </a>
                 </div>
                 <div class="book-tags" *ngIf="data.tags">
                     <span i18n>Tags:</span>
                     <ng-container *ngFor="let tag of data.tags">
-                        <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>，
+                        <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>, 
                     </ng-container>
                 </div>
             </div>

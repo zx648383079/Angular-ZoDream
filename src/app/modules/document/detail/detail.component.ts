@@ -5,6 +5,7 @@ import * as ClipboardJS from 'clipboard';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { IErrorResult } from '../../../theme/models/page';
+import { pushHistoryState } from '../../../theme/query';
 import { emptyValidate } from '../../../theme/validators';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
@@ -146,7 +147,7 @@ export class DetailComponent implements OnInit {
             this.data.example = JSON.stringify(this.data.example, null, 4);
         }
         this.findNavigation(res.id);
-        history.pushState(null, res.name,
+        pushHistoryState(res.name,
             window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
         document.documentElement.scrollTop = 0;
     }

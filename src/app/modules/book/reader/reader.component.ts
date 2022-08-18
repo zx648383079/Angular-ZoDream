@@ -13,6 +13,7 @@ import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/f
 import { SearchService } from '../../../theme/services';
 import { scrollBottom, windowHeight, windowScollTop } from '../util';
 import { SearchEvents } from '../../../theme/models/event';
+import { pushHistoryState } from '../../../theme/query';
 
 @Component({
     selector: 'app-reader',
@@ -102,7 +103,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
 
     public onProgressChange(event: IFlipProgress) {
         if (event.progress === 0) {
-            history.pushState(null, event.item.title,
+            pushHistoryState(event.item.title,
                 window.location.href.replace(/\/\d+\/\d+.*/, '/' + event.item.book + '/' + event.item.id));
         }
         this.chapterId = event.item.id;

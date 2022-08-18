@@ -1914,6 +1914,10 @@
           <context context-type="sourcefile">src/app/modules/blog/blog.component.html</context>
           <context context-type="linenumber">86</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="d1c4e9d07d3789fb1c66dec61f2d52c6b81b10f6" datatype="html">
         <source>Tags:</source>
@@ -1930,7 +1934,7 @@
         <source>New</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/blog.component.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/list/list.component.ts</context>
@@ -1945,7 +1949,7 @@
         <source>Hot</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/blog.component.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/list/list.component.ts</context>
@@ -1960,7 +1964,7 @@
         <source>Best</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/blog.component.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/list/list.component.ts</context>
@@ -2967,7 +2971,7 @@
         <source>All</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/search-bar/search-bar.component.ts</context>
@@ -2978,21 +2982,21 @@
         <source>Request</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6552449600024516046" datatype="html">
         <source>Response</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9204030745649353406" datatype="html">
         <source>Copy successfully</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">208</context>
+          <context context-type="linenumber">209</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
@@ -3003,7 +3007,7 @@
         <source>Copy failed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">213</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
@@ -4814,7 +4818,7 @@
           <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1239609780814136666" datatype="html">
+      <trans-unit id="881996347227550746" datatype="html">
         <source>Score successfull</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/detail/score/score.component.ts</context>

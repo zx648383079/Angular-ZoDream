@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { applyHistory, getQueries, pushHistoryState } from '../../../theme/query';
 import { parseNumber } from '../../../theme/utils';
 import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
@@ -58,7 +58,7 @@ export class CategoryComponent implements OnInit {
             this.categories = res.data;
         });
         this.tapRefresh();
-        history.pushState(null, item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
+        pushHistoryState(item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
     }
 
     public tapRefresh() {

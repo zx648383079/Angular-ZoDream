@@ -1,6 +1,8 @@
 import { Router } from '@angular/router';
 import { intValidate } from './validators';
 
+export const DEEPLINK_SCHEMA = 'zodream';
+
 export const openLink = (router: Router, link: string): boolean => {
     if (!link || link.length < 1 || link.charAt(0) === '#' || link.indexOf('javascript:') === 0) {
         return;
@@ -14,7 +16,7 @@ export const openLink = (router: Router, link: string): boolean => {
         window.open(link, '_blank');
         return;
     }
-    if (schema !== 'zodream') {
+    if (schema !== DEEPLINK_SCHEMA) {
         return false;
     }
     if (items.length < 2) {
@@ -33,7 +35,6 @@ export const openLink = (router: Router, link: string): boolean => {
         router.navigate(['/micro', path]);
         return;
     }
-    const isBackend = ['b', 'admin', 'backend', 'system'].indexOf(host) >= 0;
     const queries: any = {};
     if (items.length > 1 && items[1].length > 0) {
         items[1].split('&').forEach(line => {
@@ -41,6 +42,18 @@ export const openLink = (router: Router, link: string): boolean => {
             queries[parts[0]] = decodeURIComponent(parts[1])
         });
     }
+    if (host === 'blog') {
+        if (intValidate(path)) {
+            router.navigate(['/frontend/blog', path]);
+            return;
+        }
+        if (path === 'search') {
+            router.navigate(['/frontend/blog'], {queryParams: queries});
+            return;
+        }
+        return;
+    }
+    const isBackend = ['b', 'admin', 'backend', 'system'].indexOf(host) >= 0;
     if (isBackend) {
         if (path === 'user' && intValidate(params[0])) {
             router.navigate(['/backend/auth/users/edit', params[0]]);
