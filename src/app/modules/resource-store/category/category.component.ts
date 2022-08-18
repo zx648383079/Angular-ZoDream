@@ -33,17 +33,16 @@ export class CategoryComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
-        });
         this.route.params.subscribe(params => {
             this.data = {id: params.id} as any;
             if (params.id) {
                 this.load(parseNumber(params.id));
             }
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
-        
     }
 
     private load(id: number) {
@@ -58,6 +57,8 @@ export class CategoryComponent implements OnInit {
         this.service.categoryList({parent: item.id}).subscribe(res => {
             this.categories = res.data;
         });
+        this.tapRefresh();
+        history.pushState(null, item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
     }
 
     public tapRefresh() {

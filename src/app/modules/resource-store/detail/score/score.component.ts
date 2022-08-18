@@ -49,7 +49,7 @@ export class ScoreComponent implements OnChanges {
         this.service.scoreGrade({...this.scoreData, id: this.itemId}).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success($localize `Score successful`);
+                this.toastrService.success($localize `Score successfull`);
                 this.scoreData.score = 10;
             }, 
             error: err => {
