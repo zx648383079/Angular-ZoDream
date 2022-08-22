@@ -37,7 +37,7 @@ export class UserSettingComponent implements OnInit {
             id: 2,
             icon: 'shield',
             name: '隐私',
-            meta: '动态时效',
+            meta: '动态时效、上传水印',
         }
     ];
 
