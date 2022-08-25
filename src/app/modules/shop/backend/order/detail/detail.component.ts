@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
+import { ButtonEvent } from '../../../../../components/form';
+import { emptyValidate } from '../../../../../theme/validators';
 import { IOrder, IOrderGoods } from '../../../model';
 import { OrderService } from '../order.service';
 
@@ -24,6 +26,9 @@ export class DetailComponent implements OnInit {
         goods: [],
     };
     public shippingItems = [];
+    public remarkData = {
+        remark: '',
+    }
 
     constructor(
         private service: OrderService,
@@ -72,6 +77,29 @@ export class DetailComponent implements OnInit {
         };
     }
 
+    public tapOperate(e: ButtonEvent, operate: string) {
+        if (emptyValidate(this.remarkData.remark)) {
+            this.toastrService.warning('请输入操作备注')
+            return;
+        }
+        e?.enter();
+        this.service.orderSave({
+            id: this.data.id,
+            operate,
+            ...this.remarkData
+        }).subscribe({
+            next: res => {
+                e.reset();
+                this.toastrService.success('操作成功');
+                this.data = Object.assign({}, this.data, res);
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
+        })
+    }
+
     public tapRefund(modal: DialogEvent) {
         modal.open(() => {
             this.service.orderSave({
@@ -81,6 +109,7 @@ export class DetailComponent implements OnInit {
             }).subscribe({
                 next: res => {
                     this.toastrService.success('退款成功');
+                    this.data = Object.assign({}, this.data, res);
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -113,6 +142,7 @@ export class DetailComponent implements OnInit {
             }).subscribe({
                 next: res => {
                     this.toastrService.success('已确认发货');
+                    this.data = Object.assign({}, this.data, res);
                 },
                 error: err => {
                     this.toastrService.error(err);

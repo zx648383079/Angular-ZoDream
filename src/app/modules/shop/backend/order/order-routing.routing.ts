@@ -7,23 +7,23 @@ import { DeliveryComponent } from './delivery/delivery.component';
 import { EditDeliveryComponent } from './delivery/edit/edit-delivery.component';
 
 const routes: Routes = [
-  { path: '', component: OrderComponent },
-  { path: 'create', component: CreateComponent },
-  { path: 'delivery/create', component: EditDeliveryComponent },
-  { path: 'delivery', component: DeliveryComponent },
-  { path: ':id', component: DetailComponent },
+    { path: '', component: OrderComponent },
+    { path: 'create', component: CreateComponent },
+    { path: 'delivery/create', component: EditDeliveryComponent },
+    { path: 'delivery', component: DeliveryComponent },
+    { path: ':id', component: DetailComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class OrderRoutingModule {}
 
 export const orderRoutedComponents = [
-  OrderComponent,
-  CreateComponent,
-  DetailComponent,
-  DeliveryComponent,
-  EditDeliveryComponent,
+    OrderComponent,
+    CreateComponent,
+    DetailComponent,
+    DeliveryComponent,
+    EditDeliveryComponent,
 ];

@@ -30,8 +30,8 @@
             </div>
             <div class="col-md-3">
                 <p>优惠信息</p>
-                <p>促销优惠：0</p>
-                <p>积分抵扣：0</p>
+                <p>促销优惠： 0</p>
+                <p>积分抵扣： 0</p>
             </div>
         </div>
         <div class="text-center" *ngIf="timeIndex == 2">
@@ -90,16 +90,16 @@
     <div class="row">
         <div class="col-md-6">
             <app-panel title="备注信息">
-                <form class="form-table" >
+                <div class="form-table" >
                     <div class="remark-box">
-                        <textarea name="remark" class="form-control" required></textarea>
+                        <textarea name="remark" class="form-control" [(ngModel)]="remarkData.remark"></textarea>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-operate="remark">保存</button>
-                        <button type="button" class="btn btn-danger" *ngIf="data.status == 10">支付</button>
-                        <button type="button" class="btn btn-info" data-operate="cancel">取消</button>
+                        <app-action-button class="btn btn-primary" (tapped)="tapOperate($event, 'remark')">保存</app-action-button>
+                        <app-action-button class="btn btn-danger" *ngIf="data.status == 10" (tapped)="tapOperate($event, 'pay')">支付</app-action-button>
+                        <app-action-button class="btn btn-info"  (tapped)="tapOperate($event, 'cancel')">取消订单</app-action-button>
                     </div>
-                </form>
+                </div>
             </app-panel>
         </div>
 

@@ -22,8 +22,21 @@ export class ConnectComponent implements OnInit {
 
     public tapRefresh() {
         this.service.connect().subscribe(res => {
-            this.items = res;
+            this.items = res.map(i => this.formatItem(i));
         });
+    }
+
+    private formatItem(item: IConnect): IConnect {
+        const iconItems = {
+        };
+        if (item.icon) {
+            if (Object.prototype.hasOwnProperty.call(iconItems, item.icon)) {
+                item.icon = iconItems[item.icon];
+            } else {
+                item.icon = item.icon.replace(/^fab*-/, 'icon-');
+            }
+        }
+        return item;
     }
 
 }

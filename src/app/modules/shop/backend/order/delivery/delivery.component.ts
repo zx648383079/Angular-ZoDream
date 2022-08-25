@@ -4,8 +4,9 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IDelivery, IDeliveryLogistics } from '../../../model';
 import { applyHistory, getQueries } from '../../../../../theme/query';
-import { mapFormat } from '../../../../../theme/utils';
+import { formatTime, mapFormat } from '../../../../../theme/utils';
 import { OrderService } from '../order.service';
+import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
   selector: 'app-delivery',
@@ -57,6 +58,16 @@ export class DeliveryComponent implements OnInit {
         return 'icon-check';
     }
 
+    public tapOpenAdd() {
+        if (this.logisticsData.items.length > 0) {
+            this.logisticsData.status = this.logisticsData.items[0].status;
+        }
+        if (emptyValidate(this.logisticsData.time)) {
+            this.logisticsData.time = formatTime(new Date());
+        }
+        this.logisticsData.open = true;
+    }
+
     public tapAddLogistics() {
         const item = this.logisticsData.data;
         const data = this.formatJson<IDeliveryLogistics>(item.logistics_content);
@@ -73,7 +84,12 @@ export class DeliveryComponent implements OnInit {
             status: this.logisticsData.status,
         }).subscribe({
             next: res => {
-
+                for (const item of this.items) {
+                    if (item.id == res.id) {
+                        item.logistics_content = res.logistics_content;
+                        item.status = res.status;
+                    }
+                }
             },
             error: err => {
                 this.toastrService.error(err);
@@ -165,6 +181,7 @@ export class DeliveryComponent implements OnInit {
                 status: item.status,
                 items: [item]
             };
+            groups.push(group);
         }
         return groups;
     }
