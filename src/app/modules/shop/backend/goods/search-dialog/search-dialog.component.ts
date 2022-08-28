@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods } from '../../../model';
 import { getQueries } from '../../../../../theme/query';
 import { GoodsService } from '../goods.service';
+import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 
 @Component({
   selector: 'app-search-dialog',
@@ -11,10 +12,13 @@ import { GoodsService } from '../goods.service';
 })
 export class SearchDialogComponent implements OnChanges  {
 
+    @ViewChild(ProductDialogComponent)
+    private modal: ProductDialogComponent;
     @Input() public multiple = false;
     @Input() public value: any;
+    @Input() public visible = false;
     @Output() public valueChange = new EventEmitter<IGoods|IGoods[]>();
-    @Output() public cancel = new EventEmitter();
+    private confirmFn: (items: IGoods|IGoods[]) => void;
     public items: IGoods[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -48,6 +52,21 @@ export class SearchDialogComponent implements OnChanges  {
         }
     }
 
+    /**
+     * 显示
+     * @param confirm 
+     */
+    public open();
+    public open(confirm: (items: IGoods|IGoods[]) => void);
+    public open(confirm?: (items: IGoods|IGoods[], next?: (close: boolean) => void) => void) {
+        this.visible = true;
+        this.confirmFn = confirm;
+    }
+
+    public close() {
+        this.visible = false;
+    }
+
     public tapToggleOnly() {
         this.onlySelected = !this.onlySelected;
     }
@@ -63,6 +82,7 @@ export class SearchDialogComponent implements OnChanges  {
 
     public tapSelected(item: IGoods) {
         if (!this.multiple) {
+            this.modal.open(item);
             this.selectedItems = [item];
             return;
         }
@@ -72,6 +92,7 @@ export class SearchDialogComponent implements OnChanges  {
                 return;
             }
         }
+        this.modal.open(item);
         this.selectedItems.push(item);
     }
 
@@ -83,8 +104,16 @@ export class SearchDialogComponent implements OnChanges  {
         this.valueChange.emit(this.selectedItems.length > 0 ? this.selectedItems[0] : null);
     }
 
+    private output(items: any) {
+        this.valueChange.emit(items);
+        if (this.confirmFn) {
+            this.confirmFn(items);
+        }
+        this.visible = false;
+    }
+
     public tapCancel() {
-        this.cancel.emit();
+        this.selectedItems = [];
     }
 
     public get formatItems() {

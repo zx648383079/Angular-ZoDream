@@ -1,0 +1,58 @@
+.step-header {
+    text-align: center;
+    .step-item {
+        color: #ccc;
+        display: inline-block;
+        &::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+        &.active {
+            color: #b4a078;
+        }
+    }
+    .step-no {
+        display: inline-flex;
+        width: 20px;
+        height: 20px;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid;
+        border-radius: 50%;
+    }
+    .step-title {
+        font-size: 18px;
+    }
+    .step-line {
+        display: block;
+        float: right;
+        height: 1px;
+        background: #e5e9ef;
+        width: 60px;
+        margin: 11px 10px 0;
+    }
+}
+
+.step-body {
+    padding: 3rem;
+    .btn-group {
+        margin-top: 1rem;
+    }
+    .btn {
+        display: block;
+    }
+}
+.center-body {
+    width: 350px;
+    margin: 0 auto;
+}
+
+.step-tip {
+    text-align: center;
+    .iconfont {
+        display: block;
+        font-size: 3rem;
+        color: #b4a078;
+    }
+}

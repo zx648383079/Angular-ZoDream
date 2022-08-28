@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
-import { DialogAnimation } from '../../../../../../theme/constants/dialog-animation';
 import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../model';
+import { SearchDialogComponent } from '../../../goods/search-dialog/search-dialog.component';
 import { ActivityService } from '../../activity.service';
 
 @Component({
     selector: 'app-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
-    animations: [
-        DialogAnimation
-    ]
 })
 export class EditLotteryComponent implements OnInit {
+
+    @ViewChild(SearchDialogComponent)
+    private modal: SearchDialogComponent;
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -34,7 +34,6 @@ export class EditLotteryComponent implements OnInit {
     });
 
     public data: IActivity<ILotteryConfigure>;
-    public dialogOpen = false;
     public giftItems: ILotteryGift[] = [
         {
             name: '未中奖',
@@ -113,26 +112,23 @@ export class EditLotteryComponent implements OnInit {
     }
 
     public tapAddItem() {
-        this.dialogOpen = true;
-    }
-
-    public onGoodsSelected(event: IGoods[]) {
-        this.dialogOpen = false;
-        if (event.length < 1) {
-            return;
-        }
-        for (const item of event) {
-            if (this.indexOf(item.id) >= 0) {
-                continue;
+        this.modal.open((event: IGoods[]) => {
+            if (event.length < 1) {
+                return;
             }
-            this.giftItems.push({
-                goods_id: item.id,
-                goods: item,
-                name: '',
-                chance: 0,
-                color: '',
-            });
-        }
+            for (const item of event) {
+                if (this.indexOf(item.id) >= 0) {
+                    continue;
+                }
+                this.giftItems.push({
+                    goods_id: item.id,
+                    goods: item,
+                    name: '',
+                    chance: 0,
+                    color: '',
+                });
+            }
+        });
     }
 
     private indexOf(goodsId: number): number {

@@ -1,3 +1,111 @@
-<p>
-  create works!
-</p>
+<app-page-tip>
+    <ul>
+        <li>添加订单</li>
+    </ul>
+</app-page-tip>
+
+<div class="panel-container">
+    <div class="step-header">
+        <a class="step-item" [ngClass]="{active: stepIndex < 1}">
+            <span class="step-no">1</span>
+            <span class="step-title">选择账户</span>
+            <i class="step-line"></i>
+        </a>
+        <a class="step-item" [ngClass]="{active: stepIndex == 1}">
+            <span class="step-no">2</span>
+            <span class="step-title">选择收货地址</span>
+            <i class="step-line"></i>
+        </a>
+        <a class="step-item" [ngClass]="{active: stepIndex == 2}">
+            <span class="step-no">3</span>
+            <span class="step-title">选择商品</span>
+            <i class="step-line"></i>
+        </a>
+        <a class="step-item" [ngClass]="{active: stepIndex == 3}">
+            <span class="step-no">4</span>
+            <span class="step-title">选择优惠</span>
+            <i class="step-line"></i>
+        </a>
+        <a class="step-item" [ngClass]="{active: stepIndex == 4}">
+            <span class="step-no">5</span>
+            <span class="step-title">选择配送/支付方式</span>
+            <i class="step-line"></i>
+        </a>
+        <a class="step-item" [ngClass]="{active: stepIndex > 4}">
+            <span class="step-no">6</span>
+            <span class="step-title">下单成功</span>
+        </a>
+    </div>
+
+    <div class="step-body center-body" [hidden]="stepIndex > 0">
+        <app-user-picker [(ngModel)]="user"></app-user-picker>
+
+        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+    </div>
+    <div class="step-body" [hidden]="stepIndex != 1">
+        <app-address-picker [(ngModel)]="address" [user]="user?.id"></app-address-picker>
+
+        <div class="btn-group">
+            <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
+            <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        </div>
+    </div>
+    <div class="step-body" [hidden]="stepIndex != 2">
+        <div class="items-table">
+            <a class="btn btn-primary" (click)="tapAddGoods()">添加商品</a>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th>货号</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>原价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of goodsItems">
+                        <td>
+                            <img [src]="item.thumb" width="50" height="50" align="left">
+                            <a href="">{{ item.name }}</a> <br>
+                            <small>{{ item.type_remark }}</small>
+                        </td>
+                        <td>{{ item.series_number }}</td>
+                        <td>
+                            <span class="text-red">{{ item.price }}</span>
+                        </td>
+                        <td>
+                            <app-number-input [(ngModel)]="item.amount"></app-number-input>
+                        </td>
+                        <td>
+                            <span class="text-red">{{ item.price * item.amount }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+    </div>
+    <div class="step-body" [hidden]="stepIndex != 3">
+        
+
+        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+    </div>
+    <div class="step-body" [hidden]="stepIndex != 4">
+        
+
+        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+    </div>
+    <div class="step-body center-body" *ngIf="stepIndex > 4">
+        <div class="step-tip">
+            <i class="iconfont icon-check"></i>
+            下单成功
+        </div>
+    </div>
+</div>
+
+<div class="dialog-box goods-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
+    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
+    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
+</div>

@@ -11,6 +11,7 @@ import { SearchPanelComponent } from './search-panel/search-panel.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
+import { ProductDialogComponent } from './product-dialog/product-dialog.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { DialogModule } from '../../../../components/dialog';
         SkuFormComponent,
         SearchPanelComponent,
         SearchDialogComponent,
+        ProductDialogComponent
     ],
     providers: [
         GoodsService,
@@ -36,6 +38,7 @@ import { DialogModule } from '../../../../components/dialog';
     exports: [
         SearchPanelComponent,
         SearchDialogComponent,
+        ProductDialogComponent
     ],
 })
 export class GoodsModule { }

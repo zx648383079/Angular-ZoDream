@@ -47,7 +47,7 @@ export class DetailComponent implements OnInit {
                     link_user: res.link_user,
                     address: res.address,
                     remark: res.remark,
-                    region: res.region || [],
+                    region: res.region || [] as any,
                 });
             });
         });

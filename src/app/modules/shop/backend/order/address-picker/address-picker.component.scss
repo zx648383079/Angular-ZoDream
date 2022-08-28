@@ -1,0 +1,61 @@
+.address-item {
+    position: relative;
+    margin-bottom: 10px;
+    .default {
+        color: #b4a078;
+        position: absolute;
+        right: 30px;
+        bottom: 20px;
+        font-size: 12px;
+    }
+    &.active {
+        border: 2px solid #b4a078;
+        padding: 19px 24px;
+    }
+}
+.picker-form {
+    display: grid;
+    grid-template-columns: 77px 1fr 77px 1fr;
+    grid-gap: 20px;
+    div {
+        &:nth-child(2),
+        &:nth-child(4) {
+            grid-column: 2/5;
+        }
+        &:nth-child(odd) {
+            font-size: 14px;
+            line-height: 34px;
+            text-align: right;
+        }
+    }
+    select {
+        width: 170px;
+        font-size: 14px;
+        line-height: 14px;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        background-color: #fff;
+        height: 34px;
+        color: #333;
+    }
+    textarea {
+        height: 70px;
+        background-color: #fff;
+        padding: 9px;
+        width: 530px;
+        font-size: 14px;
+        line-height: 14px;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        color: #333;
+        resize: vertical;
+    }
+    input {
+        width: 200px;
+        height: 34px;
+        font-size: 14px;
+        line-height: 28px;
+        border: 1px solid #ddd;
+        padding-left: 9px;
+    }
+}

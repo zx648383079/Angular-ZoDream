@@ -21,7 +21,7 @@ export class EditUserComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         sex: [0],
         birthday: [this.dateAdapter.fromModel()],
-        roles: [[]],
+        roles: [[] as number[]],
         password: [''],
         confirm_password: [''],
     }, {

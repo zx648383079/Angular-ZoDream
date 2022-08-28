@@ -67,7 +67,7 @@ export class EditCashBackComponent implements OnInit {
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(','),
+                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(',') as any,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
                     end_at: res.end_at,

@@ -82,7 +82,7 @@ export class EditDiscountComponent implements OnInit {
                     thumb: res.thumb,
                     description: res.description,
                     scope_type: res.scope_type,
-                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(','),
+                    scope: typeof res.scope === 'object' ? res.scope : res.scope.split(',')  as any,
                     start_at: res.start_at as string,
                     end_at: res.end_at as string,
                 });
@@ -93,7 +93,7 @@ export class EditDiscountComponent implements OnInit {
 
     public onScopeChange() {
         this.form.patchValue({
-            scope: [],
+            scope: [] as any,
         });
     }
 

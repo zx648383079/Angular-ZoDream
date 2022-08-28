@@ -117,7 +117,5 @@
         </div>
     </form>
 </div>
-<div class="dialog-box goods-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
-    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
-    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
-</div>
+
+<app-search-dialog [multiple]="true"></app-search-dialog>

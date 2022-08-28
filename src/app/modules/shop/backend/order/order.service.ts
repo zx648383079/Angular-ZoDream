@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../../../theme/models/page';
-import { IDelivery, IOrder, IShipping } from '../../model';
+import { IAddress, IDelivery, IOrder, IShipping } from '../../model';
 import { map } from 'rxjs';
+import { IUser } from '../../../../theme/models/user';
 
 @Injectable()
 export class OrderService {
@@ -57,5 +58,18 @@ export class OrderService {
 
     public shippingAll() {
         return this.http.get<IData<IShipping>>('shop/admin/shipping/all').pipe(map(res => res.data));
+    }
+
+    
+    public userSearch(params: any) {
+        return this.http.get<IPage<IUser>>('auth/admin/user/search', {
+            params
+        });
+    }
+
+    public addressSearch(params: any) {
+        return this.http.get<IPage<IAddress>>('shop/admin/address', {
+            params
+        });
     }
 }

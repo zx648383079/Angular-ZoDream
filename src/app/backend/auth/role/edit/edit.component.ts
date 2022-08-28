@@ -6,9 +6,9 @@ import { IPermission, IRole } from '../../../../theme/models/auth';
 import { RoleService } from '../role.service';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
 
@@ -16,7 +16,7 @@ export class EditComponent implements OnInit {
         name: ['', Validators.required],
         display_name: ['', Validators.required],
         description: [''],
-        permissions: [[]],
+        permissions: [[] as number[]],
     });
 
     public data: IRole;
@@ -32,7 +32,7 @@ export class EditComponent implements OnInit {
 
     ngOnInit() {
         this.service.permissionAll().subscribe(res => {
-        this.permissionItems = res.data;
+            this.permissionItems = res.data;
         });
         this.route.params.subscribe(params => {
         if (!params.id) {
@@ -41,12 +41,12 @@ export class EditComponent implements OnInit {
         this.service.role(params.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({
-            name: res.name,
-            display_name: res.display_name,
-            description: res.description,
-            permissions: res.permissions.map(i => {
-                return typeof i === 'string' ? parseInt(i, 10) : i;
-            }),
+                name: res.name,
+                display_name: res.display_name,
+                description: res.description,
+                permissions: res.permissions.map(i => {
+                    return typeof i === 'string' ? parseInt(i, 10) : i;
+                }),
             });
         });
         });
