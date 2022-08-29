@@ -42,6 +42,14 @@ export class GoodsService {
         });
     }
 
+    public goodsPreview(id: any) {
+        return this.http.get<IGoods>('shop/admin/goods/preview', {
+            params: {
+                id
+            },
+        });
+    }
+
     public goodsSave(data: any) {
         return this.http.post<IGoods>('shop/admin/goods/save', data);
     }

@@ -49,3 +49,46 @@
         justify-content: space-between;
     }
 }
+
+.property-box {
+    .flex-group {
+        line-height: 1rem;
+        .group-header {
+            font-size: 12px;
+            color: #999;
+            margin: 0 10px;
+            height: 40px;
+            line-height: 40px;
+        }
+        .group-body {
+            overflow: hidden;
+            margin-bottom: 3px;
+            span {
+                display: inline-block;
+                padding: 0 10px;
+                min-width: 20px;
+                max-width: 270px;
+                overflow: hidden;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                border-radius: 4px;
+                color: #333;
+                background-color: #f7f7f7;
+                font-size: 14px;
+                cursor: pointer;
+                &.active {
+                    background-color: #e4393c;
+                    color: white;
+                }
+                &.disable {
+                    background-color: #bbb;
+                    color: #fff;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+}

@@ -9,13 +9,13 @@
               <div class="flex-group" [ngClass]="{'multi-group': item.type == 2}">
                   <div class="group-header">{{ item.name }}</div>
                   <div class="group-body">
-                      <ng-container *ngFor="let attr of item.attr_items">
-                          <span>{{ attr.value }}</span>
-                      </ng-container>
+                    <ng-container *ngFor="let attr of item.attr_items;let j = index">
+                        <span [ngClass]="{active: attr.checked, disable: attr.disabled}" (click)="toggleSelected(i, j)">{{ attr.value }}</span>
+                    </ng-container>
                   </div>
               </div>
             </ng-container>
-            <div class="flex-group">
+            <div class="flex-group" *ngIf="amountVisible">
                 <div class="group-header">
                   数量
                 </div>
@@ -30,7 +30,7 @@
             <em>￥</em> {{ value.price }}
         </div>
         <div class="btn-group">
-            <div class="btn btn-primary">确认</div>
+            <div class="btn btn-primary" (click)="tapYes()">确认</div>
             <div class="btn btn-danger" (click)="close()">取消</div>
         </div>
     </div>

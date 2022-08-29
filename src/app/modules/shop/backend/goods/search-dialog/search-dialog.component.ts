@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { IBrand, ICategory, IGoods } from '../../../model';
+import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
 import { getQueries } from '../../../../../theme/query';
 import { GoodsService } from '../goods.service';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
@@ -17,8 +17,9 @@ export class SearchDialogComponent implements OnChanges  {
     @Input() public multiple = false;
     @Input() public value: any;
     @Input() public visible = false;
-    @Output() public valueChange = new EventEmitter<IGoods|IGoods[]>();
-    private confirmFn: (items: IGoods|IGoods[]) => void;
+    @Input() public propertyVisible = false;
+    @Output() public valueChange = new EventEmitter<IGoodsResult|IGoodsResult[]>();
+    private confirmFn: (items: IGoodsResult|IGoodsResult[]) => void;
     public items: IGoods[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -32,7 +33,7 @@ export class SearchDialogComponent implements OnChanges  {
     };
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
-    public selectedItems: IGoods[] = [];
+    public selectedItems: IGoodsResult[] = [];
     public onlySelected = false;
 
     constructor(
@@ -57,8 +58,8 @@ export class SearchDialogComponent implements OnChanges  {
      * @param confirm 
      */
     public open();
-    public open(confirm: (items: IGoods|IGoods[]) => void);
-    public open(confirm?: (items: IGoods|IGoods[], next?: (close: boolean) => void) => void) {
+    public open(confirm: (items: IGoodsResult|IGoodsResult[]) => void);
+    public open(confirm?: (items: IGoodsResult|IGoodsResult[], next?: (close: boolean) => void) => void) {
         this.visible = true;
         this.confirmFn = confirm;
     }
@@ -82,8 +83,9 @@ export class SearchDialogComponent implements OnChanges  {
 
     public tapSelected(item: IGoods) {
         if (!this.multiple) {
-            this.modal.open(item);
-            this.selectedItems = [item];
+            this.selectProduct(item, data => {
+                this.selectedItems = [data];
+            });
             return;
         }
         for (let i = 0; i < this.selectedItems.length; i++) {
@@ -92,16 +94,30 @@ export class SearchDialogComponent implements OnChanges  {
                 return;
             }
         }
-        this.modal.open(item);
-        this.selectedItems.push(item);
+        this.selectProduct(item, data => {
+            this.selectedItems.push(data);
+        });
+        
+    }
+
+    private selectProduct(item: IGoods, cb: (item: IGoodsResult) => void) {
+        if (!this.propertyVisible || (item.products && item.products.length < 1) || (!item.products && !item.attribute_group_id)) {
+            cb(item);
+            return;
+        }
+        this.modal.open(item, data => {
+            if (data) {
+                cb(data);
+            }
+        });
     }
 
     public tapYes() {
         if (this.multiple) {
-            this.valueChange.emit(this.selectedItems);
+            this.output(this.selectedItems);
             return;
         }
-        this.valueChange.emit(this.selectedItems.length > 0 ? this.selectedItems[0] : null);
+        this.output(this.selectedItems.length > 0 ? this.selectedItems[0] : null);
     }
 
     private output(items: any) {

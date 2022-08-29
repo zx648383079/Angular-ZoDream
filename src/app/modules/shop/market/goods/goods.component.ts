@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
-import { IActivity, ICartGroup, ICoupon, IGoods, IGoodsGallery, IGoodsProperty, IProduct } from '../../model';
+import { IActivity, ICartGroup, ICoupon, IGoods, IGoodsAttr, IGoodsGallery, IGoodsProperty, IProduct } from '../../model';
 import { ThemeService } from '../../../../theme/services';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { setCart, setCheckoutCart } from '../../shop.actions';
@@ -114,9 +114,12 @@ export class GoodsComponent implements OnInit {
         group.attr_items.forEach((item, index) => {
             item.checked = index === j;
         });
+        const product = this.selectedProduct;
+        this.stock = product?.stock || 0;
     }
 
     public tapBuy() {
+        const product = this.selectedProduct;
         const data: ICartGroup[] = [
             {
                 name: this.data.shop + '',
@@ -126,6 +129,9 @@ export class GoodsComponent implements OnInit {
                         amount: this.amount,
                         goods: this.data,
                         price: this.data.price,
+                        product_id: product?.id,
+                        attribute_id: this.selectedProperties.join(','),
+                        attribute_value: this.selectedPropertiesLabel
                     },
                 ],
             },
@@ -137,7 +143,7 @@ export class GoodsComponent implements OnInit {
     }
 
     public tapAddToCart() {
-        this.service.cartAddGoods(this.data.id, this.amount).subscribe(cart => {
+        this.service.cartAddGoods(this.data.id, this.amount, this.selectedProperties).subscribe(cart => {
             if (cart.dialog) {
                 return;
             }
@@ -155,6 +161,55 @@ export class GoodsComponent implements OnInit {
         });
     }
 
+    private eachSelectedProperty(cb: (item: IGoodsAttr, type: number) => void) {
+        for (const item of this.properties) {
+            for (const attr of item.attr_items) {
+                if (attr.checked) {
+                    cb(attr, item.type);
+                }
+            }
+        }
+    }
+
+    private get selectedPropertiesLabel(): string {
+        const items = [];
+        for (const item of this.properties) {
+            const labels = [];
+            for (const attr of item.attr_items) {
+                if (attr.checked) {
+                    labels.push(attr.value);
+                }
+            }
+            if (labels.length > 0) {
+                items.push(`${item.name}:${labels.join(',')}`);
+            }
+        }
+        return items.join(';');
+    }
+
+    private get selectedProperties(): number[] {
+        const items = [];
+        this.eachSelectedProperty(item => {
+            items.push(item.id);
+        });
+        return items;
+    }
+
+    private get selectedProduct(): IProduct|undefined {
+        const items = [];
+        for (const item of this.properties) {
+            if (item.type === 2) {
+                continue;
+            }
+            for (const attr of item.attr_items) {
+                if (attr.checked) {
+                    items.push(attr.id);
+                }
+            }
+        }
+        return this.getProductByAttribute(items);
+    }
+
     private selectProduct(product: number) {
         for (const item of this.productItems) {
             if (item.id === product) {
@@ -168,6 +223,18 @@ export class GoodsComponent implements OnInit {
         for (const item of this.properties) {
             for (const attr of item.attr_items) {
                 attr.checked = this.indexOf(attrs, attr.id) >= 0;
+            }
+        }
+    }
+
+    private getProductByAttribute(attrs: any[]): IProduct|undefined {
+        if (attrs.length < 1) {
+            return;
+        }
+        const label = attrs.sort().join(',');
+        for (const item of this.productItems) {
+            if (item.attributes === label) {
+                return item;
             }
         }
     }

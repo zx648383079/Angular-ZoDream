@@ -95,6 +95,20 @@ export interface IGoods {
     is_collect?: boolean;
 }
 
+export interface IGoodsResult {
+    id: number;
+    name: string;
+    series_number: string;
+    thumb: string;
+    price: number;
+    stock: number;
+    amount?: number;
+    product_id?: number;
+    selected_activity?: number;
+    attribute_id?: string;
+    attribute_value?: string;
+}
+
 export interface IGoodsProperty {
     id: number;
     name: string;
@@ -322,6 +336,10 @@ export interface ICartItem {
     is_checked?: boolean;
     goods_id: number;
     product_id?: number;
+    selected_activity?: number;
+    attribute_id?: string;
+    attribute_value?: string;
+    expired_at?: number;
     goods?: IGoods;
 }
 

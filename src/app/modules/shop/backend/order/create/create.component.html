@@ -60,17 +60,18 @@
                         <th>货号</th>
                         <th>单价</th>
                         <th>数量</th>
-                        <th>原价</th>
+                        <th>总价</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of goodsItems">
+                    <tr *ngFor="let item of goodsItems;let i = index">
                         <td>
-                            <img [src]="item.thumb" width="50" height="50" align="left">
+                            <img [src]="item.goods.thumb" width="50" height="50" align="left">
                             <a href="">{{ item.name }}</a> <br>
                             <small>{{ item.type_remark }}</small>
                         </td>
-                        <td>{{ item.series_number }}</td>
+                        <td>{{ item.goods.series_number }}</td>
                         <td>
                             <span class="text-red">{{ item.price }}</span>
                         </td>
@@ -80,22 +81,34 @@
                         <td>
                             <span class="text-red">{{ item.price * item.amount }}</span>
                         </td>
+                        <td>
+                            <i class="iconfont icon-close" (click)="tapRemoveGoods(i)"></i>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        <div class="btn-group">
+            <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
+            <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        </div>
     </div>
     <div class="step-body" [hidden]="stepIndex != 3">
         
 
-        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        <div class="btn-group">
+            <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
+            <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        </div>
     </div>
     <div class="step-body" [hidden]="stepIndex != 4">
         
 
-        <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        <div class="btn-group">
+            <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
+            <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+        </div>
     </div>
     <div class="step-body center-body" *ngIf="stepIndex > 4">
         <div class="step-tip">
@@ -105,7 +118,4 @@
     </div>
 </div>
 
-<div class="dialog-box goods-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
-    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
-    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
-</div>
+<app-search-dialog [multiple]="true" [propertyVisible]="true"></app-search-dialog>
