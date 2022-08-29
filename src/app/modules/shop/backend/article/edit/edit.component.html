@@ -40,7 +40,7 @@
         </app-panel>
 
         <div class="panel-container">
-            <editor formControlName="content" [apiKey]="editorConfigs.key" [init]="editorConfigs.init"></editor>
+            <app-html-editor formControlName="content"></app-html-editor>
         </div>
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>

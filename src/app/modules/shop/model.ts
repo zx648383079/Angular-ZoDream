@@ -87,16 +87,34 @@ export interface IGoods {
     category?: ICategory;
     brand?: IBrand;
     gallery?: IGoodsGallery[];
-    properties?: any[];
+    properties?: IGoodsProperty[];
+    static_properties?: IGoodsStaticProperty[];
     products?: IProduct[];
     coupons?: ICoupon[];
     promotes?: IActivity<any>[];
     is_collect?: boolean;
 }
 
+export interface IGoodsProperty {
+    id: number;
+    name: string;
+    type: number;
+    attr_items: IGoodsAttr[];
+}
+
+
+export interface IGoodsStaticProperty {
+    id: number;
+    name: string;
+    attr_item: IGoodsAttr;
+}
+
 export interface IGoodsGallery {
+    id?: number;
+    type: number;
     thumb: string;
-    image: string;
+    file: string;
+    goods_id?: number;
 }
 
 export interface IOrder {
@@ -285,6 +303,7 @@ export interface IGoodsAttr {
     value: string;
     price?: number;
     checked?: boolean;
+    disabled?: boolean;
 }
 
 

@@ -18,7 +18,7 @@ export class GallerySliderComponent implements OnInit {
         if (this.index < 0 || this.index >= this.items.length) {
             return '';
         }
-        return this.items[this.index].image;
+        return this.items[this.index].file;
     }
 
     ngOnInit() {

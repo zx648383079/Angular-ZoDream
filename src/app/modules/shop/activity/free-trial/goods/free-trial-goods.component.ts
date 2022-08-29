@@ -38,13 +38,13 @@ export class FreeTrialGoodsComponent implements OnInit {
                 this.activity = res;
                 this.themeService.setTitle(this.data.seo_title || this.data.name);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                this.galleryItems = [].concat([{thumb: this.data.thumb, image: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
-                        if (!i.thumb) {
-                            i.thumb = i.image;
-                        }
-                        return i;
-                    }) : []);
-                });
+                this.galleryItems = [].concat([{thumb: this.data.thumb, type: 0, file: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
+                    if (!i.thumb) {
+                        i.thumb = i.file;
+                    }
+                    return i;
+                }) : []);
+            });
         });
     }
 

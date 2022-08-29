@@ -3,9 +3,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
-import { IActivity, ICartGroup, ICoupon, IGoods, IGoodsGallery } from '../../model';
+import { IActivity, ICartGroup, ICoupon, IGoods, IGoodsGallery, IGoodsProperty, IProduct } from '../../model';
 import { ThemeService } from '../../../../theme/services';
-import { mapFormat } from '../../../../theme/utils';
+import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
@@ -28,6 +28,8 @@ export class GoodsComponent implements OnInit {
     public activity: IActivity<any>;
     public couponItems: ICoupon[] = [];
     public promoteItems: IActivity[] = [];
+    public productItems: IProduct[] = [];
+    public properties: IGoodsProperty[] = [];
     public regionId = 0;
 
     constructor(
@@ -43,25 +45,30 @@ export class GoodsComponent implements OnInit {
     ngOnInit() {
         this.regionId = this.service.regionId;
         this.route.params.subscribe(params => {
-            this.loadGoods(params.id);
+            this.loadGoods(parseNumber(params.id), parseNumber(params.product));
         });
     }
 
-    public loadGoods(id: any) {
-        this.service.goods(id).subscribe({
+    public loadGoods(id: number, product: number) {
+        this.service.goods(id, product).subscribe({
             next: res => {
                 this.themeService.setTitle(res.seo_title || res.name);
                 this.data = res;
                 this.stock = res.stock;
                 this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-                this.galleryItems = [].concat([{thumb: res.thumb, image: res.picture}], res.gallery ? res.gallery.map(i => {
+                this.galleryItems = [].concat([{thumb: res.thumb, type: 0, file: res.picture}], res.gallery ? res.gallery.map(i => {
                     if (!i.thumb) {
-                        i.thumb = i.image;
+                        i.thumb = i.file;
                     }
                     return i;
                 }) : []);
+                this.properties = res.properties || [];
                 this.couponItems = res.coupons || [];
                 this.promoteItems = res.promotes || [];
+                this.productItems = res.products || [];
+                if (product > 0) {
+                    this.selectProduct(product);
+                }
             },
             error: err => {
                 this.toastrService.warning(err);
@@ -95,6 +102,17 @@ export class GoodsComponent implements OnInit {
     public loadHot() {
         this.service.hotList(this.data.id).subscribe(res => {
             this.hotItems = res.data;
+        });
+    }
+
+    public toggleSelected(i: number, j: number) {
+        const group = this.properties[i];
+        if (group.type == 2) {
+            group.attr_items[j].checked = !group.attr_items[j].checked;
+            return;
+        }
+        group.attr_items.forEach((item, index) => {
+            item.checked = index === j;
         });
     }
 
@@ -137,4 +155,29 @@ export class GoodsComponent implements OnInit {
         });
     }
 
+    private selectProduct(product: number) {
+        for (const item of this.productItems) {
+            if (item.id === product) {
+                this.selectAttribute(item.attributes.split(','));
+                return;
+            }
+        }
+    }
+
+    private selectAttribute(attrs: string[]|number[]) {
+        for (const item of this.properties) {
+            for (const attr of item.attr_items) {
+                attr.checked = this.indexOf(attrs, attr.id) >= 0;
+            }
+        }
+    }
+
+    private indexOf(items: any[], value: any): number {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

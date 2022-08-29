@@ -33,6 +33,10 @@ export class FileUploadService {
         return this.upload<IUploadResult>('open/file', file);
     }
 
+    public uploadFiles(files: FormData | FileList) {
+        return this.uploadAny('open/file', files);
+    }
+
     /**
      * 上传图片
      * @param file 文件
@@ -41,23 +45,8 @@ export class FileUploadService {
         return this.upload<IUploadResult>('open/file/image', file);
     }
 
-    public uploadImages(files: FormData | FileList): Observable<IUploadResult[]> {
-        let form: FormData;
-        if (files instanceof FormData) {
-            form = files;
-        } else {
-            form = new FormData();
-            // tslint:disable-next-line: prefer-for-of
-            for (let i = 0; i < files.length; i++) {
-                form.append('file[]', files[i], files[i].name);
-            }
-        }
-        return this.http.post<any>('open/file/image', form).pipe(map(res => {
-            if (res.data && typeof res.data === 'object' && res.data instanceof Array) {
-                return res.data;
-            }
-            return [res];
-        }));
+    public uploadImages(files: FormData | FileList) {
+        return this.uploadAny('open/file/images', files);
     }
 
     /**
@@ -155,6 +144,25 @@ export class FileUploadService {
         }
         formData.append(partName, image);
         return this.http.post<T>(url, formData, options).pipe(map((res: any) => res));
+    }
+
+    public uploadAny(url: string, files: FormData|FileList): Observable<IUploadResult[]> {
+        let form: FormData;
+        if (files instanceof FormData) {
+            form = files;
+        } else {
+            form = new FormData();
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < files.length; i++) {
+                form.append('file[]', files[i], files[i].name);
+            }
+        }
+        return this.http.post<any>(url, form).pipe(map(res => {
+            if (res.data && typeof res.data === 'object' && res.data instanceof Array) {
+                return res.data;
+            }
+            return [res];
+        }));
     }
 
     /**

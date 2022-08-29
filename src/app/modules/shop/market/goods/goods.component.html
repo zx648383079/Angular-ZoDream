@@ -83,12 +83,12 @@
                     
                 </div>
                 <div class="property-box">
-                    <ng-container *ngFor="let item of data.properties;let i = index">
+                    <ng-container *ngFor="let item of properties;let i = index">
                       <div class="flex-group" [ngClass]="{'multi-group': item.type == 2}">
                           <div class="group-header">{{ item.name }}</div>
                           <div class="group-body">
-                              <ng-container *ngFor="let attr of item.attr_items">
-                                  <span>{{ attr.value }}</span>
+                              <ng-container *ngFor="let attr of item.attr_items;let j = index">
+                                  <span [ngClass]="{active: attr.checked, disable: attr.disabled}" (click)="toggleSelected(i, j)">{{ attr.value }}</span>
                               </ng-container>
                           </div>
                       </div>
@@ -98,7 +98,7 @@
                           Amount
                         </div>
                         <div class="group-body">
-                          <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock"></app-number-input>
+                          <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock" [disabled]="stock < 1"></app-number-input>
                         </div>
                     </div>
                 </div>
@@ -145,23 +145,38 @@
                     Product details
                     </div>
                     <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
-                    Comments
+                        Specification
                     </div>
                     <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                    Comments
+                    </div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     Issues
                     </div>
                 </div>
                 <div class="tab-body bg-white">
-                      <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                          <div class="content-box" [innerHTML]="content">
-                          </div>
-                      </div>
-                      <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                          <app-comment-page [itemId]="data.id" [init]="tabIndex == 1"></app-comment-page>
-                      </div>
-                      <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
-                          
-                      </div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                        <div class="content-box" [innerHTML]="content">
+                        </div>
+                    </div>
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                        <div class="line-group">
+                            <div class="line-item" *ngFor="let item of data.static_properties">
+                                <div class="item-label">
+                                    {{ item.name }}
+                                </div>
+                                <div class="item-text">
+                                    {{ item.attr_item.value }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                        <app-comment-page [itemId]="data.id" [init]="tabIndex == 2"></app-comment-page>
+                    </div>
+                    <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 3}">
+                        
+                    </div>
                 </div>
             </div>
           </div>

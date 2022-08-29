@@ -61,9 +61,9 @@ export class ShopService {
         });
     }
 
-    public goods(id: any) {
-        return this.http.get<IGoods>('shop/goods', {
-            params: {id, region: this.regionId}
+    public goods(id: any, product?: any) {
+        return this.http.get<IGoods>('shop/goods/info', {
+            params: {id, product, region: this.regionId}
         });
     }
 

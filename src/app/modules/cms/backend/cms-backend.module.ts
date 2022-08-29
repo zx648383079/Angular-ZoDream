@@ -4,8 +4,7 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { cmsBackendRoutedComponents, CMSBackendRoutingModule } from './backend-routing.module';
 import { CmsService } from './cms.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EditorModule } from '@tinymce/tinymce-angular';
-import { ZreEditorModule } from '../../../components/editor';
+import { ZreEditorModule, ZreHtmlEditorModule } from '../../../components/editor';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 
@@ -14,8 +13,8 @@ import { ZreFormModule } from '../../../components/form';
         CommonModule,
         ThemeModule,
         ReactiveFormsModule,
-        EditorModule,
         CMSBackendRoutingModule,
+        ZreHtmlEditorModule,
         ZreEditorModule,
         DialogModule,
         ZreFormModule,

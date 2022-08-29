@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <ng-container *ngIf="typeValue == 1">
-                        <editor formControlName="content" [apiKey]="editorConfigs.key" [init]="editorConfigs.init"></editor>
+                        <app-html-editor formControlName="content"></app-html-editor>
                     </ng-container>
                     
                 </app-panel>

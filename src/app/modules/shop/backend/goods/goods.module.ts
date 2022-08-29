@@ -12,6 +12,8 @@ import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
+import { ZreHtmlEditorModule } from '../../../../components/editor';
+import { GalleryPanelComponent } from './gallery-panel/gallery-panel.component';
 
 @NgModule({
     imports: [
@@ -19,7 +21,7 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
         NgbPaginationModule,
         GoodsRoutingModule,
         ReactiveFormsModule,
-        EditorModule,
+        ZreHtmlEditorModule,
         DialogModule,
         ZreFormModule,
     ],
@@ -29,7 +31,8 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
         SkuFormComponent,
         SearchPanelComponent,
         SearchDialogComponent,
-        ProductDialogComponent
+        ProductDialogComponent,
+        GalleryPanelComponent,
     ],
     providers: [
         GoodsService,

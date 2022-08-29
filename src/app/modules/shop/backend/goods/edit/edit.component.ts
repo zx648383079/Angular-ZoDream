@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
-import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IProduct } from '../../../model';
+import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsAttr, IGoodsGallery, IProduct } from '../../../model';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { AttributeService } from '../attribute.service';
 import { GoodsService } from '../goods.service';
@@ -14,7 +14,7 @@ import { SkuFormComponent } from '../sku-form/sku-form.component';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit, AfterViewInit {
+export class EditComponent implements OnInit {
 
     @ViewChild(SkuFormComponent)
     public skuForm: SkuFormComponent;
@@ -53,11 +53,9 @@ export class EditComponent implements OnInit, AfterViewInit {
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
     public typeItems: IAttributeGroup[] = [];
-    public gallaryItems: string[] = [];
+    public gallaryItems: IGoodsGallery[] = [];
     public attrItems: IAttribute[] = [];
     public productItems: IProduct[] = [];
-
-    @ViewChild('imageBox') imageElement: ElementRef;
 
     constructor(
         private service: GoodsService,
@@ -113,20 +111,10 @@ export class EditComponent implements OnInit, AfterViewInit {
                     seo_description: res.seo_description,
                     seo_link: res.seo_link,
                 });
+                this.gallaryItems = res.gallery || [];
+                this.productItems = res.products || [];
             });
         });
-    }
-
-    get imageBox() {
-        return this.imageElement.nativeElement as HTMLDivElement;
-    }
-
-    ngAfterViewInit() {
-        this.imageBox.ondrop = (ev) => {
-            this.fileDrog(ev.dataTransfer.files);
-            return false;
-        };
-        this.imageBox.ondragover = () => false;
     }
 
     public tapBack() {
@@ -149,9 +137,10 @@ export class EditComponent implements OnInit, AfterViewInit {
             data.id = this.data.id;
         }
         data.attr = this.skuForm.attrFormData();
-        data.product = this.skuForm.productFormData();
+        data.products = this.skuForm.productFormData();
+        data.gallery = this.gallaryItems;
         e?.enter();
-        this.service.categorySave(data).subscribe({
+        this.service.goodsSave(data).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success('保存成功');
@@ -188,33 +177,5 @@ export class EditComponent implements OnInit, AfterViewInit {
         window.open(this.form.get(name).value, '_blank');
     }
 
-    public tapRemoveGallary(i: number) {
-        this.gallaryItems.splice(i, 1);
-    }
-
-    public uploadImages(event: any) {
-        this.fileDrog(event.target.files as FileList);
-    }
-
-    public fileDrog(files: FileList) {
-        const form = new FormData();
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file.type.indexOf('image/') < 0) {
-                continue;
-            }
-            form.append('file[]', file, file.name);
-        }
-        if (!form.has('file[]')) {
-            return;
-        }
-        // 这样就可以多文件上传
-        this.uploadService.uploadImages(form).subscribe(res => {
-            for (const file of res) {
-                this.gallaryItems.push(file.url);
-            }
-        });
-    }
-
+    
 }

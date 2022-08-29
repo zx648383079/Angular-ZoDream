@@ -57,6 +57,10 @@ const routes: Routes = [{
             component: GoodsComponent
         },
         {
+            path: 'product/:product',
+            component: GoodsComponent
+        },
+        {
             path: 'search',
             component: SearchComponent
         },

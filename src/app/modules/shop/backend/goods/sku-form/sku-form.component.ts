@@ -287,7 +287,7 @@ export class SkuFormComponent implements OnChanges {
                 continue;
             }
             for (const attr of item.attr_items) {
-                if (attr.id && attrs.indexOf(attr.id.toString()) > 0) {
+                if (attr.id && attrs.indexOf(attr.id.toString()) >= 0) {
                     attr.checked = true;
                     args.push(attr.value);
                 }

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
 import { FormsModule } from '@angular/forms';
 import { TextEditorComponent } from './text-editor/text-editor.component';
+import { HtmlEditorComponent } from './html-editor/html-editor.component';
+import { ThemeModule } from '../../theme/theme.module';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
@@ -22,3 +25,19 @@ const COMPONENTS = [
     ],
 })
 export class ZreEditorModule { }
+
+@NgModule({
+    imports: [
+        CommonModule,
+        ThemeModule,
+        EditorModule,
+        FormsModule,
+    ],
+    declarations: [
+        HtmlEditorComponent
+    ],
+    exports: [
+        HtmlEditorComponent
+    ],
+})
+export class ZreHtmlEditorModule { }
