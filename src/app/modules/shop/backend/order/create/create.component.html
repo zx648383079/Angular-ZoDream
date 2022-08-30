@@ -95,7 +95,7 @@
         </div>
     </div>
     <div class="step-body" [hidden]="stepIndex != 3">
-        
+        <app-coupon-picker [(ngModel)]="coupon" [user]="user?.id"></app-coupon-picker>
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
@@ -103,17 +103,45 @@
         </div>
     </div>
     <div class="step-body" [hidden]="stepIndex != 4">
-        
+        <div class="shipping-box">
+            <h4>配送方式：</h4>
+            <ng-container *ngFor="let item of shippingItems">
+                <span class="radio-label" [ngClass]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
+                    <i class="iconfont" [ngClass]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
+                    {{ item.name }}
+                </span>
+            </ng-container>
+        </div>
+        <div class="payment-box">
+            <h4>支付方式：</h4>
+            <ng-container *ngFor="let item of paymentItems">
+                <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
+                    <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+                    {{ item.name }}
+                </span>
+            </ng-container>
+        </div>
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
-            <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
+            <app-action-button class="btn btn-primary" [disabled]="invalid" (tapped)="tapCheckout($event)">下一步</app-action-button>
         </div>
     </div>
     <div class="step-body center-body" *ngIf="stepIndex > 4">
         <div class="step-tip">
             <i class="iconfont icon-check"></i>
             下单成功
+        </div>
+    </div>
+    <div class="amount-box" *ngIf="order">
+        <div>商品合计:
+            <span class="price">￥{{ order.goods_amount }}</span>
+        </div>
+        <div>运费:
+            <span class="price">￥{{ order.shipping_fee }}</span>
+        </div>
+        <div>应付总额:
+            <span class="price">￥{{ order.order_amount }}</span>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../../../theme/models/page';
-import { IAddress, IDelivery, IOrder, IShipping } from '../../model';
+import { IAddress, ICartItem, ICashierData, ICoupon, IDelivery, IOrder, IPayment, IShipping } from '../../model';
 import { map } from 'rxjs';
 import { IUser } from '../../../../theme/models/user';
 
@@ -68,8 +68,28 @@ export class OrderService {
     }
 
     public addressSearch(params: any) {
-        return this.http.get<IPage<IAddress>>('shop/admin/address', {
+        return this.http.get<IPage<IAddress>>('shop/admin/cashier/address', {
             params
         });
+    }
+
+    public paymentList(user: number, goods?: ICartItem[], shipping?: number) {
+        return this.http.post<IData<IPayment>>('shop/admin/cashier/payment', {goods, shipping, user});
+    }
+
+    public shippingList(user: number, goods: ICartItem[], address: number) {
+        return this.http.post<IData<IShipping>>('shop/admin/cashier/shipping', {goods, address, user});
+    }
+
+    public orderCouponList(user: number, goods: ICartItem[]) {
+        return this.http.post<IData<ICoupon>>('shop/admin/cashier/coupon', {goods, user});
+    }
+
+    public previewOrder(data: ICashierData) {
+        return this.http.post<IOrder>('shop/admin/cashier/preview', data);
+    }
+
+    public checkoutOrder(data: ICashierData) {
+        return this.http.post<IOrder>('shop/admin/cashier/checkout', data);
     }
 }

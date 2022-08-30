@@ -357,8 +357,10 @@ export interface ICashierData {
     shipping?: number;
     payment?: number;
     coupon?: number;
+    coupon_code?: string;
     invoice?: IInvoiceTitle|number;
     use_money?: boolean;
+    user?: number;
 }
 
 export interface IButton {

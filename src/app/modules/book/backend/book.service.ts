@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAuthor, IBook, IBookList, ICategory, IChapter } from '../model';
+import { IAuthor, IBook, IBookList, IBookSpiderItem, ICategory, IChapter } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
@@ -115,5 +115,21 @@ export class BookService {
 
     public sortOut() {
         return this.http.post<IDataOne<true>>('book/admin/book/sort_out', {});
+    }
+
+    public spiderSearch(params: any) {
+        return this.http.post<IData<IBookSpiderItem>>('book/admin/spider', params);
+    }
+
+    public spiderAsync(data: any) {
+        return this.http.post<IDataOne<{
+            key: string;
+            next: number;
+            count: number;
+        }>>('book/admin/spider/async', data);
+    }
+
+    public statistics() {
+        return this.http.get<any>('book/admin/statistics');
     }
 }

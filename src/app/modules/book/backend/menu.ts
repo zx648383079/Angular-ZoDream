@@ -8,6 +8,11 @@ export const BookBackendMenu: INav[] = [
         role: 'book_manage',
         children: [
             {
+                name: '书籍管理',
+                label: '书',
+                url: './book/home'
+            },
+            {
                 name: '分类管理',
                 label: '类',
                 url: './book/category'

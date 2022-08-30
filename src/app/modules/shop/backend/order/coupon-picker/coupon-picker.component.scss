@@ -1,0 +1,47 @@
+.coupon-item {
+    display: inline-block;
+    width: 15rem;
+    .money {
+        margin-bottom: 0.3125rem;
+        em {
+            font-style: normal;
+            font-size: 2.125rem;
+            vertical-align: top;
+        }
+        .limit {
+            font-size: 0.75rem;
+            margin: 0.75rem 0 0 0.625rem;
+            vertical-align: bottom;
+        }
+    }
+    .item-body {
+        background-color: #b4a078;
+        color: #fff;
+        padding: .5rem;
+        .time {
+            font-size: 0.75rem;
+        }
+    }
+    .item-footer {
+        line-height: 2rem;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 0 .5rem;
+    }
+    .item-tag {
+        display: inline-block;
+        margin-right: .5rem;
+    }
+    &.active {
+        border: 2px solid red;
+        box-sizing: content-box;
+        .item-footer {
+            border: none;
+        }
+    }
+    &.expired {
+        .item-body {
+            background-color: #999;
+        }
+    }
+}

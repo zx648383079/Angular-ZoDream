@@ -22,12 +22,12 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>
-                        <a href="">{{ item.name }}</a>
+                        <a routerLink="../home" [queryParams]="{category: item.id}">{{ item.name }}</a>
                     </td>
                     <td>{{ item.book_count }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" routerLink="../" [queryParams]="{category: item.id}">查看</a>
+                            <a class="btn btn-info btn-xs" routerLink="../home" [queryParams]="{category: item.id}">查看</a>
                             <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>

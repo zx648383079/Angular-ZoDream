@@ -7,7 +7,9 @@ import { CategoryComponent } from './category/category.component';
 import { ChapterComponent } from './chapter/chapter.component';
 import { ChapterDetailComponent } from './chapter/detail/chapter-detail.component';
 import { DetailComponent } from './detail/detail.component';
+import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
+import { SpiderComponent } from './spider/spider.component';
 
 const routes: Routes = [
     {
@@ -47,6 +49,10 @@ const routes: Routes = [
         component: ChapterComponent,
     },
     {
+        path: 'home',
+        component: HomeComponent,
+    },
+    {
         path: '',
         component: BackendComponent,
     },
@@ -60,5 +66,5 @@ export class BookBackendRoutingModule {}
 
 export const bookBackendRoutingComponents = [
     BackendComponent, CategoryComponent, AuthorComponent, ListComponent, DetailComponent, ChapterDetailComponent, ChapterComponent,
-    AuthorDetailComponent
+    AuthorDetailComponent, HomeComponent, SpiderComponent
 ];

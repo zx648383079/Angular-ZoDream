@@ -128,3 +128,11 @@ export interface IBookRoleRelation {
     title: string;
     role_link: number;
 }
+
+export interface IBookSpiderItem {
+    name: string;
+    author: string;
+    description: string;
+    last_chapter: string;
+    size: number;
+}

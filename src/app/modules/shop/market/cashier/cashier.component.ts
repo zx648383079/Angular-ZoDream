@@ -42,10 +42,10 @@ export class CashierComponent implements OnInit {
     public paymentItems: IPayment[] = [];
     public payment: IPayment;
     public shippingItems: IShipping[] = [];
+    public shipping: IShipping;
     public couponItems: ICoupon[] = [];
     private couponLoaded = false;
     public couponIndex = 0;
-    public shipping: IShipping;
     public invoice: IInvoiceTitle;
     public invoiceItems: IInvoiceTitle[] = [];
     public coupon: ICoupon;

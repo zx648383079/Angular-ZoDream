@@ -165,14 +165,17 @@ export class SearchDialogComponent implements OnChanges  {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.search(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.queries = queries
-        }, _ => {
-            this.isLoading = false;
+        this.service.search(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.queries = queries
+            }, 
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

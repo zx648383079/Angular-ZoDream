@@ -1,0 +1,41 @@
+<div class="dialog-mask" *ngIf="visible"></div>
+<div class="search-dialog-container" *ngIf="visible">
+    <div class="search-bar">
+        <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <div class="flat-input">
+                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn btn-danger" (click)="close()">
+                    <i class="iconfont icon-close"></i>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="body-container">
+        <ng-container *ngFor="let item of items">
+            <div class="book-item">
+                <div class="item-body">
+                    <p>{{ item.name }}
+                        <ng-container *ngIf="item.author">
+                            ({{ item.author }})
+                        </ng-container>
+                    </p>
+                    <p>总字数： {{ item.size | numberFormat }}</p>
+                    <p>
+                        最新章节： {{ item.last_chapter }}
+                    </p>
+                </div>
+                <div class="item-action">
+                    <a (click)="tapAsync(item)">同步</a>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="footer-container">
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <div class="load-progress">
+            <progress [hidden]="!isAsync" [value]="loadProgress"></progress>
+            <span>{{ loadTip }}</span>
+        </div>
+    </div>
+</div>

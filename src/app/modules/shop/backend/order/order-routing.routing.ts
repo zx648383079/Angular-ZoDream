@@ -7,6 +7,7 @@ import { DeliveryComponent } from './delivery/delivery.component';
 import { EditDeliveryComponent } from './delivery/edit/edit-delivery.component';
 import { UserPickerComponent } from './user-picker/user-picker.component';
 import { AddressPickerComponent } from './address-picker/address-picker.component';
+import { CouponPickerComponent } from './coupon-picker/coupon-picker.component';
 
 const routes: Routes = [
     { path: '', component: OrderComponent },
@@ -29,5 +30,6 @@ export const orderRoutedComponents = [
     DeliveryComponent,
     EditDeliveryComponent,
     UserPickerComponent,
-    AddressPickerComponent
+    AddressPickerComponent,
+    CouponPickerComponent
 ];
