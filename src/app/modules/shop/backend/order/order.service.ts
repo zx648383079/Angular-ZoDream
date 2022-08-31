@@ -77,7 +77,7 @@ export class OrderService {
         return this.http.post<IData<IPayment>>('shop/admin/cashier/payment', {goods, shipping, user});
     }
 
-    public shippingList(user: number, goods: ICartItem[], address: number) {
+    public shippingList(user: number, goods: ICartItem[], address: number| IAddress) {
         return this.http.post<IData<IShipping>>('shop/admin/cashier/shipping', {goods, address, user});
     }
 

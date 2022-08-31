@@ -38,6 +38,11 @@ export class CommentComponent implements OnInit {
         });
     }
 
+    public tapUser(userId: number) {
+        this.queries.user = userId;
+        this.tapRefresh();
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

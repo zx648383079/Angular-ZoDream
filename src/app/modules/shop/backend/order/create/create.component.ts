@@ -56,6 +56,9 @@ export class CreateComponent implements OnInit {
             return;
         }
         this.stepIndex ++;
+        if (this.stepIndex == 4) {
+            this.loadShipping();
+        }
     }
 
     public tapPrevious() {
@@ -87,6 +90,23 @@ export class CreateComponent implements OnInit {
     public tapRemoveGoods(i: number) {
         this.goodsItems.splice(i, 1);
         this.refreshPrice();
+    }
+
+    private loadShipping() {
+        if (!this.address || this.goodsItems.length < 1) {
+            return;
+        }
+        this.service.shippingList(this.user.id, this.goodsItems, this.address.id > 0 ? this.address.id : this.address).subscribe({
+            next: res => {
+                if (res.data && res.data.length > 0) {
+                    this.shippingItems = res.data;
+                    return;
+                }
+                this.toastrService.warning('当前地址不支持配送');
+            }, error: err => {
+                this.toastrService.warning(err);
+            }
+        });
     }
 
     public paymentChanged(item: IPayment) {
@@ -122,7 +142,7 @@ export class CreateComponent implements OnInit {
         e?.enter();
         this.service.checkoutOrder({
             goods: this.goodsItems,
-            address: this.address.id,
+            address: this.address.id > 0 ? this.address.id : this.address,
             shipping: this.shipping.id,
             payment: this.payment.id,
             coupon: this.coupon ? this.coupon.id : 0,
@@ -147,7 +167,7 @@ export class CreateComponent implements OnInit {
         }
         this.service.previewOrder({
             goods: this.goodsItems,
-            address: this.address.id,
+            address: this.address.id > 0 ? this.address.id : this.address,
             shipping: this.shipping?.id,
             payment: this.payment?.id,
             coupon: this.coupon ? this.coupon.id : 0,
