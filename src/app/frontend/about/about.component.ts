@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
+import { ThemeService } from '../../theme/services';
 import { emptyValidate } from '../../theme/validators';
 import { FrontendService } from '../frontend.service';
 
@@ -10,8 +11,6 @@ import { FrontendService } from '../frontend.service';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-
-    public title = 'About';
 
     public data = {
         name: '',
@@ -23,9 +22,11 @@ export class AboutComponent implements OnInit {
     constructor(
         private service: FrontendService,
         private toastrService: DialogService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
+        this.themeService.setTitle($localize `Abount`);
     }
 
     public tapSubmit(e: ButtonEvent) {

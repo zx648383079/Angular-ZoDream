@@ -4,6 +4,7 @@ import { ButtonEvent } from '../../../components/form';
 import { getQueries } from '../../../theme/query';
 import { UserService } from '../user.service';
 
+
 interface IGroupHeader {
     id: number;
     icon: string;
@@ -12,11 +13,11 @@ interface IGroupHeader {
 }
 
 @Component({
-  selector: 'app-user-setting',
-  templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss']
+    selector: 'app-setting',
+    templateUrl: './setting.component.html',
+    styleUrls: ['./setting.component.scss']
 })
-export class UserSettingComponent implements OnInit {
+export class SettingComponent implements OnInit {
 
     public data: any = {
         accept_new_bulletin: true,
@@ -27,17 +28,23 @@ export class UserSettingComponent implements OnInit {
 
     public tabItems: IGroupHeader[] = [
         {
+            id: 3,
+            icon: 'user',
+            name: '账户资料',
+            meta: '编辑用户信息、修改密码、授权管理、账户关联、登录设备管理',
+        },
+        {
+            id: 2,
+            icon: 'shield',
+            name: '安全隐私',
+            meta: '动态时效、上传水印',
+        },
+        {
             id: 1,
             icon: 'commenting',
             name: '消息通知',
             meta: '新消息通知、勿扰模式',
         },
-        {
-            id: 2,
-            icon: 'shield',
-            name: '隐私',
-            meta: '动态时效、上传水印',
-        }
     ];
 
     public crumbs: IGroupHeader[] = [
@@ -57,10 +64,6 @@ export class UserSettingComponent implements OnInit {
 
     public get tabIndex() {
         return this.crumbs.length < 1 ? 0 : this.crumbs[this.crumbs.length - 1].id;
-    }
-
-    public get crumbTitle() {
-        return ['个性化', ...this.crumbs.map(i => i.name)].join(' / ');
     }
 
     public tapTab(item: IGroupHeader) {

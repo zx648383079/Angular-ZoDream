@@ -16,7 +16,7 @@
         </a>
     </div>
 
-    <div class="step-body" *ngIf="stepIndex < 1">
+    <div class="step-body min-body" *ngIf="stepIndex < 1">
         <div class="inline-input disabled" (click)="tapToggleVerify()">
             <label>{{ verifyLabel }}</label>
             <input type="text" [value]="verify_value" readonly>
@@ -26,9 +26,9 @@
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div>
 
-        <div class="btn btn-primary" (click)="tapNext()">下一步</div>
+        <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
     </div>
-    <div class="step-body" *ngIf="stepIndex == 1">
+    <div class="step-body min-body" *ngIf="stepIndex == 1">
         <div class="inline-input">
             <label for="">新{{ nameLabel }}</label>
             <input type="text" [(ngModel)]="data.value">
@@ -38,9 +38,9 @@
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div>
 
-        <div class="btn btn-primary" (click)="tapNext()">下一步</div>
+        <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
     </div>
-    <div class="step-body" *ngIf="stepIndex > 1">
+    <div class="step-body min-body" *ngIf="stepIndex > 1">
         <div class="step-tip">
             <i class="iconfont icon-check"></i>
             绑定成功

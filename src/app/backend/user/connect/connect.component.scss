@@ -1,8 +1,13 @@
 .connect-item {
-  display: grid;
-  grid-template-columns: 8fr 2fr;
-  line-height: 40px;
-  background-color: #f4f4f4;
-  padding: 0 0 0 20px;
-  margin-bottom: 1rem;
+    display: flex;
+    line-height: 2.5rem;
+    background-color: #f4f4f4;
+    padding: 0 0 0 20px;
+    margin-bottom: 1rem;
+    .item-body {
+        flex: 4;
+    }
+    .item-action {
+        flex: 1;
+    }
 }

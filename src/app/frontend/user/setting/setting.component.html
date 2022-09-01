@@ -1,0 +1,137 @@
+
+<div class="route-bar" *ngIf="crumbs.length > 0">
+    <div class="back-btn" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <ng-container *ngFor="let item of crumbs">
+                <li class="breadcrumb-item"><a (click)="tapTab(item)">{{ item.name }}</a></li>
+            </ng-container>
+        </ol>
+    </nav>
+</div>
+
+<div class="container" [hidden]="tabIndex > 0">
+    <div class="input-item" *ngFor="let item of tabItems" (click)="tapTab(item)">
+        <div class="item-icon">
+            <i class="iconfont" [ngClass]="'icon-' + item.icon"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">{{ item.name }}</div>
+            <div class="item-meta">{{ item.meta }}</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </div>
+</div>
+
+<div class="container" [hidden]="tabIndex != 1">
+    <div class="input-item">
+        <div class="item-icon">
+            <i class="iconfont icon-bookmark"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">新消息通知</div>
+        </div>
+        <div class="item-action">
+            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.accept_new_bulletin" (ngModelChange)="onValueChange()"></app-switch>
+        </div>
+    </div>
+    <div class="input-item">
+        <div class="item-icon">
+            <i class="iconfont icon-wifi"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">勿扰模式</div>
+        </div>
+        <div class="item-action">
+            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.open_not_disturb" (ngModelChange)="onValueChange()"></app-switch>
+        </div>
+    </div>
+</div>
+
+<div class="container" [hidden]="tabIndex != 2">
+    <div class="input-item">
+        <div class="item-icon">
+            <i class="iconfont icon-chain-broken"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">动态时效</div>
+            <div class="item-meta">超过时间自动隐藏动态</div>
+        </div>
+        <div class="item-action">
+            <input type="number" class="form-control" [(ngModel)]="data.post_expiration" (ngModelChange)="onValueChange()">天
+        </div>
+    </div>
+    <div class="input-item">
+        <div class="item-icon">
+            <i class="iconfont icon-bookmark"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">上传水印</div>
+        </div>
+        <div class="item-action">
+            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.upload_add_water" (ngModelChange)="onValueChange()"></app-switch>
+        </div>
+    </div>
+</div>
+
+<div class="container" [hidden]="tabIndex != 3">
+    <a class="input-item" routerLink="../profile">
+        <div class="item-icon">
+            <i class="iconfont icon-edit"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">编辑资料</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </a>
+    <a class="input-item" routerLink="../password">
+        <div class="item-icon">
+            <i class="iconfont icon-key"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">修改密码</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </a>
+    <a class="input-item" routerLink="../authorize">
+        <div class="item-icon">
+            <i class="iconfont icon-APP"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">授权管理</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </a>
+    <a class="input-item" routerLink="../connect">
+        <div class="item-icon">
+            <i class="iconfont icon-chain"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">账户关联</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </a>
+    <a class="input-item" routerLink="../driver">
+        <div class="item-icon">
+            <i class="iconfont icon-mobile"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-name">登录设备管理</div>
+        </div>
+        <div class="item-action">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+    </a>
+</div>

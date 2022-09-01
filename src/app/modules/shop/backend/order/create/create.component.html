@@ -37,7 +37,7 @@
         </a>
     </div>
 
-    <div class="step-body center-body" [hidden]="stepIndex > 0">
+    <div class="step-body min-body" [hidden]="stepIndex > 0">
         <app-user-picker [(ngModel)]="user"></app-user-picker>
 
         <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
@@ -68,15 +68,15 @@
                     <tr *ngFor="let item of goodsItems;let i = index">
                         <td>
                             <img [src]="item.goods.thumb" width="50" height="50" align="left">
-                            <a href="">{{ item.name }}</a> <br>
-                            <small>{{ item.type_remark }}</small>
+                            <a href="">{{ item.goods.name }}</a> <br>
+                            <small>{{ item.attribute_value }}</small>
                         </td>
                         <td>{{ item.goods.series_number }}</td>
                         <td>
                             <span class="text-red">{{ item.price }}</span>
                         </td>
                         <td>
-                            <app-number-input [(ngModel)]="item.amount"></app-number-input>
+                            <app-number-input [(ngModel)]="item.amount" (ngModelChange)="onAmountChange()"></app-number-input>
                         </td>
                         <td>
                             <span class="text-red">{{ item.price * item.amount }}</span>
@@ -127,7 +127,7 @@
             <app-action-button class="btn btn-primary" [disabled]="invalid" (tapped)="tapCheckout($event)">下一步</app-action-button>
         </div>
     </div>
-    <div class="step-body center-body" *ngIf="stepIndex > 4">
+    <div class="step-body min-body" *ngIf="stepIndex > 4">
         <div class="step-tip">
             <i class="iconfont icon-check"></i>
             下单成功
@@ -135,13 +135,13 @@
     </div>
     <div class="amount-box" *ngIf="order">
         <div>商品合计:
-            <span class="price">￥{{ order.goods_amount }}</span>
+            <span class="price">￥{{ order.goods_amount || 0 }}</span>
         </div>
         <div>运费:
-            <span class="price">￥{{ order.shipping_fee }}</span>
+            <span class="price">￥{{ order.shipping_fee || 0 }}</span>
         </div>
         <div>应付总额:
-            <span class="price">￥{{ order.order_amount }}</span>
+            <span class="price">￥{{ order.order_amount || 0 }}</span>
         </div>
     </div>
 </div>

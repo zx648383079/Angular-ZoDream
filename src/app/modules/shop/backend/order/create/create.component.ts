@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
-import { emptyValidate } from '../../../../../theme/validators';
+import { emptyValidate, mobileValidate } from '../../../../../theme/validators';
 import { IAddress, ICartItem, ICoupon, IGoods, IGoodsResult, IOrder, IPayment, IShipping } from '../../../model';
 import { SearchDialogComponent } from '../../goods/search-dialog/search-dialog.component';
 import { OrderService } from '../order.service';
@@ -40,7 +40,13 @@ export class CreateComponent implements OnInit {
             return !this.user;
         }
         if (this.stepIndex == 1) {
-            return !this.address || emptyValidate(this.address.name) || this.address.region_id < 1;
+            if (!this.address) {
+                return true;
+            }
+            if (this.address.id > 0) {
+                return false;
+            }
+            return emptyValidate(this.address.name) || this.address.region_id < 1 || emptyValidate(this.address.address) || !mobileValidate(this.address.tel);
         }
         if (this.stepIndex == 2) {
             return this.goodsItems.length < 1;
@@ -89,6 +95,10 @@ export class CreateComponent implements OnInit {
 
     public tapRemoveGoods(i: number) {
         this.goodsItems.splice(i, 1);
+        this.refreshPrice();
+    }
+
+    public onAmountChange() {
         this.refreshPrice();
     }
 

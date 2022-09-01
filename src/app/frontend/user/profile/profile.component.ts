@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../components/dialog';
-import { IErrorResponse } from '../../../../theme/models/page';
-import { IItem } from '../../../../theme/models/seo';
-import { IUser } from '../../../../theme/models/user';
-import { parseNumber } from '../../../../theme/utils';
-import { ShopService } from '../../shop.service';
+import { DialogService } from '../../../components/dialog';
+import { IItem } from '../../../theme/models/seo';
+import { IUser } from '../../../theme/models/user';
+import { parseNumber } from '../../../theme/utils';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-profile',
@@ -42,7 +41,7 @@ export class ProfileComponent implements OnInit {
     };
 
     constructor(
-        private service: ShopService,
+        private service: UserService,
         private toastrService: DialogService,
         public route: ActivatedRoute,
         private fb: FormBuilder,
@@ -58,8 +57,7 @@ export class ProfileComponent implements OnInit {
                     birthday: user.birthday,
                 });
             }, error: err => {
-                const res = err.error as IErrorResponse;
-                this.toastrService.warning(res.message);
+                this.toastrService.warning(err);
             }
         });
     }
@@ -98,4 +96,5 @@ export class ProfileComponent implements OnInit {
             this.toastrService.success('头像已更换');
         });
     }
+
 }

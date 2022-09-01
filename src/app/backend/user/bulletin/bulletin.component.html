@@ -7,10 +7,10 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" value="">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-danger pull-right" (click)="tapReadAll()">全部已读</a>
@@ -18,7 +18,7 @@
         </div>
 
         <ng-container *ngFor="let item of items">
-            <div class="bulletin-item min" [ngClass]="{min: !item.open}">
+            <div class="bulletin-item" [ngClass]="{min: !item.open}">
                 <div class="title" (click)="tapToggle(item)">
                     {{ item.bulletin.title }}
                 </div>
@@ -34,9 +34,8 @@
             </div>
         </ng-container>
 
-
-        <app-pagination  [total]="total" [(page)]="page" [perPage]="perPage" 
-            (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 
 </div>

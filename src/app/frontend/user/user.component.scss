@@ -1,0 +1,57 @@
+.person-box {
+    margin: 5rem 0;
+    .avatar {
+        text-align: center;
+        img {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+        }
+    }
+    .name {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    .meta {
+        color: #ccc;
+    }
+    .desc {
+        margin: 1rem 0;
+    }
+    .btn {
+        display: block;
+    }
+}
+.count-bar {
+    display: flex;
+    margin-top: 10px;
+    .count-item {
+        flex: 1;
+        text-align: center;
+        font-size: 12px;
+        &:not(:last-of-type) {
+            border-right: 1px solid #ccc;
+        }
+    }
+}
+
+.link-panel {
+    margin-top: 1rem;
+    a {
+        display: block;
+    }
+}
+.tab-bar {
+    margin-top: 2rem;
+    margin-bottom: .8rem;
+    border-bottom: 1px solid #ccc;
+    .item {
+        &:first-of-type {
+            border-bottom-left-radius: 0;
+        }
+        &:last-of-type {
+            border-bottom-right-radius: 0;
+        }
+    }
+}

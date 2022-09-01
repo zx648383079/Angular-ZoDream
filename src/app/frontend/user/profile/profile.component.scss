@@ -1,0 +1,34 @@
+.form-table {
+    .input-group {
+        margin-bottom: 1rem;
+        .avatar-input {
+            cursor: pointer;
+            width: 4.375rem;
+            height: 4.375rem;
+            position: relative;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+            .iconfont {
+                position: absolute;
+                bottom: 0.3125rem;
+                right: 0.3125rem;
+                margin-bottom: 0;
+            }
+            input[type='file'] {
+                width: 0;
+                height: 0;
+                overflow: hidden;
+            }
+        }
+    }
+    .radio-label {
+        min-width: 3.75rem;
+    }
+}
+
+.inner-container {
+    margin-top: 2rem;
+}

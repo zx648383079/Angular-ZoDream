@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="connect-item" *ngFor="let item of items">
+        <div class="item-body">
+            <i class="iconfont" [ngClass]="item.icon"></i>
+            {{ item.name }}
+            <ng-container *ngIf="item.nickname">
+                ({{ item.nickname }})
+            </ng-container>
+        </div>
+        <div class="item-action">
+            <ng-container *ngIf="item.id; else elseTemplate">
+                <a class="unlink-btn">解绑</a>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <a >绑定</a>
+            </ng-template>
+        </div>
+    </div>
+</div>

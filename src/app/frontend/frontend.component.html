@@ -36,10 +36,14 @@
                                 {{ user.name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisiable}">
-                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/bulletin" i18n>Message</a></li>
-                                <li ngbDropdownItem><a class="dropdown-item" routerLink="/backend/user/profile" i18n>Profile</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user" i18n>Account</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/bulletin" i18n>Message</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/profile" i18n>Profile</a></li>
                                 <li ngbDropdownItem><hr class="dropdown-divider"></li>
-                                <li ngbDropdownItem><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="agreement" i18n>Help</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/setting" i18n>Settings</a></li>
+                                <li ngbDropdownItem><hr class="dropdown-divider"></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>
                     </ng-container>

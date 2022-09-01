@@ -4,6 +4,7 @@ import { IFriendLink, ILink } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
 import { DialogService } from '../../components/dialog';
 import { DialogBoxComponent } from '../../components/dialog';
+import { ThemeService } from '../../theme/services';
 
 @Component({
   selector: 'app-friend-link',
@@ -12,7 +13,6 @@ import { DialogBoxComponent } from '../../components/dialog';
 })
 export class FriendLinkComponent implements OnInit {
 
-    public title = 'Friend Link';
     public friendLinks: ILink[] = [];
     public editData: IFriendLink = {
         name: '',
@@ -24,6 +24,7 @@ export class FriendLinkComponent implements OnInit {
     constructor(
         private service: FrontendService,
         private toastrService: DialogService,
+        private themeService: ThemeService,
     ) {
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
@@ -31,6 +32,7 @@ export class FriendLinkComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.themeService.setTitle($localize `Friend Link`);
     }
 
     public openApply(modal: DialogBoxComponent) {

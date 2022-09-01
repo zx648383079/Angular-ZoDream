@@ -1,55 +1,25 @@
-.step-header {
-    text-align: center;
-    .step-item {
-        color: #ccc;
+@import '../../../../../theme/styles/step';
+
+.amount-box {
+    text-align: right;
+    color: #999;
+    .price {
+        min-width: 100px;
         display: inline-block;
-        &::after {
-            display: block;
-            content: "";
-            clear: both;
-        }
-        &.active {
-            color: #b4a078;
-        }
-    }
-    .step-no {
-        display: inline-flex;
-        width: 20px;
-        height: 20px;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid;
-        border-radius: 50%;
-    }
-    .step-title {
-        font-size: 18px;
-    }
-    .step-line {
-        display: block;
-        float: right;
-        height: 1px;
-        background: #e5e9ef;
-        width: 60px;
-        margin: 11px 10px 0;
-    }
-}
-
-.step-body {
-    padding: 3rem;
-    .btn-group {
-        margin-top: 1rem;
-    }
-}
-.center-body {
-    width: 350px;
-    margin: 0 auto;
-}
-
-.step-tip {
-    text-align: center;
-    .iconfont {
-        display: block;
-        font-size: 3rem;
         color: #b4a078;
+    }
+}
+
+.radio-label {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+    min-width: 150px;
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 10px;
+    &.checked {
+        background-color: #3498db;
+        color: #fff;
     }
 }

@@ -1,0 +1,47 @@
+<div class="step-header">
+    <a class="step-item" [ngClass]="{active: stepIndex < 1}">
+        <span class="step-no">1</span>
+        <span class="step-title">验证身份</span>
+        <i class="step-line"></i>
+    </a>
+    <a class="step-item" [ngClass]="{active: stepIndex == 1}">
+        <span class="step-no">2</span>
+        <span class="step-title">绑定{{ nameLabel }}</span>
+        <i class="step-line"></i>
+    </a>
+    <a class="step-item" [ngClass]="{active: stepIndex > 1}">
+        <span class="step-no">3</span>
+        <span class="step-title">绑定成功</span>
+    </a>
+</div>
+
+<div class="step-body min-body" *ngIf="stepIndex < 1">
+    <div class="inline-input disabled" (click)="tapToggleVerify()">
+        <label>{{ verifyLabel }}</label>
+        <input type="text" [value]="verify_value" readonly>
+    </div>
+    <div class="code-input">
+        <input type="text" [(ngModel)]="data.verify_code">
+        <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
+    </div>
+
+    <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
+</div>
+<div class="step-body min-body" *ngIf="stepIndex == 1">
+    <div class="inline-input">
+        <label for="">新{{ nameLabel }}</label>
+        <input type="text" [(ngModel)]="data.value">
+    </div>
+    <div class="code-input">
+        <input type="text" [(ngModel)]="data.code">
+        <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
+    </div>
+
+    <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
+</div>
+<div class="step-body min-body" *ngIf="stepIndex > 1">
+    <div class="step-tip">
+        <i class="iconfont icon-check"></i>
+        绑定成功
+    </div>
+</div>

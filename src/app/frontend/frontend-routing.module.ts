@@ -18,6 +18,11 @@ const routes: Routes = [
                 path: 'home',
                 component: HomeComponent,
             },
+            {
+                path: 'user', 
+                canActivate: [CanActivateViaAuthGuard],
+                loadChildren: () => import('./user/user.module').then(m => m.UserModule) 
+            },
             { path: 'blog', loadChildren: () => import('../modules/blog/frontend/blog.module').then(m => m.BlogModule) },
             { path: 'forum', loadChildren: () => import('../modules/forum/forum.module').then(m => m.ForumModule) },
             { path: 'micro', loadChildren: () => import('../modules/micro/micro.module').then(m => m.MicroModule) },

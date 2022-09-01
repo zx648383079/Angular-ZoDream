@@ -1,0 +1,44 @@
+.tip {
+    line-height: 30px;
+    padding: 10px;
+}
+
+.app-item {
+    display: flex;
+    position: relative;
+    .item-icon,
+    .item-action {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .item-action {
+        width: 6rem;
+    }
+    .item-icon {
+        font-size: 2rem;
+        width: 5rem;
+        img {
+            max-width: 4rem;
+            max-height: 4rem;
+        }
+    }
+    .item-body {
+        flex: 1;
+        padding: .8rem;
+    }
+    .item-name {
+        font-weight: 700;
+    }
+    .item-meta {
+        color: #ccc;
+        font-size: .8rem;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px dashed #e8e8e8;
+    }
+    &:hover {
+        background-color: rgba($color: #000, $alpha: .1);
+    }
+}

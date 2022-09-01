@@ -1,0 +1,22 @@
+.connect-item {
+    display: flex;
+    margin: 0 1rem;
+    padding: 1rem 0;
+    
+    .item-body {
+        flex: 1;
+        padding-left: .8rem;
+    }
+    .item-action {
+        width: 6rem;
+    }
+    .unlink-btn {
+        color: #d20000;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px dashed #e8e8e8;
+    }
+    &:hover {
+        background-color: rgba($color: #ccc, $alpha: .1);
+    }
+}
