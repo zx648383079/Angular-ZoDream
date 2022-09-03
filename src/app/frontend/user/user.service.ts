@@ -60,15 +60,35 @@ export class UserService {
         return this.http.post<IDataOne<boolean>>('auth/password/update', data);
     }
 
-    public uploadProfile(data: any) {
-        return this.http.post<IUser>('auth/user/update', data);
-    }
-
     public settings() {
         return this.http.get<IDataOne<any>>('auth/user/option').pipe(map(res => res.data));
     }
 
     public settingsSave(data: any) {
         return this.http.post<IDataOne<any>>('auth/user/option_save', data);
+    }
+
+    public updateProfile(data: any) {
+        return this.http.post<IUser>('auth/user/update', data);
+    }
+
+    public updateAccount(data: any) {
+        return this.http.post<IUser>('auth/user/update_account', data);
+    }
+
+    public sendCode(data: {
+        to_type: 'mobile'|'email',
+        to?: string;
+        event: string;
+    }) {
+        return this.http.post<IDataOne<boolean>>('auth/password/send_code', data);
+    }
+    public verifyCode(data: {
+        to_type: 'mobile'|'email',
+        to?: string;
+        code: string;
+        event: string;
+    }) {
+        return this.http.post<IDataOne<boolean>>('auth/password/verify_code', data);
     }
 }

@@ -3,6 +3,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { CountdownEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
 import { emailValidate, emptyValidate, mobileValidate } from '../../../../../theme/validators';
+import { ShopService } from '../../../shop.service';
 
 @Component({
   selector: 'app-bind-step',
@@ -18,14 +19,15 @@ export class BindStepComponent implements OnChanges {
     public stepIndex = 0;
     public data = {
         name: '',
+        verify_type: '',
         verify: '',
-        verify_code: '',
         value: '',
         code: '',
     };
 
     constructor(
         private toastrService: DialogService,
+        private service: ShopService
     ) { }
 
     public get nameLabel() {
@@ -33,7 +35,7 @@ export class BindStepComponent implements OnChanges {
     }
 
     public get verifyLabel() {
-        return '原' + this.formatLabel(this.data.verify);
+        return '原' + this.formatLabel(this.data.verify_type);
     }
 
     private formatLabel(name: string) {
@@ -46,8 +48,8 @@ export class BindStepComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.name) {
-            this.data.verify = this.data.name = this.name;
-            this.verify_value = this.user[this.data.verify];
+            this.data.verify_type = this.data.name = this.name;
+            this.verify_value = this.user[this.data.verify_type];
             if (!this.verify_value) {
                 this.tapToggleVerify();
             }
@@ -58,23 +60,46 @@ export class BindStepComponent implements OnChanges {
     }
 
     public tapToggleVerify() {
-        const verify = this.data.verify == 'email' ? 'mobile' : 'email';
-        if (this.user[verify]) {
-            this.data.verify = verify;
-            this.data.verify_code = '';
-            this.verify_value = this.user[verify];
+        const type = this.data.verify_type == 'email' ? 'mobile' : 'email';
+        if (this.user[type]) {
+            this.data.verify_type = type;
+            this.data.verify = '';
+            this.verify_value = this.user[type];
         }
     }
 
     public tapSendCode(e: CountdownEvent) {
         if (this.stepIndex < 1) {
             // 直接获取验证码
+            this.service.sendCode({
+                to_type: this.data.verify_type as any,
+                event: 'verify_old',
+            }).subscribe({
+                next: _ => {
+                    e.start();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
             return;
         }
         if (!this.verifyValue()) {
             return;
         }
         // 获取新的验证码
+        this.service.sendCode({
+            to_type: this.data.name as any,
+            to: this.data.value,
+            event: 'verify_new',
+        }).subscribe({
+            next: _ => {
+                e.start();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapNext() {
@@ -111,13 +136,33 @@ export class BindStepComponent implements OnChanges {
             return;
         }
         // 提交数据进行更改
+        this.service.updateAccount(this.data).subscribe({
+            next: _ => {
+                this.stepIndex = 2;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
     }
 
     private verifyRole() {
-        if (emptyValidate(this.data.verify_code)) {
+        if (emptyValidate(this.data.verify)) {
             this.toastrService.warning('请输入验证码');
             return;
         }
-        this.stepIndex = 1;
+        this.service.verifyCode({
+            to_type: this.data.verify_type as any,
+            code: this.data.verify,
+            event: 'verify_old',
+        }).subscribe({
+            next: _ => {
+                this.stepIndex = 1;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
     }
+
 }

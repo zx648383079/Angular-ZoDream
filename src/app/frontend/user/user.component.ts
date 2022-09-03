@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'app-user',
@@ -15,6 +16,7 @@ export class UserComponent implements OnInit {
 
     constructor(
         private store: Store<AppState>,
+        private service: UserService
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -22,6 +24,9 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.service.profile().subscribe(res => {
+            this.user = res;
+        })
     }
 
 }

@@ -307,8 +307,29 @@ export class ShopService {
         return this.http.post<IDataOne<boolean>>('auth/password/update', data);
     }
 
-    public uploadProfile(data: any) {
+
+    public updateProfile(data: any) {
         return this.http.post<IUser>('auth/user/update', data);
+    }
+
+    public updateAccount(data: any) {
+        return this.http.post<IUser>('auth/user/update_account', data);
+    }
+
+    public sendCode(data: {
+        to_type: 'mobile'|'email',
+        to?: string;
+        event: string;
+    }) {
+        return this.http.post<IDataOne<boolean>>('auth/password/send_code', data);
+    }
+    public verifyCode(data: {
+        to_type: 'mobile'|'email',
+        to?: string;
+        code: string;
+        event: string;
+    }) {
+        return this.http.post<IDataOne<boolean>>('auth/password/verify_code', data);
     }
 
     public collectList(params: any) {
