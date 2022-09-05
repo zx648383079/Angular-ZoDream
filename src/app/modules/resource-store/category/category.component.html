@@ -44,8 +44,8 @@
     <div class="container-fluid">
         <div class="filter-body">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="res-item" *ngFor="let item of items">
+                <div class="col-md-3" *ngFor="let item of items">
+                    <div class="res-item">
                         <div class="item-thumb">
                             <a [routerLink]="[item.id]"><img [src]="item.thumb|asset" alt=""></a>
                             <div class="item-hat"></div>

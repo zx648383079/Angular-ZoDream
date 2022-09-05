@@ -14,11 +14,17 @@ export interface IPage<T> {
 export interface IFilter {
     name: string;
     label: string;
-    items: {
-        label: string;
-        value: any;
-        selected?: boolean;
-    }[];
+    multiple?: boolean;
+    min?: number;
+    max?: number;
+    items: IFilterOptionItem[];
+}
+
+export interface IFilterOptionItem {
+    label: string;
+    value: any;
+    selected?: boolean;
+    count?: number;
 }
 
 export interface IBaseResponse {

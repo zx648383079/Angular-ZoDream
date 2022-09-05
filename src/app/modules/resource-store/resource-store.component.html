@@ -58,7 +58,7 @@
             </ul>
             <form class="search-inline" *ngIf="searchVisible" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <i class="iconfont icon-search"></i>
-                <input type="text" class="form-control" placeholder="Search ..." name="keywords">
+                <input type="text" class="form-control" placeholder="Search ..." name="keywords" ngModel>
             </form>
         </div>
         

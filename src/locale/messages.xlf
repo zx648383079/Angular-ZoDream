@@ -2303,7 +2303,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c00a41fdc3c8ba95bafc975ca4323b2a224b4c8d" datatype="html">
@@ -3791,6 +3791,10 @@
           <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/shop/components/bottom-bar/bottom-bar.component.html</context>
           <context context-type="linenumber">62</context>
         </context-group>
@@ -3968,6 +3972,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/legwork/provider/service/edit/edit-service.component.html</context>
           <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c259dd6afafffec923241575e2f151e27acd8e0e" datatype="html">
@@ -4932,11 +4940,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">102</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">129</context>
         </context-group>
       </trans-unit>
       <trans-unit id="974700eb5d6d0c7fa536b139ff0a98192bf08ef9" datatype="html">
@@ -4947,7 +4959,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">166,168</context>
+          <context context-type="linenumber">168,170</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c1b07abde23b45e18d40d7b7042b5e360102567f" datatype="html">
@@ -5108,56 +5120,60 @@
         <source>View all categories</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d06e27f7453fcf29134f9e61533ea4eb4b890f5f" datatype="html">
         <source>Featured</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a57c93b244ac3430fee2026bf6f6e4a851714e84" datatype="html">
         <source> Every week </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">65,67</context>
+          <context context-type="linenumber">67,69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="38fa00f164439f58e9b2bb4be4e3aaef1326af4a" datatype="html">
         <source>View all featured</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9e94b7a555f035f4c7b5c36b4d836d3462a30d81" datatype="html">
         <source> Free </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">96,98</context>
+          <context context-type="linenumber">98,100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76b17676d1892947facafd94241a3c69cea7f4bd" datatype="html">
         <source> Live Preview </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">106,108</context>
+          <context context-type="linenumber">108,110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">135,137</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2972e002e9e2ffe248a787eee91baf07f7275b88" datatype="html">
         <source> all newest </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">126,128</context>
+          <context context-type="linenumber">128,130</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4811fe574bff9ca7dcdcae404cf1312958c82d29" datatype="html">
         <source>All categories</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/home/home.component.html</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="195de513133a6ebae49bf0ddb0ebca7cd6092c5a" datatype="html">
@@ -5179,6 +5195,76 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/resource-store.component.html</context>
           <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8bb6d4a28fd34c55dc226db873d9aef2da40f52b" datatype="html">
+        <source> You found <x id="INTERPOLATION" equiv-text="{{ total | numberFormat }}"/> resources. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">9,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a058493e5266e139296a459eff51e75d3abd3075" datatype="html">
+        <source>Filter &amp; Refine</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="516a1ee10084c1bc118565e0fe8b2634f9e75d2e" datatype="html">
+        <source> Price is in CN yuan and excludes tax </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0d5ee08aebb55dc70b24e10ac253f1aea38642fd" datatype="html">
+        <source> Best match </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39f047582c7131ed481d855a13e719910e6a141f" datatype="html">
+        <source> Best sellers </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">30,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aaa4d8037319ab9130f14ae71f31a74c20b16807" datatype="html">
+        <source> Newest </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bf0055e6d6f67e3033aec2563b2addd6531bba18" datatype="html">
+        <source> Best rated </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3b8bfea7e1305da0047f6e5752493609bc4570b1" datatype="html">
+        <source> Trending </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">39,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="19785be73662070d3681aa387b21a3e235fd0505" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ total | numberFormat }}"/> items</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78d82696b8953445d9972aaf4ec2ba43ff8679a6" datatype="html">
+        <source> Clear all </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/resource-store/search/search.component.html</context>
+          <context context-type="linenumber">98,100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e1e4b529d30b57f483a466d676b70b8160995c90" datatype="html">

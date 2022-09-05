@@ -1,47 +1,47 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="search-input">
-                <input type="text" class="form-control">
-                <i class="iconfont icon-close"></i>
-                <div class="btn btn-primary">Search</div>
-            </div>
-            <div class="search-tip-bar">
-                You found 8,723 resources.
+            <form class="search-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <input type="text" class="form-control" name="keywords" [(ngModel)]="keywords">
+                <i class="iconfont icon-close" *ngIf="keywords" (click)="tapClearQuery()"></i>
+                <button class="btn btn-primary" i18n>Search</button>
+            </form>
+            <div class="search-tip-bar" i18n>
+                You found {{ total | numberFormat }} resources.
             </div>
             <div class="sort-bar">
-                <a href="" class="sort-clear">
+                <a class="sort-clear">
                     <i class="iconfont icon-close"></i>
-                    Filter & Refine
+                    <ng-container i18n>Filter & Refine</ng-container>
                 </a>
                 <div class="sort-view-bar">
-                    <div class="sort-tip">
-                        Price is in US dollars and excludes tax
+                    <div class="sort-tip" i18n>
+                        Price is in CN yuan and excludes tax
                     </div>
                     <div class="view-bar">
-                        <i class="iconfont icon-table"></i>
-                        <i class="iconfont icon-list"></i>
+                        <i class="iconfont icon-th-large" [ngClass]="{active: viewTable}" (click)="viewTable = true"></i>
+                        <i class="iconfont icon-th-list" [ngClass]="{active: !viewTable}" (click)="viewTable = false"></i>
                     </div>
                 </div>
                 <div class="tab-bar">
-                    <div class="item active">
+                    <div class="item" [ngClass]="{active: queries.sort == ''}" (click)="tapSort('')" i18n>
                         Best match
                     </div>
-                    <div class="item">
+                    <div class="item" [ngClass]="{active: queries.sort == 'hot'}" (click)="tapSort('hot')" i18n>
                         Best sellers
                     </div>
-                    <div class="item">
+                    <div class="item" [ngClass]="{active: queries.sort == 'new'}" (click)="tapSort('new')" i18n>
                         Newest
                     </div>
-                    <div class="item">
+                    <div class="item" [ngClass]="{active: queries.sort == 'score'}" (click)="tapSort('score')" i18n>
                         Best rated
                     </div>
-                    <div class="item">
+                    <div class="item" [ngClass]="{active: queries.sort == 'trending'}" (click)="tapSort('trending')" i18n>
                         Trending
                     </div>
-                    <div class="item">
-                        Price
-                        <i class="iconfont icon-sort-desc"></i>
+                    <div class="item" [ngClass]="{active: queries.sort == 'price'}" (click)="tapSort('price')">
+                        <ng-container i18n>Price</ng-container>
+                        <i class="iconfont" [ngClass]="{'icon-sort-desc': queries.sort == 'price' && queries.order != 'asc', 'icon-sort-asc': queries.sort == 'price' && queries.order == 'asc'}"></i>
                     </div>
                 </div>
             </div>
@@ -51,140 +51,137 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="panel">
+            <div class="panel" *ngFor="let item of filterItems">
                 <div class="panel-header">
-                    Category
-
+                    {{ item.label }}
                     <div class="panel-icon">
                         <i class="iconfont icon-angle-down"></i>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li class="active">
-                            <a href="">All categories</a>
-                            <span class="count">199</span>
-                        </li>
-                        <li>
-                            <a href="">a</a>
-                            <span class="count">199</span>
-                        </li>
+                    <ul *ngIf="item.items && item.items.length > 0">
+                        <ng-container *ngFor="let it of item.items">
+                            <li [ngClass]="{active: it.selected}" (click)="tapFilterItem(item, it)">
+                                <div class="check-input" *ngIf="item.multiple">
+                                    <i class="iconfont icon-check-square-o"></i>
+                                </div>
+                                <div class="radio-input" *ngIf="!item.multiple && item.name != 'category'">
+                                    <i class="iconfont icon-circle"></i>
+                                </div>
+                                <a >{{ it.label }}</a>
+                                <span class="count">{{ it.count | numberFormat }}</span>
+                            </li>
+                        </ng-container>
                     </ul>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="panel-header">
-                    Tags
-                    <div class="panel-icon">
-                        <i class="iconfont icon-angle-down"></i>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                        <li>
-                            <div class="check-input">
-                                <i class="iconfont icon-check-square-o"></i>
-                            </div>
-                            <a href="">a</a>
-                            <span class="count">199</span>
-                        </li>
-                        <li>
-                            <div class="check-input">
-                                <i class="iconfont icon-square-o"></i>
-                            </div>
-                            <a href="">a</a>
-                            <span class="count">199</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="panel-header">
-                    Price
-                    <div class="panel-icon">
-                        <i class="iconfont icon-angle-down"></i>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="price-input">
-                        <input type="text" class="form-control">-
-                        <input type="text" class="form-control">
-                        <div class="btn btn-primary">
+                    <div class="price-input" *ngIf="item.name == 'price'">
+                        <input type="text" class="form-control" [(ngModel)]="item.min">-
+                        <input type="text" class="form-control" [(ngModel)]="item.max">
+                        <div class="btn btn-primary" (click)="tapPrice(item)">
                             <i class="iconfont icon-chevron-right"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel">
-                <div class="panel-header">
-                    Rating
-                    <div class="panel-icon">
-                        <i class="iconfont icon-angle-down"></i>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                        <li>
-                            <div class="radio-input">
-                                <i class="iconfont icon-circle"></i>
-                            </div>
-                            <a href="">Show all</a>
-                            <span class="count">199</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
         <div class="col-md-9">
             <div class="filter-wall">
-                88 items 
-                <div class="filter-item">
-                    <span>Term: 'store'</span>
-                    <i class="iconfont icon-close"></i>
-                </div>
+                <ng-container i18n>{{ total | numberFormat }} items</ng-container>
 
-                <a class="filter-clear">
+                <ng-container *ngFor="let item of selectedFilters">
+                    <div class="filter-item">
+                        <span>{{ item.label }}</span>
+                        <i class="iconfont icon-close" (click)="tapRemoveFilter(item.name)"></i>
+                    </div>
+                </ng-container>
+                
+
+                <a class="filter-clear" (click)="tapClearFilter()" i18n>
                     Clear all
                 </a>
             </div>
 
-            <div class="res-large-item" *ngFor="let item of items">
-                <div class="item-thumb">
-                    <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
-                    <div class="item-hat"></div>
-                </div>
-                <div class="item-body">
-                    <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
-                        {{ item.title }}
-                    </a>
-                    <div class="item-meta">
-                        by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+            <div class="search-body">
+                <ng-container *ngIf="viewTable; else elseTemplate">
+                    <div class="row">
+                        <div class="col-md-3" *ngFor="let item of items">
+                            <div class="res-item">
+                                <div class="item-thumb">
+                                    <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                                    <div class="item-hat"></div>
+                                </div>
+                                <div class="item-body">
+                                    <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
+                                        {{ item.title }}
+                                    </a>
+                                    <div class="item-meta">
+                                        by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                                    </div>
+                                    <div class="item-action">
+                                        <div class="item-price">
+                                            <p>
+                                                <ng-container *ngIf="item.price > 0">
+                                                    {{ item.price | currency }}
+                                                </ng-container>
+                                                <ng-container *ngIf="item.price <= 0">
+                                                    Free
+                                                </ng-container>
+                                            </p>
+                                            <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a class="btn btn-outline-primary">
+                                                <i class="iconfont icon-shopping-cart"></i>
+                                            </a>
+                                            <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary" i18n>
+                                                Live Preview
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item-desc">
-                        {{ item.description }}
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="res-large-item" *ngFor="let item of items">
+                        <div class="item-thumb">
+                            <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                            <div class="item-hat"></div>
+                        </div>
+                        <div class="item-body">
+                            <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
+                                {{ item.title }}
+                            </a>
+                            <div class="item-meta">
+                                by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                            </div>
+                            <div class="item-desc">
+                                {{ item.description }}
+                            </div>
+                        </div>
+                        <div class="item-action">
+                            <div class="item-price">
+                                <ng-container *ngIf="item.price > 0">
+                                    {{ item.price | currency }}
+                                </ng-container>
+                                <ng-container *ngIf="item.price <= 0">
+                                    Free
+                                </ng-container>
+                            </div>
+                            <app-star></app-star>
+                            <p>{{ item.download_count | numberFormat }} Sales</p>
+                            <p>{{ item.updated_at | ago }}</p>
+                            <div class="btn-group">
+                                <a class="btn btn-outline-primary">
+                                    <i class="iconfont icon-shopping-cart"></i>
+                                </a>
+                                <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary">
+                                    Live Preview
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="item-action">
-                    <div class="item-price">
-                        <ng-container *ngIf="item.price > 0">
-                            {{ item.price | currency }}
-                        </ng-container>
-                        <ng-container *ngIf="item.price <= 0">
-                            Free
-                        </ng-container>
-                    </div>
-                    <app-star></app-star>
-                    <p>{{ item.download_count | numberFormat }} Sales</p>
-                    <p>{{ item.updated_at | ago }}</p>
-                    <div class="btn-group">
-                        <a class="btn btn-outline-primary">
-                            <i class="iconfont icon-shopping-cart"></i>
-                        </a>
-                        <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary">
-                            Live Preview
-                        </a>
-                    </div>
-                </div>
+                </ng-template>
             </div>
 
 

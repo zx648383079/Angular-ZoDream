@@ -10,7 +10,7 @@
                 </div>
 
                 <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                    <input type="text" class="form-control" name="keywords" placeholder="eg: admin">
+                    <input type="text" class="form-control" name="keywords" placeholder="eg: admin" ngModel>
                     <button class="btn btn-primary">
                         <i class="iconfont icon-search"></i>
                         <ng-container i18n>Search</ng-container>
@@ -40,9 +40,11 @@
                     </div>
                     <div class="item-body">
                         <div class="item-icon">
-                            <img [src]="item.icon|asset" alt="">
+                            <img [src]="item.thumb|asset" alt="">
                         </div>
-                        <img [src]="'assets/images/banner.jpg'|asset" alt="">
+                        <div class="item-cover">
+                            <img [src]="'assets/images/banner.jpg'|asset" alt="">
+                        </div>
                     </div>
                 </div>
             </div>

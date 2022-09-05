@@ -55,6 +55,8 @@ export class ResourceStoreComponent implements OnInit {
 
 
     public tapSearch(form: any) {
+        console.log(form);
+        
         this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
     }
 

@@ -92,6 +92,14 @@
     .view-bar {
         padding: 0 1rem;
         text-align: right;
+        .iconfont {
+            padding: .4rem;
+        }
+        .active {
+            color: red;
+            border: 1px solid red;
+            border-radius: .2rem;
+        }
     }
 }
 
