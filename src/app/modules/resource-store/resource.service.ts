@@ -61,7 +61,9 @@ export class ResourceService {
 
     public batch(data: {
         categories?: any;
-        recommend?: any;
+        recommend?: {
+            extra?: string
+        };
     }) {
         return this.http.post<{
             categories?: ICategory[];

@@ -23,6 +23,13 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.service.batch({
+            recommend: {
+                extra: 'items'
+            }
+        }).subscribe(res => {
+            this.categories = res.recommend;
+        })
     }
 
     public tapSearch(form: any) {

@@ -5,15 +5,17 @@
                 <img [src]="'assets/images/logo.png' | asset" alt="">
             </div>
             <div class="more-bar">
-                <a routerLink="/frontend/forum">Forums</a>
+                <a routerLink="/frontend/forum" i18n>Forums</a>
                 <a routerLink="/">
                     <i class="iconfont icon-th-list"></i>
-                    Our Products</a>
+                    <ng-container i18n>Our Products</ng-container>
+                        
+                </a>
                 <div class="inner-group">
                     <a href="">
                         <i class="iconfont icon-shopping-cart"></i>
                     </a>
-                    <a routerLink="/auth" *ngIf="!user">Sign In</a>
+                    <a routerLink="/auth" *ngIf="!user" i18n>Sign In</a>
                     <a routerLink="/backend" *ngIf="user">{{ user.name }}</a>
                     <div class="navbar-icon" (click)="toggleNav()">
                         <i class="iconfont icon-bars"></i>

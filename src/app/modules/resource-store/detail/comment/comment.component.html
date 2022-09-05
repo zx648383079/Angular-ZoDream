@@ -1,23 +1,23 @@
 <div class="comment-container">
     <div class="title-bar">
-        <h3>Leave a Comment</h3>
-        <p class="bar-text" *ngIf="!user">Please login in first *</p>
+        <h3 i18n>Leave a Comment</h3>
+        <p class="bar-text" *ngIf="!user" i18n>Please login in first *</p>
     </div>
     
     <div class="comment-form">
         <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" placeholder="Leave a Comment"></app-text-editor>
         <div class="form-group">
-            <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)">Post Comment</app-action-button>
+            <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
     </div>
 
     <div class="comment-group">
         <div class="title-bar">
-            <h3>All Comment</h3>
+            <h3 i18n>All Comment</h3>
             <div class="bar-right">
                 <div class="btn-group">
-                    <a href="#" class="btn btn-outline-default active">Newest</a>
-                    <a href="#" class="btn btn-outline-default">Oldest</a>
+                    <a class="btn btn-outline-default" [ngClass]="{active: queries.order == 'desc'}" (click)="tapSort('desc')"  i18n>Newest</a>
+                    <a class="btn btn-outline-default" [ngClass]="{active: queries.order == 'asc'}" (click)="tapSort('desc')"  i18n>Oldest</a>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="comment-footer">
                     <i class="iconfont icon-reply"></i>
-                    <a href="">回复</a>
+                    <a href="" i18n>Reply</a>
                 </div>
             </article>
             <div class="children" *ngIf="item.reply_items">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="comment-footer">
                             <i class="iconfont icon-reply"></i>
-                            <a href="">回复</a>
+                            <a href="" i18n>Reply</a>
                         </div>
                     </article>
                 </div>

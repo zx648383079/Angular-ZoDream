@@ -27,6 +27,8 @@ export class CommentComponent {
         keywords: '',
         page: 1,
         per_page: 20,
+        sort: 'created_at',
+        order: 'desc',
     };
     private booted = 0;
     public commentData = {
@@ -81,6 +83,12 @@ export class CommentComponent {
                 this.toastrService.warning(err);
             }
         })
+    }
+
+    
+    public tapSort(sort: string) {
+        this.queries.order = sort;
+        this.tapRefresh();
     }
 
     public tapRefresh() {

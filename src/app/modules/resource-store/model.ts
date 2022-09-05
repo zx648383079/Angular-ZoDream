@@ -61,6 +61,7 @@ export interface ICategory {
     parent_id: number;
     is_hot?: number;
     children?: ICategory[];
+    items?: IResource[];
 }
 
 export interface ITag {

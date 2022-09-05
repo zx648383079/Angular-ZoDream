@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#" i18n>Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ data ? data.name : 'All categories' }}</li>
               </ol>
             </nav>
@@ -34,8 +34,8 @@
             </div>
         </div>
         <div class="panel-footer">
-            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'new'}">Browse New</a>
-            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'hot'}">Browse Bestsellers</a>
+            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'new'}" i18n>Browse New</a>
+            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'hot'}" i18n>Browse Bestsellers</a>
         </div>
     </div>
 </div>
@@ -67,13 +67,13 @@
                                             Free
                                         </ng-container>
                                     </p>
-                                    <p class="sale">{{ item.download_count | numberFormat }} Sales</p>
+                                    <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
                                 </div>
                                 <div class="btn-group">
                                     <a class="btn btn-outline-primary">
                                         <i class="iconfont icon-shopping-cart"></i>
                                     </a>
-                                    <a [routerLink]="[item.id, 'preview']" class="btn btn-primary">
+                                    <a [routerLink]="[item.id, 'preview']" class="btn btn-primary" i18n>
                                         Live Preview
                                     </a>
                                 </div>

@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#" i18n>Home</a></li>
                     <li class="breadcrumb-item"><a routerLink="../">{{ data.category?.name }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Details</li>
+                    <li class="breadcrumb-item active" aria-current="page" i18n>Details</li>
                 </ol>
             </nav>
         </div>
@@ -26,19 +26,19 @@
             </div>
 
             <div class="tab-header-bar">
-                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">Item Details</a>
-                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">Catalog</a>
-                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">Download</a>
+                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Item Details</a>
+                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Catalog</a>
+                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>Download</a>
                 <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
-                    Reviews 
+                    <ng-container i18n>Reviews</ng-container>
                     <app-star [ngModel]="data.score"></app-star>
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
                 <a [ngClass]="{active: tabIndex == 4}" (click)="tabIndex = 4">
-                    Comments 
+                    <ng-container i18n>Comments</ng-container>
                     <div class="count-label">{{ data.comment_count | numberFormat }}</div>
                 </a>
-                <a [ngClass]="{active: tabIndex == 5}" (click)="tabIndex = 5">Support</a>
+                <a [ngClass]="{active: tabIndex == 5}" (click)="tabIndex = 5" i18n>Support</a>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
                         <div class="box-hat"></div>
                         <div class="group-footer" *ngIf="data.preview_type > 0">
                             <a class="btn btn-primary" routerLink="preview">
-                                Live Preview 
+                                <ng-container i18n>Live Preview</ng-container>
                                 <i class="iconfont icon-th-large"></i>
                             </a>
                         </div>
@@ -85,9 +85,9 @@
                         <ul class="file-panel">
                             <li *ngFor="let item of data.files">
                                 <span>{{ formatType(item.file_type) }}</span>
-                                <a class="btn btn-info" *ngIf="item.file_type < 1">Download</a>
-                                <a class="btn btn-info" *ngIf="item.file_type > 0 && item.file_type < 3">Open</a>
-                                <a class="btn btn-info" *ngIf="item.file_type == 3">Copy</a>
+                                <a class="btn btn-info" *ngIf="item.file_type < 1" i18n>Download</a>
+                                <a class="btn btn-info" *ngIf="item.file_type > 0 && item.file_type < 3" i18n>Open</a>
+                                <a class="btn btn-info" *ngIf="item.file_type == 3" i18n>Copy</a>
                             </li>
                         </ul>
                     </div>
@@ -108,7 +108,7 @@
                     <ng-container *ngIf="data.price > 0">
                         {{ data.price | currency }}
                     </ng-container>
-                    <ng-container *ngIf="data.price <= 0">
+                    <ng-container *ngIf="data.price <= 0" i18n>
                         Free
                     </ng-container>
                 </div>
@@ -119,11 +119,11 @@
             <div class="group-box">
                 <table class="table">
                     <tr>
-                        <td class="line-label">Last Update</td>
+                        <td class="line-label" i18n>Last Update</td>
                         <td class="line-body">{{ data.updated_at|ago }}</td>
                     </tr>
                     <tr *ngIf="data.tags && data.tags.length > 0">
-                        <td class="line-label">Tags</td>
+                        <td class="line-label" i18n>Tags</td>
                         <td class="line-body">
                             <ng-container *ngFor="let item of data.tags">
                                 <a routerLink="../../../search" [queryParams]="{tag: item.name}">{{ item.name }}</a>
@@ -131,7 +131,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="line-label">Size</td>
+                        <td class="line-label" i18n>Size</td>
                         <td class="line-body">{{ data.size|size }}</td>
                     </tr>
                 </table>
