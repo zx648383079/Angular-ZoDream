@@ -52,6 +52,7 @@ export interface ICategory {
     name: string;
     icon: string;
     parent_id: number;
+    children?: ICategory[];
 }
 
 export interface ITag {
@@ -68,4 +69,25 @@ export interface IComment {
     reply_count?: number;
     extra_rule?: IExtraRule[];
     created_at: string;
+}
+
+export interface ISoftwareLog {
+    id: number;
+    created_at: string;
+    software: ISoftware;
+    installed?: boolean;
+}
+
+export interface ISoftwareCheck {
+    package: ISoftware;
+    version: ISoftwareVersion;
+    file: ISoftwarePackage;
+}
+
+export interface ISoftwareDownload extends ISoftwareCheck {
+    status?: number; // 0 未更新 1 下载暂停 2 下载中
+    speed?: number;
+    length?: number;
+    progress?: number;
+    last_time?: number;
 }

@@ -1,0 +1,179 @@
+<div class="banner-floor">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="title-bar">
+                    ZoDream
+                    <div class="title-desc" i18n>
+                        Many things in here.
+                    </div>
+                </div>
+
+                <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                    <input type="text" class="form-control" name="keywords" placeholder="eg: admin" ngModel>
+                    <button class="btn btn-primary">
+                        <i class="iconfont icon-search"></i>
+                        <ng-container i18n>Search</ng-container>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <div class="banner-inner-body">
+                    <img [src]="'assets/images/banner.jpg' | asset" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row category-floor">
+            <div class="col-md-4" *ngFor="let item of categories">
+                <div class="cat-item">
+                    <div class="item-name">
+                        {{ item.name }}
+                    </div>
+                    <div class="item-desc">
+                        {{ item.description }}
+                    </div>
+                    <div class="item-meta" *ngIf="item.items">
+                        <ng-container *ngFor="let it of item.items">
+                            <a [routerLink]="['category', item.cat_id, item.id]">{{ it.title }}</a>
+                        </ng-container>
+                    </div>
+                    <div class="item-body">
+                        <div class="item-icon">
+                            <img [src]="item.thumb|asset" alt="">
+                        </div>
+                        <div class="item-cover">
+                            <img [src]="'assets/images/banner.jpg'|asset" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="text-center">
+            <a class="btn btn-primary" routerLink="category" i18n>View all categories</a>
+        </div>
+    </div>
+</div>
+<div class="feature-floor">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="floor-header">
+                    <div class="inner-body">
+                        <div class="title-bar">
+                            <ng-container i18n>Featured</ng-container>
+                            <div class="title-desc" i18n>
+                                Every week
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" routerLink="search" [queryParams]="{sort: 'hot'}" i18n>View all featured</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="template-lazy" appLazyLoad (lazyLoading)="loadFeature()">
+                    <app-loading-tip [loading]="featureLoading" [visible]="featureLoading || featureItems.length == 0"></app-loading-tip>
+                    <div class="row">
+                        <div class="col-md-6" *ngFor="let item of featureItems">
+                            <div class="res-item">
+                                <div class="item-thumb">
+                                    <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                                    <div class="item-hat"></div>
+                                </div>
+                                <div class="item-body">
+                                    <a class="item-name" [routerLink]="['category', item.cat_id, item.id]">
+                                        {{ item.title }}
+                                    </a>
+                                    <div class="item-meta">
+                                        by <a>{{ item.user.name }}</a> in <a>{{ item.category.name }}</a>
+                                    </div>
+                                    <div class="item-action">
+                                        <div class="item-price">
+                                            <p>
+                                                <ng-container *ngIf="item.price > 0">
+                                                    {{ item.price | currency }}
+                                                </ng-container>
+                                                <ng-container *ngIf="item.price <= 0" i18n>
+                                                    Free
+                                                </ng-container>
+                                            </p>
+                                            <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a class="btn btn-outline-primary">
+                                                <i class="iconfont icon-shopping-cart"></i>
+                                            </a>
+                                            <a  [routerLink]="['category', item.cat_id, item.id, 'preview']" class="btn btn-primary" i18n>
+                                                Live Preview
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="filter-floor">
+    <div class="container-fluid">
+        <div class="title-bar">
+            <ng-container i18n>Newest</ng-container>
+            <div class="title-desc" i18n>
+                all newest
+            </div>
+        </div>
+        <div class="filter-bar">
+            <a routerLink="category" i18n>All categories</a>
+            <a *ngFor="let item of categories" routerLink="search" [queryParams]="{category: item.id, sort: 'new'}">{{ item.name }}</a>
+        </div>
+        <div class="filter-body" appLazyLoad (lazyLoading)="loadNewest()">
+            <app-loading-tip [loading]="newLoading" [visible]="newLoading || newItems.length == 0"></app-loading-tip>
+            <div class="row">
+                <div class="col-md-3" *ngFor="let item of newItems">
+                    <div class="res-item">
+                        <div class="item-thumb">
+                            <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                            <div class="item-hat"></div>
+                        </div>
+                        <div class="item-body">
+                            <a class="item-name" [routerLink]="['category', item.cat_id, item.id]">
+                                {{ item.title }}
+                            </a>
+                            <div class="item-meta">
+                                by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                            </div>
+                            <div class="item-action">
+                                <div class="item-price">
+                                    <p>
+                                        <ng-container *ngIf="item.price > 0">
+                                            {{ item.price | currency }}
+                                        </ng-container>
+                                        <ng-container *ngIf="item.price <= 0">
+                                            Free
+                                        </ng-container>
+                                    </p>
+                                    <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
+                                </div>
+                                <div class="btn-group">
+                                    <a class="btn btn-outline-primary">
+                                        <i class="iconfont icon-shopping-cart"></i>
+                                    </a>
+                                    <a  [routerLink]="['category', item.cat_id, item.id, 'preview']" class="btn btn-primary" i18n>
+                                        Live Preview
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+.history-item {
+    display: flex;
+    background-color: white;
+    border-radius: .25rem;
+    .item-logo {
+        padding: .8rem;
+        img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: .25rem;
+            border: 1px solid #ccc;
+        }
+    }
+    .item-body {
+        flex: 1;
+        padding: .8rem 0;
+    }
+    .item-meta {
+        color: #ccc;
+    }
+    .item-type,
+    .item-time,
+    .item-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .item-type,
+    .item-time {
+        width: 10rem;
+    }
+    &:not(:last-of-type) {
+        margin-bottom: .8rem;
+    }
+}

@@ -1,3 +1,82 @@
-<p>
-  app-store works!
-</p>
+<header>
+    <div class="container-fluid">
+        <div class="top-bar">
+            <div class="brand-logo">
+                <img [src]="'assets/images/logo.png' | asset" alt="">
+            </div>
+            <div class="more-bar">
+                <a routerLink="/frontend/forum" i18n>Forums</a>
+                <a routerLink="download/history">
+                    <i class="iconfont icon-clock-o"></i>
+                    <ng-container i18n>Download record</ng-container>
+                </a>
+                <div class="inner-group">
+                    <a routerLink="download">
+                        <i class="iconfont icon-download"></i>
+                    </a>
+                    <a routerLink="/auth" *ngIf="!user" i18n>Sign In</a>
+                    <a routerLink="/backend" *ngIf="user">{{ user.name }}</a>
+                    <div class="navbar-icon" (click)="toggleNav()">
+                        <i class="iconfont icon-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar" [ngClass]="{open: navOpen}">
+        <div class="container-fluid">
+            <ul class="navbar-main">
+                <ng-container *ngFor="let item of navItems;let i = index">
+                    <li [ngClass]="{active: i == navIndex}" (click)="navIndex = i">
+                        <a >{{ item.name }}</a>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+        <div class="container-fluid navbar-next-bar">
+            <ul class="navbar-next">
+                <ng-container *ngFor="let item of subNavItems">
+                    <li [ngClass]="{active: item.active}">
+                        <a [routerLink]="['category', item.id]">{{ item.name }}</a>
+                        <div class="nav-sub" *ngIf="item.children">
+                            <ul>
+                                <ng-container *ngFor="let it of item.children">
+                                    <ng-container *ngIf="it.name; else elseTemplate">
+                                        <li>
+                                            <a [routerLink]="['category', it.id]">{{ it.name }}</a></li>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        <li class="divider"></li>
+                                    </ng-template>
+                                </ng-container>
+                                
+                            </ul>
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+            <form class="search-inline" *ngIf="searchVisible" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <i class="iconfont icon-search"></i>
+                <input type="text" class="form-control" placeholder="Search ..." name="keywords" ngModel>
+            </form>
+        </div>
+        
+    </div>
+</header>
+
+<div class="inner-body">
+    <router-outlet></router-outlet>
+</div>
+
+
+<footer>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    Copyright ©zodream.cn, All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
