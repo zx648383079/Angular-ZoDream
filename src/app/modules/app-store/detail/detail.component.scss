@@ -1,0 +1,121 @@
+.tag-bar {
+    a {
+        text-decoration: none;
+        margin-right: 1rem;
+    }
+}
+
+.tab-header-bar {
+    line-height: 3rem;
+    margin-top: 1rem;
+    app-star {
+        display: inline-block;
+    }
+    a {
+        display: inline-block;
+        padding: 0 1rem;
+        text-decoration: none;
+        cursor: pointer;
+        &.active {
+            background-color: #f4f4f4;
+        }
+    }
+    .count-label {
+        display: inline-block;
+        padding: 0 .5rem;
+        background-color: #c43434;
+        color: white;
+        margin-right: -1rem;
+    }
+}
+
+.tab-target-body {
+    .tab-item {
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
+}
+
+.detail-body {
+    padding-top: 1rem;
+    .price {
+        text-align: right;
+        font-size: 2rem;
+        color: #c43434;
+    }
+    .group-footer {
+        text-align: center;
+        margin-top: 1rem;
+    }
+}
+
+.group-box {
+    background-color: #ebebeb;
+    border-radius: .35rem;
+    padding: .8rem;
+    margin-bottom: 1rem;
+    img {
+        max-width: 100%;
+    }
+}
+
+.content-body {
+    min-height: 30rem;
+    background-color: #ebebeb;
+    position: relative;
+    margin-bottom: 5rem;
+    padding: .8rem;
+    img {
+        max-width: 100%;
+    }
+    .body-memu-bar {
+        position: absolute;
+        right: -5rem;
+        bottom: 5rem;
+        width: 3rem;
+        background-color: #ffff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, .25);
+        a {
+            display: block;
+            text-align: center;
+            padding: .5rem 0;
+            &:hover {
+                background-color: #404040;
+                .hover-popup {
+                    display: block;
+                }
+            }
+        }
+        .hover-popup {
+            display: none;
+            width: 10rem;
+            position: absolute;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+            right: 0;
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.file-panel {
+    margin: 0;
+    padding: 0;
+    li {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        line-height: 2.5rem;
+        padding-left: .8rem;
+        border-radius: .25rem;
+        &:hover {
+            background-color: #fff;
+        }
+        &:not(:last-of-type) {
+            border-bottom: 1px solid #ccc;
+        }
+    }
+}

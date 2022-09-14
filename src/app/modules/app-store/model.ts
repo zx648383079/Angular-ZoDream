@@ -1,6 +1,13 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
 
+export const FileTypeItems: IItem[] = [
+    {name: '文件', value: 0},
+    {name: '网址', value: 1},
+    {name: '网盘', value: 2},
+    {name: '种子', value: 3},
+];
 
 export interface ISoftware {
     id: number;
@@ -24,6 +31,7 @@ export interface ISoftware {
     user?: IUser;
     category?: ICategory;
     version?: ISoftwareVersion;
+    packages?: ISoftwarePackage[];
 }
 
 export interface ISoftwareVersion {
@@ -32,6 +40,7 @@ export interface ISoftwareVersion {
     description: string;
     created_at?: string;
     app_id: number;
+    files?: ISoftwarePackage;
 }
 
 export interface ISoftwarePackage {
@@ -90,4 +99,5 @@ export interface ISoftwareDownload extends ISoftwareCheck {
     length?: number;
     progress?: number;
     last_time?: number;
+    style?: any;
 }

@@ -104,83 +104,64 @@
                 <ng-container *ngIf="viewTable; else elseTemplate">
                     <div class="row">
                         <div class="col-md-3" *ngFor="let item of items">
-                            <div class="res-item">
+                            <div class="app-item item-style-column">
                                 <div class="item-thumb">
                                     <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
                                     <div class="item-hat"></div>
                                 </div>
                                 <div class="item-body">
                                     <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
-                                        {{ item.title }}
+                                        {{ item.name }}
                                     </a>
                                     <div class="item-meta">
-                                        by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                                        <a>{{ item.category?.name }}</a>
                                     </div>
-                                    <div class="item-action">
-                                        <div class="item-price">
-                                            <p>
-                                                <ng-container *ngIf="item.price > 0">
-                                                    {{ item.price | currency }}
-                                                </ng-container>
-                                                <ng-container *ngIf="item.price <= 0">
-                                                    Free
-                                                </ng-container>
-                                            </p>
-                                            <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
-                                        </div>
-                                        <div class="btn-group">
-                                            <a class="btn btn-outline-primary">
-                                                <i class="iconfont icon-shopping-cart"></i>
-                                            </a>
-                                            <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary" i18n>
-                                                Live Preview
-                                            </a>
-                                        </div>
+                                    <div class="item-footer">
+                                        <app-star [labelVisible]="false">{{ 0 | numberFormat }}</app-star>
+                                        <span>{{ item.size | size }}</span>
                                     </div>
+                                </div>
+                                <div class="item-action">
+                                    <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                        <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </ng-container>
                 <ng-template #elseTemplate>
-                    <div class="res-large-item" *ngFor="let item of items">
-                        <div class="item-thumb">
-                            <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
-                            <div class="item-hat"></div>
-                        </div>
-                        <div class="item-body">
-                            <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
-                                {{ item.title }}
-                            </a>
-                            <div class="item-meta">
-                                by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                    <ng-container *ngFor="let item of items">
+                        <div class="app-item">
+                            <div class="item-thumb">
+                                <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                                <div class="item-hat"></div>
                             </div>
-                            <div class="item-desc">
-                                {{ item.description }}
-                            </div>
-                        </div>
-                        <div class="item-action">
-                            <div class="item-price">
-                                <ng-container *ngIf="item.price > 0">
-                                    {{ item.price | currency }}
-                                </ng-container>
-                                <ng-container *ngIf="item.price <= 0">
-                                    Free
-                                </ng-container>
-                            </div>
-                            <app-star></app-star>
-                            <p>{{ item.download_count | numberFormat }} Sales</p>
-                            <p>{{ item.updated_at | ago }}</p>
-                            <div class="btn-group">
-                                <a class="btn btn-outline-primary">
-                                    <i class="iconfont icon-shopping-cart"></i>
+                            <div class="item-body">
+                                <a class="item-name" [routerLink]="['../category', item.cat_id, item.id]">
+                                    {{ item.name }}
                                 </a>
-                                <a [routerLink]="['../category', item.cat_id, item.id, 'preview']" class="btn btn-primary">
-                                    Live Preview
-                                </a>
+                                <div class="item-meta">
+                                    <a>{{ item.category?.name }}</a>
+                                </div>
+                                <div class="item-footer">
+                                    <app-star [labelVisible]="false">{{ 0 | numberFormat }}</app-star>
+                                    <span>{{ item.size | size }}</span>
+                                </div>
+                            </div>
+                            <div class="item-action">
+                                <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                    <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
+                                </ng-container>
+                                <ng-template #elseTemplate>
+                                    <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
+                                </ng-template>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-template>
             </div>
 

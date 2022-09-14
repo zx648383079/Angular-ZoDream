@@ -122,7 +122,43 @@ footer {
             }
         }
     }
-    
+    .app-item {
+        display: flex;
+        border-radius: .25rem;
+        background-color: #fff;
+        box-shadow: 0 5px 5px #666;
+        padding-right: .8rem;
+        .item-thumb {
+            padding: .8rem;
+            img {
+                width: 5rem;
+                height: 5rem;
+            }
+        }
+        .item-meta {
+            color: #888;
+            font-size: .8rem;
+        }
+        .item-body {
+            flex: 1;
+        }
+        .item-body,
+        .item-action {
+            padding: .8rem 0;
+        }
+        &.item-style-column {
+            flex-direction: column;
+            padding-bottom: .8rem;
+            padding-right: 0;
+            .item-thumb {
+                text-align: center;
+            }
+            .item-body,
+            .item-action {
+                padding: 0 .8rem;
+            }
+        }
+    }
 }
 
 

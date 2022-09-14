@@ -1,0 +1,30 @@
+<div class="score-panel" *ngIf="subtotal">
+    <div class="row">
+        <div class="col-4">
+            <div class="text-center" i18n>Favorable rate</div>
+            <div class="text-center">
+                <div class="rate">{{ subtotal.favorable_rate }}%</div>
+                <div class="score">
+                    <app-star [ngModel]="subtotal.avg"></app-star>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div i18n>Customer reviews:</div>
+            
+            <div class="tag-box">
+                <span class="active" i18n>All({{ subtotal.total }})</span>
+                <ng-container *ngFor="let item of subtotal.tags">
+                    <span>{{ item.label }}({{ item.count }})</span>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row score-input">
+        <div class="col-md-3 text-right" i18n>Your reviews:</div>
+        <div class="col-md-9">
+            <app-star [(ngModel)]="scoreData.score" (ngModelChange)="onScoreChange()" [disabled]="false" [labelVisible]="true"></app-star>
+        </div>
+    </div>
+    
+</div>

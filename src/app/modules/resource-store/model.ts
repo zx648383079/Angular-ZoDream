@@ -7,7 +7,7 @@ export const FileTypeItems: IItem[] = [
     {name: '网址', value: 1},
     {name: '网盘', value: 2},
     {name: '种子', value: 3},
-]
+];
 
 export interface IResource {
     id: number;

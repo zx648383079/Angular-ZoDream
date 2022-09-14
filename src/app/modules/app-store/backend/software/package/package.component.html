@@ -86,7 +86,7 @@
         <label>文件类型</label>
         <div class="input-group">
             <select class="form-control" [(ngModel)]="editData.url_type">
-                <option *ngFor="let item of urlTypeItems;let i = index" [value]="i">{{ item }}</option>
+                <option *ngFor="let item of urlTypeItems" [value]="item.value">{{ item.name }}</option>
             </select>
         </div>
     </div>

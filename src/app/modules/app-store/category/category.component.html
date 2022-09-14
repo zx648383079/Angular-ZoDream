@@ -45,39 +45,30 @@
         <div class="filter-body">
             <div class="row">
                 <div class="col-md-3" *ngFor="let item of items">
-                    <div class="res-item">
+                    <div class="app-item item-style-column">
                         <div class="item-thumb">
                             <a [routerLink]="[item.id]"><img [src]="item.thumb|asset" alt=""></a>
                             <div class="item-hat"></div>
                         </div>
                         <div class="item-body">
                             <a class="item-name" [routerLink]="[item.id]">
-                                {{ item.title }}
+                                {{ item.name }}
                             </a>
                             <div class="item-meta">
-                                by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                                <a>{{ item.category?.name }}</a>
                             </div>
-                            <div class="item-action">
-                                <div class="item-price">
-                                    <p>
-                                        <ng-container *ngIf="item.price > 0">
-                                            {{ item.price | currency }}
-                                        </ng-container>
-                                        <ng-container *ngIf="item.price <= 0">
-                                            Free
-                                        </ng-container>
-                                    </p>
-                                    <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
-                                </div>
-                                <div class="btn-group">
-                                    <a class="btn btn-outline-primary">
-                                        <i class="iconfont icon-shopping-cart"></i>
-                                    </a>
-                                    <a [routerLink]="[item.id, 'preview']" class="btn btn-primary" i18n>
-                                        Live Preview
-                                    </a>
-                                </div>
+                            <div class="item-footer">
+                                <app-star [labelVisible]="false">{{ 0 | numberFormat }}</app-star>
+                                <span>{{ item.size | size }}</span>
                             </div>
+                        </div>
+                        <div class="item-action">
+                            <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                <a [routerLink]="[item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                <a [routerLink]="[item.id]" class="btn btn-primary" i18n>Get it for free</a>
+                            </ng-template>
                         </div>
                     </div>
                 </div>

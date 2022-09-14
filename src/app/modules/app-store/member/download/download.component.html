@@ -1,35 +1,38 @@
 <div class="container">
     <div class="download-item" *ngFor="let item of items">
-        <div class="item-logo">
-            <img [src]="item.package.icon|asset" alt="">
-        </div>
-        <div class="item-body">
-            <div class="item-name">{{ item.package.name }}</div>
-            <div class="item-version">{{ item.version.name }}</div>
-            <div class="item-meta">{{ item.version.description }}</div>
-        </div>
-        <div class="item-type">
-            {{ item.package.category.name }}
-        </div>
-        <div class="item-time">
-            <ng-container *ngIf="item.status < 1; else elseTemplate">
-                {{ item.version.created_at | ago }}
-            </ng-container>
-            <ng-template #elseTemplate>
-                <div class="item-speed" *ngIf="item.status == 2">{{ item.speed | size }}/s</div>
-                <div class="item-progress">
-                    {{ item.progress | size }}/{{ item.length | size }}
-                </div>
-            </ng-template>
-            
-        </div>
-        <div class="item-action">
-            <div class="btn-group">
-                <div class="btn btn-primary">
-                    <i class="iconfont icon-play"></i>
-                </div>
-                <div class="btn btn-danger">
-                    <i class="iconfont icon-close"></i>
+        <div class="inner-progress" [ngStyle]="item.style"></div>
+        <div class="inner-body">
+            <div class="item-logo">
+                <img [src]="item.package.icon|asset" alt="">
+            </div>
+            <div class="item-body">
+                <div class="item-name">{{ item.package.name }}</div>
+                <div class="item-version">{{ item.version.name }}</div>
+                <div class="item-meta">{{ item.version.description }}</div>
+            </div>
+            <div class="item-type">
+                {{ item.package.category.name }}
+            </div>
+            <div class="item-time">
+                <ng-container *ngIf="item.status < 1; else elseTemplate">
+                    {{ item.version.created_at | ago }}
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="item-speed" *ngIf="item.status == 2">{{ item.speed | size }}/s</div>
+                    <div class="item-progress">
+                        {{ item.progress | size }}/{{ item.length | size }}
+                    </div>
+                </ng-template>
+                
+            </div>
+            <div class="item-action">
+                <div class="btn-group">
+                    <div class="btn btn-primary">
+                        <i class="iconfont icon-play"></i>
+                    </div>
+                    <div class="btn btn-danger">
+                        <i class="iconfont icon-close"></i>
+                    </div>
                 </div>
             </div>
         </div>

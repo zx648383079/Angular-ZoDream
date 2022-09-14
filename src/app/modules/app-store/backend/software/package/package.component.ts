@@ -6,7 +6,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../../theme/query';
 import { parseNumber } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
-import { ISoftware, ISoftwarePackage } from '../../../model';
+import { FileTypeItems, ISoftware, ISoftwarePackage } from '../../../model';
 import { AppService } from '../../app.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class PackageComponent implements OnInit {
     public editData: ISoftwarePackage = {} as any;
     public osItems = ['windows', 'linux', 'android', 'ios'];
     public frameworkItems = ['any', 'x86', 'x64', 'ARM',];
-    public urlTypeItems = ['文件', '网址', '网盘', '种子'];
+    public urlTypeItems = FileTypeItems;
 
     constructor(
         private service: AppService,

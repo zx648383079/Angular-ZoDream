@@ -7,8 +7,8 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
+import { AppStoreService } from '../../app-store.service';
 import { IComment } from '../../model';
-import { ResourceService } from '../../resource.service';
 
 @Component({
   selector: 'app-comment',
@@ -38,7 +38,7 @@ export class CommentComponent implements OnChanges {
     public user: IUser;
 
     constructor(
-        public service: ResourceService,
+        public service: AppStoreService,
         private store: Store<AppState>,
         private toastrService: DialogService,
     ) {
@@ -112,7 +112,7 @@ export class CommentComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.commentList({...queries, resource: this.itemId}).subscribe({
+        this.service.commentList({...queries, software: this.itemId}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

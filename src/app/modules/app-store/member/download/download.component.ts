@@ -69,4 +69,23 @@ export class DownloadComponent implements OnInit {
         });
     }
 
+    private formatStyle(item: ISoftwareDownload, progress = -1) {
+        if (item.status < 1) {
+            item.style = {};
+            return item;
+        }
+        if (progress >= 0) {
+            const last = item.last_time;
+            const now = new Date().getTime();
+            item.last_time = now;
+            if (last) {
+                item.speed = Math.ceil(Math.max(0, progress - item.progress) * 1000 / (now - last));
+            }
+            item.progress = progress;
+        }
+        item.style = {
+            width: item.length > 0 ? (item.progress * 100 / item.length) + '%' : 0,
+        };
+    }
+
 }

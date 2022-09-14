@@ -1,7 +1,20 @@
 .download-item {
-    display: flex;
+    position: relative;
     background-color: white;
     border-radius: .25rem;
+    .inner-progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        background-color: #6ea4f7;
+        background-size: 1rem 1rem;
+        transition: width .6s ease;
+    }
+    .inner-body {
+        display: flex;
+    }
     .item-logo {
         padding: .8rem;
         img {

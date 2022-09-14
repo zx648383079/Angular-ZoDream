@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
 import { IScoreSubtotal } from '../../theme/models/seo';
-import { ICategory, IComment, ISoftware, ISoftwareCheck, ISoftwareLog } from './model';
+import { ICategory, IComment, ISoftware, ISoftwareCheck, ISoftwareLog, ISoftwareVersion } from './model';
 
 @Injectable({
     providedIn: 'root'
@@ -53,6 +53,10 @@ export class AppStoreService {
 
     public logList(params: any) {
         return this.http.get<IPage<ISoftwareLog>>('app/software/log', {params});
+    }
+
+    public versionList(params: any) {
+        return this.http.get<IPage<ISoftwareVersion>>('app/software/version', {params});
     }
 
     
