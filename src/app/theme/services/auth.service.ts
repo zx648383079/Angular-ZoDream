@@ -33,7 +33,7 @@ import {
     environment
 } from '../../../environments/environment';
 import { IDataOne } from '../models/page';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { DialogService } from '../../components/dialog';
 import { setSystemConfig } from '../actions/system.actions';
 
@@ -51,11 +51,16 @@ export class AuthService {
         @Inject(PLATFORM_ID) private platformId: any) {}
 
     public login(data: any): Observable<IUser> {
+        this.store.dispatch(this.actions.checking());
         return this.http.post<IUser>('auth/login', data).pipe(
             map(user => {
                 this.setTokenInLocalStorage(user);
                 this.authenticateUser(user);
                 return user;
+            }), 
+            catchError(err => {
+                this.store.dispatch(this.actions.checking(false));
+                throw err;
             }),
         );
     }
@@ -68,6 +73,7 @@ export class AuthService {
      *
      */
     public register(data: any): Observable<IUser> {
+        this.store.dispatch(this.actions.checking());
         return this.http.post<IUser>('auth/register', data).pipe(
             map(user => {
                 this.setTokenInLocalStorage(user);
@@ -169,13 +175,20 @@ export class AuthService {
         if (!token) {
             return;
         }
+        this.store.dispatch(this.actions.checking());
         this.http.get<IUser>('auth/user', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).subscribe(user => {
-            user.token = token;
-            this.setTokenInLocalStorage(user);
+        }).subscribe({
+            next: user => {
+                user.token = token;
+                this.setTokenInLocalStorage(user);
+                this.authenticateUser(user);
+            },
+            error: _ => {
+                this.store.dispatch(this.actions.checking(false));
+            }
         });
     }
 
@@ -197,20 +210,28 @@ export class AuthService {
                 Authorization: `Bearer ${token}`
             }
         } : {};
+        if (token) {
+            this.store.dispatch(this.actions.checking());
+        }
         this.http.post<{
             seo_configs: any,
             auth_profile: IUser|undefined,
         }>('open/batch', {
             seo_configs: {},
             auth_profile: {},
-        }, options).subscribe(res => {
-            if (res.seo_configs) {
-                this.store.dispatch(setSystemConfig({configs: res.seo_configs}));
-            }
-            if (res.auth_profile && !(res.auth_profile instanceof Array)) {
-                const user = res.auth_profile;
-                user.token = token;
-                this.authenticateUser(user);
+        }, options).subscribe({
+            next: res => {
+                if (res.seo_configs) {
+                    this.store.dispatch(setSystemConfig({configs: res.seo_configs}));
+                }
+                if (res.auth_profile && !(res.auth_profile instanceof Array)) {
+                    const user = res.auth_profile;
+                    user.token = token;
+                    this.authenticateUser(user);
+                }
+            },
+            error: _ => {
+                this.store.dispatch(this.actions.checking(false));
             }
         });
     }

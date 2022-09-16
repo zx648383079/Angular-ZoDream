@@ -4,7 +4,7 @@ import { FrontendService } from './frontend.service';
 import { ILink } from '../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
-import { getCurrentUser } from '../theme/reducers/auth.selectors';
+import { getUserProfile } from '../theme/reducers/auth.selectors';
 import { IUser } from '../theme/models/user';
 import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../components/dialog';
@@ -39,6 +39,7 @@ export class FrontendComponent implements OnDestroy {
     public navStyle = true;
     public activeUri = '';
     public user: IUser;
+    public userLoading = false;
     public dropDownVisiable = false;
 
     constructor(
@@ -49,8 +50,9 @@ export class FrontendComponent implements OnDestroy {
         private toastrService: DialogService,
         private searchService: SearchService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
-            this.user = user;
+        this.store.select(getUserProfile).subscribe(res => {
+            this.userLoading = res.isLoading;
+            this.user = res.user;
         });
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
@@ -80,8 +82,13 @@ export class FrontendComponent implements OnDestroy {
         this.dropDownVisiable = !this.dropDownVisiable;
     }
 
+    public tapLogin() {
+        this.router.navigate(['/auth'], {queryParams: {redirect_uri: this.locationHref}});
+        // this.searchService.emitLogin(true);
+    }
+
     public tapLogout() {
-        this.toastrService.confirm('确认退出账号？', () => {
+        this.toastrService.confirm($localize `Confirm to log out?`, () => {
             this.authService.logout().subscribe(_ => {
             });
         });

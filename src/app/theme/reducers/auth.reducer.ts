@@ -5,6 +5,7 @@ import { IUser } from '../models/user';
 
 interface IAuthState {
     guest: boolean;
+    isLoading: boolean;
     user: IUser;
     roles: string[];
 }
@@ -14,6 +15,7 @@ export interface AuthState extends Map<string, any>, IAuthState {
 
 export const AuthStateRecord = Record({
     guest: true,
+    isLoading: false,
     user: null,
     roles: [],
 });
@@ -28,13 +30,18 @@ export function reducer(state = initialState, { type, payload }: Action & { payl
         case AuthActions.LOGIN:
             return state.merge({
                 guest: false,
+                isLoading: false,
                 user: payload,
                 roles: [],
             }) as AuthState;
-
+        case AuthActions.CHECKING:
+            return state.merge({
+                isLoading: typeof payload === 'boolean' ? payload : true,
+            }) as AuthState;
         case AuthActions.LOGOUT:
             return state.merge({
                 guest: true,
+                isLoading: false,
                 user: null,
                 roles: [],
             }) as AuthState;

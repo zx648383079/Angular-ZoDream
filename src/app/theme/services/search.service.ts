@@ -68,7 +68,7 @@ export class SearchService implements SearchEventEmitter {
             return;
         }
         if (allowGo) {
-            this.router.navigate(['/auth']);
+            this.router.navigate(['/auth'], {queryParams: {queryParams: {redirect_uri: window.location.href}}});
         }
     }
 

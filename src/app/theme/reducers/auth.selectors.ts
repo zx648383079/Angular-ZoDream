@@ -17,6 +17,16 @@ function fetchCurrentUser(state: AuthState): IUser|null {
     return state.user;
 }
 
+function fetchUserProfile(state: AuthState): {
+    isLoading: boolean;
+    user: IUser|null;
+} {
+    return {
+        isLoading: state.isLoading,
+        user: state.user
+    };
+}
+
 function fetchRole(state: AuthState): string[] {
     return state.roles;
 }
@@ -25,4 +35,5 @@ function fetchRole(state: AuthState): string[] {
 // *************************** 获取store值 ****************************
 export const getAuthStatus = createSelector(getAuthState, fetchAuthStatus);
 export const getCurrentUser = createSelector(getAuthState, fetchCurrentUser);
+export const getUserProfile = createSelector(getAuthState, fetchUserProfile);
 export const getUserRole = createSelector(getAuthState, fetchRole);

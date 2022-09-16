@@ -22,10 +22,15 @@
                             <i class="iconfont icon-search"></i>
                         </a>
                     </li>
-                    <li class="nav-item" *ngIf="!user">
-                        <a class="nav-link" routerLink="/auth" [queryParams]="{redirect_uri: locationHref}" i18n>Sign in</a>
-                    </li>
-                    <ng-container *ngIf="user">
+                    <ng-container *ngIf="!user || userLoading; else elseTemplate">
+                        <li class="nav-item">
+                            <a class="nav-link" (click)="tapLogin()">
+                                <ng-container *ngIf="!userLoading" i18n>Sign in</ng-container>
+                                <ng-container *ngIf="userLoading">Signing in...</ng-container>
+                            </a>
+                        </li>
+                    </ng-container>
+                    <ng-template #elseTemplate>
                         <li class="nav-item">
                             <app-checkin>
                                 <a class="nav-link" i18n>Check in</a>
@@ -46,7 +51,7 @@
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>
-                    </ng-container>
+                    </ng-template>
                 </ul>
             </div>
         </div>
