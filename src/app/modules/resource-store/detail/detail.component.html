@@ -51,8 +51,10 @@
             <div class="tab-target-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                     <div class="group-box">
-                        <img [src]="data.thumb|asset" alt="">
-                        <div class="box-hat"></div>
+                        <div class="group-image">
+                            <img [src]="data.thumb|asset" alt="">
+                            <div class="box-hat"></div>
+                        </div>
                         <div class="group-footer" *ngIf="data.preview_type > 0">
                             <a class="btn btn-primary" routerLink="preview">
                                 <ng-container i18n>Live Preview</ng-container>

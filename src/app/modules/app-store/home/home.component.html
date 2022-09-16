@@ -79,7 +79,7 @@
                         <div class="col-md-6" *ngFor="let item of featureItems">
                             <div class="app-item">
                                 <div class="item-thumb">
-                                    <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                                    <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
                                     <div class="item-hat"></div>
                                 </div>
                                 <div class="item-body">
@@ -130,7 +130,7 @@
                 <div class="col-md-3" *ngFor="let item of newItems">
                     <div class="app-item item-style-column">
                         <div class="item-thumb">
-                            <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                            <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
                             <div class="item-hat"></div>
                         </div>
                         <div class="item-body">

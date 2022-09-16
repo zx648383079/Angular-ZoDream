@@ -51,6 +51,25 @@
     }
 }
 
+.flex-line {
+    display: flex;
+    .line-icon {
+        padding: .8rem;
+        height: 8rem;
+        width: 8rem;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .line-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
 .group-box {
     background-color: #ebebeb;
     border-radius: .35rem;

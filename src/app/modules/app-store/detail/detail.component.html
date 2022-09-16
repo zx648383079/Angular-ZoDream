@@ -10,19 +10,25 @@
             </nav>
         </div>
         <div class="col-md-12">
-            <div class="title-bar">
-                {{ data.name }}
-            </div>
-
-            <div class="tag-bar">
-                <a href="">
-                    By {{ data.user?.name }}
-                </a>
-                <a href="">
-                    <i class="iconfont icon-download"></i>
-                    {{ data.download_count | numberFormat }}
-                </a>
-
+            <div class="flex-line">
+                <div class="line-icon">
+                    <img [src]="data.icon|asset" alt="">
+                    <div class="box-hat"></div>
+                </div>
+                <div class="line-body">
+                    <div class="title-bar">
+                        {{ data.name }}
+                    </div>
+        
+                    <div class="tag-bar">
+                        <a><i class="iconfont icon-user"></i> {{ data.user?.name }}
+                        </a>
+                        <a >
+                            <i class="iconfont icon-download"></i>
+                            {{ data.download_count | numberFormat }}
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="tab-header-bar">
@@ -48,10 +54,6 @@
         <div class="col-md-8">
             <div class="tab-target-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                    <div class="group-box">
-                        <img [src]="data.icon|asset" alt="">
-                        <div class="box-hat"></div>
-                    </div>
                     <div class="content-body">
                         <div [innerHTML]="content"></div>
                         <div class="body-memu-bar">

@@ -26,6 +26,7 @@
         display: flex;
         a {
             display: inline-flex;
+            user-select: none;
             justify-content: center;
             align-items: center;
             min-width: 3rem;
