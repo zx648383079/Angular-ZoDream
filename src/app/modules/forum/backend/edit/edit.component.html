@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
     <div class="form-table">
         <form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -83,14 +83,14 @@
         </div>
 
         <div class="btn-group">
-            <button type="submit" class="btn btn-success" (click)="tapSubmit()">确认保存</button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </div>
 </div>
 
 
-<app-dialog-box #classifyModal [title]="editData.id > 0 ? '编辑主题' : '新增主题'">
+<app-dialog-box #classifyModal>
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group">

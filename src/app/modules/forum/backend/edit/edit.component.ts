@@ -7,6 +7,7 @@ import { filterTree } from '../../../../theme/utils';
 import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../forum.service';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { ButtonEvent } from '../../../../components/form';
 
 @Component({
     selector: 'app-edit',
@@ -82,7 +83,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -93,9 +94,17 @@ export class EditComponent implements OnInit {
         }
         data.classifies = this.classifyItems;
         data.moderators = this.userItems;
-        this.service.forumSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
-            this.tapBack();
+        e?.enter();
+        this.service.forumSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('保存成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -108,10 +117,13 @@ export class EditComponent implements OnInit {
         modal.open(() => {
             if (!item) {
                 this.classifyItems.push(this.editData);
+            } else {
+                item.icon = this.editData.icon;
+                item.name = this.editData.name;
             }
         }, () => {
             return !emptyValidate(this.editData.name) || !emptyValidate(this.editData.icon)
-        });
+        }, item ? '编辑主题' : '新增主题');
     }
 
     public removeClassify(item: IForumClassify) {

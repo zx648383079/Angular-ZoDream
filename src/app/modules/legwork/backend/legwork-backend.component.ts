@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LegworkService } from './legwork.service';
 
 @Component({
   selector: 'app-legwork-backend',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LegworkBackendComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: LegworkService,
+    ) { }
+
+    ngOnInit() {
+        this.service.statistics().subscribe(res => {
+            this.isLoading = false;
+            this.data = res;
+        });
+    }
 
 }

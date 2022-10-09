@@ -61,4 +61,7 @@ export class LegworkService {
         return this.http.post<IWaiter>('legwork/admin/service/change', {id, status});
     }
 
+    public statistics() {
+        return this.http.get<any>('legwork/admin/statistics');
+    }
 }
