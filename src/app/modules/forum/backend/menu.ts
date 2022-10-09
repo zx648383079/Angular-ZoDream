@@ -2,7 +2,7 @@ import { INav } from '../../../theme/components';
 
 export const ForumBackendMenu: INav[] = [
     {
-        name: '圈子管理',
+        name: '论坛管理',
         icon: 'icon-smile-o',
         url: './forum',
         role: 'forum_manage',

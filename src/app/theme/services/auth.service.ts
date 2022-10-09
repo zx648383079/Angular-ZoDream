@@ -228,6 +228,8 @@ export class AuthService {
                     const user = res.auth_profile;
                     user.token = token;
                     this.authenticateUser(user);
+                } else {
+                    this.store.dispatch(this.actions.checking(false));
                 }
             },
             error: _ => {
