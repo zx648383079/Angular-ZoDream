@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>淘宝客插件管理</li>
+            <li>分销插件管理</li>
         </ul>
     </app-page-tip>
 
@@ -10,7 +10,7 @@
             <i class="iconfont icon-bookmark"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">开启淘宝客</div>
+            <div class="item-name">开启分销</div>
         </div>
         <div class="item-action">
             <app-switch onLabel="开" offLabel="关" [(ngModel)]="isInstalled" (ngModelChange)="onInstallChange()"></app-switch>
@@ -25,12 +25,12 @@
                 </div>
                 <div class="inner">
                     <h3>{{ data.income_today | numberFormat }}/{{ data.income_count | numberFormat }}</h3>
-                    <p>预计今日/总收益</p>
+                    <p>预计今日/总订单</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-folder-open-o"></i>
                 </div>
-                <a class="column-footer" routerLink="product">
+                <a class="column-footer" routerLink="log">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>
@@ -43,12 +43,12 @@
                 </div>
                 <div class="inner">
                     <h3>{{ data.display_today | numberFormat }}/{{ data.display_count | numberFormat }}</h3>
-                    <p>今日/总展示量</p>
+                    <p>今日/总佣金</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-folder-open-o"></i>
                 </div>
-                <a class="column-footer" routerLink="product">
+                <a class="column-footer" routerLink="log">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>
@@ -61,12 +61,12 @@
                 </div>
                 <div class="inner">
                     <h3>{{ data.click_today | numberFormat }}/{{ data.click_count | numberFormat }}</h3>
-                    <p>今日/总点击跳转量</p>
+                    <p>今日/总邀请用户</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-folder-open-o"></i>
                 </div>
-                <a class="column-footer" routerLink="product">
+                <a class="column-footer" routerLink="log">
                     查看更多
                     <i class="iconfont icon-arrow-right"></i>
                 </a>

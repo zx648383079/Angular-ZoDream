@@ -4,7 +4,6 @@ import { pluginRoutedComponents, PluginRoutingModule } from './plugin-routing.ro
 import { ThemeModule } from '../../../../theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TbkService } from './tbk.service';
 
 @NgModule({
     imports: [
@@ -15,8 +14,5 @@ import { TbkService } from './tbk.service';
         PluginRoutingModule,
     ],
     declarations: [...pluginRoutedComponents],
-    providers: [
-        TbkService,
-    ],
 })
 export class PluginModule { }

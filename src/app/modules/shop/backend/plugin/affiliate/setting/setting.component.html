@@ -1,0 +1,87 @@
+<app-edit-header title="分销设置" (submited)="tapSubmit($event)"></app-edit-header>
+<div class="container-fluid">
+    
+    <div class="input-panel" [ngClass]="{open: data.by_user}">
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-bookmark"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">分级返佣</div>
+                <div class="item-meta">推荐会员分级返佣</div>
+            </div>
+            <div class="item-action">
+                <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.by_user"></app-switch>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="plus-table">
+                <thead>
+                    <tr>
+                        <th>第几级</th>
+                        <th>佣金比例%</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data.by_user_grade;let i = index">
+                        <td>
+                            {{ i + 1 }} 级
+                        </td>
+                        <td>
+                            <app-number-input [(ngModel)]="item.scale"></app-number-input>
+                        </td>
+                        <td>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <i class="iconfont icon-plus" (click)="tapAddItem()"></i>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="input-line-item">
+                <div class="item-label">后续佣金比例%</div>
+                <div class="item-body">
+                    <app-number-input [(ngModel)]="data.by_user_next"></app-number-input>
+                </div>
+            </div>
+            <div class="tip">一级指下单订单主体会员的上级邀请人，二级指上级邀请人的上级，后续佣金比例输入则表示无限级返佣</div>
+        </div>
+    </div>
+    
+
+    <div class="input-panel open" [ngClass]="{open: data.by_order}">
+        <div class="input-item">
+            <div class="item-icon">
+                <i class="iconfont icon-bookmark"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-name">订单返佣</div>
+            <div class="item-meta">推荐订单返佣</div>
+            </div>
+            <div class="item-action">
+                <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.by_order"></app-switch>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="input-line-item">
+                <div class="item-label">佣金比例%</div>
+                <div class="item-body">
+                    <app-number-input  [(ngModel)]="data.by_order_scale"></app-number-input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="btn-group">
+        <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+    </div>
+</div>

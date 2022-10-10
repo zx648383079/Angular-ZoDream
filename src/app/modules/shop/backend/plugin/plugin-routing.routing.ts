@@ -8,24 +8,19 @@ import {
 import {
     PluginComponent
 } from './plugin.component';
-import {
-    SettingComponent
-} from './tbk/setting/setting.component';
-import {
-    TbkComponent
-} from './tbk/tbk.component';
 
-const routes: Routes = [{
-        path: '',
-        component: PluginComponent
-    },
-    {
-        path: 'tbk/setting',
-        component: SettingComponent
-    },
+const routes: Routes = [
     {
         path: 'tbk',
-        component: TbkComponent
+        loadChildren: () => import('./tbk/tbk.module').then(m => m.TbkModule)
+    },
+    {
+        path: 'affiliate',
+        loadChildren: () => import('./affiliate/affiliate.module').then(m => m.AffiliateModule)
+    },
+    {
+        path: '',
+        component: PluginComponent
     },
 ];
 
@@ -37,6 +32,4 @@ export class PluginRoutingModule {}
 
 export const pluginRoutedComponents = [
     PluginComponent,
-    SettingComponent,
-    TbkComponent
 ];

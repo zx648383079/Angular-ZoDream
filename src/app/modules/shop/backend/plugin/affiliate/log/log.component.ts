@@ -1,12 +1,9 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IAccountLog } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { UserService } from '../user.service';
+import { IPageQueries } from '../../../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../../../theme/query';
+import { IAffiliateLog } from '../../../../model';
+import { AffiliateService } from '../affiliate.service';
 
 @Component({
     selector: 'app-log',
@@ -15,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class LogComponent implements OnInit {
 
-    public items: IAccountLog[] = [];
+    public items: IAffiliateLog[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -26,7 +23,7 @@ export class LogComponent implements OnInit {
     };
 
     constructor(
-        private service: UserService,
+        private service: AffiliateService,
         private route: ActivatedRoute,
     ) {
     }
@@ -68,7 +65,7 @@ export class LogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.accountLog(queries).subscribe({
+        this.service.logList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;

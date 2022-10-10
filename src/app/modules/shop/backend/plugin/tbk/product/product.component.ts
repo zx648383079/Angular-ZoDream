@@ -1,32 +1,28 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IAccountLog } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { UserService } from '../user.service';
+import { IPageQueries } from '../../../../../../theme/models/page';
+import { getQueries } from '../../../../../../theme/query';
+import { TbkService } from '../tbk.service';
 
 @Component({
-    selector: 'app-log',
-    templateUrl: './log.component.html',
-    styleUrls: ['./log.component.scss']
+    selector: 'app-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss']
 })
-export class LogComponent implements OnInit {
+export class ProductComponent implements OnInit {
 
-    public items: IAccountLog[] = [];
+    public items: any[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
-        keywords: '',
         page: 1,
         per_page: 20,
+        keywords: '',
     };
 
     constructor(
-        private service: UserService,
+        private service: TbkService,
         private route: ActivatedRoute,
     ) {
     }
@@ -38,15 +34,10 @@ export class LogComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
-        this.tapRefresh();
-    }
-
 
     /**
-    * tapRefresh
-    */
+     * tapRefresh
+     */
     public tapRefresh() {
         this.goPage(1);
     }
@@ -60,26 +51,30 @@ export class LogComponent implements OnInit {
     }
 
     /**
-    * goPage
-    */
+     * goPage
+     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.accountLog(queries).subscribe({
+        this.service.search(queries).subscribe({
             next: res => {
-                this.items = res.data;
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                applyHistory(this.queries = queries);
                 this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.data.length >= this.queries.per_page;
+                this.total = (this.hasMore ? page + 1 : page) * this.queries.per_page;
             },
-            error: () => {
+            error: _ => {
                 this.isLoading = false;
             }
         });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = getQueries(form, this.queries);
+        this.tapRefresh();
     }
 
 }

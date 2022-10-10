@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TbkService } from './tbk.service';
+import { AffiliateService } from './affiliate.service';
 
 @Component({
-  selector: 'app-tbk',
-  templateUrl: './tbk.component.html',
-  styleUrls: ['./tbk.component.scss']
+    selector: 'app-affiliate',
+    templateUrl: './affiliate.component.html',
+    styleUrls: ['./affiliate.component.scss']
 })
-export class TbkComponent implements OnInit {
+export class AffiliateComponent implements OnInit {
 
     public isInstalled = false;
     public isLoading = true;
     public data: any = {};
 
     constructor(
-        private service: TbkService,
+        private service: AffiliateService,
         private router: Router,
         private route: ActivatedRoute
     ) { }
@@ -32,5 +32,4 @@ export class TbkComponent implements OnInit {
             this.router.navigate(['setting'], {relativeTo: this.route});
         }
     }
-
 }

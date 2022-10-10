@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
-import { TbkService } from '../tbk.service';
+import { AffiliateService } from '../affiliate.service';
 
 @Component({
   selector: 'app-setting',
@@ -11,24 +10,23 @@ import { TbkService } from '../tbk.service';
 })
 export class SettingComponent implements OnInit {
 
-    public form = this.fb.group({
-        app_key: ['', Validators.required],
-        secret: ['', Validators.required],
-    });
+    public data = {
+        by_user: 0,
+        by_user_next: 0,
+        by_user_grade: [],
+        by_order: 0,
+        by_order_scale: 0
+    };
 
     constructor(
-        private service: TbkService,
-        private fb: FormBuilder,
+        private service: AffiliateService,
         private toastrService: DialogService,
     ) {
     }
 
     ngOnInit() {
         this.service.option().subscribe(res => {
-            this.form.patchValue({
-                app_key: res.data.app_key,
-                secret: res.data.secret
-            });
+            this.data = res.data;
         });
     }
 
@@ -37,11 +35,7 @@ export class SettingComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
-            return;
-        }
-        const data: any = Object.assign({}, this.form.value);
+        const data: any = Object.assign({}, this.data);
         e?.enter();
         this.service.optionSave(data).subscribe({
             next: _ => {
@@ -54,6 +48,16 @@ export class SettingComponent implements OnInit {
                 this.toastrService.error(err);
             }
         });
+    }
+
+    public tapAddItem() {
+        this.data.by_user_grade.push({
+            scale: 0,
+        });
+    }
+
+    public tapRemoveItem(i: number) {
+        this.data.by_user_grade.splice(i, 1);
     }
 
 }

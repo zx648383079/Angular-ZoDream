@@ -697,6 +697,20 @@ export interface IDeliveryGoods {
     type_remark:    string;
 }
 
+export interface IAffiliateLog {
+    id: number;
+    user_id: number;
+    item_type: number;
+    item_id: number;
+    order_sn: string;
+    order_amount: number;
+    money: number;
+    status: number;
+    updated_at:        string;
+    created_at:        string;
+    user: IUser;
+}
+
 export enum ORDER_STATUS {
     CANCEL = 1,
     INVALID = 2,

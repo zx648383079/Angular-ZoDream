@@ -1,0 +1,26 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { IDataOne, IPage } from '../../../../../theme/models/page';
+import { IAffiliateLog } from '../../../model';
+
+@Injectable()
+export class AffiliateService {
+
+    constructor(private http: HttpClient) { }
+
+    public logList(params: any) {
+        return this.http.get<IPage<IAffiliateLog>>('shop/admin/plugin/affiliate', {params});
+    }
+
+    public option() {
+        return this.http.get<IDataOne<any>>('shop/admin/plugin/affiliate/option');
+    }
+
+    public optionSave(data: any) {
+        return this.http.post<IDataOne<any>>('shop/admin/plugin/affiliate/save_option', data);
+    }
+
+    public statistics() {
+        return this.http.get<any>('shop/admin/plugin/affiliate/statistics');
+    }
+}
