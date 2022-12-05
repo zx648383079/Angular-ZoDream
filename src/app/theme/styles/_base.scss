@@ -3,6 +3,10 @@ body {
     color: #333;
 }
 
+.theme-gray {
+    filter: grayscale(100%);
+}
+
 a {
     text-decoration: none;
 }
