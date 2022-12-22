@@ -8,9 +8,6 @@ export interface IMenuButton {
     onTapped?: () => void;
 }
 
-export interface IMenuDivide {
-}
-
-export type IMenuItem = IMenuButton | IMenuDivide;
+export type IMenuItem = Partial<IMenuButton>;
 
 export type MenuEvent = (item: IMenuButton) => void;

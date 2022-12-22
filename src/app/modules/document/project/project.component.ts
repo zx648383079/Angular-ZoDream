@@ -39,7 +39,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    public tapRead(item?: IDocApi&IDocPage) {
+    public tapRead(item?: IDocApi|IDocPage) {
         const route = [this.data.type > 0 ? '../../api' : '../../page', this.data.id];
         if (item) {
             route.push(0, item.id);

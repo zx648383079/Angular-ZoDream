@@ -30,7 +30,7 @@ export class AppStoreComponent implements OnInit {
         private service: AppStoreService,
     ) { }
 
-    public get subNavItems(): INav[] {
+    public get subNavItems(): ICategory[] {
         return this.navItems[this.navIndex].children;
     }
 

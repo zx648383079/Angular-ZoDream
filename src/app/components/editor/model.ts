@@ -1,3 +1,5 @@
+import { EditorOptions } from 'tinymce';
+
 export interface IEditor {
     /**
      * 插入图片
@@ -29,4 +31,9 @@ export interface IImageUploadEvent {
 export interface IEditorRange {
     start: number;
     end: number;
+}
+
+export interface IHtmlEditorOption {
+    key: string;
+    init: Partial<EditorOptions>;
 }

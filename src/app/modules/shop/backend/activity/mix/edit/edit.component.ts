@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { DialogAnimation } from '../../../../../../theme/constants/dialog-animation';
-import { IActivity, IGoods, IMixConfigure, IMixGoods } from '../../../../model';
+import { IActivity, IGoods, IGoodsResult, IMixConfigure, IMixGoods } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
@@ -109,8 +109,11 @@ export class EditMixComponent implements OnInit {
         this.dialogOpen = true;
     }
 
-    public onGoodsSelected(event: IGoods[]) {
+    public onGoodsSelected(event: IGoodsResult|IGoodsResult[]) {
         this.dialogOpen = false;
+        if (!(event instanceof Array)) {
+            event = [event];
+        }
         if (event.length < 1) {
             return;
         }
@@ -120,7 +123,7 @@ export class EditMixComponent implements OnInit {
             }
             this.goodsItems.push({
                 goods_id: item.id,
-                goods: item,
+                goods: item as any,
                 price: item.price,
                 amount: 1,
             });

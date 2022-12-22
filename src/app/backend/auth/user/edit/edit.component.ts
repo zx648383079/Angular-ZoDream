@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IRole } from '../../../../theme/models/auth';
-import { IUser } from '../../../../theme/models/user';
+import { IUser, SexItems } from '../../../../theme/models/user';
 import { DateAdapter } from '../../../../theme/services';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { confirmValidator } from '../../../../theme/validators';
@@ -29,8 +29,8 @@ export class EditUserComponent implements OnInit {
     });
 
     public data: IUser;
-
     public roleItems: IRole[] = [];
+    public sexItems = SexItems;
 
     constructor(
         private fb: FormBuilder,

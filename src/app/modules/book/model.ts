@@ -13,6 +13,7 @@ export interface IAuthor {
     book_count?: number;
     avatar?: string;
     description?: string;
+    status?: number;
 }
 
 export interface IBook {

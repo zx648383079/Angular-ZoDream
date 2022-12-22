@@ -2,6 +2,7 @@ import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { FileUploadService } from '../../../theme/services';
+import { IHtmlEditorOption } from '../model';
 
 @Component({
     selector: 'app-html-editor',
@@ -19,7 +20,7 @@ export class HtmlEditorComponent implements ControlValueAccessor {
 
     public disabled = false;
     public value = '';
-    public editorConfigs = {
+    public editorConfigs: IHtmlEditorOption = {
         key: environment.editorKey,
         init: {
             height: 500,
@@ -39,18 +40,18 @@ export class HtmlEditorComponent implements ControlValueAccessor {
             image_caption: true,
             paste_data_images: true,
             imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
-            images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
+            images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
                 const form = new FormData();
                 form.append('file', blobInfo.blob(), blobInfo.filename());
                 this.uploadService.uploadImages(form).subscribe({
                     next: res => {
-                        success(res[0].url);
+                        resolve(res[0].url);
                     }, 
                     error: err => {
-                        failure(err.error.message);
+                        reject(err.error.message);
                     }
                 });
-            },
+            }),
         }
     };
 

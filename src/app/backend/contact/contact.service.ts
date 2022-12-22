@@ -22,7 +22,7 @@ export class ContactService {
 
     public friendLinkRemove(id: any) {
         return this.http.delete<IDataOne<true>>('contact/admin/friend_link/delete', {
-          params: {id}
+          params: {'id[]': id}
         });
     }
 
@@ -46,9 +46,7 @@ export class ContactService {
 
     public feedbackRemove(id: any) {
         return this.http.delete<IDataOne<true>>('contact/admin/feedback/delete', {
-            params: {
-                id
-            }
+            params: {'id[]': id}
         });
     }
 

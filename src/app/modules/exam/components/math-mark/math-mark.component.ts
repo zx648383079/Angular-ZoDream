@@ -9,6 +9,7 @@ interface IMarkItem {
     rightValue?: string;
     line?: boolean; // 是否是单独一行
     size?: number;
+    header?: any[];
 }
 
 @Component({

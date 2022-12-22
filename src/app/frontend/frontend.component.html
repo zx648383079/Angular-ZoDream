@@ -32,17 +32,25 @@
                     </ng-container>
                     <ng-template #elseTemplate>
                         <li class="nav-item">
-                            <app-checkin>
-                                <a class="nav-link" i18n>Check in</a>
+                            <app-checkin (checkedChange)="onCheckedChange($event)">
+                                <a class="nav-link" [ngClass]="{disabled: user && user.today_checkin}" i18n>{user && user.today_checkin, plural, =true {Checked in} =false {Check in}}</a>
                             </app-checkin>
                         </li>
                         <li class="nav-item dropdown" [ngClass]="{show: dropDownVisiable}">
                             <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
                                 {{ user.name }}
+                                <ng-container *ngIf="user.bulletin_count > 0">
+                                    <em class="bubble-tip" title="There are unread messages" i18n-title></em>
+                                </ng-container>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisiable}">
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user" i18n>Account</a></li>
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/bulletin" i18n>Message</a></li>
+                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/bulletin">
+                                    <ng-container i18n>Message</ng-container>
+                                    <ng-container *ngIf="user.bulletin_count > 0">
+                                        <em class="bubble">{{ user.bulletin_count  > 99 ? '99+' : user.bulletin_count }}</em>
+                                    </ng-container>
+                                </a></li>
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/profile" i18n>Profile</a></li>
                                 <li ngbDropdownItem><hr class="dropdown-divider"></li>
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="agreement" i18n>Help</a></li>

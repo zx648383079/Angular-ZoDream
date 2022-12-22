@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { environment } from '../../../../../../environments/environment';
+import { IHtmlEditorOption } from '../../../../../components/editor';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IItem } from '../../../../../theme/models/seo';
 import { FileUploadService } from '../../../../../theme/services';
@@ -36,7 +37,7 @@ export class TemplateEditorComponent implements ControlValueAccessor {
         page: 1,
         per_page: 20
     };
-    public editorConfigs = {
+    public editorConfigs: IHtmlEditorOption = {
         key: environment.editorKey,
         init: {
             height: 800,
@@ -56,18 +57,18 @@ export class TemplateEditorComponent implements ControlValueAccessor {
             image_caption: true,
             paste_data_images: true,
             imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
-            images_upload_handler: (blobInfo, success: (url: string) => void, failure: (error: string) => void) => {
-            const form = new FormData();
-            form.append('file', blobInfo.blob(), blobInfo.filename());
-            this.uploadService.uploadImages(form).subscribe({
-                next: res => {
-                    success(res[0].url);
-                }, 
-                error: err => {
-                    failure(err.error.message);
-                }
-            });
-            },
+            images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+                const form = new FormData();
+                form.append('file', blobInfo.blob(), blobInfo.filename());
+                this.uploadService.uploadImages(form).subscribe({
+                    next: res => {
+                        resolve(res[0].url);
+                    }, 
+                    error: err => {
+                        reject(err.error.message);
+                    }
+                });
+            }),
         }
     };
     onChange: any = () => {};

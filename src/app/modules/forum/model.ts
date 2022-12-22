@@ -52,6 +52,7 @@ export interface IThread {
     is_reward?: boolean;
     reward_items?: IThreadLog[];
     reward_count?: number;
+    checked?: boolean;
 }
 
 export interface IThreadPost {

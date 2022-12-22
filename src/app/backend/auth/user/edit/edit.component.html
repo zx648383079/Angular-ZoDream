@@ -31,16 +31,7 @@
                     <div class="input-group">
                         <label for="sex">性别</label>
                         <div>
-                            <span class="radio-label">
-                                <input type="radio" id="sex0" formControlName="sex" value="0">
-                                <label for="sex0">未知</label>
-                            </span><span class="radio-label">
-                                <input type="radio" id="sex1" formControlName="sex" value="1">
-                                <label for="sex1">男</label>
-                            </span><span class="radio-label">
-                                <input type="radio" id="sex2" formControlName="sex" value="2">
-                                <label for="sex2">女</label>
-                            </span>
+                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
                         </div>
                     </div>
                     <div class="input-group">

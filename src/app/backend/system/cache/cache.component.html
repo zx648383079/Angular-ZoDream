@@ -8,10 +8,11 @@
         <div class="input-group">
             <label for="store_">缓存区</label>
             <div>
-                <span class="check-label" *ngFor="let item of items, index as i">
-                    <input type="checkbox" [id]="'store_' + i" name="store[]" [value]="item.value" [checked]="item.checked" (change)="item.checked = $event.target.checked">
-                    <label [for]="'store_' + i">{{ item.name }}</label>
-                </span>
+                <ng-container *ngFor="let item of items">
+                    <span class="check-label" [ngClass]="{checked: item.checked}" (click)="item.checked = !item.checked">
+                        <label>{{ item.name }}</label>
+                    </span>
+                </ng-container>
             </div>
         </div>
         <div class="btn-group">

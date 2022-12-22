@@ -53,6 +53,9 @@ export interface IMovie {
     status: number;
     view_count: number;
     comment_count: number;
+    updated_at: string;
+    created_at: string;
+    area?: IMovieArea;
     tags?: ITag[];
     user?: IUser;
     category?: ICategory;
@@ -87,6 +90,7 @@ export interface ICategory {
     name: string;
     icon: string;
     parent_id: number;
+    level?: number;
     recommend_items?: IMovie[];
     new_items?: IMovie[];
 }

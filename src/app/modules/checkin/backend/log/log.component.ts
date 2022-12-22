@@ -1,32 +1,30 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ILoginLog } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
-import { UserService } from '../user.service';
+import { IPageQueries } from '../../../../theme/models/page';
+import { applyHistory, getQueries } from '../../../../theme/query';
+import { ICheckIn } from '../../model';
+import { CheckinService } from '../checkin.service';
 
 @Component({
-    selector: 'app-login-log',
-    templateUrl: './login-log.component.html',
-    styleUrls: ['./login-log.component.scss']
+  selector: 'app-log',
+  templateUrl: './log.component.html',
+  styleUrls: ['./log.component.scss']
 })
-export class LoginLogComponent implements OnInit {
+export class LogComponent implements OnInit {
 
-    public items: ILoginLog[] = [];
+    public items: ICheckIn[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
         keywords: '',
+        date: '',
         page: 1,
         per_page: 20,
     };
 
     constructor(
-        private service: UserService,
+        private service: CheckinService,
         private route: ActivatedRoute,
     ) {
     }
@@ -67,7 +65,7 @@ export class LoginLogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.loginLog(queries).subscribe({
+        this.service.logList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;

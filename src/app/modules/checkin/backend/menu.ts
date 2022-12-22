@@ -8,6 +8,10 @@ export const CheckInBackendMenu: MenuReadyFn = function() {
             icon: 'icon-calendar',
             children: [
                 {
+                    name: '记录查询',
+                    url: this.renderUrl('log'),
+                },
+                {
                     name: '设置',
                     url: this.renderUrl('option'),
                 },

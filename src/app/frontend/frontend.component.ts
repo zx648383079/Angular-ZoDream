@@ -5,7 +5,7 @@ import { ILink } from '../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { getUserProfile } from '../theme/reducers/auth.selectors';
-import { IUser } from '../theme/models/user';
+import { IUser, IUserStatus } from '../theme/models/user';
 import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
@@ -38,7 +38,7 @@ export class FrontendComponent implements OnDestroy {
     public fixedTop = false;
     public navStyle = true;
     public activeUri = '';
-    public user: IUser;
+    public user: IUserStatus;
     public userLoading = false;
     public dropDownVisiable = false;
 
@@ -52,7 +52,12 @@ export class FrontendComponent implements OnDestroy {
     ) {
         this.store.select(getUserProfile).subscribe(res => {
             this.userLoading = res.isLoading;
-            this.user = res.user;
+            this.user = res.user as any;
+            if (!res.isLoading && res.user) {
+                this.authService.loadProfile('bulletin_count,today_checkin').subscribe(profile => {
+                    this.user = profile;
+                });
+            }
         });
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
@@ -76,6 +81,12 @@ export class FrontendComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this.searchService.off(SearchEvents.LOGIN, 'navbar');
+    }
+
+    public onCheckedChange(checked: boolean) {
+        if (this.user) {
+            this.user.today_checkin = checked;
+        }
     }
 
     public toggleDropDown() {

@@ -35,6 +35,7 @@ export interface IQuestion {
     editable?: boolean;
     children?: IQuestion[];
     parent?: IQuestion;
+    course_grade_format?: string;
 }
 
 export interface IQuestionMaterial {
@@ -115,6 +116,9 @@ export interface IExamPage {
         score: number;
     }[];
     question_count?: number;
+    score?: number;
+    course_grade_format?: string;
+    course?: ICourse;
 }
 
 export interface IPageEvaluate {

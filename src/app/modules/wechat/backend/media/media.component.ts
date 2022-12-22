@@ -100,7 +100,7 @@ export class MediaComponent implements OnInit {
         });
     }
 
-    public tapTab(i: string) {
+    public tapTab(i: any) {
         this.queries.type = i;
         this.tapRefresh();
     }

@@ -17,8 +17,9 @@ export interface ISoftware {
     description: string,
     cat_id: number,
     icon: string,
-    is_free: number,
-    is_open_source: number,
+    is_free: number;
+    price: number;
+    is_open_source: number;
     official_website: string,
     git_url: string,
     score: number,
@@ -32,6 +33,7 @@ export interface ISoftware {
     category?: ICategory;
     version?: ISoftwareVersion;
     packages?: ISoftwarePackage[];
+    size?: number;
 }
 
 export interface ISoftwareVersion {
@@ -40,7 +42,7 @@ export interface ISoftwareVersion {
     description: string;
     created_at?: string;
     app_id: number;
-    files?: ISoftwarePackage;
+    files?: ISoftwarePackage[];
 }
 
 export interface ISoftwarePackage {
@@ -60,8 +62,13 @@ export interface ICategory {
     id: number;
     name: string;
     icon: string;
+    thumb?: string;
     parent_id: number;
     children?: ICategory[];
+    description?: string;
+    level?: number;
+    items?: ISoftware[];
+    active?: boolean;
 }
 
 export interface ITag {
@@ -78,6 +85,7 @@ export interface IComment {
     reply_count?: number;
     extra_rule?: IExtraRule[];
     created_at: string;
+    reply_items?: IComment[];
 }
 
 export interface ISoftwareLog {
@@ -85,6 +93,8 @@ export interface ISoftwareLog {
     created_at: string;
     software: ISoftware;
     installed?: boolean;
+    category?: ICategory;
+    user?: IUser;
 }
 
 export interface ISoftwareCheck {

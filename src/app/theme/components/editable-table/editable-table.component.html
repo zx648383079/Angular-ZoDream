@@ -36,7 +36,7 @@
                             </ng-container>
                             <ng-container *ngIf="item.inputType == 'select'">
                                 <select class="form-control" [(ngModel)]="item.value">
-                                    <option *ngFor="let option of item.optionItems" [value]="option.vlaue">{{ option.name }}</option>
+                                    <option *ngFor="let option of item.optionItems" [value]="option.value">{{ option.name }}</option>
                                 </select>
                             </ng-container>
                         </ng-container>

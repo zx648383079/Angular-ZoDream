@@ -30,7 +30,7 @@ export class ResourceStoreComponent implements OnInit {
         private service: ResourceService,
     ) { }
 
-    public get subNavItems(): INav[] {
+    public get subNavItems(): ICategory[] {
         return this.navItems[this.navIndex].children;
     }
 

@@ -32,10 +32,7 @@
                     <div class="input-group">
                         <label for="sex">性别</label>
                         <div>
-                            <span class="radio-label" *ngFor="let item of sexItems; index as i">
-                                <input type="radio" [id]="'sex_' + i" name="sex" [value]="i" formControlName="sex">
-                                <label [for]="'sex_' + i">{{ item }}</label>
-                            </span>
+                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
                         </div>
                     </div>
                     <div class="input-group">

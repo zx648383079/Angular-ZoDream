@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGroupBuyConfigure } from '../../../../model';
@@ -38,7 +38,7 @@ export class EditGroupBuyComponent implements OnInit {
     ) { }
 
     get stepItems() {
-        return this.form.get('step') as FormArray;
+        return this.form.get('step') as FormArray<FormGroup>;
     }
 
     ngOnInit() {

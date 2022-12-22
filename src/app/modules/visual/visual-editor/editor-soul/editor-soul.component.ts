@@ -26,13 +26,13 @@ export class EditorSoulComponent implements OnInit {
         }
     }
 
-    public tapWidget(item: WidgetSource) {
+    public tapWidget(item: WidgetPreview) {
         this.service.moveWidget$.next({
             data: item,
         });
     }
 
-    public moveWidget(item: WidgetSource, event: MouseEvent) {
+    public moveWidget(item: WidgetPreview, event: MouseEvent) {
         this.service.moveWidget$.next({
             data: item,
             start: {

@@ -12,21 +12,31 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="pull-right">
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                </div>
             </form>
         </div>
         <table class="table table-bordered well">
             <thead>
                 <tr>
+                    <th [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </th>
                     <th>ID</th>
                     <th>站点名</th>
                     <th>网址</th>
                     <th>简介</th>
                     <th>状态</th>
+                    <th>申请时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
+                    <td [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    </td>
                     <td>{{ item.id }}</td>
                     <td [title]="item.created_at">{{ item.name }}</td>
                     <td>
@@ -37,6 +47,7 @@
                     <td>
                         {{item.status < 1 ? '待审核' : '已通过'}}
                     </td>
+                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
                             <a class="btn btn-success" *ngIf="item.status < 1" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
@@ -46,6 +57,16 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

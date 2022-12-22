@@ -17,6 +17,7 @@ export interface IResource {
     content: string,
     description: string,
     cat_id: number,
+    user_id: number;
     size: number;
     score: number;
     price: number;
@@ -62,6 +63,10 @@ export interface ICategory {
     is_hot?: number;
     children?: ICategory[];
     items?: IResource[];
+    thumb?: string;
+    description?: string;
+    active?: boolean;
+    level?: number;
 }
 
 export interface ITag {

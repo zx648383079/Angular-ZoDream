@@ -14,16 +14,16 @@
                 <h3 i18n>Latest Blog</h3>
                 <ul>
                     <li *ngFor="let item of newItems">
-                        <i class="iconfont icon-bookmark"></i><a [routerLink]="item.id">{{ item.title }}</a></li>
+                        <i class="iconfont icon-bookmark"></i><a [routerLink]="item.id + ''">{{ item.title }}</a></li>
                     <li>
                 </ul>
             </div>
             <div class="book-dynamic" *ngIf="commentItems.length > 0">
                 <h3 i18n>Latest Comment</h3>
                 <dl *ngFor="let item of commentItems">
-                    <dt><a [routerLink]="item.blog_id">{{ item.name }}</a> 
+                    <dt><a [routerLink]="item.blog_id + ''">{{ item.name }}</a> 
                         <ng-container i18n> commented </ng-container>
-                        《<a [routerLink]="item.blog_id">{{ item.blog.title }}</a>》</dt>
+                        《<a [routerLink]="item.blog_id + ''">{{ item.blog.title }}</a>》</dt>
                     <dd>
                         <p>{{ item.content }}</p>
                         <span class="book-time">{{ item.created_at|ago }}</span>

@@ -1,3 +1,5 @@
+import { IItem } from './seo';
+
 export interface IUser {
     id: number;
     email?: string;
@@ -19,9 +21,22 @@ export interface IUser {
     is_verified?: boolean;
 }
 
+export interface IUserStatus extends IUser {
+    [key: string]: any;
+    bulletin_count: number;
+    today_checkin: boolean;
+}
+
 export interface IUserItem {
     id: number;
     name: string;
     avatar: string;
 }
+
+export const SexItems: IItem[] = [
+    {name: $localize `Unkown`, value: 0},
+    {name: $localize `Male`, value: 1},
+    {name: $localize `Female`, value: 2},
+
+];
 

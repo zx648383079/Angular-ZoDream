@@ -22,6 +22,7 @@ export interface IFriendLink {
     status: number;
     created_at: string;
     updated_at: string;
+    checked?: boolean;
 }
 
 export interface IFeedback {
@@ -33,6 +34,7 @@ export interface IFeedback {
     status: number;
     created_at: string;
     updated_at: string;
+    checked?: boolean;
 }
 
 export interface IReport {

@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapContextMenu(e: PointerEvent, item: IBookRecord) {
+    public tapContextMenu(e: MouseEvent, item: IBookRecord) {
         return this.contextMenu.show(e, [
             {
                 icon: 'icon-trash',

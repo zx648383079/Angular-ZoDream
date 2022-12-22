@@ -24,7 +24,7 @@ import {
     Observable,
 } from 'rxjs';
 import {
-    IUser
+    IUser, IUserStatus
 } from '../models/user';
 import {
     CookieService
@@ -126,6 +126,12 @@ export class AuthService {
             localStorage.clear();
         }
         this.store.dispatch(this.actions.logout());
+    }
+
+    public loadProfile(extra: string) {
+        return this.http.get<IUserStatus>('auth/user', {
+            params: {extra}
+        });
     }
 
     /**

@@ -12,11 +12,17 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="pull-right">
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                </div>
             </form>
         </div>
         <table class="table table-bordered well">
             <thead>
                 <tr>
+                    <th [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </th>
                     <th>ID</th>
                     <th>称呼</th>
                     <th>邮箱</th>
@@ -29,6 +35,9 @@
             <tbody>
                 <ng-container *ngFor="let item of items">
                     <tr>
+                        <td [hidden]="!isMultiple">
+                            <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        </td>
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.email }}
@@ -48,6 +57,16 @@
                     </tr>
                 </ng-container>
             </tbody>
+            <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
@@ -70,7 +89,7 @@
     </div>
     <div class="line-item">
         <span class="label">留言时间：</span>
-        <span class="value">{{ editData.created_at | ago }}</span>
+        <span class="value">{{ editData.created_at | ago }}({{ editData.created_at }})</span>
     </div>
     <div class="line-item">
         <span class="label">反馈内容：</span>

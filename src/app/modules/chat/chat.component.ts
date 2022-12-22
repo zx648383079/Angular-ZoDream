@@ -23,6 +23,7 @@ import { Recorder } from './recorder';
 import { AuthService } from '../../theme/services';
 import { ContextMenuComponent } from '../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../components/dialog';
+import { IMessageBase } from '../../components/message-container';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser {
@@ -86,7 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
-    public messageItems: IMessage[] = [];
+    public messageItems: IMessageBase[] = [];
     public messageContent = '';
     public recording = false;
     private nextTime = 0;

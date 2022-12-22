@@ -132,8 +132,8 @@ export class SearchDialogComponent implements OnChanges  {
         this.selectedItems = [];
     }
 
-    public get formatItems() {
-        return this.onlySelected ? this.selectedItems : this.items;
+    public get formatItems(): IGoods[] {
+        return this.onlySelected ? this.selectedItems.map(i => i as IGoods) : this.items;
     }
 
 

@@ -10,6 +10,7 @@
             <a (click)="tapClear()" class="btn btn-danger">清除备份</a>
         </div>
 
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <table class="table table-hover" *ngIf="items && items.length > 0">
             <thead>
                 <tr>
@@ -26,6 +27,6 @@
                 </tr>
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        
     </div>
 </div>

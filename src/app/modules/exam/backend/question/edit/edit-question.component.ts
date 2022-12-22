@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -111,7 +111,7 @@ export class EditQuestionComponent implements OnInit {
     }
 
     get optionItems() {
-        return this.form.get('option_items') as FormArray;
+        return this.form.get('option_items') as FormArray<FormGroup>;
     }
 
     public onCourseChange() {

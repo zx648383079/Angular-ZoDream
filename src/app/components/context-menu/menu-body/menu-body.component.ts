@@ -11,11 +11,11 @@ export class MenuBodyComponent {
     @Input() public items: IMenuItem[] = [];
     @Input() public flowLeft = false;
 
-    @Output() public tapped = new EventEmitter<IMenuItem>();
+    @Output() public tapped = new EventEmitter<IMenuButton>();
 
     constructor() { }
 
-    public tapMenuItem(item: IMenuButton) {
+    public tapMenuItem(item: IMenuItem) {
         if (item.disable) {
             return;
         }
@@ -25,7 +25,7 @@ export class MenuBodyComponent {
         if (item.onTapped) {
             item.onTapped();
         }
-        this.tapped.emit(item);
+        this.tapped.emit(item as IMenuButton);
     }
 
 }

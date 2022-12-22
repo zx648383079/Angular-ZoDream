@@ -112,6 +112,7 @@ export interface ICmsContent {
     description: string;
     status: number;
     view_count: number;
+    comment_count: number;
     updated_at: number;
     created_at: number;
     category?: ICmsCategory;

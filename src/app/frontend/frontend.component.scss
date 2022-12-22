@@ -68,6 +68,29 @@ $primaryText: #fff;
     @include navbarCustom(transparent, #333);
 }
 
+.bubble-tip {
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+    width: .6rem;
+    height: .6rem;
+    vertical-align: top;
+}
+
+.bubble {
+    color: #fff;
+    background-color: #a10000;
+    border-radius: 50%;
+    display: block;
+    width: 1.5625rem;
+    height: 1.5625rem;
+    line-height: 1.5625rem;
+    text-align: center;
+    font-size: 0.625rem;
+    overflow: hidden;
+    font-style: normal;
+    float: right;
+}
 
 footer {
     background-color: $primary;

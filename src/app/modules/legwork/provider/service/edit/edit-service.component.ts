@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { LegworkService } from '../../../legwork.service';
@@ -48,7 +48,7 @@ export class EditServiceComponent implements OnInit {
     }
 
     get formItems() {
-        return this.form.get('form') as FormArray;
+        return this.form.get('form') as FormArray<FormGroup>;
     }
 
     public addForm() {

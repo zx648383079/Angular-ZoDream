@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
@@ -29,6 +29,7 @@ export class CheckinComponent {
     public canNext = false;
     private booted = false;
     private monthDate: Date;
+    @Output() public checkedChange = new EventEmitter<boolean>();
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
         if (!event.target.closest('.checkin-picker') && !hasElementByClass(event.path, 'checkin-picker_container')) {
@@ -81,6 +82,7 @@ export class CheckinComponent {
         }).subscribe({
             next: res => {
                 this.data = res.today;
+                this.checkedChange.emit(!!this.data);
                 this.checkDay(...res.month);
             },
             error: (err: IErrorResult) => {
@@ -187,6 +189,7 @@ export class CheckinComponent {
                     this.data = res.data;
                     this.checkDay(new Date(res.data.created_at).getDate());
                     this.toastrService.success($localize `Check in successfully `);
+                    this.checkedChange.emit(!!this.data);
                 }
             },
             error: err => {

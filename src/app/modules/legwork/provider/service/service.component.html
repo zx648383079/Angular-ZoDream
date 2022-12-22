@@ -20,7 +20,7 @@
             <a class="btn btn-light" [routerLink]="'waiter/' + item.id">
                 <span i18n>Taker</span>
             </a>
-            <a class="btn btn-info" [routerLink]="item.id">
+            <a class="btn btn-info" [routerLink]="item.id + ''">
                 <span i18n>Edit</span>
             </a>
             <a class="btn btn-danger" (click)="tapRemove(item)">

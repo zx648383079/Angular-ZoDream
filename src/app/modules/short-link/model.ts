@@ -1,3 +1,5 @@
+import { IUser } from '../../theme/models/user';
+
 export interface IShortLink {
     id: number;
     user_id?: number;
@@ -11,4 +13,5 @@ export interface IShortLink {
     created_at?: string;
     updated_at?: string;
     complete_short_url?: string;
+    user?: IUser;
 }

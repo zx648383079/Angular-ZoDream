@@ -59,8 +59,6 @@ export class SystemComponent implements OnInit {
                 });
                 return group;
             });
-            console.log(this.groups);
-            
         });
     }
 

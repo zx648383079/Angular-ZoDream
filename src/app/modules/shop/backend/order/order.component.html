@@ -61,7 +61,7 @@
                         <p>{{ item.address.tel }}</p>
                     </div>
                     <div class="item-actions">
-                        <a [routerLink]="item.id">订单详情</a>
+                        <a [routerLink]="item.id + ''">订单详情</a>
                         <a (click)="tapShip(shipModal, item)">修改运费</a>
                         <a class="btn btn-danger btn-xs" (click)="tapRemove(item)">删除</a>
                     </div>

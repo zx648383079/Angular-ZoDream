@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-6">
                 <textarea name="content" [(ngModel)]="data.content"  i18n-placeholder placeholder="Feedback Content"></textarea>
-                <app-action-button class="btn btn-show" (click)="tapSubmit($event)" i18n>Send</app-action-button>
+                <app-action-button class="btn btn-show" (tapped)="tapSubmit($event)" i18n>Send</app-action-button>
             </div>
         </div>
     </div>

@@ -14,7 +14,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
     @Input() maxYear = 2099;
     @Input() titleFormat = $localize `y-mm-dd`;
     @Input() format = 'y-mm-dd hh:ii:ss';
-    @Input('value') currentDate = new Date();
+    @Input() public value: string|Date;
+    private currentDate: Date = new Date();
 
     @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
@@ -91,8 +92,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
         if (changes.format) {
             this.hasTime = changes.format.currentValue.indexOf('h') > 0;
         }
-        if (changes.currentDate) {
-            this.currentDate = this.parseDate(changes.currentDate.currentValue);
+        if (changes.value) {
+            this.currentDate = this.parseDate(changes.value.currentValue);
         }
         if (changes.min) {
             this.min = this.parseDate(changes.min.currentValue);

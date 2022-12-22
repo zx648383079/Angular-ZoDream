@@ -5,6 +5,7 @@ export interface ISiteCategory {
     name: string;
     icon: string;
     parent_id: number;
+    level?: number;
     children?: ISiteCategory[];
     lazy_booted?: boolean;
 }

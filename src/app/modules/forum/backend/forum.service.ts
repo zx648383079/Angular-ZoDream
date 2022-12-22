@@ -48,7 +48,7 @@ export class ForumService {
     }
 
     public threadRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('forum/admin/thread/delete', {params: {id}});
+        return this.http.delete<IDataOne<boolean>>('forum/admin/thread/delete', {params: {'id[]': id}});
     }
 
     public statistics() {

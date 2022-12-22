@@ -35,7 +35,7 @@
                     </div>
                     <div class="item-meta" *ngIf="item.items">
                         <ng-container *ngFor="let it of item.items">
-                            <a [routerLink]="['category', item.cat_id, item.id]">{{ it.title }}</a>
+                            <a [routerLink]="['category', it.cat_id, it.id]">{{ it.title }}</a>
                         </ng-container>
                     </div>
                     <div class="item-body">

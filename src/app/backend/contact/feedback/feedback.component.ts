@@ -23,6 +23,8 @@ export class FeedbackComponent implements OnInit {
         per_page: 20,
     };
     public editData: IFeedback = {} as any;
+    public isMultiple = false;
+    public isChecked = false;
 
     constructor(
         private service: ContactService,
@@ -36,6 +38,45 @@ export class FeedbackComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public get checkedItems() {
+        return this.items.filter(i => i.checked);
+    }
+
+    public toggleCheck(item?: IFeedback) {
+        if (!item) {
+            this.isChecked = !this.isChecked;
+            this.items.forEach(i => {
+                i.checked = this.isChecked;
+            });
+            return;
+        }
+        item.checked = !item.checked;
+        if (!item.checked) {
+            this.isChecked = false;
+            return;
+        }
+        if (this.checkedItems.length === this.items.length) {
+            this.isChecked = true;
+        }
+    }
+
+    public tapRemoveMultiple() {
+        const items = this.checkedItems;
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认删除选中的${items.length}条反馈？`, () => {
+            this.service.feedbackRemove(items.map(i => i.id)).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.tapPage();
+            });
         });
     }
 
@@ -64,12 +105,18 @@ export class FeedbackComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.feedbackList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+        this.service.feedbackList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.isChecked = false;
+                applyHistory(this.queries = queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

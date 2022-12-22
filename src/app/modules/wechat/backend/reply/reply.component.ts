@@ -50,7 +50,7 @@ export class ReplyComponent implements OnInit {
         return mapFormat(val, EventItems);
     }
 
-    public formatType(val: string) {
+    public formatType(val: any) {
         return mapFormat(val, EditorTypeItems);
     }
 
@@ -86,7 +86,7 @@ export class ReplyComponent implements OnInit {
         });
     }
     
-    public tapTab(i = '') {
+    public tapTab(i: any = '') {
         this.queries.event = i;
         this.tapRefresh();
     }

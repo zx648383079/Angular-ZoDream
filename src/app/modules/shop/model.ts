@@ -695,6 +695,7 @@ export interface IDeliveryGoods {
     series_number:  string;
     amount:         number;
     type_remark:    string;
+    price?: number;
 }
 
 export interface IAffiliateLog {

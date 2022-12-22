@@ -110,17 +110,16 @@ export class LinkageDataComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: ICmsLinkage) {
-        if (!confirm('确定删除“' + item.name + '”联动？')) {
-            return;
-        }
-        this.service.linkageDataRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+    public tapRemove(item: ICmsLinkageData) {
+        this.toastrService.confirm('确定删除“' + item.name + '”联动项？', () => {
+            this.service.linkageDataRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
-import { IUser } from '../../../theme/models/user';
+import { IUser, SexItems } from '../../../theme/models/user';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
     });
 
     public data: IUser;
-    public sexItems = ['未知', '男', '女'];
+    public sexItems = SexItems;
     public reasonItems = [
         '需要解绑手机',
         '需要解绑邮箱',

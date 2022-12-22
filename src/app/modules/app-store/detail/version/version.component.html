@@ -22,7 +22,7 @@
                 </div>
                 <div class="item-action">
                     <a class="btn btn-info" *ngIf="it.url_type < 1" i18n>Download</a>
-                    <a class="btn btn-info" *ngIf="it.url_type > 0 && item.url_type < 3" i18n>Open</a>
+                    <a class="btn btn-info" *ngIf="it.url_type > 0 && it.url_type < 3" i18n>Open</a>
                     <a class="btn btn-info" *ngIf="it.url_type == 3" i18n>Copy</a>
                 </div>
             </div>

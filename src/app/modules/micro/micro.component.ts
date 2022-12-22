@@ -133,7 +133,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         });
     }
 
-    public tapTab(val: string) {
+    public tapTab(val: any) {
         this.queries.sort = val;
         this.tapRefresh();
     }

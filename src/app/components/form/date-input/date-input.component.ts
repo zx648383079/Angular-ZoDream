@@ -33,7 +33,7 @@ export class DateInputComponent {
         this.output();
     }
 
-    public onValueChange(event: InputEvent) {
+    public onValueChange(event: Event) {
         const value = (event.target as HTMLInputElement).value;
         this.value = value;
         this.output();

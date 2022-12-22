@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
-import { IUser } from '../../../theme/models/user';
+import { IUser, SexItems } from '../../../theme/models/user';
 import { parseNumber } from '../../../theme/utils';
 import { UserService } from '../user.service';
 
@@ -14,21 +14,7 @@ import { UserService } from '../user.service';
 })
 export class ProfileComponent implements OnInit {
 
-    public sexItems: IItem[] = [
-        {
-            name: '未知',
-            value: 0,
-        },
-        {
-            name: '男',
-            value: 1,
-        },
-        {
-            name: '女',
-            value: 2,
-        },
-    ];
-
+    public sexItems = SexItems;
     public user: IUser;
     public form = this.fb.group({
         name: ['', Validators.required],
