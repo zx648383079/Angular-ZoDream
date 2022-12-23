@@ -33,7 +33,7 @@
                     <ng-template #elseTemplate>
                         <li class="nav-item">
                             <app-checkin (checkedChange)="onCheckedChange($event)">
-                                <a class="nav-link" [ngClass]="{disabled: user && user.today_checkin}" i18n>{user && user.today_checkin, plural, =true {Checked in} =false {Check in}}</a>
+                                <a class="nav-link" [ngClass]="{disabled: todayChecked}" i18n>{todayChecked, plural, =true {Checked in} =false {Check in}}</a>
                             </app-checkin>
                         </li>
                         <li class="nav-item dropdown" [ngClass]="{show: dropDownVisiable}">

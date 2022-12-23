@@ -79,6 +79,10 @@ export class FrontendComponent implements OnDestroy {
         return window.location.href;
     }
 
+    public get todayChecked(): boolean {
+        return this.user && this.user.today_checkin;
+    }
+
     ngOnDestroy(): void {
         this.searchService.off(SearchEvents.LOGIN, 'navbar');
     }
