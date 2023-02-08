@@ -21,7 +21,6 @@ import { DialogModule } from './components/dialog';
         BrowserModule,
         BrowserAnimationsModule,
         BrowserModule.withServerTransition({ appId: 'ng-zo' }),
-        BrowserTransferStateModule,
         HttpClientModule,
         AppRoutingModule,
         LazyLoadImageModule,

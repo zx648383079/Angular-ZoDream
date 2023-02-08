@@ -64,6 +64,11 @@ export const AuthBackendMenu: MenuReadyFn = function() {
                     url: this.renderUrl('oauth')
                 },
                 {
+                    name: '权益卡管理',
+                    label: '卡',
+                    url: this.renderUrl('card')
+                },
+                {
                     name: '邀请码管理',
                     label: '邀',
                     url: this.renderUrl('invite/code')

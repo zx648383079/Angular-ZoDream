@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>这是所有的文件列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">文件名</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索文件" [ngModel]="queries.keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>文件名</th>
+                    <th>文件大小</th>
+                    <th>MD5</th>
+                    <th>服务器在线/总数</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.size | size }}</td>
+                    <td>{{ item.md5 }}</td>
+                    <td>{{ item.online_count }}/{{ item.server_count }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        
+        </table>
+        
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>  
+    </div>
+</div>
+

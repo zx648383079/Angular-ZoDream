@@ -25,6 +25,7 @@ import { AppBackendMenu } from '../modules/app-store/backend/menu';
 import { TVBackendMenu } from '../modules/tv/backend/menu';
 import { ResourceBackendMenu } from '../modules/resource-store/backend/menu';
 import { ShortLinkBackendMenu } from '../modules/short-link/backend/menu';
+import { DiskBackendMenu } from '../modules/disk/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -74,6 +75,7 @@ export class MenuService {
             cms: CMSBackendMenu,
             wx: WechatBackendMenu,
             open: OpenBackendMenu,
+            disk: DiskBackendMenu,
             sms: SmsBackendMenu,
             checkin: CheckInBackendMenu,
             system: SystemtBackendMenu,

@@ -20,6 +20,10 @@ import { FileUploadService, SearchService } from '../../../theme/services';
 import { SearchEvents } from '../../../theme/models/event';
 import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
 import { ParallelHasher } from 'ts-md5';
+import { ActivatedRoute } from '@angular/router';
+import { IPageQueries } from '../../../theme/models/page';
+import { getQueries } from '../../../theme/query';
+import { UploadStatus } from '../../../theme/services/uploader';
 
 
 interface ICrumb {
@@ -52,7 +56,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public editMode = false;
     public checkedAll = false;
     public items: IDisk[] = [];
-    public page = 1;
+    public queries: IPageQueries = {
+        keywords: '',
+        type: '',
+        page: 1,
+        per_page: 20,
+    };
     public hasMore = true;
     public isLoading = false;
     public crumbs: ICrumb[] = [
@@ -69,13 +78,17 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     constructor(
         private service: DiskService,
+        private route: ActivatedRoute,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
         private searchService: SearchService,
     ) {}
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = getQueries(params, this.queries);
+            this.tapRefresh();
+        });
         this.searchService.on(SearchEvents.NAV_RESIZE, (_, w) => {
             this.playerStyle = {
                 left: w + 'px',
@@ -301,15 +314,58 @@ export class CatalogComponent implements OnInit, OnDestroy {
             progress: 0,
             total: file.size,
             status: 3,
-            created_at: new Date()
+            created_at: new Date(),
+            file: undefined,
         };
         this.uploader.append(item);
         hasher.hash(file).then((md5: string) => {
             item.md5 = md5;
             item.status = 4;
-            this.uploadPreview(item, () => {
-                this.uploadFile(item, file);
+            item.file = this.uploadService.uploadChunk<IDisk>({
+                upload: 'disk/upload',
+                verify: 'disk/upload/check',
+                chunk: 'disk/upload/chunk',
+                merge: 'disk/upload/finish'
+            }, file, {
+                parent_id: this.lastFolder,
+            }, md5);
+            item.file.$progress.subscribe(p => {
+                this.uploader.formatProgress(item, p);
+            })
+            item.file.$finish.subscribe(res => {
+                this.items.push(this.formatItem(res));
             });
+            item.file.$status.subscribe(s => {
+                switch (s) {
+                    case UploadStatus.Queue:
+                        item.status = 1;
+                        break;
+                    case UploadStatus.Paused:
+                        item.status = 2;
+                        break;
+                    case UploadStatus.Uploading:
+                        item.status = 5;
+                        break;
+                    case UploadStatus.Checking:
+                        item.status = 3;
+                        break;
+                    case UploadStatus.CheckedDone:
+                        item.status = 6;
+                        break;
+                    case UploadStatus.Done:
+                        item.status = 7;
+                        break;
+                    case UploadStatus.Failure:
+                        item.status = 8;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            item.file.start();
+            // this.uploadPreview(item, () => {
+            //     this.uploadFile(item, file);
+            // });
         }).catch(_ => {
             item.status = 8;
         });
@@ -332,30 +388,30 @@ export class CatalogComponent implements OnInit, OnDestroy {
         });
     }
 
-    private uploadFile(item: IUploadItem, file: File) {
-        item.status = 5;
-        this.uploadService.uploadChunk('disk/upload/chunk', file, loaded => {
-            this.uploader.formatProgress(item, loaded);
-        }, 'file', {
-            md5: item.md5,
-        }).subscribe(_ => {
-            this.service.uploadFinish({
-                name: item.name,
-                md5: item.md5,
-                parent_id: this.lastFolder,
-                size: item.total,
-            }).subscribe({
-                next: res => {
-                    item.status = 7;
-                    this.items.push(this.formatItem(res));
-                },
-                error: err => {
-                    item.status = 8;
-                    this.toastrService.error(err);
-                }
-            });
-        });
-    }
+    // private uploadFile(item: IUploadItem, file: File) {
+    //     item.status = 5;
+    //     this.uploadService.uploadChunk('disk/upload/chunk', file, loaded => {
+    //         this.uploader.formatProgress(item, loaded);
+    //     }, 'file', {
+    //         md5: item.md5,
+    //     }).subscribe(_ => {
+    //         this.service.uploadFinish({
+    //             name: item.name,
+    //             md5: item.md5,
+    //             parent_id: this.lastFolder,
+    //             size: item.total,
+    //         }).subscribe({
+    //             next: res => {
+    //                 item.status = 7;
+    //                 this.items.push(this.formatItem(res));
+    //             },
+    //             error: err => {
+    //                 item.status = 8;
+    //                 this.toastrService.error(err);
+    //             }
+    //         });
+    //     });
+    // }
 
     public tapRefresh() {
         this.goPage(1);
@@ -365,7 +421,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
     public goPage(page: number) {
@@ -374,13 +430,18 @@ export class CatalogComponent implements OnInit, OnDestroy {
         }
         this.isLoading = true;
         this.pullBox?.startLoad();
-        this.service.getCatalog({
+        const query = emptyValidate(this.queries.keywords) && emptyValidate(this.queries.type) ? this.service.getCatalog({
             id: this.lastFolder,
             path: this.path,
             page
-        }).subscribe({
+        }) : this.service.search({
+            keywords: this.queries.keywords,
+            type: this.queries.type,
+            page
+        });
+        query.subscribe({
             next: res => {
-                this.page = page;
+                this.queries.page = page;
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 const items = res.data.map(i => {

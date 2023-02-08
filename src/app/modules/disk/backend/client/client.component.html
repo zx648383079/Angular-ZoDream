@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>文件存储客户端</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <div class="flat-input">
+            <input type="text" class="form-control" [(ngModel)]="data.server" placeholder="服务器网址">
+            <button class="btn" [ngClass]="{'btn-primary': !data.linked, 'btn-danger': data.linked}" (click)="tapLink()">{{ data.linked ? '已连接' : '连接'}}</button>
+            <div class="btn btn-info" title="设置" (click)="data.toggle = !data.toggle">
+                <i class="iconfont icon-cog"></i>
+            </div>
+        </div>
+
+        <div class="more-panel" [hidden]="!data.toggle">
+            <div class="row">
+                <label class="col-md-3 col-form-label">上传地址</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" [(ngModel)]="data.upload_url" placeholder="上传地址">
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-3 col-form-label">下载地址</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" [(ngModel)]="data.download_url" placeholder="下载地址">
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-3 col-form-label">PING地址</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" [(ngModel)]="data.ping_url" placeholder="PING地址">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">文件名</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索文件" [ngModel]="queries.keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文件名</th>
+                    <th>文件大小</th>
+                    <th>MD5</th>
+                    <th>创建时间</th>
+                    <th>本地路径</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.size | size }}</td>
+                    <td>{{ item.md5 }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.location }}</td>
+                </tr>
+            </tbody>
+        
+        </table>
+        
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>  
+    </div>
+</div>

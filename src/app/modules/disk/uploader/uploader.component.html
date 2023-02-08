@@ -24,9 +24,9 @@
                     </div>
                     <div class="item-action">
                         <i class="iconfont icon-folder-open-o" *ngIf="item.status == 6 || item.status == 7"></i>
-                        <i class="iconfont icon-refresh" *ngIf="item.status == 8 || item.status == 9"></i>
-                        <i class="iconfont icon-play" *ngIf="item.status < 3"></i>
-                        <i class="iconfont icon-pause" *ngIf="item.status == 3"></i>
+                        <i class="iconfont icon-refresh" *ngIf="item.status == 8 || item.status == 9" (click)="tapStart(item)"></i>
+                        <i class="iconfont icon-play" *ngIf="item.status < 3" (click)="tapStart(item)"></i>
+                        <i class="iconfont icon-pause" *ngIf="item.status == 3" (click)="tapPause(item)"></i>
                         <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
                     </div>
                 </div>

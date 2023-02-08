@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SwiperModule } from 'swiper/angular';
 
 import { marketRoutingComponents, MarketRoutingModule } from './market-routing.module';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
@@ -21,7 +20,9 @@ import { ShopCommonModule } from '../common.module';
         GameModule,
         ZreFormModule,
         ShopCommonModule,
-        SwiperModule,
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
     ]
 })
 export class MarketModule { }

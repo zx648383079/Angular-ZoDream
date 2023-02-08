@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { UploadFile } from '../../../theme/services/uploader';
 import { formatDate, mapFormat } from '../../../theme/utils';
+import { IDisk } from '../model';
 
 export interface IUploadItem {
     name: string;
@@ -12,6 +14,7 @@ export interface IUploadItem {
     style?: any;
     checked?: boolean;
     lastAt?: number;
+    file: UploadFile<IDisk>;
 }
 
 interface IUploadGroup {
@@ -60,12 +63,21 @@ export class UploaderComponent implements OnChanges {
     }
 
     public tapRemove(item: IUploadItem) {
+        item.file.stop();
         for (let i = this.items.length - 1; i >= 0; i--) {
             if (this.items[i] === item) {
                 this.items.splice(i);
             }
         }
         this.formatedItems = this.format(this.items);
+    }
+
+    public tapStart(item: IUploadItem) {
+        item.file.start();
+    }
+
+    public tapPause(item: IUploadItem) {
+        item.file.pause();
     }
 
     private format(items: IUploadItem[]): IUploadGroup[] {

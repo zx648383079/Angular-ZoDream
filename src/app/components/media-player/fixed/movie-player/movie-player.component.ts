@@ -60,7 +60,9 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!video) {
             return;
         }
-        this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : 64);
+        setTimeout(() => {
+            this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : 64);
+        }, 1);
     }
 
     public play(): void;

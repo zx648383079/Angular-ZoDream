@@ -129,6 +129,20 @@ export class AuthService {
         return this.http.delete<IDataOne<true>>('auth/admin/invite/clear');
     }
 
+    public cardList(params: any) {
+        return this.http.get<IPage<IBanAccount>>('auth/admin/card', {
+            params,
+        });
+    }
+
+    public cardSave(data) {
+        return this.http.post<IDataOne<boolean>>('auth/admin/card/save', data);
+    }
+
+    public cardRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/admin/card/delete', {params: {id}});
+    }
+
     public statistics() {
         return this.http.get<any>('auth/admin/statistics');
     }

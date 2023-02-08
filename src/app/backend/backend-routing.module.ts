@@ -116,6 +116,10 @@ const routes: Routes = [{
             loadChildren: () => import('../modules/note/backend/note-backend.module').then(m => m.NoteBackendModule)
         },
         {
+            path: 'disk',
+            loadChildren: () => import('../modules/disk/backend/disk-backend.module').then(m => m.DiskBackendModule)
+        },
+        {
             path: 'short',
             loadChildren: () => import('../modules/short-link/backend/short-link-backend.module').then(m => m.ShortLinkBackendModule)
         },

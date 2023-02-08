@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { last, map } from 'rxjs/operators';
+import { ICustomFormData, IUploadServer, UploadFile } from './uploader';
 
 @Injectable({
     providedIn: 'root'
@@ -195,44 +196,11 @@ export class FileUploadService {
      * 切片上传
      * @param url 
      * @param file 
-     * @param onProgress 
-     * @param partName 
      * @param customFormData 
-     * @param chunkSize 
+     * @param fileMd5 
      * @returns 
      */
-    public uploadChunk(url: string, file: File, onProgress: (loaded: number, total: number) => void, 
-        partName: string = 'file',
-        customFormData?: { [name: string]: any }, chunkSize = 1024 * 1024) {
-        const finish$ = new Subject<void>();
-        let loaded = 0;
-        const total = file.size;
-        const uploadFn = (start: number) => {
-            if (start >= total) {
-                finish$.next();
-                return;
-            }
-            const end = Math.min(start + chunkSize, total);
-            let form = new FormData();
-            for (const key in customFormData) {
-                if (customFormData.hasOwnProperty(key)) {
-                    form.append(key, customFormData[key]);
-                }
-            }
-            form.append(partName, file.slice(start, end));
-            this.uploadWithProgress(url, form, l => {
-                loaded = start + l;
-                onProgress(loaded, total);
-            }).subscribe({
-                next: _ => {
-                    uploadFn(end);
-                },
-                error: err => {
-                    finish$.error(err);
-                }
-            });
-        };
-        uploadFn(0);
-        return finish$;
+    public uploadChunk<T = IUploadResult>(url: string|IUploadServer, file: File, customFormData: ICustomFormData = {}, fileMd5 = '') {
+        return new UploadFile<T>(this.http, url, file, customFormData, fileMd5);
     }
 }

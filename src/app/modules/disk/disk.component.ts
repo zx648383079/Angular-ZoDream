@@ -26,41 +26,65 @@ export class DiskComponent implements OnInit {
                     name: '图片',
                     icon: 'icon-file-image-o',
                     url: './catalog',
+                    urlQuery: {
+                        type: 'image'
+                    }
                 },
                 {
                     name: '文档',
                     icon: 'icon-file-word-o',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'doc'
+                    }
                 },
                 {
                     name: '视频',
                     icon: 'icon-file-movie-o',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'movie'
+                    }
                 },
                 {
                     name: '种子',
                     icon: 'icon-gift',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'bt'
+                    }
                 },
                 {
                     name: '音乐',
                     icon: 'icon-music',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'music'
+                    }
                 },
                 {
                     name: '应用',
                     icon: 'icon-APP',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'app'
+                    }
                 },
                 {
                     name: '压缩包',
                     icon: 'icon-file-archive-o',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'archive'
+                    }
                 },
                 {
                     name: '其他',
                     icon: 'icon-file-o',
-                    url: './catalog'
+                    url: './catalog',
+                    urlQuery: {
+                        type: 'other'
+                    }
                 }
             ]
         },

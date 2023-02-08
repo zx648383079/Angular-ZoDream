@@ -12,6 +12,7 @@ import { ChangeAccountComponent } from './user/change/change-account.component';
 import { InviteLogComponent } from './invite-code/log/invite-log.component';
 import { InviteCodeComponent } from './invite-code/invite-code.component';
 import { BanComponent } from './user/ban/ban.component';
+import { EquityCardComponent } from './equity-card/equity-card.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -37,6 +38,10 @@ const routes: Routes = [
     {
         path: 'invite/code',
         component: InviteCodeComponent,
+    },
+    {
+        path: 'card',
+        component: EquityCardComponent
     },
     {
         path: 'oauth',
@@ -67,5 +72,6 @@ export const authRoutedComponents = [
     ChangeAccountComponent,
     InviteLogComponent,
     InviteCodeComponent,
-    BanComponent
+    BanComponent,
+    EquityCardComponent,
 ];

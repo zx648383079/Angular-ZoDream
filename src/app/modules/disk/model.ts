@@ -104,3 +104,26 @@ export interface IShareFile {
     id: number;
     file: IDisk;
 }
+
+
+export interface IDiskServer {
+    id: number;
+    ip: string;
+    port: number;
+    file_count: number;
+    status: number;
+    updated_at: number;
+    created_at: number;
+}
+
+export interface IDiskServerFile {
+    id: number;
+    name: string;
+    size: number;
+    md5: string;
+    updated_at: number;
+    created_at: number;
+    location: string;
+    online_count: number;
+    server_count: number;
+}

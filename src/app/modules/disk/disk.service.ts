@@ -15,6 +15,10 @@ export class DiskService {
         return this.http.get<IPage<IDisk>>('disk', {params});
     }
 
+    public search(params: any) {
+        return this.http.get<IPage<IDisk>>('disk/home/search', {params});
+    }
+
     public create(data: any) {
         return this.http.post<IDisk>('disk/home/create', data);
     }
