@@ -147,6 +147,44 @@ export interface IBanAccount {
     updated_at: string;
 }
 
+export interface IEquityCard {
+    id?: number;
+    name: string;
+    icon: string;
+    status: number;
+    created_at?: string;
+    updated_at?: string;
+    amount?: number;
+}
 
+export interface IUserCard {
+    id?: number;
+    status: number;
+    exp: number;
+    expired_at: number;
+    created_at?: string;
+    updated_at?: string;
+    card?: IEquityCard;
+    user?: IUser;
+}
+
+export interface IInviteCode {
+    id?: number;
+    code: string;
+    amount: number;
+    invite_count: number;
+    expired_at: number;
+    created_at?: string;
+    updated_at?: string;
+    user?: IUser;
+}
+
+export interface IInviteLog {
+    id?: number;
+    code: string;
+    created_at?: string;
+    user?: IUser;
+    inviter?: IUser;
+}
 
 

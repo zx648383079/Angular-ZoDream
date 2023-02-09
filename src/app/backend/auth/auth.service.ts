@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IRole } from '../../theme/models/auth';
+import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, IRole, IUserCard } from '../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
@@ -105,18 +105,18 @@ export class AuthService {
     }
 
     public inviteCodeList(params: any) {
-        return this.http.get<IPage<any>>('auth/admin/invite', {
+        return this.http.get<IPage<IInviteCode>>('auth/admin/invite', {
             params,
         });
     }
     public inviteLogList(params: any) {
-        return this.http.get<IPage<any>>('auth/admin/invite/log', {
+        return this.http.get<IPage<IInviteLog>>('auth/admin/invite/log', {
             params,
         });
     }
 
     public inviteCodeCreate(data: any) {
-        return this.http.post<any>('auth/admin/invite/save', data);
+        return this.http.post<IInviteCode>('auth/admin/invite/save', data);
     }
 
     public inviteCodeRemove(id: any) {
@@ -129,14 +129,30 @@ export class AuthService {
         return this.http.delete<IDataOne<true>>('auth/admin/invite/clear');
     }
 
+    public userCardList(params: any) {
+        return this.http.get<IPage<IUserCard>>('auth/admin/card/user', {
+            params,
+        });
+    }
+
     public cardList(params: any) {
-        return this.http.get<IPage<IBanAccount>>('auth/admin/card', {
+        return this.http.get<IPage<IEquityCard>>('auth/admin/card', {
+            params,
+        });
+    }
+
+    public cardSearch(params: any) {
+        return this.http.get<IPage<IEquityCard>>('auth/admin/card/search', {
             params,
         });
     }
 
     public cardSave(data) {
-        return this.http.post<IDataOne<boolean>>('auth/admin/card/save', data);
+        return this.http.post<IEquityCard>('auth/admin/card/save', data);
+    }
+
+    public userCardUpdate(data) {
+        return this.http.post<IUserCard>('auth/admin/card/user_update', data);
     }
 
     public cardRemove(id: any) {

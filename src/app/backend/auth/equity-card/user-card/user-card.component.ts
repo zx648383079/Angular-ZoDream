@@ -1,45 +1,72 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IInviteLog } from '../../../../theme/models/auth';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
+import { IEquityCard, IUserCard } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IUser } from '../../../../theme/models/user';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { AuthService } from '../../auth.service';
 
 @Component({
-  selector: 'app-invite-log',
-  templateUrl: './invite-log.component.html',
-  styleUrls: ['./invite-log.component.scss']
+  selector: 'app-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.scss']
 })
-export class InviteLogComponent implements OnInit {
-
-    public items: IInviteLog[] = [];
+export class UserCardComponent implements OnInit {
+    public items: IUserCard[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
         page: 1,
-        keywords: '',
         per_page: 20,
-        user: 0,
-        inviter: 0,
     };
+    public user: IUser;
+    public editData: any = {
+        card_id: 0,
+        expired_at: ''
+    };
+    public cardItems: IEquityCard[] = [];
 
     constructor(
         private service: AuthService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) {
     }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.user = {id: params.user} as any;
+            this.service.userAccount(params.user).subscribe(user => {
+                this.user = user;
+            });
+        });
+        this.service.cardSearch({}).subscribe(res => {
+            this.cardItems = res.data;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public open(modal: DialogEvent, item?: any) {
+        this.editData = item ? Object.assign({}, item) : {
+            card_id: 0,
+            expired_at: '',
+        };
+        modal.open(() => {
+            this.service.userCardUpdate({...this.editData, user_id: this.user.id}).subscribe(_ => {
+                this.toastrService.success('保存成功');
+                this.tapRefresh();
+            });
+        }, () => {
+            return this.editData.card_id > 0;
+        });
+    }
+
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -61,9 +88,8 @@ export class InviteLogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.inviteLogList(queries).subscribe({
+        this.service.userCardList({...queries, user: this.user.id}).subscribe({
             next: res => {
-                this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
@@ -74,11 +100,6 @@ export class InviteLogComponent implements OnInit {
                 this.isLoading = false;
             }
         });
-    }
-
-    public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
-        this.tapRefresh();
     }
 
 }

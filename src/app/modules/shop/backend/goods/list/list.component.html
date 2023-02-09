@@ -56,7 +56,7 @@
                             <div class="thumb">
                                 <img [src]="item.thumb" alt="" width="60" height="60">
                             </div>
-                            <a class="name" href="" target="_blank">
+                            <a class="name" [routerLink]="['/shop/market/goods', item.id]" target="_blank">
                             {{ item.name }}</a>
                         </div>
                     </td>

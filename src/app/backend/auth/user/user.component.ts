@@ -49,6 +49,11 @@ export class UserComponent implements OnInit {
             color: 'btn-success',
         },
         {
+            name: '权益卡',
+            icon: 'icon-shield',
+            color: 'btn-info',
+        },
+        {
             name: '删除',
             icon: 'icon-trash',
             color: 'btn-danger',
@@ -102,7 +107,11 @@ export class UserComponent implements OnInit {
             this.router.navigate(['edit', item.id], {relativeTo: this.route});
             return;
         }
-        if (event.index > 2) {
+        if (event.index === 3) {
+            this.router.navigate(['card', item.id], {relativeTo: this.route});
+            return;
+        }
+        if (event.index > 3) {
             this.tapRemove(item);
             return;
         }

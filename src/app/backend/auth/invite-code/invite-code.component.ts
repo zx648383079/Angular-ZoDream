@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
+import { IInviteCode } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
 import { AuthService } from '../auth.service';
@@ -12,7 +13,7 @@ import { AuthService } from '../auth.service';
 })
 export class InviteCodeComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IInviteCode[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;

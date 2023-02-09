@@ -62,7 +62,7 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
     }
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
+        if (!(event.target as HTMLDivElement).closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
             this.panelVisible = false;
         }
     }
@@ -150,13 +150,15 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
     }
 
     public tapCheckedItem(item: T) {
-        this.paths[this.activeColumn] = item;
+        const column = this.activeColumn;
+        const nextColumn = column + 1;
+        this.paths[column] = item;
         this.columnChange.emit({
-            column: this.activeColumn,
+            column,
             value: {...item, children: undefined}
         });
-        this.paths.splice(this.activeColumn + 1);
-        const items = this.coloumnItems(this.activeColumn + 1);
+        this.paths.splice(nextColumn);
+        const items = this.coloumnItems(nextColumn);
         if (items.length < 1) {
             this.tapYes();
             return;
@@ -165,7 +167,7 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
             [this.rangeLabel]: this.placeholder
         } as any);
         this.items = items;
-        this.activeColumn ++;
+        this.activeColumn = nextColumn;
     }
 
     private toArr(data: any): T[] {

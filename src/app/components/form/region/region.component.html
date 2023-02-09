@@ -5,7 +5,7 @@
             <i class="iconfont icon-chevron-down"></i>
         </div>
     </div> 
-    <div class="selector-panel-container" *ngIf="panelVisible">
+    <div class="selector-panel-container" *ngIf="panelVisible" (click)="$event.stopPropagation()">
         <ul class="selector-header">
             <ng-container *ngFor="let item of paths; let i = index;">
                 <li class="select-header"  [ngClass]="{open: i == activeColumn}" (click)="tapColumn(i)">

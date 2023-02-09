@@ -13,6 +13,7 @@ import { InviteLogComponent } from './invite-code/log/invite-log.component';
 import { InviteCodeComponent } from './invite-code/invite-code.component';
 import { BanComponent } from './user/ban/ban.component';
 import { EquityCardComponent } from './equity-card/equity-card.component';
+import { UserCardComponent } from './equity-card/user-card/user-card.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -38,6 +39,10 @@ const routes: Routes = [
     {
         path: 'invite/code',
         component: InviteCodeComponent,
+    },
+    {
+        path: 'users/card/:user',
+        component: UserCardComponent
     },
     {
         path: 'card',
@@ -74,4 +79,5 @@ export const authRoutedComponents = [
     InviteCodeComponent,
     BanComponent,
     EquityCardComponent,
+    UserCardComponent
 ];

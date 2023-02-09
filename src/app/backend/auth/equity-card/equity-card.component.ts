@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
+import { IEquityCard } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../theme/query';
+import { emptyValidate } from '../../../theme/validators';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -12,7 +14,7 @@ import { AuthService } from '../auth.service';
 })
 export class EquityCardComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IEquityCard[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -21,10 +23,10 @@ export class EquityCardComponent implements OnInit {
         per_page: 20,
         keywords: ''
     };
-    public editData = {
+    public editData: IEquityCard = {
         name: '',
         icon: '',
-    };
+    } as any;
 
     constructor(
         private service: AuthService,
@@ -40,16 +42,20 @@ export class EquityCardComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogEvent) {
+    public open(modal: DialogEvent, item?: IEquityCard) {
+        this.editData = item ? Object.assign({}, item) : {
+            id: 0,
+            name: '',
+            icon: '',
+            status: 0,
+        };
         modal.open(() => {
-            this.service.cardSave(this.editData).subscribe({
-                next: res => {
-                    this.tapRefresh();
-                },
-                error: err => {
-                    this.toastrService.error(err);
-                }
+            this.service.cardSave(this.editData).subscribe(_ => {
+                this.toastrService.success('保存成功');
+                this.tapRefresh();
             });
+        }, () => {
+            return !emptyValidate(this.editData.name);
         });
     }
 
@@ -95,7 +101,7 @@ export class EquityCardComponent implements OnInit {
     }
 
 
-    public tapRemove(item: any) {
+    public tapRemove(item: IEquityCard) {
         this.toastrService.confirm('确定删除这一条权益卡？', () => {
             this.service.cardRemove(item.id).subscribe(res => {
                 if (!res.data) {

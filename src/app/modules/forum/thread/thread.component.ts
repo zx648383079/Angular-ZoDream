@@ -4,7 +4,7 @@ import {
     ViewChild
 } from '@angular/core';
 import {
-    IThread, IThreadPost
+    IThread, IThreadPost, IThreadUser
 } from '../model';
 import {
     ForumService
@@ -110,14 +110,32 @@ export class ThreadComponent implements OnInit {
         if (item.is_loaded) {
             return;
         }
-        this.service.threadUser(item.user_id).subscribe(res => {
-            for (const it of this.items) {
-                if (it.user_id == res.id) {
-                    it.is_loaded = true;
-                    it.user = res;
-                }
+        this.markUser(item.user_id, true);
+        this.service.threadUser(item.user_id).subscribe({
+            next: res => {
+                this.markUser(item.user_id, true, res);
+            },
+            error: _ => {
+                this.markUser(item.user_id, false);
             }
         });
+    }
+
+    /**
+     * 标记用户信息是否加载
+     * @param userId 
+     * @param loaded 
+     * @param info 
+     */
+    private markUser(userId: number, loaded: boolean, info?: IThreadUser) {
+        for (const it of this.items) {
+            if (it.user_id == userId) {
+                it.is_loaded = loaded;
+                if (info) {
+                    it.user = info;
+                }
+            }
+        }
     }
 
     public tapSeeUser(user: number = 0) {

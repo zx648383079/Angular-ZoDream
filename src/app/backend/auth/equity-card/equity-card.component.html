@@ -32,11 +32,14 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.icon }}</td>
+                    <td>
+                        <img [src]="item.icon" [alt]="item.name" class="card-icon">
+                    </td>
                     <td>{{ item.amount | numberFormat }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -49,7 +52,7 @@
     </div>
 </div>
 
-<app-dialog-box #modal [scrollable]="false" title="权益卡">
+<app-dialog-box #modal [scrollable]="false"  [title]="editData && editData.id > 0 ? '编辑权益卡' : '新增权益卡'">
     <div class="form-table">
         <div class="input-group">
             <label for="">名称</label>

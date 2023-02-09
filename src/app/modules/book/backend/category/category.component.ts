@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ICategory } from '../../model';
 import { emptyValidate } from '../../../../theme/validators';
 import { BookService } from '../book.service';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 
 @Component({
   selector: 'app-category',
@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public open(modal: DialogBoxComponent, item?: ICategory) {
+    public open(modal: DialogEvent, item?: ICategory) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',

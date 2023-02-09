@@ -197,6 +197,19 @@
             }
         }
     }
+    .card-more {
+        display: none;
+        a {
+            margin: .2rem;
+        }
+        .iconfont {
+            font-size: 1.1rem;
+        }
+        img {
+            width: 1rem;
+            max-height: 1rem;
+        }
+    }
     .meta-more {
         text-align: left;
         margin: 0 .8rem 1rem;
@@ -239,6 +252,9 @@
             left: 6.6rem;
             top: .8rem;
             border-bottom: none !important;
+        }
+        .card-more {
+            display: inline-block;
         }
         .count-bar {
             display: flex;

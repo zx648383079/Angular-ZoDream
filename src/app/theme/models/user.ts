@@ -19,7 +19,18 @@ export interface IUser {
     checked?: boolean;
     is_admin?: boolean;
     is_verified?: boolean;
+    card_items?: IUserCard[];
 }
+
+export interface IUserCard {
+    id: number;
+    name: string;
+    icon: string;
+    exp: number;
+    status: number;
+    expired_at: string;
+}
+
 
 export interface IUserStatus extends IUser {
     [key: string]: any;

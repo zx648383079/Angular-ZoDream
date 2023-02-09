@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>权益卡购买记录列表</li>
+            <li *ngIf="user">会员：{{ user.name }}</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" (click)="open(modal)">新增</a>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>权益卡</th>
+                <th>经验</th>
+                <th>到期日期</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>
+                        <div class="card-line" *ngIf="item.card">
+                            <img [src]="item.card.icon" [alt]="item.card.name">
+                            {{ item.card.name }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ item.exp | numberFormat }}
+                    </td>
+                    <td>{{ item.expired_at | timestamp }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>
+                        <div class="btn-group btn-group-xs">
+                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>    
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="'编辑用户的权益卡'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">权益卡</label>
+            <div>
+                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [(ngModel)]="editData.card_id" placeholder="权益卡"></ng-select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">到期日期</label>
+            <div>
+                <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

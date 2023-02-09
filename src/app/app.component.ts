@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.store.select(selectSystemConfig).subscribe(res => {
-            this.themeService.toggleClass('theme-gray', res && res.site_gray);
+            this.themeService.toggleClass('theme-gray', res && res.site_gray == true);
         });
         this.router.events.subscribe((event: NavigationEnd) => {
             if (event instanceof ActivationEnd) {// 当导航成功结束时执行
