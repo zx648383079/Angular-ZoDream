@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IBlog, ICategory } from '../../model';
+import { IBlog, ICategory, PublishStatusItems } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { applyHistory, getQueries } from '../../../../theme/query';
 import { BlogService } from '../blog.service';
+import { IItem } from '../../../../theme/models/seo';
 
 @Component({
   selector: 'app-list',
@@ -14,11 +15,13 @@ import { BlogService } from '../blog.service';
 export class ListComponent implements OnInit {
 
     public categories: ICategory[] = [];
+    public statusItems: any[] = PublishStatusItems;
 
     public items: IBlog[] = [];
     public queries: IPageQueries = {
         keywords: '',
         term: 0,
+        status: 0,
         page: 1,
         per_page: 20,
     };

@@ -1,5 +1,14 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
+
+export const BLOG_OPEN_KEY = 'b_o_k';
+
+export const PublishStatusItems: IItem[] = [
+    {name: '草稿状态', value: 0},
+    {name: '发布状态', value: 5},
+    {name: '回收站', value: 9},
+];
 
 export interface ISubtotal {
     name: string;
@@ -23,6 +32,7 @@ export interface IBlog {
     keywords?: string;
     term_id?: number;
     open_type?: number;
+    publish_status?: number;
     open_rule?: string;
     edit_type?: number;
     weather?: string;
@@ -44,6 +54,7 @@ export interface IBlog {
     next?: IBlog;
     relation?: IBlog[];
     parent_id?: number;
+    can_read?: boolean;
     languages?: {
         id: number;
         label: string;

@@ -15,12 +15,15 @@ import {
     Router
 } from '@angular/router';
 import {
+    BLOG_OPEN_KEY,
     IBlog,
 } from '../../model';
 import { DialogService } from '../../../../components/dialog';
-import { ThemeService } from '../../../../theme/services';
+import { SearchService, ThemeService } from '../../../../theme/services';
 import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/deeplink';
 import { pushHistoryState } from '../../../../theme/query';
+import { emptyValidate } from '../../../../theme/validators';
+import { IErrorResult } from '../../../../theme/models/page';
 
 @Component({
     selector: 'app-detail',
@@ -34,7 +37,7 @@ export class DetailComponent implements OnInit {
     public isLoading = false;
     public relationItems: IBlog[] = [];
     public commentLoaded = false;
-
+    public openKey = '';
 
     constructor(
         private sanitizer: DomSanitizer,
@@ -43,6 +46,7 @@ export class DetailComponent implements OnInit {
         private router: Router,
         private toastrService: DialogService,
         private themeService: ThemeService,
+        private searchService: SearchService,
         private ngZoon: NgZone,
     ) {
         (window as any).deeplinkOpen = path => {
@@ -67,8 +71,9 @@ export class DetailComponent implements OnInit {
             return;
         }
         this.isLoading = true;
+        const openKey = localStorage.getItem(BLOG_OPEN_KEY);
         this.service.batch({
-            detail: {id},
+            detail: {id, open_key: openKey},
             relation: {blog: id}
         }).subscribe({
             next: res => {
@@ -86,6 +91,41 @@ export class DetailComponent implements OnInit {
                 this.toastrService.error(err);
             },
         });
+    }
+
+    public tapOpen() {
+        if (this.data.can_read) {
+            return;
+        }
+        if (this.data.open_type === 1) {
+            this.searchService.emitLogin(true);
+            return;
+        }
+        const openKey = this.openKey;
+        if (this.data.open_type === 5) {
+            if (emptyValidate(openKey)) {
+                this.toastrService.warning($localize `Please input password`);
+                return;
+            }
+        }
+        this.service.openBody({
+            id: this.data.id,
+            open_key: openKey
+        }).subscribe({
+            next: res => {
+                this.data.can_read = res.can_read;
+                this.renderContent(res.content);
+                if (this.data.open_type === 5) {
+                    localStorage.setItem(BLOG_OPEN_KEY, openKey);
+                }
+            },
+            error: (err: IErrorResult) => {
+                this.toastrService.error(err.error);
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin(true);
+                }
+            }
+        })
     }
 
     public tapRecommend() {

@@ -188,4 +188,34 @@
     }
 }
 
-
+.rule-box {
+    margin-top: 2.5rem;
+    .rule-header {
+        text-align: center;
+        font-weight: 700;
+        b {
+            color: #A10000;
+        }
+    }
+    .rule-tip {
+        text-align: center;
+        line-height: 2.5rem;
+        color: #b3b1b1;
+    }
+    .flat-input {
+        max-width: 20rem;
+        display: inline-flex;
+    }
+    &.rule-login {
+        a {
+            margin: 0 .8rem;
+            cursor: pointer;
+        }
+    }
+    &.rule-password {
+        text-align: center;
+    }
+    &.rule-buy {
+        text-align: center;
+    }
+}

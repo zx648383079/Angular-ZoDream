@@ -381,7 +381,7 @@
         <source>Login in</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/backend/menu.ts</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">133</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/book.component.ts</context>
@@ -404,7 +404,7 @@
         <source>Setting</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/backend/menu.ts</context>
-          <context context-type="linenumber">133</context>
+          <context context-type="linenumber">138</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
@@ -435,7 +435,7 @@
         <source>Back to home</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/backend/menu.ts</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">143</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/book.component.ts</context>
@@ -907,7 +907,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">143</context>
+          <context context-type="linenumber">107</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/legwork/provider/service/service.component.html</context>
@@ -1195,6 +1195,10 @@
           <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/shop/components/top-bar/top-bar.component.html</context>
           <context context-type="linenumber">26</context>
         </context-group>
@@ -1298,7 +1302,7 @@
         <source>Confirm to log out?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/frontend.component.ts</context>
-          <context context-type="linenumber">102</context>
+          <context context-type="linenumber">106</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8456203115464120523" datatype="html">
@@ -1420,7 +1424,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/disk/disk.component.ts</context>
-          <context context-type="linenumber">105</context>
+          <context context-type="linenumber">129</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5671205863707536282" datatype="html">
@@ -1757,11 +1761,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">141</context>
+          <context context-type="linenumber">105</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/resource-store/detail/comment/comment.component.html</context>
@@ -1815,7 +1819,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">165</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/micro/comment-viewer/comment-viewer.component.ts</context>
@@ -2859,6 +2863,14 @@
           <context context-type="sourcefile">src/app/modules/auth/register/register.component.html</context>
           <context context-type="linenumber">13</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="4846050744191648887" datatype="html">
         <source>Please input the invite code</source>
@@ -2885,6 +2897,31 @@
           <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5578081916351051744" datatype="html">
+        <source>Reading needs to meet the conditions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/backend/list/list.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/list/list.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1920817201182293678" datatype="html">
+        <source>Draft not visible</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/backend/list/list.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8167336841433650110" datatype="html">
+        <source>Not visible in Recycle Bin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/backend/list/list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3543307936141818995" datatype="html">
         <source>Search related articles</source>
         <context-group purpose="location">
@@ -2900,7 +2937,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3007174398190784680" datatype="html">
@@ -2911,7 +2948,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="497309298112445329" datatype="html">
@@ -2922,7 +2959,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7952806382632077864" datatype="html">
@@ -2933,7 +2970,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5280218112746407598" datatype="html">
@@ -3180,11 +3217,64 @@
           <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2615357203887917282" datatype="html">
+        <source>Articles must be</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3617379294437927285" datatype="html">
+        <source>to continue reading</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6211967318208754590" datatype="html">
+        <source> Please enter the reading password </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">41,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9178182467454450952" datatype="html">
+        <source>Confirm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7627889611915361074" datatype="html">
+        <source>Articles must be pay</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6611846259973190424" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ data.open_rule }}"/> Coins</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7596688907882627764" datatype="html">
+        <source>Confirm purchase</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4452427314943113135" datatype="html">
         <source>Previous</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">89</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
@@ -3199,7 +3289,7 @@
         <source>Next</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">95</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
@@ -3214,7 +3304,7 @@
         <source>Related Articles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="267649541044651666" datatype="html">
@@ -3632,14 +3722,14 @@
         <source>All files</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/disk/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7618870723010461457" datatype="html">
         <source>en</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/disk/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">148</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/theme/components/editable-table/editable-table.component.ts</context>
@@ -4251,51 +4341,51 @@
         <source>Published <x id="INTERPOLATION" equiv-text="{{ item.created_at | ago }}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">54</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">92</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4513853567586653575" datatype="html">
         <source>Only author</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5264800242086774180" datatype="html">
         <source>Back to all</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">57</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="560159827943587993" datatype="html">
         <source>Last edit <x id="INTERPOLATION" equiv-text="{{ item.updated_at | ago }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">80</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7585826646011739428" datatype="html">
         <source>Edit</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="linenumber">79</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">106</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/legwork/provider/service/service.component.html</context>
@@ -4306,14 +4396,14 @@
         <source> <x id="INTERPOLATION" equiv-text="{{ item.grade }}"/> floor </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">132,134</context>
+          <context context-type="linenumber">96,98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3666329128814320935" datatype="html">
         <source>Post Reply</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5971478877874085770" datatype="html">
@@ -6089,21 +6179,21 @@
         <source>Unkown</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8012344910054029733" datatype="html">
         <source>Male</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5667840900782067941" datatype="html">
         <source>Female</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8069265876951429197" datatype="html">

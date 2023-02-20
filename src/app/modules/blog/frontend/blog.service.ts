@@ -34,6 +34,10 @@ export class BlogService {
         });
     }
 
+    public openBody(data: any) {
+        return this.http.post<IBlog>('blog/home/open', data);
+    }
+
     public getPage(param: ISearchForm): Observable<IPage<IBlog>> {
         return this.http.get<IPage<IBlog>>('blog', {
             params: param as any
@@ -87,6 +91,7 @@ export class BlogService {
         tags?: any;
         detail?: {
             id: number;
+            open_key: string;
         };
         relation?: {
             blog: number;

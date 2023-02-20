@@ -15,7 +15,8 @@ import { ButtonEvent } from '../../../../components/form';
 import {
     IBlog,
     ICategory,
-    ITag
+    ITag,
+    PublishStatusItems
 } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import {
@@ -53,6 +54,7 @@ export class EditComponent implements OnInit {
         video_url: [''],
         cc_license: [''],
         comment_status: [''],
+        publish_status: [0],
         seo_title: [''],
         seo_description: [''],
         seo_link: [''],
@@ -65,6 +67,7 @@ export class EditComponent implements OnInit {
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
     public tags: ITag[] = [];
+    public statusItems: any[] = PublishStatusItems;
 
     constructor(
         private fb: FormBuilder,
@@ -97,6 +100,10 @@ export class EditComponent implements OnInit {
 
     get metaSize() {
         return this.form.get('description').value.length;
+    }
+
+    get publishStatus() {
+        return this.form.get('publish_status').value;
     }
 
     public loadDetail(id: number, language?: string) {
@@ -135,6 +142,7 @@ export class EditComponent implements OnInit {
                 audio_url: res.audio_url,
                 video_url: res.video_url,
                 cc_license: res.cc_license,
+                publish_status: res.publish_status,
                 comment_status: res.comment_status as any,
                 seo_title: res.seo_title,
                 seo_description: res.seo_description,
@@ -173,7 +181,7 @@ export class EditComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit(e?: ButtonEvent) {
+    public tapSubmit(e?: ButtonEvent, status?: number) {
         if (this.form.invalid) {
             this.toastrService.warning('表单填写不完整');
             return;
@@ -184,6 +192,9 @@ export class EditComponent implements OnInit {
         }
         if (this.data && this.data.language) {
             data.language = this.data.language;
+        }
+        if (typeof status === 'number') {
+            data.publish_status = status;
         }
         data.tags = this.tags;
         e?.enter();

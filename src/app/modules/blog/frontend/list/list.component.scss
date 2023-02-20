@@ -123,6 +123,9 @@ li {
     animation-duration: 1.5s;
     animation-timing-function: linear;
     transition: box-shadow 1s;
+    .icon-lock {
+        color: #a10000;
+    }
     .item-body {
         padding: 0.9375rem 1.25rem 0.3125rem;
         flex: 1;

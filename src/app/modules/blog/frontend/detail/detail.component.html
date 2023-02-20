@@ -28,6 +28,34 @@
                     <app-video-player [src]="data.video_url"></app-video-player>
                 </ng-container>
                 <div [innerHTML]="content"></div>
+
+                <ng-container *ngIf="!data.can_read">
+                    <div class="rule-box rule-login" *ngIf="data.open_type == 1">
+                        <div class="rule-tip">
+                            <ng-container i18n>Articles must be</ng-container>
+                            <a (click)="tapOpen()" i18n>Sign in</a>
+                            <ng-container i18n>to continue reading</ng-container>
+                        </div>
+                  </div>
+                  <div class="rule-box rule-password" *ngIf="data.open_type == 5">
+                        <div class="rule-header" i18n>
+                            Please enter the reading password
+                        </div>
+                        <div class="flat-input">
+                            <input type="text" name="password" class="form-control" i18n-placeholder placeholder="Please input password" [(ngModel)]="openKey">
+                            <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm</button>
+                        </div>
+                        
+                    </div>
+                    <div class="rule-box rule-buy" *ngIf="data.open_type == 6">
+                        <div class="rule-header">
+                            <ng-container i18n>Articles must be pay</ng-container><b i18n>{{ data.open_rule }} Coins</b><ng-container i18n>to continue reading</ng-container>
+                        </div>
+                        <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm purchase</button>
+                    </div>
+                </ng-container>
+                
+
                 <p class="book-copyright" *ngIf="data.url">
                     <ng-container i18n>Please keep the original link for reprinting:</ng-container>
                     <a [href]="data.url" [title]="data.title">{{ data.url }}</a>
