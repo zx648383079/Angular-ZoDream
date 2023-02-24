@@ -48,19 +48,28 @@ export class EmulateComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.service.get(params.id).subscribe((res: any) => {
+            this.load(params.id);
+        });
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    private load(id: any) {
+        this.service.get(id).subscribe({
+            next: (res: any) => {
                 this.account = res;
                 this.themeService.setTitle(res.name);
                 if (res.menu_list && res.menu_list.length > 0) {
                     this.menuItems = res.menu_list;
                     this.footerIndex = 0;
                 }
-            });
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
-    }
-
-    public tapBack() {
-        history.back();
     }
 
     public toggleMore() {

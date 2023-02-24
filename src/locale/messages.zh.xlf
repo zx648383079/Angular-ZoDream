@@ -5287,7 +5287,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
-                    <context context-type="linenumber">100</context>
+                    <context context-type="linenumber">101</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6670174549083786806" datatype="html">
@@ -5427,7 +5427,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
-                    <context context-type="linenumber">83</context>
+                    <context context-type="linenumber">84</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5750485945694679561" datatype="html">
@@ -5819,7 +5819,7 @@
                 <target>你确定要删除此条便签？</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
-                    <context context-type="linenumber">94</context>
+                    <context context-type="linenumber">95</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5476286560798163880" datatype="html">
@@ -6471,7 +6471,7 @@
                 <target>你点击了 &quot;<x id="PH" equiv-text="item.name"/>&quot; 菜单</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
-                    <context context-type="linenumber">84</context>
+                    <context context-type="linenumber">93</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4367012620858049828" datatype="html">
@@ -6479,7 +6479,7 @@
                 <target>请输入内容</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
-                    <context context-type="linenumber">110</context>
+                    <context context-type="linenumber">119</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4898606203108058039" datatype="html">

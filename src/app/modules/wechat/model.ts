@@ -4,7 +4,7 @@ export const EventItems: IItem[] = [
     {name: '默认回复', value: 'default'},
     {name: '消息回复', value: 'message'},
     {name: '关注', value: 'subscribe'},
-    {name: '菜单事件', value: 'CLICK'},
+    {name: '菜单事件', value: 'menuclick'},
 ];
 
 export const EditorTypeItems: IItem[] = [

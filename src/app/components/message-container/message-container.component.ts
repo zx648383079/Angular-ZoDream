@@ -110,7 +110,7 @@ export class MessageContainerComponent {
     }
 
     public messageIsUser(item: IMessageBase) {
-        return item.user && item.user.id > 0 && this.currentId === item.user.id;
+        return item.user && item.user.id && this.currentId === item.user.id;
     }
 
     public tapMore() {

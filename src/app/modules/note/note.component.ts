@@ -80,6 +80,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         }).subscribe({
             next: _ => {
                 e?.reset();
+                this.editData.content = '';
                 this.toastrService.success($localize `Successfully released!`);
                 this.tapRefresh();
             },
