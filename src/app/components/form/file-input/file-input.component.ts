@@ -27,6 +27,7 @@ export class FileInputComponent implements ControlValueAccessor {
     @Input() public online = false;
     @Input() public custom = false;
 
+    public uploadFailure = false;
     public value: string;
     public disabled = false;
     public isLoading = false;
@@ -52,6 +53,7 @@ export class FileInputComponent implements ControlValueAccessor {
     }
 
     public openOnline(modal: FileOnlineComponent) {
+        this.uploadFailure = false;
         if (this.disabled || !this.online) {
             return;
         }
@@ -62,6 +64,7 @@ export class FileInputComponent implements ControlValueAccessor {
     }
 
     public uploadFile(event: any) {
+        this.uploadFailure = false;
         const files = event.target.files as FileList;
         if (files.length < 1) {
             return;
@@ -99,11 +102,13 @@ export class FileInputComponent implements ControlValueAccessor {
             },
             error: _ => {
                 this.isLoading = false;
+                this.uploadFailure = true;
             },
         });
     }
 
     public tapPreview() {
+        this.uploadFailure = false;
         if (!this.value) {
             return;
         }

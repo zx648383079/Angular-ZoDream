@@ -1,4 +1,4 @@
-<div class="file-input">
+<div class="file-input" [ngClass]="{'file-input-failure': uploadFailure}">
     <input type="text" class="form-control" [(ngModel)]="value" [disabled]="disabled" (ngModelChange)="onValueChange()" [placeholder]="placeholder">
     <label [for]="fileName" class="btn btn-primary" i18n>{isLoading, plural, =true {Uploading...} =false {Upload}}</label>
     <label class="btn btn-info" *ngIf="canPreview" (click)="tapPreview()" i18n>Preview</label>

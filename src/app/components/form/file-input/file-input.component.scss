@@ -18,4 +18,9 @@
             border-bottom-right-radius: 0.25rem;
         }
     }
+    &.file-input-failure {
+        .form-control {
+            background-color: rgba($color: #ff0000, $alpha: .1);
+        }
+    }
 }
