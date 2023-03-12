@@ -1,46 +1,54 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SystemService } from '../system.service';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
-  selector: 'app-sitemap',
-  templateUrl: './sitemap.component.html',
-  styleUrls: ['./sitemap.component.scss']
+    selector: 'app-sitemap',
+    templateUrl: './sitemap.component.html',
+    styleUrls: ['./sitemap.component.scss']
 })
 export class SitemapComponent implements OnInit {
 
-  public items: any[] = [];
+    @ViewChild('cmd', {static: false}) 
+    private box: ElementRef<HTMLDivElement>;
 
-  @ViewChild('cmd', {static: false}) box: ElementRef<HTMLDivElement>;
+    public items: any[] = [];
 
-  constructor(
-    private renderer2: Renderer2,
-    private service: SystemService,) { }
+    constructor(
+        private service: SystemService,) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  /**
-   * tapMake
-   */
-  public tapMake() {
-    this.service.sitemap().subscribe(res => {
-      this.renderCMD(res.data.map(item => item.url));
-    });
-  }
-
-  /**
-   * renderCMD
-   */
-  public renderCMD(lines: any[]) {
-    let i = 0;
-    const handle = setInterval(() => {
-            if (i >= lines.length) {
-                clearInterval(handle);
-                return;
+    /**
+    * tapMake
+    */
+    public tapMake(e?: ButtonEvent) {
+        e?.enter();
+        this.service.sitemap().subscribe({
+            next: res => {
+                e?.reset();
+                this.renderCMD(res.data.map(item => item.url));
+            },
+            error: _ => {
+                e?.reset();
             }
-            this.items.push(lines[i++]);
-            this.box.nativeElement.scrollTop = this.box.nativeElement.scrollHeight;
+        });
+    }
+
+    /**
+    * renderCMD
+    */
+    public renderCMD(lines: any[]) {
+        let i = 0;
+        const handle = setInterval(() => {
+                if (i >= lines.length) {
+                    clearInterval(handle);
+                } else {
+                    this.items.push(lines[i ++]);
+                }
+                this.box.nativeElement.scrollTop = this.box.nativeElement.scrollHeight;
         }, Math.max(16, Math.floor(Math.min(lines.length * 100, 10000) / lines.length)));
-  }
+    }
 
 }

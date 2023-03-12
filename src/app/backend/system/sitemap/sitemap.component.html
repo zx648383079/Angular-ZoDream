@@ -5,10 +5,13 @@
         </ul>
     </app-page-tip>
     <div class="panel-container">
-        <button type="button" class="btn btn-primary" (click)="tapMake()">生成SiteMap</button>
+        <app-action-button class="btn btn-primary" (tapped)="tapMake($event)">生成SiteMap</app-action-button>
 
         <div class="cmd-box" #cmd>
-            <p *ngFor="let item of items">{{ item }} 已完成！</p>
+            <p class="cmd-line" *ngFor="let item of items">
+                <i class="iconfont" [ngClass]="{'icon-check': true, 'icon-close': false}"></i>
+                {{ item }}
+            </p>
         </div>
     </div>
 </div>

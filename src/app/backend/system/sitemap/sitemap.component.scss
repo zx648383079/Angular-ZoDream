@@ -5,10 +5,19 @@
     border-radius: 5px;
     padding: 5px;
     box-shadow: rgba(100, 100, 100, .3) 0 0 10px inset;
-    p {
+    .cmd-line {
         line-height: 25px;
         color: #333;
         word-break: break-all;
         margin-bottom: 0;
+        .iconfont {
+            margin-right: .8rem;
+        }
+        .icon-check {
+            color: green;
+        }
+        .icon-close {
+            color: red;
+        }
     }
 }
