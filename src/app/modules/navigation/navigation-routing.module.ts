@@ -8,6 +8,7 @@ import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { CategoryPanelComponent } from './site/category-panel/category-panel.component';
 import { SiteGroupComponent } from './site/group/site-group.component';
 import { SiteComponent } from './site/site.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 const routes: Routes = [
     { path: '', component: NavigationComponent },
@@ -28,4 +29,5 @@ export const navigationRoutingComponents = [
     CategoryPanelComponent,
     PageCardComponent,
     ReportDialogComponent,
+    SearchBarComponent,
 ];

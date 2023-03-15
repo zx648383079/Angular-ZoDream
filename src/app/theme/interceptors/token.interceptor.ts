@@ -17,6 +17,9 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(private injector: Injector) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (request.method === 'JSONP') {
+            return next.handle(request);
+        }
         const auth = this.injector.get(AuthService);
         const timestamp = getCurrentTime();
         const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);

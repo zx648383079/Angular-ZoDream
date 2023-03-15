@@ -42,6 +42,10 @@ export class NavigationService {
         return this.http.post<ISite>('navigation/admin/site/save', data);
     }
 
+    public siteCheck(data: any) {
+        return this.http.post<IDataOne<ISite|null>>('navigation/admin/site/check', data);
+    }
+
     public siteRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('navigation/admin/site/delete', {params: {id}});
     }
@@ -85,6 +89,10 @@ export class NavigationService {
 
     public pageSave(data: any) {
         return this.http.post<IWebPage>('navigation/admin/page/save', data);
+    }
+
+    public pageCheck(data: any) {
+        return this.http.post<IDataOne<IWebPage|null>>('navigation/admin/page/check', data);
     }
 
     public pageRemove(id: any) {

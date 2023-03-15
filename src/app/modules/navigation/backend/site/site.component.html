@@ -103,7 +103,11 @@
     <div class="form-group">
         <label for="name-input2">域名</label>
         <div class="input-group">
-            <input class="form-control" id="name-input2" [(ngModel)]="editData.domain" placeholder="请输入域名">
+            <input class="form-control" id="name-input2" [(ngModel)]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
+        </div>
+        <div class="input-tip" *ngIf="editExistData" title="已存在相同站点">
+            <i class="iconfont icon-close-circle"></i>
+            <a [href]="editExistData.schema + '://' + editExistData.domain" target="_blank">{{ editExistData.name }}</a>
         </div>
     </div>
     <div class="form-group">

@@ -33,6 +33,7 @@ export class SiteComponent implements OnInit {
     public tagLoading = false;
     public topItems = ['无', '推荐'];
     public editData: any = {} as any;
+    public editExistData: ISite|undefined; 
     public scoringData = {
         score: 60,
         change_reason: '',
@@ -90,7 +91,25 @@ export class SiteComponent implements OnInit {
         }, () => this.scoringData.score > 0 && !emptyValidate(this.scoringData.change_reason));
     }
 
+    public onLinkBlur() {
+        if (!this.editData.domain) {
+            return;
+        }
+        const link = this.editData.domain as string;
+        const i = link.indexOf('//');
+        if (i >= 0) {
+            this.editData.domain = link.substring(i + 2);
+        }
+        if (i > 2) {
+            this.editData.schema = link.substring(0, i - 1);
+        }
+        this.service.siteCheck(this.editData).subscribe(res => {
+            this.editExistData = res.data;
+        });
+    }
+
     public open(modal: DialogEvent, item?: ISite) {
+        this.editExistData = undefined;
         this.editData = item ? {...item} : {
             id: 0,
             name: '',

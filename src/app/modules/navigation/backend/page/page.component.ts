@@ -28,6 +28,7 @@ export class PageComponent implements OnInit {
         user: 0,
     };
     public editData: IWebPage = {} as any;
+    public editExistData: IWebPage|undefined; 
     public wordItems$: Observable<IWebPageKeywords[]>;
     public wordInput$ = new Subject<string>();
     public wordLoading = false;
@@ -65,7 +66,17 @@ export class PageComponent implements OnInit {
         return {word};
     }
 
+    public onLinkBlur() {
+        if (!this.editData.link) {
+            return;
+        }
+        this.service.pageCheck(this.editData).subscribe(res => {
+            this.editExistData = res.data;
+        });
+    }
+
     public open(modal: DialogEvent, item?: IWebPage) {
+        this.editExistData = undefined;
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             title: '',

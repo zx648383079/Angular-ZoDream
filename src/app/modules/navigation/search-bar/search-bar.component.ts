@@ -1,26 +1,44 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SuggestChangeEvent, SuggestEvent } from '../event';
-import { hasElementByClass } from '../../../theme/utils';
+import { SuggestChangeEvent, SuggestEvent } from '../../../components/form';
+import { ISearchBar, ISearchEngine, SearchEngineItems } from './engine';
+import { HttpClient } from '@angular/common/http';
+import { hasElementByClass, parseNumber } from '../../../theme/utils';
 
 @Component({
-    selector: 'app-auto-suggest-box',
-    templateUrl: './auto-suggest-box.component.html',
-    styleUrls: ['./auto-suggest-box.component.scss']
+    selector: 'app-search-bar',
+    templateUrl: './search-bar.component.html',
+    styleUrls: ['./search-bar.component.scss']
 })
-export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
+export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
 
     @Input() public text = '';
     @Input() public placeholder = $localize `Please enter a keyword, press Enter to search`;
-    @Input() public historyKey = '';
+    @Input() public suggestable = true;
+    @Input() private historyKey = '';
+    private eniginKey = 'sd';
     public suggestItems: any[] = [];
     public dropIndex = -1;
     public histories: string[] = [];
     public openType = 0;
+    public currentEngine: ISearchEngine;
+    public engineItems: ISearchEngine[] = [
+        {
+            name: $localize `Default`,
+            icon: 'icon-globe',
+            url: ''
+        },
+        ...SearchEngineItems
+    ];
 
     @Output() public textChange = new EventEmitter<SuggestChangeEvent>();
     @Output() public confirm = new EventEmitter<any>();
 
-    constructor() {}
+    constructor(
+        private http: HttpClient
+    ) {
+        const index = parseNumber(window.localStorage.getItem(this.eniginKey)) || 0;
+        this.currentEngine = this.engineItems[index];
+    }
 
     @HostListener('document:click', ['$event']) 
     hideSearchBar(event: any) {
@@ -49,10 +67,20 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
         this.openType = this.histories.length > 0 ? 2 : 0;
     }
 
+    public toggleEngine() {
+        this.openType = this.openType == 3 ? 0 : 3;
+    }
+
     public onBlur() {
         // if (this.openType == 2) {
         //     this.openType = 0;
         // }
+    }
+
+    public tapEngine(i: number) {
+        window.localStorage.setItem(this.eniginKey, i.toString());
+        this.currentEngine = this.engineItems[i];
+        this.openType = 0;
     }
 
     public suggest(items: any[]) {
@@ -91,18 +119,29 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
         this.text = this.formatTitle(items[i]);
     }
 
+    
+
     public tapItem(value: any) {
         this.text = this.formatTitle(value);
         this.dropIndex = this.suggestItems.indexOf(value);
-        this.confirm.emit(value);
+        this.gotoSearch(value);
         this.openType = 0;
     }
 
     public tapConfirm() {
         let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.text;
-        this.confirm.emit(text);
+        this.gotoSearch(text);
         this.openType = 0;
         this.addHistory(text);
+    }
+
+    private gotoSearch(keywords: any) {
+        if (!this.currentEngine.url) {
+            this.confirm.emit(keywords);
+            return;
+        }
+        const url = this.currentEngine.url.replace('{word}', encodeURIComponent(this.formatTitle(keywords).trim()));
+        window.open(url, '_blank');
     }
 
     public tapClear() {
@@ -112,7 +151,7 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
     }
 
     public onSuggestChange() {
-        if (this.dropIndex >= 0) {
+        if (!this.suggestable || this.dropIndex >= 0) {
             return;
         }
         if (this.text.length < 1) {
@@ -120,9 +159,31 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
             this.dropIndex = -1;
             return;
         }
-        this.textChange.emit({
-            text: this.text,
-            suggest: this.suggest.bind(this)
+        if (!this.currentEngine.suggest) {
+            this.textChange.emit({
+                text: this.text,
+                suggest: this.suggest.bind(this)
+            });
+            return;
+        }
+        const suggest = this.currentEngine.suggest;
+        const keywords = encodeURIComponent(this.text);
+        if (typeof suggest == 'string') {
+            this.jsonp(suggest + keywords, res => {
+                if (!res || !res.data || res.data.length < 1) {
+                    this.suggest([]);
+                    return;
+                }
+                this.suggest(res.data as string[] || []);
+            });
+            return;
+        }
+        suggest.call(this, keywords, res => {
+            if (!res || res.length < 1) {
+                this.suggest([]);
+                return;
+            }
+            this.suggest(res as string[] || []);
         });
     }
 
@@ -179,6 +240,18 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
             return;
         }
         this.histories = JSON.parse(text) || [];
+    }
+
+    public jsonp(url: string, cb: Function, cbName: string = 'cb') {
+        this.http.jsonp(url, cbName).subscribe({
+            next: res => {
+                cb(res);
+            },
+            error: err => {
+                console.log(err);
+                cb();
+            }
+        });
     }
 
 }

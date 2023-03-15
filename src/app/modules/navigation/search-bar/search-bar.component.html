@@ -1,0 +1,47 @@
+<div class="search-box has-search-icon">
+    <div class="search-input">
+        <div class="search-icon" [title]="currentEngine.name" (click)="toggleEngine()">
+            <i class="iconfont" [ngClass]="currentEngine.icon"></i>
+        </div>
+        <input type="text" [(ngModel)]="text" [placeholder]="placeholder" (ngModelChange)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
+        <div class="clear-btn" [hidden]="text.length < 1" (click)="tapClear()">
+            <i class="iconfont icon-close"></i>
+        </div>
+        <button class="search-btn" (click)="tapConfirm()">
+            <i class="iconfont icon-search"></i>
+        </button>
+    </div>
+    <div class="suggest-body" *ngIf="openType == 1">
+        <ul>
+            <li *ngFor="let item of suggestItems; let i=index" (click)="tapItem(item)">
+                <span class="item-no">{{ i + 1 }}</span>
+                <span class="item-text">{{ formatTitle(item) }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="history-body" *ngIf="openType == 2">
+        <ul>
+            <li *ngFor="let item of histories; let i = index" (click)="tapHistory(item)">
+                <i class="iconfont icon-history"></i>
+                <span class="item-text">{{ item }}</span>
+                <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
+            </li>
+            <li class="clear-line" (click)="tapClearHistory()" i18n>Clear</li>
+        </ul>
+    </div>
+    <div class="search-engine" [hidden]="openType != 3">
+        <div class="search-engine-header">
+            <span class="title" i18n>Select your default search engine:</span>
+            <div class="search-engine-tool">
+                <ng-container i18n>Search suggest:</ng-container>
+                <app-switch [(ngModel)]="suggestable"></app-switch>
+            </div>
+        </div>
+        <ul class="search-engine-body">
+            <li *ngFor="let item of engineItems;let i = index" (click)="tapEngine(i)">
+                <i class="iconfont" [ngClass]="item.icon"></i>
+                <span>{{ item.name }}</span>
+            </li>
+        </ul>
+    </div>
+</div>

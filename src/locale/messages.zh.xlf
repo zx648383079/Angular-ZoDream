@@ -750,17 +750,25 @@
                     <context context-type="sourcefile">src/app/components/form/auto-suggest-box/auto-suggest-box.component.html</context>
                     <context context-type="linenumber">26</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.html</context>
+                    <context context-type="linenumber">29</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="3836759010506747884" datatype="html">
                 <source>Please enter a keyword, press Enter to search</source>
                 <target>请输入关键字，按下确认键搜索</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/components/form/auto-suggest-box/auto-suggest-box.component.ts</context>
-                    <context context-type="linenumber">12</context>
+                    <context context-type="linenumber">13</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/search/search.component.html</context>
                     <context context-type="linenumber">6</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.ts</context>
+                    <context context-type="linenumber">15</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3892410006375863936" datatype="html">
@@ -3699,7 +3707,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/navigation.component.html</context>
-                    <context context-type="linenumber">17,19</context>
+                    <context context-type="linenumber">22,24</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3897186305588336497" datatype="html">
@@ -4044,6 +4052,10 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/document/detail/detail.component.html</context>
                     <context context-type="linenumber">120</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.ts</context>
+                    <context context-type="linenumber">26</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8435663454441740233" datatype="html">
@@ -4975,7 +4987,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.html</context>
-                    <context context-type="linenumber">13</context>
+                    <context context-type="linenumber">8</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2283230407826190068" datatype="html">
@@ -5471,7 +5483,7 @@
                 <target>搜索结果为空</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/navigation.component.html</context>
-                    <context context-type="linenumber">21,23</context>
+                    <context context-type="linenumber">26,28</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5938097927171686284" datatype="html">
@@ -5579,7 +5591,7 @@
                 <target>自定义</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.html</context>
-                    <context context-type="linenumber">8</context>
+                    <context context-type="linenumber">12</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3611815574092387429" datatype="html">
@@ -5796,6 +5808,30 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/report-dialog/report-dialog.component.ts</context>
                     <context context-type="linenumber">104</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="3591419338867933724" datatype="html">
+                <source>Baidu</source>
+                <target>百度</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/engine.ts</context>
+                    <context context-type="linenumber">32</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="7605378255123165813" datatype="html">
+                <source>Select your default search engine:</source>
+                <target>选择默认搜索引擎：</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.html</context>
+                    <context context-type="linenumber">34</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="8648551985171574042" datatype="html">
+                <source>Search suggest:</source>
+                <target>搜索建议：</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.html</context>
+                    <context context-type="linenumber">36</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4442926641425549164" datatype="html">

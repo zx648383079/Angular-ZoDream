@@ -7,7 +7,7 @@ import { ThemeModule } from './theme/theme.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './theme/theme.reducers';
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -22,6 +22,7 @@ import { DialogModule } from './components/dialog';
         BrowserAnimationsModule,
         BrowserModule.withServerTransition({ appId: 'ng-zo' }),
         HttpClientModule,
+        HttpClientJsonpModule,
         AppRoutingModule,
         LazyLoadImageModule,
         ThemeModule.forRoot(),
