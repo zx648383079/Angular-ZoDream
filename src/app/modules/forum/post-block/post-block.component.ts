@@ -70,11 +70,11 @@ export class PostBlockComponent implements OnChanges {
             },
         });
         clipboard.on('success', (e) => {
-            this.toastrService.success('复制成功');
+            this.toastrService.success($localize `Copy successfully`);
             e.clearSelection();
         });
         clipboard.on('error', (e) => {
-            this.toastrService.warning('复制失败');
+            this.toastrService.warning($localize `Copy failure`);
         });
         clipboard.onClick(e);
     }

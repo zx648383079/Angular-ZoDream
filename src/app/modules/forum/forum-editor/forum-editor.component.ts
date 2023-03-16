@@ -107,7 +107,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
         switch (name) {
             case 'code':
                 return this.openDialog({
-                    title: '插入代码',
+                    title: $localize `Insert code`,
                     mode: 1,
                     lang: 'js', content: ''}, data => {
                     this.insert('<code lang="' + data.lang +'">' + data.content +'</code>');
@@ -116,7 +116,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
                 });
             case 'hide':
                 return this.openDialog({
-                    title: '插入隐藏内容', 
+                    title: $localize `Insert hidden content`, 
                     mode: 2, 
                     price: 0, content: ''}, data => {
                     this.insert('<hide price="' + data.price +'">' + data.content +'</hide>');
@@ -124,14 +124,14 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
                     return data.content.length > 0;
                 });
             case 'link':
-                return this.openDialog({title: '插入链接', mode: 3, link: '', content: '', card: false}, data => {
+                return this.openDialog({title: $localize `Insert link`, mode: 3, link: '', content: '', card: false}, data => {
                     const card = data.card ? ' card="true"' : ''
                     this.insert('<a href="' + data.link +'"' + card + '>' + data.content +'</a>');
                 }, data => {
                     return data.link.length > 0 && data.content.length > 0;
                 });
             case 'vote':
-                return this.openDialog({title: '插入投票', mode: 4, content: '', items: [{content: ''}, {content: ''},]}, data => {
+                return this.openDialog({title: $localize `Insert Vote`, mode: 4, content: '', items: [{content: ''}, {content: ''},]}, data => {
                     this.insert('<vote>\n' + data.content +'\n\t' + data.items.filter(i => i.content.trim().length > 0).map(i => '<v>' + i.content + '</v>').join('\n\t') +'\n</vote>');
                 }, data => {
                     return data.content.length > 0 && data.items.filter(i => i.content.trim().length > 0).length > 1;

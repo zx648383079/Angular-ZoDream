@@ -1,6 +1,7 @@
 <ng-container *ngIf="!readable; else elseTemplate">
     <div class="hide-locked-node">
-        <i class="iconfont icon-lock"></i> 本帖内容仅楼主可见
+        <i class="iconfont icon-lock"></i>
+        <ng-container i18n>The content of this post is only visible to the owner</ng-container>
     </div>
 </ng-container>
 <ng-template #elseTemplate>
@@ -39,7 +40,8 @@
                         <a (click)="tapBlock(block)">{{ block.content }}</a> 
                         <div class="quote-body">
                             <div class="hide-locked-node">
-                                 <i class="iconfont icon-lock"></i> 本帖内容仅楼主可见
+                                 <i class="iconfont icon-lock"></i> 
+                                 <ng-container i18n>The content of this post is only visible to the owner</ng-container>
                             </div>
                         </div>
                     </blockquote>
@@ -70,14 +72,16 @@
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'code'">
             <div class="code-block">
-                <div class="copy-btn" (click)="tapCopy(block, $event)">复制</div>
+                <div class="copy-btn" (click)="tapCopy(block, $event)" i18n>Copy</div>
                 <pre><code [class]="'language-' + block.language">{{ block.content }}</code></pre>
             </div>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'hide'">
             <ng-container *ngIf="block.name">
                 <div class="hide-locked-node">
-                    <i class="iconfont icon-lock"></i> {{ block.name }}，如果您要查看本帖隐藏内容请<a (click)="tapBlock(block)">回复</a>
+                    <i class="iconfont icon-lock"></i> {{ block.name }}
+                    <ng-container i18n>,If you want to view the hidden content of this post, Please</ng-container>
+                    <a (click)="tapBlock(block)" i18n>Reply</a>
                 </div>
             </ng-container>
             <ng-container *ngIf="block.content">
@@ -90,33 +94,46 @@
         <ng-container *ngIf="block.type === 98 && block.tag === 'hide_buy'">
             <ng-container *ngIf="block.name">
                 <div class="hide-locked-node">
-                    <i class="iconfont icon-lock"></i> {{ block.name }}，如果您要查看本帖隐藏内容请<a (click)="tapBlock(block)">购买[{{ block.price }}]</a>
+                    <i class="iconfont icon-lock"></i> {{ block.name }}<ng-container i18n>,If you want to view the hidden content of this post, Please</ng-container>
+                    <a (click)="tapBlock(block)">
+                        <ng-container i18n>Buy</ng-container>
+                        [{{ block.price }}]</a>
                 </div>
             </ng-container>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file_login'">
             <div class="file-down-node">
-                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">登录</a>]</p>
-                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)" i18n>Sign in</a>]</p>
+                <p>{{ block.size | size }}
+                    <ng-container i18n>, Downloads: </ng-container>
+                    {{ block.count | numberFormat }}</p>
             </div>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file'">
             <ng-container *ngIf="block.error">
                 <div class="file-down-node">
-                    <p><i class="iconfont icon-file-archive-o"></i> 【文件不存在】</p>
+                    <p><i class="iconfont icon-file-archive-o"></i> 
+                    <ng-container i18n>[File does not exist]</ng-container>
+                    </p>
                 </div>
             </ng-container>
             <ng-container *ngIf="!block.error">
                 <div class="file-down-node">
-                    <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">下载</a>]</p>
-                    <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+                    <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)" i18n>Download</a>]</p>
+                    <p>{{ block.size | size }}
+                    <ng-container i18n>, Downloads: </ng-container>
+                        {{ block.count | numberFormat }}</p>
                 </div>
             </ng-container>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'file_buy'">
             <div class="file-down-node">
-                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">购买({{ block.price }})</a>]</p>
-                <p>{{ block.size | size }}, 下载次数: {{ block.count | numberFormat }}</p>
+                <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">
+                    <ng-container i18n>Buy</ng-container>
+                    ({{ block.price }})</a>]</p>
+                <p>{{ block.size | size }}
+                    <ng-container i18n>, Downloads: </ng-container>
+                    {{ block.count | numberFormat }}</p>
             </div>
         </ng-container>
         <ng-container *ngIf="block.type === 98 && block.tag === 'vote'">
@@ -145,8 +162,8 @@
                     </ng-template>
                 </ng-container>
                 <div class="vote-footer" *ngIf="block.editable">
-                    <p>最多可以选择{{ block.max }}项</p>
-                    <button class="btn btn-primary" (click)="tapVoteSubmit(block)">提交</button>
+                    <p i18n>You can choose up to {{ block.max }} items</p>
+                    <button class="btn btn-primary" (click)="tapVoteSubmit(block)" i18n>Submit</button>
                 </div>
             </div>
             

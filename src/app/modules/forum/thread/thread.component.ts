@@ -68,7 +68,7 @@ export class ThreadComponent implements OnInit {
         amount: 10,
     };
     public statusData = {
-        items: ['无', '已阅', 'Done', '正方', '反方'],
+        items: [$localize `None`, $localize `Reviewed`, $localize `Done`,  $localize `Positive`, $localize `Opposition`],
         selected: 0,
     };
 
@@ -191,7 +191,7 @@ export class ThreadComponent implements OnInit {
                 return i.i;
             });
             if (items.length < 1) {
-                this.toastrService.warning('请选择投票项');
+                this.toastrService.warning($localize `Please select a voting item`);
                 return;
             }
             this.service.postDo({
@@ -201,7 +201,7 @@ export class ThreadComponent implements OnInit {
             }).subscribe({
                 next: res => {
                     item.content = res.data.content;
-                    this.toastrService.success('投票成功');
+                    this.toastrService.success($localize `Successful Voting`);
                 }, 
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
@@ -218,7 +218,7 @@ export class ThreadComponent implements OnInit {
                     if (res.data) {
                         item.content = res.data.content;
                     }
-                    this.toastrService.success('支付成功');
+                    this.toastrService.success($localize `Successful payment`);
                 }, 
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
@@ -335,23 +335,22 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapRemove(item: IThreadPost) {
-        if (!confirm('确定删除回帖？')) {
-            return;
-        }
-        this.service.postRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm($localize `Sure to delete reposts?`, () => {
+            this.service.postRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Deleted successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
 
     public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
-            this.toastrService.warning('内容没填写完整');
+            this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
         const data = {...this.form.value, thread_id: this.thread.id};
@@ -359,7 +358,7 @@ export class ThreadComponent implements OnInit {
         this.service.postCreate(data).subscribe({
             next: res => {
                 e?.reset();
-                this.toastrService.success('回复成功');
+                this.toastrService.success($localize `Reply successfully`);
                 this.form.patchValue({
                     content: '',
                 });
@@ -399,13 +398,17 @@ export class ThreadComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.getPostList({...queries, thread: this.thread.id}).subscribe(res => {
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.searchService.applyHistory(this.queries = queries);
-        }, () => {
-            this.isLoading = false;
+        this.service.getPostList({...queries, thread: this.thread.id}).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.items = res.data;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

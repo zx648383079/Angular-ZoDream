@@ -159,6 +159,7 @@ i {
 
 .form-table {
     .input-group {
+        display: flex;
         input.form-control {
             min-width: 200px;
             width: auto;
@@ -173,16 +174,14 @@ i {
             min-height: 40px * 3 
         }
         >label:first-child {
-            width: 25%;
-            float: left;
+            width: 8rem;
             display: block;
             text-align: right;
             line-height: 40px;
             padding: 0 10px;
         }        
         >div {
-            width: 70%;
-            float: left;
+            flex: 1;
             textarea {
                 width: 100%;
                 resize: vertical;

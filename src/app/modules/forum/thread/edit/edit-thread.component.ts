@@ -53,7 +53,7 @@ export class EditThreadComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
-            this.toastrService.warning('内容没填写完整');
+            this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
         const data: any = {...this.form.value, forum_id: this.data.forum_id};
@@ -64,7 +64,7 @@ export class EditThreadComponent implements OnInit {
         this.service.threadSave(data).subscribe({
             next: res => {
                 e?.reset();
-                this.toastrService.success('发表成功');
+                this.toastrService.success($localize `Published successfully`);
                 history.back();
             }, 
             error: (err: IErrorResult) => {

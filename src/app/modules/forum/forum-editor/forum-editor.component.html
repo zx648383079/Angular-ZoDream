@@ -3,94 +3,94 @@
         <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
             <i class="iconfont icon-smile-o"></i>
         </app-emoji-picker>
-        <div class="tool-item" title="插入代码" (click)="tapTool('code')">
+        <div class="tool-item" i18n-title title="Insert code" (click)="tapTool('code')">
             <i class="iconfont icon-code"></i>
         </div>
-        <div class="tool-item" title="插入隐藏内容" (click)="tapTool('hide')">
+        <div class="tool-item" i18n-title title="Insert hidden content" (click)="tapTool('hide')">
             <i class="iconfont icon-eye-slash"></i>
         </div>
-        <label [for]="'editor-file' + uploadKey" class="tool-item" title="插入可下载内容">
+        <label [for]="'editor-file' + uploadKey" class="tool-item" i18n-title title="Insert file">
             <i class="iconfont icon-download"></i>
             <input type="file" name="file" [id]="'editor-file' + uploadKey" (change)="uploadFile($event)" [disabled]="disable" multiple/>
         </label>
-        <label [for]="'editor-img' + uploadKey" class="tool-item" title="插入图片">
+        <label [for]="'editor-img' + uploadKey" class="tool-item" i18n-title title="Insert image">
             <i class="iconfont icon-image"></i>
             <input type="file" name="file" [id]="'editor-img' + uploadKey" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
         </label>
-        <label [for]="'editor-video' + uploadKey" class="tool-item" title="插入视频">
+        <label [for]="'editor-video' + uploadKey" class="tool-item" i18n-title title="Insert video">
             <i class="iconfont icon-film"></i>
             <input type="file" name="file" [id]="'editor-video' + uploadKey" (change)="uploadVideo($event)" accept="video/*" [disabled]="disable" multiple/>
         </label>
-        <label [for]="'editor-audio' + uploadKey" class="tool-item" title="插入音频">
+        <label [for]="'editor-audio' + uploadKey" class="tool-item" i18n-title title="Insert audio">
             <i class="iconfont icon-music"></i>
             <input type="file" name="file" [id]="'editor-audio' + uploadKey" (change)="uploadAudio($event)" accept="audio/*" [disabled]="disable" multiple/>
         </label>
-        <div class="tool-item" title="插入投票" (click)="tapTool('vote')">
+        <div class="tool-item" i18n-title title="Insert Vote" (click)="tapTool('vote')">
             <i class="iconfont icon-bar-chart"></i>
         </div>
-        <div class="tool-item" title="插入链接" (click)="tapTool('link')">
+        <div class="tool-item" i18n-title title="Insert link" (click)="tapTool('link')">
             <i class="iconfont icon-chain"></i>
         </div>
-        <div class="tool-item" title="插入分页" (click)="tapTool('page')">
+        <div class="tool-item" i18n-title title="Insert Pagination" (click)="tapTool('page')">
             <i class="iconfont icon-clone"></i>
         </div>
-        <div class="tool-item" title="清空" (click)="tapTool('clear')">
+        <div class="tool-item" i18n-title title="Clear" (click)="tapTool('clear')">
             <i class="iconfont icon-trash"></i>
         </div>
     </div>
     <div class="editor-area">
         <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
-        <div class="editor-footer">共 {{ size }} 字</div>
+        <div class="editor-footer" i18n>{{ size }} words</div>
     </div>
 </div>
 
 <app-dialog-box [title]="dialogData.title">
     <ng-container *ngIf="dialogData.mode == 1">
         <div class="form-group">
-            <label for="lang">代码类型</label>
+            <label for="lang" i18n>Code Type</label>
             <input type="text"
-              class="form-control" [(ngModel)]="dialogData.lang" id="lang" placeholder="例如：js">
+              class="form-control" [(ngModel)]="dialogData.lang" id="lang" i18n-placeholder placeholder="Example:js">
           </div>
           <div class="form-group">
-            <label for="content">内容</label>
+            <label for="content" i18n>Content</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
           </div>
     </ng-container>
     <ng-container *ngIf="dialogData.mode == 2">
         <div class="form-group">
-            <label for="price">购买价格</label>
+            <label for="price" i18n>Purchase Price</label>
             <input type="number"
-              class="form-control" [(ngModel)]="dialogData.price" id="price" placeholder="0 表示免费但需要登录">
+              class="form-control" [(ngModel)]="dialogData.price" id="price" i18n-placeholder placeholder="0 means free but login required">
           </div>
           <div class="form-group">
-            <label for="content">内容</label>
+            <label for="content" i18n>Content</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
           </div>
     </ng-container>
     <ng-container *ngIf="dialogData.mode == 3">
         <div class="form-group">
-            <label for="link">网址</label>
+            <label for="link" i18n>Link</label>
             <input type="text"
-              class="form-control" [(ngModel)]="dialogData.link" id="link" placeholder="例如：https://zodream.cn">
+              class="form-control" [(ngModel)]="dialogData.link" id="link" i18n-placeholder placeholder="Example:https://zodream.cn">
           </div>
           <div class="form-group">
-            <label for="content">标题</label>
+            <label for="content" i18n>Title</label>
             <input type="text"
-              class="form-control" [(ngModel)]="dialogData.content" id="content" placeholder="例如：zodream">
+              class="form-control" [(ngModel)]="dialogData.content" id="content" i18n-placeholder placeholder="Example:zodream">
           </div>
           <div class="form-group">
-            <label for="content">切换为卡片</label>
+            <label for="content" i18n>Switch to card</label>
             <app-switch [(ngModel)]="dialogData.card"></app-switch>
           </div>
     </ng-container>
     <ng-container *ngIf="dialogData.mode == 4">
         <div class="form-group">
-            <label for="content">说明</label>
+            <label for="content" i18n>Description</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
         </div>
         <div class="vote-item" *ngFor="let item of dialogData.items; let i = index">
             <input type="text"
-              class="form-control" [(ngModel)]="item.content" id="content" placeholder="选项内容">
+              class="form-control" [(ngModel)]="item.content" id="content" i18n-placeholder placeholder="Content of options">
             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
         </div>
         <i class="iconfont icon-plus" (click)="tapAddItem()"></i>

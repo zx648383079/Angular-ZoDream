@@ -114,6 +114,9 @@ a {
             }
         }
     }
+    .tab-box {
+        margin: -1.24rem -1.24rem 0;
+    }
 }
 
 @media screen and (min-width: 770px) {
@@ -125,6 +128,13 @@ a {
 @media screen and (max-width: 769px) {
     .auto-hide {
         display: none;
+    }
+    .form-table .input-group,
+    .input-group {
+        display: block;
+        >label:first-child {
+            text-align: left;
+        }
     }
 }
 

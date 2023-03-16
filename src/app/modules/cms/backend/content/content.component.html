@@ -19,13 +19,13 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th *ngFor="let item of columnItems">{{ item.label }}</th>
+                    <th *ngFor="let item of columnItems;let i = index" [ngClass]="{'auto-hide': i > 3}">{{ item.label }}</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td *ngFor="let key of columnItems">
+                    <td *ngFor="let key of columnItems;let i = index" [ngClass]="{'auto-hide': i > 3}">
                         {{ formatColumn(item, key) }}
                     </td>
                     <td>

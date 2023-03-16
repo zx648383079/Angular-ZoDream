@@ -108,7 +108,7 @@ export class ListComponent implements OnInit {
         this.service.threadSave(data).subscribe({
             next: res => {
                 e?.reset();
-                this.toastrService.success($localize `Successfully publish`);
+                this.toastrService.success($localize `Published successfully`);
                 this.form.patchValue({
                     title: '',
                     content: '',

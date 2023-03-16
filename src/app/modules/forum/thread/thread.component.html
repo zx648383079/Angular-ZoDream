@@ -34,7 +34,12 @@
                 <i class="iconfont icon-fire" *ngIf="thread.is_digest"></i>
                 <a class="new-tag" *ngIf="thread.is_new">New</a>
                 <div class="pull-right">
-                    <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': queries.order == 'desc', 'icon-sort-alpha-desc': queries.order != 'desc'}" [title]="queries.order != 'desc' ? '倒叙浏览' : '正序浏览'" (click)="tapSortOrder()"></i>
+                    <ng-container *ngIf="queries.order != 'desc'; else elseSortTemplate">
+                        <i class="iconfont icon-sort-alpha-desc" i18n-title title="Backwards browse" (click)="tapSortOrder()"></i>
+                    </ng-container>
+                    <ng-template #elseSortTemplate>
+                        <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
+                    </ng-template>
                     <select [(ngModel)]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
                         <option *ngFor="let item of statusData.items; let i = index" [value]="i">{{ item }}</option>
                     </select>
@@ -56,7 +61,6 @@
                             <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
                             <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>
                             <div class="action">
-    
                             </div>
                         </div>
                         <div class="last-time" i18n>Last edit {{ item.updated_at | ago }}</div>
@@ -64,15 +68,29 @@
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
                         <div class="post-action">
-                            <div class="action-btn" [ngClass]="{active: thread.like_type == 1}" [title]="thread.like_type == 1 ? '取消点赞' : '点赞'" (click)="toggleLike()">
-                                <i class="iconfont icon-thumbs-o-up"></i>
+                            <ng-container *ngIf="thread.like_type == 1; else elseLikeTemplate">
+                                <div class="action-btn active" i18n-title title="Cancel Like" (click)="toggleLike()">
+                                    <i class="iconfont icon-thumbs-o-up"></i>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseLikeTemplate>
+                                <div class="action-btn" i18n-title title="Like" (click)="toggleLike()">
+                                    <i class="iconfont icon-thumbs-o-up"></i>
+                                </div>
+                            </ng-template>
+                            <div class="action-btn"  [ngClass]="{active: thread.is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
+                                {thread.is_reward, plural, =true {Rewarded} =false {Reward}}
                             </div>
-                            <div class="action-btn"  [ngClass]="{active: thread.is_reward}" title="打赏" (click)="tapReward(rewardModal)">
-                                {{ thread.is_reward ? '已' : '' }}赏
-                            </div>
-                            <div class="action-btn"  [ngClass]="{active: thread.is_collected}" [title]="thread.is_collected ? '取消收藏' : '收藏'"  (click)="toggleCollect()">
-                                <i class="iconfont" [ngClass]="{'icon-heart-o': !thread.is_collected, 'icon-heart': thread.is_collected}"></i>
-                            </div>
+                            <ng-container *ngIf="thread.is_collected; else elseCollectTemplate">
+                                <div class="action-btn active" i18n-title title="Cancel Collect" (click)="toggleCollect()">
+                                    <i class="iconfont icon-heart"></i>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseCollectTemplate>
+                                <div class="action-btn" i18n-title title="Collect" (click)="toggleCollect()">
+                                    <i class="iconfont icon-heart-o"></i>
+                                </div>
+                            </ng-template>
                         </div>
                         <div class="footer">
                             <a *ngIf="user" (click)="tapReply(item)" i18n>Reply</a>
@@ -141,7 +159,7 @@
         <div class="name">{{ user.name }}
             <div class="card-more" *ngIf="user.card_items && user.card_items.length > 0">
                 <a *ngFor="let it of user.card_items">
-                    <img [src]="it.icon|asset" [alt]="it.name" [title]="it.name + ' 有效期至' + it.expired_at">
+                    <img [src]="it.icon|asset" [alt]="it.name" i18n-title [title]="it.name + ' Valid until' + it.expired_at">
                 </a>
             </div>
         </div>
@@ -165,48 +183,48 @@
 </ng-template>
 
 
-<app-dialog-box #modal title="编辑">
+<app-dialog-box #modal i18n-title title="Edit">
     <ng-container *ngIf="thread">
         <div class="link-item" *ngIf="thread.topable">
-            <div class="label">置顶</div>
+            <div class="label" i18n>Topest</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.top_type"></app-switch>
             </div>
         </div>
         <div class="link-item" *ngIf="thread.digestable">
-            <div class="label">精华</div>
+            <div class="label" i18n>Digest</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_digest"></app-switch>
             </div>
         </div>
         <div class="link-item" *ngIf="thread.highlightable">
-            <div class="label">高亮</div>
+            <div class="label" i18n>Highlight</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_highlight"></app-switch>
             </div>
         </div>
         <div class="link-item" *ngIf="thread.closeable">
-            <div class="label">关闭</div>
+            <div class="label" i18n>Close</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_closed"></app-switch>
             </div>
         </div>
         <div class="form-group">
-          <label for="remark">操作说明*</label>
+          <label for="remark" i18n>Operating Instructions*</label>
           <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>
         </div>
     </ng-container>
 </app-dialog-box>
 
-<app-dialog-box #rewardModal [scrollable]="false" title="打赏">
+<app-dialog-box #rewardModal [scrollable]="false" i18n-title title="Reward">
     <div class="link-item">
-        <div class="label">金额</div>
+        <div class="label" i18n>Amount</div>
         <div class="value">
             <input type="number" class="form-control" [(ngModel)]="rewardData.amount">
         </div>
     </div>
 </app-dialog-box>
 
-<app-dialog-box #statusModal [scrollable]="false" title="修改状态">
+<app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
     <app-check-input [items]="statusData.items" [rangeKey]="1"[(ngModel)]="statusData.selected"></app-check-input>
 </app-dialog-box>
