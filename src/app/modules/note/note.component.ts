@@ -7,7 +7,6 @@ import { AppState } from '../../theme/interfaces';
 import { SearchEvents } from '../../theme/models/event';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
-import { applyHistory, getQueries } from '../../theme/query';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { SearchService, ThemeService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
@@ -60,7 +59,7 @@ export class NoteComponent implements OnInit, OnDestroy {
             this.tapRefresh();
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -136,7 +135,7 @@ export class NoteComponent implements OnInit, OnDestroy {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                applyHistory(this.queries = params, false);
+                this.searchService.applyHistory(this.queries = params, false);
             }, 
             error: () => {
                 this.isLoading = false;

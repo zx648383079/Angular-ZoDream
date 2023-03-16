@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IComment } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -29,11 +29,12 @@ export class CommentComponent implements OnInit {
         private service: BlogService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -66,7 +67,7 @@ export class CommentComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -79,7 +80,7 @@ export class CommentComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { IForum, IThread } from '../../model';
 import { ForumService } from '../forum.service';
 
@@ -30,11 +30,12 @@ export class ThreadComponent implements OnInit {
         private service: ForumService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (this.queries.forum < 1 || this.forum?.id === this.queries.forum) {
                 this.tapPage();
                 return;
@@ -116,7 +117,7 @@ export class ThreadComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isChecked = false;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: _ => {
                 this.isLoading = false;
@@ -125,7 +126,7 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

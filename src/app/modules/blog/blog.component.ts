@@ -25,7 +25,7 @@ import {
 } from '@angular/router';
 import { IErrorResult } from '../../theme/models/page';
 import { DialogService } from '../../components/dialog';
-import { pushHistoryState } from '../../theme/query';
+import { SearchService } from '../../theme/services';
 
 @Component({
     selector: 'app-blog',
@@ -72,6 +72,7 @@ export class BlogComponent implements OnInit {
         private service: BlogService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
         this.service.getCategories().subscribe(res => {
             this.categories = res;
@@ -169,7 +170,7 @@ export class BlogComponent implements OnInit {
         this.service.getDetail(id).subscribe(res => {
             this.blog = res;
             this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-            pushHistoryState(res.title,
+            this.searchService.pushHistoryState(res.title,
                 window.location.href.replace(/blog.*$/, 'blog/' + res.id.toString()));
             document.documentElement.scrollTop = 0;
         });

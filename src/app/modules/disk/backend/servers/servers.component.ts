@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { IDiskServer } from '../../model';
 import { DiskService } from '../disk.service';
 
@@ -18,7 +18,6 @@ export class ServersComponent implements OnInit {
     public total = 0;
     public queries: IPageQueries = {
         keywords: '',
-        date: '',
         page: 1,
         per_page: 20,
     };
@@ -26,18 +25,19 @@ export class ServersComponent implements OnInit {
     constructor(
         private service: DiskService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -70,7 +70,7 @@ export class ServersComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

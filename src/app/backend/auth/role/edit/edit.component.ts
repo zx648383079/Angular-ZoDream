@@ -35,20 +35,20 @@ export class EditComponent implements OnInit {
             this.permissionItems = res.data;
         });
         this.route.params.subscribe(params => {
-        if (!params.id) {
-            return;
-        }
-        this.service.role(params.id).subscribe(res => {
-            this.data = res;
-            this.form.patchValue({
-                name: res.name,
-                display_name: res.display_name,
-                description: res.description,
-                permissions: res.permissions.map(i => {
-                    return typeof i === 'string' ? parseInt(i, 10) : i;
-                }),
+            if (!params.id) {
+                return;
+            }
+            this.service.role(params.id).subscribe(res => {
+                this.data = res;
+                this.form.patchValue({
+                    name: res.name,
+                    display_name: res.display_name,
+                    description: res.description,
+                    permissions: res.permissions.map(i => {
+                        return typeof i === 'string' ? parseInt(i, 10) : i;
+                    }),
+                });
             });
-        });
         });
     }
 

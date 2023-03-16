@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { eachObject } from '../../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
@@ -27,11 +27,12 @@ export class FormDetailComponent implements OnInit {
         private service: CmsService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.service.content(this.queries).subscribe(res => {
                 this.data = res;
                 this.formItems = res.form_data;

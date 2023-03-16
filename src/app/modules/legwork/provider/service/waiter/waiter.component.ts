@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IUser } from '../../../../../theme/models/user';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { LegworkService } from '../../../legwork.service';
 import { IService } from '../../../model';
 
@@ -28,11 +28,12 @@ export class WaiterComponent implements OnInit {
         private service: LegworkService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -65,7 +66,7 @@ export class WaiterComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -95,7 +96,7 @@ export class WaiterComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

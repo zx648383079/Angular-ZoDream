@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { ITask, ITaskDay } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
@@ -33,12 +33,13 @@ export class HomeComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;

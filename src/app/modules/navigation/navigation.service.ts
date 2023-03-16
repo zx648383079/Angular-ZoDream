@@ -35,6 +35,10 @@ export class NavigationService {
         return this.http.post<ISiteCollect>('navigation/collect/save', data);
     }
 
+    public collectBatchSave(data: ISiteCollectGroup[]) {
+        return this.http.post<IData<ISiteCollectGroup>>('navigation/collect/batch_save', {data});
+    }
+
     public collectRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('navigation/collect/delete', {params: {id}});
     }

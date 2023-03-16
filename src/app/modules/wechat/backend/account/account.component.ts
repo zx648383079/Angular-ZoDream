@@ -4,7 +4,7 @@ import { MenuService } from '../../../../backend/menu.service';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
 import { IWeChatAccount } from '../../model';
 import { WechatService } from '../wechat.service';
@@ -35,12 +35,13 @@ export class AccountComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private menuService: MenuService,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.selected = this.menuService.get('wx', 0);
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
             if (params.redirect_uri) {
                 this.redirectUri = params.redirect_uri;
@@ -92,7 +93,7 @@ export class AccountComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -102,7 +103,7 @@ export class AccountComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

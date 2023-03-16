@@ -5,7 +5,7 @@ import * as ClipboardJS from 'clipboard';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { IErrorResult } from '../../../theme/models/page';
-import { pushHistoryState } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
@@ -41,6 +41,7 @@ export class DetailComponent implements OnInit {
         private route: ActivatedRoute,
         private sanitizer: DomSanitizer,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
@@ -147,7 +148,7 @@ export class DetailComponent implements OnInit {
             this.data.example = JSON.stringify(this.data.example, null, 4);
         }
         this.findNavigation(res.id);
-        pushHistoryState(res.name,
+        this.searchService.pushHistoryState(res.name,
             window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
         document.documentElement.scrollTop = 0;
     }

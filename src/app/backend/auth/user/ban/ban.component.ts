@@ -5,9 +5,9 @@ import { DialogService } from '../../../../components/dialog';
 import { AppState } from '../../../../theme/interfaces';
 import { IBanAccount } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
 import { getUserRole } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../auth.service';
+import { SearchService } from '../../../../theme/services';
 
 @Component({
   selector: 'app-ban',
@@ -32,6 +32,7 @@ export class BanComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private store: Store<AppState>,
+        private searchService: SearchService,
     ) {
         this.store.select(getUserRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
@@ -40,7 +41,7 @@ export class BanComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -74,7 +75,7 @@ export class BanComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -84,7 +85,7 @@ export class BanComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -92,16 +93,15 @@ export class BanComponent implements OnInit {
         if (!this.editable) {
             return;
         }
-        if (!confirm('确定移除“' + item.item_key + '”？')) {
-            return;
-        }
-        this.service.banRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('删除成功');
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定移除“' + item.item_key + '”？', () => {
+            this.service.banRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('删除成功');
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

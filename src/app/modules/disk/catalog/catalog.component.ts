@@ -22,7 +22,6 @@ import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, Playe
 import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
-import { getQueries } from '../../../theme/query';
 import { UploadStatus } from '../../../theme/services/uploader';
 
 
@@ -86,7 +85,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapRefresh();
         });
         this.searchService.on(SearchEvents.NAV_RESIZE, (_, w) => {

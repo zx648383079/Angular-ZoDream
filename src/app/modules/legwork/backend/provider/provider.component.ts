@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { ICategory, IProvider } from '../../model';
 import { LegworkService } from '../legwork.service';
 
@@ -27,13 +27,14 @@ export class ProviderComponent implements OnInit {
     constructor(
         private service: LegworkService,
         private toastrService: DialogService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private searchService: SearchService
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -59,7 +60,7 @@ export class ProviderComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -87,7 +88,7 @@ export class ProviderComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: _ => {
                 this.isLoading = false;

@@ -10,10 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
-import { SearchService } from '../../../theme/services';
 import { scrollBottom, windowHeight, windowScollTop } from '../util';
 import { SearchEvents } from '../../../theme/models/event';
-import { pushHistoryState } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 
 @Component({
     selector: 'app-reader',
@@ -103,7 +102,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
 
     public onProgressChange(event: IFlipProgress) {
         if (event.progress === 0) {
-            pushHistoryState(event.item.title,
+            this.searchService.pushHistoryState(event.item.title,
                 window.location.href.replace(/\/\d+\/\d+.*/, '/' + event.item.book + '/' + event.item.id));
         }
         this.chapterId = event.item.id;

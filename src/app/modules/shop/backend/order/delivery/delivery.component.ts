@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IDelivery, IDeliveryLogistics } from '../../../model';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { formatTime, mapFormat } from '../../../../../theme/utils';
 import { OrderService } from '../order.service';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -40,12 +40,13 @@ export class DeliveryComponent implements OnInit {
         private service: OrderService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -129,12 +130,12 @@ export class DeliveryComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

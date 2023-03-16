@@ -20,11 +20,11 @@ const routes: Routes = [
         component: DetailComponent
     },
     {
-        path: 'log/:id',
+        path: 'log/:warehouse',
         component: LogComponent
     },
     {
-        path: ':id',
+        path: ':warehouse',
         component: ProductComponent
     },
     {

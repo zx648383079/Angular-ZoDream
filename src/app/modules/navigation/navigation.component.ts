@@ -6,12 +6,13 @@ import { SuggestChangeEvent } from '../../components/form';
 import { AppState } from '../../theme/interfaces';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
-import { applyHistory, getQueries } from '../../theme/query';
+import { SearchService } from '../../theme/services';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
+import { NavigationPanelComponent } from './panel/navigation-panel.component';
 
 @Component({
   selector: 'app-navigation',
@@ -21,7 +22,9 @@ import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 export class NavigationComponent implements OnInit {
 
     @ViewChild(ReportDialogComponent)
-    public reportModal: ReportDialogComponent;
+    private reportModal: ReportDialogComponent;
+    @ViewChild(NavigationPanelComponent)
+    private collectModal: NavigationPanelComponent;
 
     public openType = 0;
     public items: IWebPage[] = [];
@@ -41,6 +44,7 @@ export class NavigationComponent implements OnInit {
         private route: ActivatedRoute,
         private store: Store<AppState>,
         private themeService: ThemeService,
+        private searchService: SearchService,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
@@ -50,7 +54,7 @@ export class NavigationComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {
                 return;
             }
@@ -64,17 +68,7 @@ export class NavigationComponent implements OnInit {
             return;
         }
         if (e.type == 0) {
-            this.service.collectSave({
-                name: e.data.title,
-                link: e.data.link
-            }).subscribe({
-                next: _ => {
-                    this.toastrService.success($localize `Collected`);
-                },
-                error: err => {
-                    this.toastrService.error(err);
-                }
-            });
+            this.collectModal.collect(e.data.title, e.data.link);
             return;
         }
     }
@@ -100,7 +94,7 @@ export class NavigationComponent implements OnInit {
             return;
         }
         this.openType = 0;
-        applyHistory(this.queries);
+        this.searchService.applyHistory(this.queries);
     }
 
     public tapRefresh() {
@@ -132,7 +126,7 @@ export class NavigationComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: err => {
                 this.isLoading = false;

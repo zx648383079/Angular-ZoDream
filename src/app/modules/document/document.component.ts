@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
-import { applyHistory, getQueries } from '../../theme/query';
+import { SearchService } from '../../theme/services';
 import { ThemeService } from '../../theme/services';
 import { DocumentService } from './document.service';
 import { IProject } from './model';
@@ -29,12 +29,13 @@ export class DocumentComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private themeService: ThemeService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.themeService.setTitle($localize `Document`);
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {
                 this.tapRefresh();
                 return;
@@ -80,7 +81,7 @@ export class DocumentComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

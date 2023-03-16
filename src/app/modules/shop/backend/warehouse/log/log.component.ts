@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IWarehouseLog } from '../../../model';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
@@ -28,17 +28,15 @@ export class LogComponent implements OnInit {
         private service: WarehouseService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
-                return;
-            }
-            this.queries.warehouse = parseInt(params.id, 10);
+            this.searchService.getQueries(params, this.queries)
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -68,17 +66,23 @@ export class LogComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.logList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+        this.service.logList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries, ['warehouse']);
+            },
+            error: err => {
+                this.toastrService.error(err);
+                this.isLoading = false;
+            }
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 }

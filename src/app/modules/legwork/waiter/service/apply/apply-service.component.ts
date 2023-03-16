@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { LegworkService } from '../../../legwork.service';
 import { ICategory, IService } from '../../../model';
 
@@ -27,7 +27,8 @@ export class ApplyServiceComponent implements OnInit {
     constructor(
         private service: LegworkService,
         private toastrService: DialogService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private searchService: SearchService
     ) { }
 
     ngOnInit() {
@@ -35,7 +36,7 @@ export class ApplyServiceComponent implements OnInit {
             this.categories = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -49,7 +50,7 @@ export class ApplyServiceComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -84,7 +85,7 @@ export class ApplyServiceComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

@@ -18,7 +18,6 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../theme/interfaces';
@@ -109,7 +108,7 @@ export class ListComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.searchService.on(SearchEvents.CONFIRM, this.searchFn);
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (this.queries.tag) {
                 this.header = this.queries.tag;
             }
@@ -144,7 +143,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 this.hasMore = res.paging.more;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

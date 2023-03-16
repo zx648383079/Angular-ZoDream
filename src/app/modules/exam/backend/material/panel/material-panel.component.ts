@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { ICourse, IQuestionMaterial } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -38,6 +38,7 @@ export class MaterialPanelComponent implements OnInit {
     constructor(
         private service: ExamService,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
@@ -81,7 +82,7 @@ export class MaterialPanelComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
         this.tabIndex = false;
     }

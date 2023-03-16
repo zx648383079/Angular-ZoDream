@@ -6,10 +6,10 @@ import { ButtonGroupEvent, IButton } from '../../../components/form';
 import { AppState } from '../../../theme/interfaces';
 import { IPageQueries } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { getUserRole } from '../../../theme/reducers/auth.selectors';
 import { mapFormat } from '../../../theme/utils';
 import { AuthService } from '../auth.service';
+import { SearchService } from '../../../theme/services';
 
 @Component({
   selector: 'app-user',
@@ -66,6 +66,7 @@ export class UserComponent implements OnInit {
         private router: Router,
         private toastrService: DialogService,
         private store: Store<AppState>,
+        private searchService: SearchService
     ) {
         this.store.select(getUserRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
@@ -74,7 +75,7 @@ export class UserComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -164,7 +165,7 @@ export class UserComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -174,7 +175,7 @@ export class UserComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.queries.sort = 'id';
         this.tapRefresh();
     }

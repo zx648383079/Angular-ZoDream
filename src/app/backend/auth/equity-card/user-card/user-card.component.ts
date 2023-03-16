@@ -4,8 +4,8 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IEquityCard, IUserCard } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
-import { applyHistory, getQueries } from '../../../../theme/query';
 import { AuthService } from '../../auth.service';
+import { SearchService } from '../../../../theme/services';
 
 @Component({
   selector: 'app-user-card',
@@ -32,6 +32,7 @@ export class UserCardComponent implements OnInit {
         private service: AuthService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService
     ) {
     }
 
@@ -46,7 +47,7 @@ export class UserCardComponent implements OnInit {
             this.cardItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -93,7 +94,7 @@ export class UserCardComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

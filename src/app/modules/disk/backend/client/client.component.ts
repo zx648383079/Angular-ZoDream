@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
-import { getQueries } from '../../../../theme/query';
-import { IDiskServerFile } from '../../model';
+import { SearchService } from '../../../../theme/services';
+import { IDiskServerFile, ILinkServerData } from '../../model';
 import { DiskService } from '../disk.service';
+import { DialogService } from '../../../../components/dialog';
 
 @Component({
   selector: 'app-client',
@@ -21,10 +22,10 @@ export class ClientComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-    public data = {
-        toggle: false,
+    public linkToggle = false;
+    public data: ILinkServerData = {
         linked: false,
-        server: '',
+        server_url: '',
         upload_url: '',
         download_url: '',
         ping_url: '',
@@ -33,22 +34,37 @@ export class ClientComponent implements OnInit {
     constructor(
         private service: DiskService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
+        private toastrService: DialogService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
     public tapLink() {
-        this.data.linked = true;
+        if (!this.data.server_url) {
+            this.toastrService.warning('请填写服务器地址');
+            return;
+        }
+        this.data.linked = !this.data.linked;
+        this.service.linkServer(this.data).subscribe({
+            next: res => {
+                this.data = res;
+            },
+            error: err => {
+                this.toastrService.error(err);
+                this.data.linked = false;
+            }
+        })
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

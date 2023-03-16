@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
-import { getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 interface IGroupHeader {
@@ -46,11 +46,12 @@ export class UserSettingComponent implements OnInit {
     constructor(
         private service: UserService,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.service.settings().subscribe(res => {
-            this.data = getQueries(res, this.data);
+            this.data = this.searchService.getQueries(res, this.data);
             this.isChanged = false;
         });
     }

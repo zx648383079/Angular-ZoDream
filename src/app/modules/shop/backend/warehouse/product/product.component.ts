@@ -4,7 +4,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { DialogBoxComponent } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../model';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
@@ -31,17 +31,15 @@ export class ProductComponent implements OnInit {
         private service: WarehouseService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
-                return;
-            }
-            this.queries.warehouse = parseInt(params.id, 10);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
             if (this.queries.warehouse < 1) {
                 return;
@@ -107,12 +105,12 @@ export class ProductComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries, ['warehouse']);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 }

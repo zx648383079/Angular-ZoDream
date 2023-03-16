@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PanelAnimation } from '../../../theme/constants';
 import { IPageQueries } from '../../../theme/models/page';
-import { getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { ITask } from '../model';
 import { TaskService } from '../task.service';
 
@@ -33,6 +33,7 @@ export class TaskSelectComponent {
 
     constructor(
         private service: TaskService,
+        private searchService: SearchService,
     ) { }
 
 
@@ -59,7 +60,7 @@ export class TaskSelectComponent {
     }
 
     public tapSearch(form: any = {keywords: this.keywords}) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

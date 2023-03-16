@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { LegworkService } from '../../legwork.service';
 import { IService } from '../../model';
 
@@ -23,18 +23,19 @@ export class ServiceComponent implements OnInit {
 
     constructor(
         private service: LegworkService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private searchService: SearchService
     ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -64,7 +65,7 @@ export class ServiceComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

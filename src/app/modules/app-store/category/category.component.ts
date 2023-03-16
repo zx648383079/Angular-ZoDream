@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries, pushHistoryState } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { parseNumber } from '../../../theme/utils';
 import { AppStoreService } from '../app-store.service';
 import { ICategory, ISoftware } from '../model';
@@ -30,6 +30,7 @@ export class CategoryComponent implements OnInit {
     constructor(
         private service: AppStoreService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
@@ -40,7 +41,7 @@ export class CategoryComponent implements OnInit {
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -58,7 +59,7 @@ export class CategoryComponent implements OnInit {
             this.categories = res.data;
         });
         this.tapRefresh();
-        pushHistoryState(item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
+        this.searchService.pushHistoryState(item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
     }
 
     public tapRefresh() {
@@ -87,7 +88,7 @@ export class CategoryComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -97,7 +98,7 @@ export class CategoryComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

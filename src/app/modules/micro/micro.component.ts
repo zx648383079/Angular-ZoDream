@@ -6,7 +6,6 @@ import { IMicro, ITopic } from './model';
 import { emptyValidate } from '../../theme/validators';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { openLink } from '../../theme/deeplink';
-import { applyHistory, getQueries } from '../../theme/query';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { getCurrentUser } from '../../theme/reducers/auth.selectors';
@@ -90,7 +89,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             this.tapRefresh();
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (this.queries.user > 0) {
                 this.loadUser(this.queries.user);
             }
@@ -262,7 +261,7 @@ export class MicroComponent implements OnInit, OnDestroy {
                     return i;
                 })
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                applyHistory(this.queries = params, false);
+                this.searchService.applyHistory(this.queries = params, false);
             }, 
             error: () => {
                 this.isLoading = false;

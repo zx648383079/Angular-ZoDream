@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { IAuthor } from '../../model';
 import { BookService } from '../book.service';
 
@@ -27,11 +27,12 @@ export class AuthorComponent implements OnInit {
         private service: BookService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.queries = getQueries(res, this.queries);
+            this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
     }
@@ -59,7 +60,7 @@ export class AuthorComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -72,7 +73,7 @@ export class AuthorComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

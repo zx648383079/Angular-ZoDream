@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { twoPad } from '../../../theme/utils';
 import { ITaskPlan } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
@@ -40,6 +40,7 @@ export class PlanComponent implements OnInit {
         private service: TaskService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         ['一', '二', '三', '四', '五', '六', '日'].forEach((i, j) => {
             this.weekNameItems.push({
@@ -57,7 +58,7 @@ export class PlanComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -156,7 +157,7 @@ export class PlanComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

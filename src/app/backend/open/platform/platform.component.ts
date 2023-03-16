@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPlatform } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { mapFormat } from '../../../theme/utils';
 import { OpenService } from '../open.service';
+import { SearchService } from '../../../theme/services';
 
 @Component({
   selector: 'app-platform',
@@ -29,13 +29,14 @@ export class PlatformComponent implements OnInit {
         private service: OpenService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.reviewable = window.location.href.indexOf('review') > 0;
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -78,12 +79,12 @@ export class PlatformComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

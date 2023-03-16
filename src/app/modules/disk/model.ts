@@ -127,3 +127,11 @@ export interface IDiskServerFile {
     online_count: number;
     server_count: number;
 }
+
+export interface ILinkServerData {
+    linked: boolean,
+    server_url: string,
+    upload_url: string,
+    download_url: string,
+    ping_url: string,
+}

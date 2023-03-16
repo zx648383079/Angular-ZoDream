@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { IGoods } from '../../model';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -37,11 +37,12 @@ export class SearchComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: ShopService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -82,7 +83,7 @@ export class SearchComponent implements OnInit {
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 if (res.filter) {
                     this.filterItems = res.filter;
                 }

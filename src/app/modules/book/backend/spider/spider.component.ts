@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
-import { getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { IBookSpiderItem } from '../../model';
 import { BookService } from '../book.service';
 
@@ -32,6 +32,7 @@ export class SpiderComponent implements OnDestroy {
     constructor(
         private service: BookService,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) { }
 
     ngOnDestroy(): void {
@@ -133,7 +134,7 @@ export class SpiderComponent implements OnDestroy {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 }

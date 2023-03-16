@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../theme/models/page';
 import { ICoupon } from '../../model';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
@@ -29,13 +29,14 @@ export class CouponComponent implements OnInit {
         private toastrService: DialogService,
         private themeService: ThemeService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.themeService.setTitle('领券中心');
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -75,7 +76,7 @@ export class CouponComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

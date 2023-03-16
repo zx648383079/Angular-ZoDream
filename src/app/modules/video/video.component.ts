@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
-import { applyHistory, getQueries } from '../../theme/query';
+import { SearchService } from '../../theme/services';
 import { ThemeService } from '../../theme/services';
 import { IVideo } from './model';
 import { VideoService } from './video.service';
@@ -32,6 +32,7 @@ export class VideoComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private themeService: ThemeService,
+        private searchService: SearchService,
     ) {
         this.themeService.setTitle($localize `Short video`);
     }
@@ -47,7 +48,7 @@ export class VideoComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -90,7 +91,7 @@ export class VideoComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         }, () => {
             this.isLoading = false;
         });

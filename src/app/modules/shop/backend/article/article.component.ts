@@ -11,7 +11,7 @@ import {
     IArticle,
     IArticleCategory
 } from '../../model';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import {
     ArticleService
 } from '../article.service';
@@ -39,6 +39,7 @@ export class ArticleComponent implements OnInit {
         private service: ArticleService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
@@ -52,7 +53,7 @@ export class ArticleComponent implements OnInit {
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -87,12 +88,12 @@ export class ArticleComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

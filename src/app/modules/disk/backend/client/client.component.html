@@ -7,14 +7,14 @@
 
     <div class="panel-container">
         <div class="flat-input">
-            <input type="text" class="form-control" [(ngModel)]="data.server" placeholder="服务器网址">
-            <button class="btn" [ngClass]="{'btn-primary': !data.linked, 'btn-danger': data.linked}" (click)="tapLink()">{{ data.linked ? '已连接' : '连接'}}</button>
-            <div class="btn btn-info" title="设置" (click)="data.toggle = !data.toggle">
+            <input type="text" class="form-control" [(ngModel)]="data.server_url" placeholder="服务器网址">
+            <button class="btn" [ngClass]="{'btn-primary': !data.linked, 'btn-danger': data.linked}" (click)="tapLink()">{{ data.linked ? '断开' : '连接'}}</button>
+            <div class="btn btn-info" title="设置" (click)="linkToggle = !linkToggle">
                 <i class="iconfont icon-cog"></i>
             </div>
         </div>
 
-        <div class="more-panel" [hidden]="!data.toggle">
+        <div class="more-panel" [hidden]="!linkToggle">
             <div class="row">
                 <label class="col-md-3 col-form-label">上传地址</label>
                 <div class="col-md-9">

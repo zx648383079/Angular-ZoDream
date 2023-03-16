@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { ICategory, IGoods } from '../../model';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
 
 @Component({
@@ -41,14 +41,15 @@ export class CategoryComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: ShopService,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.queries.category = parseInt(params.id, 10);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
             if (this.queries.category > 0) {
                 this.service.category(this.queries.category).subscribe(res => {
@@ -107,7 +108,7 @@ export class CategoryComponent implements OnInit {
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries, ['category']);
                 if (res.filter) {
                     this.filterItems = res.filter;
                 }

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CountdownComponent } from '../../../../theme/components';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivityTime, ISeckillGoods } from '../../model';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { ThemeService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
 import { ActivityService } from '../activity.service';
@@ -34,13 +34,14 @@ export class SeckillComponent implements OnInit, OnDestroy {
         private service: ActivityService,
         private themeService: ThemeService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.themeService.setTitle('秒杀');
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.service.seckillTime().subscribe(res => {
             this.timeItems = res.data;
@@ -94,7 +95,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { ISite, ISiteCategory, ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
@@ -43,6 +43,7 @@ export class SiteComponent implements OnInit {
         private service: NavigationService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
@@ -50,7 +51,7 @@ export class SiteComponent implements OnInit {
             this.categories = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
         this.tagItems$ = concat(
@@ -166,7 +167,7 @@ export class SiteComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -175,7 +176,7 @@ export class SiteComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

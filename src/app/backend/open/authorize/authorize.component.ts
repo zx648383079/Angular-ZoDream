@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IAuthorize, IPlatform } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { OpenService } from '../open.service';
+import { SearchService } from '../../../theme/services';
 
 @Component({
   selector: 'app-authorize',
@@ -32,12 +32,13 @@ export class AuthorizeComponent implements OnInit {
         private service: OpenService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
         this.service.authorizePlatform().subscribe(res => {
@@ -88,7 +89,7 @@ export class AuthorizeComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -98,7 +99,7 @@ export class AuthorizeComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

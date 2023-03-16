@@ -5,7 +5,7 @@ import { DialogBoxComponent } from '../../../components/dialog';
 import { UploadButtonEvent } from '../../../components/form';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
@@ -60,6 +60,7 @@ export class IncomeComponent implements OnInit {
         private toastrService: DialogService,
         private downloadService: DownloadService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.service.batch({
             account: {},
@@ -76,7 +77,7 @@ export class IncomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -111,7 +112,7 @@ export class IncomeComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isLoading = false;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -120,7 +121,7 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.panelOpen = false;
         this.tapRefresh();
     }

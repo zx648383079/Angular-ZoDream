@@ -27,7 +27,6 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
 import { DownloadService, SearchService, ThemeService } from '../../../theme/services';
 import { openLink } from '../../../theme/deeplink';
@@ -91,7 +90,7 @@ export class ThreadComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.route.params.subscribe(params => {
             this.service.getThread(params.id).subscribe(res => {
@@ -404,7 +403,7 @@ export class ThreadComponent implements OnInit {
             this.hasMore = res.paging.more;
             this.isLoading = false;
             this.items = res.data;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         }, () => {
             this.isLoading = false;
         });

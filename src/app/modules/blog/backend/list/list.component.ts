@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBlog, ICategory, PublishStatusItems } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
 import { IItem } from '../../../../theme/models/seo';
 
@@ -33,6 +33,7 @@ export class ListComponent implements OnInit {
         private service: BlogService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.service.categoryAll().subscribe(res => {
             this.categories = res;
@@ -41,7 +42,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.queries = getQueries(res, this.queries);
+            this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
     }
@@ -69,7 +70,7 @@ export class ListComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -78,7 +79,7 @@ export class ListComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

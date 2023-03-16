@@ -4,7 +4,7 @@ import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
 import { PlayerEvent } from '../../../components/media-player/fixed/model';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { formatHour } from '../../../theme/utils';
 import { IMusic } from '../model';
 import { TvService } from '../tv.service';
@@ -33,11 +33,12 @@ export class MusicComponent implements OnInit {
         private service: TvService,
         private route: ActivatedRoute,
         private router: Router,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {
                 this.tapRefresh();
                 return;
@@ -96,7 +97,7 @@ export class MusicComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

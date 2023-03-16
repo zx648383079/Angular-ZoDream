@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPage } from '../../../theme/models/page';
-import { IDiskServer, IDiskServerFile } from '../model';
+import { IDiskServer, IDiskServerFile, ILinkServerData } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class DiskService {
         return this.http.get<IPage<IDiskServerFile>>('disk/admin/file', {
             params,
         });
+    }
+
+    public linkServer(data: ILinkServerData) {
+        return this.http.post<ILinkServerData>('disk/admin/client/link_server', data);
     }
 
     public statistics() {

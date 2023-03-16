@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
@@ -64,7 +63,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
         });
         this.route.params.subscribe(params => {
             this.forum = {id: params.id} as any;
@@ -90,7 +89,7 @@ export class ListComponent implements OnInit {
     }
 
     public tapSearch(params: any) {
-        this.queries = getQueries(params, this.queries);
+        this.queries = this.searchService.getQueries(params, this.queries);
         this.tapRefresh();
     }
 
@@ -156,7 +155,7 @@ export class ListComponent implements OnInit {
                 this.isLoading = false;
                 this.items = this.formatItems(res.data);
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             }, 
             error: () => {
                 this.isLoading = false;

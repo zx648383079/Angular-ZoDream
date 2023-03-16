@@ -4,7 +4,7 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { IMusic } from '../../model';
 import { TVService } from '../tv.service';
@@ -38,12 +38,13 @@ export class MusicComponent implements OnInit {
         private service: TVService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -97,7 +98,7 @@ export class MusicComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -107,7 +108,7 @@ export class MusicComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

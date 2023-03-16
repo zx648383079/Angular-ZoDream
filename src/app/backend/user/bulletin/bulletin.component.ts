@@ -5,7 +5,7 @@ import { IBlockItem } from '../../../components/link-rule';
 import { openLink } from '../../../theme/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../theme/query';
+import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
@@ -30,12 +30,13 @@ export class BulletinComponent implements OnInit {
         private toastrService: DialogService,
         private router: Router,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -73,7 +74,7 @@ export class BulletinComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 
@@ -109,7 +110,7 @@ export class BulletinComponent implements OnInit {
                 });
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

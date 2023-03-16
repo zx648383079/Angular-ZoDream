@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IButton } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { AppStoreService } from '../../app-store.service';
 import { ISoftwareLog } from '../../model';
 
@@ -33,11 +33,12 @@ export class HistoryComponent implements OnInit {
     constructor(
         private service: AppStoreService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -68,7 +69,7 @@ export class HistoryComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {

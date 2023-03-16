@@ -21,7 +21,6 @@ import {
 import { DialogService } from '../../../../components/dialog';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/deeplink';
-import { pushHistoryState } from '../../../../theme/query';
 import { emptyValidate } from '../../../../theme/validators';
 import { IErrorResult } from '../../../../theme/models/page';
 
@@ -82,7 +81,7 @@ export class DetailComponent implements OnInit {
                 this.themeService.setTitle(this.data.seo_title || this.data.title);
                 this.relationItems = res.relation;
                 this.renderContent(this.data.content);
-                pushHistoryState(this.data.title,
+                this.searchService.pushHistoryState(this.data.title,
                     window.location.href.replace(/blog.*$/, 'blog/' + this.data.id.toString()));
                 document.documentElement.scrollTop = 0;
             },

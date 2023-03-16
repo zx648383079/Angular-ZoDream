@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IWeChatReplyTemplate, IWeChatUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
@@ -35,6 +35,7 @@ export class ReplyTemplateComponent implements OnInit {
         private service: WechatService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     public formatUser = (res: IPage<IWeChatUser>) => {
@@ -59,7 +60,7 @@ export class ReplyTemplateComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -172,7 +173,7 @@ export class ReplyTemplateComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -182,7 +183,7 @@ export class ReplyTemplateComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

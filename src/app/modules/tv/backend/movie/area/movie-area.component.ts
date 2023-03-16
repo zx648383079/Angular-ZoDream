@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IMovieArea } from '../../../model';
 import { TVService } from '../../tv.service';
@@ -22,6 +22,7 @@ export class MovieAreaComponent implements OnInit {
         private service: TVService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 

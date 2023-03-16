@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
-import { applyHistory, getQueries } from '../../../../theme/query';
+import { SearchService } from '../../../../theme/services';
 import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 import { SpiderComponent } from '../spider/spider.component';
@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
         private service: BookService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
+        private searchService: SearchService,
     ) {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
@@ -54,7 +55,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.queries = getQueries(res, this.queries);
+            this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
     }
@@ -108,7 +109,7 @@ export class HomeComponent implements OnInit {
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -121,7 +122,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

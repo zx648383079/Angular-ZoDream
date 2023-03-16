@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IReport } from '../../../theme/models/seo';
-import { applyHistory, getQueries } from '../../../theme/query';
 import { ContactService } from '../contact.service';
+import { SearchService } from '../../../theme/services';
 
 @Component({
   selector: 'app-report',
@@ -31,13 +31,14 @@ export class ReportComponent implements OnInit {
         private service: ContactService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -72,12 +73,12 @@ export class ReportComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

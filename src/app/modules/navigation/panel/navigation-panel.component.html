@@ -3,11 +3,14 @@
         <div class="panel-header">
             <span i18n>Your navigation</span>
             <div class="more">
+                <a routerLink="/" class="link-btn" i18n-title title="Back to home">
+                    <i class="iconfont icon-home"></i>
+                </a>
                 <div class="add-btn" (click)="tapAdd()">
                     <i class="iconfont icon-plus"></i>
                     <ng-container i18n>Create</ng-container>
                 </div>
-                <div class="custom-btn" (click)="editMode = !editMode">
+                <div class="custom-btn" (click)="toggleEdit()">
                     <i class="iconfont icon-cog"></i>
                     <ng-container i18n>Customize</ng-container>
                 </div>
@@ -15,7 +18,10 @@
         </div>
         <div class="panel-body">
             <div class="group-item" *ngFor="let group of items; let i = index">
-                <div class="group-name">{{ group.name }}</div>
+                <div class="group-name">
+                    <i class="iconfont icon-close" (click)="tapRemove(i)"></i>
+                    <i class="iconfont icon-edit" (click)="tapEdit(i)"></i>
+                    {{ group.name }}</div>
                 <div class="group-body">
                     <ng-container *ngFor="let item of group.items; let j = index">
                         <ng-container *ngIf="editMode">
@@ -36,10 +42,10 @@
         </div>
         <div class="panel-footer">
             <div class="btn-group">
-                <a href="javascript:;" class="btn" i18n>Save locally</a>
-                <a href="javascript:;" class="btn" i18n>Save Cloud</a>
-                <a href="javascript:;" class="btn" i18n>Reset</a>
-                <a href="javascript:;" class="btn panel-close" (click)="editMode = false" i18n>Close</a>
+                <a (click)="tapSave(1)" class="btn" i18n>Save locally</a>
+                <a *ngIf="!isGuest" (click)="tapSave(2)" class="btn" i18n>Save Cloud</a>
+                <a (click)="tapReset()" class="btn" i18n>Reset</a>
+                <a href="javascript:;" class="btn panel-close" (click)="toggleEdit(false)" i18n>Close</a>
             </div>
         </div>
     </div>

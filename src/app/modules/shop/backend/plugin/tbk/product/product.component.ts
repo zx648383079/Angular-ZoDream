@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../../../theme/models/page';
-import { getQueries } from '../../../../../../theme/query';
+import { SearchService } from '../../../../../../theme/services';
 import { TbkService } from '../tbk.service';
 
 @Component({
@@ -24,12 +24,13 @@ export class ProductComponent implements OnInit {
     constructor(
         private service: TbkService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -73,7 +74,7 @@ export class ProductComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

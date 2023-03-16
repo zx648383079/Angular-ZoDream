@@ -52,15 +52,15 @@ export class EditUserComponent implements OnInit {
         this.service.userDetail(params.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({
-            name: res.name,
-            sex: res.sex,
-            email: res.email,
-            birthday: this.dateAdapter.fromModel(res.birthday),
-            roles: res.roles.map(i => {
-                    return typeof i === 'string' ? parseInt(i, 10) : i;
-                }),
-            password: '',
-            confirm_password: '',
+                name: res.name,
+                sex: res.sex,
+                email: res.email,
+                birthday: this.dateAdapter.fromModel(res.birthday),
+                roles: res.roles.map(i => {
+                        return typeof i === 'string' ? parseInt(i, 10) : i;
+                    }),
+                password: '',
+                confirm_password: '',
             });
         });
         });

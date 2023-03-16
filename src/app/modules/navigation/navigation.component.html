@@ -8,9 +8,9 @@
         </div>
     </div>
 
-    <ng-container *ngIf="openType < 1 && user">
+    <div [hidden]="openType > 0">
         <app-navigation-panel></app-navigation-panel>
-    </ng-container>
+    </div>
 
     <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()">
     </div>

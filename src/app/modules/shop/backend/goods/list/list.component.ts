@@ -14,7 +14,7 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { DialogService } from '../../../../../components/dialog';
 import { PanelAnimation } from '../../../../../theme/constants/panel-animation';
 
@@ -50,6 +50,7 @@ export class ListComponent implements OnInit {
         private service: GoodsService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
@@ -61,7 +62,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -96,12 +97,12 @@ export class ListComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            applyHistory(this.queries = queries);
+            this.searchService.applyHistory(this.queries = queries);
         });
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

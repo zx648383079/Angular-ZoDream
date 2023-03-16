@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { applyHistory, getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ISoftware, ISoftwareVersion } from '../../../model';
@@ -31,6 +31,7 @@ export class VersionComponent implements OnInit {
         private service: AppService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {
     }
 
@@ -47,7 +48,7 @@ export class VersionComponent implements OnInit {
             });
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = getQueries(params, this.queries);
+            this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -98,7 +99,7 @@ export class VersionComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                applyHistory(this.queries = queries);
+                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -108,7 +109,7 @@ export class VersionComponent implements OnInit {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

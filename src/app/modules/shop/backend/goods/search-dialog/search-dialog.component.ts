@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
-import { getQueries } from '../../../../../theme/query';
+import { SearchService } from '../../../../../theme/services';
 import { GoodsService } from '../goods.service';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 
@@ -38,6 +38,7 @@ export class SearchDialogComponent implements OnChanges  {
 
     constructor(
         private service: GoodsService,
+        private searchService: SearchService,
     ) {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
@@ -180,7 +181,7 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     public tapSearch(form: any) {
-        this.queries = getQueries(form, this.queries);
+        this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
     }
 

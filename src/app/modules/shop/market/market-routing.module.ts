@@ -49,7 +49,7 @@ const routes: Routes = [{
             component: AuthComponent
         },
         {
-            path: 'category/:id',
+            path: 'category/:category',
             component: CategoryComponent
         },
         {
