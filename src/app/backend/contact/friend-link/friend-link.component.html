@@ -12,8 +12,8 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="pull-right">
-                    <a class="btn btn-info" (click)="tapAdd(modal)">添加</a>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary" (click)="tapAdd(modal)">添加</a>
                     <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
