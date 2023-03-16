@@ -134,17 +134,27 @@ export class SystemComponent implements OnInit {
                 return;
             }
             if (value === 'remove') {
-                if (!confirm('确定删除此项')) {
-                    return;
-                }
-                this.service.optionRemove(this.editData.id).subscribe(res => {
-                    this.toastrService.success('删除成功');
-                    this.removeOption(this.editData);
+                this.toastrService.confirm('确定删除此项', () => {
+                    this.service.optionRemove(this.editData.id).subscribe(res => {
+                        this.toastrService.success('删除成功');
+                        this.removeOption(this.editData);
+                    });
                 });
                 return;
             }
             if (emptyValidate(this.editData.name)) {
+                this.toastrService.warning('显示名称必填');
                 return false;
+            }
+            if (this.editData.type !== 'group') {
+                if (!this.editData.parent_id) {
+                    this.toastrService.warning('请选择分组');
+                    return false;
+                }
+                if (emptyValidate(this.editData.code)) {
+                    this.toastrService.warning('别名必填');
+                    return false;
+                }
             }
             this.service.optionSaveField(this.editData).subscribe({
                 next: () => {
