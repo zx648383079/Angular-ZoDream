@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IAgreement, ILink } from '../theme/models/seo';
+import { IAgreement, IFriendLink, ILink } from '../theme/models/seo';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne } from '../theme/models/page';
 import { map } from 'rxjs/operators';
@@ -24,8 +24,15 @@ export class FrontendService {
         if (this.link$) {
             return this.link$;
         }
-        return this.link$ = this.http.get<IData<ILink>>('contact/friend_link').pipe(map(res => {
-            return res.data;
+        return this.link$ = this.http.get<IData<IFriendLink>>('contact/friend_link').pipe(map(res => {
+            return res.data.map(i => {
+                return <ILink>{
+                    name: i.name,
+                    logo: i.logo,
+                    url: i.url,
+                    description: i.brief,
+                };
+            });
         }));
     }
 

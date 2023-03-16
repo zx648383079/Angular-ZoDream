@@ -1,34 +1,26 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <div class="friend-box">
-                <div class="friend-link">
-                    <div class="link-header" i18n>Friend link</div>
-                    <div>
-                        <ng-container *ngFor="let item of friendLinks">
-                            <a [href]="item.url" target="_blank" rel="noopener" [title]="item.description || item.name">{{ item.name }}</a>
-                        </ng-container>
-                    </div>
-                </div>    
-            </div>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-4 order-md">
             <div class="panel link-box">
                 <div class="panel-header" i18n>
                     Site Information
                 </div>
                 <div class="panel-body">
-                    <p>
-                        <ng-container i18n>Name:</ng-container>
-                        zodream
+                    <p class="inner-line">
+                        <label i18n>Name:</label>
+                        <span class="inner-code">zodream</span>
                     </p>
-                    <p>
-                        <ng-container i18n>Link:</ng-container>https://zodream.cn
+                    <p class="inner-line">
+                        <label i18n>Link:</label>
+                        <span class="inner-code">https://zodream.cn</span>
                     </p>
-                    <p >
-                        <ng-container i18n>Description:</ng-container>
-                        <ng-container i18n>zodream's Blog</ng-container>
-                        
+                    <p class="inner-line">
+                        <label i18n>Logo:</label>
+                        <span class="inner-code">https://zodream.cn/assets/images/favicon.png</span>
+                    </p>
+                    <p class="inner-line">
+                        <label i18n>Description:</label>
+                        <span class="inner-code" i18n>zodream's Blog</span>
                     </p>
                 </div>
             </div>
@@ -37,6 +29,31 @@
                 <a href="javascript:;" class="btn btn-primary" (click)="openApply(modal)" i18n>Apply Excharge Link</a>
             </div>
         </div>
+        <div class="col-md-6 col-lg-8">
+            <div class="friend-box">
+                <div class="link-header">
+                    <span i18n>Friend link</span>
+                </div>
+                <div class="link-body">
+                    <div class="row">
+                        <ng-container *ngFor="let item of friendLinks">
+                            <div class="col-lg-4">
+                                <div class="link-item" [title]="item.name">
+                                    <a class="item-logo"  *ngIf="item.logo" [href]="item.url" target="_blank" rel="noopener"><img [src]="item.logo" [alt]="item.name"></a>
+                                    <div class="item-body">
+                                        <a [href]="item.url" target="_blank" rel="noopener" >{{ item.name }}</a>
+                                        <div class="item-desc">
+                                            {{ item.description }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
     </div>
 </div>
 

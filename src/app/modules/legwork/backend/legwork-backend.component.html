@@ -4,42 +4,43 @@
             <li>服务平台</li>
         </ul>
     </app-page-tip>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="column-full-item">
-            <div class="overlay" *ngIf="isLoading">
-                <i class="iconfont icon-refresh"></i>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.order_today || 0 | numberFormat }}/{{ data.order_count || 0 | numberFormat }}</h3>
+                    <p>今日/总订单</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-shopping-cart"></i>
+                </div>
+                <a class="column-footer" routerLink="order">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
             </div>
-            <div class="inner">
-                <h3>{{ data.order_today || 0 | numberFormat }}/{{ data.order_count || 0 | numberFormat }}</h3>
-                <p>今日/总订单</p>
-            </div>
-            <div class="icon">
-                <i class="iconfont icon-shopping-cart"></i>
-            </div>
-            <a class="column-footer" routerLink="order">
-                查看更多
-                <i class="iconfont icon-arrow-right"></i>
-            </a>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="column-full-item">
-            <div class="overlay" *ngIf="isLoading">
-                <i class="iconfont icon-refresh"></i>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
+                    <p>今日/总流量</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-eye"></i>
+                </div>
+                <a class="column-footer" routerLink="order">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
             </div>
-            <div class="inner">
-                <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
-                <p>今日/总流量</p>
-            </div>
-            <div class="icon">
-                <i class="iconfont icon-eye"></i>
-            </div>
-            <a class="column-footer" routerLink="order">
-                查看更多
-                <i class="iconfont icon-arrow-right"></i>
-            </a>
         </div>
     </div>
 </div>

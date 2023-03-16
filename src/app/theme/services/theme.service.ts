@@ -33,6 +33,10 @@ export class ThemeService {
         ele.classList.remove(tag);
     }
 
+    public setBackground(url?: string) {
+        this.body.style.backgroundImage = url ? `url(${url})` : '';
+    }
+
     public setTitle(title: string = this.oldTitle) {
         this.oldTitle = document.title;
         document.title = title;

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IFriendLink } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
+import { emailValidate, emptyValidate } from '../../../theme/validators';
 
 @Component({
   selector: 'app-friend-link',
@@ -21,6 +22,13 @@ export class FriendLinkComponent implements OnInit {
         page: 1,
         keywords: '',
         per_page: 20,
+    };
+    public editData = {
+        name: '',
+        url: '',
+        logo: '',
+        brief: '',
+        email: '',
     };
     public isMultiple = false;
     public isChecked = false;
@@ -42,6 +50,25 @@ export class FriendLinkComponent implements OnInit {
 
     public get checkedItems() {
         return this.items.filter(i => i.checked);
+    }
+
+    public tapAdd(modal: DialogEvent) {
+        for (const key in this.editData) {
+            if (Object.prototype.hasOwnProperty.call(this.editData, key)) {
+                this.editData[key] = '';
+            }
+        }
+        modal.open(() => {
+            this.service.friendLinkSave(this.editData).subscribe({
+                next: res => {
+                    this.toastrService.success('添加成功');
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            })
+        }, () => !emailValidate(this.editData.name) && !emptyValidate(this.editData.url));
     }
 
     public toggleCheck(item?: IFriendLink) {
@@ -123,28 +150,28 @@ export class FriendLinkComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapPass(item: IFriendLink) {
-        this.toastrService.confirm('确认审核通过此友情链接？', () => {
-            this.service.friendLinkToggle(item.id).subscribe(res => {
-                if (!res) {
-                    return;
-                }
-                this.toastrService.success('已审核通过！');
-                item.status = res.status;
-            });
-        });
+    public tapPass(item: IFriendLink, modal: DialogEvent) {
+        this.toggleItem(item, modal, '确认审核通过此友情链接？', '已审核通过！');
     }
 
-    public tapOff(item: IFriendLink) {
-        this.toastrService.confirm('确认下架此友情链接？', () => {
-            this.service.friendLinkToggle(item.id).subscribe(res => {
+    public tapOff(item: IFriendLink, modal: DialogEvent) {
+        this.toggleItem(item, modal, '确认下架此友情链接？', '已下架！');
+    }
+
+    private toggleItem(item: IFriendLink, modal: DialogEvent, title: string, success: string) {
+        this.editData.brief = '';
+        modal.open(() => {
+            this.service.friendLinkToggle({
+                id: item.id,
+                remark: this.editData.brief
+            }).subscribe(res => {
                 if (!res) {
                     return;
                 }
-                this.toastrService.success('已下架！');
+                this.toastrService.success(success);
                 item.status = res.status;
             });
-        });
+        }, title);
     }
 
     public tapRemove(item: IFriendLink) {

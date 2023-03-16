@@ -16,8 +16,15 @@ export class ContactService {
         });
     }
 
-    public friendLinkToggle(id: any) {
-        return this.http.post<IFriendLink>('contact/admin/friend_link/toggle', {id});
+    public friendLinkToggle(data: {
+        id: number;
+        remark?: string;
+    }) {
+        return this.http.post<IFriendLink>('contact/admin/friend_link/toggle', data);
+    }
+
+    public friendLinkSave(data: any) {
+        return this.http.post<IFriendLink>('contact/admin/friend_link/save', data);
     }
 
     public friendLinkRemove(id: any) {

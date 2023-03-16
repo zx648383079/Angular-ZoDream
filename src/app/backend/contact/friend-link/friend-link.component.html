@@ -13,6 +13,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right">
+                    <a class="btn btn-info" (click)="tapAdd(modal)">添加</a>
                     <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
@@ -50,8 +51,8 @@
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
-                            <a class="btn btn-success" *ngIf="item.status < 1" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
-                            <a class="btn btn-info"  *ngIf="item.status == 1"  (click)="tapOff(item)">下架</a>
+                            <a class="btn btn-success" *ngIf="item.status < 1" (click)="tapPass(item, toggleModal)" data-tip="确认审核通过此友情链接？">审核</a>
+                            <a class="btn btn-info"  *ngIf="item.status == 1"  (click)="tapOff(item, toggleModal)">下架</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -72,3 +73,46 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+
+<app-dialog-box #modal title="添加友情链接">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="name">*
+                <ng-container i18n>Site Name:</ng-container>
+            </label>
+            <div>
+                <input type="text" [(ngModel)]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="url">*
+                <ng-container i18n>Site Link:</ng-container>
+            </label>
+            <div>
+                <input type="text" [(ngModel)]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="logo" i18n>Site Logo:</label>
+            <div>
+                <app-file-input [(ngModel)]="editData.logo"></app-file-input>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="url" i18n>Site Description:</label>
+            <div>
+                <textarea [(ngModel)]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="email" i18n>Email:</label>
+            <div>
+                <input type="email" [(ngModel)]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #toggleModal>
+    <textarea [(ngModel)]="editData.brief" clsss="form-control" placeholder="请输入理由"></textarea>
+</app-dialog-box>

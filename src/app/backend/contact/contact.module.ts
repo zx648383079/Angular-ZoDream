@@ -6,6 +6,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ContactService } from './contact.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogModule } from '../../components/dialog';
+import { ZreFormModule } from '../../components/form';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { DialogModule } from '../../components/dialog';
         NgbPaginationModule,
         ThemeModule,
         ContactRoutingModule,
+        ZreFormModule,
         DialogModule,
     ],
     providers: [

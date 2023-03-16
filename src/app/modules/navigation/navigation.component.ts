@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -13,13 +13,14 @@ import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
+import { selectSystemConfig } from '../../theme/reducers/system.selectors';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
 
     @ViewChild(ReportDialogComponent)
     private reportModal: ReportDialogComponent;
@@ -49,7 +50,13 @@ export class NavigationComponent implements OnInit {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
         });
+        this.store.select(selectSystemConfig).subscribe(res => {
+            if (res && res.today_wallpaper) {
+                this.themeService.setBackground(res.today_wallpaper);
+            }
+        });
         this.themeService.setTitle('ZoDream Search');
+        
     }
 
     ngOnInit() {
@@ -60,6 +67,10 @@ export class NavigationComponent implements OnInit {
             }
             this.tapPage();
         });
+    }
+
+    ngOnDestroy(): void {
+        this.themeService.setBackground();
     }
 
     public tapItem(e: {type: number, data: IWebPage}) {

@@ -3,6 +3,9 @@
     transition: all .5s;
     &.on-search {
         padding-top: 0;
+        .search-bar {
+            margin-bottom: 1rem;
+        }
     }
 }
 

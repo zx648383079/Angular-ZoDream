@@ -3,6 +3,7 @@ import { IUser } from './user';
 export interface ILink {
     name: string;
     url: string;
+    logo?: string;
     description?: string;
 }
 
