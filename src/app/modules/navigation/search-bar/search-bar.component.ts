@@ -91,7 +91,7 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
 
     public suggestKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.tapConfirm();
+            // this.tapConfirm();
             return;
         }
         if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
@@ -136,7 +136,7 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     }
 
     private gotoSearch(keywords: any) {
-        if (!this.currentEngine.url) {
+        if (!keywords || !this.currentEngine.url) {
             this.confirm.emit(keywords);
             return;
         }

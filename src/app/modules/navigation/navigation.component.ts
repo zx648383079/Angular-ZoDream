@@ -52,8 +52,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         });
         this.store.select(selectSystemConfig).subscribe(res => {
             if (res && res.today_wallpaper && res.today_wallpaper.length > 0) {
-                const item = res.today_wallpaper[0];
-                this.themeService.setBackground(window.outerWidth > window.outerHeight ? item.url : item.m_url);
+                this.wallpager(res.today_wallpaper[0]);
             }
         });
         this.themeService.setTitle('ZoDream Search');
@@ -72,6 +71,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.themeService.setBackground();
+    }
+
+    private wallpager(item: any) {
+        if (window.outerWidth > window.outerHeight * .7) {
+            this.themeService.setBackground(item.url);
+        } else {
+            this.themeService.setBackground(item.m_url);
+        }
     }
 
     public tapItem(e: {type: number, data: IWebPage}) {
@@ -101,6 +108,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     public tapSearch(v: string) {
         this.queries.keywords = v.trim();
+        this.queries.page = 1;
         if (this.queries.keywords.length > 0) {
             this.tapRefresh();
             return;

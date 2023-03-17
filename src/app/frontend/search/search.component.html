@@ -1,11 +1,11 @@
 <div class="dialog-search" [ngClass]="{inputting: suggestText.length > 0}" [hidden]="!panelVisible">
     <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     <div class="dialog-body">
-        <div class="search-input">
+        <form class="search-input" (ngSubmit)="tapConfirm()">
             <i class="iconfont icon-search input-search"></i>
-            <input type="text" i18n-placeholder placeholder="Please enter a keyword, press Enter to search" autocomplete="off" [(ngModel)]="suggestText" (keydown)="suggestKeyPress($event)" (ngModelChange)="onSuggestChange()">
+            <input type="text" name="keywords" i18n-placeholder placeholder="Please enter a keyword, press Enter to search" autocomplete="off" [(ngModel)]="suggestText" (keydown)="suggestKeyPress($event)" (ngModelChange)="onSuggestChange()">
             <i class="iconfont icon-close input-clear" (click)="tapClear()"></i>
-        </div>
+        </form>
         <ul class="search-suggestion">
             <li *ngFor="let item of suggestItems;let i = index" [ngClass]="{active: i === suggestIndex}" (click)="tapItem(item)"><span>{{ i + 1 }}</span>{{ formatTitle(item) }}</li>
         </ul>

@@ -34,6 +34,15 @@ export class ThemeService {
         ele.classList.remove(tag);
     }
 
+    /**
+     * 清除背景图片
+     */
+    public setBackground();
+    /**
+     * 设置背景图片
+     * @param url 
+     */
+    public setBackground(url: string);
     public setBackground(url?: string) {
         this.css(this.body, 'background-image', url ? `url(${url})` : '');
     }

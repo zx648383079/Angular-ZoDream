@@ -10,6 +10,7 @@ export class HomeComponent implements OnInit {
 
     public isLoading = true;
     public data: any = {};
+    public debugKey = '';
 
     constructor(
         private service: BackendService,
@@ -21,5 +22,9 @@ export class HomeComponent implements OnInit {
             this.isLoading = false;
             this.data = res;
         });
+    }
+
+    public onKey(e: KeyboardEvent) {
+        this.debugKey = e.key;
     }
 }

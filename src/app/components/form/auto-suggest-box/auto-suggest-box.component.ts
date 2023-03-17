@@ -63,7 +63,7 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
 
     public suggestKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.tapConfirm();
+            // this.tapConfirm();
             return;
         }
         if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {

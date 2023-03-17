@@ -39,8 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     public suggestKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.searchService.emit(SearchEvents.CONFIRM, this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
-            this.close();
+            
             return;
         }
         if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
@@ -58,6 +57,11 @@ export class SearchComponent implements OnInit, OnDestroy {
         }
         this.suggestIndex = i;
         this.suggestText = this.formatTitle(this.suggestItems[this.suggestIndex]);
+    }
+
+    public tapConfirm() {
+        this.searchService.emit(SearchEvents.CONFIRM, this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
+        this.close();
     }
 
     public onSuggestChange() {
