@@ -1,5 +1,5 @@
 <div class="search-bar">
-    <input type="text" class="form-control" [(ngModel)]="keywords" i18n-placeholder placeholder="Please input a keyword">
+    <input type="text" name="keywords" class="form-control" [(ngModel)]="keywords" i18n-placeholder placeholder="Please input a keyword">
     <select class="form-control" [(ngModel)]="type">
         <option *ngFor="let item of typeItems; let i=index" [value]="i">{{ item }}</option>
     </select>

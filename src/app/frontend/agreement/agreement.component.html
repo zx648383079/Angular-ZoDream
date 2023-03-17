@@ -1,18 +1,18 @@
 <div class="container">
     <div class="agreement-box" *ngIf="data">
         <div class="update-date">
-            发布日期：
+            <ng-container i18n>Published on:</ng-container>
             <span class="date-value">{{ data.created_at }}</span>
         </div>
         <div class="update-date">
-            生效日期：
+            <ng-container i18n>Effective Date:</ng-container>
             <span class="date-value">{{ data.updated_at }}</span>
         </div>
 
         <div class="print-bar">
             <div class="print-btn" (click)="tapPrint()">
                 <i class="iconfont icon-print"></i>
-                打印
+                <ng-container i18n>Print</ng-container>
             </div>
         </div>
 
@@ -24,14 +24,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" [hidden]="!navVisible">
                 <ul class="nav-list">
                     <li *ngFor="let item of data.content">
                         <a (click)="tapScrollTo(item)">{{ item.title }}</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-9">
+            <div class="col-12" [ngClass]="{'col-md-9': navVisible}">
                 <div class="nav-panel" *ngFor="let group of data.content" [id]="group.name">
                     <div class="nav-header" >
                         {{ group.title }}
@@ -41,12 +41,11 @@
                     </div>
                 </div>
 
-                <a class="goto-top" (click)="tapToTop()" title="返回页首">
+                <a class="goto-top" (click)="tapToTop()" i18n-title title="Back to Top" [hidden]="!navVisible">
                     <i class="iconfont icon-arrow-up"></i>
-                    返回页首
+                    <ng-container i18n>Back to Top</ng-container>
                 </a>
             </div>
         </div>
-
     </div>
 </div>

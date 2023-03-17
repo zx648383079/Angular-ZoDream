@@ -2,10 +2,12 @@
     <form class="form-table" [hidden]="tabIndex > 0" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group">
             <label for="fileUpload">用户头像</label>
-            <div class="avatar-input">
-                <img [src]="user.avatar">
-                <label class="iconfont icon-camera" for="fileUpload"></label>
-                <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+            <div>
+                <div class="avatar-input">
+                    <img [src]="user.avatar">
+                    <label class="iconfont icon-camera" for="fileUpload"></label>
+                    <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
+                </div>
             </div>
         </div>
         <div class="input-group">

@@ -11,6 +11,8 @@ export enum SearchEvents {
     /** 菜单改变 */
     NAV_TOGGLE = 'nav.toggle',
     NAV_RESIZE = 'nav.resize',
+    /** 隐藏显示头部尾部公共位置内容 */
+    LAYOUT_TOGGLE = 'layout.toggle',
 }
 
 export interface SearchListeners {

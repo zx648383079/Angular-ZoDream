@@ -119,3 +119,15 @@ npm run prod
 npm run i18n
 
 ```
+
+## 改变主题颜色
+
+在 `src/index.html` 添加
+```html
+<meta name="theme-color" content="#A10000">
+```
+在 `src/manifest.webmanifest` 设置不一定有效
+
+```
+"theme_color": "#A10000",
+```

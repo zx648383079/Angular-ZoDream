@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
-import { ThemeService } from '../../theme/services';
+import { SearchService, ThemeService } from '../../theme/services';
 import { FrontendService } from '../frontend.service';
+import { SearchEvents } from '../../theme/models/event';
 
 @Component({
   selector: 'app-agreement',
@@ -14,12 +15,14 @@ import { FrontendService } from '../frontend.service';
 export class AgreementComponent implements OnInit {
 
     public data: IAgreement;
+    public navVisible = true;
 
     constructor(
         private service: FrontendService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private themeService: ThemeService,
+        private searchService: SearchService,
     ) {
         
     }
@@ -46,7 +49,13 @@ export class AgreementComponent implements OnInit {
     }
 
     public tapPrint() {
-        window.print();
+        this.navVisible = false;
+        this.searchService.emit(SearchEvents.LAYOUT_TOGGLE, false);
+        setTimeout(() => {
+            window.print();
+            this.searchService.emit(SearchEvents.LAYOUT_TOGGLE, true);
+            this.navVisible = true;
+        }, 100);
     }
 
     public tapToTop() {

@@ -40,7 +40,8 @@ export class FrontendComponent implements OnDestroy {
     public activeUri = '';
     public user: IUserStatus;
     public userLoading = false;
-    public dropDownVisiable = false;
+    public dropDownVisible = false;
+    public layoutVisible = true;
 
     constructor(
         private service: FrontendService,
@@ -73,6 +74,9 @@ export class FrontendComponent implements OnDestroy {
         this.searchService.on('navbar', res => {
             this.navStyle = res;
         });
+        this.searchService.on(SearchEvents.LAYOUT_TOGGLE, visible => {
+            this.layoutVisible = visible;
+        });
     }
 
     public get locationHref() {
@@ -84,7 +88,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.off(SearchEvents.LOGIN, 'navbar');
+        this.searchService.off(SearchEvents.LOGIN, 'navbar', SearchEvents.LAYOUT_TOGGLE);
     }
 
     public onCheckedChange(checked: boolean) {
@@ -94,7 +98,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     public toggleDropDown() {
-        this.dropDownVisiable = !this.dropDownVisiable;
+        this.dropDownVisible = !this.dropDownVisible;
     }
 
     public tapLogin() {

@@ -19,7 +19,6 @@ export class SearchBarComponent {
 
     constructor() { }
 
-
     public tapSearch() {
         this.confirm.emit({type: this.type, keywords: this.keywords});
     }

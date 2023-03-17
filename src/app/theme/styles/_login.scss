@@ -19,6 +19,11 @@
     .input-box {
         padding-top: 70px;
     }
+    input[type="password"] {
+        &::-ms-reveal {
+            display: none;
+        }
+    }
     .form-ico {
         .input-group {
             position: relative;

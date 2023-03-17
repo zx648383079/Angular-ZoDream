@@ -903,10 +903,6 @@
                     <context context-type="linenumber">13</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/frontend/search/search.component.html</context>
-                    <context context-type="linenumber">6</context>
-                </context-group>
-                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/search-bar/search-bar.component.ts</context>
                     <context context-type="linenumber">15</context>
                 </context-group>
@@ -1219,6 +1215,38 @@
                     <context context-type="linenumber">33</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="110244728460864685" datatype="html">
+                <source>Published on:</source>
+                <target>发布日期：</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/agreement/agreement.component.html</context>
+                    <context context-type="linenumber">4</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1559994023548677730" datatype="html">
+                <source>Effective Date:</source>
+                <target>生效日期：</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/agreement/agreement.component.html</context>
+                    <context context-type="linenumber">8</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="7049887240439736400" datatype="html">
+                <source>Print</source>
+                <target>打印</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/agreement/agreement.component.html</context>
+                    <context context-type="linenumber">15</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="852504722388981795" datatype="html">
+                <source>Back to Top</source>
+                <target>返回页首</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/agreement/agreement.component.html</context>
+                    <context context-type="linenumber">44,46</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="7844303965462529146" datatype="html">
                 <source> Site Information </source>
                 <target>站点信息</target>
@@ -1475,7 +1503,7 @@
                 <target>确认登出账户？</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/frontend.component.ts</context>
-                    <context context-type="linenumber">106</context>
+                    <context context-type="linenumber">110</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8456203115464120523" datatype="html">
@@ -7243,7 +7271,7 @@
                 <target>刚刚</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/utils.ts</context>
-                    <context context-type="linenumber">100</context>
+                    <context context-type="linenumber">111</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1496066491908216987" datatype="html">
@@ -7251,7 +7279,7 @@
                 <target><x id="PH" equiv-text="time"/>秒前</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/utils.ts</context>
-                    <context context-type="linenumber">103</context>
+                    <context context-type="linenumber">114</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6502265288775617596" datatype="html">
@@ -7259,7 +7287,7 @@
                 <target><x id="PH" equiv-text="time"/>分钟前</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/utils.ts</context>
-                    <context context-type="linenumber">107</context>
+                    <context context-type="linenumber">118</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6522428509564266583" datatype="html">
@@ -7267,7 +7295,7 @@
                 <target><x id="PH" equiv-text="time"/>小时前</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/utils.ts</context>
-                    <context context-type="linenumber">111</context>
+                    <context context-type="linenumber">122</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5186107770140555014" datatype="html">
@@ -7275,7 +7303,7 @@
                 <target><x id="PH" equiv-text="time"/>天前</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/utils.ts</context>
-                    <context context-type="linenumber">115</context>
+                    <context context-type="linenumber">126</context>
                 </context-group>
             </trans-unit>
         </body>
