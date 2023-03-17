@@ -75,25 +75,25 @@
 
 
 <app-dialog-box #modal [buttonVisible]="false" [title]="'反馈详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">称呼：</span>
-        <span class="value">{{ editData.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">称呼：</span>
+        <span class="item-body">{{ editData.name }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">邮箱：</span>
-        <span class="value">{{ editData.email }}</span>
+    <div class="line-row-item">
+        <span class="item-label">邮箱：</span>
+        <span class="item-body">{{ editData.email }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">联系方式：</span>
-        <span class="value">{{ editData.phone }}</span>
+    <div class="line-row-item">
+        <span class="item-label">联系方式：</span>
+        <span class="item-body">{{ editData.phone }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">留言时间：</span>
-        <span class="value">{{ editData.created_at | ago }}({{ editData.created_at }})</span>
+    <div class="line-row-item">
+        <span class="item-label">留言时间：</span>
+        <span class="item-body">{{ editData.created_at | ago }}({{ editData.created_at }})</span>
     </div>
-    <div class="line-item">
-        <span class="label">反馈内容：</span>
-        <span class="value">{{ editData.content }}</span>
+    <div class="line-row-item">
+        <span class="item-label">反馈内容：</span>
+        <span class="item-body">{{ editData.content }}</span>
     </div>
     <ng-container name="footer" *ngIf="editData.status < 1">
         <div class="btn-group">

@@ -20,44 +20,75 @@
                 <tr>
                     <th>ID</th>
                     <th>昵称</th>
-                    <th>邮箱</th>
+                    <th class="auto-hide">邮箱</th>
                     <th>内容</th>
-                    <th>文章</th>
+                    <th class="auto-hide">文章</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
-                    <td>{{ item.id }}</td>
-                    <td>
-                        <ng-container *ngIf="item.user_id; else elseTemplate">
-                            <a (click)="tapUser(item.user_id)">
-                                {{ item.name }}
-                            </a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                <ng-container *ngFor="let item of items">
+                    <tr>
+                        <td (click)="item.toggled = !item.toggled">
+                            {{ item.id }}
+                            <i class="iconfont" [ngClass]="{'icon-angle-double-down': !item.toggled, 'icon-angle-double-up': item.toggled}"></i>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="item.user_id; else elseTemplate">
+                                <a (click)="tapUser(item.user_id)">
+                                    {{ item.name }}
+                                </a>
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                <a>
+                                    {{ item.name }}
+                                </a>
+                            </ng-template>
+                        </td>
+                        <td class="auto-hide">
                             <a>
-                                {{ item.name }}
+                                {{ item.email }}
                             </a>
-                        </ng-template>
-                    </td>
-                    <td>
-                        <a>
-                            {{ item.email }}
-                        </a>
-                    </td>
-                    <td>{{ item.content }}</td>
-                    <td>
-                        <a *ngIf="item.blog" [routerLink]="['/blog', item.blog.id]">
-                            {{ item.blog.title }}
-                        </a>
-                    </td>
-                    <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                        <td>{{ item.content }}</td>
+                        <td class="auto-hide">
+                            <a *ngIf="item.blog" [routerLink]="['/blog', item.blog.id]">
+                                {{ item.blog.title }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <a class="btn btn-success" *ngIf="item.approved != 1" (click)="tapApproved(item)">审核</a>
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="item.toggled">
+                        <td></td>
+                        <td colspan="4">
+                            <div class="line-row-item">
+                                <span class="item-label">昵称:</span>
+                                <span class="item-body">{{ item.name }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">邮箱:</span>
+                                <span class="item-body">{{ item.email }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">网址:</span>
+                                <span class="item-body">{{ item.url }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">IP:</span>
+                                <span class="item-body">{{ item.ip }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">发布时间:</span>
+                                <span class="item-body">{{ item.created_at | timestamp }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

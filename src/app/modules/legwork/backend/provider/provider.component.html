@@ -49,27 +49,27 @@
 </div>
 
 <app-dialog-box #modal [buttonVisible]="false" [title]="'服务商详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">称呼：</span>
-        <span class="value">{{ editData.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">称呼：</span>
+        <span class="item-body">{{ editData.name }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">LOGO：</span>
-        <span class="value">
+    <div class="line-row-item">
+        <span class="item-label">LOGO：</span>
+        <span class="item-body">
             <img [src]="editData.logo">
         </span>
     </div>
-    <div class="line-item">
-        <span class="label">联系方式：</span>
-        <span class="value">{{ editData.tel }}</span>
+    <div class="line-row-item">
+        <span class="item-label">联系方式：</span>
+        <span class="item-body">{{ editData.tel }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">联系地址：</span>
-        <span class="value">{{ editData.address }}</span>
+    <div class="line-row-item">
+        <span class="item-label">联系地址：</span>
+        <span class="item-body">{{ editData.address }}</span>
     </div>
-    <div class="line-item" *ngIf="editData.categories">
-        <span class="label">分类：</span>
-        <div class="value">
+    <div class="line-row-item" *ngIf="editData.categories">
+        <span class="item-label">分类：</span>
+        <div class="item-body">
             <div class="line-item" *ngFor="let item of editData.categories">
                 <span class="label">{{ item.name }}</span>
                 <span class="value">

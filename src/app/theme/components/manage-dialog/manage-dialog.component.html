@@ -1,0 +1,19 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" *ngIf="!collaspse || visible" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <div class="dialog-title">{{ title }}</div>
+        <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>
+    </div>
+    <div class="dialog-body">
+        <ng-content></ng-content>
+        <div>
+            <textarea [(ngModel)]="data.remark" class="form-control" i18n-placeholder placeholder="Please enter the operation note information"></textarea>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>
+            <div class="btn btn-danger" (click)="close(false)">{{ cancelText }}</div>
+        </div>
+    </div>
+</div>

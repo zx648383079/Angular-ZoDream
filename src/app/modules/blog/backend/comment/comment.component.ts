@@ -44,6 +44,19 @@ export class CommentComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public tapApproved(item: IComment) {
+        this.service.commentToggle({
+            id: item.id
+        }).subscribe({
+            next: res => {
+                item.approved = res.approved;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

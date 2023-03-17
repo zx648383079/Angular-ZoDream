@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { camelCase, eachObject } from '../utils';
 
 @Injectable({
     providedIn: 'root'
@@ -34,7 +35,7 @@ export class ThemeService {
     }
 
     public setBackground(url?: string) {
-        this.body.style.backgroundImage = url ? `url(${url})` : '';
+        this.css(this.body, 'background-image', url ? `url(${url})` : '');
     }
 
     public setTitle(title: string = this.oldTitle) {
@@ -51,6 +52,18 @@ export class ThemeService {
             }
         }
         return false;
+    }
+
+    public css(el: HTMLElement, key: any);
+    public css(el: HTMLElement, style: string, value: any)
+    public css(el: HTMLElement, style: string|any, value?: any) {
+        if (typeof style === 'string') {
+            el.style[camelCase(style)] = value;
+            return;
+        }
+        eachObject(style, (v, k: string) => {
+            el.style[camelCase(k)] = v;
+        });
     }
 
 }

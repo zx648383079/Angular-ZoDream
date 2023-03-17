@@ -1,14 +1,9 @@
-.line-item {
-    padding: 5px 0;
-    .label {
-        color: #777;
-        padding: 0 10px;
-    }
-    .value {
-        display: inline-block;
+.line-row-item {
+    .line-item {
+        display: flex;
     }
     img {
-        width: 80px;
-        height: 80px;
+        width: 5rem;
+        height: 5rem;
     }
 }

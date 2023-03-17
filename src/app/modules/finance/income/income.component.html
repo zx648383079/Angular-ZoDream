@@ -192,44 +192,44 @@
 </app-dialog-box>
 
 <app-dialog-box #previewModal [title]="'预览:' + previewData.id" [footerVisible]="false">
-    <div class="line-item">
-        <span class="label">类型：</span>
-        <span class="value">{{ previewData.type | logType }}</span>
+    <div class="line-row-item">
+        <span class="item-label">类型：</span>
+        <span class="item-body">{{ previewData.type | logType }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">金额：</span>
-        <span class="value">{{ previewData.money }}</span>
+    <div class="line-row-item">
+        <span class="item-label">金额：</span>
+        <span class="item-body">{{ previewData.money }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">冻结金额：</span>
-        <span class="value">{{ previewData.frozen_money }}</span>
+    <div class="line-row-item">
+        <span class="item-label">冻结金额：</span>
+        <span class="item-body">{{ previewData.frozen_money }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">账户：</span>
-        <span class="value">{{ formatAccount(previewData.account_id) }}</span>
+    <div class="line-row-item">
+        <span class="item-label">账户：</span>
+        <span class="item-body">{{ formatAccount(previewData.account_id) }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">项目：</span>
-        <span class="value">{{ formatProject(previewData.project_id) }}</span>
+    <div class="line-row-item">
+        <span class="item-label">项目：</span>
+        <span class="item-body">{{ formatProject(previewData.project_id) }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">渠道：</span>
-        <span class="value">{{ formatChannel(previewData.channel_id) }}</span>
+    <div class="line-row-item">
+        <span class="item-label">渠道：</span>
+        <span class="item-body">{{ formatChannel(previewData.channel_id) }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">预算：</span>
-        <span class="value">{{ formatBudget(previewData.budget_id) }}</span>
+    <div class="line-row-item">
+        <span class="item-label">预算：</span>
+        <span class="item-body">{{ formatBudget(previewData.budget_id) }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">交易对象：</span>
-        <span class="value">{{ previewData.trading_object }}</span>
+    <div class="line-row-item">
+        <span class="item-label">交易对象：</span>
+        <span class="item-body">{{ previewData.trading_object }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">发生时间：</span>
-        <span class="value">{{ previewData.happened_at }}</span>
+    <div class="line-row-item">
+        <span class="item-label">发生时间：</span>
+        <span class="item-body">{{ previewData.happened_at }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">备注：</span>
-        <span class="value">{{ previewData.remark }}</span>
+    <div class="line-row-item">
+        <span class="item-label">备注：</span>
+        <span class="item-body">{{ previewData.remark }}</span>
     </div>
 </app-dialog-box>

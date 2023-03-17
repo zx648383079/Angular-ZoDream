@@ -58,29 +58,29 @@
 
 
 <app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">投诉人：</span>
-        <span class="value">{{ editData.user?.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">投诉人：</span>
+        <span class="item-body">{{ editData.user?.name }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">联系方式：</span>
-        <span class="value">{{ editData.email }}</span>
+    <div class="line-row-item">
+        <span class="item-label">联系方式：</span>
+        <span class="item-body">{{ editData.email }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">IP：</span>
-        <span class="value">{{ editData.ip }}</span>
+    <div class="line-row-item">
+        <span class="item-label">IP：</span>
+        <span class="item-body">{{ editData.ip }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">投诉时间：</span>
-        <span class="value">{{ editData.created_at | ago }}</span>
+    <div class="line-row-item">
+        <span class="item-label">投诉时间：</span>
+        <span class="item-body">{{ editData.created_at | ago }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">投诉简介：</span>
-        <span class="value">{{ editData.title }}</span>
+    <div class="line-row-item">
+        <span class="item-label">投诉简介：</span>
+        <span class="item-body">{{ editData.title }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">投诉内容：</span>
-        <span class="value">{{ editData.content }}</span>
+    <div class="line-row-item">
+        <span class="item-label">投诉内容：</span>
+        <span class="item-body">{{ editData.content }}</span>
     </div>
     <ng-container name="footer" *ngIf="editData.status < 1">
         <div class="btn-group">

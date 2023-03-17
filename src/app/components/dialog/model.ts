@@ -97,5 +97,9 @@ export interface CustomDialogEvent {
      */
     open<T>(data: T, confirm: (data: T) => void): void;
     open<T>(data: T, confirm: (data: T) => void, check: (data: T) => boolean): void;
-    
+}
+
+export interface ManageDialogEvent {
+    open(confirm: (data: any) => boolean|void): void;
+    open(confirm: (data: any) => boolean|void, title: string): void;
 }

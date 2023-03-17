@@ -51,27 +51,27 @@
 </div>
 
 <app-dialog-box #modal [buttonVisible]="false" [title]="'服务详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">服务名：</span>
-        <span class="value">{{ editData.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">服务名：</span>
+        <span class="item-body">{{ editData.name }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">图片：</span>
-        <span class="value">
+    <div class="line-row-item">
+        <span class="item-label">图片：</span>
+        <span class="item-body">
             <img [src]="editData.thumb">
         </span>
     </div>
-    <div class="line-item">
-        <span class="label">价格：</span>
-        <span class="value">{{ editData.price }}</span>
+    <div class="line-row-item">
+        <span class="item-label">价格：</span>
+        <span class="item-body">{{ editData.price }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">描述：</span>
-        <span class="value">{{ editData.brief }}</span>
+    <div class="line-row-item">
+        <span class="item-label">描述：</span>
+        <span class="item-body">{{ editData.brief }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">详情：</span>
-        <span class="value">{{ editData.content }}</span>
+    <div class="line-row-item">
+        <span class="item-label">详情：</span>
+        <span class="item-body">{{ editData.content }}</span>
     </div>
     <ng-container name="footer">
         <button type="button" class="btn btn-primary" (click)="modal.close(1)">同意</button>

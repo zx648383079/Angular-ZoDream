@@ -51,8 +51,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
             this.user = user;
         });
         this.store.select(selectSystemConfig).subscribe(res => {
-            if (res && res.today_wallpaper) {
-                this.themeService.setBackground(res.today_wallpaper);
+            if (res && res.today_wallpaper && res.today_wallpaper.length > 0) {
+                const item = res.today_wallpaper[0];
+                this.themeService.setBackground(window.outerWidth > window.outerHeight ? item.url : item.m_url);
             }
         });
         this.themeService.setTitle('ZoDream Search');

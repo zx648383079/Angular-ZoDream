@@ -45,20 +45,20 @@
 </div>
 
 <app-dialog-box #modal [footerVisible]="false" [title]="'操作详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">管理员：</span>
-        <span class="value">{{ editData.user?.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">管理员：</span>
+        <span class="item-body">{{ editData.user?.name }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">操作IP：</span>
-        <span class="value">{{ editData.ip }}</span>
+    <div class="line-row-item">
+        <span class="item-label">操作IP：</span>
+        <span class="item-body">{{ editData.ip }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">操作事件：</span>
-        <span class="value">{{ editData.action }}</span>
+    <div class="line-row-item">
+        <span class="item-label">操作事件：</span>
+        <span class="item-body">{{ editData.action }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">操作备注：</span>
-        <span class="value">{{ editData.remark }}</span>
+    <div class="line-row-item">
+        <span class="item-label">操作备注：</span>
+        <span class="item-body">{{ editData.remark }}</span>
     </div>
 </app-dialog-box>

@@ -119,15 +119,39 @@ a {
     }
 }
 
-@media screen and (min-width: 770px) {
-    .auto-xl-hide {
-        display: none;
+.auto-toggle-hide {
+    display: none;
+}
+
+.line-row-item {
+    padding: .2rem 0;
+    display: flex;
+    .item-label {
+        color: #777;
+        flex: 1;
+        max-width: 8rem;
+        text-align: right;
+        padding-right: .8rem;
+        user-select: none;
+    }
+    .item-body {
+        flex: 1;
+        display: block;
     }
 }
 
 @media screen and (max-width: 769px) {
+    .line-row-item {
+        display: block;
+        .item-label {
+            text-align: left;
+        }
+    }
     .auto-hide {
         display: none;
+    }
+    .auto-toggle-hide {
+        display: block;
     }
     .form-table .input-group,
     .input-group {

@@ -51,29 +51,29 @@
 </div>
 
 <app-dialog-box #modal [buttonVisible]="false" [title]="'申请记录详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">用户：</span>
-        <span class="value">{{ editData.user?.name }}</span>
+    <div class="line-row-item">
+        <span class="item-label">用户：</span>
+        <span class="item-body">{{ editData.user?.name }}</span>
     </div>
-    <div class="line-item" *ngIf="editData.user">
-        <span class="label">账户余额：</span>
-        <span class="value">{{ editData.user.money }}</span>
+    <div class="line-row-item" *ngIf="editData.user">
+        <span class="item-label">账户余额：</span>
+        <span class="item-body">{{ editData.user.money }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">类型：</span>
-        <span class="value">{{ editData.type }}</span>
+    <div class="line-row-item">
+        <span class="item-label">类型：</span>
+        <span class="item-body">{{ editData.type }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">金额：</span>
-        <span class="value">{{ editData.money }}</span>
+    <div class="line-row-item">
+        <span class="item-label">金额：</span>
+        <span class="item-body">{{ editData.money }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">备注：</span>
-        <span class="value">{{ editData.remark }}</span>
+    <div class="line-row-item">
+        <span class="item-label">备注：</span>
+        <span class="item-body">{{ editData.remark }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">状态：</span>
-        <span class="value">{{ editData.status }}</span>
+    <div class="line-row-item">
+        <span class="item-label">状态：</span>
+        <span class="item-body">{{ editData.status }}</span>
     </div>
     <ng-container name="footer" *ngIf="editData.status < 1">
         <button type="button" class="btn btn-success" (click)="modal.close(2)">处理申请</button>

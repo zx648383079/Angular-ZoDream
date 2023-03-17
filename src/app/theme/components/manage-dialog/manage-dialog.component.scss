@@ -1,0 +1,16 @@
+.dialog-box {
+    display: flex;
+    flex-direction: column;
+    border-radius: .375rem;
+    .dialog-body {
+        flex: 1;
+    }
+    .dialog-footer {
+        text-align: right;
+    }
+    .btn-group {
+        >.btn:last-child {
+            border-top-right-radius: 0;
+        }
+    }
+}

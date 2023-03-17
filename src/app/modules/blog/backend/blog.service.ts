@@ -59,6 +59,10 @@ export class BlogService {
           });
     }
 
+    public commentToggle(data: any) {
+        return this.http.post<IComment>('blog/admin/comment/toggle', data);
+    }
+
     public blog(id: any) {
         return this.http.get<IBlog>('blog/publish/detail', {
             params: {id},

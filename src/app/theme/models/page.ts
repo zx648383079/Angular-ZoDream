@@ -65,3 +65,21 @@ export interface IPageQueries extends Record<string, any> {
     sort?: string;
     order?: string|boolean|number;
 }
+
+export interface IPageEditItem {
+    /**
+     * 是否选中
+     */
+    checked?: boolean;
+    /**
+     * 是否展开
+     */
+    toggled?: boolean;
+}
+
+export interface IPageBaeItem {
+    id?: number;
+    created_at?: string;
+    updated_at?: string;
+    deleted_at?: string;
+}

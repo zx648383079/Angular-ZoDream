@@ -687,6 +687,10 @@
           <context context-type="sourcefile">src/app/modules/shop/market/cashier/invoice/invoice-dialog.component.html</context>
           <context context-type="linenumber">46</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/theme/components/manage-dialog/manage-dialog.component.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1616013888947064102" datatype="html">
         <source>y-mm-dd</source>
@@ -732,6 +736,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/shop/market/cashier/invoice/invoice-dialog.component.html</context>
           <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/theme/components/manage-dialog/manage-dialog.component.ts</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6642490651687261039" datatype="html">
@@ -6705,6 +6713,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/theme/components/loading-tip/loading-tip.component.ts</context>
           <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7973807506779222588" datatype="html">
+        <source>Please enter the operation note information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/theme/components/manage-dialog/manage-dialog.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6943525609585256503" datatype="html">
+        <source>Confirm execution of this operation?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/theme/components/manage-dialog/manage-dialog.component.ts</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2923594098942184918" datatype="html">

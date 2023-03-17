@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService, ManageDialogEvent } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IFriendLink } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
@@ -150,20 +150,19 @@ export class FriendLinkComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapPass(item: IFriendLink, modal: DialogEvent) {
+    public tapPass(item: IFriendLink, modal: ManageDialogEvent) {
         this.toggleItem(item, modal, '确认审核通过此友情链接？', '已审核通过！');
     }
 
-    public tapOff(item: IFriendLink, modal: DialogEvent) {
+    public tapOff(item: IFriendLink, modal: ManageDialogEvent) {
         this.toggleItem(item, modal, '确认下架此友情链接？', '已下架！');
     }
 
-    private toggleItem(item: IFriendLink, modal: DialogEvent, title: string, success: string) {
-        this.editData.brief = '';
-        modal.open(() => {
+    private toggleItem(item: IFriendLink, modal: ManageDialogEvent, title: string, success: string) {
+        modal.open(data => {
             this.service.friendLinkToggle({
+                ...data,
                 id: item.id,
-                remark: this.editData.brief
             }).subscribe(res => {
                 if (!res) {
                     return;

@@ -1,4 +1,5 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IPageEditItem } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
 
@@ -82,7 +83,7 @@ export interface IArchives {
     }[];
 }
 
-export interface IComment {
+export interface IComment extends IPageEditItem {
     id: number;
     content?: string;
     recommend_count: number;
@@ -90,9 +91,12 @@ export interface IComment {
     user_id: number;
     user: IUser;
     blog_id: number;
+    approved: number;
     blog?: IBlog;
     name: string;
     email: string;
+    url: string;
+    ip: string;
     created_at?: string;
     agree_count?: number;
     disagree_count?: number;

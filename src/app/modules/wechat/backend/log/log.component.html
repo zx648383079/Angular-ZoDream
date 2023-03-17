@@ -50,32 +50,32 @@
 </div>
 
 <app-dialog-box #modal [footerVisible]="false" [title]="'记录详情(' + editData.id + ')'">
-    <div class="line-item">
-        <span class="label">发送者：</span>
-        <span class="value">{{ editData.from }}
+    <div class="line-row-item">
+        <span class="item-label">发送者：</span>
+        <span class="item-body">{{ editData.from }}
             <ng-container *ngIf="editData.from_user">
                 ({{ editData.from_user.note_name || editData.from_user.nickname }})
             </ng-container>
         </span>
     </div>
-    <div class="line-item">
-        <span class="label">接收者：</span>
-        <span class="value">{{ editData.to }}
+    <div class="line-row-item">
+        <span class="item-label">接收者：</span>
+        <span class="item-body">{{ editData.to }}
             <ng-container *ngIf="editData.to_user">
                 ({{ editData.to_user.note_name || editData.to_user.nickname }})
             </ng-container>
         </span>
     </div>
-    <div class="line-item">
-        <span class="label">消息类型：</span>
-        <span class="value">{{ formatType(editData.type) }}</span>
+    <div class="line-row-item">
+        <span class="item-label">消息类型：</span>
+        <span class="item-body">{{ formatType(editData.type) }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">时间：</span>
-        <span class="value">{{ editData.created_at | ago }}</span>
+    <div class="line-row-item">
+        <span class="item-label">时间：</span>
+        <span class="item-body">{{ editData.created_at | ago }}</span>
     </div>
-    <div class="line-item">
-        <span class="label">内容：</span>
-        <span class="value">{{ editData.content }}</span>
+    <div class="line-row-item">
+        <span class="item-label">内容：</span>
+        <span class="item-body">{{ editData.content }}</span>
     </div>
 </app-dialog-box>

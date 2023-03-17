@@ -1,3 +1,4 @@
+import { IPageEditItem } from './page';
 import { IUser } from './user';
 
 export interface ILink {
@@ -13,7 +14,7 @@ export interface IItem {
     checked?: boolean;
 }
 
-export interface IFriendLink {
+export interface IFriendLink extends IPageEditItem {
     id: number;
     name: string;
     url: string;
@@ -23,10 +24,9 @@ export interface IFriendLink {
     status: number;
     created_at: string;
     updated_at: string;
-    checked?: boolean;
 }
 
-export interface IFeedback {
+export interface IFeedback extends IPageEditItem {
     id: number;
     name: string;
     email: string;
@@ -35,7 +35,6 @@ export interface IFeedback {
     status: number;
     created_at: string;
     updated_at: string;
-    checked?: boolean;
 }
 
 export interface IReport {
@@ -94,6 +93,11 @@ export interface ISystemOption extends Record<string, any> {
     micro_time_limit: string;
     auth_register:    number;
     blog_list_view:   number;
+    today_wallpaper: {
+        title: string;
+        url: string;
+        m_url: string;
+    }[];
 }
 
 export interface ISite {

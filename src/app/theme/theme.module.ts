@@ -52,7 +52,8 @@ import {
     PaginationComponent,
     EditableTableComponent,
     LoadingRingComponent,
-    LoadingTipComponent
+    LoadingTipComponent,
+    ManageDialogComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -84,6 +85,7 @@ const COMPONENTS = [
     EditableTableComponent,
     LoadingRingComponent,
     LoadingTipComponent,
+    ManageDialogComponent,
 ];
 
 const PIPES = [
