@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
-import { parseNumber, splitStr } from '../../theme/utils';
+import { eachObject, parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 
@@ -11,7 +11,7 @@ import { SystemService } from './system.service';
   templateUrl: './system.component.html',
   styleUrls: ['./system.component.scss']
 })
-export class SystemComponent implements OnInit {
+export class SystemComponent {
 
     public groups: IOption[] = [];
     public editData: IOption = {} as any;
@@ -44,25 +44,50 @@ export class SystemComponent implements OnInit {
                 if (!group.children) {
                     group.children = [];
                 }
-                group.children = group.children.map(item => {
-                    if (['select', 'radio', 'checkbox'].indexOf(item.type) >= 0) {
-                        item.items = this.strToArr(item.default_value);
-                        item.itemKey = 1;
-                        if (item.items instanceof Array && typeof item.items === 'object') {
-                            item.itemKey = 'value';
-                        }
-                    } 
-                    if (item.type === 'checkbox') {
-                        item.values = (item.value as string).split(',');
-                    }
-                    return item;
-                });
+                group.children = group.children.map(item => this.formatOptionItem(item));
                 return group;
             });
         });
     }
 
-    ngOnInit(): void {}
+    private formatOptionItem(item: IOption): IOption {
+        let isInt = false;
+        if (['select', 'radio', 'checkbox'].indexOf(item.type) >= 0) {
+            item.items = this.strToArr(item.default_value);
+            item.itemKey = 1;
+            if (item.items instanceof Array && typeof item.items === 'object') {
+                item.itemKey = 'value';
+            }
+            isInt = this.isIntValue(item.items);
+        }
+        if (item.type === 'checkbox') {
+            item.values = (item.value as string).split(',').map(i => {
+                if (isInt) {
+                    return parseNumber(i);
+                }
+                return i;
+            });
+        } else if (isInt) {
+            item.value = parseNumber(item.value);
+        }
+        return item;
+    }
+
+    private isIntValue(items: string[]|IItem[]): boolean {
+        if (!(items instanceof Array)) {
+            return true;
+        }
+        for (const item of items) {
+            if (typeof item !== 'object') {
+                return true;
+            }
+            if (typeof item.value === 'number') {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 
     private strToArr(val: any): string[]|IItem[] {
         if (typeof val === 'object') {
@@ -157,14 +182,55 @@ export class SystemComponent implements OnInit {
                 }
             }
             this.service.optionSaveField(this.editData).subscribe({
-                next: () => {
-                    this.toastrService.success('保存成功');
+                next: res => {
+                    this.addOption(res);
+                    this.toastrService.success('保存成功'); 
                 }, error: err => {
                     this.toastrService.warning(err.error.message);
                 }
             });
         })
     }
+
+    private addOption(item: IOption) {
+        item.id = parseNumber(item.id);
+        item.parent_id = parseNumber(item.parent_id);
+        if (item.type !== 'group') {
+            item = this.formatOptionItem(item);
+        }
+        for (let i = 0; i < this.groups.length; i++) {
+            const group = this.groups[i];
+            if (item.id === group.id) {
+                group.name = item.name;
+                return;
+            }
+            if (item.type === 'group') {
+                continue;
+            }
+            for (let j = group.children.length - 1; j >= 0; j--) {
+                const child = group.children[j];
+                if (child.id !== item.id) {
+                    continue;
+                }
+                if (child.parent_id !== item.parent_id) {
+                    group.children.splice(j, 1);
+                    break;
+                }
+                group.children[j] = item;
+                return;
+            }
+            if (item.parent_id !== group.id) {
+                continue;
+            }
+            group.children.push(item);
+        }
+        if (item.type !== 'group') {
+            return;
+        }
+        item.children = [];
+        this.groups.push(item);
+    }
+
 
     private removeOption(item: IOption) {
         const groups = this.groups;

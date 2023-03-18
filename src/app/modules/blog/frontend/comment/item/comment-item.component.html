@@ -48,23 +48,34 @@
         </div>
         <div class="book-comment-form" *ngIf="editData.parent_id > 0">
             <div class="title" i18n>Reply</div>
-            <div class="form-table" *ngIf="!user">
+            <div class="form-table" *ngIf="status != 2 && !user">
                 <div class="form-group">
                     <label i18n>Nickname</label>
-                    <input type="text" [(ngModel)]="editData.name" i18n-placeholder placeholder="Please input your nickname">
+                    <input type="text" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
                 </div>
                 <div class="form-group">
                     <label i18n>Email</label>
-                    <input type="email" [(ngModel)]="editData.email" i18n-placeholder placeholder="Please input your email">
+                    <input type="email" [(ngModel)]="guestUser.email" i18n-placeholder placeholder="Please input your email">
                 </div>
                 <div class="form-group">
                     <label i18n>Link</label>
-                    <input type="url" [(ngModel)]="editData.url" i18n-placeholder placeholder="Please input your link">
+                    <input type="url" [(ngModel)]="guestUser.url" i18n-placeholder placeholder="Please input your link">
                 </div>
             </div>
-            <textarea [(ngModel)]="editData.content" i18n-placeholder placeholder="Please input content"></textarea>
+            <ng-container *ngIf="status == 2 && !user; else elseTemplate">
+                <div class="comment-mask" *ngIf="" i18n>
+                    Please 
+                    <a (click)="tapComment()">login in</a>
+                    first.
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <textarea [(ngModel)]="editData.content" i18n-placeholder placeholder="Please input content"></textarea>
+            </ng-template>
+            
             <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Reply</app-action-button>
             <button class="btn btn-secondary" (click)="tapCommenting()" i18n>Cancel</button>
+            
         </div>
     </div>
     

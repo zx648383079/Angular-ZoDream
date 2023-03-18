@@ -1,6 +1,5 @@
 <app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()"></app-edit-header>
 <div class="container-fluid">
-    
     <div class="row">
             <div class="col-md-6 form-table" *ngFor="let group of groups">
                 <app-panel [title]="group.name">
@@ -29,7 +28,7 @@
                             <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
                         </div>
                         <div *ngIf="item.type == 'switch'">
-                            <app-switch [(ngModel)]="item.value"></app-switch>
+                            <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off"></app-switch>
                         </div>
                         <div *ngIf="item.type == 'image'">
                             <app-file-input [(ngModel)]="item.value"></app-file-input>

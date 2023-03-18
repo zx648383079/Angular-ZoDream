@@ -158,6 +158,8 @@ a {
         display: block;
         >label:first-child {
             text-align: left;
+            width: auto;
+            font-size: 1rem;
         }
     }
 }

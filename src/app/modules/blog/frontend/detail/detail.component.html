@@ -118,7 +118,7 @@
 
 
         <div class="template-lazy" *ngIf="data.comment_status > 0" appLazyLoad (lazyLoading)="commentLoaded = true">
-            <app-comment [itemId]="data.id" [init]="commentLoaded"></app-comment>
+            <app-comment [itemId]="data.id" [init]="commentLoaded" [status]="data.comment_status"></app-comment>
         </div>
         
     </div>

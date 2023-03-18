@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -18,6 +18,9 @@ export class CommentItemComponent implements OnChanges {
 
     @Input() public value: IComment;
     @Input() public user: IUser;
+    @Input() public status = 0;
+    @Input() public guestUser: any = {};
+    @Output() public commenting = new EventEmitter<any>();
 
     public hasMore = true;
     public isLoading = false;
@@ -32,9 +35,6 @@ export class CommentItemComponent implements OnChanges {
 
     public expanded = false;
     public editData = {
-        name: '',
-        email: '',
-        url: '',
         content: '',
         parent_id: 0,
         blog_id: 0,
@@ -84,22 +84,17 @@ export class CommentItemComponent implements OnChanges {
     }
 
     public tapComment(e?: ButtonEvent) {
-        if (emptyValidate(this.editData.content)) {
-            this.toastrService.warning($localize `Please input content`);
-            return;
-        }
-        const data = {...this.editData};
         e?.enter();
-        this.service.commentSave(data).subscribe({
-            next: _ => {
+        this.commenting.emit({
+            ...this.editData,
+            ...this.guestUser,
+            next: () => {
                 e?.reset();
-                this.toastrService.success($localize `Comment successful`);
                 this.editData.content = '';
                 this.editData.parent_id = 0;
-            }, 
-            error: err => {
+            },
+            error: () => {
                 e?.reset();
-                this.toastrService.warning(err);
             }
         });
     }
@@ -115,10 +110,10 @@ export class CommentItemComponent implements OnChanges {
     }
 
     public tapReport(item: IComment) {
-        this.toastrService.confirm('确定举报该评论“' + item.content + '”?', () => {
+        this.toastrService.confirm($localize `Sure to report the comment "${item.content}"?`, () => {
             this.service.commentReport(item.id).subscribe({
                 next: _ => {
-                    this.toastrService.success('成功举报该评论，等待审核');
+                    this.toastrService.success($localize `Successfully reported the comment, pending review`);
                 },
                 error: err => {
                     this.toastrService.error(err);

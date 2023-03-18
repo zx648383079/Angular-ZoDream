@@ -1,5 +1,6 @@
 .book-comment-form {
     background-color: #fff;
+    position: relative;
     .title {
         font-size: 20px;
         border-left: 5px solid #a10000;
@@ -44,5 +45,20 @@
     .btn-primary {
         background: #a10000;
         color: #fff;
+    }
+    .comment-mask {
+        background-color: rgba($color: #f4f4f4, $alpha: .7);
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: gray;
+        border-radius: .375rem;
+        border: 1px solid #f4f4f4;
+        height: 6rem;
+        a {
+            color: #a10000;
+            margin: 0 .8rem;
+        }
     }
 }

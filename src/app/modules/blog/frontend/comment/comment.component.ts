@@ -11,6 +11,10 @@ import { IUser } from '../../../../theme/models/user';
 import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
 import { BlogService } from '../blog.service';
+import { SearchService } from '../../../../theme/services';
+import { eachObject } from '../../../../theme/utils';
+
+const GuestUserKey = 'gu';
 
 @Component({
   selector: 'app-comment',
@@ -21,6 +25,7 @@ export class CommentComponent implements OnChanges {
 
     @Input() public itemId = 0;
     @Input() public init = false;
+    @Input() public status = 0;
 
     public hotItems: IComment[] = [];
     public items: IComment[] = [];
@@ -38,21 +43,26 @@ export class CommentComponent implements OnChanges {
     public user: IUser;
 
     public commentData = {
-        name: '',
-        email: '',
-        url: '',
         content: '',
         parent_id: 0,
     };
+    public guestUser = {
+        name: '',
+        email: '',
+        url: '',
+    };
+
 
     constructor(
         private service: BlogService,
         private toastrService: DialogService,
+        private searchService: SearchService,
         private store: Store<AppState>,
     ) {
         this.store.select(getCurrentUser).subscribe(user => {
             this.user = user;
         });
+        this.loadGuestUser();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -76,13 +86,56 @@ export class CommentComponent implements OnChanges {
         this.tapRefresh();
     }
 
+    public tapLogin() {
+        this.searchService.emitLogin(true);
+    }
+
+    public onReply(data: any) {
+        if (this.status === 2 && !this.user) {
+            this.tapLogin();
+            data.error();
+            return;
+        }
+        if (emptyValidate(this.commentData.content)) {
+            this.toastrService.warning($localize `Please input content`);
+            data.error();
+            return;
+        }
+        if (!this.user) {
+            eachObject(this.guestUser, (_, k) => {
+                this.guestUser[k] = data[k];
+            });
+        }
+        const commentData = {...data, blog_id: this.itemId};
+        delete commentData['next'], commentData['error'];
+        this.service.commentSave(commentData).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Comment successful`);
+                this.saveGuestUser();
+                data.next();
+            }, 
+            error: err => {
+                this.toastrService.warning(err);
+                data.error();
+            }
+        });
+    }
     
     public tapComment(e?: ButtonEvent) {
+        if (this.status === 2 && !this.user) {
+            this.tapLogin();
+            return;
+        }
         if (emptyValidate(this.commentData.content)) {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
         const data = Object.assign({blog_id: this.itemId}, this.commentData);
+        if (!this.user) {
+            eachObject(this.guestUser, (v, k) => {
+                data[k] = v;
+            });
+        }
         e?.enter();
         this.service.commentSave(data).subscribe({
             next: _ => {
@@ -90,6 +143,7 @@ export class CommentComponent implements OnChanges {
                 this.toastrService.success($localize `Comment successful`);
                 this.commentData.content = '';
                 this.commentData.parent_id = 0;
+                this.saveGuestUser();
             }, 
             error: err => {
                 e?.reset();
@@ -138,4 +192,18 @@ export class CommentComponent implements OnChanges {
         });
     }
 
+    private loadGuestUser() {
+        const str = window.localStorage.getItem(GuestUserKey);
+        if (!str) {
+            return;
+        }
+        this.guestUser = JSON.parse(str);
+    }
+
+    private saveGuestUser() {
+        if (emptyValidate(this.guestUser.name)) {
+            return;
+        }
+        window.localStorage.setItem(GuestUserKey, JSON.stringify(this.guestUser));
+    }
 }
