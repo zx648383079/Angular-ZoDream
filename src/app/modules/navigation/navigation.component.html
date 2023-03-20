@@ -11,7 +11,7 @@
         <app-navigation-panel></app-navigation-panel>
     </div>
 
-    <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()">
+    <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()" i18n-title title="More sites">
     </div>
 
     <ng-container *ngIf="openType == 1">

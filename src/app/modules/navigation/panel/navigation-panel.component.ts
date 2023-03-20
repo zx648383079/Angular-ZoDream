@@ -33,34 +33,49 @@ export class NavigationPanelComponent {
         private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
+        const mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
         this.store.select(getUserProfile).subscribe(res => {
             if (!res.isLoading) {
                 this.loadAsync(!res.user);
             }
         });
+        if (mode === 1) {
+            this.loadAsync(mode);
+        }
     }
 
     public get isSaveCloud() {
         return this.saveMode === 2;
     }
 
-    private loadAsync(isGuest: boolean) {
-        this.isGuest = isGuest;
+    private loadAsync(mode: number);
+    private loadAsync(isGuest: boolean);
+    private loadAsync(isGuest: boolean|number) {
         this.isUpdated = false;
-        let mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
-        if (mode < 1 && !isGuest) {
+        let mode = 0;
+        if (typeof isGuest === 'boolean') {
+            this.isGuest = isGuest;
+            mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
+        } else {
+            mode = isGuest;
+        }
+        if (mode < 1 && !this.isGuest) {
             mode = 2;
         }
         if (mode === this.saveMode) {
             return;
         }
-        this.saveMode = mode;
         if (this.isSaveCloud) {
+            if (this.isGuest) {
+                return;
+            }
+            this.saveMode = mode;
             this.service.collectAll().subscribe(res => {
                 this.items = res.data;
             });
             return;
         }
+        this.saveMode = mode;
         const data = window.localStorage.getItem(NavSaveKey);
         if (!data) {
             return;
