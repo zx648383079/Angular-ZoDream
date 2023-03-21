@@ -1,0 +1,12 @@
+.filter-box {
+    .filter-line {
+        margin-top: 1rem;
+    }
+    .filter-header {
+        font-weight: 700;
+    }
+    .filter-line-item {
+        display: flex;
+        justify-content: space-between;
+    }
+}

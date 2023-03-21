@@ -12,6 +12,16 @@ export function camelCase(val: string): string {
 	return val.replace(rdashAlpha, (_, letter) => letter.toUpperCase());
 }
 
+export function isNumber(val: any): boolean {
+    if (typeof val === 'number') {
+        return true;
+    }
+    if (typeof val !== 'string') {
+        return false;
+    }
+    return /^\d*(\.\d*)?$/.test(val);
+}
+
 /**
  * 格式化数字
  * @param val 

@@ -1,7 +1,7 @@
 
-<div class="container">
+<div class="container member-container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" [hidden]="!navToggle">
             <div class="person-box" *ngIf="user">
                 <div class="avatar">
                     <img [src]="user.avatar|asset" [alt]="user.name">
@@ -41,13 +41,30 @@
                 </div>
             </div>  
         </div>
-        <div class="col-md-9">
-            <div class="tab-bar">
-                <a class="item" routerLink="home" routerLinkActive="active"  i18n>Overview</a>
-                <a class="item" routerLink="bulletin" routerLinkActive="active" i18n>Bulletin</a>
-                <a class="item" routerLink="setting" routerLinkActive="active" i18n>Setting</a>
+        <div class="col-12" [ngClass]="{'col-md-9': navToggle}">
+            <div class="tab-nav-bar" [ngClass]="{'nav-more-open': moreVisible}">
+                <div class="tab-bar" (click)="moreVisible = false">
+                    <ng-container *ngFor="let item of tabItems">
+                        <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">{{ item.name }}</a>
+                    </ng-container>
+                </div>
+                <div class="nav-more-bar" *ngIf="moreItems && moreItems.length > 0">
+                    <div class="more-icon" (click)="moreVisible = !moreVisible">
+                        <i class="iconfont icon-ellipsis-v"></i>
+                    </div>
+                    <div class="more-body" (click)="moreVisible = false">
+                        <ng-container *ngFor="let item of moreItems">
+                            <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">
+                                <i class="iconfont" [ngClass]="item.icon"></i>
+                                <span>{{ item.name }}</span>
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
-            <router-outlet></router-outlet>
+            <div class="tab-nav-body">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>

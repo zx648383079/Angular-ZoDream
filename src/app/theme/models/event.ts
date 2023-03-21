@@ -1,5 +1,13 @@
 import { Observable } from 'rxjs';
 
+export enum NavToggle {
+    Flow,   // 只悬浮显示切换图标，隐藏菜单
+    Min,    // 只显示切换图标，隐藏菜单
+    Mini,   // 只显示菜单图标
+    Unreal, // 完全显示
+    Hide, // 完全隐藏
+}
+
 export enum SearchEvents {
     /** 输入文字发送改变 */
     CHANGE = 'change',
@@ -11,8 +19,6 @@ export enum SearchEvents {
     /** 菜单改变 */
     NAV_TOGGLE = 'nav.toggle',
     NAV_RESIZE = 'nav.resize',
-    /** 隐藏显示头部尾部公共位置内容 */
-    LAYOUT_TOGGLE = 'layout.toggle',
 }
 
 export interface SearchListeners {
@@ -20,7 +26,7 @@ export interface SearchListeners {
     [SearchEvents.CONFIRM]: (keywords: any) => void|false,
     [SearchEvents.SUGGEST]: (items: any[]) => void,
     [SearchEvents.LOGIN]: () => void,
-    [SearchEvents.NAV_TOGGLE]: (toggle: number) => void;
+    [SearchEvents.NAV_TOGGLE]: (toggle: number|NavToggle) => void;
     [SearchEvents.NAV_RESIZE]: (toggle: number, navWidth: number, bodyWidth: number) => void;
 }
 

@@ -36,12 +36,12 @@ export class FrontendComponent implements OnDestroy {
     public friendLinks: ILink[] = [];
     public navExpand = false;
     public fixedTop = false;
+    public navToggle = 3;
     public navStyle = true;
     public activeUri = '';
     public user: IUserStatus;
     public userLoading = false;
     public dropDownVisible = false;
-    public layoutVisible = true;
 
     constructor(
         private service: FrontendService,
@@ -71,11 +71,8 @@ export class FrontendComponent implements OnDestroy {
         this.searchService.on(SearchEvents.LOGIN, () => {
             this.loginModal.open();
         });
-        this.searchService.on('navbar', res => {
-            this.navStyle = res;
-        });
-        this.searchService.on(SearchEvents.LAYOUT_TOGGLE, visible => {
-            this.layoutVisible = visible;
+        this.searchService.on(SearchEvents.NAV_TOGGLE, toggle => {
+            this.navToggle = toggle;
         });
     }
 
@@ -88,7 +85,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.off(SearchEvents.LOGIN, 'navbar', SearchEvents.LAYOUT_TOGGLE);
+        this.searchService.off(SearchEvents.LOGIN, SearchEvents.NAV_TOGGLE);
     }
 
     public onCheckedChange(checked: boolean) {

@@ -1,0 +1,94 @@
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+    <div class="btn-group pull-right">
+        <a class="btn btn-success" (click)="open(modal)">新增站点</a>
+    </div>
+</div>
+
+
+<div class="list-table">
+    <ng-container *ngFor="let item of items">
+        <div class="image-row-item">
+            <div class="item-cover">
+                <img [src]="item.thumb" alt="">
+            </div>
+            <div class="item-body">
+                <div class="item-title">
+                    <span class="no">{{ item.id }}</span>
+                    {{ item.name }}</div>
+                <div class="item-meta">
+                    <p>{{ item.description }}</p>
+                </div>
+                <div class="item-footer">
+                    <div class="status">
+                        <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-success btn-xs" [routerLink]="[item.id, 'weight']">组件</a>
+                        <a class="btn btn-primary btn-xs" [routerLink]="[item.id, 'page']">页面</a>
+                        <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑站点' : '新增站点'">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div>
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title-input">站点标题</label>
+        <div>
+            <input class="form-control" id="title-input" [(ngModel)]="editData.title" placeholder="请输入站点标题">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Logo</label>
+        <div>
+            <app-file-input [(ngModel)]="editData.logo"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="keywords-input">站点关键字</label>
+        <div>
+            <app-words-input [(ngModel)]="editData.keywords" placeholder="请输入站点关键字"></app-words-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description-input">站点描述</label>
+        <div>
+            <app-text-editor [(ngModel)]="editData.description" height="100"></app-text-editor>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>预览图</label>
+        <div>
+            <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>是否共享</label>
+        <div>
+            <app-switch [(ngModel)]="editData.is_share"></app-switch>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>共享价格</label>
+        <div>
+            <app-number-input [(ngModel)]="editData.share_price"></app-number-input>
+        </div>
+    </div>
+</app-dialog-box>

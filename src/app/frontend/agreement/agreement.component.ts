@@ -5,7 +5,7 @@ import { IErrorResult } from '../../theme/models/page';
 import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
 import { SearchService, ThemeService } from '../../theme/services';
 import { FrontendService } from '../frontend.service';
-import { SearchEvents } from '../../theme/models/event';
+import { NavToggle, SearchEvents } from '../../theme/models/event';
 
 @Component({
   selector: 'app-agreement',
@@ -50,10 +50,10 @@ export class AgreementComponent implements OnInit {
 
     public tapPrint() {
         this.navVisible = false;
-        this.searchService.emit(SearchEvents.LAYOUT_TOGGLE, false);
+        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
         setTimeout(() => {
             window.print();
-            this.searchService.emit(SearchEvents.LAYOUT_TOGGLE, true);
+            this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
             this.navVisible = true;
         }, 100);
     }

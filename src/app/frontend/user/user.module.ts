@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { ZreFormModule } from '../../components/form';
 import { LinkRuleModule } from '../../components/link-rule';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuService } from './menu.service';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ],
     declarations: [...userRoutedComponents],
     providers: [
-        UserService
+        UserService,
+        MenuService,
     ]
 })
 export class UserModule { }

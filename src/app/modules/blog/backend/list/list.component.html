@@ -37,8 +37,8 @@
         </div>
         <div class="list-table">
             <ng-container *ngFor="let item of items">
-                <div class="item">
-                    <div class="header">
+                <div class="row-item">
+                    <div class="item-header">
                         <div class="tag-bar">
                             <i class="iconfont icon-lock" *ngIf="item.open_type > 0" i18n-title title="Reading needs to meet the conditions"></i>
                             <i class="iconfont icon-eye-slash" *ngIf="item.publish_status < 5" i18n-title title="Draft not visible"></i>
@@ -49,10 +49,10 @@
                         <span class="stamp">{{ item.type == 1 ? '转载' : '原创' }}</span>
                         <span class="title">{{ item.title }}</span>
                     </div>
-                    <div class="body">
+                    <div class="item-body">
                         <p>{{ item.description }}</p>
                     </div>
-                    <div class="footer">
+                    <div class="item-footer">
                         <div class="status">
                             <a class="category" *ngIf="item.term" ><i
                                 class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>

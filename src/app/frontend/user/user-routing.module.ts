@@ -50,6 +50,14 @@ const routes: Routes = [
                 component: AuthorizeComponent,
             },
             {
+                path: 'blog',
+                loadChildren: () => import('../../modules/blog/member/member.module').then(m => m.BlogMemberModule)
+            },
+            {
+                path: 'visual',
+                loadChildren: () => import('../../modules/visual/member/member.module').then(m => m.VisualMemberModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'home',
             }

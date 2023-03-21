@@ -143,6 +143,78 @@
     }
 }
 
+.search-dialog-container {
+    position: fixed;
+    border-radius: .375rem;
+    top: 50%;
+    margin-top: -12.5rem;
+    left: 50%;
+    margin-left: -24rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 300;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 48rem;
+    .search-bar {
+        padding-left: 0px;
+        select.form-control {
+            width: 6.25rem;
+        }
+    }
+    .body-container {
+        overflow-y: auto;
+        flex: 1;
+        background-color: #f4f4f4;
+        .option-item {
+            text-align: center;
+            display: inline-block;
+            background-color: #fff;
+            margin: 3px;
+            position: relative;
+            .thumb {
+                width: 6.25rem;
+                height: 6.25rem;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .name {
+                width: 6.25rem;
+                overflow: hidden;
+                color: #333;
+                font-size: 0.75rem;
+                height: 1rem;
+            }
+            .price {
+                color: red;
+            }
+            &.selected {
+                background-color: #aeffee;
+                &::after {
+                    position: absolute;
+                    font-size: 100px;
+                    color: rgba(255,0,0,.3);
+                    font-family: "iconfont";
+                    content: "\e648";
+                    font-weight: 900;
+                    top: 10px;
+                    left: 0;
+                }
+            }
+        }
+    }
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        .btn {
+            display: inline-block;
+        }
+    }
+}
+
 @media screen and (max-width: 700px) {
     .dialog-box {
         width: 100%;

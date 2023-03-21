@@ -124,6 +124,10 @@ const routes: Routes = [{
             loadChildren: () => import('../modules/short-link/backend/short-link-backend.module').then(m => m.ShortLinkBackendModule)
         },
         {
+            path: 'visual',
+            loadChildren: () => import('../modules/visual/backend/visual-backend.module').then(m => m.VisualBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

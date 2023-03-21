@@ -26,6 +26,7 @@ import { TVBackendMenu } from '../modules/tv/backend/menu';
 import { ResourceBackendMenu } from '../modules/resource-store/backend/menu';
 import { ShortLinkBackendMenu } from '../modules/short-link/backend/menu';
 import { DiskBackendMenu } from '../modules/disk/backend/menu';
+import { VisualBackendMenu } from '../modules/visual/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -73,6 +74,7 @@ export class MenuService {
             doc: DocumentBackendMenu,
             exam: ExamBackendMenu,
             cms: CMSBackendMenu,
+            visual: VisualBackendMenu,
             wx: WechatBackendMenu,
             open: OpenBackendMenu,
             disk: DiskBackendMenu,

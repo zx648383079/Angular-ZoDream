@@ -1,0 +1,39 @@
+<div class="banner-floor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <app-auto-suggest-box></app-auto-suggest-box>
+            </div>
+        </div>
+        <a routerLink="../../search" class="btn-btn-primary" i18n>Browser all</a>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <ng-container *ngFor="let group of categories">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="group-header">
+                <div class="item-name">{{ group.name }}</div>
+                <div class="item-meta">{{ group.description }}</div>
+                <a routerLink="../../search" class="btn btn-outline-primary" i18n>Browser all</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <ng-container *ngFor="let item of group.children">
+                <div class="col-md-2">
+                    <div class="cat-item">
+                        <div class="item-thumb">
+                            <img [src]="item.thumb" [alt]="item.name">
+                        </div>
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-mete" i18n>{{ item.count }} items available</div>
+                    </div>
+                </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    </ng-container>
+</div>

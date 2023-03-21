@@ -212,5 +212,4 @@ export class SearchDialogComponent implements OnChanges  {
             this.selectedItems = res.data;
         });
     }
-
 }

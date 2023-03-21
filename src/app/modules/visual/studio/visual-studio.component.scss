@@ -1,0 +1,24 @@
+.studio-container {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    iframe {
+        flex: 1;
+    }
+    .loading-mask {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 99;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

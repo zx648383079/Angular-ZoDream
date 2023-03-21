@@ -1,0 +1,17 @@
+<div class="preview-container">
+    <div class="preview-bar">
+        <div class="screen-bar">
+            <i class="iconfont icon-desktop"></i>
+            <i class="iconfont icon-mobile"></i>
+        </div>
+        <div class="close-btn" (click)="tapClose()">
+            <i class="iconfont icon-close"></i>
+        </div>
+    </div>
+    <div class="preview-body">
+        <iframe #browser frameborder="0"></iframe>
+        <div class="loading-mask" *ngIf="isLoading">
+            <app-loading-ring></app-loading-ring>
+        </div>
+    </div>
+</div>

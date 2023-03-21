@@ -99,6 +99,18 @@ export interface CustomDialogEvent {
     open<T>(data: T, confirm: (data: T) => void, check: (data: T) => boolean): void;
 }
 
+export interface SearchDialogEvent {
+    /**
+     * 为自定义事件
+     * @param data 
+     * @param confirm 
+     * @param check 
+     */
+    open<T>(confirm: (data: T|T[]) => void): void;
+    open<T>(data: any|any[], confirm: (data: T|T[]) => void): void;
+    open<T>(data: any|any[], confirm: (data: T|T[]) => void, check: (data: T[]) => boolean): void;
+}
+
 export interface ManageDialogEvent {
     open(confirm: (data: any) => boolean|void): void;
     open(confirm: (data: any) => boolean|void, title: string): void;

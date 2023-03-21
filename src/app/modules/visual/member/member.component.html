@@ -1,0 +1,51 @@
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <select name="category" [ngModel]="queries.category" class="form-control">
+            <option [value]="0">请选择</option>
+            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+        </select>
+        <select name="type" [ngModel]="queries.type" class="form-control">
+            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+        </select>
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+    <div class="btn-group pull-right">
+        <a class="btn btn-success" routerLink="create">新增组件</a>
+    </div>
+</div>
+
+
+<div class="list-table">
+    <ng-container *ngFor="let item of items">
+        <div class="image-row-item">
+            <div class="item-cover">
+                <img [src]="item.thumb" alt="">
+            </div>
+            <div class="item-body">
+                <div class="item-title">
+                    <span class="no">{{ item.id }}</span>
+                    {{ item.name }}</div>
+                <div class="item-meta">
+                    <p>{{ item.description }}</p>
+                </div>
+                <div class="item-footer">
+                    <div class="status">
+                        <a class="category" *ngIf="item.category" ><i
+                            class="iconfont icon-bookmark"></i><b>{{ item.category.name }}</b></a>
+                        <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-light btn-xs"
+                        [routerLink]="['edit', item.id]">编辑</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

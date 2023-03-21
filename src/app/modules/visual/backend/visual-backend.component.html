@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>可视化编辑平台</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.component_today | numberFormat }}/{{ data.component_count | numberFormat }}</h3>
+                    <p>组件今日/总数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-download"></i>
+                </div>
+                <a class="column-footer" routerLink="weight">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.site_today || 0 | numberFormat }}/{{ data.site_count || 0 | numberFormat }}</h3>
+                    <p>站点今日新增/总数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-file"></i>
+                </div>
+                <a class="column-footer" routerLink="site">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.page_today || 0 | numberFormat }}/{{ data.page_count || 0 | numberFormat }}</h3>
+                    <p>页面今日新增/总数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-eye"></i>
+                </div>
+                <a class="column-footer" routerLink="site">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

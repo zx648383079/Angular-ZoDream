@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VisualComponent } from './visual.component';
-import { VisualRoutingModule } from './visual-routing.module';
-import { VisualEditorModule } from './visual-editor/visual-editor.module';
+import { VisualRoutingModule, visualRoutingComponents } from './visual-routing.module';
+import { ThemeModule } from '../../theme/theme.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        ThemeModule,
         VisualRoutingModule,
-        VisualEditorModule
     ],
     declarations: [
-        VisualComponent
+        ...visualRoutingComponents
     ],
 })
 export class VisualModule { }

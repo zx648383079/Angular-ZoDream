@@ -56,7 +56,6 @@ const routes: Routes = [
     },
     {
         path: 'visual',
-        canActivate: [CanActivateViaAuthGuard],
         loadChildren: () => import('./modules/visual/visual.module').then(m => m.VisualModule)
     },
     {
