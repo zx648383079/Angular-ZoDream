@@ -13,6 +13,7 @@ ul {
         left: 0;
         bottom: 0;
         width: 20rem;
+        background-color: white;
     }
 }
 
@@ -38,7 +39,48 @@ ul {
     }
 }
 
+@media screen and (max-width: 769px) {
+    .flex-container {
+        padding-left: 6rem;
+        .navbar {
+            width: 6rem;
+        }
+    }
+    .navbar {
+        li {
+            text-align: left;
+            padding-left: .8rem;
+        }
+    }
+}
+
 .flex-body ::ng-deep {
+    .search-floor {
+        display: flex;
+        justify-content: space-between;
+        margin: .5rem 0;
+    }
+    .back-btn,
+    .search-icon {
+        position: static;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        z-index: 9;
+        font-size: 1.875rem;
+        cursor: pointer;
+        background-color: #fff;
+        color: #666;
+        border: 1px solid #ccc;
+        margin-right: 1rem;
+        margin-left: .8rem;
+        &:hover {
+            background-color: #eee;
+        }
+    }
     .btn-icon {
         border-radius: .3rem;
         background-color: #bb0b0b;

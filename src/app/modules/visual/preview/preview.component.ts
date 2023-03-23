@@ -16,6 +16,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
     private frame: ElementRef<HTMLIFrameElement>;
 
     public isLoading = true;
+    public navToggle = 1;
     private isReady = false;
     private readyFn: (frame: HTMLIFrameElement) => void;
     private data = {
@@ -38,7 +39,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
         });
         this.http.get<IDataOne<string>>('auth/user/ticket').subscribe({
             next: res => {
-                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual/preview', this.data)}, true));
+                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual/preview', this.data)}));
                 this.onReady(frame => {
                     frame.src = url;
                 });
@@ -62,7 +63,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
     }
 
     public tapClose() {
-        
+        this.navToggle = 0;
     }
 
     private onReady(cb: (frame: HTMLIFrameElement) => void) {

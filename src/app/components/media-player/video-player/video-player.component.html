@@ -10,12 +10,12 @@
         </ng-container>
         <ng-template #elsePlayerTemplate>
             <video class="player-video" #playerVideo [src]="src"></video>
-            <div class="player-bar">
+            <div class="mini-player-bar">
                 <div class="icon" (click)="tapPlay()" [title]="paused ? '播放' : '暂停'">
                     <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}"></i>
                 </div>
                 <div class="slider">
-                    <app-progress-bar [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
+                    <app-player-progress-bar [loaded]="loaded" [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-player-progress-bar>
                 </div>
                 <div class="time">
                     {{ progress | duration }}/{{ duration | duration }}
@@ -24,7 +24,7 @@
                     <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
                 </div>
                 <div class="volume-slider">
-                    <app-progress-bar [value]="volume" [label]="false" (valueChange)="onVolumeChange($event)"></app-progress-bar>
+                    <app-player-progress-bar [formatValue]="false" [value]="volume" (valueChange)="onVolumeChange($event)"></app-player-progress-bar>
                 </div>
                 <div class="full-icon">
                     <i class="iconfont" [ngClass]="{'icon-full-screen': !isFull, 'icon-exit-full-screen': isFull}" (click)="tapFullScreen()"></i>

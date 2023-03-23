@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { ScreenFull } from '../../screen-full';
-import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
+import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model';
 import Hls from 'hls.js';
 
 @Component({
@@ -12,16 +12,22 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
 
     @ViewChild('playerVideo')
     private videoElement: ElementRef<HTMLVideoElement>;
+    @ViewChild('playerBar')
+    private barElement: ElementRef<HTMLDivElement>;
     @Input() public isFixed = true;
+    @Input() public speedable = true;
     public paused = true;
     public booted = false;
     public isFull = false;
     public openCatalog = false;
+    public moreVisible = false;
+    public morePanelVisible = false;
     public items: IMediaFile[] = [];
     public data: IMediaFile;
     public index = -1;
     public progress = 0;
     public duration = 0;
+    public loaded = 0;
     public volume = 100;
     public bodyHeight = 100;
     private volumeLast = 100;
@@ -60,8 +66,10 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!video) {
             return;
         }
+        const bar = this.barElement.nativeElement;
+        const barHeight = bar ? bar.clientHeight : 0;
         setTimeout(() => {
-            this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : 64);
+            this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : barHeight);
         }, 1);
     }
 
@@ -182,22 +190,38 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         }
         this.booted = true;
         video.addEventListener('timeupdate', () => {
+            this.emit(PlayerEvents.TIME_UPDATE);
             if (isNaN(video.duration) || !isFinite(video.duration) || video.duration <= 0) {
                 this.progress = 0;
                 this.duration = 0;
+                this.loaded = 0;
                 return;
             }
             this.progress = video.currentTime;
             this.duration = video.duration;
         });
+        video.addEventListener('canplay', () => {
+            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+        });
+        video.addEventListener('progress', () => {
+            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+        });
+        video.addEventListener('error', () => {
+            this.paused = true;
+        });
         video.addEventListener('ended', () => {
             this.paused = true;
+            this.emit(PlayerEvents.ENDED);
+            this.data.active = false;
         });
         video.addEventListener('pause', () => {
             this.paused = true;
+            this.emit(PlayerEvents.PAUSE);
         });
         video.addEventListener('play', () => {
             this.paused = false;
+            this.data.active = true;
+            this.emit(PlayerEvents.PLAY);
         });
         if (this.volume > 0) {
             this.volume = video.volume * 100;

@@ -4,6 +4,7 @@ import { ISortItem } from '../../../../theme/models/seo';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../theme/services';
 import { VisualService } from '../visual.service';
+import { IThemeComponent } from '../../model';
 
 @Component({
   selector: 'app-search',
@@ -12,7 +13,7 @@ import { VisualService } from '../visual.service';
 })
 export class SearchComponent implements OnInit {
 
-    public items: any[] = [];
+    public items: IThemeComponent[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;

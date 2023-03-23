@@ -206,7 +206,13 @@ export function filterTree(items: any[], id: number) {
     }
     return data;
 }
-
+/**
+ * 拼接网址
+ * @param path 
+ * @param obj 
+ * @param unEncodeURI 不要编码
+ * @returns 
+ */
 export function uriEncode(path: string, obj: Object = {}, unEncodeURI?: boolean): string {
     const result: string[] = [];
     const pushQuery = (key: string, value: any) => {

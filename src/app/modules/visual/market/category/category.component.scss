@@ -1,0 +1,47 @@
+.banner-floor {
+    padding: 5rem 0 2rem;
+    .row {
+        margin-bottom: 1rem;
+    }
+}
+
+.floor-panel {
+    background-color: white;
+    .group-row {
+        border-bottom: 1px solid #ccc;     
+        padding: 2rem 0;   
+    }
+    .group-header {
+        .item-name {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        .item-meta {
+            margin-top: .5rem;
+        }
+    }
+    .cat-item {
+        margin: .8rem;
+        transition: all 1s;
+        .item-thumb {
+            height: 6rem;
+            overflow: hidden;
+            border-radius: .25rem;
+            background-color: gray;
+            img {
+                width: 100%;
+            }
+        }
+        .item-name {
+            line-height: 2rem;
+            font-size: 700;
+        }
+        .item-meta {
+            font-size: .8rem;
+            color: #777;
+        }
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+}

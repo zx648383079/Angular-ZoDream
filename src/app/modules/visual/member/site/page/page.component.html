@@ -28,8 +28,8 @@
                         <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
                     </div>
                     <div class="btn-group">
-                        <a class="btn btn-primary" [routerLink]="['../../../preview', item.site_id, item.id]">预览</a>
-                        <a class="btn btn-primary" [routerLink]="['../../../editor', item.site_id, item.id]">编辑</a>
+                        <a class="btn btn-info" [routerLink]="['/visual/preview', item.site_id, item.id]">预览</a>
+                        <a class="btn btn-primary" [routerLink]="['/visual/editor', item.site_id, item.id]">编辑</a>
                         <a class="btn btn-light" (click)="open(modal, item)">设置</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                     </div>

@@ -14,8 +14,7 @@ export class PlayListComponent {
     @Output() public tapped = new EventEmitter<IMediaActionEvent>();
     @Output() public playing = new EventEmitter<IMediaFile>();
 
-    constructor(
-    ) { }
+    constructor() { }
 
     public get boxStyle() {
         if (this.height > 0) {

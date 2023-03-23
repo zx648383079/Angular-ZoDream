@@ -6,6 +6,8 @@ import { CategoryComponent } from './category/category.component';
 import { PreviewComponent } from './preview/preview.component';
 import { HomeComponent } from './home/home.component';
 import { SiteComponent } from './site/site.component';
+import { AddDialogComponent } from './dialog/add-dialog/add-dialog.component';
+import { CloneDialogComponent } from './dialog/clone-dialog/clone-dialog.component';
 
 const routes: Routes = [
     {
@@ -43,5 +45,5 @@ const routes: Routes = [
 export class VisualMarketRoutingModule { }
 
 export const visualMarketRoutingComponents = [
-    VisualMarketComponent, SearchComponent, CategoryComponent, PreviewComponent, HomeComponent, SiteComponent
+    VisualMarketComponent, SearchComponent, CategoryComponent, PreviewComponent, HomeComponent, SiteComponent, AddDialogComponent, CloneDialogComponent
 ];

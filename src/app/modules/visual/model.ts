@@ -69,4 +69,5 @@ export interface ISitePage {
 
 export interface ISiteComponent extends IThemeComponent {
     component_id: number;
+    site_id: number;
 }

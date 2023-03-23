@@ -5,31 +5,33 @@
                 <app-auto-suggest-box></app-auto-suggest-box>
             </div>
         </div>
-        <a routerLink="../../search" class="btn-btn-primary" i18n>Browser all</a>
+        <div class="text-center" *ngIf="data">
+            <a routerLink="../../search" [queryParams]="{category: data.id}" class="btn btn-primary" i18n>Browser all</a>
+        </div>
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid floor-panel">
     <ng-container *ngFor="let group of categories">
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row group-row">
+        <div class="col-md-3">
             <div class="group-header">
                 <div class="item-name">{{ group.name }}</div>
                 <div class="item-meta">{{ group.description }}</div>
-                <a routerLink="../../search" class="btn btn-outline-primary" i18n>Browser all</a>
+                <a routerLink="../../search" [queryParams]="{category: group.id}" class="btn btn-outline-primary" i18n>Browser all</a>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="row">
                 <ng-container *ngFor="let item of group.children">
-                <div class="col-md-2">
-                    <div class="cat-item">
+                <div class="col-4 col-md-3">
+                    <a class="cat-item" routerLink="../../search" [queryParams]="{category: item.id}">
                         <div class="item-thumb">
                             <img [src]="item.thumb" [alt]="item.name">
                         </div>
                         <div class="item-name">{{ item.name }}</div>
-                        <div class="item-mete" i18n>{{ item.count }} items available</div>
-                    </div>
+                        <div class="item-meta" i18n>{{ item.count | numberFormat }} items available</div>
+                    </a>
                 </div>
                 </ng-container>
             </div>

@@ -1,0 +1,53 @@
+<div class="dialog-mask" *ngIf="visible"></div>
+<div class="clone-dialog-container" *ngIf="visible">
+    <div class="header-container">
+        <p>即将克隆到新站点</p>
+        <div class="source-item">
+           <div class="item-cover">
+                <img [src]="sourceData.thumb" alt="">
+            </div>
+            <div class="item-body">
+                <div class="item-name">{{ sourceData.title }}</div>
+                <div class="item-meta">{{ sourceData.description }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div class="form-group">
+            <label for="name-input">名称</label>
+            <div>
+                <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title-input">站点标题</label>
+            <div>
+                <input class="form-control" id="title-input" [(ngModel)]="editData.title" placeholder="请输入站点标题">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Logo</label>
+            <div>
+                <app-file-input [(ngModel)]="editData.logo"></app-file-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="keywords-input">站点关键字</label>
+            <div>
+                <app-words-input [(ngModel)]="editData.keywords" placeholder="请输入站点关键字"></app-words-input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description-input">站点描述</label>
+            <div>
+                <app-text-editor [(ngModel)]="editData.description" height="100"></app-text-editor>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="btn-group">
+            <app-action-button class="btn btn-primary" (tapped)="tapYes($event)">确定</app-action-button>
+            <div class="btn btn-danger" (click)="tapCancel()">取消</div>
+        </div>
+    </div>
+</div>

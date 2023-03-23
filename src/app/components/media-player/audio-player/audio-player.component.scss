@@ -1,34 +1,4 @@
-.audio-player {
+@import '../player';
+.mini-player-bar {
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 7%), 0 1px 5px 0 rgb(0 0 0 / 10%);
-    display: flex;
-    box-sizing: border-box;
-    line-height: 2.5em;
-    i {
-        font-style: normal;
-    }
-    .icon {
-        width: 2.5em;
-        text-align: center;
-    }
-    .slider {
-        flex: 1;
-        padding-top: 1em;
-    }
-    .time {
-        font-size: .8em;
-    }
-    .volume-icon {
-        padding-left: .5em;
-    }
-    .volume-slider {
-        width: 3em;
-        padding-top: 1em;
-        padding-right: .5em;
-    }
-    &.player-mini {
-        .volume-icon,
-        .volume-slider {
-            display: none;
-        }
-    }
 }

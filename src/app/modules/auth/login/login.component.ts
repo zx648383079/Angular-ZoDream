@@ -72,7 +72,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
         private authService: AuthService) {
         this.themeService.setTitle($localize `Sign in`);
-        this.redirectIfUserLoggedIn();
     }
 
     get email() {
@@ -85,6 +84,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     get captcha() {
         return this.loginForm.get('captcha');
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(res => {
+            this.redirectUri = res.redirect_uri || '/';
+            this.redirectIfUserLoggedIn();
+        });
     }
 
     public tapQr() {
@@ -135,12 +141,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
             );
         }, 2000);
-    }
-
-    ngOnInit() {
-        this.route.queryParams.subscribe(res => {
-            this.redirectUri = res.redirect_uri || '/';
-        });
     }
 
     public tapMode(i: number) {

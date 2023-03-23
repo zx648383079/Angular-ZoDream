@@ -20,6 +20,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
     public formatSrc: SafeResourceUrl;
     public progress = 0;
     public duration = 0;
+    public loaded = 0;
     public volume = 100;
     public isFull = false;
     private volumeLast = 100;
@@ -158,16 +159,26 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
             if (isNaN(video.duration) || !isFinite(video.duration) || video.duration <= 0) {
                 this.progress = 0;
                 this.duration = 0;
+                this.loaded = 0;
                 return;
             }
             this.progress = video.currentTime;
             this.duration = video.duration;
+        });
+        video.addEventListener('progress', () => {
+            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+        });
+        video.addEventListener('canplay', () => {
+            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
         });
         video.addEventListener('ended', () => {
             this.paused = true;
             this.ended.emit();
         });
         video.addEventListener('pause', () => {
+            this.paused = true;
+        });
+        video.addEventListener('error', e => {
             this.paused = true;
         });
         video.addEventListener('play', () => {

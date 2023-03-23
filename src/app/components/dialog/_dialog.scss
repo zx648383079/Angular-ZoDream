@@ -149,14 +149,14 @@
     top: 50%;
     margin-top: -12.5rem;
     left: 50%;
-    margin-left: -24rem;
+    margin-left: -21.5rem;
     height: 25rem;
     display: flex;
     flex-direction: column;
     z-index: 300;
     background-color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    width: 48rem;
+    width: 43rem;
     .search-bar {
         padding-left: 0px;
         select.form-control {
@@ -216,7 +216,8 @@
 }
 
 @media screen and (max-width: 700px) {
-    .dialog-box {
+    .dialog-box,
+    .search-dialog-container {
         width: 100%;
         left: 0;
         margin-left: 0;

@@ -21,6 +21,14 @@ export interface IMediaActionEvent {
     data: IMediaFile;
 }
 
+export enum PlayerLoopMode {
+    LIST,
+    LOOP,
+    RANDOM,
+    ONCE,
+    ONLY_LOOP,
+}
+
 export enum SpectrumType {
     Columnar,
     SymmetryColumnar, // 上下对称
@@ -44,7 +52,7 @@ export enum PlayerEvents {
 
 export interface PlayerListeners {
     [PlayerEvents.TIME_UPDATE]: () => void;
-    [PlayerEvents.ENDED]: (val: string, v: number, ...item: any[]) => void;
+    [PlayerEvents.ENDED]: () => void;
     [PlayerEvents.PAUSE]: () => void;
     [PlayerEvents.PLAY]: () => void;
     [PlayerEvents.STOP]: () => void;

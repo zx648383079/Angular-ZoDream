@@ -1,15 +1,21 @@
-<div class="preview-container">
+<div class="preview-container" [ngClass]="{'full-container': navToggle < 1, 'mobile-container': navToggle > 1}">
     <div class="preview-bar">
         <div class="screen-bar">
-            <i class="iconfont icon-desktop"></i>
-            <i class="iconfont icon-mobile"></i>
+            <a class="action-item" [ngClass]="{active: navToggle == 1}" (click)="navToggle = 1">
+                <i class="iconfont icon-desktop"></i>
+            </a>
+            <a class="action-item" [ngClass]="{active: navToggle > 1}" [ngClass]="{active: navToggle > 1}" (click)="navToggle = 2">
+                <i class="iconfont icon-mobile"></i>
+            </a>
         </div>
-        <div class="close-btn" (click)="tapClose()">
+        <a class="action-item" (click)="tapClose()">
             <i class="iconfont icon-close"></i>
-        </div>
+        </a>
     </div>
     <div class="preview-body">
-        <iframe #browser frameborder="0"></iframe>
+        <div class="shell-box">
+            <iframe #browser frameborder="0"></iframe>
+        </div>
         <div class="loading-mask" *ngIf="isLoading">
             <app-loading-ring></app-loading-ring>
         </div>

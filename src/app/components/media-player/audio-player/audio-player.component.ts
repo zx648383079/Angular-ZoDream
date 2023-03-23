@@ -13,6 +13,7 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
     @Output() public ended = new EventEmitter<void>();
     public progress = 0;
     public duration = 0;
+    public loaded = 0;
     public paused = true;
     public volume = 100;
     private audioElement: HTMLAudioElement;
@@ -25,6 +26,8 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
     private get audio(): HTMLAudioElement {
         if (!this.audioElement) {
             this.audioElement = document.createElement('audio');
+            this.audioElement.preload = 'auto';
+            this.audioElement.crossOrigin = 'anonymous';
             this.bindAudioEvent();
         }
         return this.audioElement;
@@ -81,27 +84,44 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
 
 
     private bindAudioEvent() {
-        this.audioElement.addEventListener('timeupdate', () => {
-            if (isNaN(this.audioElement.duration) || !isFinite(this.audioElement.duration) || this.audioElement.duration <= 0) {
+        const audio = this.audioElement;
+        audio.addEventListener('timeupdate', () => {
+            if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
                 this.progress = 0;
                 this.duration = 0;
+                this.loaded = 0;
                 return;
             }
-            this.progress = this.audioElement.currentTime;
-            this.duration = this.audioElement.duration;
+            this.progress = audio.currentTime;
+            this.duration = audio.duration;
         });
-        this.audioElement.addEventListener('ended', () => {
+        audio.addEventListener('loadedmetadata', () => {
+            audio.currentTime = 0;
+            if (!this.paused) {
+                audio.play();
+            }
+        })
+        audio.addEventListener('progress', () => {
+            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+        });
+        audio.addEventListener('canplay', () => {
+            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+        });
+        audio.addEventListener('ended', () => {
             this.paused = true;
             this.ended.emit();
         });
-        this.audioElement.addEventListener('pause', () => {
+        audio.addEventListener('error', e => {
             this.paused = true;
         });
-        this.audioElement.addEventListener('play', () => {
+        audio.addEventListener('pause', () => {
+            this.paused = true;
+        });
+        audio.addEventListener('play', () => {
             this.paused = false;
         });
         if (this.volume > 0) {
-            this.volume = this.audioElement.volume * 100;
+            this.volume = audio.volume * 100;
         }
     }
 

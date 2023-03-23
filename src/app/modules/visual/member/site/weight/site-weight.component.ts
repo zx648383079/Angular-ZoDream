@@ -53,12 +53,12 @@ export class SiteWeightComponent implements OnInit {
 
     public tapCreate(modal: DialogEvent, item: ISiteComponent) {
         modal.open(() => {
-            const data = {...this.pageData, component_id: item.id, thumb: item.thumb};
+            const data = {...this.pageData, component_id: item.id, thumb: item.thumb, site_id: item.site_id};
             this.service.sitePageSave(data).subscribe({
                 next: res => {
                     this.toastrService.success('创建页面成功，即将跳转编辑');
                     setTimeout(() => {
-                        this.router.navigate(['../../../editor', res.site_id, res.id], {relativeTo: this.route});
+                        this.router.navigate(['/visual/editor', res.site_id, res.id]);
                     }, 1000);
                 },
                 error: err => {

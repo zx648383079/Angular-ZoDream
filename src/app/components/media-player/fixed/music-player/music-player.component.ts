@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, NgZone, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
+import { checkRange, randomInt } from '../../../../theme/utils';
 
 @Component({
-  selector: 'app-music-player',
-  templateUrl: './music-player.component.html',
-  styleUrls: ['./music-player.component.scss']
+    selector: 'app-music-player',
+    templateUrl: './music-player.component.html',
+    styleUrls: ['./music-player.component.scss']
 })
 export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit, OnChanges {
 
@@ -17,7 +18,9 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     public catalogVisible = false;
     public lyricsVisible = false;
     public spectrumVisible = false;
-    public loop = 0;
+    public moreVisible = false;
+    public morePanelVisible = false;
+    public loop: number = PlayerLoopMode.LIST;
     public paused = true;
     public booted = false;
     public items: IMediaFile[] = [];
@@ -25,6 +28,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     public data: IMediaFile;
     public progress = 0;
     public duration = 0;
+    public loaded = 0;
     public volume = 100;
     public channelData: number[] = [];
     public lyricsSrc = '';
@@ -50,17 +54,35 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     private get audio(): HTMLAudioElement {
         if (!this.audioElement) {
             this.audioElement = document.createElement('audio');
-            this.audioElement.crossOrigin = "anonymous";
+            this.audioElement.preload = 'auto';
+            this.audioElement.crossOrigin = 'anonymous';
             this.bindAudioEvent();
         }
         return this.audioElement;
+    }
+
+    public get loopTip() {
+        switch (this.loop) {
+            case PlayerLoopMode.LOOP:
+                return '循环播放';
+            case PlayerLoopMode.RANDOM:
+                return '随机播放';
+            case PlayerLoopMode.ONCE:
+                return '单曲播放';
+            case PlayerLoopMode.ONLY_LOOP:
+                return '单曲循环播放';
+            default:
+                return '顺序播放';
+        }
     }
 
     ngAfterViewInit() {
         this.render.listen(window, 'resize', () => {
             this.resize();
         });
-        // this.resize();
+        setTimeout(() => {
+            this.resize();
+        }, 100);
         this.booted = true;
     }
 
@@ -72,9 +94,11 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
 
     private resize() {
         const width = this.boxBody?.nativeElement?.offsetWidth
-        if (width && width > 0) {
-            this.lyricsWidth = width;
+        if (!width || width <= 0) {
+            return;
         }
+        this.lyricsWidth = width;
+        this.moreVisible = width < 769;
     }
 
     ngOnDestroy() {
@@ -88,16 +112,22 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         if (!this.canPrevious) {
             return;
         }
-        this.index --;
-        this.data = this.items[this.index];
+        this.playTo(this.index - 1);
     }
 
     public tapNext() {
         if (!this.canNext) {
             return;
         }
-        this.index ++;
-        this.data = this.items[this.index];
+        this.playTo(this.index + 1);
+    }
+
+    public toggleLoop() {
+        let i = this.loop + 1;
+        if (i > 4) {
+            i = 0;
+        }
+        this.loop = i;
     }
 
     public togglePlay() {
@@ -109,24 +139,66 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             this.audio.play();
             return;
         }
-        this.index = this.nextIndex();
-        if (this.index < 0) {
-            return;
-        }
-        this.data = this.items[this.index];
-        this.audio.src = this.data.source;
-        this.audio.play();
+        this.playNext();
     }
 
     private nextIndex(): number {
-        if (this.items.length < 1) {
+        if (this.loop === PlayerLoopMode.ONCE) {
             return -1;
         }
+        if (this.loop === PlayerLoopMode.ONLY_LOOP) {
+            return this.index;
+        }
+        if (this.items.length <= 1) {
+            return this.loop === PlayerLoopMode.LOOP ? this.index : -1;
+        }
+        const max = this.items.length - 1;
+        if (this.loop === PlayerLoopMode.RANDOM) {
+            const i = randomInt(0, max);
+            return i === this.index ? this.checkIndex(i + 1) : i;
+        }
         const i = this.index ++;
+        if (this.loop === PlayerLoopMode.LOOP) {
+            return this.checkIndex(i);
+        }
+        if (i >= this.items.length) {
+            return -1;
+        }
+        return i;
+    }
+
+    private checkIndex(i: number): number {
+        if (i < 0) {
+            return this.items.length - 1;
+        }
         if (i >= this.items.length) {
             return 0;
         }
         return i;
+    }
+
+    private playNext() {
+        this.playTo(this.nextIndex());
+    }
+
+    private playTo(i: number) {
+        if (i < 0) {
+            return;
+        }
+        if (this.index === i) {
+            if (this.paused) {
+                this.audio.play();
+            }
+            return;
+        }
+        this.index = i;
+        this.data = this.items[i];
+        this.audio.src = this.data.source;
+        this.paused = false;
+        this.audio.play();
+        this.items.forEach((item, j) => {
+            item.active = i === j;
+        });
     }
 
     public play(): void;
@@ -140,15 +212,18 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         if (i < 0 || i >= this.items.length) {
             return;
         }
-        this.index = i;
-        this.data = this.items[i];
-        this.audio.src = this.data.source;
-        this.audio.play();
+        this.playTo(i);
     }
     public pause(): void {
+        if (this.paused) {
+            return;
+        }
         this.audio.pause();
     }
     public stop(): void {
+        if (!this.paused) {
+            this.audio.pause();
+        }
         this.audio.src = '';
         this.items = [];
         this.index = -1;
@@ -174,10 +249,15 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     
     public onProgressChange(i: number) {
         this.audio.currentTime = i;
-        this.audio.play();
+        if (this.paused) {
+            this.audio.play();
+        }
     }
 
     public toggleSpectrum() {
+        if (!this.data) {
+            return;
+        }
         this.spectrumVisible = !this.spectrumVisible;
         if (this.spectrumVisible) {
             this.bootSpectrum();
@@ -194,7 +274,11 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         src.connect(fen);
         fen.connect(context.destination);
         this.spectrumFunc = () => {
-            if (this.paused || !this.spectrumVisible) {
+            if (!this.spectrumVisible) {
+                return;
+            }
+            if (this.paused) {
+                this.channelData = [];
                 return;
             }
             const items = new Uint8Array(fen.frequencyBinCount);
@@ -219,6 +303,9 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     }
 
     public toggleLyrics() {
+        if (!this.data) {
+            return;
+        }
         this.lyricsVisible = !this.lyricsVisible;
         if (this.lyricsVisible) {
             this.lyricsSrc = this.data.lyrics;
@@ -291,23 +378,47 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     }
 
     private bindAudioEvent() {
-        this.audioElement.addEventListener('timeupdate', () => {
-            if (isNaN(this.audioElement.duration) || !isFinite(this.audioElement.duration) || this.audioElement.duration <= 0) {
+        const audio = this.audioElement;
+        audio.addEventListener('timeupdate', () => {
+            this.emit(PlayerEvents.TIME_UPDATE);
+            if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
                 this.progress = 0;
                 this.duration = 0;
+                this.loaded = 0;
                 return;
             }
-            this.progress = this.audioElement.currentTime;
-            this.duration = this.audioElement.duration;
+            this.progress = audio.currentTime;
+            this.duration = audio.duration;
         });
-        this.audioElement.addEventListener('ended', () => {
+        audio.addEventListener('loadedmetadata', () => {
+            audio.currentTime = 0;
+            if (!this.paused) {
+                audio.play();
+            }
+        })
+        audio.addEventListener('canplay', () => {
+            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+        });
+        audio.addEventListener('progress', () => {
+            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+        });
+        audio.addEventListener('ended', () => {
+            this.paused = true;
+            this.emit(PlayerEvents.ENDED);
+            this.data.active = false;
+            this.playNext();
+        });
+        audio.addEventListener('error', e => {
             this.paused = true;
         });
-        this.audioElement.addEventListener('pause', () => {
+        audio.addEventListener('pause', () => {
             this.paused = true;
+            this.emit(PlayerEvents.PAUSE);
         });
-        this.audioElement.addEventListener('play', () => {
+        audio.addEventListener('play', () => {
             this.paused = false;
+            this.data.active = true;
+            this.emit(PlayerEvents.PLAY);
         });
         if (this.volume > 0) {
             this.volume = this.audioElement.volume * 100;

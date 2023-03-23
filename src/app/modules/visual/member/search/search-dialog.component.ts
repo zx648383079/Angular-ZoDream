@@ -51,8 +51,8 @@ export class SearchDialogComponent implements SearchDialogEvent {
             this.confirmFn = data;
         } else {
             this.formatValue(data);
+            this.confirmFn = confirm;
         }
-        this.confirmFn = confirm;
         this.checkFn = check;
     }
 

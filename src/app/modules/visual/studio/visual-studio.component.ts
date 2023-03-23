@@ -38,7 +38,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
         });
         this.http.get<IDataOne<string>>('auth/user/ticket').subscribe({
             next: res => {
-                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual', this.data)}, true));
+                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual', this.data)}));
                 this.onReady(frame => {
                     frame.src = url;
                 });

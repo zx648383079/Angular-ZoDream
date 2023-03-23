@@ -1,0 +1,61 @@
+$height: .4rem;
+:host {
+    display: block;
+    flex: 1;
+}
+.player-bar {
+    position: relative;
+    height: $height;
+    width: 100%;
+    background: #cdcdcd;
+    .load-bar {
+        height: $height;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: #aaa;
+        transition: all 0.5s ease;
+    }
+    .inner-bar {
+        height: $height;
+        background-color: #106ebe;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .inner-icon {
+        position: absolute;
+        top: - $height;
+        right: - $height;
+        height: $height * 3;
+        width: $height * 3;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+        background-color: #555;
+        transform: scale(0);
+        &::after {
+            content: " ";
+            display: block;
+            width: $height;
+            height: $height;
+            border-radius: 50%;
+            position: absolute;
+            right: $height;
+            top: $height;
+            background-color: #fff;
+        }
+    }
+    &:hover {
+        .inner-icon {
+            transform: scale(1);
+        }
+    }
+    &::after {
+        content: " ";
+        display: block;
+        clear: both;
+    }
+}

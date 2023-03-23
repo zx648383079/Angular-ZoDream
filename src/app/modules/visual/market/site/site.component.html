@@ -1,3 +1,43 @@
-<p>
-  site works!
-</p>
+<div class="container">
+    <div class="row search-row">
+        <div class="col-md-6">
+            <app-auto-suggest-box></app-auto-suggest-box>
+        </div>
+        <div class="col-md-6">
+            <div class="filter-line">
+                <div class="filter-header" i18n>
+                    Sort by
+                </div>
+                <div class="filter-body">
+                    <ng-container *ngFor="let item of sortItems">
+                        <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
+                            <i class="iconfont" *ngIf="item.value && sortKey == item.value" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        </a>
+                    </ng-container>
+                </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" *ngFor="let item of items">
+            <div class="large-item">
+                <div class="item-cover">
+                    <img [src]="item.thumb" alt="">
+                    <div class="item-mask">
+                        <a class="btn btn-primary" i18n>Preview</a>
+                        <a class="btn btn-success" (click)="modal.cloneTo(item)" i18n>Clone</a>
+                    </div>
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+</div>
+
+<app-clone-dialog #modal></app-clone-dialog>

@@ -73,3 +73,9 @@
     left: 20rem;
     right: 0;
 }
+
+@media screen and (max-width: 769px) {
+    .player-box {
+        left: 6rem;
+    }
+}
