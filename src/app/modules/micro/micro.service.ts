@@ -24,7 +24,7 @@ export class MicroService {
     }
 
     public create(data: any) {
-        return this.http.post<IMicro>('micro/home/create', data);
+        return this.http.post<IMicro>('micro/publish/create', data);
     }
 
     public collect(id: any) {
@@ -36,7 +36,7 @@ export class MicroService {
     }
 
     public remove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('micro/home/delete', {
+        return this.http.delete<IDataOne<boolean>>('micro/publish/delete', {
             params: {id}
         });
     }

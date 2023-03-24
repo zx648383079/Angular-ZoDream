@@ -4,6 +4,12 @@ import { INav } from '../../theme/components';
 import { VisualMemberMenu } from '../../modules/visual/member/menu';
 import { eachObject, isNumber } from '../../theme/utils';
 import { BlogMemberMenu } from '../../modules/blog/member/menu';
+import { ShortLinkMemberMenu } from '../../modules/short-link/member/menu';
+import { NoteMemberMenu } from '../../modules/note/member/menu';
+import { MicroMemberMenu } from '../../modules/micro/member/menu';
+import { ForumMemberMenu } from '../../modules/forum/member/menu';
+import { ExamMemberMenu } from '../../modules/exam/member/menu';
+import { DocumentMemberMenu } from '../../modules/document/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -32,6 +38,12 @@ export class MenuService {
         ],
         blog: BlogMemberMenu,
         visual: VisualMemberMenu,
+        // doc: DocumentMemberMenu,
+        // exam: ExamMemberMenu,
+        forum: ForumMemberMenu,
+        micro: MicroMemberMenu,
+        note: NoteMemberMenu,
+        short: ShortLinkMemberMenu,
         1: [
             {
                 name: '第三方应用',

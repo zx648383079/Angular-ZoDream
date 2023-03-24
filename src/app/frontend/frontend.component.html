@@ -44,18 +44,19 @@
                                 </ng-container>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisible}">
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user" i18n>Account</a></li>
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/bulletin">
-                                    <ng-container i18n>Message</ng-container>
-                                    <ng-container *ngIf="user.bulletin_count > 0">
-                                        <em class="bubble">{{ user.bulletin_count  > 99 ? '99+' : user.bulletin_count }}</em>
+                                <ng-container *ngFor="let item of dropNavItems">
+                                    <ng-container *ngIf="item.name; else elseTemplate">
+                                        <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
+                                            {{ item.name }}
+                                            <ng-container *ngIf="item.count > 0">
+                                                <em class="bubble">{{ item.count  > 99 ? '99+' : item.count }}</em>
+                                            </ng-container>
+                                        </a></li>
                                     </ng-container>
-                                </a></li>
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/profile" i18n>Profile</a></li>
-                                <li ngbDropdownItem><hr class="dropdown-divider"></li>
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="agreement" i18n>Help</a></li>
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" routerLink="user/setting" i18n>Settings</a></li>
-                                <li ngbDropdownItem><hr class="dropdown-divider"></li>
+                                    <ng-template #elseTemplate>
+                                        <li ngbDropdownItem><hr class="dropdown-divider"></li>
+                                    </ng-template>
+                                </ng-container>
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>

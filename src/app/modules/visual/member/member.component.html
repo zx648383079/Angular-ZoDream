@@ -33,7 +33,7 @@
                     <div class="status">
                         <a class="category" *ngIf="item.category" ><i
                             class="iconfont icon-bookmark"></i><b>{{ item.category.name }}</b></a>
-                        <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
+                        <span><i class="iconfont icon-eye"></i><b>{{ item.status > 0 ? '已审核' : '待审核' }}</b></span>
                     </div>
                     <div class="btn-group">
                         <a class="btn btn-light btn-xs"

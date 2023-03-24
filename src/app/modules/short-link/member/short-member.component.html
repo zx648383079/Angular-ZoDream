@@ -1,0 +1,59 @@
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+    <div class="btn-group pull-right">
+        <a class="btn btn-success" (click)="tapEdit(modal)">新增</a>
+    </div>
+</div>
+
+<div class="list-table">
+    <ng-container *ngFor="let item of items">
+        <div class="row-item">
+            <div class="item-header">
+                <span class="no">{{ item.id }}</span>
+                <span class="title">{{ item.title }}</span>
+            </div>
+            <div class="item-body">
+                <div class="line-row-item">
+                    <label class="item-label">源链接：</label>
+                    <span class="item-body">{{ item.source_url }}</span>
+                </div>
+                <div class="line-row-item">
+                    <label class="item-label">短链接：</label>
+                    <span class="item-body">{{ item.complete_short_url }}</span>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="status">
+                    <span class="time"><i class="iconfont icon-clock-o"></i><b>{{ item.created_at | ago }}</b></span>
+                    <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-info" (click)="tapEdit(modal, item)">编辑</a>
+                    <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑链接' : '新增链接'" [scrollable]="false">
+    <div class="form-group">
+        <label for="name-input">标题</label>
+        <div>
+            <input class="form-control" id="name-input" [(ngModel)]="editData.title" placeholder="请输入标题">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>原链接</label>
+        <div class="input-group">
+            <input class="form-control" [(ngModel)]="editData.source_url" placeholder="请输入链接">
+        </div>
+    </div>
+</app-dialog-box>

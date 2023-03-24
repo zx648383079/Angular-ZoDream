@@ -1,0 +1,30 @@
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+</div>
+
+<div class="list-table">
+    <ng-container *ngFor="let item of items">
+        <div class="row-item">
+            <div class="item-header">
+                <span class="no">{{ item.id }}</span>
+                <span class="title">{{ item.title }}</span>
+            </div>
+            <div class="item-footer">
+                <div class="status">
+                    <span class="time"><i class="iconfont icon-bookmark"></i><b>{{ item.forum?.name }}</b></span>
+                    <span class="time"><i class="iconfont icon-clock-o"></i><b>{{ item.created_at | ago }}</b></span>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

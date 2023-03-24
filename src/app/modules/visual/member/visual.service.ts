@@ -76,6 +76,10 @@ export class VisualService {
         return this.http.delete<IDataOne<boolean>>('tpl/member/site/component_delete', {params: {id}});
     }
 
+    public authTicket() {
+        return this.http.get<IDataOne<string>>('auth/user/ticket');
+    }
+
 
     public upload(file: File) {
         const data = new FormData();

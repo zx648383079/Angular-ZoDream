@@ -16,6 +16,12 @@ interface IMenuItem {
   url: string;
 }
 
+interface IDropNavItem {
+    name?: string;
+    url?: string;
+    count?: number;
+}
+
 @Component({
   selector: 'app-frontend',
   templateUrl: './frontend.component.html',
@@ -42,6 +48,15 @@ export class FrontendComponent implements OnDestroy {
     public user: IUserStatus;
     public userLoading = false;
     public dropDownVisible = false;
+    public dropNavItems: IDropNavItem[] = [
+        {name: $localize `Account`, url: 'user'},
+        {name: $localize `Message`, url: 'user/bulletin', count: 0},
+        {name: $localize `Profile`, url: 'user/profile'},
+        {},
+        {name: $localize `Help`, url: 'agreement'},
+        {name: $localize `Settings`, url: 'user/setting'},
+        {}
+    ];
 
     constructor(
         private service: FrontendService,
@@ -57,6 +72,7 @@ export class FrontendComponent implements OnDestroy {
             if (!res.isLoading && res.user) {
                 this.authService.loadProfile('bulletin_count,today_checkin').subscribe(profile => {
                     this.user = profile;
+                    this.dropNavItems[1].count = profile.bulletin_count;
                 });
             }
         });

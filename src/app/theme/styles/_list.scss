@@ -137,3 +137,20 @@
         }
     }
 }
+
+.line-row-item {
+    padding: .2rem 0;
+    display: flex;
+    .item-label {
+        color: #777;
+        flex: 1;
+        max-width: 8rem;
+        text-align: right;
+        padding-right: .8rem;
+        user-select: none;
+    }
+    .item-body {
+        flex: 1;
+        display: block;
+    }
+}

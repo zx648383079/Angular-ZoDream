@@ -23,6 +23,7 @@ export class EditWeightComponent implements OnInit {
         price: [0],
         type: [0],
         path: [''],
+        status: [0],
     });
     public data: IThemeComponent;
     private categories: ICategory[] = [];
@@ -54,6 +55,7 @@ export class EditWeightComponent implements OnInit {
                         cat_id: res.cat_id,
                         price: res.price,
                         type: res.type,
+                        status: res.status,
                         path: res.path
                     });
                 },

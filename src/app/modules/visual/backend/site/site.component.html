@@ -35,7 +35,7 @@
                     <td>{{ item.updated_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light" routerLink="page" [queryParams]="{site: item.id}">查看页面</a>
+                            <a class="btn btn-light" routerLink="../page" [queryParams]="{site: item.id}">查看页面</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

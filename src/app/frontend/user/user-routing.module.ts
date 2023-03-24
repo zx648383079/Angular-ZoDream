@@ -54,6 +54,30 @@ const routes: Routes = [
                 loadChildren: () => import('../../modules/blog/member/member.module').then(m => m.BlogMemberModule)
             },
             {
+                path: 'doc',
+                loadChildren: () => import('../../modules/document/member/document-member.module').then(m => m.DocumentMemberModule)
+            },
+            {
+                path: 'exam',
+                loadChildren: () => import('../../modules/exam/member/exam-member.module').then(m => m.ExamMemberModule)
+            },
+            {
+                path: 'forum',
+                loadChildren: () => import('../../modules/forum/member/forum-member.module').then(m => m.ForumMemberModule)
+            },
+            {
+                path: 'micro',
+                loadChildren: () => import('../../modules/micro/member/micro-member.module').then(m => m.MicroMemberModule)
+            },
+            {
+                path: 'note',
+                loadChildren: () => import('../../modules/note/member/note-member.module').then(m => m.NoteMemberModule)
+            },
+            {
+                path: 'short',
+                loadChildren: () => import('../../modules/short-link/member/short-member.module').then(m => m.ShortMemberModule)
+            },
+            {
                 path: 'visual',
                 loadChildren: () => import('../../modules/visual/member/member.module').then(m => m.VisualMemberModule)
             },

@@ -3,9 +3,10 @@ import { ISitePage } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
+import { assetUri, uriEncode } from '../../../../../theme/utils';
 
 @Component({
     selector: 'app-site-page',
@@ -30,6 +31,7 @@ export class SitePageComponent implements OnInit {
         private service: VisualService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private router: Router,
         private searchService: SearchService,
     ) {
     }
@@ -59,6 +61,37 @@ export class SitePageComponent implements OnInit {
         }, () => {
             return !emptyValidate(this.editData.name);
         });
+    }
+
+    public tapPreview(item: ISitePage) {
+        this.gotoWeb(item, true);
+    }
+
+    public tapEditor(item: ISitePage) {
+        this.gotoWeb(item, false);
+    }
+
+    private gotoWeb(item: ISitePage, isPreview = true) {
+        const isOpen = true;
+        if (!isOpen) {
+            this.router.navigate([
+                isPreview ? '/visual/preview' : 'visual/editor',
+                item.site_id, item.id
+            ]);
+            return;
+        }
+        this.service.authTicket().subscribe({
+            next: res => {
+                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual' + (isPreview ? '/preview' : ''), {
+                    site: item.site_id,
+                    id: item.id
+                })}));
+                window.open(url, '_blank');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapBack() {

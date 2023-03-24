@@ -3,7 +3,7 @@ import { INav } from '../../../theme/components';
 export const ShortLinkBackendMenu: INav[] = [
     {
         name: '短链接管理',
-        icon: 'icon-link',
+        icon: 'icon-chain',
         url: './short',
         role: 'short_link_manage',
         children: [
