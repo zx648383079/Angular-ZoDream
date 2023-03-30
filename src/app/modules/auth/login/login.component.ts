@@ -86,10 +86,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         return this.loginForm.get('captcha');
     }
 
+    public get isRemember() {
+        return this.loginForm.get('remember').value;
+    }
+
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.redirectUri = res.redirect_uri || '/';
             this.redirectIfUserLoggedIn();
+        });
+    }
+
+    public toggleRemember() {
+        this.loginForm.patchValue({
+            remember: !this.isRemember
         });
     }
 
@@ -197,11 +207,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             redirect_uri: window.location.href});
     }
 
-    public keyDown(event: KeyboardEvent, next: HTMLInputElement) {
+    public focusNext(event: KeyboardEvent) {
         if (event.code !== 'Enter' && event.code !== 'Tab') {
             return;
         }
-        next.focus();
     }
 
     public tapCaptcha() {

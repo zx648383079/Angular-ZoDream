@@ -2,18 +2,18 @@
   <div class="input-box">
         <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
             <div class="input-group" [class]="{error: email.invalid}">
-                <input type="email" formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off" (keypress)="keyDown($event, pwdInput)">
+                <input type="email" appFocusNext formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
         <div class="input-group" [class]="{error: password.invalid}">
-            <input #pwdInput [type]="isObserve ? 'text' : 'password'" formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
+            <input [type]="isObserve ? 'text' : 'password'" appFocusNext formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
         <div class="input-group captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
-            <input type="text" formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off">
+            <input type="text" appFocusNext formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
@@ -27,14 +27,15 @@
         </div> -->
 
       <div class="input-group">
-          <div class="checkbox">
+          <!-- <div class="checkbox">
               <input type="checkbox" formControlName="remember" value="1" id="checkboxInput">
               <label for="checkboxInput"></label>
-          </div>
+          </div> -->
+          <i class="checkbox" [ngClass]="{checked: isRemember}" (click)="toggleRemember()"></i>
           <ng-container i18n>Remember</ng-container>
           <a class="find-link" routerLink="find" i18n>Forgot your password?</a>
       </div>
-      <app-action-button class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
+      <app-action-button appFocusNext class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
       <div class="other-box">
           <a routerLink="register" i18n>Sign up</a>
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>

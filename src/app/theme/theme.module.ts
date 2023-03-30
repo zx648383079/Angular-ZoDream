@@ -59,6 +59,7 @@ import {
     PasswordValidatorDirective
 } from './validators';
 import {
+    FocusNextDirective,
     InfiniteScrollDirective,
     LazyLoadDirective
 } from './directives';
@@ -114,6 +115,7 @@ const DIRECTIVES = [
     InfiniteScrollDirective,
     LazyLoadDirective,
     FileDropDirective,
+    FocusNextDirective,
 ];
 
 @NgModule({

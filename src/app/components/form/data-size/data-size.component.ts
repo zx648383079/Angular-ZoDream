@@ -32,15 +32,29 @@ export class DataSizeComponent implements ControlValueAccessor {
     }
 
     public onUnitChange() {
-        this.unitValue = this.fomatFloat(this.value / Math.pow(this.unitBase, this.unitIndex), 2);
+        this.unitValue = this.formatFloat(this.value / Math.pow(this.unitBase, this.unitIndex), 2);
     }
 
-    private fomatFloat(src: number, pos: number) {
+    private formatFloat(src: number, pos: number) {
         return Math.round(src * Math.pow(10, pos)) / Math.pow(10, pos);
     }
 
+    private formatUnit(val: number): number {
+        let i = 0;
+        let diff = val;
+        while (diff > this.unitBase) {
+            i ++;
+            diff /= this.unitBase;
+        }
+        return i;
+    } 
+
     writeValue(obj: any): void {
+        const oldVal = this.value;
         this.value = parseNumber(obj);
+        if (oldVal === 0 && this.value > 0) {
+            this.unitIndex = this.formatUnit(this.value);
+        }
         this.onUnitChange();
     }
     registerOnChange(fn: any): void {
