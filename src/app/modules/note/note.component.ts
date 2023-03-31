@@ -12,6 +12,7 @@ import { SearchService, ThemeService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 import { INote } from './model';
 import { NoteService } from './note.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-note',
@@ -42,6 +43,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         private store: Store<AppState>,
         private searchService: SearchService,
         private themeService: ThemeService,
+        private sanitizer: DomSanitizer,
     ) {
         this.themeService.setTitle($localize `Note`);
         this.store.select(getCurrentUser).subscribe(user => {
@@ -132,9 +134,13 @@ export class NoteComponent implements OnInit, OnDestroy {
         const params: any = {...this.queries, page};
         this.service.getList(params).subscribe({
             next: res => {
+                const data = res.data.map(i => {
+                    i.html = this.sanitizer.bypassSecurityTrustHtml(i.html);
+                    return i;
+                })
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.items = page < 2 ? data : [].concat(this.items, data);
                 this.searchService.applyHistory(this.queries = params, false);
             }, 
             error: () => {

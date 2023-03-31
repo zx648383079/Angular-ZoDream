@@ -32,7 +32,7 @@
                         {{ item.user.name }}
                     </td>
                     <td>{{ item.content }}</td>
-                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

@@ -8,7 +8,7 @@
                     <option [value]="0">--请选择分类--</option>
                     <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                 </select>
-                <select name="brand" class="form-control" [ngModel]="queries.type" class="form-control">
+                <select name="type" class="form-control" [ngModel]="queries.type" class="form-control">
                     <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
                 <button type="submit" class="btn btn-primary">搜索</button>

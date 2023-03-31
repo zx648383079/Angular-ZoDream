@@ -47,7 +47,7 @@ export class FileUploadService {
     }
 
     public uploadImages(files: FormData | FileList) {
-        return this.uploadAny('open/file/images', files);
+        return this.uploadAny('open/file/image', files);
     }
 
     /**

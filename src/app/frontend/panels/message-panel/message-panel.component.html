@@ -1,0 +1,20 @@
+<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+    <div class="panel-header">
+        <span i18n>Feedback and Messages</span>
+    </div>
+    <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
+        <ng-container *ngFor="let item of items">
+            <div class="message-list-item">
+                <div class="item-body">
+                    <div class="quote">
+                        {{ item.content }}
+                    </div>
+                </div>
+                <div class="item-footer">
+                    <a class="name">{{ item.name }}</a>
+                    <span class="time">{{ item.created_at | ago }}</span>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

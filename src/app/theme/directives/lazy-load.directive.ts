@@ -1,6 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { AfterViewInit, Directive, ElementRef,
     EventEmitter, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { assetUri } from '../utils';
 
 interface IRect {
     left: number;
@@ -12,13 +13,17 @@ interface IRect {
 @Directive({
   selector: '[appLazyLoad]'
 })
-export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
+export class LazyLoadDirective implements OnInit, OnDestroy {
 
+    /** 指定屏幕宽度最小值 */
     @Input() public min = 0;
+    /** 指定屏幕宽度最大值 */
     @Input() public max = 0;
+    /** 指定加载次数 */
     @Input() public loadTime = 1;
     @Input() public scrollTarget?: any;
     @Input() public offset = 0;
+    @Input() public appLazyLoad = '';
     @Output() public lazyLoading = new EventEmitter<void>();
 
     private lastIsVisible = false;
@@ -32,14 +37,41 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
         this.renderer.listen(window, 'resize', this.onScroll.bind(this));
-    }
-
-    ngAfterViewInit() {
-        this.onScroll();
+        this.emitInit();
+        
     }
 
     ngOnDestroy() {
 
+    }
+
+    private emitInit() {
+        const oldTime = this.loadTime;
+        this.onScroll();
+        if (oldTime != this.loadTime) {
+            return;
+        }
+        if (!this.elementRef.nativeElement) {
+            return;
+        }
+        const element = this.elementRef.nativeElement;
+        const tagName = element.tagName.toLocaleLowerCase();
+        if (tagName === 'img') {
+            (element as HTMLImageElement).src = assetUri('assets/images/thumb.jpg');
+            return;
+        }
+    }
+
+    private emitLoad() {
+        if (this.appLazyLoad) {
+            const element = this.elementRef.nativeElement;
+            const tagName = element.tagName.toLocaleLowerCase();
+            if (tagName === 'img') {
+                (element as HTMLImageElement).src = assetUri(this.appLazyLoad);
+            }
+        }
+        this.lazyLoading.emit();
+        
     }
 
     private onScroll() {
@@ -63,13 +95,13 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
         if (this.lastIsVisible) {
             return;
         }
-        this.lazyLoading.emit();
+        this.emitLoad();
         this.loadTime --;
         this.lastIsVisible = true;
     }
 
     private isVisible(element: HTMLDivElement) {
-        if (element.style.display === 'none') {
+        if (!element || element.style.display === 'none') {
             return false;
         }
         const elementBounds: IRect = element.getBoundingClientRect();

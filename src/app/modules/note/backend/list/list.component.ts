@@ -43,6 +43,12 @@ export class ListComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public onNoticeToggle(item: INote) {
+        this.service.noteChange(item.id, ['is_notice']).subscribe(res => {
+            item.is_notice = res.is_notice;
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

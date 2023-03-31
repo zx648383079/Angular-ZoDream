@@ -73,6 +73,11 @@ export class FrontendComponent implements OnDestroy {
                 this.authService.loadProfile('bulletin_count,today_checkin').subscribe(profile => {
                     this.user = profile;
                     this.dropNavItems[1].count = profile.bulletin_count;
+                    if (profile.is_admin) {
+                        this.dropNavItems.splice(this.dropNavItems.length - 1, 0, {
+                            name: $localize `Backend`, url: '/backend'
+                        });
+                    }
                 });
             }
         });

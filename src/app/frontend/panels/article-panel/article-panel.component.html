@@ -1,0 +1,16 @@
+<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+    <div class="panel-header">
+        <span i18n>Lastest Articles</span>
+    </div>
+    <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
+        <ng-container *ngFor="let item of items">
+            <a class="article-list-item" [routerLink]="['blog', item.id]">
+                <div class="item-title">
+                    <a class="name">{{ item.title }}</a>
+                    <div class="time">{{ item.created_at | ago }}</div>
+                </div>
+                <div class="item-meta">{{ item.description }}</div>
+            </a>
+        </ng-container>
+    </div>
+</div>

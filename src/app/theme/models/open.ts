@@ -44,4 +44,6 @@ export interface IUploadFile {
     url: string;
     mtime: number;
     thumb: string;
+    size: number;
+    title: string;
 }

@@ -86,7 +86,7 @@
             </ng-container>
             <ng-container *ngIf="block.content">
                 <div class="hide-open-node">
-                    <div class="node-tip">本帖隐藏的内容</div>
+                    <div class="node-tip" i18n>The hidden content of this post</div>
                     <app-post-block [value]="block.content" (tapped)="tapBlock($event)"></app-post-block>
                 </div>
             </ng-container>

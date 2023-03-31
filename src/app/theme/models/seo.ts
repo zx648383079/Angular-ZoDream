@@ -35,6 +35,7 @@ export interface IFeedback extends IPageEditItem {
     status: number;
     created_at: string;
     updated_at: string;
+    open_status: number;
 }
 
 export interface IReport {

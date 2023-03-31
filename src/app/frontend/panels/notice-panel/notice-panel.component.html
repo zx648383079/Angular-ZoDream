@@ -1,0 +1,13 @@
+<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+    <div class="panel-header">
+        <span i18n>Notices</span>
+    </div>
+    <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
+        <ng-container *ngFor="let item of items">
+            <div class="notice-list-item">
+                <div class="item-body" [innerHTML]="item.html"></div>
+                <div class="item-time">{{ item.created_at | ago }}</div>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -47,8 +47,10 @@ export class ContactService {
         });
     }
 
-    public feedbackSave(data: any) {
-        return this.http.post<IFeedback>('contact/admin/feedback/change', data);
+    public feedbackChange(id: any, data: any) {
+        return this.http.post<IFeedback>('contact/admin/feedback/change', {
+            id, data
+        });
     }
 
     public feedbackRemove(id: any) {

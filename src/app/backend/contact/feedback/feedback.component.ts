@@ -64,6 +64,12 @@ export class FeedbackComponent implements OnInit {
         }
     }
 
+    public onOpenToggle(item: IFeedback) {
+        this.service.feedbackChange(item.id, ['open_status']).subscribe(res => {
+            item.open_status = res.open_status;
+        });
+    }
+
     public tapRemoveMultiple() {
         const items = this.checkedItems;
         if (items.length < 1) {
@@ -132,9 +138,8 @@ export class FeedbackComponent implements OnInit {
             if (typeof value !== 'number') {
                 return;
             }
-            this.service.feedbackSave({
+            this.service.feedbackChange(this.editData?.id, {
                 status: value,
-                id: this.editData?.id
             }).subscribe(_ => {
                 this.toastrService.success('保存成功');
                 this.tapPage();

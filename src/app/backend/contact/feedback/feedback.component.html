@@ -25,8 +25,9 @@
                     </th>
                     <th>ID</th>
                     <th>称呼</th>
-                    <th>邮箱</th>
+                    <th class="auto-hide">邮箱</th>
                     <th class="auto-hide">联系方式</th>
+                    <th>显示状态</th>
                     <th>状态</th>
                     <th class="auto-hide">留言时间</th>
                     <th>操作</th>
@@ -40,10 +41,13 @@
                         </td>
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.email }}
+                        <td class="auto-hide">{{ item.email }}
                         </td>
                         <td class="auto-hide">
                             {{ item.phone }}
+                        </td>
+                        <td>
+                            <app-switch [ngModel]="item.open_status" (ngModelChange)="onOpenToggle(item)"></app-switch>
                         </td>
                         <td>{{ item.status | status }}</td>
                         <td class="auto-hide">{{ item.created_at | ago }}</td>

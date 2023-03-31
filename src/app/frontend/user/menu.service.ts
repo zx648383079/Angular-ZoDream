@@ -8,8 +8,6 @@ import { ShortLinkMemberMenu } from '../../modules/short-link/member/menu';
 import { NoteMemberMenu } from '../../modules/note/member/menu';
 import { MicroMemberMenu } from '../../modules/micro/member/menu';
 import { ForumMemberMenu } from '../../modules/forum/member/menu';
-import { ExamMemberMenu } from '../../modules/exam/member/menu';
-import { DocumentMemberMenu } from '../../modules/document/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -28,11 +26,11 @@ export class MenuService {
     private readyMap: MenuReadyMap = {
         0: [
             {
-                name: 'Overview',
+                name: $localize `Overview`,
                 url: 'home',
             },
             {
-                name: 'Bulletin',
+                name: $localize `Bulletin`,
                 url: 'bulletin'
             },
         ],
@@ -46,19 +44,19 @@ export class MenuService {
         short: ShortLinkMemberMenu,
         1: [
             {
-                name: '第三方应用',
+                name: $localize `Thirdparty App`,
                 url: 'authorize'
             },
             {
-                name: '关联账号',
+                name: 'Account Binding',
                 url: 'connect'
             },
             {
-                name: '登录设备',
+                name: 'Login Driver',
                 url: 'driver'
             },
             {
-                name: 'Setting',
+                name: $localize `Setting`,
                 url: 'setting'
             }
         ],

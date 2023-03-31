@@ -15,7 +15,7 @@
     
             <div class="col-md-4" *ngFor="let item of items">
                 <div class="note-item">
-                    <div class="item-body">{{ item.content }}</div>
+                    <div class="item-body" [innerHTML]="item.html"></div>
                     <div class="item-footer">
                         <span *ngIf="item.user">{{ item.user.name }}</span>
                         <span>{{ item.created_at | ago }}</span>

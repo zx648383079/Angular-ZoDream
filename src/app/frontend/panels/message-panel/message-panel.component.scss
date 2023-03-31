@@ -1,0 +1,64 @@
+.panel-body {
+    column-count: 2;
+    column-gap: .8rem;
+}
+
+.message-list-item {
+    display: block;
+    page-break-inside: avoid;
+    .item-footer {
+        text-align: right;
+    }
+    .time {
+        margin-left: .8rem;
+    }
+    .name {
+        &::before {
+            content: "";
+            display: inline-block;
+            width: 4rem;
+            height: 2px;
+            background-color: #ccc;
+            vertical-align: middle;
+        }
+    }
+}
+.quote {
+    background-color: #F9F9F9;
+    margin: 0.625rem 0;
+    padding: 2rem 2.1875rem;
+    zoom: 1;
+    color: #666;
+    position: relative;
+    overflow: hidden;
+    word-break: break-all;
+    user-select: none;
+    &::before {
+        content: "“";
+        position: absolute;
+        font-size: 5rem;
+        left: -1px;
+        top: -0.75rem;
+        color: #ccc;
+    }
+    &::after {
+        content: "”";
+        position: absolute;
+        font-size: 5rem;
+        right: -1px;
+        bottom: -3.3125rem;
+        color: #ccc;
+    }
+}
+
+@media screen and (min-width: 770px) {
+    .panel-body {
+        column-count: 3;
+    }
+}
+
+@media screen and (min-width: 920px) {
+    .panel-body {
+        column-count: 4;
+    }
+}

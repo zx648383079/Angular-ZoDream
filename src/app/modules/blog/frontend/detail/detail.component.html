@@ -104,7 +104,7 @@
             </div>
             <div class="panel-body">
                 <ng-container *ngFor="let blog of relationItems">
-                    <div class="list-item" (click)="loadBlog(blog.id)">
+                    <div class="article-list-item" (click)="loadBlog(blog.id)">
                         <div class="item-title">
                             <a class="name">{{ blog.title }}</a>
                             <div class="time">{{ blog.created_at | ago }}</div>
@@ -112,7 +112,6 @@
                         <div class="item-meta">{{ blog.description }}</div>
                     </div>
                 </ng-container>
-
             </div>
         </div>
 

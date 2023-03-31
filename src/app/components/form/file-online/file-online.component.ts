@@ -1,130 +1,94 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
-import { FileUploadService } from '../../../theme/services';
+import { FileUploadService, SearchService } from '../../../theme/services';
+import { SearchDialogEvent } from '../../dialog';
+import { IItem } from '../../../theme/models/seo';
 
 @Component({
     selector: 'app-file-online',
     templateUrl: './file-online.component.html',
     styleUrls: ['./file-online.component.scss']
 })
-export class FileOnlineComponent implements OnChanges {
+export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
     @Input() public accept = 'image/*';
     @Input() public multiple = false;
-    @Input() public title = $localize `Select online file`;
-    @Input() public height = 400;
+    @Input() public placeholder = $localize `Select online file`;
     /**
      * 是否显示
      */
     @Input() public visible = false;
-    /**
-     * 确认事件
-     */
-    @Input() public confirmFn: (items: IUploadFile|IUploadFile[]) => void;
-    @Output() public confirm = new EventEmitter<IUploadFile|IUploadFile[]>();
 
     public items: IUploadFile[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
-        page: 0,
-        per_page: 20
+        keywords: '',
+        accept: '*/*',
+        page: 1,
+        per_page: 20,
     };
+    public typeItems: IItem[] = [];
     public selectedItems: IUploadFile[] = [];
+    public onlySelected = false;
+    private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
+    private checkFn: (items: IUploadFile[]) => boolean;
 
     constructor(
         private uploadService: FileUploadService,
+        private searchService: SearchService,
     ) { }
-
-    get boxStyle() {
-        return {
-            height: this.height + 'px',
-            'margin-top': (- this.height / 2) + 'px'
-        };
-    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.accept) {
             this.items = [];
             this.selectedItems = [];
             this.queries.page = 0;
+            this.queries.accept = this.accept;
+            this.typeItems = this.accept === '*/*' || !this.accept ? [
+                {name: $localize `All files`, value: '*/*'},
+                {name: $localize `Image`, value: 'image/*'},
+                {name: $localize `Video`, value: 'video/*'},
+                {name: $localize `Audio`, value: 'audio/*'},
+            ] : [];
         }
     }
 
-    public isSelected(item: IUploadFile): boolean {
+    public open(confirm: (data: IUploadFile|IUploadFile[]) => void): void;
+    public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void): void;
+    public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void, check: (data: IUploadFile[]) => boolean): void;
+    public open(data: any, confirm?: (data: IUploadFile|IUploadFile[]) => void, check?: (data: IUploadFile[]) => boolean) {
+        this.visible = true;
+        if (typeof data === 'function') {
+            this.confirmFn = data;
+        } else {
+            this.formatValue(data);
+            this.confirmFn = confirm;
+        }
+        this.checkFn = check;
+    }
+
+    public close() {
+        this.visible = false;
+    }
+
+    public tapToggleOnly() {
+        this.onlySelected = !this.onlySelected;
+    }
+
+    public isSelected(item: IUploadFile) {
         for (const i of this.selectedItems) {
-            if (item.url === i.url) {
+            if (i.url === item.url) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * 关闭弹窗
-     * @param result 
-     * @returns 
-     */
-    public close(result?: any) {
-        if (typeof result === 'undefined') {
-            this.visible = false;
-            return;
-        }
-        if (!result) {
-            this.visible = false;
-            return;
-        }
-        this.visible = false;
-        this.output();
-    }
-
-    private output() {
-        const items = this.selectedItems.map(i => {
-            return {...i};
-        });
-        const value = this.multiple ? items : (items.length > 0 ? items[0] : null);
-        if (this.confirmFn) {
-            this.confirmFn(value);
-        }
-        this.confirm.emit(value);
-    }
-
-    /**
-     * 显示弹窗
-     * @param cb 点击确认按钮事件
-     */
-    public open(cb?: (items: IUploadFile|IUploadFile[]) => void, title?: string) {
-        this.confirmFn = cb;
-        if (title) {
-            this.title = title;
-        }
-        this.visible = true;
-        if (this.queries.page > 0) {
-            return;
-        }
-        this.tapPage(1);
-    }
-
-    public tapPage(page: number) {
-        const queries = {...this.queries, page, accept: this.accept};
-        const cb = this.accept.indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
-        cb.call(this.uploadService, queries).subscribe(res => {
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.queries = queries;
-            this.isLoading = false;
-        }, () => {
-            this.isLoading = false;
-        });
-    }
-
     public tapSelected(item: IUploadFile) {
         if (!this.multiple) {
             this.selectedItems = [item];
-            this.visible = false;
-            this.output();
             return;
         }
         for (let i = 0; i < this.selectedItems.length; i++) {
@@ -134,6 +98,110 @@ export class FileOnlineComponent implements OnChanges {
             }
         }
         this.selectedItems.push(item);
+    }
+
+    public tapYes() {
+        if (this.checkFn && this.checkFn(this.selectedItems) === false) {
+            return;
+        }
+        if (this.multiple) {
+            this.output(this.selectedItems);
+            return;
+        }
+        this.output(this.selectedItems.length > 0 ? this.selectedItems[0] : null);
+    }
+
+    private output(items: any) {
+        if (this.confirmFn) {
+            this.confirmFn(items);
+        }
+        this.visible = false;
+    }
+
+    public tapCancel() {
+        this.selectedItems = [];
+    }
+
+    public get formatItems(): IUploadFile[] {
+        return this.onlySelected ? this.selectedItems.map(i => i as IUploadFile) : this.items;
+    }
+
+
+    public get selectedCount() {
+        return this.selectedItems.length;
+    }
+
+    /**
+     * tapRefresh
+     */
+    public tapRefresh() {
+        this.goPage(1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    /**
+     * goPage
+     */
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        const cb = this.accept.indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
+        cb.call(this.uploadService, queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.queries = queries
+            }, 
+            error: _ => {
+                this.isLoading = false;
+            }
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = this.searchService.getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+
+    private formatValue(data: any) {
+        if (!data) {
+            this.selectedItems = [];
+            return;
+        }
+        if (typeof data !== 'object') {
+
+        } else if (data instanceof Array) {
+            if (data.length < 1) {
+                this.selectedItems = [];
+                return;
+            }
+            if (typeof data[0] === 'object') {
+                this.selectedItems = [...data];
+                return;
+            }
+        } else {
+            this.selectedItems = [data];
+            return;
+        }
+        // this.service.search({
+        //     id: data,
+        //     per_page: typeof data === 'object' ? data.length : 20,
+        // }).subscribe(res => {
+        //     this.selectedItems = res.data;
+        // });
     }
 
 }

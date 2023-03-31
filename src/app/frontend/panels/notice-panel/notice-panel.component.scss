@@ -1,0 +1,19 @@
+.panel-body {
+    height: 53rem;
+    overflow-y: auto;
+}
+.notice-list-item {
+    border-bottom: rgba(161,0,0,.1) solid 1px;
+    box-sizing: border-box;
+    padding: 0.625rem;
+    text-decoration: none;
+    counter-increment: item-counter;
+    .item-body {
+        word-break: break-all;
+    }
+    .item-time {
+        color: #ccc;
+        font-size: 0.875rem;
+        text-align: right;
+    }
+}

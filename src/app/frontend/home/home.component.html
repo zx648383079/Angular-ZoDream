@@ -1,7 +1,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4" *ngFor="let item of links">
+        <div class="col-md-4" *ngFor="let item of linkItems">
             <ng-container *ngIf="!item.description; else elseTemplate">
                 <a class="metro-item" [routerLink]="item.url">
                     <div class="name">{{ item.name }}</div>
@@ -15,4 +15,17 @@
             </ng-template>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <app-article-panel></app-article-panel>
+        </div>
+        <div class="col-md-4">
+            <app-notice-panel></app-notice-panel>
+        </div>
+    </div>
+
+    <app-media-panel></app-media-panel>
+
+    <app-message-panel></app-message-panel>
 </div>

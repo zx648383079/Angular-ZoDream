@@ -6,9 +6,12 @@
                 <div class="avatar">
                     <img [src]="user.avatar|asset" [alt]="user.name">
                 </div>
-                <div class="name">{{ user.name }}</div>
+                <div class="name">
+                    {{ user.name }}
+                    <i class="iconfont icon-shield" *ngIf="user.is_verified" i18n-title title="This user is verified"></i>
+                </div>
                 <div class="meta">uid: {{ user.id }}</div>
-                <div class="desc">{{ user.name }}</div>
+                <div class="desc"></div>
                 <a routerLink="profile" class="btn btn-primary" i18n>Edit Profile</a>
                 <div class="count-bar">
                     <div class="count-item">

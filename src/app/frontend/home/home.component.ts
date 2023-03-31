@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from '../../theme/services';
+import { environment } from '../../../environments/environment';
 
 interface ILink {
     name: string;
@@ -14,7 +15,7 @@ interface ILink {
 })
 export class HomeComponent {
 
-    public links: ILink[] = [
+    public linkItems: ILink[] = [
         {
             name: $localize `Blog`,
             url: 'blog'
@@ -112,15 +113,17 @@ export class HomeComponent {
             name: $localize `Generator`,
             url: '/gzo'
         },
-        {
-            name: $localize `Backend`,
-            url: '/backend'
-        }
     ];
 
     constructor(
         private themeService: ThemeService,
     ) {
         this.themeService.setTitle($localize `Home`);
+        if (!environment.production) {
+            this.linkItems.push({
+                name: $localize `Backend`,
+                url: '/backend'
+            });
+        }
     }
 }
