@@ -100,7 +100,7 @@ export class FriendLinkComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.tapPage();
             });
         });
@@ -179,7 +179,7 @@ export class FriendLinkComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

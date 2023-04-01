@@ -79,12 +79,12 @@ export class ForumMemberComponent implements OnInit {
     }
 
     public tapRemove(item: IThread) {
-        this.toastrService.confirm('确定要删除《' + item.title + '》?', () => {
+        this.toastrService.confirm($localize `Are you sure to delete the "${item.title}"?`, () => {
             this.service.threadRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

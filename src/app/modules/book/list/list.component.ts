@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { IBookList } from '../model';
-import { getAuthStatus } from '../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { BookService } from '../book.service';
 
 @Component({
@@ -28,9 +28,9 @@ export class ListComponent implements OnInit {
         private service: BookService,
         private router: Router,
         private route: ActivatedRoute,
-        private store: Store < AppState > ) {
-        this.store.select(getAuthStatus).subscribe(isLogin => {
-            this.isLogin  = isLogin;
+        private store: Store<AppState>) {
+        this.store.select(selectAuthStatus).subscribe(res => {
+            this.isLogin = !res.guest;
         });
         this.tapRefresh();
     }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ICart, ICartGroup, ICartItem, IGoods } from '../../model';
-import { getAuthStatus } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../../theme/services';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
@@ -33,8 +33,8 @@ export class CartComponent implements OnInit {
         private themeService: ThemeService,
     ) {
         this.themeService.setTitle('购物车');
-        this.store.select(getAuthStatus).subscribe(logined => {
-            this.guest = !logined;
+        this.store.select(selectAuthStatus).subscribe(res => {
+            this.guest = res.guest;
         });
         this.store.select(selectShopCart).subscribe(cart => {
             if (!cart) {

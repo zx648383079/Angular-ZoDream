@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { IUser, SexItems } from '../../../theme/models/user';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
     ) {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.data = user;
             this.form.patchValue({
                 name: user.name,
@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
         this.service.uploadProfile(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             }, error: err => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);

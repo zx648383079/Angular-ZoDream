@@ -7,7 +7,7 @@ import { AppState } from '../../theme/interfaces';
 import { SearchEvents } from '../../theme/models/event';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { SearchService, ThemeService } from '../../theme/services';
 import { wordLength } from '../../theme/utils';
 import { INote } from './model';
@@ -46,7 +46,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         private sanitizer: DomSanitizer,
     ) {
         this.themeService.setTitle($localize `Note`);
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });
     }

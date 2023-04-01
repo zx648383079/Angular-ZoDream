@@ -1,22 +1,22 @@
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
         <select name="term" [ngModel]="queries.term" class="form-control">
-            <option [value]="0">请选择</option>
+            <option [value]="0" i18n>Select...</option>
             <ng-container *ngFor="let item of categories">
                 <option [value]="item.id">{{ item.name }}</option>
             </ng-container>
         </select>
         <select name="term" [ngModel]="queries.status" class="form-control">
-            <option [value]="0">请选择</option>
+            <option [value]="0" i18n>Select...</option>
             <ng-container *ngFor="let item of statusItems">
                 <option [value]="item.value + 1">{{ item.name }}</option>
             </ng-container>
         </select>
-        <button type="submit" class="btn btn-primary">搜索</button>
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
     <div class="btn-group pull-right">
-        <a class="btn btn-success" routerLink="create">新增文章</a>
+        <a class="btn btn-success" routerLink="create" i18n>Create</a>
     </div>
 </div>
 
@@ -31,26 +31,26 @@
                     <span>{{ item.id }}</span>
                 </div>
                 
-                <span class="stamp">{{ item.type == 1 ? '转载' : '原创' }}</span>
+                <span class="stamp" i18n>{item.type==1, plural, =true {Reprinted} =false {Original}}</span>
                 <span class="title">{{ item.title }}</span>
             </div>
             <div class="item-body">
                 <p>{{ item.description }}</p>
             </div>
             <div class="item-footer">
-                <div class="status">
+                <div class="item-meta-bar">
                     <a class="category" *ngIf="item.term" ><i
                         class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
                     <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
                     <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                     <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                    <span class="time"><i class="iconfont icon-clock-o"></i><b>{{ item.created_at|ago }}</b></span>
                 </div>
                 <div class="btn-group">
-                    <a class="btn btn-info btn-xs" [routerLink]="['/blog', item.id]">预览</a>
+                    <a class="btn btn-info btn-xs" [routerLink]="['../../blog', item.id]" i18n>Preview</a>
                     <a class="btn btn-light btn-xs"
-                    [routerLink]="['edit', item.id]">编辑</a>
-                    <a class="btn btn-danger" (click)="tapRemove(item)"
-                        >删除</a>
+                    [routerLink]="['edit', item.id]" i18n>Edit</a>
+                    <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                 </div>
             </div>
         </div>

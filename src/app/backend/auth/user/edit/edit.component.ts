@@ -89,7 +89,7 @@ export class EditUserComponent implements OnInit {
         }
         data.birthday = this.dateAdapter.toModel(data.birthday);
         this.service.userSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

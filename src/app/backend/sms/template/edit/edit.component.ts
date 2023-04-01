@@ -70,7 +70,7 @@ export class EditTemplateComponent implements OnInit {
       data.id = this.data.id;
     }
     this.service.templateSave(data).subscribe(_ => {
-      this.toastrService.success('保存成功');
+      this.toastrService.success($localize `Save Successfully`);
       this.tapBack();
     });
   }

@@ -6,7 +6,7 @@ import { IMenuButton, IMenuItem } from '../../components/context-menu';
 import { DialogAnimation } from '../../theme/constants/dialog-animation';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { AuthService } from '../../theme/services';
 import { CartDialogComponent } from './cart/dialog/cart-dialog.component';
 
@@ -90,7 +90,7 @@ export class CateringComponent implements OnInit {
         private authService: AuthService,
         private router: Router,
         private route: ActivatedRoute) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user ? user : {avatar: 'assets/images/avatar/0.png'} as any;
         });
     }

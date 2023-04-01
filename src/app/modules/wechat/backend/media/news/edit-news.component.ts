@@ -67,7 +67,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
         }
         this.service.mediaSave(this.data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 history.back();
             },
             error: err => {

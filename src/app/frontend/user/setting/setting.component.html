@@ -32,10 +32,10 @@
             <i class="iconfont icon-bookmark"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">新消息通知</div>
+            <div class="item-name" i18n>Notification of new news</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.accept_new_bulletin" (ngModelChange)="onValueChange()"></app-switch>
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [(ngModel)]="data.accept_new_bulletin" (ngModelChange)="onValueChange()"></app-switch>
         </div>
     </div>
     <div class="input-item">
@@ -43,10 +43,10 @@
             <i class="iconfont icon-wifi"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">勿扰模式</div>
+            <div class="item-name" i18n>Do-not-disturb mode</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.open_not_disturb" (ngModelChange)="onValueChange()"></app-switch>
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [(ngModel)]="data.open_not_disturb" (ngModelChange)="onValueChange()"></app-switch>
         </div>
     </div>
 </div>
@@ -57,11 +57,13 @@
             <i class="iconfont icon-chain-broken"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">动态时效</div>
-            <div class="item-meta">超过时间自动隐藏动态</div>
+            <div class="item-name" i18n>Dynamic Timing</div>
+            <div class="item-meta" i18n>Automatically hide dynamics after time</div>
         </div>
         <div class="item-action">
-            <input type="number" class="form-control" [(ngModel)]="data.post_expiration" (ngModelChange)="onValueChange()">天
+            <input type="number" class="form-control" [(ngModel)]="data.post_expiration" (ngModelChange)="onValueChange()">
+            <ng-container i18n> Days</ng-container>
+            
         </div>
     </div>
     <div class="input-item">
@@ -69,10 +71,10 @@
             <i class="iconfont icon-bookmark"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">上传水印</div>
+            <div class="item-name" i18n>Upload watermark</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [(ngModel)]="data.upload_add_water" (ngModelChange)="onValueChange()"></app-switch>
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [(ngModel)]="data.upload_add_water" (ngModelChange)="onValueChange()"></app-switch>
         </div>
     </div>
 </div>
@@ -83,7 +85,7 @@
             <i class="iconfont icon-edit"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">编辑资料</div>
+            <div class="item-name" i18n>Edit Profile</div>
         </div>
         <div class="item-action">
             <i class="iconfont icon-chevron-right"></i>
@@ -94,7 +96,7 @@
             <i class="iconfont icon-key"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">修改密码</div>
+            <div class="item-name" i18n>Change password</div>
         </div>
         <div class="item-action">
             <i class="iconfont icon-chevron-right"></i>
@@ -105,7 +107,7 @@
             <i class="iconfont icon-APP"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">授权管理</div>
+            <div class="item-name" i18n>Authorization Management</div>
         </div>
         <div class="item-action">
             <i class="iconfont icon-chevron-right"></i>
@@ -116,7 +118,7 @@
             <i class="iconfont icon-chain"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">账户关联</div>
+            <div class="item-name" i18n>Account Linkage</div>
         </div>
         <div class="item-action">
             <i class="iconfont icon-chevron-right"></i>
@@ -127,7 +129,7 @@
             <i class="iconfont icon-mobile"></i>
         </div>
         <div class="item-body">
-            <div class="item-name">登录设备管理</div>
+            <div class="item-name" i18n>Login Device Management</div>
         </div>
         <div class="item-action">
             <i class="iconfont icon-chevron-right"></i>

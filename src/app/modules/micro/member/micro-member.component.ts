@@ -79,12 +79,12 @@ export class MicroMemberComponent implements OnInit {
     }
 
     public tapRemove(item: IMicro) {
-        this.toastrService.confirm('确定要删除《' + item.content + '》?', () => {
+        this.toastrService.confirm($localize `Are you sure to delete the content?`, () => {
             this.service.microRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

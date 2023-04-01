@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { INote } from '../../model';
 import { NoteService } from '../note.service';
+import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
   selector: 'app-list',
@@ -23,6 +24,7 @@ export class ListComponent implements OnInit {
         per_page: 20,
         user: 0,
     };
+    public editData: INote = {} as any;
 
     constructor(
         private service: NoteService,
@@ -35,6 +37,32 @@ export class ListComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+
+    public open(modal: DialogEvent, item?: INote) {
+        this.editData = item ? Object.assign({}, item) : {
+            id: 0,
+            content: '',
+            is_notice: 1
+        } as any;
+        modal.open(() => {
+            this.service.noteSave(this.editData).subscribe({
+                next: () => {
+                    this.toastrService.success($localize `Save Successfully`);
+                    if (item) {
+                        this.tapPage();
+                    } else {
+                        this.tapRefresh();
+                    }
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => {
+            return !emptyValidate(this.editData.content);
         });
     }
 
@@ -97,7 +125,7 @@ export class ListComponent implements OnInit {
             if (!res.data) {
                 return;
             }
-            this.toastrService.success('删除成功');
+            this.toastrService.success($localize `Delete Successfully`);
             this.items = this.items.filter(it => {
                 return it.id !== item.id;
             });

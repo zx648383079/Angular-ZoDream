@@ -4,8 +4,8 @@ import { FrontendService } from './frontend.service';
 import { ILink } from '../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
-import { getUserProfile } from '../theme/reducers/auth.selectors';
-import { IUser, IUserStatus } from '../theme/models/user';
+import { selectAuth } from '../theme/reducers/auth.selectors';
+import { IUserStatus } from '../theme/models/user';
 import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
@@ -20,6 +20,8 @@ interface IDropNavItem {
     name?: string;
     url?: string;
     count?: number;
+    is_access?: boolean;
+    hidden?: boolean;
 }
 
 @Component({
@@ -55,6 +57,10 @@ export class FrontendComponent implements OnDestroy {
         {},
         {name: $localize `Help`, url: 'agreement'},
         {name: $localize `Settings`, url: 'user/setting'},
+        {
+            name: $localize `Backend`, url: '/backend',
+            hidden: true, is_access: true,
+        },
         {}
     ];
 
@@ -66,18 +72,21 @@ export class FrontendComponent implements OnDestroy {
         private toastrService: DialogService,
         private searchService: SearchService,
     ) {
-        this.store.select(getUserProfile).subscribe(res => {
+        this.store.select(selectAuth).subscribe(res => {
+            if (this.userLoading === res.isLoading && !this.user === res.guest) {
+                return;
+            }
             this.userLoading = res.isLoading;
             this.user = res.user as any;
-            if (!res.isLoading && res.user) {
+            if (!res.isLoading && !res.guest) {
                 this.authService.loadProfile('bulletin_count,today_checkin').subscribe(profile => {
                     this.user = profile;
                     this.dropNavItems[1].count = profile.bulletin_count;
-                    if (profile.is_admin) {
-                        this.dropNavItems.splice(this.dropNavItems.length - 1, 0, {
-                            name: $localize `Backend`, url: '/backend'
-                        });
-                    }
+                    this.dropNavItems.forEach(i => {
+                        if (i.is_access) {
+                            i.hidden = !profile.is_admin;
+                        }
+                    });
                 });
             }
         });

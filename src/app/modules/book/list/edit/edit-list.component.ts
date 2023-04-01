@@ -70,7 +70,7 @@ export class EditListComponent implements OnInit {
             return;
         }
         this.service.listSave(data).subscribe(res => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.router.navigate([data.id > 0 ? '../../' : '../'], {relativeTo: this.route});
         });
     }

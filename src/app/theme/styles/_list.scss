@@ -1,4 +1,24 @@
 .list-table {
+    .row-item,
+    .image-row-item {
+        .item-meta-bar {
+            float: left;
+            font-size: .8rem;
+            color: #555;
+            >a,
+            >span {
+                margin-right: .4rem;
+            }
+        }
+        .item-footer {
+            text-align: right;
+            line-height: 1.875rem;
+            .btn {
+                padding: 0 0.625rem;
+                line-height: 1.875rem;
+            }
+        }
+    }
     .row-item {
         position: relative;
         background-color: #fff;
@@ -42,17 +62,6 @@
         .item-body {
             color: #777;
             padding: 5px;
-        }
-        .item-footer {
-            text-align: right;
-            line-height: 1.875rem;
-            .status {
-                float: left;
-            }
-            .btn {
-                padding: 0 10px;
-                line-height: 30px;
-            }
         }
         &.thumb-item {
             padding-left: 5rem;
@@ -124,17 +133,7 @@
             color: #777;
             padding: 0.3125rem;
         }
-        .item-footer {
-            text-align: right;
-            line-height: 1.875rem;
-            .status {
-                float: left;
-            }
-            .btn {
-                padding: 0 0.625rem;
-                line-height: 1.875rem;
-            }
-        }
+        
     }
 }
 

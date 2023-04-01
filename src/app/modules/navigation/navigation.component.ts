@@ -7,7 +7,7 @@ import { AppState } from '../../theme/interfaces';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { SearchService } from '../../theme/services';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 import { IWebPage } from './model';
 import { NavigationService } from './navigation.service';
@@ -47,7 +47,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
         private searchService: SearchService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
         this.store.select(selectSystemConfig).subscribe(res => {

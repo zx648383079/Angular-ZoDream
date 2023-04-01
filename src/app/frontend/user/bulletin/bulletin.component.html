@@ -8,10 +8,17 @@
                 <app-rule-block [value]="item.bulletin.content" [rules]="item.bulletin.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
             </div>
             <div class="footer">
-                <span>发送者：{{ item.bulletin.user_name }}</span>
-                <span>发送时间：{{ item.created_at }}</span>
-                <span>状态：{{ item.status > 0 ? '已阅' : '未读' }}</span>
-                <a *ngIf="item.open && item.status > 0" (click)="tapRemove(item)">[删除]</a>
+                <span>
+                    <ng-container i18n>Sender:</ng-container>
+                    
+                    {{ item.bulletin.user_name }}</span>
+                <span>
+                    <ng-container i18n>Sent At:</ng-container>
+                    {{ item.created_at }}</span>
+                <span>
+                    <ng-container i18n>Status:</ng-container>
+                    <ng-container i18n>{item.status > 0, plural, =true {Readed} =false {UnRead}}</ng-container></span>
+                <a *ngIf="item.open && item.status > 0" (click)="tapRemove(item)" i18n>[Delete]</a>
             </div>
         </div>
     </ng-container>

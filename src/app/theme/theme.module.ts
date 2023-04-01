@@ -100,7 +100,6 @@ const PIPES = [
 ];
 
 const SERVICES = [
-    AuthService,
     DateAdapter,
     CookieService,
     DownloadService,
@@ -131,7 +130,6 @@ const DIRECTIVES = [
             multi: true
         },
         TransferStateService,
-        CanActivateViaAuthGuard,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,
@@ -151,6 +149,7 @@ export class ThemeModule {
             providers: [
                 SearchService,
                 ThemeService,
+                AuthService,
                 FileUploadService,
             ]
         };

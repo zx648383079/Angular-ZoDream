@@ -56,7 +56,7 @@ export class OptionComponent implements OnInit {
         }
         this.service.optionSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             },
             error: err => {
                 this.toastrService.error(err);

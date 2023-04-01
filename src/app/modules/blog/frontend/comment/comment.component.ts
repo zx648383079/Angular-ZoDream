@@ -8,7 +8,7 @@ import {
 } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
-import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
 import { BlogService } from '../blog.service';
 import { SearchService } from '../../../../theme/services';
@@ -59,7 +59,7 @@ export class CommentComponent implements OnChanges {
         private searchService: SearchService,
         private store: Store<AppState>,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
         this.loadGuestUser();

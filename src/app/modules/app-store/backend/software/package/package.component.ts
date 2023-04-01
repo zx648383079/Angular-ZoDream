@@ -57,8 +57,8 @@ export class PackageComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogEvent) {
-        this.editData = {
+    public open(modal: DialogEvent, item?: ISoftwarePackage) {
+        this.editData = item ? {...item} : {
             id: 0,
             name: '',
             app_id: this.software.id,
@@ -72,7 +72,7 @@ export class PackageComponent implements OnInit {
         modal.open(() => {
             this.service.packageSave(this.editData).subscribe({
                 next: () => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
                 },
                 error: err => {
@@ -142,7 +142,7 @@ export class PackageComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

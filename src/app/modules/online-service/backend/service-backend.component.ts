@@ -4,7 +4,7 @@ import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IEmoji } from '../../../theme/models/seo';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../theme/validators';
 import { ICategory, ICategoryUser, ISession, IWord } from '../model';
 import { OnlineBackendService } from './online.service';
@@ -45,7 +45,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         private service: OnlineBackendService,
         private toastrService: DialogService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }

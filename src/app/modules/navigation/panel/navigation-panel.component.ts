@@ -5,7 +5,7 @@ import { ISiteCollect, ISiteCollectGroup } from '../model';
 import { NavigationService } from '../navigation.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
-import { getUserProfile } from '../../../theme/reducers/auth.selectors';
+import { selectAuthStatus, selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { parseNumber } from '../../../theme/utils';
 
 const NavSaveKey = 'nsk';
@@ -34,9 +34,9 @@ export class NavigationPanelComponent {
         private store: Store<AppState>,
     ) {
         const mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
-        this.store.select(getUserProfile).subscribe(res => {
+        this.store.select(selectAuthStatus).subscribe(res => {
             if (!res.isLoading) {
-                this.loadAsync(!res.user);
+                this.loadAsync(res.guest);
             }
         });
         if (mode === 1) {

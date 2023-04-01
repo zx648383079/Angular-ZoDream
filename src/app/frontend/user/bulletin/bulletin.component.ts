@@ -52,7 +52,7 @@ export class BulletinComponent implements OnInit {
     }
 
     public tapReadAll() {
-        this.toastrService.confirm('确定把所有的消息标为已读？已读后仍可查看消息', () => {
+        this.toastrService.confirm($localize `Sure to mark all messages as read? Messages can still be viewed after they have been read`, () => {
             this.service.bulletinReadAll().subscribe(_ => {
                 this.items = this.items.map(i => {
                     if (i.status < 1) {
@@ -120,12 +120,12 @@ export class BulletinComponent implements OnInit {
     }
 
     public tapRemove(item: IBulletinUser) {
-        this.toastrService.confirm('确定删除“' + item.bulletin.title + '”消息？', () => {
+        this.toastrService.confirm($localize `Are you sure to delete "${item.bulletin.title}" bulletin？`, () => {
             this.service.bulletinRemove(item.bulletin_id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

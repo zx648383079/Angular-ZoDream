@@ -4,7 +4,7 @@ import { DialogService } from '../../../components/dialog';
 import { CountdownEvent } from '../../../components/form';
 import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../theme/validators';
 import { UserService } from '../user.service';
 
@@ -31,7 +31,7 @@ export class PasswordComponent implements OnInit {
         private service: UserService,
         private toastrService: DialogService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }
@@ -80,7 +80,7 @@ export class PasswordComponent implements OnInit {
 
     private verifyRole() {
         if (emptyValidate(this.data.verify_code)) {
-            this.toastrService.warning('请输入验证码');
+            this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         this.service.verifyCode({

@@ -73,7 +73,7 @@ export class EditMusicComponent implements OnInit {
         }
         this.service.musicSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: (err: IErrorResult) => {

@@ -96,7 +96,7 @@ export class EditCashBackComponent implements OnInit {
             data.scope = (data.scope as number[]).join(',');
         }
         this.service.cashBackSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

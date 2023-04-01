@@ -7,6 +7,7 @@ interface IAuthState {
     guest: boolean;
     isLoading: boolean;
     user: IUser;
+    token: string;
     roles: string[];
 }
 
@@ -17,6 +18,7 @@ export const AuthStateRecord = Record({
     guest: true,
     isLoading: false,
     user: null,
+    token: null,
     roles: [],
 });
 
@@ -32,6 +34,7 @@ export function reducer(state = initialState, { type, payload }: Action & { payl
                 guest: false,
                 isLoading: false,
                 user: payload,
+                token: payload.token,
                 roles: [],
             }) as AuthState;
         case AuthActions.CHECKING:
@@ -43,11 +46,16 @@ export function reducer(state = initialState, { type, payload }: Action & { payl
                 guest: true,
                 isLoading: false,
                 user: null,
+                token: null,
                 roles: [],
             }) as AuthState;
         case AuthActions.SET_ROLE:
             return state.merge({
                 roles: payload
+            });
+        case AuthActions.USER_UPDATE:
+            return state.merge({
+                user: payload
             });
         default:
             return state;

@@ -2,12 +2,12 @@ import { INav } from '../../../theme/components';
 
 export const VisualMemberMenu: INav[] = [
     {
-        name: '我的组件',
+        name: $localize `My Components`,
         icon: 'icon-zuhe',
         url: './',
     },
     {
-        name: '我的站点',
+        name: $localize `My Sites`,
         icon: 'icon-globe',
         url: './site',
     },

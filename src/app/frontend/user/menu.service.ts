@@ -27,10 +27,12 @@ export class MenuService {
         0: [
             {
                 name: $localize `Overview`,
+                icon: 'icon-home',
                 url: 'home',
             },
             {
                 name: $localize `Bulletin`,
+                icon: 'icon-commenting',
                 url: 'bulletin'
             },
         ],
@@ -45,18 +47,22 @@ export class MenuService {
         1: [
             {
                 name: $localize `Thirdparty App`,
+                icon: 'icon-rocket',
                 url: 'authorize'
             },
             {
-                name: 'Account Binding',
+                name: $localize `Account Binding`,
+                icon: 'icon-chain',
                 url: 'connect'
             },
             {
-                name: 'Login Driver',
+                name: $localize `Login Drive`,
+                icon: 'icon-mobile',
                 url: 'driver'
             },
             {
                 name: $localize `Setting`,
+                icon: 'icon-cog',
                 url: 'setting'
             }
         ],

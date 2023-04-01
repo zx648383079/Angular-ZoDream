@@ -36,6 +36,8 @@ import { IDataOne } from '../models/page';
 import { catchError, map } from 'rxjs/operators';
 import { DialogService } from '../../components/dialog';
 import { setSystemConfig } from '../actions/system.actions';
+import { selectAuth } from '../reducers/auth.selectors';
+import { Router } from '@angular/router';
 
 const USER_KEY = 'user';
 
@@ -46,9 +48,39 @@ export class AuthService {
         private http: HttpClient,
         private actions: AuthActions,
         private store: Store<AppState>,
+        private router: Router,
         private toastrService: DialogService,
         private cookieService: CookieService,
         @Inject(PLATFORM_ID) private platformId: any) {}
+
+    
+    /**
+     * 是否能跳转到路径
+     * @param uri 当前的网址
+     * @param roles 需要的权限
+     * @returns 
+     */
+    public canActivate(uri: string, ...roles: string[]) {
+        return this.store
+        .select(selectAuth)
+        .pipe(map(res => {
+            if (res.guest) {
+                return this.router.createUrlTree(['/auth'], {queryParams: {redirect_uri: uri}});
+            }
+            if (roles.length === 0) {
+                return true;
+            }
+            if (res.roles) {
+                for (const item of roles) {
+                    if (res.roles.indexOf(item)) {
+                        return true;
+                    }
+                }
+            }
+            this.toastrService.error($localize `No permission to access`);
+            return false;
+        }));
+    }
 
     public login(data: any): Observable<IUser> {
         this.store.dispatch(this.actions.checking());
@@ -131,7 +163,14 @@ export class AuthService {
     public loadProfile(extra: string) {
         return this.http.get<IUserStatus>('auth/user', {
             params: {extra}
-        });
+        }).pipe(
+            map(res => {
+                if (res) {
+                    this.store.dispatch(this.actions.update(res));
+                }
+                return res;
+            })
+        );
     }
 
     /**

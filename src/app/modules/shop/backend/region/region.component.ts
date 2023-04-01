@@ -100,7 +100,7 @@ export class RegionComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });
@@ -138,7 +138,7 @@ export class RegionComponent implements OnInit {
                 full_name: (this.parent ? this.parent.full_name + ' ' : '') + this.editData.name,
                 id: this.editData?.id
             }).subscribe(_ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
         }, () => !emptyValidate(this.editData.name));

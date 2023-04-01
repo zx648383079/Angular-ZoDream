@@ -6,9 +6,16 @@ import { IUser } from '../../theme/models/user';
 export const BLOG_OPEN_KEY = 'b_o_k';
 
 export const PublishStatusItems: IItem[] = [
-    {name: '草稿状态', value: 0},
-    {name: '发布状态', value: 5},
-    {name: '回收站', value: 9},
+    {name: $localize `As a draft`, value: 0},
+    {name: $localize `Published`, value: 5},
+    {name: $localize `As a trash`, value: 9},
+];
+
+export const OpenTypeItems: IItem[] = [
+    {name: $localize `Open`, value: 0},
+    {name: $localize `Just login`, value: 1},
+    {name: $localize `Password`, value: 5},
+    {name: $localize `Buy`, value: 6},
 ];
 
 export interface ISubtotal {

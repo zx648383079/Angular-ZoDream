@@ -46,6 +46,7 @@
                     <td>{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -58,7 +59,7 @@
     </div>
 </div>
 
-<app-dialog-box #modal title="新增程序包">
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑程序包' : '新增程序包'">
     <div class="form-group">
         <label>目标系统</label>
         <div class="form-control-group">

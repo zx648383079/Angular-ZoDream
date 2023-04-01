@@ -133,7 +133,7 @@ export class PageEditorComponent implements OnInit {
                 this.data = {...this.data, ...res};
                 this.items = res.rule_value as any;
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             },
             error: err => {
                 e?.reset();

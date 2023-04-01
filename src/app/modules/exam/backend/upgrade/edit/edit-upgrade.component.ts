@@ -90,7 +90,7 @@ export class EditUpgradeComponent implements OnInit {
         e?.enter();
         this.service.upgradeSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

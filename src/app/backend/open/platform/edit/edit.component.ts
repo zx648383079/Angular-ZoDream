@@ -128,7 +128,7 @@ export class EditComponent implements OnInit {
         cb.call(this.service, data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

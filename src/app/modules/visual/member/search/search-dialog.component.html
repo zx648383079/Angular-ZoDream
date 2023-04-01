@@ -3,7 +3,7 @@
     <div class="search-bar">
         <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
                 <select name="category" class="form-control" [ngModel]="queries.category" class="form-control">
                     <option [value]="0">--请选择分类--</option>
                     <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -11,7 +11,7 @@
                 <select name="type" class="form-control" [ngModel]="queries.type" class="form-control">
                     <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                 </select>
-                <button type="submit" class="btn btn-primary">搜索</button>
+                <button type="submit" class="btn btn-primary" i18n>Search</button>
                 <a class="btn" [ngClass]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()">只显示选中({{ selectedCount }})</a>
                 <div class="btn btn-danger" (click)="close()">
                     <i class="iconfont icon-close"></i>

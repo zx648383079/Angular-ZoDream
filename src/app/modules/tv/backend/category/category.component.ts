@@ -38,7 +38,7 @@ export class CategoryComponent implements OnInit {
         modal.open(() => {
             this.service.categorySave(this.editData).subscribe({
                 next: () => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.load();
                 },
                 error: err => {

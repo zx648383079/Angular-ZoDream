@@ -91,7 +91,7 @@ export class EditComponent implements OnInit {
         this.service.taskSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {
@@ -121,7 +121,7 @@ export class EditComponent implements OnInit {
                 every_time: this.data?.every_time,
             }).subscribe({
                     next: res => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.items.push(res);
                 }, error: err => {
                     this.toastrService.warning(err.message);
@@ -138,7 +138,7 @@ export class EditComponent implements OnInit {
             if (!res.data) {
                 return;
             }
-            this.toastrService.success('删除成功');
+            this.toastrService.success($localize `Delete Successfully`);
             this.items = this.items.filter(it => {
                 return it.id !== item.id;
             });

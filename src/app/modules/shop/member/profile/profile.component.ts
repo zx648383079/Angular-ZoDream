@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit {
         const data: any = Object.assign({}, this.form.value);
         this.service.updateProfile(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             }, error: err => {
                 this.toastrService.warning(err.error.message);
             }

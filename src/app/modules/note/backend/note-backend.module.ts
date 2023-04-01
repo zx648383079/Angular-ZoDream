@@ -4,13 +4,17 @@ import { noteRoutingComponents, NoteRoutingModule } from './backend-routing.modu
 import { NoteService } from './note.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ZreFormModule } from '../../../components/form';
+import { ZreEditorModule } from '../../../components/editor';
+import { DialogModule } from '../../../components/dialog';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         ZreFormModule,
+        DialogModule,
         NoteRoutingModule,
+        ZreEditorModule,
     ],
     declarations: [...noteRoutingComponents],
     providers: [

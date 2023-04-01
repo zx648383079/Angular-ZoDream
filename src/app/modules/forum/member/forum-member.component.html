@@ -1,7 +1,7 @@
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
-        <button type="submit" class="btn btn-primary">搜索</button>
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
 </div>
 
@@ -13,12 +13,13 @@
                 <span class="title">{{ item.title }}</span>
             </div>
             <div class="item-footer">
-                <div class="status">
+                <div class="item-meta-bar">
                     <span class="time"><i class="iconfont icon-bookmark"></i><b>{{ item.forum?.name }}</b></span>
                     <span class="time"><i class="iconfont icon-clock-o"></i><b>{{ item.created_at | ago }}</b></span>
                 </div>
                 <div class="btn-group">
-                    <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                    <a class="btn btn-info" [routerLink]="['../../forum/thread', item.id]" i18n>View</a>
+                    <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                 </div>
             </div>
         </div>

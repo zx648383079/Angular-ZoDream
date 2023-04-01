@@ -113,7 +113,7 @@ export class EditCouponComponent implements OnInit {
             data.rule_value = (data.rule_value as number[]).join(',');
         }
         this.service.couponSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

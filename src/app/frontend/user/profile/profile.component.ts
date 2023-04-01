@@ -62,13 +62,13 @@ export class ProfileComponent implements OnInit {
 
     public tapSubmit() {
         if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete form filling`);
             return;
         }
         const data: any = Object.assign({}, this.form.value);
         this.service.updateProfile(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             }, error: err => {
                 this.toastrService.warning(err.error.message);
             }
@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
             this.user = res;
-            this.toastrService.success('头像已更换');
+            this.toastrService.success($localize `Avatar has been changed`);
         });
     }
 

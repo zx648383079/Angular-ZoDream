@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IBlog, ICategory, ITag, PublishStatusItems } from '../../model';
+import { IBlog, ICategory, ITag, OpenTypeItems, PublishStatusItems } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -51,7 +51,8 @@ export class EditBlogComponent implements OnInit, OnDestroy {
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
     public tags: ITag[] = [];
-    public statusItems: any[] = PublishStatusItems;
+    public statusItems = PublishStatusItems;
+    public openItems = OpenTypeItems;
 
     constructor(
         private fb: FormBuilder,
@@ -155,12 +156,12 @@ export class EditBlogComponent implements OnInit, OnDestroy {
             return '';
         }
         if (val === 5) {
-            return '阅读密码';
+            return $localize `Password for read`;
         }
         if (val === 6) {
-            return '购买价格';
+            return $localize `Price for buy`;
         }
-        return '规则';
+        return $localize `Rule`;
     }
 
     public addTagFn(name: string) {
@@ -173,7 +174,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
 
     public tapSubmit(e?: ButtonEvent, status?: number) {
         if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: IBlog = Object.assign({}, this.form.value) as any;
@@ -191,7 +192,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         this.service.blogSave(data).subscribe({
             next: _ => {
                 e.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

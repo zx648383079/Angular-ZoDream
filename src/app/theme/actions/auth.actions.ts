@@ -5,20 +5,26 @@ export class AuthActions {
     static CHECKING = 'CHECKING';
     static LOGOUT = 'LOGOUT';
     static SET_ROLE = 'SET_ROLE';
+    static USER_UPDATE = 'UPDATE';
 
-    login(user: IUser) {
+    public login(user: IUser) {
         return { type: AuthActions.LOGIN, payload: user };
     }
 
-    checking(loading = true) {
+    /* 容易造成死循环*/
+    public update(user: IUser) {
+        return { type: AuthActions.USER_UPDATE, payload: user };
+    }
+
+    public checking(loading = true) {
         return { type: AuthActions.CHECKING, payload: loading };
     }
 
-    logout() {
+    public logout() {
         return { type: AuthActions.LOGOUT };
     }
 
-    setRole(roles: string[]) {
+    public setRole(roles: string[]) {
         return { type: AuthActions.SET_ROLE, payload: roles};
     }
 }

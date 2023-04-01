@@ -9,10 +9,10 @@
         </div>
         <div class="item-action">
             <ng-container *ngIf="item.id; else elseTemplate">
-                <a class="unlink-btn">解绑</a>
+                <a class="unlink-btn" i18n>Unbind</a>
             </ng-container>
             <ng-template #elseTemplate>
-                <a >绑定</a>
+                <a i18n>Binding</a>
             </ng-template>
         </div>
     </div>

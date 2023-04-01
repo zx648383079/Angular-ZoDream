@@ -8,7 +8,7 @@ import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { openLink } from '../../theme/deeplink';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { IUser } from '../../theme/models/user';
 import { DialogBoxComponent } from '../../components/dialog';
 import { IBlockItem } from '../../components/link-rule';
@@ -69,7 +69,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
     ) {
         this.themeService.setTitle($localize `Micro Blog`);
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });
     }

@@ -143,7 +143,7 @@ export class PageEditComponent implements OnInit {
         this.service.pageSave(data).subscribe({
             next: res => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.data = res;
                 this.appendData(res);
             },
@@ -194,7 +194,7 @@ export class PageEditComponent implements OnInit {
             if (!res.data) {
                 return;
             }
-            this.toastrService.success('删除成功');
+            this.toastrService.success($localize `Delete Successfully`);
             const removeItem = (id: number, items: IDocPage[]) => {
                 for (let i = 0; i < items.length; i++) {
                     const element = items[i];

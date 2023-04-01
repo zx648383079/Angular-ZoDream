@@ -2,7 +2,7 @@ import { INav } from '../../../theme/components';
 
 export const MicroMemberMenu: INav[] = [
     {
-        name: '我的博文',
+        name: $localize `My Posts`,
         icon: 'icon-at',
         url: './',
     },

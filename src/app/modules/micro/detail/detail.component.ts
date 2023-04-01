@@ -6,7 +6,7 @@ import { AppState } from '../../../theme/interfaces';
 import { IComment, IMicro } from '../model';
 import { IErrorResult } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 import { emptyValidate } from '../../../theme/validators';
 import { openLink } from '../../../theme/deeplink';
@@ -35,7 +35,7 @@ export class DetailComponent implements OnInit {
         private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });
     }

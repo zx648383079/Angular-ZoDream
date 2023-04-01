@@ -1,7 +1,7 @@
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
-        <button type="submit" class="btn btn-primary">搜索</button>
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
     <div class="btn-group pull-right">
         <a class="btn btn-success" (click)="open(modal)">新增站点</a>
@@ -23,14 +23,14 @@
                     <p>{{ item.description }}</p>
                 </div>
                 <div class="item-footer">
-                    <div class="status">
+                    <div class="item-meta-bar">
                         <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
                     </div>
                     <div class="btn-group">
                         <a class="btn btn-success btn-xs" [routerLink]="[item.id, 'weight']">组件</a>
                         <a class="btn btn-primary btn-xs" [routerLink]="[item.id, 'page']">页面</a>
                         <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
-                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                     </div>
                 </div>
             </div>

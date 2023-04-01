@@ -1,42 +1,24 @@
-import { Subscription ,  Observable } from 'rxjs';
-import { Injectable, OnDestroy } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from '../interfaces';
-import { getAuthStatus } from '../reducers/auth.selectors';
-import { ThemeService } from '../services';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
+import { AuthService } from '../services';
 
+/**
+ * 需要登录才能访问的页面控制
+ * @param _ 
+ * @param state 
+ * @returns 
+ */
+export const CanActivateViaAuthGuard: CanActivateFn = (_, state) => {
+    return inject(AuthService).canActivate(state.url);
+};
 
-@Injectable()
-export class CanActivateViaAuthGuard implements CanActivate, OnDestroy {
-    isAuthenticated: boolean;
-    subscription: Subscription;
-
-    constructor(
-        private store: Store<AppState>,
-        private router: Router,
-        private theme: ThemeService,
-    ) {
+/**
+ * 需要有某种权限才能访问的页面控制
+ * @param roles 
+ * @returns 
+ */
+export function CanActivateAuthRole(...roles: string[]): CanActivateFn {
+    return (_, state) => {
+        return inject(AuthService).canActivate(state.url, ...roles);
     }
-
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        this.subscription = this.store
-        .select(getAuthStatus)
-        .subscribe(isAuthenticated => {
-            this.isAuthenticated = isAuthenticated;
-            if (!isAuthenticated) {
-                this.router.navigate(
-                    [this.theme.isMobile() ? '/auth' : '/auth'],
-                    { queryParams: { redirect_uri: state.url }}
-                );
-            }
-        });
-
-        return this.isAuthenticated;
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
 }

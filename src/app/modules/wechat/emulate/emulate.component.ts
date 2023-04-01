@@ -5,7 +5,7 @@ import { DialogService } from '../../../components/dialog';
 import { MessageContainerComponent, IMessageBase } from '../../../components/message-container';
 import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { IWeChatAccount, IWeChatMenuItem } from '../model';
@@ -39,7 +39,7 @@ export class EmulateComponent implements OnInit {
         private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             if (user) {
                 this.user = user;
             }

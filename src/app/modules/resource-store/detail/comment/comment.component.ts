@@ -5,7 +5,7 @@ import { ButtonEvent } from '../../../../components/form';
 import { AppState } from '../../../../theme/interfaces';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
-import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
 import { IComment } from '../../model';
 import { ResourceService } from '../../resource.service';
@@ -42,7 +42,7 @@ export class CommentComponent implements OnChanges {
         private store: Store<AppState>,
         private toastrService: DialogService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }

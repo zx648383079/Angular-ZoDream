@@ -69,7 +69,7 @@ export class ChapterDetailComponent implements OnInit {
         data.book_id = this.data.book_id;
         data.size = wordLength(data.content);
         this.service.chapterSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

@@ -78,7 +78,7 @@ export class EditPaymentComponent implements OnInit {
         this.service.paymentSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

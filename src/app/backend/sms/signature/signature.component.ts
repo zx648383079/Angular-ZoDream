@@ -86,7 +86,7 @@ export class SignatureComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });
@@ -112,7 +112,7 @@ export class SignatureComponent implements OnInit {
                 id: this.editData?.id
             }).subscribe({
                 next: res => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
                 },
                 error: err => {

@@ -53,7 +53,7 @@ export class WordComponent implements OnInit {
         };
         modal.open(() => {
             this.service.wordSave(this.editData).subscribe(_ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
         }, () => !emptyValidate(this.editData.content));
@@ -102,7 +102,7 @@ export class WordComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

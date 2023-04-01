@@ -100,7 +100,7 @@ export class EditPageComponent implements OnInit {
         e?.enter();
         this.service.pageSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

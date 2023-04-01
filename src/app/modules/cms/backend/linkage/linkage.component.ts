@@ -48,7 +48,7 @@ export class LinkageComponent implements OnInit {
         };
         modal.open(() => {
             this.service.linkageSave(this.editData).subscribe(_ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
         }, () => !emptyValidate(this.editData.name) && !emptyValidate(this.editData.code));
@@ -99,7 +99,7 @@ export class LinkageComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

@@ -20,7 +20,7 @@ import {
     AuthService, ThemeService
 } from '../../../theme/services';
 import {
-    getAuthStatus
+    selectAuthStatus
 } from '../../../theme/reducers/auth.selectors';
 import {
     FormBuilder,
@@ -186,9 +186,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     private redirectIfUserLoggedIn() {
-        this.store.select(getAuthStatus).subscribe(
+        this.store.select(selectAuthStatus).subscribe(
             data => {
-                if (data === true) {
+                if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);
                 }
             }

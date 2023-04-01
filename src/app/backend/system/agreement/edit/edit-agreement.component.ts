@@ -52,7 +52,7 @@ export class EditAgreementComponent implements OnInit {
         this.service.agreementSave(this.data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

@@ -30,20 +30,20 @@ export class SettingComponent implements OnInit {
         {
             id: 3,
             icon: 'user',
-            name: '账户资料',
-            meta: '编辑用户信息、修改密码、授权管理、账户关联、登录设备管理',
+            name: $localize `Account Information`,
+            meta: $localize `Edit user information, change password, authorization management, account association, login device management`,
         },
         {
             id: 2,
             icon: 'shield',
-            name: '安全隐私',
-            meta: '动态时效、上传水印',
+            name: $localize `Security and privacy`,
+            meta: $localize `Dynamic timing, upload watermark`,
         },
         {
             id: 1,
             icon: 'commenting',
-            name: '消息通知',
-            meta: '新消息通知、勿扰模式',
+            name: $localize `Message Notification`,
+            meta: $localize `New message notification, Do Not Disturb mode`,
         },
     ];
 
@@ -88,7 +88,7 @@ export class SettingComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         if (!this.isChanged) {
-            this.toastrService.warning('表单填写未改变');
+            this.toastrService.warning($localize `Form filling unchanged`);
             return;
         }
         e?.enter();
@@ -96,7 +96,7 @@ export class SettingComponent implements OnInit {
         this.service.settingsSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save successfully`);
                 this.isChanged = false;
             }, error: err => {
                 e?.reset();

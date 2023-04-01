@@ -35,13 +35,14 @@ export class BindStepComponent implements OnChanges {
     }
 
     public get verifyLabel() {
-        return '原' + this.formatLabel(this.data.verify_type);
+        const label = this.formatLabel(this.data.verify_type)
+        return $localize `Old ${label}`;
     }
 
     private formatLabel(name: string) {
         const maps = {
-            email: '邮箱',
-            mobile: '手机号'
+            email: $localize `Email`,
+            mobile: $localize `Phone`
         };
         return Object.prototype.hasOwnProperty.call(maps, name) ? maps[name] : '--';
     }
@@ -114,14 +115,14 @@ export class BindStepComponent implements OnChanges {
 
     private verifyValue(): boolean {
         if (emptyValidate(this.data.value)) {
-            this.toastrService.warning('请输入' + this.nameLabel);
+            this.toastrService.warning($localize `Please input ${this.nameLabel}`);
             return false;
         }
         if (
             (this.name === 'email' && !emailValidate(this.data.value)) ||
             (this.name === 'mobile' && !mobileValidate(this.data.value))
         ) {
-            this.toastrService.warning('请输入正确的' + this.nameLabel);
+            this.toastrService.warning($localize `Please input valid ${this.nameLabel}`);
             return false;
         }
         return true;
@@ -132,7 +133,7 @@ export class BindStepComponent implements OnChanges {
             return;
         }
         if (emptyValidate(this.data.code)) {
-            this.toastrService.warning('请输入验证码');
+            this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         // 提交数据进行更改
@@ -148,7 +149,7 @@ export class BindStepComponent implements OnChanges {
 
     private verifyRole() {
         if (emptyValidate(this.data.verify)) {
-            this.toastrService.warning('请输入验证码');
+            this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         this.service.verifyCode({

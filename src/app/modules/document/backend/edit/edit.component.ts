@@ -70,7 +70,7 @@ export class EditComponent implements OnInit {
         this.service.projectSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 history.back();
             },
             error: err => {

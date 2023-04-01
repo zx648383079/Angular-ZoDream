@@ -291,7 +291,7 @@ export class BookEditorComponent implements OnInit {
     public tapRemove(item: IChapter) {
         this.toastrService.confirm('确定要删除“' + item.title + '”章节？', () => {
             this.service.selfRemoveChapter(item.id).subscribe(_ => {
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.removeItem(item);
             });
         });

@@ -19,7 +19,7 @@ import {
     AppState
 } from '../../../theme/interfaces';
 import {
-    getCurrentUser
+    selectAuthUser
 } from '../../../theme/reducers/auth.selectors';
 import {
     IUser
@@ -83,7 +83,7 @@ export class ThreadComponent implements OnInit {
         private searchService: SearchService,
         private themeService: ThemeService
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }

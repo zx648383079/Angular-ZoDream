@@ -109,10 +109,7 @@ export class HomeComponent {
             name: $localize `WeChat`,
             url: '/wx'
         },
-        {
-            name: $localize `Generator`,
-            url: '/gzo'
-        },
+        
     ];
 
     constructor(
@@ -121,6 +118,9 @@ export class HomeComponent {
         this.themeService.setTitle($localize `Home`);
         if (!environment.production) {
             this.linkItems.push({
+                name: $localize `Generator`,
+                url: '/gzo'
+            }, {
                 name: $localize `Backend`,
                 url: '/backend'
             });

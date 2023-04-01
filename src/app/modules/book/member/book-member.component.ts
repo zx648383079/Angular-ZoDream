@@ -5,7 +5,7 @@ import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IErrorResult } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 import { IAuthorProfile, IBook } from '../model';
@@ -29,7 +29,7 @@ export class BookMemberComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: DialogService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }

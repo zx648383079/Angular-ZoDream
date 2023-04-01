@@ -12,8 +12,8 @@ import {
     Store
 } from '@ngrx/store';
 import {
-    getCurrentUser,
-    getUserRole
+    selectAuthUser,
+    selectAuthRole
 } from '../theme/reducers/auth.selectors';
 import {
     BackendService
@@ -46,11 +46,11 @@ export class BackendComponent implements OnInit {
             this.navItems = res.items;
             this.bottomNavs = res.bottom;
         });
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.menuService.setUser(user);
         });
         // 订阅 roles 变化
-        this.store.select(getUserRole).subscribe(roles => {
+        this.store.select(selectAuthRole).subscribe(roles => {
             this.menuService.setRole(roles);
         });
         this.service.roles().subscribe(res => {

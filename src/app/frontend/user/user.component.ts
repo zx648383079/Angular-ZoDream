@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
-import { UserService } from './user.service';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { INav } from '../../theme/components';
@@ -25,12 +24,12 @@ export class UserComponent implements OnInit, OnDestroy {
 
     constructor(
         private store: Store<AppState>,
-        private service: UserService,
+        // private service: UserService,
         private router: Router,
         private menuService: MenuService,
         private searchService: SearchService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
         this.menuService.change$.subscribe(res => {
@@ -46,9 +45,9 @@ export class UserComponent implements OnInit, OnDestroy {
             }, 100);
         });
         this.menuService.refresh();
-        this.service.profile().subscribe(res => {
-            this.user = res;
-        });
+        // this.service.profile().subscribe(res => {
+        //     this.user = res;
+        // });
         this.router.events.subscribe((event: NavigationEnd) => {
             if (event instanceof ActivationEnd) {// 当导航成功结束时执行
                 this.menuService.refresh();

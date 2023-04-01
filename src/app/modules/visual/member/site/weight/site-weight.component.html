@@ -1,11 +1,11 @@
 
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
         <select name="type" [ngModel]="queries.type" class="form-control">
             <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
         </select>
-        <button type="submit" class="btn btn-primary">搜索</button>
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
     <div class="btn-group pull-right">
         <a class="btn btn-info" (click)="tapBack()">返回</a>
@@ -30,7 +30,7 @@
                 <div class="item-footer">
                     <div class="btn-group">
                         <a class="btn btn-success" *ngIf="item.type < 1" (click)="tapCreate(pageModal, item)">创建页面</a>
-                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INav } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 
 @Component({
@@ -121,7 +121,7 @@ export class GeneratorComponent implements OnInit {
         private store: Store<AppState>,
         private themeService: ThemeService,) {
         this.themeService.setTitle($localize `Generator`);
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }

@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit {
     public onHotChange(item: ICategory) {
         this.service.categorySave(item).subscribe({
             next: () => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -49,7 +49,7 @@ export class CategoryComponent implements OnInit {
         modal.open(() => {
             this.service.categorySave(this.editData).subscribe({
                 next: () => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.load();
                 },
                 error: err => {

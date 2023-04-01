@@ -5,7 +5,7 @@ import { VisualService } from '../../visual.service';
 import { SearchService } from '../../../../../theme/services';
 import { AppState } from '../../../../../theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getAuthStatus } from '../../../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 
@@ -37,9 +37,9 @@ export class AddDialogComponent {
         private store: Store<AppState>,
         private toastrService: DialogService,
     ) {
-        this.store.select(getAuthStatus).subscribe(
+        this.store.select(selectAuthStatus).subscribe(
             data => {
-                this.isGuest = data !== true
+                this.isGuest = data.guest
             }
         );
     }

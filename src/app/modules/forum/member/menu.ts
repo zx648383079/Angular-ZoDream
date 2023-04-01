@@ -2,7 +2,7 @@ import { INav } from '../../../theme/components';
 
 export const ForumMemberMenu: INav[] = [
     {
-        name: '我的帖子',
+        name: $localize `My Threads`,
         icon: 'icon-smile-o',
         url: './',
     },

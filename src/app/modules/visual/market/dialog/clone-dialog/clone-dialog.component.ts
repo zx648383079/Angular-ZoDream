@@ -4,7 +4,7 @@ import { VisualService } from '../../visual.service';
 import { SearchService } from '../../../../../theme/services';
 import { AppState } from '../../../../../theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getAuthStatus } from '../../../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
 import { ButtonEvent } from '../../../../../components/form';
 import { DialogService } from '../../../../../components/dialog';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -27,9 +27,9 @@ export class CloneDialogComponent {
         private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
-        this.store.select(getAuthStatus).subscribe(
+        this.store.select(selectAuthStatus).subscribe(
             data => {
-                this.isGuest = data !== true
+                this.isGuest = data.guest
             }
         );
     }

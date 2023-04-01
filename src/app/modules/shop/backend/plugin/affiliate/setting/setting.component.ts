@@ -40,7 +40,7 @@ export class SettingComponent implements OnInit {
         this.service.optionSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

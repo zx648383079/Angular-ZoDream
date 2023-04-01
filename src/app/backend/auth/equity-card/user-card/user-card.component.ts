@@ -59,7 +59,7 @@ export class UserCardComponent implements OnInit {
         };
         modal.open(() => {
             this.service.userCardUpdate({...this.editData, user_id: this.user.id}).subscribe(_ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
         }, () => {

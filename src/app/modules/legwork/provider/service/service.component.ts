@@ -42,7 +42,7 @@ export class ServiceComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success($localize `Delete successfully`);
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

@@ -154,7 +154,7 @@ export class ShareDetailComponent implements OnInit {
             if (!res.data) {
                 return;
             }
-            this.toastrService.success('删除成功');
+            this.toastrService.success($localize `Delete Successfully`);
             this.userItems = this.userItems.filter(it => {
                 return it.id !== item.id;
             });

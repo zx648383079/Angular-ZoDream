@@ -46,7 +46,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisible}">
                                 <ng-container *ngFor="let item of dropNavItems">
                                     <ng-container *ngIf="item.name; else elseTemplate">
-                                        <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
+                                        <li ngbDropdownItem *ngIf="!item.hidden" (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
                                             {{ item.name }}
                                             <ng-container *ngIf="item.count > 0">
                                                 <em class="bubble">{{ item.count  > 99 ? '99+' : item.count }}</em>

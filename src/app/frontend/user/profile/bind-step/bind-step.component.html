@@ -1,17 +1,17 @@
 <div class="step-header">
     <a class="step-item" [ngClass]="{active: stepIndex < 1}">
         <span class="step-no">1</span>
-        <span class="step-title">验证身份</span>
+        <span class="step-title" i18n>Verify</span>
         <i class="step-line"></i>
     </a>
     <a class="step-item" [ngClass]="{active: stepIndex == 1}">
         <span class="step-no">2</span>
-        <span class="step-title">绑定{{ nameLabel }}</span>
+        <span class="step-title" i18n>Binding {{ nameLabel }}</span>
         <i class="step-line"></i>
     </a>
     <a class="step-item" [ngClass]="{active: stepIndex > 1}">
         <span class="step-no">3</span>
-        <span class="step-title">绑定成功</span>
+        <span class="step-title" i18n>Finish</span>
     </a>
 </div>
 
@@ -25,11 +25,11 @@
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
     </div>
 
-    <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
+    <div class="btn btn-primary line-btn" (click)="tapNext()" i18n>Next</div>
 </div>
 <div class="step-body min-body" *ngIf="stepIndex == 1">
     <div class="inline-input">
-        <label for="">新{{ nameLabel }}</label>
+        <label for="" i18n>New {{ nameLabel }}</label>
         <input type="text" [(ngModel)]="data.value">
     </div>
     <div class="code-input">
@@ -37,11 +37,12 @@
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
     </div>
 
-    <div class="btn btn-primary line-btn" (click)="tapNext()">下一步</div>
+    <div class="btn btn-primary line-btn" (click)="tapNext()" i18n>Next</div>
 </div>
 <div class="step-body min-body" *ngIf="stepIndex > 1">
     <div class="step-tip">
         <i class="iconfont icon-check"></i>
-        绑定成功
+        <ng-container i18n>Binding Successfully</ng-container>
+        
     </div>
 </div>

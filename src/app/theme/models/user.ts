@@ -20,6 +20,7 @@ export interface IUser {
     is_admin?: boolean;
     is_verified?: boolean;
     card_items?: IUserCard[];
+    country?: string;
 }
 
 export interface IUserCard {

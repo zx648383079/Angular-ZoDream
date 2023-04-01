@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { INav } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ICategory } from './model';
 import { ResourceService } from './resource.service';
 
@@ -36,7 +36,7 @@ export class ResourceStoreComponent implements OnInit {
 
     ngOnInit() {
         this.searchVisible = window.location.pathname.indexOf('category') > 0;
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
         this.router.events.subscribe(event => {

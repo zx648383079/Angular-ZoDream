@@ -18,6 +18,10 @@ export class NoteService {
         return this.http.post<INote>('note/admin/home/change', {id, data});
     }
 
+    public noteSave(data: any) {
+        return this.http.post<INote>('note/admin/home/save', data);
+    }
+
     public noteRemove(id: any) {
         return this.http.delete<IDataOne<true>>('note/admin/home/delete', {
             params: {id}

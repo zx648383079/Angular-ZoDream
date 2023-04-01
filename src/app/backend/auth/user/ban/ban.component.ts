@@ -5,7 +5,7 @@ import { DialogService } from '../../../../components/dialog';
 import { AppState } from '../../../../theme/interfaces';
 import { IBanAccount } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
-import { getUserRole } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthRole } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../theme/services';
 
@@ -34,7 +34,7 @@ export class BanComponent implements OnInit {
         private store: Store<AppState>,
         private searchService: SearchService,
     ) {
-        this.store.select(getUserRole).subscribe(roles => {
+        this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
         });
     }
@@ -98,7 +98,7 @@ export class BanComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

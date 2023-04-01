@@ -109,7 +109,7 @@ export class EditAdComponent implements OnInit {
         data.start_at = this.dateAdapter.toModel(data.start_at as any);
         data.end_at = this.dateAdapter.toModel(data.end_at as any);
         this.service.adSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

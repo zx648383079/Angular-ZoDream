@@ -7,7 +7,7 @@ import { DialogAnimation } from '../../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../model';
 import { IUser } from '../../../../theme/models/user';
-import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { setCart, setCheckoutCart } from '../../shop.actions';
@@ -85,7 +85,7 @@ export class CashierComponent implements OnInit {
     }
 
     private load() {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
         this.service.addressList({}).subscribe(res => {

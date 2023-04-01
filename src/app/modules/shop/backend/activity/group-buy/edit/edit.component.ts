@@ -84,7 +84,7 @@ export class EditGroupBuyComponent implements OnInit {
             data.configure.step = data.step;
         }
         this.service.groupBuySave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

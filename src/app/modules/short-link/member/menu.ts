@@ -2,7 +2,7 @@ import { INav } from '../../../theme/components';
 
 export const ShortLinkMemberMenu: INav[] = [
     {
-        name: '我的短链接',
+        name: $localize `My Short Links`,
         icon: 'icon-chain',
         url: './',
     },

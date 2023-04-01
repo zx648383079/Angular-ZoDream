@@ -102,7 +102,7 @@ export class EditLotteryComponent implements OnInit {
             return;
         }
         this.service.lotterySave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

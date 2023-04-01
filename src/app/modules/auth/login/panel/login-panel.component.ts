@@ -7,7 +7,7 @@ import { ButtonEvent, CountdownEvent } from '../../../../components/form';
 import { AppState } from '../../../../theme/interfaces';
 import { IErrorResponse, IErrorResult } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
-import { getCurrentUser } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../../theme/services';
 import { getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
@@ -40,7 +40,7 @@ export class LoginPanelComponent {
         private toastrService: DialogService,
         private authService: AuthService,
     ) {
-        this.store.select(getCurrentUser).subscribe(res => {
+        this.store.select(selectAuthUser).subscribe(res => {
             if (!res) {
                 return;
             }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../theme/models/seo';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../theme/services';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
@@ -24,7 +24,7 @@ export class MemberComponent {
         private store: Store<ShopAppState>,
         private authService: AuthService,
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             if (!user || !user.id) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;

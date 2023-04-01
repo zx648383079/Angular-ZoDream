@@ -7,7 +7,7 @@ import { DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
-import { getCurrentUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { IUser } from '../../../theme/models/user';
 import { ISortItem } from '../../../theme/models/seo';
 import { ButtonEvent } from '../../../components/form';
@@ -56,7 +56,7 @@ export class ListComponent implements OnInit {
         private searchService: SearchService,
         private themeService: ThemeService
     ) {
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }

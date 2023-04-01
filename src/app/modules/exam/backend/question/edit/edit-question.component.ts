@@ -195,7 +195,7 @@ export class EditQuestionComponent implements OnInit {
         e?.enter();
         this.service.questionSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

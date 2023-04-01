@@ -7,7 +7,7 @@ import { Md5 } from 'ts-md5';
 import { environment } from '../../../../../environments/environment';
 import { CountdownEvent } from '../../../../components/form';
 import { IErrorResponse } from '../../../../theme/models/page';
-import { getAuthStatus } from '../../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../../theme/services';
 import { assetUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { mobileValidator, passwordValidator } from '../../../../theme/validators';
@@ -53,9 +53,9 @@ export class AuthComponent implements OnInit {
         private authService: AuthService,
         private store: Store<ShopAppState>,
     ) {
-        this.store.select(getAuthStatus).subscribe(
+        this.store.select(selectAuthStatus).subscribe(
             data => {
-                if (data === true) {
+                if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);
                 }
             }

@@ -114,7 +114,7 @@ export class EditSoftwareComponent implements OnInit {
         this.service.softwareSave(data).subscribe({
             next: _ => {
                 e.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 history.back();
             },
             error: err => {

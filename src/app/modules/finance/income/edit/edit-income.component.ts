@@ -100,7 +100,7 @@ export class EditIncomeComponent implements OnInit {
             return;
         }
         this.service.logDaySave(this.dayData).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }
@@ -111,7 +111,7 @@ export class EditIncomeComponent implements OnInit {
             return;
         }
         this.service.logSave(this.data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

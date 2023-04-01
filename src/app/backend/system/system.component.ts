@@ -123,7 +123,7 @@ export class SystemComponent {
             option
         }).subscribe({
             next: () => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 e?.reset();
             },
             error: err => {
@@ -161,7 +161,7 @@ export class SystemComponent {
             if (value === 'remove') {
                 this.toastrService.confirm('确定删除此项', () => {
                     this.service.optionRemove(this.editData.id).subscribe(res => {
-                        this.toastrService.success('删除成功');
+                        this.toastrService.success($localize `Delete Successfully`);
                         this.removeOption(this.editData);
                     });
                 });
@@ -184,7 +184,7 @@ export class SystemComponent {
             this.service.optionSaveField(this.editData).subscribe({
                 next: res => {
                     this.addOption(res);
-                    this.toastrService.success('保存成功'); 
+                    this.toastrService.success($localize `Save Successfully`); 
                 }, error: err => {
                     this.toastrService.warning(err.error.message);
                 }

@@ -122,7 +122,7 @@ export class EditFieldComponent implements OnInit {
         data.setting.option = option;
         this.service.fieldSave(data).subscribe({
             next: _ => {
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {

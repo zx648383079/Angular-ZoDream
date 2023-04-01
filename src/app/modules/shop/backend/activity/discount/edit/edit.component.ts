@@ -120,7 +120,7 @@ export class EditDiscountComponent implements OnInit {
             data.scope = (data.scope as number[]).join(',');
         }
         this.service.discountSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }

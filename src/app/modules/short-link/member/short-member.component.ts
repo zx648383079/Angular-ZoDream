@@ -49,7 +49,7 @@ export class ShortMemberComponent implements OnInit {
         modal.open(() => {
             this.service.linkSave(this.editData).subscribe({
                 next: () => {
-                    this.toastrService.success('保存成功');
+                    this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
                 },
                 error: err => {
@@ -102,12 +102,12 @@ export class ShortMemberComponent implements OnInit {
     }
 
     public tapRemove(item: IShortLink) {
-        this.toastrService.confirm('确定要删除《' + item.title + '》?', () => {
+        this.toastrService.confirm($localize `Are you sure to delete the "${item.title}"?`, () => {
             this.service.linkRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
-                this.toastrService.success('删除成功');
+                this.toastrService.success($localize `Delete Successfully`);
                 this.items = this.items.filter(it => {
                     return it.id !== item.id;
                 });

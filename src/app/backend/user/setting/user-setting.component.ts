@@ -93,7 +93,7 @@ export class UserSettingComponent implements OnInit {
         this.service.settingsSave(data).subscribe({
             next: _ => {
                 e?.reset();
-                this.toastrService.success('保存成功');
+                this.toastrService.success($localize `Save Successfully`);
                 this.isChanged = false;
             }, error: err => {
                 e?.reset();

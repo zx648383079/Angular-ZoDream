@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INav } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
-import { getCurrentUser } from '../../theme/reducers/auth.selectors';
+import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 
 @Component({
@@ -77,7 +77,7 @@ export class FinanceComponent {
         private themeService: ThemeService,
     ) {
         this.themeService.setTitle('个人财务');
-        this.store.select(getCurrentUser).subscribe(user => {
+        this.store.select(selectAuthUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;
         });
     }

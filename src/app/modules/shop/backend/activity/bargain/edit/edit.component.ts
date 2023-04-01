@@ -71,7 +71,7 @@ export class EditBargainComponent implements OnInit {
             data.id = this.data.id;
         }
         this.service.bargainSave(data).subscribe(_ => {
-            this.toastrService.success('保存成功');
+            this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
         });
     }
