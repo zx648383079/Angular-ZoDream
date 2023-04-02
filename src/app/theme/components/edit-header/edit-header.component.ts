@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ButtonEvent } from '../../../components/form';
+import { ThemeService } from '../../services';
 
 @Component({
   selector: 'app-edit-header',
@@ -14,11 +15,13 @@ export class EditHeaderComponent implements OnChanges, ButtonEvent {
     @Input() public loading = false;
     @Output() public submited = new EventEmitter<ButtonEvent>();
 
-    constructor() { }
+    constructor(
+        private themeService: ThemeService
+    ) { }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.title) {
-            document.title = changes.title.currentValue;
+            this.themeService.setTitle(changes.title.currentValue);
         }
     }
 

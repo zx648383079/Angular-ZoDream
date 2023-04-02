@@ -2,6 +2,11 @@
 
 <div class="container-fluid">
     <div class="form-table panel-container">
+        <div class="language-toggle" *ngIf="languageItems.length > 1">
+            <ng-container *ngFor="let item of languageItems">
+                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
+            </ng-container>
+        </div>
         <div class="input-group">
             <label for="name">名称</label>
             <div>
@@ -16,7 +21,6 @@
                     <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
                 </div>
         </div>
-        
         <div class="input-group">
             <label for="description">介绍</label>
             <div>

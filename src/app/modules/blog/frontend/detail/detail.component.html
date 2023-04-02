@@ -8,7 +8,7 @@
             <div class="info">
                 <div class="language-toggle" *ngIf="data.languages && data.languages.length > 1">
                     <ng-container *ngFor="let item of data.languages">
-                        <a (click)="loadBlog(item.id)" [ngClass]="{active: item.id === data.id}">{{ item.label }}</a>
+                        <a (click)="loadBlog(item.id)" [ngClass]="{active: item.id === data.id}">{{ item.name }}</a>
                     </ng-container>
                 </div>
                 <a class="author" *ngIf="data.user" routerLink="../" [queryParams]="{user: data.user.id}"><i

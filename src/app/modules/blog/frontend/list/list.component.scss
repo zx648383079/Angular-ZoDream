@@ -282,3 +282,27 @@ li {
         }
     }
 }
+
+.book-dynamic {
+    p {
+        margin: 0;
+    }
+    dt {
+        font-weight: 500;
+        font-size: .8rem;
+        border-bottom: 1px dotted #cc2525;
+    }
+    .book-time {
+        font-size: .8rem;
+        color: #666;
+        user-select: none;
+    }
+    dl {
+        &:not(:last-child) {
+            border-bottom: 1px solid #a10000;
+        }
+        &:hover {
+            background-color: white;
+        }
+    }
+}

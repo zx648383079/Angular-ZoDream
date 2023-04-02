@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { IAgreement } from '../../../../theme/models/seo';
+import { IAgreement, IItem } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
 
@@ -22,6 +22,8 @@ export class EditAgreementComponent implements OnInit {
         status: 0,
     } as any;
 
+    public languageItems: IItem[] = [];
+
     constructor(
         private service: SystemService,
         private route: ActivatedRoute,
@@ -33,9 +35,35 @@ export class EditAgreementComponent implements OnInit {
             if (!params.id) {
                 return;
             }
-            this.service.agreement(params.id).subscribe(res => {
-                    this.data = res;
+            this.loadDetail(params.id);
+        });
+    }
+
+    public loadDetail(id: any, lang?: string) {
+        if (id && id  > 0) {
+            this.service.agreement(id).subscribe(res => {
+                this.languageItems = res.languages;
+                delete res.languages;
+                this.data = res;
             });
+            return;
+        }
+        this.toastrService.confirm({
+            content: '是否复制当前内容完成翻译？',
+            onConfirm: () => {
+                this.data = {...this.data, id: 0, language: lang};
+            },
+            onCancel: () => {
+                this.data = {
+                    id: 0,
+                    name: this.data.name,
+                    language: lang,
+                    title: '',
+                    description: '',
+                    content: [],
+                    status: this.data.status,
+                } as any;
+            }
         });
     }
 

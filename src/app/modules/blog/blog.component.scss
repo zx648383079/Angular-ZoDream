@@ -1,4 +1,4 @@
-$leftWidth: 400px;
+$leftWidth: 25rem;
 
 @import "../../theme/styles/scrollbar";
 .master-box {
@@ -17,24 +17,24 @@ $leftWidth: 400px;
     .search-input {
         position: relative;
         input {
-            height: 40px;
+            height: 2.5rem;
             border: none;
             width: 100%;
-            padding-left: 30px;
+            padding-left: 1.875rem;
         }
         .iconfont {
             position: absolute;
             left: 8px;
             top: 5px;
             color: #777;
-            font-size: 20px;
+            font-size: 1.25rem;
         }
     }
 }
 
 .filter-box {
     background-color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 .filter-item {
@@ -52,7 +52,7 @@ $leftWidth: 400px;
     }
     li {
         display: inline-block;
-        padding: 5px 10px;
+        padding: 0.3125rem 0.625rem;
         cursor: default;
         user-select: none;
         &.active {

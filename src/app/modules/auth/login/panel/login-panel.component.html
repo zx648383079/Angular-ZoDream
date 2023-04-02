@@ -24,7 +24,7 @@
         <div class="agree-bar">
             <i class="iconfont" [ngClass]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
             <ng-container i18n>I agree to</ng-container>
-            <a routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
+            <a class="strong-link" routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
         </div>
     </div>
     <div class="mobile-body" [hidden]="tabIndex != 1">
@@ -98,9 +98,9 @@
             <a  (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
         </div>
         <div class="tip-bar">
-            <a class="help-btn" *ngIf="tabIndex < 2" i18n>Help?</a>
-            <a class="help-btn" *ngIf="tabIndex == 2" i18n>Sign up</a>
-            <a class="help-btn" *ngIf="tabIndex == 2" i18n>Forgot your password?</a>
+            <a class="help-btn" *ngIf="tabIndex < 2" routerLink="/frontend/about" i18n>Help?</a>
+            <a class="help-btn" *ngIf="tabIndex == 2" routerLink="/auth/register" i18n>Sign up</a>
+            <a class="help-btn" *ngIf="tabIndex == 2" routerLink="/auth/find" i18n>Forgot your password?</a>
         </div>
     </div>
 

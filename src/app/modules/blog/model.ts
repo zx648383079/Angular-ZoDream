@@ -63,11 +63,7 @@ export interface IBlog {
     relation?: IBlog[];
     parent_id?: number;
     can_read?: boolean;
-    languages?: {
-        id: number;
-        label: string;
-        language: string;
-    }[];
+    languages?: IItem[];
 }
 
 export interface ICategory {

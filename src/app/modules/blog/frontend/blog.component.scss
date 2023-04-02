@@ -1,24 +1,24 @@
 .blog-container ::ng-deep {
     .book-full-body,
     .book-body {
-        margin: 50px 0;
+        margin: 3.125rem 0;
         background-color: #fff;
-        padding: 30px 15px;
-        min-height: 400px;
+        padding: 1.875rem 0.9375rem;
+        min-height: 25rem;
         position: relative;
     }
     .book-body {
-        margin-right: 200px;
+        margin-right: 12.5rem;
     }
     .book-sort {
         position: absolute;
-        right: 25px;
-        top: -30px;
+        right: 1.5625rem;
+        top: -1.875rem;
         a {
             display: inline-block;
             cursor: pointer;
-            width: 50px;
-            line-height: 30px;
+            width: 3.125rem;
+            line-height: 1.875rem;
             text-align: center;
             position: relative;
             background: #fff;
@@ -30,8 +30,8 @@
                 width: 0;
                 height: 0;
                 left: 0;
-                bottom: -50px;
-                border: transparent 25px solid;
+                bottom: -3.125rem;
+                border: transparent 1.5625rem solid;
                 border-top-color: rgba(161,0,0,.6);
             }
             &.active {

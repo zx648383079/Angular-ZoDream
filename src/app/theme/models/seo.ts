@@ -10,7 +10,8 @@ export interface ILink {
 
 export interface IItem {
     name: string;
-    value: string | number;
+    value: any;
+    id?: number;
     checked?: boolean;
 }
 
@@ -138,11 +139,13 @@ export interface IAgreement {
     id: number;
     name: string;
     title: string;
+    language: string;
     description: string;
     status: number;
     content: IAgreementGroup[];
     created_at: string;
     updated_at?: string;
+    languages?: IItem[];
 }
 
 

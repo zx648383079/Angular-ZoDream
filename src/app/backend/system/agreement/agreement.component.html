@@ -21,7 +21,9 @@
                 <tr>
                     <th>ID</th>
                     <th>名称</th>
+                    <th>语言</th>
                     <th>标题</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -29,7 +31,9 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
+                    <td>{{ item.language }}</td>
                     <td>{{ item.title }}</td>
+                    <td>{{ item.status > 0 ? '启用' : '禁用' }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>

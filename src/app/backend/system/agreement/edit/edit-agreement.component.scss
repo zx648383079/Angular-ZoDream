@@ -1,0 +1,22 @@
+.language-toggle {
+    display: inline-block;
+    margin-right: 1.25rem;
+    border: 1px solid #05a6b1;
+    border-bottom: none;
+    line-height: 2rem;
+    a {
+        display: inline-block;
+        background-color: #05a6b1;
+        color: #fff;
+        margin: 0;
+        width: 2.5rem;
+        text-align: center;
+        text-decoration: none;
+        cursor: default;
+        &.active {
+            background-color: #fff;
+            color: #333;
+            cursor: not-allowed;
+        }
+    }
+}

@@ -6,7 +6,7 @@
         <div class="panel-container">
             <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
                 <ng-container *ngFor="let item of data.languages">
-                    <a (click)="loadDetail(item.id, item.language)" [ngClass]="{active: item.id === data.id}">{{ item.label }}</a>
+                    <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.id === data.id}">{{ item.name }}</a>
                 </ng-container>
             </div>
             <div class="title-input">
