@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IBlog, ICategory, ITag, OpenTypeItems, PublishStatusItems } from '../../model';
+import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -51,8 +51,8 @@ export class EditBlogComponent implements OnInit, OnDestroy {
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
     public tags: ITag[] = [];
-    public statusItems = PublishStatusItems;
-    public openItems = OpenTypeItems;
+    public statusItems: IItem[] = [];
+    public openItems: IItem[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -68,6 +68,8 @@ export class EditBlogComponent implements OnInit, OnDestroy {
             this.languages = res.languages;
             this.weathers = res.weathers;
             this.licenses = res.licenses;
+            this.statusItems = res.publish_status;
+            this.openItems = res.open_types;
         });
     }
 

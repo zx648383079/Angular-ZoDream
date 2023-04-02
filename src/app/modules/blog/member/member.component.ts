@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
-import { IBlog, ICategory, PublishStatusItems } from '../model';
+import { IBlog, ICategory } from '../model';
 import { BlogService } from './blog.service';
+import { IItem } from '../../../theme/models/seo';
 
 @Component({
     selector: 'app-member',
@@ -14,7 +15,7 @@ import { BlogService } from './blog.service';
 export class MemberComponent implements OnInit {
 
     public categories: ICategory[] = [];
-    public statusItems: any[] = PublishStatusItems;
+    public statusItems: IItem[] = [];
 
     public items: IBlog[] = [];
     public queries: IPageQueries = {
@@ -34,8 +35,9 @@ export class MemberComponent implements OnInit {
         private route: ActivatedRoute,
         private searchService: SearchService,
     ) {
-        this.service.categoryAll().subscribe(res => {
-            this.categories = res;
+        this.service.editOption().subscribe(res => {
+            this.categories = res.categories;
+            this.statusItems = res.publish_status;
         });
     }
 

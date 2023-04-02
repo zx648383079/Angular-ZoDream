@@ -63,13 +63,8 @@
                         <label for="open_type">公开类型</label>
                         <div>
                             <select id="open_type" class="form-control" formControlName="open_type">
-                                <option value="0">公开</option>
-                                <option value="1">仅登录</option>
-                                <option value="5">密码</option>
-                                <option value="6">购买</option>
-                                <option value="2">草稿</option>
+                                <option *ngFor="let item of openItems" [value]="item.value">{{ item.name }}</option>
                             </select>
-        
                         </div>
                     </div>
                     <div class="input-group" *ngIf="openType > 4">

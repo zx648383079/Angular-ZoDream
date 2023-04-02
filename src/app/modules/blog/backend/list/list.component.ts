@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IBlog, ICategory, PublishStatusItems } from '../../model';
+import { IBlog, ICategory } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
@@ -15,7 +15,7 @@ import { IItem } from '../../../../theme/models/seo';
 export class ListComponent implements OnInit {
 
     public categories: ICategory[] = [];
-    public statusItems: any[] = PublishStatusItems;
+    public statusItems: IItem[] = [];
 
     public items: IBlog[] = [];
     public queries: IPageQueries = {
@@ -35,8 +35,9 @@ export class ListComponent implements OnInit {
         private route: ActivatedRoute,
         private searchService: SearchService,
     ) {
-        this.service.categoryAll().subscribe(res => {
-            this.categories = res;
+        this.service.editOption().subscribe(res => {
+            this.categories = res.categories;
+            this.statusItems = res.publish_status;
         });
     }
 

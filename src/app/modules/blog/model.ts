@@ -5,23 +5,20 @@ import { IUser } from '../../theme/models/user';
 
 export const BLOG_OPEN_KEY = 'b_o_k';
 
-export const PublishStatusItems: IItem[] = [
-    {name: $localize `As a draft`, value: 0},
-    {name: $localize `Published`, value: 5},
-    {name: $localize `As a trash`, value: 9},
-];
-
-export const OpenTypeItems: IItem[] = [
-    {name: $localize `Open`, value: 0},
-    {name: $localize `Just login`, value: 1},
-    {name: $localize `Password`, value: 5},
-    {name: $localize `Buy`, value: 6},
-];
-
 export interface ISubtotal {
     name: string;
     icon: string;
     count: number;
+}
+
+export interface IEditOptions {
+    languages: string[];
+    weathers: IItem[];
+    licenses: IItem[];
+    tags: ITag[];
+    categories: ICategory[];
+    open_types: IItem[];
+    publish_status: IItem[];
 }
 
 export interface IBlog {

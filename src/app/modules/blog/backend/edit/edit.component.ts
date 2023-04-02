@@ -15,8 +15,7 @@ import { ButtonEvent } from '../../../../components/form';
 import {
     IBlog,
     ICategory,
-    ITag,
-    PublishStatusItems
+    ITag
 } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import {
@@ -67,7 +66,8 @@ export class EditComponent implements OnInit {
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
     public tags: ITag[] = [];
-    public statusItems: any[] = PublishStatusItems;
+    public statusItems: IItem[] = [];
+    public openItems: IItem[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -82,6 +82,8 @@ export class EditComponent implements OnInit {
             this.languages = res.languages;
             this.weathers = res.weathers;
             this.licenses = res.licenses;
+            this.statusItems = res.publish_status;
+            this.openItems = res.open_types;
         });
     }
 

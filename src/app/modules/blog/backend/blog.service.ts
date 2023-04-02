@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISubtotal, ICategory, ITag, IArchives, IBlog, IComment } from '../model';
+import { ICategory, ITag, IArchives, IBlog, IComment, IEditOptions } from '../model';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { IItem } from '../../../theme/models/seo';
 
 @Injectable()
 export class BlogService {
@@ -120,12 +119,6 @@ export class BlogService {
     }
 
     public editOption() {
-        return this.http.get<{
-            languages: string[];
-            weathers: IItem[];
-            licenses: IItem[];
-            tags: ITag[];
-            categories: ICategory[];
-        }>('blog/home/edit_option');
+        return this.http.get<IEditOptions>('blog/home/edit_option');
     }
 }

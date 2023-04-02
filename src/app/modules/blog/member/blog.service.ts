@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IUploadResult } from '../../../theme/models/open';
-import { IBlog, ICategory, ITag } from '../model';
+import { IBlog, ICategory, IEditOptions, ITag } from '../model';
 import { map } from 'rxjs';
 import { IItem } from '../../../theme/models/seo';
 
@@ -43,12 +43,6 @@ export class BlogService {
     }
 
     public editOption() {
-        return this.http.get<{
-            languages: string[];
-            weathers: IItem[];
-            licenses: IItem[];
-            tags: ITag[];
-            categories: ICategory[];
-        }>('blog/home/edit_option');
+        return this.http.get<IEditOptions>('blog/home/edit_option');
     }
 }
