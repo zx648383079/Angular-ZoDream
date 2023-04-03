@@ -95,6 +95,10 @@ export class MicroService {
         return this.http.get<any>('micro/user', {params: {id}});
     }
 
+    public toggleFollow(id: any) {
+        return this.http.post<IDataOne<number>>('auth/user/follow', {user: id});
+    }
+
     public suggestion(params: any) {
         return this.http.get<IPage<ITopic>>('micro/home/suggest', {params}).pipe(map(res => res.data));
     }

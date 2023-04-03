@@ -1,6 +1,6 @@
 <div class="container-fluid main-box" [ngClass]="{'fixed-top': isFixed}">
     <div class="search-bar">
-        <app-auto-suggest-box [(ngModel)]="queries.keywords" (confirm)="tapSearch($event)"></app-auto-suggest-box>
+        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)"></app-auto-suggest-box>
     </div>
     
     <app-pull-to-refresh [more]="hasMore" [loading]="isLoading" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">

@@ -188,9 +188,9 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     }
 
     public tapHistory(v: string) {
-        this.confirm.emit(v);
         this.text = v;
         this.openType = 0;
+        this.gotoSearch(v);
     }
 
     public tapRemoveHistory(i: number, e: MouseEvent) {

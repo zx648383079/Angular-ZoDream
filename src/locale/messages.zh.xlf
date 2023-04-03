@@ -3227,7 +3227,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">54</context>
+                    <context context-type="linenumber">70</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6432972075631253360" datatype="html">
@@ -3911,7 +3911,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">22</context>
+                    <context context-type="linenumber">38</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4914577418256256836" datatype="html">
@@ -3923,7 +3923,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">26</context>
+                    <context context-type="linenumber">42</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1199882264645870301" datatype="html">
@@ -3935,7 +3935,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">30</context>
+                    <context context-type="linenumber">46</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="771945533364668751" datatype="html">
@@ -5495,7 +5495,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">77</context>
+                    <context context-type="linenumber">93</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="377753782138401645" datatype="html">
@@ -8147,7 +8147,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">53</context>
+                    <context context-type="linenumber">69</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1833195762428780915" datatype="html">
@@ -8159,7 +8159,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">65</context>
+                    <context context-type="linenumber">81</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8604695045343743097" datatype="html">
@@ -8171,7 +8171,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">71,99</context>
+                    <context context-type="linenumber">87,115</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="9014200412719192850" datatype="html">
@@ -8183,7 +8183,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">83</context>
+                    <context context-type="linenumber">99</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7272822750652332111" datatype="html">
@@ -8195,7 +8195,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">105</context>
+                    <context context-type="linenumber">121</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6752932458875756715" datatype="html">
@@ -8207,7 +8207,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">109,111</context>
+                    <context context-type="linenumber">125,127</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="205186163515786593" datatype="html">
@@ -8219,7 +8219,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.ts</context>
-                    <context context-type="linenumber">206</context>
+                    <context context-type="linenumber">220</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4045442671130362817" datatype="html">
@@ -8231,7 +8231,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.ts</context>
-                    <context context-type="linenumber">216</context>
+                    <context context-type="linenumber">230</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6006976674078272256" datatype="html">
@@ -8243,7 +8243,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.ts</context>
-                    <context context-type="linenumber">222</context>
+                    <context context-type="linenumber">236</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
@@ -8270,12 +8270,52 @@
                     <context context-type="linenumber">104</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="1495080987762517066" datatype="html">
+                <source>Follow user</source>
+                <target>关注用户</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">20</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6018246591673612412" datatype="html">
+                <source>Follow</source>
+                <target>关注</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">22</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="5921734187993736055" datatype="html">
+                <source>Followed, click to cancel follow user</source>
+                <target>已关注，点击取消关注</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">24</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="9160510009013134726" datatype="html">
+                <source>Unfollow</source>
+                <target>取消关注</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">26,30</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1613662639316681305" datatype="html">
+                <source>Followed each other, click to cancel follow user</source>
+                <target>已互相关注，点击取消关注</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">28</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="6670174549083786806" datatype="html">
                 <source> <x id="INTERPOLATION" equiv-text="{{ topic.micro_count | numberFormat }}"/>Posts </source>
                 <target> <x id="INTERPOLATION" equiv-text="{{ topic.micro_count | numberFormat }}"/> 博文</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">37,39</context>
+                    <context context-type="linenumber">53,55</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4890215689396183929" datatype="html">
@@ -9483,7 +9523,7 @@
                 <target>短视频</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/video/video.component.ts</context>
-                    <context context-type="linenumber">37</context>
+                    <context context-type="linenumber">36</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7477774851467218056" datatype="html">
@@ -9491,7 +9531,7 @@
                 <target>视频不存在</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/video/video.component.ts</context>
-                    <context context-type="linenumber">58</context>
+                    <context context-type="linenumber">57</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="9109749157076805530" datatype="html">
@@ -9711,7 +9751,7 @@
                 <target>未知</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-                    <context context-type="linenumber">49</context>
+                    <context context-type="linenumber">52</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8012344910054029733" datatype="html">
@@ -9719,7 +9759,7 @@
                 <target>男</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-                    <context context-type="linenumber">50</context>
+                    <context context-type="linenumber">53</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5667840900782067941" datatype="html">
@@ -9727,7 +9767,7 @@
                 <target>女</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/theme/models/user.ts</context>
-                    <context context-type="linenumber">51</context>
+                    <context context-type="linenumber">54</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1043155540820995883" datatype="html">

@@ -37,6 +37,9 @@ export interface IUserStatus extends IUser {
     [key: string]: any;
     bulletin_count: number;
     today_checkin: boolean;
+    post_count: number;
+    following_count: number;
+    follower_count: number;
 }
 
 export interface IUserItem {

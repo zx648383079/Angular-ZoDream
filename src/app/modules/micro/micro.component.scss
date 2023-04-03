@@ -65,6 +65,20 @@
             }
         }
     }
+    .follow-btn {
+        background-color: #a10000;
+        color: white;
+        border-radius: .25rem;
+        font-size: .8rem;
+        padding: .4rem .8rem;
+        cursor: pointer;
+        user-select: none;
+        &.active {
+            border: 1px solid #333;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+    }
 }
 
 .topic-card {

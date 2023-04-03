@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
-import { IUser } from '../../theme/models/user';
+import { IUserStatus } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { SearchEvents } from '../../theme/models/event';
 })
 export class UserComponent implements OnInit, OnDestroy {
 
-    public user: IUser;
+    public user: IUserStatus;
     public tabItems: INav[] = [];
     public moreItems: INav[] = [];
     public moreVisible = false;
@@ -30,7 +30,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
     ) {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user = user as any;
         });
         this.menuService.change$.subscribe(res => {
             this.tabItems = res.tab;

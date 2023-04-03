@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
-import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
 import { SearchService } from '../../theme/services';
 import { ThemeService } from '../../theme/services';
@@ -86,14 +85,17 @@ export class VideoComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.videoList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
-        }, () => {
-            this.isLoading = false;
+        this.service.videoList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+            }, 
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

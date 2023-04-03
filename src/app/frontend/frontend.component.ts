@@ -79,7 +79,7 @@ export class FrontendComponent implements OnDestroy {
             this.userLoading = res.isLoading;
             this.user = res.user as any;
             if (!res.isLoading && !res.guest) {
-                this.authService.loadProfile('bulletin_count,today_checkin').subscribe(profile => {
+                this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
                     this.user = profile;
                     this.dropNavItems[1].count = profile.bulletin_count;
                     this.dropNavItems.forEach(i => {

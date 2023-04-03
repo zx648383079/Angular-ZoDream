@@ -14,15 +14,31 @@
                 <div class="avatar">
                     <img [src]="user.avatar" alt="">
                 </div>
-                <div class="name">{{ user.name }}</div>
+                <div class="name">
+                    {{ user.name }}
+                    <ng-container *ngIf="!authUser || user.id != authUser.id">
+                        <a class="follow-btn" *ngIf="user.follow_status < 1" i18n-title title="Follow user" (click)="tapFollow(user)">
+                            <i class="iconfont icon-star-o"></i>
+                            <ng-container i18n>Follow</ng-container>
+                        </a>
+                        <a class="follow-btn active" *ngIf="user.follow_status == 1" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow(user)">
+                            <i class="iconfont icon-star"></i>
+                            <ng-container i18n>Unfollow</ng-container>
+                        </a>
+                        <a class="follow-btn active" *ngIf="user.follow_status == 2" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow(user)">
+                            <i class="iconfont icon-exchange"></i>
+                            <ng-container i18n>Unfollow</ng-container>
+                        </a>
+                    </ng-container>
+                </div>
                 <div class="remark"></div>
                 <div class="count-bar">
                     <div class="count-item">
-                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <div class="count">{{ user.following_count | numberFormat }}</div>
                         <span i18n>Following</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <div class="count">{{ user.follower_count | numberFormat }}</div>
                         <span i18n>Followers</span>
                     </div>
                     <div class="count-item">

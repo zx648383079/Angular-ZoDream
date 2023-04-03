@@ -15,15 +15,15 @@
                 <a routerLink="profile" class="btn btn-primary" i18n>Edit Profile</a>
                 <div class="count-bar">
                     <div class="count-item">
-                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <div class="count">{{ user.following_count| numberFormat }}</div>
                         <span i18n>Following</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <div class="count">{{ user.follower_count| numberFormat }}</div>
                         <span i18n>Followers</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ 0 | numberFormat }}</div>
+                        <div class="count">{{ user.post_count| numberFormat }}</div>
                         <span i18n>Posts</span>
                     </div>
                 </div>

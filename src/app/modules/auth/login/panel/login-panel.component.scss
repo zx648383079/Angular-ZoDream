@@ -2,6 +2,11 @@ a {
     text-decoration: none;
 }
 .login-panel {
+    input[type="password"] {
+        &::-ms-reveal {
+            display: none;
+        }
+    }
     .tab-bar {
         display: flex;
         padding: 1.875rem 0 0.625rem;

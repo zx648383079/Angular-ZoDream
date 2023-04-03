@@ -132,6 +132,20 @@ export class MicroComponent implements OnInit, OnDestroy {
         });
     }
 
+    public tapFollow(user: any) {
+        this.service.toggleFollow(user.id).subscribe({
+            next: res => {
+                user.follow_status = res.data;
+            },
+            error: (err: IErrorResult) => {
+                this.toastrService.error(err.error);
+                if (err.error.code === 401) {
+                    this.searchService.emitLogin(true);
+                }
+            }
+        })
+    }
+
     public tapTab(val: any) {
         this.queries.sort = val;
         this.tapRefresh();
