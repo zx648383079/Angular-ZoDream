@@ -32,7 +32,6 @@ export class SiteWeightComponent implements OnInit {
         private service: VisualService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
-        private router: Router,
         private searchService: SearchService,
     ) {
     }
@@ -53,12 +52,12 @@ export class SiteWeightComponent implements OnInit {
 
     public tapCreate(modal: DialogEvent, item: ISiteComponent) {
         modal.open(() => {
-            const data = {...this.pageData, component_id: item.id, thumb: item.thumb, site_id: item.site_id};
+            const data = {...this.pageData, site_component_id: item.id, thumb: item.thumb, site_id: item.site_id};
             this.service.sitePageSave(data).subscribe({
                 next: res => {
-                    this.toastrService.success('创建页面成功，即将跳转编辑');
+                    this.toastrService.success($localize `Created page successfully, about to jump to edit`);
                     setTimeout(() => {
-                        this.router.navigate(['/visual/editor', res.site_id, res.id]);
+                        this.service.gotoEditor(res, false);
                     }, 1000);
                 },
                 error: err => {
@@ -126,7 +125,7 @@ export class SiteWeightComponent implements OnInit {
     }
 
     public tapRemove(item: ISiteComponent) {
-        this.toastrService.confirm('确定删除“' + item.name + '”组件？', () => {
+        this.toastrService.confirm($localize `Are you sure to delete "${item.name}"?`, () => {
             this.service.siteComponentRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

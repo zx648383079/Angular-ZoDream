@@ -50,6 +50,10 @@ export class VisualService {
         return this.http.delete<IDataOne<boolean>>('tpl/admin/component/delete', {params: {id}});
     }
 
+    public componentReview(id: any, data: any) {
+        return this.http.post<IDataOne<boolean>>('tpl/admin/component/review', {id, data});
+    }
+
     public siteList(params: any) {
         return this.http.get<IPage<ISite>>('tpl/admin/site', {params});
     }

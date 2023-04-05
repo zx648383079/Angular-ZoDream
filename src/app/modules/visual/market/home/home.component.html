@@ -23,7 +23,7 @@
                 <div class="col-md-3" *ngFor="let item of pageItems">
                     <div class="large-item">
                         <div class="item-cover">
-                            <img [src]="item.thumb" alt="">
+                            <img [src]="item.thumb | asset" [alt]="item.name">
                             <div class="item-mask">
                                 <a class="btn btn-primary" i18n>Preview</a>
                                 <a class="btn btn-success" (click)="modal.addTo(item)" i18n>Add To</a>
@@ -53,7 +53,7 @@
                 <div class="col-md-3" *ngFor="let item of weightItems">
                     <div class="large-item">
                         <div class="item-cover">
-                            <img [src]="item.thumb" alt="">
+                            <img [src]="item.thumb | asset" [alt]="item.name">
                             <div class="item-mask">
                                 <a class="btn btn-primary" i18n>Preview</a>
                                 <a class="btn btn-success" (click)="modal.addTo(item)" i18n>Add To</a>

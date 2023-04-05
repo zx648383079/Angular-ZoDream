@@ -23,10 +23,10 @@ export class SiteComponent implements OnInit {
         keywords: '',
     };
     public sortItems: ISortItem[] = [
-        {name: '默认', value: ''},
-        {name: '价格', value: 'price', asc: true},
-        {name: '销量', value: 'sale', asc: false},
-        {name: '评价', value: 'comment', asc: false},
+        {name: $localize `Default`, value: ''},
+        {name: $localize `Price`, value: 'price', asc: true},
+        {name: $localize `Sales`, value: 'sale', asc: false},
+        {name: $localize `Evaluation`, value: 'comment', asc: false},
     ];
     public sortKey = '';
     public orderAsc = true;

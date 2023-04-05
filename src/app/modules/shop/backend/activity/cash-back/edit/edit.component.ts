@@ -83,7 +83,7 @@ export class EditCashBackComponent implements OnInit {
 
     public tapSubmit() {
         if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: IActivity<any> = Object.assign({}, this.form.value) as any;

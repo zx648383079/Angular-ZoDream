@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, ISite, ISiteComponent, ISitePage, IThemeComponent } from '../model';
 import { IUploadResult } from '../../../theme/models/open';
+import { Router } from '@angular/router';
+import { assetUri, uriEncode } from '../../../theme/utils';
+import { DialogService } from '../../../components/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +14,13 @@ export class VisualService {
 
     constructor(
         private http: HttpClient,
+        private router: Router,
+        private toastrService: DialogService,
     ) { }
 
 
     public search(params: any) {
-        return this.http.get<IPage<IThemeComponent>>('tpl/search', {
+        return this.http.get<IPage<IThemeComponent>>('tpl/search/dialog', {
             params
         });
     }
@@ -34,6 +39,10 @@ export class VisualService {
 
     public componentSave(data: any) {
         return this.http.post<IThemeComponent>('tpl/member/component/save', data);
+    }
+
+    public componentImport(data: FormData) {
+        return this.http.post<IDataOne<boolean>>('tpl/member/component/import', data);
     }
 
     public componentRemove(id: any) {
@@ -85,5 +94,28 @@ export class VisualService {
         const data = new FormData();
         data.append('file', file);
         return this.http.post<IUploadResult>('tpl/member/component/upload', data);
+    }
+
+    public gotoEditor(item: ISitePage, isPreview = true) {
+        const isOpen = true;
+        if (!isOpen) {
+            this.router.navigate([
+                isPreview ? '/visual/preview' : 'visual/editor',
+                item.site_id, item.id
+            ]);
+            return;
+        }
+        this.authTicket().subscribe({
+            next: res => {
+                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual' + (isPreview ? '/preview' : ''), {
+                    site: item.site_id,
+                    id: item.id
+                })}));
+                window.open(url, '_blank');
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 }

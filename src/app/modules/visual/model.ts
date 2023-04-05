@@ -1,9 +1,10 @@
+import { IPageEditItem } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
 
 export const ComponentTypeItems: IItem[] = [
-    {name: '页面', value: 0},
-    {name: '组件', value: 1},
+    {name: $localize `Page`, value: 0},
+    {name: $localize `Component`, value: 1},
 ];
 
 export interface ICategory {
@@ -18,7 +19,7 @@ export interface ICategory {
     count?: number;
 }
 
-export interface IThemeComponent {
+export interface IThemeComponent extends IPageEditItem {
     id: number;
     name: string;
     type: number;
@@ -65,6 +66,7 @@ export interface ISitePage {
     updated_at?: string;
     created_at?: string;
     site?: ISite;
+    is_default?: boolean;
 }
 
 export interface ISiteComponent extends IThemeComponent {

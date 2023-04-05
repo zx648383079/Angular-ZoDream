@@ -96,7 +96,7 @@ export class EditIncomeComponent implements OnInit {
             return;
         }
         if (emptyValidate(this.dayData.day) || this.dayData.account_id < 1) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         this.service.logDaySave(this.dayData).subscribe(_ => {
@@ -107,7 +107,7 @@ export class EditIncomeComponent implements OnInit {
 
     private saveLog() {
         if (emptyValidate(this.data.happened_at) || this.data.account_id < 1) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         this.service.logSave(this.data).subscribe(_ => {

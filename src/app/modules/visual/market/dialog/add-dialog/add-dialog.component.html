@@ -1,7 +1,7 @@
 <div class="dialog-mask" *ngIf="visible"></div>
 <div class="search-dialog-container" *ngIf="visible">
     <div class="header-container">
-        <p>即将克隆到新站点</p>
+        <p i18n>To be added to the site component library</p>
         <div class="source-item">
            <div class="item-cover">
                 <img [src]="sourceData.thumb" alt="">
@@ -15,9 +15,9 @@
     <div class="search-bar">
         <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="请输入关键词搜索已有站点" >
-                <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn" [ngClass]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()">只显示选中({{ selectedCount }})</a>
+                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please enter keywords to search for existing sites">
+                <button type="submit" class="btn btn-primary" i18n>Search</button>
+                <a class="btn" [ngClass]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()" i18n>Only selected({{ selectedCount }})</a>
             </div>
         </form>
     </div>
@@ -34,8 +34,8 @@
     <div class="footer-container">
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         <div class="btn-group">
-            <app-action-button class="btn btn-primary" (tapped)="tapYes($event)">确定</app-action-button>
-            <div class="btn btn-danger" (click)="tapCancel()">取消</div>
+            <app-action-button class="btn btn-primary" (tapped)="tapYes($event)" i18n>Confirm</app-action-button>
+            <div class="btn btn-danger" (click)="tapCancel()" i18n>Cancel</div>
         </div>
     </div>
 </div>

@@ -112,7 +112,7 @@ export class SiteComponent implements OnInit {
     }
 
     public tapRemove(item: ISite) {
-        this.toastrService.confirm('确定删除“' + item.name + '”站点？', () => {
+        this.toastrService.confirm($localize `Are you sure to delete"${item.name}"?`, () => {
             this.service.siteRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

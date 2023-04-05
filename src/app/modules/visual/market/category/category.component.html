@@ -27,7 +27,7 @@
                 <div class="col-4 col-md-3">
                     <a class="cat-item" routerLink="../../search" [queryParams]="{category: item.id}">
                         <div class="item-thumb">
-                            <img [src]="item.thumb" [alt]="item.name">
+                            <img  [src]="item.thumb | asset" [alt]="item.name">
                         </div>
                         <div class="item-name">{{ item.name }}</div>
                         <div class="item-meta" i18n>{{ item.count | numberFormat }} items available</div>

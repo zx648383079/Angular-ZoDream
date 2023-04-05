@@ -8,8 +8,8 @@
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
     <div class="btn-group pull-right">
-        <a class="btn btn-info" (click)="tapBack()">返回</a>
-        <a class="btn btn-success" (click)="open(modal)">添加组件</a>
+        <a class="btn btn-info" (click)="tapBack()" i18n>Back</a>
+        <a class="btn btn-success" (click)="open(modal)" i18n>Add Components</a>
     </div>
 </div>
 
@@ -18,7 +18,7 @@
     <ng-container *ngFor="let item of items">
         <div class="image-row-item">
             <div class="item-cover">
-                <img [src]="item.thumb" alt="">
+                <img [appLazyLoad]="item.thumb | asset" [alt]="item.name">
             </div>
             <div class="item-body">
                 <div class="item-title">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="item-footer">
                     <div class="btn-group">
-                        <a class="btn btn-success" *ngIf="item.type < 1" (click)="tapCreate(pageModal, item)">创建页面</a>
+                        <a class="btn btn-success" *ngIf="item.type < 1" (click)="tapCreate(pageModal, item)" i18n>Create Page</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                     </div>
                 </div>
@@ -44,27 +44,27 @@
 
 <app-search-dialog #modal [multiple]="true"></app-search-dialog>
 
-<app-dialog-box #pageModal title="创建页面">
+<app-dialog-box #pageModal i18n-title title="Create Page">
     <div class="form-group">
-        <label for="name-input">名称</label>
+        <label for="name-input" i18n>Name</label>
         <div>
-            <input class="form-control" id="name-input" [(ngModel)]="pageData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [(ngModel)]="pageData.name" i18n-placeholder placeholder="Please input the name">
         </div>
     </div>
     <div class="form-group">
-        <label for="title-input">页面标题</label>
+        <label for="title-input" i18n>Page Title</label>
         <div>
-            <input class="form-control" id="title-input" [(ngModel)]="pageData.title" placeholder="请输入站点标题">
+            <input class="form-control" id="title-input" [(ngModel)]="pageData.title" i18n-placeholder placeholder="Please input the title of page">
         </div>
     </div>
     <div class="form-group">
-        <label for="keywords-input">页面关键字</label>
+        <label for="keywords-input" i18n>Page Keywords</label>
         <div>
-            <app-words-input [(ngModel)]="pageData.keywords" placeholder="请输入站点关键字"></app-words-input>
+            <app-words-input [(ngModel)]="pageData.keywords" i18n-placeholder placeholder="Please input the keywords of page"></app-words-input>
         </div>
     </div>
     <div class="form-group">
-        <label for="description-input">页面描述</label>
+        <label for="description-input" i18n>Page Description</label>
         <div>
             <app-text-editor [(ngModel)]="pageData.description" height="100"></app-text-editor>
         </div>

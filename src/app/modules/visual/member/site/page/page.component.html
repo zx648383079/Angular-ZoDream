@@ -4,8 +4,8 @@
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
     <div class="btn-group pull-right">
-        <a class="btn btn-info" (click)="tapBack()">返回</a>
-        <a class="btn btn-success" routerLink="../weight">新增页面</a>
+        <a class="btn btn-info" (click)="tapBack()" i18n>Back</a>
+        <a class="btn btn-success" routerLink="../weight" i18n>New Page</a>
     </div>
 </div>
 
@@ -14,12 +14,12 @@
     <ng-container *ngFor="let item of items">
         <div class="image-row-item">
             <div class="item-cover">
-                <img [src]="item.thumb" alt="">
+                <img [appLazyLoad]="item.thumb | asset" [alt]="item.title">
             </div>
             <div class="item-body">
                 <div class="item-title">
                     <span class="no">{{ item.id }}</span>
-                    {{ item.name }}</div>
+                    {{ item.title }}</div>
                 <div class="item-meta">
                     <p>{{ item.description }}</p>
                 </div>
@@ -28,9 +28,9 @@
                         <span><i class="iconfont icon-eye"></i><b>{{ item.status }}</b></span>
                     </div>
                     <div class="btn-group">
-                        <a class="btn btn-info" (click)="tapPreview(item)">预览</a>
-                        <a class="btn btn-primary" (click)="tapEditor(item)">编辑</a>
-                        <a class="btn btn-light" (click)="open(modal, item)">设置</a>
+                        <a class="btn btn-info" (click)="tapPreview(item)" i18n>Preview</a>
+                        <a class="btn btn-primary" (click)="tapEditor(item)" i18n>Edit</a>
+                        <a class="btn btn-light" (click)="open(modal, item)" i18n>Setting</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
                     </div>
                 </div>
@@ -43,35 +43,41 @@
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 
-<app-dialog-box #modal title="编辑页面">
+<app-dialog-box #modal i18n-title title="Edit Page">
     <div class="form-group">
-        <label for="name-input">名称</label>
+        <label for="name-input" i18n>Name</label>
         <div>
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" i18n-placeholder placeholder="Please input the name">
         </div>
     </div>
     <div class="form-group">
-        <label for="title-input">页面标题</label>
+        <label for="title-input"  i18n>Page Title</label>
         <div>
-            <input class="form-control" id="title-input" [(ngModel)]="editData.title" placeholder="请输入站点标题">
+            <input class="form-control" id="title-input" [(ngModel)]="editData.title" i18n-placeholder placeholder="Please input the title of page">
         </div>
     </div>
     <div class="form-group">
-        <label for="keywords-input">页面关键字</label>
+        <label for="keywords-input" i18n>Page Keywords</label>
         <div>
-            <app-words-input [(ngModel)]="editData.keywords" placeholder="请输入站点关键字"></app-words-input>
+            <app-words-input [(ngModel)]="editData.keywords" i18n-placeholder placeholder="Please input the keywords of page"></app-words-input>
         </div>
     </div>
     <div class="form-group">
-        <label for="description-input">页面描述</label>
+        <label for="description-input" i18n>Page Description</label>
         <div>
             <app-text-editor [(ngModel)]="editData.description" height="100"></app-text-editor>
         </div>
     </div>
     <div class="form-group">
-        <label>预览图</label>
+        <label i18n>Preview Image</label>
         <div>
             <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label i18n>Is Default Page</label>
+        <div>
+            <app-switch [(ngModel)]="editData.is_default"></app-switch>
         </div>
     </div>
 </app-dialog-box>

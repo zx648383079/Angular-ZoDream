@@ -6,7 +6,6 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
-import { assetUri, uriEncode } from '../../../../../theme/utils';
 
 @Component({
     selector: 'app-site-page',
@@ -64,34 +63,11 @@ export class SitePageComponent implements OnInit {
     }
 
     public tapPreview(item: ISitePage) {
-        this.gotoWeb(item, true);
+        this.service.gotoEditor(item, true);
     }
 
     public tapEditor(item: ISitePage) {
-        this.gotoWeb(item, false);
-    }
-
-    private gotoWeb(item: ISitePage, isPreview = true) {
-        const isOpen = true;
-        if (!isOpen) {
-            this.router.navigate([
-                isPreview ? '/visual/preview' : 'visual/editor',
-                item.site_id, item.id
-            ]);
-            return;
-        }
-        this.service.authTicket().subscribe({
-            next: res => {
-                const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual' + (isPreview ? '/preview' : ''), {
-                    site: item.site_id,
-                    id: item.id
-                })}));
-                window.open(url, '_blank');
-            },
-            error: err => {
-                this.toastrService.error(err);
-            }
-        })
+        this.service.gotoEditor(item, false);
     }
 
     public tapBack() {
@@ -137,7 +113,7 @@ export class SitePageComponent implements OnInit {
     }
 
     public tapRemove(item: ISitePage) {
-        this.toastrService.confirm('确定删除“' + item.name + '”页面？', () => {
+        this.toastrService.confirm($localize `Are you sure to delete "${item.title}"?`, () => {
             this.service.sitePageRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

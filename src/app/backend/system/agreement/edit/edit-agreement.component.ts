@@ -73,7 +73,7 @@ export class EditAgreementComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         if (emptyValidate(this.data.name) || emptyValidate(this.data.title) || this.data.content.length < 1) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         e?.enter();

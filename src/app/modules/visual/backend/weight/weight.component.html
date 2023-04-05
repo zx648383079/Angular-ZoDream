@@ -21,6 +21,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-info" routerLink="../category">管理分类</a>
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                     <a class="btn btn-success" (click)="tapCreate()">新增组件</a>
                 </div>
                 
@@ -30,37 +31,55 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </th>
                     <th>ID</th>
                     <th>名称</th>
-                    <th>分类</th>
-                    <th>发布者</th>
+                    <th class="auto-hide">分类</th>
+                    <th class="auto-hide">发布者</th>
                     <th>状态</th>
-                    <th>使用量</th>
-                    <th>更新时间</th>
+                    <th class="auto-hide">使用量</th>
+                    <th class="auto-hide">更新时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
+                    <td [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    </td>
                     <td>{{ item.id }}</td>
                     <td>
                         [{{ item.type > 0 ? '组件' : '页面' }}]
                         {{ item.name }}
                     </td>
-                    <td>{{ item.category?.name }}</td>
-                    <td>{{ item.user?.name }}</td>
+                    <td class="auto-hide">{{ item.category?.name }}</td>
+                    <td class="auto-hide">{{ item.user?.name }}</td>
                     <td>{{ item.status > 0 ? '已审核' : '待审核' }}</td>
-                    <td>{{ item.use_count }}</td>
-                    <td>{{ item.updated_at | ago }}</td>
+                    <td class="auto-hide">{{ item.use_count }}</td>
+                    <td class="auto-hide">{{ item.updated_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
+                            <a class="btn btn-info" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
                 </tr>
-                
             </tbody>
+            <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="8">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                            <button class="btn btn-success" [disabled]="checkedItems.length < 1" (click)="tapCheckMultiple()">审核选中项（{{ checkedItems.length }}）</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

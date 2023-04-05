@@ -5,6 +5,7 @@ import { VisualService } from './visual.service';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../../theme/services';
+import { UploadButtonEvent } from '../../../components/form';
 
 @Component({
     selector: 'app-member',
@@ -43,6 +44,23 @@ export class MemberComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public onImport(e: UploadButtonEvent) {
+        e.enter();
+        const formData = new FormData();
+        formData.append('file', e.files[0]);
+        this.service.componentImport(formData).subscribe({
+            next: _ => {
+                e.reset();
+                this.toastrService.success($localize `Import component success`);
+                this.tapRefresh();
+            },
+            error: err => {
+                e.reset();
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapRefresh() {
@@ -84,7 +102,7 @@ export class MemberComponent implements OnInit {
     }
 
     public tapRemove(item: IThemeComponent) {
-        this.toastrService.confirm('确定删除“' + item.name + '”组件？', () => {
+        this.toastrService.confirm($localize `Are you sure to delete"${item.name}"?`, () => {
             this.service.componentRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

@@ -48,7 +48,7 @@ export class CloneDialogComponent {
 
     public tapYes(e?: ButtonEvent) {
         if (emptyValidate(this.editData.title) || emptyValidate(this.editData.name)) {
-            this.toastrService.warning('请输入站点名');
+            this.toastrService.warning($localize `Please input site name`);
             return;
         }
         e?.enter();
@@ -59,7 +59,7 @@ export class CloneDialogComponent {
             next: _ => {
                 e?.reset();
                 this.visible = false;
-                this.toastrService.success('克隆成功');
+                this.toastrService.success($localize `Clone Successfully`);
             },
             error: err => {
                 e?.reset();

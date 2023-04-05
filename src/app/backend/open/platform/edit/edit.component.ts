@@ -116,7 +116,7 @@ export class EditComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
-            this.toastrService.warning('表单填写不完整');
+            this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: IPlatform = Object.assign({}, this.form.value) as any;

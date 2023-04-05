@@ -83,18 +83,18 @@ export class AddDialogComponent {
 
     public tapYes(e?: ButtonEvent) {
         if (this.selectedItems.length < 1) {
-            this.toastrService.warning('请选择站点');
+            this.toastrService.warning($localize `Please select any sites`);
             return;
         }
         e?.enter();
-        this.service.siteClone({
+        this.service.siteAdd({
             id: this.sourceData.id,
             site: this.selectedItems.map(i => i.id)
         }).subscribe({
             next: _ => {
                 e?.reset();
                 this.visible = false;
-                this.toastrService.success('已添加成功');
+                this.toastrService.success($localize `Add Successfully`);
             },
             error: err => {
                 e?.reset();
