@@ -1,0 +1,33 @@
+<ul class="tree-box">
+    <ng-container *ngFor="let item of items">
+        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: item}"></ng-container>
+    </ng-container>
+</ul>
+
+<ng-template #fileItemTpl let-file>
+    <ng-container *ngIf="file">
+        <ng-container *ngIf="file.expandable; else elseTemplate">
+            <li class="tree-item" [ngClass]="{open: file.expanded, active: activePath == file.path}">
+                <div class="tree-item-header" [ngStyle]="getItemStyle(file)">
+                    <i class="iconfont" [ngClass]="{'icon-chevron-right': file.expandable && !file.expanded, 'icon-chevron-down': file.expanded}" (click)="toggleOpen(file)"></i>
+                    <i class="iconfont" [ngClass]="file.icon"></i>
+                    <span (click)="tapItem(file)">{{ file.name }}</span>
+                </div>
+                <ul class="tree-item-body" *ngIf="file.children">
+                    <ng-container *ngFor="let it of file.children">
+                        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: it}"></ng-container>
+                    </ng-container>
+                </ul>
+            </li>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <li class="tree-item" [ngClass]="{active: activePath == file.path}">
+                <div class="tree-item-header" (click)="tapItem(file)" [ngStyle]="getItemStyle(file)">
+                    <i class="iconfont"></i>
+                    <i class="iconfont" [ngClass]="file.icon"></i>
+                    <span>{{ file.name }}</span>
+                </div>
+            </li>
+        </ng-template>
+    </ng-container>
+</ng-template>

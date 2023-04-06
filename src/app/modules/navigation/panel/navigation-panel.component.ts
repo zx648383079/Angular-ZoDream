@@ -5,7 +5,7 @@ import { ISiteCollect, ISiteCollectGroup } from '../model';
 import { NavigationService } from '../navigation.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
-import { selectAuthStatus, selectAuthUser } from '../../../theme/reducers/auth.selectors';
+import { selectAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { parseNumber } from '../../../theme/utils';
 
 const NavSaveKey = 'nsk';
@@ -65,7 +65,7 @@ export class NavigationPanelComponent {
         if (mode === this.saveMode) {
             return;
         }
-        if (this.isSaveCloud) {
+        if (mode === 2) {
             if (this.isGuest) {
                 return;
             }
@@ -141,6 +141,7 @@ export class NavigationPanelComponent {
 
     public tapReset() {
         this.toastrService.confirm($localize `Are you sure to reset?`, () => {
+            window.localStorage.removeItem(NavSaveModekey);
             this.loadAsync(this.isGuest);
         });
     }

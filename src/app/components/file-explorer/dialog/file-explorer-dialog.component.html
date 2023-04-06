@@ -1,0 +1,44 @@
+<div class="dialog-mask" *ngIf="visible"></div>
+<div class="file-explorer-dailog" *ngIf="visible">
+    <div class="explorer-header">
+        <div class="action-item" (click)="tapBack()" [ngClass]="{disabled: !canBack}">
+            <i class="iconfont icon-arrow-left"></i>
+        </div>
+        <div class="action-item" (click)="tapForward()" [ngClass]="{disabled: !canForward}">
+            <i class="iconfont icon-arrow-right"></i>
+        </div>
+        <div class="action-item" (click)="tapUp()" [ngClass]="{disabled: !canUp}">
+            <i class="iconfont icon-arrow-up"></i>
+        </div>
+        <div class="action-item" (click)="tapRefresh()">
+            <i class="iconfont icon-refresh"></i>
+        </div>
+        <form class="breadcrumb-bar" (ngSubmit)="tapConfirmPath()" (click)="pathIsInputing = true">
+            <ng-container *ngIf="pathIsInputing; else elseTemplate">
+                <input type="text" name="path" [(ngModel)]="path">
+            </ng-container>
+            <ng-template #elseTemplate>
+                <ng-container *ngFor="let item of breadcrumbItems">
+                    <a class="breadcrumb-item" [ngClass]="{disabled: item.disabled}" (click)="tapBreadcrumb(item, $event)">
+                        <i class="iconfont" *ngIf="item.icon" [ngClass]="item.icon"></i>
+                        <span class="breadcrumb-item-name">{{ item.name }}</span>
+                    </a>
+                </ng-container>
+            </ng-template>
+        </form>
+        <form class="search-bar" (ngSubmit)="tapConfirmSearch()">
+            <input type="text" name="keywords" [(ngModel)]="keywords" placeholder="Search">
+            <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
+        </form>
+        <div class="action-item" (click)="visible = false">
+            <i class="iconfont icon-close"></i>
+        </div>
+    </div>
+    <div class="explorer-body">
+        <app-file-explorer-catalog (pathChange)="onCatalogTap($event)"></app-file-explorer-catalog>
+        <app-file-explorer-panel (pathChange)="onFileTap($event)"></app-file-explorer-panel>
+    </div>
+    <div class="dialog-footer">
+
+    </div>
+</div>

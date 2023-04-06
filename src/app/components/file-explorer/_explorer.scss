@@ -1,0 +1,358 @@
+$headerHeight: 2.5rem;
+$border: 1px solid gray;
+$itemRadius: .25rem;
+
+@import '../../theme/styles/scrollbar';
+
+.explorer-header {
+    display: flex;
+    height: $headerHeight;
+    line-height: $headerHeight;
+    box-sizing: content-box;
+    border-bottom: 1px solid #ccc;
+    .breadcrumb-bar,
+    .search-bar {
+        display: block;
+        position: relative;
+        border-left: $border;
+    }
+    .breadcrumb-bar {
+        flex: 1;
+    }
+    .search-bar {
+        width: 10rem;
+        position: relative;
+        border-right: $border;
+        input {
+            height: $headerHeight;
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 0 1.5rem 0 .4rem;
+        }
+        .iconfont {
+            position: absolute;
+            top: 0;
+            right: .4rem;
+            color: #ccc;
+        }
+    }
+}
+
+.breadcrumb-bar {
+    padding: 0 0.4rem;
+    overflow-x: hidden;
+    input {
+        height: $headerHeight;
+        width: 100%;
+        border: none;
+        outline: none;  
+    }
+    .breadcrumb-item {
+        color: #333;
+        user-select: none;
+        &::before {
+            display: none !important;
+        }
+        &:not(:last-of-type) {
+            &::after {
+                content: ">";
+                display: inline-block;
+                color: #ccc;
+                margin: 0 .2rem;
+            }
+        }
+    }
+    .breadcrumb-item-name {
+        display: inline-block;
+    }
+}
+
+.tree-box {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        list-style: none;
+    }
+    .tree-item-body {
+        display: none;
+    }
+    .tree-item-header {
+        line-height: 2rem;
+        display: flex;
+        user-select: none;
+        .iconfont {
+            display: inline-block;
+            width: 1.4rem;
+            text-align: center;
+            &:first-of-type {
+                font-size: .8rem;
+                font-weight: 300;
+                color: #ccc;
+            }
+        }
+        span {
+            flex: 1;
+        }
+        &:hover {
+            background-color: #f4f4f4;
+        }
+    }
+    .active {
+        >.tree-item-header {
+            background-color: #f4f4f4;
+        }
+    }
+    .open {
+        >.tree-item-body {
+            display: block;
+        }
+    }
+}
+
+.explorer-body {
+    position: relative;
+    app-file-explorer-catalog {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        width: 10rem;
+        border-right: $border;
+        @include scrollbar();
+    }
+    app-file-explorer-panel {
+        position: relative;
+        display: block;
+        height: 100%;
+        margin-left: 10rem;
+    }
+}
+
+.explorer-header,
+.explorer-panel {
+    .action-item {
+        display: inline-block;
+        user-select: none;
+        line-height: $headerHeight;
+        position: relative;
+        .iconfont {
+            display: inline-block;
+            width: $headerHeight;
+            text-align: center;
+        }
+        span {
+            margin-right: .4rem;
+        }
+        &:hover {
+            background-color: #f4f4f4;
+            .action-dropdown {
+                display: block;
+            }
+        }
+        &.disabled {
+            cursor: not-allowed;
+            color: #ccc;
+            background-color: transparent;
+        }
+    }
+    .action-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        width: 12.5rem;
+        z-index: 5;
+        border: 1px solid #eee;
+        border-top: none;
+        background-color: white;
+        text-align: left;
+        .nav-item {
+            display: flex;
+            justify-content: space-between;
+            padding-left: .4rem;
+            color: #333;
+            &:hover {
+                background-color: #f4f4f4;
+            }
+        }
+    }
+}
+
+.explorer-panel {
+    .flex-1 {
+        flex: 1;
+    }
+    .file-list-body {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+    .panel-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-top: $border;
+        height: $headerHeight;
+        line-height: $headerHeight;
+        padding: 0 .8rem;
+        span {
+            &:not(:last-of-type) {
+                margin-right: .8rem;
+            }
+        }
+    }
+    .panel-header {
+        display: flex;
+        border-bottom: $border;
+    }
+}
+
+.file-list-body {
+    .file-check {
+        display: none;
+        width: 1.4rem;
+        text-align: center;
+    }
+    .file-row-header {
+        display: flex;
+        line-height: 2rem;
+        user-select: none;
+        color: #767676;
+        .file-sortable {
+            padding-left: .4rem;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .file-row-body {
+        position: absolute;
+        bottom: $headerHeight;
+        top: $headerHeight + 2rem;
+        left: 0;
+        right: 0;
+        overflow-y: auto;
+        @include scrollbar();
+    }
+    .file-row-meta {
+        width: 6.5rem;
+        padding-left: .4rem;
+    }
+    .file-group {
+        line-height: 2.5rem;
+        font-weight: 600;
+        font-size: 1.25rem;
+        cursor: default;
+    }
+    .file-icon {
+        width: 1.4rem;
+        text-align: center;
+        img {
+            display: none;
+        }
+    }
+    .file-item {
+        position: relative;
+        display: flex;
+        line-height: 2rem;
+        cursor: default;
+        
+        .file-name {
+            flex: 1;
+            padding-left: .4rem;
+        }
+        .file-item-action {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: none;
+            .iconfont {
+                padding: .4rem;
+            }
+        }
+        &:hover {
+            background-color: #eee;
+            .file-item-action {
+                display: block;
+            }
+            .file-row-meta {
+                display: none;
+            }
+        }
+        &:not(:last-of-type) {
+            border-bottom: 1px solid #ccc;
+        }
+    }
+    &.file-list-view {
+        .file-row-body {
+            top: $headerHeight;
+            padding: -.4rem;
+        }
+        .file-row-header {
+            display: none;
+        }
+        .file-icon {
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.125rem;
+            width: 100%;
+            border-radius: $itemRadius $itemRadius 0 0;
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: $itemRadius $itemRadius 0 0;
+            }
+        }
+        .file-item {
+            display: inline-block;
+            width: 6.25rem;
+            text-align: center;
+            border-bottom: none;
+            position: relative;
+            margin: .4rem;
+            .file-row-meta {
+                display: none;
+            }
+            .file-check {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .file-name {
+                line-height: 1.5rem;
+                height: 2rem;
+                overflow: hidden;
+                padding: 0;
+                text-align: center;
+            }
+            &:hover {
+                border-radius: $itemRadius;
+                .file-item-action {
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+    &.file-list-edit {
+        .file-check {
+            display: block;
+        }
+        .file-item {
+            &:hover {
+                .file-item-action {
+                    display: none;
+                }
+            }
+        }
+    }
+}

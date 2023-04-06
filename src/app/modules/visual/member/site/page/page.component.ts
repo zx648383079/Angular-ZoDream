@@ -24,13 +24,14 @@ export class SitePageComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-    public editData: ISitePage = {} as any;
+    public editData: ISitePage = {
+        settings: {}
+    } as any;
 
     constructor(
         private service: VisualService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
-        private router: Router,
         private searchService: SearchService,
     ) {
     }
@@ -47,6 +48,9 @@ export class SitePageComponent implements OnInit {
 
     public open(modal: DialogEvent, item: ISitePage) {
         this.editData = Object.assign({}, item);
+        if (!this.editData.settings) {
+            this.editData.settings = {};
+        }
         modal.open(() => {
             this.service.sitePageSave(this.editData).subscribe({
                 next: () => {

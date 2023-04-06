@@ -44,6 +44,10 @@ npm i --legacy-peer-deps
 
 √ [Dialog](src/app/components/dialog)
 
+√ [Search Dialog](src/app/modules/visual/member/search)
+
+√ [File Explorer](src/app/components/file-explorer)
+
 √ Form Input：[autocomplete](src/app/components/form/autocomplete), [action button](src/app/components/form/action-button) etc
 
 √ [Check in](src/app/modules/checkin)

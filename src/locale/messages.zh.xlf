@@ -716,7 +716,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.ts</context>
-                    <context context-type="linenumber">53</context>
+                    <context context-type="linenumber">57</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/site.component.ts</context>
@@ -1344,7 +1344,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.ts</context>
-                    <context context-type="linenumber">121</context>
+                    <context context-type="linenumber">125</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/site.component.ts</context>
@@ -5647,7 +5647,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">235</context>
+                    <context context-type="linenumber">236</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="676860092433275829" datatype="html">
@@ -5763,7 +5763,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">177</context>
+                    <context context-type="linenumber">178</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2260788638551466772" datatype="html">
@@ -6423,7 +6423,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">235</context>
+                    <context context-type="linenumber">236</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/member/note-member.component.html</context>
@@ -8971,7 +8971,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">177</context>
+                    <context context-type="linenumber">178</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3557897092215371186" datatype="html">
@@ -9019,7 +9019,7 @@
                 <target>收藏保存成功</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">172</context>
+                    <context context-type="linenumber">173</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6147694302047627204" datatype="html">
@@ -9027,7 +9027,7 @@
                 <target>你确定删除&quot;<x id="PH" equiv-text="item.name"/>&quot;</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">177</context>
+                    <context context-type="linenumber">178</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6288418931700919552" datatype="html">
@@ -9035,7 +9035,7 @@
                 <target>请输入网址</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">213</context>
+                    <context context-type="linenumber">214</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6310479550243002961" datatype="html">
@@ -9043,7 +9043,7 @@
                 <target>网址已存在</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/navigation/panel/navigation-panel.component.ts</context>
-                    <context context-type="linenumber">217</context>
+                    <context context-type="linenumber">218</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2506768707972578649" datatype="html">
@@ -10270,12 +10270,20 @@
                     <context context-type="linenumber">77</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="2382111577396449323" datatype="html">
+                <source>Cache Time/s</source>
+                <target>缓存时间/s</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.html</context>
+                    <context context-type="linenumber">78</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="5152542559740375645" datatype="html">
                 <source>Is Default Page</source>
                 <target>是否是默认页面</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.html</context>
-                    <context context-type="linenumber">78</context>
+                    <context context-type="linenumber">84</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1576287033516355723" datatype="html">
@@ -10283,7 +10291,7 @@
                 <target>确定删除 &quot;<x id="PH" equiv-text="item.title"/>&quot;?</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.ts</context>
-                    <context context-type="linenumber">116</context>
+                    <context context-type="linenumber">120</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/weight/site-weight.component.ts</context>

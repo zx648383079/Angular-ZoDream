@@ -1,0 +1,46 @@
+@import '../explorer';
+$radius: .375rem;
+.file-explorer-dailog {
+    position: fixed;
+    border-radius: $radius;
+    top: 50%;
+    margin-top: -12.5rem;
+    left: 50%;
+    margin-left: -21.5rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 300;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 43rem;
+    .explorer-header {
+        border-radius: $radius $radius 0 0;
+        .action-item {
+            &:first-of-type {
+                border-top-left-radius: $radius;
+            }
+            &:last-of-type {
+                border-top-right-radius: $radius;
+            }
+        }
+    }
+    .dialog-footer {
+        display: flex;
+        justify-content: space-between;
+        .btn {
+            display: inline-block;
+        }
+    }
+    .explorer-body {
+        flex: 1;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .file-explorer-dailog {
+        width: 100%;
+        left: 0;
+        margin-left: 0;
+    }
+}
