@@ -100,6 +100,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
     }
 
     public loadDetail(id: number, language?: string) {
+        id = parseNumber(id);
         if (this.data && this.data.id === id) {
             return;
         }
@@ -182,6 +183,9 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         const data: IBlog = Object.assign({}, this.form.value) as any;
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
+        }
+        if (this.data && this.data.parent_id) {
+            data.parent_id = this.data.parent_id;
         }
         if (this.data && this.data.language) {
             data.language = this.data.language;

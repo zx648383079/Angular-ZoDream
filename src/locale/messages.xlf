@@ -343,7 +343,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/backend/edit/edit.component.ts</context>
-          <context context-type="linenumber">206</context>
+          <context context-type="linenumber">210</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/backend/tag/edit/edit-tag.component.ts</context>
@@ -351,7 +351,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">201</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/backend/author/detail/author-detail.component.ts</context>
@@ -1485,7 +1485,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/backend/edit/edit.component.ts</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">189</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/backend/tag/edit/edit-tag.component.ts</context>
@@ -1493,7 +1493,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">180</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/book/backend/author/detail/author-detail.component.ts</context>
@@ -3177,7 +3177,7 @@
         <source>Confirm to log out?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/frontend.component.ts</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">139</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8456203115464120523" datatype="html">
@@ -6125,21 +6125,21 @@
         <source>Password for read</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">162</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8915779720931844964" datatype="html">
         <source>Price for buy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">165</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8462130792607498110" datatype="html">
         <source>Rule</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7816385338733128342" datatype="html">

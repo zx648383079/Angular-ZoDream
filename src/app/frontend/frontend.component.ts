@@ -73,11 +73,13 @@ export class FrontendComponent implements OnDestroy {
         private searchService: SearchService,
     ) {
         this.store.select(selectAuth).subscribe(res => {
+            console.log(res);
+            
             if (this.userLoading === res.isLoading && !this.user === res.guest) {
                 return;
             }
             this.userLoading = res.isLoading;
-            this.user = {...res.user} as any;
+            this.user = res.guest ?  undefined : {...res.user} as any;
             if (!res.isLoading && !res.guest) {
                 this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
                     this.user = profile;

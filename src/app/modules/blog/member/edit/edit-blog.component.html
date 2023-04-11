@@ -7,7 +7,7 @@
     <div class="route-right">
         <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
             <ng-container *ngFor="let item of data.languages">
-                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.id === data.id}">{{ item.name }}</a>
+                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
             </ng-container>
         </div>
     </div>
