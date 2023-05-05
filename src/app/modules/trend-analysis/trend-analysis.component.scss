@@ -1,0 +1,8 @@
+.trend-container ::ng-deep {
+    @import '../../theme/styles/admin';
+
+    .text-wrap {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+}

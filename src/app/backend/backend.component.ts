@@ -1,5 +1,6 @@
 import {
     Component,
+    OnDestroy,
     OnInit
 } from '@angular/core';
 import {
@@ -22,16 +23,18 @@ import { AuthActions } from '../theme/actions';
 import { DialogService } from '../components/dialog';
 import { MenuService } from './menu.service';
 import { ThemeService } from '../theme/services';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-backend',
     templateUrl: './backend.component.html',
     styleUrls: ['./backend.component.scss']
 })
-export class BackendComponent implements OnInit {
+export class BackendComponent implements OnInit, OnDestroy {
 
     public navItems: INav[] = [];
     public bottomNavs: INav[] = [];
+    private subItems: Subscription[] = [];
 
     constructor(
         private store: Store<AppState>,
@@ -46,13 +49,13 @@ export class BackendComponent implements OnInit {
             this.navItems = res.items;
             this.bottomNavs = res.bottom;
         });
-        this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
             this.menuService.setUser(user);
-        });
+        }));
         // 订阅 roles 变化
-        this.store.select(selectAuthRole).subscribe(roles => {
+        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
             this.menuService.setRole(roles);
-        });
+        }));
         this.service.roles().subscribe(res => {
             // 设置 roles
             this.store.dispatch(this.actions.setRole(res.permissions));
@@ -64,4 +67,9 @@ export class BackendComponent implements OnInit {
 
     ngOnInit(): void {}
 
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
+    }
 }

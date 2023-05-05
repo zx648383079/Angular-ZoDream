@@ -15,9 +15,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class NumberInputComponent implements ControlValueAccessor {
 
-    @Input() public min: number|string = 0;
-    @Input() public max: number|string = 0;
-    @Input() public step: number|string = 1;
+    @Input() public min = 0;
+    @Input() public max = 0;
+    @Input() public step = 1;
     @Input() public disabled = false;
     /**
      * 是否仅允许数字

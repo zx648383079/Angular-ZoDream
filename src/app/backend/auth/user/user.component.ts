@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -10,13 +10,14 @@ import { selectAuthRole } from '../../../theme/reducers/auth.selectors';
 import { mapFormat } from '../../../theme/utils';
 import { AuthService } from '../auth.service';
 import { SearchService } from '../../../theme/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
 
     public items: IUser[] = [];
     public hasMore = true;
@@ -59,6 +60,7 @@ export class UserComponent implements OnInit {
             color: 'btn-danger',
         },
     ];
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: AuthService,
@@ -68,9 +70,9 @@ export class UserComponent implements OnInit {
         private store: Store<AppState>,
         private searchService: SearchService
     ) {
-        this.store.select(selectAuthRole).subscribe(roles => {
+        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
-        });
+        }));
     }
 
     ngOnInit() {
@@ -78,6 +80,12 @@ export class UserComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public formatStatus(val: number) {

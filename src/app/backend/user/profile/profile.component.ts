@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
@@ -9,13 +9,14 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit {
     public reasonSelected = 0;
     public minDate: Date;
     public maxDate: Date;
+    private subItems: Subscription[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -47,7 +49,7 @@ export class ProfileComponent implements OnInit {
     ) {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
-        this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
             this.data = user;
             this.form.patchValue({
                 name: user.name,
@@ -56,10 +58,16 @@ export class ProfileComponent implements OnInit {
                 avatar: user.avatar,
                 birthday: user.birthday,
             });
-        });
+        }));
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public tapSubmit(e?: ButtonEvent) {

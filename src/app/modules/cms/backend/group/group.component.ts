@@ -80,8 +80,8 @@ export class GroupComponent implements OnInit {
         this.service.groupList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+            // this.hasMore = res.paging.more;
+            // this.total = res.paging.total;
             this.searchService.applyHistory(this.queries = queries);
         });
     }
@@ -92,16 +92,15 @@ export class GroupComponent implements OnInit {
     }
 
     public tapRemove(item: ICmsGroup) {
-        if (!confirm('确定删除“' + item.name + '”分组？')) {
-            return;
-        }
-        this.service.siteRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”分组？', () => {
+            this.service.siteRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

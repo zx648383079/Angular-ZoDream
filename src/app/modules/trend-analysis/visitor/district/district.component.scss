@@ -1,0 +1,18 @@
+.counter-bar {
+    display: flex;
+    .item {
+        flex: 1;
+        padding: .8rem;
+        text-align: center;
+        &:not(:last-of-type) {
+            border-right: 1px solid #ccc;
+        }
+    }
+    .item-count {
+        font-weight: bold;
+    }
+}
+
+.panel-full {
+    padding: 0;
+}

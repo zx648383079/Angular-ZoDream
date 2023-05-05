@@ -91,7 +91,7 @@ export class CmsService {
     }
 
     public groupList(params: any) {
-        return this.http.get<IPage<ICmsGroup>>('cms/admin/group', {params});
+        return this.http.get<IData<ICmsGroup>>('cms/admin/group', {params});
     }
 
     public group(id: any) {

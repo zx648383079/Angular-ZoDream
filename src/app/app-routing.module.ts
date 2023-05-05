@@ -24,11 +24,6 @@ const routes: Routes = [
         loadChildren: () => import('./frontend/frontend.module').then(m => m.FrontendModule)
     },
     {
-        path: '',
-        redirectTo: 'frontend',
-        pathMatch: 'full'
-    },
-    {
         path: 'disk',
         canActivate: [CanActivateViaAuthGuard],
         loadChildren: () => import('./modules/disk/disk.module').then(m => m.DiskModule)
@@ -37,6 +32,11 @@ const routes: Routes = [
         path: 'chat',
         canActivate: [CanActivateViaAuthGuard],
         loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
+    },
+    {
+        path: 'counter',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./modules/trend-analysis/trend-analysis.module').then(m => m.TrendAnalysisModule)
     },
     { path: 'shop', loadChildren: () => import('./modules/shop/shop.module').then(m => m.ShopModule) },
     { path: 'blog', loadChildren: () => import('./modules/blog/blog.module').then(m => m.BlogModule) },
@@ -57,6 +57,11 @@ const routes: Routes = [
     {
         path: 'visual',
         loadChildren: () => import('./modules/visual/visual.module').then(m => m.VisualModule)
+    },
+    {
+        path: '',
+        redirectTo: 'frontend',
+        pathMatch: 'full'
     },
     {
         path: '**',

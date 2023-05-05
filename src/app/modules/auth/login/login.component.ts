@@ -46,7 +46,6 @@ import { ButtonEvent, CountdownEvent } from '../../../components/form';
 export class LoginComponent implements OnInit, OnDestroy {
 
     public mode = 0;
-    public loginSubs: Subscription;
     public redirectUri: string;
     public isObserve = false;
 
@@ -62,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
+    private loginSubs: Subscription;
 
     constructor(
         private store: Store<AppState>,
@@ -166,7 +166,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             data.captcha_token = this.captchaToken;
         }
         e?.enter();
-        this.loginSubs = this.authService
+        this.authService
             .login(data)
             .subscribe({
                 error: err => {
@@ -186,7 +186,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     private redirectIfUserLoggedIn() {
-        this.store.select(selectAuthStatus).subscribe(
+        this.loginSubs = this.store.select(selectAuthStatus).subscribe(
             data => {
                 if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);

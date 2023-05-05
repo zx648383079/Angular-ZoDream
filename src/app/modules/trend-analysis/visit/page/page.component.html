@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>来源分析</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">时间</label>
+                    <input type="text" class="form-control" [ngModel]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间">
+                    -
+                    <input type="text" class="form-control" [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="tab-bar pull-right">
+                    <ng-container *ngFor="let item of tabItems">
+                    <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                    </ng-container>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td rowspan="2" width="50%">
+                    页面URL
+                </td>
+                <td colspan="2">
+                    网站基础指标
+                </td>
+                <td colspan="3">
+                    流量质量指标
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    浏览量(PV)
+                </td>
+                <td>
+                    访客数(UV)
+                </td>
+                <td>
+                    贡献下游浏览量
+                </td>
+                <td>
+                    退出页次数
+                </td>
+                <td>
+                    平均访问时长
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>
+                        <div class="text-wrap">
+                            {{ item.url }}
+                        </div>
+                    </td>
+                    <td>{{ item.pv }}</td>
+                    <td>{{ item.uv }}</td>
+                    <td>{{ item.scale }}</td>
+                    <td>{{ 0 }}</td>
+                    <td>{{ 0 }}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

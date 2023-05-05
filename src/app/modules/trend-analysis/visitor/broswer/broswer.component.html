@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>系统环境</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">时间</label>
+                    <input type="text" class="form-control" [ngModel]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间">
+                    -
+                    <input type="text" class="form-control" [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="tab-bar pull-right">
+                    <ng-container *ngFor="let item of tabItems">
+                    <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                    </ng-container>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel-container panel-full">
+        <div class="tab-bar">
+            <ng-container *ngFor="let item of typeItems">
+            <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
+            </ng-container>
+        </div>
+        <div class="counter-bar">
+            <div class="item">
+                <div class="item-label">浏览量(PV)</div>
+                <div class="item-count">{{ 0 | numberFormat }}</div>
+            </div>
+            <div class="item">
+                <div class="item-label">访客数(UV)</div>
+                <div class="item-count">{{ 0 | numberFormat }}</div>
+            </div>
+            <div class="item">
+                <div class="item-label">IP数</div>
+                <div class="item-count">{{ 0 | numberFormat }}</div>
+            </div>
+            <div class="item">
+                <div class="item-label">跳出率</div>
+                <div class="item-count">{{ 0 | numberFormat }}%</div>
+            </div>
+            <div class="item">
+                <div class="item-label">平均访问时长</div>
+                <div class="item-count">{{ '00:01:38' }}</div>
+            </div>
+        </div>
+         <div  echarts [options]="options" class="chart-lg"></div>
+
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <td rowspan="2">
+                    浏览器
+                </td>
+                <td colspan="3">
+                    网站基础指标
+                </td>
+                <td colspan="2">
+                    流量质量指标
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    浏览量(PV)
+                </td>
+                <td>
+                    访客数(UV)
+                </td>
+                <td>
+                    IP数
+                </td>
+                <td>
+                    跳出率
+                </td>
+                <td>
+                    平均访问时长
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.user?.name }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.source_url }}</td>
+                    <td>{{ item.short_url }}</td>
+                    <td>{{ item.click_count | numberFormat }}</td>
+                    <td>{{ 1 }}</td>
+                    <td>{{ item.expired_at | timestamp }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                       
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>

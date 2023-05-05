@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>实时访客列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>点击图名称</th>
+                    <th>页面范围</th>
+                    <th>预览页面</th>
+                    <th>状态</th>
+                    <th>创建日期</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.user?.name }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.source_url }}</td>
+                    <td>{{ item.short_url }}</td>
+                    <td>{{ item.click_count | numberFormat }}</td>
+                    <td>{{ 1 }}</td>
+                    <td>{{ item.expired_at | timestamp }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                       
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

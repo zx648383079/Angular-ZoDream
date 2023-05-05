@@ -15,6 +15,7 @@ li {
     z-index: 99;
     display: flex;
     flex-direction: column;
+    user-select: none;
     .nav-toggle-icon {
         font-size: 1.875rem;
         padding: 0 0.625rem;

@@ -10,6 +10,7 @@ import { AuthService, SearchService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
 import { SearchEvents } from '../theme/models/event';
+import { Subscription } from 'rxjs';
 
 interface IMenuItem {
   name: string;
@@ -63,6 +64,7 @@ export class FrontendComponent implements OnDestroy {
         },
         {}
     ];
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: FrontendService,
@@ -72,9 +74,7 @@ export class FrontendComponent implements OnDestroy {
         private toastrService: DialogService,
         private searchService: SearchService,
     ) {
-        this.store.select(selectAuth).subscribe(res => {
-            console.log(res);
-            
+        this.subItems.push(this.store.select(selectAuth).subscribe(res => {
             if (this.userLoading === res.isLoading && !this.user === res.guest) {
                 return;
             }
@@ -82,7 +82,7 @@ export class FrontendComponent implements OnDestroy {
             this.user = res.guest ?  undefined : {...res.user} as any;
             if (!res.isLoading && !res.guest) {
                 this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
-                    this.user = profile;
+                    this.user = {...profile};
                     this.dropNavItems[1].count = profile.bulletin_count;
                     this.dropNavItems.forEach(i => {
                         if (i.is_access) {
@@ -91,7 +91,7 @@ export class FrontendComponent implements OnDestroy {
                     });
                 });
             }
-        });
+        }));
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
         });
@@ -118,6 +118,9 @@ export class FrontendComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this.searchService.off(SearchEvents.LOGIN, SearchEvents.NAV_TOGGLE);
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public onCheckedChange(checked: boolean) {
