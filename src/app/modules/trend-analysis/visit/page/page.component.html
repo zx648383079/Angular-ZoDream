@@ -60,11 +60,11 @@
                             {{ item.url }}
                         </div>
                     </td>
-                    <td>{{ item.pv }}</td>
-                    <td>{{ item.uv }}</td>
-                    <td>{{ item.scale }}</td>
-                    <td>{{ 0 }}</td>
-                    <td>{{ 0 }}</td>
+                    <td>{{ item.pv | numberFormat }}</td>
+                    <td>{{ item.uv | numberFormat }}</td>
+                    <td>{{ item.next_count | numberFormat }}</td>
+                    <td>{{ item.jump_count | numberFormat }}</td>
+                    <td>{{ item.stay_time | hour}}</td>
                 </tr>
                 
             </tbody>

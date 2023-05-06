@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
-import { Observable, map } from 'rxjs';
 import { TrendService } from '../trend.service';
-import { TimeTabItems } from '../model';
+import { ITrendStatistics, TimeTabItems } from '../model';
 
 @Component({
     selector: 'app-trend-home',
@@ -13,13 +12,19 @@ export class HomeComponent implements OnInit {
 
     public trendToggle = false;
     public todayData: any = {};
-    public options: Observable<EChartsOption>;
+    public options: EChartsOption;
     public wordItems: any[] = [];
     public sourceItems: any[] = [];
     public enterItems: any[] = [];
     public pageItems: any[] = [];
     public tabItems = TimeTabItems;
     public tabIndex = 'today';
+    public trendData: {
+        items: ITrendStatistics[];
+        compare_items: ITrendStatistics[];
+    };
+    public trendIndex = 0; 
+    public trendCompare = 0;
 
     constructor(
         private service: TrendService,
@@ -31,49 +36,88 @@ export class HomeComponent implements OnInit {
         }).subscribe(res => {
             this.todayData = res.today;
         });
-        this.options = this.service.trendStatistics().pipe(map(data => {
-            return <EChartsOption>{
-                // title: {
-                //     text: '流量趋势分析',
-                //     left: 'center',
-                //     align: 'right'
-                // },
-                tooltip: {
-                    trigger: 'axis'
+        this.loadTrend();
+    }
+
+    public tapTrendIndex(val: number) {
+        if (val === this.trendIndex) {
+            return;
+        }
+        this.trendIndex = val;
+        this.refreshTrendChart();
+    }
+
+    public tapTrendCompare(val: number) {
+        this.trendCompare = val === this.trendCompare ? 0 : val;
+        this.loadTrend();
+    }
+
+    private refreshTrendChart() {
+        if (!this.trendData) {
+            this.options = undefined;
+            return;
+        }
+        const data = this.trendData;
+        const firstName = this.tabItems.filter(i => i.value == this.tabIndex)[0].name;
+        const option = <EChartsOption>{
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: [firstName],
+                right: 10,
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: data.items.map(item => item.date),
+            },
+            yAxis: {
+                type: 'value',
+            },
+            series: [
+                {
+                    name: firstName,
+                    type: 'line',
+                    animation: false,
+                    data: data.items.map(item => {
+                        return this.trendIndex < 1 ? item.pv : item.uv;
+                    }),
                 },
-                legend: {
-                    data: ['今日', '昨日'],
-                    right: 10,
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: data.map(item => item.time),
-                },
-                yAxis: {
-                        type: 'value',
-                },
-                series: [
-                    {
-                        name: '今日',
-                        type: 'line',
-                        animation: false,
-                        data: data.map(item => item.count),
-                    },
-                    {
-                        name: '昨日',
-                        type: 'line',
-                        animation: false,
-                        data: data.map(item => item.last),
-                    }
-                ]
-            };
-        }));
+            ]
+        };
+        if (this.trendCompare > 0) {
+            const nextName = this.trendCompare == 1 ? '前一天' : '上周同期';
+            (option.legend as any).data.push(nextName);
+            (option.series as any).push({
+                name: nextName,
+                type: 'line',
+                animation: false,
+                data: data.compare_items.map(item => {
+                    return this.trendIndex < 1 ? item.pv : item.uv;
+                }),
+            });
+        }
+        this.options = option;
     }
 
 
     public tapTab(val: string) {
+        if (val === this.tabIndex) {
+            return;
+        }
+        if (val !== 'today' && val !== 'yesterday') {
+            this.trendCompare = 0;
+        }
         this.tabIndex = val;
+        this.loadTrend();
+    }
+
+    private loadTrend() {
+        this.service.trendStatistics(this.tabIndex, this.trendCompare).subscribe(res => {
+            this.trendData = res;
+            this.refreshTrendChart();
+        });
     }
 
     public loadWord() {

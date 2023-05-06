@@ -26,7 +26,7 @@
             <thead>
               <tr>
                 <td rowspan="2">
-                    来源类型
+                    {{ headerTitle }}
                 </td>
                 <td colspan="3">
                     网站基础指标
@@ -55,18 +55,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.user?.name }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.source_url }}</td>
-                    <td>{{ item.short_url }}</td>
-                    <td>{{ item.click_count | numberFormat }}</td>
-                    <td>{{ 1 }}</td>
-                    <td>{{ item.expired_at | timestamp }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>
-                       
-                    </td>
+                    <td>{{ getHeaderValue(item) }}</td>
+                    <td>{{ item.pv }}</td>
+                    <td>{{ item.uv }}</td>
+                    <td>{{ item.ip_count }}</td>
+                    <td>{{ item.jump_scale | numberFormat }}</td>
+                    <td>{{ item.stay_time | hour}}</td>
                 </tr>
                 
             </tbody>

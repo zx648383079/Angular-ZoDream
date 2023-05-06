@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { IData, IPage } from '../../theme/models/page';
-import { IJumpLog } from './model';
+import { IJumpLog, ITrendStatistics } from './model';
 
 @Injectable({
     providedIn: 'root'
@@ -75,19 +75,13 @@ export class TrendService {
         });
     }
 
-    public trendStatistics() {
-        return of([
-            {
-                time: 5,
-                count: 5,
-                last: 5
-            },
-            {
-                time: 5,
-                count: 5,
-                last: 5
-            }
-        ]);
+    public trendStatistics(type: string, compare: number) {
+        return this.http.get<{
+            items: ITrendStatistics[];
+            compare_items: ITrendStatistics[]
+        }>('counter/statistics/trend', {
+            params: {type, compare}
+        });
     }
 
     public batch(data: {

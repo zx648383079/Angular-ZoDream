@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
-import { TimeTabItems } from '../../model';
+import { ITrendAnalysis, TimeTabItems } from '../../model';
 import { TrendService } from '../../trend.service';
 import { DialogService } from '../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -37,6 +37,7 @@ export class BroswerComponent implements OnInit {
         {name: '网络提供商', value: 7},
     ];
     public options?: EChartsOption;
+    public data?: ITrendAnalysis;
 
     constructor(
         private service: TrendService,

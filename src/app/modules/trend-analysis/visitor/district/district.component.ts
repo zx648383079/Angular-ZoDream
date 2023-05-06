@@ -5,7 +5,7 @@ import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
-import { TimeTabItems } from '../../model';
+import { ITrendAnalysis, TimeTabItems } from '../../model';
 import { TrendService } from '../../trend.service';
 import * as echarts from 'echarts/core';
 
@@ -32,6 +32,7 @@ export class DistrictComponent implements OnInit {
         {name: '按国家', value: 1},
     ];
     public options?: EChartsOption;
+    public data?: ITrendAnalysis;
 
     constructor(
         private service: TrendService,

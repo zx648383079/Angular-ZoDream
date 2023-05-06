@@ -29,26 +29,26 @@
             <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
             </ng-container>
         </div>
-        <div class="counter-bar">
+        <div class="counter-bar" *ngIf="data">
             <div class="item">
                 <div class="item-label">浏览量(PV)</div>
-                <div class="item-count">{{ 0 | numberFormat }}</div>
+                <div class="item-count">{{ data.pv | numberFormat }}</div>
             </div>
             <div class="item">
                 <div class="item-label">访客数(UV)</div>
-                <div class="item-count">{{ 0 | numberFormat }}</div>
+                <div class="item-count">{{ data.uv | numberFormat }}</div>
             </div>
             <div class="item">
                 <div class="item-label">IP数</div>
-                <div class="item-count">{{ 0 | numberFormat }}</div>
+                <div class="item-count">{{ data.ip_count | numberFormat }}</div>
             </div>
             <div class="item">
                 <div class="item-label">跳出率</div>
-                <div class="item-count">{{ 0 | numberFormat }}%</div>
+                <div class="item-count">{{ data.jump_scale }}</div>
             </div>
             <div class="item">
                 <div class="item-label">平均访问时长</div>
-                <div class="item-count">{{ '00:01:38' }}</div>
+                <div class="item-count">{{ data.stay_time | hour }}</div>
             </div>
         </div>
          <div echarts [options]="options" class="chart-lg"></div>
@@ -86,18 +86,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of items">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.user?.name }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.source_url }}</td>
-                    <td>{{ item.short_url }}</td>
-                    <td>{{ item.click_count | numberFormat }}</td>
-                    <td>{{ 1 }}</td>
-                    <td>{{ item.expired_at | timestamp }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>
-                       
-                    </td>
+                    <td>{{ item.country }}</td>
+                    <td>{{ item.pv | numberFormat }}</td>
+                    <td>{{ item.uv | numberFormat }}</td>
+                    <td>{{ item.ip_count | numberFormat }}</td>
+                    <td>{{ item.jump_count | numberFormat }}</td>
+                    <td>{{ item.stay_time | hour}}</td>
                 </tr>
                 
             </tbody>

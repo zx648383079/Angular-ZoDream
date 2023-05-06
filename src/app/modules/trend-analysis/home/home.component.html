@@ -27,54 +27,54 @@
                     <th>今日</th>
                     <td>{{ todayData.today.pv | numberFormat }}</td>
                     <td>{{ todayData.today.uv | numberFormat }}</td>
-                    <td>{{ todayData.today.ip | numberFormat }}</td>
-                    <td>{{ todayData.today.jump | numberFormat }}</td>
-                    <td>{{ todayData.today.stay | hour }}</td>
+                    <td>{{ todayData.today.ip_count | numberFormat }}</td>
+                    <td>{{ todayData.today.jump_count | numberFormat }}</td>
+                    <td>{{ todayData.today.stay_time | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr *ngIf="todayData.yesterday">
                     <th>昨日</th>
                     <td>{{ todayData.yesterday.pv | numberFormat }}</td>
                     <td>{{ todayData.yesterday.uv | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.ip | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.jump | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.stay | hour }}</td>
+                    <td>{{ todayData.yesterday.ip_count | numberFormat }}</td>
+                    <td>{{ todayData.yesterday.jump_count | numberFormat }}</td>
+                    <td>{{ todayData.yesterday.stay_time | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr *ngIf="todayData.expectToday">
                     <th>预计今日</th>
                     <td>{{ todayData.expectToday.pv | numberFormat }}</td>
                     <td>{{ todayData.expectToday.uv | numberFormat }}</td>
-                    <td>{{ todayData.expectToday.ip | numberFormat }}</td>
-                    <td>{{ todayData.expectToday.jump | numberFormat }}</td>
-                    <td>{{ todayData.expectToday.stay | hour }}</td>
+                    <td>{{ todayData.expectToday.ip_count | numberFormat }}</td>
+                    <td>{{ todayData.expectToday.jump_count | numberFormat }}</td>
+                    <td>{{ todayData.expectToday.stay_time | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr *ngIf="todayData.yesterdayHour" [hidden]="!trendToggle" class="table-light">
                     <th>昨日此时</th>
                     <td>{{ todayData.yesterdayHour.pv | numberFormat }}</td>
                     <td>{{ todayData.yesterdayHour.uv | numberFormat }}</td>
-                    <td>{{ todayData.yesterdayHour.ip | numberFormat }}</td>
-                    <td>{{ todayData.yesterdayHour.jump | numberFormat }}</td>
-                    <td>{{ todayData.yesterdayHour.stay | hour }}</td>
+                    <td>{{ todayData.yesterdayHour.ip_count | numberFormat }}</td>
+                    <td>{{ todayData.yesterdayHour.jump_count | numberFormat }}</td>
+                    <td>{{ todayData.yesterdayHour.stay_time | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr *ngIf="todayData.dayAvg" [hidden]="!trendToggle" class="table-light">
                     <th>每日平均</th>
                     <td>{{ todayData.dayAvg.pv | numberFormat }}</td>
                     <td>{{ todayData.dayAvg.uv | numberFormat }}</td>
-                    <td>{{ todayData.dayAvg.ip | numberFormat }}</td>
-                    <td>{{ todayData.dayAvg.jump | numberFormat }}</td>
-                    <td>{{ todayData.dayAvg.stay | hour }}</td>
+                    <td>{{ todayData.dayAvg.ip_count | numberFormat }}</td>
+                    <td>{{ todayData.dayAvg.jump_count | numberFormat }}</td>
+                    <td>{{ todayData.dayAvg.stay_time | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr *ngIf="todayData.dayMax" [hidden]="!trendToggle" class="table-light">
                     <th>历史峰值</th>
                     <td [title]="'峰值日: ' + todayData.dayMax.pv.day ">{{ todayData.dayMax.pv.value | numberFormat }}</td>
                     <td [title]="'峰值日: ' + todayData.dayMax.uv.day ">{{ todayData.dayMax.uv.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.ip.day ">{{ todayData.dayMax.ip.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.jump.day ">{{ todayData.dayMax.jump.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.stay.day ">{{ todayData.dayMax.stay.value | hour }}</td>
+                    <td [title]="'峰值日: ' + todayData.dayMax.ip_count.day ">{{ todayData.dayMax.ip.value | numberFormat }}</td>
+                    <td [title]="'峰值日: ' + todayData.dayMax.jump_count.day ">{{ todayData.dayMax.jump.value | numberFormat }}</td>
+                    <td [title]="'峰值日: ' + todayData.dayMax.stay_time.day ">{{ todayData.dayMax.stay.value | hour }}</td>
                     <td>--</td>
                 </tr>
                 <tr [ngClass]="{'table-light': trendToggle}">
@@ -99,17 +99,17 @@
                 <div class="panel-body">
                     <div class="flex-between">
                         <div class="tab-bar">
-                            <a class="item active">浏览量(PV)</a>
-                            <a class="item">访客数(UV)</a>
+                            <a class="item" [ngClass]="{active: trendIndex < 1}" (click)="tapTrendIndex(0)">浏览量(PV)</a>
+                            <a class="item" [ngClass]="{active: trendIndex == 1}" (click)="tapTrendIndex(1)">访客数(UV)</a>
                         </div>
-                        <div class="radio-group">
+                        <div class="radio-group" *ngIf="tabIndex == 'today' || tabIndex == 'yesterday'">
                             <label for="">对比：</label>
-                            <i class="iconfont icon-check-square-o"></i>
+                            <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 1, 'icon-square-o': trendCompare != 1}" (click)="tapTrendCompare(1)"></i>
                             前一日
-                            <i class="iconfont icon-square-o"></i>上周同期
+                            <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 2, 'icon-square-o': trendCompare != 2}" (click)="tapTrendCompare(2)"></i>上周同期
                         </div>
                     </div>
-                    <div  echarts [options]="options | async" class="chart-lg"></div>
+                    <div  echarts [options]="options" class="chart-lg"></div>
                 </div>
             </div>
         </div>

@@ -20,6 +20,7 @@ export class SourceComponent implements OnInit {
     public queries: IPageQueries = {
         start_at: '',        
         end_at: '',
+        type: '',
         page: 1,
         per_page: 20
     };
@@ -38,6 +39,32 @@ export class SourceComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public get headerTitle() {
+        switch (this.queries.type) {
+            case 'engine':
+                return '搜索引擎';
+            case 'keywords':
+                return '搜索词';
+            case 'link':
+                return '外部链接';
+            default:
+                return '来源类型';
+        }
+    }
+
+    public getHeaderValue(item: any) {
+         switch (this.queries.type) {
+            case 'engine':
+                
+            case 'keywords':
+                return item.words;
+            case 'link':
+                return item.host;
+            default:
+                return item.host;
+        }
     }
 
     public tapTab(val: string) {
