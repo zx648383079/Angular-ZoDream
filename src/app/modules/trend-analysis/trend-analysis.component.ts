@@ -23,28 +23,28 @@ export class TrendAnalysisComponent {
             icon: 'icon-line-chart',
             children: [
                 {
-                    name: '实时访客',
+                    name: $localize `Live visitors`,
                     icon: 'icon-clock-o',
                     url: './trend/real-time'
                 },
                 {
-                    name: '趋势分析',
+                    name: $localize `Trend analysis`,
                     icon: 'icon-bar-chart',
                     url: './trend/analysis'
                 }
             ]
         },
         {
-            name: '来源分析',
+            name: $localize `Source analysis`,
             icon: 'icon-history',
             children: [
                 {
-                    name: '全部来源',
+                    name: $localize `All sources`,
                     icon: 'icon-th-list',
                     url: './source',
                 },
                 {
-                    name: '搜索引擎',
+                    name: $localize `Search Engine`,
                     icon: 'icon-search',
                     url: './source',
                     urlQuery: {
@@ -52,7 +52,7 @@ export class TrendAnalysisComponent {
                     }
                 },
                 {
-                    name: '搜索词',
+                    name: $localize `Search words`,
                     icon: 'icon-commenting',
                     url: './source',
                     urlQuery: {
@@ -60,7 +60,7 @@ export class TrendAnalysisComponent {
                     }
                 },
                 {
-                    name: '外部链接',
+                    name: $localize `External links`,
                     icon: 'icon-share-alt',
                     urlQuery: {
                         type: 'link'
@@ -69,47 +69,47 @@ export class TrendAnalysisComponent {
             ]
         },
         {
-            name: '访问分析',
+            name: $localize `Access Analysis`,
             icon: 'icon-eye',
             children: [
                 {
-                    name: '受访页面',
+                    name: $localize `Interviewed page`,
                     icon: 'icon-chain',
                     url: './visit/page'
                 },
                 {
-                    name: '入口页面',
+                    name: $localize `Entry page`,
                     icon: 'icon-home',
                     url: './visit/enter'
                 },
                 {
-                    name: '受访域名',
+                    name: $localize `Interviewed Domains`,
                     icon: 'icon-bookmark',
                     url: './visit/domain'
                 },
                 {
-                    name: '页面点击图',
+                    name: $localize `Page click map`,
                     icon: 'icon-file-text-o',
                     url: './visit/page-click'
                 },
                 {
-                    name: '跳转分析',
+                    name: $localize `Jump analysis`,
                     icon: 'icon-sign-out',
                     url: './visit/jump'
                 }
             ]
         },
         {
-            name: '访客分析',
+            name: $localize `Visitor Analysis`,
             icon: 'icon-group',
             children: [
                 {
-                    name: '地域分布',
+                    name: $localize `Geographical distribution`,
                     icon: 'icon-globe',
                     url: './visitor/district'
                 },
                 {
-                    name: '系统环境',
+                    name: $localize `System environment`,
                     icon: 'icon-desktop',
                     url: './visitor/broswer'
                 },

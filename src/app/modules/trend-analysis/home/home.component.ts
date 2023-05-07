@@ -121,18 +121,40 @@ export class HomeComponent implements OnInit {
     }
 
     public loadWord() {
-        
+        this.service.sourceList({
+            type: 'keywords',
+            start_at: this.tabIndex,
+            per_page: 10
+        }).subscribe(res => {
+            this.wordItems = res.data;
+        });
     }
 
     public loadSource() {
-        
+        this.service.sourceList({
+            type: 'link',
+            start_at: this.tabIndex,
+            per_page: 10
+        }).subscribe(res => {
+            this.sourceItems = res.data;
+        });
     }
 
     public loadEnter() {
-        
+        this.service.visitEnterList({
+            start_at: this.tabIndex,
+            per_page: 10
+        }).subscribe(res => {
+            this.enterItems = res.data;
+        });
     }
 
     public loadPage() {
-        
+        this.service.visitList({
+            start_at: this.tabIndex,
+            per_page: 10
+        }).subscribe(res => {
+            this.pageItems = res.data;
+        });
     }
 }
