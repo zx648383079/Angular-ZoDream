@@ -22,7 +22,7 @@
 
 <div class="list-table">
     <ng-container *ngFor="let item of items">
-        <div class="row-item">
+        <div class="row-item" [ngClass]="{'colour-row-item': item.is_localization}">
             <div class="item-header">
                 <div class="tag-bar">
                     <i class="iconfont icon-lock" *ngIf="item.open_type > 0" i18n-title title="Reading needs to meet the conditions"></i>

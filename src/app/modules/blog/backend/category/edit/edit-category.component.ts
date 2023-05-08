@@ -18,6 +18,7 @@ export class EditCategoryComponent implements OnInit {
         keywords: [''],
         description: [''],
         styles: [''],
+        en_name: [''],
     });
 
     public data: ICategory;
@@ -42,6 +43,7 @@ export class EditCategoryComponent implements OnInit {
                     keywords: res.keywords,
                     description: res.description,
                     styles: res.styles,
+                    en_name: res.en_name
                 });
             });
         });

@@ -49,6 +49,7 @@ export interface IBlog {
     source_url?: string;
     source_author?: string;
     is_hide?: number;
+    is_localization?: boolean;
     seo_title?: string;
     seo_description?: string;
     seo_link?: string;
@@ -71,6 +72,7 @@ export interface ICategory {
     blog_count: number;
     keywords?: string;
     styles?: string;
+    en_name?: string;
 }
 
 

@@ -11,7 +11,6 @@ import { BlogService } from '../blog.service';
 export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
-
     public isLoading = false;
 
     constructor(

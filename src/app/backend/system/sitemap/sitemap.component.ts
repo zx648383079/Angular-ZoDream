@@ -24,6 +24,7 @@ export class SitemapComponent implements OnInit {
     * tapMake
     */
     public tapMake(e?: ButtonEvent) {
+        this.items = [];
         e?.enter();
         this.service.sitemap().subscribe({
             next: res => {
