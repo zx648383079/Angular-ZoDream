@@ -8,7 +8,7 @@ export interface IWorkEditor extends ICommandManager {
 
     getPosition<T extends IPoint>(point: T): T;
 
-    execute(action: IEditorAction| MENU_ACTION);
+    execute(action: IEditorAction| MENU_ACTION): void;
 
     push(item: Widget, location?: IPoint): boolean;
     remove(item: Widget): void;

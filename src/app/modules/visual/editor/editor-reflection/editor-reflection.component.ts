@@ -73,11 +73,11 @@ export class EditorReflectionComponent implements OnInit {
 
     public tapToggleGroup() {
         if (this.canMerge) {
-            this.service.workEditor.execute(MENU_ACTION.MERGE);
+            this.service.workspace.execute(MENU_ACTION.MERGE);
             return;
         }
         if (this.canSplit) {
-            this.service.workEditor.execute(MENU_ACTION.SPLIT);
+            this.service.workspace.execute(MENU_ACTION.SPLIT);
             return;
         }
     }
@@ -172,7 +172,7 @@ export class EditorReflectionComponent implements OnInit {
             }
             last = p;
         }, _ => {
-            this.service.workEditor.executeCommand(
+            this.service.workspace.executeCommand(
                 new BatchCommand(
                     ...this.widgetItems.map((i, j) => new ResizeWidgetCommand(i, oldItems[j], i.bound)),
                     new ResizeWidgetCommand(this, oldBound, this.widgetBound)

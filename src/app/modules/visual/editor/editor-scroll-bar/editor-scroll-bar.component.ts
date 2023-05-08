@@ -22,11 +22,12 @@ export class EditorScrollBarComponent {
     constructor(
         private service: EditorService,
     ) {
-        this.service.resize$.subscribe(res => {
-            if (!res || !res.zoom) {
+        this.service.shellSize$.subscribe(res => {
+            if (!res) {
                 return;
             }
-            this.baseWidth = this.orientation ? res.zoom.width : res.zoom.height;
+            const zoom = this.service.workspaceSize$.value;
+            this.baseWidth = this.orientation ? zoom.width : zoom.height;
             // this.baseX = this.orientation ? res.zoom.x : res.zoom.y;
             this.length = Math.min(60, Math.pow(this.baseWidth, 2) / (this.max - this.min));
         });

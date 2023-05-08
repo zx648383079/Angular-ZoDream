@@ -18,19 +18,15 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     private contextMenu: ContextMenuComponent;
     @ViewChild(EditorRulePanelComponent)
     private rulePanel: EditorRulePanelComponent;
-    public scaleValue = 100;
-    public shellBound: IBound = {
-        x: 0,
-        y: 0,
-        width: 414,
-        height: 600,
-    };
     public trackData = {
         xMin: 0,
         xMax: 100,
         yMin: 0,
         yMax: 100,
     };
+    public outerStyle: any = {};
+    public innerStyle: any = {};
+
     private selectionRect = new SelectionBound();
     
     constructor(
@@ -39,31 +35,61 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
         private ngZone: NgZone,
     ) {
         super();
-        this.service.workEditor = this;
-        this.service.resize$.subscribe(res => {
+        this.service.workspace = this;
+        this.service.shellSize$.subscribe(res => {
             if (!res) {
                 return;
             }
-            this.ngZone.run(() => {
-                this.shellBound.x = Math.max(0, (res.zoom.width - this.shellBound.width) / 2);
-                this.shellBound.y = Math.max(0, (res.zoom.height - this.shellBound.height) / 2);
-                this.trackData.xMax = this.shellBound.x;
-                this.trackData.xMin = - this.shellBound.width;
-                this.trackData.yMax = this.shellBound.y;
-                this.trackData.yMin = - this.shellBound.height;
+            this.outerStyle = {
+                transform: 'scale(' + (res.scale / 100) +')',
+            };
+            this.innerStyle = {
+                width: res.size.width + 'px',
+                height: res.size.height + 'px',
+                left: res.size.x + 'px',
+                top: res.size.y + 'px',
+            };
+        });
+        this.service.workspaceInnerSize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            let size: IBound = {
+                x: 0,
+                y: 0,
+                width: 414,
+                height: 600,
+            };
+            let scale = 100;
+            if (this.service.shellSize$.value) {
+                scale = this.service.shellSize$.value.scale;
+                size = this.service.shellSize$.value.size;
+            }
+            this.service.shellSize$.next({
+                size,
+                scale,
+                actualSize: scaleBound(size, scale, 100)
             });
         });
-    }
-
-    public get shellScaleBound(): IBound {
-        return scaleBound(this.shellBound, this.scaleValue, 100);
+        this.service.workspaceSize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.service.workspaceInnerSize$.next({
+                x: 16,
+                y: 16,
+                width: res.width - 22,
+                height: res.height - 22
+            });
+        });
     }
 
     /**
      * 编辑区域的世界坐标
      */
     public get wordShellBound() {
-        return wordRect(this.service.resize$.value ? this.service.resize$.value.zoom : undefined, this.shellBound);
+        const res = this.service.workspaceSize$.value;
+        return wordRect(res, this.service.shellSize$.value.size);
     }
 
 
@@ -85,51 +111,31 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
         };
     }
 
-    public get outerStyle() {
-        // const base = this.wordShellBound;
-        return {
-            // 'transform-origin': `${base.x}px ${base.y}px`,
-            transform: 'scale(' + (this.scaleValue / 100) +')',
-        };
-    }
-
-    public get innerStyle() {
-        return {
-            width: this.shellBound.width + 'px',
-            height: this.shellBound.height + 'px',
-            left: this.shellBound.x + 'px',
-            top: this.shellBound.y + 'px',
-        };
-        // return {
-        //     width: this.hBar.innerLength + 'px',
-        //     height: this.vBar.innerLength + 'px',
-        //     transform: 'translate(' + (-this.hBar.innerOffset) +  'px, '+ (-this.vBar.innerOffset) +'px)',
-        // };
-    }
-
     /**
      * 转化为编辑区域坐标
      * @param point 
      * @returns 
      */
     public getPosition<T extends IPoint>(point: T): T {
-        if (this.scaleValue === 100) {
+        const res = this.service.shellSize$.value;
+        if (res.scale === 100) {
             return relativePoint(this.wordShellBound, point);
         }
-        const zoom = this.service.resize$.value.zoom;
-        return pointFromScale(relativePoint(zoom, point), this.shellBound, this.shellScaleBound);
+        const zoom = this.service.workspaceSize$.value;
+        return pointFromScale(relativePoint(zoom, point), res.size, res.actualSize);
     }
 
     public onResizing(e: IPoint) {
         let lastY = e.y;
-        let oldValue: ISize = {width: this.shellBound.width, height: this.shellBound.height};
+        const shell = this.service.shellSize$.value.size;
+        let oldValue: ISize = {width: shell.width, height: shell.height};
         this.service.mouseMove(event => {
-            this.shellBound.height += event.y - lastY;
+            shell.height += event.y - lastY;
             lastY = event.y;
         }, p => {
             this.executeCommand(new ResizeCommand(this, oldValue, {
-                width: this.shellBound.width,
-                height: this.shellBound.height + p.y - lastY
+                width: shell.width,
+                height: shell.height + p.y - lastY
             }));
         });
     }
@@ -149,8 +155,15 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     }
 
     public onMouseWhell(event: WheelEvent) {
-        this.shellBound.x -= event.deltaX;
-        this.shellBound.y -= event.deltaY;
+        const res = this.service.shellSize$.value;
+        if (!res) {
+            return;
+        }
+        res.size.x -= event.deltaX;
+        res.size.y -= event.deltaY;
+        this.service.shellSize$.next({
+            ...res, actualSize: scaleBound(res.size, res.scale, 100)
+        });
     }
 
     public onSelectStart(event: MouseEvent) {
@@ -170,22 +183,37 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     }
 
     public select(rect: IBound) {
-        const bound = boundFromScale(this.getPosition(rect), this.scaleValue, 100);
+        const bound = boundFromScale(this.getPosition(rect), this.service.shellSize$.value.scale, 100);
         const items = filterItems(this.widgetItems$.value, bound);
         this.service.selectionChanged$.next(items);
     }
 
-    public scale(value: number = this.scaleValue, offset?: number) {
+    public scale(value?: number, offset?: number) {
+        const res = this.service.shellSize$.value;
+        if (!res) {
+            return;
+        }
+        if (!value) {
+            value = this.service.shellSize$.value.scale;
+        }
         if (!offset) {
             value += offset;
         }
-        this.scaleValue = checkRange(value, 30, 300);
+        res.scale = checkRange(value, 30, 300);
+        this.service.shellSize$.next({
+            ...res, actualSize: scaleBound(res.size, res.scale, 100)
+        });
     }
 
     public resize(size: ISize) {
-        this.ngZone.run(() => {
-            this.shellBound.height = size.height;
-            this.shellBound.width = size.width;
+        const res = this.service.shellSize$.value;
+        if (!res) {
+            return;
+        }
+        res.size.width = size.width;
+        res.size.height = size.height;
+        this.service.shellSize$.next({
+            ...res, actualSize: scaleBound(res.size, res.scale, 100)
         });
     }
 

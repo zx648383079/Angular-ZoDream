@@ -243,4 +243,3 @@ export function isMergeable(items: Widget[]) {
 export function isSplitable(items: Widget[]) {
     return items.length === 1 && items[0] instanceof PanelWidget;
 }
-

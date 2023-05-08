@@ -30,12 +30,13 @@ export class EditorRuleBarComponent implements OnChanges {
     constructor(
         private readonly service: EditorService,
     ) {
-        this.service.resize$.subscribe(res => {
-            if (!res || !res.zoom) {
+        this.service.shellSize$.subscribe(res => {
+            if (!res) {
                 return;
             }
-            this.baseWidth = (this.orientation ? res.zoom.width :  res.zoom.height) - this.baseHeight;
-            this.baseX = (this.orientation ? res.zoom.x :  res.zoom.y) + this.baseHeight;
+            const zoom = this.service.workspaceSize$.value;
+            this.baseWidth = (this.orientation ? zoom.width :  zoom.height) - this.baseHeight;
+            this.baseX = (this.orientation ? zoom.x :  zoom.y) + this.baseHeight;
             const canvas = this.drawer.nativeElement;
             if (this.orientation) {
                 canvas.width = this.baseWidth;

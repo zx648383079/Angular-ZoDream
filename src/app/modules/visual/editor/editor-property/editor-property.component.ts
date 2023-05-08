@@ -29,11 +29,11 @@ export class EditorPropertyComponent {
     constructor(
         private service: EditorService,
     ) {
-        this.service.resize$.subscribe(res => {
+        this.service.workspaceSize$.subscribe(res => {
             if (!res) {
                 return;
             }
-            this.baseHeight = res.zoom.height - 80;
+            this.baseHeight = res.height - 80;
         });
         this.service.selectionChanged$.subscribe(res => {
             if (res.length != 1) {

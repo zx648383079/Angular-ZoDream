@@ -19,7 +19,7 @@ export class EditorWidgetComponent {
     }
 
     ngAfterViewInit(): void {
-        const bound = this.service.workEditor.getPosition(elementBound(this.elementRef));
+        const bound = this.service.workspace.getPosition(elementBound(this.elementRef));
         this.value.actualBound = bound;
         this.value.size = bound;
     }

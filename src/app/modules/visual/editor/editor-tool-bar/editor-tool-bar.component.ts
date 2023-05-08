@@ -21,7 +21,7 @@ export class EditorToolBarComponent {
     constructor(
         private readonly service: EditorService,
     ) {
-        this.editor = this.service.workEditor;
+        this.editor = this.service.workspace;
         this.editor.$undoStateChanged.subscribe(res => {
             this.canBack = res;
         });

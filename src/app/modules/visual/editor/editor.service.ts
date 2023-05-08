@@ -4,17 +4,34 @@ import { cloneObject } from '../../../theme/utils';
 import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
-import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IResetEvent, IWorkEditor } from './model';
+import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IResetEvent, IWorkEditor, ISize, IBound, IShellBound } from './model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EditorService {
 
     /**
      * 主窗口变化事件
      */
-    public readonly resize$ = new BehaviorSubject<IResetEvent|null>(null);
+    public readonly windowSize$ = new BehaviorSubject<ISize>(null);
+    /**
+     * 整个编辑器的区域，绝对坐标
+     */
+    public readonly editorSize$ = new BehaviorSubject<IBound>(null);
+    /**
+     * 编辑区域，绝对坐标
+     */
+    public readonly workspaceSize$ = new BehaviorSubject<IBound>(null);
+    /**
+     * 编辑区域，相对 workspaceSize，不包括标尺的尺寸
+    */
+    public readonly workspaceInnerSize$ = new BehaviorSubject<IBound>(null);
+    /**
+     * 相对坐标，相对 workspaceSize
+     */
+    public readonly shellSize$ = new BehaviorSubject<IShellBound>(null);
+
     public readonly mouseMove$ = new Subject<IPoint>();
     public readonly mouseUp$ = new Subject<IPoint>();
     private mouseMoveListeners = {
@@ -38,7 +55,7 @@ export class EditorService {
 
     public readonly widgetItems = [...controlSource, ...inputSource, ...panelSource];
 
-    public workEditor: IWorkEditor;
+    public workspace: IWorkEditor;
 
     constructor() {
         this.mouseMove$.subscribe(res => {
@@ -118,13 +135,13 @@ export class EditorService {
      * @returns 
      */
     public inZoom(p: IPoint): boolean {
-        const res = this.resize$.value;
-        if (!res || !res.zoom) {
+        const res = this.workspaceSize$.value;
+        if (!res) {
             return false;
         }
-        return p.x >= res.zoom.x && p.y >= res.zoom.y &&
-            p.x < res.zoom.x + res.zoom.width && 
-            p.y < res.zoom.y + res.zoom.height;
+        return p.x >= res.x && p.y >= res.y &&
+            p.x < res.x + res.width && 
+            p.y < res.y + res.height;
     }
 
     /**
@@ -135,12 +152,12 @@ export class EditorService {
      */
     public zoomLocation<T extends IPoint>(p: T, clone = false): T {
         const obj = clone ? cloneObject(p) : p;
-        const res = this.resize$.value;
-        if (!res || !res.zoom) {
+        const res = this.workspaceSize$.value;
+        if (!res) {
             return obj;
         }
-        obj.x -= res.zoom.x;
-        obj.y -= res.zoom.y;
+        obj.x -= res.x;
+        obj.y -= res.y;
         return obj;
     }
 

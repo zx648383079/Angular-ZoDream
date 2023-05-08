@@ -59,14 +59,14 @@ export class EditorLayerComponent implements OnInit {
 
     public onWidgetTap(e: TreeEvent) {
         if (e.action === TREE_ACTION.TRASH) {
-            this.service.workEditor.execute({
+            this.service.workspace.execute({
                 action: MENU_ACTION.DELETE,
                 data: [e.data]
             });
             return;
         }
         if (e.action === TREE_ACTION.COPY) {
-            this.service.workEditor.execute({
+            this.service.workspace.execute({
                 action: MENU_ACTION.COPY,
                 data: [e.data]
             });

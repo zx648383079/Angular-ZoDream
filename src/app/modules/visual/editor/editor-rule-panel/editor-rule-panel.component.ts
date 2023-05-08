@@ -48,7 +48,7 @@ export class EditorRulePanelComponent {
 
 
     public tapBar(event: IRuleLine) {
-        const res = this.service.resize$.value;
+        const res = this.service.workspaceSize$.value;
         if (!res) {
             return;
         }
@@ -74,7 +74,7 @@ export class EditorRulePanelComponent {
     }
 
     public onLineMove(event: IRuleLine) {
-        const res = this.service.resize$.value;
+        const res = this.service.workspaceSize$.value;
         if (!res) {
             return;
         }

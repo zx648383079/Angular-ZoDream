@@ -23,12 +23,12 @@
 </div>
 <!-- 标尺 -->
 <div class="rule-box">
-    <app-editor-rule-panel [offsetX]="shellScaleBound.x" [offsetY]="shellScaleBound.y" [scale]="scaleValue / 100"></app-editor-rule-panel>
+    <app-editor-rule-panel></app-editor-rule-panel>
 </div>
 
-<app-editor-scale-bar [(value)]="scaleValue"></app-editor-scale-bar>
+<app-editor-scale-bar></app-editor-scale-bar>
 <!-- 滚动条 -->
-<app-editor-scroll-bar class="x-track" [max]="trackData.xMax" [min]="trackData.xMin" [(value)]="shellBound.x"></app-editor-scroll-bar>
-<app-editor-scroll-bar class="y-track" [orientation]="false"  [max]="trackData.yMax" [min]="trackData.yMin" [(value)]="shellBound.y"></app-editor-scroll-bar>
+<app-editor-scroll-bar class="x-track"></app-editor-scroll-bar>
+<app-editor-scroll-bar class="y-track" [orientation]="false"></app-editor-scroll-bar>
 
 <app-context-menu></app-context-menu>

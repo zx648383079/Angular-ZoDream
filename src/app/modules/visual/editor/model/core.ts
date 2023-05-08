@@ -19,6 +19,12 @@ export interface IRect extends IPoint {
 export interface IBound extends ISize, IPoint {
 }
 
+export interface IShellBound {
+    size: IBound,
+    scale: number;
+    actualSize: IBound;
+}
+
 export interface IActionItem {
     id: string|number;
     event: any;
