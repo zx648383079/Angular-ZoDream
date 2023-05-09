@@ -1,21 +1,19 @@
 <div class="work-container" (mousedown)="onSelectStart($event)" (wheel)="onMouseWhell($event)">
-    <div class="work-outer-panel" [ngStyle]="outerStyle">
-        <div class="work-inner-panel" [ngStyle]="innerStyle">
-            <!-- 模拟样式 -->
-            <div class="shell-box">
-                <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
-            </div>
-            <div class="work-body" (contextmenu)="onContext($event)">
-                <ng-container *ngFor="let item of widgetItems$ | async">
-                    <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
-                        <app-editor-widget [value]="item"></app-editor-widget>
-                    </div>
-                </ng-container>
-            </div>
-            <!-- 编辑widget的样式 -->
-            <div class="widget-reflection" (contextmenu)="onContext($event, true)">
-                <app-editor-reflection></app-editor-reflection>
-            </div>
+    <div class="work-outer-panel" [ngStyle]="shellStyle">
+        <!-- 模拟样式 -->
+        <div class="shell-box">
+            <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
+        </div>
+        <div class="work-body" (contextmenu)="onContext($event)">
+            <ng-container *ngFor="let item of widgetItems$ | async">
+                <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
+                    <app-editor-widget [value]="item"></app-editor-widget>
+                </div>
+            </ng-container>
+        </div>
+        <!-- 编辑widget的样式 -->
+        <div class="widget-reflection" (contextmenu)="onContext($event, true)">
+            <app-editor-reflection></app-editor-reflection>
         </div>
     </div>
      <!-- 选中区域rect -->
@@ -26,7 +24,7 @@
     <app-editor-rule-panel></app-editor-rule-panel>
 </div>
 
-<app-editor-scale-bar></app-editor-scale-bar>
+<app-editor-scale-bar (valueChange)="scale($event)"></app-editor-scale-bar>
 <!-- 滚动条 -->
 <app-editor-scroll-bar class="x-track"></app-editor-scroll-bar>
 <app-editor-scroll-bar class="y-track" [orientation]="false"></app-editor-scroll-bar>

@@ -24,15 +24,13 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
         yMin: 0,
         yMax: 100,
     };
-    public outerStyle: any = {};
-    public innerStyle: any = {};
+    public shellStyle: any = {};
 
     private selectionRect = new SelectionBound();
     
     constructor(
         private service: EditorService,
         public elementRef: ElementRef<HTMLDivElement>,
-        private ngZone: NgZone,
     ) {
         super();
         this.service.workspace = this;
@@ -40,14 +38,10 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
             if (!res) {
                 return;
             }
-            this.outerStyle = {
-                transform: 'scale(' + (res.scale / 100) +')',
-            };
-            this.innerStyle = {
+            this.shellStyle = {
                 width: res.size.width + 'px',
                 height: res.size.height + 'px',
-                left: res.size.x + 'px',
-                top: res.size.y + 'px',
+                transform: 'scale(' + (res.scale / 100) +') translate(' + res.size.x +'px, '+ res.size.y +'px)',
             };
         });
         this.service.workspaceInnerSize$.subscribe(res => {
@@ -65,11 +59,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
                 scale = this.service.shellSize$.value.scale;
                 size = this.service.shellSize$.value.size;
             }
-            this.service.shellSize$.next({
-                size,
-                scale,
-                actualSize: scaleBound(size, scale, 100)
-            });
+            this.service.computeShellBound(size, scale);
         });
         this.service.workspaceSize$.subscribe(res => {
             if (!res) {
@@ -78,8 +68,8 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
             this.service.workspaceInnerSize$.next({
                 x: 16,
                 y: 16,
-                width: res.width - 22,
-                height: res.height - 22
+                width: res.width - 22.4,
+                height: res.height - 22.4
             });
         });
     }
@@ -122,7 +112,8 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
             return relativePoint(this.wordShellBound, point);
         }
         const zoom = this.service.workspaceSize$.value;
-        return pointFromScale(relativePoint(zoom, point), res.size, res.actualSize);
+        const p = pointFromScale(point, res.size, res.scale, 100);
+        return relativePoint(zoom, p);
     }
 
     public onResizing(e: IPoint) {
@@ -157,6 +148,12 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     public onMouseWhell(event: WheelEvent) {
         const res = this.service.shellSize$.value;
         if (!res) {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.ctrlKey) {
+            this.scale(undefined, event.deltaY > 0 ? -10 : 10);
             return;
         }
         res.size.x -= event.deltaX;
@@ -194,15 +191,13 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
             return;
         }
         if (!value) {
-            value = this.service.shellSize$.value.scale;
+            value = res.scale;
         }
-        if (!offset) {
+        if (offset) {
             value += offset;
         }
         res.scale = checkRange(value, 30, 300);
-        this.service.shellSize$.next({
-            ...res, actualSize: scaleBound(res.size, res.scale, 100)
-        });
+        this.service.computeShellBound(res.size, res.scale);
     }
 
     public resize(size: ISize) {
@@ -212,9 +207,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
         }
         res.size.width = size.width;
         res.size.height = size.height;
-        this.service.shellSize$.next({
-            ...res, actualSize: scaleBound(res.size, res.scale, 100)
-        });
+        this.service.computeShellBound(res.size, res.scale);
     }
 
     public push(weight: Widget, location?: IPoint) {
@@ -230,6 +223,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
 
     public remove(weight: Widget) {
         this.service.removeWidget(weight);
+        this.service.selectionChanged$.next([]);
     }
 
     private inBound(p: IPoint) {

@@ -40,18 +40,18 @@ export class EditArticleComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-        if (!params.id) {
-            return;
-        }
-        this.service.article(params.id).subscribe(res => {
-            this.data = res;
-            this.form.patchValue({
-                title: res.title,
-                cat_id: res.cat_id,
-                thumb: res.thumb,
-                keywords: '',
-                description: res.description,
-                content: res.content
+            if (!params.id) {
+                return;
+            }
+            this.service.article(params.id).subscribe(res => {
+                this.data = res;
+                this.form.patchValue({
+                    title: res.title,
+                    cat_id: res.cat_id,
+                    thumb: res.thumb,
+                    keywords: '',
+                    description: res.description,
+                    content: res.content
                 });
             });
         });

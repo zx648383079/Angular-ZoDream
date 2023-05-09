@@ -18,13 +18,8 @@ export class EditorPropertyComponent {
     public widgetType = WidgetType.CONTROL;
 
     public alginItems = alginOptions;
-    private baseHeight = 600;
 
-    public get boxStyle() {
-        return {
-            height: this.baseHeight + 'px',
-        };
-    }
+    public boxStyle: any = {};
 
     constructor(
         private service: EditorService,
@@ -33,7 +28,9 @@ export class EditorPropertyComponent {
             if (!res) {
                 return;
             }
-            this.baseHeight = res.height - 80;
+            this.boxStyle = {
+                height: res.height - 64 + 'px'
+            };
         });
         this.service.selectionChanged$.subscribe(res => {
             if (res.length != 1) {

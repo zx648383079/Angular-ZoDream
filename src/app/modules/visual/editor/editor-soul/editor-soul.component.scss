@@ -5,24 +5,28 @@
     flex-direction: column;
     justify-content: space-between;
     .soul-footer {
-        line-height: 2.5em;
+        line-height: 2.5rem;
         text-align: center;
         box-shadow: 0px 0px 6px -1px #e6e6e6;
     }
     .tab-box {
         .tab-header {
             display: flex;
-            font-size: .8em;
+            font-size: .8rem;
             .tab-item {
                 flex: 1;
                 width: auto;
-                line-height: 2em;
-                height: 2em;
+                line-height: 2rem;
+                height: 2rem;
             }
         }
     }
+    .tab-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
     .weight-item {
-        height: 4em;
+        height: 4rem;
         user-select: none;
         display: flex;
         align-items: center;

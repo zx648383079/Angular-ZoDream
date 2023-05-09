@@ -6,10 +6,12 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
 import { HtmlEditorComponent } from './html-editor/html-editor.component';
 import { ThemeModule } from '../../theme/theme.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { EditorComponent } from './editor.component';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
     TextEditorComponent,
+    EditorComponent
 ];
 
 @NgModule({
@@ -34,10 +36,10 @@ export class ZreEditorModule { }
         FormsModule,
     ],
     declarations: [
-        HtmlEditorComponent
+        HtmlEditorComponent,
     ],
     exports: [
-        HtmlEditorComponent
+        HtmlEditorComponent,
     ],
 })
 export class ZreHtmlEditorModule { }

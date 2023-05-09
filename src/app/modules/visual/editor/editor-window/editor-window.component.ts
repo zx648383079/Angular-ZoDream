@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { EditorWorkBodyComponent } from '../editor-work-body/editor-work-body.component';
 import { AddWeightCommand, MENU_ACTION, Widget } from '../model';
 import { EditorService } from '../editor.service';
-import { elementBound } from '../util';
 
 @Component({
     selector: 'app-editor-window',
@@ -35,13 +34,13 @@ export class EditorWindowComponent implements OnInit {
                 height: res.height + 'px'
             };
             this.workStyle = {
-                width: res.width - 440 + 'px',
+                width: res.width - 460 + 'px',
                 height: res.height + 'px'
             };
             this.service.workspaceSize$.next({
                 x: res.x + 200,
                 y: res.y,
-                width: res.width - 440,
+                width: res.width - 460,
                 height: res.height,
             });
         });
@@ -122,6 +121,9 @@ export class EditorWindowComponent implements OnInit {
                 }
             }, () => {
                 const item = this.tempWidget;
+                if (!item) {
+                    return;
+                }
                 this.tempWidget = undefined;
                 this.workBody.executeCommand(new AddWeightCommand(this.workBody, this.service.newWidget(res.data), item.location));
             });

@@ -1,7 +1,6 @@
-import { IEditorElement } from '.';
+import { EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, IEditorElement } from '.';
 import { IEditorRange } from '../model';
 import { IEditorContainer } from './editor';
-import { EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN } from './event';
 
 export class TextareaElement implements IEditorElement {
     constructor(

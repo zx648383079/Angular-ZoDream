@@ -1,6 +1,21 @@
 .radius-container {
+    display: grid;
+    grid-template: 1fr 1fr/1fr 1fr;
     .form-control {
-        width: 4em;
+        width: 3em;
         display: inline-block;
+        border-radius: 0;
+        &:nth-of-type(1) {
+            border-top-left-radius: .25rem;
+        }
+        &:nth-of-type(2) {
+            border-top-right-radius: .25rem;
+        }
+        &:nth-of-type(3) {
+            border-bottom-left-radius: .25rem;
+        }
+        &:nth-of-type(4) {
+            border-bottom-right-radius: .25rem;
+        }
     }
 }

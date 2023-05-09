@@ -1,21 +1,21 @@
 .tab-box {
     .tab-header {
         display: flex;
-        font-size: .8em;
+        font-size: .8rem;
         .tab-item {
             flex: 1;
             width: auto;
-            line-height: 2em;
-            height: 2em;
+            line-height: 2rem;
+            height: 2rem;
         }
     }
 }
 
 .add-btn {
-    font-size: .8em;
-    line-height: 2em;
+    font-size: .8rem;
+    line-height: 2rem;
     cursor: pointer;
     i {
-        margin-right: .5em;
+        margin-right: .5rem;
     }
 }

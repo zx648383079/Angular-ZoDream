@@ -116,7 +116,7 @@ export function visibleRect(base: IRect|IBound, search: IRect|IBound): IRect {
  * @returns 
  */
 export function isIntersect(a: IRect|IBound, b: IRect|IBound|IPoint): boolean {
-    const rect1 = boundToRect(a);
+    const rect1 = boundToRect(a instanceof Widget ? a.actualBound : a);
     if (!isBound(b) && !isRect(b)) {
         return rect1.x <= b.x && rect1.y <= b.y && rect1.bottom >= b.y && rect1.right >= b.x;
     }
@@ -167,18 +167,18 @@ export function boundFromScale(box: IBound, scale = 1, base = 1): IBound {
     const width = box.width * base / scale;
     const height = box.height * base / scale;
     return {
-        x: box.x - (box.width - width) / 2,
+        x: box.x, //- (box.width - width) / 2,
         y: box.y,// + (box.height - height) / 2,
         width,
         height
     };
 }
 
-export function pointFromScale<T extends IPoint>(val: T, wordBound: IBound, wordScaleBound: IBound): T {
+export function pointFromScale<T extends IPoint>(val: T, wordBound: IBound, scale = 1, base = 1): T {
     return {
         ...val,
-        x: (val.x - wordScaleBound.x) / wordScaleBound.width * wordBound.width,
-        y: (val.y - wordScaleBound.y) / wordScaleBound.height * wordBound.height,
+        x: val.x - wordBound.x * scale / base,
+        y: val.y - wordBound.y * scale / base,
     }
 }
 

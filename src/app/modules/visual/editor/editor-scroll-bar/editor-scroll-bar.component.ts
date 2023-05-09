@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { checkRange } from '../../../../theme/utils';
 import { EditorService } from '../editor.service';
 import { IPoint } from '../model';
 
@@ -15,8 +14,12 @@ export class EditorScrollBarComponent {
     @Input() public max = 100;
     @Input() public value = 0;
 
-    private length = 50;
-    private baseWidth = 0;
+    public innerStyle: any = {};
+
+    private pxScale = 1;
+    private baseSize = 6.4;
+    private offset = 0;
+    private maxOffset = 100;
     @Output() public valueChange = new EventEmitter<number>();
 
     constructor(
@@ -26,42 +29,93 @@ export class EditorScrollBarComponent {
             if (!res) {
                 return;
             }
-            const zoom = this.service.workspaceSize$.value;
-            this.baseWidth = this.orientation ? zoom.width : zoom.height;
-            // this.baseX = this.orientation ? res.zoom.x : res.zoom.y;
-            this.length = Math.min(60, Math.pow(this.baseWidth, 2) / (this.max - this.min));
+            const zoom = this.service.workspaceInnerSize$.value;
+            if (this.orientation) {
+                this.onRender(res.size.x, zoom.width, res.size.width, zoom.width);
+            } else {
+                this.onRender(res.size.y, zoom.height, res.size.height, zoom.height);
+            }
         });
         
-    }
-
-    public get innerStyle() {
-        const x = checkRange(this.baseWidth - (this.value - this.min) * this.baseWidth / (this.max - this.min), 0, this.baseWidth - this.length);
-        if (this.orientation) {
-            return {
-                width: this.length + 'px',
-                left: x + 'px',
-            };
-        }
-        return {
-            height: this.length + 'px',
-            top: x + 'px',
-        };
     }
 
     public onMouseDown(event: MouseEvent) {
         let last: IPoint = {x: event.clientX, y: event.clientY};
         this.service.mouseMove(p => {
             const offset = this.orientation ? (p.x - last.x) : (p.y - last.y);
-            this.output(this.value - offset * (this.max - this.min) / this.baseWidth);
+            this.scroll(this.offset + offset);
             last = p;
         });
     }
 
-    private output(val: number) {
-        val = checkRange(val, this.min, this.max);
-        if (this.value == val) {
+    private output() {
+        this.valueChange.emit(this.value = this.converter(this.offset));
+    }
+
+    /**
+     * 移动多少个像素
+     * @param offset 
+     */
+    public move(offset: number) {
+        this.scroll(offset / this.pxScale);
+    }
+
+    /**
+     * 滚动条滑动到多少距离, 不是实际像素
+     * @param offset 
+     */
+    public scroll(offset: number) {
+        this.offset = Math.max(0, Math.min(offset, this.maxOffset));
+        this.innerStyle = {
+            [this.orientation ? 'left' : 'top']: this.offset + 'px'
+        };
+        this.output();
+    }
+
+    /**
+     * 移动百分比
+     * @param percent /100 
+     */
+    public scrollTo(percent: number) {
+        this.scroll(percent * this.maxOffset / 100);
+    }
+
+    /**
+     * 滚动条滑动多少距离，转换成实际页面移动多少像素
+     * @param offset 
+     */
+    private converter(offset: number): number {
+        return offset * this.pxScale + this.min;
+    }
+
+    /**
+     * 
+     * @param viewSize 可见区域的
+     * @param pageSize 总页面的
+     * @param barSize 滚动条的长度
+     */
+    private onRender(offsetPx: number, viewSize: number, pageSize: number, barSize: number) {
+        this.max = pageSize;
+        if (pageSize <= viewSize) {
+            this.maxOffset = 0;
+            this.applySize(0, barSize);
             return;
         }
-        this.valueChange.emit(this.value = val);
+        const minInnerSize = Math.min(6 * this.baseSize, this.baseSize / 2);
+        const diff = pageSize - viewSize;
+        const barDiff = barSize - diff;
+        const innerSize = barDiff <= minInnerSize ? minInnerSize : barDiff;
+        this.maxOffset = barSize - innerSize;
+        this.pxScale = diff / this.maxOffset;
+        this.applySize(offsetPx / this.pxScale, innerSize);
+        
+    }
+
+    private applySize(offset: number, size: number) {
+        this.offset = Math.max(0, Math.min(offset, this.maxOffset));
+        this.innerStyle = {
+            [this.orientation ? 'left' : 'top']: offset + 'px',
+            [this.orientation ? 'width' : 'height']: size + 'px',
+        };
     }
 }

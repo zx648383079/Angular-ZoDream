@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { checkRange } from '../../../../theme/utils';
+import { EditorService } from '../editor.service';
 
 @Component({
   selector: 'app-editor-scale-bar',
@@ -15,7 +16,16 @@ export class EditorScaleBarComponent {
     @Input() public step = 10;
     @Output() public valueChange = new EventEmitter<number>();
 
-    constructor() { }
+    constructor(
+        private service: EditorService,
+    ) {
+        this.service.shellSize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.value = res.scale;
+        });
+    }
 
     public get innerStyle() {
         const val = this.value - this.min;

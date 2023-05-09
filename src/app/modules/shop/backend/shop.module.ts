@@ -6,7 +6,6 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { ShopService } from './shop.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
 import { RegionService } from './region.service';
@@ -26,6 +25,7 @@ import {
 } from 'echarts/renderers';
 import 'echarts/theme/macarons.js';
 import { ZreFormModule } from '../../../components/form';
+import { ZreEditorModule } from '../../../components/editor';
 
 echarts.use(
   [TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]
@@ -40,7 +40,7 @@ echarts.use(
         NgbModule,
         ThemeModule,
         ShopBackendRoutingModule,
-        EditorModule,
+        ZreEditorModule,
         NgxEchartsModule.forRoot({ echarts }),
         OpenModule,
         DialogModule,
@@ -52,7 +52,6 @@ echarts.use(
         AdService,
         RegionService,
         PaymentService,
-        { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
     ],
 })
 export class ShopBackendModule { }

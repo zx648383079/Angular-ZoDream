@@ -12,11 +12,21 @@ export class EditorSoulComponent implements OnInit {
     public tabIndex = 0;
     public controlItems: WidgetPreview[] = [];
     public panelItems: WidgetPreview[] = [];
+    public bodyStyle: any = {};
+
     constructor(
         private readonly service: EditorService,
     ) { }
 
     ngOnInit() {
+        this.service.editorSize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.bodyStyle = {
+                height: res.height - 40 - 32 + 'px'
+            };
+        });
         for (const item of this.service.widgetItems) {
             if (item.type === WidgetType.CONTROL) {
                 this.controlItems.push(item);

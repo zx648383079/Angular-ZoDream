@@ -17,14 +17,12 @@ export class EditorLayerComponent implements OnInit {
     public catalogModal: DialogBoxComponent;
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
-
     public tabIndex = 0;
-
     public catalogItems: ICatalogItem[] = [];
-
     public weightItems: Widget[] = [];
-
     public editData: any = {};
+    public bodyStyle: any = {};
+
 
     constructor(
         private dialogService: DialogService,
@@ -32,6 +30,14 @@ export class EditorLayerComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.service.editorSize$.subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.bodyStyle = {
+                height: res.height - 32 + 'px'
+            };
+        });
         this.service.widgetCellItems$.subscribe(res => {
             this.weightItems = res;
         });

@@ -16,13 +16,8 @@
 }
 .work-outer-panel {
     position: relative;
-}
-.work-inner-panel {
-    position: absolute;
-    width: 414px;
-    height: 600px;
-    background-color: #fff;
     transition: all .3s;
+    transform-origin: 0 0;
 }
 .work-body {
     position: absolute;
@@ -41,6 +36,7 @@
 }
 
 $trackWidth: .4rem;
+$ruleWidth: 1rem;
 
 .x-track,
 .y-track {
@@ -49,12 +45,12 @@ $trackWidth: .4rem;
 }
 .x-track {
     height: $trackWidth;
-    left: 0;
+    left: $ruleWidth;
     right: $trackWidth;
     bottom: 0;
 }
 .y-track {
-    top: 0;
+    top: $ruleWidth;
     bottom: $trackWidth;
     right: 0;
     width: $trackWidth;

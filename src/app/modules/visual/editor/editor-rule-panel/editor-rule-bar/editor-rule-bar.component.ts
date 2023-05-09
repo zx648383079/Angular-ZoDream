@@ -24,7 +24,7 @@ export class EditorRuleBarComponent implements OnChanges {
     private baseHeight = 16;
 
     private get offsetX() {
-        return this.baseHeight - this.offset;
+        return (this.baseHeight - this.offset) * this.scale;
     }
 
     constructor(
@@ -37,6 +37,8 @@ export class EditorRuleBarComponent implements OnChanges {
             const zoom = this.service.workspaceSize$.value;
             this.baseWidth = (this.orientation ? zoom.width :  zoom.height) - this.baseHeight;
             this.baseX = (this.orientation ? zoom.x :  zoom.y) + this.baseHeight;
+            this.offset = (this.orientation ? res.size.x : res.size.y);
+            this.scale = res.scale / 100;
             const canvas = this.drawer.nativeElement;
             if (this.orientation) {
                 canvas.width = this.baseWidth;

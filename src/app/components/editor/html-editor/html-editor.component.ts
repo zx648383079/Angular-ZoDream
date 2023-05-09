@@ -10,9 +10,9 @@ import { IHtmlEditorOption } from '../model';
     styleUrls: ['./html-editor.component.scss'],
     providers: [
         {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => HtmlEditorComponent),
-        multi: true
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => HtmlEditorComponent),
+            multi: true
         }
     ]
 })

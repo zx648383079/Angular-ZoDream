@@ -1,0 +1,31 @@
+<div class="editor-box">
+    <div class="editor-tool-bar">
+        <div class="tool-bar-top">
+            <div class="tool-left">
+                <ng-container *ngFor="let item of topLeftItems">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item)" [title]="item.label">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="tool-right">
+                <ng-container *ngFor="let item of topRightItems">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item)" [title]="item.label">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="tool-bar-bottom" *ngIf="subItems && subItems.length > 0">
+            <ng-container *ngFor="let item of subItems">
+                <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item)" [title]="item.label">
+                    <i class="iconfont" [ngClass]="item.icon"></i>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="editor-area">
+        <div #EditorView class="editor-view" [contentEditable]="!disabled"></div>
+    </div>
+    <div class="editor-footer" i18n>{{ 0 }} words</div>
+</div>

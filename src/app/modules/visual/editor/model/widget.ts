@@ -253,6 +253,7 @@ export class Widget implements WidgetBound {
     public readonly properties = new WidgetProperty(this);
     public readonly events = new EventManager(this);
     public readonly propertyChange$ = new Subject<void>();
+    private disallowNotify = false;
 
     public get location(): IPoint {
         return {
@@ -264,6 +265,9 @@ export class Widget implements WidgetBound {
     public set location(p: IPoint) {
         this.x = p.x;
         this.y = p.y;
+        if (!this.disallowNotify) {
+            this.propertyChange$.next();
+        }
     }
 
     public get size(): ISize {
@@ -276,16 +280,19 @@ export class Widget implements WidgetBound {
     public set size(s: ISize) {
         this.width = s.width;
         this.height = s.height;
+        if (!this.disallowNotify) {
+            this.propertyChange$.next();
+        }
     }
 
     public get bound(): IBound {
         return {...this.location, ...this.size};
     }
     public set bound(b: IBound) {
-        this.x = b.x;
-        this.y = b.y;
-        this.width = b.width;
-        this.height = b.height;
+        this.disallowNotify = true;
+        this.location = b;
+        this.disallowNotify = false;
+        this.size = b;
     }
 
     public set opacity(v: number) {

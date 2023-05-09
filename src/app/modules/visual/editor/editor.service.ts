@@ -4,7 +4,8 @@ import { cloneObject } from '../../../theme/utils';
 import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
-import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IResetEvent, IWorkEditor, ISize, IBound, IShellBound } from './model';
+import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IWorkEditor, ISize, IBound, IShellBound } from './model';
+import { scaleBound } from './util';
 
 @Injectable({
     providedIn: 'root'
@@ -159,6 +160,37 @@ export class EditorService {
         obj.x -= res.x;
         obj.y -= res.y;
         return obj;
+    }
+
+    /**
+     * 计算位置，并同时更新实际尺寸
+     * @param size 
+     * @param scale 
+     * @returns 
+     */
+    public computeShellBound(size: IBound, scale: number): void {
+        const workspace = this.workspaceInnerSize$.value;
+        if (!workspace) {
+            return;
+        }
+        const s = scale / 100;
+        const maxWidth = workspace.width / s;
+        const maxHeight = workspace.height / s;
+        if (size.width < maxWidth) {
+            size.x = (maxWidth - size.width) / 2;
+        } else {
+            size.x = Math.min(0, Math.max(maxWidth - size.width, size.x));
+        }
+        if (size.height < maxHeight) {
+            size.y = (maxHeight - size.height) / 2;
+        } else {
+            size.y = Math.min(0, Math.max(maxHeight - size.height, size.y));
+        }
+        this.shellSize$.next({
+            size,
+            scale,
+            actualSize: scaleBound(size, s)
+        });
     }
 
     public newWidget(item: WidgetPreview): Widget {
