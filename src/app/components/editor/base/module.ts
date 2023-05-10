@@ -1,3 +1,4 @@
+import { EDITOR_CLOSE_TOOL } from './event';
 import { IEditorModule } from './option';
 
 export const EditorModules: IEditorModule[] = [
@@ -20,16 +21,23 @@ export const EditorModules: IEditorModule[] = [
         name: 'undo',
         icon: 'icon-undo',
         label: '撤回',
+        hotKey: 'Ctrl+Z',
     },
     {
         name: 'redo',
         icon: 'icon-redo',
         label: '重做',
+        hotKey: 'Ctrl+Shift+Z',
     },
     {
         name: 'more',
         icon: 'icon-ellipsis-v',
         label: '更多'
+    },
+    {
+        name: EDITOR_CLOSE_TOOL,
+        icon: 'icon-close',
+        label: '关闭'
     },
     // 文字处理
     {

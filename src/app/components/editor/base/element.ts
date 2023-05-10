@@ -1,4 +1,4 @@
-import { IEditorRange } from '../model';
+import { IEditorBlock, IEditorRange } from '../model';
 
 export interface IEditorElement {
 
@@ -14,7 +14,9 @@ export interface IEditorElement {
 
     set value(v: string);
 
-    insert(val: string): void;
+    insert(block: IEditorBlock, range?: IEditorRange): void;
 
     focus(): void;
+
+    blur(): void;
 }

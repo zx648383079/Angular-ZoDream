@@ -6,21 +6,21 @@ export interface IEditor {
      * @param file 
      * @param name 
      */
-    insertImage(file: string, name?: string);
+    insertImage(file: string, name?: string): void;
 
     /**
      * 插入链接
      * @param text 
      * @param href 
      */
-    insertLink(text: string, href: string);
+    insertLink(text: string, href: string): void;
     /**
-     * 插入支付
+     * 插入字符
      * @param val 
      * @param move 
      * @param focus 
      */
-    insert(val: string, move?: number, focus?: boolean);
+    insert(val: string, move?: number, focus?: boolean): void;
 }
 
 export interface IImageUploadEvent {
@@ -31,6 +31,11 @@ export interface IImageUploadEvent {
 export interface IEditorRange {
     start: number;
     end: number;
+    range?: Range;
+}
+
+export interface IEditorBlock {
+
 }
 
 export interface IHtmlEditorOption {

@@ -1,6 +1,10 @@
+import { IEditorRange } from '../model';
+import { IEditorContainer } from './editor';
+import { EDITOR_CLOSE_TOOL } from './event';
 import { EditorModules } from './module';
 
 export interface IEditorOption {
+    blockTag?: string,
     icons?: {
         [module: string]: string;
     },
@@ -18,15 +22,18 @@ export interface IEditorTool {
     disabled?: boolean;
     actived?: boolean;
     label: string;
+    hotKey?: string;
 }
 
 export interface IEditorModule extends IEditorTool {
     parent?: string;
+    handler?: (editor: IEditorContainer, range?: IEditorRange) => void;
 }
 
 export class EditorOptionManager {
 
     private option: IEditorOption = {
+        blockTag: 'p',
         toolbar: {
             left: ['text', 'paragraph', 'add'],
             right: ['undo', 'redo', 'more']
@@ -46,6 +53,10 @@ export class EditorOptionManager {
 
     public get rightToolbar(): IEditorTool[] {
         return this.filterTool(this.option.toolbar.right as any);
+    }
+
+    public get closeTool(): IEditorTool {
+        return this.toTool(this.moduleItems[EDITOR_CLOSE_TOOL]);
     }
     
     public merge(option: IEditorOption) {
@@ -78,6 +89,28 @@ export class EditorOptionManager {
         }
     }
 
+    public hotKeyModule(hotKey: string): IEditorTool|undefined {
+        for (const key in this.moduleItems) {
+            if (Object.prototype.hasOwnProperty.call(this.moduleItems, key) && this.moduleItems[key].hotKey == hotKey && this.isVisible(key)) {
+                return this.moduleItems[key];
+            }
+        }
+        return undefined;
+    }
+
+    public toModule(module: string|IEditorTool): IEditorModule|undefined {
+        if (typeof module === 'string') {
+            return this.moduleItems[module];
+        }
+        if ((module as IEditorModule).handler) {
+            return module;
+        }
+        if (module.name) {
+            return this.moduleItems[module.name];
+        }
+        return module;
+    }
+
     private filterTool(items?: string[]): IEditorTool[] {
         if (!items) {
             return [];
@@ -98,8 +131,6 @@ export class EditorOptionManager {
             icon: this.option.icons && Object.prototype.hasOwnProperty.call(this.option.icons, item.name) ? this.option.icons[item.name] : item.icon,
         };
     }
-
-    private 
 
     private isVisible(module: string): boolean {
         if (this.option.hiddenModules && this.option.hiddenModules.indexOf(module) >= 0) {

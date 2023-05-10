@@ -1,5 +1,5 @@
 import { EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, IEditorElement } from '.';
-import { IEditorRange } from '../model';
+import { IEditorBlock, IEditorRange } from '../model';
 import { IEditorContainer } from './editor';
 
 export class TextareaElement implements IEditorElement {
@@ -44,12 +44,19 @@ export class TextareaElement implements IEditorElement {
     set value(v: string) {
         this.element.value = v;
     }
-    insert(val: string): void {
+    public insert(block: IEditorBlock, range?: IEditorRange): void {
+        if (!range) {
+            range = this.selection;
+        }
         const v = this.value;
-        this.value = v.substring(0, this.selection.start) + val + v.substring(this.selection.start)
+        this.value = v.substring(0, range.start) + block + v.substring(range.start)
     }
-    focus(): void {
+    public focus(): void {
         this.element.focus();
+    }
+
+    public blur(): void {
+        return this.element.blur();
     }
 
 }

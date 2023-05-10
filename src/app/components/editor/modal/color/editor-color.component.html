@@ -1,0 +1,10 @@
+<div class="editor-modal-box">
+    <app-color-layer [(value)]="color"></app-color-layer>
+    <div class="input-header-block" [ngClass]="{'input-not-empty': !!color}">
+        <input type="text" [(ngModel)]="color">
+        <label for="">Hex</label>
+    </div>
+    <div class="modal-action">
+        <div class="btn btn-outline-primary">确认</div>
+    </div>
+</div>

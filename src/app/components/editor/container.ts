@@ -1,5 +1,5 @@
-import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, IEditorContainer, IEditorElement, TextareaElement } from './base';
-import { IEditorRange } from './model';
+import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EditorOptionManager, IEditorContainer, IEditorElement, IEditorModule, IEditorTool, TextareaElement } from './base';
+import { IEditorBlock, IEditorRange } from './model';
 
 export class EditorContainer implements IEditorContainer {
     private selection: IEditorRange;
@@ -8,6 +8,10 @@ export class EditorContainer implements IEditorContainer {
         [key: string]: Function[];
     } = {};
 
+    constructor(
+        public option: EditorOptionManager = new EditorOptionManager(),
+    ) {
+    }
 
     public ready(element: HTMLTextAreaElement|HTMLDivElement) {
         this.element = element instanceof HTMLTextAreaElement ? new TextareaElement(element, this) : new DivElement(element, this);
@@ -16,6 +20,28 @@ export class EditorContainer implements IEditorContainer {
             return;
         }
         this.on(EVENT_INPUT_KEYDOWN, (e: KeyboardEvent) => {
+            const modifiers = [];
+            if (e.ctrlKey) {
+                modifiers.push('Ctrl');
+            }
+            if (e.shiftKey) {
+                modifiers.push('Shift');
+            }
+            if (e.altKey) {
+                modifiers.push('Alt');
+            }
+            if (e.metaKey) {
+                modifiers.push('Meta');
+            }
+            if (e.key !== 'Control' && modifiers.indexOf(e.key) < 0) {
+                modifiers.push(e.key.length === 1 ? e.key.toUpperCase() : e.key);
+            }
+            const module = this.option.hotKeyModule(modifiers.join('+'));
+            if (module) {
+                e.preventDefault();
+                this.execute(module);
+                return;
+            }
             if (e.key === 'Tab') {
                 e.preventDefault();
                 this.saveSelection();
@@ -60,9 +86,20 @@ export class EditorContainer implements IEditorContainer {
         this.selection = this.element.selection;
     }
 
-    public insertOrInclude(val: string);
-    public insertOrInclude(val: string, move: number);
-    public insertOrInclude(begin: string, end: string);
+    public insertBlock(block: IEditorBlock|string, range?: IEditorRange): void {
+        this.element.insert(block, range);
+    }
+    public execute(module: string|IEditorTool, range?: IEditorRange): void {
+        const instance = this.option.toModule(module);
+        if (!instance || !instance.handler) {
+            return;
+        }
+        instance.handler(this, range);
+    }
+
+    public insertOrInclude(val: string): void;
+    public insertOrInclude(val: string, move: number): void;
+    public insertOrInclude(begin: string, end: string): void;
     public insertOrInclude(val: string, move: string|number = 0) {
         if (!this.hasSelection) {
             if (typeof move === 'string') {
@@ -79,6 +116,8 @@ export class EditorContainer implements IEditorContainer {
             return val.substring(0, move) + v + val.substring(move);
         });
     }
+
+
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkSelection();
@@ -155,6 +194,10 @@ export class EditorContainer implements IEditorContainer {
         this.element.focus();
     }
 
+    public blur() {
+        this.element.blur();
+    }
+
     public on(event: string, cb: any) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
             this.listeners[event] = [];
@@ -204,5 +247,4 @@ export class EditorContainer implements IEditorContainer {
         }
         return this;
     }
-
 }

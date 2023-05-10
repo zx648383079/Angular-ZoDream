@@ -4,10 +4,9 @@
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    .editor-tool-bar {
-        border-bottom: 1px solid #ced4da;
+    .editor-tool-bar,
+    .flow-tool-bar {
         line-height: 2.5rem;
-        padding: 0 .8rem;
         color: #7777;
         .tool-item {
             display: inline-block;
@@ -27,9 +26,14 @@
                 box-shadow: inset 1px -1px 2px #777;
             }
             &.disabled {
-
+                color: #7777;
+                cursor: not-allowed;
             }
         }
+    }
+    .editor-tool-bar {
+        border-bottom: 1px solid #ced4da;
+        padding: 0 .8rem;
         .editor-label {
             color: #333;
             cursor: default;

@@ -22,9 +22,11 @@ import { WordsInputComponent } from './words-input/words-input.component';
 import { DataSizeComponent } from './data-size/data-size.component';
 import { ButtonGroupComponent } from './button-group/button-group.component';
 import { AutoSuggestBoxComponent } from './auto-suggest-box/auto-suggest-box.component';
+import { ColorLayerComponent } from './color-layer/color-layer.component';
 
 const COMPONENTS = [
     CheckInputComponent,
+    ColorLayerComponent,
     ColorPickerComponent,
     CountdownButtonComponent,
     DateInputComponent,

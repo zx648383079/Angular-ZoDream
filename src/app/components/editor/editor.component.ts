@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorOptionManager, IEditorTool } from './base';
+import { EDITOR_CLOSE_TOOL, EditorOptionManager, IEditorTool } from './base';
 import { EditorContainer } from './container';
 
 @Component({
@@ -19,18 +19,22 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
 
     @ViewChild('EditorView', {static: true})
     private editorViewRef: ElementRef<HTMLDivElement>;
+    @Input() public height: number|string = 'auto';
     public topLeftItems: IEditorTool[] = [];
     public topRightItems: IEditorTool[] = [];
     public subItems: IEditorTool[] = [];
+    public flowItems: IEditorTool[] = [];
+    public subIsRight = false;
+    public subParent = '';
     public disabled = false;
-    private option = new EditorOptionManager();
-    private container = new EditorContainer();
+    private flowOldItems :IEditorTool[] = [];
+    private container = new EditorContainer(new EditorOptionManager());
     onChange: any = () => { };
     onTouch: any = () => { };
 
     constructor() {
-        this.topLeftItems = this.option.leftToolbar;
-        this.topRightItems = this.option.rightToolbar;
+        this.topLeftItems = this.container.option.leftToolbar;
+        this.topRightItems = this.container.option.rightToolbar;
     }
 
     ngOnInit() {
@@ -40,8 +44,46 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
         this.container.ready(this.editorViewRef.nativeElement);
     }
 
-    public tapTool(item: IEditorTool) {
-        this.subItems = this.option.toolChildren(item.name);
+    public get areaStyle() {
+        if (!this.height || this.height == 'auto') {
+            return {};
+        }
+        if (typeof this.height === 'string' && /(rem|em|px|vw|vh|%)$/.test(this.height)) {
+            return {
+                height: this.height,
+                'min-height': 0,
+                'overflow-y': 'auto',
+            };
+        }
+        return {
+            height: this.height + 'px',
+            'min-height': 0,
+            'overflow-y': 'auto',
+        };
+    }
+
+    public tapTool(item: IEditorTool, isRight = false) {
+        if (item.name === this.subParent) {
+            this.subItems = [];
+        } else {
+            this.subItems = this.container.option.toolChildren(item.name);
+        }
+        this.subParent = this.subItems.length > 0 ? item.name : '';
+        this.subIsRight = isRight;
+    }
+
+    public tapFlowTool(item: IEditorTool) {
+        if (item.name === EDITOR_CLOSE_TOOL) {
+            this.flowItems = this.flowOldItems;
+            this.flowOldItems = [];
+            return;
+        }
+        const items = this.container.option.toolChildren(item.name);
+        if (items.length > 0) {
+            this.flowOldItems = this.flowItems;
+            this.flowItems = [this.container.option.closeTool, ...items];
+            return;
+        }
     }
 
 

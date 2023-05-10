@@ -1,0 +1,41 @@
+<div class="editor-modal-box">
+    <div class="tab-bar">
+        <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" title="链接">
+            <i class="iconfont icon-chain"></i>
+        </a>
+        <a class="item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" title="代码">
+            <i class="iconfont icon-code"></i>
+        </a>
+        <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" title="上传">
+            <i class="iconfont icon-upload"></i>
+        </a>
+        
+    </div>
+    <label class="drag-input" [for]="fileName" *ngIf="tabIndex < 1">
+        拖放文件
+        <p>(或点击)</p>
+        <input type="file" [id]="fileName">
+    </label>
+    <div *ngIf="tabIndex == 1">
+        <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
+            <input type="text" [(ngModel)]="url">
+            <label for="">链接</label>
+        </div>
+        <div class="input-flex-line">
+            <i class="iconfont" [ngClass]="{'icon-check-square-o': isAutoplay, 'icon-square-o': !isAutoplay}" (click)="isAutoplay = !isAutoplay"></i>
+            自动播放
+        </div>
+        <div class="modal-action">
+            <div class="btn btn-outline-primary">插入</div>
+        </div>
+    </div>
+    <div *ngIf="tabIndex == 2">
+        <div class="input-header-block" [ngClass]="{'input-not-empty': !!code}">
+            <textarea [(ngModel)]="code" rows="4"></textarea>
+            <label for="">代码</label>
+        </div>
+        <div class="modal-action">
+            <div class="btn btn-outline-primary">插入</div>
+        </div>
+    </div>
+</div>

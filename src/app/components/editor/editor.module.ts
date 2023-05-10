@@ -7,6 +7,14 @@ import { HtmlEditorComponent } from './html-editor/html-editor.component';
 import { ThemeModule } from '../../theme/theme.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { EditorComponent } from './editor.component';
+import { EditorColorComponent } from './modal/color/editor-color.component';
+import { EditorImageComponent } from './modal/image/editor-image.component';
+import { EditorVideoComponent } from './modal/video/editor-video.component';
+import { EditorFileComponent } from './modal/file/editor-file.component';
+import { EditorLinkComponent } from './modal/link/editor-link.component';
+import { EditorTableComponent } from './modal/table/editor-table.component';
+import { ZreFormModule } from '../form';
+import { EditorDropdownComponent } from './modal/dropdown/editor-dropdown.component';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
@@ -17,10 +25,18 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
+        ZreFormModule,
         FormsModule,
     ],
     declarations: [
-        ...COMPONENTS
+        ...COMPONENTS,
+        EditorColorComponent,
+        EditorImageComponent,
+        EditorVideoComponent,
+        EditorFileComponent,
+        EditorLinkComponent,
+        EditorTableComponent,
+        EditorDropdownComponent,
     ],
     exports: [
         ...COMPONENTS

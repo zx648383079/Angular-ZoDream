@@ -1,0 +1,9 @@
+<div class="editor-modal-box">
+    <div class="table-grid">
+        <div class="table-row" *ngFor="let i of rowItems">
+            <ng-container *ngFor="let j of columnItems">
+                <span class="table-cell" [ngClass]="{active: column >= j && row >= i}" (mouseover)="tapCell(i, j)" (click)="tapConfirm(i, j)"></span>
+            </ng-container>
+        </div>
+    </div>
+</div>

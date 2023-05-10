@@ -3,6 +3,7 @@ export * from './region/region.component';
 export * from './switch/switch.component';
 export * from './countdown-button/countdown-button.component';
 export * from './color-picker/color-picker.component';
+export * from './color-layer/color-layer.component';
 export * from './star/star.component';
 export * from './select-input/select-input.component';
 export * from './file-input/file-input.component';
