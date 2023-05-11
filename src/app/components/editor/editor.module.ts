@@ -25,6 +25,7 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
+        ThemeModule,
         ZreFormModule,
         FormsModule,
     ],

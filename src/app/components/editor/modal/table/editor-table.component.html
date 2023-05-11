@@ -1,4 +1,4 @@
-<div class="editor-modal-box">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
     <div class="table-grid">
         <div class="table-row" *ngFor="let i of rowItems">
             <ng-container *ngFor="let j of columnItems">

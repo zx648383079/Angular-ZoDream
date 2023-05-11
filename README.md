@@ -60,7 +60,7 @@ npm i --legacy-peer-deps
 
 √ [context menu](src/app/components/context-menu)
 
-√ [editor](src/app/components/editor)
+√ [editor](src/app/components/editor) Include markdown editor, html editor(based on angular), text editor
 
 √ [media player](src/app/components/media-player)
 

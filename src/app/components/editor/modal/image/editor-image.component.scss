@@ -1,0 +1,16 @@
+@import "../../modal";
+app-loading-ring {
+    display: none;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.modal-loading {
+    .tab-bar,
+    .drag-input {
+        display: none;
+    }
+    app-loading-ring {
+        display: block;
+    }
+}

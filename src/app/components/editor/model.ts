@@ -34,8 +34,24 @@ export interface IEditorRange {
     range?: Range;
 }
 
-export interface IEditorBlock {
+export type EditorModalCallback<T = any> = (data: T) => void;
 
+export interface IEditorModal<T = any> {
+    open(data: T, cb: EditorModalCallback<T>): void;
+}
+
+export enum EditorBlockType {
+    AddLineBreak,
+    AddHr,
+    AddText,
+    AddImage,
+    Bold,
+    Indent,
+}
+
+export interface IEditorBlock {
+    [key: string]: any;
+    type: EditorBlockType;
 }
 
 export interface IHtmlEditorOption {

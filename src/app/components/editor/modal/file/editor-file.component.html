@@ -1,7 +1,8 @@
-<div class="editor-modal-box">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible, 'modal-loading': isLoading}">
     <label class="drag-input" [for]="fileName">
         拖放文件
         <p>(或点击)</p>
-        <input type="file" [id]="fileName">
+        <input type="file" [id]="fileName" (change)="uploadFile($event)">
     </label>
+    <app-loading-ring></app-loading-ring>
 </div>

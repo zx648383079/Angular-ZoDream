@@ -11,7 +11,10 @@ export interface IEditorContainer {
 
 
     insertBlock(block: IEditorBlock|string, range?: IEditorRange): void;
-    execute(module: string|IEditorTool, range?: IEditorRange): void;
+    execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void;
+    saveSelection(): void;
+    undo(): void;
+    redo(): void;
 
     on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     on(event: string, cb: any): IEditorContainer;

@@ -25,15 +25,15 @@
         </div>
     </div>
     <div class="editor-area" [ngStyle]="areaStyle">
-        <div #EditorView class="editor-view" [contentEditable]="!disabled"></div>
-        <div class="flow-tool-bar" *ngIf="flowItems.length > 0" [ngClass]="{'flow-tool-one': flowItems.length == 1}">
+        <div #EditorView class="editor-view" [contentEditable]="!disabled" spellcheck="false"></div>
+        <div class="flow-tool-bar" *ngIf="flowItems.length > 0" [ngClass]="{'flow-tool-one': flowItems.length == 1}" [ngStyle]="flowStyle">
             <ng-container *ngFor="let item of flowItems">
                 <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapFlowTool(item)" [title]="item.label">
                     <i class="iconfont" [ngClass]="item.icon"></i>
                 </div>
             </ng-container>
         </div>
-        <app-editor-dropdown></app-editor-dropdown>
+        <ng-container #modalVC></ng-container>
     </div>
     <div class="editor-footer" i18n>{{ 0 }} words</div>
 </div>

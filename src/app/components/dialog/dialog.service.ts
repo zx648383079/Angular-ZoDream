@@ -188,7 +188,7 @@ export class DialogService {
         if (ref instanceof DialogMessageComponent) {
             return true;
         }
-        if (ref instanceof ComponentRef<DialogMessageComponent>) {
+        if (ref instanceof ComponentRef) {
             return ref.instance instanceof DialogMessageComponent;
         }
         if (ref.id && ref.element) {

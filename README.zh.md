@@ -51,7 +51,7 @@ npm i --legacy-peer-deps
 
 √ 关系编辑组件
 
-√ Markdown编辑器组件
+√ Markdown编辑器组件, 富文本编辑器（完全基于angular实现的）
 
 √ 日期选择组件
 

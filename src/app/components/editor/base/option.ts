@@ -1,6 +1,7 @@
-import { IEditorRange } from '../model';
+import { Type } from '@angular/core';
+import { IEditorModal, IEditorRange } from '../model';
 import { IEditorContainer } from './editor';
-import { EDITOR_CLOSE_TOOL } from './event';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL } from './event';
 import { EditorModules } from './module';
 
 export interface IEditorOption {
@@ -27,7 +28,8 @@ export interface IEditorTool {
 
 export interface IEditorModule extends IEditorTool {
     parent?: string;
-    handler?: (editor: IEditorContainer, range?: IEditorRange) => void;
+    modal?: Type<IEditorModal>;
+    handler?: (editor: IEditorContainer, range?: IEditorRange, data?: any) => void;
 }
 
 export class EditorOptionManager {
@@ -56,7 +58,19 @@ export class EditorOptionManager {
     }
 
     public get closeTool(): IEditorTool {
-        return this.toTool(this.moduleItems[EDITOR_CLOSE_TOOL]);
+        return this.toolOnly(EDITOR_CLOSE_TOOL);
+    }
+
+    public get addTool(): IEditorTool {
+        return this.toolOnly(EDITOR_ADD_TOOL);
+    }
+
+    public get enterTool(): IEditorTool {
+        return this.toolOnly(EDITOR_ENTER_TOOL);
+    }
+
+    public get blockTag(): string {
+        return this.option.blockTag;
     }
     
     public merge(option: IEditorOption) {
@@ -71,6 +85,20 @@ export class EditorOptionManager {
                 right: this.strToArr(option.toolbar.right)
             };
         }
+    }
+
+    public toolOnly(name: string): IEditorTool {
+        return this.toTool(this.moduleItems[name]);
+    }
+
+    public tool(...names: string[]): IEditorTool[] {
+        const items = [];
+        for (const name of names) {
+            if (Object.prototype.hasOwnProperty.call(this.moduleItems, name) && this.isVisible(name)) {
+                items.push(this.moduleItems[name]);
+            }
+        }
+        return items;
     }
 
     public toolChildren(name: string): IEditorTool[] {

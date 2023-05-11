@@ -1,5 +1,5 @@
-import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EditorOptionManager, IEditorContainer, IEditorElement, IEditorModule, IEditorTool, TextareaElement } from './base';
-import { IEditorBlock, IEditorRange } from './model';
+import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EditorOptionManager, IEditorContainer, IEditorElement, IEditorTool, TextareaElement } from './base';
+import { EditorBlockType, IEditorBlock, IEditorRange } from './model';
 
 export class EditorContainer implements IEditorContainer {
     private selection: IEditorRange;
@@ -42,10 +42,14 @@ export class EditorContainer implements IEditorContainer {
                 this.execute(module);
                 return;
             }
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.insertBlock({type: EditorBlockType.AddLineBreak});
+                return;
+            }
             if (e.key === 'Tab') {
                 e.preventDefault();
-                this.saveSelection();
-                this.insert('    ', 4, true);
+                this.insertBlock({type: EditorBlockType.Indent});
             }
         });
         this.on(EVENT_INPUT_BLUR, () => {
@@ -82,19 +86,25 @@ export class EditorContainer implements IEditorContainer {
         }
     }
 
-    private saveSelection() {
+    public saveSelection() {
         this.selection = this.element.selection;
     }
 
     public insertBlock(block: IEditorBlock|string, range?: IEditorRange): void {
-        this.element.insert(block, range);
+        if (typeof block !== 'object') {
+            block = {
+                type: EditorBlockType.AddText,
+                text: block,
+            }
+        }
+        this.element.insert(block, range ?? this.selection);
     }
-    public execute(module: string|IEditorTool, range?: IEditorRange): void {
+    public execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void {
         const instance = this.option.toModule(module);
         if (!instance || !instance.handler) {
             return;
         }
-        instance.handler(this, range);
+        instance.handler(this, range, data);
     }
 
     public insertOrInclude(val: string): void;
@@ -121,7 +131,7 @@ export class EditorContainer implements IEditorContainer {
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkSelection();
-        this.element.insert(val);
+        this.insertBlock(val);
         this.move(move);
         if (!focus) {
             return;
@@ -196,6 +206,13 @@ export class EditorContainer implements IEditorContainer {
 
     public blur() {
         this.element.blur();
+    }
+
+    public undo(): void {
+
+    }
+    public redo(): void {
+
     }
 
     public on(event: string, cb: any) {

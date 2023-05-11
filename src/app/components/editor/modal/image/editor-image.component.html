@@ -1,4 +1,4 @@
-<div class="editor-modal-box">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible, 'modal-loading': isLoading}">
     <div class="tab-bar">
         <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" title="上传">
             <i class="iconfont icon-upload"></i>
@@ -13,7 +13,7 @@
     <label class="drag-input" [for]="fileName" *ngIf="tabIndex < 1">
         拖放文件
         <p>(或点击)</p>
-        <input type="file" [id]="fileName">
+        <input type="file" [id]="fileName" (change)="uploadFile($event)">
     </label>
     <div *ngIf="tabIndex == 1">
         <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
@@ -21,7 +21,8 @@
             <label for="">链接</label>
         </div>
         <div class="modal-action">
-            <div class="btn btn-outline-primary">插入</div>
+            <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
         </div>
     </div>
+    <app-loading-ring></app-loading-ring>
 </div>

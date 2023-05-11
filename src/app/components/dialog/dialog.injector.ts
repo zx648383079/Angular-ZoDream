@@ -1,4 +1,4 @@
-import { InjectFlags, Injector, ProviderToken } from '@angular/core';
+import { InjectOptions, Injector, ProviderToken } from '@angular/core';
 
 export class DialogPackage<T = any> {
     constructor(
@@ -15,8 +15,8 @@ export class DialogInjector<T> implements Injector {
         private parentInjector: Injector
       ) {}
 
-    get<T>(token: ProviderToken<T>, notFoundValue?: T, flags?: InjectFlags): T;
-    get(token: any, notFoundValue?: any);
+    get<T>(token: ProviderToken<T>, notFoundValue?: T, option?: InjectOptions): T;
+    get(token: any, notFoundValue?: any): any;
     get(token: any, notFoundValue?: any, flags?: any): any {
         if (token === DialogPackage) {
             return this.data;

@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
+import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
   selector: 'app-editor-table',
   templateUrl: './editor-table.component.html',
   styleUrls: ['./editor-table.component.scss']
 })
-export class EditorTableComponent {
+export class EditorTableComponent implements IEditorModal {
 
+    public visible = false;
     public columnItems: number[] = [];
     public rowItems: number[] = [];
     public column = 1;
     public row = 1;
+    private confirmFn: EditorModalCallback;
 
     constructor() {
         this.columnItems = this.generateRange(10);
@@ -26,8 +29,19 @@ export class EditorTableComponent {
         this.rowItems = this.generateRange(row + 1);
     }
 
-    public tapConfirm(row: number, col: number) {
+    public tapConfirm(row: number, column: number) {
+        this.visible = false;
+        if (this.confirmFn) {
+            this.confirmFn({
+                row,
+                column
+            });
+        }
+    }
 
+    public open(data: any, cb: EditorModalCallback) {
+        this.visible = true;
+        this.confirmFn = cb;
     }
 
     private generateRange(count: number): number[] {

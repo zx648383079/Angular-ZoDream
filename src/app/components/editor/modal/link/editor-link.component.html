@@ -1,4 +1,4 @@
-<div class="editor-modal-box">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
     <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
         <input type="url" [(ngModel)]="url">
         <label for="">网址</label>
@@ -12,6 +12,6 @@
         在新标签页打开
     </div>
     <div class="modal-action">
-        <div class="btn btn-outline-primary">插入</div>
+        <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
     </div>
 </div>
