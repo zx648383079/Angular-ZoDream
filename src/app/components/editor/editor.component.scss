@@ -21,6 +21,12 @@
             outline: 0 solid transparent;
         }
     }
+    table {
+        border: none;
+        td {
+            border: 1px solid #ccc;
+        }
+    }
 }
 .flow-tool-bar {
     position: absolute;
@@ -39,4 +45,3 @@
         text-align: center;
     }
 }
-

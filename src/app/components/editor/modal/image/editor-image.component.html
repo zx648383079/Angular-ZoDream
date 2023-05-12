@@ -1,4 +1,4 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible, 'modal-loading': isLoading}">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible, 'modal-loading': isLoading}" appFileDrop (fileDrop)="uploadFiles($event)">
     <div class="tab-bar">
         <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" title="上传">
             <i class="iconfont icon-upload"></i>

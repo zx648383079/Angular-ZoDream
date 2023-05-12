@@ -15,6 +15,8 @@ import { EditorLinkComponent } from './modal/link/editor-link.component';
 import { EditorTableComponent } from './modal/table/editor-table.component';
 import { ZreFormModule } from '../form';
 import { EditorDropdownComponent } from './modal/dropdown/editor-dropdown.component';
+import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
+import { EditorCodeComponent } from './modal/code/editor-code.component';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
@@ -38,6 +40,8 @@ const COMPONENTS = [
         EditorLinkComponent,
         EditorTableComponent,
         EditorDropdownComponent,
+        EditorResizerComponent,
+        EditorCodeComponent,
     ],
     exports: [
         ...COMPONENTS

@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { FileUploadService } from '../../../../../theme/services';
 import { ButtonEvent } from '../../../../../components/form';
-import { IImageUploadEvent } from '../../../../../components/editor';
+import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
 
 @Component({
   selector: 'app-edit-movie',
@@ -142,7 +142,12 @@ export class EditMovieComponent implements OnInit {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insertImage(item.url, item.original);
+                event.target.insert(<IEditorFileBlock>{
+                    type: EditorBlockType.AddImage,
+                    value: item.url,
+                    title: item.original,
+                    size: item.size
+                });
             }
         });
     }

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
-import { EditorContainer, IEditor } from '../../../../components/editor';
+import { EditorBlockType, EditorContainer, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
 import { wordLength } from '../../../../theme/utils';
 import { MarkRangeMap } from '../math-mark/parser';
@@ -39,7 +39,9 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     constructor(
         private uploadService: FileUploadService,
         private toastrService: DialogService,
-    ) { }
+    ) {
+
+    }
 
     get size() {
         return wordLength(this.value);
@@ -74,19 +76,34 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
             return;
         }
         if (name === 'math') {
-            this.container.insertOrInclude('$$', 1);
-            return ;
+            this.container.insert(<IEditorInclueBlock>{
+                type: EditorBlockType.AddText,
+                begin: '$',
+                end: '$',
+            });
+            return;
         }
         if (name === 'link') {
-            return this.insert('[](https://)', 1, true);
+            this.container.insert(<IEditorLinkBlock>{
+                type: EditorBlockType.AddLink,
+            });
+            return;
         }
         if (name === 'input') {
-            this.container.insert('____', 3);
+            this.container.insert(<IEditorTextBlock>{
+                type: EditorBlockType.AddText,
+                value: '____',
+                cursor: 3
+            });
             return;
         }
         if (Object.prototype.hasOwnProperty.call(MarkRangeMap, name)) {
             const item = MarkRangeMap[name];
-            this.container.insertOrInclude(item.begin, item.end);
+            this.container.insert(<IEditorInclueBlock>{
+                type: EditorBlockType.AddText,
+                begin: item.begin,
+                end: item.end,
+            });
             return;
         }
     }
@@ -105,8 +122,8 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
         });
     }
 
-    public insert(val: string, move?: number, focus?: boolean) {
-        this.container.insert(val, move, focus);
+    public insert(val: IEditorBlock|string) {
+        this.container.insert(val);
     }
 
     public insertImage(file: string, name?: string) {

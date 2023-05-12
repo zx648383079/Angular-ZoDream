@@ -8,9 +8,11 @@ export interface IEditorContainer {
 
     get value(): string;
     set value(v: string);
+    get length(): number;
+    get wordLength(): number;
 
 
-    insertBlock(block: IEditorBlock|string, range?: IEditorRange): void;
+    insert(block: IEditorBlock|string, range?: IEditorRange): void;
     execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void;
     saveSelection(): void;
     undo(): void;

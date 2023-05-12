@@ -1,3 +1,4 @@
+import { EditorCodeComponent } from '../modal/code/editor-code.component';
 import { EditorColorComponent } from '../modal/color/editor-color.component';
 import { EditorDropdownComponent } from '../modal/dropdown/editor-dropdown.component';
 import { EditorFileComponent } from '../modal/file/editor-file.component';
@@ -6,7 +7,7 @@ import { EditorLinkComponent } from '../modal/link/editor-link.component';
 import { EditorTableComponent } from '../modal/table/editor-table.component';
 import { EditorVideoComponent } from '../modal/video/editor-video.component';
 import { EditorBlockType } from '../model';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL } from './event';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
 import { IEditorModule } from './option';
 
 export const EditorModules: IEditorModule[] = [
@@ -26,7 +27,7 @@ export const EditorModules: IEditorModule[] = [
         label: '添加内容',
     },
     {
-        name: 'undo',
+        name: EDITOR_UNDO_TOOL,
         icon: 'icon-undo',
         label: '撤回',
         hotKey: 'Ctrl+Z',
@@ -35,7 +36,7 @@ export const EditorModules: IEditorModule[] = [
         }
     },
     {
-        name: 'redo',
+        name: EDITOR_REDO_TOOL,
         icon: 'icon-redo',
         label: '重做',
         hotKey: 'Ctrl+Shift+Z',
@@ -59,7 +60,7 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-enter',
         label: '换行',
         handler(editor) {
-            editor.insertBlock({type: EditorBlockType.AddLineBreak});
+            editor.insert({type: EditorBlockType.AddLineBreak});
         }
     },
     // 文字处理
@@ -79,6 +80,18 @@ export const EditorModules: IEditorModule[] = [
         name: 'underline',
         icon: 'icon-underline',
         label: '下划线',
+        parent: 'text',
+    },
+    {
+        name: 'wavyline',
+        icon: 'icon-wavyline',
+        label: '波浪线',
+        parent: 'text',
+    },
+    {
+        name: 'dashed',
+        icon: 'icon-dashed',
+        label: '下标加点',
         parent: 'text',
     },
     {
@@ -192,6 +205,12 @@ export const EditorModules: IEditorModule[] = [
         label: '添加链接',
         parent: EDITOR_ADD_TOOL,
         modal: EditorLinkComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddLink,
+                ...data                
+            }, range);
+        },
     },
     {
         name: 'image',
@@ -199,6 +218,12 @@ export const EditorModules: IEditorModule[] = [
         label: '添加图片',
         parent: EDITOR_ADD_TOOL,
         modal: EditorImageComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddImage,
+                ...data                
+            }, range);
+        },
     },
     {
         name: 'video',
@@ -206,6 +231,12 @@ export const EditorModules: IEditorModule[] = [
         label: '添加视频',
         parent: EDITOR_ADD_TOOL,
         modal: EditorVideoComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddVideo,
+                ...data                
+            }, range);
+        },
     },
     {
         name: 'table',
@@ -213,6 +244,12 @@ export const EditorModules: IEditorModule[] = [
         label: '添加表格',
         parent: 'add',
         modal: EditorTableComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddTable,
+                ...data                
+            }, range);
+        },
     },
     {
         name: 'file',
@@ -220,6 +257,25 @@ export const EditorModules: IEditorModule[] = [
         label: '添加文件',
         parent: EDITOR_ADD_TOOL,
         modal: EditorFileComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddFile,
+                ...data                
+            }, range);
+        },
+    },
+    {
+        name: 'code',
+        icon: 'icon-code',
+        label: '添加代码',
+        parent: EDITOR_ADD_TOOL,
+        modal: EditorCodeComponent,
+        handler(editor, range, data) {
+            editor.insert({
+                type: EditorBlockType.AddCode,
+                ...data                
+            }, range);
+        },
     },
     {
         name: 'line',
@@ -227,7 +283,7 @@ export const EditorModules: IEditorModule[] = [
         label: '添加横线',
         parent: EDITOR_ADD_TOOL,
         handler(editor) {
-            editor.insertBlock({type: EditorBlockType.AddHr});
+            editor.insert({type: EditorBlockType.AddHr});
         }
     },
 
@@ -256,43 +312,43 @@ export const EditorModules: IEditorModule[] = [
         name: 'replace-image',
         icon: 'icon-exchange',
         label: '替换',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'align-image',
         icon: 'icon-alignright',
         label: '位置',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'caption-image',
         icon: 'icon-image',
         label: '图片标题',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'delete-image',
         icon: 'icon-trash',
         label: '删除图片',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'link-image',
         icon: 'icon-chain',
         label: '插入链接',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'alt-image',
         icon: 'icon-char',
         label: '图片备注',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'size-image',
         icon: 'icon-ruler',
         label: '调整尺寸',
-        parent: 'image-edit', 
+        parent: EDITOR_IMAGE_TOOL, 
     },
     
     // 视频处理
@@ -300,31 +356,31 @@ export const EditorModules: IEditorModule[] = [
         name: 'replace-video',
         icon: 'icon-exchange',
         label: '替换',
-        parent: 'video-edit', 
+        parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'align-video',
         icon: 'icon-alignright',
         label: '位置',
-        parent: 'video-edit', 
+        parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'caption-video',
         icon: 'icon-film',
         label: '视频标题',
-        parent: 'video-edit', 
+        parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'delete-video',
         icon: 'icon-trash',
         label: '删除视频',
-        parent: 'video-edit', 
+        parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'size-video',
         icon: 'icon-ruler',
         label: '调整尺寸',
-        parent: 'video-edit', 
+        parent: EDITOR_VIDEO_TOOL, 
     },
 
     // 表格处理
@@ -333,67 +389,67 @@ export const EditorModules: IEditorModule[] = [
         name: 'header-table',
         icon: 'icon-table',
         label: '表头',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'footer-table',
         icon: 'icon-table',
         label: '表尾',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'delete-table',
         icon: 'icon-trash',
         label: '删除表格',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'row-table',
         icon: 'icon-table',
         label: '行',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'column-table',
         icon: 'icon-table',
         label: '列',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'style-table',
         icon: 'icon-table',
         label: '表格样式',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-table',
         icon: 'icon-table',
         label: '单元格',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-background-table',
         icon: 'icon-table',
         label: '单元格背景',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-style-table',
         icon: 'icon-table',
         label: '单元格样式',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'horizontal-table',
         icon: 'icon-shuipingdengjianju',
         label: '横向',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'vertical-table',
         icon: 'icon-chuizhidengjianju',
         label: '纵向',
-        parent: 'table-edit', 
+        parent: EDITOR_TABLE_TOOL, 
     },
     // 链接处理
 
@@ -401,24 +457,24 @@ export const EditorModules: IEditorModule[] = [
         name: 'open-link',
         icon: 'icon-paper-plane',
         label: '打开链接',
-        parent: 'link-edit', 
+        parent: EDITOR_LINK_TOOL, 
     },
     {
         name: 'link-style',
         icon: 'icon-font-foreground',
         label: '更改样式',
-        parent: 'link-edit', 
+        parent: EDITOR_LINK_TOOL, 
     },
     {
         name: 'edit-link',
         icon: 'icon-edit',
-        label: '打开链接',
-        parent: 'link-edit', 
+        label: '编辑链接',
+        parent: EDITOR_LINK_TOOL, 
     },
     {
         name: 'unlink',
         icon: 'icon-chain-broken',
         label: '断开链接',
-        parent: 'link-edit', 
+        parent: EDITOR_LINK_TOOL, 
     },
 ];

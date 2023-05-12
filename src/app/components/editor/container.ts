@@ -1,9 +1,11 @@
-import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EditorOptionManager, IEditorContainer, IEditorElement, IEditorTool, TextareaElement } from './base';
+import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EVENT_UNDO_CHANGE, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
 import { EditorBlockType, IEditorBlock, IEditorRange } from './model';
 
 export class EditorContainer implements IEditorContainer {
     private selection: IEditorRange;
     private element: IEditorElement;
+    private undoStack: string[] = [];
+    private undoIndex: number;
     private listeners: {
         [key: string]: Function[];
     } = {};
@@ -44,19 +46,36 @@ export class EditorContainer implements IEditorContainer {
             }
             if (e.key === 'Enter') {
                 e.preventDefault();
-                this.insertBlock({type: EditorBlockType.AddLineBreak});
+                this.insert({type: EditorBlockType.AddLineBreak});
                 return;
             }
             if (e.key === 'Tab') {
                 e.preventDefault();
-                this.insertBlock({type: EditorBlockType.Indent});
+                this.insert({type: EditorBlockType.Indent});
             }
         });
         this.on(EVENT_INPUT_BLUR, () => {
             this.saveSelection();
-            this.emit(EVENT_EDITOR_CHANGE);
+            // this.emit(EVENT_EDITOR_CHANGE);
+        });
+        this.on(EVENT_EDITOR_CHANGE, () => {
+            if (this.undoIndex >= 0 && this.undoIndex < this.undoStack.length - 1) {
+                this.undoStack.splice(this.undoIndex);
+            }
+            this.undoStack.push(this.value);
+            this.undoIndex = this.undoStack.length - 1;
+            this.emit(EVENT_UNDO_CHANGE);
         });
     }
+
+    public get canUndo() {
+        return this.undoIndex > 0 && this.undoStack.length > 0;
+    }
+
+    public get canRedo() {
+        return this.undoIndex < this.undoStack.length && this.undoStack.length > 0;
+    }
+
 
     /**
         是否有选择字符串
@@ -80,6 +99,13 @@ export class EditorContainer implements IEditorContainer {
         this.emit(EVENT_EDITOR_CHANGE);
     }
 
+    public get length(): number {
+        return this.element.length;
+    }
+    public get wordLength(): number {
+        return this.element.wordLength;
+    }
+
     private checkSelection() {
         if (!this.selection) {
             this.selection = this.element.selection;
@@ -90,87 +116,22 @@ export class EditorContainer implements IEditorContainer {
         this.selection = this.element.selection;
     }
 
-    public insertBlock(block: IEditorBlock|string, range?: IEditorRange): void {
+    public insert(block: IEditorBlock|string, range?: IEditorRange): void {
         if (typeof block !== 'object') {
             block = {
                 type: EditorBlockType.AddText,
-                text: block,
+                value: block,
             }
         }
         this.element.insert(block, range ?? this.selection);
     }
+    
     public execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void {
         const instance = this.option.toModule(module);
         if (!instance || !instance.handler) {
             return;
         }
-        instance.handler(this, range, data);
-    }
-
-    public insertOrInclude(val: string): void;
-    public insertOrInclude(val: string, move: number): void;
-    public insertOrInclude(begin: string, end: string): void;
-    public insertOrInclude(val: string, move: string|number = 0) {
-        if (!this.hasSelection) {
-            if (typeof move === 'string') {
-                this.insert(val + move, val.length);
-                return;
-            }
-            this.insert(val, move);
-            return;
-        }
-        this.replace(v => {
-            if (typeof move === 'string') {
-                return val + v + move;
-            }
-            return val.substring(0, move) + v + val.substring(move);
-        });
-    }
-
-
-
-    public insert(val: string, move: number = 0, focus: boolean = true) {
-        this.checkSelection();
-        this.insertBlock(val);
-        this.move(move);
-        if (!focus) {
-            return;
-        }
-        this.focus();
-    }
-
-    /**
-     * replace
-     */
-    public replace(val: (str: string) => string | string, move: number = 0, focus: boolean = true) {
-        this.checkSelection();
-        if (!this.hasSelection) {
-            this.insert(typeof val === 'function' ? val('') : val);
-            return;
-        }
-        this.element.selection = this.selection;
-        const v = typeof val === 'function' ? val(this.element.selectedValue) : val;
-        this.element.selectedValue = v;
-        this.move(move === 0 ? v.length : 0);
-        if (!focus) {
-            return;
-        }
-        this.focus();
-    }
-
-    public append(val: string, move: number = 0, focus: boolean = true) {
-        this.replace(str => {
-            if (str.length < 1) {
-                return val;
-            }
-            if (move < 1) {
-                return str + val;
-            }
-            if (move > val.length) {
-                return val + str;
-            }
-            return val.substring(0, move) + str + val.substring(move);
-        }, move, focus);
+        instance.handler(this, range ?? this.selection, data);
     }
 
     public clear(focus: boolean = true) {
@@ -179,20 +140,6 @@ export class EditorContainer implements IEditorContainer {
             return;
         }
         this.focus();
-    }
-
-    /**
-     * move
-     */
-    public move(x: number) {
-        if (x === 0) {
-            return;
-        }
-        x = this.selection.start + x;
-        this.selection = {
-            start: x,
-            end: Math.max(x, this.selection.end)
-        };
     }
 
     /**
@@ -209,12 +156,23 @@ export class EditorContainer implements IEditorContainer {
     }
 
     public undo(): void {
-
+        if (!this.canUndo) {
+            this.emit(EVENT_UNDO_CHANGE);
+            return;
+        }
+        this.undoIndex --;
+        this.value = this.undoStack[this.undoIndex];
     }
     public redo(): void {
-
+        if (!this.canRedo) {
+            this.emit(EVENT_UNDO_CHANGE);
+            return;
+        }
+        this.undoIndex ++;
+        this.value = this.undoStack[this.undoIndex];
     }
 
+    public on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     public on(event: string, cb: any) {
         if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
             this.listeners[event] = [];

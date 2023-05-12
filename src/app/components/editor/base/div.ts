@@ -1,15 +1,19 @@
-import { EditorBlockType, IEditorBlock, IEditorRange } from '../model';
+import { wordLength } from '../../../theme/utils';
+import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorTableBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_TOOL_ADD, EVENT_TOOL_ENTER, EVENT_TOOL_FLOW_CLOSE, IPoint } from './event';
+import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IBound, IEditorListeners, IPoint } from './event';
 
+/**
+ * 富文本模式
+ */
 export class DivElement implements IEditorElement {
     constructor(
         private element: HTMLDivElement,
         private container: IEditorContainer) {
         this.bindEvent();
     }
-    get selection(): IEditorRange {
+    public get selection(): IEditorRange {
         const sel = window.getSelection();
         const range = sel.getRangeAt(0);
         return {
@@ -18,7 +22,7 @@ export class DivElement implements IEditorElement {
             range: range.cloneRange()
         };
     }
-    set selection(v: IEditorRange) {
+    public set selection(v: IEditorRange) {
         const sel = window.getSelection();
         let range: Range;
         if (v.range) {
@@ -34,7 +38,7 @@ export class DivElement implements IEditorElement {
         sel.addRange(range);
     }
 
-    get selectedValue(): string {
+    public get selectedValue(): string {
         const items: string[] = [];
         const range = this.selection.range;
         let lastLine: Node;
@@ -64,16 +68,24 @@ export class DivElement implements IEditorElement {
         return items.join('');
     }
 
-    set selectedValue(val: string) {
+    public set selectedValue(val: string) {
         this.insert({type: EditorBlockType.AddText, text: val});
     }
 
-    get value(): string {
+    public get value(): string {
         return this.element.innerHTML;
     }
-    set value(v: string) {
+    public set value(v: string) {
         this.element.innerHTML = v;
     }
+
+    public get length(): number {
+        return this.value.length;
+    }
+    public get wordLength(): number {
+        return wordLength(this.element.innerText);
+    }
+
     public insert(block: IEditorBlock, range?: IEditorRange): void {
         if (!range) {
             range = this.selection;
@@ -88,6 +100,16 @@ export class DivElement implements IEditorElement {
                 this.insertLineBreak(range.range);
                 break;
             case EditorBlockType.AddImage:
+                this.insertImage(block as any, range.range);
+                break;
+            case EditorBlockType.AddTable:
+                this.insertTable(block as any, range.range);
+                break;
+            case EditorBlockType.AddVideo:
+                this.insertVideo(block as any, range.range);
+                break;
+            case EditorBlockType.AddLink:
+                this.insertLink(block as any, range.range);
                 break;
         }
     }
@@ -102,25 +124,52 @@ export class DivElement implements IEditorElement {
     private insertHr(range: Range) {
         const hr = document.createElement('hr');
         this.insertElement(hr, range);
-        hr.addEventListener('mouseenter', e => {
-            if (e.currentTarget instanceof HTMLHRElement && e.currentTarget.previousSibling instanceof HTMLHRElement) {
-                this.selectNode(e.currentTarget);
-                this.container.emit(EVENT_TOOL_ENTER, this.getOffset(e.currentTarget.previousSibling));
+    }
+
+    private insertTable(block: IEditorTableBlock, range: Range) {
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        const tbody = table.createTBody();
+        const tdWidth = 100 / block.column + '%';
+        for (let i = 0; i < block.row; i++) {
+            const tr = document.createElement('tr');
+            for (let j = 0; j < block.column; j++) {
+                const td = document.createElement('td');
+                td.appendChild(document.createElement('br'));
+                td.style.width = tdWidth;
+                tr.appendChild(td);
             }
-        });
+            tbody.appendChild(tr);
+        }
+        this.insertElement(table, range);
     }
 
-    private insertTable(range: Range) {
+    private insertImage(block: IEditorFileBlock, range: Range) {
+        const image = document.createElement('img');
+        image.src = block.value;
+        image.title = block.title || '';
+        this.insertElement(image, range);
+    }
+
+    private insertVideo(block: IEditorVideoBlock, range: Range) {
        
     }
 
-    private insertImage(range: Range) {
+    private insertFile(block: IEditorFileBlock, range: Range) {
        
     }
 
-    private insertVideo(range: Range) {
-       
+    private insertLink(block: IEditorLinkBlock, range: Range) {
+        const link = document.createElement('a');
+        link.href = block.value;
+        link.text = block.title;
+        if (block.target) {
+            link.target = '_blank';
+        }
+        this.insertElement(link, range);
+        this.selectNode(link);
     }
+
     
     private insertLineBreak(range: Range) {
         const p = document.createElement(this.container.option.blockTag);
@@ -166,12 +215,12 @@ export class DivElement implements IEditorElement {
         this.element.addEventListener('keydown', e => {
             this.container.saveSelection();
             this.container.emit(EVENT_INPUT_KEYDOWN, e);
-            this.container.emit(EVENT_TOOL_FLOW_CLOSE);
+            this.container.emit(EVENT_CLOSE_TOOL);
         });
         this.element.addEventListener('keyup', () => {
             const range = this.selection.range;
             if (this.isEmptyLine(range)) {
-                this.container.emit(EVENT_TOOL_ADD, this.getOffset(range.startContainer).y);
+                this.container.emit(EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
         })
@@ -180,28 +229,63 @@ export class DivElement implements IEditorElement {
         });
         this.element.addEventListener('compositionend', () => {
             this.container.saveSelection();
+            this.container.emit(EVENT_EDITOR_CHANGE);
         });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();
+            this.container.emit(EVENT_SELECTION_CHANGE);
             // console.log([this.selectedValue]);
         });
-        // this.element.addEventListener('mousemove', e => {
-        //     // this.container.saveSelection();
-        //     console.log(e.target);
-            
-        // });
+        this.element.addEventListener('mouseenter', e => {
+            if (!e.target) {
+                return;
+            }
+            if (e.target instanceof HTMLHRElement) {
+                if (e.target.previousSibling instanceof HTMLHRElement) {
+                    this.selectNode(e.target);
+                    this.container.emit(EVENT_SHOW_LINE_BREAK_TOOL, this.getNodeOffset(e.target.previousSibling));
+                }
+            }
+        });
+        this.element.addEventListener('mousemove', e => {
+            // this.container.saveSelection();
+            if (!e.target) {
+                return;
+            }
+            if (e.target instanceof HTMLTableCellElement) {
+                const td = e.target;
+                const x = e.offsetX;
+                if (x > 0 && x < 4 && td.previousSibling) {
+                    td.style.cursor = 'col-resize';
+                    return;
+                } else if (td.nextSibling && x > td.clientWidth - 4) {
+                    td.style.cursor = 'col-resize';
+                    return;
+                } else {
+                    td.style.cursor = 'auto';
+                }
+            }
+        });
         this.element.addEventListener('touchend', () => {
             this.container.saveSelection();
         });
-        this.element.addEventListener('click', () => {
+        this.element.addEventListener('click', e => {
             this.container.saveSelection();
+            if (e.target instanceof HTMLImageElement) {
+                this.selectNode(e.target);
+                this.container.emit(EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(e.target));
+                return;
+            }
             const range = this.selection.range;
+            if (this.isInBlock(range)) {
+                return;
+            }
             if (this.isEmptyLine(range)) {
-                this.container.emit(EVENT_TOOL_ADD, this.getOffset(range.startContainer).y);
+                this.container.emit(EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
             this.container.emit(EVENT_INPUT_CLICK);
-            this.container.emit(EVENT_TOOL_FLOW_CLOSE);
+            this.container.emit(EVENT_CLOSE_TOOL);
         });
         this.element.addEventListener('blur', () => {
             this.container.saveSelection();
@@ -214,10 +298,12 @@ export class DivElement implements IEditorElement {
      * @param range 
      * @param cb 
      */
-    private eachRange(range: Range, cb: (node: Node) => void) {
+    private eachRange(range: Range, cb: (node: Node) => void|false) {
         const begin = range.startContainer;
         const end = range.endContainer;
-        cb(begin);
+        if (cb(begin) === false) {
+            return;
+        }
         let current = begin;
         while (current !== end) {
             let next = this.nextNode(current);
@@ -234,9 +320,84 @@ export class DivElement implements IEditorElement {
                     break;
                 }
             }
-            cb(next);
+            if (cb(next) === false) {
+                break;
+            }
             current = next;
         }
+    }
+
+    /**
+     * 判断当前是否是在某一个特殊的范围内
+     * @param range 
+     * @returns 
+     */
+    private isInBlock(range: Range): boolean {
+        const linkTag = ['A'];
+        const tableTag = ['TABLE', 'TD', 'TR', 'TH'];
+        let event: keyof IEditorListeners|undefined;
+        this.eachParentNode(range.startContainer, node => {
+            if (linkTag.indexOf(node.nodeName) >= 0) {
+                event = EVENT_SHOW_LINK_TOOL;
+                return false;
+            }
+            if (tableTag.indexOf(node.nodeName) >= 0) {
+                event = EVENT_SHOW_TABLE_TOOL;
+                return false;
+            }
+        });
+        if (event) {
+            this.container.emit(event, this.getNodeOffset(range.startContainer));
+        }
+        return !!event;
+    }
+
+    /**
+     * 获取当前作用的样式
+     * @param node 
+     * @returns 
+     */
+    private getNodeStyle(node: Node): string[] {
+        const styleTag = ['B', 'EM', 'I', 'STRONG'];
+        const items = [];
+        this.eachParentNode(node, cur => {
+            if (styleTag.indexOf(cur.nodeName) >= 0) {
+                items.push(cur.nodeName);
+            }
+        });
+        return items;
+    }
+
+    private eachParentNode(node: Node, cb: (node: Node) => void|false) {
+        let current = node;
+        while (true) {
+            if (current === this.element) {
+                break;
+            }
+            if (cb(current) === false) {
+                break;
+            }
+            current = current.parentNode;
+        }
+    }
+
+    private eachRangeParentNode(range: Range, cb: (node: Node) => void|false) {
+        const exist: Node[] = [];
+        this.eachRange(range, node => {
+            let isEnd = false;
+            this.eachParentNode(node, cur => {
+                if (exist.indexOf(cur) >= 0) {
+                    return false;
+                }
+                if (cb(cur) === false) {
+                    isEnd = true;
+                    return false;
+                }
+            });
+            if (isEnd) {
+                return false;
+            }
+        });
     }
 
     /**
@@ -273,7 +434,7 @@ export class DivElement implements IEditorElement {
         return node;
     }
 
-    private getOffset(node: Node):IPoint {
+    private getNodeOffset(node: Node):IPoint {
         if (node.nodeType !== 1) {
             node = node.parentNode;
         }
@@ -287,6 +448,29 @@ export class DivElement implements IEditorElement {
         return {
             y: (node as HTMLDivElement).offsetTop,
             x: (node as HTMLDivElement).offsetLeft
+        };
+    }
+
+    private getNodeBound(node: Node): IBound {
+        if (node.nodeType !== 1) {
+            node = node.parentNode;
+        }
+        if (node === this.element) {
+            const style = getComputedStyle(this.element);
+            return {
+                x: parseFloat(style.getPropertyValue('padding-left')),
+                y: parseFloat(style.getPropertyValue('padding-top')),
+                width: 0,
+                height: 0,
+            };
+        }
+        const ele = node as HTMLDivElement;
+        const rect = ele.getBoundingClientRect();
+        return {
+            y: ele.offsetTop,
+            x: ele.offsetLeft,
+            width: rect.width,
+            height: rect.height
         };
     }
 

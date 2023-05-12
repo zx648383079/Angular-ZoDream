@@ -1,0 +1,13 @@
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+    <div class="input-header-block" [ngClass]="{'input-not-empty': !!language}">
+        <input type="text" [(ngModel)]="language">
+        <label for="">代码语言</label>
+    </div>
+    <div class="input-header-block" [ngClass]="{'input-not-empty': !!code}">
+        <textarea [(ngModel)]="code" rows="10"></textarea>
+        <label for="">标题</label>
+    </div>
+    <div class="modal-action">
+        <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
+    </div>
+</div>

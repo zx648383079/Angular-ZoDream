@@ -29,6 +29,13 @@ export class EditorImageComponent implements IEditorModal {
             return;
         }
         const files = e.target.files as FileList;
+        this.uploadFiles(files);
+    }
+
+    public uploadFiles(files: FileList|File[]) {
+        if (this.isLoading) {
+            return;
+        }
         if (files.length < 1) {
             return;
         }

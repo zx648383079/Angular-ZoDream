@@ -27,10 +27,14 @@ export class EditorVideoComponent implements IEditorModal {
     }
 
     public uploadFile(e: any) {
+        const files = e.target.files as FileList;
+        this.uploadFiles(files);
+    }
+
+    public uploadFiles(files: FileList|File[]) {
         if (this.isLoading) {
             return;
         }
-        const files = e.target.files as FileList;
         if (files.length < 1) {
             return;
         }
@@ -50,7 +54,7 @@ export class EditorVideoComponent implements IEditorModal {
     public tapConfirm() {
         this.visible = false;
         if (this.confirmFn) {
-            this.confirmFn(this.tabIndex === 2 ? {code: this.code} : {url: this.url, autoplay: this.isAutoplay});
+            this.confirmFn(this.tabIndex === 2 ? {code: this.code} : {value: this.url, autoplay: this.isAutoplay});
         }
     }
 

@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnInit, ViewChild, ViewContainerRef, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EDITOR_CLOSE_TOOL, EVENT_TOOL_ADD, EVENT_TOOL_ENTER, EVENT_TOOL_FLOW_CLOSE, EditorOptionManager, IEditorTool } from './base';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, EditorOptionManager, IEditorTool } from './base';
 import { EditorContainer } from './container';
-import { IEditorModal } from './model';
+import { IEditor, IEditorBlock, IEditorModal } from './model';
+import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 
 @Component({
+    encapsulation: ViewEncapsulation.None,
     selector: 'app-zre-editor',
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss'],
@@ -16,12 +18,14 @@ import { IEditorModal } from './model';
         }
     ]
 })
-export class EditorComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class EditorComponent implements OnInit, AfterViewInit, ControlValueAccessor, IEditor {
 
     @ViewChild('modalVC', {read: ViewContainerRef})
     private modalViewContainer: ViewContainerRef;
     @ViewChild('EditorView', {static: true})
     private editorViewRef: ElementRef<HTMLDivElement>;
+    @ViewChild(EditorResizerComponent)
+    private resizer: EditorResizerComponent;
     @Input() public height: number|string = 'auto';
     public topLeftItems: IEditorTool[] = [];
     public topRightItems: IEditorTool[] = [];
@@ -45,23 +49,54 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
     }
 
     ngOnInit() {
-        this.container.on(EVENT_TOOL_ADD, y => {
+        this.container.on(EVENT_UNDO_CHANGE, () => {
+            for (const item of this.topRightItems) {
+                if (item.name === EDITOR_UNDO_TOOL) {
+                    item.disabled = !this.container.canUndo;
+                } else if (item.name === EDITOR_REDO_TOOL) {
+                    item.disabled = !this.container.canRedo;
+                }
+            }
+        });
+        this.container.on(EVENT_SHOW_ADD_TOOL, y => {
             if (this.modalRef) {
                 this.modalRef.destroy();
                 this.modalRef = undefined;
             }
-            this.flowItems = [this.container.option.addTool];
+            this.flowItems = this.container.option.tool(EDITOR_ADD_TOOL);
             this.flowStyle = {
                 top: y + 'px'
             };
         });
-        this.container.on(EVENT_TOOL_ENTER, p => {
-            this.flowItems = [this.container.option.enterTool];
+        this.container.on(EVENT_SHOW_LINE_BREAK_TOOL, p => {
+            this.flowItems = this.container.option.tool(EDITOR_ENTER_TOOL);
             this.flowStyle = {
                 top: p.y + 'px',
             };
         });
-        this.container.on(EVENT_TOOL_FLOW_CLOSE, () => {
+        this.container.on(EVENT_SHOW_TABLE_TOOL, p => {
+            this.flowItems = this.container.option.toolChildren(EDITOR_TABLE_TOOL);
+            this.flowStyle = {
+                top: p.y + 'px',
+                left: p.x + 'px',
+            };
+        });
+        this.container.on(EVENT_SHOW_LINK_TOOL, p => {
+            this.flowItems = this.container.option.toolChildren(EDITOR_LINK_TOOL);
+            this.flowStyle = {
+                top: p.y + 'px',
+                left: p.x + 'px',
+            };
+        });
+        this.container.on(EVENT_SHOW_IMAGE_TOOL, p => {
+            this.flowItems = this.container.option.toolChildren(EDITOR_IMAGE_TOOL);
+            this.flowStyle = {
+                top: p.y + 'px',
+                left: p.x + 'px',
+            };
+            this.resizer.open(p);
+        });
+        this.container.on(EVENT_CLOSE_TOOL, () => {
             this.flowItems = [];
             if (this.modalRef) {
                 this.modalRef.destroy();
@@ -121,7 +156,12 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
             this.flowItems = [this.container.option.closeTool, ...items];
             return;
         }
+        this.flowItems = [];
         this.executeModule(item);
+    }
+
+    public insert(block: IEditorBlock|string): void {
+        this.container.insert(block);
     }
 
     private executeModule(item: IEditorTool) {

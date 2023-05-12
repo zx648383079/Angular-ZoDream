@@ -14,6 +14,9 @@ export interface IEditorElement {
 
     set value(v: string);
 
+    get length(): number;
+    get wordLength(): number;
+
     insert(block: IEditorBlock, range?: IEditorRange): void;
 
     focus(): void;

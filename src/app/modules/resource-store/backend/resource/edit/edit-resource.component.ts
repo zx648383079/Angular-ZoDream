@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
-import { IImageUploadEvent } from '../../../../../components/editor';
+import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
@@ -161,7 +161,12 @@ export class EditResourceComponent implements OnInit {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insertImage(item.url, item.original);
+                event.target.insert(<IEditorFileBlock>{
+                    type: EditorBlockType.AddImage,
+                    value: item.url,
+                    title: item.original,
+                    size: item.size
+                });
             }
         });
     }

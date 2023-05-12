@@ -27,6 +27,13 @@ export class EditorFileComponent implements IEditorModal {
             return;
         }
         const files = e.target.files as FileList;
+        this.uploadFiles(files);
+    }
+
+    public uploadFiles(files: FileList|File[]) {
+        if (this.isLoading) {
+            return;
+        }
         if (files.length < 1) {
             return;
         }
@@ -34,19 +41,20 @@ export class EditorFileComponent implements IEditorModal {
         this.uploadService.uploadFile(files[0]).subscribe({
             next: res => {
                 this.isLoading = false;
-                this.tapConfirm(res.url);
+                this.tapConfirm(res.url, res.original, res.size);
             },
             error: () => {
                 this.isLoading = false;
             }
         })
     }
-
-    public tapConfirm(value: string) {
+    public tapConfirm(value: string, title: string, size: number) {
         this.visible = false;
         if (this.confirmFn) {
             this.confirmFn({
-                value
+                value,
+                title,
+                size
             });
         }
     }

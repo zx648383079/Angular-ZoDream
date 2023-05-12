@@ -48,7 +48,7 @@ export class GalleryPanelComponent implements ControlValueAccessor, AfterViewIni
 
     ngAfterViewInit() {
         this.imageBox.ondrop = (ev) => {
-            this.fileDrog(ev.dataTransfer.files);0
+            this.fileDrog(ev.dataTransfer.files);
             return false;
         };
         this.imageBox.ondragover = () => false;

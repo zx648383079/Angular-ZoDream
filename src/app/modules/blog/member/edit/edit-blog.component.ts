@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { parseNumber } from '../../../../theme/utils';
-import { IImageUploadEvent } from '../../../../components/editor';
+import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, SearchService } from '../../../../theme/services';
 import { NavToggle, SearchEvents } from '../../../../theme/models/event';
@@ -211,7 +211,12 @@ export class EditBlogComponent implements OnInit, OnDestroy {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insertImage(item.url, item.original);
+                event.target.insert(<IEditorFileBlock>{
+                    type: EditorBlockType.AddImage,
+                    value: item.url,
+                    title: item.original,
+                    size: item.size
+                });
             }
         });
     }
