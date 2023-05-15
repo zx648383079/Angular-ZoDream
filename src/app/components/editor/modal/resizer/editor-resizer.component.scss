@@ -1,7 +1,7 @@
 $color: #ff7700;
 .selection-container {
     position: absolute;
-    z-index: 999;
+    z-index: 99;
     .rotate-icon {
         position: absolute;
         left: 50%;
@@ -93,4 +93,20 @@ $color: #ff7700;
             }
         }
     }
+}
+
+.horizontal-bar,
+.vertical-bar {
+    position: absolute;
+    z-index: 99;
+    background-color: $color;
+}
+
+.horizontal-bar {
+    cursor: col-resize;
+    width: .2rem;
+}
+.vertical-bar {
+    cursor: row-resize;
+    height: .2rem;
 }

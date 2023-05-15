@@ -51,18 +51,18 @@ export class UserMenuComponent implements OnChanges {
                     name: '优惠券',
                     url: '/shop/member/coupon'
                 },
-                {
-                    name: '礼品卡',
-                    url: '/shop/member/'
-                },
-                {
-                    name: '优先购',
-                    url: '/shop/member/'
-                },
-                {
-                    name: '我的众筹',
-                    url: '/shop/member/'
-                },
+                // {
+                //     name: '礼品卡',
+                //     url: '/shop/member/'
+                // },
+                // {
+                //     name: '优先购',
+                //     url: '/shop/member/'
+                // },
+                // {
+                //     name: '我的众筹',
+                //     url: '/shop/member/'
+                // },
 
             ]
         },

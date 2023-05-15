@@ -44,7 +44,10 @@ export class EditorImageComponent implements IEditorModal {
             next: res => {
                 this.isLoading = false;
                 this.url = res.url;
-                this.tapConfirm();
+                this.output({
+                    value: res.url,
+                    title: res.original
+                });
             },
             error: () => {
                 this.isLoading = false;
@@ -53,11 +56,15 @@ export class EditorImageComponent implements IEditorModal {
     }
 
     public tapConfirm() {
+        this.output({
+            value: this.url
+        });
+    }
+
+    private output(data: any) {
         this.visible = false;
         if (this.confirmFn) {
-            this.confirmFn({
-                value: this.url
-            });
+            this.confirmFn(data);
         }
     }
 }

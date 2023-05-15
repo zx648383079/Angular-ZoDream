@@ -17,11 +17,13 @@ import { ZreFormModule } from '../form';
 import { EditorDropdownComponent } from './modal/dropdown/editor-dropdown.component';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { EditorCodeComponent } from './modal/code/editor-code.component';
+import { CodeEditorComponent } from './code-editor/code-editor.component';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
     TextEditorComponent,
-    EditorComponent
+    EditorComponent,
+    CodeEditorComponent,
 ];
 
 @NgModule({

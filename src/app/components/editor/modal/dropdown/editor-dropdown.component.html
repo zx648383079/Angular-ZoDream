@@ -1,7 +1,7 @@
 <div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
     <ul class="option-bar">
         <ng-container *ngFor="let item of items">
-            <li [ngClass]="{active: item.value == selected}" (click)="tapConfirm(item)">{{ item }}</li>
+            <li [ngClass]="{active: item.value == selected}" (click)="tapConfirm(item)">{{ item.name }}</li>
         </ng-container>
     </ul>
 </div>

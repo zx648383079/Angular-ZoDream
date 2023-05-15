@@ -4,6 +4,7 @@ import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/mod
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ISite } from '../../theme/models/seo';
 import {
+    IAccountSubtotal,
     IAd, IAddress, IArticle, IArticleCategory,
     IBrand, ICart, ICartDialog, ICartItem, ICashierData, ICategory, ICollect, IComment,
     ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IOrder, IOrderCount,
@@ -359,6 +360,8 @@ export class ShopService {
         hot_keywords?: any;
         notice?: any;
         help?: any;
+        order_subtotal?: any;
+        account_subtotal?: any;
     }) {
         return this.http.post<{
             category?: ICategory[];
@@ -367,6 +370,8 @@ export class ShopService {
             hot_keywords?: string[];
             notice?: IArticle[];
             help?: IArticleCategory[]|IArticle[];
+            order_subtotal?: IOrderCount;
+            account_subtotal?: IAccountSubtotal
         }>('shop/batch', data);
     }
 }

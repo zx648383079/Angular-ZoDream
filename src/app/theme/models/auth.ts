@@ -48,6 +48,8 @@ export interface IAccountLog {
     status?: number;
     remark: string;
     created_at?: string;
+    type_label?: string;
+    status_label?: string;
     user?: IUser;
 }
 

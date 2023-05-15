@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
+import { IGoodsHistory } from '../../model';
 
 @Component({
   selector: 'app-history',
@@ -8,8 +9,7 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-    public title = '浏览记录';
-    public items: any[] = [];
+    public items: IGoodsHistory[] = [];
     public hasMore = true;
     public page = 1;
     public perPage = 20;
@@ -50,15 +50,15 @@ export class HistoryComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-        });
+        // this.service.orderList({
+        //     page,
+        //     per_page: this.perPage
+        // }).subscribe(res => {
+        //     this.isLoading = false;
+        //     this.items = res.data;
+        //     this.hasMore = res.paging.more;
+        //     this.total = res.paging.total;
+        // });
     }
 
 }

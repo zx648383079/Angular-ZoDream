@@ -62,9 +62,11 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
         if (!item || !item.nativeElement) {
             return;
         }
-        const bound = item.nativeElement.getBoundingClientRect();
-        this.itemWidth = bound.width;
-        this.itemHeight = bound.height;
+        const ele = item.nativeElement;
+        const bound = ele.getBoundingClientRect();
+        const style = window.getComputedStyle(ele);
+        this.itemWidth = bound.width + this.getStyleValue(style, 'marginLeft') + this.getStyleValue(style, 'marginRight');
+        this.itemHeight = bound.height + 10;
     }
 
     public tapPrevious() {
@@ -89,6 +91,14 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     private refreshSize() {
         this.boxWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
+    }
+
+    private getStyleValue(data: CSSStyleDeclaration, key: string): number {
+        const val = data[key];
+        if (!val) {
+            return 0;
+        }
+        return parseFloat(/[\d\.]+/.exec(val)[0]);
     }
 
     private formatType() {

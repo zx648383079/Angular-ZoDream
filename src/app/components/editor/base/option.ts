@@ -5,6 +5,7 @@ import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL } from './event';
 import { EditorModules } from './module';
 
 export interface IEditorOption {
+    undoCount?: number; // 最大回退步骤
     blockTag?: string,
     icons?: {
         [module: string]: string;
@@ -35,6 +36,7 @@ export interface IEditorModule extends IEditorTool {
 export class EditorOptionManager {
 
     private option: IEditorOption = {
+        undoCount: 10,
         blockTag: 'p',
         toolbar: {
             left: ['text', 'paragraph', 'add'],
@@ -70,10 +72,21 @@ export class EditorOptionManager {
     }
 
     public get blockTag(): string {
-        return this.option.blockTag;
+        return this.get('blockTag');
+    }
+
+    public get maxUndoCount() {
+        return this.get('undoCount');
     }
     
     public merge(option: IEditorOption) {
+        for (const key in option) {
+            if (Object.prototype.hasOwnProperty.call(option, key)) {
+                if (typeof this.option[key] !== 'object') {
+                    this.option[key] = option[key];
+                }
+            }
+        }
         if (option.icons) {
             this.option.icons = this.mergeObject(this.option.icons, option.icons);
         }
@@ -85,6 +98,10 @@ export class EditorOptionManager {
                 right: this.strToArr(option.toolbar.right)
             };
         }
+    }
+
+    public get(optionKey: string): any {
+        return this.option[optionKey];
     }
 
     public toolOnly(name: string): IEditorTool {

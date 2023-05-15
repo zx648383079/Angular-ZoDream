@@ -1,8 +1,8 @@
 import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorTableBlock, IEditorVideoBlock } from '../model';
+import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IBound, IEditorListeners, IPoint } from './event';
+import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IBound, IEditorListeners, IPoint } from './event';
 
 /**
  * 富文本模式
@@ -13,6 +13,9 @@ export class DivElement implements IEditorElement {
         private container: IEditorContainer) {
         this.bindEvent();
     }
+
+    private isComposition = false;
+
     public get selection(): IEditorRange {
         const sel = window.getSelection();
         const range = sel.getRangeAt(0);
@@ -86,6 +89,14 @@ export class DivElement implements IEditorElement {
         return wordLength(this.element.innerText);
     }
 
+    public selectAll(): void {
+        const sel = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(this.element);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
     public insert(block: IEditorBlock, range?: IEditorRange): void {
         if (!range) {
             range = this.selection;
@@ -93,23 +104,37 @@ export class DivElement implements IEditorElement {
         switch(block.type) {
             case EditorBlockType.AddHr:
                 this.insertHr(range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddText:
                 break;
+            case EditorBlockType.Indent:
+                this.insertIndent(range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
+                return;
+            case EditorBlockType.Outdent:
+                this.insertOutdent(range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
+                return;
             case EditorBlockType.AddLineBreak:
                 this.insertLineBreak(range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddImage:
                 this.insertImage(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddTable:
                 this.insertTable(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddVideo:
                 this.insertVideo(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddLink:
                 this.insertLink(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
         }
     }
@@ -124,6 +149,40 @@ export class DivElement implements IEditorElement {
     private insertHr(range: Range) {
         const hr = document.createElement('hr');
         this.insertElement(hr, range);
+    }
+
+    private insertIndent(range: Range) {
+        const items: Node[] = [];
+        this.eachRangeParentNode(range, node => {
+            if (this.isBlockNode(node) || node.parentNode === this.element) {
+                items.push(node);
+                return true;
+            }
+        });
+        for (const item of items) {
+            let node: HTMLElement = item as any;
+            if (!this.isBlockNode(node)) {
+                const p = document.createElement(this.container.option.blockTag);
+                p.appendChild(node.cloneNode(true));
+                this.element.replaceChild(p, node);
+                node = p;
+            }
+            const style = window.getComputedStyle(node);
+            node.style.marginLeft = parseFloat(style.marginLeft.replace('px', '')) + 20 + 'px';
+        }
+    }
+
+    private insertOutdent(range: Range) {
+        this.eachRangeParentNode(range, node => {
+            if (!this.isBlockNode(node)) {
+                return;
+            }
+            const ele = node as HTMLDivElement;
+            const style = window.getComputedStyle(ele);
+            const padding = parseFloat(style.marginLeft.replace('px', '')) - 20;
+            ele.style.marginLeft = Math.max(0, padding) + 'px';
+            return true;
+        });
     }
 
     private insertTable(block: IEditorTableBlock, range: Range) {
@@ -173,8 +232,36 @@ export class DivElement implements IEditorElement {
     
     private insertLineBreak(range: Range) {
         const p = document.createElement(this.container.option.blockTag);
+        if (range.startContainer === this.element) {
+            p.appendChild(document.createElement('br'));
+            this.insertToChildIndex(p, range.startContainer, range.startOffset);
+            this.selectNode(p);
+            return;
+        }
+        this.eachBlockNext(range, node => {
+            p.appendChild(node);
+        });
         p.appendChild(document.createElement('br'));
-        this.insertElement(p, range);
+        this.removeRange(range);
+        // this.insertElement(p, range);
+        let next: Node;
+        let done = false;
+        this.eachParentNode(range.startContainer, node => {
+            if (this.isBlockNode(node) && node) {
+                this.insertAfter(p, node);
+                next = undefined;
+                done = true;
+                return false;
+            }
+            next = node;
+        });
+        if (!done) {
+            if (next) {
+                this.insertAfter(p, next);
+            } else {
+                this.element.appendChild(p);
+            }
+        }
         this.selectNode(p);
     }
 
@@ -189,28 +276,6 @@ export class DivElement implements IEditorElement {
         sel.addRange(range);
     }
 
-    public insertElement(node: Node, range: Range) {
-        if (range.startContainer === this.element) {
-            this.element.appendChild(node);
-            return;
-        }
-        if (this.isEndNode(range.startContainer, range.startOffset)) {
-            const next = this.nextNode(range.startContainer);
-            if (!next) {
-                this.element.appendChild(node);
-                return;
-            }
-            this.element.insertBefore(node, next);
-            return;
-        }
-        const nextNode = this.splitNode(range.startContainer, range.startOffset);
-        if (nextNode !== this.element) {
-            this.element.insertBefore(node, nextNode);
-        } else {
-            this.element.appendChild(node);
-        }
-    }
-
     private bindEvent() {
         this.element.addEventListener('keydown', e => {
             this.container.saveSelection();
@@ -218,17 +283,23 @@ export class DivElement implements IEditorElement {
             this.container.emit(EVENT_CLOSE_TOOL);
         });
         this.element.addEventListener('keyup', () => {
+            if (this.isComposition) {
+                return;
+            }
             const range = this.selection.range;
             if (this.isEmptyLine(range)) {
                 this.container.emit(EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
-        })
+        });
         this.element.addEventListener('compositionstart', () => {
-            this.container.saveSelection();
+            this.isComposition = true;
+            // this.container.saveSelection();
         });
         this.element.addEventListener('compositionend', () => {
+            this.isComposition = false;
             this.container.saveSelection();
+            this.container.emit(EVENT_SELECTION_CHANGE);
             this.container.emit(EVENT_EDITOR_CHANGE);
         });
         this.element.addEventListener('mouseup', () => {
@@ -266,14 +337,31 @@ export class DivElement implements IEditorElement {
                 }
             }
         });
+        this.element.addEventListener('mousedown', e => {
+            if (!e.target) {
+                return;
+            }
+            if (e.target instanceof HTMLTableCellElement) {
+                const td = e.target;
+                const x = e.offsetX;
+                if (x > 0 && x < 4 && td.previousSibling) {
+                    this.moveTableCol(td.previousSibling as any);
+                    return;
+                } else if (td.nextSibling && x > td.clientWidth - 4) {
+                    this.moveTableCol(td);
+                    return;
+                }
+            }
+        });
         this.element.addEventListener('touchend', () => {
             this.container.saveSelection();
         });
         this.element.addEventListener('click', e => {
             this.container.saveSelection();
             if (e.target instanceof HTMLImageElement) {
-                this.selectNode(e.target);
-                this.container.emit(EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(e.target));
+                const img = e.target as HTMLImageElement;
+                this.selectNode(img);
+                this.container.emit(EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(img), data => this.updateNode(img, data));
                 return;
             }
             const range = this.selection.range;
@@ -291,6 +379,46 @@ export class DivElement implements IEditorElement {
             this.container.saveSelection();
             this.container.emit(EVENT_INPUT_BLUR);
         });
+    }
+
+    private moveTableCol(node: HTMLTableCellElement) {
+        const table: HTMLTableElement = node.closest('table');
+        if (!table) {
+            return;
+        }
+        const base = this.element.getBoundingClientRect();
+        const rect = table.getBoundingClientRect();
+        const nodeRect = node.getBoundingClientRect();
+        const x = nodeRect.x + nodeRect.width - base.x;
+        this.container.emit(EVENT_SHOW_COLUMN_TOOL, <IBound>{
+            x,
+            y: table.offsetTop,
+            width: 0,
+            height: rect.height,
+        }, (data: IBound) => {
+            const cellIndex = node.cellIndex + node.colSpan;
+            const pre = (data.x - x) * 100 / rect.width;
+            for (let i = 0; i < table.rows.length; i++) {
+                const tr = table.rows[i];
+                for (let j = 0; j < tr.cells.length; j++) {
+                    const cell = tr.cells[j];
+                    if (cell.cellIndex + cell.colSpan === cellIndex) 
+                    {
+                        cell.style.width = parseFloat(cell.style.width.replace('%', '')) + pre + '%';
+                        const next = tr.cells[j + 1];
+                        next.style.width = parseFloat(next.style.width.replace('%', '')) - pre + '%';
+                    }
+                }
+            }
+        });
+    }
+
+    private updateNode(node: HTMLElement, data: IEditorBlock) {
+        if (data.type === EditorBlockType.NodeResize) {
+            const bound = data as IEditorResizeBlock;
+            node.style.width = bound.width + 'px';
+            node.style.height = bound.height + 'px';
+        }
     }
 
     /**
@@ -325,6 +453,136 @@ export class DivElement implements IEditorElement {
             }
             current = next;
         }
+    }
+
+    public insertElement(node: Node, range: Range) {
+        if (range.startContainer === this.element) {
+            this.element.appendChild(node);
+            return;
+        }
+        if (this.isEndNode(range.startContainer, range.startOffset)) {
+            const next = this.nextNode(range.startContainer);
+            if (!next) {
+                this.element.appendChild(node);
+                return;
+            }
+            this.element.insertBefore(node, next);
+            return;
+        }
+        const nextNode = this.splitNode(range.startContainer, range.startOffset);
+        if (nextNode !== this.element) {
+            this.element.insertBefore(node, nextNode);
+        } else {
+            this.element.appendChild(node);
+        }
+    }
+
+    private insertToChildIndex(newEle: HTMLElement, parent: Node, index: number) {
+        if (parent.childNodes.length <= index) {
+            parent.appendChild(newEle);
+            return;
+        }
+        parent.insertBefore(newEle, parent.childNodes[index]);
+    }
+
+    private insertAfter(newEle: HTMLElement, node: Node) {
+        const parent = node.parentNode;
+        if (node.nextSibling) {
+            parent.insertBefore(newEle, node.nextSibling);
+            return;
+        }
+        parent.appendChild(newEle);
+    }
+
+    private removeRange(range: Range) {
+        if (range.startContainer === range.endContainer) {
+            if (range.startOffset > 0 && (range.startContainer instanceof Text)) {
+                range.startContainer.textContent = range.startContainer.textContent.substring(0, range.startOffset);
+            } else if (range.startContainer !== this.element) {
+                range.startContainer.parentNode.removeChild(range.startContainer);
+            }
+            return
+        }
+        const beginParentItems: Node[] = [];
+        this.eachParentNode(range.startContainer, node => {
+            beginParentItems.push(node);
+        });
+        this.eachParentNode(range.endContainer, node => {
+            if (beginParentItems.indexOf(node) < 0) {
+                const parent = node.parentNode;
+                this.eachBrother(node, item => {
+                    if (beginParentItems.indexOf(item) >= 0) {
+                        return false;
+                    }
+                    parent.removeChild(item);
+                }, false);
+                return;
+            }
+            return false;
+        });
+
+    }
+
+    private indexOfNode(items: NodeListOf<Node>, find: Node): number {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i] === find) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private eachBrother(node: Node, cb: (node: Node) => false|void, isNext = true) {
+        if (!node.parentNode) {
+            return;
+        }
+        let found = isNext;
+        const parent = node.parentNode;
+        for (let i = parent.children.length - 1; i >= 0; i--) {
+            const item = parent.children[i];
+            if (item === node) {
+                if (cb(item) === false) {
+                    break;
+                }
+                if (isNext) {
+                    break;
+                }
+                found = true;
+            }
+            if (found && cb(item) === false) {
+                break;
+            }
+        }
+    }
+
+    private eachBlockNext(range: Range, cb: (node: Node) => void) {
+        if (range.endContainer === this.element) {
+            return;
+        }
+        if (range.endOffset < 1) {
+            cb(range.endContainer);
+        } else if (range.endContainer instanceof Text && range.endContainer.length > range.endOffset) {
+            cb(range.endContainer.splitText(range.endOffset));
+        }
+        let node = range.endContainer;
+        while (true) {
+            if (!node.nextSibling) {
+                if (this.element === node.parentNode || this.isBlockNode(node.parentNode)) {
+                    break;
+                }
+                node = node.parentNode;
+                continue;
+            }
+            node = node.nextSibling;
+            if (node.nodeName === 'BR' || this.isBlockNode(node)) {
+                break;
+            }
+            cb(node);
+        }
+    }
+
+    private isBlockNode(node: Node) {
+        return node.nodeName === 'P' || node.nodeName === 'DIV';
     }
 
     /**
@@ -381,7 +639,12 @@ export class DivElement implements IEditorElement {
         }
     }
 
-    private eachRangeParentNode(range: Range, cb: (node: Node) => void|false) {
+    /**
+     * 循环遍历选中项的父元素
+     * @param range 
+     * @param cb 返回 true中断某一个子元素的父级查找， 返回false 中断整个查找
+     */
+    private eachRangeParentNode(range: Range, cb: (node: Node) => void|boolean) {
         const exist: Node[] = [];
         this.eachRange(range, node => {
             let isEnd = false;
@@ -389,10 +652,14 @@ export class DivElement implements IEditorElement {
                 if (exist.indexOf(cur) >= 0) {
                     return false;
                 }
-                if (cb(cur) === false) {
-                    isEnd = true;
-                    return false;
+                const res = cb(cur);
+                if (typeof res !== 'boolean') {
+                    return;
                 }
+                if (res === false) {
+                    isEnd = true;
+                }
+                return false;
             });
             if (isEnd) {
                 return false;
@@ -445,6 +712,12 @@ export class DivElement implements IEditorElement {
                 y: parseFloat(style.getPropertyValue('padding-top')),
             };
         }
+        // rect = elem.getBoundingClientRect();
+		// win = elem.ownerDocument.defaultView;
+		// return {
+		// 	    top: rect.top + win.pageYOffset,
+		// 	    left: rect.left + win.pageXOffset
+		// };
         return {
             y: (node as HTMLDivElement).offsetTop,
             x: (node as HTMLDivElement).offsetLeft

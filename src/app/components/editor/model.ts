@@ -34,6 +34,8 @@ export enum EditorBlockType {
     Bold,
     Indent,
     Outdent,
+    NodeResize,
+    NodeMove,
 }
 
 export interface IEditorBlock {
@@ -46,8 +48,13 @@ export interface IEditorValueBlock extends IEditorBlock {
 }
 
 export interface IEditorSizeBlock extends IEditorBlock {
-    width: string;
-    height: string;
+    width: string|number;
+    height: string|number;
+}
+
+export interface IEditorResizeBlock extends IEditorSizeBlock {
+    x: number;
+    y: number;
 }
 
 export interface IEditorTableBlock extends IEditorBlock {
@@ -69,6 +76,10 @@ export interface IEditorFileBlock extends IEditorValueBlock {
 export interface IEditorLinkBlock extends IEditorValueBlock {
     title: string,
     target: boolean;
+}
+
+export interface IEditorCodeBlock extends IEditorValueBlock {
+    language: string;
 }
 
 export interface IEditorTextBlock extends IEditorValueBlock {

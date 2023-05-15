@@ -36,7 +36,7 @@
                 <div class="col-lg-3 col-md-4 col-6">
                     <a class="goods-item item-hover" [routerLink]="'../goods/' + item.id">
                         <div class="thumb">
-                            <img [src]="item.thumb" alt="">
+                            <img [appLazyLoad]="item.thumb" [alt]="item.name">
                         </div>
                         <div class="name">{{ item.name }}</div>
                         <div class="price">{{ item.price | price }}</div>

@@ -1,64 +1,103 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
+import { IAccountLog } from '../../../../theme/models/auth';
+import { IPageQueries } from '../../../../theme/models/page';
+import { SearchService } from '../../../../theme/services';
+import { Store } from '@ngrx/store';
+import { ShopAppState } from '../../shop.reducer';
+import { IUser } from '../../../../theme/models/user';
+import { Subscription } from 'rxjs';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy {
 
     public title = '我的账户';
-    public items: any[] = [];
+    public items: IAccountLog[] = [];
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20,
+        type: 0,
+    };
     public hasMore = true;
-    public page = 1;
-    public perPage = 20;
     public isLoading = false;
     public total = 0;
+    public user: IUser;
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: ShopService,
-        private router: Router,
         private route: ActivatedRoute,
+        private searchService: SearchService,
+        private store: Store<ShopAppState>,
     ) {
+        this.subItems.push(
+            this.store.select(selectAuthUser).subscribe(res => {
+                this.user = res;  
+            })
+        );
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.queries = this.searchService.getQueries(params, this.queries);
+            this.tapPage();
+        });
+    }
+
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
+    }
+
+    public tapType(i: number) {
+        if (this.queries.type === i) {
+            return;
+        }
+        this.queries.type = i;
         this.tapRefresh();
     }
 
-    ngOnInit() {}
+    public tapSearch(form: any) {
+        this.queries = this.searchService.getQueries(form, this.queries);
+        this.tapRefresh();
+    }
 
-
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         this.goPage(1);
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page + 1);
     }
 
-    /**
-     * goPage
-     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
-        this.service.orderList({
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries, page};
+        this.service.accountLog(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading = false;
+                this.total = res.paging.total;
+                this.items = res.data;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 }

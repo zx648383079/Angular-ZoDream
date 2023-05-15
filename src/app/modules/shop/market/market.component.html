@@ -28,7 +28,7 @@
                             </div>
                             <div *ngIf="column.children">
                                 <div class="nav-item" *ngFor="let child of column.children">
-                                    <img src="https://yanxuan.nosdn.127.net/785a1507ce654746875063805c6c4235.png" alt="">
+                                    <img [src]="child.icon" alt="">
                                     <span><a >{{ child.name }}</a></span>
                                 </div>
                             </div>

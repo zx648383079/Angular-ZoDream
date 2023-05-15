@@ -167,6 +167,13 @@ export interface IOrderCount {
     refunding?: number;
 }
 
+export interface IAccountSubtotal {
+    money: number;
+    integral: number;
+    bonus: number;
+    coupon: number;
+}
+
 export interface IAddress {
     id: number;
     name: string;
@@ -710,6 +717,24 @@ export interface IAffiliateLog {
     updated_at:        string;
     created_at:        string;
     user: IUser;
+}
+
+export interface IGoodsHistory {
+    ago: string;
+    day: string;
+    items: IGoods[];
+}
+
+export interface IOrderRefund {
+    id: number;
+    order_id: number;
+    status: number;
+    created_at: string;
+    order_price: number;
+    amount: number;
+    money: number;
+    order: IOrder;
+    goods: IGoods;
 }
 
 export enum ORDER_STATUS {

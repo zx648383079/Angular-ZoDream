@@ -1,8 +1,8 @@
 @font-face {
     font-family: "iconfont"; /* Project id 1823716 */
-    src: url("iconfont.woff2?t=1683807508152") format("woff2"),
-        url("iconfont.woff?t=1683807508152") format("woff"),
-        url("iconfont.ttf?t=1683807508152") format("truetype");
+    src: url("iconfont.woff2?t=1683962701456") format("woff2"),
+        url("iconfont.woff?t=1683962701456") format("woff"),
+        url("iconfont.ttf?t=1683962701456") format("truetype");
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dotted:before {
+    content: "\e63e";
+}
+
+.icon-dottedunderline:before {
+    content: "\e8b9";
+}
+
+.icon-wavy-line:before {
+    content: "\e62a";
 }
 
 .icon-font-size:before {

@@ -7,6 +7,7 @@ import { setCart } from '../shop.actions';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 import { ShopService } from '../shop.service';
+import { ICategory } from '../model';
 
 @Component({
   selector: 'app-market',
@@ -15,7 +16,7 @@ import { ShopService } from '../shop.service';
 })
 export class MarketComponent implements OnInit {
 
-    public categories = [];
+    public categories: ICategory[] = [];
     public tipItems: string[] =  [];
     public hotItems: string[] = [];
     public keywords = '';

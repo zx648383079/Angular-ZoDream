@@ -15,6 +15,7 @@
     }
     a {
         color: #ccc;
+        user-select: none;
         &:hover {
             color: #fff;
         }
@@ -53,6 +54,7 @@
     }
     .drop-header {
         display: inline-block;
+        user-select: none;
         .iconfont {
             font-weight: 100;
         }

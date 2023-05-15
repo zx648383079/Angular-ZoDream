@@ -24,7 +24,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="editor-area" [ngStyle]="areaStyle">
+    <div class="editor-area" [hidden]="isCodeMode" [ngStyle]="areaStyle">
         <div #EditorView class="editor-view" [contentEditable]="!disabled" spellcheck="false"></div>
         <div class="flow-tool-bar" *ngIf="flowItems.length > 0" [ngClass]="{'flow-tool-one': flowItems.length == 1}" [ngStyle]="flowStyle">
             <ng-container *ngFor="let item of flowItems">
@@ -36,5 +36,7 @@
         <app-editor-resizer></app-editor-resizer>
         <ng-container #modalVC></ng-container>
     </div>
+    <app-code-editor [hidden]="!isCodeMode"></app-code-editor>
     <div class="editor-footer" i18n>{{ 0 }} words</div>
 </div>
+

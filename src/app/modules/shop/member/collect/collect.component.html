@@ -6,7 +6,7 @@
         <div class="panel history-panel">
             <div class="panel-header">
                 <span>我的收藏</span>
-                <a href="" class="pull-right">
+                <a class="pull-right">
                     <i class="iconfont icon-trash"></i>
                     批量删除
                 </a>
@@ -16,8 +16,8 @@
                     <div class="goods-item goods-action item-hover" *ngFor="let item of items">
                         <i class="iconfont icon-close"></i>
                         <div class="thumb">
-                            <a href="">
-                                <img [src]="item.goods.thumb" alt="">
+                            <a [routerLink]="['../../goods', item.goods.id]">
+                                <img [appLazyLoad]="item.goods.thumb" [alt]="item.goods.name">
                             </a>
                         </div>
                         <div class="name">{{ item.goods.name }}</div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
-import { IOrder, IOrderCount, ORDER_STATUS } from '../../model';
+import { IAccountSubtotal, IOrder, IOrderCount, ORDER_STATUS } from '../../model';
 import { IUser } from '../../../../theme/models/user';
 import { ShopService } from '../../shop.service';
 
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     public user: IUser;
     public orderItems: IOrder[] = [];
     public orderSutotal: IOrderCount = {};
+    public accountSubtotal: IAccountSubtotal = {} as any;
 
     constructor(
         private service: ShopService,
@@ -33,8 +34,12 @@ export class HomeComponent implements OnInit {
                 this.toastrService.warning(res.message || '登录令牌失效，请重新登录');
             }
         });
-        this.service.orderSubtotal().subscribe(res => {
-            this.orderSutotal = res;
+        this.service.batch({
+            order_subtotal: {},
+            account_subtotal: {}
+        }).subscribe(res => {
+            this.orderSutotal = res.order_subtotal;
+            this.accountSubtotal = res.account_subtotal;
         });
         this.service.orderList({
             status: [ORDER_STATUS.UN_PAY, ORDER_STATUS.PAID_UN_SHIP, ORDER_STATUS.SHIPPED],

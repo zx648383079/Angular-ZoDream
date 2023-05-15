@@ -52,11 +52,16 @@ export class CollectComponent implements OnInit {
         this.service.collectList({
             page,
             per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        }).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

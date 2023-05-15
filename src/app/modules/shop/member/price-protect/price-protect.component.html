@@ -13,8 +13,8 @@
                     </div>
                </div>
                <div class="col-md-4">
-                    <form class="flat-search"  (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                        <input type="text" name="keywords" [value]="queries.keywords" ngModel>
+                    <form class="flat-search" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                        <input type="text" name="keywords" [ngModel]="queries.keywords">
                         <button>搜索</button>
                     </form>
                </div>
@@ -32,19 +32,19 @@
                    <th>申请状态</th>
                </thead>
                <tbody>
-                   <tr>
+                   <tr *ngFor="let item of items">
                        <td>
-                           <a href="">
-                                <img src="https://img10.360buyimg.com/N5/jfs/t1/72278/5/861/77041/5cf098f4E25b74bcb/c964357d495c8dd6.jpg" alt="">
+                           <a [routerLink]="['../../goods', item.goods.id]">
+                                <img [appLazyLoad]="item.goods.thumb" [alt]="item.goods.name">
                            </a>
                        </td>
-                       <td>96635467821</td>
-                       <td>2019-06-12 22:20:03</td>
-                       <td>￥199.00</td>
-                       <td>x1</td>
-                       <td>￥179.00</td>
-                       <td>x1</td>
-                       <td>￥20.00</td>
+                       <td>{{ item.order_id }}</td>
+                       <td>{{ item.created_at }}</td>
+                       <td>{{ item.order_price | price }}</td>
+                       <td>x {{ item.amount }}</td>
+                       <td>{{ item.goods.price | price }}</td>
+                       <td> x {{ item.amount }}</td>
+                       <td>{{ item.money | price }}</td>
                        <td>
                            <p>价保成功</p>
                            <a class="btn">查看详情</a>

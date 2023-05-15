@@ -275,7 +275,7 @@ header {
         .header-main {
             height: 204px;
             .header-logo {
-                text-align: center;
+                text-align: left;
                 img {
                     height: 140px;
                 }
@@ -298,3 +298,14 @@ header {
         }
     }
 }
+
+@media (min-width: 996px) {
+    header {
+        .header-main {
+            .header-logo {
+                text-align: center;
+            }
+        }
+    }
+}
+

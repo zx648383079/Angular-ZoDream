@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, EditorOptionManager, IEditorTool } from './base';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, IEditorTool } from './base';
 import { EditorContainer } from './container';
 import { IEditor, IEditorBlock, IEditorModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
+import { CodeEditorComponent } from './code-editor/code-editor.component';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -18,7 +19,7 @@ import { EditorResizerComponent } from './modal/resizer/editor-resizer.component
         }
     ]
 })
-export class EditorComponent implements OnInit, AfterViewInit, ControlValueAccessor, IEditor {
+export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
 
     @ViewChild('modalVC', {read: ViewContainerRef})
     private modalViewContainer: ViewContainerRef;
@@ -26,6 +27,8 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
     private editorViewRef: ElementRef<HTMLDivElement>;
     @ViewChild(EditorResizerComponent)
     private resizer: EditorResizerComponent;
+    @ViewChild(CodeEditorComponent)
+    private codeEditor: CodeEditorComponent;
     @Input() public height: number|string = 'auto';
     public topLeftItems: IEditorTool[] = [];
     public topRightItems: IEditorTool[] = [];
@@ -35,8 +38,10 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
     public subIsRight = false;
     public subParent = '';
     public disabled = false;
+    public isCodeMode = false;
+    public isFullScreen = false;
     private flowOldItems :IEditorTool[] = [];
-    private container = new EditorContainer(new EditorOptionManager());
+    private container = new EditorContainer();
     private modalRef: ComponentRef<IEditorModal>;
     onChange: any = () => { };
     onTouch: any = () => { };
@@ -88,13 +93,16 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
                 left: p.x + 'px',
             };
         });
-        this.container.on(EVENT_SHOW_IMAGE_TOOL, p => {
+        this.container.on(EVENT_SHOW_IMAGE_TOOL, (p, cb) => {
             this.flowItems = this.container.option.toolChildren(EDITOR_IMAGE_TOOL);
             this.flowStyle = {
-                top: p.y + 'px',
+                top: p.y + p.height + 20 + 'px',
                 left: p.x + 'px',
             };
-            this.resizer.open(p);
+            this.resizer.openResize(p, cb);
+        });
+        this.container.on(EVENT_SHOW_COLUMN_TOOL, (p, cb) => {
+            this.resizer.openHorizontalResize(p, cb);
         });
         this.container.on(EVENT_CLOSE_TOOL, () => {
             this.flowItems = [];
@@ -102,11 +110,16 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
                 this.modalRef.destroy();
                 this.modalRef = undefined;
             }
+            this.resizer.close();
         });
     }
 
     ngAfterViewInit(): void {
         this.container.ready(this.editorViewRef.nativeElement);
+    }
+
+    ngOnDestroy(): void {
+        this.container.destroy();
     }
 
     public get areaStyle() {
@@ -168,6 +181,17 @@ export class EditorComponent implements OnInit, AfterViewInit, ControlValueAcces
         if (this.modalRef) {
             this.modalRef.destroy();
             this.modalRef = undefined;
+        }
+        if (item.name === EDITOR_CODE_TOOL) {
+            this.isCodeMode = !this.isCodeMode;
+            if (this.isCodeMode) {
+                this.codeEditor.writeValue(this.container.value);
+            }
+            return;
+        }
+        if (item.name === EDITOR_FULL_SCREEN_TOOL) {
+            this.isFullScreen = !this.isFullScreen;
+            return;
         }
         const module = this.container.option.toModule(item);
         if (!module) {

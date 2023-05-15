@@ -1,11 +1,19 @@
 <div class="picture-box">
     <div class="view">
-        <ng-container *ngIf="items.length > 0">
-            <img [src]="currentSrc" alt="">
+        <ng-container *ngIf="mediaSrc">
+            <ng-container *ngIf="mediaType == 1">
+                <img [src]="mediaSrc" alt="">
+            </ng-container>
+            <ng-container *ngIf="mediaType == 2">
+                <video [src]="mediaSrc"></video>
+            </ng-container>
+            <ng-container *ngIf="mediaType == 3">
+                <iframe [src]="mediaSrc"></iframe>
+            </ng-container>
         </ng-container>
     </div>
     <ul>
-        <li *ngFor="let item of items; let i = index" [ngClass]="{active: i == index}" (click)="index = i">
+        <li *ngFor="let item of items; let i = index" [ngClass]="{active: i == index}" (click)="tapItem(i)">
             <img [src]="item.thumb" alt="">
         </li>
     </ul>

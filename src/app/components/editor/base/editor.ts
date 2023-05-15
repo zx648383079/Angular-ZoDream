@@ -10,13 +10,18 @@ export interface IEditorContainer {
     set value(v: string);
     get length(): number;
     get wordLength(): number;
-
-
+    // get hasMoveListener(): boolean;
+    /**
+     * 保证监听鼠标移动事件的唯一性
+     */
+    // mouseMove(move?: (p: IPoint) => void, finish?: (p: IPoint) => void): void;
     insert(block: IEditorBlock|string, range?: IEditorRange): void;
     execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void;
     saveSelection(): void;
     undo(): void;
     redo(): void;
+    selectAll(): void;
+    destroy(): void;
 
     on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     on(event: string, cb: any): IEditorContainer;

@@ -1,42 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../theme/models/seo';
-import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
-import { AuthService } from '../../../theme/services';
+import { selectAuth } from '../../../theme/reducers/auth.selectors';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 import { ShopService } from '../shop.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-member',
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']
 })
-export class MemberComponent {
+export class MemberComponent implements OnDestroy {
     public site: ISite = {} as any;
     public title = '个人中心';
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: ShopService,
         private route: ActivatedRoute,
         private router: Router,
         private store: Store<ShopAppState>,
-        private authService: AuthService,
     ) {
-        this.store.select(selectAuthUser).subscribe(user => {
-            if (!user || !user.id) {
+        this.subItems.push(this.store.select(selectAuth).subscribe(res => {
+            if (!res.isLoading && res.guest) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;
             }
-        });
-        this.store.select(selectSite).subscribe(site => {
+        }));
+        this.subItems.push(this.store.select(selectSite).subscribe(site => {
             this.site = site;
-        });
+        }));
+    }
+
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public onRouterActivate(componentRef: any) {
-        this.title = componentRef.title || '个人中心';
+        setTimeout(() => {
+            this.title = componentRef.title || '个人中心';
+        }, 100);
     }
 
 }

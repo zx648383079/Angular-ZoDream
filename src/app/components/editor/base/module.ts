@@ -7,7 +7,7 @@ import { EditorLinkComponent } from '../modal/link/editor-link.component';
 import { EditorTableComponent } from '../modal/table/editor-table.component';
 import { EditorVideoComponent } from '../modal/video/editor-video.component';
 import { EditorBlockType } from '../model';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
 import { IEditorModule } from './option';
 
 export const EditorModules: IEditorModule[] = [
@@ -84,13 +84,13 @@ export const EditorModules: IEditorModule[] = [
     },
     {
         name: 'wavyline',
-        icon: 'icon-wavyline',
+        icon: 'icon-wavy-line',
         label: '波浪线',
         parent: 'text',
     },
     {
         name: 'dashed',
-        icon: 'icon-dashed',
+        icon: 'icon-dottedunderline',
         label: '下标加点',
         parent: 'text',
     },
@@ -289,9 +289,9 @@ export const EditorModules: IEditorModule[] = [
 
     // 更多
     {
-        name: 'full-screen',
+        name: EDITOR_FULL_SCREEN_TOOL,
         icon: 'icon-full-screen',
-        label: '全屏',
+        label: '切换全屏',
         parent: 'more',
     },
     {
@@ -299,9 +299,12 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-selectall',
         label: '全选',
         parent: 'more',
+        handler(editor, range, data) {
+            editor.selectAll();
+        },
     },
     {
-        name: 'code',
+        name: EDITOR_CODE_TOOL,
         icon: 'icon-code',
         label: '查看代码',
         parent: 'more',

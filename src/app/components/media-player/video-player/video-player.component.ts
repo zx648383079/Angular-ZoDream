@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ScreenFull } from '../screen-full';
+import { ScreenFull, mediaIsFrame } from '../util';
 
 @Component({
   selector: 'app-video-player',
@@ -52,7 +52,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
     ngOnChanges(changes: SimpleChanges) {
         if (changes.src) {
             this.booted = false;
-            this.isFrame = this.playerType(changes.src.currentValue);
+            this.isFrame = mediaIsFrame(changes.src.currentValue);
             if (this.isFrame) {
                 this.formatSrc = this.sanitizer.bypassSecurityTrustResourceUrl(changes.src.currentValue);
             }
@@ -188,20 +188,4 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
             this.volume = video.volume * 100;
         }
     }
-
-    private playerType(src: string): boolean {
-        const maps = [
-            'player.youku.com',
-            'player.bilibili.com',
-            'v.qq.com',
-            'open.iqiyi.com',
-        ];
-        for (const host of maps) {
-            if (this.src.indexOf(host) > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

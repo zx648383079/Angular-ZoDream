@@ -6,39 +6,42 @@
         <div class="panel history-panel">
             <div class="panel-header">
                 <span>我的足迹</span>
-                <a href="" class="pull-right">
-                    <i class="fa fa-trash"></i>
+                <a class="pull-right">
+                    <i class="iconfont icon-trash"></i>
                     批量删除
                 </a>
             </div>
             <div class="panel-body">
-                <div class="date-header">
-                    <div class="day-box">
-                        <span class="day">今天</span>
-                        <span class="time">2019-09-01</span>
+                <ng-container *ngFor="let group of items">
+                    <div class="date-header">
+                        <div class="day-box">
+                            <span class="day">{{ group.ago }}</span>
+                            <span class="time">{{ group.day }}</span>
+                        </div>
+                        <div class="line"></div>
                     </div>
-                    <div class="line"></div>
-                </div>
-                <div class="row goods-list">
-                    <div class="col-md-4">
-                        <div class="goods-item goods-action">
-                            <i class="iconfont icon-close"></i>
-                            <div class="thumb">
-                                <a href="">
-                                    <img src="https://yanxuan-item.nosdn.127.net/7a6b0736e8df99476488fd6d24d2065a.png?imageView&quality=95&thumbnail=200x200" alt="">
-                                </a>
-                            </div>
-                            <div class="name">123123</div>
-                            <div class="price">{{ 88 | price }}</div>
-                            <div class="action">
-                                <div class="btn-group">
-                                    <a href="" class="btn">找相似</a>
-                                    <a href="" class="btn">加入购物车</a>
+                    <div class="row goods-list">
+                        <div class="col-md-4" *ngFor="let item of group.items">
+                            <div class="goods-item goods-action">
+                                <i class="iconfont icon-close"></i>
+                                <div class="thumb">
+                                    <a [routerLink]="['../../goods', item.id]">
+                                        <img [appLazyLoad]="item.thumb" [alt]="item.name">
+                                    </a>
+                                </div>
+                                <div class="name">{{ item.name }}</div>
+                                <div class="price">{{ item.price | price }}</div>
+                                <div class="action">
+                                    <div class="btn-group">
+                                        <a href="" class="btn">找相似</a>
+                                        <a href="" class="btn">加入购物车</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
+                
             </div>
         </div>
     </div>

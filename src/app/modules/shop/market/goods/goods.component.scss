@@ -1,198 +1,194 @@
-.goods-page {
-    .panel {
-        margin-top: 40px;
-        height: 377px;
-        border: 1px solid #e8e8e8;
-        background-color: white;
-        .panel-body {
-            padding: 12px 79px 0;
-        }
-        .goods-item {
-            margin-right: 30px;
-            .thumb {
-                width: 210px;
-                height: 210px;
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
+.panel {
+    margin-top: 40px;
+    height: 377px;
+    border: 1px solid #e8e8e8;
+    background-color: white;
+    .panel-body {
+        padding: 12px 79px 0;
+    }
+    .goods-item {
+        margin-right: 30px;
+        .thumb {
+            width: 210px;
+            height: 210px;
+            img {
+                width: 100%;
+                height: 100%;
             }
         }
     }
-    .info-box {
-        .intro {
-            margin-bottom: 20px;
-            position: relative;
-            min-height: 40px;
-            padding: 10px;
-            .name {
-                font-size: 20px;
-                font-weight: 700;
-                line-height: 20px;
-                margin-bottom: 7px;
-                padding-right: 60px;
-            }
-            .desc {
-                width: 300px;
-                font-size: 14px;
-                line-height: 20px;
-                color: #999;
-            }
-            .comment {
-                display: inline-block;
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                line-height: 1.2;
-                text-align: right;
-                z-index: 1;
-                color: #333;
-                text-decoration: none;
-                span {
-                    font-size: 13px;
-                    display: block;
-                    &:first-child {
-                        color: #E36844;
-                        font-size: 20px;
-                        margin-bottom: 7px;
-                    }
-                }
-            }
+}
+.info-box {
+    .intro {
+        margin-bottom: 20px;
+        position: relative;
+        min-height: 40px;
+        padding: 10px;
+        .name {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 20px;
+            margin-bottom: 7px;
+            padding-right: 60px;
         }
-        .price-box {
-            background-color: #f5f3ef;
-            border-top: 1px dotted #dedede;
-            border-bottom: 1px dotted #dedede;
-            padding: 10px 16px 13px;
-            line-height: 24px;
-            font-size: 13px;
-            hr {
-                margin: 10px 0;
-                overflow: hidden;
-                border: none;
-                height: 1px;
-                border-bottom: 1px dashed #d2d2d2;
-            }
-            .price {
-                font-size: 28px;
-                line-height: 30px;
-                margin-left: 2px;
-                color: #d7282d;
-            }
-        }
-        .property-box {
-            padding: 10px 16px 13px;
-            line-height: 40px;
-            font-size: 13px;
-        }
-        .actions { 
-            margin-left: 12px;
-            margin-top: 30px;
-            margin-bottom: 10px;
-            .btn {
-                width: 168px;
-                height: 50px;
-                line-height: 50px;
-                padding: 0;
-                font-size: 18px;
-                // color: #b4a078;
-                // border: 1px solid #b4a078;
-                // background-color: #f5f3ef;
-                text-align: center;
-                margin-right: 10px;
-                &.btn-primary {
-                    // color: #fff;
-                    // border: 1px solid #b4a078;
-                    // background-color: #b4a078;
-                }
-                &:hover {
-                    // color: #fff;
-                    // border: 1px solid #c0ae8a;
-                    // background-color: #c0ae8a;
-                }
-                &.btn-collect {
-                    height: 49px;
-                    width: 50px;
-                    line-height: 10px;
-                    font-size: 12px;
-                    text-align: center;
-                    .iconfont {
-                        display: block;
-                        font-size: 20px;
-                        line-height: 30px;
-                    }
-                    &.active {
-                        color: #b4a078;
-                    }
-                }
-                &.btn-secondary {
-                    cursor: not-allowed;
-                    font-size: 14px;
-                    width: auto;
-                    padding: 0 10px;
-                }
-            }
-        }
-    }
-   
-    .detail-box {
-        margin-top: 30px;
-        .tab-box {
-            .content-box {
-                padding: 10px;
-                img {
-                    width: 100%;
-                    display: inherit;
-                }
-            }
-            
-        }
-        .panel {
-            height: auto;
-            margin: 0;
-            .panel-header {
-                text-align: center;
-            }
-            .panel-body {
-                padding: 0;
-            }
-        }
-        .goods-item {
-            display: block;
-            margin-top: 24px;
-            margin-left: 24px;
-            margin-right: 24px;
-            &:not(:last-of-type) {
-                border-bottom: 1px solid #e8e8e8;
-            }
-            .thumb {
-                width: 250px;
-                width: 250px;
-            }
-            .price {
-                padding-bottom: 15px;
-            }
-        }
-        .issue-box {
-            padding: 40px 50px 20px;
-            border: 1px solid #e8e8e8;
-            border-top: none;
+        .desc {
+            width: 300px;
             font-size: 14px;
+            line-height: 20px;
+            color: #999;
         }
-        .issue {
-            padding-bottom: 32px;
-            .question {
-                line-height: 1;
-                padding-bottom: 8px;
-            }
-            .answer {
-                line-height: 18px;
-                color: #999;
+        .comment {
+            display: inline-block;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            line-height: 1.2;
+            text-align: right;
+            z-index: 1;
+            color: #333;
+            text-decoration: none;
+            span {
+                font-size: 13px;
+                display: block;
+                &:first-child {
+                    color: #E36844;
+                    font-size: 20px;
+                    margin-bottom: 7px;
+                }
             }
         }
     }
+    .price-box {
+        background-color: #f5f3ef;
+        border-top: 1px dotted #dedede;
+        border-bottom: 1px dotted #dedede;
+        padding: 10px 16px 13px;
+        line-height: 24px;
+        font-size: 13px;
+        hr {
+            margin: 10px 0;
+            overflow: hidden;
+            border: none;
+            height: 1px;
+            border-bottom: 1px dashed #d2d2d2;
+        }
+        .price {
+            font-size: 28px;
+            line-height: 30px;
+            margin-left: 2px;
+            color: #d7282d;
+        }
+    }
+    .property-box {
+        padding: 10px 16px 13px;
+        line-height: 40px;
+        font-size: 13px;
+    }
+    .actions { 
+        margin-left: 12px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        .btn {
+            width: 168px;
+            height: 50px;
+            line-height: 50px;
+            padding: 0;
+            font-size: 18px;
+            // color: #b4a078;
+            // border: 1px solid #b4a078;
+            // background-color: #f5f3ef;
+            text-align: center;
+            margin-right: 10px;
+            &.btn-primary {
+                // color: #fff;
+                // border: 1px solid #b4a078;
+                // background-color: #b4a078;
+            }
+            &:hover {
+                // color: #fff;
+                // border: 1px solid #c0ae8a;
+                // background-color: #c0ae8a;
+            }
+            &.btn-collect {
+                height: 49px;
+                width: 50px;
+                line-height: 10px;
+                font-size: 12px;
+                text-align: center;
+                .iconfont {
+                    display: block;
+                    font-size: 20px;
+                    line-height: 30px;
+                }
+                &.active {
+                    color: #b4a078;
+                }
+            }
+            &.btn-secondary {
+                cursor: not-allowed;
+                font-size: 14px;
+                width: auto;
+                padding: 0 10px;
+            }
+        }
+    }
+}
 
-
+.detail-box {
+    margin-top: 30px;
+    .tab-box {
+        .content-box {
+            padding: 10px;
+            img {
+                width: 100%;
+                display: inherit;
+            }
+        }
+        
+    }
+    .panel {
+        height: auto;
+        margin: 0;
+        .panel-header {
+            text-align: center;
+        }
+        .panel-body {
+            padding: 0;
+        }
+    }
+    .goods-item {
+        display: block;
+        // margin-top: 24px;
+        // margin-left: 24px;
+        // margin-right: 24px;
+        &:not(:last-of-type) {
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .thumb {
+            // width: 250px;
+            // width: 250px;
+        }
+        .price {
+            padding-bottom: 15px;
+        }
+    }
+    .issue-box {
+        padding: 40px 50px 20px;
+        border: 1px solid #e8e8e8;
+        border-top: none;
+        font-size: 14px;
+    }
+    .issue {
+        padding-bottom: 32px;
+        .question {
+            line-height: 1;
+            padding-bottom: 8px;
+        }
+        .answer {
+            line-height: 18px;
+            color: #999;
+        }
+    }
 }
 
 .property-box {

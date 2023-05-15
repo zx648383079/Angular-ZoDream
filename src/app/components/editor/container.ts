@@ -1,4 +1,4 @@
-import { DivElement, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EVENT_UNDO_CHANGE, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
+import { DivElement, EVENT_EDITOR_AUTO_SAVE, EVENT_EDITOR_CHANGE, EVENT_EDITOR_DESTORY, EVENT_EDITOR_READY, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EVENT_UNDO_CHANGE, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
 import { EditorBlockType, IEditorBlock, IEditorRange } from './model';
 
 export class EditorContainer implements IEditorContainer {
@@ -6,21 +6,46 @@ export class EditorContainer implements IEditorContainer {
     private element: IEditorElement;
     private undoStack: string[] = [];
     private undoIndex: number;
+    private asyncTimer = 0;
     private listeners: {
         [key: string]: Function[];
     } = {};
+    // private mouseMoveListeners = {
+    //     move: undefined,
+    //     finish: undefined,
+    // };
 
     constructor(
         public option: EditorOptionManager = new EditorOptionManager(),
     ) {
+        // document.addEventListener('mousemove', e => {
+        //     this.emit(EVENT_MOUSE_MOVE, {x: e.clientX, y: e.clientX});
+        // });
+        // document.addEventListener('mouseup', e => {
+        //     this.emit(EVENT_MOUSE_UP, {x: e.clientX, y: e.clientX});
+        // });
     }
 
-    public ready(element: HTMLTextAreaElement|HTMLDivElement) {
-        this.element = element instanceof HTMLTextAreaElement ? new TextareaElement(element, this) : new DivElement(element, this);
-        this.selection = undefined;
+    public ready(element: HTMLTextAreaElement|HTMLDivElement|IEditorElement) {
+        if (element instanceof HTMLDivElement) {
+            this.element = new DivElement(element, this);
+        } else if (element instanceof HTMLTextAreaElement) {
+            this.element = new TextareaElement(element, this);
+        } else {
+            this.element = element;
+        }
         if (!this.element) {
             return;
         }
+        // this.on(EVENT_MOUSE_MOVE, p => {
+        //     if (this.mouseMoveListeners.move) {
+        //         this.mouseMoveListeners.move(p);
+        //     }
+        // }).on(EVENT_MOUSE_UP, p => {
+        //     if (this.mouseMoveListeners.finish) {
+        //         this.mouseMoveListeners.finish(p);
+        //     }
+        // });
         this.on(EVENT_INPUT_KEYDOWN, (e: KeyboardEvent) => {
             const modifiers = [];
             if (e.ctrlKey) {
@@ -59,13 +84,21 @@ export class EditorContainer implements IEditorContainer {
             // this.emit(EVENT_EDITOR_CHANGE);
         });
         this.on(EVENT_EDITOR_CHANGE, () => {
+            this.asynSave();
+        });
+        this.on(EVENT_EDITOR_AUTO_SAVE, () => {
             if (this.undoIndex >= 0 && this.undoIndex < this.undoStack.length - 1) {
                 this.undoStack.splice(this.undoIndex);
+            }
+            const maxUndoCount = this.option.maxUndoCount;
+            if (maxUndoCount < this.undoStack.length) {
+                this.undoStack.splice(0, this.undoStack.length - maxUndoCount - 1);
             }
             this.undoStack.push(this.value);
             this.undoIndex = this.undoStack.length - 1;
             this.emit(EVENT_UNDO_CHANGE);
         });
+        this.emit(EVENT_EDITOR_READY);
     }
 
     public get canUndo() {
@@ -93,10 +126,13 @@ export class EditorContainer implements IEditorContainer {
 
     public set value(content: string) {
         if (!this.element) {
+            this.once(EVENT_EDITOR_READY, () => {
+                this.element.value = content;
+            });
             return;
         }
         this.element.value = typeof content === 'undefined' ? '' : content;
-        this.emit(EVENT_EDITOR_CHANGE);
+        // this.emit(EVENT_EDITOR_CHANGE);
     }
 
     public get length(): number {
@@ -110,6 +146,10 @@ export class EditorContainer implements IEditorContainer {
         if (!this.selection) {
             this.selection = this.element.selection;
         }
+    }
+
+    public selectAll(): void {
+        this.element.selectAll();
     }
 
     public saveSelection() {
@@ -151,8 +191,23 @@ export class EditorContainer implements IEditorContainer {
         this.element.focus();
     }
 
+    public asynSave() {
+        if (this.asyncTimer > 0) {
+            clearTimeout(this.asyncTimer);
+        }
+        this.asyncTimer = window.setTimeout(() => {
+            this.asyncTimer = 0;
+            this.emit(EVENT_EDITOR_AUTO_SAVE);
+        }, 2000);
+    }
+
     public blur() {
         this.element.blur();
+    }
+
+    public destroy(): void {
+        this.emit(EVENT_EDITOR_DESTORY);
+        this.listeners = {};
     }
 
     public undo(): void {
@@ -171,6 +226,20 @@ export class EditorContainer implements IEditorContainer {
         this.undoIndex ++;
         this.value = this.undoStack[this.undoIndex];
     }
+
+    // public get hasMoveListener() {
+    //     return typeof this.mouseMoveListeners.move !== 'undefined';
+    // }
+
+    // public mouseMove(move?: (p: IPoint) => void, finish?: (p: IPoint) => void) {
+    //     this.mouseMoveListeners = {
+    //         move,
+    //         finish: !move && !finish ? undefined : (p: IPoint) => {
+    //             this.mouseMoveListeners = {move: undefined, finish: undefined};
+    //             finish && finish(p);
+    //         },
+    //     };
+    // }
 
     public on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     public on(event: string, cb: any) {
@@ -207,6 +276,16 @@ export class EditorContainer implements IEditorContainer {
         for (const event of events) {
             delete this.listeners[event];
         }
+        return this;
+    }
+
+    public once<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
+    public once(event: string, cb: any) {
+        const func = (...items: any[]) => {
+            this.off(event, func);
+            cb(...items);
+        };
+        this.on(event as any, func);
         return this;
     }
 

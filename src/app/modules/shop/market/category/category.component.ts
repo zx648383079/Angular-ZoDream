@@ -39,7 +39,6 @@ export class CategoryComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
         private service: ShopService,
         private searchService: SearchService,
     ) { }

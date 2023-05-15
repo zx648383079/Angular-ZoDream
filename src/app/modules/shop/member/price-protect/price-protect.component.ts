@@ -4,6 +4,7 @@ import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
+import { IOrderRefund } from '../../model';
 
 @Component({
   selector: 'app-price-protect',
@@ -12,7 +13,7 @@ import { ShopService } from '../../shop.service';
 })
 export class PriceProtectComponent implements OnInit {
     public title = '价格保护';
-    public items: any[] = [];
+    public items: IOrderRefund[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -78,13 +79,13 @@ export class PriceProtectComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {... this.queries, page};
-        this.service.orderList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
-        });
+        // this.service.orderList(queries).subscribe(res => {
+        //     this.isLoading = false;
+        //     this.items = res.data;
+        //     this.hasMore = res.paging.more;
+        //     this.total = res.paging.total;
+        //     this.searchService.applyHistory(this.queries = queries);
+        // });
     }
 
 }
