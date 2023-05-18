@@ -246,6 +246,9 @@ export class TextareaElement implements IEditorElement {
         this.element.addEventListener('blur', () => {
             this.container.emit(EVENT_INPUT_BLUR);
         });
+        this.element.addEventListener('paste', () => {
+            this.container.emit(EVENT_EDITOR_CHANGE);
+        });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();
             this.container.emit(EVENT_SELECTION_CHANGE);

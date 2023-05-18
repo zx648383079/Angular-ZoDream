@@ -2,8 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ShopComponent } from './shop.component';
+import { CanActivateViaAuthGuard } from '../../theme/guards';
 
 const routes: Routes = [
+    {
+        canActivate: [CanActivateViaAuthGuard],
+        path: 'merchant', loadChildren: () => import('./merchant/merchant.module').then(m => m.MerchantModule) 
+    },
     {
         path: '',
         component: ShopComponent,

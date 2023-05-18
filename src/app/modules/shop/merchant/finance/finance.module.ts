@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FinanceComponent } from './finance.component';
+import { FinanceRoutingModule, financeRoutingComponents } from './routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [FinanceComponent]
+    imports: [
+        CommonModule,
+        FinanceRoutingModule
+    ],
+    declarations: [...financeRoutingComponents]
 })
 export class FinanceModule { }

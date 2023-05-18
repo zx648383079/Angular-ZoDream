@@ -155,4 +155,67 @@ ul {
             }
         }  
     }
+    .music-list-item {
+        display: inline-block;
+        width: 12rem;
+        padding: .4rem;
+        .item-cover {
+            overflow: hidden;
+            position: relative;
+            height: 12rem;
+            background-color: #ccc;
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                transition: transform 500ms;
+            }
+        }
+        .item-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            font-size: 3rem;
+            border: 0 solid #fff;
+            border-radius: 50%;
+            box-sizing: border-box;
+            transition: all .5s;
+        }
+        .item-body {
+            padding: .8rem 0;
+        }
+        &:hover {
+            background-color: #f4f4f4;
+            .item-icon {
+                border-width: .2rem;
+                bottom: 4rem;
+                right: 4rem;
+            }
+            .item-cover {
+                img {
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+    .router-bar {
+        background-color: white;
+        line-height: 2.5rem;
+        z-index: 150;
+        .tool-item {
+            display: inline-block;
+            padding: 0 .8rem;
+            user-select: none;
+            cursor: pointer;
+            &:hover {
+                background-color: #f4f4f4;
+            }
+        }
+    }
 }

@@ -29,6 +29,31 @@
         </div>
     </div>
 
+    <div class="panel" *ngIf="!queries.keywords">
+        <div class="panel-header">
+            <ng-container i18n>Recommend List</ng-container>
+            <a class="pull-right" routerLink="list">
+                <i class="iconfont icon-ellipsis-h"></i>
+                <ng-container i18n>More</ng-container>
+            </a>
+        </div>
+        <div class="panel-body">
+            <ng-container *ngFor="let item of items">
+                <a class="music-list-item" [routerLink]="['list', 1]">
+                    <div class="item-cover">
+                        <img [src]="item.cover | asset" [alt]="item.name">
+                        <div class="item-icon">
+                            <i class="iconfont icon-play"></i>
+                        </div>
+                    </div>
+                    <div class="item-body">
+                        <div class="item-name">{{ item.name }}</div>
+                    </div>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+
     <div class="search-body" *ngIf="queries.keywords">
         <ng-container *ngFor="let item of items">
             <a class="music-item" (click)="tapPlay(item)">

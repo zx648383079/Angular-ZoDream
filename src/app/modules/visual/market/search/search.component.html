@@ -47,7 +47,7 @@
                     <div class="col-md-6" *ngFor="let item of items">
                         <div class="large-item">
                             <div class="item-cover">
-                                <img [src]="item.thumb | asset" [alt]="item.name">
+                                <img [appLazyLoad]="item.thumb | asset" [alt]="item.name">
                                 <div class="item-mask">
                                     <a class="btn btn-primary" i18n>Preview</a>
                                     <a class="btn btn-success" (click)="modal.addTo(item)" i18n>Add To</a>

@@ -16,6 +16,7 @@ li {
     border-radius: .25rem;
     li {
         padding: .2rem .8rem;
+        user-select: none;
         &:hover {
             background-color: #ccc;
         }

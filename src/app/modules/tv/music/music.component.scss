@@ -24,6 +24,7 @@
     display: flex;
     border-radius: .25rem;
     padding: .3rem;
+    user-select: none;
     .item-cover {
         width: 3rem;
         img {
@@ -72,6 +73,10 @@
     bottom: 0;
     left: 20rem;
     right: 0;
+}
+
+.container-fluid {
+    margin-bottom: 5rem;
 }
 
 @media screen and (max-width: 769px) {

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, On
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, IEditorTool } from './base';
 import { EditorContainer } from './container';
-import { IEditor, IEditorBlock, IEditorModal } from './model';
+import { IEditor, IEditorBlock, IEditorModal, IEditorSharedModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 
@@ -204,6 +204,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
         this.modalRef = this.modalViewContainer.createComponent<IEditorModal>(module.modal, {
             injector: this.injector
         });
+        if (typeof (this.modalRef.instance as IEditorSharedModal).modalReady === 'function') {
+            (this.modalRef.instance as IEditorSharedModal).modalReady(module);
+        }
         this.modalRef.instance.open({}, res => {
             this.modalRef.destroy();
             this.modalRef = undefined;

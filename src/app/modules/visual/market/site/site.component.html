@@ -23,7 +23,7 @@
         <div class="col-md-6" *ngFor="let item of items">
             <div class="large-item">
                 <div class="item-cover">
-                    <img [src]="item.thumb" alt="">
+                    <img [appLazyLoad]="item.thumb" alt="">
                     <div class="item-mask">
                         <a class="btn btn-primary" i18n>Preview</a>
                         <a class="btn btn-success" (click)="modal.cloneTo(item)" i18n>Clone</a>

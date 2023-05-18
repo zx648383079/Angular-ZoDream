@@ -14,22 +14,22 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'text',
         icon: 'icon-char',
-        label: '编辑文字',
+        label: $localize `Edit Text`,
     },
     {
         name: 'paragraph',
         icon: 'icon-paragraph',
-        label: '编辑段落',
+        label: $localize `Edit Paragraph'`,
     },
     {
         name: EDITOR_ADD_TOOL,
         icon: 'icon-plus',
-        label: '添加内容',
+        label: $localize `Add Content`,
     },
     {
         name: EDITOR_UNDO_TOOL,
         icon: 'icon-undo',
-        label: '撤回',
+        label: $localize `Undo`,
         hotKey: 'Ctrl+Z',
         handler(editor) {
             editor.undo();
@@ -38,7 +38,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: EDITOR_REDO_TOOL,
         icon: 'icon-redo',
-        label: '重做',
+        label: $localize `Redo`,
         hotKey: 'Ctrl+Shift+Z',
         handler(editor) {
             editor.redo();
@@ -47,18 +47,18 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'more',
         icon: 'icon-ellipsis-v',
-        label: '更多'
+        label: $localize `More`
     },
     {
         name: EDITOR_CLOSE_TOOL,
         icon: 'icon-close',
-        label: '关闭'
+        label: $localize `Close`
     },
 
     {
         name: EDITOR_ENTER_TOOL,
         icon: 'icon-enter',
-        label: '换行',
+        label: $localize `Link Break`,
         handler(editor) {
             editor.insert({type: EditorBlockType.AddLineBreak});
         }
@@ -67,25 +67,25 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'bold',
         icon: 'icon-bold',
-        label: '加粗',
+        label: $localize `Font Bold`,
         parent: 'text',
     },
     {
         name: 'italic',
         icon: 'icon-italic',
-        label: '倾斜',
+        label: $localize `Font Italic`,
         parent: 'text',
     },
     {
         name: 'underline',
         icon: 'icon-underline',
-        label: '下划线',
+        label: $localize `Add Underline`,
         parent: 'text',
     },
     {
         name: 'wavyline',
         icon: 'icon-wavy-line',
-        label: '波浪线',
+        label: $localize `Add Wavyline`,
         parent: 'text',
     },
     {
@@ -115,35 +115,35 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'fontsize',
         icon: 'icon-font-size',
-        label: '字体大小',
+        label: $localize `Font Size`,
         parent: 'text',
         modal: EditorDropdownComponent,
     },
     {
         name: 'font',
         icon: 'icon-pencil',
-        label: '字体',
+        label: $localize `Font Family`,
         parent: 'text',
         modal: EditorDropdownComponent,
     },
     {
         name: 'foreground',
         icon: 'icon-font-foreground',
-        label: '字体颜色',
+        label: $localize `Font Color`,
         parent: 'text',
         modal: EditorColorComponent,
     },
     {
         name: 'background',
         icon: 'icon-editor-background-color',
-        label: '背景颜色',
+        label: $localize `Background`,
         parent: 'text',
         modal: EditorColorComponent,
     },
     {
         name: 'clear',
         icon: 'icon-clearformat',
-        label: '清除样式',
+        label: $localize `Clear Style`,
         parent: 'text',
     },
 
@@ -151,49 +151,49 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'align-left',
         icon: 'icon-alignleft',
-        label: '居左',
+        label: $localize `Algin Left`,
         parent: 'paragraph',
     },
     {
         name: 'align-center',
         icon: 'icon-aligncenter',
-        label: '居中',
+        label: $localize `Algin Center`,
         parent: 'paragraph',
     },
     {
         name: 'align-right',
         icon: 'icon-alignright',
-        label: '居右',
+        label: $localize `Algin Right`,
         parent: 'paragraph',
     },
     {
         name: 'align-justify',
         icon: 'icon-alignjustify',
-        label: '铺满',
+        label: $localize `Algin Justify`,
         parent: 'paragraph',
     },
     {
         name: 'list',
         icon: 'icon-orderedlist',
-        label: '列表',
+        label: $localize `As List`,
         parent: 'paragraph',
     },
     {
         name: 'indent',
         icon: 'icon-indent',
-        label: '缩进',
+        label: $localize `Line Indent`,
         parent: 'paragraph',
     },
     {
         name: 'outdent',
         icon: 'icon-outdent',
-        label: '取消缩进',
+        label: $localize `Line Outdent`,
         parent: 'paragraph',
     },
     {
         name: 'blockquote',
         icon: 'icon-blockquote',
-        label: '添加引用',
+        label: $localize `Add Blockquote`,
         parent: 'paragraph',
     },
 
@@ -202,7 +202,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'link',
         icon: 'icon-chain',
-        label: '添加链接',
+        label: $localize `Add Link`,
         parent: EDITOR_ADD_TOOL,
         modal: EditorLinkComponent,
         handler(editor, range, data) {
@@ -215,7 +215,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'image',
         icon: 'icon-image',
-        label: '添加图片',
+        label: $localize `Add Image`,
         parent: EDITOR_ADD_TOOL,
         modal: EditorImageComponent,
         handler(editor, range, data) {
@@ -228,7 +228,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'video',
         icon: 'icon-file-movie-o',
-        label: '添加视频',
+        label: $localize `Add Video`,
         parent: EDITOR_ADD_TOOL,
         modal: EditorVideoComponent,
         handler(editor, range, data) {
@@ -241,7 +241,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'table',
         icon: 'icon-table',
-        label: '添加表格',
+        label: $localize `Add Table`,
         parent: 'add',
         modal: EditorTableComponent,
         handler(editor, range, data) {
@@ -254,7 +254,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'file',
         icon: 'icon-file-o',
-        label: '添加文件',
+        label: $localize `Add File`,
         parent: EDITOR_ADD_TOOL,
         modal: EditorFileComponent,
         handler(editor, range, data) {
@@ -267,7 +267,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'code',
         icon: 'icon-code',
-        label: '添加代码',
+        label: $localize `Add Code`,
         parent: EDITOR_ADD_TOOL,
         modal: EditorCodeComponent,
         handler(editor, range, data) {
@@ -280,7 +280,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'line',
         icon: 'icon-minus',
-        label: '添加横线',
+        label: $localize `Add Line`,
         parent: EDITOR_ADD_TOOL,
         handler(editor) {
             editor.insert({type: EditorBlockType.AddHr});
@@ -291,13 +291,13 @@ export const EditorModules: IEditorModule[] = [
     {
         name: EDITOR_FULL_SCREEN_TOOL,
         icon: 'icon-full-screen',
-        label: '切换全屏',
+        label: $localize `Toggle Full Screen`,
         parent: 'more',
     },
     {
         name: 'select-all',
         icon: 'icon-selectall',
-        label: '全选',
+        label: $localize `Select All`,
         parent: 'more',
         handler(editor, range, data) {
             editor.selectAll();
@@ -306,7 +306,7 @@ export const EditorModules: IEditorModule[] = [
     {
         name: EDITOR_CODE_TOOL,
         icon: 'icon-code',
-        label: '查看代码',
+        label: $localize `View Code`,
         parent: 'more',
     },
 

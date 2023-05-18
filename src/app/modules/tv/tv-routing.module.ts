@@ -8,6 +8,8 @@ import { MusicComponent } from './music/music.component';
 import { PlayComponent } from './play/play.component';
 import { SearchComponent } from './search/search.component';
 import { TvComponent } from './tv.component';
+import { MusicListComponent } from './music/list/music-list.component';
+import { MusicListDetailComponent } from './music/list-detail/music-list-detail.component';
 
 const routes: Routes = [
     {
@@ -34,6 +36,14 @@ const routes: Routes = [
             //     path: 'movie',
             //     component: CategoryComponent
             // },
+            {
+                path: 'music/list/:list',
+                component: MusicListDetailComponent
+            },
+            {
+                path: 'music/list',
+                component: MusicListComponent
+            },
             {
                 path: 'music',
                 component: MusicComponent
@@ -69,5 +79,5 @@ const routes: Routes = [
 export class TvRoutingModule { }
 
 export const tvRoutedComponents = [
-    TvComponent, CategoryComponent, HomeComponent, SearchComponent, PlayComponent, DetailComponent, LiveComponent, MusicComponent
+    TvComponent, CategoryComponent, HomeComponent, SearchComponent, PlayComponent, DetailComponent, LiveComponent, MusicComponent, MusicListComponent, MusicListDetailComponent
 ];

@@ -1,18 +1,20 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
 <div class="dialog-box cart-dialog" [@dialogOpen]="visible ? 'open' : 'closed'">
-    <div class="cart-item">
-        <div class="item-thumb">
-            <img src="" alt="">
-        </div>
-        <div class="item-info">
-            <div class="item-name">食品</div>
-            <div class="item-meta">白色</div>
-        </div>
-        <div class="item-input">
-            <app-number-input></app-number-input>
-        </div>
-        <div class="item-subtotal">
-            <div class="item-price"><em>￥</em>0.02</div>
+    <div class="cart-body">
+        <div class="cart-item">
+            <div class="item-thumb">
+                <img src="" alt="">
+            </div>
+            <div class="item-info">
+                <div class="item-name">食品</div>
+                <div class="item-meta">白色</div>
+            </div>
+            <div class="item-input">
+                <app-number-input></app-number-input>
+            </div>
+            <div class="item-subtotal">
+                <div class="item-price"><em>￥</em>0.02</div>
+            </div>
         </div>
     </div>
     <div class="cart-subtotal">

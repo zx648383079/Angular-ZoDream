@@ -1,0 +1,62 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tag-bar">
+        <div class="tag-item">全部</div>
+        <div class="tag-item" (click)="filterVisible = !filterVisible">更多</div>
+    </div>
+
+    <div class="filter-box" *ngIf="filterVisible">
+        <div class="filter-line" *ngFor="let item of filterItems">
+              <div class="filter-header">
+                  {{ item.label }}
+              </div>
+              <div class="filter-body">
+                  <ng-container *ngFor="let it of item.items">
+                      <a [ngClass]="{active: it.selected}" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
+                  </ng-container>
+              </div>
+        </div>
+        <div class="filter-line">
+          <div class="filter-header">
+              排序
+          </div>
+          <div class="filter-body">
+              <ng-container *ngFor="let item of sortItems">
+                  <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
+                      <i class="iconfont" *ngIf="item.value && sortKey == item.value" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                  </a>
+              </ng-container>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="search-body" *ngIf="queries.keywords">
+        <ng-container *ngFor="let item of items">
+            <ng-container *ngFor="let item of items">
+                <a class="music-list-item" [routerLink]="['list', item.id]">
+                    <div class="item-cover">
+                        <img [src]="item.cover | asset" [alt]="item.title">
+                        <div class="item-icon">
+                            <i class="iconfont icon-play"></i>
+                        </div>
+                    </div>
+                    <div class="item-body">
+                        <div class="item-name">{{ item.title }}</div>
+                    </div>
+                </a>
+            </ng-container>
+        </ng-container>
+
+        <div class="row">
+            <div class="col-md-12">
+                <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+                <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

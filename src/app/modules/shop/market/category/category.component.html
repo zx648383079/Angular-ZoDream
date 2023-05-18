@@ -12,21 +12,21 @@
       <div class="goods-area">
           <div class="filter-box">
               <div class="filter-line" *ngFor="let item of filterItems">
-                <div class="filter-header">
-                    {{ item.label }}
-                </div>
-                <div class="filter-body">
-                    <ng-container *ngFor="let it of item.items">
-                        <a [ngClass]="{active: it.selected}" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
-                    </ng-container>
-                    <ng-container *ngIf="item.name == 'price'">
-                        <div class="price-input">
-                            <input type="number" class="form-control" [(ngModel)]="price.min">
-                            -
-                            <input type="number" class="form-control" [(ngModel)]="price.max">
-                        </div>
-                    </ng-container>
-                </div>
+                    <div class="filter-header">
+                        {{ item.label }}
+                    </div>
+                    <div class="filter-body">
+                        <ng-container *ngFor="let it of item.items">
+                            <a [ngClass]="{active: it.selected}" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
+                        </ng-container>
+                        <ng-container *ngIf="item.name == 'price'">
+                            <div class="price-input">
+                                <input type="number" class="form-control" [(ngModel)]="price.min">
+                                -
+                                <input type="number" class="form-control" [(ngModel)]="price.max">
+                            </div>
+                        </ng-container>
+                    </div>
               </div>
               <div class="filter-line">
                 <div class="filter-header">

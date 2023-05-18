@@ -107,6 +107,17 @@
         overflow-y: auto;
         @include scrollbar();
     }
+    .form-group {
+        margin-bottom: .8rem;
+        padding: 0 .4rem;
+        label {
+            display: inline-flex;
+            align-items: center;
+        }
+    }
+    .btn-group {
+        padding: 0 .4rem;
+    }
 }
 
 .dialog-search-box {

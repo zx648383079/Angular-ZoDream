@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { EditorModalCallback } from '../../model';
+import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
   selector: 'app-editor-code',
   templateUrl: './editor-code.component.html',
   styleUrls: ['./editor-code.component.scss']
 })
-export class EditorCodeComponent {
+export class EditorCodeComponent implements IEditorModal {
 
     public visible = false;
     public language = '';

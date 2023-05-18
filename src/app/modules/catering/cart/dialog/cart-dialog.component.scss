@@ -3,6 +3,7 @@
     margin-left: -10rem;
     .dialog-footer {
         display: flex;
+        justify-content: end;
         .btn {
             flex: 1;
             border-radius: 0;
@@ -10,8 +11,15 @@
     }
 }
 
+.cart-body {
+    min-height: 10rem;
+    padding-top: .4rem;
+}
+
 .cart-item {
     display: flex;
+    user-select: none;
+    padding: 0 .4rem;
     .item-thumb {
         img {
             max-width: 5rem;

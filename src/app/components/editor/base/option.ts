@@ -18,6 +18,13 @@ export interface IEditorOption {
     };
 }
 
+
+export interface IEditorOptionItem {
+    name: string|number;
+    value: any;
+    style?: any;
+}
+
 export interface IEditorTool {
     name: string;
     icon: string;

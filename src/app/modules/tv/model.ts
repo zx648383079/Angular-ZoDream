@@ -10,6 +10,15 @@ export interface ILive {
     status: number;
 }
 
+export interface IMusicList {
+    id: number;
+    title: string;
+    cover: string;
+    description: string;
+    created_at: string;
+    items: IMusic[];
+}
+
 export interface IMusic {
     id: number;
     name: string;

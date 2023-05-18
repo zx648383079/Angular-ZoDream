@@ -1,22 +1,76 @@
 import { Component } from '@angular/core';
-import { EditorModalCallback, IEditorModal } from '../../model';
-import { IItem } from '../../../../theme/models/seo';
+import { EditorModalCallback, IEditorSharedModal } from '../../model';
+import { IEditorModule, IEditorOptionItem } from '../../base';
+
+
+const FontItems: IEditorOptionItem[] = [
+    {
+        name: 'Arial',
+        value: 'Arial,Helvetica,sans-serif',
+    },
+    {
+        name: 'Georgia',
+        value: 'Georgia,serif',
+    },
+    {
+        name: 'Impact',
+        value: 'Impact,Charcoal,sans-serif',
+    },
+    {
+        name: '微软雅黑',
+        value: '微软雅黑,sans-serif',
+    },
+    {
+        name: '宋体',
+        value: 'serif',
+    },
+    {
+        name: '黑体',
+        value: 'sans-serif',
+    }
+]
 
 @Component({
   selector: 'app-editor-dropdown',
   templateUrl: './editor-dropdown.component.html',
   styleUrls: ['./editor-dropdown.component.scss']
 })
-export class EditorDropdownComponent implements IEditorModal {
+export class EditorDropdownComponent implements IEditorSharedModal {
 
     public visible = false;
-    public items: IItem[] = [];
+    public items: IEditorOptionItem[] = [];
     public selected = '';
     private confirmFn: EditorModalCallback;
 
     constructor() {
-        for (let i = 0; i < 5; i++) {
-            this.items.push({name: i.toString(), value: i});
+    }
+
+    public modalReady(module: IEditorModule) {
+        if (module.name === 'font') {
+            this.items = FontItems.map(i => {
+                i.style = {
+                    'font-family': i.value
+                };
+                return i;
+            });
+            return;
+        } else if (module.name === 'fontsize') {
+            const items = [];
+            let last = 7;
+            let step = 1;
+            for (let i = 0; i < 16; i++) {
+                if (i > 0 && i % 3 === 0) {
+                    step *= 2;
+                }
+                const value = last + step;
+                items.push({
+                    name: value,
+                    value,
+                });
+                last = value;
+            }
+            this.items = items;
+            return;
         }
     }
 
@@ -25,7 +79,7 @@ export class EditorDropdownComponent implements IEditorModal {
         this.confirmFn = cb;
     }
 
-    public tapConfirm(item: IItem) {
+    public tapConfirm(item: IEditorOptionItem) {
         this.visible = false;
         this.selected = item.value;
         if (this.confirmFn) {

@@ -1,4 +1,5 @@
 import { EditorOptions } from 'tinymce';
+import { IEditorModule } from './base';
 
 export interface IEditor {
     insert(block: IEditorBlock|string): void;
@@ -19,6 +20,13 @@ export type EditorModalCallback<T = any> = (data: T) => void;
 
 export interface IEditorModal<T = any> {
     open(data: T, cb: EditorModalCallback<T>): void;
+}
+
+/**
+ * 共享型弹窗，需要提前进行预配置
+ */
+export interface IEditorSharedModal<T = any> extends IEditorModal<T> {
+    modalReady(module: IEditorModule): void;
 }
 
 export enum EditorBlockType {

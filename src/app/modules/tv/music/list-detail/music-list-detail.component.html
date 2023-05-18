@@ -1,0 +1,62 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+</div>
+<div class="container-fluid">
+    
+    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
+
+    <div class="media-row" *ngIf="data">
+        <div class="item-cover">
+            <img [src]="data.cover" [alt]="data.title">
+        </div>
+        <div class="item-body">
+            <div class="item-name">{{ data.title }}</div>
+            <div class="item-meta">{{ data.description }}</div>
+            <div class="item-action">
+                <div class="btn-group">
+                    <a class="btn btn-primary">播放全部</a>
+                    <a class="btn btn-info">
+                        <i class="iconfont icon-plus"></i>
+                    </a>
+                </div>
+                <div class="btn btn-outline-primary">
+                    <i class="iconfont icon-plus"></i>
+                    添加到歌单</div>
+                <div class="btn btn-outline-success">
+                    <i class="iconfont icon-heart"></i>
+                    收藏
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover" *ngIf="data">
+        <thead>
+            <tr>
+                <th>歌曲名({{ items.length | numberFormat }})</th>
+                <th>歌手</th>
+                <th>专辑名</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.artist }}</td>
+                <td>{{ item.album }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary" title="添加到播放列表">
+                            <i class="iconfont icon-plus"></i>
+                        </a>
+                        <a class="btn btn-outline-info" title="收藏">
+                            <i class="iconfont icon-heart"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
