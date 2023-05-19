@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { IPageQueries } from '../../../../../theme/models/page';
+import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
-import { GoodsService } from '../goods.service';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-dialog',
@@ -37,14 +37,18 @@ export class SearchDialogComponent implements OnChanges  {
     public onlySelected = false;
 
     constructor(
-        private service: GoodsService,
+        private http: HttpClient,
         private searchService: SearchService,
     ) {
-        this.service.categoryAll().subscribe(res => {
-            this.categories = res.data;
-        });
-        this.service.brandAll().subscribe(res => {
-            this.brandItems = res.data;
+        this.http.post<{
+            category?: ICategory[];
+            brand?: IBrand[];
+        }>('shop/admin/batch', {
+            category: {},
+            brand: {}
+        }).subscribe(res => {
+            this.categories = res.category;
+            this.brandItems = res.brand;
         });
     }
 
@@ -166,7 +170,7 @@ export class SearchDialogComponent implements OnChanges  {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.search(queries).subscribe({
+        this.search(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -205,11 +209,17 @@ export class SearchDialogComponent implements OnChanges  {
             this.selectedItems = [this.value];
             return;
         }
-        this.service.search({
+        this.search({
             id: this.value,
             per_page: typeof this.value === 'object' ? this.value.length : 20,
         }).subscribe(res => {
             this.selectedItems = res.data;
+        });
+    }
+
+    public search(params: any) {
+        return this.http.get<IPage<IGoods>>('shop/admin/goods/search', {
+            params
         });
     }
 }

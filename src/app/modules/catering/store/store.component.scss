@@ -11,11 +11,14 @@
     }
     .item-name {
         font-weight: 700;
+        user-select: none;
     }
     .item-thumb {
+        height: 9rem;
         img {
-            max-width: 100%;
-            max-height: 5rem;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
         }
     }
 }

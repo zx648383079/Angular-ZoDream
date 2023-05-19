@@ -4,8 +4,8 @@ import { ButtonEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
 import { emptyValidate, mobileValidate } from '../../../../../theme/validators';
 import { IAddress, ICartItem, ICoupon, IGoods, IGoodsResult, IOrder, IPayment, IShipping } from '../../../model';
-import { SearchDialogComponent } from '../../goods/search-dialog/search-dialog.component';
 import { OrderService } from '../order.service';
+import { SearchDialogComponent } from '../../../components';
 
 @Component({
     selector: 'app-create',

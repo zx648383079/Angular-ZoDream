@@ -1,20 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
-import { IAttribute, IAttributeGroup, IBrand, ICategory, IGoods, IGoodsGallery, IProduct } from '../../../model';
-import { FileUploadService } from '../../../../../theme/services/file-upload.service';
-import { AttributeService } from '../attribute.service';
-import { GoodsService } from '../goods.service';
+import { FileUploadService } from '../../../../../theme/services';
+import { IGoods, ICategory, IBrand, IAttributeGroup, IGoodsGallery, IAttribute, IProduct } from '../../../model';
+import { ShopService } from '../../shop.service';
 import { SkuFormComponent } from '../../../components';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  selector: 'app-product-edit',
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class ProductEditComponent implements OnInit {
 
     @ViewChild(SkuFormComponent)
     public skuForm: SkuFormComponent;
@@ -58,12 +57,11 @@ export class EditComponent implements OnInit {
     public productItems: IProduct[] = [];
 
     constructor(
-        private service: GoodsService,
+        private service: ShopService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
-        private attrService: AttributeService,
     ) {
         this.service.batch({
             category: {},
@@ -177,5 +175,4 @@ export class EditComponent implements OnInit {
         window.open(this.form.get(name).value, '_blank');
     }
 
-    
 }

@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
-import { GoodsModule } from '../goods/goods.module';
+import { ShopManageModule } from '../../components';
 
 @NgModule({
     imports: [
@@ -18,7 +18,7 @@ import { GoodsModule } from '../goods/goods.module';
         OrderRoutingModule,
         ZreFormModule,
         DialogModule,
-        GoodsModule
+        ShopManageModule,
     ],
     declarations: [...orderRoutedComponents],
     providers: [

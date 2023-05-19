@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StoreComponent implements OnInit {
 
+    public items = [1,2, 4];
+
     constructor() { }
 
     ngOnInit() {

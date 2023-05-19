@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import * as ClipboardJS from 'clipboard';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { IErrorResult } from '../../../theme/models/page';
@@ -201,19 +200,14 @@ export class DetailComponent implements OnInit {
     }
 
     public tapCopy(e: MouseEvent) {
-        const clipboard: any = new ClipboardJS(e.currentTarget as HTMLDivElement, {
-            text: () => {
-              return this.codeData.content;
+        navigator.clipboard.writeText(this.codeData.content).then(
+            () => {
+                this.toastrService.success($localize `Copy successfully`);
             },
-        });
-        clipboard.on('success', (e) => {
-            this.toastrService.success($localize `Copy successfully`);
-            e.clearSelection();
-        });
-        clipboard.on('error', (e) => {
-            this.toastrService.warning($localize `Copy failed`);
-        });
-        clipboard.onClick(e);
+            () => {
+                this.toastrService.warning($localize `Copy failed`);
+            }
+        );
     }
 
 }

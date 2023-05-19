@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { IGoods, IProduct } from '../../../model';
-import { GoodsService } from '../goods.service';
+import { HttpClient } from '@angular/common/http';
+import { IPage } from '../../../../../theme/models/page';
 
 @Component({
   selector: 'app-search-panel',
@@ -21,7 +22,7 @@ export class SearchPanelComponent {
     }>();
 
     constructor(
-        private service: GoodsService
+        private http: HttpClient,
     ) {
 
     }
@@ -37,7 +38,7 @@ export class SearchPanelComponent {
         if (this.keywords.length < 1) {
             return;
         }
-        this.service.search({
+        this.search({
             keywords: this.keywords
         }).subscribe(res => {
             this.items = res.data;
@@ -64,6 +65,12 @@ export class SearchPanelComponent {
         this.valueChange.emit({
             item: this.selected,
             child: this.selectedChild
+        });
+    }
+
+    public search(params: any) {
+        return this.http.get<IPage<IGoods>>('shop/admin/goods/search', {
+            params
         });
     }
 }

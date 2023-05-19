@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IGoods, IGoodsAttr, IGoodsResult, IProduct } from '../../../model';
-import { GoodsService } from '../goods.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-dialog',
@@ -17,7 +17,7 @@ export class ProductDialogComponent {
     private confirmFn: (data: IGoodsResult) => void;
 
     constructor(
-        private service: GoodsService,
+        private http: HttpClient,
     ) { }
 
     public open(data: IGoodsResult);
@@ -26,7 +26,11 @@ export class ProductDialogComponent {
         this.value = data as IGoods;
         this.visible = true;
         this.confirmFn = confirm;
-        this.service.goodsPreview(data.id).subscribe(res => {
+        this.http.get<IGoods>('shop/admin/goods/preview', {
+            params: {
+                id: data.id
+            },
+        }).subscribe(res => {
             this.value = res;
         });
     }

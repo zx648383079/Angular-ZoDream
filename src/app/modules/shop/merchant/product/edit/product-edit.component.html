@@ -1,0 +1,178 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑商品' : '新增商品'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table"  [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="row">
+            <div class="col-md-6">
+                <app-panel title="基本信息">
+                    <div class="input-group">
+                        <label for="name">商品名</label>
+                        <div>
+                            <input type="text" id="name" class="form-control" formControlName="name" placeholder="请输入 商品名">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="series_number">货号</label>
+                        <div class="calendar-input">
+                            <input type="text" id="series_number" class="form-control" formControlName="series_number"
+                                placeholder="请输入 货号">
+                            <button class="btn btn-outline-secondary" type="button" (click)="tapCreateSn()">
+                                生成
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>分类</label>
+                        <select formControlName="cat_id" class="form-control">
+                            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="brand_id">品牌</label>
+                        <div>
+                            <select id="brand_id" formControlName="brand_id" class="form-control">
+                                <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="price">价格</label>
+                        <div>
+                            <input type="text" id="price" class="form-control" formControlName="price" placeholder="请输入 价格">
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="market_price">市场价</label>
+                        <div>
+                            <input type="text" id="market_price" class="form-control" formControlName="market_price"
+                                placeholder="请输入 市场价">
+        
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="thumb">缩略图</label>
+                        <div>
+                            <app-file-input id="thumb" formControlName="thumb"></app-file-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="picture">主图</label>
+                        <div>
+                            <app-file-input id="picture" formControlName="picture"></app-file-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="attribute_group_id">类型</label>
+                        <div>
+                            <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (ngModelChange)="tapGroupChange()">
+                                <option *ngFor="let item of typeItems" [value]="item.id">{{ item.name }}</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+            <div class="col-md-6">
+                <app-panel title="其他属性">
+                    <div class="input-group">
+                        <label for="weight">重量</label>
+                        <div>
+                            <input type="text" id="weight" class="form-control" formControlName="weight" placeholder="请输入 重量">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="stock">库存</label>
+                        <div>
+                            <input type="text" id="stock" class="form-control" formControlName="stock" placeholder="请输入 库存">
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="keywords">关键字</label>
+                        <div>
+                            <app-words-input id="keywords" formControlName="keywords" placeholder="请输入 关键字"></app-words-input>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">说明</label>
+                        <div>
+                            <textarea id="description" class="form-control" formControlName="description"
+                                placeholder="请输入 说明"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_best">精品</label>
+                        <div>
+                            <app-switch id="is_best" formControlName="is_best"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_hot">热门</label>
+                        <div>
+                            <app-switch id="is_hot" formControlName="is_hot"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="is_new">最新</label>
+                        <div>
+                            <app-switch id="is_new" formControlName="is_new"></app-switch>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="status">状态</label>
+                        <div>
+                            <span class="radio-label">
+                                <input type="radio" id="status0" formControlName="status" value="10">
+                                <label for="status0">上架</label>
+                            </span><span class="radio-label">
+                                <input type="radio" id="status1" formControlName="status" value="0" checked="">
+                                <label for="status1">下架</label>
+                            </span>
+                        </div>
+                    </div>
+                </app-panel>
+            </div>
+        </div>
+
+        <app-panel [title]="'预览图'">
+            <app-gallery-panel [(ngModel)]="gallaryItems" [ngModelOptions]="{standalone: true}"></app-gallery-panel>
+        </app-panel>
+
+        <div class="panel-container">
+            <app-html-editor formControlName="content"></app-html-editor>
+        </div>
+
+        <app-panel title="规格">
+            <app-sku-form [attrItems]="attrItems" [productItems]="productItems"></app-sku-form>
+        </app-panel>
+
+        <app-panel title="SEO优化" [min]="true">
+            <div class="input-group">
+                <label for="meta_seo_title">SEO标题</label>
+                <div>
+                    <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="meta_seo_description">SEO描述</label>
+                <div>
+                    <textarea id="meta_seo_description" class="form-control" formControlName="seo_description"></textarea>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="meta_seo_link">链接别名</label>
+                <div>
+                    <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                </div>
+            </div>
+        </app-panel>
+
+
+        <div class="btn-group">
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

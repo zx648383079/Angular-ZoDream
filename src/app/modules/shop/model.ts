@@ -427,6 +427,13 @@ export interface IComment {
     created_at: string;
 }
 
+export interface IIssue {
+    id: number;
+    question: string;
+    answer: string;
+    created_at: string;
+}
+
 export interface ICoupon {
     id: number;
     name: string;

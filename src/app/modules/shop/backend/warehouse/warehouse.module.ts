@@ -5,9 +5,9 @@ import { ThemeModule } from '../../../../theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WarehouseService } from './warehouse.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GoodsModule } from '../goods/goods.module';
 import { DialogModule } from '../../../../components/dialog';
 import { ZreFormModule } from '../../../../components/form';
+import { ShopManageModule } from '../../components';
 
 @NgModule({
     imports: [
@@ -16,7 +16,7 @@ import { ZreFormModule } from '../../../../components/form';
         NgbModule,
         ReactiveFormsModule,
         WarehouseRoutingModule,
-        GoodsModule,
+        ShopManageModule,
         DialogModule,
         ZreFormModule,
     ],

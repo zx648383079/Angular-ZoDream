@@ -3,8 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../model';
-import { SearchDialogComponent } from '../../../goods/search-dialog/search-dialog.component';
 import { ActivityService } from '../../activity.service';
+import { SearchDialogComponent } from '../../../../components';
 
 @Component({
     selector: 'app-edit',

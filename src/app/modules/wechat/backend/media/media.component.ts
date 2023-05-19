@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as ClipboardJS from 'clipboard';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -180,19 +179,14 @@ export class MediaComponent implements OnInit {
     }
 
     public tapCopy(val: string, e: MouseEvent) {
-        const clipboard: any = new ClipboardJS(e.currentTarget as HTMLDivElement, {
-            text: () => {
-              return val;
+        navigator.clipboard.writeText(val).then(
+            () => {
+                this.toastrService.success($localize `Copy successfully`);
             },
-        });
-        clipboard.on('success', (e) => {
-            this.toastrService.success($localize `Copy successfully`);
-            e.clearSelection();
-        });
-        clipboard.on('error', (e) => {
-            this.toastrService.warning($localize `Copy failed`);
-        });
-        clipboard.onClick(e);
+            () => {
+                this.toastrService.warning($localize `Copy failed`);
+            }
+        );
     }
 
 }

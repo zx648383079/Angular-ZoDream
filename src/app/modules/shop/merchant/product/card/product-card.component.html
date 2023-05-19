@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>卡密列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">卡号</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" [ngModel]="queries.keywords" placeholder="卡号">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-success" (click)="tapGenerate(modal)">生成卡密</a>
+                    <a class="btn btn-danger" (click)="importModal.open()">导入</a>
+                    <a class="btn btn-info" (click)="tapExport()">导出</a>
+                </div>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>卡密</th>
+                    <th>是否使用</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        {{ item.card_no }}
+                    </td>
+                    <td>
+                        <ng-container *ngIf="item.order_id > 0">
+                            已使用
+                            [<a [routerLink]="['../../../order', item.order_id]">查看</a>]
+                        </ng-container>
+                    </td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [width]="300" [scrollable]="false" title="生成优惠码">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">数量</label>
+            <div>
+                <app-number-input [(ngModel)]="editData.amount"></app-number-input>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #importModal title="导入" [footerVisible]="false">
+    <div class="form-group">
+        <label for="content-input">选择文件</label>
+        <div class="input-group">
+            <app-upload-button class="btn btn-primary" accept=".csv" (uploading)="onUploadFile($event)">上传</app-upload-button>
+        </div>
+    </div>
+</app-dialog-box>

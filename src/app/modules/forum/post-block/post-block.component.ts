@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import * as ClipboardJS from 'clipboard';
 import { DialogService } from '../../../components/dialog';
 import { IBlockItem, IExtraRule, formatLinkRule } from '../../../components/link-rule';
 
@@ -64,19 +63,14 @@ export class PostBlockComponent implements OnChanges {
     }
 
     public tapCopy(item: any, e: MouseEvent) {
-        const clipboard: any = new ClipboardJS(e.currentTarget as HTMLDivElement, {
-            text: () => {
-              return item.content;
+        navigator.clipboard.writeText(item.content).then(
+            () => {
+                this.toastrService.success($localize `Copy successfully`);
             },
-        });
-        clipboard.on('success', (e) => {
-            this.toastrService.success($localize `Copy successfully`);
-            e.clearSelection();
-        });
-        clipboard.on('error', (e) => {
-            this.toastrService.warning($localize `Copy failure`);
-        });
-        clipboard.onClick(e);
+            () => {
+                this.toastrService.warning($localize `Copy failed`);
+            }
+        );
     }
 
     private formatContent(conent: any) {

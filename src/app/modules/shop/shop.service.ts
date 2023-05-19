@@ -7,7 +7,7 @@ import {
     IAccountSubtotal,
     IAd, IAddress, IArticle, IArticleCategory,
     IBrand, ICart, ICartDialog, ICartItem, ICashierData, ICategory, ICollect, IComment,
-    ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IOrder, IOrderCount,
+    ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IIssue, IOrder, IOrderCount,
     IPayment, IShipping
 } from './model';
 import { IUser } from '../../theme/models/user';
@@ -222,6 +222,10 @@ export class ShopService {
 
     public commentRecommend() {
         return this.http.get<IData<IComment>>('shop/comment/recommend');
+    }
+
+    public issueList(params: any) {
+        return this.http.get<IPage<IIssue>>('shop/goods/issue', {params});
     }
 
     public profile() {

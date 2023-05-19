@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from '../../../components/dialog';
 import { merchantRoutingComponents, MerchantRoutingModule } from './merchant-routing.module';
 import { ThemeModule } from '../../../theme/theme.module';
+import { ShopService } from './shop.service';
 
 @NgModule({
     imports: [
@@ -11,6 +12,9 @@ import { ThemeModule } from '../../../theme/theme.module';
         MerchantRoutingModule,
         DialogModule,
     ],
-    declarations: [...merchantRoutingComponents]
+    declarations: [...merchantRoutingComponents],
+    providers: [
+        ShopService
+    ]
 })
 export class MerchantModule { }
