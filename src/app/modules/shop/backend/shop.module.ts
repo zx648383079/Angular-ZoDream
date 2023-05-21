@@ -10,26 +10,11 @@ import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
 import { RegionService } from './region.service';
 import { PaymentService } from './payment.service';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { OpenModule } from '../../../backend/open/open.module';
 import { DialogModule } from '../../../components/dialog';
-import * as echarts from 'echarts/core';
-import { LineChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  GridComponent
-} from 'echarts/components';
-import {
-  CanvasRenderer
-} from 'echarts/renderers';
-import 'echarts/theme/macarons.js';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
-
-echarts.use(
-  [TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]
-);
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [...shopBackendRoutedComponents],
@@ -41,10 +26,10 @@ echarts.use(
         ThemeModule,
         ShopBackendRoutingModule,
         ZreEditorModule,
-        NgxEchartsModule.forRoot({ echarts }),
         OpenModule,
         DialogModule,
         ZreFormModule,
+        NgxEchartsModule.forChild()
     ],
     providers: [
         ShopService,

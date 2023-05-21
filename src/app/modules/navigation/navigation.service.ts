@@ -23,6 +23,10 @@ export class NavigationService {
         return this.http.get<IData<ISiteCategory>>('navigation/site/category');
     }
 
+    public categoryRecommend(category = 0) {
+        return this.http.get<IData<ISiteCategory>>('navigation/site/category_recommend', {params: {category}});
+    }
+
     public siteList(params: any) {
         return this.http.get<IPage<ISite>>('navigation/site', {params});
     }
@@ -53,5 +57,17 @@ export class NavigationService {
 
     public report(data: any) {
         return this.http.post<IDataOne<boolean>>('navigation/report', data);
+    }
+
+    public batch(data: {
+        site_category?: any;
+        site_recommend?: {
+            category?: number
+        };
+    }) {
+        return this.http.post<{
+            site_category?: ISiteCategory[];
+            site_recommend?: ISiteCategory[];
+        }>('navigation/batch', data);
     }
 }

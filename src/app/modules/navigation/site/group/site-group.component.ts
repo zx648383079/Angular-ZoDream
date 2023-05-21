@@ -13,7 +13,7 @@ export class SiteGroupComponent implements OnChanges {
     @Input() public category = 0;
     @Input() public init = false;
 
-    public items: ISite[] = [];
+    @Input() public items: ISite[] = [];
     private booted = 0;
 
     constructor(
@@ -21,6 +21,9 @@ export class SiteGroupComponent implements OnChanges {
     ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (changes.items && this.items.length > 0) {
+            this.booted = this.category;
+        }
         if (changes.init && changes.init.currentValue && this.category > 0 && this.booted !== this.category) {
             this.boot();
         }

@@ -1,11 +1,11 @@
-<div class="row">
+<div class="row" [hidden]="!visible">
     <div class="col-md-4">
         <app-category-panel [items]="categories" (changed)="tapCategory($event)"></app-category-panel>
     </div>
     <div class="col-md-8">
         <ng-container *ngFor="let item of selectedItems">
             <div class="lazy-panel" appLazyLoad (lazyLoading)="loadItem(item)">
-                <app-site-group [header]="item.name" [category]="item.id" [init]="!!item.lazy_booted"></app-site-group>
+                <app-site-group [header]="item.name" [category]="item.id" [items]="item.items" [init]="!!item.lazy_booted"></app-site-group>
             </div>
         </ng-container>
     </div>

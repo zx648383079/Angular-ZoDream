@@ -1,5 +1,5 @@
 import { wordLength } from '../../../theme/utils';
-import { IEditorRange, IEditorBlock, EditorBlockType } from '../model';
+import { IEditorRange, IEditorBlock, EditorBlockType, IEditorTextBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
 import { EVENT_EDITOR_CHANGE, EVENT_EDITOR_DESTORY, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE } from './event';
@@ -48,11 +48,7 @@ export class CodeElement implements IEditorElement {
     }
     public set selectedValue(v: string) {
         const range = this.selection.range;
-        const [begin, end] = this.getRangeLineNo(range);
-        const items = v.split('\n');
-        items[0] = this.getLinePrevious(range) + items[0];
-        items[items.length - 1] += this.getLineNext(range);
-        this.insertLines(begin, end, ...items);
+        this.insertText(v, range);
     }
     public get value(): string {
         const items = [];
@@ -86,6 +82,11 @@ export class CodeElement implements IEditorElement {
             range = this.selection;
         }
         switch(block.type) {
+            case EditorBlockType.AddText:
+            case EditorBlockType.AddRaw:
+                this.insertText(block.value, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
+                break;
             case EditorBlockType.AddLineBreak:
                 this.insertLineBreak(range.range);
                 this.container.emit(EVENT_EDITOR_CHANGE);
@@ -147,15 +148,27 @@ export class CodeElement implements IEditorElement {
             this.container.saveSelection();
             this.container.emit(EVENT_INPUT_KEYDOWN, e);
         });
-        this.bodyPanel.addEventListener('keyup', () => {
+        this.bodyPanel.addEventListener('keyup', e => {
             if (this.isComposition) {
                 return;
             }
             this.selectRangeLine(this.selection.range);
+            this.container.emit(EVENT_EDITOR_CHANGE);
+            if (e.key === 'Backspace') {
+                this.updateLineCount();
+            }
         });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();
             this.selectRangeLine(this.selection.range);
+        });
+        this.element.addEventListener('paste', e => {
+            e.preventDefault();
+            this.insert({
+                type: EditorBlockType.AddRaw,
+                value: e.clipboardData.getData('text/plain')
+            });
+            this.container.emit(EVENT_EDITOR_CHANGE);
         });
         this.bodyPanel.addEventListener('compositionstart', () => {
             this.isComposition = true;
@@ -167,6 +180,14 @@ export class CodeElement implements IEditorElement {
             this.container.emit(EVENT_SELECTION_CHANGE);
             this.container.emit(EVENT_EDITOR_CHANGE);
         });
+    }
+
+    private insertText(v: string, range: Range) {
+        const [begin, end] = this.getRangeLineNo(range);
+        const items = v.split('\n');
+        items[0] = this.getLinePrevious(range) + items[0];
+        items[items.length - 1] += this.getLineNext(range);
+        this.insertLines(begin, end, ...items);
     }
 
     private insertLineBreak(range: Range) {
@@ -228,7 +249,7 @@ export class CodeElement implements IEditorElement {
         }
         if (range.startOffset > 0) {
             const text = range.startContainer as Text;
-            cb(text.textContent.substring(0, range.startOffset - 1));
+            cb(text.textContent.substring(0, range.startOffset));
         }
         let current = range.startContainer;
         while (true) {
@@ -257,7 +278,6 @@ export class CodeElement implements IEditorElement {
         }
         let current = range.endContainer;
         while (true) {
-            
             if (current.nextSibling) {
                 if (current.nextSibling instanceof HTMLBRElement) {
                     break;
@@ -283,7 +303,7 @@ export class CodeElement implements IEditorElement {
                 endNo = this.getLineNo(end);
             }
         }
-        return [beginNo, endNo];
+        return [Math.max(beginNo, 1), Math.max(endNo, 1)];
     }
 
     /**
@@ -292,7 +312,7 @@ export class CodeElement implements IEditorElement {
      * @returns 
      */
     private getLineNo(node: HTMLDivElement): number {
-        if (!node) {
+        if (!node || node === this.element) {
             return 1;
         }
         for (let i = 0; i < this.bodyPanel.children.length; i++) {
@@ -333,7 +353,7 @@ export class CodeElement implements IEditorElement {
         let lineNo = 0;
         for (let i = 0; i < items.length; i++) {
             lineNo = begin + i;
-            if (lineNo <= end) {
+            if (max >= lineNo && lineNo <= end) {
                 this.updateLine(lineNo, items[i]);
                 continue;
             }
@@ -368,6 +388,13 @@ export class CodeElement implements IEditorElement {
             this.toggleClass(dt, 'editor-line-active', has);
             this.toggleClass(dd, 'editor-line-active', has);
         });
+    }
+
+    private updateLineCount() {
+        const begin = Math.max(5, this.bodyPanel.children.length);
+        for (let i = this.linePanel.children.length - 1; i >= begin; i--) {
+            this.linePanel.removeChild(this.linePanel.children[i]);
+        }
     }
 
     private updateLineNoStyle() {
@@ -425,20 +452,27 @@ export class CodeElement implements IEditorElement {
     private beforeLine(index: number, text: string) {
         const dt = this.createLine(text);
         this.bodyPanel.insertBefore(dt, this.bodyPanel.children[index - 1]);
+        if (this.linePanel.children.length >= this.bodyPanel.children.length) {
+            return;
+        }
         this.linePanel.insertBefore(this.createLineNo(index, dt), this.linePanel.children[index - 1]);
     }
 
     private addLine(v?: string) {
-        const line = this.linePanel.children.length + 1;
+        const line = this.bodyPanel.children.length + 1;
         const dt = this.createLine(v);
         this.bodyPanel.appendChild(dt);
+        if (this.linePanel.children.length >= this.bodyPanel.children.length) {
+            this.updateLine(line);
+            return;
+        }
         this.linePanel.appendChild(this.createLineNo(line, dt));
     }
 
     private createLineNo(line: number, lineBody?: HTMLDivElement): HTMLDivElement {
-        if (this.linePanel.children.length >= line) {
-            return this.linePanel.children[line - 1] as HTMLDivElement;
-        }
+        // if (this.linePanel.children.length >= line) {
+        //     return this.linePanel.children[line - 1] as HTMLDivElement;
+        // }
         const dd = document.createElement('div');
         dd.className = 'editor-line-no';
         dd.textContent = line.toString();
@@ -456,10 +490,12 @@ export class CodeElement implements IEditorElement {
         return dt;
     }
 
-    private updateLine(index: number, text: string) {
+    private updateLine(index: number, text?: string) {
         const i = index - 1;
         const lineBody = this.bodyPanel.children[i] as HTMLDivElement;
-        this.renderLine(lineBody, text);
+        if (typeof text !== 'undefined') {
+            this.renderLine(lineBody, text);
+        }
         const lineNo = this.linePanel.children[i] as HTMLDivElement;
         lineNo.style.height = lineBody.clientHeight + 'px'
     }

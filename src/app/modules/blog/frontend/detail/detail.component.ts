@@ -131,6 +131,7 @@ export class DetailComponent implements OnInit {
         this.service.blogRecommend(this.data.id).subscribe({
             next: res => {
                 this.data.recommend_count = res.recommend_count;
+                this.data.is_recommended = res.is_recommended;
             }, 
             error: err => {
                 this.toastrService.warning(err);

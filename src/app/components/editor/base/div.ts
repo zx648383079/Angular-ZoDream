@@ -1,5 +1,5 @@
 import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorVideoBlock } from '../model';
+import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
 import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IBound, IEditorListeners, IPoint } from './event';
@@ -107,6 +107,12 @@ export class DivElement implements IEditorElement {
                 this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddText:
+                this.insertText(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
+                break;
+            case EditorBlockType.AddRaw:
+                this.insertText(block as any, range.range);
+                this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.Indent:
                 this.insertIndent(range.range);
@@ -208,6 +214,18 @@ export class DivElement implements IEditorElement {
         image.src = block.value;
         image.title = block.title || '';
         this.insertElement(image, range);
+    }
+
+    private insertText(block: IEditorTextBlock, range: Range) {
+        const span = document.createElement('span');
+        span.innerText = block.value;
+        this.insertElement(span, range);
+    }
+
+    private insertRaw(block: IEditorTextBlock, range: Range) {
+        const p = document.createElement(this.container.option.blockTag);
+        p.innerHTML = block.value;
+        this.insertElement(p, range);
     }
 
     private insertVideo(block: IEditorVideoBlock, range: Range) {

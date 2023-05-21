@@ -1,15 +1,15 @@
 
 <div class="banner" *ngIf="bannerItems && bannerItems.length > 0">
-    <swiper-container navigation="true">
-        <swiper-slide *ngFor="let item of bannerItems">
+    <app-swiper>
+        <app-swiper-item *ngFor="let item of bannerItems">
             <div class="picsum-img-wrapper">
                 <img [src]="item.content" style="width: 100%;">
             </div>
             <div class="carousel-caption" *ngIf="item.name">
                 <h3>{{ item.name }}</h3>
             </div>
-        </swiper-slide>
-    </swiper-container>
+        </app-swiper-item>
+    </app-swiper>
 </div>
 <div class="floor">
     <div class="container">

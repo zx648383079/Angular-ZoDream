@@ -20,6 +20,6 @@
         </app-pull-to-refresh>
     </div>
     <div class="editor">
-        <editor [(ngModel)]="value" [apiKey]="editorConfigs.key" [init]="editorConfigs.init" (ngModelChange)="onValueChange()"></editor>
+        <app-zre-editor [height]="560" [(ngModel)]="value" (ngModelChange)="onValueChange()"></app-zre-editor>
     </div>
 </div>

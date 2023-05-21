@@ -42,7 +42,7 @@
                             <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
                         </div>
                         <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
-                            <app-html-editor [(ngModel)]="item.value"></app-html-editor>
+                            <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
                         </div>
                         <div *ngIf="item.type == 'markdown'">
                             <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>

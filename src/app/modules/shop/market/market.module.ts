@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GameModule } from '../game/game.module';
 import { ZreFormModule } from '../../../components/form';
 import { ShopCommonModule } from '../common.module';
+import { ZreSwiperModule } from '../../../components/swiper';
 
 @NgModule({
     declarations: [...marketRoutingComponents],
@@ -19,6 +20,7 @@ import { ShopCommonModule } from '../common.module';
         LazyLoadImageModule,
         GameModule,
         ZreFormModule,
+        ZreSwiperModule,
         ShopCommonModule,
     ],
     schemas: [

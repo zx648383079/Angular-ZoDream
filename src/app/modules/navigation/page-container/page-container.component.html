@@ -15,7 +15,7 @@
     </div>
     <div class="page-flex-body">
         <div class="page-thumb" *ngIf="value.thumb">
-            <img [src]="value.thumb" [alt]="value.title">
+            <img [appLazyLoad]="value.thumb" [alt]="value.title">
         </div>
         <div class="page-body">
             <span class="page-time">{{ value.updated_at | ago }}</span> <span class="page-content">

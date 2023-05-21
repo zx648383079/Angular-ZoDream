@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AttributeService } from './attribute.service';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
-import { ZreHtmlEditorModule } from '../../../../components/editor';
+import { ZreEditorModule } from '../../../../components/editor';
 import { ShopManageModule } from '../../components';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { ShopManageModule } from '../../components';
         NgbPaginationModule,
         GoodsRoutingModule,
         ReactiveFormsModule,
-        ZreHtmlEditorModule,
+        ZreEditorModule,
         DialogModule,
         ZreFormModule,
         ShopManageModule,

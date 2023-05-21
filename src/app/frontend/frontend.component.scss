@@ -132,7 +132,7 @@ footer {
     }
 }
 
-::ng-deep {
+.inner-body ::ng-deep {
     .panel {
         background-color: $primaryText;
         margin-bottom: 20px;

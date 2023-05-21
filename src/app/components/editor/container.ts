@@ -136,10 +136,10 @@ export class EditorContainer implements IEditorContainer {
     }
 
     public get length(): number {
-        return this.element.length;
+        return this.element ? this.element.length : 0;
     }
     public get wordLength(): number {
-        return this.element.wordLength;
+        return this.element ? this.element.wordLength : 0;
     }
 
     private checkSelection() {

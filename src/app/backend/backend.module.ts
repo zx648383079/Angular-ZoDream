@@ -12,9 +12,6 @@ import { MenuService } from './menu.service';
         CommonModule,
         ThemeModule,
         BackendRoutingModule,
-        // NgxEchartsModule.forRoot({
-        //   echarts: () => import('echarts'),
-        // }),
     ],
     providers: [
         BackendService,

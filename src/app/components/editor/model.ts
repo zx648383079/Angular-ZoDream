@@ -1,4 +1,3 @@
-import { EditorOptions } from 'tinymce';
 import { IEditorModule } from './base';
 
 export interface IEditor {
@@ -33,6 +32,7 @@ export enum EditorBlockType {
     AddLineBreak,
     AddHr,
     AddText,
+    AddRaw,
     AddImage,
     AddLink,
     AddTable,
@@ -97,9 +97,4 @@ export interface IEditorInclueBlock extends IEditorBlock {
     begin: string,
     end: string;
     cursor?: number; // 移动指针
-}
-
-export interface IHtmlEditorOption {
-    key: string;
-    init: Partial<EditorOptions>;
 }

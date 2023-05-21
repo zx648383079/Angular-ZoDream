@@ -13,6 +13,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-reward:before {
+    content: "\e601";
+}
+
 .icon-dotted:before {
     content: "\e63e";
 }

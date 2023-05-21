@@ -79,6 +79,7 @@ export class TextareaElement implements IEditorElement {
                 this.container.emit(EVENT_EDITOR_CHANGE);
                 return;
             case EditorBlockType.AddText:
+            case EditorBlockType.AddRaw:
                 this.insertText(block.value, range, block.cursor);
                 this.container.emit(EVENT_EDITOR_CHANGE);
                 return;
@@ -247,7 +248,9 @@ export class TextareaElement implements IEditorElement {
             this.container.emit(EVENT_INPUT_BLUR);
         });
         this.element.addEventListener('paste', () => {
-            this.container.emit(EVENT_EDITOR_CHANGE);
+            setTimeout(() => {
+                this.container.emit(EVENT_EDITOR_CHANGE);
+            }, 10);
         });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();

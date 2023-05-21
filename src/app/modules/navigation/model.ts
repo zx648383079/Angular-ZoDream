@@ -7,6 +7,7 @@ export interface ISiteCategory {
     parent_id: number;
     level?: number;
     children?: ISiteCategory[];
+    items?: ISite[];
     lazy_booted?: boolean;
 }
 

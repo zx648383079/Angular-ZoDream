@@ -5,7 +5,7 @@ import { marked } from 'marked';
 import { FileUploadService } from '../../../theme/services';
 import { EditorBlockType, IEditor, IEditorBlock, IEditorCodeBlock, IEditorLinkBlock, IImageUploadEvent } from '../model';
 import { EditorContainer } from '../container';
-import { EVENT_EDITOR_CHANGE } from '../base';
+import { EVENT_EDITOR_CHANGE, EVENT_EDITOR_READY } from '../base';
 
 @Component({
     selector: 'app-markdown-editor',
@@ -42,6 +42,8 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     ) {
         this.container.on(EVENT_EDITOR_CHANGE, () => {
             this.onChange(this.container.value);
+            this.size = this.container.wordLength;
+        }).on(EVENT_EDITOR_READY, () => {
             this.size = this.container.wordLength;
         });
     }

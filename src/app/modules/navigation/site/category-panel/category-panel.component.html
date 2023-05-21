@@ -7,7 +7,7 @@
         <ng-container *ngFor="let item of kidItems; let i = index">
             <div class="cat-item" (click)="tapItem(i)">
                 <div class="item-icon">
-                    <img [src]="item.icon">
+                    <img [appLazyLoad]="item.icon">
                 </div>
                 <div class="item-name">{{ item.name }}</div>
             </div>

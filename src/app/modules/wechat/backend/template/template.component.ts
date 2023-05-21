@@ -83,7 +83,7 @@ export class TemplateComponent implements OnInit {
             this.previewData.toggle = false;
             return;
         }
-        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editData.content);
+        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editData.content || '');
         this.previewData.toggle = true;
     }
 

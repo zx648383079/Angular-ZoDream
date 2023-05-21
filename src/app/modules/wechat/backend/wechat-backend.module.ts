@@ -8,7 +8,7 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CanActivateMainId } from './wid.guard';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { ZreEditorModule } from '../../../components/editor';
 
 @NgModule({
     imports: [
@@ -17,9 +17,9 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         ReactiveFormsModule,
         DialogModule,
         WechatBackendRoutingModule,
-        EditorModule,
         ZreFormModule,
         NgSelectModule,
+        ZreEditorModule,
     ],
     declarations: [...wechatBackendRoutingComponents],
     providers: [

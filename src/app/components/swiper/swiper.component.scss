@@ -1,0 +1,103 @@
+.swiper,
+app-swiper {
+    display: block;
+    position: relative;
+    .swiper-item,
+    app-swiper-item {
+        display: inline-block;
+        position: relative;
+    }
+    .swiper-body {
+        overflow: hidden;
+    }
+    .swiper-footer {
+    }
+    .swiper-action {
+        .swiper-action-previous,
+        .swiper-action-next {
+            position: absolute;
+            z-index: 9;
+            top: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            height: 4rem;
+            width: 2rem;
+            margin-top: -2rem;
+            opacity: .2;
+            background-color: transparent;
+        }
+        .swiper-action-previous {
+            left: .8rem;
+        }
+        .swiper-action-next {
+            right: .8rem;
+        }
+    }
+    .swiper-navigation-dot {
+        text-align: center;
+        span {
+            display: inline-block;
+            width: .8rem;
+            height: .8rem;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 1px solid #ccc;
+            margin: 0 .2rem;
+            transition: all .4s;
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+        .active {
+            transform: scale(1.2);
+            background-color: #fff;
+        }
+    }
+    &:hover {
+        .swiper-action {
+            .swiper-action-previous,
+            .swiper-action-next {
+                opacity: 1;
+                background-color: #fff;
+            }
+        }
+    }
+    &.swiper-theme-default {
+        .swiper-item,
+        app-swiper-item {
+            display: none;
+        }
+        .swiper-item-active {
+            display: block;
+        }
+    }
+    &.swiper-theme-scoll {
+        .swiper-item,
+        app-swiper-item {
+            display: inline-block;
+            width: 10rem;
+            height: 12rem;
+            overflow: hidden;
+            margin: 0 .8rem;
+        }
+    }
+    &.swiper-theme-toggle {
+        .swiper-item,
+        app-swiper-item {
+            display: inline-block;
+            width: 10rem;
+            height: 30rem;
+            overflow: hidden;
+            margin: 0 .8rem;
+            transition: width .5s;
+            border-radius: .5rem;
+            background-color: #f4f4f4;
+        }
+        .swiper-item-body,
+        .swiper-item-active {
+            width: 50rem;
+        }
+    }
+}

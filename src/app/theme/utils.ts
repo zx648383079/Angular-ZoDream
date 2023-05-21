@@ -61,6 +61,22 @@ export function checkRange(val: number, min = 0, max = 100): number {
     return val;
 }
 
+export function checkLoopRange(val: number, min = 0, max = 0): number {
+    if (max <= min) {
+        max = min;
+        min = 0;
+    }
+    const count = max - min + 1;
+    if (count <= 0) {
+        return 0;
+    }
+    let real = val % count;
+    if (real < 0) {
+        real += count;
+    }
+    return real + min;
+}
+
 export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }

@@ -6,7 +6,7 @@ import { ThemeModule } from '../../../../theme/theme.module';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
 import { ShopManageModule } from '../../components';
-import { ZreHtmlEditorModule } from '../../../../components/editor';
+import { ZreEditorModule } from '../../../../components/editor';
 
 @NgModule({
     imports: [
@@ -18,7 +18,7 @@ import { ZreHtmlEditorModule } from '../../../../components/editor';
         ProductRoutingModule,
         ShopManageModule,
         ReactiveFormsModule,
-        ZreHtmlEditorModule,
+        ZreEditorModule,
     ],
     declarations: [...productRoutingComponents]
 })

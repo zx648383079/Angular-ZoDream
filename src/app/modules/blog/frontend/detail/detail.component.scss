@@ -65,10 +65,14 @@
     right: 15px;
     left: 15px;
     font-size: 20px;
+    user-select: none;
     .agree,
     .disagree {
         float: right;
         margin-left: 20px;
+    }
+    .active {
+        color: #A10000;
     }
 }
 

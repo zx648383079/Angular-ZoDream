@@ -75,4 +75,11 @@ export class ThemeService {
         });
     }
 
+    // public touchable(target: HTMLDivElement, onStart: , onMove, onFinish) {
+
+    // }
+
+    // public unbind(target: HTMLDivElement) {
+
+    // }
 }

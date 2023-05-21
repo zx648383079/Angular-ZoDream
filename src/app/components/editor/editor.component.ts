@@ -134,7 +134,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             };
         }
         return {
-            height: this.height + 'px',
+            height: this.height as number - (this.subItems.length > 0 ? 40 : 0) + 'px',
             'min-height': 0,
             'overflow-y': 'auto',
         };
@@ -186,6 +186,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             this.isCodeMode = !this.isCodeMode;
             if (this.isCodeMode) {
                 this.codeEditor.writeValue(this.container.value);
+                this.codeEditor.registerOnChange(res => {
+                    this.writeValue(res);
+                });
             }
             return;
         }

@@ -53,6 +53,7 @@ export interface IBlog {
     seo_title?: string;
     seo_description?: string;
     seo_link?: string;
+    is_recommended?: boolean;
     user: IUser;
     term: ICategory;
     tags?: ITag[];
