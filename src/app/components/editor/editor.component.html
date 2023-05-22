@@ -3,14 +3,14 @@
         <div class="tool-bar-top">
             <div class="tool-left">
                 <ng-container *ngFor="let item of topLeftItems">
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item)" [title]="item.label">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
                 </ng-container>
             </div>
             <div class="tool-right">
                 <ng-container *ngFor="let item of topRightItems">
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, true)" [title]="item.label">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, true, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
                 </ng-container>
@@ -18,7 +18,7 @@
         </div>
         <div class="tool-bar-bottom" [ngClass]="{'tool-align-right': subIsRight}" *ngIf="subItems && subItems.length > 0">
             <ng-container *ngFor="let item of subItems">
-                <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item)" [title]="item.label">
+                <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
                     <i class="iconfont" [ngClass]="item.icon"></i>
                 </div>
             </ng-container>
@@ -31,7 +31,7 @@
         <div class="editor-flow-area" [hidden]="isCodeMode">
             <div class="flow-tool-bar" *ngIf="flowItems.length > 0" [ngClass]="{'flow-tool-one': flowItems.length == 1}" [ngStyle]="flowStyle">
                 <ng-container *ngFor="let item of flowItems">
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapFlowTool(item)" [title]="item.label">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapFlowTool(item, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
                 </ng-container>

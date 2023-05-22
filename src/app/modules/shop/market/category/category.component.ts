@@ -46,6 +46,13 @@ export class CategoryComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
+            if (!this.category || this.queries.category == this.category.id) {
+                return;
+            }
+            this.tapRefresh();
+            this.service.category(this.queries.category).subscribe(res => {
+                this.category = res;
+            });
         });
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);

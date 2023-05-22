@@ -18,6 +18,16 @@ export class DivElement implements IEditorElement {
 
     public get selection(): IEditorRange {
         const sel = window.getSelection();
+        if (sel.rangeCount < 1) {
+            const range = document.createRange();
+            range.setStart(this.element, this.element.children.length);
+            range.setEnd(this.element, this.element.children.length);
+            return {
+                start: this.element.children.length,
+                end: this.element.children.length,
+                range: range.cloneRange()
+            };
+        }
         const range = sel.getRangeAt(0);
         return {
             start: range.startOffset,
@@ -111,7 +121,7 @@ export class DivElement implements IEditorElement {
                 this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.AddRaw:
-                this.insertText(block as any, range.range);
+                this.insertRaw(block as any, range.range);
                 this.container.emit(EVENT_EDITOR_CHANGE);
                 break;
             case EditorBlockType.Indent:
@@ -154,7 +164,7 @@ export class DivElement implements IEditorElement {
 
     private insertHr(range: Range) {
         const hr = document.createElement('hr');
-        this.insertElement(hr, range);
+        this.replaceSelected(range, hr);
     }
 
     private insertIndent(range: Range) {
@@ -206,34 +216,44 @@ export class DivElement implements IEditorElement {
             }
             tbody.appendChild(tr);
         }
-        this.insertElement(table, range);
+        this.replaceSelected(range, table);
     }
 
     private insertImage(block: IEditorFileBlock, range: Range) {
         const image = document.createElement('img');
         image.src = block.value;
         image.title = block.title || '';
-        this.insertElement(image, range);
+        this.replaceSelected(range, image);
     }
 
     private insertText(block: IEditorTextBlock, range: Range) {
         const span = document.createElement('span');
         span.innerText = block.value;
-        this.insertElement(span, range);
+        this.replaceSelected(range, span);
     }
 
     private insertRaw(block: IEditorTextBlock, range: Range) {
-        const p = document.createElement(this.container.option.blockTag);
+        const p = document.createElement('div');
         p.innerHTML = block.value;
-        this.insertElement(p, range);
+        const items = [];
+        for (let i = 0; i < p.childNodes.length; i++) {
+            items.push(p.childNodes[i]);
+        }
+        this.replaceSelected(range, ...items);
     }
 
     private insertVideo(block: IEditorVideoBlock, range: Range) {
-       
+        const ele = document.createElement('video');
+        ele.src = block.value;
+        ele.title = block.title || '';
+        this.replaceSelected(range, ele);
     }
 
     private insertFile(block: IEditorFileBlock, range: Range) {
-       
+        const ele = document.createElement('a');
+        ele.href = block.value;
+        ele.title = block.title || '';
+        this.replaceSelected(range, ele);
     }
 
     private insertLink(block: IEditorLinkBlock, range: Range) {
@@ -249,14 +269,27 @@ export class DivElement implements IEditorElement {
 
     
     private insertLineBreak(range: Range) {
+        let begin = range.startContainer;
+        let beginOffset = range.startOffset;
         const p = document.createElement(this.container.option.blockTag);
-        if (range.startContainer === this.element) {
+        if (begin === this.element) {
             p.appendChild(document.createElement('br'));
-            this.insertToChildIndex(p, range.startContainer, range.startOffset);
+            if (this.element.children.length === 0) {
+                this.insertLast(this.element, p.cloneNode(true), p);
+            } else {
+                this.insertToChildIndex(p, begin, range.startOffset);
+            }
             this.selectNode(p);
             return;
         }
-        this.eachBlockNext(range, node => {
+        let addBlock = false;
+        this.eachBlockNext(range.endContainer, range.endOffset, node => {
+            // 会出现嵌套的情况
+            if (node === begin) {
+                begin = begin.parentNode;
+                beginOffset = 0;
+                addBlock = true;
+            }
             p.appendChild(node);
         });
         p.appendChild(document.createElement('br'));
@@ -264,9 +297,9 @@ export class DivElement implements IEditorElement {
         // this.insertElement(p, range);
         let next: Node;
         let done = false;
-        this.eachParentNode(range.startContainer, node => {
+        this.eachParentNode(begin, node => {
             if (this.isBlockNode(node) && node) {
-                this.insertAfter(p, node);
+                this.insertAfter(node, p);
                 next = undefined;
                 done = true;
                 return false;
@@ -275,19 +308,81 @@ export class DivElement implements IEditorElement {
         });
         if (!done) {
             if (next) {
-                this.insertAfter(p, next);
+                this.insertAfter(next, p);
             } else {
                 this.element.appendChild(p);
             }
         }
+        if (addBlock) {
+            const ele = document.createElement(this.container.option.blockTag);
+            ele.appendChild(document.createElement('br'));
+            this.insertBefore(p, ele);
+        }
         this.selectNode(p);
+    }
+
+    /**
+     * 删除选中并替换为新的
+     */
+    private replaceSelected(range: Range, ...items: Node[]) {
+        if (this.isNotSelected(range)) {
+            this.insertToElement(range.startContainer, range.startOffset, ...items);
+            return;
+        }
+        this.removeRange(range);
+        // this.insertElement(p, range);
+        let next: Node;
+        let done = false;
+        this.eachParentNode(range.startContainer, node => {
+            if (this.isBlockNode(node) && node) {
+                this.insertAfter(node, ...items);
+                next = undefined;
+                done = true;
+                return false;
+            }
+            next = node;
+        });
+        if (!done) {
+            if (next) {
+                this.insertAfter(next, ...items);
+            } else {
+                this.insertLast(this.element, ...items);
+            }
+        }
+        this.selectNode(items[items.length - 1]);
+    }
+
+    /**
+     * 把选中的作为子项包含进去
+     */
+    private includeSelected(range: Range, parent: Node) {
+        this.insertLast(parent, ...this.copySelectedNode(range));
+        this.replaceSelected(range, parent);
+    }
+
+    /**
+     * 切换父级的标签，例如 b strong
+     */
+    private toggleParentNode(range: Range, tag: string) {
+
+    }
+
+    /**
+     * 切换父级的样式 
+     */
+    private toggleParentStyle(range: Range, style: any) {
+        
+    }
+
+    private isNotSelected(range: Range) {
+        return range.startContainer === range.endContainer && range.startOffset === range.endOffset;
     }
 
     private selectNode(node: Node, offset = 0) {
         const sel = window.getSelection();
-        let range = sel.getRangeAt(0);
-        range.deleteContents();
-        range = range.cloneRange();
+        const range = document.createRange();
+        // range.deleteContents();
+        // range = range.cloneRange();
         range.setStart(node, offset);
         range.setEnd(node, offset);
         sel.removeAllRanges();
@@ -474,25 +569,83 @@ export class DivElement implements IEditorElement {
     }
 
     public insertElement(node: Node, range: Range) {
-        if (range.startContainer === this.element) {
-            this.element.appendChild(node);
-            return;
-        }
-        if (this.isEndNode(range.startContainer, range.startOffset)) {
-            const next = this.nextNode(range.startContainer);
-            if (!next) {
-                this.element.appendChild(node);
+        this.insertToElement(range.startContainer, range.startOffset, node);
+    }
+
+    private insertToElement(current: Node, offset: number, ...items: Node[]) {
+        const isText = current instanceof Text;
+        if (offset < 1) {
+            if (isText) {
+                this.insertBefore(current, ...items);
                 return;
             }
-            this.element.insertBefore(node, next);
+            this.insertFirst(current, ...items);
             return;
         }
-        const nextNode = this.splitNode(range.startContainer, range.startOffset);
-        if (nextNode !== this.element) {
-            this.element.insertBefore(node, nextNode);
-        } else {
-            this.element.appendChild(node);
+        const max = isText ? current.length : current.childNodes.length;
+        if (offset >= max) {
+            if (isText) {
+                this.insertAfter(current, ...items);
+                return;
+            }
+            this.insertLast(current, ...items);
+            return;
         }
+        if (isText) {
+            this.insertBefore(current.splitText(offset), ...items);
+            return;
+        }
+        this.insertBefore(current.childNodes[offset], ...items);
+    }
+
+    /**
+     * 在内部前面添加子节点
+     * @param current 
+     * @param items 
+     */
+    private insertFirst(current: Node, ...items: Node[]) {
+        if (current.childNodes.length < 1) {
+            this.insertLast(current, ...items);
+            return;
+        }
+        this.insertBefore(current.childNodes[0], ...items);
+    }
+
+    /**
+     * 在子节点最后添加元素
+     * @param current 
+     * @param items 
+     */
+    private insertLast(current: Node, ...items: Node[]) {
+        for (const item of items) {
+            current.appendChild(item);
+        }
+    }
+
+    /**
+     * 在元素之前添加兄弟节点
+     * @param current 
+     * @param items 
+     */
+    private insertBefore(current: Node, ...items: Node[]) {
+        const parent = current.parentNode;
+        for (const item of items) {
+            parent.insertBefore(item, current);
+        }
+    }
+
+    /**
+     * 在元素之后添加兄弟节点
+     * @param current 
+     * @param items 
+     * @returns 
+     */
+    private insertAfter(current: Node, ...items: Node[]) {
+        if (current.nextSibling) {
+            this.insertBefore(current.nextSibling, ...items);
+            return;
+        }
+        this.insertLast(current.parentNode, ...items);
     }
 
     private insertToChildIndex(newEle: HTMLElement, parent: Node, index: number) {
@@ -503,42 +656,166 @@ export class DivElement implements IEditorElement {
         parent.insertBefore(newEle, parent.childNodes[index]);
     }
 
-    private insertAfter(newEle: HTMLElement, node: Node) {
-        const parent = node.parentNode;
-        if (node.nextSibling) {
-            parent.insertBefore(newEle, node.nextSibling);
-            return;
-        }
-        parent.appendChild(newEle);
-    }
-
     private removeRange(range: Range) {
         if (range.startContainer === range.endContainer) {
-            if (range.startOffset > 0 && (range.startContainer instanceof Text)) {
-                range.startContainer.textContent = range.startContainer.textContent.substring(0, range.startOffset);
-            } else if (range.startContainer !== this.element) {
-                range.startContainer.parentNode.removeChild(range.startContainer);
+            if (range.startOffset === range.endOffset) {
+                return;
             }
-            return
+            if (range.startContainer instanceof Text) {
+                const text = range.startContainer.textContent;
+                range.startContainer.textContent = text.substring(0, range.startOffset) + text.substring(range.endOffset);
+                return;
+            }
+            for (let i = range.endOffset; i >= range.startOffset; i--) {
+                range.startContainer.removeChild(range.startContainer.childNodes[i]);
+            }
+            return;
         }
         const beginParentItems: Node[] = [];
         this.eachParentNode(range.startContainer, node => {
             beginParentItems.push(node);
         });
+        const endParentItems: Node[] = [];
         this.eachParentNode(range.endContainer, node => {
-            if (beginParentItems.indexOf(node) < 0) {
-                const parent = node.parentNode;
-                this.eachBrother(node, item => {
-                    if (beginParentItems.indexOf(item) >= 0) {
-                        return false;
-                    }
-                    parent.removeChild(item);
-                }, false);
+            const i = beginParentItems.indexOf(node);
+            if (i < 0) {
+                endParentItems.push(node);
                 return;
             }
+            beginParentItems.splice(i, beginParentItems.length - i);
             return false;
         });
+        const max = Math.max(beginParentItems.length, endParentItems.length);
+        for (let i = 1; i <= max; i++) {
+            const begin = beginParentItems.length - i;
+            const end = endParentItems.length - i;
+            const beginNode = begin >= 0 ? beginParentItems[begin] : undefined;
+            const endNode = end >= 0 ? endParentItems[end] : undefined;
+            if (beginNode) {
+                this.eachNextBrother(beginNode, n => {
+                    if (!n || n === beginNode || n === endNode) {
+                        return;
+                    }
+                    n.parentNode.removeChild(n);
+                }, endNode);
+            }
+            if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
+                this.eachBrother(endNode, n => {
+                    if (n === endNode) {
+                        return false;
+                    }
+                    if (n === beginNode) {
+                        return;
+                    }
+                    n.parentNode.removeChild(n);
+                }, false);
+            }
+        }
+        if (range.startContainer instanceof Text) {
+            const text = range.startContainer.textContent;
+            range.startContainer.textContent = text.substring(0, range.startOffset);
+        } else {
+            for (let i = range.startContainer.childNodes.length - 1; i >= range.startOffset; i--) {
+                range.startContainer.removeChild(range.startContainer.childNodes[i]);
+            }
+        }
+        if (range.endContainer instanceof Text) {
+            const text = range.endContainer.textContent;
+            range.endContainer.textContent = text.substring(range.endOffset);
+        } else {
+            for (let i = range.endOffset - 1; i >= 0; i--) {
+                range.endContainer.removeChild(range.endContainer.childNodes[i]);
+            }
+        }
+        return;
+    }
 
+    private copySelectedNode(range: Range): Node[] {
+        if (range.startContainer === range.endContainer) {
+            if (range.startOffset === range.endOffset) {
+                return [];
+            }
+            return this.copyRangeNode(range.startContainer, range.startOffset, range.endOffset);
+        }
+        const beginParentItems: Node[] = [];
+        this.eachParentNode(range.startContainer, node => {
+            beginParentItems.push(node);
+        });
+        const endParentItems: Node[] = [];
+        this.eachParentNode(range.endContainer, node => {
+            const i = beginParentItems.indexOf(node);
+            if (i < 0) {
+                endParentItems.push(node);
+                return;
+            }
+            beginParentItems.splice(i, beginParentItems.length - i);
+            return false;
+        });
+        const max = Math.max(beginParentItems.length, endParentItems.length);
+        let items = [];
+        let lastBegin: Node;
+        let lastEnd: Node;
+        for (let i = 1; i <= max; i++) {
+            const begin = beginParentItems.length - i;
+            const end = endParentItems.length - i;
+            const beginNode = begin >= 0 ? beginParentItems[begin] : undefined;
+            const endNode = end >= 0 ? endParentItems[end] : undefined;
+            if (beginNode) {
+                this.eachNextBrother(beginNode, n => {
+                    const cloneN = n.cloneNode(n === beginNode || n === endNode);
+                    if (i < 1) {
+                        items.push(cloneN);
+                    } else {
+                        lastBegin.appendChild(cloneN);
+                    }
+                    if (n === beginNode) {
+                        lastBegin = cloneN;
+                    }
+                    if (n === endNode) {
+                        lastEnd = cloneN;
+                        return false;
+                    }
+                }, endNode);
+            }
+            if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
+                this.eachBrother(endNode, n => {
+                    const cloneN = n.cloneNode(n === endNode);
+                    if (i < 1) {
+                        items.push(cloneN);
+                    } else {
+                        lastEnd.appendChild(cloneN);
+                    }
+                    if (n === endNode) {
+                        lastEnd = cloneN;
+                        return false;
+                    }
+                }, false);
+            }
+        }
+        if (!lastBegin) {
+            items = [].concat(this.copyRangeNode(range.startContainer, range.startOffset), items);
+        } else {
+            this.insertLast(lastBegin, ...this.copyRangeNode(range.startContainer, range.startOffset));
+        }
+        if (!lastEnd) {
+            items.push(...this.copyRangeNode(range.endContainer, 0, range.endOffset));
+        } else {
+            this.insertLast(lastEnd, ...this.copyRangeNode(range.endContainer, 0, range.endOffset));
+        }
+    }
+
+    private copyRangeNode(current: Node, start: number, end?: number): Node[] {
+        if (current instanceof Text) {
+            return [new Text(current.textContent.substring(start, end))];
+        }
+        const items = [];
+        for (let i = start; i < current.childNodes.length; i++) {
+            if (end && i > end) {
+                return;
+            }
+            items.push(current.childNodes[i].cloneNode(true));
+        }
+        return items;
     }
 
     private indexOfNode(items: NodeListOf<Node>, find: Node): number {
@@ -550,6 +827,13 @@ export class DivElement implements IEditorElement {
         return -1;
     }
 
+    /**
+     * 遍历兄弟节点，包含自身
+     * @param node 
+     * @param cb 
+     * @param isNext 
+     * @returns 
+     */
     private eachBrother(node: Node, cb: (node: Node) => false|void, isNext = true) {
         if (!node.parentNode) {
             return;
@@ -573,16 +857,35 @@ export class DivElement implements IEditorElement {
         }
     }
 
-    private eachBlockNext(range: Range, cb: (node: Node) => void) {
-        if (range.endContainer === this.element) {
+    private eachNextBrother(node: Node, cb: (node: Node) => false|void, end?: Node) {
+        if (!node.parentNode) {
             return;
         }
-        if (range.endOffset < 1) {
-            cb(range.endContainer);
-        } else if (range.endContainer instanceof Text && range.endContainer.length > range.endOffset) {
-            cb(range.endContainer.splitText(range.endOffset));
+        const parent = node.parentNode;
+        const j = end ? this.indexOfNode(parent.childNodes, end) : -1;
+        let i = j < 0 ? parent.childNodes.length - 1 : j;
+        for (; i >= 0; i--) {
+            const item = parent.children[i];
+            if (item === node) {
+                cb(item);
+                break;
+            }
+            if (cb(item) === false) {
+                break;
+            }
         }
-        let node = range.endContainer;
+    }
+
+    private eachBlockNext(current: Node, offset: number, cb: (node: Node) => void) {
+        if (current === this.element) {
+            return;
+        }
+        if (offset < 1) {
+            cb(current);
+        } else if (current instanceof Text && current.length > offset) {
+            cb(current.splitText(offset));
+        }
+        let node = current;
         while (true) {
             if (!node.nextSibling) {
                 if (this.element === node.parentNode || this.isBlockNode(node.parentNode)) {
@@ -644,6 +947,11 @@ export class DivElement implements IEditorElement {
         return items;
     }
 
+    /**
+     * 向上遍历父级
+     * @param node 
+     * @param cb 包含自身
+     */
     private eachParentNode(node: Node, cb: (node: Node) => void|false) {
         let current = node;
         while (true) {
@@ -785,11 +1093,15 @@ export class DivElement implements IEditorElement {
         if (range.startContainer !== range.endContainer) {
             return false;
         }
-        if (range.startContainer.nodeType !== 1) {
+        return this.isEmptyLineNode(range.startContainer);
+    }
+
+    private isEmptyLineNode(node: Node): boolean {
+        if (node.nodeType !== 1) {
             return false;
         }
-        for (let i = 0; i < range.startContainer.childNodes.length; i++) {
-            const element = range.startContainer.childNodes[i];
+        for (let i = 0; i < node.childNodes.length; i++) {
+            const element = node.childNodes[i];
             if (element.nodeName !== 'BR') {
                 return false;
             }

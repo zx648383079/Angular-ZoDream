@@ -1,4 +1,4 @@
-import { IEditorModule } from './base';
+import { IEditorModule, IPoint } from './base';
 
 export interface IEditor {
     insert(block: IEditorBlock|string): void;
@@ -18,7 +18,7 @@ export interface IEditorRange {
 export type EditorModalCallback<T = any> = (data: T) => void;
 
 export interface IEditorModal<T = any> {
-    open(data: T, cb: EditorModalCallback<T>): void;
+    open(data: T, cb: EditorModalCallback<T>, position?: IPoint): void;
 }
 
 /**

@@ -1,4 +1,4 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}" [ngStyle]="modalStyle">
     <ul class="option-bar">
         <ng-container *ngFor="let item of items">
             <li [ngClass]="{active: item.value == selected}" [ngStyle]="item.style" (click)="tapConfirm(item)">{{ item.name }}</li>

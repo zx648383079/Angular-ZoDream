@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EditorModalCallback, IEditorSharedModal } from '../../model';
-import { IEditorModule, IEditorOptionItem } from '../../base';
+import { IEditorModule, IEditorOptionItem, IPoint } from '../../base';
 
 
 const FontItems: IEditorOptionItem[] = [
@@ -40,6 +40,7 @@ export class EditorDropdownComponent implements IEditorSharedModal {
     public visible = false;
     public items: IEditorOptionItem[] = [];
     public selected = '';
+    public modalStyle: any = {};
     private confirmFn: EditorModalCallback;
 
     constructor() {
@@ -74,7 +75,8 @@ export class EditorDropdownComponent implements IEditorSharedModal {
         }
     }
 
-    public open(data: any, cb: EditorModalCallback) {
+    public open(data: any, cb: EditorModalCallback, position?: IPoint) {
+        this.modalStyle = position ? {left: position.x + 'px', top: position.y + 'px'} : {};
         this.visible = true;
         this.confirmFn = cb;
     }

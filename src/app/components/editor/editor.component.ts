@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, IEditorTool } from './base';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, IEditorTool, IPoint } from './base';
 import { EditorContainer } from './container';
 import { IEditor, IEditorBlock, IEditorModal, IEditorSharedModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
@@ -140,14 +140,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
         };
     }
 
-    public tapTool(item: IEditorTool, isRight = false) {
+    public tapTool(item: IEditorTool, isRight: boolean, event: MouseEvent) {
         this.container.focus();
         if (item.name === this.subParent) {
             this.subItems = [];
         } else {
             const next = this.container.option.toolChildren(item.name);
             if (next.length === 0) {
-                this.executeModule(item);
+                this.executeModule(item, this.getOffsetPosition(event));
                 return;
             }
             this.subItems = next;
@@ -156,7 +156,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
         this.subIsRight = isRight;
     }
 
-    public tapFlowTool(item: IEditorTool) {
+    public tapFlowTool(item: IEditorTool, event: MouseEvent) {
         this.container.focus();
         if (item.name === EDITOR_CLOSE_TOOL) {
             this.flowItems = this.flowOldItems;
@@ -170,14 +170,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             return;
         }
         this.flowItems = [];
-        this.executeModule(item);
+        this.executeModule(item, this.getOffsetPosition(event));
     }
 
     public insert(block: IEditorBlock|string): void {
         this.container.insert(block);
     }
 
-    private executeModule(item: IEditorTool) {
+    private executeModule(item: IEditorTool, position: IPoint) {
         if (this.modalRef) {
             this.modalRef.destroy();
             this.modalRef = undefined;
@@ -214,8 +214,18 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             this.modalRef.destroy();
             this.modalRef = undefined;
             this.container.execute(module, undefined, res);
-        });
+        }, position);
     }
+
+    private getOffsetPosition(event: MouseEvent): IPoint {
+        const ele = this.editorViewRef.nativeElement;
+        const rect = ele.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+
     writeValue(obj: any): void {
         this.container.value = obj;
     }
