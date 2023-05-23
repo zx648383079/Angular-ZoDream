@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { IWeChatAccount, IWeChatUser, IWeChatMedia, IWeChatMenuItem, IWeChatQr, IWeChatReply, IWeChatReplyTemplate, IWeChatTemplate, IWeChatTemplateCategory, IWeChatUserGroup } from '../model';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,10 @@ export class WechatService {
 
     public baseId = 0;
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+        ) { }
 
     public accountList(params: any) {
         return this.http.get<IPage<IWeChatAccount>>('wx/admin/account', {params});
@@ -60,7 +64,7 @@ export class WechatService {
     }
 
     public menuList(params: any) {
-        return this.http.get<IData<IWeChatMenuItem>>('wx/admin/menu', {params: {...params, wid: this.baseId}});
+        return this.http.get<IPage<IWeChatMenuItem>>('wx/admin/menu', {params: {...params, wid: this.baseId}});
     }
 
     public menuSave(data: any) {

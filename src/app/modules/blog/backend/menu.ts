@@ -5,6 +5,7 @@ export const BlogBackendMenu: INav[] = [
         name: '博客',
         icon: 'icon-file-text-o',
         url: './blog',
+        role: 'blog_manage',
         children: [{
                 name: '列表',
                 label: '列',

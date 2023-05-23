@@ -19,10 +19,6 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="btn-group pull-right">
-                    <a (click)="open(modal)" class="btn btn-info">创建</a>
-                    <a routerLink="template" class="btn btn-success">模板消息</a>
-                </div>
             </form>
         </div>
     
@@ -48,7 +44,6 @@
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -60,7 +55,3 @@
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
-
-<app-dialog-box #modal [title]="editData.id ? '编辑回复' : '新增回复'">
-    <app-edit-reply [(value)]="editData"></app-edit-reply>
-</app-dialog-box>

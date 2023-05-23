@@ -5,6 +5,7 @@ export const DocumentBackendMenu: INav[] = [
         name: '文档管理',
         icon: 'icon-file-text-o',
         url: './doc',
+        role: 'doc_admin',
         children: [
             {
                 name: '文档列表',

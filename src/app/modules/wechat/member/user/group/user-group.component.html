@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>用户分组标签</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a (click)="tapEdit(modal)" class="btn btn-info">新增</a>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs" routerLink="../" [queryParams]="{group: item.id}">查看</a>
+                            <a class="btn btn-light btn-xs" (click)="tapEdit(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新增分组'" [scrollable]="false">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">名称</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

@@ -8,6 +8,7 @@ import { ShortLinkMemberMenu } from '../../modules/short-link/member/menu';
 import { NoteMemberMenu } from '../../modules/note/member/menu';
 import { MicroMemberMenu } from '../../modules/micro/member/menu';
 import { ForumMemberMenu } from '../../modules/forum/member/menu';
+import { WxMemberMenu } from '../../modules/wechat/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -44,6 +45,7 @@ export class MenuService {
         micro: MicroMemberMenu,
         note: NoteMemberMenu,
         short: ShortLinkMemberMenu,
+        wx: WxMemberMenu,
         1: [
             {
                 name: $localize `Thirdparty App`,
@@ -125,6 +127,9 @@ export class MenuService {
 
     private combine(base: string, path: string): string {
         if (!path || !base) {
+            return path;
+        }
+        if (path.startsWith('/')) {
             return path;
         }
         if (path.startsWith('./')) {

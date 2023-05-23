@@ -6,6 +6,7 @@ export const DiskBackendMenu: MenuReadyFn = function() {
             name: '网盘管理',
             url: this.renderUrl(''),
             icon: 'icon-cloud',
+            role: 'disk_manage',
             children: [
                 {
                     name: '文件列表',

@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>带参二维码素材</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-info" (click)="open(modal)">创建</a>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标识</th>
+                    <th>类型</th>
+                    <th>场景值</th>
+                    <th>二维码图片</th>
+                    <th>失效时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.type > 0 ? '永久' : '临时' }}</td>
+                    <td>{{ item.scene_id || item.scene_str }}</td>
+                    <td>
+                        <ng-container *ngIf="item.qr_url">
+                            <a [href]="item.qr_url" target="_blank">
+                                <img [src]="item.qr_url" width="80">
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="!item.url">
+                            [未生成]
+                        </ng-container>
+                    </td>
+                    <td>{{ item.expire_time }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="'新增二维码'">
+    <div class="form-table">
+        <div class="input-group">
+            <label for="">标记</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.name">
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">二维码类型</label>
+            <div>
+                <app-switch [(ngModel)]="editData.type" offLabel="临时" onLabel="永久"></app-switch>
+                <div class="input-tip">
+                    注意永久二维码上限10万个
+                </div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="">场景值类型</label>
+            <div>
+                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type"></app-check-input>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="editData.scene_type < 1">
+            <label for="">场景值</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="editData.scene_str">
+            </div>
+        </div>
+        <div class="input-group" *ngIf="editData.scene_type == 1">
+            <label for="">场景值</label>
+            <div>
+                <input type="number" class="form-control" [(ngModel)]="editData.scene_id">
+                <div class="input-tip" *ngIf="editData.type">
+                    区间为1~100000
+                </div>
+            </div>
+        </div>
+        <div class="input-group" *ngIf="!editData.type">
+            <label for="">有效期</label>
+            <div>
+                <input type="number" class="form-control" [(ngModel)]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">
+                <div class="input-tip">
+                    最大30天，当前设置：{{editData.expire_time/(24*3600)}}天
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

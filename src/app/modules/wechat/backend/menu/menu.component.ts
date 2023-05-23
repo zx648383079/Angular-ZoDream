@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
-import { eachObject } from '../../../../theme/utils';
 import { IWeChatMenuItem } from '../../model';
 import { WechatService } from '../wechat.service';
+import { IPageQueries } from '../../../../theme/models/page';
+import { SearchService } from '../../../../theme/services';
 
 @Component({
   selector: 'app-menu',
@@ -13,112 +13,82 @@ import { WechatService } from '../wechat.service';
 })
 export class MenuComponent implements OnInit {
 
-    public menuItems: IWeChatMenuItem[] = [];
-    public editData: any;
-    public editorData: any;
+    public items: IWeChatMenuItem[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public selected = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
 
     constructor(
         private service: WechatService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private searchService: SearchService,
     ) {}
 
     ngOnInit() {
-        this.service.menuList({}).subscribe(res => {
-            this.menuItems = res.data;
+        this.route.queryParams.subscribe(params => {
+            this.queries = this.searchService.getQueries(params, this.queries);
+            this.tapPage();
         });
     }
 
-    public tapAddMenu(parent?: any) {
-        const items = parent ? parent.children : this.menuItems;
-        const newItem: any = {
-            name: '新菜单项' + items.length
-        };
-        if (parent) {
-            items.push(newItem);
-        } else {
-            newItem.chilren = [];
-            items.push(newItem);
-        }
-        this.editData = newItem;
-        this.editorData = {};
+    
+    public tapRefresh() {
+        this.goPage(1);
     }
 
-    public tapEditMenu(item: any) {
-        this.editData = item;
-        this.editorData = {...item};
+    public tapPage() {
+        this.goPage(this.queries.page);
     }
 
-    public onEditorChange() {
-        eachObject(this.editorData, (v, k) => {
-            this.editData[k] = v;
-        });
-        if (!this.editData.children && this.editData.type == 99) {
-            this.editData.children = [];
-        }
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
     }
 
-    public tapClear() {
-        this.menuItems = [];
-        this.editData = undefined;
-    }
-
-    public tapRemoveItem() {
-        if (!this.editData) {
+    public goPage(page: number) {
+        if (this.isLoading) {
             return;
         }
-        this.toastrService.confirm('确定删除此菜单项？', () => {
-            for (let i = 0; i < this.menuItems.length; i++) {
-                const element = this.menuItems[i];
-                if (element === this.editData) {
-                    this.menuItems.splice(i, 1);
-                    this.editData = null;
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.menuList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = this.searchService.getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapRemove(item: any) {
+        this.toastrService.confirm('确定删除“' + item.name + '”历史记录？', () => {
+            this.service.menuRemove(item.id).subscribe(res => {
+                if (!res.data) {
                     return;
                 }
-                if (!element.children) {
-                    continue;
-                }
-                for (let j = 0; j < element.children.length; j++) {
-                    const it = element.children[j];
-                    if (it === this.editData) {
-                        element.children.splice(i, 1);
-                        this.editData = null;
-                        return;
-                    }
-                }
-            }
-        });
-    }
-
-    public tapSubmit(e?: ButtonEvent) {
-        e?.enter();
-        this.service.menuBatchSave(this.menuItems).subscribe({
-            next: res => {
-                this.menuItems = res.data;
-                e?.reset();
-                this.toastrService.success($localize `Save Successfully`);
-            },
-            error: err => {
-                e?.reset();
-                this.toastrService.error(err);
-            }
-        });
-    }
-
-    public tapAsync(e?: ButtonEvent) {
-        this.toastrService.confirm('请先保存菜单，继续发布？', () => {
-            e?.enter();
-            this.service.menuAsync().subscribe({
-                next: _ => {
-                    e?.reset();
-                    this.toastrService.success('发布成功');
-                },
-                error: err => {
-                    e?.reset();
-                    this.toastrService.error(err);
-                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
+
 
 }

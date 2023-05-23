@@ -102,6 +102,10 @@ export class HomeComponent {
             url: '/catering'
         },
         {
+            name: $localize `Game Maker`,
+            url: '/game'
+        },
+        {
             name: $localize `Visual`,
             url: '/visual'
         },

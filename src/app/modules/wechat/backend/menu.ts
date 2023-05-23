@@ -1,7 +1,8 @@
 import { MenuReadyFn } from '../../../backend/menu.service';
 
 export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
-    const items = account ? [
+    const items = // account ? 
+    [
         {
             name: '消息列表',
             label: '消',
@@ -37,12 +38,13 @@ export const WechatBackendMenu: MenuReadyFn = function(_, account: number) {
             label: '记',
             url: this.renderUrl('log'),
         },
-    ] : [];
+    ] ;//: [];
     return [
         {
             name: '公众号管理',
             url: this.renderUrl(''),
             icon: 'icon-wechat',
+            role: 'wechat_manage',
             children: [
                 {
                     name: '账号列表',

@@ -1,0 +1,30 @@
+<div class="form-table">
+    <div class="input-group">
+        <label for="title">素材标题</label>
+        <div>
+            <input type="text" id="title" class="form-control" [(ngModel)]="value.title" (ngModelChange)="onValueChange()">
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="type">类型</label>
+        <div>
+            <select id="type" [(ngModel)]="value.type" (ngModelChange)="onValueChange()" class="form-control">
+                <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="material_type">素材类别</label>
+        <div>
+            <select id="material_type" [(ngModel)]="value.material_type" (ngModelChange)="onValueChange()" class="form-control">
+                <option *ngFor="let item of materialTypeItems;let i = index" [value]="i">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="content">文件</label>
+        <div>
+            <app-file-input [accept]="fileFilter" [(ngModel)]="value.content" (ngModelChange)="onValueChange()" (fileUploaded)="onFileUpload($event)"></app-file-input>
+        </div>
+    </div>
+</div>

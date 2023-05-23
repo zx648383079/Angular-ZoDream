@@ -49,6 +49,12 @@ const routes: Routes = [
     { path: 'app', loadChildren: () => import('./modules/app-store/app-store.module').then(m => m.AppStoreModule) },
     { path: 'res', loadChildren: () => import('./modules/resource-store/resource-store.module').then(m => m.ResourceStoreModule) },
     { path: 'tv', loadChildren: () => import('./modules/tv/tv.module').then(m => m.TvModule) },
+    { 
+        path: 'game/maker',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./modules/game/maker/game-maker.module').then(m => m.GameMakerModule) 
+    },
+    { path: 'game', loadChildren: () => import('./modules/game/game.module').then(m => m.GameModule) },
     {
         path: 'finance',
         canActivate: [CanActivateViaAuthGuard],

@@ -1,0 +1,25 @@
+<div class="editor-box">
+    <div class="editor-template-box">
+        <ul class="template-menu">
+            <ng-container *ngFor="let item of typeItems">
+                <li [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">
+                    {{ item.name }}
+                </li>
+            </ng-container>
+        </ul>
+        <app-pull-to-refresh class="template-box" [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore">
+            <ul class="templdate-list">
+                <ng-container *ngFor="let item of templateItems">
+                    <li [title]="item.name" class="rich_media_content" (click)="tapInsert(item)">
+                        <div [innerHTML]="item.html">
+
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+        </app-pull-to-refresh>
+    </div>
+    <div class="editor">
+        <app-zre-editor [height]="560" [(ngModel)]="value" (ngModelChange)="onValueChange()"></app-zre-editor>
+    </div>
+</div>

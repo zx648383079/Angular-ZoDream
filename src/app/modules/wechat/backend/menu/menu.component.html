@@ -5,65 +5,43 @@
         </ul>
     </app-page-tip>
 
-    <div class="row">
-        <div class="col-md-5">
-            <div class="mobile-container">
-                <div class="mobile-header">
-                    微信模拟器
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
-                <div class="menu-bar">
-                    <ul>
-                        <li class="menu-item" *ngFor="let item of menuItems">
-                            <div class="menu-title" (click)="tapEditMenu(item)">
-                                {{ item.name }}
-                            </div>
-                            <div class="menu-sub-bar" *ngIf="item.children">
-                                <ul>
-                                    <li class="menu-item" *ngFor="let it of item.children" (click)="tapEditMenu(it)">
-                                        {{ it.name }}
-                                    </li>
-                                    <li class="menu-item" *ngIf="item.children.length < 5" (click)="tapAddMenu(item)">
-                                        <i class="iconfont icon-plus"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="menu-item" (click)="tapAddMenu()" *ngIf="menuItems.length < 3">
-                            <i class="iconfont icon-plus"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
         </div>
-        <div class="col-md-7" *ngIf="editData">
-            <div class="panel">
-                <div class="panel-header">
-                    <span>{{ editData.name || '--' }}</span>
-                    <div class="pull-right">
-                        <i class="iconfont icon-trash" (click)="tapRemoveItem()"></i>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="form-table">
-                        <div class="input-group">
-                            <label for="">菜单名称</label>
-                            <div>
-                                <input type="text" class="form-control" [(ngModel)]="editData.name">
-                                <div class="input-tip">字数不超过八个汉字</div>
-                            </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.content || '--' }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
-                        <app-message-editor [source]="1" [(value)]="editorData" (valueChange)="onEditorChange()" other="父菜单"></app-message-editor>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-center">
-            <div class="btn-group">
-                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">保存</app-action-button>
-                <app-action-button class="btn btn-success" (tapped)="tapAsync($event)">发布</app-action-button>
-                <a class="btn btn-danger" (click)="tapClear()">清空</a>
-            </div>
-        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>

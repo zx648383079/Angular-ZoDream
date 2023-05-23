@@ -55,25 +55,6 @@ export class ReplyComponent implements OnInit {
         return mapFormat(val, EditorTypeItems);
     }
 
-    public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? {...item} : {event: this.queries.event, type: 0};
-        modal.open(() => {
-            this.service.replySave(this.editData).subscribe({
-                next: _ => {
-                    if (item) {
-                        this.tapPage();
-                    } else {
-                        this.tapRefresh();
-                    }
-                    this.toastrService.success($localize `Save Successfully`);
-                },
-                error: err => {
-                    this.toastrService.error(err);
-                }
-            });
-        });
-    }
-
     public onStatusChange(item: IWeChatReply) {
         this.service.replyUpdate(item.id, {
             status: item.status

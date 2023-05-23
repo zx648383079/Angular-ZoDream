@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>公众号请求消息历史记录</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>消息类型</th>
+                    <th>发送方</th>
+                    <th>接收方</th>
+                    <th>发送时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ formatType(item.type) }}</td>
+                    <td>{{ item.from_user?.nickname || '--' }}</td>
+                    <td>{{ item.to_user?.nickname || '--' }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-info btn-xs"
+                                    (click)="open(modal, item)">查看</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [footerVisible]="false" [title]="'记录详情(' + editData.id + ')'">
+    <div class="line-row-item">
+        <span class="item-label">发送者：</span>
+        <span class="item-body">{{ editData.from }}
+            <ng-container *ngIf="editData.from_user">
+                ({{ editData.from_user.note_name || editData.from_user.nickname }})
+            </ng-container>
+        </span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">接收者：</span>
+        <span class="item-body">{{ editData.to }}
+            <ng-container *ngIf="editData.to_user">
+                ({{ editData.to_user.note_name || editData.to_user.nickname }})
+            </ng-container>
+        </span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">消息类型：</span>
+        <span class="item-body">{{ formatType(editData.type) }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">时间：</span>
+        <span class="item-body">{{ editData.created_at | ago }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">内容：</span>
+        <span class="item-body">{{ editData.content }}</span>
+    </div>
+</app-dialog-box>

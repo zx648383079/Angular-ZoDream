@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CanActivateMainId } from './wid.guard';
 import { ZreEditorModule } from '../../../components/editor';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { ZreEditorModule } from '../../../components/editor';
     declarations: [...wechatBackendRoutingComponents],
     providers: [
         WechatService,
-        CanActivateMainId,
     ]
 })
 export class WechatBackendModule { }

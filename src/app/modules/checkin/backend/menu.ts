@@ -6,6 +6,7 @@ export const CheckInBackendMenu: MenuReadyFn = function() {
             name: '签到管理',
             url: this.renderUrl(''),
             icon: 'icon-calendar',
+            role: 'checkin_manage',
             children: [
                 {
                     name: '记录查询',
