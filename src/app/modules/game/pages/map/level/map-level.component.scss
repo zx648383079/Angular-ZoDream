@@ -1,0 +1,34 @@
+.map-meta {
+    color: #767676;
+}
+
+.level-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    margin-top: .8rem;
+    .item-map {
+        width: 8rem;
+        height: 8rem;
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    .item-body {
+        flex: 1;
+        padding: 0 .8rem;
+    }
+    .item-meta {
+        color: #767676;
+    }
+    .item-action {
+        display: flex;
+        flex-direction: column;
+        padding-right: .8rem;
+    }
+    &:hover {
+        background-color: #ccc;
+    }
+}

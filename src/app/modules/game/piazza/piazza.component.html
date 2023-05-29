@@ -1,3 +1,15 @@
-<p>
-  piazza works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-4" *ngFor="let item of items">
+            <a class="game-item" [routerLink]="['play', item.id]">
+                <div class="item-logo">
+                    <img [appLazyLoad]="item.logo" [alt]="item.name">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-meta">{{ item.description }}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

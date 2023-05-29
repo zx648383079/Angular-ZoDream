@@ -1,0 +1,21 @@
+.user-item {
+    display: flex;
+    align-items: center;
+    min-height: 4rem;
+    .item-body {
+        flex: 1;
+    }
+    .item-action {
+        display: flex;
+        flex-direction: column;
+        padding-right: .8rem;
+    }
+    .item-avatar {
+        img {
+            height: 3rem;
+        }
+    }
+    &:hover {
+        background-color: #ccc;
+    }
+}

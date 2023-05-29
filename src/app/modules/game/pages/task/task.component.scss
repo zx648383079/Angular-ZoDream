@@ -1,0 +1,37 @@
+.task-item {
+    border: 1px solid #ccc;
+    .item-header {
+        display: flex;
+        line-height: 2rem;
+        padding: 0 .8rem;
+        .item-name {
+            flex: 1;
+        }
+    }
+    .item-body {
+        display: none;
+        border-top: 1px solid #ccc;
+        padding: .8rem;
+    }
+    .flex-line-item {
+        display: flex;
+        justify-content: space-between;
+    }
+    .item-action {
+        text-align: right;
+        a {
+            margin-left: .8rem;
+        }
+    }
+    &.active {
+        .item-status {
+            display: none;
+        }
+        .item-body {
+            display: block;
+        }
+    }
+    &:not(:last-of-type) {
+        margin-bottom: .8rem;
+    }
+}

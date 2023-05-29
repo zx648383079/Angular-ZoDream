@@ -1,0 +1,76 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-tab-bar">
+        <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">主页</a>
+        <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">成员</a>
+    </div>
+    <a href="" class="right-item">退出</a>
+</div>
+<div class="organize-body" *ngIf="tabIndex < 1">
+    <h2>名称</h2>
+
+    <div class="group-box">
+        <div class="group-header">【公告】</div>
+        <div class="group-body">
+            这是公告
+        </div>
+    </div>
+
+    <div class="group-box">
+        <div class="group-header">【内部频道】</div>
+        <div class="group-body">
+            <ul class="mini-message">
+                <li>[09:01:00]test: 这里没有什么东西</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="menu-bar">
+        <a href="">商店</a>
+        <a href="">副本</a>
+        <a href="">地图</a>
+    </div>    
+</div>
+<div class="users-body" *ngIf="tabIndex == 1">
+    <div class="user-item">
+        <div class="item-avatar">
+            <img [src]="'assets/images/wap_logo.png' | asset" alt="">
+        </div>
+        <div class="item-body">
+            <div class="item-name">[帮主]test(57级)</div>
+            <div class="item-meta">就是</div>
+        </div>
+        <div class="item-action">
+            <a (click)="modalVisible = true">查看</a>
+            <a href="">踢出</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="user-dialog" *ngIf="modalVisible">
+    <div class="item-avatar">
+        <img [src]="'assets/images/wap_logo.png' | asset" alt="">
+    </div>
+    <div class="item-body">
+        <h4 class="item-name">
+            食物名称(57级)
+        </h4>
+        <div class="item-meta">
+            这是一把武器
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary">取消</div>
+        <div class="btn btn-primary">加好友</div>
+        <div class="btn btn-info">移交帮主</div>
+        <div class="btn btn-success">设为副帮主</div>
+        <div class="btn btn-light">解除职务</div>
+        <div class="btn btn-danger">剔除</div>
+    </div>
+</div>
+

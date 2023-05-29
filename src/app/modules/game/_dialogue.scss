@@ -1,0 +1,160 @@
+.option-item,
+.option-character-item {
+    padding: .8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    user-select: none;
+    &:hover {
+        background-color: #ccc;
+    }
+    &:not(:last-of-type) {
+        margin-bottom: .8rem;
+    }
+}
+.option-character-item {
+    .item-avatar {
+        margin: -.8rem;
+        img {
+            height: 3rem;
+        }
+    }
+}
+
+.select-dialog,
+.message-dialog,
+.cart-dialog,
+.rule-dialog,
+.user-dialog {
+    position: fixed;
+    z-index: 201;
+    background-color: #f4f4f4;
+    box-shadow: rgba(51,51,51,.7) 0 0 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.select-dialog {
+    overflow-y: auto;
+    max-height: 40vh;
+    padding: .8rem 0;
+}
+
+
+.message-dialog {
+    min-height: 40vh;
+    .dialog-header {
+        line-height: 2rem;
+        .user-avatar {
+            position: absolute;
+            top: -4rem;
+            height: 6rem;
+            width: 6rem;
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        .user-name {
+            margin-left: 6rem;
+            user-select: none;
+            font-weight: bold;
+        }
+    }
+    .dialog-line {
+        height: .2rem;
+        background: linear-gradient(to right, #666 62%, #f4f4f4);
+    }
+    .dialog-body {
+        padding: .4rem .8rem 3rem;
+    }
+    .dialog-footer {
+        position: absolute;
+        bottom: 0;
+        right: 2rem;
+        font-size: 2rem;
+        user-select: none;
+        animation: .5s linear 0s infinite alternate blinkingAnimate;
+    }
+    &.message-flex-right {
+        .dialog-header {
+            text-align: right;
+            .user-avatar {
+                right: 0;
+            }
+            .user-name {
+                margin-right: 6rem;
+                margin-left: 0;
+            }
+        }
+        .dialog-line {
+            background: linear-gradient(to left, #666 62%, #f4f4f4);
+        }
+        .dialog-body {
+            text-align: right;
+        }
+        .dialog-footer {
+            left: 2rem;
+            right: inherit;
+        }
+    }
+}
+
+.rule-dialog {
+    .dialog-header {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        position: relative;
+    }
+    .dialog-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 2rem;
+        &:hover {
+            background-color: #f4f4f4;
+        }
+    }
+    .dialog-body {
+        height: 40vh;
+        overflow-y: auto;
+    }
+}
+
+@keyframes blinkingAnimate {
+    from {
+        color: #666;
+        opacity: 1;
+    }
+    to {
+        color: #f4f4f4;
+        opacity: .1;
+    }
+}
+
+@media screen and (min-width: 48rem) {
+    .select-dialog,
+    .cart-dialog,
+    .rule-dialog,
+    .user-dialog {
+        padding: .8rem;
+        bottom: 50%;
+        margin-bottom: -20vh;
+        width: 20rem;
+        left: 50%;
+        right: inherit;
+        margin-left: -10rem;
+    }
+    .rule-dialog {
+        padding: 0;
+        .dialog-body {
+            padding: .8rem;
+        }
+    }
+}

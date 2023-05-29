@@ -1,0 +1,23 @@
+<div class="dialog-mask" *ngIf="visible"></div>
+<div class="select-dialog" *ngIf="visible">
+    <a class="option-item">没有</a>
+    <a class="option-item">没有</a>
+    <a class="option-item">没有</a>
+    <a class="option-item">不是啊，这只是一个见到那的的看见你看的那大叔看到你傻</a>
+</div>
+
+<div class="message-dialog message-flex-right" *ngIf="visible">
+    <div class="dialog-header">
+        <div class="user-avatar">
+            <img [src]="'assets/images/logo.png' | asset" alt="">
+        </div>
+        <div class="user-name">zodream</div>
+    </div>
+    <div class="dialog-line"></div>
+    <div class="dialog-body">
+        哈哈。。。
+    </div>
+    <div class="dialog-footer">
+        <i class="iconfont icon-chevron-down"></i>
+    </div>
+</div>

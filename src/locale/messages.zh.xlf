@@ -739,19 +739,31 @@
                     <context context-type="linenumber">70</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/menu/menu.component.ts</context>
-                    <context context-type="linenumber">99</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/member/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">86</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/reply/reply.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
+                    <context context-type="linenumber">74</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/media/news/edit-news.component.ts</context>
+                    <context context-type="linenumber">70</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/menu/menu.component.ts</context>
+                    <context context-type="linenumber">100</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/reply.component.ts</context>
                     <context context-type="linenumber">68</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/reply/template/reply-template.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/template/reply-template.component.ts</context>
                     <context context-type="linenumber">78</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/user/group/user-group.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/member/user/group/user-group.component.ts</context>
                     <context context-type="linenumber">49</context>
                 </context-group>
             </trans-unit>
@@ -1383,16 +1395,16 @@
                     <context context-type="linenumber">169</context>
                 </context-group>
                 <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/backend/menu/menu.component.ts</context>
+                    <context context-type="linenumber">85</context>
+                </context-group>
+                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/backend/qrcode/qrcode.component.ts</context>
                     <context context-type="linenumber">103</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/backend/reply/reply.component.ts</context>
-                    <context context-type="linenumber">138</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/reply/template/reply-template.component.ts</context>
-                    <context context-type="linenumber">93</context>
+                    <context context-type="linenumber">119</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/backend/template/category/template-category.component.ts</context>
@@ -1403,11 +1415,39 @@
                     <context context-type="linenumber">133</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/user/group/user-group.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/backend/user/user.component.ts</context>
+                    <context context-type="linenumber">145</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/account/account.component.ts</context>
+                    <context context-type="linenumber">128</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/log/log.component.ts</context>
+                    <context context-type="linenumber">96</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
+                    <context context-type="linenumber">169</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/qrcode/qrcode.component.ts</context>
+                    <context context-type="linenumber">103</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/reply.component.ts</context>
+                    <context context-type="linenumber">138</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/template/reply-template.component.ts</context>
+                    <context context-type="linenumber">93</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/user/group/user-group.component.ts</context>
                     <context context-type="linenumber">102</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/user/user.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/wechat/member/user/user.component.ts</context>
                     <context context-type="linenumber">145</context>
                 </context-group>
             </trans-unit>
@@ -1650,6 +1690,10 @@
                     <context context-type="sourcefile">src/app/modules/wechat/backend/account/edit/edit-account.component.ts</context>
                     <context context-type="linenumber">77</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">77</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="917279933466788254" datatype="html">
                 <source>No item selected!</source>
@@ -1796,7 +1840,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
-                    <context context-type="linenumber">118</context>
+                    <context context-type="linenumber">122</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/app-store/category/category.component.html</context>
@@ -1948,7 +1992,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">64</context>
+                    <context context-type="linenumber">66</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/book.component.ts</context>
@@ -3539,7 +3583,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
-                    <context context-type="linenumber">124</context>
+                    <context context-type="linenumber">128</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8978799025971782653" datatype="html">
@@ -3734,12 +3778,24 @@
                     <context context-type="linenumber">101</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="6260485193793973808" datatype="html">
+                <source>Game Maker</source>
+                <target>游戏制作</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
+                    <context context-type="linenumber">105</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/game/maker/game-maker.component.ts</context>
+                    <context context-type="linenumber">21</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="176866205929748954" datatype="html">
                 <source>Visual</source>
                 <target>可视化编辑</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
-                    <context context-type="linenumber">105</context>
+                    <context context-type="linenumber">109</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2817298652609969299" datatype="html">
@@ -3747,7 +3803,7 @@
                 <target>公众号管理</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
-                    <context context-type="linenumber">109</context>
+                    <context context-type="linenumber">113</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/wechat.component.ts</context>
@@ -3759,7 +3815,7 @@
                 <target>生成器</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
-                    <context context-type="linenumber">121</context>
+                    <context context-type="linenumber">125</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/generator/generator.component.ts</context>
@@ -3951,7 +4007,7 @@
                 <target>总览</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">29</context>
+                    <context context-type="linenumber">30</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7738629986733957090" datatype="html">
@@ -3959,7 +4015,7 @@
                 <target>通知</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">34</context>
+                    <context context-type="linenumber">35</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7284634936418122230" datatype="html">
@@ -3967,7 +4023,7 @@
                 <target>第三方应用</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">49</context>
+                    <context context-type="linenumber">51</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5374134830295606365" datatype="html">
@@ -3975,7 +4031,7 @@
                 <target>账户绑定</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">54</context>
+                    <context context-type="linenumber">56</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8307265553023072178" datatype="html">
@@ -3983,7 +4039,7 @@
                 <target>登录设备</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
-                    <context context-type="linenumber">59</context>
+                    <context context-type="linenumber">61</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6499957234846100629" datatype="html">
@@ -7489,6 +7545,10 @@
                     <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
                     <context context-type="linenumber">184</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
+                    <context context-type="linenumber">184</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="3462619539465434942" datatype="html">
                 <source>Copy failed</source>
@@ -7503,6 +7563,10 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
+                    <context context-type="linenumber">187</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
                     <context context-type="linenumber">187</context>
                 </context-group>
             </trans-unit>
@@ -8340,6 +8404,14 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.ts</context>
                     <context context-type="linenumber">361</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="950786129941454354" datatype="html">
+                <source>Piazza of Games</source>
+                <target>游戏广场</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/game/piazza/piazza.component.ts</context>
+                    <context context-type="linenumber">19</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5971478877874085770" datatype="html">
@@ -10852,6 +10924,14 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
                     <context context-type="linenumber">119</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="2962526783410692326" datatype="html">
+                <source>WeChat Manage</source>
+                <target>公众号管理</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/wechat/member/menu.ts</context>
+                    <context context-type="linenumber">5</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4898606203108058039" datatype="html">

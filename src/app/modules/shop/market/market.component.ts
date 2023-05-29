@@ -40,10 +40,15 @@ export class MarketComponent implements OnInit {
             category: {},
             hot_keywords: {},
             notice: {},
-        }).subscribe(res => {
-            this.store.dispatch(setCart({cart: res.cart}));
-            this.categories = res.category;
-            this.hotItems = res.hot_keywords;
+        }).subscribe({
+            next: res => {
+                this.store.dispatch(setCart({cart: res.cart}));
+                this.categories = res.category;
+                this.hotItems = res.hot_keywords;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

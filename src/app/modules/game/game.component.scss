@@ -1,0 +1,28 @@
+.game-screen {
+    .screen-banner {
+        img {
+            width: 100%;
+        }
+    }
+    .screen-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: .8rem 0;
+    }
+    .screen-meta {
+        min-height: 6rem;
+        margin-bottom: 2rem;
+    }
+}
+
+.game-container ::ng-deep {
+    @import 'dialogue';
+    @import 'bag';
+    a:not([href]):not([class]) {
+        color: var(--bs-link-color);
+        cursor: pointer;
+        &:hover {
+            color: var(--bs-link-hover-color);
+        }
+    }
+}

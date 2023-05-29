@@ -1,0 +1,58 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        商店
+    </div>
+</div>
+<div class="tab-bar">
+    <a href="" class="item active">装备</a>
+    <a href="" class="item">药品</a>
+    <a href="" class="item">宝石</a>
+</div>
+<div class="bag-item" *ngFor="let item of items">
+    <div class="item-body">
+        <span>[蓝]</span>
+        <a href="" class="item-name">刀</a>
+        <span class="item-sub">+5</span>
+    </div>
+    <span class="item-amount">x5</span>
+    <div class="item-action">
+        <a (click)="modalVisible = true">购买</a>
+    </div>
+</div>
+<app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="cart-dialog" *ngIf="modalVisible">
+    <div class="item-thumb">
+        <img [src]="'assets/images/wap_logo.png' | asset" alt="">
+    </div>
+    <div class="item-body">
+        <h4 class="item-name">
+            食物名称
+        </h4>
+        <div class="item-meta">
+            这是一把武器
+        </div>
+        <div class="item-flex-group">
+            <div class="group-header">数量</div>
+            <div class="group-body">
+                <app-number-input></app-number-input>
+            </div>
+        </div>
+    </div>
+    <div class="item-subtotal">
+        <div class="group-header">合计</div>
+        <div class="group-body">
+            <div class="item-price">
+                <em>￥</em>0.01
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary">取消</div>
+        <div class="btn btn-primary">购买</div>
+    </div>
+</div>

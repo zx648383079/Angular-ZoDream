@@ -1,0 +1,31 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        抽卡
+    </div>
+    <a class="right-item" (click)="modalVisible = true">
+        规则
+    </a>
+</div>
+<div class="action-group">
+    <div class="btn-group">
+        <a href="" class="btn btn-primary">单抽</a>
+        <a href="" class="btn btn-success">十连抽</a>
+    </div>
+</div>
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="rule-dialog" *ngIf="modalVisible">
+    <div class="dialog-header">
+        <span>规则</span>
+        <div class="dialog-close">
+            <i class="iconfont icon-close" (click)="modalVisible = false"></i>
+        </div>
+    </div>
+    <div class="dialog-body">
+        <p>1. 单抽</p>
+        <p>2. 十连抽</p>
+    </div>
+</div>

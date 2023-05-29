@@ -1,0 +1,27 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        背包
+    </div>
+</div>
+<div class="tab-bar">
+    <a href="" class="item active">装备</a>
+    <a href="" class="item">药品</a>
+    <a href="" class="item">宝石</a>
+</div>
+<div class="bag-item" *ngFor="let item of items">
+    <div class="item-body">
+        <span>[蓝]</span>
+        <a href="" class="item-name">刀</a>
+        <span class="item-sub">+5</span>
+    </div>
+    <span class="item-amount">x5</span>
+    <div class="item-action">
+        <a href="">使用</a>
+        <a href="">装备</a>
+        <a href="">丢弃</a>
+    </div>
+</div>
+<app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
