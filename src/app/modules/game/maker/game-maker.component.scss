@@ -1,20 +1,3 @@
-.project-item {
-    
-}
-
-.add-project-item {
-    border: 0.25rem dashed #ccc;
-    border-radius: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 10rem;
-    user-select: none;
-    color: #ccc;
-    cursor: pointer;
-    .iconfont {
-        display: block;
-        font-size: 4rem;
-    }
+.maker-container ::ng-deep {
+    @import '../../../theme/styles/admin';
 }

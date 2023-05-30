@@ -1,0 +1,98 @@
+.dialogue-editor {
+    position: relative;
+    height: 100vh;
+    overflow: auto;
+}
+
+.input-bar,
+.output-bar {
+    position: absolute;
+    background-color: #fff;
+    padding: .4rem;
+    min-width: 10rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    user-select: none;
+}
+
+.output-bar {
+    bottom: 0;
+}
+
+.dialogue-panel {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    position: absolute;
+    width: 20rem;
+    .panel-user {
+        border-bottom: 1px dotted #ccc;
+        line-height: 3rem;
+        user-select: none;
+        img {
+            width: 3rem;
+            height: 3rem;
+            margin-right: .4rem;
+        }
+    }
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        padding: .4rem .8rem;
+        user-select: none;
+        padding: 0 .8rem;
+    }
+    .child-item {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ccc;
+        line-height: 2rem;
+        padding: 0 .8rem;
+        user-select: none;
+    }
+    .item-output {
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 50%;
+        width: .8rem;
+        height: .8rem;
+        margin-right: -.4rem;
+        margin-top: -.4rem;
+        border-radius: 50%;
+        background-color: green;
+        z-index: 9;
+    }
+    .add-child-item {
+        border-top: 1px solid #ccc;
+        line-height: 2rem;
+        text-align: center;
+        &:hover {
+            background-color: #ccc;
+        }
+    }
+    .panel-output {
+        span {
+            display: block;
+            position: absolute;
+            width: .8rem;
+            height: .8rem;
+            margin-top: -.4rem;
+            margin-left: -.4rem;
+            border-radius: 50%;
+            background-color: green;
+            z-index: 9;
+            &:first-of-type {
+                left: 50%;
+                top: 0;
+            }
+            &:nth-of-type(2) {
+                left: 50%;
+                top: 100%;
+            }
+            &.active {
+                background-color: red;
+            }
+        }
+    }
+}

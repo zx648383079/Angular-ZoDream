@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INav } from '../../theme/components';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.scss']
 })
-export class BookComponent implements OnInit {
+export class BookComponent implements OnDestroy {
 
     public navItems: INav[] = [
         {
@@ -52,19 +53,23 @@ export class BookComponent implements OnInit {
             url: '/',
         }
     ];
+    private subItems: Subscription[] = [];
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
         this.themeService.setTitle($localize `Book`);
-        this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }
             this.bottomNavs[0].name = user.name;
-        });
+        }));
     }
 
-    ngOnInit(): void {
+    ngOnDestroy(): void {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 }

@@ -14,7 +14,7 @@ import { DialogModule } from '../../../components/dialog';
         DialogModule,
         GameMakerRoutingModule
     ],
-    declarations: [...gameMakerRoutedComponents],
+    declarations: [	...gameMakerRoutedComponents],
     providers: [
         GameMakerService
     ]

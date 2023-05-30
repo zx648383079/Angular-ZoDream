@@ -1,54 +1,5 @@
-.<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 col-lg-4" *ngFor="let item of items">
-            <div class="project-item">
-                <div class="item-logo">
-                    <img [appLazyLoad]="item.logo" [alt]="item.name">
-                </div>
-                <div class="item-body">
-                    <div class="item-action">
-                        <app-switch></app-switch>
-                    </div>
-                    <div class="item-name">{{ item.name }}</div>
-                    <div class="item-meta">{{ item.name }}</div>
-                    <div class="item-action">
-                        <div class="btn-group">
-                            <a class="btn btn-primary" (click)="open(modal, item)">
-                                <i class="iconfont icon-edit"></i>
-                            </a>
-                            <a class="btn btn-danger">
-                                <i class="iconfont icon-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <a class="add-project-item" (click)="open(modal)">
-                <i class="iconfont icon-plus"></i>
-            </a>
-        </div>
+<app-nav-bar [menu]="navItems" [bottomMenu]="bottomNavs" [hasSuggest]="true">
+    <div class="maker-container">
+        <router-outlet></router-outlet>
     </div>
-</div>
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
-    <div class="form-group">
-        <label for="name-input">游戏名</label>
-        <div class="input-group">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入标题">
-        </div>
-    </div>
-    <div class="form-group">
-        <label>图标</label>
-        <div class="input-group">
-            <app-file-input [(ngModel)]="editData.logo" [online]="true"></app-file-input>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>说明</label>
-        <div class="input-group">
-            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
-        </div>
-    </div>
-</app-dialog-box>
+</app-nav-bar>
