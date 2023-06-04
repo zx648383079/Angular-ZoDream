@@ -15,6 +15,8 @@ import { RulePrizeComponent } from './rule/prize/rule-prize.component';
 import { RuleRanchComponent } from './rule/ranch/rule-ranch.component';
 import { RuleStoreComponent } from './rule/store/rule-store.component';
 import { GameListComponent } from './list/game-list.component';
+import { MineComponent } from './mine/mine.component';
+import { FinancialComponent } from './financial/financial.component';
 
 const routes: Routes = [
     {
@@ -36,6 +38,14 @@ const routes: Routes = [
             {
                 path: 'map',
                 component: MapComponent,
+            },
+            {
+                path: 'mine',
+                component: MineComponent,
+            },
+            {
+                path: 'financial',
+                component: FinancialComponent
             },
             {
                 path: 'rule/grade',
@@ -89,5 +99,5 @@ export class GameMakerRoutingModule { }
 
 export const gameMakerRoutedComponents = [
     GameMakerComponent, HomeComponent, TaskComponent, TaskDialogueComponent, RuleGradeComponent, MapComponent, ItemComponent, IndigenousComponent,
-    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent
+    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent
 ];

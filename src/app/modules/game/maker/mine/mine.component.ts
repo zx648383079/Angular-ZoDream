@@ -3,18 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { IGameItem } from '../../model';
+import { IGameMine } from '../../model';
 import { GameMakerService } from '../game-maker.service';
-import { parseNumber } from '../../../../theme/utils';
 
 @Component({
-  selector: 'app-maker-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+  selector: 'app-mine',
+  templateUrl: './mine.component.html',
+  styleUrls: ['./mine.component.scss']
 })
-export class ItemComponent implements OnInit {
+export class MineComponent implements OnInit {
 
-    public items: IGameItem[] = [];
+    public items: IGameMine[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -22,7 +21,6 @@ export class ItemComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
-        project: 0
     };
 
     constructor(
@@ -34,9 +32,6 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
-        });
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
@@ -68,18 +63,18 @@ export class ItemComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.itemList(queries).subscribe({
-            next: res => {
-                this.isLoading = false;
-                this.items = res.data;
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
-            },
-            error: () => {
-                this.isLoading = false;
-            }
-        });
+        // this.service.forumList(queries).subscribe({
+        //     next: res => {
+        //         this.isLoading = false;
+        //         this.items = res.data;
+        //         this.hasMore = res.paging.more;
+        //         this.total = res.paging.total;
+        //         this.searchService.applyHistory(this.queries = queries);
+        //     },
+        //     error: () => {
+        //         this.isLoading = false;
+        //     }
+        // });
     }
 
     public tapSearch(form: any) {
@@ -87,8 +82,8 @@ export class ItemComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IGameItem) {
-        this.toastrService.confirm('确定删除“' + item.name + '”物品？', () => {
+    public tapRemove(item: IGameMine) {
+        this.toastrService.confirm('确定删除“' + item.name + '”土著？', () => {
             // this.service.forumRemove(item.id).subscribe(res => {
             //     if (!res.data) {
             //         return;
@@ -100,6 +95,5 @@ export class ItemComponent implements OnInit {
             // });
         });
     }
-
 
 }

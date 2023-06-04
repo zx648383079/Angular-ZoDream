@@ -24,3 +24,25 @@ export interface IGameTask {
     id: number;
     name: string;
 }
+
+export interface IGameMap {
+    id: number;
+    name: string;
+}
+
+export interface IGameMine {
+    id: number;
+    name: string;
+}
+
+export interface IGameFinancial {
+    id: number;
+    name: string;
+}
+
+export interface IGameRuleGrade {
+    id: number;
+    name: string;
+    grade: number;
+    exp: number;
+}

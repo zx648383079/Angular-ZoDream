@@ -1,0 +1,28 @@
+.range-input {
+    line-height: 2.5rem;
+}
+
+.preview-bar {
+    display: flex;
+    .item-body {
+        flex: 1;
+        background-color: #f4f4f4;
+        color: #666;
+    }
+    .tool-item {
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            background-color: #f4f4f4;
+        }
+    }
+    .item-grade,
+    .item-exp {
+        text-align: center;
+        font-size: .8rem;
+        line-height: 1.5rem;
+    }
+}

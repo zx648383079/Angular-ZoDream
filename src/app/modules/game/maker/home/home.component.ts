@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogEvent } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ThemeService } from '../../../../theme/services';
 import { IGameProject } from '../../model';
 import { GameMakerService } from '../game-maker.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-maker-home',
@@ -16,13 +17,23 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private service: GameMakerService,
+        private route: ActivatedRoute,
+        private toastrService: DialogService,
     ) { }
 
     ngOnInit() {
-        // this.service.statistics().subscribe(res => {
-        //     this.isLoading = false;
-        //     this.data = res;
-        // });
+        this.route.params.subscribe(params => {
+            this.service.projectStatistics(params.game).subscribe({
+                next: res => {
+                    this.isLoading = false;
+                    this.data = res;
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                    history.back();
+                }
+            });
+        });
     }
 
 }

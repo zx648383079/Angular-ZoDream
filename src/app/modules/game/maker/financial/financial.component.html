@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理金融产品列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                        placeholder="关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary">新增金融产品</a>
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>等级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group  btn-group-xs">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

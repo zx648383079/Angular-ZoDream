@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IGameIndigenous } from '../../model';
 import { GameMakerService } from '../game-maker.service';
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
   selector: 'app-maker-indigenous',
@@ -21,6 +22,7 @@ export class IndigenousComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
+        project: 0
     };
 
     constructor(
@@ -32,6 +34,9 @@ export class IndigenousComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.parent.params.subscribe(params => {
+            this.queries.project = parseNumber(params.game);
+        });
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
@@ -63,18 +68,18 @@ export class IndigenousComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        // this.service.forumList(queries).subscribe({
-        //     next: res => {
-        //         this.isLoading = false;
-        //         this.items = res.data;
-        //         this.hasMore = res.paging.more;
-        //         this.total = res.paging.total;
-        //         this.searchService.applyHistory(this.queries = queries);
-        //     },
-        //     error: () => {
-        //         this.isLoading = false;
-        //     }
-        // });
+        this.service.indigenousList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries, ['project']);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
     }
 
     public tapSearch(form: any) {

@@ -40,7 +40,7 @@ export class GameMakerComponent implements OnDestroy {
             url: './map'
         },
         {
-            name: $localize `task`,
+            name: $localize `Task`,
             icon: 'icon-gift',
             url: './task'
         },

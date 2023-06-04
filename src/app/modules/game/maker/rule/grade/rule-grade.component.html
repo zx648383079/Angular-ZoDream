@@ -1,3 +1,116 @@
-<p>
-  rule-grade works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理等级列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                        placeholder="关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-danger" (click)="openBatch(generateModal)">批量生成等级</a>
+                    <a class="btn btn-primary" (click)="open(modal)">新增等级</a>
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>等级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group">
+        <label for="name-input">等级</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.grade" placeholder="请输入等级">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>等级别名</label>
+        <div class="input-group">
+            <input class="form-control"[(ngModel)]="editData.name" placeholder="请输入等级别名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>上级升级所需经验</label>
+        <div class="input-group">
+            <app-number-input [(ngModel)]="editData.exp"></app-number-input>
+        </div>
+    </div>
+</app-dialog-box>
+
+<app-dialog-box #generateModal title="批量生成等级">
+    <div class="form-group">
+        <label>等级范围</label>
+        <div class="input-group range-input">
+            <app-number-input [(ngModel)]="generateData.begin"></app-number-input>-
+            <app-number-input [(ngModel)]="generateData.end"></app-number-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>初始升级所需经验</label>
+        <div class="input-group">
+            <app-number-input [(ngModel)]="generateData.begin_exp"></app-number-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>每级增加经验类型</label>
+        <div class="input-group">
+            <app-switch [(ngModel)]="generateData.step_type" onLabel="百分比" offLabel="固定值"></app-switch>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>每级增加经验({{ generateData.step_type > 0 ? '%' : '固定' }})</label>
+        <div class="input-group">
+            <app-number-input [(ngModel)]="generateData.step_exp"></app-number-input>
+        </div>
+    </div>
+    <div class="preview-bar">
+        <div class="tool-item" (click)="tapPreviewMax(true)">
+            <i class="iconfont icon-step-backward"></i>
+        </div>
+        <div class="tool-item" (click)="tapPreviewOffset(-1)">
+            <i class="iconfont icon-chevron-left"></i>
+        </div>
+        <div class="item-body">
+            <div class="item-grade">{{ generateData.preview_grade }} 级</div>
+            <div class="item-exp">所需 {{ generateData.preview_exp | numberFormat }} 经验</div>
+        </div>
+        <div class="tool-item" (click)="tapPreviewOffset(1)">
+            <i class="iconfont icon-chevron-right"></i>
+        </div>
+        <div class="tool-item" (click)="tapPreviewMax(false)">
+            <i class="iconfont icon-step-forward"></i>
+        </div>
+    </div>
+</app-dialog-box>
