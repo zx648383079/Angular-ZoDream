@@ -2,10 +2,11 @@ import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { checkRange } from '../../../../theme/utils';
 import { EditorService } from '../editor.service';
-import { IBound, IPoint, ISize, IWorkEditor, SelectionBound, Widget, IEditorAction, BatchCommand, CommandManager, RemoveWeightCommand, ResizeCommand, MENU_ACTION } from '../model';
+import { IWorkEditor, SelectionBound, Widget, IEditorAction, BatchCommand, CommandManager, RemoveWeightCommand, ResizeCommand, MENU_ACTION } from '../model';
 import { boundFromScale, filterItems, isIntersect, isMergeable, isSplitable, pointFromScale, relativePoint, scaleBound, wordRect } from '../util';
 import * as menu from '../model/menu';
 import { EditorRulePanelComponent } from '../editor-rule-panel/editor-rule-panel.component';
+import { IBound, IPoint, ISize } from '../../../../theme/canvas';
 
 @Component({
   selector: 'app-editor-work-body',

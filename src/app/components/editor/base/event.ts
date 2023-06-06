@@ -1,3 +1,4 @@
+import { IBound, IPoint } from '../../../theme/canvas';
 import { IEditorBlock } from '../model';
 
 export const EVENT_INPUT_KEYDOWN = 'input.keydown';
@@ -53,15 +54,5 @@ export const EDITOR_IMAGE_TOOL = 'image_edit';
 export const EDITOR_TABLE_TOOL = 'table_edit';
 export const EDITOR_VIDEO_TOOL = 'video_edit';
 export const EDITOR_LINK_TOOL = 'link_edit';
-
-export interface IPoint {
-    x: number;
-    y: number;
-}
-
-export interface IBound extends IPoint {
-    width: number;
-    height: number;
-}
 
 export type EditorUpdatedCallback<T = IEditorBlock> = (data: T) => void;

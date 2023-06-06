@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
-import { SearchService } from '../../../../theme/services';
-import { IGameIndigenous } from '../../model';
-import { GameMakerService } from '../game-maker.service';
-import { parseNumber } from '../../../../theme/utils';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
+import { IPageQueries } from '../../../../../theme/models/page';
+import { SearchService } from '../../../../../theme/services';
+import { parseNumber } from '../../../../../theme/utils';
+import { IGameCharacterIdentity } from '../../../model';
+import { GameMakerService } from '../../game-maker.service';
 
 @Component({
-    selector: 'app-maker-indigenous',
-    templateUrl: './indigenous.component.html',
-    styleUrls: ['./indigenous.component.scss']
+    selector: 'app-maker-character-identity',
+    templateUrl: './character-identity.component.html',
+    styleUrls: ['./character-identity.component.scss']
 })
-export class IndigenousComponent implements OnInit {
+export class CharacterIdentityComponent implements OnInit {
 
-    public items: IGameIndigenous[] = [];
+    public items: IGameCharacterIdentity[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -24,7 +24,7 @@ export class IndigenousComponent implements OnInit {
         keywords: '',
         project: 0
     };
-    public editData: IGameIndigenous = {} as any;
+    public editData: IGameCharacterIdentity = {} as any;
 
     constructor(
         private service: GameMakerService,
@@ -44,7 +44,7 @@ export class IndigenousComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogEvent, item?: IGameIndigenous) {
+    public open(modal: DialogEvent, item?: IGameCharacterIdentity) {
         this.editData = item ? {...item} : {} as any;
         modal.open(() => {
             this.service.characterIdentitySave({...this.editData, project_id: this.queries.project}).subscribe({
@@ -80,7 +80,7 @@ export class IndigenousComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.indigenousList(queries).subscribe({
+        this.service.characterIdentityList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -99,8 +99,8 @@ export class IndigenousComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IGameIndigenous) {
-        this.toastrService.confirm('确定删除“' + item.name + '”土著？', () => {
+    public tapRemove(item: IGameCharacterIdentity) {
+        this.toastrService.confirm('确定删除“' + item.name + '”职业？', () => {
             // this.service.forumRemove(item.id).subscribe(res => {
             //     if (!res.data) {
             //         return;
@@ -112,6 +112,5 @@ export class IndigenousComponent implements OnInit {
             // });
         });
     }
-
 
 }

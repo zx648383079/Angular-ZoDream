@@ -1,23 +1,12 @@
+import { IBound, IPoint } from '../../../../theme/canvas';
 import { cloneObject } from '../../../../theme/utils';
 import { TreeItem } from './tree';
-
-export interface ISize {
-    width: number;
-    height: number;
-}
-
-export interface IPoint {
-    x: number;
-    y: number;
-}
 
 export interface IRect extends IPoint {
     right: number;
     bottom: number;
 }
 
-export interface IBound extends ISize, IPoint {
-}
 
 export interface IShellBound {
     size: IBound,

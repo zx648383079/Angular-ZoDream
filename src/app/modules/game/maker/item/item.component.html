@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary">新增物品</a>
+                    <a class="btn btn-primary" (click)="open(modal)">新增物品</a>
                 </div>
             </form>
         </div>
@@ -34,7 +34,8 @@
                     <td>{{ item.name }}</td>
                     <td></td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -45,3 +46,38 @@
         <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group">
+        <label for="name-input">物品名</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入物品名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>图标</label>
+        <div class="input-group">
+            <app-file-input [(ngModel)]="editData.icon" [online]="true"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>说明</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>类型</label>
+        <div class="input-group">
+            <select class="form-control">
+                <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>作用</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入作用"></textarea>
+        </div>
+    </div>
+</app-dialog-box>

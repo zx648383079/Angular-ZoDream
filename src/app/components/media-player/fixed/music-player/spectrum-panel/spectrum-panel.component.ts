@@ -1,15 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { SpectrumType } from '../../model';
+import { IPoint } from '../../../../../theme/canvas';
 
 interface IHatItem {
     current: number;
     target: number;
     speed: number;
-}
-
-interface IPoint {
-    x: number;
-    y: number;
 }
 
 type RenderSpectumHatFunc = (context: CanvasRenderingContext2D, pen: string, x: number, y: number, width: number, height: number, hat: IHatItem) => void;

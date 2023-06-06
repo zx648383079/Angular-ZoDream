@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { EditorModalCallback, IEditorSharedModal } from '../../model';
-import { IEditorModule, IEditorOptionItem, IPoint } from '../../base';
+import { IEditorModule, IEditorOptionItem } from '../../base';
+import { IPoint } from '../../../../theme/canvas';
 
 
 const FontItems: IEditorOptionItem[] = [

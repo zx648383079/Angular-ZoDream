@@ -1,5 +1,5 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
-<div class="dialog-box" *ngIf="!collaspse || visible" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
+<div class="dialog-box" *ngIf="!collaspse || visible" [ngClass]="{'dialog-not-header': !title && !customHeader}" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
     <div class="dialog-header" *ngIf="title || customHeader">
         <div class="dialog-title">{{ title }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>
@@ -7,6 +7,9 @@
     </div>
     <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
         <ng-content></ng-content>
+        <div class="dialog-invail-tip" *ngIf="invalidTip">
+            {{ invalidTip }}
+        </div>
     </div>
     <div class="dialog-footer" *ngIf="footerVisible">
         <div class="btn-group">

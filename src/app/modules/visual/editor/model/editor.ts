@@ -1,8 +1,8 @@
 import { ISize } from 'selenium-webdriver';
 import { IEditorAction, MENU_ACTION } from './action';
 import { ICommandManager } from './command';
-import { IBound, IPoint } from './core';
 import { Widget } from './widget';
+import { IPoint, IBound } from '../../../../theme/canvas';
 
 export interface IWorkEditor extends ICommandManager {
 

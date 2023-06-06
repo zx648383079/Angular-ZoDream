@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { IGameItem } from '../../model';
+import { IGameItem, ItemTypeItems } from '../../model';
 import { GameMakerService } from '../game-maker.service';
 import { parseNumber } from '../../../../theme/utils';
 
@@ -24,6 +24,8 @@ export class ItemComponent implements OnInit {
         keywords: '',
         project: 0
     };
+    public typeItems = ItemTypeItems;
+    public editData: IGameItem = {} as any;
 
     constructor(
         private service: GameMakerService,
@@ -44,9 +46,21 @@ export class ItemComponent implements OnInit {
     }
 
 
-    /**
-     * tapRefresh
-     */
+    public open(modal: DialogEvent, item?: IGameItem) {
+        this.editData = item ? {...item} : {} as any;
+        modal.open(() => {
+            this.service.characterIdentitySave({...this.editData, project_id: this.queries.project}).subscribe({
+                next: _ => {
+                    this.toastrService.success($localize `Save Successfully`);
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

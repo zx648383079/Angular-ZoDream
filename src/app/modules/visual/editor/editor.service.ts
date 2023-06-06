@@ -4,8 +4,9 @@ import { cloneObject } from '../../../theme/utils';
 import { controlSource } from './editor-widget/control';
 import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
-import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IPoint, IWorkEditor, ISize, IBound, IShellBound } from './model';
+import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IWorkEditor, IShellBound } from './model';
 import { scaleBound } from './util';
+import { ISize, IBound, IPoint } from '../../../theme/canvas';
 
 @Injectable({
     providedIn: 'root'

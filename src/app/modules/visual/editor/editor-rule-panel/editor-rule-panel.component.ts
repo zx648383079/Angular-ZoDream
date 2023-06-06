@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, ViewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { EditorService } from '../editor.service';
-import { IPoint, IResetEvent, IRuleLine } from '../model';
+import { IRuleLine } from '../model';
 
 @Component({
   selector: 'app-editor-rule-panel',

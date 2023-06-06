@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { IGameCharacter, IGameIndigenous, IGameItem, IGameMap, IGameProject, IGameRuleGrade, IGameTask } from '../model';
+import { IGameCharacter, IGameCharacterIdentity, IGameIndigenous, IGameItem, IGameMap, IGameMapArea, IGameProject, IGameRuleGrade, IGameSkill, IGameTask } from '../model';
 
 @Injectable()
 export class GameMakerService {
@@ -38,21 +38,97 @@ export class GameMakerService {
         return this.http.get<IPage<IGameCharacter>>('game/maker/character', {params});
     }
 
+    public characterIdentityList(params: any) {
+        return this.http.get<IPage<IGameCharacterIdentity>>('game/maker/character/identity', {params});
+    }
+
+    public characterIdentitySave(data: any) {
+        return this.http.post<IGameRuleGrade>('game/maker/character/identity_save', data);
+    }
+
+    public characterIdentityRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/character/identity_delete', {
+          params: {id}
+        });
+    }
     
     public indigenousList(params: any) {
         return this.http.get<IPage<IGameIndigenous>>('game/maker/indigenous', {params});
+    }
+
+    
+    public indigenousSave(data: any) {
+        return this.http.post<IGameIndigenous>('game/maker/indigenous/save', data);
+    }
+
+    public indigenousRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/indigenous/delete', {
+          params: {id}
+        });
     }
 
     public itemList(params: any) {
         return this.http.get<IPage<IGameItem>>('game/maker/item', {params});
     }
 
+        
+    public itemSave(data: any) {
+        return this.http.post<IGameItem>('game/maker/item/save', data);
+    }
+
+    public itemRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/item/delete', {
+          params: {id}
+        });
+    }
+
     public taskList(params: any) {
         return this.http.get<IPage<IGameTask>>('game/maker/task', {params});
     }
 
-    public mapList() {
-        return this.http.get<IData<IGameMap>>('game/maker/map');
+    public taskSave(data: any) {
+        return this.http.post<IGameItem>('game/maker/task/save', data);
+    }
+
+    public taskRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/task/delete', {
+          params: {id}
+        });
+    }
+
+    public mapList(params: any) {
+        return this.http.get<{
+            area_items: IGameMapArea[];
+            items: IGameMap[];
+        }>('game/maker/map', {params});
+    }
+
+    public mapSave(data: any) {
+        return this.http.post<IGameMap>('game/maker/map/save', data);
+    }
+
+    public mapBatchSave(project: number, data: IGameMap[]) {
+        return this.http.post<IDataOne<true>>('game/maker/map/batch_save', {data, project});
+    }
+
+    public mapRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/map/delete', {
+          params: {id}
+        });
+    }
+
+    public skillList(params: any) {
+        return this.http.get<IPage<IGameSkill>>('game/maker/skill', {params});
+    }
+
+    public skillSave(data: any) {
+        return this.http.post<IGameSkill>('game/maker/skill/save', data);
+    }
+
+    public skillRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/skill/delete', {
+          params: {id}
+        });
     }
 
     public ruleGradeList(params: any) {
@@ -68,7 +144,7 @@ export class GameMakerService {
     }
 
     public ruleGradeRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('game/maker/gradedelete', {
+        return this.http.delete<IDataOne<true>>('game/maker/grade/delete', {
           params: {id}
         });
     }

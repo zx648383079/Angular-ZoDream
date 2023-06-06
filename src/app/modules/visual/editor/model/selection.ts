@@ -1,4 +1,4 @@
-import { IBound, IPoint } from './core';
+import { IPoint, IBound, computedBound } from '../../../../theme/canvas';
 
 export class SelectionBound {
 
@@ -25,28 +25,7 @@ export class SelectionBound {
     }
 
     public refreshBox(): IBound {
-        if (!this._start) {
-            return {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-            };
-        }
-        if (!this._end) {
-            return {
-                x: this._start.x,
-                y: this._start.y,
-                width: 0,
-                height: 0,
-            };
-        }
-        return {
-            x: Math.min(this._start.x, this._end.x),
-            y: Math.min(this._start.y, this._end.y),
-            width: Math.abs(this._start.x - this._end.x),
-            height: Math.abs(this._start.y - this._end.y),
-        };
+        return computedBound(this._start, this._end);
     }
 
     public clear() {

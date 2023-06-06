@@ -36,25 +36,33 @@ export class GameMakerComponent implements OnDestroy {
         },
         {
             name: $localize `Maps`,
-            icon: 'icon-gift',
+            icon: 'icon-globe',
             url: './map'
         },
         {
             name: $localize `Task`,
-            icon: 'icon-gift',
+            icon: 'icon-th-list',
             url: './task'
         },
         {
             name: $localize `Rule Manage`,
-            icon: 'icon-gift',
+            icon: 'icon-cog',
             children: [
                 {
-                    name: $localize `Checkin`,
-                    url: './rule/checkin'
+                    name: $localize `Character Identity`,
+                    url: './character/identity'
                 },
                 {
                     name: $localize `Grade`,
                     url: './rule/grade'
+                },
+                {
+                    name: $localize `Skill`,
+                    url: './skill'
+                },
+                {
+                    name: $localize `Checkin`,
+                    url: './rule/checkin'
                 },
                 {
                     name: $localize `Farm`,

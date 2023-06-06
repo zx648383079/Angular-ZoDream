@@ -1,3 +1,62 @@
-<p>
-  rule-farm works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理农场土地列表</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="add-btn" (click)="open(modal)">
+                <i class="iconfont icon-plus"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6" *ngFor="let item of items">
+            <div class="plot-item">
+                <div class="item-header">
+                    <div class="item-no">{{ item.index }}</div>
+                    <div class="item-price">{{ item.price }}</div>
+                </div>
+                <div class="item-body">
+                    <div class="item-upgrade" *ngFor="let it of item.upgrade_rules">
+                        <div class="item-no">{{ it.grade_alias ? it.grade_alias : it.grade }}</div>
+                        <div class="item-price">{{ it.price }}</div>
+                        <div class="item-price">{{ it.time_scale }}</div>
+                        <div class="item-price">{{ it.yield_scale }}</div>
+                    </div>
+                    <div class="item-add-btn">
+                        <i class="iconfont icon-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group" *ngIf="editData.grade > 0">
+        <label for="name-input">别名</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.grade_alias" placeholder="请输入别名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{ editData.grade > 0 ? '升级' : '开垦' }}价格</label>
+        <div class="input-group">
+            <app-number-input [(ngModel)]="editData.price"></app-number-input>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="editData.grade > 0">
+        <label>时间效率</label>
+        <div class="input-group">
+            <app-time-input [(ngModel)]="editData.time_scale"></app-time-input>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="editData.grade > 0">
+        <label>收益率</label>
+        <div class="input-group">
+            <app-time-input [(ngModel)]="editData.yield_scale"></app-time-input>
+        </div>
+    </div>
+</app-dialog-box>

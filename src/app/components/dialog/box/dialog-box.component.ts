@@ -50,13 +50,15 @@ export class DialogBoxComponent implements DialogEvent {
     /**
      * 验证方法
      */
-    @Input() public checkFn: () => boolean;
+    @Input() public checkFn: DialogCheckFn;
     /**
      * 确认事件
      */
     @Input() public confirmFn: DialogConfirmFn;
     @Input() public actionFn: DialogActionFn;
+    public invalidTip = '';
     @Output() public confirm = new EventEmitter();
+    private asyncHandler = 0;
 
     constructor() { }
 
@@ -103,7 +105,7 @@ export class DialogBoxComponent implements DialogEvent {
             this.visible = false;
             return;
         }
-        if (this.checkFn && !this.checkFn()) {
+        if (!this.formatCheck()) {
             return;
         }
         this.visible = false;
@@ -164,6 +166,46 @@ export class DialogBoxComponent implements DialogEvent {
             return;
         }
         this.close((e.target as HTMLInputElement).value);
+    }
+
+    /**
+     * 
+     * @param msg 
+     * @param time 
+     */
+    public asyncTip(msg: string|any, time = 3000) {
+        if (this.asyncHandler > 0) {
+            clearTimeout(this.asyncHandler);
+        }
+        this.invalidTip = msg;
+        if (!msg) {
+            return;
+        }
+        this.asyncHandler = window.setTimeout(() => {
+            this.invalidTip = '';
+        }, time);
+    }
+
+    private formatCheck(): boolean {
+        if (!this.checkFn) {
+            return true;
+        }
+        const res = this.checkFn();
+        let success = true;
+        let msg = '';
+        if (typeof res === 'boolean') {
+            success = res;
+            if (!res) {
+                msg = $localize `Something is invalid`;
+            }
+        } else {
+            success = !res;
+            if (!success) {
+                msg = res;
+            }
+        }
+        this.asyncTip(msg);
+        return success;
     }
 
 }

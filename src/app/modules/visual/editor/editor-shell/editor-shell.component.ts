@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { IPoint } from '../model';
+import { IPoint } from '../../../../theme/canvas';
 
 @Component({
   selector: 'app-editor-shell',

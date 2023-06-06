@@ -51,8 +51,20 @@
         border-top: 1px solid #ccc;
         text-align: center;
     }
+    .dialog-invail-tip {
+        position: absolute;
+        top: 2.5rem;
+        left: 0;
+        right: 0;
+        z-index: 20;
+    }
     &.dialog-open {
         transform: translate3d(0, 0, 0);
+    }
+    &.dialog-not-header {
+        .dialog-invail-tip {
+            top: 0;
+        }
     }
 }
 
@@ -82,7 +94,7 @@
             flex: 1;
             font-size: 1rem;
             font-weight: 400;
-            line-height: 1.5;
+            line-height: 2.5rem;
             color: #495057;
             background-color: #fff;
             background-clip: padding-box;
@@ -97,6 +109,7 @@
             line-height: 2.5rem;
             padding: 0 0.625rem;
             cursor: pointer;
+            border: 0;
             &:hover {
                 background-color: rgba($color: #ccc, $alpha: .5);
             }
@@ -224,6 +237,15 @@
             display: inline-block;
         }
     }
+}
+
+.dialog-invail-tip {
+    text-align: center;
+    padding: .4rem;
+    color: #b02a37;
+    font-size: .8rem;
+    background: linear-gradient(to right,transparent, #f5dfe1 50%, transparent);
+    user-select: none;
 }
 
 @media screen and (max-width: 700px) {

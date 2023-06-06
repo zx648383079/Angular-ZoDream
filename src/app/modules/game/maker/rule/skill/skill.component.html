@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理土著列表</li>
+            <li>管理技能列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary" (click)="open(modal)">新增土著</a>
+                    <a class="btn btn-primary" (click)="open(modal)">新增技能</a>
                 </div>
             </form>
         </div>
@@ -34,7 +34,7 @@
                     <td>{{ item.name }}</td>
                     <td></td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
+                        <div class="btn-group">
                             <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -49,15 +49,15 @@
 
 <app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group">
-        <label for="name-input">土著名</label>
+        <label for="name-input">技能名</label>
         <div class="input-group">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入土著名">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入技能名">
         </div>
     </div>
     <div class="form-group">
-        <label>头像</label>
+        <label>图标</label>
         <div class="input-group">
-            <app-file-input [(ngModel)]="editData.avatar" [online]="true"></app-file-input>
+            <app-file-input [(ngModel)]="editData.icon" [online]="true"></app-file-input>
         </div>
     </div>
     <div class="form-group">
@@ -67,19 +67,13 @@
         </div>
     </div>
     <div class="form-group">
-        <label>等级</label>
+        <label>群体</label>
         <div class="input-group">
-            <app-number-input></app-number-input>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>是否可攻击</label>
-        <div class="input-group">
-            <app-switch></app-switch>
+            <app-switch onLabel="群体" offLabel="单体"></app-switch>
         </div>
     </div>
     <div class="group-panel">
-        <div class="group-header">属性</div>
+        <div class="group-header">属性增益</div>
         <div class="group-body">
             <div class="property-item">
                 <label for="">生命值</label>
@@ -89,12 +83,22 @@
                 <label for="">攻击</label>
                 <app-number-input></app-number-input>
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>击败掉落</label>
-        <div class="input-group">
-            <textarea class="form-control" placeholder="请输入击败掉落"></textarea>
+            <div class="property-item">
+                <label for="">生命值</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="property-item">
+                <label for="">攻击</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="property-item">
+                <label for="">生命值</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="property-item">
+                <label for="">攻击</label>
+                <app-number-input></app-number-input>
+            </div>
         </div>
     </div>
 </app-dialog-box>

@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary" routerLink="0">新增任务</a>
+                    <a class="btn btn-primary" (click)="open(modal)">新增任务</a>
                 </div>
             </form>
         </div>
@@ -35,7 +35,8 @@
                     <td></td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-info" (click)="tapRemove(item)">编辑</a>
+                            <a class="btn btn-primary" [routerLink]="[item.id]">查看</a>
+                            <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -46,3 +47,38 @@
         <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group">
+        <label for="name-input">任务名</label>
+        <div class="input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入任务名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>图标</label>
+        <div class="input-group">
+            <app-file-input [(ngModel)]="editData.icon" [online]="true"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>说明</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>类型</label>
+        <div class="input-group">
+            <select class="form-control">
+                <option></option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>任务奖励预览</label>
+        <div class="input-group">
+            <textarea class="form-control" placeholder="请输入作用"></textarea>
+        </div>
+    </div>
+</app-dialog-box>

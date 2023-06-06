@@ -1,8 +1,9 @@
+import { IBound, IPoint } from '../../../theme/canvas';
 import { wordLength } from '../../../theme/utils';
 import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IBound, IEditorListeners, IPoint } from './event';
+import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
 
 /**
  * 富文本模式

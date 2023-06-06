@@ -1,4 +1,5 @@
-import { IEditorModule, IPoint } from './base';
+import { IPoint } from '../../theme/canvas';
+import { IEditorModule } from './base';
 
 export interface IEditor {
     insert(block: IEditorBlock|string): void;

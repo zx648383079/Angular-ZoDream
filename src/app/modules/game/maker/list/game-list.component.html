@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 col-lg-4" *ngFor="let item of items">
-            <div class="project-item">
+            <div class="project-item" [ngClass]="{inactive: item.status < 1}">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
                 </div>
                 <div class="item-body">
                     <div class="item-action">
-                        <app-switch></app-switch>
+                        <app-switch [(ngModel)]="item.status"></app-switch>
                     </div>
                     <div class="item-name">{{ item.name }}</div>
                     <div class="item-meta">{{ item.description }}</div>

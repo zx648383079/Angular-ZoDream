@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { ThemeService } from '../../../../theme/services';
-import { IGameProject } from '../../model';
+import { DialogService } from '../../../../components/dialog';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
 

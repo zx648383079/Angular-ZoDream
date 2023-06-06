@@ -7,6 +7,7 @@
     background-color: #fff;
     height: 10rem;
     box-shadow: rgba(51,51,51,.7) 0 0 10px;
+    transition: all .5s;
     border-radius: .25rem;
     user-select: none;
     align-items: center;
@@ -32,6 +33,10 @@
     .item-meta {
         padding: .4rem;
         color: #767676;
+    }
+    &.inactive {
+        box-shadow: none;
+        filter: grayscale(1);
     }
 }
 

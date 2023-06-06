@@ -1,13 +1,32 @@
+:host {
+    display: block;
+}
 .map-editor {
     position: relative;
     height: 100vh;
     overflow: auto;
 }
 
+
+.map-area {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid lightblue;
+    color: #767676;
+    font-size: 3rem;
+    &:hover {
+        background-color: lightblue;
+    }
+}
+
 .map-panel {
     background-color: #fff;
     border: 1px solid #ccc;
     position: absolute;
+    z-index: 9;
     width: 20rem;
     .panel-header {
         display: flex;
@@ -69,4 +88,19 @@
             display: none;
         }
     }
+    &.map-selected {
+        background-color: lightblue;
+    }
+}
+
+.selection-range {
+    position: fixed;
+    background: rgba(38, 168, 255, 0.1);
+    outline: #1e98ea solid 1px;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
 }

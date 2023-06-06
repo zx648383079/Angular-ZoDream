@@ -17,12 +17,18 @@ import { RuleStoreComponent } from './rule/store/rule-store.component';
 import { GameListComponent } from './list/game-list.component';
 import { MineComponent } from './mine/mine.component';
 import { FinancialComponent } from './financial/financial.component';
+import { CharacterIdentityComponent } from './character/identity/character-identity.component';
+import { SkillComponent } from './rule/skill/skill.component';
 
 const routes: Routes = [
     {
         path: ':game',
         component: GameMakerComponent,
         children: [
+            {
+                path: 'character/identity',
+                component: CharacterIdentityComponent,
+            },
             {
                 path: 'character',
                 component: CharacterComponent,
@@ -46,6 +52,10 @@ const routes: Routes = [
             {
                 path: 'financial',
                 component: FinancialComponent
+            },
+            {
+                path: 'skill',
+                component: SkillComponent
             },
             {
                 path: 'rule/grade',
@@ -99,5 +109,5 @@ export class GameMakerRoutingModule { }
 
 export const gameMakerRoutedComponents = [
     GameMakerComponent, HomeComponent, TaskComponent, TaskDialogueComponent, RuleGradeComponent, MapComponent, ItemComponent, IndigenousComponent,
-    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent
+    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent
 ];

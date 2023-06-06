@@ -1,0 +1,60 @@
+.add-btn {
+    border: 0.25rem dashed #ccc;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 10rem;
+    user-select: none;
+    color: #ccc;
+    cursor: pointer;
+    .iconfont {
+        display: block;
+        font-size: 4rem;
+    }
+}
+
+.plot-item {
+    box-shadow: rgba(51,51,51,.7) 0 0 10px;
+    background-color: #fff;
+    border-radius: .25rem;
+    margin-top: .8rem;
+    .item-header {
+        display: flex;
+        line-height: 3rem;
+        justify-content: space-between;
+        padding-right: .8rem;
+        .item-no {
+            border-top-left-radius: .25rem;
+        }
+    }
+    .item-no {
+        display: inline-block;
+        background-color: #ccc;
+        min-width: 3rem;
+        height: 3rem;
+        text-align: center;
+        line-height: 3rem;
+    }
+    .item-price {
+        color: red;
+    }
+    .item-upgrade,
+    .item-add-btn {
+        &:hover {
+            background-color: #f4f4f4;
+        }
+    }
+    .item-upgrade {
+        padding-left: 3rem;
+        display: flex;
+        justify-content: space-between;
+        padding-right: .8rem;
+    }
+    .item-add-btn {
+        line-height: 3rem;
+        text-align: center;
+        border-radius: 0 0 .25rem .25rem;
+    }
+}

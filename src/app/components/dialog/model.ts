@@ -40,7 +40,7 @@ export interface DialogLoadingOption {
     closeable?: boolean;
 }
 
-export type DialogCheckFn = () => boolean;
+export type DialogCheckFn = () => boolean|string;
 export type DialogConfirmFn = () => void;
 export type DialogActionFn = (data: any) => any;
 

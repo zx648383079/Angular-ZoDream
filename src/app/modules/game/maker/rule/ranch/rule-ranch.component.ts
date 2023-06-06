@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-rule-ranch',
+  selector: 'app-maker-rule-ranch',
   templateUrl: './rule-ranch.component.html',
-  styleUrls: ['./rule-ranch.component.css']
+  styleUrls: ['./rule-ranch.component.scss']
 })
 export class RuleRanchComponent implements OnInit {
 
