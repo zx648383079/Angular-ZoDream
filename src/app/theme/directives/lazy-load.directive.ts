@@ -38,7 +38,6 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
         this.renderer.listen(window, 'resize', this.onScroll.bind(this));
         this.emitInit();
-        
     }
 
     ngOnDestroy() {

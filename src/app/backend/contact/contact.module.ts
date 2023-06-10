@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ContactRoutingModule, contactRoutedComponents } from './contact-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { ContactService } from './contact.service';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 
@@ -13,7 +12,6 @@ import { ZreFormModule } from '../../components/form';
     declarations: [...contactRoutedComponents],
     imports: [
         CommonModule,
-        NgbPaginationModule,
         ThemeModule,
         ContactRoutingModule,
         ZreFormModule,

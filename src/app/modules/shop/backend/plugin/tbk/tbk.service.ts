@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne } from '../../../../../theme/models/page';
+import { IShopPlugin } from '../../../model';
 
 @Injectable()
 export class TbkService {
@@ -25,5 +26,9 @@ export class TbkService {
 
     public statistics() {
         return this.http.get<any>('shop/admin/plugin/tbk/statistics');
+    }
+
+    public pluginToggle() {
+        return this.http.post<IShopPlugin>('shop/admin/plugin/toggle', {code: 'taobaoke'});
     }
 }

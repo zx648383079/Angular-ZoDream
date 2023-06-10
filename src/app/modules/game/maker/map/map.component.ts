@@ -8,6 +8,9 @@ import { PanelAnimation } from '../../../../theme/constants';
 import { emptyValidate } from '../../../../theme/validators';
 import { IBound, IPoint, computedBound, drawLineTo, isIntersect } from '../../../../theme/canvas';
 
+
+const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
+
 @Component({
     selector: 'app-maker-map',
     templateUrl: './map.component.html',
@@ -68,6 +71,9 @@ export class MapComponent implements OnInit, AfterViewInit {
         const box = this.boxRef.nativeElement;
         this.width = canvas.width = box.clientWidth;
         this.height = canvas.height = box.clientHeight;
+        if (this.ctx) {
+            this.refreshLine();
+        }
     }
     @HostListener('document:mousemove', ['$event'])
     private onMouseMove(e: MouseEvent) {
@@ -90,6 +96,7 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.service.mapList(this.queries).subscribe(res => {
             this.areaItems = res.area_items;
             this.items = res.items;
+            this.refreshLine();
         });
     }
 
@@ -172,6 +179,7 @@ export class MapComponent implements OnInit, AfterViewInit {
             last = {x: p.clientX, y: p.clientY};
         }, () => {
             this.service.mapBatchSave(this.queries.project, items).subscribe(() => {});
+            this.refreshLine();
         });
     }
 
@@ -182,9 +190,54 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.withMove(p => {
             this.ctx.putImageData(img, 0, 0);
             this.lineTo(from, this.formatPoint(p));
-        }, () => {
-            // this.mapModal.open();
+        }, p => {
+            const target = this.getLineTo(this.formatPoint(p));
+            if (target === item) {
+                return;
+            }
+            const toKey = this.posLineToKey(pos);
+            if (target) {
+                target[toKey] = item.id
+                this.service.mapSave({...target, project_id: this.queries.project}).subscribe(res => {
+                    const fromKey = this.posToKey(pos);
+                    item[fromKey] = res.id;
+                    this.items.forEach(i => {
+                        if (i !== target && i[toKey] == item.id) {
+                            i[toKey] = 0;
+                        } else if (i !== item && i[fromKey] == target.id) {
+                            i[fromKey] = 0;
+                        }
+                    });
+                    this.refreshLine();
+                });
+                return;
+            }
+            
+            this.editData = {
+                name: '',
+                [toKey]: item.id
+            };
+            this.mapModal.open(() => {
+                this.service.mapSave({...this.editData, project_id: this.queries.project, ...this.formatPoint(p)}).subscribe(res => {
+                    item[this.posToKey(pos)] = res.id;
+                    this.items.forEach(i => {
+                        if (i[toKey] == item.id) {
+                            i[toKey] = 0;
+                        }
+                    });
+                    this.items.push(res);
+                    this.refreshLine();
+                });
+            }, () => !emptyValidate(this.editData.name), '添加地图');
         });
+    }
+
+    private getLineTo(p: IPoint): IGameMap|undefined {
+        for (const item of this.items) {
+            if (isIntersect(this.formatMapBound(item), p)) {
+                return item;
+            }
+        }
     }
 
     private lineTo(from: IPoint, to: IPoint) {
@@ -199,6 +252,72 @@ export class MapComponent implements OnInit, AfterViewInit {
                 finish && finish(p);
             },
         };
+    }
+
+    private formatMapBound(item: IGameMap): IBound {
+        return {
+            x: item.x,
+            y: item.y,
+            width: 320,
+            height: 48 + 33 * (item.items ? item.items.length + 1 : 1)
+        };
+    }
+
+    private refreshLine() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        const boundItems: any = {};
+        for (const item of this.items) {
+            boundItems[item.id] = this.formatMapBound(item);
+        }
+        const exist = [];
+        
+        for (const item of this.items) {
+            exist.push(item.id);
+            posMap.forEach((key, i) => {
+                if (!item[key] || exist.indexOf(item[key]) >= 0) {
+                    return;
+                }
+                this.lineTo(this.getPointFromKey(boundItems[item.id], key), this.getPointFromKey(boundItems[item[key]], this.posLineToKey(i)));
+            });
+        }
+    }
+
+
+    private getPointFromKey(bound: IBound, key: string): IPoint {
+        switch (key) {
+            case 'east_id':
+                return {
+                    x: bound.x + bound.width,
+                    y: bound.y + bound.height / 2
+                };
+            case 'south_id':
+                return {
+                    x: bound.x + bound.width / 2,
+                    y: bound.y + bound.height
+                };
+            case 'west_id':
+                return {
+                    x: bound.x,
+                    y: bound.y + bound.height / 2
+                };
+            // 'north_id', 
+            default:
+                return {
+                    x: bound.x + bound.width / 2,
+                    y: bound.y
+                };
+        }
+    }
+
+    private posToKey(i: number) {
+        return posMap[i];
+    }
+
+    private posLineToKey(i: number) {
+        if (i > 1) {
+            return this.posToKey(i - 2);
+        }
+        return this.posToKey(i + 2);
     }
 
     private formatPoint<T extends IPoint>(e: T): T;

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IAttributeGroup } from '../../../model';
 import { AttributeService } from '../attribute.service';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
+import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
   selector: 'app-group',
@@ -22,6 +23,7 @@ export class GroupComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
+    public editData: IAttributeGroup = {} as any;
 
     constructor(
         private service: AttributeService,
@@ -38,10 +40,22 @@ export class GroupComponent implements OnInit {
         });
     }
 
+    public open(modal: DialogEvent, item?: IAttributeGroup) {
+        this.editData = item ? {...item} : {} as any;
+        modal.open(() => {
+            this.service.groupSave({...this.editData}).subscribe({
+                next: _ => {
+                    this.toastrService.success($localize `Save Successfully`);
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => !emptyValidate(this.editData.name));
+    }
 
-    /**
-    * tapRefresh
-    */
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -67,8 +81,8 @@ export class GroupComponent implements OnInit {
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
-                // this.hasMore = res.paging.more;
-                // this.total = res.paging.total;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
             },
             error: () => {
                 this.isLoading = false;

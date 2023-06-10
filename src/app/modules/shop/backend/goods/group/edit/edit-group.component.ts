@@ -15,7 +15,7 @@ export class EditGroupComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
-        attr_group: [''],
+        property_groups: [''],
     });
 
     public data: IAttributeGroup;
@@ -38,7 +38,7 @@ export class EditGroupComponent implements OnInit {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
-                    attr_group: '',
+                    property_groups: res.property_groups as any,
                 });
             });
         });

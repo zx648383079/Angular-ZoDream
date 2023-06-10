@@ -21,7 +21,6 @@ import {
     AuthService,
     TransferStateService,
     ThemeService,
-    DateAdapter,
     CookieService,
     FileUploadService,
     DownloadService,
@@ -38,9 +37,6 @@ import {
     TokenInterceptor,
     ResponseInterceptor
 } from './interceptors';
-import {
-    CanActivateViaAuthGuard
-} from './guards';
 import {
     NavBarComponent,
     PageTipComponent,
@@ -100,7 +96,6 @@ const PIPES = [
 ];
 
 const SERVICES = [
-    DateAdapter,
     CookieService,
     DownloadService,
 ];

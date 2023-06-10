@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { IGameTask } from '../../model';
+import { IGameTask, TaskTypeItems } from '../../model';
 import { GameMakerService } from '../game-maker.service';
 import { parseNumber } from '../../../../theme/utils';
 
@@ -25,6 +25,7 @@ export class TaskComponent implements OnInit {
         project: 0
     };
     public editData: IGameTask = {} as any;
+    public typeItems = TaskTypeItems;
 
     constructor(
         private service: GameMakerService,
@@ -47,7 +48,7 @@ export class TaskComponent implements OnInit {
     public open(modal: DialogEvent, item?: IGameTask) {
         this.editData = item ? {...item} : {} as any;
         modal.open(() => {
-            this.service.characterIdentitySave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.taskSave({...this.editData, project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -100,7 +101,7 @@ export class TaskComponent implements OnInit {
     }
 
     public tapRemove(item: IGameTask) {
-        this.toastrService.confirm('确定删除“' + item.name + '”任务？', () => {
+        this.toastrService.confirm('确定删除“' + item.title + '”任务？', () => {
             // this.service.forumRemove(item.id).subscribe(res => {
             //     if (!res.data) {
             //         return;

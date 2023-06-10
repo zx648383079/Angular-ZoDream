@@ -15,8 +15,8 @@
                 <div class="intro">
                     <div class="name">
                         {{ data.name }}
-                        <a class="comment">
-                            <span>98%</span>
+                        <a class="comment" *ngIf="data.favorable_rate">
+                            <span>{{ data.favorable_rate }}%</span>
                             <span>好评率</span>
                         </a>
                     </div>
@@ -73,11 +73,9 @@
                     <div class="flex-group">
                         <div class="group-header">服务</div>
                         <div class="group-body">
-                            <p>･ 支持30天无忧退换货  </p>  
-                            <p>･ 48小时快速退款  </p>  
-                            <p>･ 满88元免邮费  </p>  
-                            <p>･ 自营品牌  </p>  
-                            <p>･ 国内部分地区无法配送 </p>
+                            <ul class="service-panel">
+                                <li *ngFor="let item of data.services">{{ item }}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -159,8 +157,9 @@
                         </div>
                     </div>
                     <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                        <div class="line-group">
-                            <div class="line-item" *ngFor="let item of data.static_properties">
+                        <div class="line-group" *ngFor="let group of data.static_properties">
+                            <div class="line-group-header" *ngIf="group.name">{{ group.name }}</div>
+                            <div class="line-item" *ngFor="let item of group.items">
                                 <div class="item-label">
                                     {{ item.name }}
                                 </div>

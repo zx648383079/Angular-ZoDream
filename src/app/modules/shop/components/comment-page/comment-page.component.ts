@@ -26,7 +26,7 @@ export class CommentPageComponent implements OnChanges {
     private booted = 0;
 
     constructor(
-        public service: ShopService,
+        private service: ShopService,
     ) { }
 
     ngOnChanges(changes: SimpleChanges): void {

@@ -292,6 +292,9 @@
 }
 .line-group {
     padding: .8rem 0;
+    .line-group-header {
+        font-weight: 700;
+    }
     &:not(:last-of-type) {
         border-bottom: 1px solid #ccc;
     }

@@ -15,7 +15,6 @@ import {
     documentBackendRoutedComponents,
 } from './backend-routing.module';
 import { DocumentService } from './document.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZreEditorModule } from '../../../components/editor';
 import { ContextMenuModule } from '../../../components/context-menu';
 import { DialogModule } from '../../../components/dialog';
@@ -26,7 +25,6 @@ import { ZreFormModule } from '../../../components/form';
         CommonModule,
         DocumentBackendRoutingModule,
         ThemeModule,
-        NgbDropdownModule,
         ReactiveFormsModule,
         ZreEditorModule,
         ContextMenuModule,

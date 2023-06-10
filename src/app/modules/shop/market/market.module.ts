@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { marketRoutingComponents, MarketRoutingModule } from './market-routing.module';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GameModule } from '../game/game.module';
@@ -17,7 +16,6 @@ import { ZreSwiperModule } from '../../../components/swiper';
         MarketRoutingModule,
         ThemeModule,
         ReactiveFormsModule,
-        LazyLoadImageModule,
         GameModule,
         ZreFormModule,
         ZreSwiperModule,

@@ -60,19 +60,13 @@
         <div class="input-group">
             <label for="start_at">开始时间</label>
             <div class="calendar-input">
-                <input type="text" id="start_at" class="form-control" ngbDatepicker formControlName="start_at" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="iconfont icon-calendar"></i>
-                </button>
+                <app-date-input formControlName="start_at"></app-date-input>
             </div>
         </div>
         <div class="input-group">
             <label for="end_at">结束时间</label>
             <div class="calendar-input">
-                <input type="text" id="end_at" class="form-control" ngbDatepicker formControlName="end_at" placeholder="yyyy-mm-dd" #e="ngbDatepicker">
-                <button class="btn btn-outline-secondary" (click)="e.toggle()" type="button">
-                    <i class="iconfont icon-calendar"></i>
-                </button>
+                <app-date-input formControlName="end_at"></app-date-input>
             </div>
         </div>
         <div class="btn-group">

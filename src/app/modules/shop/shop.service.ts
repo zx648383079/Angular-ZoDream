@@ -228,6 +228,10 @@ export class ShopService {
         return this.http.get<IPage<IIssue>>('shop/goods/issue', {params});
     }
 
+    public issueAsk(data: any) {
+        return this.http.post<IDataOne<true>>('shop/goods/issue_ask', data);
+    }
+
     public profile() {
         return this.http.get<IUser>('auth/user');
     }

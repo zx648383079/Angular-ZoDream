@@ -30,6 +30,7 @@
                     <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
                     <a class="btn btn-success" routerLink="../create">新增商品</a>
                     <a class="btn btn-dark" routerLink="../trash">回收站</a>
+                    <a class="btn btn-primary" routerLink="../issue">问答</a>
                 </div>
             </form>
             
@@ -88,9 +89,10 @@
                         {{ item.stock }}
                     </td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a *ngIf="item.type == 1" class="btn btn-info btn-xs" [routerLink]="['../card', item.id]">卡密</a>
-                            <a class="btn btn-light btn-xs" [routerLink]="['../edit', item.id]">编辑</a>
+                        <div class="btn-group">
+                            <a *ngIf="item.type == 1" class="btn btn-info" [routerLink]="['../card', item.id]">卡密</a>
+                            <a class="btn btn-primary" routerLink="../issue" [queryParams]="{goods: item.id}">问答</a>
+                            <a class="btn btn-light" [routerLink]="['../edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

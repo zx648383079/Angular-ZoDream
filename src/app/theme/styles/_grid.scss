@@ -1,24 +1,25 @@
 .column-item {
-    width: 300px;
+    width: 18.75rem;
     display: inline-block;
     position: relative;
-    height: 100px;
+    height: 6.25rem;
     background-color: #fff;
-    margin: 10px;
+    margin: 0.625rem;
     vertical-align: top;
     .icon {
         position: absolute;
-        width: 100px;
-        height: 100px;
+        width: 6.25rem;
+        height: 6.25rem;
         text-align: center;
         background-color: #333;
         color: #fff;
-        padding-top: 20px;
-        font-size: 40px;
+        padding-top: 1.25rem;
+        font-size: 2.5rem;
     }
     .content {
-        margin-left: 100px;
-        padding: 20px 10px;
+        display: block;
+        margin-left: 6.25rem;
+        padding: 1.25rem 0.625rem;
     }
 }
 
@@ -26,7 +27,7 @@
     border-radius: .25rem;
     box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     position: relative;
     background-color: #17a2b8;
     color: #fff;
@@ -50,7 +51,7 @@
         }
     }
     .inner {
-        padding: 10px;
+        padding: 0.625rem;
         z-index: 5;
     }
     h3 {

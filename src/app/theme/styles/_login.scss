@@ -15,6 +15,11 @@
             background: #a10000;
             color: #fff;
         }
+        &.disabled {
+            background-color: #c49b9b;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
     }
     .input-box {
         padding-top: 70px;

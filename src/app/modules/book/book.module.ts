@@ -11,7 +11,6 @@ import { ZreFormModule } from '../../components/form';
 import { ZreMindModule } from '../../components/mind';
 import { DialogModule } from '../../components/dialog';
 import { ZreEditorModule } from '../../components/editor';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -29,7 +28,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
         ZreFormModule,
         ZreMindModule,
         DialogModule,
-        NgbDropdownModule,
         ZreEditorModule,
     ],
     providers: [

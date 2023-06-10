@@ -43,15 +43,9 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "allowedCommonJsDependencies": [
-                            "lodash",
-                            "jsonapi-deserializer"
+                            "lodash"
                         ],
                         "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "node_modules/tinymce",
-                                "output": "/tinymce/"
-                            },
                             {
                                 "glob": "md5_worker.js",
                                 "input": "node_modules/ts-md5/dist",

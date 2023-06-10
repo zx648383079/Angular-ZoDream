@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../../../../../theme/models/page';
-import { IAffiliateLog } from '../../../model';
+import { IAffiliateLog, IShopPlugin } from '../../../model';
 
 @Injectable()
 export class AffiliateService {
@@ -22,5 +22,9 @@ export class AffiliateService {
 
     public statistics() {
         return this.http.get<any>('shop/admin/plugin/affiliate/statistics');
+    }
+
+    public pluginToggle() {
+        return this.http.post<IShopPlugin>('shop/admin/plugin/toggle', {code: 'affiliate'});
     }
 }

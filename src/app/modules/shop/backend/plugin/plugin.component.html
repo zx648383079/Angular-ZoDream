@@ -2,24 +2,22 @@
     <app-page-tip>
         <ul>
             <li>已安装插件</li>
+            <li>点击图标切换插件状态：<i class="iconfont icon-close"></i> 为未启用 </li>
         </ul>
     </app-page-tip>
-    <a class="column-item" routerLink="tbk">
-        <div class="icon">
-            <div class="iconfont icon-gift"></div>
+
+    <div class="column-item" *ngFor="let item of items" [ngClass]="{inactive: !item.is_actived}">
+        <div class="icon" (click)="tapToggle(item)" title="点击启用/卸载此插件">
+            <i class="iconfont" [ngClass]="item.is_actived ? item.icon : 'icon-close'"></i>
         </div>
-        <div class="content">
-            <h3>淘宝客</h3>
-            <p>淘宝客管理</p>
+        <a class="content" [routerLink]="item.url">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </a>
+        <div class="item-action">
+            <a [routerLink]="item.setting_url">
+                <i class="iconfont icon-cog"></i>
+            </a>
         </div>
-    </a>
-    <a class="column-item" routerLink="affiliate">
-        <div class="icon">
-            <div class="iconfont icon-group"></div>
-        </div>
-        <div class="content">
-            <h3>分销</h3>
-            <p>分销管理</p>
-        </div>
-    </a>
+    </div>
 </div>

@@ -6,9 +6,7 @@ import { AppComponent } from './app.component';
 import { ThemeModule } from './theme/theme.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './theme/theme.reducers';
-import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogModule } from './components/dialog';
@@ -24,7 +22,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         HttpClientModule,
         HttpClientJsonpModule,
         AppRoutingModule,
-        LazyLoadImageModule,
         ThemeModule.forRoot(),
         DialogModule.forRoot(),
         NgxEchartsModule.forRoot({ 

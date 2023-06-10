@@ -4,7 +4,6 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { ContextMenuModule } from '../../../components/context-menu';
 import { DialogModule } from '../../../components/dialog';
 import { EditorService } from './editor.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZreFormModule } from '../../../components/form';
 import { ProgressModule } from '../../../components/progress';
 import { VisualEditorRoutingModule, visualEditorRoutingComponents } from './routing.module';
@@ -13,7 +12,6 @@ import { VisualEditorRoutingModule, visualEditorRoutingComponents } from './rout
     imports: [
         CommonModule,
         ThemeModule,
-        NgbModule,
         ContextMenuModule,
         VisualEditorRoutingModule,
         DialogModule,

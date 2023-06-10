@@ -23,13 +23,15 @@ export class AffiliateComponent implements OnInit {
         this.service.statistics().subscribe(res => {
             this.isLoading = false;
             this.data = res;
-            this.isInstalled = res.is_installed !== false;
+            this.isInstalled = true;//res.is_installed !== false;
         });
     }
 
     public onInstallChange() {
-        if (this.isInstalled) {
-            this.router.navigate(['setting'], {relativeTo: this.route});
-        }
+        this.service.pluginToggle().subscribe(res => {
+            if (res.status === 1) {
+                this.router.navigate(['setting'], {relativeTo: this.route});
+            }
+        });
     }
 }

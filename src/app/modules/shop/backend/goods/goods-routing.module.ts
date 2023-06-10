@@ -15,6 +15,7 @@ import { EditAttributeComponent } from './attribute/edit/edit-attribute.componen
 import { SearchTypePipe } from './search-type.pipe';
 import { AttributeTypePipe } from './attribute-type.pipe';
 import { GoodsCardComponent } from './card/goods-card.component';
+import { GoodsIssueComponent } from './issue/goods-issue.component';
 
 const routes: Routes = [
     {
@@ -36,6 +37,10 @@ const routes: Routes = [
     {
         path: 'card/:goods',
         component: GoodsCardComponent,
+    },
+    {
+        path: 'issue',
+        component: GoodsIssueComponent,
     },
     {
         path: 'trash',
@@ -117,6 +122,7 @@ export const goodsRoutedComponents = [
     EditGroupComponent,
     AttributeComponent,
     EditAttributeComponent,
+    GoodsIssueComponent,
 ];
 
 export const goodsPipes = [

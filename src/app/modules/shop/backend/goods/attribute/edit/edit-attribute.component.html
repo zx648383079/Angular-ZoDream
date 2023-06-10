@@ -9,13 +9,26 @@
             </div>
         </div>
         <div class="input-group">
-            <label for="group_id">分组</label>
+            <label for="group_id">类型分组</label>
             <div>
-                <select id="group_id" class="form-control" formControlName="group_id">
+                <select id="group_id" class="form-control" formControlName="group_id" (ngModelChange)="onGroupChange()">
                     <ng-container *ngFor="let item of groupItems">
                         <option [value]="item.id">{{ item.name }}</option>
                     </ng-container>
                 </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="property_group">属性分组</label>
+            <div>
+                <select id="property_group" class="form-control" formControlName="property_group">
+                    <ng-container *ngFor="let item of propertyGroups">
+                        <option [value]="item">{{ item }}</option>
+                    </ng-container>
+                </select>
+                <div class="input-tip">
+                    当前仅在“唯一属性”下生效
+                </div>
             </div>
         </div>
         <div class="input-group">

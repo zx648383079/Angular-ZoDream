@@ -1,3 +1,4 @@
+import { IPageEditItem } from '../../theme/models/page';
 import { IScoreSubtotal } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
 
@@ -88,11 +89,16 @@ export interface IGoods {
     brand?: IBrand;
     gallery?: IGoodsGallery[];
     properties?: IGoodsProperty[];
-    static_properties?: IGoodsStaticProperty[];
+    static_properties?: {
+        name: string;
+        items: IGoodsStaticProperty[];
+    }[];
     products?: IProduct[];
     coupons?: ICoupon[];
     promotes?: IActivity<any>[];
     is_collect?: boolean;
+    services?: string[];
+    favorable_rate?: number;
 }
 
 export interface IGoodsResult {
@@ -298,6 +304,7 @@ export interface IAdPosition {
 export interface IAttributeGroup {
     id: number;
     name: string;
+    property_groups: string|string[];
     created_at?: string;
     updated_at?: string;
 }
@@ -305,6 +312,7 @@ export interface IAttributeGroup {
 export interface IAttribute {
     id: number;
     name: string;
+    property_group?: string;
     group_id: number;
     type: number;
     search_type: number;
@@ -427,11 +435,13 @@ export interface IComment {
     created_at: string;
 }
 
-export interface IIssue {
+export interface IIssue extends IPageEditItem {
     id: number;
     question: string;
     answer: string;
     created_at: string;
+    status: number;
+    goods?: IGoods;
 }
 
 export interface ICoupon {
@@ -742,6 +752,15 @@ export interface IOrderRefund {
     money: number;
     order: IOrder;
     goods: IGoods;
+}
+
+export interface IShopPlugin {
+    id: number;
+    code: string;
+    setting: any;
+    status: number;
+    updated_at:        string;
+    created_at:        string;
 }
 
 export enum ORDER_STATUS {

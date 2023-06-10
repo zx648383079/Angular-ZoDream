@@ -15,7 +15,8 @@ import {
     ICategory,
     IGoods,
     IGoodsAttribute,
-    IGoodsCard
+    IGoodsCard,
+    IIssue
 } from '../../model';
 
 @Injectable()
@@ -176,6 +177,24 @@ export class GoodsService {
     public search(params: any) {
         return this.http.get<IPage<IGoods>>('shop/admin/goods/search', {
             params
+        });
+    }
+
+    public issueList(params: any) {
+        return this.http.get<IPage<IIssue>>('shop/admin/goods/issue', {
+            params,
+        });
+    }
+
+    public issueSave(data: any) {
+        return this.http.post<IDataOne<boolean>>('shop/admin/goods/issue_save', data);
+    }
+
+    public issueRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('shop/admin/goods/issue_delete', {
+            params: {
+                id
+            }
         });
     }
 

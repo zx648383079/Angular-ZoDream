@@ -49,7 +49,7 @@ export class ItemComponent implements OnInit {
     public open(modal: DialogEvent, item?: IGameItem) {
         this.editData = item ? {...item} : {} as any;
         modal.open(() => {
-            this.service.characterIdentitySave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.itemSave({...this.editData, project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();

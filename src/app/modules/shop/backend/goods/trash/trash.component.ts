@@ -71,12 +71,17 @@ export class TrashComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page, trash: true,};
-        this.service.get(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+        this.service.get(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries, ['trash']);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -86,45 +91,42 @@ export class TrashComponent implements OnInit {
     }
 
     public tapRemove(item: IGoods) {
-        if (!confirm('确定彻底删除“' + item.name + '”商品，删除后将无法恢复？')) {
-            return;
-        }
-        this.service.trashRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定彻底删除“' + item.name + '”商品，删除后将无法恢复？', () => {
+            this.service.trashRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
 
     public tapClear() {
-        if (!confirm('确定彻底清空回收站的商品，删除后将无法恢复？')) {
-            return;
-        }
-        this.service.trashClear().subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = [];
+        this.toastrService.confirm('确定彻底清空回收站的商品，删除后将无法恢复？', () => {
+            this.service.trashClear().subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = [];
+            });
         });
     }
 
     public tapRestore(item ? : IGoods) {
-        if (!confirm(item ? '确定还原“' + item.name + '”商品？' : '确定还原所有回收站商品？')) {
-            return;
-        }
-        this.service.trashRestore(item?.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success('还原成功');
-            this.items = item ? this.items.filter(it => {
-                return it.id !== item.id;
-            }) : [];
+        this.toastrService.confirm(item ? '确定还原“' + item.name + '”商品？' : '确定还原所有回收站商品？', () => {
+            this.service.trashRestore(item?.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success('还原成功');
+                this.items = item ? this.items.filter(it => {
+                    return it.id !== item.id;
+                }) : [];
+            });
         });
     }
 

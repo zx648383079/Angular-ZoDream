@@ -4,7 +4,6 @@ import { orderRoutedComponents, OrderRoutingModule } from './order-routing.routi
 import { ThemeModule } from '../../../../theme/theme.module';
 import { OrderService } from './order.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
 import { ShopManageModule } from '../../components';
@@ -12,7 +11,6 @@ import { ShopManageModule } from '../../components';
 @NgModule({
     imports: [
         CommonModule,
-        NgbPaginationModule,
         ReactiveFormsModule,
         ThemeModule,
         OrderRoutingModule,

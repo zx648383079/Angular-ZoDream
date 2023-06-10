@@ -2,6 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ShopService } from '../../shop.service';
 import { IIssue } from '../../model';
+import { ButtonEvent } from '../../../../components/form';
+import { emptyValidate } from '../../../../theme/validators';
+import { DialogService } from '../../../../components/dialog';
 
 @Component({
   selector: 'app-issue-page',
@@ -21,10 +24,14 @@ export class IssuePageComponent implements OnChanges {
         page: 1,
         per_page: 20,
     };
+    public editData = {
+        content: ''
+    };
     private booted = 0;
 
     constructor(
-        public service: ShopService,
+        private service: ShopService,
+        private toastrService: DialogService,
     ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -39,6 +46,25 @@ export class IssuePageComponent implements OnChanges {
             return;
         }
         this.tapRefresh();
+    }
+
+    public tapSubmit(e: ButtonEvent) {
+        if (emptyValidate(this.editData.content)) {
+            this.toastrService.warning($localize `Please input the question`);
+            return;
+        }
+        e.enter();
+        this.service.issueAsk({...this.editData, item_id: this.itemId}).subscribe({
+            next: () => {
+                this.editData.content = '';
+                e.reset();
+                this.toastrService.success($localize `Ask Successfully`);
+            },
+            error: err => {
+                e.reset();
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapRefresh() {

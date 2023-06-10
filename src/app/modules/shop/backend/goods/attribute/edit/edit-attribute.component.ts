@@ -16,6 +16,7 @@ export class EditAttributeComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
+        property_group: [''],
         group_id: [0],
         search_type: ['0'],
         input_type: ['0'],
@@ -26,6 +27,7 @@ export class EditAttributeComponent implements OnInit {
 
     public data: IAttribute;
     public groupItems: IAttributeGroup[] = [];
+    public propertyGroups: string[] = [];
 
     constructor(
         private service: AttributeService,
@@ -35,6 +37,7 @@ export class EditAttributeComponent implements OnInit {
     ) {
         this.service.groupAll().subscribe(res => {
             this.groupItems = res.data;
+            this.onGroupChange();
         });
     }
 
@@ -48,6 +51,7 @@ export class EditAttributeComponent implements OnInit {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
+                    property_group: res.property_group,
                     search_type: res.search_type.toString(),
                     group_id: res.group_id,
                     input_type: res.input_type.toString(),
@@ -61,6 +65,17 @@ export class EditAttributeComponent implements OnInit {
 
     get isInput() {
         return parseNumber(this.form.get('input_type').value) > 0;
+    }
+
+    public onGroupChange() {
+        const group = this.form.get('group_id').value;
+        this.propertyGroups = [];
+        for (const item of this.groupItems) {
+            if (item.id == group) {
+                this.propertyGroups = item.property_groups as any ?? [];
+                break;
+            }
+        }
     }
 
     public tapBack() {

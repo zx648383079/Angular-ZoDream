@@ -1,0 +1,97 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>商品问答列表</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="标题" >
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-success" *ngIf="queries.goods" (click)="open(modal)">新增问答</a>
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                </div>
+            </form>
+            
+          </div>
+          
+          <table class="table table-hover">
+            <thead>
+            <tr>
+                <th [hidden]="!isMultiple">
+                    <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                </th>
+                <th>ID</th>
+                <th>提问</th>
+                <th class="auto-hide">商品</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>
+                       {{ item.question }}
+                    </td>
+                    <td class="auto-hide">
+                        {{ item.goods?.name }}
+                    </td>
+                    <td>
+                        {{ formatStatus(item.status) }}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-light" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="5">
+                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                    </td>
+                </tr>
+            </tfoot>
+          </table>
+          <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+          <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group">
+        <label>提问</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="editData.question" placeholder="请输入提问" [disabled]="!!editData.id"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>回答</label>
+        <div class="input-group">
+            <textarea class="form-control" [(ngModel)]="editData.answer" placeholder="请输入回答"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>状态</label>
+        <div class="input-group">
+            <select class="form-control" [(ngModel)]="editData.status">
+                <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+</app-dialog-box>

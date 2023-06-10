@@ -5,14 +5,14 @@
     <div class="tool-item" [ngClass]="{disabled: !canForward}" title="前进" (click)="tapForward()">
         <i class="iconfont icon-redo"></i>
     </div>
-    <div class="tool-item" placement="left" [ngbPopover]="cut">
+    <div class="tool-item" placement="left" [appPopup]="cut">
         <i class="iconfont icon-th-large"></i>
     </div>
     <div class="tool-h"></div>
-    <div class="tool-item" [ngClass]="{disabled: !isSelection}" placement="left" [ngbPopover]="align">
+    <div class="tool-item" [ngClass]="{disabled: !isSelection}" placement="left" [appPopup]="align">
         <i class="iconfont icon-chuizhijuzhongduiqi"></i>
     </div>
-    <div class="tool-item"  [ngClass]="{disabled: !isSelection}" placement="left" [ngbPopover]="zIndex">
+    <div class="tool-item"  [ngClass]="{disabled: !isSelection}" placement="left" [appPopup]="zIndex">
         <i class="iconfont icon-bars"></i>
     </div>
     <div class="tool-item" [ngClass]="{disabled: !canMerge}" (click)="tapAction(4, canMerge)" title="组合">

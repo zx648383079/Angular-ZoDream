@@ -96,11 +96,24 @@ export class GameMakerService {
         });
     }
 
+
     public mapList(params: any) {
         return this.http.get<{
             area_items: IGameMapArea[];
             items: IGameMap[];
         }>('game/maker/map', {params});
+    }
+
+    public mapMove(project: number, data: IGameMap[]) {
+        return this.http.post<IGameMap>('game/maker/map/move', {project, data});
+    }
+
+    public mapAdd(data: any) {
+        return this.http.post<IGameMap>('game/maker/map/add', data);
+    }
+
+    public mapLink(project: number, from: number, from_key: string, to: number, to_key: string) {
+        return this.http.post<IGameMap>('game/maker/map/link', {project, from, from_key, to, to_key});
     }
 
     public mapSave(data: any) {

@@ -5,44 +5,60 @@
         </ul>
     </app-page-tip>
    <div class="panel-container">
-    <div class="page-search-bar">
-        <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-            <div class="input-group">
-                <label for="keywords">分组名</label>
-                <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
-                    placeholder="分组名">
-            </div>
-            <button type="submit" class="btn btn-primary">搜索</button>
-            <a routerLink="./create" class="pull-right btn btn-primary">新增分组</a>
-        </form>
-    </div>
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">分组名</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                        placeholder="分组名">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <a (click)="open(modal)" class="pull-right btn btn-primary">新增分组</a>
+            </form>
+        </div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>类型分组名称</th>
-                <th>属性数</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of items">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td></td>
-                <td>
-                    <div class="btn-group  btn-group-xs">
-                        <a class="btn btn-info btn-xs"
-                            [routerLink]="'../attribute/' + item.id ">属性列表</a>
-                        <a class="btn btn-light btn-xs"
-                        [routerLink]="'./edit/' + item.id ">编辑</a>
-                        <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>类型分组名称</th>
+                    <th>属性数</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-info"
+                                [routerLink]="'../attribute/' + item.id ">属性列表</a>
+                            <a class="btn btn-light"
+                            (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
    </div>
 </div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新建分组'">
+    <div class="form-group">
+        <label for="name">名称</label>
+        <div  class="input-group">
+            <input type="text" id="name" class="form-control" [(ngModel)]="editData.name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="attr_group">属性可选分组</label>
+        <div  class="input-group">
+            <textarea id="attr_group" class="form-control"  [(ngModel)]="editData.property_groups" placeholder="每行作为一个分组"></textarea>
+        </div>
+    </div> 
+</app-dialog-box>

@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IRole } from '../../../../theme/models/auth';
 import { IUser, SexItems } from '../../../../theme/models/user';
-import { DateAdapter } from '../../../../theme/services';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { confirmValidator } from '../../../../theme/validators';
 import { AuthService } from '../../auth.service';
@@ -20,7 +19,7 @@ export class EditUserComponent implements OnInit {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         sex: [0],
-        birthday: [this.dateAdapter.fromModel()],
+        birthday: [''],
         roles: [[] as number[]],
         password: [''],
         confirm_password: [''],
@@ -37,7 +36,6 @@ export class EditUserComponent implements OnInit {
         private service: AuthService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private dateAdapter: DateAdapter,
         private uploadService: FileUploadService,
     ) {}
 
@@ -55,7 +53,7 @@ export class EditUserComponent implements OnInit {
                 name: res.name,
                 sex: res.sex,
                 email: res.email,
-                birthday: this.dateAdapter.fromModel(res.birthday),
+                birthday: res.birthday,
                 roles: res.roles.map(i => {
                         return typeof i === 'string' ? parseInt(i, 10) : i;
                     }),
@@ -87,7 +85,7 @@ export class EditUserComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        data.birthday = this.dateAdapter.toModel(data.birthday);
+        
         this.service.userSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

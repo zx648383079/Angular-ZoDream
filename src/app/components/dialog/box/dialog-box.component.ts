@@ -129,6 +129,9 @@ export class DialogBoxComponent implements DialogEvent {
         if (typeof check === 'string') {
             [check, title] = [undefined, check];
         }
+        if (cb) {
+            this.actionFn = undefined;
+        }
         this.checkFn = check as DialogCheckFn;
         this.confirmFn = cb;
         if (title) {
@@ -150,6 +153,10 @@ export class DialogBoxComponent implements DialogEvent {
             [cb, title] = [undefined, cb];
         }
         this.actionFn = cb as DialogActionFn;
+        if (cb) {
+            this.checkFn = undefined;
+            this.confirmFn = undefined;
+        }
         if (title) {
             this.title = title;
         }

@@ -37,10 +37,7 @@
                     <div class="input-group">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
-                            <input type="text" id="birthday" class="form-control" ngbDatepicker formControlName="birthday" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                                <i class="iconfont icon-calendar"></i>
-                            </button>
+                            <app-date-input formControlName="birthday"></app-date-input>
                         </div>
                     </div>
                     <div class="input-group">

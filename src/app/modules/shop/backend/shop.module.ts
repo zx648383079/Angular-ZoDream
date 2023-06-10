@@ -5,7 +5,6 @@ import { ShopBackendRoutingModule, shopBackendRoutedComponents } from './shop-ro
 import { ThemeModule } from '../../../theme/theme.module';
 import { ShopService } from './shop.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArticleService } from './article.service';
 import { AdService } from './ad.service';
 import { RegionService } from './region.service';
@@ -22,7 +21,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         CommonModule,
         ReactiveFormsModule,
         NgSelectModule,
-        NgbModule,
         ThemeModule,
         ShopBackendRoutingModule,
         ZreEditorModule,

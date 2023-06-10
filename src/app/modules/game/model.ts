@@ -8,6 +8,12 @@ export const ItemTypeItems: IItem[] = [
     {name: '食材', value: 3},
     {name: '道具', value: 4},
 ];
+export const TaskTypeItems: IItem[] = [
+    {name: '默认', value: 0},
+    {name: '今日任务', value: 1},
+    {name: '活动任务', value: 2},
+];
+
 export interface IGameBattleProperty {
     hp: number;
     mp: number;
@@ -51,9 +57,10 @@ export interface IGameItem {
 
 export interface IGameTask {
     id: number;
-    name: string;
-    icon: string;
+    title: string;
     description: string;
+    gift: string;
+    before: string;
 }
 
 export interface IGameMapArea {
@@ -76,6 +83,7 @@ export interface IGameMap extends IPoint {
     north_id?: number;
     west_id?: number;
     is_selected?: boolean;
+    items?: IGameIndigenous[];
 }
 
 export interface IGameMine {

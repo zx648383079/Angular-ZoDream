@@ -15,22 +15,17 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="child-item">
-                    <div class="item-boby">
-                        npc
+                <ng-container *ngIf="item.items">
+                    <div class="child-item" *ngFor="let it of item.items">
+                        <div class="item-boby">
+                            {{ it.name }}
+                        </div>
+                        <div class="item-action">
+                            <i class="iconfont icon-minus"></i>
+                        </div>
                     </div>
-                    <div class="item-action">
-                        <i class="iconfont icon-minus"></i>
-                    </div>
-                </div>
-                <div class="child-item">
-                    <div class="item-boby">
-                        npc
-                    </div>
-                    <div class="item-action">
-                        <i class="iconfont icon-minus"></i>
-                    </div>
-                </div>
+                </ng-container>
+            
                 <div class="add-child-item" (click)="tapAddIndigenous(item)">
                     <i class="iconfont icon-plus"></i>
                 </div>

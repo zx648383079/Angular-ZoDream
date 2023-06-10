@@ -1,4 +1,3 @@
-import { deserialize } from 'jsonapi-deserializer';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth.service';
@@ -21,9 +20,5 @@ export class ResponseInterceptor implements HttpInterceptor {
             }
             return throwError(() => event);
         }));
-    }
-
-    private modifyBody({ body: body, url: url }) {
-        return body ? deserialize(body) : body;
     }
 }

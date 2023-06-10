@@ -2,3 +2,17 @@ a {
     text-decoration: none;
     color: #333;
 }
+.column-item {
+    box-shadow: rgba(51,51,51,.7) 0 0 10px;
+    .item-action {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    &.inactive {
+        box-shadow: none;
+        .icon {
+            background-color: #ccc;
+        }
+    }
+}

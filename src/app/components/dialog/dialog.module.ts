@@ -6,7 +6,8 @@ import { DialogMessageComponent } from './message/dialog-message.component';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogContainerComponent } from './container/dialog-container.component';
-
+import { PopupDirective } from './popup.directive';
+import { DialogPopupComponent } from './popup/dialog-popup.component';
 
 const COMPONENTS = [
     DialogBoxComponent,
@@ -14,15 +15,17 @@ const COMPONENTS = [
     DialogConfirmComponent,
     DialogLoadingComponent,
     DialogContainerComponent,
+    DialogPopupComponent,
+    PopupDirective,
 ];
 
 @NgModule({
     imports: [
         CommonModule,
     ],
-    declarations: [
-        ...COMPONENTS
-    ],
+    declarations: [	
+        ...COMPONENTS,
+   ],
     exports: [
         ...COMPONENTS
     ],
