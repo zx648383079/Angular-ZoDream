@@ -1,5 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑团购' : '新增团购'" (submited)="tapSubmit()"
-    [disabled]="form.invalid">
+<app-edit-header [title]="data && data.id > 0 ? '编辑批发' : '新增批发'" (submited)="tapSubmit($event)" [disabled]="form.invalid">
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -37,48 +36,6 @@
                 <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
             </div>
         </div>
-        <div formGroupName="configure">
-            <div class="input-group">
-                <label for="configure_deposit">保证金</label>
-                <div>
-                    <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"
-                        placeholder="请输入 保证金">
-    
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="configure_amount">限购数量</label>
-                <div>
-                    <input type="text" id="configure_amount" class="form-control" formControlName="amount"
-                        placeholder="请输入 限购数量">
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="configure_min_users">最低参与人数</label>
-                <div>
-                    <input type="text" id="configure_min_users" class="form-control" formControlName="min_users" placeholder="请输入最低参与人数">
-                    <div class="input-tip">
-                        设置最低参与人数
-                    </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="configure_max_users">开团人数</label>
-                <div>
-                    <input type="text" id="configure_max_users" class="form-control" formControlName="max_users" placeholder="请输入开团人数">
-                    <div class="input-tip">
-                        设置开团人数， 当人数达到时，自动生成订单表示开团成功， 0 表示到活动时间结束才验证是否开团成功
-                    </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="configure_send_point">赠送积分</label>
-                <div>
-                    <input type="text" id="configure_send_point" class="form-control" formControlName="send_point"
-                        placeholder="请输入 赠送积分">
-                </div>
-            </div>
-        </div>
         <div class="input-group">
             <label for="money">价格阶梯</label>
             <div class="step-box">
@@ -97,7 +54,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

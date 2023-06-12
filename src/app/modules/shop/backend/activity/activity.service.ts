@@ -7,7 +7,8 @@ import {
     ILotteryConfigure, 
     IMixConfigure,
     IPreSaleConfigure,
-    ISeckillGoods} from '../../model';
+    ISeckillGoods,
+    IWholesaleConfigure} from '../../model';
 
 @Injectable()
 export class ActivityService {
@@ -354,6 +355,32 @@ export class ActivityService {
 
     public goodsRemove(id: any) {
         return this.http.delete<IDataOne<true>>('shop/admin/activity/seckill/delete_goods', {
+            params: {
+                id
+            }
+        });
+    }
+
+    public wholesaleList(params: any) {
+        return this.http.get<IPage<IActivity<IWholesaleConfigure>>>('shop/admin/activity/wholesale', {
+            params,
+        });
+    }
+
+    public wholesale(id: any) {
+        return this.http.get<IActivity<IWholesaleConfigure>>('shop/admin/activity/wholesale/detail', {
+            params: {
+                id
+            },
+        });
+    }
+
+    public wholesaleSave(data: any) {
+        return this.http.post<IActivity<IWholesaleConfigure>>('shop/admin/activity/wholesale/save', data);
+    }
+
+    public wholesaleRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('shop/admin/activity/wholesale/delete', {
             params: {
                 id
             }

@@ -6,7 +6,7 @@ import { emptyValidate } from '../../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
 
 @Component({
-  selector: 'app-time',
+  selector: 'app-shop-skill-time',
   templateUrl: './time.component.html',
   styleUrls: ['./time.component.scss']
 })

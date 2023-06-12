@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-presale',
+  selector: 'app-shop-presale',
   templateUrl: './presale.component.html',
   styleUrls: ['./presale.component.scss']
 })

@@ -1,39 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IActivity, IWholesaleConfigure } from '../../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
-import { IActivity, IPreSaleConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
-  selector: 'app-shop-presale-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-wholesale-edit',
+    templateUrl: './wholesale-edit.component.html',
+    styleUrls: ['./wholesale-edit.component.scss']
 })
-export class EditPresaleComponent implements OnInit {
+export class WholesaleEditComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
         thumb: [''],
         description: [''],
-        scope: [0, Validators.required],
+        scope: [[], Validators.required],
         scope_type: [0],
         start_at: [''],
-        end_at: [''],
-        configure: this.fb.group({
-            final_start_at: '',
-            final_end_at: '',
-            ship_at: '',
-            price_type: 0,
-            price: 0,
-            deposit: 0,
-            deposit_scale: 1,
-            deposit_scale_other: 0,
-        }),
+        end_at: [],
         step: this.fb.array([]),
     });
 
-    public data: IActivity<IPreSaleConfigure>;
+    public data: IActivity<IWholesaleConfigure>;
 
     constructor(
         private service: ActivityService,
@@ -43,15 +34,7 @@ export class EditPresaleComponent implements OnInit {
     ) { }
 
     get stepItems() {
-        return this.form.get('step') as FormArray;
-    }
-
-    get priceType() {
-        return this.form.get('configure').get('price_type').value;
-    }
-
-    get depositScale() {
-        return this.form.get('configure').get('deposit_scale').value;
+        return this.form.get('step') as FormArray<FormGroup>;
     }
 
     ngOnInit() {
@@ -59,7 +42,7 @@ export class EditPresaleComponent implements OnInit {
             if (!params.id) {
                 return;
             }
-            this.service.presale(params.id).subscribe(res => {
+            this.service.wholesale(params.id).subscribe(res => {
                 this.data = res;
                 this.form.patchValue({
                     name: res.name,
@@ -68,14 +51,13 @@ export class EditPresaleComponent implements OnInit {
                     scope: res.scope as any,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
-                    end_at: res.end_at as string,
+                    end_at: res.end_at,
+                    step: this.fb.array(
+                        res.configure.items.map(i => {
+                            return this.fb.group(i);
+                        })
+                    ) as any
                 });
-                if (res.configure.step) {
-                    res.configure.step.forEach(i => {
-                        this.stepItems.push(this.fb.group(i))
-                    });
-                }
-                this.form.get('configure').patchValue(res.configure);
             });
         });
     }
@@ -84,7 +66,7 @@ export class EditPresaleComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -94,11 +76,19 @@ export class EditPresaleComponent implements OnInit {
             data.id = this.data.id;
         }
         if (data.step) {
-            data.configure.step = data.step;
+            data.configure.items = data.items;
         }
-        this.service.presaleSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.wholesaleSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

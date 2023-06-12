@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-auction',
+  selector: 'app-shop-auction',
   templateUrl: './auction.component.html',
   styleUrls: ['./auction.component.scss']
 })

@@ -6,7 +6,7 @@ import { IActivity, IGroupBuyConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-shop-group-buy-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
@@ -24,6 +24,8 @@ export class EditGroupBuyComponent implements OnInit {
             deposit: 0,
             amount: 0,
             send_point: 0,
+            min_users: 2,
+            max_users: 0,
         }),
         step: this.fb.array([]),
     });

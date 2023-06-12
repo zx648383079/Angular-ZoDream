@@ -57,12 +57,13 @@ import {
 import {
     FocusNextDirective,
     InfiniteScrollDirective,
-    LazyLoadDirective
+    LazyLoadDirective,
+    ScrollFixedDirective,
+    FileDropDirective
 } from './directives';
 import {
     FormsModule
 } from '@angular/forms';
-import { FileDropDirective } from './directives/file-drop.directive';
 
 const BASE_MODULES = [
     CommonModule,
@@ -110,6 +111,7 @@ const DIRECTIVES = [
     LazyLoadDirective,
     FileDropDirective,
     FocusNextDirective,
+    ScrollFixedDirective
 ];
 
 @NgModule({

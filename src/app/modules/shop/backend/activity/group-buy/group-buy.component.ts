@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-group-buy',
+  selector: 'app-shop-group-buy',
   templateUrl: './group-buy.component.html',
   styleUrls: ['./group-buy.component.scss']
 })

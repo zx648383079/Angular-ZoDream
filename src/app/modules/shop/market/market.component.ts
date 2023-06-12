@@ -72,6 +72,7 @@ export class MarketComponent implements OnInit {
     public tapSearch(keywords: string = this.keywords) {
         if (keywords.trim().length < 1) {
             this.toastrService.warning('请输入内容');
+            document.documentElement.scrollTop = 0;
             return;
         }
         this.keywords = keywords;

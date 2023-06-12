@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-free-trial',
+  selector: 'app-shop-free-trial',
   templateUrl: './free-trial.component.html',
   styleUrls: ['./free-trial.component.scss']
 })

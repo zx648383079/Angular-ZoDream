@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-mix',
+  selector: 'app-shop-mix',
   templateUrl: './mix.component.html',
   styleUrls: ['./mix.component.scss']
 })

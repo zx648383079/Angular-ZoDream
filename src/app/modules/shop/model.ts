@@ -158,6 +158,7 @@ export interface IOrder {
     receive_at?: string;
     shipping_at?: string;
     pay_at?: string;
+    expired_at?: number; // 未支付订单过期时间
 }
 
 
@@ -580,6 +581,10 @@ export interface IBargainConfigure {
     shipping_fee: number;
 }
 
+export interface IWholesaleConfigure {
+    items: IGroupBuyStep[];
+}
+
 export interface ICashBackConfigure {
     order_amount: number;
     star: number;
@@ -605,6 +610,8 @@ export interface IFreeTrialConfigure {
 export interface IGroupBuyConfigure {
     deposit: number;
     amount: number;
+    min_users: number;
+    max_users: number;
     send_point: number;
     step: IGroupBuyStep[];
 }

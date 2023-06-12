@@ -7,7 +7,7 @@ import { ActivityService } from '../../activity.service';
 import { SearchDialogComponent } from '../../../../components';
 
 @Component({
-    selector: 'app-edit',
+    selector: 'app-shop-lottery-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
 })

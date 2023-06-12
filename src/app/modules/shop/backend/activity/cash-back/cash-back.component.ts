@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-cash-back',
+  selector: 'app-shop-cash-back',
   templateUrl: './cash-back.component.html',
   styleUrls: ['./cash-back.component.scss']
 })

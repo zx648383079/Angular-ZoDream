@@ -56,9 +56,9 @@
                         <p>运费：{{ item.shipping_fee }}</p>
                     </div>
                     <div class="item-user">
-                        <p>用户名：{{ item.user.name }}</p>
-                        <p>收货人：{{ item.address.name }}</p>
-                        <p>{{ item.address.tel }}</p>
+                        <p>用户名：{{ item.user?.name }}</p>
+                        <p>收货人：{{ item.address?.name }}</p>
+                        <p>{{ item.address?.tel }}</p>
                     </div>
                     <div class="item-actions">
                         <a [routerLink]="item.id + ''">订单详情</a>

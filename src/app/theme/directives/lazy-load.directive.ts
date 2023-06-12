@@ -1,6 +1,6 @@
 import { isPlatformServer } from '@angular/common';
 import { AfterViewInit, Directive, ElementRef,
-    EventEmitter, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+    EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { assetUri } from '../utils';
 
 interface IRect {
@@ -30,13 +30,10 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
 
     constructor(
         private elementRef: ElementRef,
-        @Inject(PLATFORM_ID) private platformId: any,
-        private renderer: Renderer2,
+        @Inject(PLATFORM_ID) private platformId: any
     ) { }
 
     ngOnInit() {
-        this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
-        this.renderer.listen(window, 'resize', this.onScroll.bind(this));
         this.emitInit();
     }
 
@@ -73,6 +70,8 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
         
     }
 
+    @HostListener('window:scroll', [])
+    @HostListener('window:resize', [])
     private onScroll() {
         if (typeof window === 'undefined' || this.isDisabled()) {
             return;

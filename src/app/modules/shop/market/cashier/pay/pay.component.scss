@@ -14,3 +14,21 @@
     background-color: white;
     margin: 20px 0;
 }
+
+.price-group {
+    margin-left: .8rem;
+}
+
+.order-bar {
+    color: #767676;
+    display: flex;
+    span {
+        color: #333;
+    }
+}
+
+.pay-btn ::ng-deep {
+    .countdown {
+        display: inline-flex;
+    }
+}

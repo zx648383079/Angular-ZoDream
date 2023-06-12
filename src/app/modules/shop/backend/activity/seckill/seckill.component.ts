@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-seckill',
+  selector: 'app-shop-seckill',
   templateUrl: './seckill.component.html',
   styleUrls: ['./seckill.component.scss']
 })

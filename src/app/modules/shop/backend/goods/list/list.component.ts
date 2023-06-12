@@ -41,6 +41,8 @@ export class ListComponent implements OnInit {
         is_best: 0,
         is_hot: 0,
         is_new: 0,
+        sort: 'id',
+        order: 'desc',
     };
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
@@ -65,6 +67,16 @@ export class ListComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapSort(key: string) {
+        if (this.queries.sort === key) {
+            this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
+        } else {
+            this.queries.sort = key;
+            this.queries.order = 'desc';
+        }
+        this.tapRefresh();
     }
 
 

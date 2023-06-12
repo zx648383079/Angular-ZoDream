@@ -77,6 +77,8 @@ import {
 import { SeckillGoodsComponent } from './seckill/goods/seckill-goods.component';
 import { TimeComponent } from './seckill/time/time.component';
 import { CouponCodeComponent } from './coupon/code/coupon-code.component';
+import { WholesaleComponent } from './wholesale/wholesale.component';
+import { WholesaleEditComponent } from './wholesale/edit/wholesale-edit.component';
 
 const routes: Routes = [{
         path: 'auction/create',
@@ -227,6 +229,18 @@ const routes: Routes = [{
         component: SeckillComponent,
     },
     {
+        path: 'wholesale/edit/:id',
+        component: WholesaleEditComponent,
+    },
+    {
+        path: 'wholesale/create',
+        component: WholesaleEditComponent,
+    },
+    {
+        path: 'wholesale',
+        component: WholesaleComponent,
+    },
+    {
         path: '',
         component: ActivityComponent
     },
@@ -253,5 +267,7 @@ export const activityRoutedComponents = [
     SeckillComponent,
     EditSeckillComponent,
     SeckillGoodsComponent,
-    TimeComponent
+    TimeComponent,
+    WholesaleComponent,
+    WholesaleEditComponent
 ];

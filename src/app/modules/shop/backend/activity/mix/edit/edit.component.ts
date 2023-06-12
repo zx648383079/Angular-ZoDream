@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { DialogAnimation } from '../../../../../../theme/constants/dialog-animation';
-import { IActivity, IGoods, IGoodsResult, IMixConfigure, IMixGoods } from '../../../../model';
+import { IActivity, IGoodsResult, IMixConfigure, IMixGoods } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
-    selector: 'app-edit',
+    selector: 'app-shop-mix-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
     animations: [

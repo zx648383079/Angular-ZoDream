@@ -7,7 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-bargain',
+  selector: 'app-shop-bargain',
   templateUrl: './bargain.component.html',
   styleUrls: ['./bargain.component.scss']
 })

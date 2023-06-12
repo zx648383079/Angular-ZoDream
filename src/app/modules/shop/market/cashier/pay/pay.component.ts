@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IOrder, IPayment } from '../../../model';
+import { IOrder, IPayment, ORDER_STATUS } from '../../../model';
 import { ThemeService } from '../../../../../theme/services';
 import { ShopService } from '../../../shop.service';
 
@@ -36,13 +36,32 @@ export class PayComponent implements OnInit {
     }
 
     public loadOrder(id: any) {
-        this.service.order(id).subscribe(res => {
-            this.data = res;
+        this.service.order(id).subscribe({
+            next: res => {
+                if (res.status !== ORDER_STATUS.UN_PAY) {
+                    this.toastrService.warning('您的订单状态：' + res.status_label);
+                    this.goToOrder(res);
+                    return;
+                }
+                this.data = res;
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
     public paymentChanged(item: IPayment) {
         this.payment = item;
+    }
+
+    public onExpired() {
+        this.toastrService.warning('您的订单已失效！');
+        this.goToOrder(this.data);
+    }
+
+    private goToOrder(res: IOrder) {
+        this.router.navigate(['/shop/member/order', res.id], {relativeTo: this.route});
     }
 
 }

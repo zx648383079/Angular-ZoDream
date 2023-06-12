@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { IActivity } from '../../../model';
+import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
-import { IActivity } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-shop-discount',
-  templateUrl: './discount.component.html',
-  styleUrls: ['./discount.component.scss']
+  selector: 'app-shop-wholesale',
+  templateUrl: './wholesale.component.html',
+  styleUrls: ['./wholesale.component.scss']
 })
-export class DiscountComponent implements OnInit {
+export class WholesaleComponent implements OnInit {
 
     public items: IActivity<any>[] = [];
     public hasMore = true;
@@ -31,8 +31,12 @@ export class DiscountComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.tapRefresh();
+        this.route.queryParams.subscribe(params => {
+            this.queries = this.searchService.getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
+
 
     /**
      * tapRefresh
@@ -58,12 +62,17 @@ export class DiscountComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.discountList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+        this.service.wholesaleList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 
@@ -73,16 +82,15 @@ export class DiscountComponent implements OnInit {
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.name + '”活动？')) {
-            return;
-        }
-        this.service.discountRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”活动？', () => {
+            this.service.wholesaleRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }
