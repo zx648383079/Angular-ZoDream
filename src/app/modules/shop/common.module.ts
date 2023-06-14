@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ZreFormModule } from '../../components/form';
 import { ThemeModule } from '../../theme/theme.module';
-import { BottomBarComponent, CartDialogComponent, CommentPageComponent, GallerySliderComponent, GoodsSliderComponent, IssuePageComponent, TopBarComponent } from './components';
+import { BottomBarComponent, CartDialogComponent, CommentPageComponent, GallerySliderComponent, GoodsSliderComponent, IssuePageComponent, ShareDialogComponent, TopBarComponent } from './components';
 import { PricePipe } from './pipes';
 
 
@@ -17,6 +17,7 @@ const COMPONENTS = [
     GallerySliderComponent,
     CommentPageComponent,
     IssuePageComponent,
+    ShareDialogComponent,
 ];
 
 const PIPES = [

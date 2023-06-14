@@ -1,0 +1,11 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-loading" *ngIf="visible && isLoading">
+    <div class="loading-ring1">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<div #imageBox class="dialog-image" [hidden]="!visible || isLoading"></div>

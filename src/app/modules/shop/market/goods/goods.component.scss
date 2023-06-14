@@ -84,55 +84,60 @@
         line-height: 40px;
         font-size: 13px;
     }
-    .actions { 
-        margin-left: 12px;
-        margin-top: 30px;
-        margin-bottom: 10px;
-        .btn {
-            width: 168px;
-            height: 50px;
-            line-height: 50px;
-            padding: 0;
-            font-size: 18px;
-            // color: #b4a078;
+    
+}
+
+.page-actions { 
+    margin-left: 12px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    .btn {
+        width: 168px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+        font-size: 18px;
+        // color: #b4a078;
+        // border: 1px solid #b4a078;
+        // background-color: #f5f3ef;
+        text-align: center;
+        margin-right: 10px;
+        &.btn-primary {
+            // color: #fff;
             // border: 1px solid #b4a078;
-            // background-color: #f5f3ef;
+            // background-color: #b4a078;
+        }
+        &:hover {
+            // color: #fff;
+            // border: 1px solid #c0ae8a;
+            // background-color: #c0ae8a;
+        }
+        &.btn-collect,
+        &.btn-share {
+            height: 49px;
+            width: 50px;
+            line-height: 10px;
+            font-size: 12px;
             text-align: center;
-            margin-right: 10px;
-            &.btn-primary {
-                // color: #fff;
-                // border: 1px solid #b4a078;
-                // background-color: #b4a078;
+            .iconfont {
+                display: block;
+                font-size: 20px;
+                line-height: 30px;
             }
-            &:hover {
-                // color: #fff;
-                // border: 1px solid #c0ae8a;
-                // background-color: #c0ae8a;
+            &.active {
+                color: #b4a078;
             }
-            &.btn-collect {
-                height: 49px;
-                width: 50px;
-                line-height: 10px;
-                font-size: 12px;
-                text-align: center;
-                .iconfont {
-                    display: block;
-                    font-size: 20px;
-                    line-height: 30px;
-                }
-                &.active {
-                    color: #b4a078;
-                }
-            }
-            &.btn-secondary {
-                cursor: not-allowed;
-                font-size: 14px;
-                width: auto;
-                padding: 0 10px;
-            }
+        }
+        &.btn-secondary {
+            cursor: not-allowed;
+            font-size: 14px;
+            width: auto;
+            padding: 0 10px;
         }
     }
 }
+
+
 
 .detail-box {
     margin-top: 30px;

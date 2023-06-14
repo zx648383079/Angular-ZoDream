@@ -8,3 +8,4 @@ export * from './issue-page/issue-page.component';
 export * from './manage/shop-manage.module';
 export * from './manage/sku-form/sku-form.component';
 export * from './manage/search-dialog/search-dialog.component';
+export * from './share-dialog/share-dialog.component';

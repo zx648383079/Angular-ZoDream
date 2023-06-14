@@ -1,0 +1,8 @@
+@import '../../../../theme/styles/prefix';
+@import '../../../../theme/styles/loading/cute';
+.dialog-image {
+    position: fixed;
+    z-index: 920;
+    left: 0;
+    top: 0;
+}

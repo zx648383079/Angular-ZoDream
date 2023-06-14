@@ -1,7 +1,7 @@
 <div class="goods-page" *ngIf="data">
   <div class="container">
       <nav class="breadcrumb">
-          <a class="breadcrumb-item" routerLink="../../">Home</a>
+          <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
           <a class="breadcrumb-item" *ngIf="data.category" [routerLink]="'../../category/' + data.cat_id">{{ data.category.name }}</a>
           <span class="breadcrumb-item active">{{ data.name }}</span>
       </nav>
@@ -91,7 +91,7 @@
                       </div>
                     </ng-container>
                     <div class="flex-group">
-                        <div class="group-header">
+                        <div class="group-header" i18n>
                           Amount
                         </div>
                         <div class="group-body">
@@ -99,25 +99,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="actions">
-                      <ng-container *ngIf="stock > 0; else elseTemplate">
-                          <a (click)="tapBuy()" class="btn btn-danger">
-                              BUY NOW
-                          </a>
-                          <a (click)="tapAddToCart()" class="btn btn-primary">
-                              <i class="iconfont icon-shopping-cart"></i>
-                              ADD TO CART
-                          </a>
-                      </ng-container>
-                      <ng-template #elseTemplate>
-                          <a href="javascript:;" class="btn btn-secondary">
-                              Insufficient inventory cannot be purchased 
-                          </a>
-                      </ng-template>
-                      <a class="btn btn-collect" [ngClass]="{active: data.is_collect}" (click)="tapCollect()">
-                          <i class="iconfont" [ngClass]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
-                          LIKE
-                      </a>
+                <div class="page-actions">
+                        <ng-container *ngIf="stock > 0; else elseTemplate">
+                            <a (click)="tapBuy()" class="btn btn-danger" i18n>
+                                BUY NOW
+                            </a>
+                            <a (click)="tapAddToCart()" class="btn btn-primary">
+                                <i class="iconfont icon-shopping-cart"></i>
+                                <ng-container i18n>ADD TO CART</ng-container>
+                            </a>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <a href="javascript:;" class="btn btn-secondary" i18n>
+                                Insufficient inventory cannot be purchased 
+                            </a>
+                        </ng-template>
+                        <a class="btn btn-collect" [ngClass]="{active: data.is_collect}" (click)="tapCollect()">
+                            <i class="iconfont" [ngClass]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
+                            <ng-container i18n>LIKE</ng-container>
+                        </a>
+                        <a class="btn btn-share" (click)="shareModal.open()">
+                            <i class="iconfont icon-share-alt"></i>
+                            <ng-container i18n>SHARE</ng-container>
+                        </a>
                 </div>
             </div>
           </div>
@@ -125,7 +129,7 @@
 
       <div class="template-lazy" appLazyLoad (lazyLoading)="loadRecommend()">
         <div class="panel" *ngIf="recommendItems.length > 0">
-            <div class="panel-header">
+            <div class="panel-header" i18n>
                 People who viewed this also viewed
             </div>
             <div class="panel-body">
@@ -138,16 +142,16 @@
           <div class="col-md-8">
             <div class="tab-box">
                 <div class="tab-header">
-                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>
                     Product details
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>
                         Specification
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>
                     Comments
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
+                    <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3" i18n>
                     Issues
                     </div>
                 </div>
@@ -182,7 +186,7 @@
           <div class="col-md-4">
             <div class="template-lazy" appLazyLoad (lazyLoading)="loadHot()">
                 <div class="panel" *ngIf="hotItems.length > 0">
-                    <div class="panel-header">
+                    <div class="panel-header" i18n>
                         TOP/24
                     </div>
                     <div class="panel-body">
@@ -199,7 +203,7 @@
                 </div>
               </div>
           </div>
-          
       </div>
   </div>
 </div>
+<app-shop-share-dialog #shareModal></app-shop-share-dialog>
