@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GameComponent } from './game.component';
 import { PiazzaComponent } from './piazza/piazza.component';
 import { BagComponent } from './pages/bag/bag.component';
 import { BattleComponent } from './pages/battle/battle.component';
 import { ChatComponent } from './pages/chat/chat.component';
-import { CreateCharacterComponent } from './pages/create-character/create-character.component';
 import { DialogueComponent } from './pages/dialogue/dialogue.component';
 import { FarmComponent } from './pages/farm/farm.component';
 import { MainComponent } from './pages/main/main.component';
@@ -17,6 +16,9 @@ import { StoreComponent } from './pages/store/store.component';
 import { TaskComponent } from './pages/task/task.component';
 import { CharacterPanelComponent } from './pages/character-panel/character-panel.component';
 import { MapLevelComponent } from './pages/map/level/map-level.component';
+import { EntryComponent } from './pages/entry/entry.component';
+import { GameScenePath, IGameScene } from './model';
+import { MailComponent } from './pages/mail/mail.component';
 
 const routes: Routes = [
     {
@@ -36,5 +38,23 @@ const routes: Routes = [
 export class GameRoutingModule { }
 
 export const gameRoutedComponents = [
-    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, CreateCharacterComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent
+    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, MailComponent
 ];
+
+export const GameSceneItems: {
+    [path: string]: Type<IGameScene>
+} = {
+    [GameScenePath.Entry]: EntryComponent,
+    [GameScenePath.Bag]: BagComponent,
+    [GameScenePath.Battle]: BattleComponent,
+    [GameScenePath.Character]: CharacterPanelComponent,
+    [GameScenePath.Chat]: ChatComponent,
+    [GameScenePath.Farm]: FarmComponent,
+    [GameScenePath.Main]: MainComponent,
+    [GameScenePath.Map]: MapComponent,
+    [GameScenePath.Organize]: OrganizeComponent,
+    [GameScenePath.Ranch]: RanchComponent,
+    [GameScenePath.Store]: StoreComponent,
+    [GameScenePath.Task]: TaskComponent,
+    [GameScenePath.Mail]: MailComponent,
+};

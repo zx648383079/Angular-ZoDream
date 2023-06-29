@@ -9,9 +9,10 @@
             <a class="btn btn-success pull-right" routerLink="create">新增分类</a>
         </div>
     
-        <table class="table table-hover">
+        <table class="table table-hover tree-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>分类名</th>
                     <th>分组</th>
@@ -20,15 +21,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                <tr *ngFor="let item of items;let i = index" class="tree-item" [ngClass]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
+                    <td class="tree-arrow-td" (click)="toggleTree(i)">
+                        <i class="tree-item-arrow"></i>
+                    </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.level | treeLevel }}{{ item.title }}</td>
                     <td>{{ item.groups }}</td>
                     <td></td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" *ngIf="item.type < 1" [routerLink]="['../content', item.id, item.model_id, 0]">查看</a>
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                        <div class="btn-group">
+                            <a class="btn btn-info" *ngIf="item.type < 1" [routerLink]="['../content', item.id, item.model_id, 0]">查看</a>
+                            <a class="btn btn-primary" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

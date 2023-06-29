@@ -1,3 +1,4 @@
+@import 'mixins';
 .list-table {
     .row-item,
     .image-row-item {
@@ -151,5 +152,41 @@
     .item-body {
         flex: 1;
         display: block;
+    }
+}
+
+.tree-table {
+    .tree-arrow-td {
+        padding: 0 0 0 .3rem;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .tree-item-arrow {
+        color: #444;
+        font-style: normal;
+        &::before {
+            @include icon('\e64b');
+        }
+    }
+    .tree-item {
+        display: table-row;
+    }
+    .tree-next-level {
+        display: none;
+        .tree-item-arrow {
+            color: #767676;
+        }
+    }
+    .treee-item-visible {
+        display: table-row;
+    }
+    .tree-item-open {
+        display: table-row;
+        .tree-item-arrow {
+            color: #337ab7;
+            &::before {
+                content: "\e649";
+            }
+        }
     }
 }

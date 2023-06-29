@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ContextMenuComponent } from '../../../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IErrorResult } from '../../../../theme/models/page';
 import { emptyValidate } from '../../../../theme/validators';
-import { IApiField, IDocApi, IProject, IProjectVersion } from '../../model';
+import { IApiField, IDocApi, IDocTreeItem, IProject, IProjectVersion } from '../../model';
 import { DocumentService } from '../document.service';
+import { treeRemoveId } from '../../shared';
 
 @Component({
   selector: 'app-api-edit',
@@ -15,9 +15,6 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./api-edit.component.scss']
 })
 export class ApiEditComponent implements OnInit {
-
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -33,8 +30,6 @@ export class ApiEditComponent implements OnInit {
     public versionItems: IProjectVersion[] = [];
     public editData: any = {};
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
-    
-
 
     constructor(
         private fb: FormBuilder,
@@ -86,55 +81,27 @@ export class ApiEditComponent implements OnInit {
         });
     }
 
-    public tapContextMenu(e: MouseEvent, parent?: IDocApi) {
-        this.contextMenu.show(e, [
-            {
-                name: '新建文件夹',
-                icon: 'icon-folder-o',
-            },
-            {
-                name: '新建文件',
-                icon: 'icon-file-text-o'
-            },
-            {
-                name: '删除',
-                icon: 'icon-trash',
-                active: !parent,
-            },
-        ].filter(i => !i.active), item => {
-            if (item.name === '删除') {
-                this.tapRemove(parent);
-                return;
-            }
-            this.data = {
-                id: 0,
-                parent_id: parent ? parent.id : 0,
-                project_id: this.project.id,
-                version_id: this.version,
-                name: '',
-                type: item.name.indexOf('文件夹') < 0 ? 0 : 1,
-                method: 'GET',
-                description: '',
-                uri: '',
-                header: [],
-                request: [],
-                response: [],
-            };
-            this.form.patchValue({
-                name: '',
-                method: 'GET',
-                description: '',
-                uri: '',
-            });
+    public onCreate(data: IDocTreeItem) {
+        this.data = {
+            ...data,
+            project_id: this.project.id,
+            version_id: this.version,
+            method: 'GET',
+            description: '',
+            uri: '',
+            header: [],
+            request: [],
+            response: [],
+        } as any;
+        this.form.patchValue({
+            name: '',
+            method: 'GET',
+            description: '',
+            uri: '',
         });
-        return false;
     }
 
     public tapEdit(item: IDocApi) {
-        item.expanded = !item.expanded;
-        if (this.data && this.data.id === item.id) {
-            return;
-        }
         this.service.api(item.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({
@@ -204,28 +171,14 @@ export class ApiEditComponent implements OnInit {
     }
 
     public tapRemove(item: IDocApi) {
-        if (!confirm('确定删除“' + item.name + '”文档？')) {
-            return;
-        }
-        this.service.apiRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            const removeItem = (id: number, items: IDocApi[]) => {
-                for (let i = 0; i < items.length; i++) {
-                    const element = items[i];
-                    if (element.id === id) {
-                        items.splice(i, 1);
-                        return true;
-                    }
-                    if (element.children && removeItem(id, element.children)) {
-                        return true;
-                    }
+        this.toastrService.confirm('确定删除“' + item.name + '”文档？', () => {
+            this.service.apiRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
                 }
-                return false;
-            };
-            removeItem(item.id, this.catalog);
+                this.toastrService.success($localize `Delete Successfully`);
+                this.catalog = treeRemoveId(this.catalog, item.id);
+            });
         });
     }
 

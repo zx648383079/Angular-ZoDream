@@ -56,6 +56,16 @@ export class GameListComponent implements OnInit {
         });
     }
 
+    public onStatusChange(item: IGameProject) {
+        this.service.projectSave({...item}).subscribe({
+            next: _ => {
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

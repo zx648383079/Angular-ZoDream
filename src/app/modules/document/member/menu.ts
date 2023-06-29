@@ -2,7 +2,7 @@ import { INav } from '../../../theme/components';
 
 export const DocumentMemberMenu: INav[] = [
     {
-        name: '我的文档',
+        name: $localize `My Document`,
         icon: 'icon-file-text-o',
         url: './',
     },

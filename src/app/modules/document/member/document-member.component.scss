@@ -1,0 +1,30 @@
+.project-item {
+    position: relative;
+    padding: 10px 10px 10px 80px;
+    height: 100px;
+    .cover {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        img {
+            width: 60px;
+            height: 80px;
+        }
+    }
+    .name {
+        font-size: 18px;
+        line-height: 30px;
+    }
+    .desc {
+        color: #777;
+        font-size: 13px;
+    }
+    .action {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+}

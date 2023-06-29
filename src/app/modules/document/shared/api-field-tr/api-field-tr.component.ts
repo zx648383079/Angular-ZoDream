@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IApiField } from '../../../model';
+import { IApiField } from '../../model';
 
 @Component({
-  selector: 'app-api-field-tr',
+  selector: 'app-doc-api-field-tr',
   templateUrl: './api-field-tr.component.html',
   styleUrls: ['./api-field-tr.component.scss']
 })

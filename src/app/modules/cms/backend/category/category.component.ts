@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ICmsCategory } from '../../model';
 import { CmsService } from '../cms.service';
+import { toggleTreeItem } from '../../../../theme/utils';
 
 @Component({
   selector: 'app-category',
@@ -27,6 +28,10 @@ export class CategoryComponent implements OnInit {
             this.site = parseInt(params.site);
             this.tapRefresh();
         });
+    }
+
+    public toggleTree(i: number) {
+        this.items = toggleTreeItem(this.items, i);
     }
 
     public tapRefresh() {

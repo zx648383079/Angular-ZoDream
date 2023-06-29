@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IEditor, IEditorBlock } from '../model';
 import { EditorContainer } from '../container';
 import { CodeElement } from '../base/code';
-import { EVENT_EDITOR_CHANGE } from '../base';
+import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -30,7 +30,7 @@ export class CodeEditorComponent implements AfterViewInit, OnDestroy, ControlVal
     constructor(
         private elementRef: ElementRef
     ) {
-        this.container.on(EVENT_EDITOR_CHANGE, () => {
+        this.container.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
             this.onChange(this.container.value);
         });
     }

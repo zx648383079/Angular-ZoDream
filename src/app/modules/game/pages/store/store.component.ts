@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-store',
     templateUrl: './store.component.html',
     styleUrls: ['./store.component.scss']
 })
-export class StoreComponent implements OnInit {
+export class StoreComponent implements IGameScene {
 
     public items: any[] = [1,1,1,1,1];
     public hasMore = true;
@@ -20,9 +21,6 @@ export class StoreComponent implements OnInit {
     public modalVisible = false;
 
     constructor() { }
-
-    ngOnInit() {
-    }
 
     public tapBack() {
 

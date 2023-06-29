@@ -19,6 +19,9 @@ import { MineComponent } from './mine/mine.component';
 import { FinancialComponent } from './financial/financial.component';
 import { CharacterIdentityComponent } from './character/identity/character-identity.component';
 import { SkillComponent } from './rule/skill/skill.component';
+import { MapAreaComponent } from './map/area/map-area.component';
+import { MapEditorComponent } from './map/editor/map-editor.component';
+import { MapItemComponent } from './map/item/map-item.component';
 
 const routes: Routes = [
     {
@@ -40,6 +43,18 @@ const routes: Routes = [
             {
                 path: 'item',
                 component: ItemComponent,
+            },
+            {
+                path: 'map/area',
+                component: MapAreaComponent,
+            },
+            {
+                path: 'map/editor',
+                component: MapEditorComponent,
+            },
+            {
+                path: 'map/:map/item',
+                component: MapItemComponent,
             },
             {
                 path: 'map',
@@ -109,5 +124,5 @@ export class GameMakerRoutingModule { }
 
 export const gameMakerRoutedComponents = [
     GameMakerComponent, HomeComponent, TaskComponent, TaskDialogueComponent, RuleGradeComponent, MapComponent, ItemComponent, IndigenousComponent,
-    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent
+    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent, MapAreaComponent, MapEditorComponent, MapItemComponent
 ];

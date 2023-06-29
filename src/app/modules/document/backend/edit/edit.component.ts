@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { IProject } from '../../model';
+import { ICategory, IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
 @Component({
@@ -15,13 +15,14 @@ export class EditComponent implements OnInit {
 
     public form = this.fb.group({
         name: ['', Validators.required],
+        cat_id: [0],
         cover: [''],
         description: [''],
         status: [0],
     });
 
     public data: IProject;
-
+    public categories: ICategory[] = [];
     public tabIndex = 0;
 
     constructor(
@@ -32,6 +33,9 @@ export class EditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.service.categoryTree().subscribe(res => {
+            this.categories = res.data;
+        });
         this.route.params.subscribe(params => {
             if (!params.id || params.id < 1) {
                 history.back();
@@ -40,6 +44,7 @@ export class EditComponent implements OnInit {
             this.service.project(params.id).subscribe(res => {
                 this.data = res;
                 this.form.patchValue({
+                    cat_id: res.cat_id,
                     name: res.name,
                     cover: res.cover,
                     description: res.description,

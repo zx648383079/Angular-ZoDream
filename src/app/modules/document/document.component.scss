@@ -26,27 +26,30 @@
     display: block;
     position: relative;
     border-radius: .2rem;
-    .cover {
+    .item-cover {
         img {
             width: 100%;
             filter: blur(0) grayscale(0);
             transition: filter .8s ease;
         }
     }
-    .content {
+    .item-body {
         position: absolute;
-        top: 0;
+        height: 3rem;
         bottom: 0;
         left: 0;
         right: 0;
-        display: none;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        .name {
+        background-color: rgba($color: #000000, $alpha: .1);
+        color: #fff;
+        transition: all .5s;
+        .item-name {
+            padding: 0 .4rem;
             user-select: text;
             color: #fff;
-            font-size: 20px;
+            font-size: 1.25rem;
         }
     }
     &:hover {
@@ -54,12 +57,13 @@
         border: 1px solid #d4d4d5;
         box-shadow: 0 1px 3px 0 #bcbdbd, 0 0 0 0 #d4d4d5;
         transform: translateY(-3px);
-        .cover {
+        .itme-cover {
             img {
                 filter: blur(5px) grayscale(.7);
             }
         }
-        .content {
+        .item-body {
+            height: 100%;
             display: flex;
             background-color: rgba($color: #000000, $alpha: .6);
         }

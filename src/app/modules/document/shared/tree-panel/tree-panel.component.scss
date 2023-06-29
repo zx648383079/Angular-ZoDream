@@ -1,0 +1,62 @@
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tree-box {
+    min-height: 60vh;
+    .tip {
+        line-height: 6.25rem;
+        font-size: 2rem;
+        color: #ccc;
+        text-align: center;
+    }
+    .tree-item {
+        .iconfont {
+            width: 1.5rem;
+            height: 1.5rem;
+            line-height: 1.5rem;
+            display: inline-block;
+            text-align: center;
+        }
+        .tree-name {
+            user-select: none;
+            line-height: 1.875rem;
+            text-align: left;
+        }
+        .tree-body {
+            display: none;
+            .tree-name {
+                padding-left: 1.875rem;
+                cursor: pointer;
+            }
+        }
+        .tree-item {
+            margin-left: 1.5rem;
+        }
+        &:hover {
+            >.tree-name {
+                background-color: #f2f2f2;
+            }
+        }
+        &.active {
+            >.tree-name {
+                background-color: #e5e5e5;
+            }
+        }
+        &.open {
+            .tree-body {
+                display: block;
+            }
+        }
+    }
+}
+
+@media (min-width: 48rem) {
+    .tree-box {
+        .tip {
+            font-size: 2.5rem;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<ul class="tree-box" (contextmenu)="tapContextMenu($event)">
+    <li class="tree-item" *ngFor="let item of items" [ngClass]="{open: item.expanded, active: value && item.id == value.id}">
+        <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
+            <i class="iconfont" [ngClass]="{'icon-chevron-right': (item.children || item.type > 0) && !item.expanded, 'icon-chevron-down': (item.children || item.type > 0) && item.expanded}"></i>
+            {{ item.name }}
+        </div>
+        <ul class="tree-body">
+            <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: value && it.id == value.id}">
+                <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
+            </li>
+        </ul>
+    </li>
+    <li class="tip">
+        右键新增页面
+    </li>
+</ul>
+
+<app-context-menu></app-context-menu>

@@ -1,3 +1,29 @@
-<p>
-  document-member works!
-</p>
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
+    </form>
+    <a class="btn btn-success pull-right" routerLink="create" i18n>Create Document</a>
+</div>
+
+<div class="project-item" *ngFor="let item of items">
+    <div class="cover">
+        <img [src]="item.cover" alt="">
+    </div>
+    <div class="name">{{ item.name }}</div>
+    <div class="desc">{{ item.description }}</div>
+    <div class="action">
+        <div class="btn-group mr-3">
+            <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]" i18n>Edit</a>
+            <div class="dropdown-bar">
+              <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
+              <div class="dropdown-menu">
+                <a class="btn-info" [routerLink]="['edit', item.id]" i18n>Setting</a>
+                <a class="btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>

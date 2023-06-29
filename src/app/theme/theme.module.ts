@@ -59,7 +59,8 @@ import {
     InfiniteScrollDirective,
     LazyLoadDirective,
     ScrollFixedDirective,
-    FileDropDirective
+    FileDropDirective,
+    DropdownDirective
 } from './directives';
 import {
     FormsModule
@@ -111,7 +112,8 @@ const DIRECTIVES = [
     LazyLoadDirective,
     FileDropDirective,
     FocusNextDirective,
-    ScrollFixedDirective
+    ScrollFixedDirective,
+    DropdownDirective,
 ];
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { IBound, IPoint } from '../../../theme/canvas';
-import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorVideoBlock } from '../model';
+import { eachObject, wordLength } from '../../../theme/utils';
+import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorValueBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EVENT_CLOSE_TOOL, EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_CLICK, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
+import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_CLICK, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
 
 /**
  * 富文本模式
@@ -16,6 +16,10 @@ export class DivElement implements IEditorElement {
     }
 
     private isComposition = false;
+
+    private get blockTagName() {
+        return this.container.option.blockTag;
+    }
 
     public get selection(): IEditorRange {
         const sel = window.getSelection();
@@ -112,48 +116,13 @@ export class DivElement implements IEditorElement {
         if (!range) {
             range = this.selection;
         }
-        switch(block.type) {
-            case EditorBlockType.AddHr:
-                this.insertHr(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddText:
-                this.insertText(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddRaw:
-                this.insertRaw(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.Indent:
-                this.insertIndent(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.Outdent:
-                this.insertOutdent(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.AddLineBreak:
-                this.insertLineBreak(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddImage:
-                this.insertImage(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddTable:
-                this.insertTable(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddVideo:
-                this.insertVideo(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddLink:
-                this.insertLink(block as any, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
+        const func = this[block.type + 'Execute'];
+        if (typeof func === 'function') {
+            func.call(this, range.range, block);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
+            return;
         }
+        throw new Error(`insert type error:[${block.type}]`);
     }
     public focus(): void {
         this.element.focus({preventScroll: true});
@@ -163,12 +132,14 @@ export class DivElement implements IEditorElement {
         return this.element.blur();
     }
 
-    private insertHr(range: Range) {
+//#region 外部调用的方法
+
+    private addHrExecute(range: Range) {
         const hr = document.createElement('hr');
         this.replaceSelected(range, hr);
     }
 
-    private insertIndent(range: Range) {
+    private indentExecute(range: Range) {
         const items: Node[] = [];
         this.eachRangeParentNode(range, node => {
             if (this.isBlockNode(node) || node.parentNode === this.element) {
@@ -179,7 +150,7 @@ export class DivElement implements IEditorElement {
         for (const item of items) {
             let node: HTMLElement = item as any;
             if (!this.isBlockNode(node)) {
-                const p = document.createElement(this.container.option.blockTag);
+                const p = document.createElement(this.blockTagName);
                 p.appendChild(node.cloneNode(true));
                 this.element.replaceChild(p, node);
                 node = p;
@@ -189,7 +160,7 @@ export class DivElement implements IEditorElement {
         }
     }
 
-    private insertOutdent(range: Range) {
+    private outdentExecute(range: Range) {
         this.eachRangeParentNode(range, node => {
             if (!this.isBlockNode(node)) {
                 return;
@@ -202,7 +173,19 @@ export class DivElement implements IEditorElement {
         });
     }
 
-    private insertTable(block: IEditorTableBlock, range: Range) {
+    private tabExecute(range: Range) {
+        const cell = this.nodeParent(range.startContainer, 'td,' + this.blockTagName);
+        if (!(cell instanceof HTMLTableCellElement)){
+            this.indentExecute(range);
+            return;
+        }
+        if (this.moveTableFocus(cell)) {
+            return;
+        }
+        this.focusAfter(this.nodeParent(cell, 'table'));
+    }
+
+    private addTableExecute(range: Range, block: IEditorTableBlock) {
         const table = document.createElement('table');
         table.style.width = '100%';
         const tbody = table.createTBody();
@@ -220,20 +203,20 @@ export class DivElement implements IEditorElement {
         this.replaceSelected(range, table);
     }
 
-    private insertImage(block: IEditorFileBlock, range: Range) {
+    private addImageExecute(range: Range, block: IEditorFileBlock) {
         const image = document.createElement('img');
         image.src = block.value;
         image.title = block.title || '';
         this.replaceSelected(range, image);
     }
 
-    private insertText(block: IEditorTextBlock, range: Range) {
+    private addTextExecute(range: Range, block: IEditorTextBlock) {
         const span = document.createElement('span');
         span.innerText = block.value;
         this.replaceSelected(range, span);
     }
 
-    private insertRaw(block: IEditorTextBlock, range: Range) {
+    private addRawExecute(range: Range, block: IEditorTextBlock) {
         const p = document.createElement('div');
         p.innerHTML = block.value;
         const items = [];
@@ -243,21 +226,21 @@ export class DivElement implements IEditorElement {
         this.replaceSelected(range, ...items);
     }
 
-    private insertVideo(block: IEditorVideoBlock, range: Range) {
+    private addVideoExecute(range: Range, block: IEditorVideoBlock) {
         const ele = document.createElement('video');
         ele.src = block.value;
         ele.title = block.title || '';
         this.replaceSelected(range, ele);
     }
 
-    private insertFile(block: IEditorFileBlock, range: Range) {
+    private addFileExecute(range: Range, block: IEditorFileBlock) {
         const ele = document.createElement('a');
         ele.href = block.value;
         ele.title = block.title || '';
         this.replaceSelected(range, ele);
     }
 
-    private insertLink(block: IEditorLinkBlock, range: Range) {
+    private addLinkExecute(range: Range, block: IEditorLinkBlock) {
         const link = document.createElement('a');
         link.href = block.value;
         link.text = block.title;
@@ -268,11 +251,11 @@ export class DivElement implements IEditorElement {
         this.selectNode(link);
     }
 
-    
-    private insertLineBreak(range: Range) {
+
+    private addLineBreakExecute(range: Range) {
         let begin = range.startContainer;
         let beginOffset = range.startOffset;
-        const p = document.createElement(this.container.option.blockTag);
+        const p = document.createElement(this.blockTagName);
         if (begin === this.element) {
             p.appendChild(document.createElement('br'));
             if (this.element.children.length === 0) {
@@ -282,6 +265,23 @@ export class DivElement implements IEditorElement {
             }
             this.selectNode(p);
             return;
+        }
+        const li = this.nodeParent(begin, 'li,td,' + this.blockTagName);
+        if (li) {
+            if (li.nodeName === 'LI') {
+                const next = document.createElement(li.nodeName);
+                this.insertAfter(li, next);
+                this.selectNode(next);
+                return;
+            }
+            if (li instanceof HTMLTableCellElement)
+            {
+                if (this.moveTableFocus(li)) {
+                    return;
+                }
+                this.focusAfter(this.nodeParent(li, 'table'));
+                return;
+            }
         }
         let addBlock = false;
         this.eachBlockNext(range.endContainer, range.endOffset, node => {
@@ -315,11 +315,380 @@ export class DivElement implements IEditorElement {
             }
         }
         if (addBlock) {
-            const ele = document.createElement(this.container.option.blockTag);
+            const ele = document.createElement(this.blockTagName);
             ele.appendChild(document.createElement('br'));
             this.insertBefore(p, ele);
         }
         this.selectNode(p);
+    }
+
+    private hExecute(range: Range, block: IEditorValueBlock) {
+        this.replaceNodeName(range.startContainer, block.value);
+    }
+    private blockquoteExecute(range: Range) {
+        this.toggleParentNode(range, 'blockquote');
+    }
+
+    private listExecute(range: Range) {
+        const node = range.startContainer;
+        let box = this.nodeParent(node, 'ul,ol');
+        if (box) {
+            const items: Node[] = [];
+            for (let j = 0; j < box.childNodes.length; j++) {
+                const li = box.childNodes[j];
+                if (li.nodeName !== 'li') {
+                    items.push(li);
+                    continue;
+                }
+                li.childNodes.forEach(v => {
+                    items.push(v);
+                });
+            }
+            this.replaceNode(box, items);
+            return;
+        }
+        box = document.createElement('ul');
+        const li = document.createElement('li');
+        box.appendChild(li);
+        this.replaceNode(node, box, () => {
+            li.appendChild(node);
+        });
+    }
+
+    private boldExecute(range: Range) {
+        this.toggleParentNode(range, 'b');
+    }
+
+    private subExecute(range: Range) {
+        this.toggleParentStyle(range, {
+            'vertical-align': 'text-bottom',
+            'font-size': '8px'
+        });
+    }
+
+    private supExecute(range: Range) {
+        this.toggleParentStyle(range, {
+            'vertical-align': 'text-top',
+            'font-size': '8px'
+        });
+    }
+
+    private italicExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentNode(range, 'i');
+    }
+    private underlineExecute(range: Range) {
+        this.toggleParentStyle(range, {
+            'text-decoration': 'underline'
+        });
+    }
+
+    private strikeExecute(range: Range) {
+        this.toggleParentStyle(range, {
+            'text-decoration': 'strike'
+        });
+    }
+
+    private fontSizeExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentStyle(range, {
+            'font-size': block.value
+        });
+    }
+    private fontFamilyExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentStyle(range, {
+            'font-family': block.value
+        });
+    }
+    private backgroundExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentStyle(range, {
+            'background-color': block.value
+        });
+    }
+    private foregroundExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentStyle(range, {
+            color: block.value
+        });
+    }
+
+    private clearStyleExecute(range: Range) {
+        this.eachRangeParentNode(range, node => {
+            if (node instanceof HTMLElement) {
+                node.removeAttribute('style');
+            }
+        });
+    }
+
+
+    private alignExecute(range: Range, block: IEditorValueBlock) {
+        this.toggleParentStyle(range, {
+            'text-align': block.value
+        });
+    }
+
+    private theadExecute(range: Range) {
+        const table = this.nodeParent<HTMLTableElement>(range.startContainer, 'table');
+        if (!table) {
+            return;
+        }
+        if (table.tHead) {
+            table.tHead = null;
+            return;
+        }
+        table.createTHead();
+    }
+
+    private tfootExecute(range: Range) {
+        const table = this.nodeParent<HTMLTableElement>(range.startContainer, 'table');
+        if (!table) {
+            return;
+        }
+        if (table.tFoot) {
+            table.tFoot = null;
+            return;
+        }
+        table.createTFoot();
+    }
+
+    private rowSpanExecute(range: Range) {
+        const start = this.getTableCell(range.startContainer);
+        const end = this.getTableCell(range.endContainer);
+        const body = start.parentNode.parentNode as HTMLTableSectionElement;
+        const startSpan = this.getTableCellSpan(start);
+        if (start === end) {
+            if (start.rowSpan < 2) {
+                return;
+            }
+            let count = start.rowSpan - 1;
+            start.rowSpan = 1;
+            let found = false;
+            for (let i = 0; i < body.rows.length; i++) {
+                if (count < 1) {
+                    break;
+                }
+                const tr = body.rows[i];
+                if (tr === start.parentNode) {
+                    found = true;
+                    continue;
+                }
+                if (!found) {
+                    continue;
+                }
+                count --;
+                let span = 0;
+                for (let j = 0; j < tr.cells.length; j++) {
+                    const item = tr.cells[i];
+                    span += item.colSpan;
+                    if (span === startSpan) {
+                        this.insertAfter(item, document.createElement(start.nodeName));
+                        break;
+                    } else if (span > startSpan) {
+                        item.colSpan ++;
+                        break;
+                    }
+                }
+            }
+            return;
+        }
+        if (start.parentNode === end.parentNode) {
+            return;
+        }
+        if (body !== end.parentNode.parentNode) {
+            return;
+        }
+        // 获取 td|th table
+        // 判断 两个 table 是否是同一个
+        // 获取 tr.index 
+        // 设置第一个 td rowspan ，删除其他行的td
+        let endIndex = -1;
+        let span = 0;
+        for (let i = body.rows.length - 1; i >= 0; i--) {
+            const tr = body.rows[i];
+            if (tr === start.parentNode) {
+                start.rowSpan += span;
+                break;
+            }
+            if (tr === end.parentNode) {
+                endIndex = i;
+            }
+            if (endIndex < 0) {
+                return;
+            }
+            span ++;
+            let s = 0;
+            for (let j = 0; j < tr.cells.length; j++) {
+                const item = tr.cells[j];
+                s += item.colSpan;
+                if (s < startSpan) {
+                    continue;
+                }
+                if (s > startSpan || item.colSpan > 1) {
+                    item.colSpan --;
+                } else {
+                    tr.removeChild(item);
+                }
+                break;
+            }
+        }
+    }
+
+    private colSpanExecute(range: Range) {
+        const start = this.getTableCell(range.startContainer);
+        const end = this.getTableCell(range.endContainer);
+        if (start === end) {
+            if (start.colSpan < 2) {
+                return;
+            }
+            const count = start.colSpan - 1;
+            start.colSpan = 1;
+            for(let i = 0; i < count; i ++) {
+                this.insertAfter(start, document.createElement(start.nodeName));
+            }
+            return;
+        }
+        const tr = start.parentNode as HTMLTableRowElement;
+        // 获取 td|th tr
+        // 判断 两个 tr 是否是同一个
+        // 获取 td.index 
+        // 设置第一个 td rowspan ，删除其他的td
+        if (tr !== end.parentNode) {
+            return;
+        }
+        let endIndex = -1;
+        let span = 0;
+        for (let i = tr.cells.length - 1; i >= 0; i--) {
+            const item = tr.cells[i];
+            if (item === start) {
+                item.colSpan += span;
+                break;
+            }
+            if (item === end) {
+                endIndex = i;
+            }
+            if (endIndex > 0) {
+                span += item.colSpan;
+                tr.removeChild(item);
+            }
+        }
+    }
+
+    private delTableExecute(range: Range) {
+        const table = this.nodeParent(range.startContainer, 'table');
+        if (table) {
+            this.removeNode(table);
+        }
+    }
+
+    private openLinkExecute(range: Range) {
+        const link = this.nodeParent(range.startContainer, 'a');
+        if (!link) {
+            return;
+        }
+        window.open(link.getAttribute('href'));
+    }
+
+//#endregion
+
+    public getModuleItems(range: IEditorRange): string[] {
+        const node = range.range?.startContainer;
+        if (!node) {
+            return [];
+        }
+        const blockName = this.blockTagName.toUpperCase();
+        const data: string[] = [];
+        this.eachParentNode(node, item => {
+            if (node.nodeName === blockName || node.nodeName === 'IMG' 
+            || node.nodeName === 'TABLE' || node.nodeName === 'VIDEO') {
+                return false;
+            }
+            if (!(item instanceof HTMLElement)){
+                return;
+            }
+            if (item.nodeName === 'B') {
+                data.push('bold');
+            } else if (item.nodeName === 'I') {
+                data.push('italic');
+            } else if (item.nodeName === 'BLOCKQUOTE') {
+                data.push('blockquote');
+            } else if (/^H[1-6]$/.test(item.nodeName)) {
+                data.push('head');
+            }
+            if (item.style.verticalAlign === 'text-top') {
+                data.push('sup');
+            } else if (item.style.verticalAlign === 'text-bottom') {
+                data.push('sub');
+            }
+            if (item.style.textDecoration === 'underline') {
+                data.push('wavyline');
+            } else if (item.style.textDecoration === 'wavyline') {
+                data.push('dashed');
+            } else if (item.style.textDecoration === 'strike') {
+                data.push('strike');
+            }
+            if (item.style.backgroundColor) {
+                data.push('background');
+            }
+            if (item.style.color) {
+                data.push('foreground');
+            }
+        });
+        return data;
+    }
+
+    private getTableCellSpan(node: HTMLTableCellElement): number {
+        const parent = node.parentNode as HTMLTableRowElement;
+        let span = 0;
+        for (let i = 0; i < parent.cells.length; i++) {
+            const item = parent.cells[i];
+            if (item === node) {
+                break;
+            }
+            span += item.colSpan;
+        }
+        return span;
+    }
+
+    private getTableCell(node: Node): HTMLTableCellElement|undefined {
+        if (node instanceof HTMLTableCellElement) {
+            return node;
+        }
+        while (node.parentNode) {
+            if (node.parentNode instanceof HTMLTableCellElement) {
+                return node.parentNode;
+            }
+        }
+        return;
+    }
+
+    /**
+     * 移动光标到下一格
+     * @param node 
+     * @returns 
+     */
+    private moveTableFocus(node: HTMLTableCellElement): boolean {
+        if (node.nextSibling) {
+            this.selectNode(node.nextSibling);
+            return true;
+        }
+        const tr = node.parentNode;
+        if (!tr || !(tr instanceof HTMLTableRowElement)) {
+            return false;
+        }
+        if (tr.nextSibling && tr.nextSibling.childNodes.length >= 1) {
+            this.selectNode(tr.nextSibling.childNodes[0]);
+            return true;
+        }
+        const body = tr.parentNode;
+        if (!body || !(body instanceof HTMLTableSectionElement)) {
+            return false;
+        }
+        if (!body.nextSibling || body.nextSibling.childNodes.length === 0) {
+            return false;
+        }
+        const nextTr = body.nextSibling.childNodes[0];
+        if (nextTr.childNodes.length === 0) {
+            return false;
+        }
+        this.selectNode(nextTr.childNodes[0]);
+        return true;
     }
 
     /**
@@ -365,14 +734,148 @@ export class DivElement implements IEditorElement {
      * 切换父级的标签，例如 b strong
      */
     private toggleParentNode(range: Range, tag: string) {
-
+        const n = document.createElement(tag);
+        const node = range.startContainer;
+        if (node === this.element) {
+            this.insertToChildIndex(n, node, range.startOffset);
+            this.selectNode(n);
+            return;
+        }
+        const parent = this.nodeParent(node, tag);
+        if (parent) {
+            this.replaceNodeName(parent, tag === 'b' ? 'span' : this.blockTagName);
+            return;
+        }
+        let target = node;
+        if (node.parentNode && node.parentNode !== this.element && this.isOnlyNode(node)) {
+            target = node.parentNode;
+        }
+        this.replaceNode(target, n, () => {
+            n.appendChild(node);
+            if (target !== node) {
+                this.removeNode(target);
+            }
+        });
+        this.selectNode(node);
     }
 
     /**
      * 切换父级的样式 
      */
     private toggleParentStyle(range: Range, style: any) {
-        
+        const box = this.getBlockParent(range.startContainer);
+        if (!box) {
+            return;
+        }
+        eachObject(style, (val, key) => {
+            box.style[key] = val;
+        });
+    }
+
+    /**
+     * 获取节点的父级
+     * @param node 
+     * @returns 
+     */
+    private getBlockParent(node: Node): HTMLElement {
+        const box = node.parentNode as HTMLElement;
+        if (box !== this.element) {
+            return box;
+        }
+        const p = document.createElement(this.blockTagName);
+        this.replaceNode(node, p, () => {
+            p.appendChild(node);
+        });
+        return p;
+    }
+
+    private nodeParent<T = HTMLElement>(node: Node, tag?: string): T|undefined {
+        if (!tag) {
+            return node.parentNode as any;
+        }
+        const items = tag.toUpperCase().split(',');
+        let parent: HTMLElement;
+        this.eachParentNode(node, item => {
+            if (items.indexOf(item.nodeName) >= 0) {
+                parent = item as any;
+                return false;
+            }
+        });
+        return parent as any;
+    }
+
+    /**
+     * 判断节点是否处于范围内
+     * @param node 
+     * @returns 
+     */
+    private hasNode(node: Node): boolean {
+        if (node === this.element) {
+            return false;
+        }
+        while (node.parentNode) {
+            if (node.parentNode.nodeName === 'BODY') {
+                return false;
+            }
+            if (node.parentNode === this.element) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
+
+    private replaceNodeName(node: Node, tag: string) {
+        const n = document.createElement(tag);
+        if (node instanceof HTMLElement) {
+            if (n.nodeName=== node.nodeName) {
+                return;
+            }
+            n.innerHTML = node.innerHTML;
+            this.replaceNode(node, n);
+            this.selectNode(n);
+            return;
+        }
+        this.replaceNode(node, n, () => {
+            n.appendChild(node);
+        });
+        this.selectNode(n);
+    }
+
+    /**
+     * 替换节点为
+     * @param node 
+     * @param newNode 
+     * @param removeFn 删除旧节点还是移动
+     * @returns 
+     */
+    private replaceNode(node: Node, newNode: Node[]|Node, removeFn?: Function) {
+        const fn = () => {
+            if (removeFn) {
+                removeFn();
+                return;
+            }
+            this.removeNode(node);
+        };
+        if (!(newNode instanceof Array)) {
+            newNode = [newNode];
+        }
+        let borther = node.previousSibling;
+        if (borther) {
+            fn();
+            this.insertAfter(borther, ...newNode);
+            return;
+        }
+        borther = node.nextSibling;
+        if (borther) {
+            fn();
+            this.insertBefore(borther, ...newNode);
+            return;
+        }
+        const parent = node.parentNode;
+        fn();
+        this.insertLast(parent, ...newNode);
+        return;
     }
 
     private isNotSelected(range: Range) {
@@ -390,11 +893,27 @@ export class DivElement implements IEditorElement {
         sel.addRange(range);
     }
 
+    private focusAfter(node: Node) {
+        if (!node) {
+            return;
+        }
+        if (node.nextSibling) {
+            this.selectNode(node.nextSibling);
+            return;
+        }
+        this.selectNode(node.parentNode, node.parentNode.childNodes.length);
+    }
+
     private bindEvent() {
         this.element.addEventListener('keydown', e => {
             this.container.saveSelection();
-            this.container.emit(EVENT_INPUT_KEYDOWN, e);
-            this.container.emit(EVENT_CLOSE_TOOL);
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                this.tabExecute(this.selection.range);
+            } else {
+                this.container.emit(EDITOR_EVENT_INPUT_KEYDOWN, e);
+            }
+            this.container.emit(EDITOR_EVENT_CLOSE_TOOL);
         });
         this.element.addEventListener('keyup', () => {
             if (this.isComposition) {
@@ -402,7 +921,7 @@ export class DivElement implements IEditorElement {
             }
             const range = this.selection.range;
             if (this.isEmptyLine(range)) {
-                this.container.emit(EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
+                this.container.emit(EDITOR_EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
         });
@@ -413,12 +932,12 @@ export class DivElement implements IEditorElement {
         this.element.addEventListener('compositionend', () => {
             this.isComposition = false;
             this.container.saveSelection();
-            this.container.emit(EVENT_SELECTION_CHANGE);
-            this.container.emit(EVENT_EDITOR_CHANGE);
+            this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();
-            this.container.emit(EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
             // console.log([this.selectedValue]);
         });
         this.element.addEventListener('mouseenter', e => {
@@ -428,7 +947,7 @@ export class DivElement implements IEditorElement {
             if (e.target instanceof HTMLHRElement) {
                 if (e.target.previousSibling instanceof HTMLHRElement) {
                     this.selectNode(e.target);
-                    this.container.emit(EVENT_SHOW_LINE_BREAK_TOOL, this.getNodeOffset(e.target.previousSibling));
+                    this.container.emit(EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, this.getNodeOffset(e.target.previousSibling));
                 }
             }
         });
@@ -475,7 +994,7 @@ export class DivElement implements IEditorElement {
             if (e.target instanceof HTMLImageElement) {
                 const img = e.target as HTMLImageElement;
                 this.selectNode(img);
-                this.container.emit(EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(img), data => this.updateNode(img, data));
+                this.container.emit(EDITOR_EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(img), data => this.updateNode(img, data));
                 return;
             }
             const range = this.selection.range;
@@ -483,15 +1002,15 @@ export class DivElement implements IEditorElement {
                 return;
             }
             if (this.isEmptyLine(range)) {
-                this.container.emit(EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
+                this.container.emit(EDITOR_EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
-            this.container.emit(EVENT_INPUT_CLICK);
-            this.container.emit(EVENT_CLOSE_TOOL);
+            this.container.emit(EDITOR_EVENT_INPUT_CLICK);
+            this.container.emit(EDITOR_EVENT_CLOSE_TOOL);
         });
         this.element.addEventListener('blur', () => {
             this.container.saveSelection();
-            this.container.emit(EVENT_INPUT_BLUR);
+            this.container.emit(EDITOR_EVENT_INPUT_BLUR);
         });
     }
 
@@ -504,7 +1023,7 @@ export class DivElement implements IEditorElement {
         const rect = table.getBoundingClientRect();
         const nodeRect = node.getBoundingClientRect();
         const x = nodeRect.x + nodeRect.width - base.x;
-        this.container.emit(EVENT_SHOW_COLUMN_TOOL, <IBound>{
+        this.container.emit(EDITOR_EVENT_SHOW_COLUMN_TOOL, <IBound>{
             x,
             y: table.offsetTop,
             width: 0,
@@ -697,7 +1216,7 @@ export class DivElement implements IEditorElement {
                     if (!n || n === beginNode || n === endNode) {
                         return;
                     }
-                    n.parentNode.removeChild(n);
+                    this.removeNode(n);
                 }, endNode);
             }
             if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
@@ -708,7 +1227,7 @@ export class DivElement implements IEditorElement {
                     if (n === beginNode) {
                         return;
                     }
-                    n.parentNode.removeChild(n);
+                    this.removeNode(n);
                 }, false);
             }
         }
@@ -729,6 +1248,18 @@ export class DivElement implements IEditorElement {
             }
         }
         return;
+    }
+
+    /**
+     * 删除节点
+     * @param node 
+     * @returns 
+     */
+    private removeNode(node: Node) {
+        if (!node.parentNode) {
+            return;
+        }
+        node.parentNode.removeChild(node);
     }
 
     private copySelectedNode(range: Range): Node[] {
@@ -918,11 +1449,11 @@ export class DivElement implements IEditorElement {
         let event: keyof IEditorListeners|undefined;
         this.eachParentNode(range.startContainer, node => {
             if (linkTag.indexOf(node.nodeName) >= 0) {
-                event = EVENT_SHOW_LINK_TOOL;
+                event = EDITOR_EVENT_SHOW_LINK_TOOL;
                 return false;
             }
             if (tableTag.indexOf(node.nodeName) >= 0) {
-                event = EVENT_SHOW_TABLE_TOOL;
+                event = EDITOR_EVENT_SHOW_TABLE_TOOL;
                 return false;
             }
         });
@@ -1097,16 +1628,40 @@ export class DivElement implements IEditorElement {
         return this.isEmptyLineNode(range.startContainer);
     }
 
+    /**
+     * 判断父级是否只有这一个子节点
+     * @param node 
+     * @returns 
+     */
+    private isOnlyNode(node: Node): boolean {
+        const parent = node.parentNode;
+        if (!parent) {
+            return false;
+        }
+        for (let i = 0; i < parent.childNodes.length; i++) {
+            const element = parent.childNodes[i];
+            if (element !== node && element.nodeName !== 'BR') {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private isEmptyLineNode(node: Node): boolean {
         if (node.nodeType !== 1) {
             return false;
         }
         for (let i = 0; i < node.childNodes.length; i++) {
             const element = node.childNodes[i];
+            if (['P', 'DIV'].indexOf(element.nodeName) >= 0) {
+                if (!this.isEmptyLineNode(element)) {
+                    return false;
+                }
+                continue;
+            }
             if (element.nodeName !== 'BR') {
                 return false;
             }
-            return true;
         }
         return true;
     }

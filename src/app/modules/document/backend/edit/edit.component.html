@@ -30,6 +30,12 @@
                             <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
                         </div>
                         <div class="form-group">
+                            <label for="category">分类</label>
+                            <select class="form-control" name="category" formControlName="cat_id">
+                                <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>可见性</label>
                             <div class="form-check">
                                 <label class="form-check-label">

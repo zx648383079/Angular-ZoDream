@@ -12,7 +12,11 @@
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" [ngModel]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" routerLink="create">新增文档</a>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-info" routerLink="category">分类管理</a>
+                    <a class="btn btn-success" routerLink="create">新增文档</a>
+                </div>
+                
             </form>
         </div>
 
@@ -25,11 +29,11 @@
             <div class="action">
                 <div class="btn-group mr-3">
                     <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]">编辑</a>
-                    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                      <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-                      <div class="dropdown-menu" ngbDropdownMenu>
-                        <a class="btn btn-primary" [routerLink]="['edit', item.id]" ngbDropdownItem>设置</a>
-                        <button (click)="tapRemove(item)" ngbDropdownItem>删除</button>
+                    <div class="dropdown-bar">
+                      <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
+                      <div class="dropdown-menu">
+                        <a class="btn-info" [routerLink]="['edit', item.id]">设置</a>
+                        <a class="btn-danger" (click)="tapRemove(item)">删除</a>
                       </div>
                     </div>
                   </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { IProject } from '../../model';
+import { ICategory, IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class CreateComponent implements OnInit {
     public form = this.fb.group({
         name: ['', Validators.required],
         cover: [''],
+        cat_id: [0],
         description: [''],
         status: [0],
     });
@@ -23,6 +24,8 @@ export class CreateComponent implements OnInit {
         type: 0,
         environment: [],
     } as any;
+
+    public categories: ICategory[] = [];
 
     public typeItems = [
         {
@@ -46,6 +49,9 @@ export class CreateComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.service.categoryTree().subscribe(res => {
+            this.categories = res.data;
+        });
     }
 
     public tapSubmit(e?: ButtonEvent) {

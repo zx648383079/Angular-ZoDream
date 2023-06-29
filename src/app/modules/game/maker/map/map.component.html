@@ -1,95 +1,97 @@
-<div class="map-editor" (mousedown)="onBoxStart($event)">
-    <canvas #lineCanvas></canvas>
-    <ng-container *ngFor="let item of areaItems">
-    <div class="map-area" [ngStyle]="{left: item.x + 'px', top: item.y + 'px', width: item.width + 'px', height: item.height + 'px'}">
-        {{ item.name }}
-    </div>
-    </ng-container>
-
-    <ng-container *ngFor="let item of items">
-        <div class="map-panel" [ngClass]="{'map-selected': item.is_selected}" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}">
-            <div class="panel-header" (mousedown)="onMoveStart(item, $event)">
-                <span>{{ item.name }}</span>
-                <div class="panel-action">
-                    <i class="iconfont icon-minus"></i>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理地图列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                        placeholder="关键字">
                 </div>
-            </div>
-            <div class="panel-body">
-                <ng-container *ngIf="item.items">
-                    <div class="child-item" *ngFor="let it of item.items">
-                        <div class="item-boby">
-                            {{ it.name }}
-                        </div>
-                        <div class="item-action">
-                            <i class="iconfont icon-minus"></i>
-                        </div>
-                    </div>
-                </ng-container>
-            
-                <div class="add-child-item" (click)="tapAddIndigenous(item)">
-                    <i class="iconfont icon-plus"></i>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary" (click)="open(modal)">新增地图</a>
                 </div>
-            </div>
-            <div class="panel-output">
-                <span (mousedown)="onLinkStart(item, $event, 0)"></span>
-                <span (mousedown)="onLinkStart(item, $event, 1)"></span>
-                <span (mousedown)="onLinkStart(item, $event, 2)"></span>
-                <span (mousedown)="onLinkStart(item, $event, 3)"></span>
-            </div>
+            </form>
         </div>
-    </ng-container>
 
-    <div class="selection-range" [ngStyle]="selectionStyle"></div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>是否是新手村</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-success" [routerLink]="[item.id, 'item']">物品</a>
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
 </div>
 
-<app-dialog-box #areaModal>
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group">
-        <label>地区名</label>
+        <label for="name-input">地图名</label>
         <div class="input-group">
-            <input class="form-control" placeholder="请输入地区名" [(ngModel)]="editData.name">
-        </div>
-    </div>
-</app-dialog-box>
-
-<app-dialog-box #monsterModal>
-    <div class="form-group">
-        <label>刷新间隔/s</label>
-        <div class="input-group">
-            <app-number-input></app-number-input>
-        </div>
-    </div>
-</app-dialog-box>
-
-<app-dialog-box #mapModal>
-    <div class="form-group">
-        <label>地区名</label>
-        <div class="input-group">
-            <input class="form-control"  [(ngModel)]="editData.name" placeholder="请输入地区名">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入地图名">
         </div>
     </div>
     <div class="form-group">
-        <label>说明</label>
+        <label for="">介绍</label>
         <div class="input-group">
-            <textarea class="form-control"  [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入地图介绍">></textarea>
         </div>
     </div>
-</app-dialog-box>
-<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
-    <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+    <div class="form-group">
+        <label for="">归属地区</label>
+        <div class="input-group">
+            <app-multi-select-input></app-multi-select-input>
+        </div>
     </div>
-    <form class="panel-search">
-        <input type="text" name="keywords" [ngModel]="queries.keywords">
-        <button class="iconfont icon-search"></button>
-    </form>
-    <div class="panel-body">
-        <!-- <div class="user-item" *ngFor="let item of userFilterItems">
-            <div class="avatar">
-                <img [src]="item.avatar" alt="">
+    <div class="form-group">
+        <label for="">连接</label>
+        <div class="link-area-bar">
+            <div class="link-item">
+                <label for="">东</label>
+                <app-multi-select-input></app-multi-select-input>
             </div>
-            <div class="name">{{ item.name }}</div>
-            <div class="desc">{{ item.role_name }}</div>
-            <i class="iconfont icon-close" *ngIf="item.editable" (click)="tapRemoveUser(item)"></i>
-        </div> -->
+            <div class="link-item">
+                <label for="">西</label>
+                <app-multi-select-input></app-multi-select-input>
+            </div>
+            <div class="link-item">
+                <label for="">南</label>
+                <app-multi-select-input></app-multi-select-input>
+            </div>
+            <div class="link-item">
+                <label for="">北</label>
+                <app-multi-select-input></app-multi-select-input>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <label for="">新手村</label>
+        <div class="input-group">
+            <app-switch></app-switch>
+        </div>
+    </div>
+</app-dialog-box>

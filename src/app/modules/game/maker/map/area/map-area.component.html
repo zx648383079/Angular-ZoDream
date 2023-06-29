@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理地区列表</li>
+            <li *ngIf="parent">当前地区：{{ parent.name }}</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group">
+                    <label for="keywords">地区名</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="地区名">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+
+                <div class="btn-group pull-right">
+                    <a *ngIf="parent" class="btn btn-success" (click)="tapViewRegion()">返回顶级</a>
+                    <a *ngIf="parent && parent.parent_id > 0" class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
+                    <a routerLink="../" class="btn btn-danger">新手村</a>
+                    <a routerLink="../editor"  class="btn btn-light">地图编辑器</a>
+                    <a (click)="open(modal)" class="btn btn-primary">新增地区</a>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>地区名</th>
+                    <th>上一级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ parent ? parent.name  : '[-]' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" routerLink="../" [queryParams]="{area: item.id}">地图</a>
+                            <a class="btn btn-info" (click)="tapViewRegion(item)">子地区</a>
+                            <a class="btn btn-light" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+  </div>
+  
+  
+  <app-dialog-box #modal [title]="editData.id > 0 ? '编辑地区' : '新增地区'">
+      <div class="form-group">
+          <label for="region-input">地区名</label>
+          <div class="input-group">
+            <input class="form-control" id="region-input" [(ngModel)]="editData.name" placeholder="请输入地区名">
+          </div>
+        </div>
+  </app-dialog-box>

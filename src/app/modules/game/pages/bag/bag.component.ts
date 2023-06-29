@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
+import { IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-bag',
     templateUrl: './bag.component.html',
     styleUrls: ['./bag.component.scss']
 })
-export class BagComponent implements OnInit {
+export class BagComponent implements IGameScene {
 
     public items: any[] = [1,1,1,1,1];
     public hasMore = true;
@@ -19,9 +20,6 @@ export class BagComponent implements OnInit {
     };
 
     constructor() { }
-
-    ngOnInit() {
-    }
 
     public tapBack() {
 

@@ -1,8 +1,12 @@
 import { Type } from '@angular/core';
 import { IEditorModal, IEditorRange } from '../model';
 import { IEditorContainer } from './editor';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL } from './event';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_MORE_TOOL } from './event';
 import { EditorModules } from './module';
+import { IUploadResult } from '../../../theme/models/open';
+import { Observable, Subject } from 'rxjs';
+
+type UploadFileCallback = (files: File[]|File|FileList) => Observable<IUploadResult[]|IUploadResult>;
 
 export interface IEditorOption {
     undoCount?: number; // 最大回退步骤
@@ -16,6 +20,11 @@ export interface IEditorOption {
         left?: string[]|string,
         right?: string[]|string,
     };
+    uploader?: {
+        image?: UploadFileCallback;
+        video?: UploadFileCallback;
+        file?: UploadFileCallback;
+    } | UploadFileCallback;
 }
 
 
@@ -25,11 +34,14 @@ export interface IEditorOptionItem {
     style?: any;
 }
 
-export interface IEditorTool {
+interface IEditorToolStatus {
     name: string;
-    icon: string;
     disabled?: boolean;
     actived?: boolean;
+}
+
+export interface IEditorTool extends IEditorToolStatus {
+    icon: string;
     label: string;
     hotKey?: string;
 }
@@ -53,6 +65,8 @@ export class EditorOptionManager {
     private moduleItems: {
         [key: string]: IEditorModule
     } = {};
+
+    public toolUpdated$ = new Subject<IEditorToolStatus[]>();
 
     constructor() {
         this.push(...EditorModules);
@@ -85,7 +99,11 @@ export class EditorOptionManager {
     public get maxUndoCount() {
         return this.get('undoCount');
     }
-    
+
+    public set(key: string, value: any) {
+        this.option[key] = value;
+    }
+
     public merge(option: IEditorOption) {
         for (const key in option) {
             if (Object.prototype.hasOwnProperty.call(option, key)) {
@@ -94,9 +112,11 @@ export class EditorOptionManager {
                 }
             }
         }
-        if (option.icons) {
-            this.option.icons = this.mergeObject(this.option.icons, option.icons);
-        }
+        ['icons', 'uploader'].forEach(k => {
+            if (Object.prototype.hasOwnProperty.call(option, k) && typeof option[k] === 'object') {
+                this.option[k] = this.mergeObject(this.option[k], option[k]);
+            }
+        });
         this.option.hiddenModules = this.strToArr(option.hiddenModules);
         this.option.visibleModules = this.strToArr(option.visibleModules);
         if (option.toolbar) {
@@ -141,6 +161,48 @@ export class EditorOptionManager {
         }
     }
 
+    public toolToggle(modules: string[], active: boolean): void;
+    public toolToggle(name: string, active: boolean): void;
+    public toolToggle(items: string[]|string, active: boolean): void {
+        if (typeof items === 'string') {
+            items = [items];
+        }
+        let isSystem = true;
+        for (const item of items) {
+            if (!this.isSystemTool(item)) {
+                isSystem = false;
+                break;
+            }
+        }
+        const updated: IEditorToolStatus[] = [];
+        if (!isSystem) {
+            this.moduleMap(item => {
+                if (items.indexOf(item.name) >= 0) {
+                    if (!this.isBoolEqual(item.actived, active)) {
+                        item.actived = active;
+                        updated.push(item);
+                    }
+                    return;
+                }
+                if (!item.actived || this.isSystemTool(item)) {
+                    return;
+                }
+                item.actived = false;
+                updated.push(item);
+            });
+        } else {
+            for (const item of items) {
+                const module = this.moduleItems[item];
+                if (this.isBoolEqual(module.actived, active)) {
+                    continue;
+                }
+                module.actived = active;
+                updated.push(module);
+            }
+        }
+        this.toolUpdated$.next(updated);
+    }
+
     public hotKeyModule(hotKey: string): IEditorTool|undefined {
         for (const key in this.moduleItems) {
             if (Object.prototype.hasOwnProperty.call(this.moduleItems, key) && this.moduleItems[key].hotKey == hotKey && this.isVisible(key)) {
@@ -148,6 +210,31 @@ export class EditorOptionManager {
             }
         }
         return undefined;
+    }
+
+    public moduleMap(cb: (item: IEditorModule) => void|false) {
+        for (const key in this.moduleItems) {
+            if (!Object.prototype.hasOwnProperty.call(this.moduleItems, key)) {
+                continue;
+            }
+            if (cb(this.moduleItems[key]) === false) {
+                return;
+            }
+        }
+    }
+
+    public upload(files: File[]|FileList, type: 'image'|'video'|'file'): Observable<IUploadResult[]>;
+    public upload(files: File, type: 'image'|'video'|'file'): Observable<IUploadResult>;
+    public upload(files: any, type: 'image'|'video'|'file'): Observable<IUploadResult[]|IUploadResult> {
+        const uploader = this.option.uploader;
+        let func: UploadFileCallback = typeof uploader === 'function' ? uploader : undefined;
+        if (typeof uploader === 'object') {
+            func = uploader[type] ? uploader[type] : uploader.file;
+        }
+        if (!func) {
+            return;
+        }
+        return func(files);
     }
 
     public toModule(module: string|IEditorTool): IEditorModule|undefined {
@@ -209,5 +296,19 @@ export class EditorOptionManager {
             return args;
         }
         return Object.assign({}, data, args);
+    }
+
+    private isBoolEqual(a?: boolean, b?: boolean): boolean {
+        if (a === true || b === true) {
+            return a === b;
+        }
+        return false;
+    }
+
+    private isSystemTool(module: string|IEditorModule): boolean {
+        if (typeof module === 'string') {
+            module = this.moduleItems[module];
+        }
+        return !module.parent || module.parent === EDITOR_MORE_TOOL;
     }
 }

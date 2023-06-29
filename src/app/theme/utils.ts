@@ -1,5 +1,6 @@
 import { Md5 } from 'ts-md5';
 import { environment } from '../../environments/environment';
+import { IPageTreeItem } from './models/page';
 
 const rdashAlpha = /-([a-z])/g;
 
@@ -20,6 +21,32 @@ export function isNumber(val: any): boolean {
         return false;
     }
     return /^\d*(\.\d*)?$/.test(val);
+}
+
+/**
+ * 展开tree
+ * @param items 
+ * @param search 
+ * @returns 
+ */
+export function toggleTreeItem<T extends IPageTreeItem>(items: T[], search: number|T): T[] {
+    const begin = typeof search === 'object' ? items.indexOf(search) : parseNumber(search);
+    if (begin < 0 || begin >= items.length) {
+        return items;
+    }
+    const item = items[begin];
+    if (!item) {
+        return items;
+    }
+    item.toggled = !item.toggled;
+    for (let j = begin + 1; j < items.length; j++) {
+        const target = items[j];
+        if (target.level <= item.level) {
+            break;
+        }
+        target.visibled = item.toggled && target.level === item.level + 1;
+    }
+    return items;
 }
 
 /**

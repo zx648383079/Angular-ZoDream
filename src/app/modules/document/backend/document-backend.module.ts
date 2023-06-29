@@ -16,9 +16,9 @@ import {
 } from './backend-routing.module';
 import { DocumentService } from './document.service';
 import { ZreEditorModule } from '../../../components/editor';
-import { ContextMenuModule } from '../../../components/context-menu';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
+import { DocumentSharedModule } from '../shared';
 
 @NgModule({
     imports: [
@@ -27,7 +27,7 @@ import { ZreFormModule } from '../../../components/form';
         ThemeModule,
         ReactiveFormsModule,
         ZreEditorModule,
-        ContextMenuModule,
+        DocumentSharedModule,
         DialogModule,
         ZreFormModule,
     ],

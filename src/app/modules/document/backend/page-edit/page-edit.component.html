@@ -11,22 +11,7 @@
                     </select>
                     <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
                 </div>
-                <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
-                    <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
-                        <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
-                            <i class="iconfont" [ngClass]="{'icon-chevron-right': (item.children || item.type > 0) && !item.expanded, 'icon-chevron-down': (item.children || item.type > 0) && item.expanded}"></i>
-                            {{ item.name }}
-                        </div>
-                        <ul class="tree-body">
-                            <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
-                                <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="tip">
-                        右键新增页面
-                    </li>
-                </ul>
+                <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
             </div>
             <div class="col-md-8">
                 <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()" *ngIf="data">
@@ -45,8 +30,6 @@
         
     </div>
 </div>
-
-<app-context-menu></app-context-menu>
 
 <app-dialog-box #versionModal title="创建版本">
     <div class="form-group">

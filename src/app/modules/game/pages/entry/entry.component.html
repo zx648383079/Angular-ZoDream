@@ -1,0 +1,38 @@
+<div class="game-screen" *ngIf="step < 1">
+    <div class="screen-banner">
+        <img [src]="'assets/images/banner.jpg'|asset" alt="">
+    </div>
+    <div class="screen-name">{{ 'name' }}</div>
+    <div class="screen-meta">aaaaa</div>
+    <div class="screen-action">
+        <a class="option-item" (click)="step = 1">创建角色</a>
+        <a class="option-character-item">
+            <div class="item-avatar">
+                <img [appLazyLoad]="'assets/images/logo.png'" alt="">
+            </div>
+            <div class="item-body">
+                <span class="item-name">{{ 'name' }}</span>
+                <span class="itme-meta">(57级 战士)</span>
+            </div>
+        </a>
+    </div>
+</div>
+<div *ngIf="step == 1">
+    <h2 class="banner-text">请选择职业</h2>
+    <div class="option-group">
+        <a class="option-item" (click)="step = 2">战士</a>
+        <a class="option-item" (click)="step = 2">法师</a>
+        <a class="option-item" (click)="step = 2">骑士</a>
+    </div>
+</div>
+<div *ngIf="step >= 2">
+    <h2 class="banner-text">请选择角色性别</h2>
+    <div class="option-group">
+        <a class="option-item" (click)="step = 3">男</a>
+        <a class="option-item" (click)="step = 3">女</a>
+    </div>
+    <div class="flat-input" *ngIf="step == 3">
+        <input type="text" class="form-control" placeholder="请输入称呼">
+        <button class="btn btn-primary">确认</button>
+    </div>
+</div>

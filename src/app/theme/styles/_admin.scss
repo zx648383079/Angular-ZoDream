@@ -39,7 +39,7 @@ a {
     display: none;
 }
 
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 48rem) {
     .line-row-item {
         display: block;
         .item-label {
@@ -61,12 +61,15 @@ a {
             font-size: 1rem;
         }
     }
+    .input-group > .form-control {
+        width: 100%;
+    }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 36rem) {
     .form-table {
         .input-group {
-            input.form-control {
+            .form-control {
                 min-width: 5em;
                 width: 100%;
             }

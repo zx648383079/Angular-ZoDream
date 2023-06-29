@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { IApiField, IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
+import { IApiField, ICategory, IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
 
 @Injectable()
 export class DocumentService {
@@ -9,6 +9,26 @@ export class DocumentService {
     constructor(
         private http: HttpClient,
     ) { }
+
+    public categoryTree() {
+        return this.http.get<IData<ICategory>>('doc/admin/category/all');
+    }
+
+    public categoryList() {
+        return this.http.get<IData<ICategory>>('doc/admin/category');
+    }
+
+    public category(id: any) {
+        return this.http.get<ICategory>('doc/admin/category/detail', {params: {id}});
+    }
+
+    public categorySave(data: any) {
+        return this.http.post<ICategory>('doc/admin/category/save', data);
+    }
+
+    public categoryRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('doc/admin/category/delete', {params: {id}});
+    }
 
     public projectList(params: any) {
         return this.http.get<IPage<IProject>>('doc/admin/project', {params});

@@ -23,6 +23,7 @@ import { DataSizeComponent } from './data-size/data-size.component';
 import { ButtonGroupComponent } from './button-group/button-group.component';
 import { AutoSuggestBoxComponent } from './auto-suggest-box/auto-suggest-box.component';
 import { ColorLayerComponent } from './color-layer/color-layer.component';
+import { MultiSelectInputComponent } from './multi-select-input/multi-select-input.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -46,6 +47,7 @@ const COMPONENTS = [
     DataSizeComponent,
     ButtonGroupComponent,
     AutoSuggestBoxComponent,
+    MultiSelectInputComponent,
 ];
 
 @NgModule({

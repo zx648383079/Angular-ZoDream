@@ -9,6 +9,7 @@ import { NoteMemberMenu } from '../../modules/note/member/menu';
 import { MicroMemberMenu } from '../../modules/micro/member/menu';
 import { ForumMemberMenu } from '../../modules/forum/member/menu';
 import { WxMemberMenu } from '../../modules/wechat/member/menu';
+import { DocumentMemberMenu } from '../../modules/document/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -45,6 +46,7 @@ export class MenuService {
         micro: MicroMemberMenu,
         note: NoteMemberMenu,
         short: ShortLinkMemberMenu,
+        doc: DocumentMemberMenu,
         wx: WxMemberMenu,
         1: [
             {

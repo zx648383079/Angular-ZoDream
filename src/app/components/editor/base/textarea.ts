@@ -1,6 +1,6 @@
-import { EVENT_EDITOR_CHANGE, EVENT_INPUT_BLUR, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE, IEditorElement } from '.';
+import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, IEditorElement } from '.';
 import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorCodeBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange } from '../model';
+import { EditorBlockType, IEditorBlock, IEditorCodeBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorTextBlock } from '../model';
 import { IEditorContainer } from './editor';
 /**
  * markdown 模式
@@ -73,37 +73,13 @@ export class TextareaElement implements IEditorElement {
             this.includeBlock(block.begin, block.end, range);
             return;
         }
-        switch(block.type) {
-            case EditorBlockType.AddLink:
-                this.insertLink(block as any, range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.AddText:
-            case EditorBlockType.AddRaw:
-                this.insertText(block.value, range, block.cursor);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.AddImage:
-                this.insertImage(block as any, range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.Indent:
-                this.insertIndent(range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.Outdent:
-                this.insertOutdent(range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.AddLineBreak:
-                this.insertLineBreak(range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.AddCode:
-                this.insertCode(block as any, range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
+        const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
+        const func = this[type + 'Execute'];
+        if (typeof func === 'function') {
+            func.call(this, range.range, block);
+            return;
         }
+        throw new Error(`insert type error:[${block.type}]`);
     }
     public focus(): void {
         this.element.focus();
@@ -113,11 +89,13 @@ export class TextareaElement implements IEditorElement {
         return this.element.blur();
     }
 
-    private insertLineBreak(range: IEditorRange) {
+//#region 外部调用的方法
+
+    private addLineBreakExecute(range: IEditorRange) {
         this.insertText('\n', range);
     }
 
-    private insertIndent(range: IEditorRange) {
+    private indentExecute(range: IEditorRange) {
         this.replaceSelectLine(s => {
             return s.split('\n').map(v => {
                 return '    ' + v;
@@ -125,7 +103,7 @@ export class TextareaElement implements IEditorElement {
         }, range);
     }
 
-    private insertOutdent(range: IEditorRange) {
+    private outdentExecute(range: IEditorRange) {
         this.replaceSelectLine(s => {
             return s.split('\n').map(v => {
                 if (v.length < 1) {
@@ -141,6 +119,59 @@ export class TextareaElement implements IEditorElement {
                 }
             }).join('\n');
         }, range);
+    }
+
+
+    private addTextExecute(range: IEditorRange, block: IEditorTextBlock) {
+        const v = this.value;
+        this.value = v.substring(0, range.start) + block.value + v.substring(range.start);
+        this.moveCursor(range.start + (!block.cursor ? block.value.length : block.cursor));
+    }
+
+    private addCodeExecute(range: IEditorRange, block: IEditorCodeBlock) {
+        const v = this.value;
+        const selected = v.substring(range.start, range.end);
+        
+        let replace = '```'+ block.language + '\n' + (block.value ?? selected) + '\n```';
+        if (range.start > 0 && v.charAt(range.start - 1) !== '\n') {
+            replace = '\n' + replace;
+        }
+        const cursor = replace.length - 4;
+        if (range.end >= v.length - 1 || v.charAt(range.end + 1) !== '\n') {
+            replace += '\n';
+        }
+        this.value = v.substring(0, range.start) + replace + v.substring(range.end);
+        this.moveCursor(range.start + cursor);
+    }
+
+    private addLinkExecute(range: IEditorRange, block: IEditorLinkBlock) {
+        if (!block.value) {
+            block.value = '';
+        } 
+        if (block.title) {
+            this.insertText(`[${block.title}](${block.value})`, range);
+            return;
+        }
+        this.replaceSelect(s => {
+            return `[${s}](${block.value})`;
+        }, range, block.value ? block.value.length + 4 : 3);
+    }
+
+    private addImageExecute(range: IEditorRange, block: IEditorFileBlock) {
+        this.replaceSelect(s => {
+            if (s.trim().length === 0 && block.title) {
+                s = block.title;
+            }
+            return `![${block.title}](${block.value})`;
+        }, range, block.title ? block.title.length + 4 : 2);
+    }
+
+//#endregion
+
+    private insertText(text: string, range: IEditorRange, cursor?: number) {
+        const v = this.value;
+        this.value = v.substring(0, range.start) + text + v.substring(range.start);
+        this.moveCursor(range.start + (!cursor ? text.length : cursor));
     }
 
     private replaceSelectLine(cb: (s: string) => string, range: IEditorRange) {
@@ -164,49 +195,6 @@ export class TextareaElement implements IEditorElement {
         this.focus();
     }
 
-    private insertText(text: string, range: IEditorRange, cursor?: number) {
-        const v = this.value;
-        this.value = v.substring(0, range.start) + text + v.substring(range.start);
-        this.moveCursor(range.start + (!cursor ? text.length : cursor));
-    }
-
-    private insertCode(block: IEditorCodeBlock, range: IEditorRange) {
-        const v = this.value;
-        const selected = v.substring(range.start, range.end);
-        
-        let replace = '```'+ block.language + '\n' + (block.value ?? selected) + '\n```';
-        if (range.start > 0 && v.charAt(range.start - 1) !== '\n') {
-            replace = '\n' + replace;
-        }
-        const cursor = replace.length - 4;
-        if (range.end >= v.length - 1 || v.charAt(range.end + 1) !== '\n') {
-            replace += '\n';
-        }
-        this.value = v.substring(0, range.start) + replace + v.substring(range.end);
-        this.moveCursor(range.start + cursor);
-    }
-
-    private insertLink(block: IEditorLinkBlock, range: IEditorRange) {
-        if (!block.value) {
-            block.value = '';
-        } 
-        if (block.title) {
-            this.insertText(`[${block.title}](${block.value})`, range);
-            return;
-        }
-        this.replaceSelect(s => {
-            return `[${s}](${block.value})`;
-        }, range, block.value ? block.value.length + 4 : 3);
-    }
-
-    private insertImage(block: IEditorFileBlock, range: IEditorRange) {
-        this.replaceSelect(s => {
-            if (s.trim().length === 0 && block.title) {
-                s = block.title;
-            }
-            return `![${block.title}](${block.value})`;
-        }, range, block.title ? block.title.length + 4 : 2);
-    }
 
     private includeBlock(begin: string, end: string, range: IEditorRange) {
         this.replaceSelect(s => {
@@ -236,7 +224,7 @@ export class TextareaElement implements IEditorElement {
 
     private bindEvent() {
         this.element.addEventListener('keydown', e => {
-            this.container.emit(EVENT_INPUT_KEYDOWN, e);
+            this.container.emit(EDITOR_EVENT_INPUT_KEYDOWN, e);
         });
         this.element.addEventListener('keyup', e => {
             if (this.isComposition) {
@@ -245,23 +233,23 @@ export class TextareaElement implements IEditorElement {
             this.container.saveSelection();
         });
         this.element.addEventListener('blur', () => {
-            this.container.emit(EVENT_INPUT_BLUR);
+            this.container.emit(EDITOR_EVENT_INPUT_BLUR);
         });
         this.element.addEventListener('paste', () => {
             setTimeout(() => {
-                this.container.emit(EVENT_EDITOR_CHANGE);
+                this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
             }, 10);
         });
         this.element.addEventListener('mouseup', () => {
             this.container.saveSelection();
-            this.container.emit(EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
         });
         this.element.addEventListener('compositionstart', () => {
             this.isComposition = true;
         });
         this.element.addEventListener('compositionend', () => {
             this.isComposition = false;
-            this.container.emit(EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
         });
     }
 

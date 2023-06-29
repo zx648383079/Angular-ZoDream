@@ -3,13 +3,14 @@ import { IMessageBase } from '../../../../components/message-container';
 import { openLink } from '../../../../theme/deeplink';
 import { Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
+import { IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements IGameScene {
 
     public items: IMessageBase[] = [];
     public hasMore = false;
@@ -22,9 +23,6 @@ export class ChatComponent implements OnInit {
     constructor(
         private router: Router
     ) { }
-
-    ngOnInit() {
-    }
 
     public onMessageTap(item: IBlockItem) {
         if (item.type == 4) {

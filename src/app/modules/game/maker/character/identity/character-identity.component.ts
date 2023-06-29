@@ -101,15 +101,15 @@ export class CharacterIdentityComponent implements OnInit {
 
     public tapRemove(item: IGameCharacterIdentity) {
         this.toastrService.confirm('确定删除“' + item.name + '”职业？', () => {
-            // this.service.forumRemove(item.id).subscribe(res => {
-            //     if (!res.data) {
-            //         return;
-            //     }
-            //     this.toastrService.success($localize `Delete Successfully`);
-            //     this.items = this.items.filter(it => {
-            //         return it.id !== item.id;
-            //     });
-            // });
+            this.service.characterIdentityRemove(item.id, this.queries.project).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
         });
     }
 

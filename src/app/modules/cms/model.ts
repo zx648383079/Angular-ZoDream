@@ -1,4 +1,5 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IPageTreeItem } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
 export interface ICmsSite {
@@ -76,7 +77,7 @@ export interface ICmsGroup {
     description: string;
 }
 
-export interface ICmsCategory {
+export interface ICmsCategory extends IPageTreeItem {
     id: number;
     name:              string;
     title:             string;
@@ -97,7 +98,6 @@ export interface ICmsCategory {
     setting:           any;
     updated_at:        string;
     created_at:        string;
-    level:             number;
 }
 
 export interface ICmsContent {

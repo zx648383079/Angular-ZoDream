@@ -1,0 +1,26 @@
+.game-screen {
+    .screen-banner {
+        img {
+            width: 100%;
+        }
+    }
+    .screen-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: .8rem 0;
+    }
+    .screen-meta {
+        min-height: 6rem;
+        margin-bottom: 2rem;
+    }
+}
+
+.banner-text {
+    display: block;
+    margin: 20vh;
+    text-align: center;
+}
+
+.flat-input {
+    margin-top: 1rem;
+}

@@ -7,7 +7,7 @@
                 </div>
                 <div class="item-body">
                     <div class="item-action">
-                        <app-switch [(ngModel)]="item.status"></app-switch>
+                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)"></app-switch>
                     </div>
                     <div class="item-name">{{ item.name }}</div>
                     <div class="item-meta">{{ item.description }}</div>

@@ -83,3 +83,15 @@ export interface IPageBaeItem {
     updated_at?: string;
     deleted_at?: string;
 }
+
+export interface IPageTreeItem {
+    level?: number;
+    /**
+     * 是否显示
+     */
+    visibled?: boolean;
+    /**
+     * 是否展开
+     */
+    toggled?: boolean;
+}

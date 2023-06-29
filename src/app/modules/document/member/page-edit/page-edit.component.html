@@ -1,0 +1,49 @@
+<div class="route-bar">
+    <div class="back-btn" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="route-title" *ngIf="project">{{ project.name }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 right-hr">
+        <div class="bar-version">
+            <label for="version">版本</label>
+            <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
+                <ng-container *ngFor="let item of versionItems">
+                    <option [value]="item.id">{{ item.name }}</option>
+                </ng-container>
+            </select>
+            <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
+        </div>
+        <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
+    </div>
+    <div class="col-md-8">
+        <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()" *ngIf="data">
+            <div class="title-input">
+                <label for="name">名称</label>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+            
+            <div *ngIf="data.type < 1">
+                <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
+            </div>
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
+        </form>
+    </div>
+</div>
+
+<app-dialog-box #versionModal title="创建版本">
+    <div class="form-group">
+        <label for="name">版本号</label>
+        <div class="input-group">
+          <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入版本号">
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="region-input">提示</label>
+          <div class="input-group">
+              你即将从当前版本的内容生成新的版本！
+          </div>
+        </div>
+</app-dialog-box>

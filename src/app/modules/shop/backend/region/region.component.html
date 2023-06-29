@@ -8,14 +8,16 @@
   <div class="panel-container">
       <div class="page-search-bar">
           <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-              <div class="input-group">
-                  <label for="keywords">地区名</label>
-                  <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="地区名">
-              </div>
-              <button type="submit" class="btn btn-primary">搜索</button>
-              <a (click)="open(modal)" class="pull-right btn btn-primary">新增地区</a>
-              <a *ngIf="parent && parent.parent_id > 0" class="pull-right btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
-              <a *ngIf="parent" class="pull-right btn btn-light" (click)="tapViewRegion()">返回顶级</a>
+                <div class="input-group">
+                    <label for="keywords">地区名</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="地区名">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a *ngIf="parent" class="btn btn-light" (click)="tapViewRegion()">返回顶级</a>
+                    <a *ngIf="parent && parent.parent_id > 0" class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
+                    <a (click)="open(modal)" class="btn btn-primary">新增地区</a>
+                </div>
           </form>
       </div>
   

@@ -1,6 +1,18 @@
+import { IPageTreeItem } from '../../theme/models/page';
+
+export interface ICategory extends IPageTreeItem {
+    id: number;
+    name: string;
+    parent_id: number;
+    children?: ICategory[];
+    icon?: string;
+    level?: number;
+    count?: number;
+}
 export interface IProject {
     id:          number;
     user_id:     number;
+    cat_id: number;
     name:        string;
     cover:       string;
     type:        number;
@@ -21,30 +33,31 @@ export interface IProjectVersion {
     name: string;
 }
 
-export interface IDocPage {
+export interface IDocTreeItem {
     id:         number;
     name:       string;
     type: number;
+    parent_id:  number;
+    children?: IDocTreeItem[];
+    expanded?: boolean;
+}
+
+export interface IDocPage extends IDocTreeItem {
     project_id: number;
     version_id: number;
-    parent_id:  number;
     content:    any;
     updated_at?: string;
     created_at?: string;
     children?: IDocPage[];
-    expanded?: boolean;
+
 }
 
-export interface IDocApi {
-    id:          number;
-    name:        string;
-    type: number;
+export interface IDocApi extends IDocTreeItem {
     method:      string;
     uri:         string;
     project_id:  number;
     version_id:  number;
     description: string;
-    parent_id:   number;
     updated_at?:  string;
     created_at?:  string;
     header?:      IApiField[];
@@ -52,7 +65,6 @@ export interface IDocApi {
     response?:    IApiField[];
     example?:     any;
     children?: IDocApi[];
-    expanded?: boolean;
 }
 
 export interface IApiField {

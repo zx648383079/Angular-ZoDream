@@ -5,7 +5,7 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import {
     IRegion
@@ -126,7 +126,7 @@ export class RegionComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IRegion) {
+    open(modal: DialogEvent, item?: IRegion) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: ''

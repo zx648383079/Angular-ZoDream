@@ -2,7 +2,7 @@ import { wordLength } from '../../../theme/utils';
 import { IEditorRange, IEditorBlock, EditorBlockType, IEditorTextBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EVENT_EDITOR_CHANGE, EVENT_EDITOR_DESTORY, EVENT_INPUT_KEYDOWN, EVENT_SELECTION_CHANGE } from './event';
+import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_DESTORY, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE } from './event';
 
 
 
@@ -48,7 +48,7 @@ export class CodeElement implements IEditorElement {
     }
     public set selectedValue(v: string) {
         const range = this.selection.range;
-        this.insertText(v, range);
+        this.addTextExecute(range, {value: v} as any);
     }
     public get value(): string {
         const items = [];
@@ -81,25 +81,13 @@ export class CodeElement implements IEditorElement {
         if (!range) {
             range = this.selection;
         }
-        switch(block.type) {
-            case EditorBlockType.AddText:
-            case EditorBlockType.AddRaw:
-                this.insertText(block.value, range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.AddLineBreak:
-                this.insertLineBreak(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                break;
-            case EditorBlockType.Indent:
-                this.insertIndent(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
-            case EditorBlockType.Outdent:
-                this.insertOutdent(range.range);
-                this.container.emit(EVENT_EDITOR_CHANGE);
-                return;
+        const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
+        const func = this[type + 'Execute'];
+        if (typeof func === 'function') {
+            func.call(this, range.range, block);
+            return;
         }
+        throw new Error(`insert type error:[${block.type}]`);
     }
 
 
@@ -137,7 +125,7 @@ export class CodeElement implements IEditorElement {
             }
         });
         resizeObserver.observe(this.element);
-        this.container.on(EVENT_EDITOR_DESTORY, () => {
+        this.container.on(EDITOR_EVENT_EDITOR_DESTORY, () => {
             resizeObserver.disconnect();
         });
     }
@@ -146,14 +134,14 @@ export class CodeElement implements IEditorElement {
         this.bindResize();
         this.bodyPanel.addEventListener('keydown', e => {
             this.container.saveSelection();
-            this.container.emit(EVENT_INPUT_KEYDOWN, e);
+            this.container.emit(EDITOR_EVENT_INPUT_KEYDOWN, e);
         });
         this.bodyPanel.addEventListener('keyup', e => {
             if (this.isComposition) {
                 return;
             }
             this.selectRangeLine(this.selection.range);
-            this.container.emit(EVENT_EDITOR_CHANGE);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
             if (e.key === 'Backspace') {
                 this.updateLineCount();
             }
@@ -168,7 +156,7 @@ export class CodeElement implements IEditorElement {
                 type: EditorBlockType.AddRaw,
                 value: e.clipboardData.getData('text/plain')
             });
-            this.container.emit(EVENT_EDITOR_CHANGE);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
         this.bodyPanel.addEventListener('compositionstart', () => {
             this.isComposition = true;
@@ -177,31 +165,32 @@ export class CodeElement implements IEditorElement {
         this.bodyPanel.addEventListener('compositionend', () => {
             this.isComposition = false;
             this.container.saveSelection();
-            this.container.emit(EVENT_SELECTION_CHANGE);
-            this.container.emit(EVENT_EDITOR_CHANGE);
+            this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
     }
+//#region 外部调用的方法
 
-    private insertText(v: string, range: Range) {
+    private addTextExecute(range: Range, block: IEditorTextBlock) {
         const [begin, end] = this.getRangeLineNo(range);
-        const items = v.split('\n');
+        const items = block.value.split('\n');
         items[0] = this.getLinePrevious(range) + items[0];
         items[items.length - 1] += this.getLineNext(range);
         this.insertLines(begin, end, ...items);
     }
 
-    private insertLineBreak(range: Range) {
+    private addLineBreakExecute(range: Range) {
         const [begin, end] = this.getRangeLineNo(range);
         this.insertLines(begin, end, this.getLinePrevious(range), this.getLineNext(range));
     }
 
-    private insertIndent(range: Range) {
+    private indentExecute(range: Range) {
         this.replaceSelectLine(s => {
             return '    ' + s;
         }, range);
     }
 
-    private insertOutdent(range: Range) {
+    private outdentExecute(range: Range) {
         this.replaceSelectLine(s => {
             if (s.length < 1) {
                 return s;
@@ -216,6 +205,8 @@ export class CodeElement implements IEditorElement {
             }
         }, range);
     }
+
+//#endregion
 
     private replaceSelectLine(cb: (line: string) => string, range: Range) {
         const [begin, end] = this.getRangeLineNo(range);
@@ -272,10 +263,8 @@ export class CodeElement implements IEditorElement {
         if (range.endContainer instanceof HTMLDivElement) {
             return;
         }
-        if (range.endOffset > 0) {
-            const text = range.endContainer as Text;
-            cb(text.textContent.substring(range.endOffset));
-        }
+        const text = range.endContainer as Text;
+        cb(range.endOffset > 0 ? text.textContent.substring(range.endOffset) : text.textContent);
         let current = range.endContainer;
         while (true) {
             if (current.nextSibling) {
@@ -486,7 +475,7 @@ export class CodeElement implements IEditorElement {
         const dt = document.createElement('div');
         dt.className = 'editor-line';
         this.renderLine(dt, v);
-        dt.appendChild(document.createElement('br'));
+        this.appendBr(dt);
         return dt;
     }
 
@@ -507,10 +496,18 @@ export class CodeElement implements IEditorElement {
     }
 
     private renderLine(parent: HTMLDivElement, line?: string) {
-        if (!line) {
+        if (typeof line === 'undefined') {
             return;
         }
         parent.innerText = line;
+        this.appendBr(parent);
+    }
+
+    private appendBr(node: Node) {
+        if (node.childNodes.length > 0 && node.childNodes[node.childNodes.length - 1].nodeName === 'BR') {
+            return;
+        }
+        node.appendChild(document.createElement('br'));
     }
 
     private eachLine(cb: (dt: HTMLDivElement, dd: HTMLDivElement, index: number) => void|false) {

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EVENT_CLOSE_TOOL, EVENT_SHOW_ADD_TOOL, EVENT_SHOW_COLUMN_TOOL, EVENT_SHOW_IMAGE_TOOL, EVENT_SHOW_LINE_BREAK_TOOL, EVENT_SHOW_LINK_TOOL, EVENT_SHOW_TABLE_TOOL, EVENT_UNDO_CHANGE, IEditorTool } from './base';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool } from './base';
 import { EditorContainer } from './container';
 import { IEditor, IEditorBlock, IEditorModal, IEditorSharedModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
@@ -55,7 +55,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     }
 
     ngOnInit() {
-        this.container.on(EVENT_UNDO_CHANGE, () => {
+        this.container.on(EDITOR_EVENT_UNDO_CHANGE, () => {
             for (const item of this.topRightItems) {
                 if (item.name === EDITOR_UNDO_TOOL) {
                     item.disabled = !this.container.canUndo;
@@ -64,7 +64,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
                 }
             }
         });
-        this.container.on(EVENT_SHOW_ADD_TOOL, y => {
+        this.container.on(EDITOR_EVENT_SHOW_ADD_TOOL, y => {
             if (this.modalRef) {
                 this.modalRef.destroy();
                 this.modalRef = undefined;
@@ -74,27 +74,27 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
                 top: y + 'px'
             };
         });
-        this.container.on(EVENT_SHOW_LINE_BREAK_TOOL, p => {
+        this.container.on(EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, p => {
             this.flowItems = this.container.option.tool(EDITOR_ENTER_TOOL);
             this.flowStyle = {
                 top: p.y + 'px',
             };
         });
-        this.container.on(EVENT_SHOW_TABLE_TOOL, p => {
+        this.container.on(EDITOR_EVENT_SHOW_TABLE_TOOL, p => {
             this.flowItems = this.container.option.toolChildren(EDITOR_TABLE_TOOL);
             this.flowStyle = {
                 top: p.y + 'px',
                 left: p.x + 'px',
             };
         });
-        this.container.on(EVENT_SHOW_LINK_TOOL, p => {
+        this.container.on(EDITOR_EVENT_SHOW_LINK_TOOL, p => {
             this.flowItems = this.container.option.toolChildren(EDITOR_LINK_TOOL);
             this.flowStyle = {
                 top: p.y + 'px',
                 left: p.x + 'px',
             };
         });
-        this.container.on(EVENT_SHOW_IMAGE_TOOL, (p, cb) => {
+        this.container.on(EDITOR_EVENT_SHOW_IMAGE_TOOL, (p, cb) => {
             this.flowItems = this.container.option.toolChildren(EDITOR_IMAGE_TOOL);
             this.flowStyle = {
                 top: p.y + p.height + 20 + 'px',
@@ -102,10 +102,10 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             };
             this.resizer.openResize(p, cb);
         });
-        this.container.on(EVENT_SHOW_COLUMN_TOOL, (p, cb) => {
+        this.container.on(EDITOR_EVENT_SHOW_COLUMN_TOOL, (p, cb) => {
             this.resizer.openHorizontalResize(p, cb);
         });
-        this.container.on(EVENT_CLOSE_TOOL, () => {
+        this.container.on(EDITOR_EVENT_CLOSE_TOOL, () => {
             this.flowItems = [];
             if (this.modalRef) {
                 this.modalRef.destroy();

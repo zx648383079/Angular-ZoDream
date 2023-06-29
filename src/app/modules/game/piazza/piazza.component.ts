@@ -22,6 +22,9 @@ export class PiazzaComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.service.projectList().subscribe(res => {
+            this.items = res.data;
+        });
     }
 
 }

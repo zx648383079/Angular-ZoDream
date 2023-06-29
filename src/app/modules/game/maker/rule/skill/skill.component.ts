@@ -101,15 +101,15 @@ export class SkillComponent implements OnInit {
 
     public tapRemove(item: IGameSkill) {
         this.toastrService.confirm('确定删除“' + item.name + '”技能？', () => {
-            // this.service.forumRemove(item.id).subscribe(res => {
-            //     if (!res.data) {
-            //         return;
-            //     }
-            //     this.toastrService.success($localize `Delete Successfully`);
-            //     this.items = this.items.filter(it => {
-            //         return it.id !== item.id;
-            //     });
-            // });
+            this.service.skillRemove(item.id, this.queries.project).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
+            });
         });
     }
 

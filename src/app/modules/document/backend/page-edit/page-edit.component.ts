@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ContextMenuComponent } from '../../../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IErrorResult } from '../../../../theme/models/page';
 import { emptyValidate } from '../../../../theme/validators';
-import { IDocPage, IProject, IProjectVersion } from '../../model';
+import { IDocPage, IDocTreeItem, IProject, IProjectVersion } from '../../model';
 import { DocumentService } from '../document.service';
+import { treeRemoveId } from '../../shared';
 
 @Component({
   selector: 'app-page-edit',
@@ -15,9 +15,6 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./page-edit.component.scss']
 })
 export class PageEditComponent implements OnInit {
-
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -82,48 +79,21 @@ export class PageEditComponent implements OnInit {
         });
     }
 
-    public tapContextMenu(e: MouseEvent, parent?: IDocPage) {
-        this.contextMenu.show(e.clientX, e.clientY, [
-            {
-                name: '新建文件夹',
-                icon: 'icon-folder-o',
-            },
-            {
-                name: '新建文件',
-                icon: 'icon-file-text-o'
-            },
-            {
-                name: '删除',
-                icon: 'icon-trash',
-                disable: !parent,
-            },
-        ].filter(i => !i.disable), item => {
-            if (item.name === '删除') {
-                this.tapRemove(parent);
-                return;
-            }
-            this.data = {
-                id: 0,
-                parent_id: parent ? parent.id : 0,
-                project_id: this.project.id,
-                version_id: this.version,
-                name: '',
-                type: item.name.indexOf('文件夹') < 0 ? 0 : 1,
-                content: '',
-            };
-            this.form.patchValue({
-                name: '',
-                content: '',
-            });
+    public onCreate(data: IDocTreeItem) {
+        this.data = {
+            ...data,
+            project_id: this.project.id,
+            version_id: this.version,
+            name: '',
+            content: '',
+        } as any;
+        this.form.patchValue({
+            name: '',
+            content: '',
         });
-        return false;
     }
 
     public tapEdit(item: IDocPage) {
-        item.expanded = !item.expanded;
-        if (this.data && this.data.id === item.id) {
-            return;
-        }
         this.service.page(item.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({
@@ -187,28 +157,14 @@ export class PageEditComponent implements OnInit {
     }
 
     public tapRemove(item: IDocPage) {
-        if (!confirm('确定删除“' + item.name + '”文档？')) {
-            return;
-        }
-        this.service.pageRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            const removeItem = (id: number, items: IDocPage[]) => {
-                for (let i = 0; i < items.length; i++) {
-                    const element = items[i];
-                    if (element.id === id) {
-                        items.splice(i, 1);
-                        return true;
-                    }
-                    if (element.children && removeItem(id, element.children)) {
-                        return true;
-                    }
+        this.toastrService.confirm('确定删除“' + item.name + '”文档？', () => {
+            this.service.pageRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
                 }
-                return false;
-            };
-            removeItem(item.id, this.catalog);
+                this.toastrService.success($localize `Delete Successfully`);
+                this.catalog = treeRemoveId(this.catalog, item.id);
+            });
         });
     }
 

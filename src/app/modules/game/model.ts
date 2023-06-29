@@ -1,5 +1,7 @@
+import { Observable } from 'rxjs';
 import { IPoint } from '../../theme/canvas';
 import { IItem } from '../../theme/models/seo';
+import { InjectionToken } from '@angular/core';
 
 export const ItemTypeItems: IItem[] = [
     {name: '杂物', value: 0},
@@ -65,6 +67,7 @@ export interface IGameTask {
 
 export interface IGameMapArea {
     id: number;
+    parent_id: number;
     name: string;
     x: number;
     y: number;
@@ -84,6 +87,16 @@ export interface IGameMap extends IPoint {
     west_id?: number;
     is_selected?: boolean;
     items?: IGameIndigenous[];
+}
+
+export interface IGameMapItem {
+    id: number;
+    map_id: number;
+    item_type: number;
+    item_id: number;
+    amount: number;
+    refresh_time: number;
+    item?: IGameItem|IGameIndigenous;
 }
 
 export interface IGameMine {
@@ -119,4 +132,39 @@ export interface IGameRuleGrade {
     name: string;
     grade: number;
     exp: number;
+}
+
+
+export enum GameScenePath {
+    Entry = 'entry',
+    Bag = 'bag',
+    Battle = 'battle',
+    Character = 'character',
+    Chat = 'chat',
+    Farm = 'farm',
+    Main = 'main',
+    Map = 'map',
+    Organize = 'org',
+    Ranch = 'ranch',
+    Store = 'store',
+    Task = 'task',
+    Mail = 'mail',
+}
+
+export interface IGameResponse {
+    command: string;
+    data?: any;
+    message?: string;
+}
+
+export interface IGameScene {
+
+}
+
+export const GameRouterInjectorToken = new InjectionToken<IGameRouter>('game.router');
+
+export interface IGameRouter {
+    request(command: string, data?: any): Observable<IGameResponse>;
+    execute(command: string, data?: any): void;
+    navigate(path: string, data?: any): void;
 }

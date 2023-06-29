@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
+import { IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements IGameScene {
 
     constructor(
         private toastrService: DialogService,
     ) { }
-
-    ngOnInit() {
-    }
 
     public tapCheckin() {
         this.toastrService.success('签到成功');
