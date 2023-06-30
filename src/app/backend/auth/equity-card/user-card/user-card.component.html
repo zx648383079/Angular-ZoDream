@@ -50,13 +50,13 @@
 
 <app-dialog-box #modal [title]="'编辑用户的权益卡'">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">权益卡</label>
             <div>
                 <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [(ngModel)]="editData.card_id" placeholder="权益卡"></ng-select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">到期日期</label>
             <div>
                 <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>

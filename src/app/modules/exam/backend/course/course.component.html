@@ -45,7 +45,7 @@
 <app-dialog-box #modal [height]="500" [title]="editData && editData.id > 0 ? '编辑科目' : '新增科目'">
     <div class="form-group">
         <label for="name">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
@@ -58,13 +58,13 @@
     </div>
     <div class="form-group">
         <label for="icon">图标</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
         </div>
     </div>
     <div class="form-group">
         <label for="description">描述</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <textarea class="form-control" id="description" [(ngModel)]="editData.description" placeholder="请输入描述"></textarea>
         </div>
     </div>

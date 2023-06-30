@@ -1,4 +1,5 @@
 @import 'list';
+@import 'theme';
 a {
     text-decoration: none;
 }
@@ -52,8 +53,8 @@ a {
     .auto-toggle-hide {
         display: block;
     }
-    .form-table .input-group,
-    .input-group {
+    .form-table .#{$prefix}input-group,
+    .#{$prefix}input-group {
         display: block;
         >label:first-child {
             text-align: left;
@@ -61,14 +62,11 @@ a {
             font-size: 1rem;
         }
     }
-    .input-group > .form-control {
-        width: 100%;
-    }
 }
 
 @media screen and (max-width: 36rem) {
     .form-table {
-        .input-group {
+        .#{$prefix}input-group {
             .form-control {
                 min-width: 5em;
                 width: 100%;

@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="title">题目</label>
             <div>
                 <input type="text" id="title" class="form-control title-input" formControlName="title" (change)="onTitleChange()">
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="course_id">科目</label>
             <div class="flat-group">
                 <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
@@ -31,7 +31,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="article">关联素材</label>
             <div>
                 <ng-container *ngIf="material; else elseTemplate">
@@ -49,32 +49,32 @@
                 <div class="input-tip">可以不选，同一素材将合并成同一个大题下面的小题</div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="image">图片</label>
             <div>
                 <app-file-input formControlName="image"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="easiness">难易程度</label>
             <div>
                 <app-star formControlName="easiness" [disabled]="false">{{ easinessLabel }}</app-star>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="content">内容<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'content')"></i></label>
             <div>
                 <app-exam-editor formControlName="content" (ngModelChange)="onTypeChange()"></app-exam-editor>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="dynamic">可变内容</label>
             <div>
                 <textarea id="dynamic" class="form-control" formControlName="dynamic" ></textarea>
                 <div class="input-tip">在题目中可以用“@1” 代替</div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="type">类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type" (change)="onTypeChange()">
@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="option-box">
-            <div class="input-group" *ngIf="typeValue < 2">
+            <div class="zre-input-group" *ngIf="typeValue < 2">
                 <label for="">选项</label>
                 <div>
                     <ng-container *ngFor="let item of optionItems.controls; let i = index">
@@ -113,7 +113,7 @@
                     </a>
                 </div>
             </div>
-            <div class="input-group" *ngIf="typeValue == 2">
+            <div class="zre-input-group" *ngIf="typeValue == 2">
                 <label for="answer">答案</label>
                 <div>
                     <select id="answer" class="form-control" formControlName="answer">
@@ -122,14 +122,14 @@
                     </select>
                 </div>
             </div>
-            <div class="input-group" *ngIf="typeValue == 3">
+            <div class="zre-input-group" *ngIf="typeValue == 3">
                 <label for="answer">答案<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'answer')"></i></label>
                 <div>
                     <textarea id="answer" class="form-control" formControlName="answer"></textarea>
                     <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“@1+@2*3”等公式，填空题为一行一个</div>
                 </div>
             </div>
-            <div class="input-group" *ngIf="typeValue == 4">
+            <div class="zre-input-group" *ngIf="typeValue == 4">
                 <label for="answer">答案</label>
                 <div>
                     <div>
@@ -155,7 +155,7 @@
                 <app-question-children [(value)]="childrenItems"></app-question-children>
             </ng-container>
             
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="analysis">解析</label>
                 <div>
                     <app-question-analysis [(value)]="analysisItems"></app-question-analysis>

@@ -69,48 +69,72 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-bold',
         label: $localize `Font Bold`,
         parent: 'text',
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.H});
+        },
     },
     {
         name: 'italic',
         icon: 'icon-italic',
         label: $localize `Font Italic`,
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Bold});
+        },
     },
     {
         name: 'underline',
         icon: 'icon-underline',
         label: $localize `Add Underline`,
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Underline});
+        },
     },
     {
         name: 'wavyline',
         icon: 'icon-wavy-line',
         label: $localize `Add Wavyline`,
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Wavyline});
+        },
     },
     {
         name: 'dashed',
         icon: 'icon-dottedunderline',
         label: '下标加点',
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Dashed});
+        },
     },
     {
         name: 'strike',
         icon: 'icon-strike',
         label: '画线',
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Strike});
+        },
     },
     {
         name: 'sub',
         icon: 'icon-sub',
         label: '下标',
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Sub});
+        },
     },
     {
         name: 'sup',
         icon: 'icon-sup',
         label: '上标',
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Sub});
+        },
     },
     {
         name: 'fontsize',
@@ -118,6 +142,9 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Size`,
         parent: 'text',
         modal: EditorDropdownComponent,
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.FontSize});
+        },
     },
     {
         name: 'font',
@@ -125,6 +152,9 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Family`,
         parent: 'text',
         modal: EditorDropdownComponent,
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.FontFamily});
+        },
     },
     {
         name: 'foreground',
@@ -132,6 +162,9 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Color`,
         parent: 'text',
         modal: EditorColorComponent,
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.Foreground});
+        },
     },
     {
         name: 'background',
@@ -139,12 +172,18 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Background`,
         parent: 'text',
         modal: EditorColorComponent,
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.Background});
+        },
     },
     {
         name: 'clear',
         icon: 'icon-clearformat',
         label: $localize `Clear Style`,
         parent: 'text',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.ClearStyle});
+        },
     },
 
     // 段落处理
@@ -153,48 +192,72 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-alignleft',
         label: $localize `Algin Left`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Align, value: 'left'})
+        },
     },
     {
         name: 'align-center',
         icon: 'icon-aligncenter',
         label: $localize `Algin Center`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Align, value: 'center'})
+        },
     },
     {
         name: 'align-right',
         icon: 'icon-alignright',
         label: $localize `Algin Right`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Align, value: 'right'})
+        },
     },
     {
         name: 'align-justify',
         icon: 'icon-alignjustify',
         label: $localize `Algin Justify`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Align, value: ''})
+        },
     },
     {
         name: 'list',
         icon: 'icon-orderedlist',
         label: $localize `As List`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.List});
+        },
     },
     {
         name: 'indent',
         icon: 'icon-indent',
         label: $localize `Line Indent`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Indent});
+        },
     },
     {
         name: 'outdent',
         icon: 'icon-outdent',
         label: $localize `Line Outdent`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Outdent});
+        },
     },
     {
         name: 'blockquote',
         icon: 'icon-blockquote',
         label: $localize `Add Blockquote`,
         parent: 'paragraph',
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Blockquote});
+        },
     },
 
 
@@ -393,18 +456,27 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-table',
         label: '表头',
         parent: EDITOR_TABLE_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Thead});
+        },
     },
     {
         name: 'footer-table',
         icon: 'icon-table',
         label: '表尾',
         parent: EDITOR_TABLE_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.TFoot});
+        },
     },
     {
         name: 'delete-table',
         icon: 'icon-trash',
         label: '删除表格',
         parent: EDITOR_TABLE_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.DeleteTable});
+        },
     },
     {
         name: 'row-table',
@@ -447,12 +519,18 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-shuipingdengjianju',
         label: '横向',
         parent: EDITOR_TABLE_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.ColSpan});
+        },
     },
     {
         name: 'vertical-table',
         icon: 'icon-chuizhidengjianju',
         label: '纵向',
         parent: EDITOR_TABLE_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.RowSpan});
+        },
     },
     // 链接处理
 
@@ -461,6 +539,9 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-paper-plane',
         label: '打开链接',
         parent: EDITOR_LINK_TOOL, 
+        handler(editor) {
+            editor.insert({type: EditorBlockType.OpenLink});
+        },
     },
     {
         name: 'link-style',

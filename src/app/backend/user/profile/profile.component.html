@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <app-panel title="基本信息">
                 <form class="form-table" [formGroup]="form">
-                    <div class="input-group avatar-input">
+                    <div class="zre-input-group avatar-input">
                         <label for="avatar">头像</label>
                         <div>
                             <div class="avatar" *ngIf="data">
@@ -15,27 +15,27 @@
                                 accept="image/*" />
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="name">昵称</label>
                         <div>
                             <input type="text" id="name" class="form-control" formControlName="name"
                                 placeholder="请输入 昵称">
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="email">邮箱</label>
                         <div>
                             <input type="email" id="email" class="form-control" formControlName="email"
                                 placeholder="请输入 邮箱">
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="sex">性别</label>
                         <div>
                             <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="birthday">生日</label>
                         <div>
                             <app-date-input id="birthday" formControlName="birthday" [min]="minDate" [max]="maxDate"></app-date-input>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
-import { IGameScene } from '../../model';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-store',
@@ -20,10 +20,12 @@ export class StoreComponent implements IGameScene {
     };
     public modalVisible = false;
 
-    constructor() { }
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
     public tapBack() {
-
+        this.router.navigateBack();
     }
 
     public tapPage() {

@@ -75,43 +75,43 @@
 
 <app-dialog-box #addModal title="新增计划">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 {{ editData.task?.name }}
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 {{ editData.task?.description }}
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>数量</label>
             <div>
                 <app-number-input [(ngModel)]="editData.amount" [min]="1" [max]="20"></app-number-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>优先级</label>
             <div>
                 <app-number-input [(ngModel)]="editData.priority" [min]="1"  [max]="99"></app-number-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>类型</label>
             <div>
                 <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="editData.plan_type"></app-check-input>
             </div>
         </div>
-        <div class="input-group" *ngIf="editData.plan_type < 0">
+        <div class="zre-input-group" *ngIf="editData.plan_type < 0">
             <label>时间</label>
             <div>
                 <app-date-input [(ngModel)]="editData.plan_time"></app-date-input>
             </div>
         </div>
-        <div class="input-group" *ngIf="editData.plan_type == 1">
+        <div class="zre-input-group" *ngIf="editData.plan_type == 1">
             <label>星期</label>
             <div>
                 <select class="form-control" [(ngModel)]="editData.plan_time">
@@ -119,7 +119,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group" *ngIf="editData.plan_type == 2">
+        <div class="zre-input-group" *ngIf="editData.plan_type == 2">
             <label>天数</label>
             <div>
                 <select class="form-control" [(ngModel)]="editData.plan_time">

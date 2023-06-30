@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">名称</label>
                     <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="名称">
                 </div>
@@ -45,7 +45,7 @@
 <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑消费渠道' : '新增消费渠道'">
     <div class="form-group">
         <label for="name">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>

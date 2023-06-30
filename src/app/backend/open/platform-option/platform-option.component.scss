@@ -1,4 +1,5 @@
-.input-group {
+@import '../../../theme/styles/theme';
+.#{$prefix}input-group {
     input[type='text'] {
         width: 100%;
     }

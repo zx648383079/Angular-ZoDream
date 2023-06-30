@@ -42,13 +42,13 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑分类' : '新增分类'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">图标</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <app-file-input [(ngModel)]="editData.icon"></app-file-input>
         </div>
     </div>

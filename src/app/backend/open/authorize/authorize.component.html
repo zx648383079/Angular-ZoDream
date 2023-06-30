@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">应用</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索应用">
                 </div>
@@ -54,13 +54,13 @@
 
 <app-dialog-box #modal [scrollable]="false" title="生成一条token">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">应用</label>
             <div>
                 <ng-select [(ngModel)]="editData.platform_id" [items]="platformItems" bindValue="id" bindLabel="name"></ng-select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">过期时间</label>
             <div>
                 <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>

@@ -6,33 +6,37 @@
     <div class="screen-meta">aaaaa</div>
     <div class="screen-action">
         <a class="option-item" (click)="step = 1">创建角色</a>
-        <a class="option-character-item">
-            <div class="item-avatar">
-                <img [appLazyLoad]="'assets/images/logo.png'" alt="">
-            </div>
-            <div class="item-body">
-                <span class="item-name">{{ 'name' }}</span>
-                <span class="itme-meta">(57级 战士)</span>
-            </div>
-        </a>
+        <ng-container *ngFor="let item of characterItems">
+            <a class="option-character-item" (click)="tapCharacter(item)">
+                <div class="item-avatar">
+                    <img [appLazyLoad]="'assets/images/logo.png'" alt="">
+                </div>
+                <div class="item-body">
+                    <span class="item-name">{{ 'name' }}</span>
+                    <span class="itme-meta">(57级 战士)</span>
+                </div>
+            </a>
+        </ng-container>
+        
     </div>
 </div>
 <div *ngIf="step == 1">
     <h2 class="banner-text">请选择职业</h2>
     <div class="option-group">
-        <a class="option-item" (click)="step = 2">战士</a>
-        <a class="option-item" (click)="step = 2">法师</a>
-        <a class="option-item" (click)="step = 2">骑士</a>
+        <ng-container *ngFor="let item of identityItems">
+            <a class="option-item" [ngClass]="{selected: data.identity_id == item.id}" (click)="tapIdentity(item)">{{ item.name }}</a>
+        </ng-container>
     </div>
 </div>
 <div *ngIf="step >= 2">
     <h2 class="banner-text">请选择角色性别</h2>
     <div class="option-group">
-        <a class="option-item" (click)="step = 3">男</a>
-        <a class="option-item" (click)="step = 3">女</a>
+        <ng-container *ngFor="let item of sexItems">
+            <a class="option-item" [ngClass]="{selected: data.sex == item.value}"  (click)="tapSex(item.value)">{{ item.name }}</a>
+        </ng-container>
     </div>
     <div class="flat-input" *ngIf="step == 3">
-        <input type="text" class="form-control" placeholder="请输入称呼">
-        <button class="btn btn-primary">确认</button>
+        <input type="text" class="form-control" name="name" [(ngModel)]="data.name" placeholder="请输入称呼">
+        <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">确认</app-action-button>
     </div>
 </div>

@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">项目名</label>
                     <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="项目名">
                 </div>
@@ -60,25 +60,25 @@
   <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑项目' : '新增项目'">
     <div class="form-group">
         <label for="name">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="alias">别名</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="alias" [(ngModel)]="editData.alias" placeholder="请输入别名">
         </div>
     </div>
     <div class="form-group">
         <label for="money">金额</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="money" [(ngModel)]="editData.money" placeholder="请输入金额">
         </div>
     </div>
     <div class="form-group">
         <label for="account">账户</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <select class="form-control" [(ngModel)]="editData.account_id" id="account">
                 <option *ngFor="let item of accountItems" [value]="item.id">{{ item.name }}</option>
             </select>
@@ -86,7 +86,7 @@
     </div>
     <div class="form-group">
         <label for="product">产品</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <select class="form-control" [(ngModel)]="editData.product_id" id="product">
                 <option *ngFor="let item of productItems" [value]="item.id">{{ item.name }}</option>
             </select>
@@ -95,7 +95,7 @@
 
     <div class="form-group">
         <label for="earnings">(预估)收益率</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="earnings" [(ngModel)]="editData.earnings" placeholder="请输入收益率">
         </div>
     </div>
@@ -114,7 +114,7 @@
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <textarea class="form-control" id="remark" [(ngModel)]="editData.remark" placeholder="请输入备注"></textarea>
         </div>
     </div>
@@ -123,19 +123,19 @@
 <app-dialog-box #confirmModal title="确认收益">
     <div class="form-group">
         <label for="name">项目名</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name" [value]="editData.name" readonly>
         </div>
     </div>
     <div class="form-group">
         <label for="money">资金</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="money"  [value]="editData.money" readonly>
         </div>
     </div>
     <div class="form-group">
         <label for="earnings">实现收益</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="earnings" [(ngModel)]="editData.earnings" placeholder="请输入实现收益">
         </div>
     </div>

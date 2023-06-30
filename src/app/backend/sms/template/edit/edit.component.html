@@ -1,14 +1,14 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑短信模板' : '新增短信模板'"(submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="name">名称</label>
                 <div>
                     <input type="text" id="name" class="form-control" formControlName="name">
                     <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="type">类型</label>
                 <div>
                     <select id="type" formControlName="type" class="form-control" >
@@ -16,7 +16,7 @@
                     </select>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
               <label for="signature_id">签名</label>
               <div>
                   <select id="signature_id" formControlName="signature_id" class="form-control" >
@@ -25,13 +25,13 @@
                   </select>
               </div>
           </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="content">模板内容</label>
                 <div>
                     <textarea id="content" class="form-control" formControlName="content"></textarea>
                 </div>
           </div>
-          <div class="input-group">
+          <div class="zre-input-group">
             <label for="sign">外部编号</label>
             <div>
                 <input type="text" id="sign" class="form-control" formControlName="sign_no">

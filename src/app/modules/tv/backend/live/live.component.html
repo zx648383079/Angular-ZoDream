@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -64,19 +64,19 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑直播源' : '新增直播源'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name-input" [(ngModel)]="editData.title" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">预览图</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">地址</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" [(ngModel)]="editData.thumb">
         </div>
     </div>

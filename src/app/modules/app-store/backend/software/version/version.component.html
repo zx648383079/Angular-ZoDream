@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -53,7 +53,7 @@
 <app-dialog-box #modal title="新增版本" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">版本号</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入版本号">
         </div>
     </div>

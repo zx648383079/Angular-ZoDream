@@ -2,20 +2,20 @@
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">优惠券名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" >
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="thumb">优惠券图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="type">优惠券类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type">
@@ -23,7 +23,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="rule">使用规则</label>
             <div>
                 <select id="rule" class="form-control" formControlName="rule">
@@ -32,25 +32,25 @@
 
             </div>
         </div>
-        <div class="input-group" [hidden]="ruleType < 1">
+        <div class="zre-input-group" [hidden]="ruleType < 1">
             <label for="scope">使用范围</label>
             <div>
                 <app-select-input [url]="selectUrl" formControlName="rule_value" [multiple]="true"></app-select-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="min_money">使用门槛</label>
             <div>
                 满<input type="text" id="min_money" class="form-control" formControlName="min_money">元
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="money">{{ typeValue < 1 ? '面值/元' : '折扣/折' }}</label>
             <div>
                 <input type="text" id="money" class="form-control" formControlName="money">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="send_type">发放类型</label>
             <div>
                 <select id="send_type" class="form-control" formControlName="send_type">
@@ -64,20 +64,20 @@
             </div>
         </div>
         <div [hidden]="sendType > 0">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="send_value">发送数量</label>
                 <div>
                     <input type="text" id="send_value" class="form-control" formControlName="send_value">
                 </div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="every_amount">每人限领</label>
             <div>
                 <input type="text" id="every_amount" class="form-control" formControlName="every_amount">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">有效期</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>

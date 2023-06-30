@@ -2,26 +2,26 @@
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" >
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="scope_type">活动范围</label>
             <div>
                 <select id="scope_type" class="form-control" formControlName="scope_type" (change)="onScopeChange()">
@@ -29,13 +29,13 @@
                 </select>
             </div>
         </div>
-        <div class="input-group" [hidden]="scopeType < 1">
+        <div class="zre-input-group" [hidden]="scopeType < 1">
             <label for="scope">范围区间</label>
             <div>
                 <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true"></app-select-input>
             </div>
         </div>
-        <div class="input-group" formGroupName="configure">
+        <div class="zre-input-group" formGroupName="configure">
             <label for="">优惠内容</label>
             <div>
                 <span class="radio-label">
@@ -63,7 +63,7 @@
         </div>
 
 
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>

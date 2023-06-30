@@ -1,7 +1,7 @@
 <div class="chat-page" [ngClass]="{'detail-mode': detailMode}">
     <div class="chat-master">
         <div class="router-bar">
-            <div class="tool-item">
+            <div class="tool-item" (click)="tapBack()">
                 <i class="iconfont icon-arrow-left"></i>
             </div>
             <div class="title-bar">
@@ -43,17 +43,29 @@
                 </div>
             </div>
         </div>
-        <app-message-container [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
-        <div class="message-tools">
-            <i class="iconfont icon-smile-o"></i>
-            <i class="iconfont icon-image"></i>
-        </div>
-        <div class="message-editor">
-            <textarea placeholder="回复一下吧~"></textarea>
-            <div class="message-action">
-                <div class="size-tip">0/500</div>
-                <button class="btn btn-primary">发送</button>
+        <ng-container *ngIf="canReply; else elseTemplate">
+            <app-message-container [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
+            <div class="message-tools">
+                <i class="iconfont icon-smile-o"></i>
+                <i class="iconfont icon-image"></i>
             </div>
-        </div>
+            <div class="message-editor">
+                <textarea placeholder="回复一下吧~"></textarea>
+                <div class="message-action">
+                    <div class="size-tip">0/500</div>
+                    <button class="btn btn-primary">发送</button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <div class="message-container">
+                <div class="time-line">2019-09-10</div>
+                邮件内容
+            </div>
+            <div class="message-action">
+                <div class="btn btn-primary">领取</div>
+            </div>
+        </ng-template>
+        
     </div>
 </div>

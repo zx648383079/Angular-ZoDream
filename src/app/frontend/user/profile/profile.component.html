@@ -1,6 +1,6 @@
 <div class="container" *ngIf="user">
     <form class="form-table" [hidden]="tabIndex > 0" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="fileUpload" i18n>Avatar</label>
             <div>
                 <div class="avatar-input">
@@ -10,31 +10,31 @@
                 </div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name" i18n>Nickname</label>
             <div>
                 <input type="text" id="name" class="form-control " formControlName="name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="email" i18n>Email</label>
             <div>
                 <input type="email" id="email" class="form-control" i18n-placeholder placeholder="Please input email" [value]="user?.email" (click)="tapStepEdit()" readonly>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="sex" i18n>Sex</label>
             <div>
                 <app-check-input [items]="sexItems" rangeKey="value" formControlName="sex"></app-check-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="mobile" i18n>Phone</label>
             <div>
                 <input type="text" id="mobile" class="form-control" [value]="user?.mobile" (click)="tapStepEdit('mobile')" readonly>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="birthday" i18n>Birthday</label>
             <div>
                 <app-date-input formControlName="birthday"></app-date-input>

@@ -3,33 +3,33 @@
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" >
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="scope">商品</label>
             <div>
                 <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div formGroupName="configure">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_deposit">保证金</label>
                 <div>
                     <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"
@@ -46,14 +46,14 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_amount">限购数量</label>
                 <div>
                     <input type="text" id="configure_amount" class="form-control" formControlName="amount"
                         placeholder="请输入 限购数量">
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_min_users">最低参与人数</label>
                 <div>
                     <input type="text" id="configure_min_users" class="form-control" formControlName="min_users" placeholder="请输入最低参与人数">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_max_users">开团人数</label>
                 <div>
                     <input type="text" id="configure_max_users" class="form-control" formControlName="max_users" placeholder="请输入开团人数">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_send_point">赠送积分</label>
                 <div>
                     <input type="text" id="configure_send_point" class="form-control" formControlName="send_point"
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="money">价格阶梯</label>
             <div class="step-box">
                 <ng-container *ngFor="let item of stepItems.controls;let i = index">

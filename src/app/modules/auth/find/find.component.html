@@ -1,20 +1,20 @@
 <form class="form-ico login-form" [formGroup]="findForm" (ngSubmit)="tapSubmit()">
-    <div class="input-group">
+    <div class="zre-input-group">
         <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
     <ng-container *ngIf="sended">
-        <div class="input-group">
+        <div class="zre-input-group">
             <input type="text" formControlName="code" i18n-placeholder placeholder="Please input the security code" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please input the password" formControlName="password" required>
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
                 (click)="isObserve = !isObserve"></i>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please confirm your password" formControlName="confirm_password"
                 required>
             <i class="iconfont icon-check" aria-hidden="true"></i>

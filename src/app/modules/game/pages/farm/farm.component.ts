@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IGameScene } from '../../model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-farm',
@@ -7,10 +7,12 @@ import { IGameScene } from '../../model';
     styleUrls: ['./farm.component.scss']
 })
 export class FarmComponent implements IGameScene {
-
-    constructor() { }
+    
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
     public tapBack() {
-
+        this.router.navigateBack();
     }
 }

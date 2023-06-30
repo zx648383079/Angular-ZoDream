@@ -1,5 +1,6 @@
+@import '../../../../theme/styles/theme';
 .form-table {
-    .input-group {
+    .#{$prefix}input-group {
         margin-bottom: 20px;
         .avatar-input {
             cursor: pointer;

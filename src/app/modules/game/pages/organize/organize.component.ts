@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IGameScene } from '../../model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-organize',
@@ -11,10 +11,17 @@ export class OrganizeComponent implements IGameScene {
     public tabIndex = 0;
     public modalVisible = false;
 
-    constructor() { }
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
-        
     public tapBack() {
+        this.router.navigateBack();
+    }
 
+    public tapExit() {
+        this.router.confirm('确定退出此帮派？').subscribe(() => {
+            this.router.navigate(GameScenePath.Main);
+        });
     }
 }

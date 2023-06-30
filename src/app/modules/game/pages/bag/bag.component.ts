@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
-import { IGameRouter, IGameScene } from '../../model';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-bag',
@@ -19,10 +19,12 @@ export class BagComponent implements IGameScene {
         keywords: '',
     };
 
-    constructor() { }
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
     public tapBack() {
-
+        this.router.navigateBack();
     }
 
     public tapPage() {

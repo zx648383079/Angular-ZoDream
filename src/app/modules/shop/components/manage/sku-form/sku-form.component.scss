@@ -1,3 +1,4 @@
+@import '../../../../../theme/styles/theme';
 select.form-control {
     width: auto;
 }
@@ -15,7 +16,7 @@ select.form-control {
 }
 
 .product-box {
-    .input-group {
+    .#{$prefix}input-group {
         input[type="text"],
         input[type="number"] {
             min-width: 0;
@@ -30,7 +31,7 @@ select.form-control {
 }
 
 .attr-box {
-	.input-group {
+	.#{$prefix}input-group {
 		input {
 			min-width: 0;
 		}

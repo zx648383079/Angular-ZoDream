@@ -4,13 +4,13 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="name">商品名</label>
                         <div>
                             <input type="text" id="name" class="form-control" formControlName="name" placeholder="请输入 商品名">
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="series_number">货号</label>
                         <div class="calendar-input">
                             <input type="text" id="series_number" class="form-control" formControlName="series_number"
@@ -20,13 +20,13 @@
                             </button>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label>分类</label>
                         <select formControlName="cat_id" class="form-control">
                             <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         </select>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="brand_id">品牌</label>
                         <div>
                             <select id="brand_id" formControlName="brand_id" class="form-control">
@@ -35,14 +35,14 @@
         
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="price">价格</label>
                         <div>
                             <input type="text" id="price" class="form-control" formControlName="price" placeholder="请输入 价格">
         
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="market_price">市场价</label>
                         <div>
                             <input type="text" id="market_price" class="form-control" formControlName="market_price"
@@ -50,19 +50,19 @@
         
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="thumb">缩略图</label>
                         <div>
                             <app-file-input id="thumb" formControlName="thumb"></app-file-input>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="picture">主图</label>
                         <div>
                             <app-file-input id="picture" formControlName="picture"></app-file-input>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="attribute_group_id">类型</label>
                         <div>
                             <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (ngModelChange)="tapGroupChange()">
@@ -75,26 +75,26 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="其他属性">
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="weight">重量</label>
                         <div>
                             <input type="text" id="weight" class="form-control" formControlName="weight" placeholder="请输入 重量">
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="stock">库存</label>
                         <div>
                             <input type="text" id="stock" class="form-control" formControlName="stock" placeholder="请输入 库存">
 
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="keywords">关键字</label>
                         <div>
                             <app-words-input id="keywords" formControlName="keywords" placeholder="请输入 关键字"></app-words-input>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="description">说明</label>
                         <div>
                             <textarea id="description" class="form-control" formControlName="description"
@@ -102,25 +102,25 @@
 
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="is_best">精品</label>
                         <div>
                             <app-switch id="is_best" formControlName="is_best"></app-switch>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="is_hot">热门</label>
                         <div>
                             <app-switch id="is_hot" formControlName="is_hot"></app-switch>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="is_new">最新</label>
                         <div>
                             <app-switch id="is_new" formControlName="is_new"></app-switch>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label for="status">状态</label>
                         <div>
                             <span class="radio-label">
@@ -149,19 +149,19 @@
         </app-panel>
 
         <app-panel title="SEO优化" [min]="true">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="meta_seo_title">SEO标题</label>
                 <div>
                     <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="meta_seo_description">SEO描述</label>
                 <div>
                     <textarea id="meta_seo_description" class="form-control" formControlName="seo_description"></textarea>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="meta_seo_link">链接别名</label>
                 <div>
                     <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">

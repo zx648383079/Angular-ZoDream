@@ -7,11 +7,11 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">标题</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
                 </div>
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label>分类</label>
                     <select name="cat_id" [ngModel]="queries.cat_id" class="form-control">
                         <option [value]="0">请选择</option>

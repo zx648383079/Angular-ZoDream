@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
@@ -76,7 +76,7 @@
 
 <app-dialog-box #modal title="添加友情链接">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">*
                 <ng-container i18n>Site Name:</ng-container>
             </label>
@@ -84,7 +84,7 @@
                 <input type="text" [(ngModel)]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="url">*
                 <ng-container i18n>Site Link:</ng-container>
             </label>
@@ -92,19 +92,19 @@
                 <input type="text" [(ngModel)]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="logo" i18n>Site Logo:</label>
             <div>
                 <app-file-input [(ngModel)]="editData.logo"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="url" i18n>Site Description:</label>
             <div>
                 <textarea [(ngModel)]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="email" i18n>Email:</label>
             <div>
                 <input type="email" [(ngModel)]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">

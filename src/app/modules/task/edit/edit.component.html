@@ -6,38 +6,38 @@
         <div class="share-icon" *ngIf="data && data.id > 0">
             <i class="iconfont icon-paper-plane" title="分享" (click)="tapShare(shareModal)"></i>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
         </div>
-        <div class="input-group time-box">
+        <div class="zre-input-group time-box">
             <label for="every_time">单次时间：</label>
             <div>
                 <input type="number" id="every_time" class="form-control" formControlName="every_time" placeholder="请输入单次时长（/分钟）">
             </div>
         </div>
-        <div class="input-group time-box">
+        <div class="zre-input-group time-box">
             <label for="space_time">单次间隔：</label>
             <div>
                 <input type="number" id="space_time" class="form-control" formControlName="space_time" placeholder="请输入单次间隔（/分钟）">
             </div>
         </div>
-        <div class="input-group time-box">
+        <div class="zre-input-group time-box">
             <label for="duration">每日次数：</label>
             <div>
                 <input type="number" id="duration" class="form-control" formControlName="duration" placeholder="请输入每日次数">
                 <div class="input-tip">大于0表示每天会自动增加</div>
             </div>
         </div>
-        <div class="input-group time-box">
+        <div class="zre-input-group time-box">
             <label for="start_at">开始时间：</label>
             <div>
                 <app-date-input id="start_at" formControlName="start_at"></app-date-input>
@@ -73,13 +73,13 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑子任务' : '新增子任务'">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="description-input">说明</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
@@ -88,7 +88,7 @@
 <app-dialog-box #shareModal title="分享">
     <div class="form-group" *ngIf="shareData.id < 1">
         <label for="share-type-input">分享类型</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
                 <option [value]="0">公开分享</option>
                 <option [value]="1">密码分享</option>
@@ -96,7 +96,7 @@
         </div>
         <div *ngIf="shareData.share_type == 1">
             <label for="pwd-input">分享密码</label>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="text" class="form-control" id="pwd-input" [(ngModel)]="shareData.share_rule">
             </div>
         </div>

@@ -1,6 +1,6 @@
 <div class="attribute-box">
     <div class="attr-box">
-        <div class="input-group" *ngFor="let item of attrItems">
+        <div class="zre-input-group" *ngFor="let item of attrItems">
             <label for="">{{ item.name }}</label>
             <div>
                 <ng-container *ngIf="item.type < 1">
@@ -56,19 +56,19 @@
         <hr>
         <div class="form-horizontal batch-box">
             <label class="am-form-label">批量设置</label>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="text" [(ngModel)]="batchData.series_number" placeholder="商家编码">
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="number"  [(ngModel)]="batchData.price" placeholder="销售价">
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="number"  [(ngModel)]="batchData.market_price" placeholder="划线价">
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="number"  [(ngModel)]="batchData.stock" placeholder="库存数量">
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <input type="number"  [(ngModel)]="batchData.weight" placeholder="重量">
             </div>
             <button type="button" class="btn btn-info" (click)="tapBatch()">确定</button>

@@ -4,7 +4,7 @@
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="dialog-body">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>发票类型</label>
             <div class="radio-box">
                 <ng-container *ngFor="let item of typeItems;let i = index">
@@ -14,7 +14,7 @@
             </div>
             <div class="tip">电子普通发票与纸质普通发票具备同等法律效力，可支持报销入账</div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>发票抬头</label>
             <div class="radio-box">
                 <ng-container *ngFor="let item of titleTypeItems;let i = index">
@@ -22,7 +22,7 @@
                 </ng-container>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input type="text" placeholder="抬头" [(ngModel)]="editData.title">
             <ng-container *ngIf="editData.title_type > 0">
                 <input type="text" placeholder="税号" [(ngModel)]="editData.tax_no">
@@ -32,7 +32,7 @@
             <p><span>收票人手机</span><span>{{ user?.mobile }}</span></p>
             <p><span>收票人邮箱</span><span>{{ user?.email }}</span></p>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>发票内容</label>
             <div class="radio-box">
                 <ng-container *ngFor="let item of contentItems;let i = index">

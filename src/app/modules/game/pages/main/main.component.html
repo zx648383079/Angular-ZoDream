@@ -1,16 +1,22 @@
 <div class="top-menu-bar">
-    <a (click)="tapCheckin()">签到</a>
-    <a href="">消息(1)</a>
-    <a href="">任务</a>
+    <ng-container *ngFor="let item of topItems">
+        <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
+            <ng-container *ngIf="item.count > 0">
+                ({{ item.count }})
+            </ng-container>
+        </a>
+    </ng-container>
 </div>
 
 <div class="group-box">
     <div class="group-header">
-        【角色资料】
+        【
+        <a (click)="navigate('character')">角色资料</a>
+        】
     </div>
     <div class="group-body">
         <p>test</p>
-        <p>等级: 57级(100/10000) <a href="">升级</a></p>
+        <p>等级: 57级(100/10000) <a (click)="tapUpgrade()">升级</a></p>
     </div>
 </div>
 
@@ -26,14 +32,11 @@
 </div>
 
 <div class="menu-bar">
-    <a href="">背包</a>
-    <a href="">组队</a>
-    <a href="">帮派</a>
-    <a href="">副本</a>
-    <a href="">冒险</a>
-    <a href="">农场</a>
-    <a href="">牧场</a>
-    <a href="">抽卡</a>
-    <a href="">充值</a>
-    <a href="">设置</a>
+    <ng-container *ngFor="let item of bottomItems">
+        <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
+            <ng-container *ngIf="item.count > 0">
+                ({{ item.count }})
+            </ng-container>
+        </a>
+    </ng-container>
 </div>

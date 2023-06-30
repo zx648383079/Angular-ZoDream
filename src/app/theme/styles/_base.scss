@@ -1,6 +1,23 @@
+@import 'theme';
+
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --#{$prefix}-body: $dark-body;
+//         --#{$prefix}-body-text: $dark-bodyText;
+//     }
+// }
+
+// @media (prefers-color-scheme: light) {
+//     :root {
+//         --#{$prefix}-body: $body;
+//         --#{$prefix}-body-text: $bodyText;
+//     }
+// }
+
+
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    // background-color: var(--#{$prefix}-body);
+    // color: var(--#{$prefix}-body-text);
     background-attachment: fixed;
     background-repeat:no-repeat;
     background-size: cover;
@@ -16,11 +33,4 @@ a {
 
 .breadcrumb {
     margin-top: 1rem;
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #333333;
-        color: white;
-    }
 }

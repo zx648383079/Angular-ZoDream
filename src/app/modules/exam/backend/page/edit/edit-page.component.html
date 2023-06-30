@@ -2,13 +2,13 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">试卷名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="course_id">科目</label>
             <div class="flat-group">
                 <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
@@ -24,7 +24,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="rule_type">选题类型</label>
             <div>
                 <select id="rule_type" class="form-control" formControlName="rule_type" (ngModelChange)="onRuleChange()">
@@ -33,19 +33,19 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="limit_time">限时/分钟</label>
             <div>
                 <input type="text" id="limit_time" class="form-control" formControlName="limit_time" >
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">开始时间</label>
             <div>
                 <app-date-input id="start_at" formControlName="start_at"></app-date-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="end_at">结束时间</label>
             <div>
                 <app-date-input id="end_at" formControlName="end_at"></app-date-input>
@@ -138,11 +138,11 @@
     <i class="iconfont icon-close dialog-close" (click)="modal.close(false)"></i>
     <div class="search-bar">
         <form class="form-horizontal" (ngSubmit)="tapDialogSearch(searchForm.value)" #searchForm="ngForm">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="keywords">关键字</label>
                 <input type="text" class="form-control" [ngModel]="dialogData.keywords" name="keywords" id="keywords" placeholder="关键词">
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="course">科目</label>
                 <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>

@@ -1,32 +1,32 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑拍卖活动' : '新增拍卖活动'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="scope">商品</label>
             <div>
                 <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
@@ -36,7 +36,7 @@
         </div>
 
         <div formGroupName="configure">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_mode">拍卖模式</label>
                 <div>
                     <span class="radio-label">
@@ -49,7 +49,7 @@
                     <div class="input-tip">普通拍卖为加价拍卖，荷兰式拍卖为先降价直到有人拍，如果两个同时拍则开始加价</div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_begin_price">起拍价</label>
                 <div>
                     <input type="text" id="configure_begin_price" class="form-control" formControlName="begin_price"
@@ -57,14 +57,14 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_fixed_price">一口价</label>
                 <div>
                     <input type="text" id="configure_fixed_price" class="form-control" formControlName="fixed_price"
                         placeholder="请输入 一口价">
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_step_price">加价幅度</label>
                 <div>
                     <input type="text" id="configure_step_price" class="form-control" formControlName="step_price"
@@ -72,7 +72,7 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_deposit">保证金</label>
                 <div>
                     <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"

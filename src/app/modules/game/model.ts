@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { IPoint } from '../../theme/canvas';
 import { IItem } from '../../theme/models/seo';
 import { InjectionToken } from '@angular/core';
@@ -144,11 +144,24 @@ export enum GameScenePath {
     Farm = 'farm',
     Main = 'main',
     Map = 'map',
+    MapGlobe = 'map_globe',
+    MapLevel = 'map_level',
     Organize = 'org',
     Ranch = 'ranch',
     Store = 'store',
     Task = 'task',
     Mail = 'mail',
+    Skill = 'skill',
+    Prize = 'prize',
+    Recharge = 'recharge',
+    Setting = 'setting',
+}
+
+export interface IGmeRoute {
+    name: string;
+    path: string;
+    disabled?: boolean;
+    count?: number;
 }
 
 export interface IGameResponse {
@@ -167,4 +180,9 @@ export interface IGameRouter {
     request(command: string, data?: any): Observable<IGameResponse>;
     execute(command: string, data?: any): void;
     navigate(path: string, data?: any): void;
+    navigateBack(): void;
+    enter(character: number): void;
+    exit(): void;
+    toast(msg: string): void;
+    confirm(msg: string): Subject<void>;
 }

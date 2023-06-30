@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { IMessageBase } from '../../../../components/message-container';
 import { openLink } from '../../../../theme/deeplink';
 import { Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
-import { IGameScene } from '../../model';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-chat',
@@ -19,14 +19,19 @@ export class ChatComponent implements IGameScene {
     public isLoading = false;
     public total = 0;
     public detailMode = false;
+    public canReply = false;
 
     constructor(
-        private router: Router
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
     ) { }
+
+    public tapBack() {
+        this.router.navigateBack();
+    }
 
     public onMessageTap(item: IBlockItem) {
         if (item.type == 4) {
-            openLink(this.router, item.link);
+            // openLink(this.router, item.link);
         }
     }
 

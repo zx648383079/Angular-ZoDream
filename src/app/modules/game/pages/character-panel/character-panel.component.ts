@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IGameScene } from '../../model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
   selector: 'app-character-panel',
@@ -8,10 +8,12 @@ import { IGameScene } from '../../model';
 })
 export class CharacterPanelComponent implements IGameScene {
 
-  constructor() { }
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
-  public tapBack() {
-
-  }
+    public tapBack() {
+        this.router.navigateBack();
+    }
 
 }

@@ -1,5 +1,4 @@
-$primary: #a10000;
-$primaryText: #fff;
+@import '../theme/styles/theme';
 
 @mixin navbarCustom($bg, $fg) {
     background-color: $bg;

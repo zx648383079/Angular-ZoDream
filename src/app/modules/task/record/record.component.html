@@ -8,11 +8,11 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="date">日期</label>
                     <app-date-input id="date" name="date" placeholder="选择日期" [ngModel]="date"></app-date-input>
                 </div>
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label>区间</label>
                     <select name="type" [ngModel]="type" class="form-control">
                         <ng-container *ngFor="let item of typeItems;let i = index">

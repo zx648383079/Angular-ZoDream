@@ -1,4 +1,4 @@
-<div class="input-group">
+<div class="zre-input-group">
     <label for="type">响应类型</label>
     <div>
         <select id="type" [(ngModel)]="data.type" class="form-control" (ngModelChange)="onTypeChange()">
@@ -16,21 +16,21 @@
 </ng-container>
 
 <ng-container *ngIf="data.type == 3">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="template_id">模板ID</label>
         <input type="text" id="template_id" class="form-control" [(ngModel)]="data.template_id" (ngModelChange)="onTemplateChange()" placeholder="示例：模板ID">
     </div>
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="template_id">链接</label>
         <input type="text" id="template_url" [(ngModel)]="data.template_url" (ngModelChange)="onContentChange()" class="form-control">
     </div>
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="">小程序appid</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="data.appid" (ngModelChange)="onContentChange()">
         </div>
     </div>
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="">小程序路径</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="data.path" (ngModelChange)="onContentChange()">
@@ -58,7 +58,7 @@
     </table>
 </ng-container>
 <ng-container *ngIf="data.type == 4">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="content">参数</label>
         <div>
             <input type="text" id="content" class="form-control" placeholder="示例：参数" [(ngModel)]="data.parameter" (ngModelChange)="onContentChange()">
@@ -66,7 +66,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="data.type == 5">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="content">网址</label>
         <div>
             <input type="text" id="content" class="form-control" [(ngModel)]="data.url" (ngModelChange)="onContentChange()" placeholder="示例：网址">
@@ -74,19 +74,19 @@
     </div>
 </ng-container>
 <ng-container *ngIf="data.type == 6">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="module1">APPID</label>
         <div>
             <input type="text" id="module1" class="form-control" [(ngModel)]="data.appid" (ngModelChange)="onContentChange()" placeholder="小程序APPID">
         </div>
     </div>
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="module2">路径</label>
         <div>
             <input type="text" id="module2" class="form-control" [(ngModel)]="data.path" (ngModelChange)="onContentChange()" placeholder="小程序页面路径">
         </div>
     </div>
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="module3">替代网址</label>
         <div>
             <input type="text" id="module3" class="form-control" [(ngModel)]="data.url" (ngModelChange)="onContentChange()" placeholder="老版微信不支持小程序时替代网址">
@@ -97,7 +97,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="data.type == 7 || (data.type >= 20 && data.type <= 23)">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="content">场景</label>
         <div class="">
             <select id="content" class="form-control" [(ngModel)]="data.scene" (ngModelChange)="onContentChange()">

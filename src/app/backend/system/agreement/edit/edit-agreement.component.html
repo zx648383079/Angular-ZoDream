@@ -7,7 +7,7 @@
                 <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
             </ng-container>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" 
@@ -15,24 +15,24 @@
                 <div class="input-tip">格式为a-z_0-9</div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
                 <label for="title">标题</label>
                 <div>
                     <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
                 </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">介绍</label>
             <div>
                 <textarea id="description" class="form-control" [(ngModel)]="data.description"></textarea>
             </div>
         </div>
 
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="content">内容</label>
         </div>
         <app-agreement-editor id="content" [(ngModel)]="data.content"></app-agreement-editor>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="status">状态</label>
             <div>
                 <app-switch id="status" [(ngModel)]="data.status"></app-switch>

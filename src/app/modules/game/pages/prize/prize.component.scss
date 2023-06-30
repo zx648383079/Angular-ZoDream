@@ -2,3 +2,52 @@
     padding-top: 40vh;
     text-align: center;
 }
+
+$radius: .375rem;
+
+.prize-panel {
+    position: relative;
+    margin: 0 -.8rem;
+    .prize-item {
+        display: inline-block;
+        margin: .8rem;
+        position: relative;
+        width: 8rem;
+        height: 12rem;
+        border-radius: $radius;
+        background-color: white;
+        transform-style: preserve-3d;
+        transition: 1s;
+        .item-front,
+        .item-body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            border-radius: $radius;
+            z-index: 1;
+            backface-visibility: hidden;
+        }
+        .item-front {
+            background-color: gray;
+            z-index: 2;
+        }
+        .item-body {
+            position: relative;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            transform: rotateY(180deg);
+        }
+        &.open {
+            transform: rotateY(180deg);
+        }
+    }
+    .panel-action {
+        text-align: center;
+    }
+}

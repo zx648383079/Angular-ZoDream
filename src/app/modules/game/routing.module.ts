@@ -18,7 +18,11 @@ import { CharacterPanelComponent } from './pages/character-panel/character-panel
 import { MapLevelComponent } from './pages/map/level/map-level.component';
 import { EntryComponent } from './pages/entry/entry.component';
 import { GameScenePath, IGameScene } from './model';
-import { MailComponent } from './pages/mail/mail.component';
+import { RechargeComponent } from './pages/recharge/recharge.component';
+import { SettingComponent } from './pages/setting/setting.component';
+import { MapGlobeComponent } from './pages/map/globe/map-globe.component';
+import { SkillComponent } from './pages/skill/skill.component';
+import { CanActivateViaAuthGuard } from '../../theme/guards';
 
 const routes: Routes = [
     {
@@ -26,6 +30,7 @@ const routes: Routes = [
         component: PiazzaComponent,
     },
     {
+        canActivate: [CanActivateViaAuthGuard],
         path: 'play/:game',
         component: GameComponent,
     }
@@ -38,7 +43,7 @@ const routes: Routes = [
 export class GameRoutingModule { }
 
 export const gameRoutedComponents = [
-    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, MailComponent
+    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, RechargeComponent, SettingComponent, MapGlobeComponent, SkillComponent
 ];
 
 export const GameSceneItems: {
@@ -52,9 +57,14 @@ export const GameSceneItems: {
     [GameScenePath.Farm]: FarmComponent,
     [GameScenePath.Main]: MainComponent,
     [GameScenePath.Map]: MapComponent,
+    [GameScenePath.MapLevel]: MapLevelComponent,
+    [GameScenePath.MapGlobe]: MapGlobeComponent,
+    [GameScenePath.Skill]: SkillComponent,
     [GameScenePath.Organize]: OrganizeComponent,
     [GameScenePath.Ranch]: RanchComponent,
     [GameScenePath.Store]: StoreComponent,
     [GameScenePath.Task]: TaskComponent,
-    [GameScenePath.Mail]: MailComponent,
+    [GameScenePath.Prize]: PrizeComponent,
+    [GameScenePath.Recharge]: RechargeComponent,
+    [GameScenePath.Setting]: SettingComponent,
 };

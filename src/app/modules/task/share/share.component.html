@@ -8,12 +8,12 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">标题</label>
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题"
                         [ngModel]="queries.keywords">
                 </div>
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label>状态</label>
                     <select name="status" [ngModel]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>

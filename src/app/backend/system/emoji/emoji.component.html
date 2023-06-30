@@ -7,12 +7,12 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">名称</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="名称">
                 </div>
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label>分类</label>
                     <select name="cat_id" [ngModel]="queries.cat_id" class="form-control">
                         <option [value]="0">请选择</option>
@@ -69,13 +69,13 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑表情' : '新增表情'">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="cat-input">分组</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <select [(ngModel)]="editData.cat_id" id="cat-input" class="form-control">
                 <option *ngFor="let item of categories" [value]="item.id">{{ item.name }}</option>
             </select>
@@ -83,7 +83,7 @@
     </div>
     <div class="form-group">
         <label for="type-input">类型</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <select [(ngModel)]="editData.type" id="type-input" class="form-control">
                 <option [value]="0">图片</option>
                 <option [value]="1">文字</option>
@@ -92,13 +92,13 @@
     </div>
     <div class="form-group" *ngIf="editData.type < 1">
         <label for="content-input">图片</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <app-file-input [(ngModel)]="editData.content"></app-file-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.type == 1">
         <label for="con-input">内容</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <input class="form-control" id="con-input" [(ngModel)]="editData.content" placeholder="请输入内容">
         </div>
     </div>
@@ -107,7 +107,7 @@
 <app-dialog-box #importModal [footerVisible]="false" title="导入表情包">
     <div class="form-group">
         <label for="content-input">选择文件</label>
-        <div class="input-group">
+        <div class="zre-input-group">
             <app-upload-button class="btn btn-primary" accept="application/x-zip-compressed" (uploading)="uploadFile($event)">上传</app-upload-button>
         </div>
     </div>

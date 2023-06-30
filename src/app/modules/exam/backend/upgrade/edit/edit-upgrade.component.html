@@ -2,13 +2,13 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="course_id">科目</label>
             <div class="flat-group">
                 <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
@@ -24,13 +24,13 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="icon">图标</label>
             <div>
                 <app-file-input formControlName="icon" ></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">简介</label>
             <div>
                 <textarea id="description" formControlName="description" class="form-control"></textarea>

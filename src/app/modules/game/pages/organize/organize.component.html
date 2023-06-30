@@ -6,7 +6,7 @@
         <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">主页</a>
         <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">成员</a>
     </div>
-    <a href="" class="right-item">退出</a>
+    <a class="right-item" (click)="tapExit()">退出</a>
 </div>
 <div class="organize-body" *ngIf="tabIndex < 1">
     <h2>名称</h2>

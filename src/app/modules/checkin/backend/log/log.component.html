@@ -7,11 +7,11 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">会员名</label>
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索会员" [ngModel]="queries.keywords">
                 </div>
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="date">日期</label>
                     <input type="date" name="date" id="date" class="form-control" [ngModel]="queries.date" placeholder="签到日期">
                 </div>

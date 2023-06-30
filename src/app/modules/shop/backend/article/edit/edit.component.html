@@ -2,14 +2,14 @@
 <div class="container-fluid">
     <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <app-panel title="基本信息">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="title">标题</label>
                 <div>
                     <input type="text" id="title" class="form-control" formControlName="title">
                     <div class="input-tip" *ngIf="form.get('title').invalid">请输入标题</div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="cat_id">分类</label>
                 <div>
                     <select id="cat_id" formControlName="cat_id" class="form-control" >
@@ -18,19 +18,19 @@
 
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="thumb">主图</label>
                 <div>
                     <app-file-input id="thumb" formControlName="thumb"></app-file-input>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="keywords">关键字</label>
                 <div>
                     <app-words-input id="keywords" formControlName="keywords"></app-words-input>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="description">说明</label>
                 <div>
                     <textarea id="description" class="form-control" formControlName="description"></textarea>

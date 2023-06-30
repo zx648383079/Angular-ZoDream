@@ -1,26 +1,27 @@
+@import '../../../theme/styles/theme';
 .login-form {
     &.slided {
-        transform: translate(-300px, 0);
-        min-height: 300px;
+        transform: translate(-18.75rem, 0);
+        min-height: 18.75rem;
     }
 }
 
 .login-oauth-box {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 
     .box-title {
         border-bottom: 1px solid #767676;
     }
 
     a {
-        font-size: 30px;
-        color: #cc2525;
-        margin: 5px;
+        font-size: 1.875rem;
+        color: $bodyText;
+        margin: 0.3125rem;
         text-decoration: none;
 
         .iconfont {
-            font-size: 30px;
+            font-size: 1.875rem;
         }
     }
 }
@@ -30,29 +31,28 @@
 }
 
 .other-box {
-    line-height: 30px;
-
+    line-height: 1.875rem;
     .iconfont {
         float: right;
-        line-height: 30px;
-        margin-right: 10px;
-        color: #cc2525;
+        line-height: 1.875rem;
+        margin-right: 0.625rem;
+        color: $bodyText;
     }
 }
 
 .login-qr-box {
     position: absolute;
     top: 0;
-    left: 300px;
-    width: 300px;
+    left: 18.75rem;
+    width: 18.75rem;
     text-align: center;
 
     .qr-box {
         .icon-refresh {
             position: absolute;
-            top: 126px;
-            left: 129px;
-            font-size: 50px;
+            top: 7.875rem;
+            left: 8.0625rem;
+            font-size: 3.125rem;
             color: red;
             display: none;
         }
@@ -62,12 +62,12 @@
     .success-box,
     .failure-box {
         display: none;
-        min-height: 250px;
+        min-height: 15.625rem;
         background: rgba(#fff, .9);
         color: #333;
         .iconfont {
-            font-size: 80px;
-            padding-top: 40px;
+            font-size: 5rem;
+            padding-top: 2.5rem;
             display: block;
         }
     }
@@ -115,10 +115,10 @@
 
 .code-input {
     input {
-        padding-right: 80x;
+        padding-right: 5rem;
     }
     .send-btn {
-        width: 80px;
+        width: 5rem;
         position: absolute;
         top: 0;
         right: 0;
@@ -127,14 +127,14 @@
 
 .captcha-input {
     input {
-        padding-right: 80px;
+        padding-right: 5rem;
     }
     .btn {
         position: absolute;
         right: 0;
         top: 0;
-        width: 80px;
-        height: 30px;
+        width: 5rem;
+        height: 1.875rem;
         padding: 0;
         background-color: transparent;
         img {
@@ -144,7 +144,7 @@
     }
     &.input-focus {
         .fa {
-            left: 200px;
+            left: 12.5rem;
         }
     }
 }

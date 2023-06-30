@@ -1,39 +1,56 @@
+$prefix: 'zre-';
 // 黑白配
-// $headerBg: #333;
-// $headerFg: #fff;
+// $primary: #333;
+// $primaryText: #fff;
 // $secondary: #767676;
-// $disable: #ccc;
-// $error: red;
+// $disabledText: #ccc;
+// $strongText: red;
 // $shadow: rgba(51, 51, 51, 0.7);
-// $border: $headerBg;
-// $bodyBg: #f4f4f4;
-// $bg: #fff;
-// $fg: #333;
-// $secondaryFg: #b3b1b1;
+// $border: $primary;
+// $body: #f4f4f4;
+// $third: #fff;
+// $bodyText: #333;
+// $secondaryText: #b3b1b1;
 
 // 原木色
-// $headerBg: #af5d0d;
-// $headerFg: #fff;
+// $primary: #af5d0d;
+// $primaryText: #fff;
 // $secondary: #e29344;
-// $disable: #FF9787;
-// $error: red;
+// $disabledText: #FF9787;
+// $strongText: red;
 // $shadow: rgba(51, 51, 51, 0.7);
-// $border: $headerBg;
-// $bodyBg: #f4f4f4;
-// $bg: #f9cfa6;
-// $fg: #333;
-// $secondaryFg: #b3b1b1;
+// $border: $primary;
+// $body: #f4f4f4;
+// $third: #f9cfa6;
+// $bodyText: #333;
+// $secondaryText: #b3b1b1;
 
 // 中国红
-$headerBg: #A10000;
-$headerFg: #fff;
+$primary: #A10000;
+$primaryText: #fff;
 $secondary: #CC2525;
-$disable: #FF9787;
-$error: red;
+$disabledText: #FF9787;
+$strongText: red;
 $shadow: rgba(51, 51, 51, 0.7);
-$border: $headerBg;
-$bodyBg: #f4f4f4;
-$bg: #fff;
-$fg: #333;
-$secondaryFg: #b3b1b1;
-$primary: #dff0d8;
+$border: $primary;
+$body: #f4f4f4;
+$bodyText: #333;
+$third: #fff;
+$thirdText: $bodyText;
+$secondaryText: #b3b1b1;
+
+
+// 黑暗模式
+$dark-primary: #333;
+$dark-primaryText: #fff;
+$dark-secondary: #767676;
+$dark-disabledText: #ccc;
+$dark-strongText: red;
+$dark-shadow: rgba(51, 51, 51, 0.7);
+$dark-border: $primary;
+$dark-third: #fff;
+$dark-body: #333;
+$dark-bodyText: #fff;
+$dark-secondaryText: #b3b1b1;
+
+

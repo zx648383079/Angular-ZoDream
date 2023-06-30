@@ -1,19 +1,19 @@
 <div class="editor-container" [ngClass]="{'top-open': topVisible}" *ngIf="book">
     <div class="top-container">
         <div class="form-table">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="name2" i18n>Name</label>
                 <div>
                     <input type="text" id="name2" [(ngModel)]="book.name" class="form-control">
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="cover" i18n>Cover</label>
                 <div>
                     <app-file-input  [(ngModel)]="book.cover"></app-file-input>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="description2" i18n>Summary</label>
                 <div>
                     <textarea id="description2" [(ngModel)]="book.description" class="form-control"></textarea>
@@ -80,14 +80,14 @@
                     <app-text-editor [(ngModel)]="data.content"></app-text-editor>
                     <app-panel title="附加属性" [min]="true">
                         <div class="form-table">
-                            <div class="input-group">
+                            <div class="zre-input-group">
                                 <label for="price">价格</label>
                                 <div>
                                     <input type="text" id="price" class="form-control" [(ngModel)]="data.price">
                                     <div class="input-tip">为0表示免费章节</div>
                                 </div>
                             </div>
-                            <div class="input-group">
+                            <div class="zre-input-group">
                                 <label for="position">排序</label>
                                 <div>
                                     <input type="text" id="position" class="form-control" [(ngModel)]="data.position">
@@ -172,7 +172,7 @@
 
 <app-dialog-box #moveModal [scrollable]="false">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">移动到章节</label>
             <div>
                 <select [(ngModel)]="moveData.target" class="form-control">
@@ -185,7 +185,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for=""></label>
             <div>
                 <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1"></app-check-input>
@@ -196,26 +196,26 @@
 
 <app-dialog-box #roleModal [scrollable]="false">
 <div class="form-table">
-    <div class="input-group">
+    <div class="zre-input-group">
         <label for="">角色名</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="roleData.name">
         </div>
     </div>
     <ng-container *ngIf="roleData.type != 'link'">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">头像</label>
             <div>
                 <app-file-input [(ngModel)]="roleData.avatar"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">简介</label>
             <div>
                 <textarea type="text" class="form-control" [(ngModel)]="roleData.description"></textarea>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">角色身份</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="roleData.character" placeholder="主角/配角">
@@ -223,7 +223,7 @@
         </div>
     </ng-container>
     
-    <div class="input-group" [hidden]="roleData.type == 'new'">
+    <div class="zre-input-group" [hidden]="roleData.type == 'new'">
         <label for="">与“{{ roleData.from }}”的关系</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="roleData.link">
@@ -234,13 +234,13 @@
 
 <app-dialog-box #goodsModal [scrollable]="false">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">物品</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="goodsData.name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">物品数量</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="goodsData.amount">
@@ -250,13 +250,13 @@
 </app-dialog-box>
 <app-dialog-box #skillModal [scrollable]="false">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">技能名</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="skillData.name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">技能等级</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="skillData.level">

@@ -183,7 +183,7 @@
 
 <app-dialog-box #refundModal title="订单退款" confirmText="确认提交">
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">退款方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="refundData.refund_type">
@@ -191,7 +191,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">退款金额</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="refundData.money">
@@ -227,7 +227,7 @@
         </tbody>
     </table>
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">物流方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="shipData.shipping_id">
@@ -235,7 +235,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">物流单号</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="shipData.logistics_number">

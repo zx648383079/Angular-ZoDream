@@ -1,19 +1,21 @@
+@import '../../theme/styles/theme';
+
 .login-box {
-    max-width: 300px;
+    max-width: 18.75rem;
     margin: 20vh auto 40vh;
     overflow: hidden;
     position: relative;
 }
 
 footer {
-    background-color: #a10000;
-    color: #fff;
-    padding: 20px 0;
+    background-color: $primary;
+    color: $primaryText;
+    padding: 1.25rem 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: #fff;
+        color: $primaryText;
         text-decoration: none;
     }
 }

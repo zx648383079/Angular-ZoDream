@@ -3,27 +3,27 @@
 </app-edit-header>
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="scope_type">抽奖形式</label>
             <div>
                 <select id="scope_type" class="form-control" formControlName="scope_type">
@@ -34,14 +34,14 @@
             </div>
         </div>
         <div formGroupName="configure">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_over_text">覆盖区文字</label>
                 <div>
                     <input type="text" id="configure_over_text" class="form-control" formControlName="over_text"
                         placeholder="请输入 覆盖区文字">
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_btn_text">按钮文字</label>
                 <div>
                     <input type="text" id="configure_btn_text" class="form-control" formControlName="btn_text"
@@ -49,7 +49,7 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_start_times">初始可抽次数</label>
                 <div>
                     <input type="text" id="configure_start_times" class="form-control" formControlName="start_times"
@@ -57,7 +57,7 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_buy_times">积分可抽次数</label>
                 <div>
                     <input type="text" id="configure_buy_times" class="form-control" formControlName="buy_times"
@@ -65,7 +65,7 @@
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="configure_time_price">兑换所需积分</label>
                 <div>
                     <input type="text" id="configure_time_price" class="form-control" formControlName="time_price"
@@ -103,7 +103,7 @@
             </table>
         </div>
 
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>

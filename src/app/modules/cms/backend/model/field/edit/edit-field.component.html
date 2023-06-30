@@ -2,14 +2,14 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="field">字段名</label>
             <div>
                 <input type="text" id="field" class="form-control" formControlName="field" >
@@ -17,14 +17,14 @@
             </div>
         </div>
         
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="is_main">主表</label>
             <div>
                 <app-switch id="is_main" formControlName="is_main"></app-switch>
             </div>
         </div>
         <div *ngIf="!data || data.is_system < 1">
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="type">类型</label>
                 <div>
                     <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
@@ -34,7 +34,7 @@
             </div>
             <div class="option-box">
                 <ng-container *ngFor="let item of optionItems">
-                    <div class="input-group">
+                    <div class="zre-input-group">
                         <label>{{ item.label }}</label>
                         <div *ngIf="item.type == 'text'">
                             <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
@@ -59,47 +59,47 @@
                     </div>
                 </ng-container>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="is_required">是否必填</label>
                 <div>
                     <app-switch id="is_required" formControlName="is_required"></app-switch>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="is_search">是否搜索</label>
                 <div>
                     <app-switch id="is_search" formControlName="is_search"></app-switch>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="length">字段长度</label>
                 <div>
                     <input type="text" id="length" class="form-control" formControlName="length">
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="match">匹配规则</label>
                 <div>
                     <input type="text" id="match" class="form-control" formControlName="match">
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="tip_message">提示信息</label>
                 <div>
                     <input type="text" id="tip_message" class="form-control" formControlName="tip_message">
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="error_message">错误提示</label>
                 <div>
                     <input type="text" id="error_message" class="form-control" formControlName="error_message">
     
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label>编辑组</label>
                 <div class="tab-group">
                     <app-check-input [items]="tabItems" [rangeKey]="false" formControlName="tab_name"></app-check-input>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="input-group">
+            <div class="zre-input-group">
                 <label for="position">排序</label>
                 <div>
                     <input type="text" id="position" class="form-control" formControlName="position">

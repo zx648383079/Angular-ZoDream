@@ -7,7 +7,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -64,25 +64,25 @@
 </div>
 <app-dialog-box #modal>
     <div class="form-table">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">备注名</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.note_name">
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">分组</label>
             <div>
                 <app-select-input [url]="selectUrl" [(ngModel)]="editData.group_id"></app-select-input>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">是否拉黑</label>
             <div>
                 <app-switch [(ngModel)]="editData.is_black"></app-switch>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="">备注</label>
             <div>
                 <textarea class="form-control" [(ngModel)]="editData.remark"></textarea>

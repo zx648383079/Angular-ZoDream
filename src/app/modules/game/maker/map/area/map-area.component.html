@@ -8,7 +8,7 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="input-group">
+                <div class="zre-input-group">
                     <label for="keywords">地区名</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="地区名">
                 </div>
@@ -59,7 +59,7 @@
   <app-dialog-box #modal [title]="editData.id > 0 ? '编辑地区' : '新增地区'">
       <div class="form-group">
           <label for="region-input">地区名</label>
-          <div class="input-group">
+          <div class="zre-input-group">
             <input class="form-control" id="region-input" [(ngModel)]="editData.name" placeholder="请输入地区名">
           </div>
         </div>

@@ -3,14 +3,14 @@
 
 <div class="container-fluid">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="name">角色名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:admin">
                 <div class="input-tip" *ngIf="name.invalid">请输入角色名</div>
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="display_name">别名</label>
             <div>
                 <input type="text" id="display_name" class="form-control" formControlName="display_name"
@@ -19,14 +19,14 @@
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="input-group">
+        <div class="zre-input-group">
             <label>权限</label>
             <div>
                 <ng-select [multiple]="true" [items]="permissionItems" bindValue="id" bindLabel="display_name"
