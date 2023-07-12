@@ -34,6 +34,13 @@
             </div>
         </div>
         <div class="zre-input-group">
+            <label for="language">语言</label>
+            <div>
+                <input type="text" id="language" class="form-control" formControlName="language">
+
+            </div>
+        </div>
+        <div class="zre-input-group">
             <label for="logo">Logo</label>
             <div>
                 <app-file-input id="logo" [online]="true" formControlName="logo"></app-file-input>
@@ -49,6 +56,16 @@
             <label for="description">简介</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="status">状态</label>
+            <div>
+                <select id="status" class="form-control" formControlName="status">
+                    <ng-container *ngFor="let item of statusItems">
+                        <option [value]="item.value">{{ item.name }}</option>
+                    </ng-container>
+                </select>
             </div>
         </div>
         <div class="btn-group">

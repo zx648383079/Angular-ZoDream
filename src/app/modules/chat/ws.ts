@@ -1,4 +1,5 @@
-import { eachObject, fileToBase64 } from '../../theme/utils';
+import { eachObject } from '../../theme/utils';
+import { fileToBase64 } from '../../theme/utils/doc';
 import { COMMAND_AUTH, COMMAND_MESSAGE_PING, IRequest, RequestCallback } from './http';
 
 interface IWsOption {

@@ -7,14 +7,14 @@
     </div>
 </div>
 <div class="tab-bar">
-    <a href="" class="item active">装备</a>
-    <a href="" class="item">药品</a>
-    <a href="" class="item">宝石</a>
+    <ng-container *ngFor="let item of typeItems">
+        <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
+    </ng-container>
 </div>
 <div class="bag-item" *ngFor="let item of items">
     <div class="item-body">
         <span>[蓝]</span>
-        <a href="" class="item-name">刀</a>
+        <a class="item-name">{{ item.name }}</a>
         <span class="item-sub">+5</span>
     </div>
     <span class="item-amount">x5</span>

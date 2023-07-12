@@ -4,7 +4,8 @@ import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
 import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogMessageComponent } from './message/dialog-message.component';
-import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption, DialogLoadingOption } from './model';
+import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption, DialogLoadingOption, DialogLeadTour } from './model';
+import { DialogLeadComponent } from './lead/dialog-lead.component';
 
 
 
@@ -94,11 +95,21 @@ export class DialogService {
      * @returns loading 的id, 使用 remove(id: any) 进行关闭
      */
     public loading(option?: DialogLoadingOption): any {
-        option = Object.assign({}, option, {
+        return this.createDailog(DialogLoadingComponent, {
             time: 2000,
             closeable: true,
+            ...option
         });
-        return this.createDailog(DialogLoadingComponent, option);
+    }
+
+    public tour(option: DialogLeadTour) {
+        return this.createDailog(DialogLeadComponent, <DialogLeadTour>{
+            backText: $localize `Back`,
+            nextText: $localize `Next`,
+            confirmText: $localize `Done`,
+            cancelText: $localize `Close`,
+            ...option
+        });
     }
 
     private createMessage(option: DialogMessageOption): any {

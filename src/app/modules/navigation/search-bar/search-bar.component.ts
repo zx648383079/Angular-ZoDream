@@ -2,7 +2,8 @@ import { Component, EventEmitter, HostListener, Input, OnChanges, Output, Simple
 import { SuggestChangeEvent, SuggestEvent } from '../../../components/form';
 import { ISearchBar, ISearchEngine, SearchEngineItems } from './engine';
 import { HttpClient } from '@angular/common/http';
-import { hasElementByClass, parseNumber } from '../../../theme/utils';
+import { parseNumber } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
     selector: 'app-search-bar',

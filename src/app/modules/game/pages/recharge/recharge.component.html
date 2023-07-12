@@ -2,7 +2,66 @@
     <div class="tool-item" (click)="tapBack()">
         <i class="iconfont icon-arrow-left"></i>
     </div>
-    <div class="title-bar">
-        充值
+    <div class="title-tab-bar">
+        <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">充值</a>
+        <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">提现</a>
+    </div>
+    <a class="right-item" (click)="modalVisible = true">
+        规则
+    </a>
+</div>
+
+<div [hidden]="tabIndex > 0">
+    <p>站点账户余额：0</p>
+
+    <div class="charge-line">
+        <div class="line-item">
+            <label for="">站点账户</label>
+            <app-number-input></app-number-input>
+        </div>
+        <div class="line-arrow">
+            =
+        </div>
+        <div class="line-item">
+            <label for="">游戏账户</label>
+            <app-number-input></app-number-input>
+        </div>
+    </div>
+</div>
+
+<div [hidden]="tabIndex < 1">
+    <p>游戏账户余额：0</p>
+    <div class="charge-line">
+        <div class="line-item">
+            <label for="">游戏账户</label>
+            <app-number-input></app-number-input>
+        </div>
+        <div class="line-arrow">
+            =
+        </div>
+        <div class="line-item">
+            <label for="">站点账户</label>
+            <app-number-input></app-number-input>
+        </div>
+    </div>
+</div>
+
+<app-action-button class="btn btn-primary">{{ tabIndex < 1 ? '充值' : '提现' }}</app-action-button>
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="rule-dialog" *ngIf="modalVisible">
+    <div class="dialog-header">
+        <span>规则</span>
+        <div class="dialog-close">
+            <i class="iconfont icon-close" (click)="modalVisible = false"></i>
+        </div>
+    </div>
+    <div class="dialog-body">
+        <h3>说明</h3>
+        <p>充值，是指把本站点账户代币转换为此游戏代币！</p>
+        <p>提现，是指把游戏代币转化为站点账户余额！</p>
+        <h3>汇率</h3>
+        <p>充值，1 = 100 </p>
+        <p>提现，80 = 1 </p>
     </div>
 </div>

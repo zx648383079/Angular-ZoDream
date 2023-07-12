@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
 @Component({

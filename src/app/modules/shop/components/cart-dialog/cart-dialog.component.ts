@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ICart, ICartItem } from '../../model';
-import { hasElementByClass } from '../../../../theme/utils';
+import { hasElementByClass } from '../../../../theme/utils/doc';
 import { setCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCart } from '../../shop.selectors';

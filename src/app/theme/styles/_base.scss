@@ -1,18 +1,26 @@
 @import 'theme';
 
-// @media (prefers-color-scheme: dark) {
-//     :root {
-//         --#{$prefix}-body: $dark-body;
-//         --#{$prefix}-body-text: $dark-bodyText;
-//     }
-// }
+@media (prefers-color-scheme: dark) {
+    :root {
+        // --#{$prefix}-body: $dark-body;
+        // --#{$prefix}-body-text: $dark-bodyText;
+        --#{$prefix}-panel: #{$dark-panel};
+        --#{$prefix}-panel-text: #{$dark-bodyText};
+        --#{$prefix}-primary: #{$dark-primary};
+        --#{$prefix}-primary-text: #{$dark-primaryText};
+    }
+}
 
-// @media (prefers-color-scheme: light) {
-//     :root {
-//         --#{$prefix}-body: $body;
-//         --#{$prefix}-body-text: $bodyText;
-//     }
-// }
+@media (prefers-color-scheme: light) {
+    :root {
+        // --#{$prefix}-body: $body;
+        // --#{$prefix}-body-text: $bodyText;
+        --#{$prefix}-panel: #{$panel};
+        --#{$prefix}-panel-text: #{$bodyText};
+        --#{$prefix}-primary: #{$primary};
+        --#{$prefix}-primary-text: #{$primaryText};
+    }
+}
 
 
 body {

@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ComponentRef, Injector, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { GameService } from './game.service';
 import { ThemeService } from '../../theme/services';
-import { GameScenePath, IGameCharacter, IGameProject, IGameResponse, IGameRouter, IGameScene } from './model';
+import { GameCommand, GameScenePath, IGameCharacter, IGameProject, IGameRouter, IGameScene } from './model';
 import { GameSceneItems } from './routing.module';
-import { Observable, Subject } from 'rxjs';
+import { Subject, map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseNumber } from '../../theme/utils';
 import { GameInjector } from './game.injector';
 import { DialogService } from '../../components/dialog';
+import { IErrorResponse } from '../../theme/models/page';
 
 @Component({
     selector: 'app-game',
@@ -19,8 +20,9 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
     @ViewChild('modalVC', {read: ViewContainerRef})
     private modalViewContainer: ViewContainerRef;
     private modalRef: ComponentRef<IGameScene>;
-    private project: IGameProject;
-    private character: IGameCharacter;
+    public project: IGameProject;
+    public character: IGameCharacter;
+    public params?: any;
     private injector: GameInjector;
     private readyFn: Function;
     private historyItems: string[] = [];
@@ -56,29 +58,50 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         
     }
 
-    public request(command: string, data?: any): Observable<IGameResponse> {
-        return this.service.play({
+    public request(command: string|any, data?: any): any {
+        const queris: any = {
             project: this.project.id,
-            command,
-            data
-        });
+            character: this.character?.id
+        };
+        if (typeof command === 'object') {
+            queris.batch = command;
+        } else {
+            queris.command = command;
+            queris.data = data;
+        }
+        return this.service.play(queris).pipe(map((res: any) => {
+            if (res.message) {
+                this.toastrService.error(res.message);
+            }
+            if (res.batch) {
+                return res.batch;
+            }
+            return res;
+        }));
     }
 
-    public navigate(path: string, data?: any): void {
+    public navigate(path: string, data?: any, replace = false): void {
         const scene = GameSceneItems[path];
         if (!scene) {
             console.log(`error path[${path}]`);
-            
             return;
         }
-        if (this.historyItems.length < 1 || this.historyItems[this.historyItems.length - 1] !== path) {
+        const last = this.historyItems.length - 1;
+        if (this.historyItems.length > 0 && replace) {
+            this.historyItems[last] = path;
+        } else if (this.historyItems.length < 1 || this.historyItems[last] !== path) {
             this.historyItems.push(path);
         }
         if (this.modalRef) {
             this.modalRef.destroy();
             this.modalRef = undefined;
         }
+        this.params = data;
         this.createModal(scene);
+    }
+
+    public navigateReplace(path: string, data?: any) {
+        this.navigate(path, data, true);
     }
 
     public navigateBack() {
@@ -110,7 +133,13 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         });
     }
 
-    public toast(msg: string) {
+    public toast(msg: IErrorResponse): void;
+    public toast(msg: string): void;
+    public toast(msg: string|IErrorResponse) {
+        if (typeof msg === 'object') {
+            this.toastrService.error(msg);
+            return;
+        }
         this.toastrService.tip(msg);
     }
 
@@ -138,7 +167,12 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
     public enter(character: number) {
         window.sessionStorage.setItem(this.characterToken, character.toString());
         this.character = {id: character} as any;
-        this.navigate(GameScenePath.Main);
+        this.request(GameCommand.Query).subscribe(res => {
+            this.project = res.data.project;
+            this.themeService.setTitle(this.project.name);
+            this.character = res.data.character;
+            this.navigate(GameScenePath.Main);
+        });
     }
 
     private get characterToken() {
@@ -151,10 +185,13 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
             return;
         }
         this.project = {id: project} as any;
-        this.themeService.setTitle('game');
         const characterId = parseNumber(window.sessionStorage.getItem(this.characterToken));
         if (characterId < 1) {
-            this.navigate(GameScenePath.Entry);
+            this.request(GameCommand.Query).subscribe(res => {
+                this.project = res.data.project;
+                this.themeService.setTitle(this.project.name);
+                this.navigate(GameScenePath.Entry);
+            });
             return;
         }
         this.enter(characterId);

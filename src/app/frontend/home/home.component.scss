@@ -1,36 +1,37 @@
+@import '../../theme/styles/theme';
 .container {
     min-height: 80vh;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 3.125rem;
+    padding-bottom: 3.125rem;
 }
 .metro-item {
-    line-height: 80px;
-    height: 80px;
+    line-height: 5rem;
+    height: 5rem;
     display: block;
-    font-size: 30px;
+    font-size: 1.875rem;
     text-align: center;
-    background-color: #fff;
+    background-color: var(--#{$prefix}-panel);
     overflow-y: hidden;
-    box-shadow: rgba(51,51,51,.7) 0 0 10px;
+    box-shadow: 0 0 0.625rem $shadow;
     text-decoration: none;
-    color: #333;
+    color: var(--#{$prefix}-panel-text);
     margin-bottom: 1rem;
     &.metro-desc {
         .name {
-            line-height: 80px;
-            font-size: 30px;
+            line-height: 5rem;
+            font-size: 1.875rem;
             transition: all 1s;
         }
         .desc {
-            line-height: 20px;
-            font-size: 12px;
+            line-height: 1.25rem;
+            font-size: 0.75rem;
             font-weight: 300;
-            margin-top: 10px;
+            margin-top: 0.625rem;
         }
         &:hover {
             .name {
-                line-height: 40px;
-                font-size: 20px;
+                line-height: 2.5rem;
+                font-size: 1.25rem;
             }
         }
     }

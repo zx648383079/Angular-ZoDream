@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../models/seo';
 import { IData } from '../../models/page';
-import { hasElementByClass } from '../../utils';
+import { hasElementByClass } from '../../utils/doc';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 

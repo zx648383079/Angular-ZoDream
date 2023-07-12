@@ -88,7 +88,7 @@ export class CharacterComponent implements OnInit {
     }
 
     public tapRemove(item: IGameCharacter) {
-        this.toastrService.confirm('确定删除“' + item.name + '”角色？', () => {
+        this.toastrService.confirm('确定删除“' + item.nickname + '”角色？', () => {
             // this.service.forumRemove(item.id).subscribe(res => {
             //     if (!res.data) {
             //         return;

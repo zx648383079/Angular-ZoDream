@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
 import { emptyValidate } from '../../theme/validators';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
-import { openLink } from '../../theme/deeplink';
+import { openLink } from '../../theme/utils/deeplink';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';

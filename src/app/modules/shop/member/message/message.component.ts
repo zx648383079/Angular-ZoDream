@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
 import { IMessageBase } from '../../../../components/message-container';
-import { openLink } from '../../../../theme/deeplink';
+import { openLink } from '../../../../theme/utils/deeplink';
 import { ShopService } from '../../shop.service';
 
 interface IMessageGroup {

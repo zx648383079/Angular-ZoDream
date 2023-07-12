@@ -1,5 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { hasElementByClass } from '../../theme/utils';
+import { hasElementByClass } from '../../theme/utils/doc';
 import { IMenuButton, IMenuItem, MenuEvent } from './model';
 
 @Component({

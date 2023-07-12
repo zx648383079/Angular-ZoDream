@@ -1,6 +1,6 @@
 import { Md5 } from 'ts-md5';
-import { environment } from '../../environments/environment';
-import { IPageTreeItem } from './models/page';
+import { environment } from '../../../environments/environment';
+import { IPageTreeItem } from '../models/page';
 
 const rdashAlpha = /-([a-z])/g;
 
@@ -376,33 +376,6 @@ export function rangeStep<T = number>(start: number, end: number, step = 1, form
         }
     }
     return items;
-}
-
-export function hasElementByClass(path: Array<Element>, className: string): boolean {
-    if (!path) {
-        return false;
-    }
-    let hasClass = false;
-    for (const item of path) {
-        if (!item || !item.className) {
-            continue;
-        }
-        hasClass = item.className.indexOf(className) >= 0;
-        if (hasClass) {
-            return true;
-        }
-    }
-    return hasClass;
-}
-
-export const fileToBase64 = (file: File|Blob, callback: (text: string) => void) => {
-    const reader = new FileReader();
-    // 传入一个参数对象即可得到基于该参数对象的文本内容
-    reader.readAsDataURL(file);
-    reader.onload = function (e) {
-        // target.result 该属性表示目标对象的DataURL
-        callback(e.target.result as string)
-    };
 }
 
 

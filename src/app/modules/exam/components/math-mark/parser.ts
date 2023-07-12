@@ -1,5 +1,5 @@
 import { DomSanitizer } from '@angular/platform-browser';
-import { CharIterator } from '../../../../theme/char';
+import { CharIterator } from '../../../../theme/utils/char';
 import katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
 

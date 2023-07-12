@@ -1,11 +1,12 @@
 import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
-import { IErrorResponse, IErrorResult } from '../../theme/models/page';
+import { IErrorResult } from '../../theme/models/page';
 import { SearchService } from '../../theme/services';
-import { hasElementByClass, twoPad } from '../../theme/utils';
+import { twoPad } from '../../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
+import { hasElementByClass } from '../../theme/utils/doc';
 
 interface IDay {
     val: string;

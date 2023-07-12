@@ -1,0 +1,24 @@
+.org-item {
+    margin-bottom: .8rem;
+    border: 1px solid #ccc;
+    .item-header,
+    .item-footer {
+        line-height: 2rem;
+        padding: 0 .4rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    .item-header,
+    .item-body {
+        border-bottom: 1px solid #ccc;
+    }
+    .item-body {
+        min-height: 4rem;
+        color: #767676;
+        font-size: .8rem;
+        padding: .4rem;
+    }
+    .item-footer {
+        color: #767676;
+    }
+}

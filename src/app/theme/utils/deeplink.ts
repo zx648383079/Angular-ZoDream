@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { intValidate } from './validators';
+import { intValidate } from '../validators';
 
 export const DEEPLINK_SCHEMA = 'zodream';
 

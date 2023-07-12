@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { Widget } from './widget';
-import { ISize, IPoint, IBound } from '../../../../theme/canvas';
+import { ISize, IPoint, IBound } from '../../../../theme/utils/canvas';
 
 export interface ICommand {
     execute(): boolean;

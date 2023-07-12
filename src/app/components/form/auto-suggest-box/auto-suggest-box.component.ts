@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SuggestChangeEvent, SuggestEvent } from '../event';
-import { hasElementByClass } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
     selector: 'app-auto-suggest-box',

@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { EditorUpdatedCallback } from '../../base';
 import { EditorBlockType, IEditorResizeBlock } from '../../model';
-import { IBound, IPoint } from '../../../../theme/canvas';
+import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
     selector: 'app-editor-resizer',

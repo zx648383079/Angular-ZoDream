@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { camelCase, eachObject } from '../utils';
+import { css, toggleClass } from '../utils/doc';
 
 @Injectable({
     providedIn: 'root'
@@ -23,15 +23,7 @@ export class ThemeService {
     }
 
     public toggleClass(tag: string, force?: boolean) {
-        const ele = this.body;
-        if (force === void 0) {
-            force = !ele.classList.contains(tag);
-        }
-        if (force) {
-            ele.classList.add(tag);
-            return;
-        }
-        ele.classList.remove(tag);
+        toggleClass(this.body, tag, force);
     }
 
     /**
@@ -44,7 +36,7 @@ export class ThemeService {
      */
     public setBackground(url: string);
     public setBackground(url?: string) {
-        this.css(this.body, 'background-image', url ? `url(${url})` : '');
+        css(this.body, 'background-image', url ? `url(${url})` : '');
     }
 
     public setTitle(title: string = this.oldTitle) {
@@ -61,18 +53,6 @@ export class ThemeService {
             }
         }
         return false;
-    }
-
-    public css(el: HTMLElement, key: any);
-    public css(el: HTMLElement, style: string, value: any)
-    public css(el: HTMLElement, style: string|any, value?: any) {
-        if (typeof style === 'string') {
-            el.style[camelCase(style)] = value;
-            return;
-        }
-        eachObject(style, (v, k: string) => {
-            el.style[camelCase(k)] = v;
-        });
     }
 
     // public touchable(target: HTMLDivElement, onStart: , onMove, onFinish) {

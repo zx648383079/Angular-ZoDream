@@ -29,9 +29,13 @@
 
 
     <div class="menu-bar">
-        <a href="">商店</a>
-        <a href="">副本</a>
-        <a href="">地图</a>
+        <ng-container *ngFor="let item of bottomItems">
+            <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
+                <ng-container *ngIf="item.count > 0">
+                    ({{ item.count }})
+                </ng-container>
+            </a>
+        </ng-container>
     </div>    
 </div>
 <div class="users-body" *ngIf="tabIndex == 1">

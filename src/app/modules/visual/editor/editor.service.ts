@@ -6,7 +6,7 @@ import { inputSource } from './editor-widget/input';
 import { panelSource } from './editor-widget/panel';
 import { PanelWidget, Widget, WidgetMoveEvent, WidgetPreview, WidgetSource, WidgetType, ICatalogItem, IWorkEditor, IShellBound } from './model';
 import { scaleBound } from './util';
-import { ISize, IBound, IPoint } from '../../../theme/canvas';
+import { ISize, IBound, IPoint } from '../../../theme/utils/canvas';
 
 @Injectable({
     providedIn: 'root'

@@ -340,6 +340,39 @@
         }
     }
 }
+.lead-overlay-container {
+    box-sizing: content-box;
+    position: fixed;
+    z-index: 999989;
+    transition: all .3s ease-out;
+    box-shadow: rgba($color: #333, $alpha: .8) 0px 0px 1px 2px, rgba($color: #333, $alpha: .5) 0px 0px 0px 5000px;
+    opacity: 1;
+}
+.lead-dialog-box {
+    z-index: 999990;
+    width: 100%;
+    max-width: 20rem;
+    margin-top: 0;
+    margin-left: 0;
+    left: 0;
+    top: 0;
+    transform: none;
+    box-shadow: none;
+    .dialog-header {
+        border-bottom: none;
+    }
+    .dialog-footer {
+        border-top: none;
+        display: flex;
+        .btn {
+            flex: 1;
+            border-radius: 0;
+        }
+    }
+    .message-body {
+        min-height: 6rem;
+    }
+}
 
 @media screen and (max-width: 700px) {
     .dialog-box,

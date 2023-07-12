@@ -1,0 +1,18 @@
+.charge-line {
+    display: flex;
+    justify-content: space-between;
+    .line-item {
+        text-align: center;
+        label {
+            display: block;
+        }
+    }
+    .line-arrow {
+        display: flex;
+        align-items: center;
+    }
+}
+.btn {
+    display: block;
+    margin-top: 2rem;
+}

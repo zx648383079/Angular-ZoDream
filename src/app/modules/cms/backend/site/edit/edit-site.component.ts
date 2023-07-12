@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICmsSite, ICMSTheme } from '../../../model';
 import { CmsService } from '../../cms.service';
+import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
   selector: 'app-edit-site',
@@ -19,11 +20,17 @@ export class EditSiteComponent implements OnInit {
         match_rule: '',
         logo: '',
         keywords: '',
-        description: ''
+        description: '',
+        language: '',
+        status: 5,
     });
 
     public data: ICmsSite;
     public themeItems: ICMSTheme[] = [];
+    public statusItems: IItem[] = [
+        {name: '下线', value: 0},
+        {name: '上线', value: 5},
+    ];
 
     constructor(
         private fb: FormBuilder,
@@ -56,7 +63,9 @@ export class EditSiteComponent implements OnInit {
                     match_rule: res.match_rule,
                     logo: res.logo,
                     keywords: res.keywords,
-                    description: res.description
+                    description: res.description,
+                    status: res.status,
+                    language: res.language
                 });
             });
         });

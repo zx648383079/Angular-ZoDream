@@ -9,7 +9,7 @@ import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 import { emptyValidate } from '../../../theme/validators';
-import { openLink } from '../../../theme/deeplink';
+import { openLink } from '../../../theme/utils/deeplink';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
 

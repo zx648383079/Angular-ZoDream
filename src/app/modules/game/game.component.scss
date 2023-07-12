@@ -1,8 +1,10 @@
 .game-container ::ng-deep {
     @import 'dialogue';
     @import 'bag';
-    a:not([href]):not([class]) {
+    a:not([href]):not([class]),
+    a:not([class]) {
         color: var(--bs-link-color);
+        user-select: none;
         cursor: pointer;
         &:hover {
             color: var(--bs-link-hover-color);

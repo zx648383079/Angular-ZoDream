@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IBlockItem } from '../../../../../components/link-rule';
-import { openLink } from '../../../../../theme/deeplink';
+import { openLink } from '../../../../../theme/utils/deeplink';
 import { IComment } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
 import { emptyValidate } from '../../../../../theme/validators';

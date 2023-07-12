@@ -1,0 +1,41 @@
+.skill-item {
+    margin-bottom: .8rem;
+    .item-meta {
+        display: none;
+        min-height: 5rem;
+        padding: .5rem;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    .item-main-body {
+        display: flex;
+        border: 1px solid #ccc;
+        .item-body {
+            flex: 1;
+        }
+    }
+    .item-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .item-name {
+        line-height: 2rem;
+    }
+    .item-thumb {
+        img {
+            width: 5rem;
+            height: 5rem;
+        }
+    }
+    .item-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &.item-open {
+        .item-meta {
+            display: block;
+        }
+    }
+}

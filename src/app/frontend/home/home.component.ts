@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 import { environment } from '../../../environments/environment';
+import { DialogService } from '../../components/dialog';
 
 interface ILink {
     name: string;
@@ -13,7 +14,7 @@ interface ILink {
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
 
     public linkItems: ILink[] = [
         {
@@ -118,6 +119,7 @@ export class HomeComponent {
 
     constructor(
         private themeService: ThemeService,
+        private toastrService: DialogService,
     ) {
         this.themeService.setTitle($localize `Home`);
         if (!environment.production) {
@@ -129,5 +131,20 @@ export class HomeComponent {
                 url: '/backend'
             });
         }
+    }
+
+    ngAfterViewInit(): void {
+        // window.scrollTo({
+        //     top: document.body.scrollHeight
+        // });
+        // setTimeout(() => {
+        //     this.toastrService.tour({
+        //         items: [
+        //             {selector: 'app-message-panel', content: '第一步，'},
+        //             {selector: '.navbar-brand', content: '第二步，'},
+        //             {selector: 'app-notice-panel', content: '第三步，'},
+        //         ]
+        //     })
+        // }, 2000);
     }
 }

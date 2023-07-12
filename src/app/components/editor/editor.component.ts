@@ -5,7 +5,7 @@ import { EditorContainer } from './container';
 import { IEditor, IEditorBlock, IEditorModal, IEditorSharedModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
-import { IPoint } from '../../theme/canvas';
+import { IPoint } from '../../theme/utils/canvas';
 
 @Component({
     encapsulation: ViewEncapsulation.None,

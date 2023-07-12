@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 
 const MailSuffixMap = [
     'qq.com',

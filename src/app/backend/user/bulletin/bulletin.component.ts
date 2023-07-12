@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
-import { openLink } from '../../../theme/deeplink';
+import { openLink } from '../../../theme/utils/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';

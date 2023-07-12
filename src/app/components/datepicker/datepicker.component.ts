@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges, ElementRef } from '@angular/core';
-import { formatDate, hasElementByClass } from '../../theme/utils';
+import { formatDate } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
+import { hasElementByClass } from '../../theme/utils/doc';
 
 @Component({
     selector: 'app-datepicker',

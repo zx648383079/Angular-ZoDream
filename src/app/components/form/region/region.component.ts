@@ -2,9 +2,10 @@ import { Component, Input, Output, EventEmitter, forwardRef, OnChanges, SimpleCh
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IDataOne } from '../../../theme/models/page';
-import { cloneObject, eachObject, hasElementByClass } from '../../../theme/utils';
+import { cloneObject, eachObject } from '../../../theme/utils';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
     selector: 'app-region',

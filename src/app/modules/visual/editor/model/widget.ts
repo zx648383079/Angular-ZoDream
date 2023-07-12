@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { cloneObject, eachObject } from '../../../../theme/utils';
 import { PropertyUtil } from '../util';
-import { IBound, IPoint, ISize } from '../../../../theme/canvas';
+import { IBound, IPoint, ISize } from '../../../../theme/utils/canvas';
 
 export interface WidgetBound extends IBound {
     zIndex: number;

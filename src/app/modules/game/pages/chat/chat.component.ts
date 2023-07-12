@@ -1,16 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { IMessageBase } from '../../../../components/message-container';
-import { openLink } from '../../../../theme/deeplink';
-import { Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
-import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements IGameScene {
+export class ChatComponent implements IGameScene, OnInit {
 
     public items: IMessageBase[] = [];
     public hasMore = false;
@@ -24,6 +22,12 @@ export class ChatComponent implements IGameScene {
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
     ) { }
+    
+    ngOnInit(): void {
+        this.router.request(GameCommand.MessageOwn).subscribe(res => {
+            // this.items = res.data;
+        });
+    }
 
     public tapBack() {
         this.router.navigateBack();

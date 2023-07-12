@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
 import { ContextMenuComponent } from '../context-menu';
 import { randomInt } from '../../theme/utils';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from './model';
-import { IPoint } from '../../theme/canvas';
+import { IPoint } from '../../theme/utils/canvas';
 
 interface IPointItem extends IPoint {
     id?: number|string;

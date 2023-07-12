@@ -1,4 +1,4 @@
-import { IBound, IPoint } from '../../../theme/canvas';
+import { IBound, IPoint } from '../../../theme/utils/canvas';
 import { eachObject, wordLength } from '../../../theme/utils';
 import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorValueBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';

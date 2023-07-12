@@ -1,0 +1,35 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        队伍
+    </div>
+    <a class="right-item" (click)="tapExit()">
+        退队
+    </a>
+</div>
+<div class="users-body">
+    <div class="user-item">
+        <div class="item-avatar">
+            <img [src]="'assets/images/wap_logo.png' | asset" alt="">
+        </div>
+        <div class="item-body">
+            <div class="item-name">[队长]test(57级)</div>
+            <div class="item-meta">就是</div>
+        </div>
+        <div class="item-action">
+            <a>查看</a>
+            <a href="">踢出</a>
+        </div>
+    </div>
+</div>
+
+<div class="group-box">
+    <div class="group-header">【队伍消息】</div>
+    <div class="group-body">
+        <ul class="mini-message">
+            <li>[09:01:00]test: 这里没有什么东西</li>
+        </ul>
+    </div>
+</div>

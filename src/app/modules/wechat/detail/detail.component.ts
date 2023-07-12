@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { hasElementByClass } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 import { IWeChatMedia } from '../model';
 import { WechatService } from '../wechat.service';
 

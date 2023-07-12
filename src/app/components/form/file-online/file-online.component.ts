@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../theme/services';

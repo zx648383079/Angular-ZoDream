@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { SpectrumType } from '../../model';
-import { IPoint } from '../../../../../theme/canvas';
+import { IPoint } from '../../../../../theme/utils/canvas';
 
 interface IHatItem {
     current: number;

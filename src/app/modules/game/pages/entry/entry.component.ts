@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';
 import { emailValidate } from '../../../../theme/validators';
@@ -21,16 +21,26 @@ export class EntryComponent implements IGameScene {
         {name: '男', value: 1},
         {name: '女', value: 2},
     ];
-    public identityItems: IGameCharacterIdentity[] = [
-        {id: 1, name: '游侠'} as any
-    ];
-    public characterItems: IGameCharacter[] = [
-        {id: 1, name: '等级'} as any
-    ];
+    public identityItems: IGameCharacterIdentity[] = [];
+    public characterItems: IGameCharacter[] = [];
+    public project: IGameProject;
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
+    ) {
+        this.project = this.router.project;
+        this.router.request({
+            [GameCommand.CharacterQuery]: {},
+            [GameCommand.IdentityQuery]: {},
+        }).subscribe(res => {
+            if (res[GameCommand.CharacterQuery]) {
+                this.characterItems = res[GameCommand.CharacterQuery].data;
+            }
+            if (res[GameCommand.IdentityQuery]) {
+                this.identityItems = res[GameCommand.IdentityQuery].data;
+            }
+        });
+    }
 
     public tapCharacter(item: IGameCharacter) {
         this.router.enter(item.id);
@@ -51,6 +61,18 @@ export class EntryComponent implements IGameScene {
             this.router.toast('昵称必填');
             return;
         }
-        this.router.enter(1);
+        e?.enter();
+        this.router.request(GameCommand.CharacterCreate, {
+            ...this.data
+        }).subscribe({
+            next: res => {
+                e?.reset();
+                this.router.enter(res.data.id);
+            },
+            error: err => {
+                e?.reset();
+                this.router.toast(err);
+            }
+        });
     }
 }

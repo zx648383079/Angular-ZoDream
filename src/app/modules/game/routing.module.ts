@@ -23,6 +23,10 @@ import { SettingComponent } from './pages/setting/setting.component';
 import { MapGlobeComponent } from './pages/map/globe/map-globe.component';
 import { SkillComponent } from './pages/skill/skill.component';
 import { CanActivateViaAuthGuard } from '../../theme/guards';
+import { TeamComponent } from './pages/team/team.component';
+import { OrganizePiazzaComponent } from './pages/organize/piazza/organize-piazza.component';
+import { TeamPiazzaComponent } from './pages/team/piazza/team-piazza.component';
+import { OrganizeStoreComponent } from './pages/organize/store/organize-store.component';
 
 const routes: Routes = [
     {
@@ -43,7 +47,8 @@ const routes: Routes = [
 export class GameRoutingModule { }
 
 export const gameRoutedComponents = [
-    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, RechargeComponent, SettingComponent, MapGlobeComponent, SkillComponent
+    GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, RechargeComponent, SettingComponent, MapGlobeComponent, SkillComponent, TeamComponent, OrganizePiazzaComponent, TeamPiazzaComponent,
+    OrganizeStoreComponent
 ];
 
 export const GameSceneItems: {
@@ -61,6 +66,10 @@ export const GameSceneItems: {
     [GameScenePath.MapGlobe]: MapGlobeComponent,
     [GameScenePath.Skill]: SkillComponent,
     [GameScenePath.Organize]: OrganizeComponent,
+    [GameScenePath.Team]: TeamComponent,
+    [GameScenePath.OrganizePiazza]: OrganizePiazzaComponent,
+    [GameScenePath.OrganizeStore]: OrganizeStoreComponent,
+    [GameScenePath.TeamPiazza]: TeamPiazzaComponent,
     [GameScenePath.Ranch]: RanchComponent,
     [GameScenePath.Store]: StoreComponent,
     [GameScenePath.Task]: TaskComponent,

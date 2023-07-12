@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-prize',
@@ -34,6 +34,9 @@ export class PrizeComponent implements IGameScene {
     }
 
     public tapJump() {
+        if (this.isLoading) {
+            return;
+        }
         let count = 0;
         for (const item of this.items) {
             if (!item.is_open) {
@@ -48,6 +51,9 @@ export class PrizeComponent implements IGameScene {
     }
 
     private lottery(count: number, msg: string) {
+        if (this.isLoading) {
+            return;
+        }
         if (this.isConfirmed) {
             this.router.confirm(msg).subscribe(() => {
                 this.isConfirmed = true;
@@ -55,6 +61,19 @@ export class PrizeComponent implements IGameScene {
             });
             return;
         }
+        this.isLoading = true;
+        this.router.request(GameCommand.PrizeOwn).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+            },
+            error: err => {
+                this.isLoading = false;
+                this.lotterying = false;
+                this.items = [];
+                this.router.toast(err);
+            }
+        });
         this.items = [];
         for (let i = 0; i < count; i++) {
             this.items.push({

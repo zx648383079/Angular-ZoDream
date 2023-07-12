@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EditorService } from '../editor.service';
-import { IPoint } from '../../../../theme/canvas';
+import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
   selector: 'app-editor-scroll-bar',

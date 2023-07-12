@@ -1,4 +1,4 @@
-import { IPoint } from '../../theme/canvas';
+import { IPoint } from '../../theme/utils/canvas';
 
 export interface MindConfirmEvent<T = any, K = any> {
     next: (data: T|K, link?: K) => void,

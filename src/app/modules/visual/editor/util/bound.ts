@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { IRect, PanelWidget, Widget } from '../model';
-import { IBound, IPoint } from '../../../../theme/canvas';
+import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 export function isRect(val: IBound|IRect|IPoint): boolean {
     return Object.prototype.hasOwnProperty.call(val, 'right') && Object.prototype.hasOwnProperty.call(val, 'bottom');

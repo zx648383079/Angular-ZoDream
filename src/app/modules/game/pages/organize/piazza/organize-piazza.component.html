@@ -1,0 +1,46 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        帮派招募
+    </div>
+    <a class="right-item" (click)="modalVisible = true">
+        创建帮派
+    </a>
+</div>
+
+<div class="org-item" *ngFor="let item of items">
+    <div class="item-header">
+        <div class="item-name">帮派名(5级)</div>
+        <a class="item-action">加入</a>
+    </div>
+    <div class="item-body">
+        <p>介绍</p>
+    </div>
+    <div class="item-footer">
+        <span>帮主：hhh(56级 战士)</span>
+        <span>成员：0/100</span>
+    </div>
+</div>
+
+<app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="form-dialog" *ngIf="modalVisible">
+    <div class="dialog-header">创建队伍</div>
+    <div class="dialog-body">
+        <div class="input-header-block">
+            <input type="text">
+            <label for="">队伍名</label>
+        </div>
+        <div class="input-header-block">
+            <textarea rows="5"></textarea>
+            <label for="">介绍</label>
+        </div>
+    </div>
+    <div class="dialog-action">
+        <div class="btn btn-primary" (click)="tapSubmit()">确定</div>
+        <div class="btn btn-secondary" (click)="modalVisible = false">取消</div>
+    </div>
+</div>

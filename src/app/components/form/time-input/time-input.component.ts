@@ -1,6 +1,7 @@
 import { Component, forwardRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { hasElementByClass, rangeStep, twoPad } from '../../../theme/utils';
+import { rangeStep, twoPad } from '../../../theme/utils';
+import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
     selector: 'app-time-input',

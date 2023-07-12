@@ -1,0 +1,63 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-bar">
+        队伍招募
+    </div>
+    <a class="right-item" (click)="modalVisible = true">
+        创建队伍
+    </a>
+</div>
+
+<div class="team-item" *ngFor="let item of items">
+    <div class="item-header">
+        <div class="item-name">队伍名称</div>
+        <div class="item-action">加入</div>
+    </div>
+    <div class="item-body">
+        <div class="line-row-item">
+            <label for="">队长：</label>
+            <span>666(57级 战士)</span>
+        </div>
+        <div class="line-row-item">
+            <label for="">成员：</label>
+            <div class="user-mini-item">
+                <div class="item-user-avatar">
+                    <img src="" alt="">
+                </div>
+                <div class="item-user-name">666(57级 战士)</div>
+            </div>
+            <div class="user-mini-item">
+                <div class="item-user-avatar">
+                    <img src="" alt="">
+                </div>
+                <div class="item-user-name">666(57级 战士)</div>
+            </div>
+            <div class="user-mini-item">
+                <div class="item-user-avatar">
+                    <img src="" alt="">
+                </div>
+                <div class="item-user-name">666(57级 战士)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+
+<div class="dialog-mask" *ngIf="modalVisible"></div>
+<div class="form-dialog" *ngIf="modalVisible">
+    <div class="dialog-header">创建队伍</div>
+    <div class="dialog-body">
+        <div class="input-header-block">
+            <input type="text">
+            <label for="">队伍名</label>
+        </div>
+    </div>
+    <div class="dialog-action">
+        <div class="btn btn-primary" (click)="tapSubmit()">确定</div>
+        <div class="btn btn-secondary" (click)="modalVisible = false">取消</div>
+    </div>
+</div>

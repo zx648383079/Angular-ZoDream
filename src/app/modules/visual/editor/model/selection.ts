@@ -1,4 +1,4 @@
-import { IPoint, IBound, computedBound } from '../../../../theme/canvas';
+import { IPoint, IBound, computedBound } from '../../../../theme/utils/canvas';
 
 export class SelectionBound {
 

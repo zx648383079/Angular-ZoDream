@@ -20,7 +20,7 @@ import {
 } from '../../model';
 import { DialogService } from '../../../../components/dialog';
 import { SearchService, ThemeService } from '../../../../theme/services';
-import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/deeplink';
+import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/utils/deeplink';
 import { emptyValidate } from '../../../../theme/validators';
 import { IErrorResult } from '../../../../theme/models/page';
 

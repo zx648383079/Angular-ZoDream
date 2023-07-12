@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { EditorService } from '../../editor.service';
 import { IRuleLine } from '../../model';
-import { IPoint } from '../../../../../theme/canvas';
+import { IPoint } from '../../../../../theme/utils/canvas';
 
 @Component({
     selector: 'app-editor-rule-bar',

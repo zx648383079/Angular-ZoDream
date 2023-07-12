@@ -1,9 +1,9 @@
 <div class="game-screen" *ngIf="step < 1">
     <div class="screen-banner">
-        <img [src]="'assets/images/banner.jpg'|asset" alt="">
+        <img [src]=" project.logo |asset" alt="">
     </div>
-    <div class="screen-name">{{ 'name' }}</div>
-    <div class="screen-meta">aaaaa</div>
+    <div class="screen-name">{{ project.name }}</div>
+    <div class="screen-meta">{{ project.description }}</div>
     <div class="screen-action">
         <a class="option-item" (click)="step = 1">创建角色</a>
         <ng-container *ngFor="let item of characterItems">
@@ -12,8 +12,8 @@
                     <img [appLazyLoad]="'assets/images/logo.png'" alt="">
                 </div>
                 <div class="item-body">
-                    <span class="item-name">{{ 'name' }}</span>
-                    <span class="itme-meta">(57级 战士)</span>
+                    <span class="item-name">{{ item.nickname }}</span>
+                    <span class="itme-meta">({{ item.grade }}级 {{ item.identity?.name }})</span>
                 </div>
             </a>
         </ng-container>

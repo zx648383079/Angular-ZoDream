@@ -1,6 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
-import { eachObject, formatAgo, hasElementByClass } from '../../utils';
+import { eachObject } from '../../utils';
 import { IColumnLink, ITableHeaderItem } from './model';
+import { hasElementByClass } from '../../utils/doc';
 
 @Component({
   selector: 'app-editable-table',

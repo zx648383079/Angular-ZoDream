@@ -1,23 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
+import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
     selector: 'app-game-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements IGameScene {
+export class MainComponent implements IGameScene, OnInit {
 
     public topItems: IGmeRoute[] = [
         {name: '签到', path: 'checkin'},
-        {name: '消息', path: GameScenePath.Chat, count: 1},
+        {name: '消息', path: GameScenePath.Chat},
         {name: '任务', path: GameScenePath.Task},
-
     ];
     public bottomItems: IGmeRoute[] = [
         {name: '背包', path: GameScenePath.Bag},
-        {name: '组队', path: GameScenePath.Task},
-        {name: '帮派', path: GameScenePath.Organize},
+        {name: '组队', path: GameScenePath.TeamPiazza},
+        {name: '帮派', path: GameScenePath.OrganizePiazza},
         {name: '副本', path: GameScenePath.MapLevel},
         {name: '冒险', path: GameScenePath.Map},
         {name: '农场', path: GameScenePath.Farm},
@@ -27,19 +26,50 @@ export class MainComponent implements IGameScene {
         {name: '充值', path: GameScenePath.Recharge},
         {name: '设置', path: GameScenePath.Setting},
     ];
+    public character: IGameCharacter;
+    public messsageItems: any[];
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
+    ) {
+        this.character = this.router.character;
+    }
+
+    ngOnInit(): void {
+        this.router.request({
+            [GameCommand.CharacterNow]: {},
+            [GameCommand.ChatPublic]: {}
+        }).subscribe(res => {
+            if (res[GameCommand.CharacterNow] && res[GameCommand.CharacterNow].data) {
+                this.character = res[GameCommand.CharacterNow].data;
+                this.updateCheckIn();
+                this.topItems[1].count = this.character.message_count;
+                this.bottomItems[1].path = this.character.team_id > 0 ? GameScenePath.Team : GameScenePath.TeamPiazza;
+                this.bottomItems[2].path = this.character.org_id > 0 ? GameScenePath.Organize : GameScenePath.OrganizePiazza;
+            }
+            if (res[GameCommand.ChatPublic] && res[GameCommand.ChatPublic].data) {
+                this.messsageItems = res[GameCommand.ChatPublic].data;
+            }
+        });
+    }
 
     public tapCheckin() {
-        this.router.toast('签到成功');
-        this.router.toast('获取 牛肉 x1');
-        this.router.toast('获取 金钱 x1');
+        if (this.character.is_checked) {
+            return;
+        }
+        this.router.request(GameCommand.CheckinOwn).subscribe(res => {
+            this.character.is_checked = true;
+            this.updateCheckIn();
+            this.router.toast('签到成功');
+            this.router.toast('获取 牛肉 x1');
+            this.router.toast('获取 金钱 x1');
+        });
     }
 
     public tapUpgrade() {
-        this.router.toast('升级成功');
+        this.router.request(GameCommand.UpgradeOwn).subscribe(res => {
+            this.router.toast('升级成功');
+        });
     }
 
     public tapRoute(item: IGmeRoute) {
@@ -52,5 +82,11 @@ export class MainComponent implements IGameScene {
 
     public navigate(path: string) {
         this.router.navigate(path);
+    }
+
+    private updateCheckIn() {
+        const item = this.topItems[0];
+        item.name = this.character.is_checked ? '已签到' : '签到';
+        item.disabled = this.character.is_checked;
     }
 }

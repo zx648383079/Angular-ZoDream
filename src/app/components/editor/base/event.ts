@@ -1,4 +1,4 @@
-import { IBound, IPoint } from '../../../theme/canvas';
+import { IBound, IPoint } from '../../../theme/utils/canvas';
 import { IEditorBlock } from '../model';
 
 export const EDITOR_EVENT_INPUT_KEYDOWN = 'input.keydown';

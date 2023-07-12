@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild }
 import { PanelAnimation } from '../../../../../theme/constants';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/canvas';
+import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
 import { parseNumber } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IGameMap, IGameMapArea } from '../../../model';

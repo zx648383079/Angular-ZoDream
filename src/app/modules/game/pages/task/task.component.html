@@ -6,13 +6,13 @@
         任务列表
     </div>
 </div>
-<div class="task-item active">
-    <div class="item-header">
-        <div class="item-name">每日任务</div>
+<div class="task-item" *ngFor="let item of items" [ngClass]="{active: item.is_open}">
+    <div class="item-header" (click)="item.is_open = !item.is_open">
+        <div class="item-name">{{ item.title }}</div>
         <div class="item-status">领取</div>
     </div>
     <div class="item-body">
-        <p>就是任务详情</p>
+        <p>{{ item.description }}</p>
         <div class="group-box">
             <div class="group-header">【奖励】</div>
             <div class="group-body">
@@ -32,3 +32,4 @@
         </div>
     </div>
 </div>
+<app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

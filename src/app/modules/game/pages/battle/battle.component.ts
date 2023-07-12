@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
-import { IGameScene } from '../../model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-battle',
     templateUrl: './battle.component.html',
     styleUrls: ['./battle.component.scss']
 })
-export class BattleComponent implements IGameScene {
+export class BattleComponent implements IGameScene, OnInit {
 
-    constructor() { }
+    constructor(
+        @Inject(GameRouterInjectorToken) private router: IGameRouter,
+    ) { }
 
+    ngOnInit(): void {
+        
+    }
 
 }

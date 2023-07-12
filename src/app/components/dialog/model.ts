@@ -40,6 +40,21 @@ export interface DialogLoadingOption {
     closeable?: boolean;
 }
 
+export interface DialogLeadTourStep {
+    selector: string|HTMLElement;
+    content: string;
+}
+
+export interface DialogLeadTour {
+    confirmText?: string;
+    backText?: string;
+    nextText?: string;
+    cancelText?: string;
+    onConfirm?: () => void;
+    onCancel?: () => void;
+    items: DialogLeadTourStep[];
+}
+
 export type DialogCheckFn = () => boolean|string;
 export type DialogConfirmFn = () => void;
 export type DialogActionFn = (data: any) => any;

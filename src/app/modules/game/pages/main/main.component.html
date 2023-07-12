@@ -15,8 +15,8 @@
         】
     </div>
     <div class="group-body">
-        <p>test</p>
-        <p>等级: 57级(100/10000) <a (click)="tapUpgrade()">升级</a></p>
+        <p>{{ character.nickname }}</p>
+        <p>等级: {{ character.grade }}级({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }}) <a *ngIf="character.can_upgrade" (click)="tapUpgrade()">升级</a></p>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
     </div>
     <div class="group-body">
         <ul class="mini-message">
-            <li>[09:01:00]test: 这里没有什么东西</li>
+            <li *ngFor="let item of messsageItems">[{{ item.created_at | ago }}]{{ item.user?.name }}: {{ item.content }}</li>
         </ul>
     </div>
 </div>

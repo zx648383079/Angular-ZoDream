@@ -12,6 +12,8 @@ export interface ICmsSite {
     match_type:  number;
     match_rule:  string;
     is_default:  number;
+    status:  number;
+    language:  string;
     options:     any;
     updated_at:  string;
     created_at:  string;

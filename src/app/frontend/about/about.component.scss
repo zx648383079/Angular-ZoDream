@@ -1,19 +1,20 @@
+@import '../../theme/styles/theme';
 .row {
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin-top: 3.125rem;
+    margin-bottom: 1.875rem;
 }
 
 
 .person-box {
-    background-color: #fff;
-    padding: 20px 10px;
-    margin-bottom: 20px;
+    background-color: var(--#{$prefix}-panel);
+    padding: 1.25rem 0.625rem;
+    margin-bottom: 1.25rem;
     color: #555;
     .avatar {
         text-align: center;
         img {
-            padding: 2px;
-            max-width: 120px;
+            padding: 0.125rem;
+            max-width: 7.5rem;
             height: auto;
             border: 1px solid #eee;
         }
@@ -21,26 +22,26 @@
     .name {
         text-align: center;
         color: #222;
-        line-height: 40px;
+        line-height: 2.5rem;
         font-weight: 600;
     }
     .desc {
-        line-height: 30px;
+        line-height: 1.875rem;
         text-align: center;
         border-top: 1px dotted #ccc;
         border-bottom: 1px dotted #ccc;
     }
     .links {
-        margin-top: 10px;
-        line-height: 30px;
+        margin-top: 0.625rem;
+        line-height: 1.875rem;
         a {
             color: #333;
             display: inline-block;
             width: 45%;
-            padding: 0 10px;
+            padding: 0 0.625rem;
             text-decoration: none;
             &:hover {
-                border-radius: 4px;
+                border-radius: 0.25rem;
                 background: #eee;
             }
         }
@@ -48,12 +49,12 @@
 }
 
 .contact-box {
-    padding: 20px;
-    margin-bottom: 50px;
+    padding: 1.25rem;
+    margin-bottom: 3.125rem;
     .heading {
         p {
             color: rgb(179, 177, 177);
-            font-size: 15px;
+            font-size: 0.9375rem;
             margin: 1.2% 0px;
             line-height: 1.6em;
         }
@@ -62,9 +63,9 @@
     input[type="email"],
     textarea {
         width: 100%;
-        padding: 12px 12px;
+        padding: 0.75rem 0.75rem;
         border: 1px solid #BDBCBC;
-        font-size: 15px;
+        font-size: 0.9375rem;
         margin-bottom: 1.5em;
         color: #808080;
         outline: none;
@@ -72,10 +73,10 @@
     }
     textarea {
         resize: none;
-        height: 192px;
+        height: 12rem;
     }
     .btn {
-        width: 100px;
+        width: 6.25rem;
         border: 1px solid #a10000;
         border-radius: 0;
     }
@@ -83,13 +84,13 @@
 
 .about-box,
 .contact-box {
-    background-color: #fff;
+    background-color: var(--#{$prefix}-panel);
     padding: 20px;
     .heading {
         h3, 
         h1, 
         h2 {
-            color: #333;
+            color: var(--#{$prefix}-panel-text);
             font-size: 2.1em;
             font-weight: 500;
             margin: 0;
@@ -120,7 +121,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: #a10000;
+        background: var(--#{$prefix}-primary);
         transform: scaleX(0);
         transform-origin: 50%;
         transition-property: transform;
@@ -128,7 +129,7 @@
         transition-timing-function: ease-out;
     }
     &:hover {
-        color: #fff;
+        color: var(--#{$prefix}-primary-text);
         &::before {
             transform: scaleX(1);
         }
@@ -145,18 +146,16 @@
             font-size: 1.2em;
             margin: 2.1% 0px 0px;
             line-height: 1.3em;
-            font-family: 'Play-Regular';
         }
         p {
             color: #b3b1b1;
-            font-size: 15px;
-            margin: 5px 0px 0px;
-            font-family: 'Play-Regular';
+            font-size: 0.9375rem;
+            margin: 0.3125rem 0rem 0rem;
             line-height: 1.6em;
         }
     }
     .autograph {
-        line-height: 30px;
+        line-height: 1.875rem;
         color: #333;
         text-align: right;
     }

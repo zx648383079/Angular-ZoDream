@@ -8,6 +8,9 @@ import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 })
 export class RechargeComponent implements IGameScene {
 
+    public tabIndex = 0;
+    public modalVisible = false;
+
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
     ) { }

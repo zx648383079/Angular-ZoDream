@@ -8,6 +8,7 @@ import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogContainerComponent } from './container/dialog-container.component';
 import { PopupDirective } from './popup.directive';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
+import { DialogLeadComponent } from './lead/dialog-lead.component';
 
 const COMPONENTS = [
     DialogBoxComponent,
@@ -16,6 +17,7 @@ const COMPONENTS = [
     DialogLoadingComponent,
     DialogContainerComponent,
     DialogPopupComponent,
+    DialogLeadComponent,
     PopupDirective,
 ];
 

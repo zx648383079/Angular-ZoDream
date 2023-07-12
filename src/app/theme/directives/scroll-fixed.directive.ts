@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { scrollTop } from '../utils/doc';
 
 @Directive({
   selector: '[appScrollFixed]'
@@ -28,19 +29,19 @@ export class ScrollFixedDirective implements OnInit {
         if (this.appScrollFixed && target.classList.contains(this.appScrollFixed)) {
             return;
         }
-        this.lastOffset = target.getBoundingClientRect().top + this.scrollTop;
+        this.lastOffset = target.getBoundingClientRect().top + scrollTop();
     }
 
     @HostListener('window:scroll', [])
     public onScroll(): void {
         const oldTop = this.lastScrollTop;
-        const scrollTop = this.lastScrollTop = this.scrollTop;
-        if (scrollTop <= this.lastOffset) {
+        const sT = this.lastScrollTop = scrollTop();
+        if (sT <= this.lastOffset) {
             this.toggleClass(this.appScrollFixed, false);
             return;
         }
         if (this.whenScrollTop) {
-            this.toggleClass(this.appScrollFixed, oldTop > scrollTop);
+            this.toggleClass(this.appScrollFixed, oldTop > sT);
             return;
         }
         this.toggleClass(this.appScrollFixed, true);
@@ -65,9 +66,5 @@ export class ScrollFixedDirective implements OnInit {
             return;
         }
         ele.classList.remove(tag);
-    }
-
-    private get scrollTop() {
-        return document.documentElement.scrollTop || document.body.scrollTop || 0;
     }
 }

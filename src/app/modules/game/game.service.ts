@@ -19,17 +19,19 @@ export class GameService {
 
     public play(data: {
         project: number,
+        character?: number,
         command: string,
         data?: any
     }): Observable<IGameResponse>;
     public play(data: {
         project: number,
+        character?: number,
         batch: {
             [command: string]: any
         }
     }): Observable<{
         batch: {
-            [cammand: string]: IGameProject
+            [cammand: string]: IGameResponse
         },
         message?: string;
     }>;

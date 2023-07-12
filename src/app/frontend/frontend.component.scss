@@ -39,12 +39,12 @@
     }
   
     .navbar-toggler {
-        color: rgba($fg, 0.55);
-        border-color: rgba($fg, 0.1);
+        color: $fg;
+        border-color: $fg;
     }
   
     .navbar-toggler-icon {
-        color: rgba($fg, 0.55);
+        color: $fg;
         line-height: 1.5em;
         background-image: none;
     }
@@ -57,10 +57,15 @@
             color: $fg;
         }
     }
+
+    .bubble {
+        color: $fg;
+        background-color: $bg; 
+    }
 }
 
 .navbar-custom {
-    @include navbarCustom($primary, $primaryText);
+    @include navbarCustom(var(--#{$prefix}-primary), var(--#{$prefix}-primary-text));
 }
 
 .navbar-not {
@@ -77,8 +82,6 @@
 }
 
 .bubble {
-    color: #fff;
-    background-color: #a10000;
     border-radius: 50%;
     display: block;
     width: 1.5625rem;
@@ -92,30 +95,30 @@
 }
 
 footer {
-    background-color: $primary;
-    color: $primaryText;
+    background-color: var(--#{$prefix}-primary);
+    color: var(--#{$prefix}-primary-text);
     padding: 20px 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: $primaryText;
+        color: var(--#{$prefix}-primary-text);
         text-decoration: none;
     }
 }
 
 .friend-link {
     position: relative;
-    padding-left: 100px;
+    padding-left: 6.25rem;
     >div:first-child {
         position: absolute;
         left: 0;
-        width: 90px;
-        border-right: 5px solid $primaryText;
+        width: 5.625rem;
+        border-right: 5px solid var(--#{$prefix}-primary-text);
         text-align: center;
     }
     a {
-        margin-right: 20px;
+        margin-right: 1.25rem;
     }
 }
 
@@ -126,22 +129,21 @@ footer {
 @media (min-width: 992px) {
     .navbar-custom {
         .dropdown-menu {
-            margin-left: -50px;
+            margin-left: -3.125rem;
         }
     }
 }
 
 .inner-body ::ng-deep {
     .panel {
-        background-color: $primaryText;
-        margin-bottom: 20px;
+        background-color: var(--#{$prefix}-panel);
+        margin-bottom: 1.25rem;
         .panel-header {
-            line-height: 50px;
-            padding-left: 20px;
-            border-left: 5px solid $primary;
-            font-size: 20px;
+            line-height: 3.125rem;
+            padding-left: 1.25rem;
+            border-left: 0.3125rem solid var(--#{$prefix}-primary);
+            font-size: 1.25rem;
             font-weight: 700;
         }
     }
-
 }

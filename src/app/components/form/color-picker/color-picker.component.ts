@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, EventEmitter, forwardRef, HostListener, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({

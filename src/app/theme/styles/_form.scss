@@ -1,5 +1,9 @@
 @import 'mixins';
 @import 'theme';
+
+.form-control {
+    background-color: var(--#{$prefix}-body);
+}
 .checkbox {
     position: relative;
     display: inline-block;

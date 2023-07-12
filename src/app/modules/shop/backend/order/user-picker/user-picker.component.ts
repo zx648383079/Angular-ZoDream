@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, O
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IUser } from '../../../../../theme/models/user';
-import { hasElementByClass } from '../../../../../theme/utils';
+import { hasElementByClass } from '../../../../../theme/utils/doc';
 import { OrderService } from '../order.service';
 
 @Component({

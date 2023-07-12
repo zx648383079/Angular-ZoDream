@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget, BatchCommand, ResizeWidgetCommand, MENU_ACTION } from '../model';
 import { isMergeable, isSplitable, maxBound } from '../util';
-import { IBound, IPoint } from '../../../../theme/canvas';
+import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 enum EditMode {
     NONE,

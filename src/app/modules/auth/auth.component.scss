@@ -8,14 +8,14 @@
 }
 
 footer {
-    background-color: $primary;
-    color: $primaryText;
+    background-color: var(--#{$prefix}-primary);
+    color: var(--#{$prefix}-primary-text);
     padding: 1.25rem 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: $primaryText;
+        color: var(--#{$prefix}-primary-text);
         text-decoration: none;
     }
 }

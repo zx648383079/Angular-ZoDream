@@ -6,7 +6,7 @@ import { IWorkEditor, SelectionBound, Widget, IEditorAction, BatchCommand, Comma
 import { boundFromScale, filterItems, isIntersect, isMergeable, isSplitable, pointFromScale, relativePoint, scaleBound, wordRect } from '../util';
 import * as menu from '../model/menu';
 import { EditorRulePanelComponent } from '../editor-rule-panel/editor-rule-panel.component';
-import { IBound, IPoint, ISize } from '../../../../theme/canvas';
+import { IBound, IPoint, ISize } from '../../../../theme/utils/canvas';
 
 @Component({
   selector: 'app-editor-work-body',

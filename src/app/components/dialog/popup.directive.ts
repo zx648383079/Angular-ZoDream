@@ -1,7 +1,8 @@
 import { ApplicationRef, ComponentRef, Directive, ElementRef, Injector, Input, NgZone, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
 import { ThemeService } from '../../theme/services';
-import { IPoint } from '../../theme/canvas';
+import { IPoint } from '../../theme/utils/canvas';
+import { css } from '../../theme/utils/doc';
 
 @Directive({
     selector: '[appPopup]'
@@ -19,8 +20,7 @@ export class PopupDirective implements OnInit {
         private injector: Injector,
         private viewContainerRef: ViewContainerRef,
         private applicationRef: ApplicationRef,
-        private zoon: NgZone,
-        private themeService: ThemeService
+        private zoon: NgZone
     ) {
 
     }
@@ -56,7 +56,7 @@ export class PopupDirective implements OnInit {
                 return;
             }
             const offset = this.getPosition(ele);
-            this.themeService.css(ele, {
+            css(ele, {
                 transform: `translate3d(${offset.x}px, ${offset.y}px, 0px)`
             });
             this.renderer.listen(ele, 'click', () => {

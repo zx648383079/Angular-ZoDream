@@ -1,4 +1,4 @@
-import { IBound, IPoint } from '../../../../theme/canvas';
+import { IBound, IPoint } from '../../../../theme/utils/canvas';
 import { cloneObject } from '../../../../theme/utils';
 import { TreeItem } from './tree';
 

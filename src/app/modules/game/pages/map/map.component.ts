@@ -1,14 +1,15 @@
-import { Component, Inject } from '@angular/core';
-import { GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
     selector: 'app-game-map',
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements IGameScene {
+export class MapComponent implements IGameScene, OnInit {
 
     public bottomItems: IGmeRoute[] = [
+        {name: '主页', path: GameScenePath.Main},
         {name: '背包', path: GameScenePath.Bag},
         {name: '技能', path: GameScenePath.Skill},
         {name: '地图', path: GameScenePath.MapGlobe},
@@ -17,6 +18,12 @@ export class MapComponent implements IGameScene {
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
     ) { }
+
+    public ngOnInit(): void {
+        this.router.request(GameCommand.MapMove).subscribe(res => {
+
+        });
+    }
 
     public tapBack() {
         this.router.navigateBack();
@@ -27,15 +34,21 @@ export class MapComponent implements IGameScene {
     }
 
     public tapItem() {
-        this.router.toast('获取 水晶 x 1');
+        this.router.request(GameCommand.MapPick, {}).subscribe(res => {
+            this.router.toast('获取 水晶 x 1');
+        });
     }
 
     public tapNpc() {
-
+        this.router.request(GameCommand.MapNpc, {}).subscribe(res => {
+            
+        });
     }
 
-    public tapMap() {
-
+    public tapMap(to: number) {
+        this.router.request(GameCommand.MapMove, {map: to}).subscribe(res => {
+            
+        });
     }
 
     public tapRoute(item: IGmeRoute) {

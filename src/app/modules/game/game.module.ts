@@ -5,6 +5,7 @@ import { GameService } from './game.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { MessageContainerModule } from '../../components/message-container';
+import { ProgressModule } from '../../components/progress';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { MessageContainerModule } from '../../components/message-container';
         ThemeModule,
         ZreFormModule,
         GameRoutingModule,
+        ProgressModule,
         MessageContainerModule
     ],
     declarations: [...gameRoutedComponents],
