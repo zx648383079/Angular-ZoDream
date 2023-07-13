@@ -76,7 +76,7 @@ export class TextareaElement implements IEditorElement {
         const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
         const func = this[type + 'Execute'];
         if (typeof func === 'function') {
-            func.call(this, range.range, block);
+            func.call(this, range, block);
             return;
         }
         throw new Error(`insert type error:[${block.type}]`);
@@ -231,11 +231,12 @@ export class TextareaElement implements IEditorElement {
                 return;
             }
             this.container.saveSelection();
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
         this.element.addEventListener('blur', () => {
             this.container.emit(EDITOR_EVENT_INPUT_BLUR);
         });
-        this.element.addEventListener('paste', () => {
+        this.element.addEventListener('paste', e => {
             setTimeout(() => {
                 this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
             }, 10);
@@ -250,6 +251,7 @@ export class TextareaElement implements IEditorElement {
         this.element.addEventListener('compositionend', () => {
             this.isComposition = false;
             this.container.emit(EDITOR_EVENT_SELECTION_CHANGE);
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
     }
 
