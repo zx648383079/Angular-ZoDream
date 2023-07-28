@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../../model';
+import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameMapDungeon, IGameRouter, IGameScene } from '../../../model';
 
 @Component({
     selector: 'app-game-map-level',
@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
 })
 export class MapLevelComponent implements IGameScene, OnInit {
 
-    public items: any[] = [];
+    public items: IGameMapDungeon[] = [];
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -24,4 +24,11 @@ export class MapLevelComponent implements IGameScene, OnInit {
         this.router.navigateBack();
     }
 
+    public tapEnter(item: IGameMapDungeon) {
+        this.router.navigate(GameScenePath.Map);
+    }
+
+    public tapSweep(item: IGameMapDungeon) {
+        this.router.confirm('确认继续扫荡？');
+    }
 }

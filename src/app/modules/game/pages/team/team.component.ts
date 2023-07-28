@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand } from '../../model';
+import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGameTeam, IGamePeople } from '../../model';
 
 @Component({
   selector: 'app-game-team',
@@ -8,13 +8,17 @@ import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand } from
 })
 export class TeamComponent implements OnInit {
 
+    public data: IGameTeam;
+    public userItems: IGamePeople[] = [];
+
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
     ) { }
 
     ngOnInit() {
         this.router.request(GameCommand.TeamOwn).subscribe(res => {
-
+            this.data = res.data;
+            this.userItems = res.data.user_items;
         });
     }
 
@@ -24,10 +28,19 @@ export class TeamComponent implements OnInit {
 
     public tapExit() {
         this.router.confirm('确定退出此队伍？').subscribe(() => {
-            this.router.navigate(GameScenePath.Main);
+            this.router.request(GameCommand.TeamDisbandOwn).subscribe(res => {
+                this.router.navigate(GameScenePath.Main);
+            });
         });
     }
 
+    public tapExclude(item: any) {
+        this.router.confirm('确定踢出此人？').subscribe(() => {
+            this.router.request(GameCommand.TeamExcludeOwn, {user: item.id}).subscribe(res => {
+                this.router.navigate(GameScenePath.Main);
+            });
+        });
+    }
 
 
 }

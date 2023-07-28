@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameProject, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';
 import { emailValidate } from '../../../../theme/validators';
@@ -14,6 +14,7 @@ export class EntryComponent implements IGameScene {
     public step = 0;
     public data = {
         identity_id: 0,
+        descent_id: 0,
         sex: 0,
         name: ''
     };
@@ -22,6 +23,7 @@ export class EntryComponent implements IGameScene {
         {name: '女', value: 2},
     ];
     public identityItems: IGameCharacterIdentity[] = [];
+    public descentItems: IGameDescent[] = [];
     public characterItems: IGameCharacter[] = [];
     public project: IGameProject;
 
@@ -31,13 +33,13 @@ export class EntryComponent implements IGameScene {
         this.project = this.router.project;
         this.router.request({
             [GameCommand.CharacterQuery]: {},
-            [GameCommand.IdentityQuery]: {},
+            [GameCommand.DescentQuery]: {},
         }).subscribe(res => {
             if (res[GameCommand.CharacterQuery]) {
                 this.characterItems = res[GameCommand.CharacterQuery].data;
             }
-            if (res[GameCommand.IdentityQuery]) {
-                this.identityItems = res[GameCommand.IdentityQuery].data;
+            if (res[GameCommand.DescentQuery]) {
+                this.descentItems = res[GameCommand.DescentQuery].data;
             }
         });
     }
@@ -46,14 +48,19 @@ export class EntryComponent implements IGameScene {
         this.router.enter(item.id);
     }
 
+    public tapDescent(item: IGameDescent) {
+        this.data.descent_id = item.id;
+        this.step = 3;
+    }
+
     public tapIdentity(item: IGameCharacterIdentity) {
         this.data.identity_id = item.id;
-        this.step = 2;
+        this.step = 3;
     }
 
     public tapSex(i: number) {
         this.data.sex = i;
-        this.step = 3;
+        this.step = 4;
     }
 
     public tapSubmit(e?: ButtonEvent) {

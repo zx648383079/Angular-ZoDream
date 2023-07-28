@@ -1,14 +1,15 @@
 import { AfterViewInit, Component, ComponentRef, Injector, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { GameService } from './game.service';
 import { ThemeService } from '../../theme/services';
-import { GameCommand, GameScenePath, IGameCharacter, IGameProject, IGameRouter, IGameScene } from './model';
+import { GameCommand, GameScenePath, IGameCharacter, IGamePeople, IGameProject, IGameRouter, IGameScene } from './model';
 import { GameSceneItems } from './routing.module';
-import { Subject, map } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseNumber } from '../../theme/utils';
 import { GameInjector } from './game.injector';
 import { DialogService } from '../../components/dialog';
 import { IErrorResponse } from '../../theme/models/page';
+import { DialogueComponent } from './pages/dialogue/dialogue.component';
 
 @Component({
     selector: 'app-game',
@@ -19,6 +20,8 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
 
     @ViewChild('modalVC', {read: ViewContainerRef})
     private modalViewContainer: ViewContainerRef;
+    @ViewChild(DialogueComponent)
+    private dialogue: DialogueComponent;
     private modalRef: ComponentRef<IGameScene>;
     public project: IGameProject;
     public character: IGameCharacter;
@@ -133,17 +136,26 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         });
     }
 
+    public toast(items: string[]): void;
     public toast(msg: IErrorResponse): void;
     public toast(msg: string): void;
-    public toast(msg: string|IErrorResponse) {
-        if (typeof msg === 'object') {
-            this.toastrService.error(msg);
+    public toast(msg: string[]|string|IErrorResponse) {
+        if (typeof msg !== 'object') {
+            this.toastrService.tip(msg);
             return;
         }
-        this.toastrService.tip(msg);
+        if (msg instanceof Array) {
+            for (let i = 0; i < msg.length; i++) {
+                setTimeout(() => {
+                    this.toastrService.tip(msg[i]);
+                }, 500 * i + 1);
+            }
+            return;
+        }
+        this.toastrService.error(msg);
     }
 
-    public confirm(msg: string): Subject<void> {
+    public confirm(msg: string): Observable<void> {
         const pipe = new Subject<void>();
         this.toastrService.confirm({
             content: msg,
@@ -155,6 +167,13 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
             }
         })
         return pipe;
+    }
+
+    public select(items: string[]): Observable<number> {
+        return this.dialogue.select(items);
+    }
+    public say(content: string[]|string, user?: IGamePeople): Observable<void> {
+        return this.dialogue.say(content, user);
     }
 
     public exit() {

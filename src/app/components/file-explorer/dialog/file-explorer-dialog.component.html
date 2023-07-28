@@ -1,5 +1,5 @@
-<div class="dialog-mask" *ngIf="visible"></div>
-<div class="file-explorer-dailog" *ngIf="visible">
+<div class="dialog-mask" *ngIf="visible && mode > 0"></div>
+<div [ngClass]="{'file-explorer-window': mode < 1, 'file-explorer-dailog': mode > 0}" *ngIf="visible">
     <div class="explorer-header">
         <div class="action-item" (click)="tapBack()" [ngClass]="{disabled: !canBack}">
             <i class="iconfont icon-arrow-left"></i>
@@ -30,7 +30,7 @@
             <input type="text" name="keywords" [(ngModel)]="keywords" placeholder="Search">
             <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
         </form>
-        <div class="action-item" (click)="visible = false">
+        <div class="action-item" *ngIf="mode > 0" (click)="visible = false">
             <i class="iconfont icon-close"></i>
         </div>
     </div>

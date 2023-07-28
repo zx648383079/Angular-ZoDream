@@ -1,0 +1,39 @@
+<div class="code-input" *ngIf="visible && data && data.type === 'code'">
+    <input type="text" [(ngModel)]="value">
+    <a (click)="tapRefresh()" i18n-title title="Click refresh">
+        <img [src]="data.image" i18n-alt alt="Refresh and retry">
+        <i class="iconfont icon-refresh code-refresh-btn"></i>
+    </a>
+</div>
+
+<div class="dialog-mask" *ngIf="visible && data && data.type !== 'code'"></div>
+
+<div class="code-modal" *ngIf="visible && data && data.type === 'slide'">
+    <div class="modal-body" [style]="{width: data.width + 'px', height: data.height + 'px'}">
+        <ng-container *ngFor="let item of data.imageItems">
+            <div class="slide-image" [style]="{'background-image': 'url(\'' + data.image+ '\')', 'background-position': item.x + 'px '+ item.y + 'px', width: item.width + 'px', height: item.height + 'px'}"></div>
+        </ng-container>
+        <div class="slide-control" [style]="{'background-image': 'url(\'' + data.control + '\')', width: data.controlWidth + 'px', height: data.controlHeight + 'px', top: data.controlY + 'px', left: value + 'px'}"></div>
+        <a class=" code-refresh-btn" (click)="tapRefresh()" i18n-title title="Click refresh">
+            <i class="iconfont icon-refresh"></i>
+        </a>
+    </div>
+    <div class="slider-bar">
+        <i (mousedown)="onMoveStart($event)" [style]="{left: x + 'px'}"></i>
+    </div>
+</div>
+<div class="code-modal" *ngIf="visible && data && data.type === 'hint'">
+    <div class="modal-body" (click)="onHint($event)">
+        <img [src]="data.image" alt="">
+        <ng-container *ngFor="let item of maskItems">
+            <i class="hint-item" [style]="{left: item.x + 'px', top: item.y + 'px'}"></i>
+        </ng-container>
+    </div>
+    <div class="code-hint-bar">
+        <label i18n>Click on</label>
+        <a (click)="tapRefresh()" i18n-title title="Click refresh">
+            <img [src]="data.control" i18n-alt alt="Refresh and retry">
+            <i class="iconfont icon-refresh code-refresh-btn"></i>
+        </a>
+    </div>
+</div>

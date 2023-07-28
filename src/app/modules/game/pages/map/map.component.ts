@@ -35,12 +35,12 @@ export class MapComponent implements IGameScene, OnInit {
 
     public tapItem() {
         this.router.request(GameCommand.MapPick, {}).subscribe(res => {
-            this.router.toast('获取 水晶 x 1');
+            this.router.toast(res.data);
         });
     }
 
     public tapNpc() {
-        this.router.request(GameCommand.MapNpc, {}).subscribe(res => {
+        this.router.request(GameCommand.MapInquire, {}).subscribe(res => {
             
         });
     }

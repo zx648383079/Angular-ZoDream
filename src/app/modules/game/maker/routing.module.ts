@@ -22,6 +22,7 @@ import { SkillComponent } from './rule/skill/skill.component';
 import { MapAreaComponent } from './map/area/map-area.component';
 import { MapEditorComponent } from './map/editor/map-editor.component';
 import { MapItemComponent } from './map/item/map-item.component';
+import { DescentComponent } from './rule/descent/descent.component';
 
 const routes: Routes = [
     {
@@ -71,6 +72,10 @@ const routes: Routes = [
             {
                 path: 'skill',
                 component: SkillComponent
+            },
+            {
+                path: 'descent',
+                component: DescentComponent,
             },
             {
                 path: 'rule/grade',
@@ -124,5 +129,5 @@ export class GameMakerRoutingModule { }
 
 export const gameMakerRoutedComponents = [
     GameMakerComponent, HomeComponent, TaskComponent, TaskDialogueComponent, RuleGradeComponent, MapComponent, ItemComponent, IndigenousComponent,
-    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent, MapAreaComponent, MapEditorComponent, MapItemComponent
+    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent, MapAreaComponent, MapEditorComponent, MapItemComponent, DescentComponent
 ];

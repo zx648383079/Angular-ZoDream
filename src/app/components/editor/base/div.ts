@@ -4,6 +4,7 @@ import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEdi
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
 import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_CLICK, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
+import { EditorHelper } from './util';
 
 /**
  * 富文本模式
@@ -217,8 +218,9 @@ export class DivElement implements IEditorElement {
     }
 
     private addRawExecute(range: Range, block: IEditorTextBlock) {
+        const value = block.value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');//.replace(/<([\/]?)(div)((:?\s*)(:?[^>]*)(:?\s*))>/g, '<$1p$3>');
         const p = document.createElement('div');
-        p.innerHTML = block.value;
+        p.innerHTML = value;
         const items = [];
         for (let i = 0; i < p.childNodes.length; i++) {
             items.push(p.childNodes[i]);
@@ -924,6 +926,7 @@ export class DivElement implements IEditorElement {
                 this.container.emit(EDITOR_EVENT_SHOW_ADD_TOOL, this.getNodeOffset(range.startContainer).y);
                 return;
             }
+            this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
         });
         this.element.addEventListener('compositionstart', () => {
             this.isComposition = true;
@@ -986,6 +989,10 @@ export class DivElement implements IEditorElement {
                 }
             }
         });
+        this.element.addEventListener('paste', e => {
+            e.preventDefault();
+            this.paste((e.clipboardData || (window as any).clipboardData))
+        });
         this.element.addEventListener('touchend', () => {
             this.container.saveSelection();
         });
@@ -1012,6 +1019,49 @@ export class DivElement implements IEditorElement {
             this.container.saveSelection();
             this.container.emit(EDITOR_EVENT_INPUT_BLUR);
         });
+    }
+
+    public paste(data: DataTransfer) {
+        if (this.isPasteFile(data)) {
+            this.pasteFile(data);
+            return;
+        }
+        if (this.isPasteHtml(data)) {
+            this.pasteHtml(data);
+            return;
+        }
+        const value = data.getData('text');
+        if (!value) {
+            return;
+        }
+        this.insert({type: EditorBlockType.AddText, value});
+    }
+
+    private isPasteFile(data: DataTransfer): boolean {
+        return data.types.length > 0 && data.types[0] === 'Files';
+    }
+
+    private isPasteHtml(data: DataTransfer): boolean {
+        return data.types.length > 1 && data.types[1] === 'text/html';
+    }
+
+    private pasteFile(data: DataTransfer) {
+        for (let i = 0; i < data.files.length; i++) {
+            const item = data.files[i];
+            const fileType = EditorHelper.fileType(item);
+            this.container.option.upload(item, fileType).subscribe(res => {
+                this.insert({type: 'add' + fileType[0].toUpperCase() + fileType.substring(1), value: res.url,
+                    title: res.title, size: res.size} as any);
+            });
+        }
+    }
+
+    private pasteHtml(data: DataTransfer) {
+        const value = data.getData(data.types[1]);
+        if (!value) {
+            return '';
+        }
+        this.insert({type: EditorBlockType.AddRaw, value});
     }
 
     private moveTableCol(node: HTMLTableCellElement) {

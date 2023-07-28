@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
     selector: 'app-game-battle',
@@ -14,6 +14,12 @@ export class BattleComponent implements IGameScene, OnInit {
 
     ngOnInit(): void {
         
+    }
+
+    public tapBattle() {
+        this.router.request(GameCommand.MapBattle, {}).subscribe(res => {
+
+        });
     }
 
 }

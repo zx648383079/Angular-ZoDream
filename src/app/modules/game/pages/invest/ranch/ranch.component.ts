@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameFarmPlot, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameFarmPlot, IGameRouter, IGameScene, InvestTabItems } from '../../../model';
 
 @Component({
     selector: 'app-game-ranch',
@@ -9,6 +9,8 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameFarmPlot, IGa
 export class RanchComponent implements IGameScene, OnInit {
 
     public items: IGameFarmPlot[] = [];
+    public tabItems = InvestTabItems;
+    public tabIndex = 1;
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -22,8 +24,9 @@ export class RanchComponent implements IGameScene, OnInit {
         this.router.navigateBack();
     }
 
-    public tapTab() {
-        this.router.navigateReplace(GameScenePath.Farm);
+    public tapTab(i: number) {
+        // this.tabIndex = i;
+        this.router.navigateReplace(this.tabItems[i].value);
     }
 
     public tapRefresh() {

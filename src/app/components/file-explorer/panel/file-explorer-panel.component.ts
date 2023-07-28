@@ -145,7 +145,7 @@ export class FileExplorerPanelComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.search({
+        this.service.searchFile({
             ...this.queries,
             page,
         }).subscribe({

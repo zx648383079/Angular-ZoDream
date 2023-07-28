@@ -13,14 +13,14 @@
 </div>
 <div class="bag-item" *ngFor="let item of items">
     <div class="item-body">
-        <span>[蓝]</span>
+        <span *ngIf="item.quality">[{{ item.quality }}]</span>
         <a class="item-name">{{ item.name }}</a>
-        <span class="item-sub">+5</span>
+        <span class="item-sub" *ngIf="item.level">+{{ item.level }}</span>
     </div>
-    <span class="item-amount">x5</span>
+    <span class="item-amount">x{{ item.amount }}</span>
     <div class="item-action">
-        <a href="">使用</a>
-        <a href="">装备</a>
+        <a href="" *ngIf="item.type === 3">使用</a>
+        <a href="" *ngIf="item.type === 1">装备</a>
         <a href="">丢弃</a>
     </div>
 </div>

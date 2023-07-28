@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameRouter, IGameScene } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGameEquipItem, IGameRouter, IGameScene } from '../../model';
 
 @Component({
   selector: 'app-character-panel',
@@ -9,6 +9,7 @@ import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameRouter, IGam
 export class CharacterPanelComponent implements IGameScene, OnInit {
 
     public data: IGameCharacter;
+    public equipItems: IGameEquipItem[] = [];
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -20,6 +21,7 @@ export class CharacterPanelComponent implements IGameScene, OnInit {
     ngOnInit(): void {
         this.router.request(GameCommand.CharacterStatus).subscribe(res => {
             this.data = res.data;
+            this.equipItems = res.data.equip_items || [];
         });
     }
 

@@ -1,5 +1,20 @@
 @import '../explorer';
 $radius: .375rem;
+
+.file-explorer-dailog,
+.file-explorer-window {
+    .dialog-footer {
+        display: flex;
+        justify-content: space-between;
+        .btn {
+            display: inline-block;
+        }
+    }
+    .explorer-body {
+        flex: 1;
+    }
+}
+
 .file-explorer-dailog {
     position: fixed;
     border-radius: $radius;
@@ -25,15 +40,15 @@ $radius: .375rem;
             }
         }
     }
-    .dialog-footer {
-        display: flex;
-        justify-content: space-between;
-        .btn {
-            display: inline-block;
-        }
-    }
-    .explorer-body {
-        flex: 1;
+}
+
+.file-explorer-window {
+    height: 99vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    .explorer-header {
+        background-color: #fff;
     }
 }
 

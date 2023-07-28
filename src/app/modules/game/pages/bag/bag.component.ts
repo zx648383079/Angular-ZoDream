@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../theme/models/page';
-import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
+import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
 @Component({
     selector: 'app-game-bag',
@@ -9,7 +9,7 @@ import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScen
 })
 export class BagComponent implements IGameScene, OnInit {
 
-    public items: IGameItem[] = [];
+    public items: IGameBagItem[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -54,7 +54,7 @@ export class BagComponent implements IGameScene, OnInit {
         const queries = {...this.queries, page};
         this.router.request(GameCommand.BagQuery, queries).subscribe({
             next: res => {
-                const data = res.data as IPage<IGameItem>;
+                const data = res.data;
                 this.queries = queries;
                 this.isLoading = false;
                 this.total = data.paging.total;

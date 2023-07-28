@@ -1,0 +1,27 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-tab-bar">
+        <ng-container *ngFor="let item of tabItems;let i = index">
+            <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item.name }}</a>
+        </ng-container>
+    </div>
+    <a class="right-item">
+        雇佣矿工
+    </a>
+</div>
+
+<div class="miner-box">
+    <div class="miner-item">
+        <div class="item-body">
+            西门
+            (体力: 50/100)
+        </div>
+        <div class="item-action">
+            <a >上工</a>
+            <a >解雇</a>
+            <a >召回(钱 50)</a>
+        </div>
+    </div>
+</div>

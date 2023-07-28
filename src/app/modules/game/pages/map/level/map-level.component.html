@@ -3,29 +3,37 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-bar">
-        【王府】
+        副本
     </div>
 </div>
 <div class="map-meta">这里没有什么人</div>
 
-<div class="map-level-bar">
+<div class="map-level-bar" *ngFor="let item of items">
     <div class="level-item">
         <div class="item-map">
-            <img src="" alt="">
+            <img [src]="item.cover" [alt]="item.name">
         </div>
         <div class="item-body">
-            <div class="item-name">【王府北】(56级)</div>
+            <div class="item-name">【{{ item.name }}】
+                <ng-container *ngIf="item.grade">
+                    ({{ item.grade }}级)
+                </ng-container>
+            </div>
             <div class="item-meta">
-                精英Boss
+                <ng-container *ngFor="let it of item.boss_items">
+                  <span>{{ it }}</span>
+                </ng-container>
             </div>
             <div class="item-output">
                 <span>产出：</span>
-                <a href="">刀</a>
+                <ng-container *ngFor="let it of item.output_items">
+                    <a href="">{{ item.name }}</a>
+                </ng-container>
             </div>
         </div>
         <div class="item-action">
-            <a href="">进入</a>
-            <a href="">扫荡</a>
+            <a (click)="tapEnter(item)">进入</a>
+            <a (click)="tapSweep(item)">扫荡</a>
         </div>
     </div>
 </div>

@@ -174,6 +174,10 @@ export class EditorContainer implements IEditorContainer {
         instance.handler(this, range ?? this.selection, data);
     }
 
+    public paste(data: DataTransfer) {
+        this.element.paste(data);
+    }
+
     public clear(focus: boolean = true) {
         this.element.value = '';
         if (!focus) {

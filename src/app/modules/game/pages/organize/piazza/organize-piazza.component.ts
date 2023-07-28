@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameOrganize, IGameRouter, IGameScene } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
+import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     selector: 'app-game-organize-piazza',
@@ -19,6 +20,10 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
         keywords: '',
     };
     public modalVisible = false;
+    public input = {
+        name: '',
+
+    };
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -33,7 +38,13 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
     }
 
     public tapSubmit() {
-        this.router.navigateReplace(GameScenePath.Organize);
+        if (emptyValidate(this.input.name)) {
+            this.router.toast('名称不能为空');
+            return;
+        }
+        this.router.request(GameCommand.OrganizeCreateOwn, this.input).subscribe(res => {
+            this.router.navigateReplace(GameScenePath.Organize);
+        });
     }
 
     public tapRefresh() {

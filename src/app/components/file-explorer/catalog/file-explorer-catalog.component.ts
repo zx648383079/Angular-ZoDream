@@ -53,7 +53,7 @@ export class FileExplorerCatalogComponent implements OnInit {
             return;
         }
         item.loading = 2;
-        this.service.search({
+        this.service.searchFile({
             path: item.path,
             filter: 'folder'
         }).subscribe({

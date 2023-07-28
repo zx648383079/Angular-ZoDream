@@ -15,6 +15,7 @@ export class FileExplorerDialogComponent implements OnInit {
         {icon: 'icon-home', name: 'Home', path: ''},
     ];
     public visible = true;
+    public mode = 0;
     public path = '';
     public keywords = '';
     public pathIsInputing = false;
@@ -24,9 +25,6 @@ export class FileExplorerDialogComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        setTimeout(() => {
-            this.applyPath('c:');
-        }, 2000);
     }
 
     public get canBack() {
@@ -42,6 +40,10 @@ export class FileExplorerDialogComponent implements OnInit {
 
     public get canUp() {
         return this.breadcrumbItems.length > 1;
+    }
+
+    public open() {
+        this.visible = true;
     }
 
     public tapBack() {

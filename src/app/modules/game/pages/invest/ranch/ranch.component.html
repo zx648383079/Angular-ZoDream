@@ -3,50 +3,47 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <a class="item active">农场</a>
-        <a class="item" (click)="tapTab()">牧场</a>
+        <ng-container *ngFor="let item of tabItems;let i = index">
+            <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item.name }}</a>
+        </ng-container>
     </div>
 </div>
 <div class="plot-item">
     <div class="item-body">
-        <div class="item-name">[红]花</div>
+        <div class="item-name">牛</div>
         <div class="item-meta">(预计成熟: 2023:09:01)</div>
     </div>
     <div class="item-action">
-        <!-- <a href="">收获</a> -->
-        <!-- <a href="">播种</a>
-        <a href="">升级</a> -->
-        <a href="">施肥</a>
-        <a href="">铲除</a>
+        <a href="">喂食</a>
+        <a href="">放生</a>
     </div>
 </div>
 <div class="plot-item">
     <div class="item-body">
-        <div class="item-name">[红]花</div>
-        <div class="item-meta">(已成熟: 88个)</div>
+        <div class="item-name">牛</div>
+        <div class="item-meta">(已成熟: 88牛奶)</div>
     </div>
     <div class="item-action">
-        <a href="">收获</a>
-    </div>
-</div>
-<div class="plot-item">
-    <div class="item-body">
-        <div class="item-name">[红]
-            <a href="">空</a>
-        </div>
-    </div>
-    <div class="item-action">
-        <a href="">播种</a>
-        <a href="">升级</a>
+        <a href="">收取</a>
     </div>
 </div>
 <div class="plot-item">
     <div class="item-body">
         <div class="item-name">
-            未开垦
+            <a href="">空</a>
         </div>
     </div>
     <div class="item-action">
-        <a href="">开垦</a>
+        <a href="">投放</a>
+    </div>
+</div>
+<div class="plot-item">
+    <div class="item-body">
+        <div class="item-name">
+            待扩容
+        </div>
+    </div>
+    <div class="item-action">
+        <a href="">扩容</a>
     </div>
 </div>

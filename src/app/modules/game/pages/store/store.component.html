@@ -13,11 +13,9 @@
 </div>
 <div class="bag-item" *ngFor="let item of items">
     <div class="item-body">
-        <span>[蓝]</span>
+        <span *ngIf="item.quality">[{{ item.quality }}]</span>
         <a href="" class="item-name">{{ item.name }}</a>
-        <span class="item-sub">+5</span>
     </div>
-    <span class="item-amount">x5</span>
     <div class="item-action">
         <a (click)="modalVisible = true">购买</a>
     </div>

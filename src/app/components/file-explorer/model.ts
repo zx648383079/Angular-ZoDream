@@ -9,7 +9,7 @@ export interface IFileProvider {
      * 返回驱动列表
      */
     driveList(): Observable<IFileItem[]>;
-    search(params: IFileQueries): Observable<IPage<IFileItem>|IData<IFileItem>>;
+    searchFile(params: IFileQueries): Observable<IPage<IFileItem>|IData<IFileItem>>;
 }
 
 export interface IFileQueries {

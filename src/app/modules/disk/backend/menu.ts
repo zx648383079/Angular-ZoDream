@@ -20,6 +20,10 @@ export const DiskBackendMenu: MenuReadyFn = function() {
                     name: '存储客户端',
                     url: this.renderUrl('client'),
                 },
+                {
+                    name: '资源管理器',
+                    url: this.renderUrl('explorer'),
+                },
             ]
         }
     ];

@@ -66,8 +66,20 @@
             <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
+    <div class="form-group">
+        <label>是否限种族</label>
+        <div class="zre-input-group">
+            <app-switch></app-switch>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>限制种族</label>
+        <div class="zre-input-group">
+            <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
+        </div>
+    </div>
     <div class="group-panel">
-        <div class="group-header">属性</div>
+        <div class="group-header">属性加成</div>
         <div class="group-body">
             <div class="property-item">
                 <label for="">生命值</label>

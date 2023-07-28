@@ -1,0 +1,29 @@
+<div class="router-bar">
+    <div class="tool-item" (click)="tapBack()">
+        <i class="iconfont icon-arrow-left"></i>
+    </div>
+    <div class="title-tab-bar">
+        <ng-container *ngFor="let item of tabItems;let i = index">
+            <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item.name }}</a>
+        </ng-container>
+    </div>
+</div>
+
+<div class="product-item">
+    <div class="item-body">
+        <div class="item-name">投资</div>
+        <div class="count-bar">
+            <div class="count-item">
+                <span>100%</span>
+                <p>收益率</p>
+            </div>
+            <div class="count-item">
+                <span>1天</span>
+                <p>周期</p>
+            </div>
+        </div>
+    </div>
+    <div class="item-action">
+        <a href="">投资</a>
+    </div>
+</div>

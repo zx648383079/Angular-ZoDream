@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGameTeam } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
+import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     selector: 'app-game-team-piazza',
@@ -19,6 +20,9 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
         keywords: '',
     };
     public modalVisible = false;
+    public input = {
+        name: ''
+    };
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -33,7 +37,13 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
     }
 
     public tapSubmit() {
-        this.router.navigateReplace(GameScenePath.Team);
+        if (emptyValidate(this.input.name)) {
+            this.router.toast('请输入队名');
+            return;
+        }
+        this.router.request(GameCommand.TeamCreateOwn, this.input).subscribe(res => {
+            this.router.navigateReplace(GameScenePath.Team);
+        });
     }
 
     public tapRefresh() {

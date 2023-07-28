@@ -1,3 +1,63 @@
-<p>
-  rule-prize works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>管理抽奖列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="zre-input-group">
+                    <label for="keywords">名称</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                        placeholder="关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary" (click)="open(modal)">新增物品</a>
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>等级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+    <div class="form-group">
+        <label>物品</label>
+        <div class="zre-input-group">
+            <input class="form-control"[(ngModel)]="editData.name" placeholder="请输入血统">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>价格</label>
+        <div class="zre-input-group">
+            <app-number-input [(ngModel)]="editData.name"></app-number-input>
+        </div>
+    </div>
+</app-dialog-box>

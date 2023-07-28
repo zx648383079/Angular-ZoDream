@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPage } from '../../../theme/models/page';
+import { IData, IPage } from '../../../theme/models/page';
 import { IDiskServer, IDiskServerFile, ILinkServerData } from '../model';
+import { IFileItem, IFileProvider, IFileQueries } from '../../../components/file-explorer/model';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DiskService {
+export class DiskService implements IFileProvider {
 
     constructor(
         private http: HttpClient
@@ -30,5 +32,16 @@ export class DiskService {
 
     public statistics() {
         return this.http.get<any>('disk/admin/statistics');
+    }
+
+    public driveList(): Observable<IFileItem[]> {
+        return this.http.get<IData<IFileItem>>('disk/admin/explorer/drive').pipe(map(res => res.data.map(i => {
+            i.isFolder = true;
+            return i;
+        })));
+    }
+
+    public searchFile(params: IFileQueries): Observable<IPage<IFileItem> | IData<IFileItem>> {
+        return this.http.get<IData<IFileItem>>('disk/admin/explorer', {params: params as any});
     }
 }

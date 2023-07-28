@@ -87,7 +87,7 @@
                         </div>
                         <div class="file-name">{{ item.name }}</div>
                         <div class="file-size file-row-meta">{{ item.size | size }}</div>
-                        <div class="file-time file-row-meta">{{ item.created_at | timestamp }}</div>
+                        <div class="file-time file-row-meta">{{ item.created_at | ago }}</div>
                         <div class="file-item-action">
                             <i class="iconfont icon-download" (click)="tapAction(4, item)" *ngIf="!item.isFolder"></i>
                             <i class="iconfont icon-copy" (click)="tapAction(1, item)" *ngIf="editable"></i>

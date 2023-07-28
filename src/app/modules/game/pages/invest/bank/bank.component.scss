@@ -1,0 +1,36 @@
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: .4rem 0;
+    min-height: 4rem;
+    .item-body {
+        flex: 1;
+    }
+    .item-action {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-right: .8rem;
+    }
+    &:hover {
+        background-color: #ccc;
+    }
+}
+
+.count-bar {
+    display: inline-flex;
+    margin-top: 0.625rem;
+    p {
+        margin: 0;
+    }
+    .count-item {
+        flex: 1;
+        text-align: center;
+        font-size: 0.75rem;
+        word-break: keep-all;
+        min-width: 4rem;
+        &:not(:last-of-type) {
+            border-right: 1px solid #ccc;
+        }
+    }
+}

@@ -6,12 +6,12 @@ import { BagComponent } from './pages/bag/bag.component';
 import { BattleComponent } from './pages/battle/battle.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { DialogueComponent } from './pages/dialogue/dialogue.component';
-import { FarmComponent } from './pages/farm/farm.component';
+import { FarmComponent } from './pages/invest/farm/farm.component';
 import { MainComponent } from './pages/main/main.component';
 import { MapComponent } from './pages/map/map.component';
 import { OrganizeComponent } from './pages/organize/organize.component';
 import { PrizeComponent } from './pages/prize/prize.component';
-import { RanchComponent } from './pages/ranch/ranch.component';
+import { RanchComponent } from './pages/invest/ranch/ranch.component';
 import { StoreComponent } from './pages/store/store.component';
 import { TaskComponent } from './pages/task/task.component';
 import { CharacterPanelComponent } from './pages/character-panel/character-panel.component';
@@ -27,6 +27,8 @@ import { TeamComponent } from './pages/team/team.component';
 import { OrganizePiazzaComponent } from './pages/organize/piazza/organize-piazza.component';
 import { TeamPiazzaComponent } from './pages/team/piazza/team-piazza.component';
 import { OrganizeStoreComponent } from './pages/organize/store/organize-store.component';
+import { MineComponent } from './pages/invest/mine/mine.component';
+import { BankComponent } from './pages/invest/bank/bank.component';
 
 const routes: Routes = [
     {
@@ -48,7 +50,7 @@ export class GameRoutingModule { }
 
 export const gameRoutedComponents = [
     GameComponent, PiazzaComponent, BagComponent, BattleComponent, ChatComponent, DialogueComponent, FarmComponent, MainComponent, MapComponent, OrganizeComponent, PrizeComponent, RanchComponent, StoreComponent, TaskComponent, CharacterPanelComponent, MapLevelComponent, EntryComponent, RechargeComponent, SettingComponent, MapGlobeComponent, SkillComponent, TeamComponent, OrganizePiazzaComponent, TeamPiazzaComponent,
-    OrganizeStoreComponent
+    OrganizeStoreComponent, MineComponent, BankComponent
 ];
 
 export const GameSceneItems: {
@@ -60,6 +62,9 @@ export const GameSceneItems: {
     [GameScenePath.Character]: CharacterPanelComponent,
     [GameScenePath.Chat]: ChatComponent,
     [GameScenePath.Farm]: FarmComponent,
+    [GameScenePath.Mine]: MineComponent,
+    [GameScenePath.Bank]: BankComponent,
+    [GameScenePath.Ranch]: RanchComponent,
     [GameScenePath.Main]: MainComponent,
     [GameScenePath.Map]: MapComponent,
     [GameScenePath.MapLevel]: MapLevelComponent,
@@ -70,7 +75,7 @@ export const GameSceneItems: {
     [GameScenePath.OrganizePiazza]: OrganizePiazzaComponent,
     [GameScenePath.OrganizeStore]: OrganizeStoreComponent,
     [GameScenePath.TeamPiazza]: TeamPiazzaComponent,
-    [GameScenePath.Ranch]: RanchComponent,
+
     [GameScenePath.Store]: StoreComponent,
     [GameScenePath.Task]: TaskComponent,
     [GameScenePath.Prize]: PrizeComponent,

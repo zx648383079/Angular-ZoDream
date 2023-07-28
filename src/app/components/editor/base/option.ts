@@ -4,7 +4,7 @@ import { IEditorContainer } from './editor';
 import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_ENTER_TOOL, EDITOR_MORE_TOOL } from './event';
 import { EditorModules } from './module';
 import { IUploadResult } from '../../../theme/models/open';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 
 type UploadFileCallback = (files: File[]|File|FileList) => Observable<IUploadResult[]|IUploadResult>;
 
@@ -232,7 +232,7 @@ export class EditorOptionManager {
             func = uploader[type] ? uploader[type] : uploader.file;
         }
         if (!func) {
-            return;
+            return throwError(() => 'cannot upload file');
         }
         return func(files);
     }

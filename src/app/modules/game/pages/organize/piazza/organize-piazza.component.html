@@ -28,11 +28,11 @@
 
 <div class="dialog-mask" *ngIf="modalVisible"></div>
 <div class="form-dialog" *ngIf="modalVisible">
-    <div class="dialog-header">创建队伍</div>
+    <div class="dialog-header">创建帮会</div>
     <div class="dialog-body">
         <div class="input-header-block">
-            <input type="text">
-            <label for="">队伍名</label>
+            <input type="text" [(ngModel)]="input.name">
+            <label for="">帮会名</label>
         </div>
         <div class="input-header-block">
             <textarea rows="5"></textarea>

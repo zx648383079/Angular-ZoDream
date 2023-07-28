@@ -26,6 +26,10 @@ export class OrganizeComponent implements IGameScene, OnInit {
         });
     }
 
+    public tapTab(i: number) {
+        this.tabIndex = i;
+    }
+
     public tapBack() {
         this.router.navigateBack();
     }

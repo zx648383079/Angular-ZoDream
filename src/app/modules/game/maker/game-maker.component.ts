@@ -49,6 +49,10 @@ export class GameMakerComponent implements OnDestroy {
             icon: 'icon-cog',
             children: [
                 {
+                    name: $localize `Descent`,
+                    url: './descent'
+                },
+                {
                     name: $localize `Character Identity`,
                     url: './character/identity'
                 },

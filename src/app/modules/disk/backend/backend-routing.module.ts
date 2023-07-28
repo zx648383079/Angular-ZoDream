@@ -9,6 +9,7 @@ import { ClientComponent } from './client/client.component';
 import { DiskBackendComponent } from './disk-backend.component';
 import { FilesComponent } from './files/files.component';
 import { ServersComponent } from './servers/servers.component';
+import { ExplorerComponent } from './explorer/explorer.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,10 @@ const routes: Routes = [
         component: ClientComponent,
     },
     {
+        path: 'explorer',
+        component: ExplorerComponent,
+    },
+    {
         path: '',
         component: DiskBackendComponent,
     },
@@ -37,5 +42,5 @@ export class DiskBackendRoutingModule {}
 
 
 export const diskBackendRoutingComponents = [
-    DiskBackendComponent, FilesComponent, ServersComponent, ClientComponent
+    DiskBackendComponent, FilesComponent, ServersComponent, ClientComponent, ExplorerComponent
 ];

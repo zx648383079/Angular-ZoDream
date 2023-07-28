@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameRouter, IGameScene, IGmeRoute } from '../../model';
+import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameMessage, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
     selector: 'app-game-main',
@@ -27,7 +27,7 @@ export class MainComponent implements IGameScene, OnInit {
         {name: '设置', path: GameScenePath.Setting},
     ];
     public character: IGameCharacter;
-    public messsageItems: any[];
+    public messsageItems: IGameMessage[];
 
     constructor(
         @Inject(GameRouterInjectorToken) private router: IGameRouter,
@@ -60,9 +60,7 @@ export class MainComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.CheckinOwn).subscribe(res => {
             this.character.is_checked = true;
             this.updateCheckIn();
-            this.router.toast('签到成功');
-            this.router.toast('获取 牛肉 x1');
-            this.router.toast('获取 金钱 x1');
+            this.router.toast(res.data);
         });
     }
 

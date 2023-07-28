@@ -23,7 +23,7 @@ export class FileExplorerService implements IFileProvider {
         ]);
     }
 
-    public search(params: IFileQueries): Observable<IPage<IFileItem>|IData<IFileItem>> {
+    public searchFile(params: IFileQueries): Observable<IPage<IFileItem>|IData<IFileItem>> {
         return from([
             {
                 data: [
