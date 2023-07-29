@@ -47,7 +47,7 @@
     "@angular/compiler-cli": "^16.1.7",
     "@types/dom-mediacapture-record": "^1.0.16",
     "@types/jasmine": "^4.3.5",
-    "@types/katex": "^0.16.2",
+    "@types/katex": "^0.16.1",
     "@types/marked": "^5.0.1",
     "@types/node": "^20.4.5",
     "codelyzer": "^6.0.2",

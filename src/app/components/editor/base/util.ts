@@ -8,4 +8,8 @@ export class EditorHelper {
         }
         return 'file';
     }
+
+    public static height(node: HTMLElement): number {
+        return node.offsetHeight;
+    }
 }

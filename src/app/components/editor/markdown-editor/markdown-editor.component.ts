@@ -44,7 +44,9 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
             this.onChange(this.container.value);
             this.size = this.container.wordLength;
         }).on(EDITOR_EVENT_EDITOR_READY, () => {
-            this.size = this.container.wordLength;
+            setTimeout(() => {
+                this.size = this.container.wordLength;
+            }, 10);
         });
     }
 
