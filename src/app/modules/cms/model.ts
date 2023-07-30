@@ -61,12 +61,16 @@ export interface ICmsLinkage {
     name: string;
     type: number;
     code: string;
+    language: string;
+    data_count?: number;
 }
 
 export interface ICmsLinkageData {
     id: number;
     name: string;
     position: number;
+    description:       string;
+    thumb:             string;
     full_name?: string;
     parent_id: number;
     linkage_id: number;

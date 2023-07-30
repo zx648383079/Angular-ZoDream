@@ -1,5 +1,6 @@
 import {
     Component,
+    OnDestroy,
     OnInit
 } from '@angular/core';
 import {
@@ -22,13 +23,14 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../theme/utils';
+import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-register',
+    selector: 'app-auth-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnDestroy {
 
     public isObserve = false;
     public openStatus = 0;
@@ -42,6 +44,7 @@ export class RegisterComponent implements OnInit {
     }, {
         validators: confirmValidator()
     });
+    private subItems: Subscription[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -51,12 +54,18 @@ export class RegisterComponent implements OnInit {
         private store: Store<AppState>,
     ) {
         this.themeService.setTitle($localize `Sign up`);
-        this.store.select(selectSystemConfig).subscribe(res => {
-            this.openStatus = parseNumber(res.auth_register);
-        });
+        this.subItems.push(
+            this.store.select(selectSystemConfig).subscribe(res => {
+                this.openStatus = parseNumber(res.auth_register);
+            })
+        );
     }
 
-    ngOnInit() {}
+    ngOnDestroy() {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
+    }
 
     get email() {
         return this.registerForm.get('email');

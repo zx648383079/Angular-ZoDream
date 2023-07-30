@@ -3,7 +3,7 @@ import { AuthService } from '../../../theme/services';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-logout',
+    selector: 'app-auth-logout',
     templateUrl: './logout.component.html',
     styleUrls: ['./logout.component.scss']
 })

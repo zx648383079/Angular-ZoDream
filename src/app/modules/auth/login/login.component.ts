@@ -37,9 +37,10 @@ import {
 } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../components/form';
+import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 
 @Component({
-    selector: 'app-login',
+    selector: 'app-auth-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
@@ -57,11 +58,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         captcha: [''],
     });
 
+    public openAuth = false;
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
-    private loginSubs: Subscription;
+    private subItems: Subscription[] = [];
 
     constructor(
         private store: Store<AppState>,
@@ -72,6 +74,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
         private authService: AuthService) {
         this.themeService.setTitle($localize `Sign in`);
+        this.subItems.push(
+            this.store.select(selectSystemConfig).subscribe(res => {
+                this.openAuth = res && res.auth_oauth;
+            })
+        );
     }
 
     get email() {
@@ -95,6 +102,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.redirectUri = res.redirect_uri || '/';
             this.redirectIfUserLoggedIn();
         });
+    }
+
+    ngOnDestroy() {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public toggleRemember() {
@@ -186,22 +199,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     private redirectIfUserLoggedIn() {
-        this.loginSubs = this.store.select(selectAuthStatus).subscribe(
+        this.subItems.push(this.store.select(selectAuthStatus).subscribe(
             data => {
                 if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);
                 }
             }
-        );
-    }
-
-    ngOnDestroy() {
-        if (this.loginSubs) {
-            this.loginSubs.unsubscribe();
-        }
+        ));
     }
 
     public tapOAuth(type: string) {
+        if (!this.openAuth) {
+            this.toastrService.warning($localize `Third-party login component is closed`);
+            return;
+        }
         window.location.href = apiUri('auth/oauth', {
             type,
             redirect_uri: window.location.href});

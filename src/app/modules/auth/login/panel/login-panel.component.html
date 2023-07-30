@@ -92,10 +92,12 @@
     <div class="panel-footer">
         <div class="oauth-bar">
             <a (click)="tapRefreshQr()" i18n-title title="Sign in with QR code"><i class="iconfont icon-qrcode"></i></a>
-            <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
-            <a  (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
-            <a  (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
-            <a  (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
+            <ng-container *ngIf="openAuth">
+                <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
+                <a  (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
+                <a  (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
+                <a  (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
+            </ng-container>
         </div>
         <div class="tip-bar">
             <a class="help-btn" *ngIf="tabIndex < 2" routerLink="/frontend/about" i18n>Help?</a>

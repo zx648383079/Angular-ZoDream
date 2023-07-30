@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../../../environments/environment';
@@ -11,13 +11,15 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../../theme/services';
 import { getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
+import { Subscription } from 'rxjs';
+import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
 
 @Component({
   selector: 'app-login-panel',
   templateUrl: './login-panel.component.html',
   styleUrls: ['./login-panel.component.scss']
 })
-export class LoginPanelComponent {
+export class LoginPanelComponent implements OnDestroy {
 
     @Output() public logined = new EventEmitter<IUser>();
 
@@ -29,23 +31,38 @@ export class LoginPanelComponent {
     public captcha = '';
     public agree = true;
     public passwordObserve = false;
+    public openAuth = false;
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
     public qrStatus = 0;
+    private subItems: Subscription[] = [];
 
     constructor(
         private store: Store<AppState>,
         private toastrService: DialogService,
         private authService: AuthService,
     ) {
-        this.store.select(selectAuthUser).subscribe(res => {
-            if (!res) {
-                return;
-            }
-            this.logined.emit(res);
-        });
+        this.subItems.push(
+            this.store.select(selectAuthUser).subscribe(res => {
+                if (!res) {
+                    return;
+                }
+                this.logined.emit(res);
+            })
+        );
+        this.subItems.push(
+            this.store.select(selectSystemConfig).subscribe(res => {
+                this.openAuth = res && res.auth_oauth;
+            })
+        );
+    }
+
+    ngOnDestroy() {
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public tapTab(i: number) {

@@ -60,6 +60,8 @@ export class LinkageDataComponent implements OnInit {
         this.editData = item ? {...item} : {
             id: 0,
             name: '',
+            description: '',
+            thumb: '',
             position: 99,
             parent_id: this.parentId,
             linkage_id: this.queries.linkage

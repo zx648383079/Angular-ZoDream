@@ -45,6 +45,7 @@ export class LinkageComponent implements OnInit {
             name: '',
             code: '',
             type: 0,
+            language: '',
         };
         modal.open(() => {
             this.service.linkageSave(this.editData).subscribe(_ => {
@@ -79,12 +80,17 @@ export class LinkageComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.linkageList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+        this.service.linkageList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

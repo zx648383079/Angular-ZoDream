@@ -62,7 +62,7 @@
   </div>
 </form>
 
-<div class="login-oauth-box">
+<div class="login-oauth-box" *ngIf="openAuth">
     <div class="box-title" i18n>Sign in with</div>
     <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
     <a (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>

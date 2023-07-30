@@ -7,7 +7,7 @@ import { AuthService, ThemeService } from '../../../theme/services';
 import { DialogService } from '../../../components/dialog';
 
 @Component({
-  selector: 'app-find',
+  selector: 'app-auth-find',
   templateUrl: './find.component.html',
   styleUrls: ['./find.component.scss']
 })

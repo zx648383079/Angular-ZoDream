@@ -94,6 +94,7 @@ export interface ISystemOption extends Record<string, any> {
     site_gray:        boolean;
     micro_time_limit: string;
     auth_register:    number;
+    auth_oauth: boolean;
     blog_list_view:   number;
     today_wallpaper: {
         title: string;

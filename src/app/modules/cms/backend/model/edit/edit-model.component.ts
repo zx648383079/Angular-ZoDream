@@ -23,7 +23,12 @@ export class EditModelComponent implements OnInit {
         show_template: '',
         setting: this.fb.group({
             is_show: 1,
-            is_only: 0
+            is_only: 0,
+            is_extend_auth: 0,
+            open_captcha: 0,
+            form_template: '',
+            show_template: '',
+            notify_mail: '',
         }),
     });
 

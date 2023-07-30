@@ -125,6 +125,10 @@ export class CmsService {
         return this.http.post<ICmsModel>('cms/admin/model/save', data);
     }
 
+    public modelRestart(data: any) {
+        return this.http.post<IDataOne<boolean>>('cms/admin/model/restart', data);
+    }
+
     public modelRemove(id: any) {
         return this.http.delete<IDataOne<true>>('cms/admin/model/delete', {
           params: {id}

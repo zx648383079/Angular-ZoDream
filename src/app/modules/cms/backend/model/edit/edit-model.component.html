@@ -69,6 +69,41 @@
                     <div class="input-tip">是否保持用户唯一</div>
                 </div>
             </div>
+            <div class="zre-input-group">
+                <label for="setting_is_extend_auth">是否继承拓展用户表单</label>
+                <div formGroupName="setting">
+                    <app-switch formControlName="is_extend_auth"></app-switch>
+                    <div class="input-tip">在会员注册时需要填写此表单数据</div>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="setting_open_captcha">验证码</label>
+                <div formGroupName="setting">
+                    <app-switch formControlName="open_captcha"></app-switch>
+                    <div class="input-tip">是否开启验证码</div>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="setting_form_template">表单模板</label>
+                <div formGroupName="setting">
+                    <input class="form-control" formControlName="form_template">
+                    <div class="input-tip">表单填写的模板，文件夹为Form</div>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="setting_show_template">显示模板</label>
+                <div formGroupName="setting">
+                    <input class="form-control" formControlName="show_template">
+                    <div class="input-tip">表单内容显示的模板，文件夹为Content</div>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="setting_notify_mail">邮件通知地址</label>
+                <div formGroupName="setting">
+                    <input class="form-control" formControlName="notify_mail">
+                    <div class="input-tip">是否需要同时把表单发送到指定的邮箱</div>
+                </div>
+            </div>
         </div>
         <div class="zre-input-group">
             <label for="position">排序</label>

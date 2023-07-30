@@ -7,7 +7,6 @@
                 <ng-container *ngFor="let item of path">
                   {{ item.name }} 、
                 </ng-container>
-                
             </li>
         </ul>
     </app-page-tip>
@@ -55,13 +54,21 @@
 </div>
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑联动项' : '新增联动项'">
     <div class="form-group">
-      <label for="name">名称</label>
-      <input type="text"
-        class="form-control" [(ngModel)]="editData.name" id="name" placeholder="请输入名称">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" [(ngModel)]="editData.name" id="name" placeholder="请输入名称">
+    </div>
+    <div class="form-group">
+        <label for="thumb">缩略图</label>
+        <div>
+            <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description">描述</label>
+        <input type="text" class="form-control" [(ngModel)]="editData.description" id="description" placeholder="请输入描述">
     </div>
     <div class="form-group">
         <label for="position">排序</label>
-        <input type="number"
-          class="form-control" [(ngModel)]="editData.position" id="position" placeholder="请输入排序">
-      </div>
+        <input type="number" class="form-control" [(ngModel)]="editData.position" id="position" placeholder="请输入排序">
+    </div>
 </app-dialog-box>

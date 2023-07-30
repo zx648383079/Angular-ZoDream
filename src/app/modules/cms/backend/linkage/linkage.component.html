@@ -21,6 +21,8 @@
                 <tr>
                     <th>ID</th>
                     <th>名称</th>
+                    <th>语言</th>
+                    <th>项数</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -28,9 +30,11 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
+                    <td>{{ item.language }}</td>
+                    <td>{{ item.data_count | numberFormat }}</td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" [routerLink]="[item.id]">联动项</a>
+                        <div class="btn-group">
+                            <a class="btn btn-info" [routerLink]="[item.id]">联动项</a>
                             <a class="btn btn-light btn-xs" (click)="open(modal, item)">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -39,7 +43,7 @@
                 
             </tbody>
         </table>
-  
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
@@ -51,9 +55,12 @@
     </div>
     <div class="form-group">
         <label for="code">别名</label>
-        <input type="text"
-          class="form-control" [(ngModel)]="editData.code" id="code" placeholder="请输入英文别名">
-      </div>
+        <input type="text" class="form-control" [(ngModel)]="editData.code" id="code" placeholder="请输入英文别名">
+    </div>
+    <div class="form-group">
+        <label for="language">语言</label>
+        <input type="text" class="form-control" [(ngModel)]="editData.language" id="language" placeholder="具体语言请对应站点语言">
+    </div>
     <div class="form-group">
         <label for="type">类型</label>
         <div>
