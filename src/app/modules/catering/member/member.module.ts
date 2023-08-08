@@ -9,6 +9,6 @@ import { ThemeModule } from '../../../theme/theme.module';
         ThemeModule,
         MemberRoutingModule,
     ],
-    declarations: [...memberRoutingComponents]
+    declarations: [...memberRoutingComponents],
 })
 export class MemberModule { }

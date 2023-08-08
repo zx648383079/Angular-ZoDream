@@ -5,15 +5,15 @@
     <div class="flex-body">
         <div class="panel-container">
             <div class="page-search-bar">
-                <form class="form-horizontal">
+                <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                     <div class="zre-input-group">
                         <label for="keywords">标题</label>
-                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题">
+                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
 
                     <div class="btn-group pull-right">
-                        <div class="btn btn-info">
+                        <div class="btn btn-info" (click)="tapAdd()">
                             <i class="iconfont icon-plus"></i>
                         </div>
                         <div class="btn btn-success">
@@ -28,33 +28,11 @@
         </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="offset-md-3 col-md-9">
-                    <div class="head-row">
-                        <div class="td">
-                            货品
-                        </div>
-                        <div class="td-2">
-                            库存
-                        </div>
-                        <div class="td-2">
-                            操作
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3">
-                    <div class="nav-menu">
-                        <h2>分组</h2>
-                        <ul>
-                            <li class="menu-item active">
-                                <a >分类</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <app-catering-nav-bar header="分组" [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
                 </div>
                 <div class="col-md-9">
-                    <div class="person-item">
+                    <div class="person-item" *ngFor="let item of items">
                         <div class="item-avatar">
                             <img [src]="'assets/images/avatar/18.png' | asset" alt="">
                         </div>
@@ -62,18 +40,22 @@
                             <div class="item-name">姓名</div>
                             <div class="item-meta">备注</div>
                         </div>
-                    </div>
-                    <div class="person-item">
-                        <div class="item-avatar">
-                            <img [src]="'assets/images/avatar/18.png' | asset" alt="">
-                        </div>
-                        <div class="item-body">
-                            <div class="item-name">姓名</div>
-                            <div class="item-meta">备注</div>
+                        <div class="item-action">
+                            <i class="iconfont icon-ellipsis-h"></i>
+                            <div class="drop-bar">
+                                <a href="">移至</a>
+                                <a href="" class="text-danger">删除</a>
+                            </div>
                         </div>
                     </div>
+
+                    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+                    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<app-catering-role-dialog></app-catering-role-dialog>
+<app-catering-invite-dialog></app-catering-invite-dialog>

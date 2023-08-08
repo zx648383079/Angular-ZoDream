@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
-import { ILink } from '../theme/models/seo';
+import { ILink, ISystemOption } from '../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { selectAuth } from '../theme/reducers/auth.selectors';
@@ -11,6 +11,7 @@ import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
 import { SearchEvents } from '../theme/models/event';
 import { Subscription } from 'rxjs';
+import { selectSystemConfig } from '../theme/reducers/system.selectors';
 
 interface IMenuItem {
   name: string;
@@ -48,6 +49,7 @@ export class FrontendComponent implements OnDestroy {
     public navToggle = 3;
     public navStyle = true;
     public activeUri = '';
+    public site: ISystemOption = {} as any;
     public user: IUserStatus;
     public userLoading = false;
     public dropDownVisible = false;
@@ -74,24 +76,32 @@ export class FrontendComponent implements OnDestroy {
         private toastrService: DialogService,
         private searchService: SearchService,
     ) {
-        this.subItems.push(this.store.select(selectAuth).subscribe(res => {
-            if (this.userLoading === res.isLoading && !this.user === res.guest) {
-                return;
-            }
-            this.userLoading = res.isLoading;
-            this.user = res.guest ?  undefined : {...res.user} as any;
-            if (!res.isLoading && !res.guest) {
-                this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
-                    this.user = {...profile};
-                    this.dropNavItems[1].count = profile.bulletin_count;
-                    this.dropNavItems.forEach(i => {
-                        if (i.is_access) {
-                            i.hidden = !profile.is_admin;
-                        }
+        this.subItems.push(
+            this.store.select(selectAuth).subscribe(res => {
+                if (this.userLoading === res.isLoading && !this.user === res.guest) {
+                    return;
+                }
+                this.userLoading = res.isLoading;
+                this.user = res.guest ?  undefined : {...res.user} as any;
+                if (!res.isLoading && !res.guest) {
+                    this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
+                        this.user = {...profile};
+                        this.dropNavItems[1].count = profile.bulletin_count;
+                        this.dropNavItems.forEach(i => {
+                            if (i.is_access) {
+                                i.hidden = !profile.is_admin;
+                            }
+                        });
                     });
-                });
-            }
-        }));
+                }
+            }),
+            this.store.select(selectSystemConfig).subscribe(res => {
+                this.site = {...res};
+                if (this.site.site_pns_beian) {
+                    this.site.site_pns_beian_no = this.site.site_pns_beian.match(/\d+/).toString();
+                }
+            })
+        );
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
         });

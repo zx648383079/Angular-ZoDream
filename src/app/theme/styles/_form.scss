@@ -2,7 +2,7 @@
 @import 'theme';
 
 .form-control {
-    background-color: var(--#{$prefix}-body);
+    background-color: var(--#{$prefix}-panel);
 }
 .checkbox {
     position: relative;

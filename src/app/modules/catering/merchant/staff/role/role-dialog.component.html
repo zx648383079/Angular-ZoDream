@@ -1,0 +1,32 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="input-label">名称</div>
+    <div class="item-name">
+        <input type="text" class="form-control" [(ngModel)]="data.name">
+    </div>
+    <div class="role-panel">
+        <div class="panel-header">
+            <span>权限</span>
+            <div class="panel-action">
+                <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                {{ isChecked ? '取消全选' : '全选' }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="role-group" *ngFor="let item of items">
+                <div class="group-header">
+                    <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    {{ item.name }}
+                </div>
+                <div class="role-item" *ngFor="let it of item.items">
+                    <i class="checkbox" [ngClass]="{checked: it.checked}" (click)="toggleCheck(item, it)"></i>
+                    {{ it.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn btn-secondary" (click)="close()">取消</div>
+        <div class="btn btn-primary" (click)="close(true)">保存</div>
+    </div>
+</div>

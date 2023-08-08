@@ -1,0 +1,13 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="user-panel">
+        <div class="item-avatar">
+            <img [src]="'assets/images/avatar/18.png' | asset" alt="">
+        </div>
+        <div class="title-bar">{{ title }}</div>
+    </div>
+    <div class="dialog-action">
+        <a href="" class="btn btn-primary">确认授权</a>
+        <a href="" class="btn btn-secondary">取消授权</a>
+    </div>
+</div>

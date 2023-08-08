@@ -11,3 +11,4 @@ export * from './loading-ring/loading-ring.component';
 export * from './loading-tip/loading-tip.component';
 export * from './manage-dialog/manage-dialog.component';
 export * from './captcha/captcha.component';
+export * from './user-picker/user-picker.component';

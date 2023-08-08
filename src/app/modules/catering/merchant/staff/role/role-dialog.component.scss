@@ -1,0 +1,23 @@
+@import '../../../dialog';
+.dialog-box {
+    @include dialogSet(20rem);
+}
+
+.role-panel {
+    padding: 0 .4rem;
+    .panel-header {
+        line-height: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    .role-item {
+        padding-left: .8rem;
+        font-size: .8rem;
+        color: #777;
+    }
+    .role-group {
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+    }
+}

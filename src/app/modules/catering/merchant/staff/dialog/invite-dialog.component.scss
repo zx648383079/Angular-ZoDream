@@ -1,0 +1,27 @@
+@import '../../../dialog';
+.dialog-box {
+    @include dialogSet(20rem);
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        line-height: 2.5rem;
+        span {
+            padding-left: .8rem;
+        }
+    }
+    .dialog-action {
+        width: 2.5rem;
+        .iconfont {
+            position: relative;
+            display: inline;
+        }
+    }
+    .dialog-body {
+        text-align: center;
+        img {
+            width: 16rem;
+            height: 16rem;
+        }
+    }
+}

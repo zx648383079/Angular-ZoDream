@@ -1,9 +1,9 @@
-import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IPageQueries } from '../../../../../theme/models/page';
-import { IUser } from '../../../../../theme/models/user';
-import { hasElementByClass } from '../../../../../theme/utils/doc';
-import { OrderService } from '../order.service';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { IPage, IPageQueries } from '../../models/page';
+import { IUser } from '../../models/user';
+import { hasElementByClass } from '../../utils/doc';
 
 @Component({
     selector: 'app-user-picker',
@@ -41,10 +41,11 @@ export class UserPickerComponent implements ControlValueAccessor {
 
 
     constructor(
-        private service: OrderService
+        private http: HttpClient
     ) { }
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    private hideCalendar(event: any) {
         if (!event.target.closest('.user-picker') && !hasElementByClass(event.path, 'user-picker')) {
             this.isFocus = false;
             this.onTouch();
@@ -81,7 +82,7 @@ export class UserPickerComponent implements ControlValueAccessor {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.userSearch(queries).subscribe({
+        this.http.get<IPage<IUser>>('auth/admin/user/search', {params: queries}).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -113,4 +114,5 @@ export class UserPickerComponent implements ControlValueAccessor {
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
+
 }

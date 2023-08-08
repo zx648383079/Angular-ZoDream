@@ -1,4 +1,4 @@
-<div class="words-input">
+<div class="words-input" [ngClass]="{'input-focus': isFocus}">
     <div class="selected-container">
         <ng-container *ngFor="let item of selectedItems">
             <div class="selected-item">
@@ -7,5 +7,5 @@
             </div>
         </ng-container>
     </div>
-    <input #inputBox type="text" [(ngModel)]="keywords" [placeholder]="placeholder" [disabled]="disabled" (keydown)="onKeydown($event)" (blur)="onBlur()">
+    <input #inputBox type="text" [(ngModel)]="keywords" [placeholder]="placeholder" [disabled]="disabled" (keydown)="onKeydown($event)" (focus)="isFocus = true" (blur)="onBlur()">
 </div>

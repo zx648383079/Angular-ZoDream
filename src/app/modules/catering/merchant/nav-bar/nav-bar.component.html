@@ -1,0 +1,26 @@
+<div class="nav-menu-bar">
+    <div class="nav-header">
+        <span>{{ header }}</span>
+        <div class="nav-toggle btn-secondary" (click)="toggleEdit()">
+            <i class="iconfont" [ngClass]="{'icon-exchange': isEditable, 'icon-cog': !isEditable}"></i>
+        </div>
+    </div>
+    <ul class="nav-body">
+        <li class="menu-item" [hidden]="!isEditable" (click)="tapSelect()">
+            <a>
+                <i class="iconfont icon-plus"></i>
+            </a>
+        </li>
+        <li class="menu-item" [ngClass]="{active: selected < 1}" [hidden]="isEditable" (click)="tapSelect()">
+            <a i18n>All</a>
+        </li>
+        <ng-container *ngFor="let item of items">
+            <li class="menu-item" [ngClass]="{active: selected == item.id}">
+                <a (click)="tapSelect(item)">{{ item.name }}</a>
+                <div class="menu-action btn-danger" [hidden]="!isEditable" (click)="tapRemove(item)">
+                    <i class="iconfont icon-close"></i>
+                </div>
+            </li>
+        </ng-container>
+    </ul>
+</div>

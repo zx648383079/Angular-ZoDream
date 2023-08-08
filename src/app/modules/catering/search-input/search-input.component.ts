@@ -3,7 +3,7 @@ import { SearchEvents } from '../../../theme/models/event';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-  selector: 'app-search-input',
+  selector: 'app-catering-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss']
 })

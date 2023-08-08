@@ -2,7 +2,7 @@
     <div class="flex-menu">
         <app-merchant-menu currentUrl="setting"></app-merchant-menu>
     </div>
-    <div class="flex-body">
+    <div class="flex-body"  *ngIf="data">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
@@ -11,23 +11,22 @@
                             <label for="avatar">LOGO</label>
                             <div>
                                 <div class="avatar">
-                                    <img >
+                                    <img [src]="data.logo">
                                 </div>
-                                <label for="fileUpload" class="btn btn-light">更改LOGO</label>
-                                <input type="file" name="file" id="fileUpload" accept="image/*" />
+                                <label for="fileUpload" class="btn btn-outline-info">更改LOGO</label>
+                                <input type="file" name="file" id="fileUpload" accept="image/*" (change)="uploadFile($event)"/>
                             </div>
                         </div>
                         <div class="zre-input-group">
                             <label for="name">店铺名</label>
                             <div>
-                                <input type="text" id="name" class="form-control" 
-                                    placeholder="请输入店铺名">
+                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [(ngModel)]="data.name" (ngModelChange)="onValueChange()">
                             </div>
                         </div>
                         <div class="zre-input-group">
                             <label for="address">店铺地址</label>
                             <div>
-                                <textarea id="address" class="form-control" placeholder="请输入店铺地址"></textarea>
+                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [(ngModel)]="data.address" (ngModelChange)="onValueChange()"></textarea>
                             </div>
                         </div>
                         <div class="zre-input-group">
@@ -42,8 +41,16 @@
                 </div>
                 <div class="col-md-6">
                     <app-panel title="状态管理">
-                        <a class="btn btn-light btn-line">营业中</a>
-                        <a class="btn btn-danger btn-line">关店休息</a>
+                        <div class="notice-panel">
+                            <h1 class="item-body">{{ data.open_status > 0 ? '营业中' : '休息中' }}</h1>
+                        </div>
+                        <ng-container *ngIf="data.open_status > 0; else elseTemplate">
+                            <a class="btn btn-danger btn-line" (click)="toggleOpen()">关店休息</a>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <a class="btn btn-primary btn-line" (click)="toggleOpen()">开店营业</a>
+                        </ng-template>
+                        
                     </app-panel>
                 </div>
             </div>
@@ -57,7 +64,7 @@
                 <div class="item-meta">是否支持到店点餐</div>
             </div>
             <div class="item-action">
-                <app-switch></app-switch>
+                <app-switch [(ngModel)]="data.is_open_live" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
         <div class="input-item">
@@ -69,10 +76,10 @@
                 <div class="item-meta">是否支持外送</div>
             </div>
             <div class="item-action">
-                <app-switch></app-switch>
+                <app-switch [(ngModel)]="data.is_open_ship" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
-        <div class="input-item">
+        <div class="input-item" *ngIf="data.is_open_ship">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
             </div>
@@ -81,7 +88,7 @@
                 <div class="item-meta">是否支持外卖订单上门自取</div>
             </div>
             <div class="item-action">
-                <app-switch></app-switch>
+                <app-switch [(ngModel)]="data.is_ship_self" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
         <div class="input-item">
@@ -93,10 +100,10 @@
                 <div class="item-meta">是否支持提前预定</div>
             </div>
             <div class="item-action">
-                <app-switch></app-switch>
+                <app-switch [(ngModel)]="data.is_open_reserve" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
-        <div class="input-item">
+        <div class="input-item" *ngIf="data.is_open_reserve">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
             </div>
@@ -105,7 +112,7 @@
                 <div class="item-meta">支持提前多久预定</div>
             </div>
             <div class="item-action">
-                <app-number-input></app-number-input> 小时
+                <app-number-input [(ngModel)]="data.reserve_time" (ngModelChange)="onValueChange()"></app-number-input> 小时
             </div>
         </div>
     </div>

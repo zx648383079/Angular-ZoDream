@@ -1,4 +1,5 @@
 @import '../../../../theme/styles/setting';
+$shadow: rgba(33,33,33,.7);
 
 .avatar-input {
     margin-bottom: 40px;
@@ -33,4 +34,57 @@
 
 .form-table {
     margin-bottom: 1rem;
+}
+
+.notice-panel {
+    box-sizing: border-box;
+    padding: 0.625rem;
+    text-decoration: none;
+    background: #f4f4f4;
+    display: block;
+    position: relative;
+    box-shadow: 3px 3px 4px $shadow;
+    margin-bottom: 1.25rem;
+    transform-origin: 50% 0;
+    .item-body {
+        padding: 2rem 0.625rem;
+        height: auto;
+        font-size: 1.25rem;
+        color: #686868;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        word-break: break-all;
+        text-align: center;
+    }
+    .item-footer {
+        color: #ccc;
+        font-size: 0.75rem;
+        span {
+            &:last-child {
+                float: right;
+            }
+        }
+    }
+    &::before {
+        content: " ";
+        position: absolute;
+        left: calc(50% - 10px);
+        width: 1.25rem;
+        height: 1.25rem;
+        background-color: #ffc;
+        top: 0px;
+        display: block;
+        border: 5px solid #767;
+        border-radius: 50%;
+        box-shadow: 2px 2px 3px $shadow;
+    }
+    &:hover {
+        box-shadow: 5px 5px 7px $shadow;
+        &::before {
+            box-shadow: none;
+        }
+        .item-action {
+            display: block;
+        }
+    }
 }

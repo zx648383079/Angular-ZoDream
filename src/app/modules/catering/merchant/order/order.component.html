@@ -5,10 +5,10 @@
     <div class="flex-body">
         <div class="panel-container">
             <div class="page-search-bar">
-                <form class="form-horizontal">
+                <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                     <div class="zre-input-group">
                         <label for="keywords">标题</label>
-                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题">
+                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="order-item">
+            <div class="order-item" *ngFor="let item of items">
                 <div class="item-header">
                     <span>刚刚</span>
                     <span>订单号：SN—7677</span>
@@ -90,6 +90,9 @@
                     </div>
                 </div>
             </div>
+
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
     </div>
 </div>

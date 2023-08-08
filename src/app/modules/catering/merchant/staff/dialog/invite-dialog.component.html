@@ -1,0 +1,12 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <span>{{ title }}</span>
+        <div class="dialog-action" (click)="close()">
+            <i class="iconfont icon-close"></i>
+        </div>
+    </div>
+    <div class="dialog-body">
+        <img [src]="image | asset" alt="">
+    </div>
+</div>

@@ -7,6 +7,8 @@ import { AuthModule } from '../auth/auth.module';
 import { ContextMenuModule } from '../../components/context-menu';
 import { ZreFormModule } from '../../components/form';
 import { AuthSharedModule } from '../auth/auth-shared.module';
+import { CateringService } from './catering.service';
+import { ZreScannerModule } from '../../components/scanner';
 
 @NgModule({
     imports: [
@@ -17,8 +19,12 @@ import { AuthSharedModule } from '../auth/auth-shared.module';
         AuthModule,
         ContextMenuModule,
         ZreFormModule,
+        ZreScannerModule,
         AuthSharedModule,
     ],
-    declarations: [...cateringRoutingComponents]
+    declarations: [...cateringRoutingComponents],
+    providers: [
+        CateringService,
+    ]
 })
 export class CateringModule { }

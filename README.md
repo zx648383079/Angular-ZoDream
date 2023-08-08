@@ -74,6 +74,8 @@ npm i --legacy-peer-deps
 
 √ [pull to refresh](src/app/theme/components/pull-to-refresh)
 
+√ [qrcode scanner](src/app/theme/components/scanner)
+
 √ circle progress
 
 √ Gua gua le

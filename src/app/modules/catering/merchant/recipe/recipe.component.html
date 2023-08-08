@@ -5,15 +5,15 @@
     <div class="flex-body">
         <div class="panel-container">
             <div class="page-search-bar">
-                <form class="form-horizontal">
+                <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                     <div class="zre-input-group">
                         <label for="keywords">标题</label>
-                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题">
+                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
 
                     <div class="btn-group pull-right">
-                        <div class="btn btn-info">
+                        <div class="btn btn-info" (click)="tapEdit()">
                             <i class="iconfont icon-plus"></i>
                         </div>
                         <div class="btn btn-success">
@@ -44,17 +44,10 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="nav-menu">
-                        <h2>分类</h2>
-                        <ul>
-                            <li class="menu-item active">
-                                <a >分类</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <app-catering-nav-bar [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
                 </div>
                 <div class="col-md-9">
-                    <div class="body-row">
+                    <div class="body-row" *ngFor="let item of items">
                         <div class="td-2 td-center">
                             开水白菜
                         </div>
@@ -72,6 +65,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+                    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
                 </div>
             </div>
         </div>
@@ -79,3 +75,4 @@
 </div>
 
 <app-recipe-dialog></app-recipe-dialog>
+<app-custom-dialog></app-custom-dialog>

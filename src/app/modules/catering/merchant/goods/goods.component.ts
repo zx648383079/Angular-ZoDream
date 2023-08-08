@@ -2,6 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
 import { GoodsDialogComponent } from './dialog/goods-dialog.component';
+import { ICateringCategory, ICateringProduct } from '../../model';
+import { IPageQueries } from '../../../../theme/models/page';
+import { ActivatedRoute } from '@angular/router';
+import { SearchService } from '../../../../theme/services';
+import { CateringService } from '../../catering.service';
 
 @Component({
   selector: 'app-goods',
@@ -12,26 +17,97 @@ export class GoodsComponent implements OnInit {
 
     @ViewChild(GoodsDialogComponent)
     private modal: GoodsDialogComponent;
-
     @ViewChild(CustomDialogComponent)
     private customModal: CustomDialogComponent;
 
+    public items: ICateringProduct[] = [];
+    public hasMore = true;
+    public isLoading = false;
+    public total = 0;
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 20
+    };
+    public categoryItems: ICateringCategory[] = [];
+
     constructor(
+        private service: CateringService,
         private toastrService: DialogService,
+        private route: ActivatedRoute,
+        private searchService: SearchService,
     ) { }
 
     ngOnInit() {
+        this.service.merchantProductCategory().subscribe(res => {
+            this.categoryItems = res.data;
+        });
+        this.route.queryParams.subscribe(params => {
+            this.queries = this.searchService.getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public tapEdit() {
         this.modal.open();
     }
 
-    public tapEditCategory() {
-        this.customModal.open();
+    public tapEditCategory(item?: ICateringCategory) {
+        this.customModal.value = item ? item.name : '';
+        this.customModal.open(value => {
+            this.service.merchantProductCategorySave({id: item?.id, name: value}).subscribe(res => {
+                if (item) {
+                    this.categoryItems = this.categoryItems.map(i => {
+                        return i.id == res.id ? res : i;
+                    });
+                } else {
+                    this.categoryItems.push(res);
+                }
+            });
+        });
     }
 
-    public tapRemoveCategory() {
-        this.toastrService.confirm('确定删除此分类？', () => {});
+    public tapRemoveCategory(item: ICateringCategory) {
+        this.service.merchantProductCategoryRemove(item.id).subscribe(_ => {
+            this.categoryItems = this.categoryItems.filter(i => i.id !== item.id);
+        });
+    }
+
+    public tapSearch(form: any) {
+        this.queries = this.searchService.getQueries(form, this.queries);
+        this.tapRefresh();
+    }
+
+    public tapRefresh() {
+        this.goPage(1);
+    }
+
+    public tapPage() {
+        this.goPage(this.queries.page);
+    }
+
+    public tapMore() {
+        this.goPage(this.queries.page + 1);
+    }
+
+    
+    public goPage(page: number) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+        const queries = {...this.queries, page};
+        this.service.merchantProductList(queries).subscribe({
+            next: res => {
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
     }
 }

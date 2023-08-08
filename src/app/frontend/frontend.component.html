@@ -84,6 +84,13 @@
         </div>
         <div class="copyright">
             <p>Copyright ©zodream.cn, All Rights Reserved.</p>
+            <a *ngIf="site?.site_icp_beian" href="https://beian.miit.gov.cn/" target="_blank">{{ site.site_icp_beian }}</a>
+            <p *ngIf="site?.site_pns_beian">
+                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site.site_pns_beian_no">
+                    <img [src]="'assets/images/beian.png' | asset" alt="备案图标">
+                    {{ site.site_pns_beian }}
+                </a>
+            </p>
         </div>
     </div>
 </footer>

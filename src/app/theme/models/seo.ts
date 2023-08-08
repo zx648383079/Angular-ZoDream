@@ -91,6 +91,8 @@ export interface ISystemOption extends Record<string, any> {
     site_close:       boolean;
     site_close_tip:   string;
     site_close_retry: string;
+    site_icp_beian:   string;
+    site_pns_beian:   string;
     site_gray:        boolean;
     micro_time_limit: string;
     auth_register:    number;

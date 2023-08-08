@@ -1,0 +1,66 @@
+:host {
+    display: block;
+    position: relative;
+    background-color: black;
+    height: 100%;
+}
+
+.scanner-body {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -5rem;
+    margin-left: -5rem;
+    width: 10rem;
+    height: 10rem;
+    z-index: 9;
+    .scanner-line {
+        height: .2rem;
+        background-color: red;
+        display: block;
+        width: 100%;
+        animation: scannerLine 2s linear 0s infinite alternate;
+    }
+    .scanner-left-top,
+    .scanner-left-bottom,
+    .scanner-right-top,
+    .scanner-right-bottom {
+        position: absolute;
+        border: .2rem solid white;
+        height: 2rem;
+        width: 2rem;
+    }
+    .scanner-left-top {
+        top: 0;
+        left: 0;
+        border-right: none;
+        border-bottom: none;
+    }
+    .scanner-left-bottom {
+        left: 0;
+        bottom: 0;
+        border-right: none;
+        border-top: none;
+    }
+    .scanner-right-top {
+        top: 0;
+        right: 0;
+        border-left: none;
+        border-bottom: none;
+    }
+    .scanner-right-bottom {
+        right: 0;
+        bottom: 0;
+        border-left: none;
+        border-top: none;
+    }
+}
+
+@keyframes scannerLine {
+    from {
+        margin-top: 0;
+    }
+    to {
+        margin-top: 9.8rem;
+    }
+}

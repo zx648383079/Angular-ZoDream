@@ -8,9 +8,10 @@
             <div class="input-placeholder">
                 <ng-container *ngIf="value; else elseTemplate">
                     <div class="placeholder-item" *ngIf="value">
-                        <div class="item-name">{{ value.name }}</div>
+                        <div class="item-name">
+                            <span>{{ value.name }}</span>
+                            (uid: {{ value.id }})</div>
                         <div class="item-meta">
-                            <p>uid: {{ value.id }}</p>
                             <p *ngIf="value.mobile">{{ value.mobile }}</p>
                             <p *ngIf="value.email">{{ value.email }}</p>
                         </div>

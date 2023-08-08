@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CateringBackendService } from './catering.service';
 
 @Component({
   selector: 'app-catering-backend',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CateringBackendComponent implements OnInit {
 
-  constructor() { }
+    public isLoading = true;
+    public data: any = {};
 
-  ngOnInit() {
-  }
+    constructor(
+        private service: CateringBackendService
+    ) { }
+
+    ngOnInit(): void {
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
 
 }

@@ -128,6 +128,10 @@ const routes: Routes = [{
             loadChildren: () => import('../modules/visual/backend/visual-backend.module').then(m => m.VisualBackendModule)
         },
         {
+            path: 'catering',
+            loadChildren: () => import('../modules/catering/backend/catering-backend.module').then(m => m.CateringBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

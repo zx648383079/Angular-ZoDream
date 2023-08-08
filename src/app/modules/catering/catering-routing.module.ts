@@ -9,6 +9,7 @@ import { GoodsDialogComponent } from './goods/dialog/goods-dialog.component';
 import { GoodsComponent } from './goods/goods.component';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { StoreComponent } from './store/store.component';
+import { AuthorizeDialogComponent } from './authorize/authorize-dialog.component';
 
 
 const routes: Routes = [
@@ -67,4 +68,5 @@ export const cateringRoutingComponents = [
     CashierComponent,
     GoodsDialogComponent,
     CartDialogComponent,
+    AuthorizeDialogComponent,
 ];

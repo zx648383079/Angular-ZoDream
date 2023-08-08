@@ -15,6 +15,9 @@ import { StockDialogComponent } from './stock/dialog/stock-dialog.component';
 import { PurchaseOrderComponent } from './stock/order/purchase-order.component';
 import { StockComponent } from './stock/stock.component';
 import { UsersComponent } from './users/users.component';
+import { InviteDialogComponent } from './staff/dialog/invite-dialog.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { RoleDialogComponent } from './staff/role/role-dialog.component';
 
 
 const routes: Routes = [
@@ -65,5 +68,5 @@ export class MerchantRoutingModule {}
 
 export const merchantRoutingComponents = [
     MerchantComponent, OrderComponent, GoodsComponent, StockComponent, StaffComponent, UsersComponent, MerchantMenuComponent, PurchaseOrderComponent, RecipeComponent,
-    RecipeDialogComponent, StockDialogComponent, SettingComponent, GoodsDialogComponent, GoodsFormComponent, CustomDialogComponent
+    RecipeDialogComponent, StockDialogComponent, SettingComponent, GoodsDialogComponent, GoodsFormComponent, CustomDialogComponent, InviteDialogComponent, NavBarComponent, RoleDialogComponent
 ];

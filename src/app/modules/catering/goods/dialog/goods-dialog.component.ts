@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DialogAnimation } from '../../../../theme/constants';
 
 @Component({
-    selector: 'app-goods-dialog',
+    selector: 'app-catering-goods-dialog',
     templateUrl: './goods-dialog.component.html',
     styleUrls: ['./goods-dialog.component.scss'],
     animations: [

@@ -1,0 +1,38 @@
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-menu-bar {
+    background-color: white;
+    .nav-header {
+        display: flex;
+        text-align: center;
+        line-height: 3rem;
+        border-bottom: 2px solid var(--bs-secondary);
+        span {
+            flex: 1;
+        }
+ 
+    }
+    .nav-toggle,
+    .menu-action {
+        display: inline-block;
+        width: 2rem;
+        background-color: var(--bs-btn-bg);
+        color: var(--bs-btn-color);
+        &:hover {
+            background-color: var(--bs-btn-hover-bg);
+        }
+    }
+    .menu-item {
+        position: relative;
+        display: flex;
+        text-align: center;
+        line-height: 2.25rem;
+        a {
+            flex: 1;
+        }
+    }
+}

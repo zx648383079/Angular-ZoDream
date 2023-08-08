@@ -24,6 +24,7 @@ export class WordsInputComponent implements ControlValueAccessor {
     public disabled = false;
     public selectedItems: string[] = [];
     public keywords = '';
+    public isFocus = false;
 
     onChange: any = () => {};
     onTouch: any = () => {};
@@ -61,6 +62,7 @@ export class WordsInputComponent implements ControlValueAccessor {
     }
 
     public onBlur() {
+        this.isFocus = false;
         this.push(this.keywords);
         this.keywords = '';
         this.output();

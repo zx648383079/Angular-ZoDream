@@ -1,0 +1,53 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑店铺' : '新增店铺'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+
+
+<div class="container-fluid">
+    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="panel-container">
+            <div class="zre-input-group">
+                <label for="title">店铺名</label>
+                <div>
+                    <input type="text" id="title" class="form-control" formControlName="name">
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="logo">店主</label>
+                <div>
+                    <app-user-picker [(ngModel)]="user" [ngModelOptions]="{standalone: true}"></app-user-picker>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="logo">图标</label>
+                <div>
+                    <app-file-input formControlName="logo"></app-file-input>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="keywords">关键字</label>
+                <div>
+                    <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="description">说明</label>
+                <div>
+                    <app-text-editor formControlName="description" height="100"></app-text-editor>
+                </div>
+            </div>
+            <div class="zre-input-group">
+                <label for="status">状态</label>
+                <div>
+                    <select formControlName="status" class="form-control">
+                        <option value="0">上线</option>
+                        <option value="1">关店</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

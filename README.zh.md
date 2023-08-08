@@ -71,6 +71,8 @@ npm i --legacy-peer-deps
 
 √ 下拉刷新触底加载更多组件
 
+√ [二维码识别](src/app/theme/components/scanner)
+
 √ 圆形进度条组件
 
 √ 刮刮乐组件

@@ -56,6 +56,18 @@
     float: right;
 }
 
+.scanner-dialog {
+    position: fixed;
+    width: 12rem;
+    height: 20rem;
+    z-index: 999;
+    background-color: white;
+    left: 50%;
+    margin-left: -6rem;
+    top: 50%;
+    margin-top: -10rem;
+}
+
 .inner-body ::ng-deep {
     .flex-2 {
         display: flex;
