@@ -1,4 +1,5 @@
 @import "../../theme/styles/scrollbar";
+@import '../../theme/styles/theme';
 .dialog-mask {
     position: fixed;
     top: 0;
@@ -6,7 +7,7 @@
     right: 0;
     bottom: 0;
     z-index: 200;
-    background-color: rgba(0, 0, 0, .7);
+    background-color:  var(--#{$prefix}-dialog-mask);
 }
 .dialog-loading {
     position: fixed;
@@ -27,7 +28,8 @@
     top: 50%;
     margin-top: -7.5rem;
     width: 43.75rem;
-    background: #fff;
+    background-color: var(--#{$prefix}-dialog);
+    color: var(--#{$prefix}-dialog-text);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     transform: translate3d(0, -1000px, 0);
     .dialog-header {
@@ -86,7 +88,8 @@
     width: 30rem;
     top: 0;
     bottom: 0;
-    background-color: #eee;
+    background-color: var(--#{$prefix}-dialog);
+    color: var(--#{$prefix}-dialog-text);
     z-index: 99;
     box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
     display: flex;
@@ -189,7 +192,8 @@
     display: flex;
     flex-direction: column;
     z-index: 300;
-    background-color: #fff;
+    background-color: var(--#{$prefix}-dialog);
+    color: var(--#{$prefix}-dialog-text);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     width: 43rem;
     .search-bar {
@@ -276,7 +280,8 @@
     word-spacing: normal;
     line-break: auto;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: var(--#{$prefix}-dialog);
+    color: var(--#{$prefix}-dialog-text);
     border-radius: .25rem;
     max-width: 18rem;
     z-index: 188;

@@ -1,0 +1,118 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>Home Tip</li>
+        </ul>
+    </app-page-tip>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.user_today || 0 | numberFormat }}/{{ data.user_yesterday || 0 | numberFormat }}/{{ data.user_count || 0 | numberFormat }}</h3>
+                    <p>Today/Yesterday/Total Users</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-user"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
+                    <p>Today/Total Views</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-eye"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.feedback_new || 0 | numberFormat }}/{{ data.feedback_count || 0 | numberFormat }}</h3>
+                    <p>未处理/总留言</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-commenting"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.report_new || 0 | numberFormat }}/{{ data.report_count || 0 | numberFormat }}</h3>
+                    <p>未处理/总投诉</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-thumbs-down"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.link_today || 0 | numberFormat }}/{{ data.link_count || 0 | numberFormat }}</h3>
+                    <p>Today/总友链</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-chain"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.subscribe_today || 0 | numberFormat }}/{{ data.subscribe_count || 0 | numberFormat }}</h3>
+                    <p>Today/Total Subscribe</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-mail"></i>
+                </div>
+                <a class="column-footer" routerLink="../search">
+                    View More
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

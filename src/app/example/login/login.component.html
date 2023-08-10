@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>Login Page Tip</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <a routerLink="/auth" class="btn btn-primary">登录页</a>
+        <a class="btn btn-info" (click)="modal.open()">登录弹窗</a>
+    </div>
+</div>
+
+<app-login-dialog #modal></app-login-dialog>

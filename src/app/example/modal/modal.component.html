@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>弹出框</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <a class="btn btn-primary" (click)="tapTip()">提示</a>
+        <a class="btn btn-info" (click)="tapTip(1)">警告提示</a>
+        <a class="btn btn-danger" (click)="tapTip(2)">错误提示</a>
+        <a class="btn btn-success" (click)="tapTip(3)">成功提示</a>
+    </div>
+    <div class="panel-container">
+        <a class="btn btn-primary" (click)="tapConfirm()">确认</a>
+    </div>
+
+    <div class="panel-container">
+        <a class="btn btn-primary" (click)="tapLoading()">加载动画</a>
+    </div>
+    <div class="panel-container">
+        <a class="btn btn-primary" appPopup="提示">侧边提示</a>
+    </div>
+    <div class="panel-container">
+        <a class="btn btn-primary" (click)="modal.open()">自定义弹窗</a>
+    </div>
+</div>
+
+<app-dialog-box #modal title="标题">
+    自定义弹窗
+</app-dialog-box>

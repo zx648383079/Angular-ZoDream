@@ -69,6 +69,18 @@
 }
 
 .inner-body ::ng-deep {
+    .price-bar {
+        font-size: 1.5rem;
+        color: #e01222;
+        margin-right: 0.125rem;
+        line-height: 1;
+        display: inline-block;
+        min-width: 3.125rem;
+        em {
+            font-size: 0.875rem;
+            font-style: normal;
+        }
+    }
     .flex-2 {
         display: flex;
         min-height: 90vh;

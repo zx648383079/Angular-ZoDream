@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { cateringRoutingComponents, CateringRoutingModule } from './catering-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from '../auth/auth.module';
 import { ContextMenuModule } from '../../components/context-menu';
 import { ZreFormModule } from '../../components/form';
 import { AuthSharedModule } from '../auth/auth-shared.module';
@@ -16,7 +15,6 @@ import { ZreScannerModule } from '../../components/scanner';
         ThemeModule,
         ReactiveFormsModule,
         CateringRoutingModule,
-        AuthModule,
         ContextMenuModule,
         ZreFormModule,
         ZreScannerModule,

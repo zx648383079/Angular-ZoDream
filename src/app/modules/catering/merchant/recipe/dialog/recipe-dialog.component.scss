@@ -1,12 +1,1 @@
-@import '../../../dialog';
-.dialog-box {
-    @include dialogSet(20rem);
-}
-
-.input-flex {
-    padding: 0 .4rem;
-    align-items: center;
-    &:hover {
-        background-color: #f4f4f4;
-    }
-}
+@import '../../flip';

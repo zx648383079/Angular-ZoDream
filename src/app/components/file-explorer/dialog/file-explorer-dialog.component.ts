@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IBreadcrumbItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
 
@@ -14,8 +14,8 @@ export class FileExplorerDialogComponent implements OnInit {
     public breadcrumbItems: IBreadcrumbItem[] = [
         {icon: 'icon-home', name: 'Home', path: ''},
     ];
-    public visible = true;
-    public mode = 0;
+    public visible = false;
+    @Input() public mode = 0;
     public path = '';
     public keywords = '';
     public pathIsInputing = false;

@@ -127,12 +127,45 @@ export class DialogLeadComponent {
             height: offset.height + 'px',
         };
         const modalHeight = 190;
-        this.dialogStyle = {
-            left: offset.left + 'px',
-            top: ((offset.bottom + modalHeight + 10) > window.innerHeight ? (offset.top - modalHeight - 10) : (offset.bottom + 10) ) + 'px',
-        }
+        const modalWidth = 320;
+        this.dialogStyle = this.computeModalStyle(offset, modalWidth, modalHeight);
         this.content = data.content;
         this.primaryText = this.canBack ? this.option.backText : this.option.cancelText;
         this.secondaryText = this.canNext ? this.option.nextText : this.option.confirmText;
+    }
+
+    private computeModalStyle(offset: DOMRect, width: number, height: number): any {
+        const bottom = offset.bottom + height + 10;
+        if (bottom <= window.innerHeight) {
+            return {
+                left: offset.left + 'px',
+                top: offset.bottom + 10 + 'px'
+            };
+        }
+        const top = offset.top - height - 10;
+        if (top >= 0) {
+            return {
+                left: offset.left + 'px',
+                top: top + 'px'
+            };
+        }
+        const right = offset.right + width + 10;
+        if (right <= window.innerWidth) {
+            return {
+                left: offset.right + 10 + 'px',
+                top: offset.top + 'px'
+            };
+        }
+        const left = offset.left - width - 10;
+        if (left >= 0) {
+            return {
+                left: left + 'px',
+                top: offset.top + 'px'
+            };
+        }
+        return {
+            left: (window.innerWidth - width) / 2 + 'px',
+            top: (window.innerHeight - height) / 2 + 'px',
+        }
     }
 }

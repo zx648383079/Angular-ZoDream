@@ -18,6 +18,10 @@ export class HomeComponent implements AfterViewInit {
 
     public linkItems: ILink[] = [
         {
+            name: $localize `Example`,
+            url: '/example'
+        },
+        {
             name: $localize `Blog`,
             url: 'blog'
         },

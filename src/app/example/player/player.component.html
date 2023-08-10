@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>播放器</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+        <app-audio-player></app-audio-player>
+    </div>
+    <div class="panel-container">
+        <app-video-player></app-video-player>
+    </div>
+
+    <div class="panel-container">
+        <app-music-player [isFixed]="false"></app-music-player>
+    </div>
+    <div class="panel-container">
+        <app-movie-player [isFixed]="false"></app-movie-player>
+    </div>
+</div>
+
+<app-image-player></app-image-player>
+

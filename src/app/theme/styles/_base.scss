@@ -8,6 +8,9 @@
         --#{$prefix}-panel-text: #{$dark-bodyText};
         --#{$prefix}-primary: #{$dark-primary};
         --#{$prefix}-primary-text: #{$dark-primaryText};
+        --#{$prefix}-dialog: #{$dark-dialog};
+        --#{$prefix}-dialog-text: #{$dark-dialogText};
+        --#{$prefix}-dialog-mask: #{$dark-dialogMask};
     }
 }
 
@@ -19,6 +22,9 @@
         --#{$prefix}-panel-text: #{$bodyText};
         --#{$prefix}-primary: #{$primary};
         --#{$prefix}-primary-text: #{$primaryText};
+        --#{$prefix}-dialog: #{$dialog};
+        --#{$prefix}-dialog-text: #{$dialogText};
+        --#{$prefix}-dialog-mask: #{$dialogMask};
     }
 }
 

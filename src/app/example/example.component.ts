@@ -1,0 +1,189 @@
+import { Component } from '@angular/core';
+import { INav } from '../theme/components';
+import { SearchService, ThemeService } from '../theme/services';
+import { SearchEvents } from '../theme/models/event';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+    selector: 'app-example',
+    templateUrl: './example.component.html',
+    styleUrls: ['./example.component.scss']
+})
+export class ExampleComponent {
+
+    public navItems: INav[] = [
+        {
+            name: $localize `Home`,
+            icon: 'icon-home',
+            url: './home'
+        },
+        {
+            name: $localize `Page`,
+            icon: 'icon-file-o',
+            children: [
+                {
+                    name: $localize `Search page`,
+                    icon: 'icon-search',
+                    url: './search'
+                },
+                {
+                    name: $localize `Form page`,
+                    icon: 'icon-edit',
+                    url: './form'
+                },
+                {
+                    name: '引导页',
+                    icon: 'icon-paper-plane',
+                    url: './tour'
+                }
+            ]
+        },
+        {
+            name: $localize `Files`,
+            icon: 'icon-upload',
+            children: [
+                {
+                    name: '文件上传',
+                    icon: 'icon-file-o',
+                    url: './file'
+                },
+                {
+                    name: '多图上传',
+                    icon: 'icon-image',
+                    url: './file'
+                },
+                {
+                    name: '资源管理',
+                    icon: 'icon-folder-open-o',
+                    url: './file'
+                },
+            ]
+        },
+        {
+            name: $localize `Editor`,
+            icon: 'icon-code',
+            children: [
+                {
+                    name: '文字统计',
+                    icon: 'icon-search',
+                    url: './editor'
+                },
+                {
+                    name: '富文本编辑器',
+                    icon: 'icon-search',
+                    url: './editor'
+                },
+                {
+                    name: 'Markdown编辑器',
+                    icon: 'icon-search',
+                    url: './editor'
+                },
+                {
+                    name: '代码编辑器',
+                    icon: 'icon-search',
+                    url: './editor'
+                },
+            ]
+        },
+        {
+            name: $localize `Modal`,
+            icon: 'icon-clone',
+            children: [
+                {
+                    name: '通知',
+                    icon: 'icon-search',
+                    url: './modal'
+                },
+                {
+                    name: '确认',
+                    icon: 'icon-search',
+                    url: './modal'
+                },
+                {
+                    name: '弹出框',
+                    icon: 'icon-search',
+                    url: './modal'
+                },
+            ]
+        },
+        {
+            name: $localize `Player`,
+            icon: 'icon-music',
+            children: [
+                {
+                    name: '音频播放',
+                    icon: 'icon-search',
+                    url: './player'
+                },
+                {
+                    name: '视频播放',
+                    icon: 'icon-search',
+                    url: './player'
+                },
+                {
+                    name: '音乐播放器',
+                    icon: 'icon-search',
+                    url: './player'
+                },
+            ]
+        },
+        {
+            name: $localize `Charts`,
+            icon: 'icon-area-chart',
+            url: './chart',
+        },
+        {
+            name: $localize `Components`,
+            icon: 'icon-th-large',
+            children: [
+                {
+                    name: '表单',
+                    icon: 'icon-search',
+                    url: './search'
+                },
+            ]
+        },
+    ];
+    public bottomNavs: INav[] = [
+        {
+            name: $localize `Login in`,
+            icon: 'icon-user',
+            url: './login'
+        },
+        {
+            name: $localize `Setting`,
+            icon: 'icon-cog',
+            url: './setting',
+        },
+        {
+            name: $localize `Back to home`,
+            icon: 'icon-desktop',
+            url: '/',
+        }
+    ];
+
+    constructor(
+        private searchService: SearchService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private themeService: ThemeService,
+    ) {
+        this.themeService.setTitle($localize `Example`);
+    }
+
+
+    public onSearch(keywords: string) {
+        if (!keywords) {
+            return;
+        }
+        const items = [];
+        for (let i = 0; i < 5; i++) {
+            items.push(`Found ${keywords} - ${i}`);
+        }
+        this.searchService.emit(SearchEvents.SUGGEST, items);
+    }
+
+    public tapSearch(keywords: string) {
+        this.router.navigate(['search'], {relativeTo: this.route, queryParams: {keywords}})
+    }
+}

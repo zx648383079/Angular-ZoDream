@@ -72,10 +72,29 @@ export interface ICateringStock {
     
 }
 
-export interface ICateringRecipe {
+export interface ICateringRecipeMaterial {
+    id: number;
+    name: string;
+    amount: number;
+    unit: number|string;
+}
 
+
+export interface ICateringRecipe {
+    id: number;
+    name: string;
+    image: string;
+    description: string;
+    remark: string;
 }
 
 export interface ICateringPurchaseOrder {
-    
+    name: string;
+}
+
+export interface ICateringPurchaseOrderGoods {
+    name: string;
+    amount: number;
+    unit: number|string;
+    price: number;
 }

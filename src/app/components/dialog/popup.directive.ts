@@ -1,6 +1,5 @@
 import { ApplicationRef, ComponentRef, Directive, ElementRef, Injector, Input, NgZone, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
-import { ThemeService } from '../../theme/services';
 import { IPoint } from '../../theme/utils/canvas';
 import { css } from '../../theme/utils/doc';
 

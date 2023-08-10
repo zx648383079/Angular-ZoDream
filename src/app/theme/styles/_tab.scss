@@ -87,3 +87,17 @@
         }
     }
 }
+
+.flip-container {
+    transition: transform 500ms;
+    .flip-item {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .flip-router-bar {
+        line-height: 2.5rem;
+        .iconfont {
+            padding: 0 .8rem;
+        }
+    }
+}

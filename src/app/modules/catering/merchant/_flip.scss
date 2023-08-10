@@ -1,0 +1,43 @@
+@import '../dialog';
+.dialog-box {
+    @include dialogSet(30rem);
+    margin-top: -15rem;
+    @include flipSet(30rem);
+}
+
+.input-flex {
+    margin-top: .4rem;
+    padding: 0 .4rem;
+    align-items: center;
+    .form-control {
+        width: 6rem;
+    }
+    .input-action {
+        i {
+            padding: 0 .4rem;
+        }
+    }
+    &:hover {
+        background-color: #f4f4f4;
+    }
+}
+
+.multiple-panel {
+    min-height: 10rem;
+    .unit {
+        font-size: .8rem;
+        color: #777;
+        font-style: normal;
+    }
+}
+
+.multiple-panel-header {
+    display: flex;
+    line-height: 2rem;
+    padding-left: .5rem;
+    .panel-action {
+        i {
+            padding-left: .4rem;
+        }
+    }
+}

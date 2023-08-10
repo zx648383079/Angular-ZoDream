@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
-import { checkRange, randomInt } from '../../../../theme/utils';
+import { randomInt } from '../../../../theme/utils';
 
 @Component({
     selector: 'app-music-player',

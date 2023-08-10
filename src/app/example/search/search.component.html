@@ -1,0 +1,112 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>留言列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="zre-input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="pull-right">
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </th>
+                    <th (click)="tapSort('id')">
+                        ID
+                        <i class="iconfont" [ngClass]="{'icon-sort-alpha-desc': queries.sort == 'id' && queries.order != 'asc', 'icon-sort-alpha-asc': queries.sort == 'id' && queries.order == 'asc'}"></i>
+                    </th>
+                    <th>称呼</th>
+                    <th class="auto-hide">邮箱</th>
+                    <th class="auto-hide">联系方式</th>
+                    <th>显示状态</th>
+                    <th>状态</th>
+                    <th class="auto-hide">留言时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of items">
+                    <tr>
+                        <td [hidden]="!isMultiple">
+                            <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        </td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td class="auto-hide">{{ item.email }}
+                        </td>
+                        <td class="auto-hide">
+                            {{ item.phone }}
+                        </td>
+                        <td>
+                            <app-switch [ngModel]="item.open_status" (ngModelChange)="onOpenToggle(item)"></app-switch>
+                        </td>
+                        <td>{{ formatStatus(item.status) }}</td>
+                        <td class="auto-hide">{{ item.created_at | ago }}</td>
+                        <td>
+                            <div class="btn-group  btn-group-xs">
+                                <a class="btn btn-info btn-xs"
+                                    (click)="tapView(modal, item)">查看</a>
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+
+<app-dialog-box #modal [buttonVisible]="false" [title]="'反馈详情(' + editData.id + ')'">
+    <div class="line-row-item">
+        <span class="item-label">称呼：</span>
+        <span class="item-body">{{ editData.name }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">邮箱：</span>
+        <span class="item-body">{{ editData.email }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">联系方式：</span>
+        <span class="item-body">{{ editData.phone }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">留言时间：</span>
+        <span class="item-body">{{ editData.created_at | ago }}({{ editData.created_at }})</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">反馈内容：</span>
+        <span class="item-body">{{ editData.content }}</span>
+    </div>
+    <ng-container name="footer" *ngIf="editData.status < 1">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>
+            <button type="button" class="btn btn-info" (click)="modal.close(2)">已处理</button>
+            <button type="button" class="btn btn-danger" (click)="modal.close(3)">已忽略</button>
+        </div>
+    </ng-container>
+</app-dialog-box>

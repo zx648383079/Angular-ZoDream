@@ -1,28 +1,55 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
 <div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
-    <div class="input-label">采购单</div>
-    <div class="item-name">
-        <input type="text" class="form-control">
+    <div class="flip-container" [ngStyle]="flipStyle">
+        <div class="flip-item">
+            <div class="input-label">采购单</div>
+            <div class="item-name">
+                <input type="text" class="form-control">
+            </div>
+            <div class="multiple-panel-header">
+                <span>清单</span>
+                <div class="panel-action">
+                    <i class="iconfont icon-plus" (click)="tapEditLine()"></i>
+                    <i class="iconfont icon-cog" [hidden]="items.length == 0" (click)="multipleEditable = !multipleEditable"></i>
+                </div>
+            </div>
+            <div class="multiple-panel">
+                <div class="input-flex" *ngFor="let item of items">
+                    <div class="input-action" [hidden]="!multipleEditable">
+                        <i class="iconfont icon-close" (click)="tapRemoveLine(item)"></i>
+                        <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
+                    </div>
+                    <label>{{ item.name }}</label>
+                    <span class="price-bar" [hidden]="multipleEditable"><em>￥</em>{{ item.price }}<em class="unit">/{{ item.unit }}</em></span>
+                    <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
+                </div>
+            </div>
+            <div class="input-label">指定采购员</div>
+            <ng-select></ng-select>
+            <div class="input-label">预计采购时间</div>
+            <app-date-input></app-date-input>
+        </div>
+        <div class="flip-item">
+            <div class="flip-router-bar">
+                <i class="iconfont icon-arrow-left" (click)="flipIndex = 0"></i>
+                <span>新增物品</span>
+            </div>
+            <div class="input-label">物品名</div>
+            <div class="item-name">
+                <input type="text" class="form-control" [(ngModel)]="nextData.name">
+            </div>
+            <div class="input-flex">
+                <label for="">单位</label>
+                <input type="text" class="form-control" [(ngModel)]="nextData.unit">
+            </div>
+            <div class="input-flex">
+                <label for="">单价</label>
+                <app-number-input [only]="false" [(ngModel)]="nextData.price"></app-number-input>
+            </div>
+        </div>
     </div>
-    <div class="input-label">清单
-        <i class="iconfont icon-plus"></i>
-    </div>
-    <div class="input-flex">
-        <span>材料名</span>
-        <span>单价</span>
-        <span>数量</span>
-    </div>
-    <div class="input-flex">
-        <input type="text" class="form-control">
-        <app-number-input [only]="false"></app-number-input>
-        <app-number-input [only]="false"></app-number-input>
-    </div>
-    <div class="input-label">指定采购员</div>
-    <ng-select></ng-select>
-    <div class="input-label">预计采购时间</div>
-    <app-date-input></app-date-input>
     <div class="dialog-footer">
         <div class="btn btn-secondary" (click)="close()">取消</div>
-        <div class="btn btn-primary">保存</div>
+        <div class="btn btn-primary" (click)="close(true)">保存</div>
     </div>
 </div>

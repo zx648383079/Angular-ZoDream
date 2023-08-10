@@ -65,6 +65,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/visual/visual.module').then(m => m.VisualModule)
     },
     {
+        path: 'example',
+        loadChildren: () => import('./example/example.module').then(m => m.ExampleModule)
+    },
+    {
         path: '',
         redirectTo: 'frontend',
         pathMatch: 'full'

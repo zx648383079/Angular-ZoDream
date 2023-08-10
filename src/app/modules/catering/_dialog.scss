@@ -8,6 +8,16 @@
     }
 }
 
+@mixin flipSet($w, $count: 2) {
+    overflow-x: hidden;
+    .flip-container {
+        width: $w * $count;
+        .flip-item {
+            width: $w;
+        }
+    }
+}
+
 .input-label {
     line-height: 2rem;
     padding-left: .5rem;

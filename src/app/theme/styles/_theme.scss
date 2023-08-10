@@ -39,6 +39,9 @@ $panel: white;
 $third: #fff;
 $thirdText: $bodyText;
 $secondaryText: #b3b1b1;
+$dialog: rgba(255, 255, 255, .9);
+$dialogMask: rgba(0, 0, 0, .3);
+$dialogText: #333;
 
 
 // 黑暗模式
@@ -54,5 +57,8 @@ $dark-body: #333;
 $dark-panel: #222;
 $dark-bodyText: #fff;
 $dark-secondaryText: #b3b1b1;
+$dark-dialog: rgba(0, 0, 0, .9);
+$dark-dialogText: #fff;
+$dark-dialogMask: rgba(0, 0, 0, .3);
 
 

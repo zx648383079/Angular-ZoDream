@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>文件上传及管理</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="panel-container">
+
+        <app-file-input [online]="true"></app-file-input>
+
+        <app-upload-button class="btn btn-primary">自定义上传按钮</app-upload-button>
+
+        <a class="btn btn-info" (click)="modal.open()">资源管理器</a>
+    </div>
+</div>
+
+<app-file-explorer-dialog #modal [mode]="1"></app-file-explorer-dialog>
