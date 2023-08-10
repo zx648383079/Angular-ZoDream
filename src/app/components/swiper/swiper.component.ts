@@ -2,6 +2,7 @@ import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, Co
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
+import { AnimationTween } from '../../theme/utils/tween';
 
 @Component({
     selector: 'app-swiper',
@@ -17,14 +18,14 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
 
     @ContentChildren(SwiperItemComponent) 
     public items: QueryList<SwiperItemComponent>;
-    @Input() private navigation = true;
-    @Input() private width = 0;
-    @Input() private height = 0;
-    @Input() private autoplay = false;
-    @Input() private duration = 3000;
-    @Input() private pauseOnOver = true;
-    @Input() private keyboard = true;
-    @Input() private touchable = true;
+    @Input() public navigation = true;
+    @Input() public width = 0;
+    @Input() public height = 0;
+    @Input() public autoplay = false;
+    @Input() public duration = 3000;
+    @Input() public pauseOnOver = true;
+    @Input() public keyboard = true;
+    @Input() public touchable = true;
     @Input()
     @HostBinding('class')
     public theme = 'swiper-theme-default';
@@ -37,6 +38,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     private itemCount$ = new BehaviorSubject(0);
     private maxWidth = 0;
     private isLoop = false;
+    private tween = new AnimationTween(this.duration);
 
     constructor(
         private elementRef: ElementRef,
@@ -56,6 +58,9 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
             this.navigationVisible = this.navigation && res > 1;
             this.updateAction();
         });
+        this.tween.finish$.subscribe(() => {
+            this.tapNext();
+        });
     }
 
     @HostListener('document:mouseup', ['$event'])
@@ -72,8 +77,29 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         }
     }
 
+    @HostListener('mouseover', [])
+    private onMouseOver() {
+        if (!this.pauseOnOver) {
+            return;
+        }
+        this.tween.stop();
+    }
+
+    @HostListener('mouseleave', [])
+    private onMouseLeave() {
+        if (!this.pauseOnOver || !this.autoplay) {
+            return;
+        }
+        this.tween.next();
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
-        
+        if (changes.duration) {
+            this.tween.timeout = changes.duration.currentValue;
+        }
+        if (changes.autoplay) {
+            this.tween.next();
+        }
     }
 
     ngAfterViewInit(): void {
@@ -102,13 +128,14 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
             this.itemCount$.next(this.items.length);
         });
         setTimeout(() => {
-            this.tapIndex(0);
+            this.tapIndex(Math.max(0, this.index));
         }, 1);
     }
 
     ngOnDestroy(): void {
         this.resize$.disconnect();
         this.itemCount$.unsubscribe();
+        this.tween.close();
     }
 
     public tapPrevious() {
@@ -120,6 +147,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     }
 
     public tapIndex(i: number) {
+        this.tween.stop();
         const lastIndex = this.index;
         this.index = checkLoopRange(i, this.items.length - 1);
         this.updateAction();
@@ -129,6 +157,9 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         this.items.get(this.index).active = true;
         if (lastIndex >= 0 && lastIndex < this.items.length) {
             this.items.get(lastIndex).active = false;
+        }
+        if (this.autoplay) {
+            this.tween.next();
         }
     }
 

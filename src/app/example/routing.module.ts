@@ -12,6 +12,8 @@ import { ExampleFileComponent } from './file/file.component';
 import { ExamplePlayerComponent } from './player/player.component';
 import { ExampleTourComponent } from './tour/tour.component';
 import { ExampleModalComponent } from './modal/modal.component';
+import { ExampleFormControlComponent } from './form/control/form-control.component';
+import { ExampleSwiperComponent } from './swiper/swiper.component';
 
 
 const routes: Routes = [
@@ -52,8 +54,16 @@ const routes: Routes = [
                 component: ExampleSearchComponent
             },
             {
+                path: 'swiper',
+                component: ExampleSwiperComponent,
+            },
+            {
                 path: 'form',
                 component: ExampleFormComponent
+            },
+            {
+                path: 'form/control',
+                component: ExampleFormControlComponent,
             },
             {
                 path: 'setting',
@@ -80,5 +90,5 @@ export class ExampleRoutingModule {}
 
 export const ExampleRoutingComponents = [
     ExampleComponent, ExampleHomeComponent, ExampleLoginComponent, ExampleSettingComponent, ExampleSearchComponent, ExampleFormComponent,
-    ExampleChartComponent, ExampleTourComponent, ExamplePlayerComponent, ExampleEditorComponent, ExampleFileComponent, ExampleModalComponent
+    ExampleChartComponent, ExampleTourComponent, ExamplePlayerComponent, ExampleEditorComponent, ExampleFileComponent, ExampleModalComponent, ExampleFormControlComponent, ExampleSwiperComponent
 ];

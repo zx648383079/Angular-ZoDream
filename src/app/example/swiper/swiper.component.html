@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>轮播图</li>
+        </ul>
+    </app-page-tip>
+
+    <app-swiper [autoplay]="true">
+        <app-swiper-item>
+            <img [src]="'assets/images/banner.jpg' | asset" alt="">
+            第一页
+        </app-swiper-item>
+        <app-swiper-item>
+            <img [src]="'assets/images/app.jpg' | asset" alt="">
+            第二页
+        </app-swiper-item>
+        <app-swiper-item>
+            <img [src]="'assets/images/debug.jpg' | asset" alt="">
+            第三页
+        </app-swiper-item>
+        <app-swiper-item>
+            <img [src]="'assets/images/site.jpg' | asset" alt="">
+            第四页
+        </app-swiper-item>
+    </app-swiper>
+</div>

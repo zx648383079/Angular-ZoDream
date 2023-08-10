@@ -139,7 +139,12 @@ export class ExampleComponent {
                 {
                     name: '表单',
                     icon: 'icon-search',
-                    url: './search'
+                    url: './form/control'
+                },
+                {
+                    name: '轮播图',
+                    icon: 'icon-search',
+                    url: './swiper'
                 },
             ]
         },
