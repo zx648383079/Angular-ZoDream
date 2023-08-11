@@ -5,6 +5,7 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { ZreFormModule } from '../../../components/form';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DialogModule } from '../../../components/dialog';
+import { ZreSwiperModule } from '../../../components/swiper';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { DialogModule } from '../../../components/dialog';
         ZreFormModule,
         DialogModule,
         NgSelectModule,
+        ZreSwiperModule,
         MerchantRoutingModule
     ],
     declarations: [...merchantRoutingComponents]

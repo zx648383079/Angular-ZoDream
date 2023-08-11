@@ -89,6 +89,7 @@
 }
 
 .flip-container {
+    display: block;
     transition: transform 500ms;
     .flip-item {
         display: inline-block;

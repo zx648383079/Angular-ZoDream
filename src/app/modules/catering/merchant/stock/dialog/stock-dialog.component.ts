@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { DialogAnimation } from '../../../../../theme/constants';
 import { ICateringPurchaseOrder, ICateringPurchaseOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
+import { FlipContainerComponent } from '../../../../../components/swiper';
 
 @Component({
     selector: 'app-stock-dialog',
@@ -12,35 +13,30 @@ import { emptyValidate } from '../../../../../theme/validators';
     ],
 })
 export class StockDialogComponent {
+    @ViewChild(FlipContainerComponent)
+    public flipModal: FlipContainerComponent;
     /**
      * 是否显示
      */
      @Input() public visible = false;
      public data: ICateringPurchaseOrder = {} as any;
      public items: ICateringPurchaseOrderGoods[] = [];
-     public flipIndex = 0;
      public multipleEditable = false;
      public nextData: any = {
         name: '',
         unit: '',
      };
      
-    public get flipStyle() {
-        return {
-            transform: 'translateX(-' + this.flipIndex * 30 + 'rem)'
-        };
-    }
-
     public open() {
         this.visible = true;
     }
 
     public close(yes = false) {
-        if (this.flipIndex > 0) {
+        if (this.flipModal.index > 0) {
             if (yes && !this.addLine()) {
                 return;
             }
-            this.flipIndex = 0
+            this.flipModal.back();
             return;
         }
         this.visible = false;
@@ -49,7 +45,7 @@ export class StockDialogComponent {
     public tapEditLine(item?: ICateringPurchaseOrderGoods) {
         this.nextData = item ? item : {name: '', unit: this.nextData.unit};
         this.multipleEditable = false;
-        this.flipIndex = 1;
+        this.flipModal.navigate(1);
     }
 
     public tapRemoveLine(item: ICateringPurchaseOrderGoods) {

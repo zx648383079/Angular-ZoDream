@@ -1,38 +1,70 @@
 <div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
 <div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
-    <div class="input-label">商品名</div>
-    <div class="item-name">
-        <input type="text" class="form-control">
-    </div>
-    <div class="input-label">Thumb</div>
-    <app-file-input></app-file-input>
-    <div class="input-label">图片</div>
-    <app-file-input></app-file-input>
-    <div class="input-label">数量</div>
-    <app-number-input></app-number-input>
-    <div class="input-label">售价</div>
-    <app-number-input></app-number-input>
-    <div class="input-label">描述</div>
-    <textarea class="form-control"></textarea>
-    <div class="tab-bar">
-        <div class="item">食谱</div>
-        <div class="item">食材</div>
-    </div>
-    <div>
-        <ng-select></ng-select>
-    </div>
-    <div>
-        <div class="input-flex">
-            <span>材料名</span>
-            <span>数量</span>
-        </div>
-        <div class="input-flex">
-            <input type="text" class="form-control">
-            <app-number-input [only]="false"></app-number-input>
-        </div>
-    </div>
+    <app-flip-container>
+        <app-flip-item>
+            <div class="input-label">商品名</div>
+            <div class="item-name">
+                <input type="text" class="form-control">
+            </div>
+            <div class="input-label">预览图</div>
+            <app-file-input></app-file-input>
+            <div class="input-label">图片</div>
+            <app-file-input></app-file-input>
+            <div class="input-flex">
+                <label>库存数量</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="input-flex">
+                <label>售价</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="input-label">描述</div>
+            <textarea class="form-control"></textarea>
+
+            <div class="line-menu-bar" (click)="flipModal.navigate(1)">
+                <div class="menu-name">配料</div>
+                <div class="menu-arrow">
+                    <i class="iconfont icon-chevron-right"></i>
+                </div>
+            </div>
+        </app-flip-item>
+        <app-flip-item header="制作配料">
+            <div class="tab-bar">
+                <div class="item" [ngClass]="{active: tabIndex == 0}" (click)="tabIndex = 0">食谱</div>
+                <div class="item" [ngClass]="{active: tabIndex > 0}" (click)="tabIndex = 1">食材</div>
+            </div>
+            <div [hidden]="tabIndex > 0">
+                <ng-select></ng-select>
+            </div>
+            <div class="multiple-panel"  [hidden]="tabIndex < 1">
+                <div class="input-flex" *ngFor="let item of items">
+                    <div class="input-action" [hidden]="!multipleEditable">
+                        <i class="iconfont icon-close" (click)="tapRemoveLine(item)"></i>
+                        <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
+                    </div>
+                    <label>{{ item.name }}<em class="unit">/{{ item.unit }}</em></label>
+                    <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
+                </div>
+                <div class="btn btn-info" (click)="tapEditLine()">
+                    <i class="iconfont icon-plus"></i>
+                </div>
+            </div>
+            
+        </app-flip-item>
+        <app-flip-item header="新增物品">
+            <div class="input-label">物品名</div>
+            <div class="item-name">
+                <input type="text" class="form-control" [(ngModel)]="nextData.name">
+            </div>
+            <div class="input-flex">
+                <label for="">单位</label>
+                <input type="text" class="form-control" [(ngModel)]="nextData.unit">
+            </div>
+        </app-flip-item>
+    </app-flip-container>
+    
     <div class="dialog-footer">
         <div class="btn btn-secondary" (click)="close()">取消</div>
-        <div class="btn btn-primary">保存</div>
+        <div class="btn btn-primary" (click)="close(true)">保存</div>
     </div>
 </div>

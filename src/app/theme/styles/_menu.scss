@@ -73,3 +73,22 @@
         }
     }
 }
+
+.line-menu-bar {
+    display: flex;
+    line-height: 2.5rem;
+    .menu-name {
+        flex: 1;
+        padding-left: .8rem;
+    }
+    .menu-icon,
+    .menu-arrow {
+        display: inline-block;
+    }
+    .menu-arrow {
+        color: #777;
+    }
+    &:hover {
+        background-color: #ccc;
+    }
+}

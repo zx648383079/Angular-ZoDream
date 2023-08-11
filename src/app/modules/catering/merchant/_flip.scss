@@ -2,7 +2,6 @@
 .dialog-box {
     @include dialogSet(30rem);
     margin-top: -15rem;
-    @include flipSet(30rem);
 }
 
 .input-flex {
