@@ -23,6 +23,11 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
+                    <div class="btn-group pull-right">
+                        <div class="btn btn-info" (click)="tapCreate()">
+                            <i class="iconfont icon-plus"></i>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -77,7 +82,7 @@
                     </div>
                     <div class="item-actions td-2 td-center">
                         <div class="btn-group">
-                            <div class="btn btn-primary">
+                            <div class="btn btn-primary" (click)="tapOpen()">
                                 <i class="iconfont icon-eye"></i>
                             </div>
                             <div class="btn btn-info">
@@ -90,6 +95,12 @@
                     </div>
                 </div>
             </div>
+
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
     </div>
 </div>
+
+<app-catering-order-create-dialog></app-catering-order-create-dialog>
+<app-catering-order-edit-dialog></app-catering-order-edit-dialog>

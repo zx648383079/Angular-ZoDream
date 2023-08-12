@@ -1,0 +1,38 @@
+.swipe-row {
+    .large-icon-option {
+        border-width: 0;
+    }
+    .item-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        padding-right: .8rem;
+    }
+}
+.dialog-footer {
+    margin-top: 2rem;
+}
+
+.stamp {
+    user-select: none;
+    position: absolute;
+    left: 30%;
+    bottom: .8rem;
+    color: var(--bs-btn-bg);
+    font-weight: 700;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    // width: 6rem;
+    // height: 6rem;
+    border-radius: .375rem;
+    padding: .8rem 1rem;
+    transition: all .5s;
+    &:hover {
+        transform: scale(1.2);
+        border-style: dotted;
+        border-width: .3rem;
+        color: var(--bs-btn-hover-bg);
+    }
+}

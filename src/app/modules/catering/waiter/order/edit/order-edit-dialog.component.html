@@ -1,0 +1,61 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-flip-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <div class="dialog-close" (click)="close()">
+            <i class="iconfont icon-close"></i>
+        </div>
+        <div class="dialog-action">
+            <a (click)="multipleEditable = !multipleEditable">
+                <i class="iconfont icon-cog"></i>
+            </a>
+        </div>
+    </div>
+    <div class="title-bar">
+        <span>08</span>
+        <p>订单编号：SN-0899</p>
+    </div>
+    <div class="stamp btn-primary">待付款</div>
+    <div class="swipe-row">
+        <div class="swipe-action" [hidden]="!multipleEditable">
+            <a class="btn-danger">
+                取消
+            </a>
+            <a class="btn-primary">
+                出餐
+            </a>
+        </div>
+        <div class="swipe-body">
+            <div class="large-icon-option">
+                <div class="item-icon">
+                    <img [src]="'assets/images/zd.jpg' | asset" alt="">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">打包</div>
+                    <div class="item-meta">需要打包带走</div>
+                </div>
+                <div class="item-action">
+                    <div class="item-amount">
+                        x1
+                    </div>
+                    <div class="price-bar">
+                        <em>￥</em>0.1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <div class="dialog-action">
+            总价：
+            <div class="price-bar">
+                <em>￥</em>0.1
+            </div>
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-secondary" (click)="close()">取消订单</div>
+            <div class="btn btn-primary" (click)="close(true)">支付订单</div>
+            <div class="btn btn-info" (click)="close(true)">出餐</div>
+            <div class="btn btn-success" (click)="close(true)">完成订单</div>
+        </div>
+    </div>
+</div>

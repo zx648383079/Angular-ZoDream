@@ -1,5 +1,8 @@
 @import "../../theme/styles/scrollbar";
 @import '../../theme/styles/theme';
+
+$shadow: rgba(0, 0, 0, 0.2);
+
 .dialog-mask {
     position: fixed;
     top: 0;
@@ -20,18 +23,28 @@
     justify-content: center;
     align-items: center;
 }
-.dialog-box {
+
+.dialog-box,
+.dialog-flip-box,
+.search-dialog-container {
     position: fixed;
     z-index: 920;
     left: 50%;
-    margin-left: -21.875rem;
     top: 50%;
-    margin-top: -7.5rem;
-    width: 43.75rem;
     background-color: var(--#{$prefix}-dialog);
     color: var(--#{$prefix}-dialog-text);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    transform: translate3d(0, -1000px, 0);
+    box-shadow: 0 0 1.25rem $shadow;
+}
+
+.dialog-box,
+.dialog-flip-box {
+    margin-left: -21.875rem;
+    margin-top: -7.5rem;
+    width: 43.75rem;
+    transform: translate3d(0, -62.5rem, 0);
+}
+
+.dialog-box {
     .dialog-header {
         position: relative;
         height: 2.5rem;
@@ -91,7 +104,7 @@
     background-color: var(--#{$prefix}-dialog);
     color: var(--#{$prefix}-dialog-text);
     z-index: 99;
-    box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+    box-shadow: $shadow 0 0 0.625rem;
     display: flex;
     flex-direction: column;
     transition: all .5s;
@@ -182,20 +195,13 @@
 }
 
 .search-dialog-container {
-    position: fixed;
     border-radius: .375rem;
-    top: 50%;
     margin-top: -12.5rem;
-    left: 50%;
     margin-left: -21.5rem;
     height: 25rem;
+    width: 43rem;
     display: flex;
     flex-direction: column;
-    z-index: 300;
-    background-color: var(--#{$prefix}-dialog);
-    color: var(--#{$prefix}-dialog-text);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    width: 43rem;
     .search-bar {
         padding-left: 0px;
         select.form-control {
@@ -350,7 +356,7 @@
     position: fixed;
     z-index: 999989;
     transition: all .3s ease-out;
-    box-shadow: rgba($color: #333, $alpha: .8) 0px 0px 1px 2px, rgba($color: #333, $alpha: .5) 0px 0px 0px 5000px;
+    box-shadow: rgba($color: #333, $alpha: .8) 0px 0px 1px 2px, rgba($color: #333, $alpha: .5) 0px 0px 0px 312.5rem;
     opacity: 1;
 }
 .lead-dialog-box {
@@ -376,6 +382,60 @@
     }
     .message-body {
         min-height: 6rem;
+    }
+}
+
+.dialog-flip-box {
+    border-radius: .375rem;
+    padding: .8rem;
+    .dialog-header,
+    .dialog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .iconfont {
+            position: static;
+        }
+        .dialog-action {
+            color: #767676;
+        }
+    }
+    .title-bar {
+        text-align: center;
+        line-height: 1.5;
+        span {
+            display: block;
+        }
+        p {
+            color: #999;
+            font-size: .8rem;
+            margin: 0;
+        }
+    }
+    .row-header-bar {
+        display: flex;
+        justify-content: space-between;
+        .title-bar {
+            text-align: left;
+        }
+        .row-action {
+            display: flex;
+            a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 0 .5rem;
+                min-width: 2.5rem;
+                word-break: keep-all;
+                background-color: var(--bs-btn-bg);
+                color: var(--bs-btn-color);
+                &:hover {
+                    background-color: var(--bs-btn-hover-bg);
+                    color: var(--bs-btn-hover-color);
+                }
+            }
+        }
     }
 }
 

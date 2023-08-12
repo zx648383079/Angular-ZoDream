@@ -23,9 +23,124 @@
     </div>
     <div class="panel-container">
         <a class="btn btn-primary" (click)="modal.open()">自定义弹窗</a>
+        <a class="btn btn-info" (click)="customModal.visible = true">综合示例弹窗</a>
     </div>
 </div>
 
 <app-dialog-box #modal title="标题">
     自定义弹窗
 </app-dialog-box>
+
+<div class="dialog-mask" *ngIf="customModal.visible" (click)="customModal.visible = false"></div>
+<div class="dialog-flip-box" [@dialogOpen]="customModal.visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <div class="dialog-close" (click)="customModal.visible = false">
+            <i class="iconfont icon-close"></i>
+        </div>
+        <div class="dialog-action" (click)="customModal.visible = false">
+            跳过
+        </div>
+    </div>
+    <app-flip-container #flipModal [(index)]="customModal.page">
+        <app-flip-item>
+            <div class="title-bar">
+                <span>标题</span>
+                <p>提示</p>
+            </div>
+           <div class="large-icon-button" (click)="customModal.page = 1">
+                <div class="item-body">
+                    <i class="iconfont icon-home"></i>
+                </div>
+                <div class="item-name">首页</div>
+           </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="large-icon-option" (click)="customModal.page = 2">
+                <div class="item-icon">
+                    <i class="iconfont icon-home"></i>
+                </div>
+                <div class="item-body">
+                    <div class="item-name">首页</div>
+                    <div class="item-meta">描述说明</div>
+                </div>
+           </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="hover-icon-button btn-danger" (click)="customModal.page = 3">
+                <div class="item-body">
+                    <i class="iconfont icon-home"></i>
+                </div>
+                <div class="item-name">首页</div>
+           </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="zre-input-group">
+                <label for="">名称</label>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="zre-input-group input-mt">
+                <label for="">名称</label>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="input-line-group input-mt">
+                <label for="">名称</label>
+                <app-number-input></app-number-input>
+            </div>
+            <div class="line-menu-bar" (click)="customModal.page = 4">
+                <div class="menu-name">配料</div>
+                <div class="menu-arrow">
+                    <i class="iconfont icon-chevron-right"></i>
+                </div>
+            </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="row-header-bar">
+                <div class="title-bar">
+                    <span>分组</span>
+                    <p>批量编辑</p>
+                </div>
+                <div class="row-action">
+                    <a>
+                        <i class="iconfont icon-plus"></i>
+                    </a>
+                    <a (click)="customModal.multipleEditable = !customModal.multipleEditable">
+                        <i class="iconfont icon-cog"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="swipe-row">
+                <div class="swipe-action" [hidden]="!customModal.multipleEditable">
+                    <a class="btn-primary">
+                        <i class="iconfont icon-edit"></i>
+                    </a>
+                    <a class="btn-danger">
+                        <i class="iconfont icon-trash"></i>
+                    </a>
+                </div>
+                <div class="swipe-body">
+                    <div class="input-line-group">
+                        <label for="">名称</label>
+                        <app-number-input></app-number-input>
+                    </div>
+                </div>
+            </div>
+        </app-flip-item>
+    </app-flip-container>
+    <div class="dialog-footer">
+        <div class="dialog-action" (click)="flipModal.back()">
+            <ng-container *ngIf="customModal.page > 0">
+                <i class="iconfont icon-chevron-left"></i>
+                后退
+            </ng-container>
+        </div>
+        <app-flip-dot [value]="customModal.page" [max]="4"></app-flip-dot>
+        <div class="btn-group">
+            <div class="btn btn-secondary" (click)="customModal.visible = false">取消</div>
+            <div class="btn btn-primary" (click)="customModal.visible = false">保存</div>
+        </div>
+    </div>
+</div>

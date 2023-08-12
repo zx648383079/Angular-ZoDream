@@ -4,6 +4,8 @@ import { LogComponent } from './log/log.component';
 import { WaiterMenuComponent } from './menu/waiter-menu.component';
 import { OrderComponent } from './order/order.component';
 import { WaiterComponent } from './waiter.component';
+import { OrderCreateDialogComponent } from './order/create/order-create-dialog.component';
+import { OrderEditDialogComponent } from './order/edit/order-edit-dialog.component';
 
 
 const routes: Routes = [
@@ -33,5 +35,6 @@ export class WaiterRoutingModule {}
 
 
 export const waiterRoutingComponents = [
-    WaiterComponent, OrderComponent, LogComponent, WaiterMenuComponent,
+    WaiterComponent, OrderComponent, LogComponent, WaiterMenuComponent, OrderCreateDialogComponent,
+    OrderEditDialogComponent,
 ];

@@ -5,6 +5,7 @@ import { SwiperItemComponent } from './swiper-item.component';
 import { SwiperItemDirective } from './swiper-item.directive';
 import { FlipContainerComponent } from './flip/flip-container.component';
 import { FlipItemComponent } from './flip/flip-item.component';
+import { FlipDotComponent } from './flip/flip-dot.component';
 
 const COMPONENTS = [
     SwiperComponent,
@@ -12,6 +13,7 @@ const COMPONENTS = [
     SwiperItemDirective,
     FlipContainerComponent,
     FlipItemComponent,
+    FlipDotComponent,
 ];
 
 @NgModule({

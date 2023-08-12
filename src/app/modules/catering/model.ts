@@ -42,6 +42,13 @@ export interface ICateringOrder {
     id: number;
 }
 
+export interface ICateringOrderGoods {
+    id: number;
+    name: string;
+    amount: number;
+    price: number;
+}
+
 export interface ICateringPatron {
     id: number;
     name: string;

@@ -91,3 +91,31 @@
         --bs-table-bg: var(--#{$prefix}-panel);
     }
 }
+
+.swipe-row {
+    display: flex;
+    .swipe-body {
+        flex: 1;
+    }
+    .swipe-action {
+        display: flex;
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 .5rem;
+            min-width: 2.5rem;
+            word-break: keep-all;
+            background-color: var(--bs-btn-bg);
+            color: var(--bs-btn-color);
+            &:hover {
+                background-color: var(--bs-btn-hover-bg);
+                color: var(--bs-btn-hover-color);
+            }
+        }
+    }
+    &:hover {
+        background-color: #eee;
+    }
+}

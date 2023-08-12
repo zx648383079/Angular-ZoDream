@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../components/dialog';
+import { DialogAnimation } from '../../theme/constants';
 
 @Component({
     selector: 'app-example-modal',
     templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss']
+    styleUrls: ['./modal.component.scss'],
+    animations: [
+        DialogAnimation,
+    ]
 })
 export class ExampleModalComponent {
+
+    public customModal = {
+        visible: false,
+        page: 0,
+        multipleEditable: false
+    };
 
     constructor(
         private toastrService: DialogService,

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, OnDestroy, OnInit, QueryList, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 
 @Component({
@@ -12,15 +12,16 @@ import { FlipItemComponent } from './flip-item.component';
     `,
     styleUrls: ['./flip-container.component.scss'],
 })
-export class FlipContainerComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+export class FlipContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
 
     @ContentChildren(FlipItemComponent) 
     public items: QueryList<FlipItemComponent>;
-    public index = 0;
+    @Input() public index = 0;
     public itemCount = 0;
     private resize$: ResizeObserver;
     public itemWidth = 0;
     private historyItems: number[] = [0];
+    @Output() public indexChange = new EventEmitter<number>();
 
     constructor(
         private elementRef: ElementRef<HTMLDivElement>,
@@ -46,6 +47,12 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
                 this.updateWidth();
             }
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.index) {
+            this.navigate(changes.index.currentValue);
+        }
     }
 
     ngAfterViewInit(): void {
@@ -94,7 +101,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     }
 
     private animateFlip(from: number, to: number, isBack = false) {
-        this.index = to;
+        this.indexChange.emit(this.index = to);
         const item = this.items.get(to);
         if (item) {
             item.backable = this.historyItems.length > 1;

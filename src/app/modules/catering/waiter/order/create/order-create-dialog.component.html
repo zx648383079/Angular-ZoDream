@@ -1,0 +1,104 @@
+<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+<div class="dialog-flip-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-header">
+        <div class="dialog-close" (click)="close()">
+            <i class="iconfont icon-close"></i>
+        </div>
+    </div>
+    <app-flip-container [(index)]="flipIndex">
+        <app-flip-item>
+            <div class="title-bar">
+                <span>就餐方式</span>
+            </div>
+            <div class="large-icon-option input-mt" (click)="flipIndex = 1">
+                <div class="item-icon">
+                    <i class="iconfont icon-heart"></i>
+                </div>
+                <div class="item-body">
+                    <div class="item-name">堂吃</div>
+                    <div class="item-meta">当场就餐</div>
+                </div>
+           </div>
+           <div class="large-icon-option input-mt" (click)="flipIndex = 1">
+                <div class="item-icon">
+                    <i class="iconfont icon-gift"></i>
+                </div>
+                <div class="item-body">
+                    <div class="item-name">打包</div>
+                    <div class="item-meta">需要打包带走</div>
+                </div>
+            </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="row-header-bar">
+                <div class="title-bar">
+                    <span>商品列表</span>
+                    <p>批量编辑</p>
+                </div>
+                <div class="row-action">
+                    <a  (click)="flipIndex = 2">
+                        <i class="iconfont icon-plus"></i>
+                    </a>
+                    <a (click)="multipleEditable = !multipleEditable">
+                        <i class="iconfont icon-cog"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="swipe-row">
+                <div class="swipe-action" [hidden]="!multipleEditable">
+                    <a class="btn-primary">
+                        <i class="iconfont icon-edit"></i>
+                    </a>
+                    <a class="btn-danger">
+                        <i class="iconfont icon-trash"></i>
+                    </a>
+                </div>
+                <div class="swipe-body">
+                    <div class="input-line-group">
+                        <label for="">名称</label>
+                        <app-number-input></app-number-input>
+                        <div class="price-bar">
+                            <em>￥</em>0.1
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </app-flip-item>
+        <app-flip-item>
+            <div class="title-bar">
+                <span>添加商品</span>
+                <p>批量添加</p>
+            </div>
+            <app-auto-suggest-box></app-auto-suggest-box>
+            <app-pull-to-refresh>
+                <div class="large-icon-option" (click)="flipIndex = 1">
+                    <div class="item-icon">
+                        <img [src]="'assets/images/zd.jpg' | asset" alt="">
+                    </div>
+                    <div class="item-body">
+                        <div class="item-name">打包</div>
+                        <div class="item-meta">需要打包带走</div>
+                    </div>
+                    <div class="item-action">
+                        <div class="price-bar">
+                            <em>￥</em>0.1
+                        </div>
+                    </div>
+                </div>
+            </app-pull-to-refresh>
+        </app-flip-item>
+    </app-flip-container>
+    <div class="dialog-footer">
+        <div class="dialog-action" (click)="flipIndex = flipIndex -1">
+            <ng-container *ngIf="flipIndex > 0">
+                <i class="iconfont icon-chevron-left"></i>
+                后退
+            </ng-container>
+        </div>
+        <app-flip-dot [value]="flipIndex" [max]="2"></app-flip-dot>
+        <div class="btn-group">
+            <div class="btn btn-secondary" (click)="close()">取消</div>
+            <div class="btn btn-primary" (click)="close(true)">保存</div>
+        </div>
+    </div>
+</div>

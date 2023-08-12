@@ -35,26 +35,6 @@ app-swiper {
             right: .8rem;
         }
     }
-    .swiper-navigation-dot {
-        text-align: center;
-        span {
-            display: inline-block;
-            width: .8rem;
-            height: .8rem;
-            border-radius: 50%;
-            background-color: transparent;
-            border: 1px solid #ccc;
-            margin: 0 .2rem;
-            transition: all .4s;
-            &:hover {
-                transform: scale(1.2);
-            }
-        }
-        .active {
-            transform: scale(1.2);
-            background-color: #fff;
-        }
-    }
     &:hover {
         .swiper-action {
             .swiper-action-previous,
@@ -99,5 +79,26 @@ app-swiper {
         .swiper-item-active {
             width: 50rem;
         }
+    }
+}
+
+.swiper-navigation-dot {
+    text-align: center;
+    span {
+        display: inline-block;
+        width: .8rem;
+        height: .8rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: 1px solid #ccc;
+        margin: 0 .2rem;
+        transition: all .4s;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    .active {
+        transform: scale(1.2);
+        background-color: #fff;
     }
 }

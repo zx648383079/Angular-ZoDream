@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringOrder } from '../../model';
+import { OrderCreateDialogComponent } from './create/order-create-dialog.component';
+import { OrderEditDialogComponent } from './edit/order-edit-dialog.component';
 
 @Component({
     selector: 'app-catering-waiter-order',
@@ -12,6 +14,12 @@ import { ICateringOrder } from '../../model';
     styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+
+    @ViewChild(OrderCreateDialogComponent)
+    private createModal: OrderCreateDialogComponent;
+
+    @ViewChild(OrderEditDialogComponent)
+    private editModal: OrderEditDialogComponent;
 
     public items: ICateringOrder[] = [];
     public hasMore = true;
@@ -35,6 +43,14 @@ export class OrderComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapCreate() {
+        this.createModal.open();
+    }
+
+    public tapOpen() {
+        this.editModal.open();
     }
 
     public tapRefresh() {
