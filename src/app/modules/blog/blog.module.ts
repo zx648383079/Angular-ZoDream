@@ -6,6 +6,7 @@ import { BlogComponent } from './blog.component';
 import { BlogService } from './blog.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { MediaPlayerModule } from '../../components/media-player';
+import { ZreEditorModule } from '../../components/editor';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { MediaPlayerModule } from '../../components/media-player';
         ThemeModule,
         BlogRoutingModule,
         MediaPlayerModule,
+        ZreEditorModule,
     ],
     providers: [
         BlogService

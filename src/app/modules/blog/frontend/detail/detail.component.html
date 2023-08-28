@@ -20,14 +20,14 @@
                         class="iconfont icon-code"></i><b>{{ data.programming_language }}</b></a>
                 <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at | ago }}</b></span>
             </div>
-            <article id="content" class="content style-markdown">
+            <article id="content" class="content">
                 <ng-container *ngIf="data.audio_url">
                     <app-audio-player [src]="data.audio_url"></app-audio-player>
                 </ng-container>
                 <ng-container *ngIf="data.video_url">
                     <app-video-player [src]="data.video_url"></app-video-player>
                 </ng-container>
-                <div [innerHTML]="content"></div>
+                <app-markdown-block [value]="content"></app-markdown-block>
 
                 <ng-container *ngIf="!data.can_read">
                     <div class="rule-box rule-login" *ngIf="data.open_type == 1">

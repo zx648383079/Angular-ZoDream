@@ -8,6 +8,7 @@ import {
 import { DetailComponent } from './detail/detail.component';
 import { EmulateComponent } from './emulate/emulate.component';
 import { WechatComponent } from './wechat.component';
+import { WechatRichBlockComponent } from './rich-block/wechat-rich-block.component';
 
 const routes: Routes = [
     {
@@ -31,5 +32,5 @@ const routes: Routes = [
 export class WechatRoutingModule {}
 
 export const wechatRoutingComponents = [
-    WechatComponent, EmulateComponent, DetailComponent
+    WechatComponent, EmulateComponent, DetailComponent, WechatRichBlockComponent,
 ];

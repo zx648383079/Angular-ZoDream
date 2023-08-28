@@ -40,6 +40,7 @@ export enum EditorBlockType {
     AddVideo = 'addVideo',
     AddFile = 'addFile',
     AddCode = 'addCode',
+    AddData = 'addData',
     H = 'h',
     Bold = 'bold',
     Italic = 'italic',

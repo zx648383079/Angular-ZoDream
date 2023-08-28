@@ -49,11 +49,12 @@ export const EDITOR_ENTER_TOOL = 'enter';
 export const EDITOR_UNDO_TOOL = 'undo';
 export const EDITOR_REDO_TOOL = 'redo';
 export const EDITOR_FULL_SCREEN_TOOL = 'full-screen';
-export const EDITOR_CODE_TOOL = 'code';
+export const EDITOR_CODE_TOOL = 'code_toggle';
 export const EDITOR_IMAGE_TOOL = 'image_edit';
 export const EDITOR_TABLE_TOOL = 'table_edit';
 export const EDITOR_VIDEO_TOOL = 'video_edit';
 export const EDITOR_LINK_TOOL = 'link_edit';
 export const EDITOR_MORE_TOOL = 'more';
+export const EDITOR_PREVIEW_TOOL = 'preview';
 
 export type EditorUpdatedCallback<T = IEditorBlock> = (data: T) => void;

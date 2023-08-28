@@ -1,0 +1,61 @@
+@import "../../modal";
+.modal-search-header {
+    position: relative;
+    line-height: 2.5rem;
+    input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        width: 100%;
+        padding-left: 1.2rem;
+        height: 2.5rem;
+        outline: none;
+        box-sizing: border-box;
+        &:focus {
+            border-bottom: 2px solid var(--bs-primary);
+        }
+    }
+    .icon-search {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+.modal-action {
+    padding-top: .8rem;
+}
+.modal-search-body {
+    min-height: 6rem;
+    max-height: 10rem;
+    overflow-y: auto;
+    user-select: none;
+    &,
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        display: flex;
+        line-height: 2.25rem;
+        &:hover {
+            background-color: #ccc;
+        }
+    }
+    .item-title {
+        flex: 1;
+        padding: 0 .25rem;
+    }
+    .item-action {
+        display: none;
+        background-color: var(--bs-btn-bg);
+        color: var(--bs-btn-color);
+    }
+    .active {
+        .item-action {
+            display: block;
+            padding: 0 .375rem;
+            text-align: center;
+        }
+    }
+}

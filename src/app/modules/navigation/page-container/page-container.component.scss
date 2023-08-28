@@ -1,5 +1,4 @@
 .page-container {
-    background-color: white;
     border-radius: .3rem;
     padding: .8rem;
     margin-bottom: 1rem;
@@ -46,6 +45,7 @@
         color: #626675;
     }
     .site-logo {
+        display: inline-block;
         img {
             width: 1.25rem;
             height: 1.25rem;

@@ -36,8 +36,8 @@
                 <div class="title">
                     {{ data.name }}
                 </div>
-                <div class="content style-markdown">
-                    <div [innerHTML]="data.content"></div>
+                <div class="content">
+                    <app-markdown-block [value]="data.content"></app-markdown-block>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>

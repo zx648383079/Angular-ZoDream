@@ -163,8 +163,28 @@ export class TextareaElement implements IEditorElement {
             if (s.trim().length === 0 && block.title) {
                 s = block.title;
             }
-            return `![${block.title}](${block.value})`;
+            return `![${s}](${block.value})`;
         }, range, block.title ? block.title.length + 4 : 2);
+    }
+
+    private hExecute(range: IEditorRange) {
+        this.replaceSelectLine(s => {
+            let count = 0;
+            let i = 0;
+            while (i < s.length) {
+                if (s.charAt(i ++) !== '#') {
+                    break;
+                }
+                count ++;
+            }
+            if (count >= 4) {
+                return s.substring(count);
+            }
+            if (s.charAt(count) !== ' ') {
+                s = s.substring(0, count) + ' ' + s.substring(count);
+            }
+            return '#' + s;
+        }, range);
     }
 
 //#endregion
@@ -179,7 +199,7 @@ export class TextareaElement implements IEditorElement {
         const v = this.value;
         let begin = range.start;
         if (begin > 0) {
-            const i = v.lastIndexOf('\n', begin);
+            const i = v.lastIndexOf('\n', begin - 1);
             if (i >= 0) {
                 begin = i + 1;
             } else {

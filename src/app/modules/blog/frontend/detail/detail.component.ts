@@ -31,7 +31,7 @@ import { IErrorResult } from '../../../../theme/models/page';
 })
 export class DetailComponent implements OnInit {
 
-    public content: SafeHtml;
+    public content = '';
     public data: IBlog;
     public isLoading = false;
     public relationItems: IBlog[] = [];
@@ -39,7 +39,6 @@ export class DetailComponent implements OnInit {
     public openKey = '';
 
     constructor(
-        private sanitizer: DomSanitizer,
         private service: BlogService,
         private route: ActivatedRoute,
         private router: Router,
@@ -141,6 +140,6 @@ export class DetailComponent implements OnInit {
 
     public renderContent(html: string) {
         const reg = new RegExp(`href="(${DEEPLINK_SCHEMA}://.+?)"`, 'g');
-        this.content = this.sanitizer.bypassSecurityTrustHtml(html.replace(reg, 'href="javascript:deeplinkOpen(\'$1\');"'));
+        this.content = html.replace(reg, 'href="javascript:deeplinkOpen(\'$1\');"');
     }
 }

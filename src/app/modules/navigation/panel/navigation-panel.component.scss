@@ -1,8 +1,8 @@
 .panel {
     .panel-header {
-        line-height: 40px;
-        background-color: #fff;
-        padding: 0 10px;
+        line-height: 2.5rem;
+        // background-color: #fff;
+        padding: 0 0.625rem;
         border-bottom: 1px solid #f90;
         user-select: none;
         display: flex;
@@ -11,7 +11,6 @@
 }
 .self-box {
     margin-top: 2rem;
-    background-color: #fff;
     margin-bottom: .8rem;
     .link-btn {
         display: inline-block;

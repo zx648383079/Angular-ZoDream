@@ -26,8 +26,6 @@
             </span>
             <em class="rich_media_meta rich_media_meta_text">{{ data.created_at | ago }}</em>
         </div>
-        <div class="rich_media_content">
-            <div [innerHTML]="renderHtml"></div>
-        </div>
+        <app-wechat-rich-block [value]="data.content"></app-wechat-rich-block>
     </div>
 </div>

@@ -16,9 +16,12 @@ import { EditorDropdownComponent } from './modal/dropdown/editor-dropdown.compon
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { EditorCodeComponent } from './modal/code/editor-code.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
+import { EditorSearchComponent } from './modal/search/editor-search.component';
+import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
+    MarkdownBlockComponent,
     TextEditorComponent,
     EditorComponent,
     CodeEditorComponent,
@@ -42,6 +45,7 @@ const COMPONENTS = [
         EditorDropdownComponent,
         EditorResizerComponent,
         EditorCodeComponent,
+        EditorSearchComponent,
     ],
     exports: [
         ...COMPONENTS

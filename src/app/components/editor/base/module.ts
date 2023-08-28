@@ -4,10 +4,11 @@ import { EditorDropdownComponent } from '../modal/dropdown/editor-dropdown.compo
 import { EditorFileComponent } from '../modal/file/editor-file.component';
 import { EditorImageComponent } from '../modal/image/editor-image.component';
 import { EditorLinkComponent } from '../modal/link/editor-link.component';
+import { EditorSearchComponent } from '../modal/search/editor-search.component';
 import { EditorTableComponent } from '../modal/table/editor-table.component';
 import { EditorVideoComponent } from '../modal/video/editor-video.component';
 import { EditorBlockType } from '../model';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_MORE_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_MORE_TOOL, EDITOR_PREVIEW_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
 import { IEditorModule } from './option';
 
 export const EditorModules: IEditorModule[] = [
@@ -48,6 +49,11 @@ export const EditorModules: IEditorModule[] = [
         name: EDITOR_MORE_TOOL,
         icon: 'icon-ellipsis-v',
         label: $localize `More`
+    },
+    {
+        name: EDITOR_PREVIEW_TOOL,
+        icon: 'icon-eye',
+        label: $localize `Preview`
     },
     {
         name: EDITOR_CLOSE_TOOL,
@@ -340,6 +346,19 @@ export const EditorModules: IEditorModule[] = [
             }, range);
         },
     },
+    // {
+    //     name: 'search',
+    //     icon: 'icon-search',
+    //     label: $localize `Insert Any Artcles`,
+    //     parent: EDITOR_ADD_TOOL,
+    //     modal: EditorSearchComponent,
+    //     handler(editor, range, data) {
+    //         editor.insert({
+    //             type: EditorBlockType.AddData,
+    //             ...data                
+    //         }, range);
+    //     },
+    // },
     {
         name: 'line',
         icon: 'icon-minus',

@@ -9,6 +9,7 @@ import { DocumentService } from './document.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
+import { ZreEditorModule } from '../../components/editor';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { ZreFormModule } from '../../components/form';
         DocumentRoutingModule,
         DialogModule,
         ZreFormModule,
+        ZreEditorModule,
     ],
     declarations: [...documentRoutedComponents],
     providers: [

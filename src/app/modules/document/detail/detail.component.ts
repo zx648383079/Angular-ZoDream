@@ -38,7 +38,6 @@ export class DetailComponent implements OnInit {
     constructor(
         private service: DocumentService,
         private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
         private toastrService: DialogService,
         private searchService: SearchService,
     ) { }
@@ -142,7 +141,6 @@ export class DetailComponent implements OnInit {
     private setPageData(res: IDocApi&IDocPage) {
         this.data = res;
         if (this.project.type < 1) {
-            this.data.content = this.sanitizer.bypassSecurityTrustHtml(res.content)
         } else {
             this.data.example = JSON.stringify(this.data.example, null, 4);
         }

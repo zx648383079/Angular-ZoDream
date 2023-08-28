@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { hasElementByClass } from '../../../theme/utils/doc';
@@ -14,7 +13,6 @@ import { WechatService } from '../wechat.service';
 export class DetailComponent implements OnInit {
 
     public data: IWeChatMedia;
-    public renderHtml: any;
     public dropToggle = false;
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
@@ -26,7 +24,6 @@ export class DetailComponent implements OnInit {
     constructor(
         private service: WechatService,
         private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
         private toastrService: DialogService,
     ) { }
 
@@ -38,7 +35,6 @@ export class DetailComponent implements OnInit {
             }).subscribe({
                 next: res => {
                     this.data = res;
-                    this.renderHtml = this.sanitizer.bypassSecurityTrustHtml(res.content);
                 },
                 error: err => {
                     this.toastrService.error(err);

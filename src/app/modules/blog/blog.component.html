@@ -66,14 +66,14 @@
                             class="iconfont icon-code"></i><b>{{ blog.programming_language }}</b></a>
                     <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at | ago }}</b></span>
                 </div>
-                <article id="content" class="content style-markdown">
+                <article id="content" class="content">
                     <ng-container *ngIf="blog.audio_url">
                         <app-audio-player [src]="blog.audio_url"></app-audio-player>
                     </ng-container>
                     <ng-container *ngIf="blog.video_url">
                         <app-video-player [src]="blog.video_url"></app-video-player>
                     </ng-container>
-                    <div [innerHTML]="content"></div>
+                    <app-markdown-block [value]="content"></app-markdown-block>
                     <p class="book-copyright" *ngIf="blog.url">
                         <ng-container i18n>Please keep the original link for reprinting:</ng-container>
                         <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>

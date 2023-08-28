@@ -65,10 +65,9 @@ export class BlogComponent implements OnInit {
 
     public blog: IBlog;
 
-    public content: SafeHtml;
+    public content = '';
 
     constructor(
-        private sanitizer: DomSanitizer,
         private service: BlogService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
@@ -169,7 +168,7 @@ export class BlogComponent implements OnInit {
     loadBlog(id: number) {
         this.service.getDetail(id).subscribe(res => {
             this.blog = res;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+            this.content = res.content;
             this.searchService.pushHistoryState(res.title,
                 window.location.href.replace(/blog.*$/, 'blog/' + res.id.toString()));
             document.documentElement.scrollTop = 0;

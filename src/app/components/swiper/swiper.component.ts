@@ -7,7 +7,7 @@ import { AnimationTween } from '../../theme/utils/tween';
 @Component({
     selector: 'app-swiper',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './swiper.component.html',
     styleUrls: ['./swiper.component.scss'],
     host: {
@@ -22,7 +22,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     @Input() public width = 0;
     @Input() public height = 0;
     @Input() public autoplay = false;
-    @Input() public duration = 3000;
+    @Input() public duration = 5000;
     @Input() public pauseOnOver = true;
     @Input() public keyboard = true;
     @Input() public touchable = true;

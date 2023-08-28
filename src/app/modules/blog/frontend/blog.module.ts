@@ -8,6 +8,7 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { MediaPlayerModule } from '../../../components/media-player';
 import { ZreFormModule } from '../../../components/form';
 import { LinkRuleModule } from '../../../components/link-rule';
+import { ZreEditorModule } from '../../../components/editor';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { LinkRuleModule } from '../../../components/link-rule';
         BlogRoutingModule,
         MediaPlayerModule,
         ZreFormModule,
+        ZreEditorModule,
         LinkRuleModule,
     ],
     providers: [
