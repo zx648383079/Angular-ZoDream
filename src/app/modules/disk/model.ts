@@ -1,3 +1,4 @@
+import { IPageEditItem } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 
 export interface IFileTypeMap {
@@ -134,4 +135,15 @@ export interface ILinkServerData {
     upload_url: string,
     download_url: string,
     ping_url: string,
+}
+
+export interface IStorageFile extends IPageEditItem {
+    id: number;
+    name: string;
+    size: number;
+    md5: string;
+    updated_at: number;
+    created_at: number;
+    folder: number;
+    path: string;
 }

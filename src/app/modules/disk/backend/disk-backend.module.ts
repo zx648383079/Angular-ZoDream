@@ -5,13 +5,15 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { DiskService } from './disk.service';
 import { FileExplorerModule } from '../../../components/file-explorer';
 import { FILE_PROVIDER } from '../../../components/file-explorer/model';
+import { ZreFormModule } from '../../../components/form';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         FileExplorerModule,
-        DiskBackendRoutingModule
+        DiskBackendRoutingModule,
+        ZreFormModule,
     ],
     declarations: [
         ...diskBackendRoutingComponents,

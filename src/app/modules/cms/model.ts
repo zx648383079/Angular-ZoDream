@@ -74,6 +74,7 @@ export interface ICmsLinkageData {
     full_name?: string;
     parent_id: number;
     linkage_id: number;
+    children_count?: number;
 }
 
 export interface ICmsGroup {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IData, IPage } from '../../../theme/models/page';
-import { IDiskServer, IDiskServerFile, ILinkServerData } from '../model';
+import { IData, IDataOne, IPage } from '../../../theme/models/page';
+import { IDiskServer, IDiskServerFile, ILinkServerData, IStorageFile } from '../model';
 import { IFileItem, IFileProvider, IFileQueries } from '../../../components/file-explorer/model';
 import { Observable, map } from 'rxjs';
 
@@ -43,5 +43,21 @@ export class DiskService implements IFileProvider {
 
     public searchFile(params: IFileQueries): Observable<IPage<IFileItem> | IData<IFileItem>> {
         return this.http.get<IData<IFileItem>>('disk/admin/explorer', {params: params as any});
+    }
+
+    public storageSearch(params: any) {
+        return this.http.get<IPage<IStorageFile>>('disk/admin/explorer/storage', {
+            params,
+        });
+    }
+
+    public storageRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('disk/admin/explorer/storage_delete', {
+            params: {id},
+        });
+    }
+
+    public storageReload(tag: number) {
+        return this.http.post<IDataOne<boolean>>('disk/admin/explorer/storage_reload', {tag});
     }
 }

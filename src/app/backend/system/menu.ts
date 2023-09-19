@@ -56,6 +56,11 @@ export const SystemtBackendMenu: INav[] = [
                 label: '备',
                 url: './system/sql',
             },
+            {
+                name: '插件管理',
+                label: '插',
+                url: './system/plugin',
+            },
         ]
     },
 ];

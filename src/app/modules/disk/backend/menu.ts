@@ -24,6 +24,10 @@ export const DiskBackendMenu: MenuReadyFn = function() {
                     name: '资源管理器',
                     url: this.renderUrl('explorer'),
                 },
+                {
+                    name: '上传管理器',
+                    url: this.renderUrl('explorer/storage'),
+                },
             ]
         }
     ];

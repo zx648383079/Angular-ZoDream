@@ -41,16 +41,15 @@ export class CategoryComponent implements OnInit {
     }
   
     public tapRemove(item: ICmsCategory) {
-        if (!confirm('确定删除“' + item.title + '”分类？')) {
-            return;
-        }
-        this.service.categoryRemove(this.site, item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”分类？', () => {
+            this.service.categoryRemove(this.site, item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

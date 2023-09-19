@@ -825,7 +825,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/cms/backend/category/category.component.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">49</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/cms/backend/comment/comment.component.ts</context>
@@ -862,6 +862,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/cms/backend/site/site.component.ts</context>
           <context context-type="linenumber">95</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/disk/backend/explorer/storage/explorer-storage.component.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/disk/backend/explorer/storage/explorer-storage.component.ts</context>
+          <context context-type="linenumber">155</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/backend/api-edit/api-edit.component.ts</context>
@@ -1690,6 +1698,10 @@
           <context context-type="linenumber">75</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/disk/backend/explorer/storage/explorer-storage.component.ts</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/backend/thread/thread.component.ts</context>
           <context context-type="linenumber">75</context>
         </context-group>
@@ -2397,7 +2409,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/thread/thread.component.html</context>
@@ -2412,42 +2424,42 @@
         <source>Edit Text</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5446901717341574778" datatype="html">
         <source>Edit Paragraph&apos;</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3643898787471004301" datatype="html">
         <source>Add Content</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5775346636203685655" datatype="html">
         <source>Undo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4221042196936324014" datatype="html">
         <source>Redo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5937251202465808296" datatype="html">
         <source>More</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/shop/market/home/home.component.html</context>
@@ -2478,287 +2490,11 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5012297985085867143" datatype="html">
-        <source>Link Break</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">61</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3501298726111637592" datatype="html">
-        <source>Font Bold</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">70</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5719090388619846568" datatype="html">
-        <source>Font Italic</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">79</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4271708053915149749" datatype="html">
-        <source>Add Underline</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">88</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="512557120990869094" datatype="html">
-        <source>Add Wavyline</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">97</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7618778783437222241" datatype="html">
-        <source>Font Size</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">142</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
-          <context context-type="linenumber">55</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7864349339977172413" datatype="html">
-        <source>Font Family</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">152</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
-          <context context-type="linenumber">47</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8073538755384952372" datatype="html">
-        <source>Font Color</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">162</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4531310590867542081" datatype="html">
-        <source>Background</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">172</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7628828524638766012" datatype="html">
-        <source>Clear Style</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">182</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2134619338615307305" datatype="html">
-        <source>Algin Left</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">193</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5462098838957584015" datatype="html">
-        <source>Algin Center</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">202</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8936456762113907306" datatype="html">
-        <source>Algin Right</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">211</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2554139246561213528" datatype="html">
-        <source>Algin Justify</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">220</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5401424895625778470" datatype="html">
-        <source>As List</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">229</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6251913328163006627" datatype="html">
-        <source>Line Indent</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">238</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="464473936146659530" datatype="html">
-        <source>Line Outdent</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">247</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7556725677287595464" datatype="html">
-        <source>Add Blockquote</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">256</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3138682220834083018" datatype="html">
-        <source>Add Link</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">268</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2600619208257894408" datatype="html">
-        <source>Add Image</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">281</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1366989440817520480" datatype="html">
-        <source>Add Video</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">294</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5216539104210961846" datatype="html">
-        <source>Add Table</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">307</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1233677209404619820" datatype="html">
-        <source>Add File</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">320</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8343272917502600264" datatype="html">
-        <source>Add Code</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">333</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1816591097146490946" datatype="html">
-        <source>Add Line</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">346</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1722217323196779055" datatype="html">
-        <source>Toggle Full Screen</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">357</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8716359834484489616" datatype="html">
-        <source>Select All</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">363</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1352584724363468905" datatype="html">
-        <source>View Code</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
-          <context context-type="linenumber">372</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8429155687492235704" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{ 0 }}"/> words</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/editor.component.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/text-editor/text-editor.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/book/search/search.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/book/top/top.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/navigation/report-dialog/report-dialog.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8863288917289789264" datatype="html">
-        <source>upload image</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1636181919271057952" datatype="html">
-        <source>Insert code</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.ts</context>
-          <context context-type="linenumber">110</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5659928652292235934" datatype="html">
-        <source>Insert link</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.ts</context>
-          <context context-type="linenumber">127</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="1295614462098694869" datatype="html">
         <source>Preview</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/form/file-input/file-input.component.html</context>
@@ -2786,6 +2522,245 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/visual/member/site/page/page.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5012297985085867143" datatype="html">
+        <source>Link Break</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3501298726111637592" datatype="html">
+        <source>Font Bold</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5719090388619846568" datatype="html">
+        <source>Font Italic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4271708053915149749" datatype="html">
+        <source>Add Underline</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="512557120990869094" datatype="html">
+        <source>Add Wavyline</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7618778783437222241" datatype="html">
+        <source>Font Size</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7864349339977172413" datatype="html">
+        <source>Font Family</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8073538755384952372" datatype="html">
+        <source>Font Color</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4531310590867542081" datatype="html">
+        <source>Background</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/book/reader/reader.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7628828524638766012" datatype="html">
+        <source>Clear Style</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2134619338615307305" datatype="html">
+        <source>Algin Left</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">199</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5462098838957584015" datatype="html">
+        <source>Algin Center</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">208</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8936456762113907306" datatype="html">
+        <source>Algin Right</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">217</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2554139246561213528" datatype="html">
+        <source>Algin Justify</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">226</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5401424895625778470" datatype="html">
+        <source>As List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6251913328163006627" datatype="html">
+        <source>Line Indent</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="464473936146659530" datatype="html">
+        <source>Line Outdent</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7556725677287595464" datatype="html">
+        <source>Add Blockquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">262</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3138682220834083018" datatype="html">
+        <source>Add Link</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">274</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2600619208257894408" datatype="html">
+        <source>Add Image</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">287</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1366989440817520480" datatype="html">
+        <source>Add Video</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">300</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5216539104210961846" datatype="html">
+        <source>Add Table</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">313</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1233677209404619820" datatype="html">
+        <source>Add File</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">326</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8343272917502600264" datatype="html">
+        <source>Add Code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">339</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1816591097146490946" datatype="html">
+        <source>Add Line</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">365</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1722217323196779055" datatype="html">
+        <source>Toggle Full Screen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">376</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8716359834484489616" datatype="html">
+        <source>Select All</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">382</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1352584724363468905" datatype="html">
+        <source>View Code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
+          <context context-type="linenumber">391</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8429155687492235704" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ 0 }}"/> words</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/editor.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/markdown-editor/markdown-editor.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/editor/text-editor/text-editor.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/book/search/search.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/book/top/top.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/navigation/report-dialog/report-dialog.component.html</context>
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
@@ -6024,7 +5999,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/blog/frontend/detail/detail.component.ts</context>
-          <context context-type="linenumber">106</context>
+          <context context-type="linenumber">105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4846050744191648887" datatype="html">
@@ -7542,7 +7517,7 @@
         <source>Copy successfully</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">205</context>
+          <context context-type="linenumber">203</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
@@ -7561,7 +7536,7 @@
         <source>Copy failed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-          <context context-type="linenumber">208</context>
+          <context context-type="linenumber">206</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
@@ -7709,6 +7684,17 @@
           <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1636181919271057952" datatype="html">
+        <source>Insert code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.ts</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="888363591520523550" datatype="html">
         <source>Insert hidden content</source>
         <context-group purpose="location">
@@ -7757,6 +7743,17 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.ts</context>
           <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5659928652292235934" datatype="html">
+        <source>Insert link</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.ts</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2250818928316704960" datatype="html">
