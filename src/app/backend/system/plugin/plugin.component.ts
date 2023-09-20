@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
+import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../../../components/dialog';
+import { SearchService } from '../../../theme/services';
+import { SystemService } from '../system.service';
+import { IPluginItem } from '../../../theme/models/seo';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
     selector: 'app-system-plugin',
@@ -9,7 +15,7 @@ import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 export class PluginComponent implements OnInit {
 
     public isChecked = false;
-    public items: IPageEditItem[] = [];
+    public items: IPluginItem[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 120;
@@ -19,12 +25,18 @@ export class PluginComponent implements OnInit {
         per_page: 20,
     };
 
-    constructor() { }
+    constructor(
+        private service: SystemService,
+        private toastrService: DialogService,
+        private route: ActivatedRoute,
+        private searchService: SearchService,
+    ) { }
 
     ngOnInit() {
-        for (let i = 0; i < 20; i++) {
-            this.items.push({});    
-        }
+        this.route.queryParams.subscribe(params => {
+            this.queries = this.searchService.getQueries(params, this.queries);
+            this.tapPage();
+        });
     }
 
     public get checkedItems() {
@@ -49,6 +61,21 @@ export class PluginComponent implements OnInit {
         }
     }
 
+    public tapSync(e?: ButtonEvent) {
+        this.toastrService.confirm('确定更新插件？', () => {
+            e?.enter();
+            this.service.pluginSync().subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.tapRefresh();
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            })
+        });
+    }
 
     public tapRefresh() {
         this.goPage(1);
@@ -62,27 +89,24 @@ export class PluginComponent implements OnInit {
         this.goPage(this.queries.page + 1);
     }
 
-    /**
-     * goPage
-     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        // this.service.feedbackList(queries).subscribe({
-        //     next: res => {
-        //         this.isLoading = false;
-        //         this.items = res.data;
-        //         this.hasMore = res.paging.more;
-        //         this.total = res.paging.total;
-        //         this.isChecked = false;
-        //         this.searchService.applyHistory(this.queries = queries);
-        //     },
-        //     error: _ => {
-        //         this.isLoading = false;
-        //     }
-        // });
+        this.service.pluginList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.isChecked = false;
+                this.searchService.applyHistory(this.queries = queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
+        });
     }
 }

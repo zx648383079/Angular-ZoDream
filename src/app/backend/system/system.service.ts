@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
-import { IAgreement, IBlackWord, IEmoji, IEmojiCategory, IItem, IOption } from '../../theme/models/seo';
+import { IAgreement, IBlackWord, IEmoji, IEmojiCategory, IItem, IOption, IPluginItem } from '../../theme/models/seo';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -35,6 +35,14 @@ export class SystemService {
         return this.http.delete<IDataOne<true>>('seo/admin/setting/delete', {
             params: {id}
         });
+    }
+
+    public pluginList(params: any) {
+        return this.http.get<IPage<IPluginItem>>('plugin/admin/home', {params});
+    }
+
+    public pluginSync() {
+        return this.http.post<IDataOne<true>>('plugin/admin/home/sync', {});
     }
 
     public sitemap() {

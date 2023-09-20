@@ -179,3 +179,15 @@ export interface IScoreSubtotal {
         count: number;
     }[];
 }
+
+
+export interface IPluginItem extends IPageEditItem {
+    id: number;
+    name: string;
+    description: string;
+    author: string;
+    version: string;
+    status: number;
+    created_at: string;
+    lastest_version?: string;
+}

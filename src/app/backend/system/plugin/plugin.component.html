@@ -12,19 +12,25 @@
                 </div>
                 <div class="swiper-body">
                     <div class="item-header">
-                        <span class="item-name">标题</span>
-                        <span class="item-author">作者</span>
-                        <div class="item-version">v5.1
-                            <i class="iconfont icon-arrow-up" title="有更新"></i>
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="item-author">{{ item.author }}</span>
+                        <div class="item-version">{{ item.version }}
+                            <i class="iconfont icon-arrow-up" title="有更新" *ngIf="item.lastest_version && item.lastest_version != item.version"></i>
                         </div>
                     </div>
                     <div class="item-body">
-                        说明
+                        {{ item.description }}
                     </div>
                 </div>
                 <div class="swiper-action">
-                    <a class="btn-primary">运行</a>
-                    <a class="btn-danger">卸载</a>
+                    <ng-container *ngIf="item.status == 1; else elseTemplate">
+                        <a class="btn-primary">运行</a>
+                        <a class="btn-danger">卸载</a>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <a class="btn-primary">安装</a>
+                    </ng-template>
+                    
                 </div>
             </div>
 
@@ -35,6 +41,7 @@
                 <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
                 <div class="btn-group">
                     <button class="btn btn-danger" [disabled]="checkedItems.length < 1">删除选中项（{{ checkedItems.length }}）</button>
+                    <app-action-button class="btn btn-success" (tapped)="tapSync($event)">更新</app-action-button>
                 </div>
             </div>
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
