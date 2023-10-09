@@ -46,7 +46,7 @@ export class PackageComponent implements OnInit {
                 history.back();
                 return;
             }
-            this.software = {id: softwareId} as any;
+            this.software = {id: softwareId, version: {id: params.version}} as any;
             this.service.software(softwareId, params.version).subscribe(res => {
                 this.software = res;
             });
@@ -117,7 +117,10 @@ export class PackageComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.packageList({...queries, software: this.software.id}).subscribe({
+        this.service.packageList({...queries, 
+            software: this.software.id,
+            version: this.software.version.id
+        }).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;

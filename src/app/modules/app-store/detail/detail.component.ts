@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -15,12 +14,10 @@ export class DetailComponent implements OnInit {
 
     public data: ISoftware;
     public currentPackage: ISoftwarePackage;
-    public content: SafeHtml;
     public isLoading = false;
     public tabIndex = 0;
 
     constructor(
-        private sanitizer: DomSanitizer,
         private service: AppStoreService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
@@ -45,7 +42,6 @@ export class DetailComponent implements OnInit {
                 this.themeSerive.setTitle(res.name);
                 this.data = res;
                 this.currentPackage = this.findPackage(res.packages);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
             },
             error: err => {
                 this.isLoading = false;

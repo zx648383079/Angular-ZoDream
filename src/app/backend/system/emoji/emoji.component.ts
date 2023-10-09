@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
-import { IErrorResult, IPageQueries } from '../../../theme/models/page';
+import { IPageQueries } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -9,9 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-  selector: 'app-emoji',
-  templateUrl: './emoji.component.html',
-  styleUrls: ['./emoji.component.scss']
+    selector: 'app-emoji',
+    templateUrl: './emoji.component.html',
+    styleUrls: ['./emoji.component.scss']
 })
 export class EmojiComponent implements OnInit {
 
@@ -25,9 +25,10 @@ export class EmojiComponent implements OnInit {
         keywords: '',
         cat_id: 0,
     };
-
     public categories: IEmojiCategory[] = [];
     public editData: IEmoji = {} as any;
+    public isMultiple = false;
+    public isChecked = false;
 
     constructor(
         private service: SystemService,
@@ -44,6 +45,45 @@ export class EmojiComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
+        });
+    }
+
+    public get checkedItems() {
+        return this.items.filter(i => i.checked);
+    }
+
+    public toggleCheck(item?: IEmoji) {
+        if (!item) {
+            this.isChecked = !this.isChecked;
+            this.items.forEach(i => {
+                i.checked = this.isChecked;
+            });
+            return;
+        }
+        item.checked = !item.checked;
+        if (!item.checked) {
+            this.isChecked = false;
+            return;
+        }
+        if (this.checkedItems.length === this.items.length) {
+            this.isChecked = true;
+        }
+    }
+
+    public tapRemoveMultiple() {
+        const items = this.checkedItems;
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认删除选中的${items.length}条反馈？`, () => {
+            this.service.emojiRemove(items.map(i => i.id)).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.tapPage();
+            });
         });
     }
 

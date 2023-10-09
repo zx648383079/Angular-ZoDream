@@ -39,7 +39,7 @@ export interface IFeedback extends IPageEditItem {
     open_status: number;
 }
 
-export interface IReport {
+export interface IReport extends IPageEditItem {
     id: number;
     name: string;
     email: string;
@@ -122,7 +122,7 @@ export interface IBlackWord {
     replace_words: string;
 }
 
-export interface IEmoji {
+export interface IEmoji extends IPageEditItem {
     id: number;
     name: string;
     type: number;

@@ -31,7 +31,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/contact/report/report.component.ts</context>
-                    <context context-type="linenumber">95</context>
+                    <context context-type="linenumber">137</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/open/platform/edit/edit.component.ts</context>
@@ -55,7 +55,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/system/emoji/emoji.component.ts</context>
-                    <context context-type="linenumber">113</context>
+                    <context context-type="linenumber">153</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/system/system.component.ts</context>
@@ -655,7 +655,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/contact/report/report.component.ts</context>
-                    <context context-type="linenumber">107</context>
+                    <context context-type="linenumber">81,149</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/contact/subscribe/subscribe.component.ts</context>
@@ -691,7 +691,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/system/emoji/emoji.component.ts</context>
-                    <context context-type="linenumber">96</context>
+                    <context context-type="linenumber">84,136</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/system/system.component.ts</context>
@@ -719,7 +719,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/app-store/backend/software/package/package.component.ts</context>
-                    <context context-type="linenumber">145</context>
+                    <context context-type="linenumber">148</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/app-store/backend/software/software.component.ts</context>
@@ -1632,6 +1632,14 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/backend/contact/friend-link/friend-link.component.ts</context>
                     <context context-type="linenumber">95</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/backend/contact/report/report.component.ts</context>
+                    <context context-type="linenumber">73</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/backend/system/emoji/emoji.component.ts</context>
+                    <context context-type="linenumber">76</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/search/search.component.ts</context>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -15,13 +14,11 @@ import { ResourceService } from '../resource.service';
 export class DetailComponent implements OnInit {
 
     public data: IResource;
-    public content: SafeHtml;
     public isLoading = false;
     public tabIndex = 0;
     public catalogItems: IResourceCatalog[] = [];
 
     constructor(
-        private sanitizer: DomSanitizer,
         private service: ResourceService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
@@ -50,7 +47,6 @@ export class DetailComponent implements OnInit {
                 res.score = parseNumber(res.score);
                 this.themeSerive.setTitle(res.title);
                 this.data = res;
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
                 this.catalogItems = res.file_catalog;
                 // this.loadCatalog();
             },

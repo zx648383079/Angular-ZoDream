@@ -1,1 +1,23 @@
 @import '../editor';
+.editor-box {
+    position: relative;
+    .tool-bar-top {
+        display: flex;
+        justify-content: space-between;
+    }
+    .tool-bar-bottom {
+        background-color: #f4f4f4;
+        margin: 0 -.8rem;
+        padding: 0 .8rem;
+    }
+    .tool-align-right {
+        text-align: right;
+    }
+    .editor-view {
+        padding: .8rem;
+        min-height: 8rem;
+        &:focus {
+            outline: 0 solid transparent;
+        }
+    }
+}

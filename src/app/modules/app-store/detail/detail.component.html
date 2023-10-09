@@ -55,7 +55,7 @@
             <div class="tab-target-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                     <div class="content-body">
-                        <div [innerHTML]="content"></div>
+                        <app-markdown-block [value]="data.content"></app-markdown-block>
                         <div class="body-memu-bar">
                             <a href="">
                                 <i class="iconfont icon-heart"></i>
