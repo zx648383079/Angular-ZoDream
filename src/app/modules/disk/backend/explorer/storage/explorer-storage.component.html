@@ -38,7 +38,7 @@
                     <th>文件大小</th>
                     <th class="auto-hide">MD5</th>
                     <th>创建时间</th>
-                    <th>操作</th>
+                    <th [hidden]="!isMultiple">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,8 +52,9 @@
                     <td>{{ item.size | size }}</td>
                     <td [title]="item.path" class="auto-hide">{{ item.md5 }}</td>
                     <td [title]="item.created_at | timestamp">{{ item.created_at | ago }}</td>
-                    <td>
+                    <td [hidden]="!isMultiple">
                         <div class="btn-group">
+                            <a class="btn btn-primary" (click)="tapSync(item)" title="更新文件信息">更新</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

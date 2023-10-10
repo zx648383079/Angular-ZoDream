@@ -109,6 +109,18 @@ export class ExplorerStorageComponent implements OnInit {
         });
     }
 
+    public tapSync(item: IStorageFile) {
+        this.service.storageSync(item.id).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Sync finished`);
+                this.tapPage();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
     public tapSearch(form: any) {
         this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();

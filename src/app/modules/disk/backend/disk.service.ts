@@ -60,4 +60,8 @@ export class DiskService implements IFileProvider {
     public storageReload(tag: number) {
         return this.http.post<IDataOne<boolean>>('disk/admin/explorer/storage_reload', {tag});
     }
+
+    public storageSync(id: any) {
+        return this.http.post<IDataOne<boolean>>('disk/admin/explorer/storage_sync', {id});
+    }
 }
