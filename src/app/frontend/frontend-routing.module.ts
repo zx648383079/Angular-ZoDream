@@ -11,6 +11,7 @@ import { ArticlePanelComponent } from './panels/article-panel/article-panel.comp
 import { MessagePanelComponent } from './panels/message-panel/message-panel.component';
 import { NoticePanelComponent } from './panels/notice-panel/notice-panel.component';
 import { MediaPanelComponent } from './panels/media-panel/media-panel.component';
+import { CookieBarComponent } from './panels/cookie-bar/cookie-bar.component';
 
 
 const routes: Routes = [
@@ -82,5 +83,5 @@ const routes: Routes = [
 export class FrontendRoutingModule { }
 
 export const frontendRoutedComponents = [
-    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent, SearchComponent, ArticlePanelComponent, MessagePanelComponent, NoticePanelComponent, MediaPanelComponent
+    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent, SearchComponent, ArticlePanelComponent, MessagePanelComponent, NoticePanelComponent, MediaPanelComponent, CookieBarComponent
 ];
