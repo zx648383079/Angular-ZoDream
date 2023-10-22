@@ -1,0 +1,41 @@
+<div class="zre-input-group" *ngFor="let item of items">
+    <label>{{ item.label }}</label>
+    <div *ngIf="item.type == 'text' || item.type === 'tel' || item.type === 'url'">
+        <input type="text" class="form-control" [(ngModel)]="item.value">
+    </div>
+    <div *ngIf="item.type == 'number'">
+        <input type="number" class="form-control" [(ngModel)]="item.value">
+    </div>
+    <div *ngIf="item.type == 'password'">
+        <input type="password" class="form-control" [(ngModel)]="item.value">
+    </div>
+    <div *ngIf="item.type == 'textarea'">
+        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+    </div>
+    <div *ngIf="item.type == 'select'">
+        <select class="form-control" [(ngModel)]="item.value">
+            <option *ngFor="let val of item.items" [value]="val.value">{{ val.name }}</option>
+        </select>
+    </div>
+    <div *ngIf="item.type == 'radio'">
+        <app-check-input rangeKey="value" [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+    </div>
+    <div *ngIf="item.type == 'checkbox'">
+        <app-check-input rangeKey="value" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+    </div>
+    <div *ngIf="item.type == 'switch'">
+        <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off"></app-switch>
+    </div>
+    <div *ngIf="item.type == 'image'">
+        <app-file-input [(ngModel)]="item.value"></app-file-input>
+    </div>
+    <div *ngIf="item.type == 'file'">
+        <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+    </div>
+    <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
+        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+    </div>
+    <div *ngIf="item.type == 'json'">
+        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+    </div>
+</div>

@@ -18,7 +18,7 @@ import { IUser } from '../theme/models/user';
 import { eachObject } from '../theme/utils';
 import { VideoBackendMenu } from '../modules/video/backend/menu';
 import { WechatBackendMenu } from '../modules/wechat/backend/menu';
-import { AuthBackendMenu, backendBottomMenu, backendMenuItems, SmsBackendMenu } from './menu';
+import { AuthBackendMenu, backendBottomMenu, backendMenuItems } from './menu';
 import { OpenBackendMenu } from './open/menu';
 import { SystemtBackendMenu } from './system/menu';
 import { AppBackendMenu } from '../modules/app-store/backend/menu';
@@ -28,6 +28,7 @@ import { ShortLinkBackendMenu } from '../modules/short-link/backend/menu';
 import { DiskBackendMenu } from '../modules/disk/backend/menu';
 import { VisualBackendMenu } from '../modules/visual/backend/menu';
 import { CateringBackendMenu } from '../modules/catering/backend/menu';
+import { MessageServiceBackendMenu } from '../modules/message-service/menu';
 
 interface INavCollection {
     items: INav[];
@@ -80,7 +81,7 @@ export class MenuService {
             wx: WechatBackendMenu,
             open: OpenBackendMenu,
             disk: DiskBackendMenu,
-            sms: SmsBackendMenu,
+            ms: MessageServiceBackendMenu,
             checkin: CheckInBackendMenu,
             system: SystemtBackendMenu,
         },

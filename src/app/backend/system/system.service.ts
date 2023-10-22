@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IAgreement, IBlackWord, IEmoji, IEmojiCategory, IItem, IOption, IPluginItem } from '../../theme/models/seo';
 import { map } from 'rxjs/operators';
+import { IFormInput } from '../../components/form';
 
 @Injectable()
 export class SystemService {
@@ -43,6 +44,18 @@ export class SystemService {
 
     public pluginSync() {
         return this.http.post<IDataOne<true>>('plugin/admin/home/sync', {});
+    }
+
+    public pluginInstall(id: number, data?: any) {
+        return this.http.post<IDataOne<true|IFormInput[]>>('plugin/admin/home/install', {id, data});
+    }
+
+    public pluginUninstall(id: number|number[]) {
+        return this.http.post<IDataOne<true>>('plugin/admin/home/uninstall', {id});
+    }
+
+    public pluginExecute(id: number) {
+        return this.http.post<IDataOne<true>>('plugin/admin/home/execute', {id});
     }
 
     public sitemap() {

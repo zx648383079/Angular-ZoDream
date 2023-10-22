@@ -1,5 +1,5 @@
 import { IBound, IPoint } from '../../../theme/utils/canvas';
-import { eachObject, wordLength } from '../../../theme/utils';
+import { wordLength } from '../../../theme/utils';
 import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorValueBlock, IEditorVideoBlock } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
@@ -328,7 +328,7 @@ export class DivElement implements IEditorElement {
         this.replaceNodeName(range.startContainer, block.value);
     }
     private blockquoteExecute(range: Range) {
-        this.toggleParentNode(range, 'blockquote');
+        this.toggleRangeTag(range, 'blockquote');
     }
 
     private listExecute(range: Range) {
@@ -358,70 +358,77 @@ export class DivElement implements IEditorElement {
     }
 
     private boldExecute(range: Range) {
-        this.toggleParentNode(range, 'b');
+        this.toggleRangeTag(range, 'b');
     }
 
     private subExecute(range: Range) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'vertical-align': 'text-bottom',
             'font-size': '8px'
         });
     }
 
     private supExecute(range: Range) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'vertical-align': 'text-top',
             'font-size': '8px'
         });
     }
 
     private italicExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentNode(range, 'i');
+        this.toggleRangeTag(range, 'i');
     }
     private underlineExecute(range: Range) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'text-decoration': 'underline'
         });
     }
 
     private strikeExecute(range: Range) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'text-decoration': 'strike'
         });
     }
 
     private fontSizeExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'font-size': block.value
         });
     }
     private fontFamilyExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'font-family': block.value
         });
     }
     private backgroundExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'background-color': block.value
         });
     }
     private foregroundExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             color: block.value
         });
     }
 
     private clearStyleExecute(range: Range) {
         this.eachRangeParentNode(range, node => {
-            if (node instanceof HTMLElement) {
-                node.removeAttribute('style');
+            if (!(node instanceof HTMLElement)) {
+                return;
+            }
+            node.removeAttribute('style');
+            if (['B', 'I'].indexOf(node.nodeName) >= 0) {
+                return this.replaceNodeName(node, 'span', false);;
+            }
+            if (/^H\d$/.test(node.tagName)) {
+                return this.replaceNodeName(node, this.blockTagName, false);
             }
         });
     }
 
 
     private alignExecute(range: Range, block: IEditorValueBlock) {
-        this.toggleParentStyle(range, {
+        this.toggleRangeStyle(range, {
             'text-align': block.value
         });
     }
@@ -587,7 +594,7 @@ export class DivElement implements IEditorElement {
         window.open(link.getAttribute('href'));
     }
 
-//#endregion
+    //#endregion
 
     public getModuleItems(range: IEditorRange): string[] {
         const node = range.range?.startContainer;
@@ -661,10 +668,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 移动光标到下一格
-     * @param node 
-     * @returns 
-     */
+    * 移动光标到下一格
+    * @param node 
+    * @returns 
+    */
     private moveTableFocus(node: HTMLTableCellElement): boolean {
         if (node.nextSibling) {
             this.selectNode(node.nextSibling);
@@ -694,10 +701,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 删除选中并替换为新的
-     */
+    * 删除选中并替换为新的
+    */
     private replaceSelected(range: Range, ...items: Node[]) {
-        if (this.isNotSelected(range)) {
+        if (this.isEmptyRange(range)) {
             this.insertToElement(range.startContainer, range.startOffset, ...items);
             return;
         }
@@ -725,16 +732,75 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 把选中的作为子项包含进去
-     */
+    * 把选中的作为子项包含进去
+    */
     private includeSelected(range: Range, parent: Node) {
         this.insertLast(parent, ...this.copySelectedNode(range));
         this.replaceSelected(range, parent);
     }
 
+
+    private toggleRangeTag(range: Range, tag: string) {
+        tag = tag.toUpperCase();
+        if (this.isEmptyRange(range)) {
+            this.toggleParentNode(range, tag);
+            return;
+        }
+        this.eachTopRange(range, node => {
+            const items = this.splitNodeRange(node, range);
+            if (items.length === 0) {
+                return;
+            }
+            if (!this.isBlockNode(items[0])) {
+                this.replaceNode(items[0], document.createElement(tag), n => {
+                    this.insertLast(n, ...items);
+                });
+                return;
+            }
+            for (const item of items) {
+                if (this.isBlockNode(item)) {
+                    this.toggleBlockTag(item as HTMLDivElement, tag);
+                    continue;
+                }
+                if (item.nodeName === tag) {
+                    continue;
+                }
+                this.replaceNodeName(item, tag, false);
+            }
+        });
+    }
+
+    private toggleRangeStyle(range: Range, attrs: {[key: string]: any}) {
+        if (this.isEmptyRange(range)) {
+            this.toggleParentStyle(range, attrs);
+            return;
+        }
+        this.eachTopRange(range, node => {
+            const items = this.splitNodeRange(node, range);
+            if (items.length === 0) {
+                return;
+            }
+            for (const item of items) {
+                if (item instanceof HTMLElement) {
+                    EditorHelper.css(item, attrs);
+                    continue;
+                }
+                EditorHelper.css(this.replaceNodeName(item, 'span', false), attrs);
+            }
+        });
+    }
+
+    private toggleBlockTag(node: HTMLDivElement, tag: string) {
+        const n = document.createElement(tag);
+        for (let i = node.childNodes.length - 1; i >= 0; i--) {
+            n.append(node.childNodes[i]);
+        }
+        node.append(n);
+    }
+
     /**
-     * 切换父级的标签，例如 b strong
-     */
+    * 切换父级的标签，例如 b strong
+    */
     private toggleParentNode(range: Range, tag: string) {
         const n = document.createElement(tag);
         const node = range.startContainer;
@@ -762,23 +828,18 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 切换父级的样式 
-     */
+    * 切换父级的样式 
+    */
     private toggleParentStyle(range: Range, style: any) {
         const box = this.getBlockParent(range.startContainer);
-        if (!box) {
-            return;
-        }
-        eachObject(style, (val, key) => {
-            box.style[key] = val;
-        });
+        EditorHelper.css(box, style);
     }
 
     /**
-     * 获取节点的父级
-     * @param node 
-     * @returns 
-     */
+    * 获取节点的父级
+    * @param node 
+    * @returns 
+    */
     private getBlockParent(node: Node): HTMLElement {
         const box = node.parentNode as HTMLElement;
         if (box !== this.element) {
@@ -807,10 +868,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 判断节点是否处于范围内
-     * @param node 
-     * @returns 
-     */
+    * 判断节点是否处于范围内
+    * @param node 
+    * @returns 
+    */
     private hasNode(node: Node): boolean {
         if (node === this.element) {
             return false;
@@ -827,61 +888,59 @@ export class DivElement implements IEditorElement {
         return false;
     }
 
-    private replaceNodeName(node: Node, tag: string) {
+    private replaceNodeName(node: Node, tag: string, isSelected = true): HTMLElement {
         const n = document.createElement(tag);
         if (node instanceof HTMLElement) {
-            if (n.nodeName=== node.nodeName) {
-                return;
+            if (n.nodeName === node.nodeName) {
+                return node;
             }
             n.innerHTML = node.innerHTML;
             this.replaceNode(node, n);
-            this.selectNode(n);
-            return;
+        } else {
+            this.replaceNode(node, n, next => {
+                next.appendChild(node);
+            });
         }
-        this.replaceNode(node, n, () => {
-            n.appendChild(node);
-        });
-        this.selectNode(n);
+        if (isSelected) {
+            this.selectNode(n);
+        }
+        return n;
     }
 
     /**
-     * 替换节点为
-     * @param node 
-     * @param newNode 
-     * @param removeFn 删除旧节点还是移动
-     * @returns 
-     */
+    * 替换节点为
+    * @param node 
+    * @param newNode 
+    * @param removeFn 删除旧节点还是移动
+    * @returns 
+    */
+    private replaceNode<T extends Node>(node: Node, newNode: T, removeFn?: (node: T) => void): void;
+    private replaceNode(node: Node, newNode: Node[]): void;
     private replaceNode(node: Node, newNode: Node[]|Node, removeFn?: Function) {
+        const target = newNode instanceof Array ? newNode : [newNode];
         const fn = () => {
             if (removeFn) {
-                removeFn();
+                removeFn(newNode);
                 return;
             }
             this.removeNode(node);
         };
-        if (!(newNode instanceof Array)) {
-            newNode = [newNode];
-        }
         let borther = node.previousSibling;
         if (borther) {
             fn();
-            this.insertAfter(borther, ...newNode);
+            this.insertAfter(borther, ...target);
             return;
         }
         borther = node.nextSibling;
         if (borther) {
             fn();
-            this.insertBefore(borther, ...newNode);
+            this.insertBefore(borther, ...target);
             return;
         }
         const parent = node.parentNode;
         fn();
-        this.insertLast(parent, ...newNode);
+        this.insertLast(parent, ...target);
         return;
-    }
-
-    private isNotSelected(range: Range) {
-        return range.startContainer === range.endContainer && range.startOffset === range.endOffset;
     }
 
     private selectNode(node: Node, offset = 0) {
@@ -973,6 +1032,10 @@ export class DivElement implements IEditorElement {
                 }
             }
         });
+        this.element.addEventListener('paste', e => {
+            e.preventDefault();
+            this.paste((e.clipboardData || (window as any).clipboardData))
+        });
         this.element.addEventListener('mousedown', e => {
             if (!e.target) {
                 return;
@@ -988,10 +1051,6 @@ export class DivElement implements IEditorElement {
                     return;
                 }
             }
-        });
-        this.element.addEventListener('paste', e => {
-            e.preventDefault();
-            this.paste((e.clipboardData || (window as any).clipboardData))
         });
         this.element.addEventListener('touchend', () => {
             this.container.saveSelection();
@@ -1105,14 +1164,14 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 遍历选中的所有元素，最末端的元素，无子元素
-     * @param range 
-     * @param cb 
-     */
+    * 遍历选中的所有元素，最末端的元素，无子元素
+    * @param range 
+    * @param cb 
+    */
     private eachRange(range: Range, cb: (node: Node) => void|false) {
         const begin = range.startContainer;
         const end = range.endContainer;
-        if (cb(begin) === false) {
+        if (cb(begin) === false || end === begin) {
             return;
         }
         let current = begin;
@@ -1136,6 +1195,67 @@ export class DivElement implements IEditorElement {
             }
             current = next;
         }
+    }
+
+    /**
+    * 遍历选中的所有元素，最顶端的元素，元素直接无交集
+    * @param range 
+    * @param cb 
+    * @returns 
+    */
+    private eachTopRange(range: Range, cb: (node: Node) => void|false) {
+        const begin = range.startContainer;
+        const end = range.endContainer;
+        if (cb(begin) === false || end === begin) {
+            return;
+        }
+        const beginParents = [];
+        this.eachParentNode(begin, node => {
+            beginParents.push(node);
+        });
+        const endParents = [];
+        this.eachParentNode(end, node => {
+            endParents.push(node);
+        });
+        let current = begin;
+        while (current !== end) {
+            let next = this.nextNode(current);
+            if (!next) {
+                return;
+            }
+            if (next === end) {
+                break;
+            }
+            this.eachParentNode(next, n => {
+                if (beginParents.indexOf(n) >= 0) {
+                    return false;
+                }
+                if (endParents.indexOf(n) >= 0) {
+                    return false;
+                }
+                next = n;
+            });
+            if (beginParents.indexOf(next) >= 0) {
+                current = next;
+                continue;
+            }
+            const i = endParents.indexOf(next);
+            if (i === 0) {
+                break;
+            } else if (i > 0) {
+                while (next.hasChildNodes()) {
+                    next = next.childNodes[0];
+                    if (endParents.indexOf(next) <= 0) {
+                        break;
+                    }
+                }
+            }
+            if (next !== end && cb(next) === false) {
+                break;
+            }
+            current = next;
+        }
+        cb(end);
     }
 
     public insertElement(node: Node, range: Range) {
@@ -1169,10 +1289,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 在内部前面添加子节点
-     * @param current 
-     * @param items 
-     */
+    * 在内部前面添加子节点
+    * @param current 
+    * @param items 
+    */
     private insertFirst(current: Node, ...items: Node[]) {
         if (current.childNodes.length < 1) {
             this.insertLast(current, ...items);
@@ -1182,10 +1302,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 在子节点最后添加元素
-     * @param current 
-     * @param items 
-     */
+    * 在子节点最后添加元素
+    * @param current 
+    * @param items 
+    */
     private insertLast(current: Node, ...items: Node[]) {
         for (const item of items) {
             current.appendChild(item);
@@ -1193,10 +1313,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 在元素之前添加兄弟节点
-     * @param current 
-     * @param items 
-     */
+    * 在元素之前添加兄弟节点
+    * @param current 
+    * @param items 
+    */
     private insertBefore(current: Node, ...items: Node[]) {
         const parent = current.parentNode;
         for (const item of items) {
@@ -1205,11 +1325,11 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 在元素之后添加兄弟节点
-     * @param current 
-     * @param items 
-     * @returns 
-     */
+    * 在元素之后添加兄弟节点
+    * @param current 
+    * @param items 
+    * @returns 
+    */
     private insertAfter(current: Node, ...items: Node[]) {
         if (current.nextSibling) {
             this.insertBefore(current.nextSibling, ...items);
@@ -1301,10 +1421,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 删除节点
-     * @param node 
-     * @returns 
-     */
+    * 删除节点
+    * @param node 
+    * @returns 
+    */
     private removeNode(node: Node) {
         if (!node.parentNode) {
             return;
@@ -1410,12 +1530,12 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 遍历兄弟节点，包含自身
-     * @param node 
-     * @param cb 
-     * @param isNext 
-     * @returns 
-     */
+    * 遍历兄弟节点，包含自身
+    * @param node 
+    * @param cb 
+    * @param isNext 
+    * @returns 
+    */
     private eachBrother(node: Node, cb: (node: Node) => false|void, isNext = true) {
         if (!node.parentNode) {
             return;
@@ -1489,10 +1609,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 判断当前是否是在某一个特殊的范围内
-     * @param range 
-     * @returns 
-     */
+    * 判断当前是否是在某一个特殊的范围内
+    * @param range 
+    * @returns 
+    */
     private isInBlock(range: Range): boolean {
         const linkTag = ['A'];
         const tableTag = ['TABLE', 'TD', 'TR', 'TH'];
@@ -1514,10 +1634,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 获取当前作用的样式
-     * @param node 
-     * @returns 
-     */
+    * 获取当前作用的样式
+    * @param node 
+    * @returns 
+    */
     private getNodeStyle(node: Node): string[] {
         const styleTag = ['B', 'EM', 'I', 'STRONG'];
         const items = [];
@@ -1530,17 +1650,24 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 向上遍历父级
-     * @param node 
-     * @param cb 包含自身
-     */
-    private eachParentNode(node: Node, cb: (node: Node) => void|false) {
+    * 向上遍历父级
+    * @param node 
+    * @param cb 包含自身
+    */
+    private eachParentNode(node: Node, cb: (node: Node) => void|false|Node) {
         let current = node;
         while (true) {
             if (current === this.element) {
                 break;
             }
-            if (cb(current) === false) {
+            const res = cb(current);
+            if (res === false) {
+                break;
+            }
+            if (res instanceof Node) {
+                current = res;
+            }
+            if (!current) {
                 break;
             }
             current = current.parentNode;
@@ -1548,11 +1675,11 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 循环遍历选中项的父元素
-     * @param range 
-     * @param cb 返回 true中断某一个子元素的父级查找， 返回false 中断整个查找
-     */
-    private eachRangeParentNode(range: Range, cb: (node: Node) => void|boolean) {
+    * 循环遍历选中项的父元素
+    * @param range 
+    * @param cb 返回 true中断某一个子元素的父级查找， 返回false 中断整个查找
+    */
+    private eachRangeParentNode(range: Range, cb: (node: Node) => void|boolean|Node) {
         const exist: Node[] = [];
         this.eachRange(range, node => {
             let isEnd = false;
@@ -1562,7 +1689,7 @@ export class DivElement implements IEditorElement {
                 }
                 const res = cb(cur);
                 if (typeof res !== 'boolean') {
-                    return;
+                    return res;
                 }
                 if (res === false) {
                     isEnd = true;
@@ -1576,10 +1703,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 获取下一个相邻的元素，不判断最小子元素
-     * @param node 
-     * @returns 
-     */
+    * 获取下一个相邻的元素，不判断最小子元素
+    * @param node 
+    * @returns 
+    */
     private nextNode(node: Node): Node|undefined {
         if (node.nextSibling) {
             return node.nextSibling;
@@ -1590,23 +1717,60 @@ export class DivElement implements IEditorElement {
         return this.nextNode(node.parentNode); 
     }
 
+    private splitNodeRange(node: Node, range: Range): Node[];
+    private splitNodeRange(node: Node, begin: number): Node[];
+    private splitNodeRange(node: Node, begin: number, end: number): Node[];
+    private splitNodeRange(node: Node, begin: Range|number, end: number = -1): Node[] {
+        if (typeof begin === 'object') {
+            [begin, end] = this.getNodeRange(node, begin);
+        }
+        if (begin === end) {
+            return [];
+        }
+        if (node instanceof Text) {
+            const len = node.length;
+            if (begin > 0) {
+                node = node.splitText(begin);
+            }
+            if (end > begin && end > 0 && end < len - 1) {
+                (node as Text).splitText(end - begin);
+            }
+            return [node];
+        }
+        const count = end > begin && end > 0 && end < node.childNodes.length ? end + 1 : node.childNodes.length;
+        let i = begin > 0 ? begin : 0;
+        if (i <= 0 && count >= node.childNodes.length) {
+            return [node];
+        }
+        const items = [];
+        for (; i < count; i++) {
+            items.push(node.childNodes[i]);
+        }
+        return items;
+    }
+
     /**
-     * 拆分元素
-     * @param node 
-     * @param offset 
-     * @returns 
-     */
-    private splitNode(node: Node, offset: number): Node {
-        if (offset < 1) {
-            return node;
-        }
+    * 获取元素在兄弟中排第几
+    * @param node 
+    * @returns 
+    */
+    private getNodeIndex(node: Node): number {
         if (!node.parentNode) {
-            return node;
+            return -1;
         }
-        if (node instanceof Text && node.length > offset) {
-            return node.splitText(offset)
+        const parent = node.parentNode;
+        for (let i = 0; i < parent.childNodes.length; i++) {
+            if (parent.childNodes[i] === node) {
+                return i;
+            }
         }
-        return node;
+        return -1;
+    }
+
+    private getNodeRange(node: Node, range: Range): number[] {
+        const begin = node === range.startContainer ? range.startOffset : 0;
+        const end = node === range.endContainer ? range.endOffset : -1;
+        return [begin, end];
     }
 
     private getNodeOffset(node: Node):IPoint {
@@ -1621,11 +1785,11 @@ export class DivElement implements IEditorElement {
             };
         }
         // rect = elem.getBoundingClientRect();
-		// win = elem.ownerDocument.defaultView;
-		// return {
-		// 	    top: rect.top + win.pageYOffset,
-		// 	    left: rect.left + win.pageXOffset
-		// };
+        // win = elem.ownerDocument.defaultView;
+        // return {
+        // 	    top: rect.top + win.pageYOffset,
+        // 	    left: rect.left + win.pageXOffset
+        // };
         return {
             y: (node as HTMLDivElement).offsetTop,
             x: (node as HTMLDivElement).offsetLeft
@@ -1668,8 +1832,17 @@ export class DivElement implements IEditorElement {
         return false;
     }
 
+    /**
+    * 未选中状态
+    * @param range 
+    * @returns 
+    */
+    private isEmptyRange(range: Range): boolean {
+        return range.startContainer === range.endContainer && range.startOffset === range.endOffset;
+    }
+
     private isEmptyLine(range: Range): boolean {
-        if (range.startOffset !== range.endOffset ||range.startOffset > 0) {
+        if (range.startOffset !== range.endOffset || range.startOffset > 0) {
             return false;
         }
         if (range.startContainer !== range.endContainer) {
@@ -1679,10 +1852,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-     * 判断父级是否只有这一个子节点
-     * @param node 
-     * @returns 
-     */
+    * 判断父级是否只有这一个子节点
+    * @param node 
+    * @returns 
+    */
     private isOnlyNode(node: Node): boolean {
         const parent = node.parentNode;
         if (!parent) {
@@ -1703,7 +1876,7 @@ export class DivElement implements IEditorElement {
         }
         for (let i = 0; i < node.childNodes.length; i++) {
             const element = node.childNodes[i];
-            if (['P', 'DIV'].indexOf(element.nodeName) >= 0) {
+            if (this.isBlockNode(element)) {
                 if (!this.isEmptyLineNode(element)) {
                     return false;
                 }

@@ -24,11 +24,11 @@
                 </div>
                 <div class="swiper-action">
                     <ng-container *ngIf="item.status == 1; else elseTemplate">
-                        <a class="btn-primary">运行</a>
-                        <a class="btn-danger">卸载</a>
+                        <app-action-button class="btn-primary" (tapped)="tapExecute(item, $event)">运行</app-action-button>
+                        <a class="btn-danger" (click)="tapUninstall(item)">卸载</a>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <a class="btn-primary">安装</a>
+                        <a class="btn-primary" (click)="tapInstall(item)">安装</a>
                     </ng-template>
                     
                 </div>
@@ -40,7 +40,7 @@
             <div class="panel-action">
                 <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
                 <div class="btn-group">
-                    <button class="btn btn-danger" [disabled]="checkedItems.length < 1">删除选中项（{{ checkedItems.length }}）</button>
+                    <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapUninstall()">卸载选中项（{{ checkedItems.length }}）</button>
                     <app-action-button class="btn btn-success" (tapped)="tapSync($event)">更新</app-action-button>
                 </div>
             </div>
@@ -48,3 +48,7 @@
         </div>
     </div>
 </div>
+
+<app-dialog-box>
+    <app-form-panel></app-form-panel>
+</app-dialog-box>

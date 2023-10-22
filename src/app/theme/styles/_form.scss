@@ -175,18 +175,19 @@ i {
             display: inline-block;
         }
         select {
-            min-width: 100px;
+            min-width: 6.25rem;
+            width: auto;
         }
         textarea {
-            min-width: 200px;
-            min-height: 40px * 3 
+            min-width: 12.5rem;
+            min-height: 2.5rem * 3 
         }
         >label:first-child {
             width: 8rem;
             display: block;
             text-align: right;
-            line-height: 40px;
-            padding: 0 10px;
+            line-height: 2.5rem;
+            padding: 0 0.625rem;
         }        
         >div {
             flex: 1;
@@ -197,16 +198,16 @@ i {
             
 
             .inline {
-                line-height: 40px;
-                min-width: 100px;
+                line-height: 2.5rem;
+                min-width: 6.25rem;
                 display: inline-block;
             }
 
             .input-desc {
                 display: block;
-                font-size: 12px;
+                font-size: 0.75rem;
                 color: #767676;
-                margin-bottom: 8px;
+                margin-bottom: 0.5rem;
             }
             // label {
             //     padding: 0 8px;

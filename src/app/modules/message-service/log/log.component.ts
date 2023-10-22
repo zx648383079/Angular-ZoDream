@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
-import { ILog } from '../../../theme/models/sms';
-import { SmsService } from '../sms.service';
+import { ILog } from '../model';
+import { MessageServiceService } from '../ms.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-  selector: 'app-log',
+  selector: 'app-ms-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']
 })
@@ -26,7 +26,7 @@ export class LogComponent implements OnInit {
     public typeItems = [];
 
     constructor(
-        private service: SmsService,
+        private service: MessageServiceService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
         private searchService: SearchService,

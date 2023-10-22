@@ -98,35 +98,7 @@ export const AuthBackendMenu: MenuReadyFn = function() {
     ];
 }
 
-export const SmsBackendMenu: MenuReadyFn = function() {
-    return [{
-        name: '短信管理',
-        icon: 'icon-mail',
-        url: this.renderUrl(''),
-        role: 'sms_manage',
-        children: [{
-                name: '签名管理',
-                label: '签',
-                url: this.renderUrl('signature'),
-            },
-            {
-                name: '模板管理',
-                label: '模',
-                url: this.renderUrl('template'),
-            },
-            {
-                name: '记录管理',
-                label: '录',
-                url: this.renderUrl('log'),
-            },
-            {
-                name: '短信配置',
-                label: '置',
-                url: this.renderUrl('option'),
-            },
-        ],
-    }];
-};
+
 
 export const backendBottomMenu: INav[] = [
     {

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
+import { DialogBoxComponent, DialogEvent, DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 import { SystemService } from '../system.service';
 import { IPluginItem } from '../../../theme/models/seo';
-import { ButtonEvent } from '../../../components/form';
+import { ButtonEvent, FormPanelComponent, FormPanelEvent, IFormInput } from '../../../components/form';
 
 @Component({
     selector: 'app-system-plugin',
@@ -14,6 +14,10 @@ import { ButtonEvent } from '../../../components/form';
 })
 export class PluginComponent implements OnInit {
 
+    @ViewChild(DialogBoxComponent)
+    private modal: DialogEvent;
+    @ViewChild(FormPanelComponent)
+    private form: FormPanelEvent;
     public isChecked = false;
     public items: IPluginItem[] = [];
     public hasMore = true;
@@ -73,8 +77,63 @@ export class PluginComponent implements OnInit {
                     e?.reset();
                     this.toastrService.error(err);
                 }
-            })
+            });
         });
+    }
+
+    public tapExecute(item: IPluginItem, e?: ButtonEvent) {
+        this.toastrService.confirm('确定允许此插件？', () => {
+            e?.enter();
+            this.service.pluginExecute(item.id).subscribe({
+                next: _ => {
+                    e?.reset();
+                    this.tapRefresh();
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
+    public tapUninstall(item?: IPluginItem) {
+        const items = item ? [item.id] : this.checkedItems.map(i => i.id);
+        if (items.length < 1) {
+            return;
+        }
+        this.toastrService.confirm(`确定卸载 ${items.length} 个插件？`, () => {
+            this.service.pluginUninstall(items).subscribe({
+                next: _ => {
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
+    public tapInstall(item: IPluginItem, data?: any) {
+        this.service.pluginInstall(item.id, data).subscribe({
+            next: res => {
+                if (res.data instanceof Array) {
+                    this.renderForm(item, res.data);
+                    return;
+                }
+                this.tapRefresh();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    private renderForm(item: IPluginItem, items: IFormInput[]) {
+        this.form.items = items;
+        this.modal.open(() => {
+            this.tapInstall(item, this.form.value);
+        }, () => this.form.valid, '快速配置');
     }
 
     public tapRefresh() {

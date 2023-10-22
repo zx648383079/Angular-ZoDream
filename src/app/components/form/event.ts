@@ -1,4 +1,5 @@
 import { IUploadResult } from '../../theme/models/open';
+import { IItem } from '../../theme/models/seo';
 
 export interface IButton {
     name: string;
@@ -50,4 +51,20 @@ export interface UploadButtonEvent extends ButtonEvent {
 export interface UploadCustomEvent {
     file: File;
     next: (data?: IUploadResult) => void;
+}
+
+export interface IFormInput {
+    type: string;
+    name: string;
+    label: string;
+    items?: IItem[];
+    value: any;
+    required?: boolean;
+}
+
+export interface FormPanelEvent {
+    set items(args: IFormInput[]);
+    get value(): any;
+    get valid(): boolean;
+    get invalid(): boolean;
 }

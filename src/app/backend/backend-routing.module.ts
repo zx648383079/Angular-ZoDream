@@ -48,8 +48,8 @@ const routes: Routes = [{
             loadChildren: () => import('./open/open.module').then(m => m.OpenModule)
         },
         {
-            path: 'sms',
-            loadChildren: () => import('./sms/sms.module').then(m => m.SmsModule)
+            path: 'ms',
+            loadChildren: () => import('../modules/message-service/ms.module').then(m => m.MessageServiceModule)
         },
         {
             path: 'forum',

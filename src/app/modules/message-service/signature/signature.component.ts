@@ -1,41 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
+import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
-import { ITemplate } from '../../../theme/models/sms';
+import { ISignature } from '../model';
 import { SearchService } from '../../../theme/services';
-import { SmsService } from '../sms.service';
+import { emptyValidate } from '../../../theme/validators';
+import { MessageServiceService } from '../ms.service';
 
 @Component({
-  selector: 'app-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss']
+  selector: 'app-ms-signature',
+  templateUrl: './signature.component.html',
+  styleUrls: ['./signature.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class SignatureComponent implements OnInit {
 
-    public items: ITemplate[] = [];
+    public items: ISignature[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
-        type: 0,
         page: 1,
         per_page: 20,
         keywords: ''
     };
-    public typeItems = [];
+    public editData: ISignature = {id: undefined, name: '', sign_no: ''};
 
     constructor(
-        private service: SmsService,
-        private toastrService: DialogService,
+        private service: MessageServiceService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
         private searchService: SearchService,
     ) {
-        this.service.typeItems().subscribe(res => {
-            this.typeItems = res;
-        });
     }
-    
+
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
@@ -55,13 +52,16 @@ export class TemplateComponent implements OnInit {
         this.goPage(this.queries.page + 1);
     }
 
+    /**
+     * goPage
+     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.templateList(queries).subscribe({
+        this.service.signatureList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
@@ -80,9 +80,9 @@ export class TemplateComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: ITemplate) {
-        this.toastrService.confirm('确定删除本条模板？', () => {
-            this.service.templateRemove(item.id).subscribe(res => {
+    public tapRemove(item: ISignature) {
+        this.toastrService.confirm('确定删除“' + item.name + '”签名？', () => {
+            this.service.signatureRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -91,6 +91,36 @@ export class TemplateComponent implements OnInit {
                     return it.id !== item.id;
                 });
             });
+        });
+    }
+
+    public tapDefault(item: ISignature) {
+        this.service.signatureDefault(item.id).subscribe(_ => {
+            this.items = this.items.map(it => {
+                it.is_default = item.id === item.id ? 1 : 0;
+                return it;
+            });
+        });
+    }
+
+    open(modal: DialogBoxComponent, item?: ISignature) {
+        this.editData = item ? {...item} : {id: undefined, name: '', sign_no: ''};
+        modal.open(() => {
+            this.service.signatureSave({
+                name: this.editData.name,
+                sign_no: this.editData.sign_no,
+                id: this.editData?.id
+            }).subscribe({
+                next: res => {
+                    this.toastrService.success($localize `Save Successfully`);
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => {
+            return !emptyValidate(this.editData.name);
         });
     }
 

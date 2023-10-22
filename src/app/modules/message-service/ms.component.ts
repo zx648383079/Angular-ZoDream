@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { SmsService } from './sms.service';
+import { MessageServiceService } from './ms.service';
 
 @Component({
-    selector: 'app-sms',
-    templateUrl: './sms.component.html',
-    styleUrls: ['./sms.component.scss']
+    selector: 'app-message-service',
+    templateUrl: './ms.component.html',
+    styleUrls: ['./ms.component.scss']
 })
-export class SmsComponent implements OnInit {
+export class MessageServiceComponent implements OnInit {
 
     public isLoading = true;
     public data: any = {};
 
     constructor(
-        private service: SmsService,
+        private service: MessageServiceService,
     ) { }
 
     ngOnInit() {

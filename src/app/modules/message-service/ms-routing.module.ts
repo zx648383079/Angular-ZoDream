@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LogComponent } from './log/log.component';
 import { OptionComponent } from './option/option.component';
 import { SignatureComponent } from './signature/signature.component';
-import { SmsComponent } from './sms.component';
+import { MessageServiceComponent } from './ms.component';
 import { EditTemplateComponent } from './template/edit/edit.component';
 import { TemplateComponent } from './template/template.component';
 
@@ -14,7 +14,7 @@ const routes: Routes = [
         component: LogComponent,
     },
     {
-        path: 'option',
+        path: 'option/:type',
         component: OptionComponent,
     },
     {
@@ -35,7 +35,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        component: SmsComponent,
+        component: MessageServiceComponent,
     },
 ];
 
@@ -43,10 +43,10 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class SmsRoutingModule { }
+export class MessageServiceRoutingModule { }
 
-export const smsRoutedComponents = [
-    SmsComponent,
+export const MessageServiceRoutedComponents = [
+    MessageServiceComponent,
     LogComponent,
     TemplateComponent,
     EditTemplateComponent,

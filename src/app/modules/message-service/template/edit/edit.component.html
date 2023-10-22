@@ -1,0 +1,54 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑模板' : '新增模板'"(submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="zre-input-group">
+            <label for="name">唯一代码</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+                <div class="input-tip" *ngIf="form.get('name').invalid">请输入唯一代码</div>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="title">标题</label>
+            <div>
+                <input type="text" id="title" class="form-control" formControlName="title">
+                <div class="input-tip" *ngIf="form.get('title').invalid">请输入标题</div>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="type">类型</label>
+            <div>
+                <select id="type" formControlName="type" class="form-control" >
+                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="target_no">外部编号</label>
+            <div>
+                <input type="text" id="target_no" class="form-control" formControlName="target_no">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="content">模板内容</label>
+            <div>
+                <textarea id="content" class="form-control" formControlName="content" (ngModelChange)="onContentChange()"></textarea>
+            </div>
+        </div>
+
+        <div class="zre-input-group">
+            <label for="content">字段</label>
+            <div class="tab-header-bar">
+                <div class="tab-item btn-info" *ngFor="let item of keyItems">
+                    <span>{{ item }}</span>
+                    <i class="iconfont icon-close" (click)="tapRemoveKey(item)"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </form>
+</div>

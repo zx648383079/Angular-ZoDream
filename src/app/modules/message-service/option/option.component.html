@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>{{ isMail ? '邮箱' : '短信' }}配置</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <app-form-panel class="form-table"></app-form-panel>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+        </div>
+    </div>
+</div>

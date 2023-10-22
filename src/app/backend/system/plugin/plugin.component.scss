@@ -65,7 +65,8 @@ $shadow: rgba(0,0,0,.125);
     }
     .swiper-action {
         display: flex;
-        a {
+        a,
+        app-action-button {
             cursor: pointer;
             user-select: none;
             display: inline-flex;
