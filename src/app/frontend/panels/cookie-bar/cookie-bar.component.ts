@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from '../../../theme/services';
 
 interface ICookieGroup {
     name: string;
@@ -60,15 +59,14 @@ export class CookieBarComponent implements OnInit {
     ];
 
     constructor(
-        private cookieService: CookieService
     ) { }
 
     ngOnInit() {
-        this.tabIndex = this.cookieService.check(CookiePolicyKey) ? 0 : 1;
+        this.tabIndex = window.localStorage.getItem(CookiePolicyKey) ? 0 : 1;
     }
 
     public tapAccept() {
-        this.cookieService.set(CookiePolicyKey, this.tabIndex.toString());
+        window.localStorage.setItem(CookiePolicyKey, this.tabIndex.toString());
         this.tabIndex = 0;
     }
 }
