@@ -2,16 +2,19 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    selector: 'app-radius-input',
+    selector: 'app-editor-radius-input',
     templateUrl: './radius-input.component.html',
     styleUrls: ['./radius-input.component.scss'],
+    host: {
+        class: 'control-row'
+    },
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => RadiusInputComponent),
+        useExisting: forwardRef(() => EditorRadiusInputComponent),
         multi: true
     }]
 })
-export class RadiusInputComponent implements ControlValueAccessor {
+export class EditorRadiusInputComponent implements ControlValueAccessor {
 
     public value: any;
     public disabled = false;

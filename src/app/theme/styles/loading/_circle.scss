@@ -35,7 +35,7 @@
     }   
     100%{   
         opacity: 0.2;   
-        @include prefix-content(transform, translate(150px));   
+        @include prefix-content(transform, translate(9.375rem));   
     } 
 }
 

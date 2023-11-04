@@ -1,0 +1,22 @@
+<div class="control-popup-target">
+    <div class="color-icon" (click)="visible = !visible">
+        <i class="iconfont icon-edit"></i>
+    </div>
+</div>
+<div class="control-popup" [hidden]="!visible">
+    <div class="control-row">
+        <app-editor-size-input label="X"></app-editor-size-input>
+        <app-editor-size-input label="Y"></app-editor-size-input>
+        <app-editor-size-input label="BLUR"></app-editor-size-input>
+        <app-editor-size-input label="SPREAD"></app-editor-size-input>
+    </div>
+   
+    <div class="control-inline-group">
+        <label for="">Color</label>
+        <app-editor-color-popup></app-editor-color-popup>
+    </div>
+    <div class="control-inline-group">
+        <label for="">Inset</label>
+        <app-switch></app-switch>
+    </div>
+</div>

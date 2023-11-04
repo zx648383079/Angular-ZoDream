@@ -1,7 +1,7 @@
-<div class="page-tip" [ngClass]="{min: isMin}">
-  <p class="blue">{{ title }}</p>
-  <div class="tip-body">
-    <ng-content></ng-content>
-  </div>
-  <span class="toggle" (click)="tapMin()"></span>
+<div class="page-tooltip-bar" [ngClass]="{'tooltip-min': isMin}">
+    <p class="tooltip-header">{{ title }}</p>
+    <div class="tooltip-body">
+        <ng-content></ng-content>
+    </div>
+    <span class="tooltip-toggle" (click)="tapMin()"></span>
 </div>

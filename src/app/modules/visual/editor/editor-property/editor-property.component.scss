@@ -8,6 +8,10 @@
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+    }
     .panel-body {
         padding: 0;
     }
@@ -32,40 +36,7 @@
         }
     }
 }
-.panel {
-    .panel-header {
-        padding: 0 .5em;
-        line-height: 2rem;
-        border-left: none;
-        font-size: 1em;
-        background: #f6f7f8;
-        border-bottom: 1px solid #d9d9d9;
-        .iconfont {
-            float: right;
-            user-select: none;
-            font-size: .8em;
-        }
-    }
-    .panel-body {
-        // padding: .5em;
-    }
-    &.open {
-        >.panel-body {
-            display: block;
-        }
-    }
-}
-.panel-body {
-    .panel-body {
-        display: none;
-    }
-}
-.icon-bar {
-    i {
-        display: inline-block;
-        margin: .5em;
-    }
-}
+
 .inner-input {
     display: block;
     border-radius: .3em;

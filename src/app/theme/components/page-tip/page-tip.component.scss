@@ -2,16 +2,16 @@ $tipBg: #F5FAFF;
 $tipFg: #666;
 $bg: #333;
 
-.page-tip {
+.page-tooltip-bar {
     border: 1px dashed $bg;
     padding: 10px;
     border-radius: 5px;
     background-color: $tipBg;
     position: relative;
-    .blue {
+    .tooltip-header {
         color: $bg;
     }
-    .tip-body {
+    .tooltip-body {
         ul {
             width: 100%;
             padding: 0;
@@ -24,7 +24,7 @@ $bg: #333;
             }
         }
     }
-    .toggle {
+    .tooltip-toggle {
         position: absolute;
         right: 0;
         top: 10px;
@@ -39,15 +39,15 @@ $bg: #333;
             content: "\e6e2";
         }
     }
-    &.min {
+    &.tooltip-min {
         width: 200px;
-        .blue {
+        .tooltip-header {
             margin-bottom: 0;
         }
-        .tip-body {
+        .tooltip-body {
             display: none;
         }
-        .toggle {
+        .tooltip-toggle {
             &::before {
                 content: "\e6fc";
             }

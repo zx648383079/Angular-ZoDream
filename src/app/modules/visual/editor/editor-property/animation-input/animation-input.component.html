@@ -1,24 +1,24 @@
 <div class="animation-container">
     <div class="effect-show" [ngStyle]="boxStyle">效果展示</div>
-    <div class="line-input">
+    <div class="control-inline-group">
         <label for="">动效</label>
         <select class="form-control" [(ngModel)]="value.name">
             <option *ngFor="let item of items" [value]="item.value">{{ item.name }}</option>
         </select>
     </div>
-    <div class="line-input">
+    <div class="control-inline-group">
         <label for="">延时</label>
         <select class="form-control" [(ngModel)]="value.delay">
             <option *ngFor="let item of delayItems" [value]="item.value">{{ item.name }}</option>
         </select>
     </div>
-    <div class="line-input">
+    <div class="control-inline-group">
         <label for="">时长</label>
         <select class="form-control" [(ngModel)]="value.duration">
             <option *ngFor="let item of durationItems" [value]="item.value">{{ item.name }}</option>
         </select>
     </div>
-    <div class="line-input">
+    <div class="control-inline-group">
         <label for="">重复</label>
         <select class="form-control" [(ngModel)]="value.loop">
             <option *ngFor="let item of loopItems" [value]="item.value">{{ item.name }}</option>

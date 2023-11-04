@@ -1,18 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-page-tip',
-  templateUrl: './page-tip.component.html',
-  styleUrls: ['./page-tip.component.scss']
+    selector: 'app-page-tip',
+    templateUrl: './page-tip.component.html',
+    styleUrls: ['./page-tip.component.scss']
 })
 export class PageTipComponent {
 
-  @Input() public title = $localize `Tip`;
+    @Input() public title = $localize `Tip`;
 
-  public isMin = false;
+    public isMin = false;
 
-  public tapMin() {
-    this.isMin = !this.isMin;
-  }
+    public tapMin() {
+        this.isMin = !this.isMin;
+    }
 
 }

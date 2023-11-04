@@ -28,6 +28,114 @@
                 <div class="catalog-box">
                     <app-catalog-list [items]="weightItems" (tapped)="onWidgetTap($event)"></app-catalog-list>
                 </div>
+                <div class="structure-item">
+                    <div class="item-body">
+                        <div class="item-open-icon">
+                            <i class="iconfont" [ngClass]="{'icon-chevron-down': true, 'icon-chevron-right': false}"></i>
+                        </div>
+                        <div class="item-icon">
+                            <i class="iconfont icon-chain"></i>
+                        </div>
+                        <input type="text" class="item-title">
+                        <div class="item-action-icon">
+                            <i class="iconfont icon-ellipsis-h"></i>
+                        </div>
+                        <div class="item-action-bar">
+                            <a>
+                                <i class="iconfont icon-trash"></i>
+                            </a>
+                            <a>
+                                <i class="iconfont icon-copy"></i>
+                            </a>
+                            <a>
+                                <i class="iconfont icon-plus"></i>
+                            </a>
+                            <a>
+                                <i class="iconfont icon-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-children">
+                        <div class="structure-item">
+                            <div class="item-body">
+                                <div class="item-icon">
+                                    <i class="iconfont icon-chain"></i>
+                                </div>
+                                <input type="text" class="item-title">
+                                <div class="item-action-icon">
+                                    <i class="iconfont icon-ellipsis-h"></i>
+                                </div>
+                                <div class="item-action-bar">
+                                    <a>
+                                        <i class="iconfont icon-trash"></i>
+                                    </a>
+                                    <a>
+                                        <i class="iconfont icon-copy"></i>
+                                    </a>
+                                    <a>
+                                        <i class="iconfont icon-plus"></i>
+                                    </a>
+                                    <a>
+                                        <i class="iconfont icon-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-half-group">
+                    <input type="text">
+                    <label for="">Y</label>
+                </div>
+
+                <div class="slider-control-bar">
+                    <div class="control-icon"></div>
+                </div>
+
+                <div class="radio-control-item">
+                    <i class="iconfont icon-shangduiqi"></i>
+                </div>
+
+                <div class="number-control-container">
+                    <input type="text">
+                    <div class="control-action-bar">
+                        <i class="iconfont icon-chevron-up"></i>
+                        <i class="iconfont icon-chevron-down"></i>
+                    </div>
+                </div>
+                <div class="select-control-container" [ngClass]="{'select-focus': true}">
+                    <div class="select-input-container">
+                        <span class="input-body">None</span>
+                        <input type="text" class="input-body">
+                        <div class="input-clear">
+                            <i class="iconfont icon-close"></i>
+                        </div>
+                        <div class="input-arrow">
+                            <i class="iconfont icon-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="select-option-bar">
+                        <div class="search-option-item">
+                            <input type="text">
+                            <i class="iconfont icon-search"></i>
+                        </div>
+                        <div class="loading-option-item">
+                            <div class="loading-ring2">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="option-item">None</div>
+                        <div class="option-item">None</div>
+                        <div class="group-option-item">Title</div>
+                        <div class="option-item selected">None</div>
+                        <div class="option-item">None</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

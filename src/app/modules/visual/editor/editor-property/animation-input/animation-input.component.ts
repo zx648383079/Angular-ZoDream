@@ -4,16 +4,16 @@ import { animationFuncOptions, animationIterationCountOptions, animationLabelDel
 import { PropertyUtil } from '../../util';
 
 @Component({
-    selector: 'app-animation-input',
+    selector: 'app-editor-animation-input',
     templateUrl: './animation-input.component.html',
     styleUrls: ['./animation-input.component.scss'],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => AnimationInputComponent),
+        useExisting: forwardRef(() => EditorAnimationInputComponent),
         multi: true
     }]
 })
-export class AnimationInputComponent implements ControlValueAccessor {
+export class EditorAnimationInputComponent implements ControlValueAccessor {
 
     public items = animationLabelOptions;
     public delayItems = animationLabelDelayOptions;

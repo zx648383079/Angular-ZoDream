@@ -2,16 +2,16 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    selector: 'app-position-input',
+    selector: 'app-editor-position-input',
     templateUrl: './position-input.component.html',
     styleUrls: ['./position-input.component.scss'],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => PositionInputComponent),
+        useExisting: forwardRef(() => EditorPositionInputComponent),
         multi: true
     }]
 })
-export class PositionInputComponent implements ControlValueAccessor {
+export class EditorPositionInputComponent implements ControlValueAccessor {
 
     public positionType = 'static';
     public value: any;

@@ -1,0 +1,74 @@
+<div class="control-popup-target">
+    <div class="color-icon" (click)="visible = !visible">
+        <i class="iconfont icon-edit"></i>
+    </div>
+</div>
+<div class="control-popup" [hidden]="!visible">
+    <div class="popup-action">
+        <div class="btn btn-danger">清除</div>
+    </div>
+    <div class="control-line-group">
+        <label for="">Hue</label>
+        <input type="range">
+    </div>
+    <div class="control-line-group">
+        <label for="">Saturation</label>
+        <input type="range">
+    </div>
+    <div class="control-line-group">
+        <label for="">Lightness</label>
+        <input type="range">
+    </div>
+    <div class="control-line-group">
+        <label for="">Transparency</label>
+        <input type="range">
+    </div>
+
+    <div class="control-row">
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">HEX</label>
+        </div>
+    </div>
+    <div class="control-row">
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">R</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">G</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">B</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">A</label>
+        </div>
+    </div>
+    <div class="control-row">
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">H</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">S</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">L</label>
+        </div>
+        <div class="control-half-group">
+            <input type="number">
+            <label for="">A</label>
+        </div>
+    </div>
+    <div class="tab-bar">
+        <a class="item active">HEX</a>
+        <a class="item">RGB</a>
+        <a class="item">HSL</a>
+    </div>
+</div>
