@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../theme/styles/theme';
 @import '../../../theme/styles/prefix';
 @import '../../../theme/styles/loading/circle';
@@ -493,7 +494,7 @@ $inputShadow: rgba(0,0,0, .1);
         content: "";
         position: absolute;
         top: -1rem;
-        right: $lineHight / 2 + .3rem;
+        right: math.div($lineHight, 2) + .3rem;
         border-bottom-color: var(--#{$prefix}-popup);
     }
 }

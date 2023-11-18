@@ -2,7 +2,7 @@
     <div class="player-box">
         <app-movie-player></app-movie-player>
         <div class="info-box" *ngIf="data">
-            <div class="title">@{{ data.user.name }}</div>
+            <div class="title">&#64;{{ data.user.name }}</div>
             <div class="content">{{ data.content }}</div>
             <div class="music" *ngIf="data.music">
                 <i class="iconfont icon-music"></i>

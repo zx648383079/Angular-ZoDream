@@ -115,7 +115,7 @@
 <app-dialog-box #modal i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
         <div class="simple" *ngIf="forwardItem">
-            @{{ forwardItem.user.name }} ：{{ forwardItem.content }}
+            &#64;{{ forwardItem.user.name }} ：{{ forwardItem.content }}
         </div>
         <div class="input">
             <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>

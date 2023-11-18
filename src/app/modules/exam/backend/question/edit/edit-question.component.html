@@ -71,7 +71,7 @@
             <label for="dynamic">可变内容</label>
             <div>
                 <textarea id="dynamic" class="form-control" formControlName="dynamic" ></textarea>
-                <div class="input-tip">在题目中可以用“@1” 代替</div>
+                <div class="input-tip">在题目中可以用“&#64;1” 代替</div>
             </div>
         </div>
         <div class="zre-input-group">
@@ -126,7 +126,7 @@
                 <label for="answer">答案<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'answer')"></i></label>
                 <div>
                     <textarea id="answer" class="form-control" formControlName="answer"></textarea>
-                    <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“@1+@2*3”等公式，填空题为一行一个</div>
+                    <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“&#64;1+&#64;2*3”等公式，填空题为一行一个</div>
                 </div>
             </div>
             <div class="zre-input-group" *ngIf="typeValue == 4">
@@ -147,7 +147,7 @@
                             <i class="iconfont icon-plus"></i>
                         </a>
                     </div>
-                    <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“@1+@2*3”等公式</div>
+                    <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“&#64;1+&#64;2*3”等公式</div>
                 </div>
             </div>
             <ng-container *ngIf="typeValue == 5">
