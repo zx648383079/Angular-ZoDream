@@ -26,7 +26,7 @@ export class MarkdownBlockComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
             this.formated = this.sanitizer.bypassSecurityTrustHtml(
-                this.isFormated ? this.value : marked(this.value)
+                this.isFormated ? this.value : marked(this.value).toString()
             );
         }
     }
