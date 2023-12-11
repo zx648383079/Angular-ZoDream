@@ -1,22 +1,21 @@
-import { Component, ElementRef, HostListener, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { DialogEvent } from '../../../../components/dialog';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 
 @Component({
-    selector: 'app-shop-share-dialog',
-    templateUrl: './share-dialog.component.html',
-    styleUrls: ['./share-dialog.component.scss']
+    selector: 'app-file-explorer-image-editor',
+    templateUrl: './file-explorer-image-editor.component.html',
+    styleUrls: ['./file-explorer-image-editor.component.scss']
 })
-export class ShareDialogComponent implements OnChanges, DialogEvent {
+export class FileExplorerImageEditorComponent implements IFileExplorerTool {
 
-    @ViewChild('imageBox', {static: true})
+    @ViewChild('imageBox')
     private imageBox: ElementRef<HTMLDivElement>;
     public visible = false;
-    public isLoading = true;
+    public data: IFileItem;
+    public isLoading = false;
     private resizeFn: Function;
-
-    constructor() { }
-
+    
     @HostListener('window:resize', [])
     private onResize() {
         if (this.resizeFn) {
@@ -24,26 +23,14 @@ export class ShareDialogComponent implements OnChanges, DialogEvent {
         }
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        
-    }
-
-    public close(result?: any): void {
-        this.visible = false;
-        this.resizeFn = undefined;
-    }
-
-    public open(data?: any, confirm?: any, check?: any): void {
-        this.resizeFn = undefined;
+    public open(file: IFileItem) {
+        this.data = {...file};
         this.visible = true;
-        this.loadImage('/assets/images/blog.png');
+        this.loadImage(file.thumb);
     }
 
-    public openCustom(cb?: unknown, title?: unknown): void {
-        this.open();
-    }
-    public confirmClose(e: KeyboardEvent): void {
-        this.close();
+    public close() {
+        this.visible = false;
     }
 
     private loadImage(src: string) {
@@ -62,12 +49,12 @@ export class ShareDialogComponent implements OnChanges, DialogEvent {
     }
 
     private displayImage(img: HTMLImageElement, width: number, height: number) {
-        const target = this.imageBox.nativeElement;
+        const target = this.imageBox?.nativeElement;
         if (!this.visible || !target) {
             return;
         }
-        const maxWidth = window.innerWidth;
-        const maxHeight = window.innerHeight;
+        const maxWidth = target.clientWidth;
+        const maxHeight = target.clientHeight;
         for (let i = target.children.length - 1; i >= 0; i--) {
             target.removeChild(target.children[i]);
         }
@@ -76,11 +63,8 @@ export class ShareDialogComponent implements OnChanges, DialogEvent {
         const h = height / scale;
         const x = (maxWidth - w) / 2;
         const y = (maxHeight - h) / 2;
-        img.style.width = target.style.width = w + 'px';
-        img.style.height = target.style.height = h + 'px';
-        target.style.left = x + 'px';
-        target.style.top = y + 'px';
+        img.style.width = w + 'px';
+        img.style.height = h + 'px';
         target.appendChild(img);
     }
-
 }

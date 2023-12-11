@@ -11,6 +11,7 @@ export class FileExplorerPanelComponent implements OnInit {
 
     @Input() public editable = true;
     @Output() public pathChange = new EventEmitter<string>();
+    @Output() public selectedChange = new EventEmitter<IFileItem>();
     public items: IFileItem[] = [];
     public listViewMode = false;
     public listEditable = false;
@@ -123,9 +124,12 @@ export class FileExplorerPanelComponent implements OnInit {
             }
             return;
         }
+
         if (item.isFolder) {
             this.pathChange.emit(item.path);
             this.search(item.path);
+        } else {
+            this.selectedChange.emit(item);
         }
     }
 

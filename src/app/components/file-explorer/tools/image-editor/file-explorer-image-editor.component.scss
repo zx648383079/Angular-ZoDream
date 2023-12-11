@@ -1,0 +1,90 @@
+@import '../../../../theme/styles/theme';
+$headerHeight: 2.5rem;
+.dialog-box {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    bottom: 2rem;
+    margin: 0;
+    width: auto;
+    transform: none;
+    background-color: var(--#{$prefix}-panel);
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    height: $headerHeight;
+    line-height: $headerHeight;
+    padding-left: .8rem;
+    .iconfont {
+        position: static;
+    }
+}
+
+.dialog-action-bar {
+    display: flex;
+    .action-item {
+        display: inline-block;
+        width: $headerHeight;
+        text-align: center;
+        border-left: 1px solid #ccc;
+        color: #787c82;
+        &:hover {
+            color: #333;
+            background: #dcdcde;
+        }
+    }
+}
+
+.dialog-body {
+    flex: 1;
+    box-shadow: inset 0 4px 4px -4px rgba(0,0,0,.1);
+    padding: 0;
+    display: flex;
+}
+
+.image-preview-panel {
+    flex: 1;
+    padding: .8rem;
+    height: 100%;
+    .panel-body {
+        height: 100%;
+    }
+    img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 100%;
+        background-image: linear-gradient(45deg,#c3c4c7 25%,transparent 25%,transparent 75%,#c3c4c7 75%,#c3c4c7),linear-gradient(45deg,#c3c4c7 25%,transparent 25%,transparent 75%,#c3c4c7 75%,#c3c4c7);
+        background-position: 0 0,0.625rem 0.625rem;
+        background-size: 1.25rem 1.25rem;
+    }
+}
+
+.attachment-property-panel {
+    width: 20rem;
+    border-left: 1px solid #dcdcde;
+    background: var(--bs-body-bg);
+    padding: .8rem;
+}
+
+.inline-action-bar {
+    font-size: .8rem;
+    a {
+        display: inline-block;
+        word-break: keep-all;
+        padding-left: .4rem;
+        &:not(:last-of-type) {
+            border-right: 1px solid #ccc;
+            padding-right: .4rem;
+        }
+        &.text-danger {
+            color: var(--bs-danger-text);
+        }
+    }
+}

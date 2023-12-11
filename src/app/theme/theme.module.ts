@@ -24,7 +24,8 @@ import {
     CookieService,
     FileUploadService,
     DownloadService,
-    SearchService
+    SearchService,
+    WebAuthn
 } from './services';
 import {
     AuthActions
@@ -154,6 +155,7 @@ export class ThemeModule {
                 ThemeService,
                 AuthService,
                 FileUploadService,
+                WebAuthn,
             ]
         };
     }

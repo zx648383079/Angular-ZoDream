@@ -86,8 +86,7 @@ export class AuthService {
         this.store.dispatch(this.actions.checking());
         return this.http.post<IUser>('auth/login', data).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user);
-                this.authenticateUser(user);
+                this.setUser(user);
                 return user;
             }), 
             catchError(err => {
@@ -108,8 +107,7 @@ export class AuthService {
         this.store.dispatch(this.actions.checking());
         return this.http.post<IUser>('auth/register', data).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user);
-                this.authenticateUser(user);
+                this.setUser(user);
                 return user;
             }),
         );
@@ -143,8 +141,7 @@ export class AuthService {
     public qrCheck(token: string) {
         return this.http.post<IUser>('auth/qr/check', {token}).pipe(
             map(user => {
-                this.setTokenInLocalStorage(user);
-                this.authenticateUser(user);
+                this.setUser(user);
                 return user;
             }),
         );
@@ -178,7 +175,7 @@ export class AuthService {
      *
      * @returns HttpHeaders
      */
-    public getTokenHeader(request: HttpRequest < any > ): HttpHeaders {
+    public getTokenHeader(request: HttpRequest<any>): HttpHeaders {
         let headers = request.headers || new HttpHeaders({});
         headers = headers.set('Accept', '*/*');
         if (typeof request.body !== 'object' || !(request.body instanceof FormData)) {
@@ -212,7 +209,7 @@ export class AuthService {
         if (!user) {
             return false;
         }
-        return this.authenticateUser(user);
+        return this.setUser(user, false);
     }
 
     public loginFromCookie() {
@@ -228,8 +225,7 @@ export class AuthService {
         }).subscribe({
             next: user => {
                 user.token = token;
-                this.setTokenInLocalStorage(user);
-                this.authenticateUser(user);
+                this.setUser(user);
             },
             error: _ => {
                 this.store.dispatch(this.actions.checking(false));
@@ -272,7 +268,7 @@ export class AuthService {
                 if (res.auth_profile && !(res.auth_profile instanceof Array)) {
                     const user = res.auth_profile;
                     user.token = token;
-                    this.authenticateUser(user);
+                    this.setUser(user, false);
                 } else {
                     this.store.dispatch(this.actions.checking(false));
                 }
@@ -281,6 +277,18 @@ export class AuthService {
                 this.store.dispatch(this.actions.checking(false));
             }
         });
+    }
+
+    /**
+     * 保存user 到本地
+     * @param user 
+     * @param withToken 是否更新token
+     */
+    public setUser(user: IUser, withToken = true) {
+        if (withToken) {
+            this.setTokenInLocalStorage(user);
+        }
+        this.store.dispatch(this.actions.login(user));
     }
 
     private loadFromStorage(): IUser|undefined {
@@ -306,8 +314,4 @@ export class AuthService {
         return res.token;
     }
 
-    private authenticateUser(user: IUser) {
-        this.store.dispatch(this.actions.login(user));
-        return true;
-    }
 }

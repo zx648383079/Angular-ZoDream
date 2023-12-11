@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { IBreadcrumbItem } from '../model';
+import { Component, ComponentRef, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { IBreadcrumbItem, IFileExplorerTool, IFileItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
+import { FileExplorerImageEditorComponent } from '../tools';
 
 @Component({
   selector: 'app-file-explorer-dialog',
@@ -9,6 +10,8 @@ import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.compone
 })
 export class FileExplorerDialogComponent implements OnInit {
 
+    @ViewChild('modalVC', {read: ViewContainerRef})
+    private modalViewContainer: ViewContainerRef;
     @ViewChild(FileExplorerPanelComponent)
     private panel: FileExplorerPanelComponent;
     public breadcrumbItems: IBreadcrumbItem[] = [
@@ -21,8 +24,11 @@ export class FileExplorerDialogComponent implements OnInit {
     public pathIsInputing = false;
     private historyItems: string[] = [];
     private historyIndex = -1;
+    private modalRef: ComponentRef<IFileExplorerTool>;
 
-    constructor() { }
+    constructor(
+        private injector: Injector,
+    ) { }
 
     ngOnInit() {
     }
@@ -102,6 +108,10 @@ export class FileExplorerDialogComponent implements OnInit {
         this.applyPath(path);
     }
 
+    public onSelectedChange(file: IFileItem) {
+        this.executeTool(file);
+    }
+
     /**
      * 
      * @param path 
@@ -176,5 +186,20 @@ export class FileExplorerDialogComponent implements OnInit {
             i = j + 1;
         }
         this.breadcrumbItems = items;
+    }
+
+    private executeTool(file: IFileItem) {
+        if (this.modalRef) {
+            this.modalRef.destroy();
+            this.modalRef = undefined;
+        }
+        if (!file.thumb) {
+            return;
+        }
+        let tool = FileExplorerImageEditorComponent;
+        this.modalRef = this.modalViewContainer.createComponent<IFileExplorerTool>(tool, {
+            injector: this.injector
+        });
+        this.modalRef.instance.open(file);
     }
 }

@@ -8,8 +8,8 @@ import { AppState } from '../../../../theme/interfaces';
 import { IErrorResponse, IErrorResult } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
-import { AuthService } from '../../../../theme/services';
-import { getCurrentTime, uriEncode } from '../../../../theme/utils';
+import { AuthService, WebAuthn } from '../../../../theme/services';
+import { apiUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
 import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
@@ -32,6 +32,7 @@ export class LoginPanelComponent implements OnDestroy {
     public agree = true;
     public passwordObserve = false;
     public openAuth = false;
+    public openWebAuthn = true;
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
@@ -43,6 +44,7 @@ export class LoginPanelComponent implements OnDestroy {
         private store: Store<AppState>,
         private toastrService: DialogService,
         private authService: AuthService,
+        private webAuthn: WebAuthn
     ) {
         this.subItems.push(
             this.store.select(selectAuthUser).subscribe(res => {
@@ -57,6 +59,7 @@ export class LoginPanelComponent implements OnDestroy {
                 this.openAuth = res && res.auth_oauth;
             })
         );
+        this.openWebAuthn = this.webAuthn.enabled;
     }
 
     ngOnDestroy() {
@@ -172,15 +175,24 @@ export class LoginPanelComponent implements OnDestroy {
     }
 
     public tapOAuth(type: string) {
-        const timestamp = getCurrentTime();
-        const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
-        window.location.href = uriEncode(environment.apiEndpoint + 'auth/oauth', {
-            appid: environment.appid,
-            timestamp,
-            sign,
+        if (!this.openAuth) {
+            this.toastrService.warning($localize `Third-party login component is closed`);
+            return;
+        }
+        window.location.href = apiUri('auth/oauth', {
             type,
-            redirect_uri: window.location.href,
-        }, true);
+            redirect_uri: window.location.href});
+    }
+
+    public tapWebAuthn() {
+        this.webAuthn.get().subscribe({
+            next: res => {
+                this.authService.setUser(res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
     }
 
     private login(data: any, e?: ButtonEvent) {
@@ -236,4 +248,6 @@ export class LoginPanelComponent implements OnDestroy {
         }
         this.qrStatus = 4;
     }
+
+
 }

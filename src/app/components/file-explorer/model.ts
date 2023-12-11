@@ -50,6 +50,10 @@ export interface IBreadcrumbItem {
     disabled?: boolean;
 }
 
+export interface IFileExplorerTool {
+    open(file: IFileItem);
+}
+
 export enum FileExplorerAction {
     New,
     Cut,

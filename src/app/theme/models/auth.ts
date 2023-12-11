@@ -32,6 +32,7 @@ export interface IConnect {
     created_at?: string;
     name?: string;
     icon?: string;
+    platform?: string;
 }
 
 export interface IDriver {

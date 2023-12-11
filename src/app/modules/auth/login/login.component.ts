@@ -17,7 +17,7 @@ import {
     Router
 } from '@angular/router';
 import {
-    AuthService, ThemeService
+    AuthService, ThemeService, WebAuthn
 } from '../../../theme/services';
 import {
     selectAuthStatus
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     public openAuth = false;
+    public openWebAuthn = true;
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
@@ -72,13 +73,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         private router: Router,
         private toastrService: DialogService,
         private themeService: ThemeService,
-        private authService: AuthService) {
+        private authService: AuthService,
+        private webAuthn: WebAuthn) {
         this.themeService.setTitle($localize `Sign in`);
         this.subItems.push(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openAuth = res && res.auth_oauth;
             })
         );
+        this.openWebAuthn = this.webAuthn.enabled;
     }
 
     get email() {
@@ -234,6 +237,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public tapSendCode(event: CountdownEvent) {
         event.start(120);
+    }
+
+    public tapWebAuthn() {
+        this.webAuthn.get().subscribe({
+            next: res => {
+                this.authService.setUser(res);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        });
     }
 
 }

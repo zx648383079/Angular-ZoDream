@@ -1,0 +1,83 @@
+
+<div class="dialog-box" *ngIf="visible">
+    <div class="dialog-header">
+        <span>编辑</span>
+        <div class="dialog-action-bar">
+            <div class="action-item">
+                <i class="iconfont icon-arrow-left"></i>
+            </div>
+            <div class="action-item">
+                <i class="iconfont icon-arrow-right"></i>
+            </div>
+            <div class="action-item" (click)="close()">
+                <i class="iconfont icon-close"></i>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-body">
+        <div class="image-preview-panel">
+            <div class="panel-body" #imageBox>
+                
+            </div>
+
+        </div>
+
+        <div class="attachment-property-panel">
+            <div class="line-row-item">
+                <label for="" class="item-label">上传日期：</label>
+                <span class="item-body"></span>
+            </div>
+            <div class="line-row-item">
+                <label for="" class="item-label">上传者：</label>
+                <span class="item-body"></span>
+            </div>
+            <div class="line-row-item">
+                <label for="" class="item-label">文件名：</label>
+                <span class="item-body"></span>
+            </div>
+            <div class="line-row-item">
+                <label for="" class="item-label">文件类型：</label>
+                <span class="item-body"></span>
+            </div>
+            <div class="line-row-item">
+                <label for="" class="item-label">文件大小：</label>
+                <span class="item-body"></span>
+            </div>
+            <div class="line-row-item">
+                <label for="" class="item-label">尺寸：</label>
+                <span class="item-body"></span>
+            </div>
+
+            <hr>
+            <form action="" class="form-table">
+                <div class="zre-input-group">
+                    <label for="">标题</label>
+                    <div>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="zre-input-group">
+                    <label for="">描述</label>
+                    <div>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+             
+                <div class="zre-input-group">
+                    <label for="">文件网址</label>
+                    <div>
+                        <input type="text" class="form-control" readonly>
+                        <a href="" class="btn btn-outline-primary">复制URL</a>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="inline-action-bar">
+                <a href="">查看附件页面</a>
+                <a href="">编辑图像</a>
+                <a href="">下载文件</a>
+                <a href="" class="text-danger">永久删除</a>
+            </div>
+        </div>
+    </div>
+</div>

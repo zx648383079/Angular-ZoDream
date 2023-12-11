@@ -36,9 +36,11 @@
     </div>
     <div class="explorer-body">
         <app-file-explorer-catalog (pathChange)="onCatalogTap($event)"></app-file-explorer-catalog>
-        <app-file-explorer-panel (pathChange)="onFileTap($event)"></app-file-explorer-panel>
+        <app-file-explorer-panel (pathChange)="onFileTap($event)" (selectedChange)="onSelectedChange($event)"></app-file-explorer-panel>
     </div>
     <div class="dialog-footer">
 
     </div>
 </div>
+
+<ng-container #modalVC></ng-container>

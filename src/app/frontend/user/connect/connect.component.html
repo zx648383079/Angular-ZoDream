@@ -3,16 +3,17 @@
         <div class="item-body">
             <i class="iconfont" [ngClass]="item.icon"></i>
             {{ item.name }}
-            <ng-container *ngIf="item.nickname">
-                ({{ item.nickname }})
+            <ng-container *ngIf="item.platform || item.nickname">
+                (
+                <span class="item-platform">{{ item.platform }}：</span>{{ item.nickname }})
             </ng-container>
         </div>
         <div class="item-action">
             <ng-container *ngIf="item.id; else elseTemplate">
-                <a class="unlink-btn" i18n>Unbind</a>
+                <a class="unlink-btn" i18n  (click)="tapUnbind(item)">Unbind</a>
             </ng-container>
             <ng-template #elseTemplate>
-                <a i18n>Binding</a>
+                <a i18n (click)="tapBind(item)">Binding</a>
             </ng-template>
         </div>
     </div>

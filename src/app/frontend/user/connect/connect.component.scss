@@ -2,6 +2,10 @@
     display: flex;
     margin: 0 1rem;
     padding: 1rem 0;
+    .item-platform {
+        color: gray;
+        user-select: none;
+    }
     
     .item-body {
         flex: 1;

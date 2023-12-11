@@ -16,6 +16,21 @@ export class FileExplorerCatalogComponent implements OnInit {
             path: '/',
         },
         {
+            icon: 'icon-image',
+            name: $localize `Images`,
+            path: 'image:',
+        },
+        {
+            icon: 'icon-film',
+            name: $localize `Videos`,
+            path: 'video:',
+        },
+        {
+            icon: 'icon-file-text-o',
+            name: $localize `Documents`,
+            path: 'document:',
+        },
+        {
             icon: 'icon-desktop',
             name: $localize `Drives`,
             expandable: true,

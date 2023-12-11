@@ -68,4 +68,5 @@
     <a (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
     <a (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
     <a (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
+    <a (click)="tapWebAuthn()" i18n-title title="Sign in with WebAuthn" *ngIf="openWebAuthn"><i class="iconfont icon-fingerprint"></i></a>
 </div>
