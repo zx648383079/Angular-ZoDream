@@ -1,31 +1,86 @@
 
 <div class="dialog-box" *ngIf="visible">
-    <div class="dialog-header">
+    <div class="dialog-header" [hidden]="isEditting">
         <span>编辑</span>
         <div class="dialog-action-bar">
-            <div class="action-item">
+            <div class="action-item" title="查看上一张">
+                <i class="iconfont icon-chevron-left"></i>
+            </div>
+            <div class="action-item" title="查看下一张">
+                <i class="iconfont icon-chevron-right"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item" title="关闭" (click)="close()">
+                <i class="iconfont icon-close"></i>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-header" [hidden]="!isEditting">
+        <div class="dialog-action-bar left-tool-bar">
+            <div class="action-item" title="放大">
+                <i class="iconfont icon-search-plus"></i>
+            </div>
+            <div class="action-item" title="缩小">
+                <i class="iconfont icon-search-minus"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item" title="水平翻转">
+                <i class="iconfont icon-arrows-h"></i>
+            </div>
+            <div class="action-item" title="垂直翻转">
+                <i class="iconfont icon-arrows-v"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item" title="逆时针旋转15°">
+                <i class="iconfont icon-rotate-left"></i>
+            </div>
+            <div class="action-item" title="顺时针旋转15°">
+                <i class="iconfont icon-repeat"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item" title="图片上移">
+                <i class="iconfont icon-arrow-up"></i>
+            </div>
+            <div class="action-item" title="图片下移">
+                <i class="iconfont icon-arrow-down"></i>
+            </div>
+
+            <div class="action-item" title="图片左移">
                 <i class="iconfont icon-arrow-left"></i>
             </div>
-            <div class="action-item">
+            <div class="action-item" title="图片右移">
                 <i class="iconfont icon-arrow-right"></i>
             </div>
-            <div class="action-item" (click)="close()">
+        </div>
+        <div class="dialog-action-bar">
+            <div class="action-item disabled" title="回滚">
+                <i class="iconfont icon-undo"></i>
+            </div>
+            <div class="action-item disabled" title="复位">
+                <i class="iconfont icon-redo"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item"  title="应用当前图片修改" (click)="tapSave()">
+                <i class="iconfont icon-floppy-o"></i>
+            </div>
+            <div class="action-hr"></div>
+            <div class="action-item" title="关闭" (click)="close()">
                 <i class="iconfont icon-close"></i>
             </div>
         </div>
     </div>
     <div class="dialog-body">
         <div class="image-preview-panel">
-            <div class="panel-body" #imageBox>
-                
+            <div class="panel-body">
+                <canvas class="image-container" #imageBox></canvas>
             </div>
 
         </div>
 
-        <div class="attachment-property-panel">
+        <div class="attachment-property-panel" *ngIf="data">
             <div class="line-row-item">
                 <label for="" class="item-label">上传日期：</label>
-                <span class="item-body"></span>
+                <span class="item-body">{{ data.created_at }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">上传者：</label>
@@ -33,27 +88,28 @@
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件名：</label>
-                <span class="item-body"></span>
+                <span class="item-body">{{ data.name }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件类型：</label>
-                <span class="item-body"></span>
+                <span class="item-body">image/{{ data.extension }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件大小：</label>
-                <span class="item-body"></span>
+                <span class="item-body">{{ data.size | size }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">尺寸：</label>
-                <span class="item-body"></span>
+                <span class="item-body">{{ imageWidth }} x {{ imageHeight }}</span>
             </div>
 
+            <ng-container *ngIf="!isEditting">
             <hr>
-            <form action="" class="form-table">
+            <div class="form-table">
                 <div class="zre-input-group">
                     <label for="">标题</label>
                     <div>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" [(ngModel)]="data.name">
                     </div>
                 </div>
                 <div class="zre-input-group">
@@ -70,14 +126,16 @@
                         <a href="" class="btn btn-outline-primary">复制URL</a>
                     </div>
                 </div>
-            </form>
+            </div>
             <hr>
             <div class="inline-action-bar">
                 <a href="">查看附件页面</a>
-                <a href="">编辑图像</a>
+                <a (click)="tapEnterEdit()">编辑图像</a>
                 <a href="">下载文件</a>
                 <a href="" class="text-danger">永久删除</a>
             </div>
+            </ng-container>
+            
         </div>
     </div>
 </div>

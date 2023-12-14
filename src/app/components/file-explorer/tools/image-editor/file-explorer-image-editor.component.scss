@@ -32,12 +32,25 @@ $headerHeight: 2.5rem;
         display: inline-block;
         width: $headerHeight;
         text-align: center;
-        border-left: 1px solid #ccc;
         color: #787c82;
         &:hover {
             color: #333;
             background: #dcdcde;
         }
+        &.disabled {
+            color: #7777;
+            cursor: not-allowed;
+        }
+    }
+    .action-hr {
+        background-color: #ccc;
+        width: 1px;
+        display: block;
+        height: $headerHeight * .6;
+        margin-top: $headerHeight * .2;
+    }
+    &.left-tool-bar {
+        margin-left: -.8rem;
     }
 }
 
@@ -50,12 +63,13 @@ $headerHeight: 2.5rem;
 
 .image-preview-panel {
     flex: 1;
+    min-width: 0;
     padding: .8rem;
     height: 100%;
     .panel-body {
         height: 100%;
     }
-    img {
+    .image-container {
         display: block;
         margin: 0 auto;
         max-width: 100%;
@@ -79,6 +93,8 @@ $headerHeight: 2.5rem;
         display: inline-block;
         word-break: keep-all;
         padding-left: .4rem;
+        color: var(--bs-link-color);
+        cursor: pointer;
         &:not(:last-of-type) {
             border-right: 1px solid #ccc;
             padding-right: .4rem;

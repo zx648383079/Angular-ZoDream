@@ -17,7 +17,7 @@ export class FileExplorerDialogComponent implements OnInit {
     public breadcrumbItems: IBreadcrumbItem[] = [
         {icon: 'icon-home', name: 'Home', path: ''},
     ];
-    public visible = false;
+    @Input() public visible = false;
     @Input() public mode = 0;
     public path = '';
     public keywords = '';

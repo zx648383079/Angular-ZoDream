@@ -40,6 +40,7 @@ export interface IFileItem {
     created_at?: string;
     checkable?: boolean;
     checked?: boolean;
+    extension: string;
     type?: 'file'|'folder'|'group';
 }
 

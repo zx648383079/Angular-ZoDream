@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FileExplorerDialogComponent } from '../../../../components/file-explorer';
 
 @Component({
@@ -6,7 +6,7 @@ import { FileExplorerDialogComponent } from '../../../../components/file-explore
     templateUrl: './explorer.component.html',
     styleUrls: ['./explorer.component.scss']
 })
-export class ExplorerComponent implements OnInit, AfterViewInit {
+export class ExplorerComponent implements OnInit {
 
     @ViewChild(FileExplorerDialogComponent)
     public modal: FileExplorerDialogComponent
@@ -14,10 +14,6 @@ export class ExplorerComponent implements OnInit, AfterViewInit {
     constructor() { }
 
     ngOnInit() {
-    }
-
-    ngAfterViewInit(): void {
-        this.modal.open();
     }
 
 }
