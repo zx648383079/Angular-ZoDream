@@ -51,8 +51,14 @@ export interface IBreadcrumbItem {
     disabled?: boolean;
 }
 
+export interface IFileDataSource {
+    get count(): number;
+    indexOf(file: IFileItem): number;
+    getAt(i: number): IFileItem|undefined;
+}
+
 export interface IFileExplorerTool {
-    open(file: IFileItem);
+    open(file: IFileItem, source: IFileDataSource);
 }
 
 export enum FileExplorerAction {

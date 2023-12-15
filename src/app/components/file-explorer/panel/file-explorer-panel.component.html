@@ -65,7 +65,7 @@
                 <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': sortKey == 'created_at' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'created_at' && !orderAsc}"></i>
             </div>
         </div>
-        <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="hasMore">
+        <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="!hasMore" [offset]="5">
             <ng-container *ngFor="let item of filterItems">
                 <ng-container *ngIf="item.type === 'group'; else elseTemplate">
                     <div class="file-group">

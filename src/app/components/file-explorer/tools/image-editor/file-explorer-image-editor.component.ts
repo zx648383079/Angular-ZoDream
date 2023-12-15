@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { IFileExplorerTool, IFileItem } from '../../model';
+import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
+import { Subject } from 'rxjs';
+import { IImageAction, ImageActionItems } from './action';
+import { ISize } from '../../../../theme/utils/canvas';
 
 @Component({
     selector: 'app-file-explorer-image-editor',
@@ -11,20 +14,28 @@ import { Canvas } from './Canvas';
 export class FileExplorerImageEditorComponent implements IFileExplorerTool, AfterViewInit {
 
     @ViewChild('imageBox')
-    private imageBox: ElementRef<HTMLCanvasElement>;
+    private imageBox: ElementRef<HTMLDivElement>;
     public visible = false;
     public data: IFileItem;
-    public imageWidth = 0;
-    public imageHeight = 0;
     public isLoading = false;
     public isEditting = false;
+    public toolItems = ImageActionItems;
     private resizeFn: Function;
-    private canvas: Canvas;
+    private canvas: Canvas|undefined;
+    private imageData: HTMLImageElement|undefined;
+    private imageWidth = 0;
+    private imageHeight = 0;
+    private dataSource: IFileDataSource|undefined;
+    private dataIndex = -1;
     
     @HostListener('window:resize', [])
     private onResize() {
         if (this.resizeFn) {
             this.resizeFn();
+        }
+        if (this.canvas) {
+            const size = this.getOuterSize();
+            this.canvas.resize(size.width, size.height);
         }
     }
 
@@ -32,56 +43,145 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
         if (!this.imageBox?.nativeElement) {
             return;
         }
-        this.canvas = new Canvas(this.imageBox.nativeElement);
+        // this.canvas = new Canvas(this.imageBox.nativeElement);
     }
 
-    public open(file: IFileItem) {
-        this.data = {...file};
+    public get formatSize() {
+        return `${this.imageWidth} * ${this.imageHeight}`;
+    }
+
+    public get formatIndex() {
+        return `${this.dataIndex + 1}/${this.dataSource.count}`;
+    }
+
+    public open(file: IFileItem, source: IFileDataSource) {
+        this.dataSource = source;
+        this.dataIndex = source.indexOf(file);
         this.visible = true;
-        this.loadImage(file.thumb);
+        this.changeFile(file);
     }
 
     public close() {
         this.visible = false;
     }
 
+    public tapPrevious() {
+        this.dataIndex --;
+        if (this.dataIndex < 0) {
+            this.dataIndex += this.dataSource.count;
+        }
+        this.changeFile(this.dataSource.getAt(this.dataIndex));
+    }
+
+    public tapNext() {
+        this.dataIndex ++;
+        if (this.dataIndex >= this.dataSource.count) {
+            this.dataIndex = 0;
+        }
+        this.changeFile(this.dataSource.getAt(this.dataIndex));
+    }
+
     public tapEnterEdit() {
         this.isEditting = true;
+        this.applyEditting();
     }
 
     public tapSave() {
-
+        this.isEditting = false;
+        this.applyEditting();
     }
 
-    private loadImage(src: string) {
+    public tapTool(action: IImageAction) {
+        this.canvas.batch(() => action.action(this.canvas.layer));
+    }
+
+    private changeFile(file: IFileItem) {
+        this.data = {...file};
+        this.loadImage(file.thumb).subscribe(res => {
+            this.imageData = res;
+            this.imageWidth = res.width;
+            this.imageHeight = res.height;
+            this.isEditting = false;
+            this.applyEditting();
+        });
+    }
+
+    private applyEditting() {
+        if (this.isEditting) {
+            const ele = document.createElement('canvas');
+            this.resetCanvas(ele);
+            this.reset(ele);
+            this.canvas = new Canvas(ele);
+            this.imageData.width = this.imageWidth;
+            this.imageData.height = this.imageHeight;
+            this.canvas.drawImage(this.imageData);
+        } else {
+            this.canvas = undefined;
+            this.resetImage(this.imageData, this.imageWidth, this.imageHeight);
+            this.reset(this.imageData);
+        }
+    }
+
+    private loadImage(src: string): Subject<HTMLImageElement> {
+        const task = new Subject<HTMLImageElement>();
         this.isLoading = true;
         const loader = new Image();
         loader.src = assetUri(src);
         loader.onload = () => {
             this.isLoading = false;
-            const width = loader.width;
-            const height = loader.height;
-            this.imageWidth = width;
-            this.imageHeight = height;
-            this.displayImage(loader, width, height);
-            this.resizeFn = () => {
-                this.displayImage(loader, width, height);
-            };
+            task.next(loader);
         };
+        loader.onerror = (_, __, ___, ____, err) => {
+            task.error(err);
+        };
+        return task;
     }
 
-    private displayImage(img: HTMLImageElement, width: number, height: number) {
+    private resetImage(img: HTMLImageElement, width: number, height: number) {
+        const target = this.imageBox?.nativeElement;
+        if (!this.visible || !target) {
+            return;
+        }
+        const size = this.getOuterSize();
+        const scale = Math.max(width / size.width, height / size.height);
+        const w = width / scale;
+        const h = height / scale;
+        img.width = w;
+        img.height = h;
+        target.style.width = w + 'px';
+        target.style.height = h + 'px';
+        // this.canvas.resize(w, h);
+        // this.canvas.drawImage(img);
+    }
+
+    private resetCanvas(img: HTMLCanvasElement) {
         const target = this.imageBox?.nativeElement;
         if (!this.visible || !target) {
             return;
         }
         const box = target.parentElement;
-        const maxWidth = box.clientWidth;
-        const maxHeight = box.clientHeight;
-        const scale = Math.max(width / maxWidth, height / maxHeight);
-        const w = width / scale;
-        const h = height / scale;
-        this.canvas.resize(w, h);
-        this.canvas.drawImage(img);
+        img.width = box.clientWidth;
+        img.height = box.clientHeight;
+        target.removeAttribute('style');
     }
+
+    private reset(element: HTMLElement) {
+        const target = this.imageBox?.nativeElement;
+        if (!target) {
+            return;
+        }
+        for (let i = target.children.length - 1; i >= 0; i--) {
+            target.removeChild(target.children[i]);
+        }
+        target.appendChild(element);
+    }
+
+    private getOuterSize(): ISize {
+        const target = this.imageBox?.nativeElement;
+        if (!this.visible || !target) {
+            return {width: 0, height: 0};
+        }
+        const box = target.parentElement;
+        return {width: box.clientWidth, height: box.clientHeight};
+    } 
 }

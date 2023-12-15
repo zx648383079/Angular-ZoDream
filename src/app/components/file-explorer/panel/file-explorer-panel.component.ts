@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FILE_PROVIDER, IFileItem, IFileProvider } from '../model';
+import { FILE_PROVIDER, IFileDataSource, IFileItem, IFileProvider } from '../model';
 import { IPage } from '../../../theme/models/page';
+import { parseNumber } from '../../../theme/utils';
 
 @Component({
     selector: 'app-file-explorer-panel',
     templateUrl: './file-explorer-panel.component.html',
     styleUrls: ['./file-explorer-panel.component.scss']
 })
-export class FileExplorerPanelComponent implements OnInit {
+export class FileExplorerPanelComponent implements IFileDataSource {
 
     @Input() public editable = true;
     @Output() public pathChange = new EventEmitter<string>();
@@ -30,9 +31,6 @@ export class FileExplorerPanelComponent implements OnInit {
     constructor(
         @Inject(FILE_PROVIDER) private service: IFileProvider
     ) { }
-
-    ngOnInit() {
-    }
 
     public get filterItems() {
         const items = this.items;
@@ -69,6 +67,19 @@ export class FileExplorerPanelComponent implements OnInit {
             }
         }
         return total;
+    }
+
+    public get count(): number {
+        return this.items.length;
+    }
+    public indexOf(file: IFileItem): number {
+        return this.items.indexOf(file);
+    }
+    public getAt(i: number): IFileItem|undefined {
+        if (i < 0 || i >= this.count) {
+            return;
+        }
+        return this.items[i];
     }
 
     private formatValue(item: IFileItem, k: string) {
@@ -160,6 +171,9 @@ export class FileExplorerPanelComponent implements OnInit {
                 const data = res.data.map(i => {
                     if (!i.icon) {
                         i.icon = i.isFolder ? 'icon-folder-o' : 'icon-file-o';
+                    }
+                    if (i.size) {
+                        i.size = parseNumber(i.size);
                     }
                     return i;
                 });

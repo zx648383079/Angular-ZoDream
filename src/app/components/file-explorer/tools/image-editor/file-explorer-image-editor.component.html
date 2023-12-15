@@ -1,12 +1,12 @@
 
 <div class="dialog-box" *ngIf="visible">
     <div class="dialog-header" [hidden]="isEditting">
-        <span>编辑</span>
+        <span>查看图片[{{ formatIndex }}]</span>
         <div class="dialog-action-bar">
-            <div class="action-item" title="查看上一张">
+            <div class="action-item" title="查看上一张" (click)="tapPrevious()">
                 <i class="iconfont icon-chevron-left"></i>
             </div>
-            <div class="action-item" title="查看下一张">
+            <div class="action-item" title="查看下一张" (click)="tapNext()">
                 <i class="iconfont icon-chevron-right"></i>
             </div>
             <div class="action-hr"></div>
@@ -17,40 +17,16 @@
     </div>
     <div class="dialog-header" [hidden]="!isEditting">
         <div class="dialog-action-bar left-tool-bar">
-            <div class="action-item" title="放大">
-                <i class="iconfont icon-search-plus"></i>
-            </div>
-            <div class="action-item" title="缩小">
-                <i class="iconfont icon-search-minus"></i>
-            </div>
-            <div class="action-hr"></div>
-            <div class="action-item" title="水平翻转">
-                <i class="iconfont icon-arrows-h"></i>
-            </div>
-            <div class="action-item" title="垂直翻转">
-                <i class="iconfont icon-arrows-v"></i>
-            </div>
-            <div class="action-hr"></div>
-            <div class="action-item" title="逆时针旋转15°">
-                <i class="iconfont icon-rotate-left"></i>
-            </div>
-            <div class="action-item" title="顺时针旋转15°">
-                <i class="iconfont icon-repeat"></i>
-            </div>
-            <div class="action-hr"></div>
-            <div class="action-item" title="图片上移">
-                <i class="iconfont icon-arrow-up"></i>
-            </div>
-            <div class="action-item" title="图片下移">
-                <i class="iconfont icon-arrow-down"></i>
-            </div>
-
-            <div class="action-item" title="图片左移">
-                <i class="iconfont icon-arrow-left"></i>
-            </div>
-            <div class="action-item" title="图片右移">
-                <i class="iconfont icon-arrow-right"></i>
-            </div>
+            <ng-container *ngFor="let item of toolItems">
+            <ng-container *ngIf="item; else elseTemplate">
+                <div class="action-item" [title]="item.label" (click)="tapTool(item)">
+                    <i class="iconfont" [ngClass]="item.icon"></i>
+                </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div class="action-hr"></div>
+            </ng-template>
+            </ng-container>
         </div>
         <div class="dialog-action-bar">
             <div class="action-item disabled" title="回滚">
@@ -60,7 +36,7 @@
                 <i class="iconfont icon-redo"></i>
             </div>
             <div class="action-hr"></div>
-            <div class="action-item"  title="应用当前图片修改" (click)="tapSave()">
+            <div class="action-item" title="应用当前图片修改" (click)="tapSave()">
                 <i class="iconfont icon-floppy-o"></i>
             </div>
             <div class="action-hr"></div>
@@ -72,15 +48,14 @@
     <div class="dialog-body">
         <div class="image-preview-panel">
             <div class="panel-body">
-                <canvas class="image-container" #imageBox></canvas>
+                <div class="image-container" #imageBox></div>
             </div>
-
         </div>
 
         <div class="attachment-property-panel" *ngIf="data">
             <div class="line-row-item">
                 <label for="" class="item-label">上传日期：</label>
-                <span class="item-body">{{ data.created_at }}</span>
+                <span class="item-body">{{ data.created_at | timestamp }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">上传者：</label>
@@ -100,7 +75,7 @@
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">尺寸：</label>
-                <span class="item-body">{{ imageWidth }} x {{ imageHeight }}</span>
+                <span class="item-body">{{ formatSize }}</span>
             </div>
 
             <ng-container *ngIf="!isEditting">

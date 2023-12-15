@@ -4,7 +4,6 @@ import { EditorDropdownComponent } from '../modal/dropdown/editor-dropdown.compo
 import { EditorFileComponent } from '../modal/file/editor-file.component';
 import { EditorImageComponent } from '../modal/image/editor-image.component';
 import { EditorLinkComponent } from '../modal/link/editor-link.component';
-import { EditorSearchComponent } from '../modal/search/editor-search.component';
 import { EditorTableComponent } from '../modal/table/editor-table.component';
 import { EditorVideoComponent } from '../modal/video/editor-video.component';
 import { EditorBlockType } from '../model';

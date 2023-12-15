@@ -152,6 +152,8 @@
     .item-body {
         flex: 1;
         display: block;
+        min-width: 0;
+        word-break: break-all;
     }
 }
 

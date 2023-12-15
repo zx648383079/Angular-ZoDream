@@ -8,48 +8,76 @@ export class Canvas {
         private element: HTMLCanvasElement
     ) {
         const rect = element.getBoundingClientRect();
-        this.ctx = this.element.getContext('2d');
+        this._ctx = this.element.getContext('2d');
         this.resize(rect.width, rect.height);
     }
 
-    private items: CanvasLayer[] = [];
-    private ctx: CanvasRenderingContext2D;
-    private width: number;
-    private height: number;
+    private _items: CanvasLayer[] = [];
+    private _ctx: CanvasRenderingContext2D;
+    private _width: number;
+    private _height: number;
+    private _disabled = false;
     public selectedIndex = 0;
+    public scale = 1;
 
     public get size(): ISize {
-        return {width: this.width, height: this.height};
+        return {width: this._width, height: this._height};
     }
 
     public get layer() {
-        if (this.items.length === 0) {
-            this.createLayer();
+        if (this._items.length === 0) {
+            // this.createLayer();
         }
-        return this.items[this.selectedIndex];
+        return this._items[this.selectedIndex];
     }
 
 
-    public createLayer() {
-        // this.items.push(new CanvasLayer(this));
+    public push(...layers: CanvasLayer[]) {
+        this._items.push(...layers);
+        this.selectedIndex = this._items.length - 1;
     }
 
     public resize(width: number, height: number) {
         this.element.width = width;
         this.element.height = height;
+        this._width = width;
+        this._height = height; 
+        this.reload();
     }
 
     public clear() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        this._ctx.clearRect(0, 0, this._width, this._height);
     }
 
     public drawImage(img: HTMLImageElement) {
-        this.items.push(new ImageCanvasLayer(img, this));
+        this.push(new ImageCanvasLayer(img, this));
+        this.reload();
+    }
+
+    public batch(...items: Function[]) {
+        const old = this._disabled;
+        this._disabled = true;
+        for (const fn of items) {
+            fn();
+        }
+        this._disabled = old;
+        this.reload();
     }
 
     public reload() {
-        for (const layer of this.items) {
-            layer.update(this.ctx);
+        if (this._disabled) {
+            return;
         }
+        this.clear();
+        for (const layer of this._items) {
+            layer.update(this._ctx);
+        }
+    }
+
+    public saveAs(type?: string) {
+        if (!type) {
+            type = 'image/jpeg'; // 'png';
+        }
+        return this.element.toDataURL(type);
     }
 }

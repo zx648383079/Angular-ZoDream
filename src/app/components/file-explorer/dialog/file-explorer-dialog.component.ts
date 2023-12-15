@@ -200,6 +200,6 @@ export class FileExplorerDialogComponent implements OnInit {
         this.modalRef = this.modalViewContainer.createComponent<IFileExplorerTool>(tool, {
             injector: this.injector
         });
-        this.modalRef.instance.open(file);
+        this.modalRef.instance.open(file, this.panel);
     }
 }
