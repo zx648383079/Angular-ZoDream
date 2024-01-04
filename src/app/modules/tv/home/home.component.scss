@@ -26,24 +26,3 @@
         }
     }
 }
-
-
-.category-floor {
-    .cat-item {
-        display: inline-flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 10rem;
-        height: 10rem;
-        background-color: green;
-        color: #fff;
-        .item-icon {
-            font-size: 3rem;
-            margin-bottom: .5rem;
-        }
-        &.active {
-            box-shadow: 0 10px 10px 0 rgba($color: #000000, $alpha: .1);
-        }
-    }
-}

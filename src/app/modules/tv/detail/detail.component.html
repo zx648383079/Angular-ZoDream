@@ -1,42 +1,118 @@
 <div class="detail-floor">
     <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
     <div *ngIf="data">
-        <div class="row">
-            <div class="col-md-6 image-box">
-                <img [src]="data.cover|asset" alt="">
-            </div>
-            <div class="col-md-6 detail-header">
-                <div class="title-bar">
+        <div class="image-box">
+            <img [src]="data.cover|asset" alt="">
+        </div>
+        <div class="detail-header container-fluid">
+            <div class="row">
+                <div class="title-bar col-12">
                     {{ data.title }}
                     <app-star></app-star>
                 </div>
-                <div class="meta-bar">
-                    <p>类型：{{ data.category?.name }}</p>
-                    <p>主演：{{ data.leader }}</p>
-                </div>
-                <div class="description-bar">
-                    {{ data.description }}
-                    <div class="bar-more">更多</div>
+                <div class="detail-body col-md-8 order-last">
+                    <div class="meta-bar">
+                        <p>类型：{{ data.category?.name }}</p>
+                        <p>主演：{{ data.leader }}</p>
+                    </div>
+                    <div class="description-bar">
+                        {{ data.description }}
+                        <div class="bar-more">更多</div>
+                    </div>
                 </div>
         
-                <div class="btn-group">
-                    <a class="btn-icon play-btn" [routerLink]="['play', data.id]">
-                        <i class="iconfont icon-play icon"></i>
-                        <span class="label">播放</span>
-                    </a>
+                <div class="detail-action col-md-4">
+                    <div class="col-6">
+                        <div class="line-group">
+                            <div class="btn-outline">
+                                <i class="iconfont icon-task"></i>
+                            </div>
+                            <div class="btn-outline">
+                                <i class="iconfont icon-heart-o"></i>
+                            </div>
+                            
+                        </div>
+                        <div class="btn-outline">
+                            <i class="iconfont icon-play"></i>
+                            播放
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="line-group">
+                            <div class="btn-outline">
+                                <i class="iconfont icon-edit"></i>
+                            </div>
+                            <div class="btn-outline">
+                                <i class="iconfont icon-trash"></i>
+                            </div>
+                        </div>
+                        <div class="btn-outline">
+                            标记为已观看
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="panel play-mini" *ngIf="seriesItems && seriesItems.length > 0">
-            <div class="panel-header">选集</div>
-            <div class="panel-body">
-                <ng-container *ngFor="let item of seriesItems">
-                    <a class="play-item"  [routerLink]="['play', data.id, item.id]">
-                        <span class="item-no">{{ item.episode }}</span>
-                        <span class="item-label">{{ item.title }}</span>
-                    </a>
-                </ng-container>
+        <div class="more-container container-fluid">
+            <div class="panel play-mini" *ngIf="seriesItems && seriesItems.length > 0">
+                <div class="panel-header">选集</div>
+                <div class="panel-body">
+                    <ng-container *ngFor="let item of seriesItems">
+                        <a class="play-item"  [routerLink]="['play', data.id, item.id]">
+                            <span class="item-no">{{ item.episode }}</span>
+                            <span class="item-label">{{ item.title }}</span>
+                        </a>
+                    </ng-container>
+                </div>
+            </div>
+    
+            <div class="slider-panel">
+                <div class="panel-header">
+                    第一季
+                </div>
+                <div class="panel-body">
+                    <div class="large-play-item"  *ngFor="let item of items">
+                        <div class="item-image">
+                            <img [src]="item.cover | asset" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="item-name">{{ item.title }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="slider-panel">
+                <div class="panel-header">
+                    演员及工作人员
+                </div>
+                <div class="panel-body">
+                    <div class="cast-item" *ngFor="let item of items">
+                        <div class="item-image">
+                            <img [src]="item.cover | asset" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="item-name">{{ item.title }}</div>
+                            <div class="item-meta">{{ item.title }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="slider-panel">
+                <div class="panel-header">
+                    {{ data.title }}（系列）
+                </div>
+                <div class="panel-body">
+                    <div class="min-movie-item"  *ngFor="let item of items">
+                        <div class="item-image">
+                            <img [src]="item.cover | asset" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="item-name">{{ item.title }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

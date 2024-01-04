@@ -1,0 +1,13 @@
+<div class="control-slider-group">
+    <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
+    <div class="control-body">
+        <label for="">{{ header }}</label>
+        <input type="range">
+    </div>
+    <ng-container *ngIf="hasUnit; else elseTemplate">
+        <app-editor-number-input></app-editor-number-input>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <input type="number" class="form-control" size="4">
+    </ng-template>
+</div>

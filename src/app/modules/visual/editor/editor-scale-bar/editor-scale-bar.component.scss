@@ -13,7 +13,9 @@
         font-size: .5rem;
         color: #fff;
         border-radius: 50%;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-color: #333;
     }
     .inner-bar {

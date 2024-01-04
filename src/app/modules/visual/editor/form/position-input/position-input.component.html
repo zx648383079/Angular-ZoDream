@@ -1,0 +1,16 @@
+<div class="control-inline-group">
+    <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
+    <label *ngIf="header">{{ header }}</label>
+    <select class="form-control" [(ngModel)]="positionType">
+        <option value="static">无</option>
+        <option value="relative">相对定位</option>
+        <option value="absolute">绝对定位</option>
+        <option value="fixed">固定定位</option>
+    </select>
+</div>
+
+<div class="position-container">
+    <ng-container *ngIf="positionType != 'static'">
+        <app-editor-bound-input></app-editor-bound-input>
+    </ng-container>
+</div>

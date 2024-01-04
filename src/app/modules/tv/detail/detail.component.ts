@@ -13,6 +13,7 @@ export class DetailComponent implements OnInit {
 
     public data: IMovie;
     public seriesItems: IMovieSeries[] = [];
+    public items: IMovie[] = [];
     public isLoading = false;
 
     constructor(
@@ -28,6 +29,9 @@ export class DetailComponent implements OnInit {
                 return;
             }
             this.load(param.id);
+        });
+        this.service.movieList({}).subscribe(res => {
+            this.items = res.data;
         });
     }
 

@@ -7,16 +7,19 @@
 }
 
 .detail-floor {
-    margin: 1rem 1rem;
     .image-box {
-        max-height: 20rem;
-        overflow: hidden;
+        max-height: 70vh;
+        z-index: -1;
         img {
             width: 100%;
         }
     }
     .detail-header {
         // margin-left: .8rem;
+        padding: 1rem;
+        background: linear-gradient(to bottom, rgba(244, 244, 244, 0), rgba(244, 244, 244, .3) 10%, rgba(244, 244, 244, 1));
+        position: relative;
+        z-index: 1;
     }
     
     .title-bar {
@@ -30,7 +33,6 @@
     }
     
     .meta-bar {
-        margin-top: 1rem;
         color: #666;
         p {
             margin: 0;
@@ -45,6 +47,34 @@
         .bar-more {
             float: right;
         }
+    }
+
+
+}
+
+.more-container {
+    background-color: var(--bs-body-bg);
+    position: relative;
+    z-index: 1;
+    padding: 1rem;
+}
+
+.detail-action {
+    display: flex;
+    gap: .8rem;
+    .line-group {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        gap: .8rem;
+    }
+    .btn-outline {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+    }
+    .col-12 {
+        width: 100%;
     }
 }
 

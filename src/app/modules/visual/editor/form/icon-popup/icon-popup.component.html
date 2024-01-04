@@ -1,0 +1,21 @@
+<i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
+<label *ngIf="header">{{ header }}</label>
+<div class="control-popup-target">
+    <div class="color-icon" (click)="visible = !visible">
+        <i class="iconfont icon-edit"></i>
+    </div>
+</div>
+<div class="control-popup" [hidden]="!visible">
+    <div class="search-header-bar">
+        <input>
+        <i class="fa fa-search"></i>
+    </div>
+    <div class="search-body">
+        <ng-container *ngFor="let item of items">
+            <div class="icon-option-item" [ngClass]="{selected: item.checked}" (click)="tapSelect(item)">
+                <i class="iconfont {{ item.value }}"></i>
+                <span>{{ item.name }}</span>
+            </div>
+        </ng-container>
+    </div>
+</div>

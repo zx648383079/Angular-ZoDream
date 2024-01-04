@@ -27,36 +27,4 @@
     }
 }
 
-ul,li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.cat-row {
-    display: flex;
-    height: 20rem;
-    margin-right: 1rem;
-    .row-body {
-        flex: 1;
-    }
-    .row-header,
-    .row-more {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 10rem;
-        background-color: red;
-        color: #fff;
-    }
-    .row-header {
-        margin-right: .5rem;
-        .item-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-    }
-    &:not(:last-of-type) {
-        margin-bottom: 1rem;
-    }
-}
+

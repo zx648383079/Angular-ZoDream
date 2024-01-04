@@ -22,17 +22,8 @@ import { inputComponents } from './editor-widget/input';
 import { panelComponents } from './editor-widget/panel';
 import { EditorWorkBodyComponent } from './editor-work-body/editor-work-body.component';
 import { EditorWindowComponent } from './editor-window/editor-window.component';
-import { EditorBorderPopupComponent } from './editor-property/border-popup/border-popup.component';
-import { EditorColorPopupComponent } from './editor-property/color-popup/color-popup.component';
-import { EditorShadowPopupComponent } from './editor-property/shadow-popup/shadow-popup.component';
-import { EditorBackgroundPopupComponent } from './editor-property/background-popup/background-popup.component';
-import { EditorAnimationInputComponent } from './editor-property/animation-input/animation-input.component';
-import { EditorMaskInputComponent } from './editor-property/mask-input/mask-input.component';
-import { EditorPositionInputComponent } from './editor-property/position-input/position-input.component';
-import { EditorRadiusInputComponent } from './editor-property/radius-input/radius-input.component';
-import { EditorSizeInputComponent } from './editor-property/size-input/size-input.component';
-import { EditorBoundInputComponent } from './editor-property/bound-input/bound-input.component';
-import { EditorSelectInputComponent } from './editor-property/select-input/select-input.component';
+import { EditorAlignInputComponent, EditorAnimationInputComponent, EditorBackgroundPopupComponent, EditorBorderPopupComponent, EditorBoundInputComponent, EditorColorPopupComponent, EditorIconPopupComponent, EditorImageInputComponent, EditorInputGroupComponent, EditorMaskInputComponent, EditorNumberInputComponent, EditorNumberSliderInputComponent, EditorPositionInputComponent, EditorRadiusInputComponent, EditorSelectInputComponent, EditorShadowPopupComponent, EditorSwitchInputComponent, EditorTextInputComponent } from './form';
+
 
 const routes: Routes = [
     {
@@ -77,9 +68,16 @@ export const visualEditorRoutingComponents = [
     EditorColorPopupComponent,
     EditorShadowPopupComponent,
     EditorBackgroundPopupComponent,
-    EditorSizeInputComponent,
+    EditorTextInputComponent,
     EditorBoundInputComponent,
     EditorSelectInputComponent,
+    EditorNumberInputComponent,
+    EditorNumberSliderInputComponent,
+    EditorSwitchInputComponent,
+    EditorInputGroupComponent,
+    EditorIconPopupComponent,
+    EditorAlignInputComponent,
+    EditorImageInputComponent,
 
     ...controlComponents,
     ...inputComponents,

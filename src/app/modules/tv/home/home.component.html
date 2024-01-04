@@ -1,30 +1,98 @@
-<div class="search-floor">
+<div class="tool-bar">
     <a class="search-icon" routerLink="search">
         <i class="iconfont icon-search"></i>
+        搜索
     </a>
+
+    <div class="right-tool-bar">
+        <a class="tool-item">
+            <i class="iconfont icon-task"></i>
+        </a>
+        <a class="tool-item">
+            <i class="iconfont icon-refresh"></i>
+        </a>
+        <a class="tool-item">
+            <i class="iconfont icon-cog"></i>
+        </a>
+    </div>
 </div>
 
-<div class="banner-floor">
-    <ng-container *ngFor="let item of items">
-        <a class="recommend-item" [routerLink]="['category', item.cat_id, item.id]">
+<div class="slider-panel">
+    <div class="panel-header">
+        正在观看
+    </div>
+    <div class="panel-body">
+        <div class="large-movie-item" *ngFor="let item of items">
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
             </div>
             <div class="item-body">
                 <div class="item-name">{{ item.title }}</div>
-                <app-star></app-star>
             </div>
-        </a>
-    </ng-container>
+        </div>
+    </div>
 </div>
 
-<div class="category-floor">
-    <ng-container *ngFor="let item of categories">
-        <a class="cat-item" [routerLink]="['category', item.id]">
-            <div class="item-icon">
-                <img [src]="item.icon | asset" [alt]="item.name">
+<div class="slider-panel">
+    <div class="panel-header">
+        我的最爱
+    </div>
+    <div class="panel-body">
+        <ng-container *ngFor="let item of categories">
+            <a class="large-cat-item" [routerLink]="['category', item.id]">
+                <div class="item-image">
+                    <img [src]="item.icon | asset" [alt]="item.name">
+                </div>
+                <div class="item-body">{{ item.name }}</div>
+            </a>
+        </ng-container>
+    </div>
+</div>
+
+<div class="slider-panel">
+    <div class="panel-header">
+        影片类型
+    </div>
+    <div class="panel-body">
+        <ng-container *ngFor="let item of categories">
+            <a class="min-cat-item" [routerLink]="['category', item.id]">
+                <div class="item-image">
+                    <img [src]="item.icon | asset" [alt]="item.name">
+                </div>
+                <div class="item-body">{{ item.name }}</div>
+            </a>
+        </ng-container>
+    </div>
+</div>
+
+<div class="slider-panel">
+    <div class="panel-header">
+        为观看剧集
+    </div>
+    <div class="panel-body">
+        <div class="min-movie-item"  *ngFor="let item of items">
+            <div class="item-image">
+                <img [src]="item.cover | asset" alt="">
             </div>
-            <div class="item-name">{{ item.name }}</div>
-        </a>
-    </ng-container>
+            <div class="item-body">
+                <div class="item-name">{{ item.title }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slider-panel">
+    <div class="panel-header">
+        热门推荐
+    </div>
+    <div class="panel-body">
+        <div class="min-movie-item"  *ngFor="let item of items">
+            <div class="item-image">
+                <img [src]="item.cover | asset" alt="">
+            </div>
+            <div class="item-body">
+                <div class="item-name">{{ item.title }}</div>
+            </div>
+        </div>
+    </div>
 </div>

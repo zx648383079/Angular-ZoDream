@@ -12,14 +12,8 @@
             </div>
             <div class="tab-body" [ngStyle]="boxStyle">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                    <div class="control-line-group">
-                        <label for="">标题</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="control-inline-group">
-                        <label for="">懒加载</label>
-                        <app-switch></app-switch>
-                    </div>
+                    <app-editor-text-input header="标题"></app-editor-text-input>
+                    <app-editor-switch-input header="懒加载"></app-editor-switch-input>
                     <div class="control-row">
                         <div class="radio-control-item">
                             <i class="iconfont icon-zuoduiqi" title="左对齐"></i>
@@ -50,39 +44,17 @@
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                    <div class="control-line-gorup">
-                        <label for="">定位</label>
-                        <app-editor-position-input></app-editor-position-input>
-                    </div>
-                    <div class="control-slider-group">
-                        <div class="control-body">
-                            <label for="">透明度</label>
-                            <input type="range">
-                        </div>
-                        <div class="select-with-control">
-                            <div class="control-body">
-                                <input type="number">
-                            </div>
-                        </div>
-                    </div>
+                    <app-editor-position-input header="定位"></app-editor-position-input>
+                    <app-editor-number-slider-input header="透明度" [hasUnit]="false"></app-editor-number-slider-input>
                     <div class="control-panel" [ngClass]="{open: panelToggle.box}">
                         <div class="panel-header" (click)="panelToggle.box = !panelToggle.box">
                             <span>外观</span>
                             <i class="iconfont" [ngClass]="{'icon-chevron-right': !panelToggle.box, 'icon-chevron-down': panelToggle.box}"></i>
                         </div>
                         <div class="panel-body">
-                            <div class="control-inline-group">
-                                <label for="">背景</label>
-                                <app-editor-background-popup></app-editor-background-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">描边</label>
-                                <app-editor-border-popup></app-editor-border-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">阴影</label>
-                                <app-editor-shadow-popup></app-editor-shadow-popup>
-                            </div>
+                            <app-editor-background-popup header="背景"></app-editor-background-popup>
+                            <app-editor-border-popup header="描边"></app-editor-border-popup>
+                            <app-editor-shadow-popup header="阴影"></app-editor-shadow-popup>
                         </div>
                     </div>
                     <div class="control-panel" [ngClass]="{open: panelToggle.m}">
@@ -102,58 +74,15 @@
                                 [ngClass]="{'icon-chevron-right': !panelToggle.title, 'icon-chevron-down': panelToggle.title}"></i>
                         </div>
                         <div class="panel-body">
-                            <div class="control-inline-group">
-                                <label for="">可见</label>
-                                <app-switch></app-switch>
-                            </div>
-                            <div class="control-line-group">
-                                <label for="">内边距</label>
-                                <app-editor-bound-input></app-editor-bound-input>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">边框</label>
-                                <app-editor-border-popup></app-editor-border-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体颜色</label>
-                                <app-editor-color-popup></app-editor-color-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体</label>
-                                <app-editor-select-input></app-editor-select-input>
-                            </div>
-                            <div class="control-slider-group">
-                                <div class="control-body">
-                                    <label for="">字体大小</label>
-                                    <input type="range">
-                                </div>
-                                <app-editor-size-input></app-editor-size-input>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体粗细</label>
-                                <select></select>
-                            </div>
-                            <div class="control-line-group">
-                                <label for="">字体位置</label>
-                                <div class="control-row">
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-zuoduiqi" title="左对齐"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-shuipingjuzhongduiqi" title="水平居中"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-youduiqi" title="右对齐"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-shuipingdengjianju" title="水平等间距"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">背景</label>
-                                <app-editor-background-popup></app-editor-background-popup>
-                            </div>
+                            <app-editor-switch-input header="可见"></app-editor-switch-input>
+                            <app-editor-bound-input header="内边距"></app-editor-bound-input>
+                            <app-editor-border-popup header="边框"></app-editor-border-popup>
+                            <app-editor-color-popup header="字体颜色"></app-editor-color-popup>
+                            <app-editor-select-input header="字体"></app-editor-select-input>
+                            <app-editor-number-slider-input header="字体大小"></app-editor-number-slider-input>
+                            <app-editor-select-input header="字体粗细"></app-editor-select-input>
+                            <app-editor-align-input header="字体位置"></app-editor-align-input>
+                            <app-editor-background-popup header="背景"></app-editor-background-popup>
                         </div>
                     </div>
                     <div class="control-panel" [ngClass]="{open: panelToggle.body}">
@@ -163,58 +92,15 @@
                                 [ngClass]="{'icon-chevron-right': !panelToggle.body, 'icon-chevron-down': panelToggle.body}"></i>
                         </div>
                         <div class="panel-body">
-                            <div class="control-inline-group">
-                                <label for="">可见</label>
-                                <app-switch></app-switch>
-                            </div>
-                            <div class="control-line-group">
-                                <label for="">内边距</label>
-                                <app-editor-bound-input></app-editor-bound-input>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">边框</label>
-                                <app-editor-border-popup></app-editor-border-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体颜色</label>
-                                <app-editor-color-popup></app-editor-color-popup>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体</label>
-                                <select name="" id=""></select>
-                            </div>
-                            <div class="control-slider-group">
-                                <div class="control-body">
-                                    <label for="">字体大小</label>
-                                    <input type="range">
-                                </div>
-                                <app-editor-size-input></app-editor-size-input>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">字体粗细</label>
-                                <select></select>
-                            </div>
-                            <div class="control-line-group">
-                                <label for="">字体位置</label>
-                                <div class="control-row">
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-zuoduiqi" title="左对齐"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-shuipingjuzhongduiqi" title="水平居中"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-youduiqi" title="右对齐"></i>
-                                    </div>
-                                    <div class="radio-control-item">
-                                        <i class="iconfont icon-shuipingdengjianju" title="水平等间距"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-inline-group">
-                                <label for="">背景</label>
-                                <app-editor-background-popup></app-editor-background-popup>
-                            </div>
+                            <app-editor-switch-input header="可见"></app-editor-switch-input>
+                            <app-editor-bound-input header="内边距"></app-editor-bound-input>
+                            <app-editor-border-popup header="边框"></app-editor-border-popup>
+                            <app-editor-color-popup header="字体颜色"></app-editor-color-popup>
+                            <app-editor-select-input header="字体"></app-editor-select-input>
+                            <app-editor-number-slider-input header="字体大小"></app-editor-number-slider-input>
+                            <app-editor-select-input header="字体粗细"></app-editor-select-input>
+                            <app-editor-align-input header="字体位置"></app-editor-align-input>
+                            <app-editor-background-popup header="背景"></app-editor-background-popup>
                         </div>
                     </div>
                     <div class="control-panel" [ngClass]="{open: panelToggle.anim}">
