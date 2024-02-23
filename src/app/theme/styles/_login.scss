@@ -1,4 +1,4 @@
-@import '../../theme/styles/theme';
+@import 'theme';
 .login-box {
     a {
         text-decoration: none;
@@ -6,7 +6,7 @@
     .btn {
         padding: 0;
         border: none;
-        line-height: 40px;
+        line-height: 2.5rem;
         vertical-align: middle;
         background: #cc2525;
         color: #fff;
@@ -23,7 +23,7 @@
         }
     }
     .input-box {
-        padding-top: 70px;
+        padding-top: 4.375rem;
     }
     input[type="password"] {
         &::-ms-reveal {
@@ -31,22 +31,22 @@
         }
     }
     .form-ico {
-        .#{$prefix}input-group {
+        .#{$prefix}-input-group {
             position: relative;
-            line-height: 40px;
-            height: 40px;
+            line-height: 2.5rem;
+            height: 2.5rem;
             display: block;
             input[type="text"],
             input[type="email"],
             input[type="tel"],
             input[type="password"],
             input[type="url"] {
-                padding-left: 30px;
+                padding-left: 1.875rem;
                 width: 100%;
                 font-size: 1rem;
                 font-weight: 400;
                 line-height: 1.5;
-                height: 40px;
+                height: 2.5rem;
                 box-sizing: border-box;
                 border: none;
                 outline: none;
@@ -55,17 +55,17 @@
             }
             .iconfont {
                 position: absolute;
-                left: 10px;
+                left: 0.625rem;
                 transition: all .5s;
                 &:nth-child(3) {
                     left: auto;
-                    right: 10px;
+                    right: 0.625rem;
                 }
             }
             &.input-focus {
                 input {
                     padding-left: 0;
-                    padding-right: 30px;
+                    padding-right: 1.875rem;
                     border-bottom: 2px solid #a10000;
                 }
                 // .iconfont {
@@ -85,8 +85,8 @@
             .checkbox {
                 position: relative;
                 display: inline-block;
-                width: 30px;
-                height: 30px;
+                width: 1.875rem;
+                height: 1.875rem;
                 input[type=checkbox] {
                     visibility: hidden;
                     &:checked {
@@ -105,7 +105,7 @@
                         text-rendering: auto;
                         content: "\e71e";
                         position: absolute;
-                        left: 10px;
+                        left: 0.625rem;
                         top: 0;
                     }
                 }

@@ -8,9 +8,9 @@ import { NoteService } from '../note.service';
 import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-note-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
 
@@ -25,6 +25,8 @@ export class ListComponent implements OnInit {
         user: 0,
     };
     public editData: INote = {} as any;
+    public isMultiple = false;
+    public isChecked = false;
 
     constructor(
         private service: NoteService,
@@ -74,6 +76,46 @@ export class ListComponent implements OnInit {
     public onNoticeToggle(item: INote) {
         this.service.noteChange(item.id, ['is_notice']).subscribe(res => {
             item.is_notice = res.is_notice;
+        });
+    }
+
+
+    public get checkedItems() {
+        return this.items.filter(i => i.checked);
+    }
+
+    public toggleCheck(item?: INote) {
+        if (!item) {
+            this.isChecked = !this.isChecked;
+            this.items.forEach(i => {
+                i.checked = this.isChecked;
+            });
+            return;
+        }
+        item.checked = !item.checked;
+        if (!item.checked) {
+            this.isChecked = false;
+            return;
+        }
+        if (this.checkedItems.length === this.items.length) {
+            this.isChecked = true;
+        }
+    }
+
+    public tapRemoveMultiple() {
+        const items = this.checkedItems;
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认删除选中的${items.length}条便签？`, () => {
+            this.service.noteRemove(items.map(i => i.id)).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.tapPage();
+            });
         });
     }
 

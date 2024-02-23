@@ -1,46 +1,66 @@
 <div class="container">
 
+    <div class="simple-panel about-box">
+        <div class="panel-header">
+            <h1 i18n>About Us</h1>
+        </div>
+        <div class="about-bottom">
+            <h4>This site is based on zodream framework for the development of the showcase site.</h4>
+            <p>zodream, PHP lightweight framework, the main source of code for the work accumulated. This site and its framework to keep permanently updated.</p>
+            <p>In addition to the blog, other sections of this site are code testing projects, only for testing code, will not produce any commercial use, special instructions, any function within this site, only for the site internal testing.</p>
+            <p>This site is built with the intention of collecting valuable things, if there is any infringement, please submit feedback.</p>
+            <div class="autograph">Written in 2023-04-02</div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-4">
             <div class="person-box">
                 <div class="avatar">
-                    <img [src]="'assets/images/zx.jpg'|asset" alt="zodream">
+                    <img [src]="developer.avatar|asset" [alt]="developer.name">
                 </div>
-                <div class="name">zodream</div>
-                <div class="desc">Happy everyday</div>
-                <div class="links">
-                    <a href="https://github.com/zx648383079" target="_blank" title="Github">
-                        <i class="iconfont icon-github"></i>
-                        GitHub
-                    </a>
-                    <a href="mailto:648383079@qq.com" i18n-title title="Send an email">
-                        <i class="iconfont icon-mail"></i>
-                        Email
-                    </a>
+                <div class="name">{{ developer.name }}</div>
+                <div class="desc">{{ developer.description }}</div>
+                <div class="links" *ngIf="developer.links">
+                    <ng-container *ngFor="let link of developer.links">
+                        <a [href]="link.url" target="_blank" [title]="link.title">
+                            <i class="iconfont" [ngClass]="link.icon  | iconfont"></i>
+                            {{ link.title }}
+                        </a>
+                    </ng-container>
                 </div>
             </div>        
         </div>
 
-        <div class="col-md-8">
-            <div class="about-box">
-                <div class="about-top heading">
-                    <h1 i18n>About Us</h1>
+        <div class="col-md-8" *ngIf="developer.skills">
+            <div class="simple-panel">
+                <div class="skill-progress-bar" *ngFor="let item of developer.skills">
+                    <div class="progress-header">
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="item-meta">{{ item.formatted_proficiency }}({{ item.duration }})</span>
+                    </div>
+                    <div class="progress-inner">
+                        <span class="inner-bar" [ngStyle]="{width: item.proficiency + '%'}"></span>
+                    </div>
+                    <div class="skill-meta" *ngIf="item.links">
+                        <label>代表作：</label>
+                        <ng-container *ngFor="let link of item.links;let i = index">
+                            <ng-container *ngIf="i > 0">
+                                、
+                            </ng-container>
+                            <a [href]="link.url" target="_blank" [title]="link.title"> {{ link.title }}</a>
+                        </ng-container>
+                    </div>
                 </div>
-                <div class="about-bottom">
-                    <h4>This site is based on zodream framework for the development of the showcase site.</h4>
-                    <p>zodream, PHP lightweight framework, the main source of code for the work accumulated. This site and its framework to keep permanently updated.</p>
-                    <p>In addition to the blog, other sections of this site are code testing projects, only for testing code, will not produce any commercial use, special instructions, any function within this site, only for the site internal testing.</p>
-                    <p>This site is built with the intention of collecting valuable things, if there is any infringement, please submit feedback.</p>
-                    <div class="autograph">Written in 2023-04-02</div>
-                </div>
+                
             </div>
         </div>
     </div>
 
-    <div class="contact-box">
-        <div class="heading">
+    <div class="simple-panel contact-box">
+        <div class="panel-header">
             <h2 i18n>Feedback</h2>
-            <p i18n>This site and its framework accept any friendly suggestions, and any friendly friends are welcome to leave comments here. </p>
+            <p class="header-meta" i18n>This site and its framework accept any friendly suggestions, and any friendly friends are welcome to leave comments here. </p>
         </div>
         <div class="row">
             <div class="col-md-6">

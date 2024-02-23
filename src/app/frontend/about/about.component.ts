@@ -18,6 +18,26 @@ export class AboutComponent implements OnInit {
         phone: '',
         content: '',
     };
+    public developer: {
+        name: string;
+        avatar: string;
+        description: string;
+        links: {
+            title: string;
+            icon: string;
+            url: string;
+        }[];
+        skills: {
+            name: string;
+            proficiency: number;
+            formatted_proficiency: string;
+            duration: string;
+            links: {
+                title: string;
+                url: string;
+            }[];
+        }[];
+    } = {} as any;
 
     constructor(
         private service: FrontendService,
@@ -27,6 +47,9 @@ export class AboutComponent implements OnInit {
 
     ngOnInit() {
         this.themeService.setTitle($localize `Abount`);
+        this.service.developer().subscribe(res => {
+            this.developer = res;
+        });
     }
 
     public tapSubmit(e: ButtonEvent) {

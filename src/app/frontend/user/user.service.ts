@@ -50,6 +50,10 @@ export class UserService {
         return this.http.get<IData<IConnect>>('auth/account/connect').pipe(map(res => res.data));
     }
 
+    public connectRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/account/connect_delete', {params: {id}});
+    }
+
     public uploadAvatar(file: File) {
         const form = new FormData();
         form.append('file', file);
@@ -90,5 +94,16 @@ export class UserService {
         event: string;
     }) {
         return this.http.post<IDataOne<boolean>>('auth/password/verify_code', data);
+    }
+
+    public create2FA() {
+        return this.http.get<{
+            recovery_code: string,
+            qr: string,
+        }>('auth/passkey/twofa');
+    }
+
+    public save2FA(data: any) {
+        return this.http.post<IDataOne<boolean>>('auth/passkey/twofa_save', data);
     }
 }

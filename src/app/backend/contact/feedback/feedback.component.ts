@@ -7,9 +7,9 @@ import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss'],
+    selector: 'app-feedback',
+    templateUrl: './feedback.component.html',
+    styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
 

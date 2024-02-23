@@ -82,27 +82,6 @@
     }
 }
 
-.about-box,
-.contact-box {
-    background-color: var(--#{$prefix}-panel);
-    padding: 20px;
-    .heading {
-        h3, 
-        h1, 
-        h2 {
-            color: var(--#{$prefix}-panel-text);
-            font-size: 2.1em;
-            font-weight: 500;
-            margin: 0;
-            text-transform: uppercase;
-        }
-    }
-    .row {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-}
-
 .btn-show {
     background: 0 0;
     display: inline-block;
@@ -137,7 +116,8 @@
 }
 
 .about-box {
-    .about-top {
+    margin-top: 3rem;
+    .panel-header {
         text-align: center;
     }
     .about-bottom {
@@ -158,5 +138,44 @@
         line-height: 1.875rem;
         color: #333;
         text-align: right;
+    }
+}
+
+.skill-progress-bar {
+    margin-top: .8rem;
+    .item-name {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .item-meta {
+        display: block;
+        font-size: .8rem;
+    }
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    .progress-inner {
+        display: flex;
+        height: .8rem;
+        border-radius: .25rem;
+        background-color: var(--#{$prefix}-primary-text);
+        border: 1px solid var(--#{$prefix}-primary);
+        .inner-bar {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--#{$prefix}-primary-text);
+            text-align: center;
+            white-space: nowrap;
+            background-color: var(--#{$prefix}-primary);
+            transition: width 1s;
+        }
+    }
+    .skill-meta {
+        color: var(--#{$prefix}-secondary-text);
+        font-size: .8rem;
     }
 }

@@ -7,6 +7,7 @@ import { ZreFormModule } from '../../components/form';
 import { LinkRuleModule } from '../../components/link-rule';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuService } from './menu.service';
+import { DialogModule } from '../../components/dialog';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { MenuService } from './menu.service';
         ZreFormModule,
         LinkRuleModule,
         ReactiveFormsModule,
+        DialogModule,
         FormsModule,
         UserRoutingModule
     ],

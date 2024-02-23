@@ -1,5 +1,5 @@
 <div class="login-panel">
-    <div class="tab-bar">
+    <div class="tab-bar" [hidden]="tabIndex >= 8">
         <a [ngClass]="{active: tabIndex < 2}" (click)="tapTab(0)" i18n>Quick login</a>
         <a [ngClass]="{active: tabIndex == 2}" (click)="tapTab(2)" i18n>Account login</a>
     </div>
@@ -20,7 +20,7 @@
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <app-action-button class="btn btn-primary" (tapped)="tapMobileCodeLogin($event)" i18n>Sign in</app-action-button>
+        <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
         <div class="agree-bar">
             <i class="iconfont" [ngClass]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
             <ng-container i18n>I agree to</ng-container>
@@ -45,7 +45,7 @@
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <app-action-button class="btn btn-primary" (tapped)="tapMobileLogin($event)" i18n>Sign in</app-action-button>
+        <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
     </div>
     <div class="email-body" [hidden]="tabIndex != 2">
         <div class="icon-input">
@@ -64,7 +64,7 @@
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
-        <app-action-button class="btn btn-primary" (tapped)="tapEmailLogin($event)" i18n>Sign in</app-action-button>
+        <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
     </div>
     <div class="qr-body" *ngIf="tabIndex == 3">
         <div class="qr-img">
@@ -89,9 +89,40 @@
         <div class="qr-label" i18n>Open the app and scan the QR code</div>
     </div>
 
-    <div class="panel-footer">
+    <div class="email-body" [hidden]="tabIndex != 8">
+        <div class="title-bar" i18n>Two-factor authentication</div>
+        <div class="icon-input">
+            <i class="iconfont icon-shield" aria-hidden="true"></i>
+            <input type="text" i18n-placeholder placeholder="Authentication code" [(ngModel)]="twoFaCode">
+        </div>
+
+
+        <a (click)="tabIndex = 9" class="link-a" i18n>Use a recovery code or begin account recovery</a>
+
+        <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+
+        <div class="panel-tip" i18n>
+            Open your two-factor authenticator (TOTP) app or browser extension to view your authentication code.
+        </div>
+    </div>
+    <div class="email-body" [hidden]="tabIndex != 9">
+        <div class="title-bar" i18n>Use a Recovery Code</div>
+        <div class="icon-input">
+            <i class="iconfont icon-shield" aria-hidden="true"></i>
+            <input type="text" i18n-placeholder placeholder="Recovery Code" [(ngModel)]="recoveryCode">
+        </div>
+    
+        <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+    
+        <div class="panel-tip" i18n>
+            If you are unable to access your two-factor device, enter one of your recovery code to verify your identity
+        </div>
+    </div>
+
+    <div class="panel-footer" [hidden]="tabIndex >= 8">
         <div class="oauth-bar">
             <a (click)="tapRefreshQr()" i18n-title title="Sign in with QR code"><i class="iconfont icon-qrcode"></i></a>
+            <a (click)="tapWebAuthn()" i18n-title title="Sign in with WebAuthn" *ngIf="openWebAuthn"><i class="iconfont icon-fingerprint"></i></a>
             <ng-container *ngIf="openAuth">
                 <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
                 <a  (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
@@ -102,7 +133,7 @@
         <div class="tip-bar">
             <a class="help-btn" *ngIf="tabIndex < 2" routerLink="/frontend/about" i18n>Help?</a>
             <a class="help-btn" *ngIf="tabIndex == 2" routerLink="/auth/register" i18n>Sign up</a>
-            <a class="help-btn" *ngIf="tabIndex == 2" routerLink="/auth/find" i18n>Forgot your password?</a>
+            <a class="help-btn" *ngIf="tabIndex == 2" routerLink="/auth/find" i18n>Forgot password?</a>
         </div>
     </div>
 

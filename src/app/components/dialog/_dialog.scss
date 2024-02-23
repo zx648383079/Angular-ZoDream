@@ -101,7 +101,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     width: 30rem;
     top: 0;
     bottom: 0;
-    background-color: var(--#{$prefix}-dialog);
+    background-color: var(--bs-body-bg);
     color: var(--#{$prefix}-dialog-text);
     z-index: 99;
     box-shadow: $shadow 0 0 0.625rem;

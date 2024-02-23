@@ -32,7 +32,8 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     public editData: any = {
-        content: ''
+        content: '',
+        status: 1,
     };
     public authUser: IUser;
 
@@ -70,6 +71,10 @@ export class NoteComponent implements OnInit, OnDestroy {
         this.searchService.offReceiver();
     }
 
+    public toggleVisible() {
+        this.editData.status = this.editData.status > 0 ? 0 : 1;
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (this.size === 0) {
             this.toastrService.warning($localize `Please input the content`);
@@ -77,7 +82,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         }
         e?.enter();
         this.service.save({
-            content: this.editData.content,   
+            ...this.editData 
         }).subscribe({
             next: _ => {
                 e?.reset();

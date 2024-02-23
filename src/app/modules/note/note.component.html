@@ -8,7 +8,10 @@
                     </div>
                     <div class="item-action">
                         <span class="length-box">{{ size }}/255</span>
-                        <app-action-button (tapped)="tapSubmit($event)"><i class="iconfont icon-check"></i></app-action-button>
+                        <div class="pull-right">
+                            <a (click)="toggleVisible()" [title]="editData.status > 0 ? '公开显示' : '仅私人查看'"><i class="iconfont" [ngClass]="{'icon-eye': editData.status > 0, 'icon-eye-slash': editData.status < 1}"></i></a>
+                            <app-action-button (tapped)="tapSubmit($event)"><i class="iconfont icon-check"></i></app-action-button>
+                        </div>
                     </div>
                 </div>
             </div>

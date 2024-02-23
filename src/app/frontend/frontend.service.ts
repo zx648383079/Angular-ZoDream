@@ -48,4 +48,8 @@ export class FrontendService {
         return this.http.post<IDataOne<Boolean>>('contact/home/feedback', data);
     }
 
+    public developer() {
+        return this.http.get<any>('contact/home/developer');
+    }
+
 }

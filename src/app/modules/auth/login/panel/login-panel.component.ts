@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Md5 } from 'ts-md5';
 import { environment } from '../../../../../environments/environment';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../../components/form';
@@ -9,7 +8,7 @@ import { IErrorResponse, IErrorResult } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { AuthService, WebAuthn } from '../../../../theme/services';
-import { apiUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
+import { apiUri } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
 import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
@@ -37,8 +36,11 @@ export class LoginPanelComponent implements OnDestroy {
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
+    public twoFaCode = '';
+    public recoveryCode = '';
     public qrStatus = 0;
     private subItems: Subscription[] = [];
+    private inputData: any = {};
 
     constructor(
         private store: Store<AppState>,
@@ -126,7 +128,67 @@ export class LoginPanelComponent implements OnDestroy {
         });
     }
 
-    public tapMobileCodeLogin(e?: ButtonEvent) {
+    public tapSignIn(e?: ButtonEvent) {
+        const data = this.loadSignInData();
+        if (!data) {
+            return;
+        }
+        if (this.captchaToken) {
+            data.captcha_token = this.captchaToken;
+            data.captcha = this.captcha;
+        }
+        e?.enter();
+        this.authService.login(data).subscribe({
+            next: _ => {
+                e?.reset();
+            },
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
+                if (err.error.captcha_token) {
+                    this.captchaToken = err.error.captcha_token;
+                }
+                this.tapCaptcha();
+                if (err.error.code === 1015) {
+                    this.tabIndex = 8;
+                    this.inputData = data;
+                }
+            }
+        });
+    }
+
+    private loadSignInData(): any {
+        switch (this.tabIndex) {
+            case 1:
+                return this.loadMobilePassword();
+            case 2:
+                return this.loadEmailPassword();
+            case 4:
+                return this.load2FA();
+            case 5:
+                return this.loadRecoveryCode();
+            default:
+                return this.loadMobileCode();
+        }
+    }
+
+    private load2FA(): any {
+        if (!mobileValidate(this.twoFaCode)) {
+            this.toastrService.warning($localize `Please input the authentication code`);
+            return;
+        }
+        return {...this.inputData, twofa_code: this.twoFaCode};
+    }
+
+    private loadRecoveryCode(): any {
+        if (!mobileValidate(this.recoveryCode)) {
+            this.toastrService.warning($localize `Please input the recovery code`);
+            return;
+        }
+        return {...this.inputData, recovery_code: this.recoveryCode};
+    }
+
+    private loadMobileCode(): any {
         const data = {
             mobile: this.mobile,
             code: this.code,
@@ -139,10 +201,10 @@ export class LoginPanelComponent implements OnDestroy {
             this.toastrService.warning($localize `Please input the SMS verification code`);
             return;
         }
-        this.login(data, e);
+        return data;
     }
 
-    public tapMobileLogin(e?: ButtonEvent) {
+    private loadMobilePassword(): any {
         const data = {
             mobile: this.mobile,
             password: this.password,
@@ -155,10 +217,10 @@ export class LoginPanelComponent implements OnDestroy {
             this.toastrService.warning($localize `Please input the password`);
             return;
         }
-        this.login(data, e);
+        return data;
     }
 
-    public tapEmailLogin(e?: ButtonEvent) {
+    private loadEmailPassword(): any {
         const data = {
             email: this.email,
             password: this.password,
@@ -171,7 +233,7 @@ export class LoginPanelComponent implements OnDestroy {
             this.toastrService.warning($localize `Please input the password`);
             return;
         }
-        this.login(data, e);
+        return data;
     }
 
     public tapOAuth(type: string) {
@@ -191,27 +253,6 @@ export class LoginPanelComponent implements OnDestroy {
             },
             error: err => {
                 this.toastrService.error(err);
-            }
-        });
-    }
-
-    private login(data: any, e?: ButtonEvent) {
-        if (this.captchaToken) {
-            data.captcha_token = this.captchaToken;
-            data.captcha = this.captcha;
-        }
-        e?.enter();
-        this.authService.login(data).subscribe({
-            next: _ => {
-                e?.reset();
-            },
-            error: (err: IErrorResult) => {
-                e?.reset();
-                this.toastrService.warning(err.error.message);
-                if (err.error.captcha_token) {
-                    this.captchaToken = err.error.captcha_token;
-                }
-                this.tapCaptcha();
             }
         });
     }

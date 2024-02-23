@@ -27,6 +27,13 @@ a {
             }
         }
     }
+    .title-bar {
+        color: #333;
+        font-size: 1.125rem;
+        padding: 1.875rem 0 0.625rem;
+        line-height: inherit;
+        text-align: center;
+    }
     .icon-input,
     .code-input,
     .captcha-input {

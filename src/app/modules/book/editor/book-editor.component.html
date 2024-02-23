@@ -65,8 +65,13 @@
             </ul>
         </div>
         <div class="body-container">
-            <div class="toggle-icon" title="显示目录">
-                <i class="iconfont icon-bars"></i>
+            <div class="toggle-tool-bar">
+                <div class="tool-item" title="显示目录">
+                    <i class="iconfont icon-bars"></i>
+                </div>
+                <div class="tool-item" title="退出编辑" (click)="tapExit()">
+                    <i class="iconfont icon-home"></i>
+                </div>
             </div>
             <ng-container *ngIf="data">
                 <div class="title-input">
@@ -81,10 +86,11 @@
                     <app-panel title="附加属性" [min]="true">
                         <div class="form-table">
                             <div class="zre-input-group">
-                                <label for="price">价格</label>
+                                <label for="price">章节类型</label>
                                 <div>
-                                    <input type="text" id="price" class="form-control" [(ngModel)]="data.price">
-                                    <div class="input-tip">为0表示免费章节</div>
+                                    <select name="price" [(ngModel)]="data.price" class="form-control">
+                                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="zre-input-group">
@@ -95,8 +101,11 @@
                             </div>
                         </div>
                     </app-panel>
+                    <div class="btn-group">
+                        <app-action-button class="btn btn-success" (tapped)="tapSaveChapter($event)">确认保存</app-action-button>
+                        <a class="btn btn-danger" (click)="publishModal.open()">发布</a>
+                    </div>
                 </ng-container>
-                <app-action-button class="btn btn-success" (tapped)="tapSaveChapter($event)">确认保存</app-action-button>
             </ng-container>
         </div>
     </div>
@@ -169,6 +178,34 @@
 <div class="dialog-link" [hidden]="!linkOpen">
     <app-mind [readonly]="false" [format]="mindFormat" [items]="roleItems" [linkItems]="linkItems" (confirm)="onMindConfirm($event, roleModal)" (update)="onMindUpdate($event)"></app-mind>
 </div>
+
+<app-dialog-box #publishModal title="发布章节">
+    <div class="form-table">
+        <div class="zre-input-group">
+            <label for="">发布章节</label>
+            <div>
+                <input type="text" class="form-control" [ngModel]="data.title" readonly>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="">字数统计</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="skillData.name">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="">设置发布时间</label>
+            <div>
+                <p><input type="radio">立即发布</p>
+                <p><input type="radio">定时发布</p>
+                <p>
+                    <input type="date" class="form-control">
+                    <input type="time" class="form-control">
+                </p>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>
 
 <app-dialog-box #moveModal [scrollable]="false">
     <div class="form-table">

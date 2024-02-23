@@ -7,7 +7,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
     host: {
-        class: 'select-control-container',
+        class: 'control-line-group',
     },
     providers: [{
         provide: NG_VALUE_ACCESSOR,

@@ -1,4 +1,4 @@
-<form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}">
+<form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}" [hidden]="mode > 6">
   <div class="input-box">
         <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
             <div class="zre-input-group" [class]="{error: email.invalid}">
@@ -61,6 +61,39 @@
       <button type="button" class="btn" (click)="tapMode(0)" i18n>Back</button>
   </div>
 </form>
+
+<div class="form-ico auth-panel" *ngIf="mode == 8">
+    <div class="title-bar" i18n>Two-factor authentication</div>
+    <div class="zre-input-group">
+        <input type="text" i18n-placeholder placeholder="Authentication code" [(ngModel)]="twoFaCode">
+        <i class="iconfont icon-shield" aria-hidden="true"></i>
+    </div>
+
+
+    <a (click)="mode = 9" class="link-a" i18n>Use a recovery code or begin account recovery</a>
+
+    <app-action-button class="btn btn-full" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+
+    <div class="panel-tip" i18n>
+        Open your two-factor authenticator (TOTP) app or browser extension to view your authentication code.
+    </div>
+
+</div>
+
+<div class="form-ico auth-panel" *ngIf="mode == 9">
+    <div class="title-bar" i18n>Use a Recovery Code</div>
+    <div class="zre-input-group">
+        <input type="text" i18n-placeholder placeholder="Recovery Code" [(ngModel)]="recoveryCode">
+        <i class="iconfont icon-shield" aria-hidden="true"></i>
+    </div>
+
+    <app-action-button class="btn btn-full" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+
+    <div class="panel-tip" i18n>
+        If you are unable to access your two-factor device, enter one of your recovery code to verify your identity
+    </div>
+
+</div>
 
 <div class="login-oauth-box" *ngIf="openAuth">
     <div class="box-title" i18n>Sign in with</div>

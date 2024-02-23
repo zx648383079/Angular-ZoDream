@@ -11,6 +11,7 @@ import { wordLength } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 import { IBook, IBookRole, IBookRoleRelation, IChapter } from '../model';
+import { IItem } from '../../../theme/models/seo';
 
 @Component({
     selector: 'app-book-editor',
@@ -38,6 +39,7 @@ export class BookEditorComponent implements OnInit {
     public linkOpen = false;
     public roleItems: IBookRole[] = [];
     public linkItems: IBookRoleRelation[] = [];
+    public typeItems: IItem[] = [{name: '公众章节', value: 0}, {name: '收费章节', value: 0}];
     public roleIndex = -1;
     public roleData = {
         name: '',
@@ -149,6 +151,10 @@ export class BookEditorComponent implements OnInit {
     public toggleLink() {
         this.linkOpen = !this.linkOpen;
         this.subOpen = 0;
+    }
+
+    public tapExit() {
+        history.back();
     }
 
     public tapEdit(item: IChapter) {

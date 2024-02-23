@@ -1,30 +1,30 @@
 <div class="container-fluid">
     <div class="user-container">
         <div class="avatar">
-            <img [src]="user.avatar" alt="">
+            <img [src]="user.avatar" [alt]="user.name">
         </div>
         <div class="extra-body">
             <div class="name">{{ user.name }}</div>
-            <div class="extra">个性签名</div>
+            <div class="extra">{{ data?.description }}</div>
             <div class="count-bar">
                 <div class="item">
                     {{ data?.word_count | numberFormat }}
-                    <strong>字</strong>
+                    <strong i18n>Words</strong>
                 </div>
-                <div class="item">{{ data?.book_count | numberFormat }}<strong>本</strong></div>
-                <div class="item">{{ data?.collect_count | numberFormat }}<strong>粉丝</strong></div>
+                <div class="item">{{ data?.book_count | numberFormat }}<strong i18n>Books</strong></div>
+                <div class="item">{{ data?.collect_count | numberFormat }}<strong i18n>Followers</strong></div>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12 title-bar">
-            书籍
+            Books
         </div>
         <div class="col-md-3 col-6">
             <div class="add-btn" (click)="tapNewBook(bookModal)">
                 <i class="iconfont icon-plus"></i>
-                创建
+                New
             </div>
         </div>
         <ng-container *ngFor="let item of bookItems">
@@ -48,22 +48,22 @@
     </div>
 </div>
 
-<app-dialog-box #bookModal title="创建书籍">
+<app-dialog-box #bookModal i18n-title title="New Novel">
     <div class="form-table">
         <div class="zre-input-group">
-            <label for="name">书名</label>
+            <label for="name" i18n>Name</label>
             <div>
                 <input type="text" id="name" [(ngModel)]="bookData.name" class="form-control">
             </div>
         </div>
         <div class="zre-input-group">
-            <label for="cover">封面</label>
+            <label for="cover" i18n>Cover</label>
             <div>
                 <app-file-input [(ngModel)]="bookData.cover"></app-file-input>
             </div>
         </div>
         <div class="zre-input-group">
-            <label for="description">简介</label>
+            <label for="description" i18n>Summary</label>
             <div>
                 <textarea id="description"  [(ngModel)]="bookData.description" class="form-control"></textarea>
             </div>

@@ -12,7 +12,8 @@ import {
     AgoPipe,
     TwoPadPipe,
     TreeLevelPipe,
-    NumberFormatPipe
+    NumberFormatPipe,
+    IconfontPipe
 } from './pipes';
 import {
     RouterModule
@@ -100,6 +101,7 @@ const PIPES = [
     TwoPadPipe,
     TreeLevelPipe,
     NumberFormatPipe,
+    IconfontPipe,
 ];
 
 const SERVICES = [

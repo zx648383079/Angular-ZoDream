@@ -399,6 +399,9 @@ $inputShadow: rgba(0,0,0, .1);
 .control-slider-group {
     padding: .8rem .8rem 0;
     line-height: $lineHight;
+    .form-control {
+        background-color: $inputColor;
+    }
     input,
     select {
         height: $lineHight;

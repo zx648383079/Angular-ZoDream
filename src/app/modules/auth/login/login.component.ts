@@ -27,6 +27,7 @@ import {
     Validators
 } from '@angular/forms';
 import {
+    emptyValidate,
     passwordValidator
 } from '../../../theme/validators';
 import {
@@ -60,6 +61,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public openAuth = false;
     public openWebAuthn = true;
+    public twoFaCode = '';
+    public recoveryCode = '';
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
@@ -181,6 +184,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
         }
+        if (this.mode === 8) {
+            if (emptyValidate(this.twoFaCode)) {
+                this.toastrService.warning($localize `Please input the authentication code`);
+                return;
+            }
+            data.twofa_code = this.twoFaCode;
+        } else if (this.mode === 9) {
+            if (emptyValidate(this.recoveryCode)) {
+                this.toastrService.warning($localize `Please input the recovery code`);
+                return;
+            }
+            data.recovery_code = this.recoveryCode;
+        }
         e?.enter();
         this.authService
             .login(data)
@@ -193,6 +209,9 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.captchaToken = res.captcha_token;
                     }
                     this.tapCaptcha();
+                    if (res.code === 1015) {
+                        this.mode = 8;
+                    }
                 },
                 next: () => {
                     e?.reset();

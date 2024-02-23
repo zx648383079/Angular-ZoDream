@@ -1,7 +1,7 @@
 <div class="container">
     <div class="connect-item" *ngFor="let item of items">
         <div class="item-body">
-            <i class="iconfont" [ngClass]="item.icon"></i>
+            <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
             {{ item.name }}
             <ng-container *ngIf="item.platform || item.nickname">
                 (
@@ -10,7 +10,7 @@
         </div>
         <div class="item-action">
             <ng-container *ngIf="item.id; else elseTemplate">
-                <a class="unlink-btn" i18n  (click)="tapUnbind(item)">Unbind</a>
+                <a class="unlink-btn" i18n (click)="tapUnbind(item)">Unbind</a>
             </ng-container>
             <ng-template #elseTemplate>
                 <a i18n (click)="tapBind(item)">Binding</a>
@@ -18,3 +18,24 @@
         </div>
     </div>
 </div>
+
+<app-dialog-box #faModal i18n-title title="Enable two-step verification" [scrollable]="false">
+    <div class="form-table">
+        <div class="zre-input-group">
+            <label for="" i18n>Recovery Code</label>
+            <div>
+                <input type="text" class="form-control" [value]="data.recovery_code" readonly>
+            </div>
+        </div>
+        <p i18n>Open the Authenticator APP to scan the code to add</p>
+
+        <img [src]="data.qr" i18n-alt alt="Add by scanning the code">
+
+        <div class="zre-input-group">
+            <label for="" i18n>Authentication code</label>
+            <div>
+                <input type="text" class="form-control" [(ngModel)]="data.twofa_code">
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

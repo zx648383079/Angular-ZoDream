@@ -145,7 +145,7 @@ i {
 }
 
 .input-line-group,
-.#{$prefix}input-group {
+.#{$prefix}-input-group {
     .input-tip {
         color: var(--bs-secondary);
         font-size: 0.75rem;
@@ -166,7 +166,7 @@ i {
 }
 
 .form-table {
-    .#{$prefix}input-group {
+    .#{$prefix}-input-group {
         display: flex;
         input.form-control {
             min-width: 200px;
@@ -261,11 +261,11 @@ i {
 }
 
 .form-horizontal {
-    line-height: 40px;
-    .#{$prefix}input-group {
+    line-height: 2.5rem;
+    .#{$prefix}-input-group {
         display: inline-block;
         border-bottom: 1px solid #777;
-        height: 40px;
+        height: 2.5rem;
         width: auto;
         input[type="text"],
         input[type="email"],
@@ -278,7 +278,7 @@ i {
             display: inline-block;
             border: none;
             background: transparent;
-            height: 40px;
+            height: 2.5rem;
             box-sizing: border-box;
             width: auto;
         }
