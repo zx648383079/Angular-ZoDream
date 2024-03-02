@@ -28,7 +28,7 @@
                         <app-switch [(ngModel)]="item.is_hot" (ngModelChange)="onHotChange(item)"></app-switch>
                     </td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
+                        <div class="btn-group">
                             <a class="btn btn-info"
                                 routerLink="../resource" [queryParams]="{category: item.id}">查看</a>
                             <a class="btn btn-light" (click)="open(modal, item)">编辑</a>

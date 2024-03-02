@@ -36,13 +36,17 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor="let item of items">
+              <tr *ngFor="let item of items" [ngClass]="{'tr-sending': item.status == 1, 'tr-error': item.status == 4}">
                   <td>{{ item.id }}</td>
                   <td>{{ item.target }}</td>
                   <td>{{ item.template_name }}</td>
-                  <td>{{ item.status }}</td>
-                  <td>{{ item.message }}</td>
-                  <td>{{ item.created_at }}</td>
+                  <td>{{ formatStatus(item.status) }}</td>
+                  <td>
+                    <div class="long-text">
+                        {{ item.message }}
+                    </div>
+                  </td>
+                  <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                   <!-- <td>
                       <div class="btn-group  btn-group-xs">
                           <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

@@ -86,7 +86,7 @@ export class PaginationComponent implements OnChanges {
 
     private initPage() {
         const total = this.realTotal;
-        if (total < 2) {
+        if (total < 2 && this.page === 1) {
             this.items = [];
             return;
         }
@@ -112,7 +112,9 @@ export class PaginationComponent implements OnChanges {
         if (length < total - 1) {
             items.push(0);
         }
-        items.push(total);
+        if (total > 1) {
+            items.push(total);
+        }
         this.items = items;
     }
 

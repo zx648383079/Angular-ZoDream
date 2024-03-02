@@ -48,7 +48,7 @@
                     <td>{{ item.download_count }}</td>
                     <td>{{ item.updated_at | ago }}</td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
+                        <div class="btn-group">
                             <a class="btn btn-info" [routerLink]="[item.id, 'version']">版本</a>
                             <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

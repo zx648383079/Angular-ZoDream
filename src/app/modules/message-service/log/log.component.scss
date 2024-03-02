@@ -1,0 +1,16 @@
+.tr-sending {
+    td {
+        background-color: var(--bs-info);
+    }
+}
+
+.tr-error {
+    td {
+        background-color: var(--bs-danger);
+    }
+}
+
+.long-text {
+    max-width: 30vw;
+    word-break: break-all;
+}

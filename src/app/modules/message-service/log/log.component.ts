@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../theme/models/page';
 import { ILog } from '../model';
 import { MessageServiceService } from '../ms.service';
 import { SearchService } from '../../../theme/services';
+import { mapFormat } from '../../../theme/utils';
 
 @Component({
   selector: 'app-ms-log',
@@ -41,6 +42,17 @@ export class LogComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatStatus(val: number) {
+        return mapFormat(val, [
+            {name: '队列中', value: 0},
+            {name: '发送中', value: 1},
+            {name: '发生失败', value: 4},
+            {name: '已发送', value: 6},
+            {name: '已发送已使用', value: 7},
+            {name: '已发送已过期', value: 9},
+        ])
     }
 
     public tapRefresh() {

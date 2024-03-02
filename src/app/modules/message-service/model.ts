@@ -1,6 +1,5 @@
 import { IPageBaeItem } from '../../theme/models/page';
 
-
 export interface ISignature {
     id: number;
     sign_no?: string;

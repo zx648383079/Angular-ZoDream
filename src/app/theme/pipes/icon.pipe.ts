@@ -9,7 +9,7 @@ export class IconfontPipe implements PipeTransform {
         if (!value) {
             return '';
         }
-        if (value.indexOf(' ')) {
+        if (value.indexOf(' ') >= 0) {
             value = value.split(' ')[1];
         }
         const map = {

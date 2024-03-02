@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../theme/models/page';
 import { ITemplate } from '../model';
 import { SearchService } from '../../../theme/services';
 import { MessageServiceService } from '../ms.service';
+import { mapFormat } from '../../../theme/utils';
 
 @Component({
   selector: 'app-ms-template',
@@ -41,6 +42,10 @@ export class TemplateComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatType(val: number) {
+        return mapFormat(val, this.typeItems);
     }
 
     public tapRefresh() {
