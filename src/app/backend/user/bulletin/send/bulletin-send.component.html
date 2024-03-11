@@ -3,10 +3,10 @@
     <div class="col-md-4 tab users">
         <div class="tab-head">
             <div [ngClass]="{'active': !isList}" (click)="isList = false">
-                <i class="fa fa-comment" aria-hidden="true"></i>
+                <i class="iconfont icon-comment" aria-hidden="true"></i>
             </div>
             <div [ngClass]="{'active': isList}" (click)="isList = true">
-                <i class="fa fa-user"></i>
+                <i class="iconfont icon-user"></i>
             </div>
         </div>
         <div class="tab-content">
@@ -14,7 +14,7 @@
                 <ul>
                     <li *ngFor="let user of lastUsers" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
-                            <img src="{{ user.avatar }}" alt="">
+                            <img [src]="user.avatar" alt="">
                         </div>
                         <div class="info">
                             <p><span class="name">{{ user.username }} </span><span class="time">{{ user.create_at }}</span></p>
@@ -28,7 +28,7 @@
                 <ul>
                     <li *ngFor="let user of users" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
-                            <img src="{{ user.avatar }}" alt="">
+                            <img [src]="user.avatar" alt="">
                         </div>
                         <div class="info">
                             <p>{{ user.username }}</p>
@@ -48,11 +48,11 @@
                 <p class="more" *ngIf="hasMore" (click)="getMore()">加载更多</p>
                 <div *ngFor="let message of messages" [ngClass]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
                     <div *ngIf="message.type >= 0">
-                        <img class="avatar" *ngIf="message.type == 0" src="{{ message.avatar }}" alt="">
+                        <img class="avatar" *ngIf="message.type == 0" [src]="message.avatar" alt="">
                         <div class="content">
                             {{ message.content }}
                         </div>
-                        <img class="avatar" *ngIf="message.type == 1" src="{{ message.avatar }}" alt="">
+                        <img class="avatar" *ngIf="message.type == 1" [src]="message.avatar" alt="">
                         <div class="clean-both"></div>
                     </div>
                     <p *ngIf="message.type == -1">{{ message.create_at }}</p>

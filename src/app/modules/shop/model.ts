@@ -278,30 +278,6 @@ export interface IArticleCategory {
     children?: IArticle[];
 }
 
-export interface IAd {
-    id: number;
-    name: string;
-    position_id: number;
-    type: number;
-    url: string;
-    content: string;
-    start_at: string;
-    end_at: string;
-    created_at: string;
-    updated_at: string;
-    position?: IAdPosition;
-}
-
-export interface IAdPosition {
-    id: number;
-    name: string;
-    width: string;
-    height: string;
-    template: string;
-    created_at: string;
-    updated_at: string;
-}
-
 export interface IAttributeGroup {
     id: number;
     name: string;

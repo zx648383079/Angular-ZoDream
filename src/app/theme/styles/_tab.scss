@@ -61,21 +61,28 @@
 }
 
 .tab-bar {
+    --#{$prefix}-tab: transparent;
+    --#{$prefix}-tab-text: #333;
+    --#{$prefix}-tab-hover: #ccc;
+    --#{$prefix}-tab-active: red;
+    --#{$prefix}-tab-active-text: #fff;
     display: block;
     line-height: 2.5rem;
     a {
-        color: #333;
+        color: var(--#{$prefix}-tab-text);
     }
     .item {
         display: inline-block;
         padding: 0 1.25rem;
         cursor: pointer;
+        color: var(--#{$prefix}-tab-text);
+        background-color: var(--#{$prefix}-tab);
         &:hover {
-            background-color: rgba($color: #ccc, $alpha: .3);
+            background-color: var(--#{$prefix}-tab-hover);
         }
         &.active {
-            background-color: red;
-            color: #fff;
+            background-color: var(--#{$prefix}-tab-active);
+            color: var(--#{$prefix}-tab-active-text);
         }
         &:first-of-type {
             border-top-left-radius: 0.3125rem;

@@ -9,9 +9,9 @@ import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-bulletin',
-  templateUrl: './bulletin.component.html',
-  styleUrls: ['./bulletin.component.scss']
+    selector: 'app-bulletin',
+    templateUrl: './bulletin.component.html',
+    styleUrls: ['./bulletin.component.scss']
 })
 export class BulletinComponent implements OnInit {
 

@@ -42,11 +42,6 @@ export const ShopBackendMenu: INav[] = [
                 url: './shop/article'
             },
             {
-                name: '广告管理',
-                label: '告',
-                url: './shop/ad'
-            },
-            {
                 name: '地区管理',
                 label: '区',
                 url: './shop/region'

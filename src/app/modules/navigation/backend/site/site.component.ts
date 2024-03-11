@@ -99,7 +99,7 @@ export class SiteComponent implements OnInit {
         const link = this.editData.domain as string;
         const i = link.indexOf('//');
         if (i >= 0) {
-            this.editData.domain = link.substring(i + 2);
+            this.editData.domain = link.substring(i + 2).replace(/\/+$/, '');
         }
         if (i > 2) {
             this.editData.schema = link.substring(0, i - 1);

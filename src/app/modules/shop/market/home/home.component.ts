@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IAd, IBrand, ICategory, IGoods, IComment } from '../../model';
+import { IBrand, ICategory, IGoods, IComment } from '../../model';
 import { ThemeService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
+import { IAd } from '../../../ad-sense/model';
 
 @Component({
     selector: 'app-home',

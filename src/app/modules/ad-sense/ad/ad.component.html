@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>广告列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="zre-input-group">
+                    <label for="keywords">标题</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a routerLink="../create" class="btn btn-primary">新增广告</a>
+                    <a routerLink="../position" class="btn btn-info">管理广告位</a>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>广告名</th>
+                    <th>广告位</th>
+                    <th title="点击数/展示数">统计</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <ng-container *ngIf="item.position; else elseTemplate">
+                            <a (click)="tapSearch({position_id: item.position_id})">{{ item.position.name}}</a>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            [-]
+                        </ng-template>
+                    </td>
+                    <td title="点击数/展示数">0/0</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" [routerLink]="'./edit/' + item.id">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>

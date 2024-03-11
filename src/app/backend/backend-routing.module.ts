@@ -25,7 +25,7 @@ const routes: Routes = [{
         },
         {
             path: 'auth',
-            loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+            loadChildren: () => import('../modules/auth/backend/auth.module').then(m => m.AuthModule)
         },
         {
             path: 'shop',
@@ -33,7 +33,7 @@ const routes: Routes = [{
         },
         {
             path: 'system',
-            loadChildren: () => import('./system/system.module').then(m => m.SystemModule)
+            loadChildren: () => import('../modules/system/system.module').then(m => m.SystemModule)
         },
         {
             path: 'blog',
@@ -41,11 +41,15 @@ const routes: Routes = [{
         },
         {
             path: 'contact',
-            loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
+            loadChildren: () => import('../modules/contact/contact.module').then(m => m.ContactModule)
         },
         {
             path: 'open',
-            loadChildren: () => import('./open/open.module').then(m => m.OpenModule)
+            loadChildren: () => import('../modules/open/open.module').then(m => m.OpenModule)
+        },
+        {
+            path: 'ad',
+            loadChildren: () => import('../modules/ad-sense/ad-sense.module').then(m => m.AdSenseModule)
         },
         {
             path: 'ms',

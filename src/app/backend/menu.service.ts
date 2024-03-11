@@ -18,9 +18,7 @@ import { IUser } from '../theme/models/user';
 import { eachObject } from '../theme/utils';
 import { VideoBackendMenu } from '../modules/video/backend/menu';
 import { WechatBackendMenu } from '../modules/wechat/backend/menu';
-import { AuthBackendMenu, backendBottomMenu, backendMenuItems } from './menu';
-import { OpenBackendMenu } from './open/menu';
-import { SystemtBackendMenu } from './system/menu';
+import { backendBottomMenu, backendMenuItems } from './menu';
 import { AppBackendMenu } from '../modules/app-store/backend/menu';
 import { TVBackendMenu } from '../modules/tv/backend/menu';
 import { ResourceBackendMenu } from '../modules/resource-store/backend/menu';
@@ -29,6 +27,10 @@ import { DiskBackendMenu } from '../modules/disk/backend/menu';
 import { VisualBackendMenu } from '../modules/visual/backend/menu';
 import { CateringBackendMenu } from '../modules/catering/backend/menu';
 import { MessageServiceBackendMenu } from '../modules/message-service/menu';
+import { AuthBackendMenu } from '../modules/auth/backend/menu';
+import { OpenBackendMenu } from '../modules/open/menu';
+import { SystemtBackendMenu } from '../modules/system/menu';
+import { AdBackendMenu } from '../modules/ad-sense/menu';
 
 interface INavCollection {
     items: INav[];
@@ -82,6 +84,7 @@ export class MenuService {
             open: OpenBackendMenu,
             disk: DiskBackendMenu,
             ms: MessageServiceBackendMenu,
+            ad: AdBackendMenu,
             checkin: CheckInBackendMenu,
             system: SystemtBackendMenu,
         },

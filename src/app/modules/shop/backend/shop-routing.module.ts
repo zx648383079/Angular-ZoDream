@@ -10,18 +10,6 @@ import {
     ShopComponent
 } from './shop.component';
 import {
-    AdComponent
-} from './ad/ad.component';
-import {
-    EditAdComponent
-} from './ad/edit/edit.component';
-import {
-    PositionComponent
-} from './ad/position/position.component';
-import {
-    EditPositionComponent
-} from './ad/edit-position/edit-position.component';
-import {
     ArticleComponent
 } from './article/article.component';
 import {
@@ -55,30 +43,6 @@ import {
 const routes: Routes = [{
         path: '',
         component: ShopComponent
-    },
-    {
-        path: 'ad/edit/:id',
-        component: EditAdComponent
-    },
-    {
-        path: 'ad/create',
-        component: EditAdComponent
-    },
-    {
-        path: 'ad/position/edit/:id',
-        component: EditPositionComponent
-    },
-    {
-        path: 'ad/position/create',
-        component: EditPositionComponent
-    },
-    {
-        path: 'ad/position',
-        component: PositionComponent
-    },
-    {
-        path: 'ad',
-        component: AdComponent
     },
     {
         path: 'region',
@@ -166,10 +130,6 @@ export class ShopBackendRoutingModule {}
 
 export const shopBackendRoutedComponents = [
     ShopComponent,
-    AdComponent,
-    EditAdComponent,
-    EditPositionComponent,
-    PositionComponent,
     EditArticleComponent,
     EditCategoryComponent,
     CategoryComponent,

@@ -5,12 +5,13 @@ import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ISite } from '../../theme/models/seo';
 import {
     IAccountSubtotal,
-    IAd, IAddress, IArticle, IArticleCategory,
+    IAddress, IArticle, IArticleCategory,
     IBrand, ICart, ICartDialog, ICartItem, ICashierData, ICategory, ICollect, IComment,
     ICommentSubtotal, ICoupon, IGoods, IHomeProduct, IIssue, IOrder, IOrderCount,
     IPayment, IShipping
 } from './model';
 import { IUser } from '../../theme/models/user';
+import { IAd } from '../ad-sense/model';
 
 const REGION_KEY = 'region';
 
