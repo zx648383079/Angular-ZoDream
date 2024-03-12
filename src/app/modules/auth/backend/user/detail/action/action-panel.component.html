@@ -1,0 +1,31 @@
+<div class="page-search-bar">
+    <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <div class="zre-input-group">
+            <label for="keywords">关键字</label>
+            <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="queries.keywords">
+        </div>
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+</div>
+<table class="table  table-bordered well">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>用户</th>
+        <th>事件</th>
+        <th>备注</th>
+        <th>操作时间</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td>{{ item.id }}</td>
+            <td>{{ item.user?.name }}</td>
+            <td>{{ item.action }}</td>
+            <td>{{ item.remark }}</td>
+            <td class="auto-hide">{{ item.created_at }}</td>
+        </tr>
+        </tbody>
+</table>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

@@ -1,0 +1,47 @@
+.line-group-item {
+    line-height: 1.5rem;
+    margin-bottom: .8rem;
+    display: flex;
+    cursor: pointer;
+    width: 100%;
+    .item-header {
+        color: #767676;
+        font-weight: bold;
+    }
+    .item-body {
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: bold;
+        position: relative;
+    }
+    .item-unit {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #333;
+        display: inline-block;
+    }
+    .item-tag {
+        display: inline-block;
+        font-weight: 100;
+        font-size: .8rem;
+        position: absolute;
+        top: -.3rem;
+        line-height: 1;
+        transform: translateX(-.5rem);
+    }
+    .icon-arrow-down {
+        color: red;
+    }
+    .icon-arrow-up {
+        color: green;
+    }
+}
+
+@media (min-width: 20rem) {
+    .line-group-item {
+        .item-header {
+            width: 10rem;
+            text-align: right;
+        }
+    }
+}

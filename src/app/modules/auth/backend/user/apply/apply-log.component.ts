@@ -84,7 +84,7 @@ export class ApplyLogComponent implements OnInit {
 
     public tapView(modal: DialogBoxComponent, item: IApplyLog) {
         this.editData = item;
-        this.service.userAccount(item.user_id).subscribe(res => {
+        this.service.user(item.user_id).subscribe(res => {
             this.editData.user = res;
         });
         modal.openCustom(value => {

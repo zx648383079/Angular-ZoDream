@@ -1,5 +1,13 @@
 import { IExtraRule } from '../../components/link-rule';
+import { IItem } from './seo';
 import { IUser } from './user';
+
+export const AccountStatusItems: IItem[] = [
+    {name: '已删除', value: 0},
+    {name: '账户已冻结', value: 2},
+    {name: '账户正常', value: 10},
+    {name: '已实名认证', value: 15},
+];
 
 export interface IBulletinUser {
     id: number;

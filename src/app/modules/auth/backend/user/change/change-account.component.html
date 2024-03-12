@@ -1,4 +1,4 @@
-<app-edit-header [title]="'账户充值'" (submited)="tapSubmit()"></app-edit-header>
+<app-edit-header [title]="'账户充值'" (submited)="tapSubmit($event)"></app-edit-header>
 <div class="container-fluid" *ngIf="data">
     <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()" method="POST">
         <div class="zre-input-group">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认更改</button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认更改</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

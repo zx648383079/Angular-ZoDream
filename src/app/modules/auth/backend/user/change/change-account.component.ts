@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IUser } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
-  selector: 'app-change-account',
-  templateUrl: './change-account.component.html',
-  styleUrls: ['./change-account.component.scss']
+    selector: 'app-change-account',
+    templateUrl: './change-account.component.html',
+    styleUrls: ['./change-account.component.scss']
 })
 export class ChangeAccountComponent implements OnInit {
 
@@ -32,7 +33,7 @@ export class ChangeAccountComponent implements OnInit {
                 this.tapBack();
                 return;
             }
-            this.service.userAccount(params.id).subscribe(res => {
+            this.service.user(params.id).subscribe(res => {
                 this.data = res;
             });
         });
@@ -42,7 +43,7 @@ export class ChangeAccountComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -51,9 +52,17 @@ export class ChangeAccountComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.user_id = this.data.id;
         }
-        this.service.rechargeSave(data).subscribe(_ => {
-            this.toastrService.success('充值成功');
-            this.tapBack();
+        e?.enter();
+        this.service.rechargeSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success('充值成功');
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 }

@@ -14,9 +14,15 @@
 }
 .user-info {
     height: 12.5rem;
-    width: 12.5rem;
     text-align: center;
     padding: 1.25rem;
+    .meta {
+        color: #767676;
+        font-size: .8rem;
+    }
+    .name {
+        margin-top: 1rem;
+    }
     .avatar {
         width: 5.625rem;
         height: 5.625rem;
@@ -55,5 +61,39 @@
     to {
         transform: scale(1.2);
         opacity: .1;
+    }
+}
+
+.meta-bar {
+    padding: -.8rem;
+}
+
+.meta-item {
+    text-align: center;
+    line-height: 1.5rem;
+    display: inline-block;
+    margin: .8rem;
+    min-width: 8rem;
+    .item-header {
+        color: #767676;
+    }
+}
+
+.line-group-item {
+    line-height: 1.5rem;
+    margin-bottom: .8rem;
+    .item-header {
+        color: #767676;
+        font-weight: bold;
+    }
+}
+
+@media (min-width: 48rem) {
+    .user-info {
+        width: 12.5rem;
+    }
+    .user-container {
+        display: flex;
+        align-items: center;
     }
 }

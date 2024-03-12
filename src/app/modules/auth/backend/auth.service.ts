@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, IRole, IUserCard } from '../../../theme/models/auth';
+import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, ILoginLog, IRole, IUserCard } from '../../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
-import { IUser } from '../../../theme/models/user';
+import { IUser, IUserStatus } from '../../../theme/models/user';
 
 @Injectable()
 export class AuthService {
@@ -72,9 +72,15 @@ export class AuthService {
         });
     }
 
-    public userAccount(id: any) {
-        return this.http.get<IUser>('auth/admin/account/user', {
-            params: {id},
+    public loginLogList(params: any) {
+        return this.http.get<IPage<ILoginLog>>('auth/admin/log/login', {
+            params,
+        });
+    }
+
+    public userAccount(params: any) {
+        return this.http.get<IUserStatus>('auth/admin/account/user', {
+            params,
         });
     }
 

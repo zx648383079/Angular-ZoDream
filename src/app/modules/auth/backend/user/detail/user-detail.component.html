@@ -3,16 +3,169 @@
         <div class="avatar">
             <img [src]="user.avatar" alt="">
         </div>
-        <div>{{ user.name }}</div>
+        <div class="name">{{ user.name }}</div>
+        <div class="meta">UID: {{ user.id }}</div>
+    </div>
+    <div class="meta-bar">
+        <div class="meta-item">
+            <div class="item-header">
+                邮箱
+            </div>
+            <div class="item-body">
+                {{ user.email }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                手机号
+            </div>
+            <div class="item-body">
+                {{ user.mobile || '-' }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                性别
+            </div>
+            <div class="item-body">
+                {{ user.sex_label }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                生日
+            </div>
+            <div class="item-body">
+                {{ user.birthday }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                账号状态
+            </div>
+            <div class="item-body">
+                {{ formatStatus(user.status) }}
+            </div>
+        </div>
+        <a class="meta-item" routerLink="../account/log" [queryParams]="{user: user.id}">
+            <div class="item-header">
+                账户余额
+            </div>
+            <div class="item-body">
+                {{ user.money }}
+            </div>
+        </a>
+        <div class="meta-item">
+            <div class="item-header">
+                账户积分
+            </div>
+            <div class="item-body">
+                {{ user.credits }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                第三方绑定数
+            </div>
+            <div class="item-body">
+                {{ user.oauth_count }}
+            </div>
+        </div>
+        <a class="meta-item" [routerLink]="['../', user.parent_id]" *ngIf="user.parent_id > 0">
+            <div class="item-header">
+                邀请人
+            </div>
+            <div class="item-body">
+                {{ user.parent?.name || '-' }}
+            </div>
+        </a>
+        <div class="meta-item">
+            <div class="item-header">
+                注册时间
+            </div>
+            <div class="item-body" [title]="user.created_at">
+                {{ user.created_at | ago }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                最后登录时间
+            </div>
+            <div class="item-body" [title]="user.last_login.created_at">
+                {{ user.last_login.created_at | ago }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                最后登录IP
+            </div>
+            <div class="item-body">
+                {{ user.last_login.ip }}
+            </div>
+        </div>
+        <div class="meta-item">
+            <div class="item-header">
+                常用IP
+            </div>
+            <div class="item-body" [title]="'登录次数:' + user.login_ip.count">
+                {{ user.login_ip.ip }}
+            </div>
+        </div>
     </div>
 </div>
 <div class="container-fluid">
     <div class="tab-bar">
-        <a class="item active">账户信息</a>
-        <a class="item">安全中心</a>
-        <a class="item">数据中心</a>
+        <ng-container *ngFor="let item of tabItems;let i = index">
+            <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
+        </ng-container>
     </div>
-    <div class="panel-container">
-
+    <div class="panel-container" *ngIf="user">
+        <div [hidden]="tabIndex > 0">
+            <div class="line-group-item">
+                <div class="item-header">角色组：</div>
+                <div class="item-body">
+                    <ng-container *ngFor="let item of user.role_items;let i = index">
+                    <ng-container *ngIf="i > 0">
+                        、
+                    </ng-container>
+                    {{ item }}
+                    </ng-container>
+                </div>
+            </div>
+            <div class="line-group-item">
+                <div class="item-header">权限组：</div>
+                <div class="item-body">
+                    <ng-container *ngFor="let item of user.permission_items;let i = index">
+                        <ng-container *ngIf="i > 0">
+                            、
+                        </ng-container>
+                    {{ item }}
+                    </ng-container>
+                </div>
+            </div>
+            <div class="line-group-item">
+                <div class="item-header">权益卡：</div>
+                <div class="item-body">
+                    <ng-container *ngFor="let item of user.card_items;let i = index">
+                        <ng-container *ngIf="i > 0">
+                            、
+                        </ng-container>
+                    {{ item.name }}
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div [hidden]="tabIndex != 1">
+            <app-log-account-panel [itemId]="user.id" [init]="tabIndex == 1"></app-log-account-panel>
+        </div>
+        <div [hidden]="tabIndex != 2">
+            <app-log-action-panel [itemId]="user.id" [init]="tabIndex == 2"></app-log-action-panel>
+        </div>
+        <div [hidden]="tabIndex != 3">
+            <app-log-login-panel [itemId]="user.id" [init]="tabIndex == 3"></app-log-login-panel>
+        </div>
+        <div [hidden]="tabIndex != 4">
+            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex == 4"></app-log-statistics-panel>
+        </div>
     </div>
 </div>

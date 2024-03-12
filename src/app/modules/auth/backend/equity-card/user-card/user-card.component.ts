@@ -39,7 +39,7 @@ export class UserCardComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.user = {id: params.user} as any;
-            this.service.userAccount(params.user).subscribe(user => {
+            this.service.user(params.user).subscribe(user => {
                 this.user = user;
             });
         });

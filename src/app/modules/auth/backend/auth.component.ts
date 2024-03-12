@@ -17,9 +17,14 @@ export class AuthComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.statistics().subscribe(res => {
-            this.isLoading = false;
-            this.data = res;
+        this.service.statistics().subscribe({
+            next: res => {
+                this.data = res;
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            }
         });
     }
 

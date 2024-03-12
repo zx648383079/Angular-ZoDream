@@ -15,6 +15,10 @@ import { BanComponent } from './user/ban/ban.component';
 import { EquityCardComponent } from './equity-card/equity-card.component';
 import { UserCardComponent } from './equity-card/user-card/user-card.component';
 import { UserDetailComponent } from './user/detail/user-detail.component';
+import { AccountPanelComponent } from './user/detail/account/account-panel.component';
+import { ActionPanelComponent } from './user/detail/action/action-panel.component';
+import { LoginPanelComponent } from './user/detail/login/login-panel.component';
+import { StatisticsPanelComponent } from './user/detail/statistics/statistics-panel.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -83,5 +87,9 @@ export const authRoutedComponents = [
     BanComponent,
     EquityCardComponent,
     UserCardComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    AccountPanelComponent,
+    ActionPanelComponent,
+    LoginPanelComponent,
+    StatisticsPanelComponent,
 ];

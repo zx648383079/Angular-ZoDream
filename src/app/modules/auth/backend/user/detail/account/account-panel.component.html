@@ -1,0 +1,66 @@
+<div class="page-search-bar">
+    <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <div class="zre-input-group">
+            <label for="keywords">关键字</label>
+            <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="queries.keywords">
+        </div>
+        <button type="submit" class="btn btn-primary">搜索</button>
+        <a *ngIf="itemId > 0" class="btn btn-info pull-right" [routerLink]="'../account/change/' + itemId">账户充值</a>
+    </form>
+</div>
+<table class="table table-bordered well">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>用户</th>
+        <th>类型</th>
+        <th>金额</th>
+        <th>备注</th>
+        <th>状态</th>
+        <th>操作时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td>{{ item.id }}</td>
+            <td>{{ item.user?.name }}</td>
+            <td>{{ item.type_label }}</td>
+            <td>{{ item.money }}</td>
+            <td>{{ item.remark }}</td>
+            <td>{{ item.status_label }}</td>
+            <td>{{ item.created_at }}</td>
+            <td>
+                <div class="btn-group  btn-group-xs">
+                    <a class="btn btn-info btn-xs"
+                      (click)="tapView(modal, item)">明细</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+</table>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+
+<app-dialog-box #modal [footerVisible]="false" [title]="'账户记录详情(' + editData.id + ')'">
+    <div class="line-row-item">
+        <span class="item-label">用户：</span>
+        <span class="item-body">{{ editData.user?.name }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">类型：</span>
+        <span class="item-body">{{ editData.type }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">金额：</span>
+        <span class="item-body">{{ editData.money }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">备注：</span>
+        <span class="value">{{ editData.remark }}</span>
+    </div>
+    <div class="line-row-item">
+        <span class="item-label">状态：</span>
+        <span class="item-body">{{ editData.status }}</span>
+    </div>
+</app-dialog-box>

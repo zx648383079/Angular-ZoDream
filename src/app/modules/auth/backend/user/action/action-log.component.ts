@@ -21,6 +21,7 @@ export class ActionLogComponent implements OnInit {
         page: 1,
         keywords: '',
         per_page: 20,
+        user: 0,
     };
 
     constructor(

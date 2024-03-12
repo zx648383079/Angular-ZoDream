@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../../../components/dialog';
 import { IAccountLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IUser } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
+import { DialogEvent } from '../../../../../components/dialog';
 
 @Component({
   selector: 'app-account-log',
@@ -41,7 +41,7 @@ export class AccountLogComponent implements OnInit {
             if (!params.user) {
                 return;
             }
-            this.service.userAccount(params.user).subscribe(user => {
+            this.service.user(params.user).subscribe(user => {
                 this.user = user;
             });
         });
@@ -90,7 +90,7 @@ export class AccountLogComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogBoxComponent, item: IAccountLog) {
+    public tapView(modal: DialogEvent, item: IAccountLog) {
         this.editData = item;
         modal.open();
     }

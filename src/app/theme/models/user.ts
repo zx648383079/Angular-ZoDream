@@ -52,6 +52,5 @@ export const SexItems: IItem[] = [
     {name: $localize `Unkown`, value: 0},
     {name: $localize `Male`, value: 1},
     {name: $localize `Female`, value: 2},
-
 ];
 
