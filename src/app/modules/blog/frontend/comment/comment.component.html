@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <label i18n>Email</label>
-                <input type="email" [(ngModel)]="guestUser.email" i18n-placeholder placeholder="Please input your email">
+                <input type="email" [(ngModel)]="guestUser.email" i18n-placeholder placeholder="Please input your email" (ngModelChange)="onEmailChange()">
             </div>
             <div class="form-group">
                 <label i18n>Link</label>

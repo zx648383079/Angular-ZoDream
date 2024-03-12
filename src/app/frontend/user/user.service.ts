@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/models/auth';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
+import { IStatisticsItem } from '../../theme/models/seo';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,10 @@ export class UserService {
 
     public profile() {
         return this.http.get<IUser>('auth/user');
+    }
+
+    public statistics() {
+        return this.http.get<IData<IStatisticsItem>>('auth/user/statistics');
     }
 
     public accountLog(params: any) {

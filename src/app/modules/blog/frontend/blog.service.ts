@@ -56,6 +56,14 @@ export class BlogService {
         });
     }
 
+    public commentator(email: any) {
+        return this.http.post<{
+            name: string;
+            email: string;
+            url: string;
+        }>('blog/comment/commentator', {email});
+    }
+
     public commentSave(data: any) {
         return this.http.post<IComment>('blog/comment/save', data);
     }

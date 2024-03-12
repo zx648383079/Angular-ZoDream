@@ -1,0 +1,27 @@
+@import '../../../theme/styles/theme';
+.column-item {
+    --#{$prefix}-column-icon: var(--#{$prefix}-primary);
+    --#{$prefix}-column-icon-text: var(--#{$prefix}-primary-text);
+    cursor: pointer;
+    .item-unit {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #333;
+        display: inline-block;
+    }
+    .item-tag {
+        display: inline-block;
+        font-weight: 100;
+        font-size: .8rem;
+        position: absolute;
+        top: -.3rem;
+        line-height: 1;
+        transform: translateX(-.5rem);
+    }
+    .icon-arrow-down {
+        color: red;
+    }
+    .icon-arrow-up {
+        color: green;
+    }
+}

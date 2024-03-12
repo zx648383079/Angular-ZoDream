@@ -90,6 +90,16 @@ export class CommentComponent implements OnChanges {
         this.searchService.emitLogin(true);
     }
 
+    public onEmailChange() {
+        if (emptyValidate(this.guestUser.email) || !emptyValidate(this.guestUser.url)) {
+            return;
+        }
+        this.service.commentator(this.guestUser.email).subscribe(res => {
+            this.guestUser.name = res.name;
+            this.guestUser.url = res.url;
+        });
+    }
+
     public onReply(data: any) {
         if (this.status === 2 && !this.user) {
             this.tapLogin();

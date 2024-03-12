@@ -1,9 +1,14 @@
 .column-item {
+    --#{$prefix}-column: #fff;
+    --#{$prefix}-column-text: #333;
+    --#{$prefix}-column-icon: #333;
+    --#{$prefix}-column-icon-text: #fff;
     width: 18.75rem;
     display: inline-block;
     position: relative;
     height: 6.25rem;
-    background-color: #fff;
+    background-color: var(--#{$prefix}-column);
+    color: var(--#{$prefix}-column-text);
     margin: 0.625rem;
     vertical-align: top;
     .icon {
@@ -11,8 +16,8 @@
         width: 6.25rem;
         height: 6.25rem;
         text-align: center;
-        background-color: #333;
-        color: #fff;
+        background-color: var(--#{$prefix}-column-icon);
+        color: var(--#{$prefix}-column-icon-text);
         padding-top: 1.25rem;
         font-size: 2.5rem;
     }

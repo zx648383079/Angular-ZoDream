@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { AuthService } from '../../../auth.service';
 import { openLink } from '../../../../../../theme/utils/deeplink';
 import { Router } from '@angular/router';
+import { IStatisticsItem } from '../../../../../../theme/models/seo';
 
 @Component({
     selector: 'app-log-statistics-panel',
@@ -12,13 +13,7 @@ export class StatisticsPanelComponent implements OnChanges {
 
     @Input() public itemId = 0;
     @Input() public init = false;
-    public items: {
-        name: string;
-        count: number;
-        unit?: string;
-        url?: string;
-        inc?: number;
-    }[] = [];
+    public items: IStatisticsItem[] = [];
     public isLoading = false;
     private booted = 0;
 

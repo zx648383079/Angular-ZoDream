@@ -1,0 +1,22 @@
+<ng-container *ngFor="let item of items">
+    <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
+        <div class="icon">
+            <ng-container *ngIf="item.icon; else elseTemplate">
+                <div class="iconfont" [ngClass]="item.icon | iconfont"></div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div class="iconfont icon-file-o"></div>
+            </ng-template>
+        </div>
+        <div class="content">
+            <h3>{{ item.name }}</h3>
+            <p>
+                {{ item.count }}
+                <span class="item-tag iconfont" [ngClass]="{'icon-arrow-down': item.inc < 0, 'icon-arrow-up': item.inc > 0}"></span>
+                <span class="item-unit" *ngIf="item.unit">{{ item.unit }}</span>
+            </p>
+        </div>
+    </a>
+</ng-container>
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>

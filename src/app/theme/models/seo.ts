@@ -15,6 +15,15 @@ export interface IItem {
     checked?: boolean;
 }
 
+export interface IStatisticsItem {
+    name: string;
+    count: number;
+    icon?: string;
+    unit?: string;
+    url?: string;
+    inc?: number;
+}
+
 export interface IFriendLink extends IPageEditItem {
     id: number;
     name: string;
