@@ -17,7 +17,6 @@ import { INav } from '../theme/components';
 import { IUser } from '../theme/models/user';
 import { eachObject } from '../theme/utils';
 import { VideoBackendMenu } from '../modules/video/backend/menu';
-import { WechatBackendMenu } from '../modules/wechat/backend/menu';
 import { backendBottomMenu, backendMenuItems } from './menu';
 import { AppBackendMenu } from '../modules/app-store/backend/menu';
 import { TVBackendMenu } from '../modules/tv/backend/menu';
@@ -31,6 +30,7 @@ import { AuthBackendMenu } from '../modules/auth/backend/menu';
 import { OpenBackendMenu } from '../modules/open/menu';
 import { SystemtBackendMenu } from '../modules/system/menu';
 import { AdBackendMenu } from '../modules/ad-sense/menu';
+import { BotBackendMenu } from '../modules/bot/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -80,7 +80,7 @@ export class MenuService {
             cms: CMSBackendMenu,
             visual: VisualBackendMenu,
             catering: CateringBackendMenu,
-            wx: WechatBackendMenu,
+            bot: BotBackendMenu,
             open: OpenBackendMenu,
             disk: DiskBackendMenu,
             ms: MessageServiceBackendMenu,

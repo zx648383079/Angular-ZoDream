@@ -166,10 +166,11 @@ i {
 }
 
 .form-table {
+    --#{$prefix}-label-width: 8rem;
     .#{$prefix}-input-group {
         display: flex;
         input.form-control {
-            min-width: 200px;
+            min-width: 12.5rem;
             width: auto;
             // height: 40px;
             display: inline-block;
@@ -183,7 +184,7 @@ i {
             min-height: 2.5rem * 3 
         }
         >label:first-child {
-            width: 8rem;
+            width: var(--#{$prefix}-label-width);
             display: block;
             text-align: right;
             line-height: 2.5rem;
@@ -195,24 +196,22 @@ i {
                 width: 100%;
                 resize: vertical;
             }
-            
-
-            .inline {
-                line-height: 2.5rem;
-                min-width: 6.25rem;
-                display: inline-block;
-            }
-
-            .input-desc {
-                display: block;
-                font-size: 0.75rem;
-                color: #767676;
-                margin-bottom: 0.5rem;
-            }
             // label {
             //     padding: 0 8px;
             //     line-height: 30px;
             // }
+        }
+        .inline {
+            line-height: 2.5rem;
+            min-width: 6.25rem;
+            display: inline-block;
+        }
+
+        .input-desc {
+            display: block;
+            font-size: 0.75rem;
+            color: #767676;
+            margin-bottom: 0.5rem;
         }
         &:after {
             content: "";
@@ -478,5 +477,15 @@ i {
     }
     .dropdown-menu {
         display: block;
+    }
+}
+
+@media (min-width: 48rem) {
+    .form-table {
+        --#{$prefix}-label-width: 30%;
+        >.btn-group {
+            padding-left: 30%;
+            margin-top: 2rem;
+        }
     }
 }

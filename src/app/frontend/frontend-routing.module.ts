@@ -46,9 +46,9 @@ const routes: Routes = [
                 loadChildren: () => import('../modules/short-link/short-link.module').then(m => m.ShortLinkModule)
             },
             {
-                path: 'wx',
+                path: 'bot',
                 canActivate: [CanActivateViaAuthGuard],
-                loadChildren: () => import('../modules/wechat/member/wechat-member.module').then(m => m.WechatBackendModule)
+                loadChildren: () => import('../modules/bot/member/bot-member.module').then(m => m.BotMemberModule)
             },
             {
                 path: 'about',

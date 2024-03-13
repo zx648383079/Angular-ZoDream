@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>主动发送消息</li>
+        </ul>
+    </app-page-tip>
+
+    <div class="form-table panel-container">
+        <div class="zre-input-group">
+            <label for="">接收者</label>
+            <div>
+                <select class="form-control" [(ngModel)]="data.to_type">
+                    <option *ngFor="let item of toTypeItems;let i = index" [value]="i">{{ item }}</option>
+                </select>
+                <div [hidden]="data.to_type < 1">
+                    <app-select-input [url]="selectUrl" [(ngModel)]="data.to" [formatFn]="formatUser"></app-select-input>
+                </div>
+            </div>
+        </div>
+        <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()"></app-bot-message-editor>
+
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">发送</app-action-button>
+            <a class="btn btn-danger">取消发送</a>
+        </div>
+    </div>
+</div>

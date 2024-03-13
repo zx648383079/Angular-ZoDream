@@ -104,8 +104,8 @@ const routes: Routes = [{
             loadChildren: () => import('../modules/cms/backend/cms-backend.module').then(m => m.CmsBackendModule)
         },
         {
-            path: 'wx',
-            loadChildren: () => import('../modules/wechat/backend/wechat-backend.module').then(m => m.WechatBackendModule)
+            path: 'bot',
+            loadChildren: () => import('../modules/bot/backend/bot-backend.module').then(m => m.BotBackendModule)
         },
         {
             path: 'checkin',

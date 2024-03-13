@@ -1,0 +1,104 @@
+<app-edit-header [title]="data && data.id > 0 ? '编辑Bot' : '新增Bot'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+
+<div class="container-fluid">
+    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="zre-input-group">
+            <label for="name">Bot名称</label>
+            <div>
+                <input type="text" id="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="platform_type">平台</label>
+            <div>
+                <select class="form-control" id="platform_type" formControlName="platform_type">
+                    <option *ngFor="let item of platformItems;" [value]="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="token">平台服务Token(令牌)</label>
+            <div>
+                <input type="text" id="token" class="form-control" formControlName="token">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="account">平台账号</label>
+            <div>
+                <input type="text" id="account" class="form-control" formControlName="account">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="original">原始ID</label>
+            <div>
+                <input type="text" id="original" class="form-control" formControlName="original" >
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="type">Bot类型</label>
+            <div>
+                <select class="form-control" id="type" formControlName="type">
+                    <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="appid">AppID(应用ID)</label>
+            <div>
+                <input type="text" id="appid" class="form-control" formControlName="appid" >
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="secret">AppSecret(应用密钥)</label>
+            <div>
+                <input type="text" id="secret" class="form-control" formControlName="secret">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="aes_key">消息加密秘钥EncodingAesKey</label>
+            <div>
+                <input type="text" id="aes_key" class="form-control" formControlName="aes_key">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="avatar">头像地址</label>
+            <div>
+                <app-file-input id="avatar" formControlName="avatar"></app-file-input>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="qrcode">二维码地址</label>
+            <div>
+                <app-file-input id="qrcode" formControlName="qrcode"></app-file-input>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="address">所在地址</label>
+            <div>
+                <input type="text" id="address" class="form-control" formControlName="address">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="description">Bot简介</label>
+            <div>
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="username">平台官网登录名(邮箱)</label>
+            <div>
+                <input type="text" id="username" class="form-control" formControlName="username">
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="password">平台官网登录密码</label>
+            <div>
+                <input type="text" id="password" class="form-control" formControlName="password">
+            </div>
+        </div>
+        <div class="btn-group">
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+            <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
+        </div>
+    </form>
+</div>

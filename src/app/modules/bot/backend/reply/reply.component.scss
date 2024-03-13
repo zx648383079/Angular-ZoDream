@@ -1,0 +1,8 @@
+@import '../../../../theme/styles/theme';
+.panel-container {
+    margin-top: 0;
+}
+.tab-bar {
+    --#{$prefix}-tab: var(--#{$prefix}-panel);
+    margin-top: .5em;
+}

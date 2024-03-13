@@ -115,8 +115,8 @@ export class HomeComponent implements AfterViewInit {
             url: '/visual'
         },
         {
-            name: $localize `WeChat`,
-            url: '/wx'
+            name: $localize `Bot`,
+            url: '/bot'
         },
         
     ];

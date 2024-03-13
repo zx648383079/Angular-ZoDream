@@ -1,0 +1,102 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../../../../../components/dialog';
+import { IErrorResult } from '../../../../../theme/models/page';
+import { IBotAccount, PlatformTypeItems } from '../../../model';
+import { BotService } from '../../bot.service';
+import { ButtonEvent } from '../../../../../components/form';
+
+@Component({
+  selector: 'app-bot-m-edit-account',
+  templateUrl: './edit-account.component.html',
+  styleUrls: ['./edit-account.component.scss']
+})
+export class EditAccountComponent implements OnInit {
+
+    public form = this.fb.group({
+        name: ['', Validators.required],
+        platform_type: [0],
+        token: ['', Validators.required],
+        account: [''],
+        original: [''],
+        type: [0],
+        appid: [''],
+        secret: [''],
+        aes_key: [''],
+        avatar: [''],
+        qrcode: [''],
+        address: [''],
+        description: [''],
+        username: [''],
+        password: [''],
+    });
+
+    public data: IBotAccount;
+    public typeItems = ['订阅号', '认证订阅号', '企业号', '认证服务号'];    public platformItems = PlatformTypeItems;
+    
+
+    constructor(
+        private fb: FormBuilder,
+        private service: BotService,
+        private route: ActivatedRoute,
+        private toastrService: DialogService,
+    ) {
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (!params.id) {
+              return;
+            }
+            this.service.account(params.id).subscribe(res => {
+                this.data = res;
+                this.form.patchValue({
+                    name: res.name,
+                    platform_type: res.platform_type,
+                    token: res.token,
+                    account: res.account,
+                    original: res.original,
+                    type: res.type,
+                    appid: res.appid,
+                    secret: res.secret,
+                    aes_key: res.aes_key,
+                    avatar: res.avatar,
+                    qrcode: res.qrcode,
+                    address: res.address,
+                    description: res.description,
+                    username: res.username,
+                    password: res.password,
+                });
+            });
+        });
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
+        if (this.form.invalid) {
+            this.toastrService.warning($localize `Incomplete filling of the form`);
+            return;
+        }
+        const data: any = Object.assign({}, this.form.value);
+        if (this.data && this.data.id > 0) {
+            data.id = this.data.id;
+        }
+        e?.enter();
+        this.service.accountSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: (err: IErrorResult) => {
+                e?.reset();
+                this.toastrService.warning(err.error.message);
+            }
+        });
+    }
+
+}

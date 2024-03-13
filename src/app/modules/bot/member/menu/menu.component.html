@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>第一级只能添加3个菜单，第二级只能添加五个</li>
+        </ul>
+    </app-page-tip>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="mobile-container">
+                <div class="mobile-header">
+                    模拟器
+                </div>
+                <div class="menu-bar">
+                    <ul>
+                        <li class="menu-item" *ngFor="let item of menuItems">
+                            <div class="menu-title" (click)="tapEditMenu(item)">
+                                {{ item.name }}
+                            </div>
+                            <div class="menu-sub-bar" *ngIf="item.children">
+                                <ul>
+                                    <li class="menu-item" *ngFor="let it of item.children" (click)="tapEditMenu(it)">
+                                        {{ it.name }}
+                                    </li>
+                                    <li class="menu-item" *ngIf="item.children.length < 5" (click)="tapAddMenu(item)">
+                                        <i class="iconfont icon-plus"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="menu-item" (click)="tapAddMenu()" *ngIf="menuItems.length < 3">
+                            <i class="iconfont icon-plus"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7" *ngIf="editData">
+            <div class="panel">
+                <div class="panel-header">
+                    <span>{{ editData.name || '--' }}</span>
+                    <div class="pull-right">
+                        <i class="iconfont icon-trash" (click)="tapRemoveItem()"></i>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-table">
+                        <div class="zre-input-group">
+                            <label for="">菜单名称</label>
+                            <div>
+                                <input type="text" class="form-control" [(ngModel)]="editData.name">
+                                <div class="input-tip">字数不超过八个汉字</div>
+                            </div>
+                        </div>
+                        <app-bot-message-editor [source]="1" [(value)]="editorData" (valueChange)="onEditorChange()" other="父菜单"></app-bot-message-editor>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <div class="btn-group">
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">保存</app-action-button>
+                <app-action-button class="btn btn-success" (tapped)="tapAsync($event)">发布</app-action-button>
+                <a class="btn btn-danger" (click)="tapClear()">清空</a>
+            </div>
+        </div>
+    </div>
+</div>

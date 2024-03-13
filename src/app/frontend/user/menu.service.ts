@@ -8,8 +8,8 @@ import { ShortLinkMemberMenu } from '../../modules/short-link/member/menu';
 import { NoteMemberMenu } from '../../modules/note/member/menu';
 import { MicroMemberMenu } from '../../modules/micro/member/menu';
 import { ForumMemberMenu } from '../../modules/forum/member/menu';
-import { WxMemberMenu } from '../../modules/wechat/member/menu';
 import { DocumentMemberMenu } from '../../modules/document/member/menu';
+import { BotMemberMenu } from '../../modules/bot/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -47,7 +47,7 @@ export class MenuService {
         note: NoteMemberMenu,
         short: ShortLinkMemberMenu,
         doc: DocumentMemberMenu,
-        wx: WxMemberMenu,
+        bot: BotMemberMenu,
         1: [
             {
                 name: $localize `Thirdparty App`,

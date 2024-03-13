@@ -44,7 +44,7 @@ const routes: Routes = [
     { path: 'catering', loadChildren: () => import('./modules/catering/catering.module').then(m => m.CateringModule) },
     { path: 'video', loadChildren: () => import('./modules/video/video.module').then(m => m.VideoModule) },
     { path: 'doc', loadChildren: () => import('./modules/document/document.module').then(m => m.DocumentModule) },
-    { path: 'wx', loadChildren: () => import('./modules/wechat/wechat.module').then(m => m.WechatModule) },
+    { path: 'bot', loadChildren: () => import('./modules/bot/bot.module').then(m => m.BotModule) },
     { path: 'navigation', loadChildren: () => import('./modules/navigation/navigation.module').then(m => m.NavigationModule) },
     { path: 'app', loadChildren: () => import('./modules/app-store/app-store.module').then(m => m.AppStoreModule) },
     { path: 'res', loadChildren: () => import('./modules/resource-store/resource-store.module').then(m => m.ResourceStoreModule) },

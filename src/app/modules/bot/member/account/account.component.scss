@@ -1,0 +1,11 @@
+@import '../../../../theme/styles/theme';
+.container-fluid {
+    margin-top: 3rem;
+}
+.pull-right {
+    float: right;
+}
+.column-full-item {
+    --#{$prefix}-column: var(--#{$prefix}-primary);
+    --#{$prefix}-column-text: var(--#{$prefix}-primary-text);
+}

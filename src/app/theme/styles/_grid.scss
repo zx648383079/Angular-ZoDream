@@ -29,13 +29,15 @@
 }
 
 .column-full-item {
+    --#{$prefix}-column: #17a2b8;
+    --#{$prefix}-column-text: #fff;
     border-radius: .25rem;
     box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
     display: block;
     margin-bottom: 1.25rem;
     position: relative;
-    background-color: #17a2b8;
-    color: #fff;
+    background-color: var(--#{$prefix}-column);
+    color: var(--#{$prefix}-column-text);
     .overlay {
         height: 100%;
         left: 0;
@@ -91,11 +93,11 @@
         z-index: 10;
         &:hover {
             background: rgba(0,0,0,.15);
-            color: #fff;
+            color: var(--#{$prefix}-column-text);
         }
     }
     a {
-        color: #fff;
+        color: var(--#{$prefix}-column-text);
     }
     &:hover {
         .icon {
