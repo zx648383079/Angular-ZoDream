@@ -394,6 +394,74 @@
                     <context context-type="linenumber">53</context>
                 </context-group>
                 <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/account/account.component.ts</context>
+                    <context context-type="linenumber">116</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/log/log.component.ts</context>
+                    <context context-type="linenumber">96</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/media/media.component.ts</context>
+                    <context context-type="linenumber">169</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/menu/menu.component.ts</context>
+                    <context context-type="linenumber">85</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/qrcode/qrcode.component.ts</context>
+                    <context context-type="linenumber">103</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/reply/reply.component.ts</context>
+                    <context context-type="linenumber">119</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/template/category/template-category.component.ts</context>
+                    <context context-type="linenumber">67</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/template/template.component.ts</context>
+                    <context context-type="linenumber">133</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/user/user.component.ts</context>
+                    <context context-type="linenumber">145</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/account/account.component.ts</context>
+                    <context context-type="linenumber">128</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/log/log.component.ts</context>
+                    <context context-type="linenumber">96</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/media/media.component.ts</context>
+                    <context context-type="linenumber">169</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/qrcode/qrcode.component.ts</context>
+                    <context context-type="linenumber">103</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/reply/reply.component.ts</context>
+                    <context context-type="linenumber">138</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/reply/template/reply-template.component.ts</context>
+                    <context context-type="linenumber">93</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/user/group/user-group.component.ts</context>
+                    <context context-type="linenumber">102</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/user/user.component.ts</context>
+                    <context context-type="linenumber">148</context>
+                </context-group>
+                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/catering/backend/store/store.component.ts</context>
                     <context context-type="linenumber">86</context>
                 </context-group>
@@ -451,7 +519,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/contact/subscribe/subscribe.component.ts</context>
-                    <context context-type="linenumber">86</context>
+                    <context context-type="linenumber">77,148</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/disk/backend/explorer/storage/explorer-storage.component.ts</context>
@@ -957,74 +1025,6 @@
                     <context context-type="sourcefile">src/app/modules/visual/member/site/weight/site-weight.component.ts</context>
                     <context context-type="linenumber">133</context>
                 </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/account/account.component.ts</context>
-                    <context context-type="linenumber">116</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/log/log.component.ts</context>
-                    <context context-type="linenumber">96</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
-                    <context context-type="linenumber">169</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/menu/menu.component.ts</context>
-                    <context context-type="linenumber">85</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/qrcode/qrcode.component.ts</context>
-                    <context context-type="linenumber">103</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/reply/reply.component.ts</context>
-                    <context context-type="linenumber">119</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/template/category/template-category.component.ts</context>
-                    <context context-type="linenumber">67</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/template/template.component.ts</context>
-                    <context context-type="linenumber">133</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/user/user.component.ts</context>
-                    <context context-type="linenumber">145</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/account/account.component.ts</context>
-                    <context context-type="linenumber">128</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/log/log.component.ts</context>
-                    <context context-type="linenumber">96</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
-                    <context context-type="linenumber">169</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/qrcode/qrcode.component.ts</context>
-                    <context context-type="linenumber">103</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/reply.component.ts</context>
-                    <context context-type="linenumber">138</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/template/reply-template.component.ts</context>
-                    <context context-type="linenumber">93</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/user/group/user-group.component.ts</context>
-                    <context context-type="linenumber">102</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/user/user.component.ts</context>
-                    <context context-type="linenumber">145</context>
-                </context-group>
             </trans-unit>
             <trans-unit id="5878147278566735431" datatype="html">
                 <source>Incomplete filling of the form</source>
@@ -1096,6 +1096,14 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/detail/detail.component.ts</context>
                     <context context-type="linenumber">76</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">78</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">81</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/catering/backend/store/edit/edit-store.component.ts</context>
@@ -1273,14 +1281,6 @@
                     <context context-type="sourcefile">src/app/modules/visual/member/edit/edit-weight.component.ts</context>
                     <context context-type="linenumber">95</context>
                 </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/account/edit/edit-account.component.ts</context>
-                    <context context-type="linenumber">77</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/account/edit/edit-account.component.ts</context>
-                    <context context-type="linenumber">77</context>
-                </context-group>
             </trans-unit>
             <trans-unit id="7382223444211521357" datatype="html">
                 <source>Save Successfully</source>
@@ -1380,6 +1380,46 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/list/edit/edit-list.component.ts</context>
                     <context context-type="linenumber">73</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">89</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/media/media.component.ts</context>
+                    <context context-type="linenumber">74</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/media/news/edit-news.component.ts</context>
+                    <context context-type="linenumber">70</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/account/edit/edit-account.component.ts</context>
+                    <context context-type="linenumber">92</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/media/media.component.ts</context>
+                    <context context-type="linenumber">74</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/media/news/edit-news.component.ts</context>
+                    <context context-type="linenumber">70</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/menu/menu.component.ts</context>
+                    <context context-type="linenumber">100</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/reply/reply.component.ts</context>
+                    <context context-type="linenumber">68</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/reply/template/reply-template.component.ts</context>
+                    <context context-type="linenumber">78</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/user/group/user-group.component.ts</context>
+                    <context context-type="linenumber">49</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/catering/backend/store/edit/edit-store.component.ts</context>
@@ -1860,46 +1900,6 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/site.component.ts</context>
                     <context context-type="linenumber">60</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/account/edit/edit-account.component.ts</context>
-                    <context context-type="linenumber">86</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
-                    <context context-type="linenumber">74</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/media/news/edit-news.component.ts</context>
-                    <context context-type="linenumber">70</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/account/edit/edit-account.component.ts</context>
-                    <context context-type="linenumber">86</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
-                    <context context-type="linenumber">74</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/media/news/edit-news.component.ts</context>
-                    <context context-type="linenumber">70</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/menu/menu.component.ts</context>
-                    <context context-type="linenumber">100</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/reply.component.ts</context>
-                    <context context-type="linenumber">68</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/reply/template/reply-template.component.ts</context>
-                    <context context-type="linenumber">78</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/user/group/user-group.component.ts</context>
-                    <context context-type="linenumber">49</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8563137213157122993" datatype="html">
@@ -3346,6 +3346,10 @@
                     <context context-type="linenumber">73</context>
                 </context-group>
                 <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/contact/subscribe/subscribe.component.ts</context>
+                    <context context-type="linenumber">69,92</context>
+                </context-group>
+                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/disk/backend/explorer/storage/explorer-storage.component.ts</context>
                     <context context-type="linenumber">77</context>
                 </context-group>
@@ -3817,12 +3821,12 @@
                     <context context-type="linenumber">57</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/shop/components/top-bar/top-bar.component.html</context>
-                    <context context-type="linenumber">34</context>
+                    <context context-type="sourcefile">src/app/modules/bot/detail/detail.component.html</context>
+                    <context context-type="linenumber">17</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/detail/detail.component.html</context>
-                    <context context-type="linenumber">17</context>
+                    <context context-type="sourcefile">src/app/modules/shop/components/top-bar/top-bar.component.html</context>
+                    <context context-type="linenumber">34</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8066608938393600549" datatype="html">
@@ -4097,15 +4101,15 @@
                     <context context-type="linenumber">114</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="2817298652609969299" datatype="html">
-                <source>WeChat</source>
-                <target>公众号管理</target>
+            <trans-unit id="1639965139274343626" datatype="html">
+                <source>Bot</source>
+                <target>Bot</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
                     <context context-type="linenumber">118</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/wechat.component.ts</context>
+                    <context context-type="sourcefile">src/app/modules/bot/bot.component.ts</context>
                     <context context-type="linenumber">33</context>
                 </context-group>
             </trans-unit>
@@ -4189,16 +4193,16 @@
                     <context context-type="linenumber">99</context>
                 </context-group>
                 <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/detail/detail.component.html</context>
+                    <context context-type="linenumber">21</context>
+                </context-group>
+                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
                     <context context-type="linenumber">88</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/legwork/provider/service/edit/edit-service.component.html</context>
                     <context context-type="linenumber">34</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/detail/detail.component.html</context>
-                    <context context-type="linenumber">21</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5700508561127825623" datatype="html">
@@ -4339,6 +4343,62 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/panels/notice-panel/notice-panel.component.html</context>
                     <context context-type="linenumber">3</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4238735155072805309" datatype="html">
+                <source>Free subscription to「ZoDream Weekly」</source>
+                <target>免费订阅的「ZoDream周报」</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">3</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6713560551787461359" datatype="html">
+                <source>Each weekend, a simple and informative weekly newsletter is sent to you.</source>
+                <target>每个周末，寄送一则简单有料的周报给你。</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">4</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6173326520102847740" datatype="html">
+                <source>What do I call you?</source>
+                <target>怎么称呼你？</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">7</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="204562474612147063" datatype="html">
+                <source>Your Email</source>
+                <target>你的Email</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">8</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1467023433124593691" datatype="html">
+                <source>Free Subscribe</source>
+                <target>免费订阅</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">9</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1296072922476737894" datatype="html">
+                <source>Cancel at any time and we will not be sending you a letter.</source>
+                <target>随时可以取消，我们将不会再发信给你。</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.html</context>
+                    <context context-type="linenumber">12</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="3189972937090564789" datatype="html">
+                <source>Subscribe successfully!</source>
+                <target>订阅成功！</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/panels/subscribe-panel/subscribe-panel.component.ts</context>
+                    <context context-type="linenumber">34</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1645035406860233658" datatype="html">
@@ -5390,7 +5450,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/frontend/comment/comment.component.ts</context>
-                    <context context-type="linenumber">100,130</context>
+                    <context context-type="linenumber">110,140</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/frontend/comment/item/comment-item.component.html</context>
@@ -5434,7 +5494,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/frontend/comment/comment.component.ts</context>
-                    <context context-type="linenumber">113,143</context>
+                    <context context-type="linenumber">123,153</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/resource-store/detail/comment/comment.component.ts</context>
@@ -7829,6 +7889,118 @@
                     <context context-type="linenumber">20</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="9204030745649353406" datatype="html">
+                <source>Copy successfully</source>
+                <target>复制成功</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/media/media.component.ts</context>
+                    <context context-type="linenumber">184</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/media/media.component.ts</context>
+                    <context context-type="linenumber">184</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
+                    <context context-type="linenumber">203</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
+                    <context context-type="linenumber">68</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="3462619539465434942" datatype="html">
+                <source>Copy failed</source>
+                <target>复制失败</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/backend/media/media.component.ts</context>
+                    <context context-type="linenumber">187</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/media/media.component.ts</context>
+                    <context context-type="linenumber">187</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
+                    <context context-type="linenumber">206</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
+                    <context context-type="linenumber">71</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="5750485945694679561" datatype="html">
+                <source>Photo</source>
+                <target>图片</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.html</context>
+                    <context context-type="linenumber">30</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/share/share.component.html</context>
+                    <context context-type="linenumber">22</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1750555739180809831" datatype="html">
+                <source>Voice</source>
+                <target>语音</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.html</context>
+                    <context context-type="linenumber">34</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="471816275243265264" datatype="html">
+                <source>Location</source>
+                <target>定位</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.html</context>
+                    <context context-type="linenumber">38</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4354142437424134019" datatype="html">
+                <source>[Guest]</source>
+                <target>[游客]</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.ts</context>
+                    <context context-type="linenumber">31</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1955486248792476477" datatype="html">
+                <source>You tap &quot;<x id="PH" equiv-text="item.name"/>&quot; menu</source>
+                <target>你点击了 &quot;<x id="PH" equiv-text="item.name"/>&quot; 菜单</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.ts</context>
+                    <context context-type="linenumber">93</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4367012620858049828" datatype="html">
+                <source>Please inpu the content</source>
+                <target>请输入内容</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/emulate/emulate.component.ts</context>
+                    <context context-type="linenumber">119</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="7363905865289465894" datatype="html">
+                <source>Bot Manage</source>
+                <target>Bot管理</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/bot-member.component.ts</context>
+                    <context context-type="linenumber">66</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/menu.ts</context>
+                    <context context-type="linenumber">5</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6048841579584036737" datatype="html">
+                <source>Account Center</source>
+                <target>账户中心</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/bot/member/user/user.component.ts</context>
+                    <context context-type="linenumber">37</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="1616102757855967475" datatype="html">
                 <source>All</source>
                 <target>全部</target>
@@ -7923,6 +8095,14 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/contact/friend-link/friend-link.component.html</context>
                     <context context-type="linenumber">96</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="2239231410668491325" datatype="html">
+                <source>Do successfully</source>
+                <target>操作完成</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/contact/subscribe/subscribe.component.ts</context>
+                    <context context-type="linenumber">101</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4892053078647735324" datatype="html">
@@ -8151,46 +8331,6 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
                     <context context-type="linenumber">31</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="9204030745649353406" datatype="html">
-                <source>Copy successfully</source>
-                <target>复制成功</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-                    <context context-type="linenumber">203</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
-                    <context context-type="linenumber">68</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
-                    <context context-type="linenumber">184</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
-                    <context context-type="linenumber">184</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="3462619539465434942" datatype="html">
-                <source>Copy failed</source>
-                <target>复制失败</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.ts</context>
-                    <context context-type="linenumber">206</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/forum/post-block/post-block.component.ts</context>
-                    <context context-type="linenumber">71</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/backend/media/media.component.ts</context>
-                    <context context-type="linenumber">187</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/media/media.component.ts</context>
-                    <context context-type="linenumber">187</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1102717806459547726" datatype="html">
@@ -9993,18 +10133,6 @@
                     <context context-type="linenumber">90</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="5750485945694679561" datatype="html">
-                <source>Photo</source>
-                <target>图片</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/micro/share/share.component.html</context>
-                    <context context-type="linenumber">22</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.html</context>
-                    <context context-type="linenumber">30</context>
-                </context-group>
-            </trans-unit>
             <trans-unit id="7419704019640008953" datatype="html">
                 <source>Share</source>
                 <target>分享</target>
@@ -11779,54 +11907,6 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/model.ts</context>
                     <context context-type="linenumber">7</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1750555739180809831" datatype="html">
-                <source>Voice</source>
-                <target>语音</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.html</context>
-                    <context context-type="linenumber">34</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="471816275243265264" datatype="html">
-                <source>Location</source>
-                <target>定位</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.html</context>
-                    <context context-type="linenumber">38</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4354142437424134019" datatype="html">
-                <source>[Guest]</source>
-                <target>[游客]</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
-                    <context context-type="linenumber">31</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1955486248792476477" datatype="html">
-                <source>You tap &quot;<x id="PH" equiv-text="item.name"/>&quot; menu</source>
-                <target>你点击了 &quot;<x id="PH" equiv-text="item.name"/>&quot; 菜单</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
-                    <context context-type="linenumber">93</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4367012620858049828" datatype="html">
-                <source>Please inpu the content</source>
-                <target>请输入内容</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/emulate/emulate.component.ts</context>
-                    <context context-type="linenumber">119</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2962526783410692326" datatype="html">
-                <source>WeChat Manage</source>
-                <target>公众号管理</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/wechat/member/menu.ts</context>
-                    <context context-type="linenumber">5</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2600381788252486312" datatype="html">

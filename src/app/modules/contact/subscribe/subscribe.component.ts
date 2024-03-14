@@ -7,9 +7,9 @@ import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-  selector: 'app-subscribe',
-  templateUrl: './subscribe.component.html',
-  styleUrls: ['./subscribe.component.scss']
+    selector: 'app-subscribe',
+    templateUrl: './subscribe.component.html',
+    styleUrls: ['./subscribe.component.scss']
 })
 export class SubscribeComponent implements OnInit {
 
@@ -22,6 +22,8 @@ export class SubscribeComponent implements OnInit {
         keywords: '',
         per_page: 20,
     };
+    public isMultiple = false;
+    public isChecked = false;
 
     constructor(
         private service: ContactService,
@@ -39,9 +41,69 @@ export class SubscribeComponent implements OnInit {
     }
 
 
-    /**
-     * tapRefresh
-     */
+    public get checkedItems() {
+        return this.items.filter(i => i.checked);
+    }
+
+    public toggleCheck(item?: ISubscribe) {
+        if (!item) {
+            this.isChecked = !this.isChecked;
+            this.items.forEach(i => {
+                i.checked = this.isChecked;
+            });
+            return;
+        }
+        item.checked = !item.checked;
+        if (!item.checked) {
+            this.isChecked = false;
+            return;
+        }
+        if (this.checkedItems.length === this.items.length) {
+            this.isChecked = true;
+        }
+    }
+
+    public tapRemoveMultiple() {
+        const items = this.checkedItems;
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认删除选中的${items.length}条订阅？`, () => {
+            this.service.subscribeRemove(items.map(i => i.id)).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.tapPage();
+            });
+        });
+    }
+
+    public tapToggle(item: ISubscribe|number) {
+        const data = typeof item === 'object' ? {
+            id: [item.id],
+            status: item.status > 0 ? 0 : 1
+        } : {
+            id: this.checkedItems.map(i => i.id),
+            status: item
+        };
+        if (data.id.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认${data.status>0?'通过':'下架'}选中的${data.id.length}条订阅？`, () => {
+            this.service.subscribeToggle(data)
+            .subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Do successfully`);
+                this.tapPage();
+            });
+        });
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

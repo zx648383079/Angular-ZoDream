@@ -65,8 +65,9 @@ export interface IReport extends IPageEditItem {
     user?: IUser;
 }
 
-export interface ISubscribe {
+export interface ISubscribe extends IPageEditItem {
     id: number;
+    name: string;
     email: string;
     status: number;
     created_at: string;

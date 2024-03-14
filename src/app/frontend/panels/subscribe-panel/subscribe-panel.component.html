@@ -1,0 +1,14 @@
+<div class="subscribe-bar">
+    <div class="container">
+        <h3 class="title-bar" i18n>Free subscription to「ZoDream Weekly」</h3>
+        <p i18n>Each weekend, a simple and informative weekly newsletter is sent to you.</p>
+
+        <form class="subscribe-form" (ngSubmit)="tapSubmit()">
+            <input type="text" class="form-control" name="name" [(ngModel)]="name" i18n-placeholder placeholder="What do I call you?">
+            <input type="email" class="form-control" name="email" [(ngModel)]="email" i18n-placeholder placeholder="Your Email" required>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Free Subscribe</app-action-button>
+        </form>
+
+        <p class="tooltip-bar" i18n>Cancel at any time and we will not be sending you a letter.</p>
+    </div>
+</div>

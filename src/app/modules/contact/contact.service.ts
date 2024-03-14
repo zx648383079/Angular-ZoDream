@@ -92,11 +92,13 @@ export class ContactService {
         });
     }
 
+    public subscribeToggle(data: any) {
+        return this.http.post<IDataOne<true>>('contact/admin/subscribe/change', data);
+    }
+
     public subscribeRemove(id: any) {
         return this.http.delete<IDataOne<true>>('contact/admin/subscribe/delete', {
-            params: {
-                id
-            }
+            params: {'id[]': id}
         });
     }
 
