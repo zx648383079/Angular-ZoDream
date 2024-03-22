@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { parseNumber } from '../../../../theme/utils';
-import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
+import { mapFormat, parseNumber } from '../../../../theme/utils';
+import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EditorBlockType, EditorService, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, SearchService } from '../../../../theme/services';
 import { NavToggle, SearchEvents } from '../../../../theme/models/event';
@@ -16,8 +16,12 @@ import { NavToggle, SearchEvents } from '../../../../theme/models/event';
     templateUrl: './edit-blog.component.html',
     styleUrls: ['./edit-blog.component.scss']
 })
-export class EditBlogComponent implements OnInit, OnDestroy {
+export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    @ViewChild('editorArea')
+    private areaElement: ElementRef<HTMLTextAreaElement>;
+    @ViewChild('modalVC', {read: ViewContainerRef})
+    private modalViewContainer: ViewContainerRef;
     public form = this.fb.group({
         title: ['', Validators.required],
         keywords: [''],
@@ -53,6 +57,19 @@ export class EditBlogComponent implements OnInit, OnDestroy {
     public tags: ITag[] = [];
     public statusItems: IItem[] = [];
     public openItems: IItem[] = [];
+    public toolItems: IEditorTool[] = [];
+    public addToggle = false;
+    public propertyToggle = true;
+    public propertyTabIndex = 0;
+    public propertyTabItems = [$localize `Property`, $localize `Blocks`];
+    public size = 0;
+    public openRule = '';
+    public openStyle: any = {
+        display: 'none'
+    };
+    public statusStyle: any = {
+        display: 'none'
+    };
 
     constructor(
         private fb: FormBuilder,
@@ -61,6 +78,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         private toastrService: DialogService,
         private uploadService: FileUploadService,
         private searchService: SearchService,
+        private editor: EditorService,
     ) {
         this.service.editOption().subscribe(res => {
             this.tagItems = res.tags;
@@ -71,10 +89,24 @@ export class EditBlogComponent implements OnInit, OnDestroy {
             this.statusItems = res.publish_status;
             this.openItems = res.open_types;
         });
+        this.editor.option.merge({
+            toolbar: {
+                left: ['bold', 'link', 'image', 'code', 'undo', 'redo'],
+            }
+        });
+        this.toolItems = this.editor.option.leftToolbar;
+        this.editor.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
+            this.size = this.editor.wordLength;
+            this.editor.autoHeight();
+        }).on(EDITOR_EVENT_EDITOR_READY, () => {
+            setTimeout(() => {
+                this.size = this.editor.wordLength;
+            }, 10);
+        })
     }
 
     ngOnInit() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Mini);
+        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -83,8 +115,13 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit(): void {
+        this.editor.ready(this.areaElement.nativeElement, this.modalViewContainer);
+    }
+
     ngOnDestroy(): void {
         this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
+        this.editor.destroy();
     }
 
     get pageLink() {
@@ -117,6 +154,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         this.service.blog(id).subscribe(res => {
             this.data = res;
             this.tags = res.tags || [];
+            this.openRule = res.open_rule;
             this.form.patchValue({
                 title: res.title,
                 content: res.content,
@@ -153,6 +191,14 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         return parseNumber(this.form.get('open_type').value);
     }
 
+    public get openTypeLabel() {
+        return mapFormat(this.openType, this.openItems);
+    }
+
+    public get statusLabel() {
+        return mapFormat(this.publishStatus, this.statusItems);
+    }
+
     public get ruleLabel() {
         const val = this.openType;
         if (val < 5) {
@@ -171,8 +217,42 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         return {name};
     }
 
+    public tapTool(item: IEditorTool, event: MouseEvent) {
+        this.editor.emitTool(item, event);
+    }
+
     public tapBack() {
         history.back();
+    }
+
+    public tapOpen(e: MouseEvent) {
+        this.openStyle = {
+            display: 'block',
+            top: e.clientY + 15 + 'px'
+        };
+    }
+
+    public changeOpenType(v: any) {
+        this.form.patchValue({
+            open_type: v
+        });
+    }
+
+    public tapStatus(e: MouseEvent) {
+        this.statusStyle = {
+            display: 'block',
+            top: e.clientY + 15 + 'px'
+        };
+    }
+
+    public changePublishStatus(v: any) {
+        this.form.patchValue({
+            publish_status: v
+        });
+    }
+
+    public closeModal() {
+        this.openStyle = this.statusStyle = {display: 'none',};
     }
 
     public tapSubmit(e?: ButtonEvent, status?: number) {
@@ -193,6 +273,7 @@ export class EditBlogComponent implements OnInit, OnDestroy {
         if (typeof status === 'number') {
             data.publish_status = status;
         }
+        data.open_rule = data.open_type > 4 ? this.openRule : '';
         data.tags = this.tags;
         e?.enter();
         this.service.blogSave(data).subscribe({

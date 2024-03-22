@@ -1,219 +1,282 @@
-<div class="route-bar">
-    <div class="back-btn" (click)="tapBack()">
-        <i class="iconfont icon-arrow-left"></i>
+<div class="editor-container">
+    <div class="editor-tool-bar">
+        <div class="route-tool-item" (click)="tapBack()">
+            <i class="iconfont icon-arrow-left"></i>
+        </div>
+        <div class="tool-bar-top">
+            <div class="tool-left">
+                <div class="tool-item btn-info toggle-tool-item" (click)="addToggle = !addToggle" [ngClass]="{active: addToggle}">
+                    <i class="iconfont icon-plus"></i>
+                </div>
+                <ng-container *ngFor="let item of toolItems">
+                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="tool-right">
+                <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
+                    <ng-container *ngFor="let item of data.languages">
+                        <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
+                    </ng-container>
+                </div>
+                <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
+                    <i class="iconfont icon-floppy-o"></i>
+                </app-action-button>
+                <div class="tool-item" [ngClass]="{active: propertyToggle}" (click)="propertyToggle = !propertyToggle">
+                    <i class="iconfont icon-cog"></i>
+                </div>
+                <div class="tool-item">
+                    <i class="iconfont icon-ellipsis-v"></i>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="route-title" i18n>{data&&data.id>0, plural, =true {Edit Post} =false {New Post}}
+    <form class="editor-body" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <app-blog-add-panel [visible]="addToggle"></app-blog-add-panel>
+        <div class="editor-area">
+            <div class="editor-input-wrapper">
+                <input type="text" class="title-input" formControlName="title" placeholder="Title">
+                <textarea #editorArea spellcheck="false" placeholder="Content"></textarea>
+            </div>
+            <ng-container #modalVC></ng-container>
+        </div>
+        <div class="editor-panel" [hidden]="!propertyToggle">
+            <div class="panel-header">
+                <div class="panel-tab-bar">
+                    <ng-container *ngFor="let item of propertyTabItems;let i = index">
+                        <a class="item" [ngClass]="{active: propertyTabIndex == i}" (click)="propertyTabIndex = i">{{ item }}</a>
+                    </ng-container>
+                </div>
+                <div class="panel-action-btn" (click)="propertyToggle = false">
+                    <i class="iconfont icon-close"></i>
+                </div>
+            </div>
+            <div class="panel-body">
+                <app-expand-card i18n-header header="Summary" [toggle]="true">
+                    <div class="list-row-item">
+                        <label for="" class="item-label">Open Type</label>
+                        <a class="item-body" (click)="tapOpen($event)">{{ openTypeLabel }}</a>
+                    </div>
+                    <div class="list-row-item">
+                        <label for="" class="item-label">Publish At</label>
+                        <div class="item-body">{{ data ? data.created_at : '-' }}</div>
+                    </div>
+                    <div class="list-row-item">
+                        <label for="" class="item-label">Publish Status</label>
+                        <a class="item-body" (click)="tapStatus($event)">{{ statusLabel }}</a>
+                    </div>
+                </app-expand-card>
+                <app-expand-card i18n-header header="Advanced">
+                    <div class="zre-input-group">
+                        <label for="term_id" i18n>Term</label>
+                        <div>
+                            <select id="term_id" class="form-control" formControlName="term_id">
+                                <ng-container *ngFor="let item of categories">
+                                    <option [value]="item.id">{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="programming_language" i18n>Programming Language</label>
+                        <div>
+                            <select id="programming_language" class="form-control" formControlName="programming_language">
+                                <option value="" i18n>Select...</option>
+                                <ng-container *ngFor="let item of languages">
+                                    <option [value]="item">{{ item }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="type" i18n>Type</label>
+                        <div>
+                            <select id="type" class="form-control" formControlName="type">
+                                <option value="0" i18n>Original</option>
+                                <option value="1" i18n>Reprinted</option>
+                            </select>
+                        </div>
+                    </div>
+                   
+                    <div class="zre-input-group">
+                        <label for="thumb" i18n>Image</label>
+                        <div>
+                            <app-image-input formControlName="thumb"></app-image-input>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="edit_type" i18n>Editor</label>
+                        <div>
+                            <select id="edit_type" class="form-control" formControlName="edit_type">
+                                <option value="0">Ueditor</option>
+                                <option value="1">MarkDown</option>
+                            </select>
+        
+                        </div>
+                    </div>
+                    
+                    <div class="zre-input-group">
+                        <label for="keywords" i18n>Keywords</label>
+                        <div>
+                            <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="description" i18n>Description</label>
+                        <div>
+                            <app-text-editor formControlName="description" [height]="120"></app-text-editor>
+                        </div>
+                    </div>
+                    
+                    <div class="zre-input-group">
+                        <label i18n>Tags</label>
+                        <div>
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags"></ng-select>
+                        </div>
+                    </div>
+                </app-expand-card>
+                <app-expand-card i18n-header header="Additional">
+                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                        <label for="meta_source_author" i18n>Original's author</label>
+                        <div>
+                            <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
+                    
+                        </div>
+                    </div>
+                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                        <label for="source_url" i18n>Original's link</label>
+                        <div>
+                            <input type="text" id="source_url" class="form-control" formControlName="source_url">
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="weather" i18n>Weather</label>
+                        <div>
+                            <select id="weather" class="form-control" formControlName="weather">
+                                <option value="" i18n>Select...</option>
+                                <ng-container *ngFor="let item of weathers">
+                                    <option [value]="item.value">{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+        
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="audio_url" i18n>Audio</label>
+                        <div class="file-input">
+                            <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="video_url" i18n>Video</label>
+                        <div>
+                            <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="meta_cc_license" i18n>Copyright License</label>
+                        <div>
+                            <select id="meta_cc_license" class="form-control" formControlName="cc_license">
+                                <option value="" i18n>Select...</option>
+                                <ng-container *ngFor="let item of licenses">
+                                    <option [value]="item.value">{{ item.name }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="comment_status" i18n>Comment Status</label>
+                        <div>
+                            <app-switch id="comment_status" formControlName="comment_status"></app-switch>
+                        </div>
+                    </div>
+                </app-expand-card>
+                <app-expand-card i18n-header header="SEO Optimization">
+                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                        <label for="meta_is_hide" i18n>Whether to hide</label>
+                        <div>
+                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="meta_seo_title" i18n>SEO Title</label>
+                        <div>
+                            <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="meta_seo_description" i18n>SEO Description</label>
+                        <div>
+                            <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120"></app-text-editor>
+                        </div>
+                    </div>
+                    <div class="zre-input-group">
+                        <label for="meta_seo_link" i18n>Link Alias</label>
+                        <div>
+                            <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                            <div class="input-tip">
+                                <ng-container i18n>Please use the numeric letter -_ to form, please do not enter spaces, /.</ng-container>
+                                
+                                <p>{{ pageLink | asset }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </app-expand-card>
+            </div>
+        </div>
+    </form>
+    <div class="editor-footer" i18n>{{ size }} words</div>
+</div>
+
+<div class="editor-modal" [ngStyle]="openStyle">
+    <div class="modal-header">
+        <span>Open Type</span>
+        <div class="modal-action-group">
+            <div class="action-item" (click)="closeModal()">
+                <i class="iconfont icon-close"></i>
+            </div>
+        </div>
     </div>
-    <div class="route-right">
-        <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
-            <ng-container *ngFor="let item of data.languages">
-                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
-            </ng-container>
+    <div class="modal-body">
+        <div class="option-item" *ngFor="let item of openItems" (click)="changeOpenType(item.value)">
+            <div class="item-icon">
+                <i class="iconfont" [ngClass]="{'icon-check-square-o': openType == item.value, 'icon-square-o': openType != item.value}"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-label">{{ item.name }}</div>
+                <div class="item-meta">{{ item.meta }}</div>
+            </div>
+        </div>
+        <div class="zre-input-group" *ngIf="openType > 4">
+            <label for="open_rule">{{ ruleLabel }}</label>
+            <div>
+                <input type="text" id="open_rule" class="form-control" [(ngModel)]="openRule">
+            </div>
         </div>
     </div>
 </div>
-
-<form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
-    
-    <div class="title-input">
-        <label for="title" i18n>Title</label>
-        <input type="text" id="title" class="form-control" formControlName="title">
-    </div>
-    
-    <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400"></app-markdown-editor>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <app-panel i18n-title title="Advanced">
-                <div class="zre-input-group">
-                    <label for="term_id" i18n>Term</label>
-                    <div>
-                        <select id="term_id" class="form-control" formControlName="term_id">
-                            <ng-container *ngFor="let item of categories">
-                                <option [value]="item.id">{{ item.name }}</option>
-                            </ng-container>
-                        </select>
-    
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="programming_language" i18n>Programming Language</label>
-                    <div>
-                        <select id="programming_language" class="form-control" formControlName="programming_language">
-                            <option value="" i18n>Select...</option>
-                            <ng-container *ngFor="let item of languages">
-                                <option [value]="item">{{ item }}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="type" i18n>Type</label>
-                    <div>
-                        <select id="type" class="form-control" formControlName="type">
-                            <option value="0" i18n>Original</option>
-                            <option value="1" i18n>Reprinted</option>
-                        </select>
-                    </div>
-                </div>
-               
-                <div class="zre-input-group">
-                    <label for="thumb" i18n>Image</label>
-                    <div>
-                        <app-file-input formControlName="thumb"></app-file-input>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="open_type" i18n>Open Type</label>
-                    <div>
-                        <select id="open_type" class="form-control" formControlName="open_type">
-                            <option *ngFor="let item of openItems" [value]="item.value">{{ item.name }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="zre-input-group" *ngIf="openType > 4">
-                    <label for="open_rule">{{ ruleLabel }}</label>
-                    <div>
-                        <input type="text" id="open_rule" class="form-control" formControlName="open_rule">
-    
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="edit_type" i18n>Editor</label>
-                    <div>
-                        <select id="edit_type" class="form-control" formControlName="edit_type">
-                            <option value="0">Ueditor</option>
-                            <option value="1">MarkDown</option>
-                        </select>
-    
-                    </div>
-                </div>
-                
-                <div class="zre-input-group">
-                    <label for="keywords" i18n>Keywords</label>
-                    <div>
-                        <app-words-input id="keywords" formControlName="keywords"></app-words-input>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="description" i18n>Description</label>
-                    <div>
-                        <app-text-editor formControlName="description" [height]="120"></app-text-editor>
-                    </div>
-                </div>
-                
-                <div class="zre-input-group">
-                    <label i18n>Tags</label>
-                    <div>
-                        <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags"></ng-select>
-                    </div>
-                </div>
-            </app-panel>
-        </div>
-        <div class="col-lg-6">
-            <app-panel i18n-title title="Additional">
-                <div class="zre-input-group" *ngIf="typeValue > 0">
-                    <label for="meta_source_author" i18n>Original's author</label>
-                    <div>
-                        <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
-                
-                    </div>
-                </div>
-                <div class="zre-input-group" *ngIf="typeValue > 0">
-                    <label for="source_url" i18n>Original's link</label>
-                    <div>
-                        <input type="text" id="source_url" class="form-control" formControlName="source_url">
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="weather" i18n>Weather</label>
-                    <div>
-                        <select id="weather" class="form-control" formControlName="weather">
-                            <option value="" i18n>Select...</option>
-                            <ng-container *ngFor="let item of weathers">
-                                <option [value]="item.value">{{ item.name }}</option>
-                            </ng-container>
-                        </select>
-    
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="audio_url" i18n>Audio</label>
-                    <div class="file-input">
-                        <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="video_url" i18n>Video</label>
-                    <div>
-                        <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="meta_cc_license" i18n>Copyright License</label>
-                    <div>
-                        <select id="meta_cc_license" class="form-control" formControlName="cc_license">
-                            <option value="" i18n>Select...</option>
-                            <ng-container *ngFor="let item of licenses">
-                                <option [value]="item.value">{{ item.name }}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="comment_status" i18n>Comment Status</label>
-                    <div>
-                        <app-switch id="comment_status" formControlName="comment_status"></app-switch>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="publish_status" i18n>Publish Status</label>
-                    <div>
-                        <select id="publish_status" class="form-control" formControlName="publish_status">
-                            <ng-container *ngFor="let item of statusItems">
-                                <option [value]="item.value">{{ item.name }}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                </div>
-            </app-panel>
-            <app-panel i18n-title title="SEO Optimization" [min]="true">
-                <div class="zre-input-group" *ngIf="typeValue > 0">
-                    <label for="meta_is_hide" i18n>Whether to hide</label>
-                    <div>
-                        <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="meta_seo_title" i18n>SEO Title</label>
-                    <div>
-                        <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="meta_seo_description" i18n>SEO Description</label>
-                    <div>
-                        <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120"></app-text-editor>
-                    </div>
-                </div>
-                <div class="zre-input-group">
-                    <label for="meta_seo_link" i18n>Link Alias</label>
-                    <div>
-                        <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
-                        <div class="input-tip">
-                            <ng-container i18n>Please use the numeric letter -_ to form, please do not enter spaces, /.</ng-container>
-                            
-                            <p>{{ pageLink | asset }}</p>
-                        </div>
-                    </div>
-                </div>
-            </app-panel>
+<div class="editor-modal" [ngStyle]="statusStyle">
+    <div class="modal-header">
+        <span>Publish Status</span>
+        <div class="modal-action-group">
+            <div class="action-item" (click)="closeModal()">
+                <i class="iconfont icon-close"></i>
+            </div>
         </div>
     </div>
-
-    <div class="btn-group">
-        <app-action-button class="btn btn-primary" *ngIf="publishStatus != 5" (tapped)="tapSubmit($event)" [disabled]="form.invalid" i18n>Save</app-action-button>
-        <app-action-button class="btn btn-success" (tapped)="tapSubmit($event, 5)" [disabled]="form.invalid" i18n>Save and Publish</app-action-button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);" i18n>Back and not save</a>
+    <!-- <div class="modal-meta">
+        设置文章的是否公开
+    </div> -->
+    <div class="modal-body">
+        <div class="option-item" *ngFor="let item of statusItems" (click)="changePublishStatus(item.value)">
+            <div class="item-icon">
+                <i class="iconfont" [ngClass]="{'icon-check-square-o': publishStatus == item.value, 'icon-square-o': publishStatus != item.value}"></i>
+            </div>
+            <div class="item-body">
+                <div class="item-label">{{ item.name }}</div>
+                <div class="item-meta">{{ item.meta }}</div>
+            </div>
+        </div>
     </div>
-</form>
+</div>

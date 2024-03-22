@@ -29,9 +29,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
 
     onChange: any = () => { };
     onTouch: any = () => { };
-
-    constructor() { }
-
+    
     get size() {
         return wordLength(this.value);
     }

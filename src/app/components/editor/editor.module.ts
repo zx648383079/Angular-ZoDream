@@ -18,6 +18,7 @@ import { EditorCodeComponent } from './modal/code/editor-code.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { EditorSearchComponent } from './modal/search/editor-search.component';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
+import { EditorService } from './container';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
@@ -46,6 +47,9 @@ const COMPONENTS = [
         EditorResizerComponent,
         EditorCodeComponent,
         EditorSearchComponent,
+    ],
+    providers: [
+        EditorService,
     ],
     exports: [
         ...COMPONENTS

@@ -8,7 +8,7 @@ import { EditorHelper } from './util';
  */
 export class TextareaElement implements IEditorElement {
     constructor(
-        private element: HTMLTextAreaElement,
+        public element: HTMLTextAreaElement,
         private container: IEditorContainer) {
         this.bindEvent();
     }

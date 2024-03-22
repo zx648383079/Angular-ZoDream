@@ -1,0 +1,31 @@
+@import '../../../../../theme/styles/theme';
+@import '../../../../../theme/styles/mixins';
+.card-header {
+    position: relative;
+    padding: .8rem;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    min-height: 3rem;
+    @include iconArrow();
+    &:hover {
+        background-color: var(--#{$prefix}-editor);
+    }
+}
+.card-body {
+    display: none;
+    padding: 0 1rem;
+}
+:host {
+    display: block;
+    &.open {
+        .card-header {
+            &::after {
+                transform: rotate(180deg);
+            }
+        }
+        .card-body {
+            display: block;
+        }
+    }
+}

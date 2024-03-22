@@ -114,7 +114,9 @@ export class FrontendComponent implements OnDestroy {
             this.loginModal.open();
         });
         this.searchService.on(SearchEvents.NAV_TOGGLE, toggle => {
-            this.navToggle = toggle;
+            setTimeout(() => {
+                this.navToggle = toggle;
+            }, 1);
         });
     }
 

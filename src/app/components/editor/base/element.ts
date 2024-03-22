@@ -2,6 +2,8 @@ import { IEditorBlock, IEditorRange } from '../model';
 
 export interface IEditorElement {
 
+    get element(): HTMLElement;
+
     get selection(): IEditorRange;
 
     set selection(v: IEditorRange);

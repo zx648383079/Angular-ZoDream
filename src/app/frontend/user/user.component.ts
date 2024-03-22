@@ -7,7 +7,7 @@ import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { INav } from '../../theme/components';
 import { SearchService } from '../../theme/services';
-import { SearchEvents } from '../../theme/models/event';
+import { NavToggle, SearchEvents } from '../../theme/models/event';
 
 @Component({
     selector: 'app-user',
@@ -20,7 +20,7 @@ export class UserComponent implements OnInit, OnDestroy {
     public tabItems: INav[] = [];
     public moreItems: INav[] = [];
     public moreVisible = false;
-    public navToggle = true;
+    public navToggle = NavToggle.Unreal;
 
     constructor(
         private store: Store<AppState>,
@@ -41,8 +41,8 @@ export class UserComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.searchService.on(SearchEvents.NAV_TOGGLE, toggle => {
             setTimeout(() => {
-                this.navToggle = toggle === 3;
-            }, 100);
+                this.navToggle = toggle;
+            }, 1);
         });
         this.menuService.refresh();
         // this.service.profile().subscribe(res => {

@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool } from './base';
-import { EditorContainer } from './container';
-import { IEditor, IEditorBlock, IEditorModal, IEditorSharedModal } from './model';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool, EDITOR_EVENT_CUSTOM } from './base';
+import { IEditor, IEditorBlock, IEditorModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
-import { IPoint } from '../../theme/utils/canvas';
+import { EditorService } from './container';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -42,13 +41,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     public isCodeMode = false;
     public isFullScreen = false;
     private flowOldItems :IEditorTool[] = [];
-    private container = new EditorContainer();
     private modalRef: ComponentRef<IEditorModal>;
     onChange: any = () => { };
     onTouch: any = () => { };
 
     constructor(
-        private injector: Injector,
+        private container: EditorService
     ) {
         this.topLeftItems = this.container.option.leftToolbar;
         this.topRightItems = this.container.option.rightToolbar;
@@ -112,11 +110,25 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
                 this.modalRef = undefined;
             }
             this.resizer.close();
+        }).on(EDITOR_EVENT_CUSTOM, e => {
+            if (e.name === EDITOR_CODE_TOOL) {
+                this.isCodeMode = !this.isCodeMode;
+                if (this.isCodeMode) {
+                    this.codeEditor.writeValue(this.container.value);
+                    this.codeEditor.registerOnChange(res => {
+                        this.writeValue(res);
+                    });
+                }
+                return;
+            }
+            if (e.name === EDITOR_FULL_SCREEN_TOOL) {
+                this.isFullScreen = !this.isFullScreen;
+            }
         });
     }
 
     ngAfterViewInit(): void {
-        this.container.ready(this.editorViewRef.nativeElement);
+        this.container.ready(this.editorViewRef.nativeElement, this.modalViewContainer);
     }
 
     ngOnDestroy(): void {
@@ -148,7 +160,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
         } else {
             const next = this.container.option.toolChildren(item.name);
             if (next.length === 0) {
-                this.executeModule(item, this.getOffsetPosition(event));
+                this.container.emitTool(item, event);
                 return;
             }
             this.subItems = next;
@@ -171,60 +183,11 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
             return;
         }
         this.flowItems = [];
-        this.executeModule(item, this.getOffsetPosition(event));
+        this.container.emitTool(item, event);
     }
 
     public insert(block: IEditorBlock|string): void {
         this.container.insert(block);
-    }
-
-    private executeModule(item: IEditorTool, position: IPoint) {
-        if (this.modalRef) {
-            this.modalRef.destroy();
-            this.modalRef = undefined;
-        }
-        if (item.name === EDITOR_CODE_TOOL) {
-            this.isCodeMode = !this.isCodeMode;
-            if (this.isCodeMode) {
-                this.codeEditor.writeValue(this.container.value);
-                this.codeEditor.registerOnChange(res => {
-                    this.writeValue(res);
-                });
-            }
-            return;
-        }
-        if (item.name === EDITOR_FULL_SCREEN_TOOL) {
-            this.isFullScreen = !this.isFullScreen;
-            return;
-        }
-        const module = this.container.option.toModule(item);
-        if (!module) {
-            return;
-        }
-        if (!module.modal) {
-            this.container.execute(module);
-            return;
-        }
-        this.modalRef = this.modalViewContainer.createComponent<IEditorModal>(module.modal, {
-            injector: this.injector
-        });
-        if (typeof (this.modalRef.instance as IEditorSharedModal).modalReady === 'function') {
-            (this.modalRef.instance as IEditorSharedModal).modalReady(module);
-        }
-        this.modalRef.instance.open({}, res => {
-            this.modalRef.destroy();
-            this.modalRef = undefined;
-            this.container.execute(module, undefined, res);
-        }, position);
-    }
-
-    private getOffsetPosition(event: MouseEvent): IPoint {
-        const ele = this.editorViewRef.nativeElement;
-        const rect = ele.getBoundingClientRect();
-        return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
     }
 
     writeValue(obj: any): void {

@@ -1,0 +1,48 @@
+<div class="editor-panel scroll-body" [hidden]="!visible">
+    <div class="panel-search-bar">
+        <div class="search-input">
+            <input type="text">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div class="panel-tab-bar">
+            <ng-container *ngFor="let item of tabItems;let i = index">
+                <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tabIndex = i">{{ item }}</a>
+            </ng-container>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div [hidden]="tabIndex > 0">
+            <div class="group-header">
+                Text
+            </div>
+            <div class="group-body">
+                <div class="icon-option-item">
+                    <div class="item-icon">
+                        <i class="iconfont icon-search"></i>
+                    </div>
+                    <div class="item-name">Twx</div>
+                </div>
+            </div>
+        </div>
+        <div [hidden]="tabIndex < 1">
+            <div class="line-option-item">
+                <div class="item-name">
+                    aaaa
+                </div>
+                <div class="item-arrow">
+                    <i class="iconfont icon-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="editor-panel-popup" [hidden]="true">
+        <div class="search-input">
+            <input type="text">
+            <i class="iconfont icon-search"></i>
+        </div>
+
+        <div class="image-option-item">
+            <img [src]="'assets/images/site.jpg' | asset" alt="">
+        </div>
+    </div>
+</div>

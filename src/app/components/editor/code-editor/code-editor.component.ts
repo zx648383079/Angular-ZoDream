@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IEditor, IEditorBlock } from '../model';
-import { EditorContainer } from '../container';
 import { CodeElement } from '../base/code';
 import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
+import { EditorService } from '../container';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -24,11 +24,11 @@ import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
 export class CodeEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
 
     public disabled = false;
-    private container = new EditorContainer();
     onChange: any = () => { };
     onTouch: any = () => { };
     constructor(
-        private elementRef: ElementRef
+        private elementRef: ElementRef,
+        private container: EditorService
     ) {
         this.container.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
             this.onChange(this.container.value);

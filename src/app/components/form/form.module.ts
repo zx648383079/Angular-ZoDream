@@ -25,6 +25,7 @@ import { AutoSuggestBoxComponent } from './auto-suggest-box/auto-suggest-box.com
 import { ColorLayerComponent } from './color-layer/color-layer.component';
 import { MultiSelectInputComponent } from './multi-select-input/multi-select-input.component';
 import { FormPanelComponent } from './form-panel/form-panel.component';
+import { ImageInputComponent } from './image-input/image-input.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -50,6 +51,7 @@ const COMPONENTS = [
     AutoSuggestBoxComponent,
     MultiSelectInputComponent,
     FormPanelComponent,
+    ImageInputComponent,
 ];
 
 @NgModule({

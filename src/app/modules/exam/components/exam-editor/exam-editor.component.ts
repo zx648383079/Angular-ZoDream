@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
-import { EditorBlockType, EditorContainer, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
+import { EditorBlockType, EditorService, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
 import { wordLength } from '../../../../theme/utils';
 import { MarkRangeMap } from '../math-mark/parser';
@@ -31,7 +31,6 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     public isPreview = false;
     public previewValue = '';
     public fileName = this.uploadService.uniqueGuid();
-    private container = new EditorContainer();
 
     onChange: any = () => { };
     onTouch: any = () => { };
@@ -39,6 +38,7 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
     constructor(
         private uploadService: FileUploadService,
         private toastrService: DialogService,
+        private container: EditorService,
     ) {
 
     }

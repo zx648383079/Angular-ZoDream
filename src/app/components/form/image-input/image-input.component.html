@@ -1,0 +1,26 @@
+<div class="action-btn" [ngClass]="{disabled: disabled, loading: isLoading}">
+    <ng-container *ngIf="value; else elseTemplate">
+        <div class="action-body">
+            <img [src]="value | asset" alt="">
+            <div class="btn-group">
+                <label [for]="fileName" class="btn btn-info" i18n>
+                    Change
+                </label>
+                <span class="btn btn-danger" (click)="tapRemove()" i18n>Remove</span>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <label [for]="fileName" class="action-body">
+            {{ placeholder }}
+        </label>
+    </ng-template>
+    
+    
+    <div class="action-loading">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" accept="image/*" [disabled]="disabled || isLoading"/>
+</div>

@@ -1,11 +1,16 @@
 import { Observable } from 'rxjs';
 
 export enum NavToggle {
-    Flow,   // 只悬浮显示切换图标，隐藏菜单
-    Min,    // 只显示切换图标，隐藏菜单
-    Mini,   // 只显示菜单图标
-    Unreal, // 完全显示
-    Hide, // 完全隐藏
+    /** 只悬浮显示切换图标，隐藏菜单 */
+    Flow,
+    /** 只显示切换图标，隐藏菜单 */
+    Min,
+    /** 只显示菜单图标 */
+    Mini,
+    /** 完全显示 */
+    Unreal,
+    /** 完全隐藏 */
+    Hide,
 }
 
 export enum SearchEvents {

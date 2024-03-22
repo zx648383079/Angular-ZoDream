@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, EventEmitter, forwardRef, Injector, Input, OnDestroy, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { FileUploadService } from '../../../theme/services';
-import { EditorBlockType, IEditor, IEditorBlock, IEditorCodeBlock, IEditorLinkBlock, IEditorModal, IEditorSharedModal, IImageUploadEvent } from '../model';
-import { EditorContainer } from '../container';
-import { EDITOR_CODE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
+import { IEditor, IEditorBlock, IImageUploadEvent } from '../model';
+import { EditorService } from '../container';
+import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
 import { IPoint } from '../../../theme/utils/canvas';
 
 @Component({
@@ -34,13 +33,11 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     public size = 0;
     public previewValue = '';
     public isFullScreen = false;
-    private modalRef: ComponentRef<IEditorModal>;
-    private container = new EditorContainer();
     onChange: any = () => { };
     onTouch: any = () => { };
 
     constructor(
-        private injector: Injector,
+        private container: EditorService
     ) {
         this.container.option.merge({
             toolbar: {
@@ -57,6 +54,14 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
             setTimeout(() => {
                 this.size = this.container.wordLength;
             }, 10);
+        }).on(EDITOR_EVENT_CUSTOM, e => {
+            if (e.name === EDITOR_PREVIEW_TOOL) {
+                this.enterPreview();
+                return;
+            }
+            if (e.name === EDITOR_FULL_SCREEN_TOOL) {
+                this.isFullScreen = !this.isFullScreen;
+            }
         });
     }
 
@@ -67,7 +72,7 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     }
 
     ngAfterViewInit() {
-        this.container.ready(this.areaElement.nativeElement);
+        this.container.ready(this.areaElement.nativeElement, this.modalViewContainer);
     }
 
     ngOnDestroy(): void {
@@ -75,8 +80,7 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     }
 
     public tapTool(item: IEditorTool, event: MouseEvent) {
-        this.container.focus();
-        this.executeModule(item, this.getOffsetPosition(event));
+        this.container.emitTool(item, event);
     }
 
     public uploadImage(event: any) {
@@ -89,49 +93,6 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
 
     public insert(block: IEditorBlock|string): void {
         this.container.insert(block);
-    }
-
-    private executeModule(item: IEditorTool, position: IPoint) {
-        if (this.modalRef) {
-            this.modalRef.destroy();
-            this.modalRef = undefined;
-        }
-        if (item.name === EDITOR_PREVIEW_TOOL) {
-            this.enterPreview();
-            return;
-        }
-        if (item.name === EDITOR_FULL_SCREEN_TOOL) {
-            this.isFullScreen = !this.isFullScreen;
-            return;
-        }
-        const module = this.container.option.toModule(item);
-        if (!module) {
-            return;
-        }
-        if (!module.modal) {
-            this.container.execute(module);
-            return;
-        }
-        this.modalRef = this.modalViewContainer.createComponent<IEditorModal>(module.modal, {
-            injector: this.injector
-        });
-        if (typeof (this.modalRef.instance as IEditorSharedModal).modalReady === 'function') {
-            (this.modalRef.instance as IEditorSharedModal).modalReady(module);
-        }
-        this.modalRef.instance.open({}, res => {
-            this.modalRef.destroy();
-            this.modalRef = undefined;
-            this.container.execute(module, undefined, res);
-        }, position);
-    }
-
-    private getOffsetPosition(event: MouseEvent): IPoint {
-        const ele = this.areaElement.nativeElement;
-        const rect = ele.getBoundingClientRect();
-        return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
     }
 
     private enterPreview() {
@@ -155,7 +116,4 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
-
-
-
 }

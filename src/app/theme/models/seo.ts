@@ -13,6 +13,7 @@ export interface IItem {
     value: any;
     id?: number;
     checked?: boolean;
+    meta?: string;
 }
 
 export interface IStatisticsItem {

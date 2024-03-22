@@ -1,5 +1,6 @@
 import { IBound, IPoint } from '../../../theme/utils/canvas';
 import { IEditorBlock } from '../model';
+import { IEditorTool } from './option';
 
 export const EDITOR_EVENT_INPUT_KEYDOWN = 'input.keydown';
 export const EDITOR_EVENT_INPUT_BLUR = 'input.blur';
@@ -21,6 +22,7 @@ export const EDITOR_EVENT_SHOW_COLUMN_TOOL = 'tool.column';
 export const EDITOR_EVENT_SHOW_LINK_TOOL = 'tool.link';
 export const EDITOR_EVENT_SHOW_TABLE_TOOL = 'tool.table';
 export const EDITOR_EVENT_CLOSE_TOOL = 'tool.flow.close';
+export const EDITOR_EVENT_CUSTOM = 'tool.custom'; // 自定义事件
 
 export interface IEditorListeners {
     [EDITOR_EVENT_INPUT_KEYDOWN]: (e: KeyboardEvent) => void;
@@ -41,6 +43,7 @@ export interface IEditorListeners {
     [EDITOR_EVENT_MOUSE_MOVE]: (p: IPoint) => void;
     [EDITOR_EVENT_MOUSE_UP]: (p: IPoint) => void;
     [EDITOR_EVENT_EDITOR_DESTORY]: () => void;
+    [EDITOR_EVENT_CUSTOM]: (item: IEditorTool) => void;
 }
 
 export const EDITOR_CLOSE_TOOL = 'close';

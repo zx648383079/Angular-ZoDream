@@ -126,6 +126,18 @@
     margin-bottom: 3rem;
 }
 
+.container-full {
+    .tab-nav-bar {
+        display: none;
+    }
+    .row {
+        margin: 0;
+    }
+    .col-12 {
+        padding: 0;
+    }
+}
+
 .member-container ::ng-deep {
     @import '../../theme/styles/member';
 }

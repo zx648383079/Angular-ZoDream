@@ -1,3 +1,5 @@
+@import '../../../../components/editor/editPage';
+@import '../../../../components/editor/panel';
 .title-input {
     .form-control {
         margin-left: 1rem;
@@ -13,7 +15,7 @@
 
 .language-toggle {
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 1.25rem;
     border: 1px solid #05a6b1;
     border-bottom: none;
     line-height: 2rem;
@@ -22,7 +24,7 @@
         background-color: #05a6b1;
         color: #fff;
         margin: 0;
-        width: 40px;
+        width: 2.5rem;
         text-align: center;
         text-decoration: none;
         cursor: default;
@@ -36,6 +38,6 @@
 
 .edit-tip {
     text-align: right;
-    font-size: 12px;
-    line-height: 20px;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
 }

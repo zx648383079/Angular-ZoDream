@@ -1,7 +1,10 @@
-import { DivElement, EDITOR_EVENT_EDITOR_AUTO_SAVE, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_DESTORY, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_UNDO_CHANGE, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
-import { EditorBlockType, IEditorBlock, IEditorRange } from './model';
+import { ComponentRef, Injectable, Injector, ViewContainerRef } from '@angular/core';
+import { DivElement, EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_AUTO_SAVE, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_DESTORY, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_UNDO_CHANGE, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
+import { EditorBlockType, IEditorBlock, IEditorModal, IEditorRange, IEditorSharedModal } from './model';
+import { IPoint } from '../../theme/utils/canvas';
 
-export class EditorContainer implements IEditorContainer {
+@Injectable()
+export class EditorService implements IEditorContainer {
     private selection: IEditorRange;
     private element: IEditorElement;
     private undoStack: string[] = [];
@@ -10,13 +13,16 @@ export class EditorContainer implements IEditorContainer {
     private listeners: {
         [key: string]: Function[];
     } = {};
+    private modalRef: ComponentRef<IEditorModal>;
+    private modalContainerRef: ViewContainerRef;
+    public option: EditorOptionManager = new EditorOptionManager();
     // private mouseMoveListeners = {
     //     move: undefined,
     //     finish: undefined,
     // };
 
     constructor(
-        public option: EditorOptionManager = new EditorOptionManager(),
+        private injector: Injector,
     ) {
         // document.addEventListener('mousemove', e => {
         //     this.emit(EVENT_MOUSE_MOVE, {x: e.clientX, y: e.clientX});
@@ -26,7 +32,10 @@ export class EditorContainer implements IEditorContainer {
         // });
     }
 
-    public ready(element: HTMLTextAreaElement|HTMLDivElement|IEditorElement) {
+    public ready(element: HTMLTextAreaElement|HTMLDivElement|IEditorElement, modalTarget?: ViewContainerRef) {
+        if (modalTarget) {
+            this.modalContainerRef = modalTarget;
+        }
         if (element instanceof HTMLDivElement) {
             this.element = new DivElement(element, this);
         } else if (element instanceof HTMLTextAreaElement) {
@@ -244,6 +253,64 @@ export class EditorContainer implements IEditorContainer {
     //         },
     //     };
     // }
+
+    public autoHeight() {
+        if (!this.element) {
+            return;
+        }
+        const element = this.element.element;
+        element.style.height = Math.max(200, element.scrollHeight) + 'px';
+    }
+
+    public emitTool(item: IEditorTool|string, event: MouseEvent) {
+        if (typeof item === 'string') {
+            item = this.option.toModule(item);
+        }
+        this.focus();
+        if (!item) {
+            return;
+        }
+        this.executeModule(item, this.getOffsetPosition(event));
+    }
+
+    private getOffsetPosition(event: MouseEvent): IPoint {
+        const ele = this.element.element;
+        const rect = ele.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+
+    private executeModule(item: IEditorTool, position: IPoint) {
+        if (this.modalRef) {
+            this.modalRef.destroy();
+            this.modalRef = undefined;
+        }
+        if (item.name === EDITOR_PREVIEW_TOOL || item.name === EDITOR_FULL_SCREEN_TOOL) {
+            this.emit(EDITOR_EVENT_CUSTOM, item);
+            return;
+        }
+        const module = this.option.toModule(item);
+        if (!module) {
+            return;
+        }
+        if (!module.modal) {
+            this.execute(module);
+            return;
+        }
+        this.modalRef = this.modalContainerRef.createComponent<IEditorModal>(module.modal, {
+            injector: this.injector
+        });
+        if (typeof (this.modalRef.instance as IEditorSharedModal).modalReady === 'function') {
+            (this.modalRef.instance as IEditorSharedModal).modalReady(module);
+        }
+        this.modalRef.instance.open({}, res => {
+            this.modalRef.destroy();
+            this.modalRef = undefined;
+            this.execute(module, undefined, res);
+        }, position);
+    }
 
     public on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     public on(event: string, cb: any) {

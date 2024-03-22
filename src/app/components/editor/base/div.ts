@@ -11,7 +11,7 @@ import { EditorHelper } from './util';
  */
 export class DivElement implements IEditorElement {
     constructor(
-        private element: HTMLDivElement,
+        public element: HTMLDivElement,
         private container: IEditorContainer) {
         this.bindEvent();
     }

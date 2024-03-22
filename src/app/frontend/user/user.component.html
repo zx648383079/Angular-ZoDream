@@ -1,7 +1,6 @@
-
-<div class="container member-container">
+<div class="member-container" [ngClass]="{container: navToggle != 4, 'container-full': navToggle == 4}">
     <div class="row">
-        <div class="col-md-3" [hidden]="!navToggle">
+        <div class="col-md-3" [hidden]="navToggle != 3">
             <div class="person-box" *ngIf="user">
                 <div class="avatar">
                     <img [src]="user.avatar|asset" [alt]="user.name">
@@ -44,7 +43,7 @@
                 </div>
             </div>  
         </div>
-        <div class="col-12" [ngClass]="{'col-md-9': navToggle}">
+        <div class="col-12" [ngClass]="{'col-md-9': navToggle == 3}">
             <div class="tab-nav-bar" [ngClass]="{'nav-more-open': moreVisible}">
                 <div class="tab-bar" (click)="moreVisible = false">
                     <ng-container *ngFor="let item of tabItems">

@@ -1,0 +1,36 @@
+@import '../action-button/actionButton';
+.action-body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 8rem;
+    background-color: #ccc;
+    border-radius: .25rem;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: .25rem;
+    }
+    .btn-group {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        width: 10rem;
+        margin-left: -5rem;
+        .btn {
+            --bs-btn-font-size: .8rem;
+            --bs-btn-padding-y: .2rem;
+
+        }
+    }
+    &:hover {
+        background-color: #aaa;
+    }
+}
+input[type='file'] {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}

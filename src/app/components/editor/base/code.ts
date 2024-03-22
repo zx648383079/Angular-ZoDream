@@ -14,7 +14,7 @@ export class CodeElement implements IEditorElement {
     private isComposition = false;
 
     constructor(
-        private element: HTMLDivElement,
+        public element: HTMLDivElement,
         private container: IEditorContainer) {
         this.init();
         this.bindEvent();

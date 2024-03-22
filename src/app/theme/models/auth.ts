@@ -5,6 +5,7 @@ import { IUser } from './user';
 export const AccountStatusItems: IItem[] = [
     {name: '已删除', value: 0},
     {name: '账户已冻结', value: 2},
+    {name: '邮箱未确认', value: 9},
     {name: '账户正常', value: 10},
     {name: '已实名认证', value: 15},
 ];

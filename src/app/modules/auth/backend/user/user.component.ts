@@ -11,6 +11,7 @@ import { mapFormat } from '../../../../theme/utils';
 import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 import { Subscription } from 'rxjs';
+import { AccountStatusItems } from '../../../../theme/models/auth';
 
 @Component({
   selector: 'app-user',
@@ -89,13 +90,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     public formatStatus(val: number) {
-        if (val >= 10) {
-            return '正常';
-        }
-        return mapFormat(val, [
-            {name: '已删除', value: 0},
-            {name: '已冻结', value: 2},
-        ]);
+        return mapFormat(val, AccountStatusItems);
     }
 
     public formatButtons(item: IUser) {
