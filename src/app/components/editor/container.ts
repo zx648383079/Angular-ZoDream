@@ -223,6 +223,17 @@ export class EditorService implements IEditorContainer {
         this.listeners = {};
     }
 
+    public toggle(force?: boolean): void {
+        if (!this.element) {
+            return;
+        }
+        const ele = this.element.element;
+        if (typeof force === 'undefined') {
+            force = ele.style.display === 'none';
+        }
+        ele.style.display = force ? 'block' : 'none';
+    }
+
     public undo(): void {
         if (!this.canUndo) {
             this.emit(EDITOR_EVENT_UNDO_CHANGE);

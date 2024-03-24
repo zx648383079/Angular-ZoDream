@@ -74,10 +74,36 @@ export class Canvas {
         }
     }
 
-    public saveAs(type?: string) {
+    public saveAs(): string;
+    public saveAs(type: string): string;
+    public saveAs(quality: number): string;
+    public saveAs(type: string, quality: number): string;
+    public saveAs(type?: string|number, quality?: number): string {
+        if (typeof type === 'number') {
+            quality = type;
+            type = undefined;
+        }
         if (!type) {
             type = 'image/jpeg'; // 'png';
         }
-        return this.element.toDataURL(type);
+        return this.element.toDataURL(type as string, quality);
+    }
+
+    /**
+     * base64 转file
+     * @param dataURI 
+     * @param fileName 
+     * @returns 
+     */
+    public dataURItoFile(dataURI: string, fileName: string): File {
+        const [dataDescription, base64Data] = dataURI.split(',');
+        const mimetype = dataDescription.match(/:(.*?);/)[1];
+        const decodedData = atob(base64Data);
+        let n = decodedData.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = decodedData.charCodeAt(n)
+        }
+        return new File([u8arr], fileName, { type: mimetype });
     }
 }

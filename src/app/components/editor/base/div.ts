@@ -261,7 +261,7 @@ export class DivElement implements IEditorElement {
         if (begin === this.element) {
             p.appendChild(document.createElement('br'));
             if (this.element.children.length === 0) {
-                this.insertLast(this.element, p.cloneNode(true), p);
+                EditorHelper.insertLast(this.element, p.cloneNode(true), p);
             } else {
                 this.insertToChildIndex(p, begin, range.startOffset);
             }
@@ -272,7 +272,7 @@ export class DivElement implements IEditorElement {
         if (li) {
             if (li.nodeName === 'LI') {
                 const next = document.createElement(li.nodeName);
-                this.insertAfter(li, next);
+                EditorHelper.insertAfter(li, next);
                 this.selectNode(next);
                 return;
             }
@@ -302,7 +302,7 @@ export class DivElement implements IEditorElement {
         let done = false;
         this.eachParentNode(begin, node => {
             if (this.isBlockNode(node) && node) {
-                this.insertAfter(node, p);
+                EditorHelper.insertAfter(node, p);
                 next = undefined;
                 done = true;
                 return false;
@@ -311,7 +311,7 @@ export class DivElement implements IEditorElement {
         });
         if (!done) {
             if (next) {
-                this.insertAfter(next, p);
+                EditorHelper.insertAfter(next, p);
             } else {
                 this.element.appendChild(p);
             }
@@ -319,7 +319,7 @@ export class DivElement implements IEditorElement {
         if (addBlock) {
             const ele = document.createElement(this.blockTagName);
             ele.appendChild(document.createElement('br'));
-            this.insertBefore(p, ele);
+            EditorHelper.insertBefore(p, ele);
         }
         this.selectNode(p);
     }
@@ -346,13 +346,13 @@ export class DivElement implements IEditorElement {
                     items.push(v);
                 });
             }
-            this.replaceNode(box, items);
+            EditorHelper.replaceNode(box, items);
             return;
         }
         box = document.createElement('ul');
         const li = document.createElement('li');
         box.appendChild(li);
-        this.replaceNode(node, box, () => {
+        EditorHelper.replaceNode(node, box, () => {
             li.appendChild(node);
         });
     }
@@ -487,7 +487,7 @@ export class DivElement implements IEditorElement {
                     const item = tr.cells[i];
                     span += item.colSpan;
                     if (span === startSpan) {
-                        this.insertAfter(item, document.createElement(start.nodeName));
+                        EditorHelper.insertAfter(item, document.createElement(start.nodeName));
                         break;
                     } else if (span > startSpan) {
                         item.colSpan ++;
@@ -549,7 +549,7 @@ export class DivElement implements IEditorElement {
             const count = start.colSpan - 1;
             start.colSpan = 1;
             for(let i = 0; i < count; i ++) {
-                this.insertAfter(start, document.createElement(start.nodeName));
+                EditorHelper.insertAfter(start, document.createElement(start.nodeName));
             }
             return;
         }
@@ -582,7 +582,7 @@ export class DivElement implements IEditorElement {
     private delTableExecute(range: Range) {
         const table = this.nodeParent(range.startContainer, 'table');
         if (table) {
-            this.removeNode(table);
+            EditorHelper.removeNode(table);
         }
     }
 
@@ -714,7 +714,7 @@ export class DivElement implements IEditorElement {
         let done = false;
         this.eachParentNode(range.startContainer, node => {
             if (this.isBlockNode(node) && node) {
-                this.insertAfter(node, ...items);
+                EditorHelper.insertAfter(node, ...items);
                 next = undefined;
                 done = true;
                 return false;
@@ -723,9 +723,9 @@ export class DivElement implements IEditorElement {
         });
         if (!done) {
             if (next) {
-                this.insertAfter(next, ...items);
+                EditorHelper.insertAfter(next, ...items);
             } else {
-                this.insertLast(this.element, ...items);
+                EditorHelper.insertLast(this.element, ...items);
             }
         }
         this.selectNode(items[items.length - 1]);
@@ -735,7 +735,7 @@ export class DivElement implements IEditorElement {
     * 把选中的作为子项包含进去
     */
     private includeSelected(range: Range, parent: Node) {
-        this.insertLast(parent, ...this.copySelectedNode(range));
+        EditorHelper.insertLast(parent, ...this.copySelectedNode(range));
         this.replaceSelected(range, parent);
     }
 
@@ -747,13 +747,13 @@ export class DivElement implements IEditorElement {
             return;
         }
         this.eachTopRange(range, node => {
-            const items = this.splitNodeRange(node, range);
+            const items = EditorHelper.splitNodeRange(node, range);
             if (items.length === 0) {
                 return;
             }
             if (!this.isBlockNode(items[0])) {
-                this.replaceNode(items[0], document.createElement(tag), n => {
-                    this.insertLast(n, ...items);
+                EditorHelper.replaceNode(items[0], document.createElement(tag), n => {
+                    EditorHelper.insertLast(n, ...items);
                 });
                 return;
             }
@@ -776,7 +776,7 @@ export class DivElement implements IEditorElement {
             return;
         }
         this.eachTopRange(range, node => {
-            const items = this.splitNodeRange(node, range);
+            const items = EditorHelper.splitNodeRange(node, range);
             if (items.length === 0) {
                 return;
             }
@@ -818,10 +818,10 @@ export class DivElement implements IEditorElement {
         if (node.parentNode && node.parentNode !== this.element && this.isOnlyNode(node)) {
             target = node.parentNode;
         }
-        this.replaceNode(target, n, () => {
+        EditorHelper.replaceNode(target, n, () => {
             n.appendChild(node);
             if (target !== node) {
-                this.removeNode(target);
+                EditorHelper.removeNode(target);
             }
         });
         this.selectNode(node);
@@ -846,7 +846,7 @@ export class DivElement implements IEditorElement {
             return box;
         }
         const p = document.createElement(this.blockTagName);
-        this.replaceNode(node, p, () => {
+        EditorHelper.replaceNode(node, p, () => {
             p.appendChild(node);
         });
         return p;
@@ -895,9 +895,9 @@ export class DivElement implements IEditorElement {
                 return node;
             }
             n.innerHTML = node.innerHTML;
-            this.replaceNode(node, n);
+            EditorHelper.replaceNode(node, n);
         } else {
-            this.replaceNode(node, n, next => {
+            EditorHelper.replaceNode(node, n, next => {
                 next.appendChild(node);
             });
         }
@@ -907,41 +907,7 @@ export class DivElement implements IEditorElement {
         return n;
     }
 
-    /**
-    * 替换节点为
-    * @param node 
-    * @param newNode 
-    * @param removeFn 删除旧节点还是移动
-    * @returns 
-    */
-    private replaceNode<T extends Node>(node: Node, newNode: T, removeFn?: (node: T) => void): void;
-    private replaceNode(node: Node, newNode: Node[]): void;
-    private replaceNode(node: Node, newNode: Node[]|Node, removeFn?: Function) {
-        const target = newNode instanceof Array ? newNode : [newNode];
-        const fn = () => {
-            if (removeFn) {
-                removeFn(newNode);
-                return;
-            }
-            this.removeNode(node);
-        };
-        let borther = node.previousSibling;
-        if (borther) {
-            fn();
-            this.insertAfter(borther, ...target);
-            return;
-        }
-        borther = node.nextSibling;
-        if (borther) {
-            fn();
-            this.insertBefore(borther, ...target);
-            return;
-        }
-        const parent = node.parentNode;
-        fn();
-        this.insertLast(parent, ...target);
-        return;
-    }
+    
 
     private selectNode(node: Node, offset = 0) {
         const sel = window.getSelection();
@@ -1266,77 +1232,29 @@ export class DivElement implements IEditorElement {
         const isText = current instanceof Text;
         if (offset < 1) {
             if (isText) {
-                this.insertBefore(current, ...items);
+                EditorHelper.insertBefore(current, ...items);
                 return;
             }
-            this.insertFirst(current, ...items);
+            EditorHelper.insertFirst(current, ...items);
             return;
         }
         const max = isText ? current.length : current.childNodes.length;
         if (offset >= max) {
             if (isText) {
-                this.insertAfter(current, ...items);
+                EditorHelper.insertAfter(current, ...items);
                 return;
             }
-            this.insertLast(current, ...items);
+            EditorHelper.insertLast(current, ...items);
             return;
         }
         if (isText) {
-            this.insertBefore(current.splitText(offset), ...items);
+            EditorHelper.insertBefore(current.splitText(offset), ...items);
             return;
         }
-        this.insertBefore(current.childNodes[offset], ...items);
+        EditorHelper.insertBefore(current.childNodes[offset], ...items);
     }
 
-    /**
-    * 在内部前面添加子节点
-    * @param current 
-    * @param items 
-    */
-    private insertFirst(current: Node, ...items: Node[]) {
-        if (current.childNodes.length < 1) {
-            this.insertLast(current, ...items);
-            return;
-        }
-        this.insertBefore(current.childNodes[0], ...items);
-    }
-
-    /**
-    * 在子节点最后添加元素
-    * @param current 
-    * @param items 
-    */
-    private insertLast(current: Node, ...items: Node[]) {
-        for (const item of items) {
-            current.appendChild(item);
-        }
-    }
-
-    /**
-    * 在元素之前添加兄弟节点
-    * @param current 
-    * @param items 
-    */
-    private insertBefore(current: Node, ...items: Node[]) {
-        const parent = current.parentNode;
-        for (const item of items) {
-            parent.insertBefore(item, current);
-        }
-    }
-
-    /**
-    * 在元素之后添加兄弟节点
-    * @param current 
-    * @param items 
-    * @returns 
-    */
-    private insertAfter(current: Node, ...items: Node[]) {
-        if (current.nextSibling) {
-            this.insertBefore(current.nextSibling, ...items);
-            return;
-        }
-        this.insertLast(current.parentNode, ...items);
-    }
+    
 
     private insertToChildIndex(newEle: HTMLElement, parent: Node, index: number) {
         if (parent.childNodes.length <= index) {
@@ -1386,7 +1304,7 @@ export class DivElement implements IEditorElement {
                     if (!n || n === beginNode || n === endNode) {
                         return;
                     }
-                    this.removeNode(n);
+                    EditorHelper.removeNode(n);
                 }, endNode);
             }
             if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
@@ -1397,7 +1315,7 @@ export class DivElement implements IEditorElement {
                     if (n === beginNode) {
                         return;
                     }
-                    this.removeNode(n);
+                    EditorHelper.removeNode(n);
                 }, false);
             }
         }
@@ -1418,18 +1336,6 @@ export class DivElement implements IEditorElement {
             }
         }
         return;
-    }
-
-    /**
-    * 删除节点
-    * @param node 
-    * @returns 
-    */
-    private removeNode(node: Node) {
-        if (!node.parentNode) {
-            return;
-        }
-        node.parentNode.removeChild(node);
     }
 
     private copySelectedNode(range: Range): Node[] {
@@ -1497,12 +1403,12 @@ export class DivElement implements IEditorElement {
         if (!lastBegin) {
             items = [].concat(this.copyRangeNode(range.startContainer, range.startOffset), items);
         } else {
-            this.insertLast(lastBegin, ...this.copyRangeNode(range.startContainer, range.startOffset));
+            EditorHelper.insertLast(lastBegin, ...this.copyRangeNode(range.startContainer, range.startOffset));
         }
         if (!lastEnd) {
             items.push(...this.copyRangeNode(range.endContainer, 0, range.endOffset));
         } else {
-            this.insertLast(lastEnd, ...this.copyRangeNode(range.endContainer, 0, range.endOffset));
+            EditorHelper.insertLast(lastEnd, ...this.copyRangeNode(range.endContainer, 0, range.endOffset));
         }
     }
 
@@ -1715,62 +1621,6 @@ export class DivElement implements IEditorElement {
             return undefined;
         }
         return this.nextNode(node.parentNode); 
-    }
-
-    private splitNodeRange(node: Node, range: Range): Node[];
-    private splitNodeRange(node: Node, begin: number): Node[];
-    private splitNodeRange(node: Node, begin: number, end: number): Node[];
-    private splitNodeRange(node: Node, begin: Range|number, end: number = -1): Node[] {
-        if (typeof begin === 'object') {
-            [begin, end] = this.getNodeRange(node, begin);
-        }
-        if (begin === end) {
-            return [];
-        }
-        if (node instanceof Text) {
-            const len = node.length;
-            if (begin > 0) {
-                node = node.splitText(begin);
-            }
-            if (end > begin && end > 0 && end < len - 1) {
-                (node as Text).splitText(end - begin);
-            }
-            return [node];
-        }
-        const count = end > begin && end > 0 && end < node.childNodes.length ? end + 1 : node.childNodes.length;
-        let i = begin > 0 ? begin : 0;
-        if (i <= 0 && count >= node.childNodes.length) {
-            return [node];
-        }
-        const items = [];
-        for (; i < count; i++) {
-            items.push(node.childNodes[i]);
-        }
-        return items;
-    }
-
-    /**
-    * 获取元素在兄弟中排第几
-    * @param node 
-    * @returns 
-    */
-    private getNodeIndex(node: Node): number {
-        if (!node.parentNode) {
-            return -1;
-        }
-        const parent = node.parentNode;
-        for (let i = 0; i < parent.childNodes.length; i++) {
-            if (parent.childNodes[i] === node) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private getNodeRange(node: Node, range: Range): number[] {
-        const begin = node === range.startContainer ? range.startOffset : 0;
-        const end = node === range.endContainer ? range.endOffset : -1;
-        return [begin, end];
     }
 
     private getNodeOffset(node: Node):IPoint {

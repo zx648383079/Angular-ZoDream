@@ -23,6 +23,11 @@ export interface IEditorContainer {
     redo(): void;
     selectAll(): void;
     destroy(): void;
+    /**
+     * 显示隐藏
+     * @param force 
+     */
+    toggle(force?: boolean): void;
 
     on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     on(event: string, cb: any): IEditorContainer;

@@ -75,3 +75,18 @@ export function scrollTop(target?: HTMLElement|number, value?: number): number|v
 export function isHidden(target: HTMLElement): boolean {
     return target.offsetWidth <= 0 || target.offsetHeight <= 0;
 }
+
+/**
+ * 获取angular 封装的 私有shimmed
+ * @param element 
+ * @returns 
+ */
+export function getShimmed(element: HTMLElement): string {
+    for (let i = 0; i < element.attributes.length; i++) {
+        const item = element.attributes[i];
+        if (item.name.startsWith('_ngcontent')) {
+            return item.name;
+        }
+    }
+    return '';
+}

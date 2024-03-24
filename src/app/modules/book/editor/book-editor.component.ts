@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
-import { TextEditorComponent } from '../../../components/editor';
+import { DialogBoxComponent, DialogEvent, DialogService } from '../../../components/dialog';
+import { EditorService } from '../../../components/editor';
 import { ButtonEvent } from '../../../components/form';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from '../../../components/mind';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
@@ -12,6 +12,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 import { IBook, IBookRole, IBookRoleRelation, IChapter } from '../model';
 import { IItem } from '../../../theme/models/seo';
+import { TextElement } from './text-editor';
 
 @Component({
     selector: 'app-book-editor',
@@ -21,14 +22,16 @@ import { IItem } from '../../../theme/models/seo';
         PanelAnimation
     ],
 })
-export class BookEditorComponent implements OnInit {
+export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
-    @ViewChild(TextEditorComponent)
-    public editor: TextEditorComponent;
     @ViewChild('moveModal')
-    public moveModal: DialogBoxComponent;
+    public moveModal: DialogEvent;
+    @ViewChild('editorArea')
+    private areaElement: ElementRef<HTMLDivElement>;
+    @ViewChild('modalVC', {read: ViewContainerRef})
+    private modalViewContainer: ViewContainerRef;
 
     public book: IBook;
     public data: IChapter;
@@ -66,11 +69,11 @@ export class BookEditorComponent implements OnInit {
     
     constructor(
         private service: BookService,
-        private router: Router,
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private renderer: Renderer2,
         private themeService: ThemeService,
+        private editor: EditorService
     ) {
         this.themeService.setTitle('编辑书籍');
     }
@@ -104,6 +107,15 @@ export class BookEditorComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.loadBook(params.id);
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.editor.ready(new TextElement(this.areaElement.nativeElement, this.editor), this.modalViewContainer);
+        this.editor.toggle(false);
+    }
+
+    ngOnDestroy(): void {
+        this.editor.destroy();
     }
 
     private loadBook(id: any, only = false) {
@@ -161,12 +173,14 @@ export class BookEditorComponent implements OnInit {
         if (item.type > 0) {
             item.expanded = !item.expanded;
             this.data = {...item};
+            this.editor.toggle(false);
             return;
         }
         this.service.selfChapter(item.id).subscribe({
             next: res => {
                 this.data = res;
-                this.editor?.scrollToTop();
+                this.editor.toggle(res.type < 1);
+                this.editor.value = res.content;
             },
             error: err => {
                 this.toastrService.error(err);
@@ -264,6 +278,7 @@ export class BookEditorComponent implements OnInit {
             this.toastrService.warning('请输入章节名');
             return;
         }
+        this.data.content = this.editor.value;
         if (this.data.type < 1 && this.data.content.length < 1) {
             this.toastrService.warning('请输入内容');
             return;

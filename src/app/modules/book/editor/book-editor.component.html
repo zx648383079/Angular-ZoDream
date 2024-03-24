@@ -1,5 +1,5 @@
-<div class="editor-container" [ngClass]="{'top-open': topVisible}" *ngIf="book">
-    <div class="top-container">
+<div class="editor-container" [ngClass]="{'top-open': topVisible}">
+    <div class="top-container"  *ngIf="book">
         <div class="form-table">
             <div class="zre-input-group">
                 <label for="name2" i18n>Name</label>
@@ -29,20 +29,36 @@
     <div class="editor-body">
         <div class="catalog-container">
             <div class="tool-bar">
-                <a title="刷新排序" (click)="tapRefreshPosition()">
-                    <i class="iconfont icon-refresh"></i>
-                </a>
-                <a title="新增章节" (click)="tapNewFile()">
+                
+                <a class="tool-item" title="新增章节" (click)="tapNewFile()">
                     <i class="iconfont icon-file-text-o"></i>
                 </a>
-                <a title="新增卷" (click)="tapNewFolder()">
+                <a class="tool-item" title="新增卷" (click)="tapNewFolder()">
                     <i class="iconfont icon-folder-o"></i>
                 </a>
-                <a title="人物关系" (click)="tapViewLink()">
-                    <i class="iconfont icon-chain"></i>
-                </a>
-                <a title="设置" (click)="topVisible = !topVisible">
+                <a class="tool-item" title="设置" (click)="topVisible = !topVisible">
                     <i class="iconfont icon-cog"></i>
+                </a>
+                <a class="tool-item" title="更多">
+                    <i class="iconfont icon-ellipsis-v"></i>
+                    <div class="tool-drop-bar">
+                        <a class="tool-item" title="角色" (click)="tapViewLink()">
+                            <i class="iconfont icon-user"></i>
+                            <span class="item-label">角色</span>
+                        </a>
+                        <a class="tool-item" title="设定" (click)="tapViewLink()">
+                            <i class="iconfont icon-chain"></i>
+                            <span class="item-label">设定</span>
+                        </a>
+                        <a class="tool-item" title="地图" (click)="tapViewLink()">
+                            <i class="iconfont icon-map-marker"></i>
+                            <span class="item-label">地图</span>
+                        </a>
+                        <a class="tool-item" title="刷新排序" (click)="tapRefreshPosition()">
+                            <i class="iconfont icon-refresh"></i>
+                            <span class="item-label">刷新排序</span>
+                        </a>
+                    </div>
                 </a>
             </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
@@ -66,47 +82,27 @@
         </div>
         <div class="body-container">
             <div class="toggle-tool-bar">
-                <div class="tool-item" title="显示目录">
-                    <i class="iconfont icon-bars"></i>
+                <div class="tool-left">
+                    <div class="tool-item" title="显示目录">
+                        <i class="iconfont icon-bars"></i>
+                    </div>
+                    <div class="tool-item" title="退出编辑" (click)="tapExit()">
+                        <i class="iconfont icon-home"></i>
+                    </div>
                 </div>
-                <div class="tool-item" title="退出编辑" (click)="tapExit()">
-                    <i class="iconfont icon-home"></i>
+                <div class="tool-right" *ngIf="data">
+                    <app-action-button class="tool-item btn-primary" (tapped)="tapSaveChapter($event)" title="保存">
+                        <i class="iconfont icon-floppy-o"></i>
+                    </app-action-button>
                 </div>
             </div>
-            <ng-container *ngIf="data">
-                <div class="title-input">
-                    <label for="name">{{ data.type > 0 ? '卷名' : '章节名' }}</label>
-                    <input type="text" id="name" [(ngModel)]="data.title" class="form-control" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
-                    <a class="btn btn-primary" title="保存" (click)="tapSaveChapter()">
-                        <i class="iconfont icon-check"></i>
-                    </a>
-                </div>
-                <ng-container *ngIf="data.type < 1">
-                    <app-text-editor [(ngModel)]="data.content"></app-text-editor>
-                    <app-panel title="附加属性" [min]="true">
-                        <div class="form-table">
-                            <div class="zre-input-group">
-                                <label for="price">章节类型</label>
-                                <div>
-                                    <select name="price" [(ngModel)]="data.price" class="form-control">
-                                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="zre-input-group">
-                                <label for="position">排序</label>
-                                <div>
-                                    <input type="text" id="position" class="form-control" [(ngModel)]="data.position">
-                                </div>
-                            </div>
-                        </div>
-                    </app-panel>
-                    <div class="btn-group">
-                        <app-action-button class="btn btn-success" (tapped)="tapSaveChapter($event)">确认保存</app-action-button>
-                        <a class="btn btn-danger" (click)="publishModal.open()">发布</a>
-                    </div>
+            <div class="editor-input-wrapper">
+                <ng-container  *ngIf="data">
+                    <input type="text" id="name"  class="title-input" [(ngModel)]="data.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
                 </ng-container>
-            </ng-container>
+                <div #editorArea class="editor-area" [contentEditable]="true" spellcheck="false"></div>
+                <ng-container #modalVC></ng-container>
+            </div>
         </div>
     </div>
 </div>
@@ -184,7 +180,7 @@
         <div class="zre-input-group">
             <label for="">发布章节</label>
             <div>
-                <input type="text" class="form-control" [ngModel]="data.title" readonly>
+                <input type="text" class="form-control" [ngModel]="data ? data.title : ''" readonly>
             </div>
         </div>
         <div class="zre-input-group">
