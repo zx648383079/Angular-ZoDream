@@ -30,7 +30,7 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>
-                        【{{ item.type < 1 ? '章节' : '卷' }}】
+                        【{{ formatType(item.type) }}】
                         {{ item.title }}
                     </td>
                     <td>{{ item.size }}</td>

@@ -6,28 +6,30 @@
         </div>
         <div class="panel-tab-bar">
             <ng-container *ngFor="let item of tabItems;let i = index">
-                <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tabIndex = i">{{ item }}</a>
+                <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
             </ng-container>
         </div>
     </div>
     <div class="panel-body">
         <div [hidden]="tabIndex > 0">
-            <div class="group-header">
-                Text
-            </div>
-            <div class="group-body">
-                <div class="icon-option-item">
-                    <div class="item-icon">
-                        <i class="iconfont icon-search"></i>
-                    </div>
-                    <div class="item-name">Twx</div>
+            <ng-container *ngFor="let group of toolItems">
+                <div class="group-header">
+                    {{ group.header }}
                 </div>
-            </div>
+                <div class="group-body">
+                    <div class="icon-option-item" *ngFor="let item of group.items" (click)="tapTool(item)">
+                        <div class="item-icon">
+                            <i class="iconfont" [ngClass]="item.icon"></i>
+                        </div>
+                        <div class="item-name">{{ item.label }}</div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
         <div [hidden]="tabIndex < 1">
-            <div class="line-option-item">
+            <div class="line-option-item" *ngFor="let item of mediaGroupItems" (click)="openMedia(item)">
                 <div class="item-name">
-                    aaaa
+                    {{ item.name }}
                 </div>
                 <div class="item-arrow">
                     <i class="iconfont icon-chevron-right"></i>
@@ -35,14 +37,15 @@
             </div>
         </div>
     </div>
-    <div class="editor-panel-popup" [hidden]="true">
+    <div class="editor-panel-popup" [hidden]="!mediaOpen" appInfiniteScroll (scrollEnd)="tapMore()">
         <div class="search-input">
-            <input type="text">
+            <input type="text" [(ngModel)]="mediaQueries.keywords">
             <i class="iconfont icon-search"></i>
         </div>
-
-        <div class="image-option-item">
-            <img [src]="'assets/images/site.jpg' | asset" alt="">
-        </div>
+        <ng-container *ngFor="let item of mediaItems">
+            <div class="image-option-item" [title]="item.title" (click)="tapMedia(item)">
+                <img [src]="item.url | asset" [alt]="item.title">
+            </div>
+        </ng-container>
     </div>
 </div>

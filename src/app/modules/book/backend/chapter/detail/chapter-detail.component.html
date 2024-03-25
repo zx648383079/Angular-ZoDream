@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
     <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -13,10 +13,13 @@
 
         <app-panel title="附加属性">
             <div class="zre-input-group">
-                <label for="price">价格</label>
+                <label for="price">章节类型</label>
                 <div>
-                    <input type="text" id="price" class="form-control" formControlName="price">
-                    <div class="input-tip">为0表示免费章节</div>
+                    <select class="form-control" [(ngModel)]="data.type">
+                        <ng-container *ngFor="let item of typeItems">
+                            <option [value]="item.value">{{ item.name }}</option>
+                        </ng-container>
+                    </select>
                 </div>
             </div>
             <div class="zre-input-group">
@@ -33,7 +36,7 @@
             </div>
         </app-panel>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

@@ -1,0 +1,36 @@
+$shadow: rgba($color: #000000, $alpha: .2);
+.dialog-map {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 98;
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        line-height: 3em;
+        background-color: #fff;
+        text-align: right;
+        box-shadow: 0 2px 5px $shadow;
+        margin-bottom: 5px;
+        .tool-item {
+            display: inline-block;
+            width: 3em;
+            text-align: center;
+            text-decoration: none;
+            position: relative;
+            user-select: none;
+            .item-label {
+                display: none;
+            }
+            &:hover {
+                background-color: #ccc;
+                .tool-drop-bar {
+                    display: block;
+                }
+            }
+        }
+    }
+}

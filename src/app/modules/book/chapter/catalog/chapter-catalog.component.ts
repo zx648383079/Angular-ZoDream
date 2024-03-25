@@ -28,7 +28,7 @@ export class ChapterCatalogComponent {
         }
         const items = [];
         for (const item of this.items) {
-            if (item.type < 1) {
+            if (item.type < 9) {
                 items.push(item);
                 continue;
             }

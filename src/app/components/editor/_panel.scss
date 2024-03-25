@@ -81,8 +81,13 @@
         align-items: center;
         border-radius: .25rem;
         padding: .8rem;
+        user-select: none;
         .item-icon {
             margin-bottom: .8rem;
+        }
+        .item-name {
+            word-break: keep-all;
+            text-wrap: nowrap;
         }
         &:hover {
             background-color: #ccc;

@@ -5,7 +5,7 @@
         </div>
         <div class="tool-bar-top">
             <div class="tool-left">
-                <div class="tool-item btn-info toggle-tool-item" (click)="addToggle = !addToggle" [ngClass]="{active: addToggle}">
+                <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [ngClass]="{active: addToggle}">
                     <i class="iconfont icon-plus"></i>
                 </div>
                 <ng-container *ngFor="let item of toolItems">
@@ -33,7 +33,7 @@
         </div>
     </div>
     <form class="editor-body" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <app-blog-add-panel [visible]="addToggle"></app-blog-add-panel>
+        <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)"></app-blog-add-panel>
         <div class="editor-area">
             <div class="editor-input-wrapper">
                 <input type="text" class="title-input" formControlName="title" placeholder="Title">

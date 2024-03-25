@@ -8,7 +8,6 @@ import { FlipPagerComponent } from './reader/flip-pager/flip-pager.component';
 import { ContextMenuModule } from '../../components/context-menu';
 import { ProgressModule } from '../../components/progress';
 import { ZreFormModule } from '../../components/form';
-import { ZreMindModule } from '../../components/mind';
 import { DialogModule } from '../../components/dialog';
 import { ZreEditorModule } from '../../components/editor';
 
@@ -22,11 +21,10 @@ import { ZreEditorModule } from '../../components/editor';
     imports: [
         CommonModule,
         ThemeModule,
-        BookRoutingModule,
         ContextMenuModule,
+        BookRoutingModule,
         ProgressModule,
         ZreFormModule,
-        ZreMindModule,
         DialogModule,
         ZreEditorModule,
     ],

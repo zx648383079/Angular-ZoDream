@@ -24,6 +24,8 @@ $shadow: rgba(0, 0, 0, 0.2);
         z-index: 88;
         display: flex;
         .tool-item {
+            --bs-btn-disabled-color: #ccc;
+            --bs-btn-active-color: var(--#{$prefix}-primary);
             background-color: var(--bs-btn-bg);
             color: var(--bs-btn-color);
             border-radius: .25rem;

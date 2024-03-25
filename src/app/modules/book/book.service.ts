@@ -145,49 +145,5 @@ export class BookService {
         return this.http.put<IBook>('book/member/book/over', {id});
     }
 
-    public selfChapter(id: any) {
-        return this.http.get<IChapter>('book/member/book/chapter_detail', {params: {id}});
-    }
-
-    public selfSaveChapter(data: any) {
-        return this.http.post<IChapter>('book/member/book/chapter_save', data);
-    }
-
-    public selfMoveChapter(data: any) {
-        return this.http.post<IDataOne<boolean>>('book/member/book/move', data);
-    }
-
-    public selfRefreshPosition(id: number) {
-        return this.http.post<IDataOne<boolean>>('book/member/book/refresh', {id});
-    }
-
-    public selfRemoveChapter(id: any) {
-        return this.http.delete<IDataOne<boolean>>('book/member/book/chapter_delete', {params: {id}});
-    }
-
-    public roleList(book: number) {
-        return this.http.get<{
-            items: IBookRole[];
-            link_items: IBookRoleRelation[];
-        }>('book/member/book/role', {params: {book}});
-    }
-
-    public roleSave(data: any) {
-        return this.http.post<IBookRole>('book/member/book/role_save', data);
-    }
-
-    public roleRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('book/member/book/role_delete', {params: {id}});
-    }
-
-    public LinkAdd(from: number, to: number, title = '') {
-        return this.http.post<IBookRoleRelation>('book/member/book/link_add', {
-            from, to, title
-        });
-    }
-
-    public linkRemove(from: number, to: number) {
-        return this.http.delete<IDataOne<boolean>>('book/member/book/link_delete', {params: {from, to}});
-    }
 
 }

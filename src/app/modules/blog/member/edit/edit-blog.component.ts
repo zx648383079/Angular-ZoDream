@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
-import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EditorBlockType, EditorService, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
+import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorBlockType, EditorService, IEditorBlock, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, SearchService } from '../../../../theme/services';
 import { NavToggle, SearchEvents } from '../../../../theme/models/event';
@@ -91,13 +91,23 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         this.editor.option.merge({
             toolbar: {
-                left: ['bold', 'link', 'image', 'code', 'undo', 'redo'],
+                left: ['undo', 'redo'],
             }
         });
         this.toolItems = this.editor.option.leftToolbar;
         this.editor.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
             this.size = this.editor.wordLength;
             this.editor.autoHeight();
+        }).on(EDITOR_EVENT_UNDO_CHANGE, () => {
+            for (const item of this.toolItems) {
+                if (item.name === EDITOR_UNDO_TOOL) {
+                    item.disabled = !this.editor.canUndo;
+                } else if (item.name === EDITOR_REDO_TOOL) {
+                    item.disabled = !this.editor.canRedo;
+                }
+            }
+        }).on(EDITOR_EVENT_CLOSE_TOOL, () => {
+            this.editor.modalClear();
         }).on(EDITOR_EVENT_EDITOR_READY, () => {
             setTimeout(() => {
                 this.size = this.editor.wordLength;
@@ -217,15 +227,25 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         return {name};
     }
 
-    public tapTool(item: IEditorTool, event: MouseEvent) {
+    public tapTool(item: IEditorTool|string, event?: MouseEvent) {
         this.editor.emitTool(item, event);
+    }
+
+    public tapCommand(item: IEditorBlock) {
+        this.editor.insert(item);
     }
 
     public tapBack() {
         history.back();
     }
 
+    public tapAdd() {
+        this.addToggle = !this.addToggle;
+        this.editor.modalClear();
+    }
+
     public tapOpen(e: MouseEvent) {
+        this.editor.modalClear();
         this.openStyle = {
             display: 'block',
             top: e.clientY + 15 + 'px'
@@ -239,6 +259,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapStatus(e: MouseEvent) {
+        this.editor.modalClear();
         this.statusStyle = {
             display: 'block',
             top: e.clientY + 15 + 'px'

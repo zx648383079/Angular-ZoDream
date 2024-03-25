@@ -273,7 +273,7 @@ export class EditorService implements IEditorContainer {
         element.style.height = Math.max(200, element.scrollHeight) + 'px';
     }
 
-    public emitTool(item: IEditorTool|string, event: MouseEvent) {
+    public emitTool(item: IEditorTool|string, event?: MouseEvent) {
         if (typeof item === 'string') {
             item = this.option.toModule(item);
         }
@@ -284,7 +284,17 @@ export class EditorService implements IEditorContainer {
         this.executeModule(item, this.getOffsetPosition(event));
     }
 
-    private getOffsetPosition(event: MouseEvent): IPoint {
+    public modalClear() {
+        if (this.modalRef) {
+            this.modalRef.destroy();
+            this.modalRef = undefined;
+        }
+    }
+
+    private getOffsetPosition(event?: MouseEvent): IPoint {
+        if (!event) {
+            return {x: 0, y: 0};
+        }
         const ele = this.element.element;
         const rect = ele.getBoundingClientRect();
         return {
@@ -294,10 +304,7 @@ export class EditorService implements IEditorContainer {
     }
 
     private executeModule(item: IEditorTool, position: IPoint) {
-        if (this.modalRef) {
-            this.modalRef.destroy();
-            this.modalRef = undefined;
-        }
+        this.modalClear();
         if (item.name === EDITOR_PREVIEW_TOOL || item.name === EDITOR_FULL_SCREEN_TOOL) {
             this.emit(EDITOR_EVENT_CUSTOM, item);
             return;

@@ -1,4 +1,11 @@
+import { IItem } from '../../theme/models/seo';
 import { IUser } from '../../theme/models/user';
+
+export const ChapterTypeItems: IItem[] = [
+    {name: '公众章节', value: 0},
+    {name: '收费章节', value: 1},
+    {name: '卷', value: 9},
+];
 
 export interface ICategory {
     id: number;

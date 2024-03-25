@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IBook, IChapter } from '../../model';
+import { ChapterTypeItems, IBook, IChapter } from '../../model';
 import { BookService } from '../book.service';
+import { mapFormat } from '../../../../theme/utils';
 
 @Component({
   selector: 'app-chapter',
@@ -37,6 +38,10 @@ export class ChapterComponent implements OnInit {
                 this.data = res;
             });
         });
+    }
+
+    public formatType(val: number) {
+        return mapFormat(val, ChapterTypeItems);
     }
 
     public tapRefresh() {

@@ -50,13 +50,13 @@ export class TextElement implements IEditorElement {
     public get value(): string {
         const items = [];
         this.eachLine(node => {
-            items.push(node.innerText);
+            items.push(this.lineText(node));
         });
         return items.join('\n');
     }
     public set value(v: string) {
         this.element.innerHTML = '';
-        const items = v.split('\n');
+        const items = !v ? [] : v.split('\n');
         items.forEach(i => {
             EditorHelper.insertLast(this.element, this.createLine(new Text(this.formatLineText(i))));
         });
@@ -142,6 +142,7 @@ export class TextElement implements IEditorElement {
             return;
         }
         this.insert({type: EditorBlockType.AddText, value});
+        this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
     }
 
     //#region 外部调用的方法
@@ -332,7 +333,7 @@ export class TextElement implements IEditorElement {
     }
 
     private formatLineText(s: string): string {
-        return this.indent + s.replace(/^\s+/, '')
+        return this.indent + s.replace(/^\s+/, '').replaceAll('\r', '')
     }
 
     private lineText(node: Node) {

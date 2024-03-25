@@ -23,13 +23,14 @@
         <div class="btn-group">
             <button class="btn btn-primary" (click)="tapSaveBook()" i18n>Save</button>
             <a class="btn btn-danger" *ngIf="book.over_at < 1" (click)="tapOver()" i18n>As over</a>
-            <a class="btn btn-light" (click)="topVisible = false" i18n>Pack up</a>
+            <a class="btn btn-light" (click)="topVisible = false" i18n-title title="Pack up">
+                <i class="iconfont icon-chevron-up"></i>
+            </a>
         </div>
     </div>
     <div class="editor-body">
         <div class="catalog-container">
             <div class="tool-bar">
-                
                 <a class="tool-item" title="新增章节" (click)="tapNewFile()">
                     <i class="iconfont icon-file-text-o"></i>
                 </a>
@@ -42,15 +43,15 @@
                 <a class="tool-item" title="更多">
                     <i class="iconfont icon-ellipsis-v"></i>
                     <div class="tool-drop-bar">
-                        <a class="tool-item" title="角色" (click)="tapViewLink()">
+                        <a class="tool-item" title="角色" (click)="rolePanel.open()">
                             <i class="iconfont icon-user"></i>
                             <span class="item-label">角色</span>
                         </a>
-                        <a class="tool-item" title="设定" (click)="tapViewLink()">
+                        <a class="tool-item" title="设定" (click)="preferencePanel.open()">
                             <i class="iconfont icon-chain"></i>
                             <span class="item-label">设定</span>
                         </a>
-                        <a class="tool-item" title="地图" (click)="tapViewLink()">
+                        <a class="tool-item" title="地图" (click)="mapPanel.open()">
                             <i class="iconfont icon-map-marker"></i>
                             <span class="item-label">地图</span>
                         </a>
@@ -62,13 +63,13 @@
                 </a>
             </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
-                <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
+                <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
-                        <i class="iconfont" [ngClass]="{'icon-file-text-o': item.type < 1, 'icon-chevron-right': item.type > 0 && item.children && !item.expanded, 'icon-chevron-down': item.type > 0 && item.children && item.expanded}"></i>
+                        <i class="iconfont" [ngClass]="{'icon-file-text-o': item.type < 9, 'icon-chevron-right': item.type == 9 && item.children && !item.expanded, 'icon-chevron-down': item.type == 9 && item.children && item.expanded}"></i>
                         {{ item.title }}
                     </div>
                     <ul class="tree-body">
-                        <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}">
+                        <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
                             <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">
                                 <i class="iconfont icon-file-text-o"></i>
                                 {{ it.title }}</div>
@@ -109,94 +110,41 @@
 
 <app-context-menu></app-context-menu>
 
-<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
-    <div class="panel-header">
-        <i class="iconfont text-left" [ngClass]="{'icon-chevron-left': !linkOpen, 'icon-chevron-right': linkOpen}" (click)="toggleLink()"></i>
-        <i class="iconfont icon-close" (click)="tapCloseLink()"></i>
-    </div>
-    <div class="panel-search">
-        <input type="text">
-        <i class="iconfont icon-search"></i>
-    </div>
-    <div class="panel-body">
-        <div class="role-item" *ngFor="let item of roleItems; let i = index">
-            <span>{{ item.name }}
-                <ng-container *ngIf="item.character">
-                    ({{ item.character }})
-                </ng-container>
-            </span>
-            <div class="action">
-                <i class="iconfont icon-edit" title="编辑" (click)="tapEditRole(roleModal, i)"></i>
-                <i class="iconfont icon-gift" title="物品" (click)="openSubPanel(1, i)"></i>
-                <i class="iconfont icon-key" title="技能" (click)="openSubPanel(2, i)"></i>
-            </div>
-        </div>
-        <div class="panel-sub" *ngIf="subOpen == 1">
-            <div class="panel-header">
-                <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
-                物品
-                <i class="iconfont icon-plus" title="添加物品" (click)="tapEditGoods(goodsModal)"></i>
-            </div>
-            <div class="panel-body">
-                <div class="role-item" *ngFor="let item of goodsItems;let i = index">
-                    <span>{{ item.name }}x{{ item.amount }}</span>
-                    <div class="action">
-                        <i class="iconfont icon-edit" title="修改" (click)="tapEditGoods(goodsModal, i)"></i>
-                        <i class="iconfont icon-trash" title="删除"  (click)="tapRemoveGoods(i)"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="panel-sub" *ngIf="subOpen == 2">
-            <div class="panel-header">
-                <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
-                技能
-                <i class="iconfont icon-plus" title="添加技能" (click)="tapEditSkill(skillModal)"></i>
-            </div>
-            <div class="panel-body">
-                <div class="role-item" *ngFor="let item of skillItems; let i = index">
-                    <span>{{ item.name }}
-                        <ng-container *ngIf="item.level">
-                            ({{ item.level }})
-                        </ng-container>
-                    </span>
-                    <div class="action">
-                        <i class="iconfont icon-arrow-up" title="升级" (click)="tapEditSkill(skillModal, i)"></i>
-                        <i class="iconfont icon-edit" title="修改" (click)="tapEditSkill(skillModal, i)"></i>
-                        <i class="iconfont icon-trash" title="删除" (click)="tapRemoveSkill(i)"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dialog-link" [hidden]="!linkOpen">
-    <app-mind [readonly]="false" [format]="mindFormat" [items]="roleItems" [linkItems]="linkItems" (confirm)="onMindConfirm($event, roleModal)" (update)="onMindUpdate($event)"></app-mind>
-</div>
+<app-editor-role-panel #rolePanel [targetId]="book ? book.id : 0"></app-editor-role-panel>
+<app-editor-preferences-panel #preferencePanel [targetId]="book ? book.id : 0"></app-editor-preferences-panel>
+<app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0"></app-editor-map-panel>
 
 <app-dialog-box #publishModal title="发布章节">
-    <div class="form-table">
+    <div class="form-table" *ngIf="data">
         <div class="zre-input-group">
             <label for="">发布章节</label>
             <div>
-                <input type="text" class="form-control" [ngModel]="data ? data.title : ''" readonly>
+                <input type="text" class="form-control" [ngModel]="data.title" readonly>
             </div>
         </div>
         <div class="zre-input-group">
             <label for="">字数统计</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="skillData.name">
+                <input type="text" class="form-control" [ngModel]="data.size" readonly>
+            </div>
+        </div>
+        <div class="zre-input-group">
+            <label for="price">章节类型</label>
+            <div>
+                <select class="form-control" [(ngModel)]="data.type">
+                    <ng-container *ngFor="let item of typeItems">
+                        <option [value]="item.value">{{ item.name }}</option>
+                    </ng-container>
+                </select>
             </div>
         </div>
         <div class="zre-input-group">
             <label for="">设置发布时间</label>
             <div>
-                <p><input type="radio">立即发布</p>
-                <p><input type="radio">定时发布</p>
-                <p>
-                    <input type="date" class="form-control">
-                    <input type="time" class="form-control">
+                <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1"></app-check-input>
+                <p *ngIf="publishData.publish_type > 0">
+                    <input type="date" class="form-control" [(ngModel)]="publishData.publish_date">
+                    <input type="time" class="form-control" [(ngModel)]="publishData.publish_time">
                 </p>
             </div>
         </div>
@@ -227,73 +175,3 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #roleModal [scrollable]="false">
-<div class="form-table">
-    <div class="zre-input-group">
-        <label for="">角色名</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="roleData.name">
-        </div>
-    </div>
-    <ng-container *ngIf="roleData.type != 'link'">
-        <div class="zre-input-group">
-            <label for="">头像</label>
-            <div>
-                <app-file-input [(ngModel)]="roleData.avatar"></app-file-input>
-            </div>
-        </div>
-        <div class="zre-input-group">
-            <label for="">简介</label>
-            <div>
-                <textarea type="text" class="form-control" [(ngModel)]="roleData.description"></textarea>
-            </div>
-        </div>
-        <div class="zre-input-group">
-            <label for="">角色身份</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.character" placeholder="主角/配角">
-            </div>
-        </div>
-    </ng-container>
-    
-    <div class="zre-input-group" [hidden]="roleData.type == 'new'">
-        <label for="">与“{{ roleData.from }}”的关系</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="roleData.link">
-        </div>
-    </div>
-</div>
-</app-dialog-box>
-
-<app-dialog-box #goodsModal [scrollable]="false">
-    <div class="form-table">
-        <div class="zre-input-group">
-            <label for="">物品</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="goodsData.name">
-            </div>
-        </div>
-        <div class="zre-input-group">
-            <label for="">物品数量</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="goodsData.amount">
-            </div>
-        </div>
-    </div>
-</app-dialog-box>
-<app-dialog-box #skillModal [scrollable]="false">
-    <div class="form-table">
-        <div class="zre-input-group">
-            <label for="">技能名</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="skillData.name">
-            </div>
-        </div>
-        <div class="zre-input-group">
-            <label for="">技能等级</label>
-            <div>
-                <input type="text" class="form-control" [(ngModel)]="skillData.level">
-            </div>
-        </div>
-    </div>
-</app-dialog-box>

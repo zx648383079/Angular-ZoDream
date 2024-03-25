@@ -1,16 +1,15 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
-import { DialogBoxComponent, DialogEvent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { EditorService } from '../../../components/editor';
 import { ButtonEvent } from '../../../components/form';
-import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from '../../../components/mind';
 import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { ThemeService } from '../../../theme/services';
 import { wordLength } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
-import { BookService } from '../book.service';
-import { IBook, IBookRole, IBookRoleRelation, IChapter } from '../model';
+import { BookService } from './book.service';
+import { ChapterTypeItems, IBook, IChapter } from '../model';
 import { IItem } from '../../../theme/models/seo';
 import { TextElement } from './text-editor';
 
@@ -26,8 +25,10 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
+    @ViewChild('publishModal')
+    private publishModal: DialogEvent;
     @ViewChild('moveModal')
-    public moveModal: DialogEvent;
+    private moveModal: DialogEvent;
     @ViewChild('editorArea')
     private areaElement: ElementRef<HTMLDivElement>;
     @ViewChild('modalVC', {read: ViewContainerRef})
@@ -37,34 +38,18 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public data: IChapter;
     public catalog: IChapter[] = [];
     public topVisible = false;
-    public panelOpen = false;
-    public subOpen = 0;
-    public linkOpen = false;
-    public roleItems: IBookRole[] = [];
-    public linkItems: IBookRoleRelation[] = [];
-    public typeItems: IItem[] = [{name: '公众章节', value: 0}, {name: '收费章节', value: 0}];
-    public roleIndex = -1;
-    public roleData = {
-        name: '',
-        avatar: '',
-        description: '',
-        character: '',
-        link: '',
-        from: '',
-        type: 'new'
-    };
-    public goodsData = {
-        name: '',
-        amount: 1,
-    };
-    public skillData = {
-        name: '',
-        level: '',
-    };
+
+    public typeItems: IItem[] = ChapterTypeItems.filter(i => i.value < 9);
+    
     public moveData = {
         source: 0,
         target: 0,
         type: 0,
+    };
+    public publishData = {
+        publish_type: 0,
+        publish_date: '',
+        publish_time: ''
     };
     
     constructor(
@@ -78,19 +63,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.themeService.setTitle('编辑书籍');
     }
 
-    public get goodsItems() {
-        if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
-            return [];
-        }
-        return this.roleItems[this.roleIndex].goods_items || [];
-    }
 
-    public get skillItems() {
-        if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
-            return [];
-        }
-        return this.roleItems[this.roleIndex].skill_items || [];
-    }
 
     ngOnInit() {
         this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
@@ -119,22 +92,24 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private loadBook(id: any, only = false) {
+        const expanded = [];
+        for (const item of this.catalog) {
+            if (item.type == 9 && item.expanded) {
+                expanded.push(item.id);
+            }
+        }
         this.service.selfBook(id).subscribe({
             next: res => {
                 this.catalog = res.chapters.map(i => {
-                    if (i.type > 0 && !i.children) {
+                    if (i.type == 9 && !i.children) {
                         i.children = [];
                     }
-                    if (i.type > 0) {
-                        i.expanded = false;
+                    if (i.type == 9) {
+                        i.expanded = expanded.indexOf(i.id) >= 0;
                     }
                     return i;
                 });
                 this.book = {...res, chapters: undefined};
-                if (only) {
-                    return;
-                }
-                this.loadRole();
             },
             error: err => {
                 this.toastrService.error(err);
@@ -151,26 +126,12 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    public tapViewLink() {
-        this.panelOpen = true;
-        this.subOpen = 0;
-    }
-
-    public tapCloseLink() {
-        this.linkOpen = this.panelOpen = false
-    }
-
-    public toggleLink() {
-        this.linkOpen = !this.linkOpen;
-        this.subOpen = 0;
-    }
-
     public tapExit() {
         history.back();
     }
 
     public tapEdit(item: IChapter) {
-        if (item.type > 0) {
+        if (item.type == 9) {
             item.expanded = !item.expanded;
             this.data = {...item};
             this.editor.toggle(false);
@@ -179,7 +140,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.service.selfChapter(item.id).subscribe({
             next: res => {
                 this.data = res;
-                this.editor.toggle(res.type < 1);
+                this.editor.toggle(res.type < 9);
                 this.editor.value = res.content;
             },
             error: err => {
@@ -226,8 +187,9 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public tapNewFolder() {
         this.data = {
             title: '',
-            type: 1,
+            type: 9,
         } as any;
+        this.editor.toggle(false);
     }
 
     public tapNewFile(parent?: IChapter) {
@@ -239,6 +201,8 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             position: 0,
             parent_id: parent ? parent.id : 0,
         } as any;
+        this.editor.value = '';
+        this.editor.toggle(true);
     }
 
     public tapSaveBook() {
@@ -256,7 +220,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.moveData.source = item.id;
         this.moveModal.open(() => {
             const data: any = {id: this.moveData.source};
-            if (this.moveData.type < 1) {
+            if (this.moveData.type < 9) {
                 data.before = this.moveData.target;
             } else {
                 data.after = this.moveData.target;
@@ -269,7 +233,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 error: err => {
                     this.toastrService.error(err);
                 }
-            })
+            });
         }, () => this.moveData.target > 0 && this.moveData.target != item.id, `移动章节《${item.title}》到`);
     }
 
@@ -278,26 +242,47 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.toastrService.warning('请输入章节名');
             return;
         }
-        this.data.content = this.editor.value;
-        if (this.data.type < 1 && this.data.content.length < 1) {
+        const data = {...this.data} as any;
+        const submitFn = () => {
+            e?.enter();
+            this.service.selfSaveChapter({...data, body: undefined, book_id: this.book.id}).subscribe({
+                next: res => {
+                    e?.reset();
+                    this.data.id = res.id;
+                    this.toastrService.success('章节保存成功');
+                    if (res.type == 9) {
+                        res.children = [];
+                    }
+                    this.appendItem(res);
+                },
+                error: err => {
+                    e?.reset();
+                    this.toastrService.error(err);
+                }
+            });
+        };
+        if (data.type == 9) {
+            data.content = '';
+            submitFn();
+            return;
+        }
+        data.content = this.editor.value;
+        this.data.size = data.size = wordLength(data.content);
+        if (data.content.length < 1) {
             this.toastrService.warning('请输入内容');
             return;
         }
-        e?.enter();
-        this.service.selfSaveChapter({...this.data, body: undefined, book_id: this.book.id, size: wordLength(this.data.content)}).subscribe({
-            next: res => {
-                e?.reset();
-                this.data.id = res.id;
-                this.toastrService.success('章节保存成功');
-                if (res.type > 0) {
-                    res.children = [];
-                }
-                this.appendItem(res);
-            },
-            error: err => {
-                e?.reset();
-                this.toastrService.error(err);
+        this.publishModal.open(() => {
+            data.publish_type = this.publishData.publish_type;
+            if (data.publish_type > 0) {
+                data.publish_at = `${this.publishData.publish_date} ${this.publishData.publish_time}`;
             }
+            submitFn();
+        }, () => {
+            if (this.publishData.publish_type < 1) {
+                return true;
+            }
+            return !emptyValidate(this.publishData.publish_date) && !emptyValidate(this.publishData.publish_time) ? true : '请选择发布的时间';
         });
     }
 
@@ -367,165 +352,22 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         children.push(data);
     }
 
-    public openSubPanel(t: number, i: number) {
-        this.subOpen = t;
-        this.roleIndex = i;
-    }
-
-    public tapEditGoods(modal: DialogBoxComponent, i = -1) {
-        this.goodsData = i >= 0 ? {
-            name: this.goodsItems[i].name,
-            amount: this.goodsItems[i].amount
-        } : {
-            name: '',
-            amount: 1,
-        };
-        modal.open(() => {
-            if (i < 0) {
-                this.goodsItems.push({...this.goodsData});
-                return;
+    public onDrog(source: {
+        data: IChapter,
+        before: boolean;
+    }, item: IChapter) {
+        this.service.selfMoveChapter({
+            id: source.data.type === 9 && source.data.parent_id > 0 ? source.data.parent_id : source.data.id,
+            [source.before ? 'before' : 'after']: item.id
+        }).subscribe({
+            next: () => {
+                this.toastrService.success('移动成功');
+                this.loadBook(this.book.id, true);
+            },
+            error: err => {
+                this.toastrService.error(err);
             }
-            this.goodsItems[i] = {...this.goodsData};
-        }, () => !emptyValidate(this.goodsData.name));
-    }
-
-    public tapRemoveGoods(i: number) {
-        this.goodsItems.splice(i, 1);
-    }
-
-    public tapEditSkill(modal: DialogBoxComponent, i = -1) {
-        this.skillData = i >= 0 ? {
-            name: this.skillItems[i].name,
-            level: this.skillItems[i].level,
-        } : {
-            name: '',
-            level: '',
-        };
-        modal.open(() => {
-            if (i < 0) {
-                this.skillItems.push({...this.skillData});
-                return;
-            }
-            this.skillItems[i] = {...this.skillData};
-        }, () => !emptyValidate(this.skillData.name));
-    }
-
-    public tapRemoveSkill(i: number) {
-        this.skillItems.splice(i, 1);
-    }
-
-    public tapEditRole(modal: DialogBoxComponent, i: number) {
-        const item = this.roleItems[i];
-        this.roleData = {
-            link: '',
-            name: item.name,
-            avatar: item.avatar,
-            description: item.description,
-            character: item.character,
-            type: 'new',
-            from: '',
-        };
-        modal.open(() => {
-            this.service.roleSave({
-                id: item.id,
-                name: this.roleData.name,
-                avatar: this.roleData.avatar,
-                description: this.roleData.description,
-                character: this.roleData.character,
-            }).subscribe(res => {
-                this.roleItems = this.roleItems.map(j => {
-                    if (j.id === item.id) {
-                        return res;
-                    }
-                    return j;
-                });
-            })
-        }, '编辑角色');
-    }
-
-    public mindFormat(data: IBookRole&IBookRoleRelation) {
-        if (data.name) {
-            return <MindPointSource>{
-                id: data.id || 0,
-                text: data.name,
-                x: data.x || 0,
-                y: data.y || 0,
-            };
-        }
-        return <MindLinkSource>{
-            from: data.role_id || 0,
-            to: data.role_link || 0,
-            text: data.title,
-        };
-    }
-
-    public onMindConfirm(event: MindConfirmEvent<IBookRole, IBookRoleRelation>, modal: DialogBoxComponent) {
-        this.roleData = {
-            link: '',
-            name: event.to?.name || '',
-            avatar: '',
-            description: '',
-            character: '',
-            from: event.from?.name || '',
-            type: event.type,
-        };
-        modal.open(() => {
-            if (event.type === 'new') {
-                this.service.roleSave({
-                    book_id: this.book.id,
-                    name: this.roleData.name,
-                    avatar: this.roleData.avatar,
-                    description: this.roleData.description,
-                    character: this.roleData.character,
-                    x: event.point?.x || 0,
-                    y: event.point?.y || 0,
-                }).subscribe(res => {
-                    this.roleItems.push(res);
-                    event.next(res);
-                });
-                return;
-            }
-            if (event.type === 'link') {
-                this.service.LinkAdd(event.from.id, event.to.id, this.roleData.link).subscribe(res => {
-                    event.next(res);
-                });
-                return;
-            }
-            this.service.roleSave({
-                book_id: this.book.id,
-                name: this.roleData.name,
-                avatar: this.roleData.avatar,
-                description: this.roleData.description,
-                character: this.roleData.character,
-                x: event.point?.x || 0,
-                y: event.point?.y || 0,
-                link_id: event.from?.id,
-                link_title: this.roleData.link
-            }).subscribe(res => {
-                this.roleItems.push(res);
-                event.next(res, {title: this.roleData.link, role_id: event.from?.id, role_link: res.id});
-            });
-        }, '添加角色与关系');
-    }
-
-    public onMindUpdate(event: MindUpdateEvent<IBookRole>) {
-        if (event.type === 'delete') {
-            this.service.roleRemove(event.source.id).subscribe(_ => {});
-            return;
-        }
-        if (event.type === 'move') {
-            this.service.roleSave({
-                id: event.source.id,
-                x: event.point.x,
-                y: event.point.y
-            }).subscribe(_ => {});
-        }
-    }
-
-    private loadRole() {
-        this.service.roleList(this.book.id).subscribe(res => {
-            this.roleItems = res.items;
-            this.linkItems = res.link_items;
         });
     }
+    
 }

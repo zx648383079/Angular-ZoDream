@@ -1,0 +1,66 @@
+.role-item {
+    line-height: 2.5em;
+    display: flex;
+    span {
+        padding-left: .4em;
+        flex: 1;
+    }
+    .action {
+        .iconfont {
+            display: inline-block;
+            width: 2em;
+            text-align: center;
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: .1);
+            }
+        }
+    }
+    &:hover {
+        background-color: white;
+    }
+}
+
+
+.dialog-panel {
+    .text-left {
+        float: none;
+    }
+    .panel-body {
+        position: relative;
+    }
+    .panel-sub {
+        position: absolute;
+        z-index: 88;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #eee;
+        .panel-header {
+            line-height: 50px;
+            font-weight: 700;
+            padding-left: .5em;
+            .iconfont {
+                float: left;
+                font-weight: 500;
+                font-size: 1em;
+                margin-right: .5em;
+            }
+            .icon-plus {
+                float: right;
+            }
+        }
+    }
+}
+
+.dialog-link {
+    position: fixed;
+    left: 0;
+    right: 18.75rem;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 98;
+}

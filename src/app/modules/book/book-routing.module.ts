@@ -20,13 +20,13 @@ import { TopComponent } from './top/top.component';
 import { BookDetailComponent } from './detail/book-detail.component';
 import { EditListComponent } from './list/edit/edit-list.component';
 import { SettingComponent } from './setting/setting.component';
-import { BookEditorComponent } from './editor/book-editor.component';
 import { CanActivateViaAuthGuard } from '../../theme/guards';
 
 const routes: Routes = [
     {
         path: 'member/book/:id',
-        component: BookEditorComponent,
+        loadChildren: () => import('./editor/editor.module').then(m => m.BookEditorModule),
+        canActivate: [CanActivateViaAuthGuard],
     },
     {
         path: '',
@@ -109,5 +109,4 @@ export const bookRoutingComponents = [
     BookDetailComponent,
     EditListComponent,
     SettingComponent,
-    BookEditorComponent,
 ];

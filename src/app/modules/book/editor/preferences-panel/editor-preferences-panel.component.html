@@ -1,0 +1,26 @@
+<div class="dialog-panel" [@panelOpen]="visible ? 'open' : 'closed'">
+    <div class="panel-header">
+        <i class="iconfont icon-close" (click)="close()"></i>
+    </div>
+    <div class="panel-search">
+        <input type="text">
+        <i class="iconfont icon-search"></i>
+        <i class="iconfont icon-plus" (click)="tapAdd()"></i>
+    </div>
+    <div class="panel-body">
+        <div class="role-item" *ngFor="let item of items">
+            <span>{{ item.name }}</span>
+        </div>
+
+        <div class="panel-sub" *ngIf="subOpen">
+            <div class="panel-header">
+                <i class="iconfont icon-chevron-left" (click)="subOpen = false"></i>
+                设定
+            </div>
+            <div class="panel-body">
+                <input type="text" class="form-control">
+                <textarea class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

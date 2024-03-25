@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IChapter } from '../../../model';
+import { ChapterTypeItems, IChapter } from '../../../model';
 import { wordLength } from '../../../../../theme/utils';
 import { BookService } from '../../book.service';
 import { DialogService } from '../../../../../components/dialog';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
   selector: 'app-chapter-detail',
@@ -22,6 +23,7 @@ export class ChapterDetailComponent implements OnInit {
     });
 
     public data: IChapter;
+    public typeItems = ChapterTypeItems;
 
     constructor(
         private fb: FormBuilder,
@@ -57,7 +59,7 @@ export class ChapterDetailComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.form.invalid) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -68,9 +70,17 @@ export class ChapterDetailComponent implements OnInit {
         }
         data.book_id = this.data.book_id;
         data.size = wordLength(data.content);
-        this.service.chapterSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.chapterSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 }

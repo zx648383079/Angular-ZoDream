@@ -18,7 +18,7 @@
             <ng-container *ngIf="item.type < 1; else elseTemplate">
                 <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
                     <div class="title">
-                        <i class="iconfont" *ngIf="item.price > 0" [ngClass]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
+                        <i class="iconfont" *ngIf="item.type == 1" [ngClass]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
                         {{ item.title }}</div>
                     <div class="time">{{ item.created_at | ago }}</div>
                 </div>
@@ -30,7 +30,7 @@
                 <ng-container *ngFor="let it of item.children">
                     <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == it.id}">
                         <div class="title">
-                            <i class="iconfont" *ngIf="it.price > 0" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
+                            <i class="iconfont" *ngIf="item.type == 1" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
                             {{ it.title }}</div>
                         <div class="time">{{ it.created_at | ago }}</div>
                     </div>
