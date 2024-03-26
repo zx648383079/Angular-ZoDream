@@ -159,7 +159,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">154</context>
+                    <context context-type="linenumber">159</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/book.component.ts</context>
@@ -195,7 +195,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">159</context>
+                    <context context-type="linenumber">164</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
@@ -243,7 +243,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">164</context>
+                    <context context-type="linenumber">169</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/book.component.ts</context>
@@ -343,7 +343,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/auth/backend/user/user.component.ts</context>
-                    <context context-type="linenumber">212</context>
+                    <context context-type="linenumber">207</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/backend/category/category.component.ts</context>
@@ -375,7 +375,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/chapter/chapter.component.ts</context>
-                    <context context-type="linenumber">91</context>
+                    <context context-type="linenumber">96</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/home/home.component.ts</context>
@@ -1083,7 +1083,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-                    <context context-type="linenumber">180</context>
+                    <context context-type="linenumber">280</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/author/detail/author-detail.component.ts</context>
@@ -1091,7 +1091,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/chapter/detail/chapter-detail.component.ts</context>
-                    <context context-type="linenumber">62</context>
+                    <context context-type="linenumber">64</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/detail/detail.component.ts</context>
@@ -1359,7 +1359,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-                    <context context-type="linenumber">201</context>
+                    <context context-type="linenumber">303</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/author/detail/author-detail.component.ts</context>
@@ -1371,7 +1371,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/chapter/detail/chapter-detail.component.ts</context>
-                    <context context-type="linenumber">72</context>
+                    <context context-type="linenumber">77</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/backend/detail/detail.component.ts</context>
@@ -2345,6 +2345,10 @@
                     <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
                     <context context-type="linenumber">75</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/add-panel/add-panel.component.ts</context>
+                    <context context-type="linenumber">33</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="5719090388619846568" datatype="html">
                 <source>Font Italic</source>
@@ -2493,6 +2497,10 @@
                     <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
                     <context context-type="linenumber">273</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/add-panel/add-panel.component.ts</context>
+                    <context context-type="linenumber">38</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="2600619208257894408" datatype="html">
                 <source>Add Image</source>
@@ -2500,6 +2508,10 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
                     <context context-type="linenumber">286</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/add-panel/add-panel.component.ts</context>
+                    <context context-type="linenumber">43</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1366989440817520480" datatype="html">
@@ -2532,6 +2544,10 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/components/editor/base/module.ts</context>
                     <context context-type="linenumber">338</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/add-panel/add-panel.component.ts</context>
+                    <context context-type="linenumber">48</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1816591097146490946" datatype="html">
@@ -2582,6 +2598,10 @@
                     <context context-type="linenumber">5</context>
                 </context-group>
                 <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
+                    <context context-type="linenumber">229</context>
+                </context-group>
+                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/search/search.component.html</context>
                     <context context-type="linenumber">12</context>
                 </context-group>
@@ -2604,6 +2624,10 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/components/file-explorer/catalog/file-explorer-catalog.component.ts</context>
                     <context context-type="linenumber">20</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/add-panel/add-panel.component.ts</context>
+                    <context context-type="linenumber">56</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8936704404804793618" datatype="html">
@@ -3003,7 +3027,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">61</context>
+                    <context context-type="linenumber">103</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/legwork/provider/service/edit/edit-service.component.html</context>
@@ -3023,7 +3047,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">147</context>
+                    <context context-type="linenumber">172</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="347407180135731058" datatype="html">
@@ -3035,7 +3059,31 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">141</context>
+                    <context context-type="linenumber">166</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="5830314630242453415" datatype="html">
+                <source> Change </source>
+                <target>更换</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/components/form/image-input/image-input.component.html</context>
+                    <context context-type="linenumber">6,8</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4814285799071780083" datatype="html">
+                <source>Remove</source>
+                <target>移除</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/components/form/image-input/image-input.component.html</context>
+                    <context context-type="linenumber">9</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="3859670093006861095" datatype="html">
+                <source>Select an image</source>
+                <target>选择图片</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/components/form/image-input/image-input.component.ts</context>
+                    <context context-type="linenumber">18</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1503905231656505102" datatype="html">
@@ -3242,12 +3290,48 @@
                     <context context-type="linenumber">30</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="14142409052185215" datatype="html">
+                <source>Tour</source>
+                <target>引导页</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/example/example.component.ts</context>
+                    <context context-type="linenumber">35</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="2662644497259948010" datatype="html">
+                <source>Comment</source>
+                <target>评论</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/example/example.component.ts</context>
+                    <context context-type="linenumber">40</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/blog/frontend/comment/comment.component.html</context>
+                    <context context-type="linenumber">30</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/legwork/order/order.component.html</context>
+                    <context context-type="linenumber">23</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/comment-viewer/comment-viewer.component.html</context>
+                    <context context-type="linenumber">19,36,59</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/detail/detail.component.html</context>
+                    <context context-type="linenumber">35</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
+                    <context context-type="linenumber">93</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="4116911651502837995" datatype="html">
                 <source>Files</source>
                 <target>文件</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">42</context>
+                    <context context-type="linenumber">47</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3742657416068781599" datatype="html">
@@ -3255,11 +3339,11 @@
                 <target>编辑器</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">63</context>
+                    <context context-type="linenumber">68</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">82</context>
+                    <context context-type="linenumber">109</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7917403696887906125" datatype="html">
@@ -3267,7 +3351,7 @@
                 <target>模态框</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">89</context>
+                    <context context-type="linenumber">94</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7683705529753923369" datatype="html">
@@ -3275,7 +3359,7 @@
                 <target>播放器</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">110</context>
+                    <context context-type="linenumber">115</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4960524097614109439" datatype="html">
@@ -3283,7 +3367,7 @@
                 <target>图表</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">131</context>
+                    <context context-type="linenumber">136</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1831139682192909712" datatype="html">
@@ -3291,7 +3375,7 @@
                 <target>组件</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">136</context>
+                    <context context-type="linenumber">141</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/visual/member/site/site.component.html</context>
@@ -3303,7 +3387,7 @@
                 <target>示例</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/example/example.component.ts</context>
-                    <context context-type="linenumber">176</context>
+                    <context context-type="linenumber">181</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/home/home.component.ts</context>
@@ -3320,10 +3404,6 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/backend/edit/edit.component.html</context>
                     <context context-type="linenumber">169</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">170</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="917279933466788254" datatype="html">
@@ -3882,7 +3962,7 @@
                 <target>确认登出账户？</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/frontend.component.ts</context>
-                    <context context-type="linenumber">152</context>
+                    <context context-type="linenumber">154</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8456203115464120523" datatype="html">
@@ -4190,7 +4270,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">99</context>
+                    <context context-type="linenumber">126</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/bot/detail/detail.component.html</context>
@@ -4969,10 +5049,6 @@
                     <context context-type="linenumber">44</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">215</context>
-                </context-group>
-                <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/editor/book-editor.component.html</context>
                     <context context-type="linenumber">24</context>
                 </context-group>
@@ -5078,7 +5154,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
-                    <context context-type="linenumber">15</context>
+                    <context context-type="linenumber">14</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6309828574111583895" datatype="html">
@@ -5186,7 +5262,7 @@
                 <target>这个用户已验证</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
-                    <context context-type="linenumber">11</context>
+                    <context context-type="linenumber">10</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8726138323871139597" datatype="html">
@@ -5194,7 +5270,7 @@
                 <target>关注</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
-                    <context context-type="linenumber">19</context>
+                    <context context-type="linenumber">18</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
@@ -5206,7 +5282,7 @@
                 <target>粉丝</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
-                    <context context-type="linenumber">23</context>
+                    <context context-type="linenumber">22</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/member/book-member.component.html</context>
@@ -5222,7 +5298,7 @@
                 <target>文章</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/user.component.html</context>
-                    <context context-type="linenumber">27</context>
+                    <context context-type="linenumber">26</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
@@ -5642,7 +5718,7 @@
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">106</context>
+                    <context context-type="linenumber">133</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/resource-store/detail/detail.component.html</context>
@@ -6869,30 +6945,6 @@
                     <context context-type="linenumber">66,70</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="2662644497259948010" datatype="html">
-                <source>Comment</source>
-                <target>评论</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/frontend/comment/comment.component.html</context>
-                    <context context-type="linenumber">30</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/legwork/order/order.component.html</context>
-                    <context context-type="linenumber">23</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/micro/comment-viewer/comment-viewer.component.html</context>
-                    <context context-type="linenumber">19,36,59</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/micro/detail/detail.component.html</context>
-                    <context context-type="linenumber">35</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/micro/micro.component.html</context>
-                    <context context-type="linenumber">93</context>
-                </context-group>
-            </trans-unit>
             <trans-unit id="377753782138401645" datatype="html">
                 <source> Hot comments </source>
                 <target>热门评论</target>
@@ -7089,40 +7141,20 @@
                     <context context-type="linenumber">25</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="1370909534577204781" datatype="html">
-                <source>{VAR_PLURAL, plural, =true {Edit Post} =false {New Post}}</source>
-                <target>{VAR_PLURAL, plural, =true {编辑文章} =false {新增文章}}</target>
+            <trans-unit id="4739818603756173797" datatype="html">
+                <source>Summary</source>
+                <target>概要</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">5</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1884615848108898039" datatype="html">
-                <source><x id="ICU" equiv-text="{data&amp;&amp;data.id&gt;0, plural, =true {Edit Post} =false {New Post}}" xid="1370909534577204781"/> </source>
-                <target><x id="ICU" equiv-text="{data&amp;&amp;data.id&gt;0, plural, =true {编辑主题} =false {发布主题}}" xid="1370909534577204781"/> </target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">5,6</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="5701618810648052610" datatype="html">
-                <source>Title</source>
-                <target>标题</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">19</context>
+                    <context context-type="linenumber">56</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.html</context>
-                    <context context-type="linenumber">117,147</context>
+                    <context context-type="sourcefile">src/app/modules/book/editor/book-editor.component.html</context>
+                    <context context-type="linenumber">17</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
-                    <context context-type="linenumber">77</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/forum/list/list.component.html</context>
-                    <context context-type="linenumber">81</context>
+                    <context context-type="sourcefile">src/app/modules/book/member/book-member.component.html</context>
+                    <context context-type="linenumber">66</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6201638315245239510" datatype="html">
@@ -7130,7 +7162,7 @@
                 <target>高级</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">27</context>
+                    <context context-type="linenumber">70</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6150386995481192577" datatype="html">
@@ -7138,7 +7170,7 @@
                 <target>分类</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">29</context>
+                    <context context-type="linenumber">72</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6952076057838463090" datatype="html">
@@ -7146,7 +7178,7 @@
                 <target>编程语言</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">40</context>
+                    <context context-type="linenumber">82</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2250784683932913830" datatype="html">
@@ -7154,7 +7186,7 @@
                 <target>选择...</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">43,132,156</context>
+                    <context context-type="linenumber">85,157,181</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/member.component.html</context>
@@ -7174,7 +7206,7 @@
                 <target>类型</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">51</context>
+                    <context context-type="linenumber">93</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/document/detail/detail.component.html</context>
@@ -7186,7 +7218,7 @@
                 <target>原创</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">54</context>
+                    <context context-type="linenumber">96</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6028330642409396596" datatype="html">
@@ -7194,15 +7226,7 @@
                 <target>转载</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">55</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1445601950894203021" datatype="html">
-                <source>Open Type</source>
-                <target>阅读规则</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">67</context>
+                    <context context-type="linenumber">97</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1604795977599078115" datatype="html">
@@ -7210,7 +7234,7 @@
                 <target>关键字</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">93</context>
+                    <context context-type="linenumber">120</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="2332815950113444124" datatype="html">
@@ -7218,7 +7242,7 @@
                 <target>附加</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">114</context>
+                    <context context-type="linenumber">139</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7415085433259854820" datatype="html">
@@ -7226,7 +7250,7 @@
                 <target>原作者</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">116</context>
+                    <context context-type="linenumber">141</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4462770670440175228" datatype="html">
@@ -7234,7 +7258,7 @@
                 <target>原链接</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">123</context>
+                    <context context-type="linenumber">148</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5653202483299129380" datatype="html">
@@ -7242,7 +7266,7 @@
                 <target>天气</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">129</context>
+                    <context context-type="linenumber">154</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5458945702246413590" datatype="html">
@@ -7250,7 +7274,7 @@
                 <target>版权协议</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">153</context>
+                    <context context-type="linenumber">178</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="165273849513781564" datatype="html">
@@ -7258,7 +7282,7 @@
                 <target>评论状态</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">164</context>
+                    <context context-type="linenumber">189</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1318718248027257225" datatype="html">
@@ -7266,7 +7290,7 @@
                 <target>SEO优化</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">180</context>
+                    <context context-type="linenumber">195</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6090252769317728258" datatype="html">
@@ -7274,7 +7298,7 @@
                 <target>是否隐藏</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">182</context>
+                    <context context-type="linenumber">197</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="5725363820629239870" datatype="html">
@@ -7282,7 +7306,7 @@
                 <target>SEO标题</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">188</context>
+                    <context context-type="linenumber">203</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7512943722194321658" datatype="html">
@@ -7290,7 +7314,7 @@
                 <target>SEO描述</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">194</context>
+                    <context context-type="linenumber">209</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3617400614623671546" datatype="html">
@@ -7298,7 +7322,7 @@
                 <target>链接别名</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">200</context>
+                    <context context-type="linenumber">215</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="6427319768388880488" datatype="html">
@@ -7306,23 +7330,23 @@
                 <target>请使用数字字母-_组成，请不要输入空格、/，</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">204</context>
+                    <context context-type="linenumber">219</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="4388679012914452269" datatype="html">
-                <source>Save and Publish</source>
-                <target>保存并发布</target>
+            <trans-unit id="3792445020401925970" datatype="html">
+                <source>Property</source>
+                <target>属性</target>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">216</context>
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
+                    <context context-type="linenumber">63</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="5570817053827292106" datatype="html">
-                <source>Back and not save</source>
-                <target>不保存返回</target>
+            <trans-unit id="6948786787037977434" datatype="html">
+                <source>Blocks</source>
+                <target>块</target>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.html</context>
-                    <context context-type="linenumber">217</context>
+                    <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
+                    <context context-type="linenumber">63</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="3864014023368729852" datatype="html">
@@ -7330,7 +7354,7 @@
                 <target>阅读密码</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-                    <context context-type="linenumber">162</context>
+                    <context context-type="linenumber">217</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8915779720931844964" datatype="html">
@@ -7338,7 +7362,7 @@
                 <target>购买价格</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-                    <context context-type="linenumber">165</context>
+                    <context context-type="linenumber">220</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="8462130792607498110" datatype="html">
@@ -7346,7 +7370,7 @@
                 <target>规则</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/blog/member/edit/edit-blog.component.ts</context>
-                    <context context-type="linenumber">167</context>
+                    <context context-type="linenumber">222</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7816385338733128342" datatype="html">
@@ -7657,18 +7681,6 @@
                     <context context-type="linenumber">60</context>
                 </context-group>
             </trans-unit>
-            <trans-unit id="4739818603756173797" datatype="html">
-                <source>Summary</source>
-                <target>概要</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/book/editor/book-editor.component.html</context>
-                    <context context-type="linenumber">17</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/book/member/book-member.component.html</context>
-                    <context context-type="linenumber">66</context>
-                </context-group>
-            </trans-unit>
             <trans-unit id="1346217836575596109" datatype="html">
                 <source>As over</source>
                 <target>设为已完结</target>
@@ -7690,7 +7702,7 @@
                 <target>右键添加章节</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/book/editor/book-editor.component.html</context>
-                    <context context-type="linenumber">62,64</context>
+                    <context context-type="linenumber">79,81</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="7570842650861337346" datatype="html">
@@ -8195,6 +8207,22 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/legwork/provider/service/edit/edit-service.component.html</context>
                     <context context-type="linenumber">49</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="5701618810648052610" datatype="html">
+                <source>Title</source>
+                <target>标题</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/document/detail/detail.component.html</context>
+                    <context context-type="linenumber">117,147</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/forum/forum-editor/forum-editor.component.html</context>
+                    <context context-type="linenumber">77</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/forum/list/list.component.html</context>
+                    <context context-type="linenumber">81</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1838891439616322917" datatype="html">

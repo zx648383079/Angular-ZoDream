@@ -12,3 +12,4 @@ export * from './loading-tip/loading-tip.component';
 export * from './manage-dialog/manage-dialog.component';
 export * from './captcha/captcha.component';
 export * from './user-picker/user-picker.component';
+export * from './toggle-bar/toggle-bar.component';

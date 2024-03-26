@@ -32,9 +32,14 @@ export class ExampleComponent {
                     url: './form'
                 },
                 {
-                    name: '引导页',
+                    name: $localize `Tour`,
                     icon: 'icon-paper-plane',
                     url: './tour'
+                },
+                {
+                    name: $localize `Comment`,
+                    icon: 'icon-comments',
+                    url: './comment'
                 }
             ]
         },

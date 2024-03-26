@@ -77,6 +77,6 @@
     <app-text-editor [(ngModel)]="editData.content" placeholder="请输入内容" [height]="200"></app-text-editor>
     <div>
         <label for="notice-input">是否为公告</label>
-        <app-switch [(ngModel)]="editData.is_notice" onLabel="Yes" offLabel="No"></app-switch>
+        <app-toggle-bar [items]="['No', '中', 'EN']" [(ngModel)]="editData.is_notice"></app-toggle-bar>
     </div>
 </app-dialog-box>

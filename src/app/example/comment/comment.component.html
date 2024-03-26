@@ -1,0 +1,133 @@
+<div class="container-fluid">
+    <div class="article-container">
+        <p>This is many</p>
+
+        <div class="article-footer">
+            (来源：
+            <a href="">日报</a>
+            )
+        </div>
+    </div>
+
+    <div class="vs-container">
+        <div class="positive-bar">
+            <div class="inner-bar" [ngStyle]="{width: positiveScale + '%'}"></div>
+        </div>
+        <div class="negative-bar">
+            <div class="inner-bar" [ngStyle]="{width: negativeScale + '%'}"></div>
+        </div>
+        <div class="vs-icon">
+            <span>v</span>
+            <span>s</span>
+        </div>
+    </div>
+
+    <div class="comment-container">
+        <p class="message-line">2.10</p>
+        <div class="message-item">
+            <div class="item-body">
+                <p>话啊啊啊</p>
+            </div>
+            <div class="item-action">
+                <i class="iconfont icon-thumbs-up"></i>
+                <span>0</span>
+            </div>
+        </div>
+        <div class="message-item">
+            <div class="item-body">
+                <p>话啊啊啊</p>
+            </div>
+            <div class="item-action">
+                <i class="iconfont icon-thumbs-up"></i>
+                <span>0</span>
+            </div>
+        </div>
+        <div class="message-flip-item">
+            <div class="item-body">
+                <p>话啊啊啊</p>
+            </div>
+            <div class="item-action">
+                <i class="iconfont icon-thumbs-up"></i>
+                <span>0</span>
+            </div>
+        </div>
+    </div>
+    <div class="comment-panel">
+        <div class="panel-header">
+            <span>All Comments</span>
+            <div class="sort-bar">
+                <a href="" class="active">Hottest</a>
+                <a href="">Lastest</a>
+                <a href="">Newest</a>
+            </div>
+        </div>
+
+        <div class="comment-item" *ngFor="let item of commentItems">
+            <article class="item-body">
+                <div class="item-author">
+                    <img [src]="'assets/images/favicon.png'| asset" alt="">
+                    <div class="item-meta">
+                        <span class="name">zodream</span>
+                        <div class="date">2019-01-02</div>
+                    </div>
+                </div>
+                <div class="item-content">
+                    <p>这是一条评论</p>
+                </div>
+                <div class="item-footer">
+                    <i class="fa fa-reply"></i>
+                    <a href="">回复</a>
+                </div>
+            </article>
+            <div class="item-children">
+                <div class="comment-item">
+                    <article class="item-body">
+                        <div class="item-author">
+                            <img [src]="'assets/images/favicon.png'| asset" alt="">
+                            <div class="item-meta">
+                                <span class="name">zodream</span>
+                                <div class="date">2019-01-02</div>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <p>这是一条评论</p>
+                        </div>
+                        <div class="item-footer">
+                            <i class="fa fa-reply"></i>
+                            <a href="">回复</a>
+                        </div>
+                    </article>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="comment-form-panel">
+        <div class="panel-header">
+            <h3>发表评论</h3>
+        </div>
+        <div class="panel-body">
+            <form>
+                <div class="form-group">
+                    <label for="">评论内容</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="">称呼</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">邮箱</label>
+                    <input type="text" class="form-control" >
+                </div>
+                <div class="form-group">
+                    <label for="">网址</label>
+                    <input type="text" class="form-control" >
+                </div>
+                <button class="btn btn-primary">评论</button>
+            </form>
+        </div>
+    </div>
+</div>

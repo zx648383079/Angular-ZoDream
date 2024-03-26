@@ -53,7 +53,8 @@ import {
     LoadingTipComponent,
     ManageDialogComponent,
     CaptchaComponent,
-    UserPickerComponent
+    UserPickerComponent,
+    ToggleBarComponent
 } from './components';
 import {
     PasswordValidatorDirective
@@ -92,6 +93,7 @@ const COMPONENTS = [
     ManageDialogComponent,
     CaptchaComponent,
     UserPickerComponent,
+    ToggleBarComponent,
 ];
 
 const PIPES = [

@@ -33,7 +33,7 @@
     "echarts": "^5.5.0",
     "hls.js": "^1.5.7",
     "immutable": "^4.3.5",
-    "katex": "^0.16.9",
+    "katex": "^0.16.10",
     "marked": "^12.0.1",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-echarts": "^17.1.0",

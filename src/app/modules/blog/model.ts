@@ -19,6 +19,7 @@ export interface IEditOptions {
     categories: ICategory[];
     open_types: IItem[];
     publish_status: IItem[];
+    localizes: IItem[];
 }
 
 export interface IBlog {

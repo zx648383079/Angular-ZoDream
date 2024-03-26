@@ -25,7 +25,6 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     public form = this.fb.group({
         title: ['', Validators.required],
         keywords: [''],
-        content: ['', Validators.required],
         description: [''],
         term_id: [0, Validators.required],
         programming_language: [''],
@@ -48,10 +47,11 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         seo_link: [''],
     });
 
-    public data: IBlog;
+    public data: IBlog = {id: 0, language: 'zh'} as any;
     public tagItems: ITag[] = [];
     public categories: ICategory[] = [];
     public languages: string[] = [];
+    public localizes: IItem[] = [];
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
     public tags: ITag[] = [];
@@ -88,6 +88,8 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             this.licenses = res.licenses;
             this.statusItems = res.publish_status;
             this.openItems = res.open_types;
+            this.localizes = res.localizes;
+            this.data.language = res.localizes[0].value;
         });
         this.editor.option.merge({
             toolbar: {
@@ -116,6 +118,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.propertyToggle = window.innerWidth > 769;
         this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -146,6 +149,20 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.form.get('publish_status').value;
     }
 
+    public onLocalizeChange() {
+        if (!this.data.languages) {
+            this.loadDetail(0, this.data.language);
+            return;
+        }
+        for (const item of this.data.languages) {
+            if (item.value === this.data.language) {
+                this.loadDetail(item.id, item.value);
+                return;
+            }
+        }
+        this.loadDetail(0, this.data.language);
+    }
+
     public loadDetail(id: number, language?: string) {
         id = parseNumber(id);
         if (this.data && this.data.id === id) {
@@ -155,9 +172,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             this.data.parent_id = this.data.parent_id > 0 ? this.data.parent_id : this.data.id;
             this.data.id = 0;
             this.data.language = language as any;
+            this.setContent('');
             this.form.patchValue({
                 title: '',
-                content: '',
             });
             return;
         }
@@ -165,9 +182,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             this.data = res;
             this.tags = res.tags || [];
             this.openRule = res.open_rule;
+            this.setContent(res.content);
             this.form.patchValue({
                 title: res.title,
-                content: res.content,
                 keywords: res.keywords,
                 description: res.description,
                 term_id: res.term_id,
@@ -294,6 +311,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         if (typeof status === 'number') {
             data.publish_status = status;
         }
+        data.content = this.editor.value;
         data.open_rule = data.open_type > 4 ? this.openRule : '';
         data.tags = this.tags;
         e?.enter();
@@ -321,6 +339,11 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
                 });
             }
         });
+    }
+
+    private setContent(val: string) {
+        this.editor.value = val;
+        this.editor.autoHeight();
     }
 
 }

@@ -15,11 +15,7 @@
                 </ng-container>
             </div>
             <div class="tool-right">
-                <div class="language-toggle" *ngIf="data && data.languages && data.languages.length > 1">
-                    <ng-container *ngFor="let item of data.languages">
-                        <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
-                    </ng-container>
-                </div>
+                <app-toggle-bar [items]="localizes" [(ngModel)]="data.language" (ngModelChange)="onLocalizeChange()"></app-toggle-bar>
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
