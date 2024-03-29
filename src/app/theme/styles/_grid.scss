@@ -3,14 +3,14 @@
     --#{$prefix}-column-text: #333;
     --#{$prefix}-column-icon: #333;
     --#{$prefix}-column-icon-text: #fff;
-    width: 18.75rem;
     display: inline-block;
     position: relative;
     height: 6.25rem;
     background-color: var(--#{$prefix}-column);
     color: var(--#{$prefix}-column-text);
-    margin: 0.625rem;
     vertical-align: top;
+    width: 90%;
+    margin: 0.625rem 5%;
     .icon {
         position: absolute;
         width: 6.25rem;
@@ -117,9 +117,9 @@
     }
 }
 
-@media screen and (max-width: 769px) {
+@media (min-width: 48rem) {
     .column-item {
-        width: 90%;
-        margin: 10px 5%;
+        width: 18.75rem;
+        margin: 0.625rem;
     }
 }

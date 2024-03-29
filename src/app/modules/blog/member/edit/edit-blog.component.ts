@@ -8,7 +8,7 @@ import { ButtonEvent } from '../../../../components/form';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorBlockType, EditorService, IEditorBlock, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
-import { FileUploadService, SearchService } from '../../../../theme/services';
+import { FileUploadService, SearchService, ThemeService } from '../../../../theme/services';
 import { NavToggle, SearchEvents } from '../../../../theme/models/event';
 
 @Component({
@@ -78,6 +78,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         private toastrService: DialogService,
         private uploadService: FileUploadService,
         private searchService: SearchService,
+        private themeService: ThemeService,
         private editor: EditorService,
     ) {
         this.service.editOption().subscribe(res => {
@@ -121,6 +122,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.propertyToggle = window.innerWidth > 769;
         this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
         this.route.params.subscribe(params => {
+            this.themeService.setTitle(params.id ? $localize `Edit post` : $localize `New post`);
             if (!params.id) {
                 return;
             }

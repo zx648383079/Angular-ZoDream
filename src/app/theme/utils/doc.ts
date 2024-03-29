@@ -39,8 +39,8 @@ export function toggleClass(ele: HTMLElement, tag: string, force?: boolean) {
     ele.classList.remove(tag);
 }
 
-export function css(el: HTMLElement, key: any);
-export function css(el: HTMLElement, style: string, value: any)
+export function css(el: HTMLElement, key: any): void;
+export function css(el: HTMLElement, style: string, value: any): void;
 export function css(el: HTMLElement, style: string|any, value?: any) {
     if (typeof style === 'string') {
         el.style[camelCase(style)] = value;

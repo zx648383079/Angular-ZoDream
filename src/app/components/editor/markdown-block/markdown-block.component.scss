@@ -288,15 +288,14 @@
         white-space: pre-wrap;
         word-wrap: normal !important;
         overflow-x: auto;
-        margin: 0;
-        background: rgba(127, 127, 127, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.18);
+        margin: 0 0 0 3.5rem;
         > code {
             white-space: pre !important;
             display: block;
-            padding: 0.65rem 1rem;
+            padding: 0;
             background-color: transparent;
             border: none;
+            font-size: inherit;
         }
         &:not(:first-child) {
             margin-top: 1rem;

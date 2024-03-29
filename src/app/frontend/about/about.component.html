@@ -43,7 +43,7 @@
                         <span class="inner-bar" [ngStyle]="{width: item.proficiency + '%'}"></span>
                     </div>
                     <div class="skill-meta" *ngIf="item.links">
-                        <label>代表作：</label>
+                        <label i18n>Program:</label>
                         <ng-container *ngFor="let link of item.links;let i = index">
                             <ng-container *ngIf="i > 0">
                                 、

@@ -2,10 +2,10 @@
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="icon">
             <ng-container *ngIf="item.icon; else elseTemplate">
-                <div class="iconfont" [ngClass]="item.icon | iconfont"></div>
+                <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
             </ng-container>
             <ng-template #elseTemplate>
-                <div class="iconfont icon-file-o"></div>
+                <i class="iconfont icon-file-o"></i>
             </ng-template>
         </div>
         <div class="content">
