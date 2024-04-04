@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { SearchService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
 import { IBlog, ICategory } from '../model';
 import { BlogService } from './blog.service';
 import { IItem } from '../../../theme/models/seo';
@@ -34,6 +34,7 @@ export class MemberComponent implements OnInit {
         private toastrService: DialogService,
         private route: ActivatedRoute,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
         this.service.editOption().subscribe(res => {
             this.categories = res.categories;
@@ -42,6 +43,7 @@ export class MemberComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.themeService.setTitle($localize `My Blog`);
         this.route.queryParams.subscribe(res => {
             this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();

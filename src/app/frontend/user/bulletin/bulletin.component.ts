@@ -5,7 +5,7 @@ import { IBlockItem } from '../../../components/link-rule';
 import { openLink } from '../../../theme/utils/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
-import { SearchService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
@@ -31,10 +31,12 @@ export class BulletinComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
     }
 
     ngOnInit() {
+        this.themeService.setTitle($localize `Bulletin`);
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
