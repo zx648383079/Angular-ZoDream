@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../../components/dialog';
-import { CountdownEvent } from '../../../components/form';
-import { AppState } from '../../../theme/interfaces';
-import { IUser } from '../../../theme/models/user';
-import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
-import { emptyValidate } from '../../../theme/validators';
-import { UserService } from '../user.service';
+import { DialogService } from '../../../../components/dialog';
+import { CountdownEvent } from '../../../../components/form';
+import { AppState } from '../../../../theme/interfaces';
+import { IUser } from '../../../../theme/models/user';
+import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
+import { emptyValidate } from '../../../../theme/validators';
+import { MemberService } from '../member.service';
 
 @Component({
-    selector: 'app-password',
+    selector: 'app-member-password',
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']
 })
@@ -28,7 +28,7 @@ export class PasswordComponent implements OnInit {
 
     constructor(
         private store: Store<AppState>,
-        private service: UserService,
+        private service: MemberService,
         private toastrService: DialogService,
     ) {
         this.store.select(selectAuthUser).subscribe(user => {

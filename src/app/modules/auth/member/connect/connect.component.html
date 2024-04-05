@@ -17,6 +17,7 @@
             </ng-template>
         </div>
     </div>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>
 
 <app-dialog-box #faModal i18n-title title="Enable two-step verification" [scrollable]="false">

@@ -2,7 +2,8 @@
     line-height: 30px;
     padding: 10px;
 }
-.driver-item {
+
+.app-item {
     display: flex;
     position: relative;
     .item-icon,
@@ -13,11 +14,15 @@
         align-items: center;
     }
     .item-action {
-        width: 6rem;
+        // width: 6rem;
     }
     .item-icon {
         font-size: 2rem;
         width: 5rem;
+        img {
+            max-width: 4rem;
+            max-height: 4rem;
+        }
     }
     .item-body {
         flex: 1;
@@ -26,18 +31,9 @@
     .item-name {
         font-weight: 700;
     }
-    .item-meta,
-    .item-time {
+    .item-meta {
         color: #ccc;
         font-size: .8rem;
-    }
-    .item-stamp {
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-size: .8rem;
-        font-weight: 700;
-        color: #ccc;
     }
     &:not(:last-of-type) {
         border-bottom: 1px dashed #e8e8e8;

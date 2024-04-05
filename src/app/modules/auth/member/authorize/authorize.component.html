@@ -2,7 +2,7 @@
     <div class="tip" i18n>
         Authorized Applications
     </div>
-    <div class="app-item">
+    <div class="app-item" *ngFor="let item of items">
         <div class="item-icon">
             <img [src]="'assets/images/logo.png'|asset" alt="">
         </div>
@@ -16,4 +16,5 @@
             </a>
         </div>
     </div>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>

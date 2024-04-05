@@ -1,20 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IConnect } from '../../../theme/models/auth';
-import { UserService } from '../user.service';
-import { WebAuthn } from '../../../theme/services';
-import { DialogEvent, DialogService } from '../../../components/dialog';
-import { emptyValidate } from '../../../theme/validators';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
+import { IConnect } from '../../../../theme/models/auth';
+import { WebAuthn } from '../../../../theme/services';
+import { emptyValidate } from '../../../../theme/validators';
+import { MemberService } from '../member.service';
 
 @Component({
-  selector: 'app-connect',
-  templateUrl: './connect.component.html',
-  styleUrls: ['./connect.component.scss']
+    selector: 'app-member-connect',
+    templateUrl: './connect.component.html',
+    styleUrls: ['./connect.component.scss']
 })
 export class ConnectComponent implements OnInit {
 
     @ViewChild('faModal')
     private faModal: DialogEvent;
     public items: IConnect[] = [];
+    public isLoading = false;
     public data = {
         recovery_code: '',
         twofa_code: '',
@@ -22,7 +23,7 @@ export class ConnectComponent implements OnInit {
     };
 
     constructor(
-        private service: UserService,
+        private service: MemberService,
         private toastrService: DialogService,
         private webAuthnn: WebAuthn
     ) { }
@@ -32,8 +33,15 @@ export class ConnectComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.service.connect().subscribe(res => {
-            this.items = res;
+        this.isLoading = true;
+        this.service.connect().subscribe({
+            next: res => {
+                this.items = res;
+                this.isLoading = false;
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../components/dialog';
-import { ButtonEvent } from '../../../components/form';
-import { SearchService } from '../../../theme/services';
-import { UserService } from '../user.service';
+import { DialogService } from '../../../../components/dialog';
+import { ButtonEvent } from '../../../../components/form';
+import { SearchService } from '../../../../theme/services';
+import { MemberService } from '../member.service';
 
 
 interface IGroupHeader {
@@ -13,7 +13,7 @@ interface IGroupHeader {
 }
 
 @Component({
-    selector: 'app-setting',
+    selector: 'app-member-setting',
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
@@ -51,7 +51,7 @@ export class SettingComponent implements OnInit {
     ];
 
     constructor(
-        private service: UserService,
+        private service: MemberService,
         private toastrService: DialogService,
         private searchService: SearchService,
     ) { }

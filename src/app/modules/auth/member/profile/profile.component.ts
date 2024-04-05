@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
-import { IItem } from '../../../theme/models/seo';
-import { IUser, SexItems } from '../../../theme/models/user';
-import { parseNumber } from '../../../theme/utils';
-import { UserService } from '../user.service';
+import { DialogService } from '../../../../components/dialog';
+import { IItem } from '../../../../theme/models/seo';
+import { SexItems, IUser } from '../../../../theme/models/user';
+import { parseNumber } from '../../../../theme/utils';
+import { MemberService } from '../member.service';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-member-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     };
 
     constructor(
-        private service: UserService,
+        private service: MemberService,
         private toastrService: DialogService,
         public route: ActivatedRoute,
         private fb: FormBuilder,

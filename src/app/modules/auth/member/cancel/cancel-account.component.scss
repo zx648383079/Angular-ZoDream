@@ -1,0 +1,22 @@
+.tip {
+    line-height: 1.875rem;
+    padding: 0.625rem;
+}
+.item {
+    background-color: #fff;
+    position: relative;
+    padding: 0 .8rem;
+    line-height: 2.5rem;
+    display: flex;
+    .iconfont {
+        display: inline-block;
+        width: 2.5rem;
+        text-align: center;
+    }
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+}
+.btn-group {
+    margin-top: 2rem;
+}

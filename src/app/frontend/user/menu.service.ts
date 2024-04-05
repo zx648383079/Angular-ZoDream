@@ -10,6 +10,7 @@ import { MicroMemberMenu } from '../../modules/micro/member/menu';
 import { ForumMemberMenu } from '../../modules/forum/member/menu';
 import { DocumentMemberMenu } from '../../modules/document/member/menu';
 import { BotMemberMenu } from '../../modules/bot/member/menu';
+import { MemberMenu } from '../../modules/auth/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -48,28 +49,7 @@ export class MenuService {
         short: ShortLinkMemberMenu,
         doc: DocumentMemberMenu,
         bot: BotMemberMenu,
-        1: [
-            {
-                name: $localize `Thirdparty App`,
-                icon: 'icon-rocket',
-                url: 'authorize'
-            },
-            {
-                name: $localize `Account Binding`,
-                icon: 'icon-chain',
-                url: 'connect'
-            },
-            {
-                name: $localize `Login Drive`,
-                icon: 'icon-mobile',
-                url: 'driver'
-            },
-            {
-                name: $localize `Setting`,
-                icon: 'icon-cog',
-                url: 'setting'
-            }
-        ],
+        account: MemberMenu
     };
 
     public change$ = new BehaviorSubject<INavCollection>({tab: [], more: []});

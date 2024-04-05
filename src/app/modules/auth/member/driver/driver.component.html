@@ -2,7 +2,7 @@
     <div class="tip" i18n>
         The latest login device: click can view the login time
     </div>
-    <div class="driver-item">
+    <div class="driver-item" *ngFor="let item of items">
         <div class="item-icon">
             <i class="iconfont icon-mobile"></i>
         </div>
@@ -23,4 +23,5 @@
             </a>
         </div>
     </div>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>

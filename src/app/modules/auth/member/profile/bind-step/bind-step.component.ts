@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { DialogService } from '../../../../components/dialog';
-import { CountdownEvent } from '../../../../components/form';
-import { IUser } from '../../../../theme/models/user';
-import { emailValidate, emptyValidate, mobileValidate } from '../../../../theme/validators';
-import { UserService } from '../../user.service';
+import { DialogService } from '../../../../../components/dialog';
+import { CountdownEvent } from '../../../../../components/form';
+import { IUser } from '../../../../../theme/models/user';
+import { emptyValidate, emailValidate, mobileValidate } from '../../../../../theme/validators';
+import { MemberService } from '../../member.service';
 
 @Component({
-  selector: 'app-bind-step',
-  templateUrl: './bind-step.component.html',
-  styleUrls: ['./bind-step.component.scss']
+    selector: 'app-member-bind-step',
+    templateUrl: './bind-step.component.html',
+    styleUrls: ['./bind-step.component.scss']
 })
 export class BindStepComponent implements OnChanges {
 
@@ -27,7 +27,7 @@ export class BindStepComponent implements OnChanges {
 
     constructor(
         private toastrService: DialogService,
-        private service: UserService
+        private service: MemberService
     ) { }
 
     public get nameLabel() {
