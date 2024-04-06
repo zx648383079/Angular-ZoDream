@@ -8,6 +8,7 @@ import { LinkRuleModule } from '../../components/link-rule';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuService } from './menu.service';
 import { DialogModule } from '../../components/dialog';
+import { MessageContainerModule } from '../../components/message-container';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { DialogModule } from '../../components/dialog';
         ReactiveFormsModule,
         DialogModule,
         FormsModule,
+        MessageContainerModule,
         UserRoutingModule
     ],
     declarations: [...userRoutedComponents],

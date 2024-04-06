@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user.component';
 import { BulletinComponent } from './bulletin/bulletin.component';
+import { MessageComponent } from './message/message.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
             {
                 path: 'bulletin',
                 component: BulletinComponent,
+            },
+            {
+                path: 'message',
+                component: MessageComponent,
             },
             {
                 path: 'account',
@@ -69,5 +74,5 @@ const routes: Routes = [
 export class UserRoutingModule { }
 
 export const userRoutedComponents = [
-    UserComponent, HomeComponent, BulletinComponent
+    UserComponent, HomeComponent, BulletinComponent, MessageComponent
 ];

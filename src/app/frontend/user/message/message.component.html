@@ -1,0 +1,59 @@
+<div class="message-box">
+    <div class="message-menu">
+        <ng-container *ngFor="let item of navItems; let i = index">
+            <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
+                <ng-container *ngIf="!item.avatar; else elseTemplate">
+                    <div class="icon" *ngIf="!item.avatar">
+                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    </div>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="avatar">
+                        <img [src]="item.avatar" >
+                    </div>
+                </ng-template>
+                <div class="info">
+                    <div class="name">{{ item.name }}</div>
+                    <p>{{ item.remark }}</p>
+                </div>
+            </div>
+        </ng-container>
+        
+    </div>
+    <div class="message-body">
+        <div class="title-bar">
+            <span>
+                <ng-container *ngIf="!currentUser || currentUser.id <= 1; else elseTemplate" i18n>
+                    System Messages
+                </ng-container>
+                <ng-template #elseTemplate i18n>
+                    Chat with "{{ currentUser.name }}"
+                </ng-template>
+            </span>
+            <div class="drop-menu-box" [hidden]="!currentUser || currentUser.id <= 1">
+                <i class="iconfont icon-ellipsis-v"></i>
+                <div class="menu-body">
+                    <ul>
+                        <li i18n>Top chat</li>
+                        <li i18n>Do Not Disturb</li>
+                        <li i18n>Add to blacklist</li>
+                        <li i18n>Report the user</li>
+                        <li i18n>Do not push</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <app-message-container [currentId]="authUser?.id" [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
+        <div class="message-tools" [hidden]="!currentUser || currentUser.id <= 1">
+            <i class="iconfont icon-smile-o"></i>
+            <i class="iconfont icon-image"></i>
+        </div>
+        <div class="message-editor" [hidden]="!currentUser || currentUser.id <= 1">
+            <textarea i18n-placeholder placeholder="Reply to this." [(ngModel)]="content"></textarea>
+            <div class="message-action">
+                <div class="size-tip">{{ wordLength }}/500</div>
+                <app-action-button class="btn btn-primary" (tapped)="tapSend($event)" i18n>Send</app-action-button>
+            </div>
+        </div>
+    </div>
+</div>

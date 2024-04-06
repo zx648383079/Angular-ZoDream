@@ -26,12 +26,20 @@ export class UserService {
         });
     }
 
+    public bulletinUser(extra?: any) {
+        return this.http.get<IData<IUser>>('auth/bulletin/user', {params: {extra}});
+    }
+
     public bulletinRead(id: number) {
         return this.http.post<IDataOne<boolean>>('auth/bulletin/read', {id});
     }
 
     public bulletinReadAll() {
         return this.http.post<IDataOne<boolean>>('auth/bulletin/read_all', {});
+    }
+
+    public bulletinSend(data: any) {
+        return this.http.post<IDataOne<boolean>>('auth/bulletin/send', data);
     }
 
     public bulletinRemove(id: any) {

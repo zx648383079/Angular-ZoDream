@@ -1,7 +1,7 @@
 @import '../../theme/styles/scrollbar';
 :host {
     flex: 1;
-    padding: 0 10px;
+    padding: 0 0.625rem;
     overflow-y: auto;
     @include scrollbar();
 }

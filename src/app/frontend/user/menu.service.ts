@@ -38,6 +38,11 @@ export class MenuService {
                 icon: 'icon-commenting',
                 url: 'bulletin'
             },
+            {
+                name: $localize `My Messages`,
+                icon: 'icon-comments',
+                url: 'message'
+            },
         ],
         blog: BlogMemberMenu,
         visual: VisualMemberMenu,

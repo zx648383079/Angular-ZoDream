@@ -56,10 +56,10 @@ export class FrontendComponent implements OnDestroy {
     public dropNavItems: IDropNavItem[] = [
         {name: $localize `Account`, url: 'user'},
         {name: $localize `Message`, url: 'user/bulletin', count: 0},
-        {name: $localize `Profile`, url: 'user/profile'},
+        {name: $localize `Profile`, url: 'user/account/profile'},
         {},
         {name: $localize `Help`, url: 'agreement'},
-        {name: $localize `Settings`, url: 'user/setting'},
+        {name: $localize `Settings`, url: 'user/account/setting'},
         {
             name: $localize `Backend`, url: '/backend',
             hidden: true, is_access: true,

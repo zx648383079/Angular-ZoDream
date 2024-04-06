@@ -26,9 +26,9 @@
                     <i class="iconfont icon-exchange"></i>
                     <ng-container i18n>Unfollow</ng-container>
                 </a>
-                <div class="action-item">
+                <a class="action-item" routerLink="../../user/message" [queryParams]="{user: data.id}">
                     <i class="iconfont icon-commenting"></i>
-                </div>
+                </a>
                 <div class="action-item">
                     <i class="iconfont icon-ellipsis-h"></i>
                     <div class="action-drop-bar">

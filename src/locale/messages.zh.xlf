@@ -3601,6 +3601,10 @@
                     <context context-type="sourcefile">src/app/frontend/about/about.component.html</context>
                     <context context-type="linenumber">73</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">55</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="4776696609439083195" datatype="html">
                 <source>Abount</source>
@@ -4619,6 +4623,94 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
                     <context context-type="linenumber">32</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4070174889268643836" datatype="html">
+                <source>My Messages</source>
+                <target>我的消息</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/menu.service.ts</context>
+                    <context context-type="linenumber">42</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.ts</context>
+                    <context context-type="linenumber">59</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4838080112614860628" datatype="html">
+                <source> System Messages </source>
+                <target>系统消息</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">26,28</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6652486248512176983" datatype="html">
+                <source> Chat with &quot;<x id="INTERPOLATION" equiv-text="{{ currentUser.name }}"/>&quot; </source>
+                <target>与 &quot;<x id="INTERPOLATION" equiv-text="{{ currentUser.name }}"/>&quot; 聊天</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">29,31</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="2573398291415833038" datatype="html">
+                <source>Top chat</source>
+                <target>置顶聊天</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">37</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="9024294475943708184" datatype="html">
+                <source>Do Not Disturb</source>
+                <target>开启免打扰</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">38</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="7681771150739834704" datatype="html">
+                <source>Add to blacklist</source>
+                <target>加入黑名单</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">39</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="5557294019779692854" datatype="html">
+                <source>Report the user</source>
+                <target>举报该用户</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">40</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4242062326060770167" datatype="html">
+                <source>Do not push</source>
+                <target>不接受推送</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">41</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="6975526320879571837" datatype="html">
+                <source>Reply to this.</source>
+                <target>回复一下吧~</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.html</context>
+                    <context context-type="linenumber">52</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="7153004549707496463" datatype="html">
+                <source>Please input the content</source>
+                <target>请输入内容</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/frontend/user/message/message.component.ts</context>
+                    <context context-type="linenumber">106</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
+                    <context context-type="linenumber">80</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="4649333787907802018" datatype="html">
@@ -10767,14 +10859,6 @@
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/modules/note/member/menu.ts</context>
                     <context context-type="linenumber">5</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="7153004549707496463" datatype="html">
-                <source>Please input the content</source>
-                <target>请输入内容</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/modules/note/note.component.ts</context>
-                    <context context-type="linenumber">80</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1773476291661827031" datatype="html">
