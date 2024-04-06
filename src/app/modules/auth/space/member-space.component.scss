@@ -1,0 +1,116 @@
+@import '../../../theme/styles/theme';
+.space-container {
+    background-color: var(--#{$prefix}-panel);
+    color: var(--#{$prefix}-panel-text);
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    .space-image {
+        min-height: 6rem;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
+    }
+    .space-header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        padding: .8rem .8rem .8rem 10rem;
+    }
+    .space-body {
+        padding: .8rem;
+        color: #767676;
+    }
+    .user-avatar {
+        position: absolute;
+        top: -4rem;
+        left: 1rem;
+        img {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+            border: .3rem solid var(--#{$prefix}-panel);
+            background-color: var(--#{$prefix}-panel);
+        }
+    }
+    .user-name {
+        font-weight: bold;
+        .iconfont {
+            color: green;
+        }
+    }
+    .user-meta {
+        color: #ccc;
+    }
+}
+.space-action-bar {
+    line-height: 2.5rem;
+    .action-item {
+        color: var(--#{$prefix}-panel-text);
+        display: inline-block;
+        border-radius: 1.25rem;
+        border: 1px solid #ccc;
+        min-width: 2.5rem;
+        text-align: center;
+        padding: 0 .4rem;
+        user-select: none;
+        &:hover {
+            .action-drop-bar {
+                display: block;
+            }
+        }
+        &.active {
+            border: 1px solid var(--#{$prefix}-primary);
+            color: var(--#{$prefix}-primary);
+        }
+    }
+}
+.action-drop-bar {
+    position: absolute;
+    background-color: var(--bs-body-bg);
+    box-shadow: 0 2px 5px $shadow;
+    z-index: 99;
+    display: none;
+    right: 0;
+    width: 12rem;
+    display: none;
+    .action-item {
+        display: flex;
+        border-radius: 0;
+        border: none;
+        width: 100%;
+        .iconfont {
+            display: inline-block;
+            width: 2rem;
+        }
+        .item-label {
+            flex: 1;
+            display: block;
+        }
+        &:hover {
+            background-color: #ccc;
+        }
+    }
+}
+
+.line-icon-item {
+    .iconfont {
+        margin-right: .4rem;
+    }
+}
+
+.count-bar {
+    margin-top: .8rem;
+    .count-item {
+        display: inline-block;
+        .count {
+            display: inline-block;
+            font-weight: bold;
+            margin-right: .4rem;
+            color: var(--#{$prefix}-panel-text);
+        }
+        &:not(:last-of-type) {
+            margin-right: 2rem;
+        }
+    }
+}

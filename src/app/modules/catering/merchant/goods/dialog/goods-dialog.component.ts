@@ -29,8 +29,6 @@ export class GoodsDialogComponent {
         unit: '',
     };
 
-    constructor() { }
-
     public open() {
         this.visible = true;
     }

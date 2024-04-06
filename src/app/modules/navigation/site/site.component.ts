@@ -4,7 +4,7 @@ import { ISiteCategory } from '../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
-  selector: 'app-site',
+  selector: 'app-navigation-site',
   templateUrl: './site.component.html',
   styleUrls: ['./site.component.scss']
 })

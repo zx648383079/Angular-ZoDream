@@ -114,23 +114,26 @@ export class MessageComponent implements OnInit {
             user: item && item.id > 0 ? item.id : -1,
             page,
             per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            const items = res.data.map(i => {
-                return {
-                    id: i.id,
-                    user: i.bulletin.user,
-                    content: i.bulletin.title + '\n' + i.bulletin.content,
-                    extra_rule: i.bulletin.extra_rule,
-                    type: 0,
-                    created_at: i.created_at,
-                };
-            });
-            this.items = items;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-        }, _ => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.isLoading = false;
+                const items = res.data.map(i => {
+                    return {
+                        id: i.id,
+                        user: i.bulletin.user,
+                        content: i.bulletin.title + '\n' + i.bulletin.content,
+                        extra_rule: i.bulletin.extra_rule,
+                        type: 0,
+                        created_at: i.created_at,
+                    };
+                });
+                this.items = items;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+            }, 
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

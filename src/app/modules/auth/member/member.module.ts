@@ -6,6 +6,7 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { LinkRuleModule } from '../../../components/link-rule';
 import { ThemeModule } from '../../../theme/theme.module';
+import { MemberService } from './member.service';
 
 @NgModule({
     imports: [
@@ -18,6 +19,9 @@ import { ThemeModule } from '../../../theme/theme.module';
         FormsModule,
         MemberRoutingModule
     ],
-    declarations: [...memberRoutedComponents]
+    declarations: [...memberRoutedComponents],
+    providers: [
+        MemberService,
+    ]
 })
 export class MemberModule { }

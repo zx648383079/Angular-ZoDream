@@ -15,7 +15,8 @@ export class ManageDialogComponent implements ManageDialogEvent {
     /**
      * 标题
      */
-    @Input() public title: string = $localize `Confirm execution of this operation?`;
+    @Input() public title = $localize `Confirm execution of this operation?`;
+    @Input() public placeholder = $localize `Please enter the operation note information`;
     /**
      * 是否显示
      */
@@ -34,7 +35,6 @@ export class ManageDialogComponent implements ManageDialogEvent {
         remark: ''
     };
 
-    constructor() { }
     /**
      * 关闭弹窗
      * @param result 

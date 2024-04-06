@@ -7,7 +7,7 @@
     <div class="dialog-body">
         <ng-content></ng-content>
         <div>
-            <textarea [(ngModel)]="data.remark" class="form-control" i18n-placeholder placeholder="Please enter the operation note information"></textarea>
+            <textarea [(ngModel)]="data.remark" rows="6" class="form-control" [placeholder]="placeholder"></textarea>
         </div>
     </div>
     <div class="dialog-footer">

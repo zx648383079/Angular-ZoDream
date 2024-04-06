@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ISiteCategory } from '../../model';
 
 @Component({
-  selector: 'app-category-panel',
+  selector: 'app-navigation-category-panel',
   templateUrl: './category-panel.component.html',
   styleUrls: ['./category-panel.component.scss']
 })

@@ -52,6 +52,10 @@ const routes: Routes = [
                 loadChildren: () => import('../modules/bot/member/bot-member.module').then(m => m.BotMemberModule)
             },
             {
+                path: 'space',
+                loadChildren: () => import('../modules/auth/space/member-space.module').then(m => m.MemberSpaceModule)
+            },
+            {
                 path: 'about',
                 component: AboutComponent,
             },

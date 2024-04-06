@@ -3,7 +3,7 @@ import { ISite } from '../../model';
 import { NavigationService } from '../../navigation.service';
 
 @Component({
-  selector: 'app-site-group',
+  selector: 'app-navigation-site-group',
   templateUrl: './site-group.component.html',
   styleUrls: ['./site-group.component.scss']
 })

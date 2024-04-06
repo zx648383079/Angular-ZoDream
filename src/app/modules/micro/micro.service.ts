@@ -96,7 +96,7 @@ export class MicroService {
     }
 
     public toggleFollow(id: any) {
-        return this.http.post<IDataOne<number>>('auth/user/follow', {user: id});
+        return this.http.post<IDataOne<number>>('auth/space/follow', {user: id});
     }
 
     public suggestion(params: any) {

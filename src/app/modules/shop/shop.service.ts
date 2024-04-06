@@ -194,11 +194,11 @@ export class ShopService {
     }
 
     public adList(position: any) {
-        return this.http.get<IData<IAd>>('shop/ad', {params: {position}});
+        return this.http.get<IData<IAd>>('ad', {params: {position}});
     }
 
     public banners() {
-        return this.http.get<IData<IAd>>('shop/ad/banner');
+        return this.http.get<IData<IAd>>('ad/home/banner');
     }
 
     public brandList(params: any) {

@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogAnimation } from '../../../theme/constants';
 
 @Component({
-    selector: 'app-page-card',
+    selector: 'app-navigation-page-card',
     templateUrl: './page-card.component.html',
     styleUrls: ['./page-card.component.scss'],
     animations: [

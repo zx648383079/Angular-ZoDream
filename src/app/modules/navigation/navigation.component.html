@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12" [ngClass]="{'col-lg-6 offset-lg-3': openType < 1}">
             <div class="search-bar">
-                <app-search-bar [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-search-bar>
+                <app-navigation-search-bar [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-navigation-search-bar>
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
     <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()" i18n-title title="More sites">
     </div>
 
-    <app-site [visible]="openType == 1"></app-site>
+    <app-navigation-site [visible]="openType == 1"></app-navigation-site>
     <ng-container *ngIf="openType == 2">
         <div class="loading-tip" *ngIf="isLoading" i18n>
             Loading ...
@@ -25,11 +25,11 @@
         </div>
 
         <ng-container *ngFor="let item of items">
-          <app-page-container [value]="item" (onAction)="tapItem($event)"></app-page-container>
+          <app-navigation-page-container [value]="item" (onAction)="tapItem($event)"></app-navigation-page-container>
         </ng-container>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </ng-container>
 </div>
 
-<app-page-card></app-page-card>
-<app-report-dialog></app-report-dialog>
+<app-navigation-page-card></app-navigation-page-card>
+<app-navigation-report-dialog></app-navigation-report-dialog>
