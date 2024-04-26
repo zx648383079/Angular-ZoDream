@@ -11,6 +11,7 @@ import { ForumMemberMenu } from '../../modules/forum/member/menu';
 import { DocumentMemberMenu } from '../../modules/document/member/menu';
 import { BotMemberMenu } from '../../modules/bot/member/menu';
 import { MemberMenu } from '../../modules/auth/member/menu';
+import { TrackerMemberMenu } from '../../modules/trade-tracker/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INav[];
@@ -54,12 +55,11 @@ export class MenuService {
         short: ShortLinkMemberMenu,
         doc: DocumentMemberMenu,
         bot: BotMemberMenu,
+        tracker: TrackerMemberMenu,
         account: MemberMenu
     };
 
     public change$ = new BehaviorSubject<INavCollection>({tab: [], more: []});
-
-    constructor() {}
 
     public refresh() {
         const data: INavCollection = {
@@ -69,8 +69,8 @@ export class MenuService {
         const path = window.location.pathname.substring(15);
         let formatItems: INav[] = [];
         let activeItem: INav = undefined;
-        eachObject(this.readyMap, (items, key) => {
-            const currentBasePath = !isNumber(key) ? key as string : '';
+        eachObject(this.readyMap, (items, key: string) => {
+            const currentBasePath = this.formatRoutePath(key);
             const formatSource = this.filterNav(items, currentBasePath);
             if (!formatSource || formatSource.length < 1) {
                 return;
@@ -101,18 +101,27 @@ export class MenuService {
         this.change$.next(data);
     }
 
-    private renderUrl(path: string, base: string): string {
-        path = this.combine(base, path);
+    /**
+     * 获取 module 路由
+     * @param key 
+     * @returns 
+     */
+    private formatRoutePath(key: string): string {
+        return !isNumber(key) && !key.startsWith('_') ? key : '';
+    }
+
+    private formatUrl(path: string, base: string): string {
+        path = this.combineUrl(base, path);
         if (path.endsWith('./')) {
             return path;
         }
-        if (path.endsWith('/')) {
+        if (path.endsWith('/') && path.length > 1) {
             return path.substring(0, path.length - 1);
         }
         return path;
     }
 
-    private combine(base: string, path: string): string {
+    private combineUrl(base: string, path: string): string {
         if (!path || !base) {
             return path;
         }
@@ -123,15 +132,21 @@ export class MenuService {
             return base + path.substring(1);
         }
         base = base !== '' && path.length > 0 ? base + '/' : base;
-        return './' + base + (path.length > 0 && path.charAt(0) === '/' ? path.substring(1) : path);
+        return /*'./' +*/ base + (path.length > 0 && path.charAt(0) === '/' ? path.substring(1) : path);
     }
 
+    /**
+     * 添加模块路由
+     * @param items 
+     * @param base 
+     * @returns 
+     */
     private filterNav(items: INav[], base: string): INav[] {
         const data: INav[] = [];
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNav(item.children, base);
             const dist = {...item, children};
-            dist.url = this.renderUrl(dist.url, base);
+            dist.url = this.formatUrl(dist.url, base);
             data.push(dist);
         });
         return data;

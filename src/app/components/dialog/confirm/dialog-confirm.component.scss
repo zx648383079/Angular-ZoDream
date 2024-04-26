@@ -1,19 +1,23 @@
 .dialog-box {
-    width: 16.25rem;
+    width: 17rem;
     left: 50%;
-    margin-left: -8.125em;
+    margin-left: -8.5rem;
     border-radius: 0.25rem;
+    .dialog-header {
+        min-height: 2.5rem;
+        height: auto;
+    }
     .dialog-footer {
         text-align: right;
         // padding: 0.625rem;
     }
     .dialog-body {
         display: flex;
-        padding: 0.2em .8em;
+        padding: 0.2rem .8rem;
         min-height: 10rem;
     }
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 20rem) {
     .dialog-box {
         width: 100%;
         left: 0;

@@ -7025,6 +7025,38 @@
                     <context context-type="linenumber">28</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="670973002426840761" datatype="html">
+                <source>Marked user</source>
+                <target>屏蔽用户</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/auth/space/member-space.component.html</context>
+                    <context context-type="linenumber">37</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="4508947701437812533" datatype="html">
+                <source>Unmark user</source>
+                <target>解除屏蔽</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/auth/space/member-space.component.html</context>
+                    <context context-type="linenumber">41</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="816368361755236535" datatype="html">
+                <source>Report user</source>
+                <target>举报用户</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/auth/space/member-space.component.html</context>
+                    <context context-type="linenumber">45</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="3628379727157288111" datatype="html">
+                <source>Joined <x id="INTERPOLATION" equiv-text="{{ data.created_at | ago }}"/></source>
+                <target><x id="INTERPOLATION" equiv-text="{{ data.created_at | ago }}"/> 加入</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/modules/auth/space/member-space.component.html</context>
+                    <context context-type="linenumber">54</context>
+                </context-group>
+            </trans-unit>
             <trans-unit id="7049293076500101258" datatype="html">
                 <source>Confirm to report the user?</source>
                 <target>确认举报这个用户？</target>

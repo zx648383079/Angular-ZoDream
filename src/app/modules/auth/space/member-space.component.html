@@ -34,15 +34,15 @@
                     <div class="action-drop-bar">
                         <a class="action-item" (click)="tapMark()" *ngIf="data.mark_status < 1">
                             <i class="iconfont icon-eye-slash"></i>
-                            <span class="item-label">Marked user</span>
+                            <span class="item-label" i18n>Marked user</span>
                         </a>
                         <a class="action-item" (click)="tapMark()" *ngIf="data.mark_status > 0">
                             <i class="iconfont icon-eye"></i>
-                            <span class="item-label">Unmark user</span>
+                            <span class="item-label" i18n>Unmark user</span>
                         </a>
                         <a class="action-item" (click)="tapReport(reportModal)">
                             <i class="iconfont icon-exclamation-triangle"></i>
-                            <span class="item-label">Report user</span>
+                            <span class="item-label" i18n>Report user</span>
                         </a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
         <div class="space-body">
             <div class="line-icon-item">
                 <i class="iconfont icon-calendar"></i>
-                <span>Joined {{ data.created_at | ago }}</span>
+                <span i18n>Joined {{ data.created_at | ago }}</span>
             </div>
             <div class="count-bar">
                 <div class="count-item">

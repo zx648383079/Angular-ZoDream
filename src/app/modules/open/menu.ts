@@ -4,22 +4,22 @@ export const OpenBackendMenu: INav[] = [
     {
         name: '开放平台',
         icon: 'icon-th-large',
-        url: './open',
+        url: './',
         children: [
             {
                 name: '应用管理',
                 label: '应',
-                url: './open/platform',
+                url: './platform',
             },
             {
                 name: '授权管理',
                 label: '授',
-                url: './open/authorize',
+                url: './authorize',
             },
             {
                 name: '应用审核',
                 label: '审',
-                url: './open/platform/review',
+                url: './platform/review',
                 role: 'open_manage',
             },
         ],

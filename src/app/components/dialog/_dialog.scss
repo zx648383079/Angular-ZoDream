@@ -32,6 +32,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     left: 50%;
     top: 50%;
     background-color: var(--#{$prefix}-dialog);
+    backdrop-filter: blur(1.875rem);
     color: var(--#{$prefix}-dialog-text);
     box-shadow: 0 0 1.25rem $shadow;
 }

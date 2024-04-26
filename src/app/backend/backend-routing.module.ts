@@ -136,6 +136,10 @@ const routes: Routes = [{
             loadChildren: () => import('../modules/catering/backend/catering-backend.module').then(m => m.CateringBackendModule)
         },
         {
+            path: 'tracker',
+            loadChildren: () => import('../modules/trade-tracker/backend/backend.module').then(m => m.TradeTrackerBackendModule)
+        },
+        {
             path: '',
             component: HomeComponent
         },

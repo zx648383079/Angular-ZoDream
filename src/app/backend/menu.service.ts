@@ -15,7 +15,7 @@ import { OnlineServiceBackendMenu } from '../modules/online-service/backend/menu
 import { ShopBackendMenu } from '../modules/shop/backend/menu';
 import { INav } from '../theme/components';
 import { IUser } from '../theme/models/user';
-import { eachObject } from '../theme/utils';
+import { eachObject, isNumber } from '../theme/utils';
 import { VideoBackendMenu } from '../modules/video/backend/menu';
 import { backendBottomMenu, backendMenuItems } from './menu';
 import { AppBackendMenu } from '../modules/app-store/backend/menu';
@@ -31,6 +31,7 @@ import { OpenBackendMenu } from '../modules/open/menu';
 import { SystemtBackendMenu } from '../modules/system/menu';
 import { AdBackendMenu } from '../modules/ad-sense/menu';
 import { BotBackendMenu } from '../modules/bot/backend/menu';
+import { TrackerBackendMenu } from '../modules/trade-tracker/backend/menu';
 
 interface INavCollection {
     items: INav[];
@@ -80,13 +81,14 @@ export class MenuService {
             cms: CMSBackendMenu,
             visual: VisualBackendMenu,
             catering: CateringBackendMenu,
+            tracker: TrackerBackendMenu,
             bot: BotBackendMenu,
             open: OpenBackendMenu,
             disk: DiskBackendMenu,
             ms: MessageServiceBackendMenu,
             ad: AdBackendMenu,
             checkin: CheckInBackendMenu,
-            system: SystemtBackendMenu,
+            _: SystemtBackendMenu,
         },
         bottom: [
             backendBottomMenu
@@ -99,8 +101,6 @@ export class MenuService {
 
     private currentBasePath: string = '';
     private refreshHandle = 0;
-
-    constructor() {}
 
     public setUser(user?: IUser) {
         this.put(USER_OPTION_KEY, user);
@@ -140,9 +140,9 @@ export class MenuService {
         const path = window.location.pathname.substring(9);
         eachObject(this.readyMap, (items, k) => {
             let formatItems = [];
-            eachObject(items, (source: MenuReadyItem, key) => {
-                this.currentBasePath = typeof key === 'string' ? key : '';
-                const formatSource = this.filterNavByRole(typeof source === 'function' ? (source as MenuReadyFn).call(this, this.currentBasePath, this.get(this.currentBasePath), this.option) : source, roles);
+            eachObject(items, (source: MenuReadyFn|INav[], key: string) => {
+                this.currentBasePath = this.formatRoutePath(key);
+                const formatSource = this.filterNavByRole(typeof source === 'function' ? (source as MenuReadyFn).call(this, this.currentBasePath, this.get(this.currentBasePath), this.option) : this.filterNav(source, this.currentBasePath), roles);
                 if (!formatSource || formatSource.length < 1) {
                     return;
                 }
@@ -150,7 +150,7 @@ export class MenuService {
                     formatSource[0].expand = !!formatSource[0].children;
                     formatSource[0].active = true;
                 }
-                formatItems = [].concat(formatItems, formatSource);
+                formatItems.push(...formatSource);
             });
             data[k] = formatItems;
         });
@@ -178,6 +178,57 @@ export class MenuService {
             if (children && children.length > 0) {
                 data.push({...item, children, url: undefined});
             }
+        });
+        return data;
+    }
+
+    /**
+     * 获取 module 路由
+     * @param key 
+     * @returns 
+     */
+    private formatRoutePath(key: string): string {
+        return !isNumber(key) && !key.startsWith('_') ? key : '';
+    }
+
+    private formatUrl(path: string, base: string): string {
+        path = this.combineUrl(base, path);
+        if (path.endsWith('./')) {
+            return path;
+        }
+        if (path.endsWith('/') && path.length > 1) {
+            return path.substring(0, path.length - 1);
+        }
+        return path;
+    }
+
+    private combineUrl(base: string, path: string): string {
+        if (!path || !base) {
+            return path;
+        }
+        if (path.startsWith('/')) {
+            return path;
+        }
+        if (path.startsWith('./')) {
+            return base + path.substring(1);
+        }
+        base = base !== '' && path.length > 0 ? base + '/' : base;
+        return /*'./' +*/ base + (path.length > 0 && path.charAt(0) === '/' ? path.substring(1) : path);
+    }
+
+    /**
+     * 添加模块路由
+     * @param items 
+     * @param base 
+     * @returns 
+     */
+    private filterNav(items: INav[], base: string): INav[] {
+        const data: INav[] = [];
+        items.forEach(item => {
+            const children = !item.children ? undefined : this.filterNav(item.children, base);
+            const dist = {...item, children};
+            dist.url = this.formatUrl(dist.url, base);
+            data.push(dist);
         });
         return data;
     }

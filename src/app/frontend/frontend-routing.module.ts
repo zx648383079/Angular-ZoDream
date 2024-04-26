@@ -47,6 +47,10 @@ const routes: Routes = [
                 loadChildren: () => import('../modules/short-link/short-link.module').then(m => m.ShortLinkModule)
             },
             {
+                path: 'tracker',
+                loadChildren: () => import('../modules/trade-tracker/trade-tracker.module').then(m => m.TradeTrackerModule)
+            },
+            {
                 path: 'bot',
                 canActivate: [CanActivateViaAuthGuard],
                 loadChildren: () => import('../modules/bot/member/bot-member.module').then(m => m.BotMemberModule)

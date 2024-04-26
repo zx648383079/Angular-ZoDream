@@ -52,6 +52,10 @@ const routes: Routes = [
                 loadChildren: () => import('../../modules/note/member/note-member.module').then(m => m.NoteMemberModule)
             },
             {
+                path: 'tracker',
+                loadChildren: () => import('../../modules/trade-tracker/member/member.module').then(m => m.TradeTrackerMemberModule)
+            },
+            {
                 path: 'short',
                 loadChildren: () => import('../../modules/short-link/member/short-member.module').then(m => m.ShortMemberModule)
             },

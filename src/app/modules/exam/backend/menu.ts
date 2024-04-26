@@ -4,33 +4,33 @@ export const ExamBackendMenu: INav[] = [
     {
         name: '题库管理',
         icon: 'icon-edit',
-        url: './exam',
+        url: './',
         role: 'exam_manage',
         children: [
             {
                 name: '题库列表',
                 label: '题',
-                url: './exam/question',
+                url: './question',
             },
             {
                 name: '科目列表',
                 label: '科',
-                url: './exam/course',
+                url: './course',
             },
             {
                 name: '素材列表',
                 label: '素',
-                url: './exam/material',
+                url: './material',
             },
             {
                 name: '试卷列表',
                 label: '卷',
-                url: './exam/page',
+                url: './page',
             },
             {
                 name: '晋级列表',
                 label: '级',
-                url: './exam/upgrade',
+                url: './upgrade',
             },
         ],
     },
