@@ -1,0 +1,92 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>产品列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="zre-input-group">
+                    <label class="sr-only" for="keywords">关键词</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="关键词" [ngModel]="queries.keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-info" (click)="tapImport()">导入产品</a>
+                    <a class="btn btn-light" routerLink="../channel">渠道管理</a>
+                    <a class="btn btn-success" (click)="open(modal)">新增产品</a>
+                </div>
+            </form>
+        </div>
+    
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>英文名称</th>
+                    <th>统计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    <td>{{ item.en_name }}</td>
+                    <td>{{ 0 }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑产品' : '新增产品'">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="en_name-input">英文名称</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="en_name-input" [(ngModel)]="editData.en_name" placeholder="请输入英文名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="unique_code-input">唯一编码</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="unique_code-input" [(ngModel)]="editData.unique_code" placeholder="请输入唯一编码">
+        </div>
+    </div>
+    <div class="items-panel-container">
+        <div class="panel-header">
+            <span>关联渠道</span>
+            <a class="panel-action-btn" (click)="tapAddChannel()">
+                <i class="iconfont icon-plus"></i>
+            </a>
+        </div>
+        <div class="panel-body">
+            <div class="flat-input" *ngFor="let item of editData.items;let i = index">
+                <input type="text" class="form-control" placeholder="渠道" [(ngModel)]="item.channel">
+                <input type="text" class="form-control" placeholder="渠道产品ID" [(ngModel)]="item.platform_no">
+                <input type="text" class="form-control" placeholder="渠道产品Hash Name" [(ngModel)]="item.extra_meta">
+                <a class="btn btn-danger" (click)="tapRemoveChannel(i)">
+                    <i class="iconfont icon-close"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</app-dialog-box>

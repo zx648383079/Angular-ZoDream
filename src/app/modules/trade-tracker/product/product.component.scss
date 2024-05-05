@@ -1,0 +1,29 @@
+@import '../../../theme/styles/theme';
+.title-bar {
+    margin: 2rem 0;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    .back-btn {
+        border: 1px solid #ccc;
+        color: #333;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 1.875rem;
+        cursor: pointer;
+    }
+}
+
+.tab-bar {
+    margin-bottom: 1rem;
+    --#{$prefix}-tab: var(--#{$prefix}-panel);
+}
+
+.page-search-bar {
+    text-align: right;
+    margin-bottom: 1rem;
+}

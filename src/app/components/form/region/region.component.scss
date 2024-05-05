@@ -14,7 +14,7 @@
         line-height: 2rem;
         display: inline-block;
         padding: 0 5px;
-        z-index: 2;
+        z-index: 3;
         background-color: white;
         cursor: pointer;
         user-select: none;
@@ -27,11 +27,11 @@
     }
     .selector-panel-container {
         position: absolute;
-        width: 400px;
+        width: 25rem;
         background-color: white;
         box-shadow: 0 0 10px rgb(0 0 0 / 20%);
-        padding: 10px;
-        z-index: 1;
+        padding: 0.625rem;
+        z-index: 2;
         .select-header {
             &.open {
                 border-color: #0275d8;
@@ -46,10 +46,10 @@
         li {
             list-style: none;
             display: inline-block;
-            line-height: 30px;
-            padding: 0 5px;
+            line-height: 1.875rem;
+            padding: 0 0.3125rem;
             text-align: center;
-            min-width: 78px;
+            min-width: 4.875rem;
 
             &.active {
                 background: #0275d8;
@@ -60,16 +60,16 @@
 
     .selector-body {
         overflow-y: auto;
-        height: 200px;
+        height: 12.5rem;
         @include scrollbar();
         ul {
             li {
                 list-style: none;
                 display: inline-block;
-                line-height: 30px;
-                padding: 0 8px;
+                line-height: 1.875rem;
+                padding: 0 0.5rem;
                 text-align: center;
-                min-width: 60px;
+                min-width: 3.75rem;
                 cursor: default;
                 user-select: none;
                 &.selected,
@@ -87,19 +87,19 @@
             width: 30%;
             background: #0275d8;
             color: #fff;
-            padding: 0 8px;
+            padding: 0 0.5rem;
             border: none;
-            line-height: 30px;
+            line-height: 1.875rem;
             display: inline-block;
         }
     }
 
     .icon-close {
         position: absolute;
-        top: 10px;
-        line-height: 30px;
-        font-size: 16px;
-        right: 10px;
+        top: 0.625rem;
+        line-height: 1.875rem;
+        font-size: 1rem;
+        right: 0.625rem;
         color: #ccc;
     }
     &.disabled {

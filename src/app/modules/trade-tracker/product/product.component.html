@@ -1,0 +1,49 @@
+<div class="container" *ngIf="data">
+    <div class="row">
+        <div class="col-12">
+            <div class="title-bar">
+                <div class="back-btn" (click)="tapBack()">
+                    <i class="iconfont icon-arrow-left"></i>
+                </div>
+                <h2>{{ data.name }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="children.length > 0">
+        <div class="col-12">
+            <div class="tab-bar">
+                <ng-container *ngFor="let item of children">
+                <a class="item" [ngClass]="{active: productSelected == item.id}" (click)="tapProduct(item.id)">{{ item.name }}</a>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="channelItems.length > 0">
+        <div class="col-12">
+            <div class="tab-bar">
+                <ng-container *ngFor="let item of channelItems">
+                <a class="item" [ngClass]="{active: channelSelected == item.id}" (click)="tapChannel(item.id)">{{ item.name }}</a>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="page-search-bar">
+                <div class="form-horizontal">
+                    <app-toggle-bar [items]="typeItems" [(ngModel)]="queries.type" (ngModelChange)="onQueriesChange()"></app-toggle-bar>
+                    
+                    <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+                    ~
+                    <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-12">
+            <div echarts [options]="options" class="chart-lg"></div>
+        </div>
+    </div>
+</div>
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>

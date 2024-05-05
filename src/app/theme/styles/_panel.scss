@@ -119,3 +119,41 @@
         background-color: #eee;
     }
 }
+
+.items-panel-container {
+    // --#{$prefix}-panel: var(--#{$prefix}-panel);
+    --#{$prefix}-panel-hover: var(--bs-light);
+    .panel-body,
+    .panel-action-btn {
+        background-color: var(--#{$prefix}-panel);
+        color: var(--#{$prefix}-panel-color);
+    }
+    .panel-action-btn {
+        display: inline-block;
+        border-radius: 0.25rem 0.25rem 0 0;
+        padding: 0 .8rem;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--#{$prefix}-panel-hover);
+        }
+    }
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        line-height: 2.5rem;
+        padding-left: .8rem;
+    }
+    .panel-body {
+        border-radius: 0.25rem 0 0.25rem 0.25rem;
+        padding: .8rem;
+    }
+    .form-control {
+        width: auto;
+        display: inline-block;
+    }
+    .flat-input {
+        &:not(:last-of-type) {
+            margin-bottom: .4rem;
+        }
+    }
+}

@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SearchEvents } from '../../theme/models/event';
 import { SearchService } from '../../theme/services';
-import { SuggestChangeEvent } from '../../components/form';
-import { AutoSuggestBoxComponent } from '../../components/form/auto-suggest-box/auto-suggest-box.component';
+import { SuggestChangeEvent, AutoSuggestBoxComponent } from '../../components/form';
 
 @Component({
   selector: 'app-search',

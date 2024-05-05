@@ -1,3 +1,64 @@
-<p>
-  trade-tracker-backend works!
-</p>
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>统计</li>
+        </ul>
+    </app-page-tip>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.channel_count | numberFormat }}</h3>
+                    <p>渠道数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-file-o"></i>
+                </div>
+                <a class="column-footer" routerLink="channel">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.product_today | numberFormat }}/{{ data.product_count | numberFormat }}</h3>
+                    <p>今日/总产品数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-file-text-o"></i>
+                </div>
+                <a class="column-footer" routerLink="product">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="column-full-item">
+                <div class="overlay" *ngIf="isLoading">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                <div class="inner">
+                    <h3>{{ data.log_today | numberFormat }}/{{ data.log_count | numberFormat }}</h3>
+                    <p>今日/总记录数</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-edit"></i>
+                </div>
+                <a class="column-footer" routerLink="log">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</div>

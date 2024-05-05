@@ -103,6 +103,10 @@ export class HomeComponent implements AfterViewInit {
             url: 'short'
         },
         {
+            name: $localize `Trade Tracker`,
+            url: 'tracker'
+        },
+        {
             name: $localize `Catering`,
             url: '/catering'
         },

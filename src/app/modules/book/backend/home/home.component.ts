@@ -9,7 +9,7 @@ import { BookService } from '../book.service';
 import { SpiderComponent } from '../spider/spider.component';
 
 @Component({
-    selector: 'app-home',
+    selector: 'app-book-backend-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })

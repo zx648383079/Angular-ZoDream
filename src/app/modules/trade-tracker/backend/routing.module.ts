@@ -6,11 +6,26 @@ import {
     RouterModule
 } from '@angular/router';
 import { TradeTrackerBackendComponent } from './backend.component';
+import { ChannelComponent } from './channel/channel.component';
+import { ProductComponent } from './product/product.component';
+import { LogComponent } from './log/log.component';
 
 const routes: Routes = [
     {
         path: '',
         component: TradeTrackerBackendComponent
+    },
+    {
+        path: 'channel',
+        component: ChannelComponent
+    },
+    {
+        path: 'product',
+        component: ProductComponent
+    },
+    {
+        path: 'log',
+        component: LogComponent
     },
     {
         path: '**',
@@ -25,5 +40,5 @@ const routes: Routes = [
 export class TrackerBackendRoutingModule {}
 
 export const TrackerBackendRoutedComponents = [
-    TradeTrackerBackendComponent
+    TradeTrackerBackendComponent, ChannelComponent, ProductComponent, LogComponent
 ];

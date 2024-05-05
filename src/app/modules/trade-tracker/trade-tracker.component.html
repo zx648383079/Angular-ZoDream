@@ -1,3 +1,44 @@
-<p>
-  trade-tracker works!
-</p>
+<div class="container mb-5">
+    <app-auto-suggest-box (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
+</div>
+
+<div class="container-fluid">
+    <table class="table table-hover fixed-table">
+        <thead>
+            <tr>
+                <th>产品名称</th>
+                <th>日成交量</th>
+                <th>最低价格</th>
+                <th>交易平台</th>
+                <th>更新时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of items">
+                <tr (click)="toggleOpen(item)">
+                    <td>{{ item.product?.name }}</td>
+                    <td [title]="item.order_count">{{ item.order_count | numberFormat }}</td>
+                    <td>{{ item.price | currency: '￥' }}</td>
+                    <td>{{ item.channel?.name }}</td>
+                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
+                </tr>
+                <tr class="row-body" *ngIf="item.open">
+                    <td colspan="5">
+                        <div class="inner-container">
+                            <div class="row">
+                                <div class="col-md-4 col-6" *ngFor="let it of item.price_items">
+                                    <a class="price-item" [routerLink]="['product', it.product_id]" [queryParams]="{channel: it.channel_id}">
+                                        <label for="">{{ it.channel?.name }}</label>
+                                        <span>{{ it.price | currency: '￥' }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+</div>

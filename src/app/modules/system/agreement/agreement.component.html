@@ -35,8 +35,8 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.status > 0 ? '启用' : '禁用' }}</td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                        <div class="btn-group">
+                            <a class="btn btn-info" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

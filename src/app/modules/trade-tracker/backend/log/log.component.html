@@ -1,0 +1,111 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>价格变动记录管理</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="zre-input-group">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn btn-info">导入记录</a>
+                    <a class="btn btn-success" (click)="open(modal)">新增记录</a>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered well">
+            <thead>
+                <tr>
+                    <th [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </th>
+                    <th>产品名</th>
+                    <th>渠道名</th>
+                    <th>价格</th>
+                    <th>数量</th>
+                    <th>记录时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td [hidden]="!isMultiple">
+                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    </td>
+                    <td>{{ item.product?.name }}</td>
+                    <td>{{ item.channel?.name }}</td>
+                    <td>
+                        [{{ item.type < 1 ? '出售' : '求购'}}]
+                        {{ item.price | currency: '￥' }}
+                    </td>
+                    <td> {{ item.order_count | numberFormat }} </td>
+                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+             <tfoot [hidden]="!isMultiple || items.length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal title="新增价格变动记录">
+    <div class="form-group">
+        <label for="name-input">产品</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.product" placeholder="请输入名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="short_name-input">渠道</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="short_name-input" [(ngModel)]="editData.channel" placeholder="请输入简称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="site_url-input">类型</label>
+        <div class="zre-input-group">
+            <app-switch [(ngModel)]="editData.type" offLabel="出售" onLabel="求购"></app-switch>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="price-input">价格</label>
+        <div class="zre-input-group">
+            <input class="form-control" id="price-input" [(ngModel)]="editData.price" placeholder="请输入价格">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="o-input">订单数量</label>
+        <div class="zre-input-group">
+            <app-number-input [(ngModel)]="editData.order_count"></app-number-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-input">变动时间</label>
+        <div class="zre-input-group">
+            <app-date-input [(ngModel)]="editData.created_at" format="yyyy-mm-dd hh:ii:ss"></app-date-input>
+        </div>
+    </div>
+</app-dialog-box>

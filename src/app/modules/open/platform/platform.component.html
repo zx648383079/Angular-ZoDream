@@ -34,8 +34,8 @@
                   <td>{{ formatStatus(item.status) }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>
-                    <div class="btn-group btn-group-xs">
-                      <a class="btn btn-light btn-xs"
+                    <div class="btn-group">
+                      <a class="btn btn-info"
                                 [routerLink]="'./edit/' + item.id">编辑</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                     </div>

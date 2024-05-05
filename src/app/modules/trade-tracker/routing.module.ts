@@ -6,8 +6,13 @@ import {
     RouterModule
 } from '@angular/router';
 import { TradeTrackerComponent } from './trade-tracker.component';
+import { ProductComponent } from './product/product.component';
 
 const routes: Routes = [
+    {
+        path: 'product/:id',
+        component: ProductComponent
+    },
     {
         path: '',
         component: TradeTrackerComponent
@@ -25,5 +30,5 @@ const routes: Routes = [
 export class TrackerRoutingModule {}
 
 export const TrackerRoutedComponents = [
-    TradeTrackerComponent
+    TradeTrackerComponent, ProductComponent
 ];

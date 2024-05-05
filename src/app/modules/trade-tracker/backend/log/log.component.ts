@@ -1,42 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService, ManageDialogEvent } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
-import { IFriendLink } from '../../../theme/models/seo';
-import { ContactService } from '../contact.service';
-import { SearchService } from '../../../theme/services';
-import { emailValidate, emptyValidate } from '../../../theme/validators';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
+import { SearchService } from '../../../../theme/services';
+import { TrackerBackendService } from '../tracker.service';
+import { ITradeLog } from '../../model';
+import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
-  selector: 'app-contact-friend-link',
-  templateUrl: './friend-link.component.html',
-  styleUrls: ['./friend-link.component.scss']
+    selector: 'app-tracker-backend-log',
+    templateUrl: './log.component.html',
+    styleUrls: ['./log.component.scss']
 })
-export class FriendLinkComponent implements OnInit {
+export class LogComponent implements OnInit {
 
-    public items: IFriendLink[] = [];
+    public items: ITradeLog[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
         page: 1,
+        product: 0,
+        channel: 0,
         keywords: '',
         per_page: 20,
     };
-    public editData = {
-        name: '',
-        url: '',
-        logo: '',
-        brief: '',
-        email: '',
-    };
     public isMultiple = false;
     public isChecked = false;
+    public editData = {} as any;
 
     constructor(
-        private service: ContactService,
-        private toastrService: DialogService,
+        private service: TrackerBackendService,
         private route: ActivatedRoute,
+        private toastrService: DialogService,
         private searchService: SearchService,
     ) {
     }
@@ -48,30 +44,23 @@ export class FriendLinkComponent implements OnInit {
         })
     }
 
+
     public get checkedItems() {
         return this.items.filter(i => i.checked);
     }
 
-    public tapAdd(modal: DialogEvent) {
-        for (const key in this.editData) {
-            if (Object.prototype.hasOwnProperty.call(this.editData, key)) {
-                this.editData[key] = '';
-            }
-        }
+    public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.friendLinkSave(this.editData).subscribe({
-                next: res => {
-                    this.toastrService.success('添加成功');
-                    this.tapRefresh();
-                },
-                error: err => {
-                    this.toastrService.error(err);
-                }
-            })
-        }, () => !emailValidate(this.editData.name) && !emptyValidate(this.editData.url));
+            this.service.logAdd(this.editData).subscribe(_ => {
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapRefresh();
+            });
+        }, () => {
+            return !emptyValidate(this.editData.product) && !emptyValidate(this.editData.channel) && !emptyValidate(this.editData.price);
+        });
     }
 
-    public toggleCheck(item?: IFriendLink) {
+    public toggleCheck(item?: any) {
         if (!item) {
             this.isChecked = !this.isChecked;
             this.items.forEach(i => {
@@ -95,8 +84,8 @@ export class FriendLinkComponent implements OnInit {
             this.toastrService.warning($localize `No item selected!`);
             return;
         }
-        this.toastrService.confirm(`确认删除选中的${items.length}条友情链接？`, () => {
-            this.service.friendLinkRemove(items.map(i => i.id)).subscribe(res => {
+        this.toastrService.confirm(`确认删除选中的${items.length}条记录？`, () => {
+            this.service.logRemove(items.map(i => i.id)).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -106,9 +95,6 @@ export class FriendLinkComponent implements OnInit {
         });
     }
 
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         this.goPage(1);
     }
@@ -130,13 +116,12 @@ export class FriendLinkComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.friendLinkList(queries).subscribe({
+        this.service.logList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.isChecked = false;
                 this.searchService.applyHistory(this.queries = queries);
             },
             error: _ => {
@@ -150,32 +135,9 @@ export class FriendLinkComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapPass(item: IFriendLink, modal: ManageDialogEvent) {
-        this.toggleItem(item, modal, '确认审核通过此友情链接？', '已审核通过！');
-    }
-
-    public tapOff(item: IFriendLink, modal: ManageDialogEvent) {
-        this.toggleItem(item, modal, '确认下架此友情链接？', '已下架！');
-    }
-
-    private toggleItem(item: IFriendLink, modal: ManageDialogEvent, title: string, success: string) {
-        modal.open(data => {
-            this.service.friendLinkToggle({
-                ...data,
-                id: item.id,
-            }).subscribe(res => {
-                if (!res) {
-                    return;
-                }
-                this.toastrService.success(success);
-                item.status = res.status;
-            });
-        }, title);
-    }
-
-    public tapRemove(item: IFriendLink) {
-        this.toastrService.confirm('确认删除此友情链接？', () => {
-            this.service.friendLinkRemove(item.id).subscribe(res => {
+    public tapRemove(item: ITradeLog) {
+        this.toastrService.confirm('确认删除此条记录？', () => {
+            this.service.logRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -186,4 +148,5 @@ export class FriendLinkComponent implements OnInit {
             });
         });
     }
+
 }

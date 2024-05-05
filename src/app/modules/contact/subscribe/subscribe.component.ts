@@ -7,7 +7,7 @@ import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
-    selector: 'app-subscribe',
+    selector: 'app-contact-subscribe',
     templateUrl: './subscribe.component.html',
     styleUrls: ['./subscribe.component.scss']
 })

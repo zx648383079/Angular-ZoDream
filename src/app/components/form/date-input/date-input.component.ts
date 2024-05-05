@@ -44,7 +44,7 @@ export class DateInputComponent {
     }
 
     writeValue(obj: any): void {
-        this.value = obj && /^\d{10}$/.test(obj) ? formatDate(obj, this.format) : obj;
+        this.value = obj && /^\d{10}$/.test(obj) ? formatDate(obj, this.format) : (obj ? obj : '');
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

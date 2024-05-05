@@ -1,0 +1,32 @@
+@import '../../theme/styles/theme';
+
+:host {
+    margin: 4rem 0;
+    display: block;
+}
+
+
+.fixed-table {
+    thead {
+        position: sticky;
+        top: 0;
+    }
+    .row-body {
+        --bs-table-bg: var(--#{$prefix}-panel);
+    }
+    .inner-container {
+        max-width: 48rem;
+        margin: 0 auto;
+    }
+    .price-item {
+        display: flex;
+        label {
+            color: #767676;
+        }
+        span {
+            display: inline-block;
+            flex: 1;
+            text-align: center;
+        }
+    }
+}
