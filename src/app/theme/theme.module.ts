@@ -71,6 +71,7 @@ import {
 import {
     FormsModule
 } from '@angular/forms';
+import { EncryptorService } from './services/encryptor.service';
 
 const BASE_MODULES = [
     CommonModule,
@@ -161,6 +162,7 @@ export class ThemeModule {
                 ThemeService,
                 AuthService,
                 FileUploadService,
+                EncryptorService,
                 WebAuthn,
             ]
         };

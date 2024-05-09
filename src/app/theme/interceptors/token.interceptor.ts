@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import {Md5} from 'ts-md5';
-import { getCurrentTime } from '../utils';
+import { EncryptorService } from '../services/encryptor.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -21,7 +21,8 @@ export class TokenInterceptor implements HttpInterceptor {
             return next.handle(request);
         }
         const auth = this.injector.get(AuthService);
-        const timestamp = getCurrentTime();
+        const encryptor = this.injector.get(EncryptorService);
+        const timestamp = encryptor.getCurrentTime();
         const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
         const clonedRequest = request.clone({
             headers: auth.getTokenHeader(request),

@@ -39,6 +39,7 @@ import {
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
+import { EncryptorService } from '../../../theme/services/encryptor.service';
 
 @Component({
     selector: 'app-auth-login',
@@ -77,6 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private toastrService: DialogService,
         private themeService: ThemeService,
         private authService: AuthService,
+        private encryptor: EncryptorService,
         private webAuthn: WebAuthn) {
         this.themeService.setTitle($localize `Sign in`);
         this.subItems.push(
@@ -181,6 +183,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             return;
         }
         const data: any = Object.assign({}, this.loginForm.value);
+        if (data.password) {
+            data.password = this.encryptor.encrypt(data.password);
+        }
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
         }
