@@ -15,12 +15,12 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let item of items">
-                <tr (click)="toggleOpen(item)">
-                    <td>{{ item.product?.name }}</td>
-                    <td [title]="item.order_count">{{ item.order_count | numberFormat }}</td>
-                    <td>{{ item.price | currency: '￥' }}</td>
-                    <td>{{ item.channel?.name }}</td>
-                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
+                <tr>
+                    <td (click)="toggleOpen(item)">{{ item.product?.name }}</td>
+                    <td [title]="item.order_count" (click)="toggleOpen(item)">{{ item.order_count | numberFormat }}</td>
+                    <td (click)="toolbar.open(item)">{{ item.price | currency: '￥' }}</td>
+                    <td (click)="toggleOpen(item)">{{ item.channel?.name }}</td>
+                    <td [title]="item.created_at" (click)="toggleOpen(item)">{{ item.created_at | ago }}</td>
                 </tr>
                 <tr class="row-body" *ngIf="item.open">
                     <td colspan="5">
@@ -42,3 +42,5 @@
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 </div>
+
+<app-trade-toolbar #toolbar></app-trade-toolbar>

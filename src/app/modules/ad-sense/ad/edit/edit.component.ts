@@ -13,10 +13,10 @@ import {
     AdService
 } from '../../ad.service';
 import { DialogService } from '../../../../components/dialog';
-import { FileUploadService } from '../../../../theme/services';
 import { parseNumber } from '../../../../theme/utils';
 import { IAd, IAdPosition } from '../../model';
 import { ButtonEvent } from '../../../../components/form';
+import { DEEPLINK_SCHEMA } from '../../../../theme/utils/deeplink';
 
 @Component({
     selector: 'app-edit',
@@ -38,6 +38,8 @@ export class EditAdComponent implements OnInit {
 
     public data: IAd;
     public positionItems: IAdPosition[] = [];
+
+    public deepSchame = DEEPLINK_SCHEMA;
 
     constructor(
         private service: AdService,
@@ -67,6 +69,14 @@ export class EditAdComponent implements OnInit {
                     end_at: res.start_at,
                     status: res.status,
                 });
+            });
+        });
+        this.route.queryParams.subscribe(params => {
+            if (!params.position) {
+                return;
+            }
+            this.form.patchValue({
+                position_id: parseNumber(params.position)
             });
         });
     }

@@ -28,7 +28,7 @@ export class AdComponent implements OnInit {
         page: 1,
         per_page: 20,
         keywords: '',
-        position_id: 0,
+        position: 0,
     };
 
     constructor(
@@ -39,11 +39,6 @@ export class AdComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.route.queryParams.subscribe(res => {
-            if (res.position) {
-                this.queries.position_id = parseInt(res.position, 10) || 0;
-            }
-        });
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
@@ -74,12 +69,17 @@ export class AdComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.adList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+        this.service.adList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.searchService.applyHistory(this.queries = queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

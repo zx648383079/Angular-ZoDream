@@ -1,0 +1,62 @@
+.input-header-block {
+    position: relative;
+    margin-bottom: .8rem;
+    input,
+    textarea {
+        width: 100%;
+        padding: .2rem .8rem;
+        background-color: transparent;
+        border-radius: 0;
+        border-color: #ccc;
+        &:focus {
+            border-color: #333;
+            & + label {
+                font-size: .8rem;
+                top: -.5rem;
+            }
+        }
+    }
+    input {
+        height: 2.5rem;
+        border-width: 1px;
+        border-style: solid;
+    }
+    label {
+        display: block;
+        padding: 0 .4rem;
+        background-color: #f4f4f4;
+        position: absolute;
+        left: .8rem;
+        top: .6rem;
+        font-size: 1rem;
+        transition: all .5s;
+        user-select: none;
+    }
+    &.input-not-empty,
+    &:hover {
+        label {
+            font-size: .8rem;
+            top: -.5rem;
+        }
+    }
+}
+.input-flex-group {
+    display: flex;
+    .input-header-block {
+        flex: 1;
+        &:first-child {
+            input {
+                border-top-left-radius: .25rem;
+                border-bottom-left-radius: .25rem;
+            }
+        }
+    }
+    .btn {
+        --bs-btn-border-radius: 0;
+        --bs-btn-line-height: 2.5rem;
+        --bs-btn-padding-y: 0;
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+        height: 2.5rem;
+    }
+}

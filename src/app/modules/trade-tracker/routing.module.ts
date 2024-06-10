@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { TradeTrackerComponent } from './trade-tracker.component';
 import { ProductComponent } from './product/product.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 const routes: Routes = [
     {
@@ -30,5 +31,5 @@ const routes: Routes = [
 export class TrackerRoutingModule {}
 
 export const TrackerRoutedComponents = [
-    TradeTrackerComponent, ProductComponent
+    TradeTrackerComponent, ProductComponent, ToolbarComponent
 ];

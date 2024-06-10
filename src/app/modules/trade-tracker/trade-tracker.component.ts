@@ -12,6 +12,7 @@ import { SuggestChangeEvent } from '../../components/form';
     styleUrls: ['./trade-tracker.component.scss']
 })
 export class TradeTrackerComponent implements OnInit {
+
     public items: ILastestLog[] = [];
     public hasMore = true;
     public isLoading = false;

@@ -56,7 +56,17 @@ export class EncryptorService {
                 timestamp = Math.floor(timestamp.getTime() / 1000);
             }
         }
-        return timestamp.toString().substring(0, 10).split('').map(i => parseInt(i));
+        const items = timestamp.toString().substring(0, 10).split('').map(i => parseInt(i));
+        const last = items[items.length - 1];
+        const offset = last % 2;
+        for (let i = 0; i < items.length; i += 2) {
+            const pos = i + offset;
+            if (pos >= items.length) {
+                continue;
+            }
+            items[pos] = (items[pos] + last) % 10;
+        }
+        return items;
     }
 
     private dictionaryLength(): number {
