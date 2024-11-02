@@ -12,6 +12,7 @@ import { apiUri } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
 import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
+import { EncryptorService } from '../../../../theme/services/encryptor.service';
 
 @Component({
   selector: 'app-login-panel',
@@ -46,6 +47,7 @@ export class LoginPanelComponent implements OnDestroy {
         private store: Store<AppState>,
         private toastrService: DialogService,
         private authService: AuthService,
+        private encryptor: EncryptorService,
         private webAuthn: WebAuthn
     ) {
         this.subItems.push(
@@ -138,6 +140,9 @@ export class LoginPanelComponent implements OnDestroy {
             data.captcha = this.captcha;
         }
         e?.enter();
+        if (data.password) {
+            data.password = this.encryptor.encrypt(data.password);
+        }
         this.authService.login(data).subscribe({
             next: _ => {
                 e?.reset();

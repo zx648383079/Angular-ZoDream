@@ -24,6 +24,7 @@ import { AppState } from '../../../theme/interfaces';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../theme/utils';
 import { Subscription } from 'rxjs';
+import { EncryptorService } from '../../../theme/services/encryptor.service';
 
 @Component({
     selector: 'app-auth-register',
@@ -51,6 +52,7 @@ export class RegisterComponent implements OnDestroy {
         private toastrService: DialogService,
         private authService: AuthService,
         private themeService: ThemeService,
+        private encryptor: EncryptorService,
         private store: Store<AppState>,
     ) {
         this.themeService.setTitle($localize `Sign up`);
@@ -89,7 +91,11 @@ export class RegisterComponent implements OnDestroy {
             return;
         }
         this.authService
-            .register(data).subscribe({
+            .register({
+                ...data,
+                password: this.encryptor.encrypt(data.password),
+                confirm_password: this.encryptor.encrypt(data.confirm_password)
+            }).subscribe({
                 error: err => {
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);
