@@ -1,6 +1,6 @@
 <div class="command-bar" [ngClass]="{open: dropVisible, 'command-flow-left': flowLeft}">
     <ul class="command-primary-bar">
-        <li *ngFor="let item of inlineItems" [ngClass]="item.color" (click)="tapItem(item)">
+        <li *ngFor="let item of inlineItems" [ngClass]="item.color" (click)="tapItem(item)" [title]="item.name">
             <i class="iconfont btn-icon" [ngClass]="item.icon"></i>
             <span class="btn-label">{{ item.name }}</span>
         </li>
