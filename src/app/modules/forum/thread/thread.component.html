@@ -93,8 +93,10 @@
                             </ng-template>
                         </div>
                         <div class="footer">
-                            <a *ngIf="user" (click)="tapReply(item)" i18n>Reply</a>
-                            <a *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable"  (click)="open(modal)" i18n>Edit</a>
+                            <app-command-bar [flowLeft]="true">
+                                <app-command-button *ngIf="user" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                <app-command-button *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable" icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)"></app-command-button>
+                            </app-command-bar>
                         </div>
                     </div>
                 </div>
@@ -120,9 +122,11 @@
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="footer">
-                            <a *ngIf="user && item.is_public_post" (click)="tapReply(item)" i18n>Reply</a>
-                            <a *ngIf="thread.editable" (click)="tapChange(statusModal, item)" i18n>Edit</a>
-                            <a *ngIf="item.deleteable" (click)="tapRemove(item)" i18n>Delete</a>
+                            <app-command-bar [flowLeft]="true">
+                                <app-command-button *ngIf="user && item.is_public_post" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                <app-command-button *ngIf="thread.editable" icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)"></app-command-button>
+                                <app-command-button *ngIf="item.deleteable" icon="icon-trash" label="Delete" i18n-label (tapped)="tapRemove(item)"></app-command-button>
+                            </app-command-bar>
                         </div>
                     </div>
                 </div>

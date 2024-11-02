@@ -24,12 +24,14 @@ import { EditorService } from '../container';
 export class CodeEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
 
     public disabled = false;
+    private container: EditorService;
     onChange: any = () => { };
     onTouch: any = () => { };
     constructor(
         private elementRef: ElementRef,
-        private container: EditorService
+        container: EditorService
     ) {
+        this.container = container.clone();
         this.container.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
             this.onChange(this.container.value);
         });

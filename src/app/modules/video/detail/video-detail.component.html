@@ -37,7 +37,7 @@
 <div class="comment-panel">
     <div class="commtent-form">
         <input type="text" [(ngModel)]="commentData.content" i18n-placeholder placeholder="Please input the comment">
-        <i class="iconfont icon-paper-plane" (click)="tapCommentSubmit"></i>
+        <i class="iconfont icon-paper-plane" (click)="tapCommentSubmit()"></i>
     </div>
 
     <div class="comment-item" *ngFor="let item of commentData.items">

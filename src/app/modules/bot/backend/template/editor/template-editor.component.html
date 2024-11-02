@@ -7,7 +7,7 @@
                 </li>
             </ng-container>
         </ul>
-        <app-pull-to-refresh class="template-box" [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore">
+        <app-pull-to-refresh class="template-box" [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
             <ul class="templdate-list">
                 <ng-container *ngFor="let item of templateItems">
                     <li [title]="item.name" class="rich_media_content" (click)="tapInsert(item)">

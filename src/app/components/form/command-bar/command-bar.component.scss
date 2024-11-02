@@ -1,0 +1,83 @@
+@import '../../../theme/styles/theme';
+.command-bar {
+    position: relative;
+    display: flex;
+    ul,
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    // .command-secondary-bar,
+    // .command-primary-bar {
+    // }
+    li {
+        display: flex;
+    }
+    .command-primary-bar {
+        li {
+            display: inline-flex;
+            flex-direction: column;
+            min-width: 2rem;
+            text-align: center;
+        }
+        .btn-label {
+            font-size: .6rem;
+            display: none;
+        }
+    }
+    .command-control-icon {
+        padding: 0 .6rem;
+        cursor: pointer;
+        user-select: none;
+    }
+    .command-secondary-bar {
+        box-shadow: 0px 1px 2px 0px #{$shadow};
+        display: none;
+        position: absolute;
+        z-index: 88;
+        background-color: var(--#{$prefix}-panel);
+        top: 100%;
+        li {
+            display: block;
+            padding: 0.375rem 0.75rem;
+            line-height: 1.5;
+            cursor: pointer;
+            text-align: left;
+            .btn-icon {
+                margin-right: .5rem;
+            }
+            &:first-of-type {
+                border-radius: .25rem .25rem 0 0;
+            }
+            &:last-of-type {
+                border-radius: 0 0 .25rem .25rem;
+            }
+            &:hover {
+                background-color: var(--bs-body-bg);
+            }
+        }
+    }
+    &.open {
+        // .command-primary-bar {
+        //     line-height: .8rem;
+        //     .btn-icon {
+        //         font-size: .8rem;
+        //     }
+        //     .btn-label {
+        //         display: inline-block;
+        //     }
+        // }
+        .command-secondary-bar {
+            display: block;
+        } 
+    }
+    &.command-flow-left {
+        .command-primary-bar {
+            order: 1;
+        }
+        .command-secondary-bar {
+            right: 0;
+        }
+    }
+}

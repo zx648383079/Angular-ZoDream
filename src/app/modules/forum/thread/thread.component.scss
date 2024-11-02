@@ -56,11 +56,10 @@
             width: 100%;
             bottom: 0;
             line-height: 30px;
-            a {
-                padding-right: 10px;
-                text-decoration: none;
-                cursor: pointer;
-            }
+            text-align: right;
+        }
+        app-command-bar {
+            display: inline-block;
         }
     }
     .post-action {
@@ -281,7 +280,7 @@
         .post-user {
             position: absolute;
             top: 0;
-            bottom: 0;
+            // bottom: 0;
             z-index: 55;
             background-color: transparent;
             min-height: auto;
@@ -313,6 +312,9 @@
             .content {
                 padding: 0 0 0 45px;
                 min-height: 40px;
+            }
+            .footer {
+                padding: 0;
             }
         }
     }

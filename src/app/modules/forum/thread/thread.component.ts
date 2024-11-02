@@ -46,7 +46,7 @@ export class ThreadComponent implements OnInit {
     public editor: ForumEditorComponent;
 
     public thread: IThread;
-    public items = [];
+    public items: IThreadPost[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;

@@ -15,6 +15,7 @@ export class EditorService implements IEditorContainer {
     } = {};
     private modalRef: ComponentRef<IEditorModal>;
     private modalContainerRef: ViewContainerRef;
+    private used = false;
     public option: EditorOptionManager = new EditorOptionManager();
     // private mouseMoveListeners = {
     //     move: undefined,
@@ -30,6 +31,18 @@ export class EditorService implements IEditorContainer {
         // document.addEventListener('mouseup', e => {
         //     this.emit(EVENT_MOUSE_UP, {x: e.clientX, y: e.clientX});
         // });
+    }
+
+    /**
+     * 一个页面存在多个编辑器时能分开控制
+     * @returns 
+     */
+    public clone(): EditorService {
+        if (this.used) {
+            return new EditorService(this.injector);
+        }
+        this.used = true;
+        return this;
     }
 
     public ready(element: HTMLTextAreaElement|HTMLDivElement|IEditorElement, modalTarget?: ViewContainerRef) {
@@ -75,16 +88,19 @@ export class EditorService implements IEditorContainer {
             const module = this.option.hotKeyModule(modifiers.join('+'));
             if (module) {
                 e.preventDefault();
+                e.stopPropagation();
                 this.execute(module);
                 return;
             }
             if (e.key === 'Enter') {
                 e.preventDefault();
+                e.stopPropagation();
                 this.insert({type: EditorBlockType.AddLineBreak});
                 return;
             }
             if (e.key === 'Tab') {
                 e.preventDefault();
+                e.stopPropagation();
                 this.insert({type: EditorBlockType.Indent});
             }
         });
@@ -103,7 +119,10 @@ export class EditorService implements IEditorContainer {
             if (maxUndoCount < this.undoStack.length) {
                 this.undoStack.splice(0, this.undoStack.length - maxUndoCount - 1);
             }
-            this.undoStack.push(this.value);
+            const val = this.value;
+            if (this.undoStack.length === 0 || val != this.undoStack[this.undoIndex - 1]) {
+                this.undoStack.push(val);
+            }
             this.undoIndex = this.undoStack.length - 1;
             this.emit(EDITOR_EVENT_UNDO_CHANGE);
         });
@@ -211,7 +230,7 @@ export class EditorService implements IEditorContainer {
         this.asyncTimer = window.setTimeout(() => {
             this.asyncTimer = 0;
             this.emit(EDITOR_EVENT_EDITOR_AUTO_SAVE);
-        }, 2000);
+        }, 500);
     }
 
     public blur() {

@@ -33,12 +33,14 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
     public size = 0;
     public previewValue = '';
     public isFullScreen = false;
+    private container: EditorService;
     onChange: any = () => { };
     onTouch: any = () => { };
 
     constructor(
-        private container: EditorService
+        container: EditorService
     ) {
+        this.container = container.clone();
         this.container.option.merge({
             toolbar: {
                 left: ['bold', 'link', 'image', 'code'],

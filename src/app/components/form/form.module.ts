@@ -26,6 +26,8 @@ import { ColorLayerComponent } from './color-layer/color-layer.component';
 import { MultiSelectInputComponent } from './multi-select-input/multi-select-input.component';
 import { FormPanelComponent } from './form-panel/form-panel.component';
 import { ImageInputComponent } from './image-input/image-input.component';
+import { CommandBarComponent } from './command-bar/command-bar.component';
+import { CommandButtonComponent } from './command-bar/command-button';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -52,6 +54,8 @@ const COMPONENTS = [
     MultiSelectInputComponent,
     FormPanelComponent,
     ImageInputComponent,
+    CommandBarComponent,
+    CommandButtonComponent,
 ];
 
 @NgModule({

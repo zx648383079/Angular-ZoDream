@@ -1,3 +1,4 @@
+import { IButton } from '../../components/form';
 import { IUser } from '../../theme/models/user';
 
 export interface IForum {
