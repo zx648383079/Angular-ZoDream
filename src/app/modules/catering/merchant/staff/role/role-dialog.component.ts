@@ -16,6 +16,7 @@ interface IRoleGroup {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-catering-role-dialog',
     templateUrl: './role-dialog.component.html',
     styleUrls: ['./role-dialog.component.scss'],

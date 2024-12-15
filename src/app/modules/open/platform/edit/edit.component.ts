@@ -8,6 +8,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']

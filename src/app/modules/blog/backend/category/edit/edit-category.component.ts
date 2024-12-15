@@ -6,6 +6,7 @@ import { ICategory } from '../../../model';
 import { BlogService } from '../../blog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-category',
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.scss']

@@ -9,6 +9,7 @@ import { FinanceService } from '../finance.service';
 import { IBudget } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-budget',
   templateUrl: './budget.component.html',
   styleUrls: ['./budget.component.scss']

@@ -11,6 +11,7 @@ import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-goods',
   templateUrl: './goods.component.html',
   styleUrls: ['./goods.component.scss']

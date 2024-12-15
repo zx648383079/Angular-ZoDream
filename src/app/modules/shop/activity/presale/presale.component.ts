@@ -8,6 +8,7 @@ import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-presale',
   templateUrl: './presale.component.html',
   styleUrls: ['./presale.component.scss']

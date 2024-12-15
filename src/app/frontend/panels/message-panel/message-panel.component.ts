@@ -4,6 +4,7 @@ import { IPage } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-message-panel',
     templateUrl: './message-panel.component.html',
     styleUrls: ['./message-panel.component.scss']

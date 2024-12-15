@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-line-control',
   templateUrl: './line-control.component.html',
   styleUrls: ['./line-control.component.scss']

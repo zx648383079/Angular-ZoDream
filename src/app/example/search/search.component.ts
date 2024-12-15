@@ -7,6 +7,7 @@ import { SearchService } from '../../theme/services';
 import { mapFormat } from '../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-example-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']

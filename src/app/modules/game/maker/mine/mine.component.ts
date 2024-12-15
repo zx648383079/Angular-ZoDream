@@ -7,6 +7,7 @@ import { IGameMine } from '../../model';
 import { GameMakerService } from '../game-maker.service';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-mine',
   templateUrl: './mine.component.html',
   styleUrls: ['./mine.component.scss']

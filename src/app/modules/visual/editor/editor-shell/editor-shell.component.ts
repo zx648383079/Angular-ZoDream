@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-shell',
   templateUrl: './editor-shell.component.html',
   styleUrls: ['./editor-shell.component.scss']

@@ -6,9 +6,10 @@ import { DialogService } from '../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../theme/services';
 import { IItem } from '../../../../theme/models/seo';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-broswer',
     templateUrl: './broswer.component.html',
     styleUrls: ['./broswer.component.scss']
@@ -36,7 +37,7 @@ export class BroswerComponent implements OnInit {
         {name: '是否支持Cookie', value: 6},
         {name: '网络提供商', value: 7},
     ];
-    public options?: EChartsOption;
+    public options?: EChartsCoreOption;
     public data?: ITrendAnalysis;
 
     constructor(
@@ -102,7 +103,7 @@ export class BroswerComponent implements OnInit {
 
     private formatChart() {
         const items = this.items;
-        this.options = <EChartsOption>{
+        this.options = <EChartsCoreOption>{
             // title: {
             //     text: '流量趋势分析',
             //     left: 'center',

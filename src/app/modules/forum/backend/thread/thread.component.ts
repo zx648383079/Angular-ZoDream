@@ -7,6 +7,7 @@ import { IForum, IThread } from '../../model';
 import { ForumService } from '../forum.service';
 
 @Component({
+    standalone: false,
   selector: 'app-thread',
   templateUrl: './thread.component.html',
   styleUrls: ['./thread.component.scss']

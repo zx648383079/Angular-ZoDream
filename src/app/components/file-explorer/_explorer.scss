@@ -2,7 +2,7 @@ $headerHeight: 2.5rem;
 $border: 1px solid gray;
 $itemRadius: .25rem;
 
-@import '../../theme/styles/scrollbar';
+@use '../../theme/styles/scrollbar';
 
 .explorer-header {
     display: flex;
@@ -126,7 +126,7 @@ $itemRadius: .25rem;
         overflow: auto;
         width: 10rem;
         border-right: $border;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     app-file-explorer-panel {
         position: relative;
@@ -238,7 +238,7 @@ $itemRadius: .25rem;
         left: 0;
         right: 0;
         overflow-y: auto;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .file-row-meta {
         width: 6.5rem;

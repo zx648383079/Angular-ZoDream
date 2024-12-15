@@ -3,6 +3,7 @@ import { DialogAnimation } from '../../../../theme/constants';
 import { IUser } from '../../../../theme/models/user';
 
 @Component({
+    standalone: false,
     selector: 'app-login-dialog',
     templateUrl: './login-dialog.component.html',
     styleUrls: ['./login-dialog.component.scss'],

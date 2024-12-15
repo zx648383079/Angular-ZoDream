@@ -1,5 +1,5 @@
 @use "sass:math";
-@import '../../theme/styles/scrollbar';
+@use '../../theme/styles/scrollbar';
 $size: 40px;
 $boxWidth: $size * 7;
 
@@ -185,7 +185,7 @@ $minBoxWidth: $size * 7;
         ul {
             overflow-y: auto;
             border: 1px solid #eee;
-            @include scrollbar();
+            @include scrollbar.scrollbar();
         }
     }
 }

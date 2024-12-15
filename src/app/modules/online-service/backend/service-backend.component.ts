@@ -13,6 +13,7 @@ const LOOP_SPACE_TIME = 20;
 const LOOP_SESSION_TIME = 120;
 
 @Component({
+    standalone: false,
   selector: 'app-service-backend',
   templateUrl: './service-backend.component.html',
   styleUrls: ['./service-backend.component.scss']

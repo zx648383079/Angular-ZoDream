@@ -1,4 +1,4 @@
-@import '../../../../../theme/styles/theme';
+@use '../../../../../theme/styles/theme';
 .dialog-box {
     margin-top: -15rem;
     width: 30rem;
@@ -7,7 +7,7 @@
 p {
     margin-bottom: 0;
 }
-.#{$prefix}-input-group {
+.#{theme.$prefix}-input-group {
     margin-bottom: 10px;
     label {
         line-height: 30px;

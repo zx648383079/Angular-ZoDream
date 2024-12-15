@@ -3,6 +3,7 @@ import { CustomDialogEvent } from '../../../../../components/dialog';
 import { IQuestion } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-question-children',
   templateUrl: './question-children.component.html',
   styleUrls: ['./question-children.component.scss']

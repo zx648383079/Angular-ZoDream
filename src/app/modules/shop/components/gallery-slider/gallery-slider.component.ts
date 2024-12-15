@@ -4,6 +4,7 @@ import { mediaIsFrame } from '../../../../components/media-player/util';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+    standalone: false,
   selector: 'app-gallery-slider',
   templateUrl: './gallery-slider.component.html',
   styleUrls: ['./gallery-slider.component.scss']

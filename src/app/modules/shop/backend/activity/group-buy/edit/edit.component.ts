@@ -6,6 +6,7 @@ import { IActivity, IGroupBuyConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-group-buy-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

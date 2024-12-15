@@ -6,6 +6,7 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree, toggleTreeItem } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

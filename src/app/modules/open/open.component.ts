@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OpenService } from './open.service';
 
 @Component({
+    standalone: false,
   selector: 'app-open',
   templateUrl: './open.component.html',
   styleUrls: ['./open.component.scss']

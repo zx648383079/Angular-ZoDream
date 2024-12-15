@@ -8,6 +8,7 @@ import { GameMakerService } from '../game-maker.service';
 import { parseNumber } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-indigenous',
     templateUrl: './indigenous.component.html',
     styleUrls: ['./indigenous.component.scss']

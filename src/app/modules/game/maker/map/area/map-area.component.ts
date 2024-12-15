@@ -9,6 +9,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-map-area',
   templateUrl: './map-area.component.html',
   styleUrls: ['./map-area.component.scss']

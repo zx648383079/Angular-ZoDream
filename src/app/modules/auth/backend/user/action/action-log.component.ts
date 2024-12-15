@@ -7,6 +7,7 @@ import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-action-log',
   templateUrl: './action-log.component.html',
   styleUrls: ['./action-log.component.scss']

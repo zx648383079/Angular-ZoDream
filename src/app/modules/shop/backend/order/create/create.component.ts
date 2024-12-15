@@ -8,6 +8,7 @@ import { OrderService } from '../order.service';
 import { SearchDialogComponent } from '../../../components';
 
 @Component({
+    standalone: false,
     selector: 'app-create',
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.scss'],

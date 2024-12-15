@@ -8,6 +8,7 @@ import { IPageEvaluate } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-evaluate',
   templateUrl: './evaluate.component.html',
   styleUrls: ['./evaluate.component.scss']

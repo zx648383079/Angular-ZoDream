@@ -5,6 +5,7 @@ import { IComment, IVideo } from '../model';
 import { VideoService } from '../video.service';
 
 @Component({
+    standalone: false,
   selector: 'app-video-detail',
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.scss']

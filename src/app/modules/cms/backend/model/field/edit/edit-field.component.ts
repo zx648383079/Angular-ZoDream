@@ -7,6 +7,7 @@ import { ICmsFormGroup, ICmsFormInput, ICmsModelField } from '../../../../model'
 import { CmsService } from '../../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-field',
   templateUrl: './edit-field.component.html',
   styleUrls: ['./edit-field.component.scss']

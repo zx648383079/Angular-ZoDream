@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, View
 import { formatHour } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-circle-progress',
     templateUrl: './circle-progress.component.html',
     styleUrls: ['./circle-progress.component.scss']

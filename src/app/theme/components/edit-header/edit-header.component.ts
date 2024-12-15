@@ -3,9 +3,10 @@ import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../services';
 
 @Component({
-  selector: 'app-edit-header',
-  templateUrl: './edit-header.component.html',
-  styleUrls: ['./edit-header.component.scss']
+    standalone: false,
+    selector: 'app-edit-header',
+    templateUrl: './edit-header.component.html',
+    styleUrls: ['./edit-header.component.scss']
 })
 export class EditHeaderComponent implements OnChanges, ButtonEvent {
 

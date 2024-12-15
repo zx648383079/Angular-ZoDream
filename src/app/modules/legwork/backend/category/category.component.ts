@@ -9,6 +9,7 @@ import { ICategory } from '../../model';
 import { LegworkService } from '../legwork.service';
 
 @Component({
+    standalone: false,
     selector: 'app-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']

@@ -6,6 +6,7 @@ import { SearchDialogEvent } from '../../dialog';
 import { IItem } from '../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-file-online',
     templateUrl: './file-online.component.html',
     styleUrls: ['./file-online.component.scss']

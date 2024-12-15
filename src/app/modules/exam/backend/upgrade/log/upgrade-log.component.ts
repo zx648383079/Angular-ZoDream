@@ -6,6 +6,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-upgrade-log',
   templateUrl: './upgrade-log.component.html',
   styleUrls: ['./upgrade-log.component.scss']

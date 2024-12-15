@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

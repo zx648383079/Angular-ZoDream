@@ -6,6 +6,7 @@ import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],

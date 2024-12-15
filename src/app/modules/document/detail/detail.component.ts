@@ -10,6 +10,7 @@ import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

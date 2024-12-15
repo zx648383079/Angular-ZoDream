@@ -9,6 +9,7 @@ import { confirmValidator } from '../../../../../theme/validators';
 import { AuthService } from '../../auth.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

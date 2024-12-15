@@ -7,6 +7,7 @@ import { IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

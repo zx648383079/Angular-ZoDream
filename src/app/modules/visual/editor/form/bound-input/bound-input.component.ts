@@ -2,6 +2,7 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-bound-input',
     templateUrl: './bound-input.component.html',
     styleUrls: ['./bound-input.component.scss'],

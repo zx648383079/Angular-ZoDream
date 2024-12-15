@@ -13,6 +13,7 @@ interface IGroupHeader {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-member-setting',
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']

@@ -12,6 +12,7 @@ import {
 import { mobileValidate, passwordValidate } from './validate';
 
 @Directive({
+    standalone: false,
     selector: '[appPassword]',
     providers: [{
         provide: NG_VALIDATORS,

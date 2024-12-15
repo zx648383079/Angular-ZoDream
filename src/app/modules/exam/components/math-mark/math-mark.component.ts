@@ -13,6 +13,7 @@ interface IMarkItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-math-mark',
   templateUrl: './math-mark.component.html',
   styleUrls: ['./math-mark.component.scss']

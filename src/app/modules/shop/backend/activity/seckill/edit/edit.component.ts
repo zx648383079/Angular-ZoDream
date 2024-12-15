@@ -6,6 +6,7 @@ import { IActivity } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-skill-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

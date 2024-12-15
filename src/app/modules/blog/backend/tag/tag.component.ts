@@ -4,6 +4,7 @@ import { ITag } from '../../model';
 import { BlogService } from '../blog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss']

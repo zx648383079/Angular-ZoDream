@@ -15,6 +15,7 @@ import { SearchEvents } from '../../../theme/models/event';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-reader',
     templateUrl: './reader.component.html',
     styleUrls: ['./reader.component.scss']

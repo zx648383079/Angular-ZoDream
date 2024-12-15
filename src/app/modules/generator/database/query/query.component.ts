@@ -4,6 +4,7 @@ import { DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
 
 @Component({
+    standalone: false,
   selector: 'app-query',
   templateUrl: './query.component.html',
   styleUrls: ['./query.component.scss']

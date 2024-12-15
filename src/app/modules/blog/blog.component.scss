@@ -1,6 +1,6 @@
 $leftWidth: 25rem;
 
-@import "../../theme/styles/scrollbar";
+@use "../../theme/styles/scrollbar";
 .master-box {
     position: absolute;
     left: 0;
@@ -39,7 +39,7 @@ $leftWidth: 25rem;
 
 .filter-item {
     overflow-x: auto;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
     ul,
     li {
         margin: 0;
@@ -65,7 +65,7 @@ $leftWidth: 25rem;
 .items-box {
     flex: 1;
     overflow-y: auto;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
 }
 
 .book-item {
@@ -159,7 +159,7 @@ $leftWidth: 25rem;
         position: relative;
         overflow-y: auto;
         padding: 0 15px;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .info {
         border-bottom: 1px dotted #a10000;

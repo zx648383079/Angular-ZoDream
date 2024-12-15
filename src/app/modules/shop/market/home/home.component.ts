@@ -5,6 +5,7 @@ import { ShopService } from '../../shop.service';
 import { IAd } from '../../../ad-sense/model';
 
 @Component({
+    standalone: false,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],

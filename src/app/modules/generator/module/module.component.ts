@@ -8,6 +8,7 @@ import { GenerateService } from '../generate.service';
 import { IPreviewFile } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-module',
   templateUrl: './module.component.html',
   styleUrls: ['./module.component.scss']

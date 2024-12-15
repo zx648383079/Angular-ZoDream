@@ -10,6 +10,7 @@ import { selectAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']

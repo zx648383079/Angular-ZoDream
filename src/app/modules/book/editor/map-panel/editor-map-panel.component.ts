@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-map-panel',
   templateUrl: './editor-map-panel.component.html',
   styleUrls: ['./editor-map-panel.component.scss']

@@ -7,6 +7,7 @@ import { ICategory, IResource } from '../../model';
 import { ResourceService } from '../resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-resource',
   templateUrl: './resource.component.html',
   styleUrls: ['./resource.component.scss']

@@ -7,6 +7,7 @@ import { BookService } from '../book.service';
 import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-role-panel',
     templateUrl: './editor-role-panel.component.html',
     styleUrls: ['./editor-role-panel.component.scss'],

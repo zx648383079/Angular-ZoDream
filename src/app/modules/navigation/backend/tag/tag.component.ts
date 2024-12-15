@@ -8,6 +8,7 @@ import { ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss']

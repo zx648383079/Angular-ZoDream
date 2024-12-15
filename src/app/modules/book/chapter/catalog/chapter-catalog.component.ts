@@ -8,6 +8,7 @@ import { IChapter } from '../../model';
 import { formatTime } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-chapter-catalog',
     templateUrl: './chapter-catalog.component.html',
     styleUrls: ['./chapter-catalog.component.scss']

@@ -14,6 +14,7 @@ import { IItem } from '../../../theme/models/seo';
 import { TextElement } from './text-editor';
 
 @Component({
+    standalone: false,
     selector: 'app-book-editor',
     templateUrl: './book-editor.component.html',
     styleUrls: ['./book-editor.component.scss'],

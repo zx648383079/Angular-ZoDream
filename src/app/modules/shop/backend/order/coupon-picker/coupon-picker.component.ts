@@ -4,6 +4,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { ICoupon } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-coupon-picker',
     templateUrl: './coupon-picker.component.html',
     styleUrls: ['./coupon-picker.component.scss'],

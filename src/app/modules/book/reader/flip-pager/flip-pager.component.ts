@@ -34,6 +34,7 @@ export interface IRequestEvent {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-flip-pager',
     templateUrl: './flip-pager.component.html',
     styleUrls: ['./flip-pager.component.scss']

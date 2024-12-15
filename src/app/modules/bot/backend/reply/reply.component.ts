@@ -9,6 +9,7 @@ import { EditorTypeItems, EventItems, IBotReply } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-reply',
   templateUrl: './reply.component.html',
   styleUrls: ['./reply.component.scss']

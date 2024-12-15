@@ -3,6 +3,7 @@ import { IPage, IPageQueries } from '../../../../theme/models/page';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-bag',
     templateUrl: './bag.component.html',
     styleUrls: ['./bag.component.scss']

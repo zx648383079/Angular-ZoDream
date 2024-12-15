@@ -1,9 +1,9 @@
-@import '../../theme/styles/scrollbar';
+@use '../../theme/styles/scrollbar';
 :host {
     flex: 1;
     padding: 0 0.625rem;
     overflow-y: auto;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
 }
 .message-container {
     // height: 60vh;

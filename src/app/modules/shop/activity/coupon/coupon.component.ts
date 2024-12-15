@@ -8,6 +8,7 @@ import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-coupon',
   templateUrl: './coupon.component.html',
   styleUrls: ['./coupon.component.scss']

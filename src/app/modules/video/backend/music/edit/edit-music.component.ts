@@ -8,6 +8,7 @@ import { IMusic } from '../../../model';
 import { VideoService } from '../../video.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-music',
   templateUrl: './edit-music.component.html',
   styleUrls: ['./edit-music.component.scss']

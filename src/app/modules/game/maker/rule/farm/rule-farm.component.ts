@@ -6,6 +6,7 @@ import { IGameFarmPlot } from '../../../model';
 import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-rule-farm',
     templateUrl: './rule-farm.component.html',
     styleUrls: ['./rule-farm.component.scss']

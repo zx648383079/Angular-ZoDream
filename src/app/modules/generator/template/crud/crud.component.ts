@@ -5,6 +5,7 @@ import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss']

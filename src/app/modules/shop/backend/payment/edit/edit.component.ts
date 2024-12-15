@@ -9,6 +9,7 @@ import { IPayment, IShipping } from '../../../model';
 import { PaymentService } from '../../payment.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

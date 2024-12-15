@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 
 @Component({
+    standalone: false,
     selector: 'app-member-space',
     templateUrl: './member-space.component.html',
     styleUrls: ['./member-space.component.scss']

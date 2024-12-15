@@ -3,6 +3,7 @@ import { SuggestChangeEvent, SuggestEvent } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-auto-suggest-box',
     templateUrl: './auto-suggest-box.component.html',
     styleUrls: ['./auto-suggest-box.component.scss']

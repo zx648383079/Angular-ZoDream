@@ -11,6 +11,7 @@ import { BookService } from '../book.service';
 import { IAuthorProfile, IBook } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-book-member',
   templateUrl: './book-member.component.html',
   styleUrls: ['./book-member.component.scss']

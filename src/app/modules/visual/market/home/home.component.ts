@@ -3,6 +3,7 @@ import { IThemeComponent } from '../../model';
 import { VisualService } from '../visual.service';
 
 @Component({
+    standalone: false,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

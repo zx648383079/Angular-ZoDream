@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-bulletin-send',
     templateUrl: './bulletin-send.component.html',
     styleUrls: ['./bulletin-send.component.scss']

@@ -7,6 +7,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-agreement',
   templateUrl: './edit-agreement.component.html',
   styleUrls: ['./edit-agreement.component.scss']

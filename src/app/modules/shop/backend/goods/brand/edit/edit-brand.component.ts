@@ -12,6 +12,7 @@ import { FileUploadService } from '../../../../../../theme/services/file-upload.
 import { GoodsService } from '../../goods.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-brand',
     templateUrl: './edit-brand.component.html',
     styleUrls: ['./edit-brand.component.scss']

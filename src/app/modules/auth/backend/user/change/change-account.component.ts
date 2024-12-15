@@ -7,6 +7,7 @@ import { AuthService } from '../../auth.service';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-change-account',
     templateUrl: './change-account.component.html',
     styleUrls: ['./change-account.component.scss']

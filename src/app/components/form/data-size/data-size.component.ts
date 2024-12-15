@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { parseNumber } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-data-size',
     templateUrl: './data-size.component.html',
     styleUrls: ['./data-size.component.scss'],

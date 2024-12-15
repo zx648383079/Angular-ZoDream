@@ -8,6 +8,7 @@ import { IWord } from '../../model';
 import { OnlineBackendService } from '../online.service';
 
 @Component({
+    standalone: false,
   selector: 'app-word',
   templateUrl: './word.component.html',
   styleUrls: ['./word.component.scss']

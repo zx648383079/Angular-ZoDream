@@ -12,6 +12,7 @@ import { IErrorResponse } from '../../theme/models/page';
 import { DialogueComponent } from './pages/dialogue/dialogue.component';
 
 @Component({
+    standalone: false,
     selector: 'app-game',
     templateUrl: './game.component.html',
     styleUrls: ['./game.component.scss']

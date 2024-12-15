@@ -1,4 +1,4 @@
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/theme';
 
 $radius: .5rem;
 $shadow: rgba(0,0,0,.125);
@@ -9,7 +9,7 @@ $shadow: rgba(0,0,0,.125);
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 1px $shadow, 0 1px 3px $shadow;
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     .panel-body {
         flex: 1;
         overflow-y: auto;

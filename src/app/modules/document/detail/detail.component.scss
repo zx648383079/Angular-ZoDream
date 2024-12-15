@@ -1,4 +1,4 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 
 ul,
 li {
@@ -34,7 +34,7 @@ li {
     .bar-top {
         overflow-y: auto;
         flex: 1;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         padding: 10px 0;
     }
     .bar-search {

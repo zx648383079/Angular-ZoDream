@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-edit-media',
   templateUrl: './edit-media.component.html',
   styleUrls: ['./edit-media.component.scss']

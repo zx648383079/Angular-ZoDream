@@ -7,6 +7,7 @@ import { CateringService } from '../../../catering.service';
 import { ICateringPurchaseOrder } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-purchase-order',
     templateUrl: './purchase-order.component.html',
     styleUrls: ['./purchase-order.component.scss']

@@ -7,6 +7,7 @@ import { IMusic } from '../../model';
 import { VideoService } from '../video.service';
 
 @Component({
+    standalone: false,
   selector: 'app-music',
   templateUrl: './music.component.html',
   styleUrls: ['./music.component.scss']

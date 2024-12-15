@@ -11,6 +11,7 @@ interface ITurnItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-turntable',
   templateUrl: './turntable.component.html',
   styleUrls: ['./turntable.component.scss']

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-file-explorer-catalog',
   templateUrl: './file-explorer-catalog.component.html',
   styleUrls: ['./file-explorer-catalog.component.scss']

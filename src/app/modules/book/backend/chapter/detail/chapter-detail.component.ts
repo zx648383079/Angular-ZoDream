@@ -8,6 +8,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-chapter-detail',
   templateUrl: './chapter-detail.component.html',
   styleUrls: ['./chapter-detail.component.scss']

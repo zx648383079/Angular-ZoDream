@@ -3,6 +3,7 @@ import { DialogService } from '../../../components/dialog';
 import { SystemService } from '../system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-sql',
   templateUrl: './sql.component.html',
   styleUrls: ['./sql.component.scss']

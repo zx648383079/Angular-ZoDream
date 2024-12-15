@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-mix',
   templateUrl: './mix.component.html',
   styleUrls: ['./mix.component.scss']

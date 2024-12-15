@@ -8,6 +8,7 @@ import { FrontendService } from '../frontend.service';
 import { NavToggle, SearchEvents } from '../../theme/models/event';
 
 @Component({
+    standalone: false,
   selector: 'app-agreement',
   templateUrl: './agreement.component.html',
   styleUrls: ['./agreement.component.scss']

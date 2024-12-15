@@ -10,6 +10,7 @@ import { FileTypeItems, ISoftware, ISoftwarePackage } from '../../../model';
 import { AppService } from '../../app.service';
 
 @Component({
+    standalone: false,
     selector: 'app-package',
     templateUrl: './package.component.html',
     styleUrls: ['./package.component.scss']

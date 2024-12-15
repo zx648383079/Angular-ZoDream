@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-forum-member',
   templateUrl: './forum-member.component.html',
   styleUrls: ['./forum-member.component.scss']

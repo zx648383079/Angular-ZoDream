@@ -4,6 +4,7 @@ import { ICategory } from '../../../model';
 import { GoodsService } from '../goods.service';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

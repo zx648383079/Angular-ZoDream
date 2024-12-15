@@ -5,6 +5,7 @@ import { LegworkService } from '../../legwork.service';
 import { ICategory, IProvider } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']

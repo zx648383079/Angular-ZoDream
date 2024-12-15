@@ -2,6 +2,7 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-mask-input',
     templateUrl: './mask-input.component.html',
     styleUrls: ['./mask-input.component.scss'],

@@ -7,6 +7,7 @@ import { ActivityService } from '../../activity.service';
 import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-wholesale-edit',
     templateUrl: './wholesale-edit.component.html',
     styleUrls: ['./wholesale-edit.component.scss']

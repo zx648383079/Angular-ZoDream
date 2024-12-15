@@ -4,6 +4,7 @@ import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.compone
 import { FileExplorerImageEditorComponent } from '../tools';
 
 @Component({
+    standalone: false,
   selector: 'app-file-explorer-dialog',
   templateUrl: './file-explorer-dialog.component.html',
   styleUrls: ['./file-explorer-dialog.component.scss']

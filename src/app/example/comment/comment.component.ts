@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { randomInt } from '../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-example-comment',
     templateUrl: './comment.component.html',
     styleUrls: ['./comment.component.scss']

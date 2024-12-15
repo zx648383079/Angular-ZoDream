@@ -1,5 +1,5 @@
-@import '../../../../components/editor/editPage';
-@import '../../../../components/editor/panel';
+@use '../../../../components/editor/editPage';
+@use '../../../../components/editor/panel';
 .title-input {
     .form-control {
         margin-left: 1rem;

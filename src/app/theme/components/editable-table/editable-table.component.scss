@@ -1,4 +1,4 @@
-@import '../../styles/scrollbar';
+@use '../../styles/scrollbar';
 .drop-menu-btn {
     position: relative;
     .drop-menu-body {
@@ -11,7 +11,7 @@
         min-width: 10em;
         left: -5em;
         z-index: 88;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .menu-item {
         line-height: 2em;

@@ -4,6 +4,7 @@ import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
 
 @Component({
+    standalone: false,
   selector: 'app-option-input',
   templateUrl: './option-input.component.html',
   styleUrls: ['./option-input.component.scss']

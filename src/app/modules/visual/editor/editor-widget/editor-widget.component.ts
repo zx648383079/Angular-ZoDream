@@ -4,6 +4,7 @@ import { Widget } from '../model';
 import { boundFromScale, elementBound } from '../util';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-widget',
   templateUrl: './editor-widget.component.html',
   styleUrls: ['./editor-widget.component.scss']

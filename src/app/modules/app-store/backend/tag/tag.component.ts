@@ -7,6 +7,7 @@ import { ITag } from '../../model';
 import { AppService } from '../app.service';
 
 @Component({
+    standalone: false,
   selector: 'app-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss']

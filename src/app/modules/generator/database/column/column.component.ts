@@ -5,6 +5,7 @@ import { GenerateService } from '../../generate.service';
 import { IColumn } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss']

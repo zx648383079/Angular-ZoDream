@@ -1,4 +1,4 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 .detail-box {
     text-align: center;
     padding: 5vh;
@@ -60,7 +60,7 @@
         display: none;
         max-height: 80vh;
         overflow-y: auto;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     &.open {
         .expand-header {

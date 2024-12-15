@@ -26,6 +26,7 @@ import { ThemeService } from '../theme/services';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
     selector: 'app-backend',
     templateUrl: './backend.component.html',
     styleUrls: ['./backend.component.scss']

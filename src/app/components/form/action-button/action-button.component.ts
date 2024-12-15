@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
 import { ButtonEvent } from '../event';
 
 @Component({
+    standalone: false,
     selector: 'app-action-button',
     templateUrl: './action-button.component.html',
     styleUrls: ['./action-button.component.scss'],

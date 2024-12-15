@@ -2,6 +2,7 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-align-input',
     templateUrl: './align-input.component.html',
     styleUrls: ['./align-input.component.scss'],

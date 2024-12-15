@@ -3,6 +3,7 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 import { IEditorOptionItem } from '../../base';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-search',
   templateUrl: './editor-search.component.html',
   styleUrls: ['./editor-search.component.scss']

@@ -1,10 +1,15 @@
-@import './styles/variables';
+@use './styles/variables';
+@use './styles/form';
+@use './styles/goods';
+@use './styles/menu';
+@use './styles/tab';
+@use './styles/panel';
 .shop-container ::ng-deep { 
-    @import './styles/form';
-    @import './styles/goods';
-    @import './styles/menu';
-    @import './styles/tab';
-    @import './styles/panel';
+    @include form.container;
+    @include goods.container;
+    @include menu.container;
+    @include tab.container;
+    @include panel.container;
     @media (min-width: 768px) {
         .side-box {
             display: grid;

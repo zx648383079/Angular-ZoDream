@@ -9,6 +9,7 @@ import { ShopService } from '../shop.service';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
   selector: 'app-member',
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']

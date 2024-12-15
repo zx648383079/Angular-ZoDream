@@ -9,6 +9,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { MemberService } from '../member.service';
 
 @Component({
+    standalone: false,
     selector: 'app-member-password',
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']

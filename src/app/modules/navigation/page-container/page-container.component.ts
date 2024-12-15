@@ -4,6 +4,7 @@ import { ISite, IWebPage } from '../model';
 import { formatDomain } from '../util';
 
 @Component({
+    standalone: false,
   selector: 'app-navigation-page-container',
   templateUrl: './page-container.component.html',
   styleUrls: ['./page-container.component.scss']

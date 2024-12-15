@@ -4,6 +4,7 @@ import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-game-team-piazza',
     templateUrl: './team-piazza.component.html',
     styleUrls: ['./team-piazza.component.scss']

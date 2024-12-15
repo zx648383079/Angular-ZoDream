@@ -10,6 +10,7 @@ import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-plan',
     templateUrl: './plan.component.html',
     styleUrls: ['./plan.component.scss'],

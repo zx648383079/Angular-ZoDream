@@ -8,6 +8,7 @@ import { ICourse, IQuestionMaterial } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-material',
   templateUrl: './material.component.html',
   styleUrls: ['./material.component.scss']

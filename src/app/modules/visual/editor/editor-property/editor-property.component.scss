@@ -1,4 +1,4 @@
-@import "../../../../theme/styles/scrollbar";
+@use "../../../../theme/styles/scrollbar";
 .property-panel {
     position: fixed;
     z-index: 102;
@@ -30,7 +30,7 @@
     .tab-body {
         overflow-y: auto;
         overflow-x: hidden;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         .tab-item {
             padding: .8rem 0;
         }

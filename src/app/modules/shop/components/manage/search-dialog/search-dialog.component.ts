@@ -6,6 +6,7 @@ import { ProductDialogComponent } from '../product-dialog/product-dialog.compone
 import { HttpClient } from '@angular/common/http';
 
 @Component({
+    standalone: false,
   selector: 'app-search-dialog',
   templateUrl: './search-dialog.component.html',
   styleUrls: ['./search-dialog.component.scss']

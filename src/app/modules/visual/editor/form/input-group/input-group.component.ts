@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-input-group',
     template: `
     <i class="control-updated-tag" [hidden]="isEmpty" (click)="reset.emit()"></i>

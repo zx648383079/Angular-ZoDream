@@ -10,6 +10,7 @@ import { IShortLink } from '../../model';
 import { ShortLinkService } from '../short-link.service';
 
 @Component({
+    standalone: false,
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']

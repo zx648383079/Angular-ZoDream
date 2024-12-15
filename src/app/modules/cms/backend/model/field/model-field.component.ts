@@ -5,6 +5,7 @@ import { ICmsModelField } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-model-field',
   templateUrl: './model-field.component.html',
   styleUrls: ['./model-field.component.scss']

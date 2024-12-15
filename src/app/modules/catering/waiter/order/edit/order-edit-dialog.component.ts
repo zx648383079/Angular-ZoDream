@@ -4,6 +4,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-order-edit-dialog',
     templateUrl: './order-edit-dialog.component.html',
     styleUrls: ['./order-edit-dialog.component.scss'],

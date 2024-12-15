@@ -7,6 +7,7 @@ import { OpenService } from '../open.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-authorize',
   templateUrl: './authorize.component.html',
   styleUrls: ['./authorize.component.scss']

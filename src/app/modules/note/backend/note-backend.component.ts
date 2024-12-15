@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NoteService } from './note.service';
 
 @Component({
+    standalone: false,
   selector: 'app-note-backend',
   templateUrl: './note-backend.component.html',
   styleUrls: ['./note-backend.component.scss']

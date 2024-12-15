@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IMediaActionEvent, IMediaFile, MediaAction } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-play-list',
   templateUrl: './play-list.component.html',
   styleUrls: ['./play-list.component.scss']

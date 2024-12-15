@@ -4,6 +4,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 
 @Component({
+    standalone: false,
   selector: 'app-import',
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss']

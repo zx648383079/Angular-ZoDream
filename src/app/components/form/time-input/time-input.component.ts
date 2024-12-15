@@ -4,6 +4,7 @@ import { rangeStep, twoPad } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-time-input',
     templateUrl: './time-input.component.html',
     styleUrls: ['./time-input.component.scss'],

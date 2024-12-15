@@ -7,6 +7,7 @@ import { IImageAction, ImageActionItems } from './action';
 import { ISize } from '../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
     selector: 'app-file-explorer-image-editor',
     templateUrl: './file-explorer-image-editor.component.html',
     styleUrls: ['./file-explorer-image-editor.component.scss']

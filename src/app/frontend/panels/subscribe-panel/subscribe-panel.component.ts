@@ -6,6 +6,7 @@ import { emailValidate } from '../../../theme/validators';
 import { DialogService } from '../../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-subscribe-panel',
     templateUrl: './subscribe-panel.component.html',
     styleUrls: ['./subscribe-panel.component.scss']

@@ -4,6 +4,7 @@ import { ICoupon } from '../../model';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-coupon',
   templateUrl: './coupon.component.html',
   styleUrls: ['./coupon.component.scss']

@@ -6,6 +6,7 @@ import { ITaskComment } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-comment-panel',
     templateUrl: './comment-panel.component.html',
     styleUrls: ['./comment-panel.component.scss'],

@@ -3,6 +3,7 @@ import { IConnect } from '../../../../../theme/models/auth';
 import { ShopService } from '../../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-account-center',
   templateUrl: './account-center.component.html',
   styleUrls: ['./account-center.component.scss']

@@ -7,6 +7,7 @@ import { IUser } from '../../../../theme/models/user';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

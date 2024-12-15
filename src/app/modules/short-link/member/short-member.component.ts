@@ -8,6 +8,7 @@ import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-short-member',
     templateUrl: './short-member.component.html',
     styleUrls: ['./short-member.component.scss']

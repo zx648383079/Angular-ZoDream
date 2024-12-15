@@ -3,6 +3,7 @@ import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode 
 import { randomInt } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-music-player',
     templateUrl: './music-player.component.html',
     styleUrls: ['./music-player.component.scss']

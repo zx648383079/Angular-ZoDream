@@ -2,7 +2,8 @@ import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/cor
 import { scrollTop } from '../utils/doc';
 
 @Directive({
-  selector: '[appScrollFixed]'
+    standalone: false,
+    selector: '[appScrollFixed]'
 })
 export class ScrollFixedDirective implements OnInit {
 

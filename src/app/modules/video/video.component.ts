@@ -8,6 +8,7 @@ import { IVideo } from './model';
 import { VideoService } from './video.service';
 
 @Component({
+    standalone: false,
   selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss']

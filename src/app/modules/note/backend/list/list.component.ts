@@ -8,6 +8,7 @@ import { NoteService } from '../note.service';
 import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-note-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']

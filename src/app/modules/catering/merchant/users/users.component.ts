@@ -8,6 +8,7 @@ import { ICateringCategory, ICateringPatron, ICateringPatronGroup } from '../../
 import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.component';
 
 @Component({
+    standalone: false,
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']

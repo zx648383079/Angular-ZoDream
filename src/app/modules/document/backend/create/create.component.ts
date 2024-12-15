@@ -6,6 +6,7 @@ import { ICategory, IProject } from '../../model';
 import { DocumentService } from '../document.service';
 
 @Component({
+    standalone: false,
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']

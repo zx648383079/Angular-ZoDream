@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-collect',
   templateUrl: './collect.component.html',
   styleUrls: ['./collect.component.scss']

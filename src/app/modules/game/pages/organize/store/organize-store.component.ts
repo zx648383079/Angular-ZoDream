@@ -3,6 +3,7 @@ import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScen
 import { IPageQueries, IPage } from '../../../../../theme/models/page';
 
 @Component({
+    standalone: false,
   selector: 'app-game-organize-store',
   templateUrl: './organize-store.component.html',
   styleUrls: ['./organize-store.component.scss']

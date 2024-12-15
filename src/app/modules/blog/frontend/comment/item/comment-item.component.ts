@@ -10,6 +10,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { BlogService } from '../../blog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-comment-item',
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.scss']

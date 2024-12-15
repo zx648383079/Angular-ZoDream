@@ -7,6 +7,7 @@ import { CateringService } from '../../catering.service';
 import { ICateringOrder } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-waiter-log',
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']

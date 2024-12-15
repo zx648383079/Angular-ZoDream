@@ -4,6 +4,7 @@ import { IRuleLine } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-rule-bar',
     templateUrl: './editor-rule-bar.component.html',
     styleUrls: ['./editor-rule-bar.component.scss']

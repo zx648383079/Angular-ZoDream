@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
 import { FinanceService } from '../../finance.service';
 import { IBudget } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-budget-container',
   templateUrl: './budget-container.component.html',
   styleUrls: ['./budget-container.component.scss']
@@ -14,7 +15,7 @@ export class BudgetContainerComponent implements OnInit {
 
     public isLoading = true;
     public data: IBudget;
-    public options: EChartsOption;
+    public options: EChartsCoreOption;
     public cycleFormat = '';
     public total = 0;
     public budgetTotal = 0;

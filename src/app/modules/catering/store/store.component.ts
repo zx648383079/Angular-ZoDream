@@ -4,6 +4,7 @@ import { ICateringCategory, ICateringProduct } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 
 @Component({
+    standalone: false,
   selector: 'app-catering-store',
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.scss']

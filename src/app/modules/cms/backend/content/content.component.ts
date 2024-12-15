@@ -8,6 +8,7 @@ import { CmsService } from '../cms.service';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss']

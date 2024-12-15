@@ -8,6 +8,7 @@ interface IGroupHeader {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-example-setting',
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.scss']

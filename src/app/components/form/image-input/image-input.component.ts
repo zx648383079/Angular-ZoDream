@@ -4,6 +4,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { IUploadResult, IUploadFile } from '../../../theme/models/open';
 
 @Component({
+    standalone: false,
     selector: 'app-image-input',
     templateUrl: './image-input.component.html',
     styleUrls: ['./image-input.component.scss'],

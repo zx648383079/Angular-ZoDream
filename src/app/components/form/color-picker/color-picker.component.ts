@@ -2,6 +2,7 @@ import { Component, EventEmitter, forwardRef, HostListener, Output } from '@angu
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.scss'],

@@ -6,6 +6,7 @@ import { emptyValidate, emailValidate, mobileValidate } from '../../../../../the
 import { MemberService } from '../../member.service';
 
 @Component({
+    standalone: false,
     selector: 'app-member-bind-step',
     templateUrl: './bind-step.component.html',
     styleUrls: ['./bind-step.component.scss']

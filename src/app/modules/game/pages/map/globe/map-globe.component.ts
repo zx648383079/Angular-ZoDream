@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { IGameScene, GameRouterInjectorToken, IGameRouter } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-map-globe',
     templateUrl: './map-globe.component.html',
     styleUrls: ['./map-globe.component.scss']

@@ -3,6 +3,7 @@ import { IItem } from '../../models/seo';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-toggle-bar',
     templateUrl: './toggle-bar.component.html',
     styleUrls: ['./toggle-bar.component.scss'],

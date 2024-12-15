@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-region',
     styleUrls: ['./region.component.scss'],
     templateUrl: 'region.component.html',

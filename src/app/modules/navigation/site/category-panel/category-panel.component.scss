@@ -1,9 +1,9 @@
-@import '../../../../theme/styles/scrollbar';
+@use '../../../../theme/styles/scrollbar';
 .panel {
     .panel-body {
         padding: 0;
         overflow-y: auto;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
 }
 

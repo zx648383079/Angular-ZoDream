@@ -8,6 +8,7 @@ import { ICategoryUser } from '../../model';
 import { OnlineBackendService } from '../online.service';
 
 @Component({
+    standalone: false,
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-label-control',
   templateUrl: './label-control.component.html',
   styleUrls: ['./label-control.component.scss']

@@ -3,6 +3,7 @@ import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-image',
   templateUrl: './editor-image.component.html',
   styleUrls: ['./editor-image.component.scss']

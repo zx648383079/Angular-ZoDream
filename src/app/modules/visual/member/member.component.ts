@@ -8,6 +8,7 @@ import { SearchService } from '../../../theme/services';
 import { UploadButtonEvent } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-member',
     templateUrl: './member.component.html',
     styleUrls: ['./member.component.scss']

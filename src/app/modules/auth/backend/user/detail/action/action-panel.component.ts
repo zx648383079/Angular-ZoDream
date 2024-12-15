@@ -5,6 +5,7 @@ import { AuthService } from '../../../auth.service';
 import { SearchService } from '../../../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-log-action-panel',
     templateUrl: './action-panel.component.html',
     styleUrls: ['./action-panel.component.scss']

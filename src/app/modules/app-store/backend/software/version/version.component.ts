@@ -9,6 +9,7 @@ import { ISoftware, ISoftwareVersion } from '../../../model';
 import { AppService } from '../../app.service';
 
 @Component({
+    standalone: false,
     selector: 'app-version',
     templateUrl: './version.component.html',
     styleUrls: ['./version.component.scss']

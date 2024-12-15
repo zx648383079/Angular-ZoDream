@@ -9,6 +9,7 @@ import { ICmsCategory, ICmsGroup, ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-category',
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.scss']

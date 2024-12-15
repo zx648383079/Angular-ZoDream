@@ -10,6 +10,7 @@ import { IMovie, IMovieFile, IMovieSeries } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-movie-file',
   templateUrl: './movie-file.component.html',
   styleUrls: ['./movie-file.component.scss']

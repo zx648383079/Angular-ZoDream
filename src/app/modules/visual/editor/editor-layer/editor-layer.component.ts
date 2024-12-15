@@ -7,6 +7,7 @@ import { ICatalogItem, MENU_ACTION, TreeEvent, TREE_ACTION, Widget } from '../mo
 import { EditorLayer } from '../model/menu';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-layer',
   templateUrl: './editor-layer.component.html',
   styleUrls: ['./editor-layer.component.scss']

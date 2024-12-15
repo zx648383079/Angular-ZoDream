@@ -5,6 +5,7 @@ import { SearchService } from '../../../../../../theme/services';
 import { TbkService } from '../tbk.service';
 
 @Component({
+    standalone: false,
     selector: 'app-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']

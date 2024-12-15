@@ -8,6 +8,7 @@ import { IWebPage } from '../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
     selector: 'app-navigation-report-dialog',
     templateUrl: './report-dialog.component.html',
     styleUrls: ['./report-dialog.component.scss'],

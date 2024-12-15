@@ -8,6 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
+    standalone: false,
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']

@@ -7,6 +7,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
+    standalone: false,
     selector: 'app-game-list',
     templateUrl: './game-list.component.html',
     styleUrls: ['./game-list.component.scss']

@@ -6,6 +6,7 @@ import { emailValidate, emptyValidate, mobileValidate } from '../../../../../the
 import { ShopService } from '../../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bind-step',
   templateUrl: './bind-step.component.html',
   styleUrls: ['./bind-step.component.scss']

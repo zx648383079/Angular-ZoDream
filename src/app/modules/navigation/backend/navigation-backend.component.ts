@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationService } from './navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-navigation-backend',
   templateUrl: './navigation-backend.component.html',
   styleUrls: ['./navigation-backend.component.scss']

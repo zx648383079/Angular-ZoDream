@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { twoPad } from '../../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-mobile-bar',
   templateUrl: './mobile-bar.component.html',
   styleUrls: ['./mobile-bar.component.scss']

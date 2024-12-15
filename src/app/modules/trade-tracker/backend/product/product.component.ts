@@ -8,6 +8,7 @@ import { IProduct } from '../../model';
 import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-tracker-backend-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']

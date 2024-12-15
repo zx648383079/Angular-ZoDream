@@ -17,6 +17,7 @@ import {
 } from '../article.service';
 
 @Component({
+    standalone: false,
     selector: 'app-article',
     templateUrl: './article.component.html',
     styleUrls: ['./article.component.scss']

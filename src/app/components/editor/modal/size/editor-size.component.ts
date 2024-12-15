@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-size',
   templateUrl: './editor-size.component.html',
   styleUrls: ['./editor-size.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-number-slider-input',
     templateUrl: './number-slider-input.component.html',
     styleUrls: ['./number-slider-input.component.scss']

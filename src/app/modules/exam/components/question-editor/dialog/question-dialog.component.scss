@@ -1,5 +1,5 @@
-@import '../option';
-@import '../../../../../theme/styles/scrollbar';
+@use '../option';
+@use '../../../../../theme/styles/scrollbar';
 .dialog-box {
     margin-top: -35vh;
     .dialog-body {
@@ -22,5 +22,5 @@
     max-height: 60vh;
     overflow-y: auto;
     margin-right: 1rem;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
 }

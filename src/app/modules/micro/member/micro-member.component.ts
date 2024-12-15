@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-micro-member',
   templateUrl: './micro-member.component.html',
   styleUrls: ['./micro-member.component.scss']

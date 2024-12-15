@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { openLink } from '../../../theme/utils/deeplink';
 
 @Component({
+    standalone: false,
     selector: 'app-user-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']

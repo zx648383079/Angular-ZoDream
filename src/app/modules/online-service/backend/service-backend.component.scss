@@ -1,4 +1,4 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 ul,
 li {
     list-style: none;
@@ -22,7 +22,7 @@ li {
         line-height: 40px;
     }
     .expand-body {
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         display: none;
         min-height: 200px;
         max-height: 500px;
@@ -132,7 +132,7 @@ li {
     height: 5rem;
     overflow-y: auto;
     outline: none;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
 }
 .message-action {
     text-align: right;

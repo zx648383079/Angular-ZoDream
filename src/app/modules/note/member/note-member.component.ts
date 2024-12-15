@@ -8,6 +8,7 @@ import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-note-member',
   templateUrl: './note-member.component.html',
   styleUrls: ['./note-member.component.scss']

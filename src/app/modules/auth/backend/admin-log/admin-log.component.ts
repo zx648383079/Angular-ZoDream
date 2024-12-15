@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-admin-log',
   templateUrl: './admin-log.component.html',
   styleUrls: ['./admin-log.component.scss']

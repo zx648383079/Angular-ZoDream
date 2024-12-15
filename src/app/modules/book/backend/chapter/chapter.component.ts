@@ -6,6 +6,7 @@ import { BookService } from '../book.service';
 import { mapFormat } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-chapter',
   templateUrl: './chapter.component.html',
   styleUrls: ['./chapter.component.scss']

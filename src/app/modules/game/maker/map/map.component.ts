@@ -11,6 +11,7 @@ import { parseNumber } from '../../../../theme/utils';
 
 
 @Component({
+    standalone: false,
     selector: 'app-maker-map',
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss']

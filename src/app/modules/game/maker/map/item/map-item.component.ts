@@ -8,6 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-map-item',
   templateUrl: './map-item.component.html',
   styleUrls: ['./map-item.component.scss']

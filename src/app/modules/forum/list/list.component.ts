@@ -14,6 +14,7 @@ import { ButtonEvent } from '../../../components/form';
 import { SearchService, ThemeService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']

@@ -7,6 +7,7 @@ import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-cash-back-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

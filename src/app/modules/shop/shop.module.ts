@@ -9,14 +9,14 @@ import * as shopReducer from './shop.reducer';
 
 
 @NgModule({
-  declarations: [ShopComponent],
-  imports: [
-    CommonModule,
-    ShopRoutingModule,
-    StoreModule.forFeature(shopReducer.shopFeatureKey, shopReducer.reducer),
-  ],
-  providers: [
-    ShopService
-  ]
+    declarations: [ShopComponent],
+    imports: [
+        CommonModule,
+        ShopRoutingModule,
+        StoreModule.forFeature(shopReducer.shopFeatureKey, shopReducer.reducer),
+    ],
+    providers: [
+        ShopService
+    ]
 })
 export class ShopModule { }

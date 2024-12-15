@@ -8,6 +8,7 @@ import { ICateringProduct, ICateringCategory, ICateringStock } from '../../model
 import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.component';
 
 @Component({
+    standalone: false,
     selector: 'app-stock',
     templateUrl: './stock.component.html',
     styleUrls: ['./stock.component.scss']

@@ -6,6 +6,7 @@ import { DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-real-time',
     templateUrl: './real-time.component.html',
     styleUrls: ['./real-time.component.scss']

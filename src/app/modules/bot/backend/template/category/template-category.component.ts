@@ -6,6 +6,7 @@ import { IBotTemplateCategory } from '../../../model';
 import { BotService } from '../../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-template-category',
   templateUrl: './template-category.component.html',
   styleUrls: ['./template-category.component.scss']

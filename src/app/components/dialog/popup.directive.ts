@@ -4,6 +4,7 @@ import { IPoint } from '../../theme/utils/canvas';
 import { css } from '../../theme/utils/doc';
 
 @Directive({
+    standalone: false,
     selector: '[appPopup]'
 })
 export class PopupDirective implements OnInit {

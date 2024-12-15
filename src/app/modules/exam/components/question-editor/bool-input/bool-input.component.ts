@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-bool-input',
     templateUrl: './bool-input.component.html',
     styleUrls: ['./bool-input.component.scss']

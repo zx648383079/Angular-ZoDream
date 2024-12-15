@@ -9,6 +9,7 @@ import { IWebPageKeywords } from '../../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-keyword',
   templateUrl: './keyword.component.html',
   styleUrls: ['./keyword.component.scss']

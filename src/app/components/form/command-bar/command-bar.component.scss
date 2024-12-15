@@ -1,4 +1,4 @@
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/theme';
 .command-bar {
     position: relative;
     display: flex;
@@ -32,11 +32,11 @@
         user-select: none;
     }
     .command-secondary-bar {
-        box-shadow: 0px 1px 2px 0px #{$shadow};
+        box-shadow: 0px 1px 2px 0px #{theme.$shadow};
         display: none;
         position: absolute;
         z-index: 88;
-        background-color: var(--#{$prefix}-panel);
+        background-color: var(--#{theme.$prefix}-panel);
         top: 100%;
         li {
             display: block;

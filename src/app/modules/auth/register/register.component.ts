@@ -27,6 +27,7 @@ import { Subscription } from 'rxjs';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
 
 @Component({
+    standalone: false,
     selector: 'app-auth-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']

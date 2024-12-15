@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IPage } from '../../../../../theme/models/page';
 
 @Component({
+    standalone: false,
   selector: 'app-search-panel',
   templateUrl: './search-panel.component.html',
   styleUrls: ['./search-panel.component.scss']

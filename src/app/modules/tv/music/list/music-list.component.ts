@@ -4,6 +4,7 @@ import { ISortItem } from '../../../../theme/models/seo';
 import { IMusicList } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-music-list',
     templateUrl: './music-list.component.html',
     styleUrls: ['./music-list.component.scss']

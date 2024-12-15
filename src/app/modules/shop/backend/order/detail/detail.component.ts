@@ -7,6 +7,7 @@ import { IOrder, IOrderGoods } from '../../../model';
 import { OrderService } from '../order.service';
 
 @Component({
+    standalone: false,
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']

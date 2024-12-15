@@ -4,6 +4,7 @@ import { formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
 
 @Component({
+    standalone: false,
   selector: 'app-message-container',
   templateUrl: './message-container.component.html',
   styleUrls: ['./message-container.component.scss']

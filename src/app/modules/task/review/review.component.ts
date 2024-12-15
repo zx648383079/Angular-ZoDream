@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITaskReview } from '../model';
 import { TaskService } from '../task.service';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 
 @Component({
+    standalone: false,
     selector: 'app-review',
     templateUrl: './review.component.html',
     styleUrls: ['./review.component.scss']
@@ -21,7 +22,7 @@ export class ReviewComponent implements OnInit {
     public typeItems = ['按周', '按月'];
     public chartItems = ['表格', '图表'];
 
-    public chartOption: EChartsOption = {
+    public chartOption: EChartsCoreOption = {
         title: {
             text: '工作统计'
         },

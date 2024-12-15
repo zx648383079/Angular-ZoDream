@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { INav } from '../../../../theme/components';
 
 @Component({
+    standalone: false,
   selector: 'app-waiter-menu',
   templateUrl: './waiter-menu.component.html',
   styleUrls: ['./waiter-menu.component.scss']

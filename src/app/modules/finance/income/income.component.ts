@@ -12,6 +12,7 @@ import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../model';
 
 @Component({
+    standalone: false,
     selector: 'app-income',
     templateUrl: './income.component.html',
     styleUrls: ['./income.component.scss'],

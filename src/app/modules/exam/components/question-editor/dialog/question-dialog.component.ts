@@ -7,6 +7,7 @@ import { IQuestion, IQuestionAnalysis, QuestionCheckOption, QuestionDefaultOptio
 import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../../../util';
 
 @Component({
+    standalone: false,
     selector: 'app-question-dialog',
     templateUrl: './question-dialog.component.html',
     styleUrls: ['./question-dialog.component.scss'],

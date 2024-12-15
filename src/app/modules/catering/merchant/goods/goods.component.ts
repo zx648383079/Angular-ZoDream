@@ -9,6 +9,7 @@ import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 
 @Component({
+    standalone: false,
   selector: 'app-goods',
   templateUrl: './goods.component.html',
   styleUrls: ['./goods.component.scss']

@@ -9,6 +9,7 @@ import { ICateringProduct, ICateringCategory, ICateringRecipe } from '../../mode
 import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.component';
 
 @Component({
+    standalone: false,
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss']

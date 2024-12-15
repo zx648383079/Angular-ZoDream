@@ -1,5 +1,6 @@
+@use '../../theme/styles/admin';
 ::ng-deep {
-    @import '../../theme/styles/admin';
+    @include admin.admin-container;
     .preview-item {
         .item-path {
             line-height: 3em;

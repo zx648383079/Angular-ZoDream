@@ -2,6 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-shadow-popup',
     templateUrl: './shadow-popup.component.html',
     styleUrls: ['./shadow-popup.component.scss'],

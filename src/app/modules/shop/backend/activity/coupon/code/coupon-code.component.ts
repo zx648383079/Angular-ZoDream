@@ -9,6 +9,7 @@ import { DownloadService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-coupon-code',
   templateUrl: './coupon-code.component.html',
   styleUrls: ['./coupon-code.component.scss']

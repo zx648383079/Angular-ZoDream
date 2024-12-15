@@ -5,6 +5,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 type DialogConfirmFn = (value: string) => void;
 
 @Component({
+    standalone: false,
     selector: 'app-custom-dialog',
     templateUrl: './custom-dialog.component.html',
     styleUrls: ['./custom-dialog.component.scss'],

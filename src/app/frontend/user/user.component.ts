@@ -10,6 +10,7 @@ import { SearchService } from '../../theme/services';
 import { NavToggle, SearchEvents } from '../../theme/models/event';
 
 @Component({
+    standalone: false,
     selector: 'app-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']

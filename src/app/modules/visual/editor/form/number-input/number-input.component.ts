@@ -2,6 +2,7 @@ import { Component, HostBinding, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-number-input',
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss'],

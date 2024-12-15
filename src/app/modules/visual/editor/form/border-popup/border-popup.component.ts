@@ -3,6 +3,7 @@ import { IItem } from '../../../../../theme/models/seo';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-border-popup',
     templateUrl: './border-popup.component.html',
     styleUrls: ['./border-popup.component.scss'],

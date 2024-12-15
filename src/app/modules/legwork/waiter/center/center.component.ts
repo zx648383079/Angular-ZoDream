@@ -7,6 +7,7 @@ import { LegworkService } from '../../legwork.service';
 import { IOrder } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-center',
   templateUrl: './center.component.html',
   styleUrls: ['./center.component.scss']

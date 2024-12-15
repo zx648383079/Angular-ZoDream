@@ -10,6 +10,7 @@ import { IMusic } from '../model';
 import { TvService } from '../tv.service';
 
 @Component({
+    standalone: false,
     selector: 'app-music',
     templateUrl: './music.component.html',
     styleUrls: ['./music.component.scss']

@@ -24,6 +24,7 @@ interface IMessageGroup {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-member-message',
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss']

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CheckinService } from './checkin.service';
 
 @Component({
+    standalone: false,
   selector: 'app-checkin-backend',
   templateUrl: './checkin-backend.component.html',
   styleUrls: ['./checkin-backend.component.scss']

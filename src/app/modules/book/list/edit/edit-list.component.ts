@@ -9,6 +9,7 @@ import { BookService } from '../../book.service';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-list',
     templateUrl: './edit-list.component.html',
     styleUrls: ['./edit-list.component.scss'],

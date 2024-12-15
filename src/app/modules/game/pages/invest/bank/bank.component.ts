@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { IGameScene, InvestTabItems, GameRouterInjectorToken, IGameRouter, GameCommand } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-bank',
     templateUrl: './bank.component.html',
     styleUrls: ['./bank.component.scss']

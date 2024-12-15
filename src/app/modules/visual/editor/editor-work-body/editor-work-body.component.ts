@@ -9,6 +9,7 @@ import { EditorRulePanelComponent } from '../editor-rule-panel/editor-rule-panel
 import { IBound, IPoint, ISize } from '../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-work-body',
   templateUrl: './editor-work-body.component.html',
   styleUrls: ['./editor-work-body.component.scss']

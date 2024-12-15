@@ -1,4 +1,4 @@
-@import '../../../../theme/styles/scrollbar';
+@use '../../../../theme/styles/scrollbar';
 ul, li {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ ul, li {
     .message-menu {
         background-color: #e0f0fd;
         overflow: auto;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .menu-item {
         padding: 12px 18px 12px 16px;

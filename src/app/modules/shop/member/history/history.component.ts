@@ -4,6 +4,7 @@ import { ShopService } from '../../shop.service';
 import { IGoodsHistory } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']

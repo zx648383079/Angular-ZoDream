@@ -8,6 +8,7 @@ import { IBotMessageHistory } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']

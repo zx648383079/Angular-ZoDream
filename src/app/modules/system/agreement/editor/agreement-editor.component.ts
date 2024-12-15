@@ -6,6 +6,7 @@ import { eachObject } from '../../../../theme/utils';
 
 
 @Component({
+    standalone: false,
     selector: 'app-agreement-editor',
     templateUrl: './agreement-editor.component.html',
     styleUrls: ['./agreement-editor.component.scss'],

@@ -16,6 +16,7 @@ interface ICaptcha {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-captcha',
     templateUrl: './captcha.component.html',
     styleUrls: ['./captcha.component.scss']

@@ -5,6 +5,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-emoji-category',
   templateUrl: './emoji-category.component.html',
   styleUrls: ['./emoji-category.component.scss']

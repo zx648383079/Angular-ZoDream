@@ -7,6 +7,7 @@ import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-system',
   templateUrl: './system.component.html',
   styleUrls: ['./system.component.scss']

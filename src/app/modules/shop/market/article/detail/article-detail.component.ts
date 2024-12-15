@@ -5,6 +5,7 @@ import { IArticle, IArticleCategory } from '../../../model';
 import { ShopService } from '../../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html',
   styleUrls: ['./article-detail.component.scss']

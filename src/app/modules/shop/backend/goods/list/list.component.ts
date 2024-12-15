@@ -19,6 +19,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { PanelAnimation } from '../../../../../theme/constants/panel-animation';
 
 @Component({
+    standalone: false,
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],

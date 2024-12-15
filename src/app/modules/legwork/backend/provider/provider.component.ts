@@ -7,6 +7,7 @@ import { ICategory, IProvider } from '../../model';
 import { LegworkService } from '../legwork.service';
 
 @Component({
+    standalone: false,
   selector: 'app-provider',
   templateUrl: './provider.component.html',
   styleUrls: ['./provider.component.scss']

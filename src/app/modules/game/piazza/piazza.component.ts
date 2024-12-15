@@ -4,6 +4,7 @@ import { IGameProject } from '../model';
 import { ThemeService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-piazza',
     templateUrl: './piazza.component.html',
     styleUrls: ['./piazza.component.scss']

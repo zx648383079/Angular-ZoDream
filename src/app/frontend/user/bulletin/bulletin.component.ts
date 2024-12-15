@@ -9,6 +9,7 @@ import { SearchService, ThemeService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
+    standalone: false,
   selector: 'app-member-bulletin',
   templateUrl: './bulletin.component.html',
   styleUrls: ['./bulletin.component.scss']

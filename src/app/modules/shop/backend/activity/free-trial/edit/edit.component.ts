@@ -6,6 +6,7 @@ import { IActivity, IFreeTrialConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-free-trial-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

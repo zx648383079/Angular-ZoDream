@@ -8,6 +8,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-word',
   templateUrl: './word.component.html',
   styleUrls: ['./word.component.scss']

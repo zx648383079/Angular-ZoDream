@@ -1,3 +1,4 @@
+@use '../theme/styles/admin';
 .example-container ::ng-deep {
-    @import '../theme/styles/admin';
+    @include admin.admin-container;
 }

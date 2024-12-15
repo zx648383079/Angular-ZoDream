@@ -26,6 +26,7 @@ import { parseNumber } from '../../../../theme/utils';
 import { SearchEvents } from '../../../../theme/models/event';
 
 @Component({
+    standalone: false,
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']

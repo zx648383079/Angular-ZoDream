@@ -7,6 +7,7 @@ import { twoPad } from '../../../theme/utils';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-record',
     templateUrl: './record.component.html',
     styleUrls: ['./record.component.scss']

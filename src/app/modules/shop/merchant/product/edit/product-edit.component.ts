@@ -9,6 +9,7 @@ import { ShopService } from '../../shop.service';
 import { SkuFormComponent } from '../../../components';
 
 @Component({
+    standalone: false,
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.scss']

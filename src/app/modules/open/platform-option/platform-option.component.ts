@@ -6,6 +6,7 @@ import { IPlatform } from '../../../theme/models/open';
 import { IData, IDataOne } from '../../../theme/models/page';
 
 @Component({
+    standalone: false,
   selector: 'app-platform-option',
   templateUrl: './platform-option.component.html',
   styleUrls: ['./platform-option.component.scss']

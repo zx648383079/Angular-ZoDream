@@ -8,6 +8,7 @@ import { ButtonEvent, UploadCustomEvent } from '../../../../components/form';
 import { parseNumber } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-weight',
     templateUrl: './edit-weight.component.html',
     styleUrls: ['./edit-weight.component.scss']

@@ -7,6 +7,7 @@ import { IAttributeGroup } from '../../../../model';
 import { AttributeService } from '../../attribute.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-group',
   templateUrl: './edit-group.component.html',
   styleUrls: ['./edit-group.component.scss']

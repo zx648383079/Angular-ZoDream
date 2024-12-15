@@ -6,6 +6,7 @@ import { ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-model',
   templateUrl: './edit-model.component.html',
   styleUrls: ['./edit-model.component.scss']

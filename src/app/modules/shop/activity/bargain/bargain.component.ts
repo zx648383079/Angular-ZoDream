@@ -8,6 +8,7 @@ import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bargain',
   templateUrl: './bargain.component.html',
   styleUrls: ['./bargain.component.scss']

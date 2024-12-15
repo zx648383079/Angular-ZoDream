@@ -5,6 +5,7 @@ import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { ResourceService } from '../../resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-score',
   templateUrl: './score.component.html',
   styleUrls: ['./score.component.scss']

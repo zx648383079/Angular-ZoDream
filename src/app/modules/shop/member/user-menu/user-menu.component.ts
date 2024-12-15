@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { INav } from '../../../../theme/components';
 
 @Component({
+    standalone: false,
   selector: 'app-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss']

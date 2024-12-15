@@ -5,6 +5,7 @@ import { IArticle } from '../../../model';
 import { ShopService } from '../../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-help',
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.scss']

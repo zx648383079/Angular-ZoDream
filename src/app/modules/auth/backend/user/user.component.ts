@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { AccountStatusItems } from '../../../../theme/models/auth';
 
 @Component({
+    standalone: false,
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']

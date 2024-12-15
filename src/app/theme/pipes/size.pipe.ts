@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { parseNumber } from '../utils';
 
 @Pipe({
-  name: 'size'
+    standalone: false,
+    name: 'size'
 })
 export class SizePipe implements PipeTransform {
 

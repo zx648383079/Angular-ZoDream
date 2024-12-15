@@ -22,6 +22,7 @@ interface ICartData {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-cashier',
     templateUrl: './cashier.component.html',
     styleUrls: ['./cashier.component.scss'],

@@ -1,4 +1,4 @@
-@import '../../../../theme/styles/theme';
+@use '../../../../theme/styles/theme';
 $headerHeight: 2.5rem;
 .dialog-box {
     position: fixed;
@@ -9,7 +9,7 @@ $headerHeight: 2.5rem;
     margin: 0;
     width: auto;
     transform: none;
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     display: flex;
     flex-direction: column;
 }

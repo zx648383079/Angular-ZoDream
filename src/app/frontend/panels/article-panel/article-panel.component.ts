@@ -4,6 +4,7 @@ import { IPage } from '../../../theme/models/page';
 import { IBlog } from '../../../modules/blog/model';
 
 @Component({
+    standalone: false,
   selector: 'app-article-panel',
   templateUrl: './article-panel.component.html',
   styleUrls: ['./article-panel.component.scss']

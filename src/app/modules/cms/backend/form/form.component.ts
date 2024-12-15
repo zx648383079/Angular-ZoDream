@@ -8,6 +8,7 @@ import { ICmsColumn, ICmsContent, ICmsModel } from '../../model';
 import { CmsService } from '../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']

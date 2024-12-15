@@ -8,6 +8,7 @@ import { MessageServiceService } from '../ms.service';
 import { mapFormat } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-ms-template',
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']

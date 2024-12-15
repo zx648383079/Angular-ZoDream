@@ -8,6 +8,7 @@ import { BotService } from '../../bot.service';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-user-group',
   templateUrl: './user-group.component.html',
   styleUrls: ['./user-group.component.scss']

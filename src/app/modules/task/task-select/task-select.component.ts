@@ -6,6 +6,7 @@ import { ITask } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-task-select',
     templateUrl: './task-select.component.html',
     styleUrls: ['./task-select.component.scss'],

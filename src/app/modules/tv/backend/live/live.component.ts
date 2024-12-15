@@ -10,6 +10,7 @@ import { ILive } from '../../model';
 import { TVService } from '../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-live',
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.scss']

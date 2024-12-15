@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-play',
   templateUrl: './play.component.html',
   styleUrls: ['./play.component.scss']

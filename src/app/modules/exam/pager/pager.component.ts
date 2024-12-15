@@ -8,6 +8,7 @@ import { formatPager } from '../util';
 
 
 @Component({
+    standalone: false,
   selector: 'app-pager',
   templateUrl: './pager.component.html',
   styleUrls: ['./pager.component.scss']

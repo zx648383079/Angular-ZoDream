@@ -7,6 +7,7 @@ import { IGameFinancial } from '../../model';
 import { GameMakerService } from '../game-maker.service';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-financial',
   templateUrl: './financial.component.html',
   styleUrls: ['./financial.component.scss']

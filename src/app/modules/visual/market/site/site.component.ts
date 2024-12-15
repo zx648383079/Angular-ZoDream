@@ -7,6 +7,7 @@ import { SearchService } from '../../../../theme/services';
 import { ISite } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-site',
     templateUrl: './site.component.html',
     styleUrls: ['./site.component.scss']

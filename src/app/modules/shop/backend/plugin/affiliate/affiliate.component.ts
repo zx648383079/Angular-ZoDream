@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AffiliateService } from './affiliate.service';
 
 @Component({
+    standalone: false,
     selector: 'app-affiliate',
     templateUrl: './affiliate.component.html',
     styleUrls: ['./affiliate.component.scss']

@@ -3,6 +3,7 @@ import { DialogService } from '../../../components/dialog';
 import { IBlockItem, IExtraRule, formatLinkRule } from '../../../components/link-rule';
 
 @Component({
+    standalone: false,
   selector: 'app-post-block',
   templateUrl: './post-block.component.html',
   styleUrls: ['./post-block.component.scss']

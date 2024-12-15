@@ -1,12 +1,14 @@
-@import './app/theme/styles/bootstrap';
-@import "../node_modules/bootstrap/scss/bootstrap";
+// 覆盖 bootstrap 样式
+// $body-bg: #f4f4f4,
+// $body-color: #333,
+@use "../node_modules/bootstrap-sass-modules/scss/bootstrap";
 
-@import './app/theme/styles/base';
-@import './app/theme/styles/code';
-@import './app/theme/styles/login';
-@import './app/theme/styles/form';
-@import './app/theme/styles/grid';
-@import './app/theme/styles/tab';
-@import './app/theme/styles/panel';
-@import './app/theme/styles/menu';
-@import './app/components/dialog/dialog';
+@use './app/theme/styles/base';
+@use './app/theme/styles/code';
+@use './app/theme/styles/login';
+@use './app/theme/styles/form';
+@use './app/theme/styles/grid';
+@use './app/theme/styles/tab';
+@use './app/theme/styles/panel';
+@use './app/theme/styles/menu';
+@use './app/components/dialog/dialog';

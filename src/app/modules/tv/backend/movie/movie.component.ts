@@ -7,6 +7,7 @@ import { ICategory, IMovie, IMovieArea } from '../../model';
 import { TVService } from '../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']

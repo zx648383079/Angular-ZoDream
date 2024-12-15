@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-example-tour',
     templateUrl: './tour.component.html',
     styleUrls: ['./tour.component.scss']

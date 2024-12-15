@@ -8,6 +8,7 @@ import { OpenService } from '../open.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-platform',
   templateUrl: './platform.component.html',
   styleUrls: ['./platform.component.scss']

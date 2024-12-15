@@ -4,6 +4,7 @@ import { IPermission } from '../../../../../theme/models/auth';
 import { RoleService } from '../role.service';
 
 @Component({
+    standalone: false,
   selector: 'app-role-permission',
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.scss']

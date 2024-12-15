@@ -4,6 +4,7 @@ import { animationFuncOptions, animationIterationCountOptions, animationLabelDel
 import { PropertyUtil } from '../../util';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-animation-input',
     templateUrl: './animation-input.component.html',
     styleUrls: ['./animation-input.component.scss'],

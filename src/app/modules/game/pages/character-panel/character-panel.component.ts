@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGameEquipItem, IGameRouter, IGameScene } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-character-panel',
   templateUrl: './character-panel.component.html',
   styleUrls: ['./character-panel.component.scss']

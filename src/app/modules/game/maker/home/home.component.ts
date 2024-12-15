@@ -4,6 +4,7 @@ import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-switch-input',
     templateUrl: './switch-input.component.html',
     styleUrls: ['./switch-input.component.scss'],

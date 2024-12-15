@@ -6,6 +6,7 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-task',
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.scss']

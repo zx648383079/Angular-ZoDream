@@ -6,6 +6,7 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
  * 题目评分
  */
 @Component({
+    standalone: false,
   selector: 'app-question-scoring',
   templateUrl: './question-scoring.component.html',
   styleUrls: ['./question-scoring.component.scss']

@@ -9,6 +9,7 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
  * 题目编辑
  */
 @Component({
+    standalone: false,
   selector: 'app-question-editor',
   templateUrl: './question-editor.component.html',
   styleUrls: ['./question-editor.component.scss']

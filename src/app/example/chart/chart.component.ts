@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { Observable, map, of } from 'rxjs';
 import { randomInt } from '../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-example-chart',
     templateUrl: './chart.component.html',
     styleUrls: ['./chart.component.scss']
 })
 export class ExampleChartComponent implements OnInit {
 
-    public options: Observable<EChartsOption> ;
+    public options: Observable<EChartsCoreOption> ;
 
     constructor() { }
 
@@ -23,7 +24,7 @@ export class ExampleChartComponent implements OnInit {
                 total: randomInt(0, 50000)
             });
         }
-        this.options = of(items).pipe(map<any[], EChartsOption>(data => {
+        this.options = of(items).pipe(map<any[], EChartsCoreOption>(data => {
             return {
                 title: {
                     text: '订单月统计',

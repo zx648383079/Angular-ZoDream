@@ -17,6 +17,7 @@ import { eachObject } from '../../../../theme/utils';
 const GuestUserKey = 'gu';
 
 @Component({
+    standalone: false,
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']

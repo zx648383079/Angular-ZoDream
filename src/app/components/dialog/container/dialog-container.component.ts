@@ -2,6 +2,7 @@ import { Component, ViewContainerRef } from '@angular/core';
 import { DialogService } from '../dialog.service';
 
 @Component({
+    standalone: false,
     selector: 'app-dialog-container',
     template: '',
     styles: [''],

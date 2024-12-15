@@ -4,6 +4,7 @@ import { EditorHelper } from '../../components/editor/base/util';
 const MimeType = 'application/json';
 
 @Directive({
+    standalone: false,
     selector: '[appDragDrop]'
 })
 export class DragDropDirective implements AfterViewInit {

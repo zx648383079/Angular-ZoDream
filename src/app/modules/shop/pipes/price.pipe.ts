@@ -4,6 +4,7 @@ import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 
 @Pipe({
+    standalone: false,
     name: 'price',
     pure: false,
 })

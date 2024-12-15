@@ -4,6 +4,7 @@ import { CateringService } from '../../catering.service';
 import { ICateringStore } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-setting',
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']

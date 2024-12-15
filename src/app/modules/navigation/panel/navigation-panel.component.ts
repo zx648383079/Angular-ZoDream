@@ -12,6 +12,7 @@ const NavSaveKey = 'nsk';
 const NavSaveModekey = 'nsmk';
 
 @Component({
+    standalone: false,
   selector: 'app-navigation-panel',
   templateUrl: './navigation-panel.component.html',
   styleUrls: ['./navigation-panel.component.scss']

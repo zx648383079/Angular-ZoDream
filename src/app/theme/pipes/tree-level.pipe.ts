@@ -1,12 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'treeLevel'
+    standalone: false,
+    name: 'treeLevel'
 })
 export class TreeLevelPipe implements PipeTransform {
 
-  transform(value: number): string {
-    return '├' + '─'.repeat(value);
-  }
+    transform(value: number): string {
+        return '├' + '─'.repeat(value);
+    }
 
 }

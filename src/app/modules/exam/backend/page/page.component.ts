@@ -7,6 +7,7 @@ import { ICourse, IExamPage } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']

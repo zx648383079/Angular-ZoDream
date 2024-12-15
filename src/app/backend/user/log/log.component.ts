@@ -9,6 +9,7 @@ import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
+    standalone: false,
     selector: 'app-log',
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']

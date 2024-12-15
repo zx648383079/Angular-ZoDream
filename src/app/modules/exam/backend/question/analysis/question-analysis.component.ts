@@ -4,6 +4,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { IQuestionAnalysis } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-question-analysis',
   templateUrl: './question-analysis.component.html',
   styleUrls: ['./question-analysis.component.scss']

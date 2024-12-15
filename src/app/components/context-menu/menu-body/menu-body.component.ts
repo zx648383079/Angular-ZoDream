@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IMenuButton, IMenuItem } from '../model';
 
 @Component({
-  selector: 'app-menu-body',
-  templateUrl: './menu-body.component.html',
-  styleUrls: ['./menu-body.component.scss']
+    standalone: false,
+    selector: 'app-menu-body',
+    templateUrl: './menu-body.component.html',
+    styleUrls: ['./menu-body.component.scss']
 })
 export class MenuBodyComponent {
 

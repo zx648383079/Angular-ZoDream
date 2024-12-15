@@ -8,6 +8,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-descent',
     templateUrl: './descent.component.html',
     styleUrls: ['./descent.component.scss']

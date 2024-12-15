@@ -4,6 +4,7 @@ import { IArchives } from '../../model';
 import { ThemeService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-archives',
   templateUrl: './archives.component.html',
   styleUrls: ['./archives.component.scss']

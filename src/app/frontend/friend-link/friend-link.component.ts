@@ -7,6 +7,7 @@ import { DialogBoxComponent } from '../../components/dialog';
 import { ThemeService } from '../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-friend-link',
   templateUrl: './friend-link.component.html',
   styleUrls: ['./friend-link.component.scss']

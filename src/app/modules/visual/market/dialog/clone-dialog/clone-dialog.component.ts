@@ -10,6 +10,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-clone-dialog',
   templateUrl: './clone-dialog.component.html',
   styleUrls: ['./clone-dialog.component.scss']

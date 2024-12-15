@@ -8,6 +8,7 @@ interface IPlusItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-maker-rule-checkin',
   templateUrl: './rule-checkin.component.html',
   styleUrls: ['./rule-checkin.component.scss']

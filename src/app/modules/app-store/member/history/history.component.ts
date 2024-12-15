@@ -7,6 +7,7 @@ import { AppStoreService } from '../../app-store.service';
 import { ISoftwareLog } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-history',
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.scss']

@@ -7,6 +7,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-site-option',
   templateUrl: './site-option.component.html',
   styleUrls: ['./site-option.component.scss']

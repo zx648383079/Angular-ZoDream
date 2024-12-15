@@ -6,6 +6,7 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-disk',
     templateUrl: './disk.component.html',
     styleUrls: ['./disk.component.scss']

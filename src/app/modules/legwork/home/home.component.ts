@@ -6,6 +6,7 @@ import { LegworkService } from '../legwork.service';
 import { ICategory, IService } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

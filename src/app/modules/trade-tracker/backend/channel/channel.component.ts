@@ -8,6 +8,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { IChannel } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-tracker-backend-channel',
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.scss']

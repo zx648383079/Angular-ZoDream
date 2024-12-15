@@ -6,6 +6,7 @@ import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
 import { IDataOne } from '../../../theme/models/page';
 
 @Component({
+    standalone: false,
     selector: 'app-visual-studio',
     templateUrl: './visual-studio.component.html',
     styleUrls: ['./visual-studio.component.scss']

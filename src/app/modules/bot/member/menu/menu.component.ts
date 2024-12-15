@@ -7,6 +7,7 @@ import { ButtonEvent } from '../../../../components/form';
 import { eachObject } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']

@@ -7,6 +7,7 @@ import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

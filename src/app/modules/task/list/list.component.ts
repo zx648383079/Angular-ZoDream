@@ -9,6 +9,7 @@ import { ITask, TaskStatusItems } from '../model';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']

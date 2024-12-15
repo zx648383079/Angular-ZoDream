@@ -4,6 +4,7 @@ import { PlayerEvent } from '../../../components/media-player/fixed/model';
 import { TvService } from '../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-live',
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.scss']

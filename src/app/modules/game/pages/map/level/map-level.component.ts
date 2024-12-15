@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameMapDungeon, IGameRouter, IGameScene } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-map-level',
     templateUrl: './map-level.component.html',
     styleUrls: ['./map-level.component.scss']

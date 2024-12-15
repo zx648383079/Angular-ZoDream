@@ -7,6 +7,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']

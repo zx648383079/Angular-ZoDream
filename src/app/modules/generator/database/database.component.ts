@@ -6,6 +6,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { GenerateService } from '../generate.service';
 
 @Component({
+    standalone: false,
   selector: 'app-database',
   templateUrl: './database.component.html',
   styleUrls: ['./database.component.scss']

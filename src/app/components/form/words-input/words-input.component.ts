@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { eachObject } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-words-input',
     templateUrl: './words-input.component.html',
     styleUrls: ['./words-input.component.scss'],

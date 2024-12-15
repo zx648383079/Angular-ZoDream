@@ -1,13 +1,13 @@
-@import '../../../../../theme/styles/theme';
+@use '../../../../../theme/styles/theme';
 .panel-container {
     margin-top: 0;
 }
 .tab-bar {
-    --#{$prefix}-tab: var(--#{$prefix}-panel);
+    --#{theme.$prefix}-tab: var(--#{theme.$prefix}-panel);
 }
 
 .user-container {
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     padding: .8rem;
     margin-bottom: 1rem;
     min-height: 6rem;

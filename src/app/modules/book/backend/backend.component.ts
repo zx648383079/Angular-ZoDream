@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from './book.service';
 
 @Component({
+    standalone: false,
   selector: 'app-backend',
   templateUrl: './backend.component.html',
   styleUrls: ['./backend.component.scss']

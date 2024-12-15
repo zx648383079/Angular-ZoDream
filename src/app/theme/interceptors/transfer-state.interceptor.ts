@@ -1,45 +1,39 @@
 import { tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
+import { inject } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpResponse
+  HttpResponse,
+  HttpInterceptorFn
 } from '@angular/common/http';
 import { TransferStateService } from '../services/transfer-state.service';
 
-@Injectable()
-export class TransferStateInterceptor implements HttpInterceptor {
-  constructor(private transferStateService: TransferStateService) {
-  }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+export const TransferStateInterceptorFn: HttpInterceptorFn = (req, next) => {
+    const transferStateService = inject(TransferStateService);
     /**
      * Skip this interceptor if the request method isn't GET.
      */
     if (req.method !== 'GET') {
-      return next.handle(req);
+        return next(req);
     }
-
-    const cachedResponse = this.transferStateService.getCache(req.url);
+  
+    const cachedResponse = transferStateService.getCache(req.url);
     if (cachedResponse) {
-      // A cached response exists which means server set it before. Serve it instead of forwarding
-      // the request to the next handler.
-      return of(new HttpResponse<any>({ body: cachedResponse }));
+        // A cached response exists which means server set it before. Serve it instead of forwarding
+        // the request to the next handler.
+        return of(new HttpResponse<any>({ body: cachedResponse }));
     }
-
-    /**
-     * No cached response exists. Go to the network, and cache
-     * the response when it arrives.
-     */
-    return next.handle(req).pipe(
-      tap(event => {
-        if (event instanceof HttpResponse) {
-          this.transferStateService.setCache(req.url, event.body);
-        }
-      })
+  
+      /**
+       * No cached response exists. Go to the network, and cache
+       * the response when it arrives.
+       */
+    return next(req).pipe(
+        tap(event => {
+            if (event instanceof HttpResponse) {
+                transferStateService.setCache(req.url, event.body);
+            }
+        })
     );
-  }
 }
+

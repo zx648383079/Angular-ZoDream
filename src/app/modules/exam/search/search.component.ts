@@ -8,6 +8,7 @@ import { ExamService } from '../exam.service';
 import { ICourse, IExamPage } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']

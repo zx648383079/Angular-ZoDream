@@ -5,6 +5,7 @@ import { ShopAppState } from './shop.reducer';
 import { ShopService } from './shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']

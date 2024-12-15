@@ -7,6 +7,7 @@ const LOOP_SPACE_TIME = 20;
 const SESSION_KEY = 'session_token';
 
 @Component({
+    standalone: false,
   selector: 'app-online-service',
   templateUrl: './online-service.component.html',
   styleUrls: ['./online-service.component.scss']

@@ -1,5 +1,5 @@
 @use "sass:math";
-@import '../../../theme/styles/mixins';
+@use '../../../theme/styles/mixins';
 
 $lineHeight: 2.5rem;
 $dialogIndex: 99;
@@ -16,7 +16,7 @@ $dialogIndex: 99;
         box-sizing: border-box;
         position: relative;
         user-select: none;
-        @include iconArrow();
+        @include mixins.iconArrow();
     }
     .input--with-placeholder {
         color: #ccc;

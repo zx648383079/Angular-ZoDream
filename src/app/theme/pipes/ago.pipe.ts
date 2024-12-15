@@ -5,6 +5,7 @@ import {
 import { formatAgo } from '../utils';
 
 @Pipe({
+    standalone: false,
     name: 'ago'
 })
 export class AgoPipe implements PipeTransform {

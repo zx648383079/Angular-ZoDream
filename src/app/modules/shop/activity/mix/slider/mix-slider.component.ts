@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-mix-slider',
   templateUrl: './mix-slider.component.html',
   styleUrls: ['./mix-slider.component.scss']

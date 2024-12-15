@@ -9,6 +9,7 @@ import { OrderCreateDialogComponent } from './create/order-create-dialog.compone
 import { OrderEditDialogComponent } from './edit/order-edit-dialog.component';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-waiter-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss']

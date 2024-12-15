@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { TrendService } from '../trend.service';
 import { ITrendStatistics, TimeTabItems } from '../model';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit {
 
     public trendToggle = false;
     public todayData: any = {};
-    public options: EChartsOption;
+    public options: EChartsCoreOption;
     public wordItems: any[] = [];
     public sourceItems: any[] = [];
     public enterItems: any[] = [];
@@ -59,7 +60,7 @@ export class HomeComponent implements OnInit {
         }
         const data = this.trendData;
         const firstName = this.tabItems.filter(i => i.value == this.tabIndex)[0].name;
-        const option = <EChartsOption>{
+        const option = <EChartsCoreOption>{
             tooltip: {
                 trigger: 'axis'
             },

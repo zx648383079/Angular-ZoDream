@@ -5,6 +5,7 @@ import { IComment } from '../../model';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-comment-page',
   templateUrl: './comment-page.component.html',
   styleUrls: ['./comment-page.component.scss']

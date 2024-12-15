@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-loading-tip',
-  templateUrl: './loading-tip.component.html',
-  styleUrls: ['./loading-tip.component.scss']
+    standalone: false,
+    selector: 'app-loading-tip',
+    templateUrl: './loading-tip.component.html',
+    styleUrls: ['./loading-tip.component.scss']
 })
 export class LoadingTipComponent {
 

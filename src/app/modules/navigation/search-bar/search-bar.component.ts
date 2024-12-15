@@ -6,6 +6,7 @@ import { parseNumber } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-navigation-search-bar',
     templateUrl: './search-bar.component.html',
     styleUrls: ['./search-bar.component.scss']

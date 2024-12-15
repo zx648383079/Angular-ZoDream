@@ -7,9 +7,10 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-emoji-picker',
-  templateUrl: './emoji-picker.component.html',
-  styleUrls: ['./emoji-picker.component.scss']
+    standalone: false,
+    selector: 'app-emoji-picker',
+    templateUrl: './emoji-picker.component.html',
+    styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
 

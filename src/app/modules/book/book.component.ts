@@ -7,6 +7,7 @@ import { ThemeService } from '../../theme/services';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.scss']

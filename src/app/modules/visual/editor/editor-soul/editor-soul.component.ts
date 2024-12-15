@@ -3,6 +3,7 @@ import { EditorService } from '../editor.service';
 import { WidgetPreview, WidgetSource, WidgetType } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-soul',
   templateUrl: './editor-soul.component.html',
   styleUrls: ['./editor-soul.component.scss']

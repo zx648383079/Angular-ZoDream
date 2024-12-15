@@ -6,6 +6,7 @@ import { BotService } from '../bot.service';
 import { IBotMedia } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

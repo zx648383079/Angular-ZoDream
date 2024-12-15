@@ -7,6 +7,7 @@ import { DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-document-member',
   templateUrl: './document-member.component.html',
   styleUrls: ['./document-member.component.scss']

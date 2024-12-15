@@ -7,6 +7,7 @@ import { ITopic } from '../../model';
 import { MicroService } from '../micro.service';
 
 @Component({
+    standalone: false,
   selector: 'app-topic',
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss']

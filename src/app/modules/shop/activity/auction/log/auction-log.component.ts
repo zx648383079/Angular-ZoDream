@@ -3,6 +3,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-auction-log',
   templateUrl: './auction-log.component.html',
   styleUrls: ['./auction-log.component.scss']

@@ -1,9 +1,9 @@
-@import '../../../../theme/styles/theme';
+@use '../../../../theme/styles/theme';
 .panel-container {
     margin-top: 0;
 }
 .tab-bar {
-    --#{$prefix}-tab: var(--#{$prefix}-panel);
+    --#{theme.$prefix}-tab: var(--#{theme.$prefix}-panel);
     margin-top: .5em;
 }
 

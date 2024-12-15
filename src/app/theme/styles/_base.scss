@@ -1,37 +1,37 @@
-@import 'theme';
+@use 'theme';
 
 @media (prefers-color-scheme: dark) {
     :root {
-        // --#{$prefix}-body: $dark-body;
-        // --#{$prefix}-body-text: $dark-bodyText;
-        --#{$prefix}-panel: #{$dark-panel};
-        --#{$prefix}-panel-text: #{$dark-bodyText};
-        --#{$prefix}-primary: #{$dark-primary};
-        --#{$prefix}-primary-text: #{$dark-primaryText};
-        --#{$prefix}-dialog: #{$dark-dialog};
-        --#{$prefix}-dialog-text: #{$dark-dialogText};
-        --#{$prefix}-dialog-mask: #{$dark-dialogMask};
+        // --#{theme.$prefix}-body: #{theme.$dark-body};
+        // --#{theme.$prefix}-body-text: #{theme.$dark-bodyText};
+        --#{theme.$prefix}-panel: #{theme.$dark-panel};
+        --#{theme.$prefix}-panel-text: #{theme.$dark-bodyText};
+        --#{theme.$prefix}-primary: #{theme.$dark-primary};
+        --#{theme.$prefix}-primary-text: #{theme.$dark-primaryText};
+        --#{theme.$prefix}-dialog: #{theme.$dark-dialog};
+        --#{theme.$prefix}-dialog-text: #{theme.$dark-dialogText};
+        --#{theme.$prefix}-dialog-mask: #{theme.$dark-dialogMask};
     }
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        // --#{$prefix}-body: $body;
-        // --#{$prefix}-body-text: $bodyText;
-        --#{$prefix}-panel: #{$panel};
-        --#{$prefix}-panel-text: #{$bodyText};
-        --#{$prefix}-primary: #{$primary};
-        --#{$prefix}-primary-text: #{$primaryText};
-        --#{$prefix}-dialog: #{$dialog};
-        --#{$prefix}-dialog-text: #{$dialogText};
-        --#{$prefix}-dialog-mask: #{$dialogMask};
+        // --#{theme.$prefix}-body: #{theme.$body};
+        // --#{theme.$prefix}-body-text: #{theme.$bodyText};
+        --#{theme.$prefix}-panel: #{theme.$panel};
+        --#{theme.$prefix}-panel-text: #{theme.$bodyText};
+        --#{theme.$prefix}-primary: #{theme.$primary};
+        --#{theme.$prefix}-primary-text: #{theme.$primaryText};
+        --#{theme.$prefix}-dialog: #{theme.$dialog};
+        --#{theme.$prefix}-dialog-text: #{theme.$dialogText};
+        --#{theme.$prefix}-dialog-mask: #{theme.$dialogMask};
     }
 }
 
 
 body {
-    // background-color: var(--#{$prefix}-body);
-    // color: var(--#{$prefix}-body-text);
+    // background-color: var(--#{theme.$prefix}-body);
+    // color: var(--#{theme.$prefix}-body-text);
     background-attachment: fixed;
     background-repeat:no-repeat;
     background-size: cover;

@@ -33,6 +33,7 @@ interface ICrumb {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-catalog',
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss']

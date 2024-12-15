@@ -6,6 +6,7 @@ import { DialogService } from '../../../components/dialog';
 import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-preview',
     templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.scss']

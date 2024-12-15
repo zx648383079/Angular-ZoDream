@@ -7,6 +7,7 @@ import { AdService } from '../ad.service';
 import { IAdPosition } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-ad-position',
   templateUrl: './position.component.html',
   styleUrls: ['./position.component.scss']

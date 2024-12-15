@@ -1,6 +1,6 @@
-@import '../dialog';
+@use '../dialog';
 .dialog-box {
-    @include dialogSet(30rem);
+    @include dialog.dialogSet(30rem);
     margin-top: -15rem;
 }
 

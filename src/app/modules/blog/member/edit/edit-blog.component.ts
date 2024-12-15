@@ -12,6 +12,7 @@ import { FileUploadService, SearchService, ThemeService } from '../../../../them
 import { NavToggle, SearchEvents } from '../../../../theme/models/event';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-blog',
     templateUrl: './edit-blog.component.html',
     styleUrls: ['./edit-blog.component.scss']

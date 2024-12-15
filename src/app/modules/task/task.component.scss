@@ -1,6 +1,6 @@
+@use '../../theme/styles/admin';
 ::ng-deep {
-    @import '../../theme/styles/admin';
-
+    @include admin.admin-container;
     .task-item {
         min-height: 80px;
         padding: 10px 10px;

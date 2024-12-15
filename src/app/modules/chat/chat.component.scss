@@ -1,8 +1,8 @@
-@import '../../theme/styles/scrollbar';
-@import './styles/main';
-@import './styles/room';
-@import './styles/search';
-@import './styles/user';
+
+@use './styles/main';
+@use './styles/room';
+@use './styles/search';
+@use './styles/user';
 
 
 .expand-box {

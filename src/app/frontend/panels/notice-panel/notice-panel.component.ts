@@ -5,6 +5,7 @@ import { INote } from '../../../modules/note/model';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+    standalone: false,
     selector: 'app-notice-panel',
     templateUrl: './notice-panel.component.html',
     styleUrls: ['./notice-panel.component.scss']

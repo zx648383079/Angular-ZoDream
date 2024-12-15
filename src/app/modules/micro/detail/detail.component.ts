@@ -14,6 +14,7 @@ import { DialogBoxComponent } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
 
 @Component({
+    standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

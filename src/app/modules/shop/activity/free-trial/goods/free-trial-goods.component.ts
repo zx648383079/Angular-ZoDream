@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-free-trial-goods',
   templateUrl: './free-trial-goods.component.html',
   styleUrls: ['./free-trial-goods.component.scss']

@@ -5,6 +5,7 @@ import { AppStoreService } from '../../app-store.service';
 import { FileTypeItems, ISoftwareVersion } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-version',
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss']

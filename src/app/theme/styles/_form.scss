@@ -1,8 +1,8 @@
-@import 'mixins';
-@import 'theme';
+@use 'mixins';
+@use 'theme';
 
 .form-control {
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
 }
 .checkbox {
     position: relative;
@@ -22,7 +22,7 @@
     }
     label {
         &::before {
-            @include icon();
+            @include mixins.icon();
             content: "\f0c8";
             position: absolute;
             left: 10px;
@@ -107,7 +107,7 @@
         background-color: var(--bs-secondary);
         color: #fff;
         &::before {
-            @include icon();
+            @include mixins.icon();
             content: "\e650";
             position: absolute;
             font-weight: 900;
@@ -132,7 +132,7 @@ i {
         line-height: 1.875rem;
         font-style: normal;
         &::before {
-            @include icon();
+            @include mixins.icon();
             content: "\e71e";
         }
         &.checked {
@@ -145,7 +145,7 @@ i {
 }
 
 .input-line-group,
-.#{$prefix}-input-group {
+.#{theme.$prefix}-input-group {
     .input-tip {
         color: var(--bs-secondary);
         font-size: 0.75rem;
@@ -166,8 +166,8 @@ i {
 }
 
 .form-table {
-    --#{$prefix}-label-width: 8rem;
-    .#{$prefix}-input-group {
+    --#{theme.$prefix}-label-width: 8rem;
+    .#{theme.$prefix}-input-group {
         display: flex;
         input.form-control {
             min-width: 12.5rem;
@@ -184,7 +184,7 @@ i {
             min-height: 2.5rem * 3 
         }
         >label:first-child {
-            width: var(--#{$prefix}-label-width);
+            width: var(--#{theme.$prefix}-label-width);
             display: block;
             text-align: right;
             line-height: 2.5rem;
@@ -261,7 +261,7 @@ i {
 
 .form-horizontal {
     line-height: 2.5rem;
-    .#{$prefix}-input-group {
+    .#{theme.$prefix}-input-group {
         display: inline-block;
         border-bottom: 1px solid #777;
         height: 2.5rem;
@@ -440,7 +440,7 @@ i {
         height: 100%;
         text-align: center;
         position: relative;
-        @include iconArrow(#fff);
+        @include mixins.iconArrow(#fff);
     }
     .dropdown-menu {
         right: 0;
@@ -483,7 +483,7 @@ i {
 
 @media (min-width: 48rem) {
     .form-table {
-        --#{$prefix}-label-width: 30%;
+        --#{theme.$prefix}-label-width: 30%;
         >.btn-group {
             padding-left: 30%;
             margin-top: 2rem;

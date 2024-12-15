@@ -6,6 +6,7 @@ import { IDiskServer } from '../../model';
 import { DiskService } from '../disk.service';
 
 @Component({
+    standalone: false,
     selector: 'app-servers',
     templateUrl: './servers.component.html',
     styleUrls: ['./servers.component.scss']

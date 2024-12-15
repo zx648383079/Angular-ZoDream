@@ -7,6 +7,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-send',
   templateUrl: './send.component.html',
   styleUrls: ['./send.component.scss']

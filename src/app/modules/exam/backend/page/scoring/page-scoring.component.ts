@@ -8,6 +8,7 @@ import { formatPager } from '../../../util';
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-page-scoring',
   templateUrl: './page-scoring.component.html',
   styleUrls: ['./page-scoring.component.scss']

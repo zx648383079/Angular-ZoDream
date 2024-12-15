@@ -6,6 +6,7 @@ import { ThemeService } from '../../../../../theme/services';
 import { ShopService } from '../../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-pay',
   templateUrl: './pay.component.html',
   styleUrls: ['./pay.component.scss']

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { mapFormat } from '../../theme/utils';
 
 @Pipe({
-  name: 'logType'
+    standalone: false,
+    name: 'logType'
 })
 export class LogTypePipe implements PipeTransform {
 

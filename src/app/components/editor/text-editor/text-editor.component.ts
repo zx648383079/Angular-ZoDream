@@ -4,6 +4,7 @@ import { wordLength } from '../../../theme/utils';
 import { IEditorRange } from '../model';
 
 @Component({
+    standalone: false,
     selector: 'app-text-editor',
     templateUrl: './text-editor.component.html',
     styleUrls: ['./text-editor.component.scss'],

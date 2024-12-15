@@ -3,6 +3,7 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene, IGameTas
 import { IPage, IPageQueries } from '../../../../theme/models/page';
 
 @Component({
+    standalone: false,
     selector: 'app-game-task',
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.scss']

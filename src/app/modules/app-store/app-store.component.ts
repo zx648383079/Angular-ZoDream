@@ -9,6 +9,7 @@ import { AppStoreService } from './app-store.service';
 import { ICategory } from './model';
 
 @Component({
+    standalone: false,
   selector: 'app-app-store',
   templateUrl: './app-store.component.html',
   styleUrls: ['./app-store.component.scss']

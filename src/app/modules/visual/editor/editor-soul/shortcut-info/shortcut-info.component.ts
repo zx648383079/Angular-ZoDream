@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-shortcut-info',
   templateUrl: './shortcut-info.component.html',
   styleUrls: ['./shortcut-info.component.scss']

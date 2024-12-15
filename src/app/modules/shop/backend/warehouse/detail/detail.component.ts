@@ -9,6 +9,7 @@ import { IWarehouse } from '../../../model';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
+    standalone: false,
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']

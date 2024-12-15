@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
 
 @Component({
+    standalone: false,
   selector: 'app-micro',
   templateUrl: './micro.component.html',
   styleUrls: ['./micro.component.scss']

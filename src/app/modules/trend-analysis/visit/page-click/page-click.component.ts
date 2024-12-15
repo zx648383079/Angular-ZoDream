@@ -6,6 +6,7 @@ import { SearchService } from '../../../../theme/services';
 import { TrendService } from '../../trend.service';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-page-click',
     templateUrl: './page-click.component.html',
     styleUrls: ['./page-click.component.scss']

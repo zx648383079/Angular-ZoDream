@@ -7,6 +7,7 @@ import { FileTypeItems, IResource, IResourceCatalog } from '../model';
 import { ResourceService } from '../resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

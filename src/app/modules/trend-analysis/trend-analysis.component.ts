@@ -6,6 +6,7 @@ import { ThemeService } from '../../theme/services';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 
 @Component({
+    standalone: false,
   selector: 'app-trend-analysis',
   templateUrl: './trend-analysis.component.html',
   styleUrls: ['./trend-analysis.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DialogAnimation } from '../../../theme/constants';
 
 @Component({
+    standalone: false,
     selector: 'app-authorize-dialog',
     templateUrl: './authorize-dialog.component.html',
     styleUrls: ['./authorize-dialog.component.scss'],

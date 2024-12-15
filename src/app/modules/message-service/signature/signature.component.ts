@@ -8,6 +8,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { MessageServiceService } from '../ms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-ms-signature',
   templateUrl: './signature.component.html',
   styleUrls: ['./signature.component.scss']

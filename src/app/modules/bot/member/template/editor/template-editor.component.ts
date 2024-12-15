@@ -8,6 +8,7 @@ import { BotService } from '../../bot.service';
 import { EditorBlockType, EditorComponent } from '../../../../../components/editor';
 
 @Component({
+    standalone: false,
     selector: 'app-bot-m-template-editor',
     templateUrl: './template-editor.component.html',
     styleUrls: ['./template-editor.component.scss'],

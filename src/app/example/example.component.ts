@@ -5,6 +5,7 @@ import { SearchEvents } from '../theme/models/event';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+    standalone: false,
     selector: 'app-example',
     templateUrl: './example.component.html',
     styleUrls: ['./example.component.scss']

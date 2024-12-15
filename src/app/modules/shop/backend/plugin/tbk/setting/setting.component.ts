@@ -5,6 +5,7 @@ import { ButtonEvent } from '../../../../../../components/form';
 import { TbkService } from '../tbk.service';
 
 @Component({
+    standalone: false,
   selector: 'app-setting',
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.scss']

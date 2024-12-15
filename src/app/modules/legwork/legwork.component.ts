@@ -4,6 +4,7 @@ import { ThemeService } from '../../theme/services';
 import { LegworkService } from './legwork.service';
 
 @Component({
+    standalone: false,
   selector: 'app-legwork',
   templateUrl: './legwork.component.html',
   styleUrls: ['./legwork.component.scss']

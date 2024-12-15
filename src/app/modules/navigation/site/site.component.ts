@@ -4,6 +4,7 @@ import { ISiteCategory } from '../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-navigation-site',
   templateUrl: './site.component.html',
   styleUrls: ['./site.component.scss']

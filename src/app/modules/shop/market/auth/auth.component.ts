@@ -14,6 +14,7 @@ import { mobileValidator, passwordValidator } from '../../../../theme/validators
 import { ShopAppState } from '../../shop.reducer';
 
 @Component({
+    standalone: false,
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']

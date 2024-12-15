@@ -1,45 +1,48 @@
-.radio-label {
-    background-color: transparent;
-    color: #333;
-    border: 1px solid #333;
-    min-width: 150px;
-    line-height: 40px;
-    display: inline-block;
-    padding: 0 10px;
-    &.checked {
-        background-color: #3498db;
-        color: #fff;
+@mixin container {
+    .radio-label {
+        background-color: transparent;
+        color: #333;
+        border: 1px solid #333;
+        min-width: 150px;
+        line-height: 40px;
+        display: inline-block;
+        padding: 0 10px;
+        &.checked {
+            background-color: #3498db;
+            color: #fff;
+        }
     }
-}
-
-.btn-primary {
-    color: #fff;
-    border-color:  #b4a078;
-    background-color: #b4a078;
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
-    &:hover {
+    
+    .btn-primary {
         color: #fff;
         border-color:  #b4a078;
         background-color: #b4a078;
-    }
-}
-
-.price-input {
-    display: inline-flex;
-    align-items: center;
-    .form-control {
-        width: 4rem;
-        height: 2rem;
-        padding: 0;
-        text-align: center;
-        &:first-of-type {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        &:last-of-type {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        &:hover {
+            color: #fff;
+            border-color:  #b4a078;
+            background-color: #b4a078;
         }
     }
+    
+    .price-input {
+        display: inline-flex;
+        align-items: center;
+        .form-control {
+            width: 4rem;
+            height: 2rem;
+            padding: 0;
+            text-align: center;
+            &:first-of-type {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            &:last-of-type {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+    
 }

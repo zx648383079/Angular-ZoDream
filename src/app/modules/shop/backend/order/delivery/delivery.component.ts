@@ -9,6 +9,7 @@ import { OrderService } from '../order.service';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-delivery',
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.scss']

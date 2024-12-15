@@ -4,6 +4,7 @@ import { SearchService } from '../../theme/services';
 import { SuggestChangeEvent, AutoSuggestBoxComponent } from '../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']

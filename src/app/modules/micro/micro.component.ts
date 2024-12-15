@@ -17,6 +17,7 @@ import { IItem } from '../../theme/models/seo';
 import { SearchEvents } from '../../theme/models/event';
 
 @Component({
+    standalone: false,
     selector: 'app-micro',
     templateUrl: './micro.component.html',
     styleUrls: ['./micro.component.scss']

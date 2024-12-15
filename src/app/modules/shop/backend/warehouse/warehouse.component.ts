@@ -7,6 +7,7 @@ import { SearchService } from '../../../../theme/services';
 import { WarehouseService } from './warehouse.service';
 
 @Component({
+    standalone: false,
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']

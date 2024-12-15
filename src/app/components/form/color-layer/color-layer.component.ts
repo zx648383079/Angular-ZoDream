@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-color-layer',
     templateUrl: './color-layer.component.html',
     styleUrls: ['./color-layer.component.scss']

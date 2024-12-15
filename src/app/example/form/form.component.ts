@@ -10,6 +10,7 @@ import { IItem } from '../../theme/models/seo';
 import { parseNumber } from '../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-example-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']

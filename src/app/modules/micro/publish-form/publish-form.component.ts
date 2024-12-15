@@ -12,6 +12,7 @@ import { ButtonEvent } from '../../../components/form';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-publish-form',
   templateUrl: './publish-form.component.html',
   styleUrls: ['./publish-form.component.scss']

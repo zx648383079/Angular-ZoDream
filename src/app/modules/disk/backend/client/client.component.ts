@@ -7,6 +7,7 @@ import { DiskService } from '../disk.service';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
+    standalone: false,
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.scss']

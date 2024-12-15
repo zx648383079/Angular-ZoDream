@@ -3,6 +3,7 @@ import { IConnect } from '../../../theme/models/auth';
 import { UserService } from '../user.service';
 
 @Component({
+    standalone: false,
   selector: 'app-connect',
   templateUrl: './connect.component.html',
   styleUrls: ['./connect.component.scss']

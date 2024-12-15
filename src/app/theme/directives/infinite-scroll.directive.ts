@@ -19,6 +19,7 @@ import * as events from './events';
  *
  */
 @Directive({
+    standalone: false,
     selector: '[appInfiniteScroll]'
 })
 export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {

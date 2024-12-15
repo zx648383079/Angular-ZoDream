@@ -7,6 +7,7 @@ import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

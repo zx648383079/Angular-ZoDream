@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BotService } from './bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-backend',
   templateUrl: './bot-backend.component.html',
   styleUrls: ['./bot-backend.component.scss']

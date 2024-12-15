@@ -6,6 +6,7 @@ import { ITag } from '../../../model';
 import { BlogService } from '../../blog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-tag',
   templateUrl: './edit-tag.component.html',
   styleUrls: ['./edit-tag.component.scss']

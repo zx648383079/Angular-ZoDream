@@ -9,6 +9,7 @@ import {
 import { CountdownEvent } from '../event';
 
 @Component({
+    standalone: false,
   selector: 'app-countdown-button',
   templateUrl: './countdown-button.component.html',
   styleUrls: ['./countdown-button.component.scss']

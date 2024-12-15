@@ -6,6 +6,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { MemberService } from '../member.service';
 
 @Component({
+    standalone: false,
     selector: 'app-member-connect',
     templateUrl: './connect.component.html',
     styleUrls: ['./connect.component.scss']

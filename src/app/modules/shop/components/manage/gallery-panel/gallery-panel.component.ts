@@ -4,6 +4,7 @@ import { FileUploadService } from '../../../../../theme/services';
 import { IGoodsGallery } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-gallery-panel',
     templateUrl: './gallery-panel.component.html',
     styleUrls: ['./gallery-panel.component.scss'],

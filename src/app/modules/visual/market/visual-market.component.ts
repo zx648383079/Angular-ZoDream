@@ -3,6 +3,7 @@ import { INav } from '../../../theme/components';
 import { VisualService } from './visual.service';
 
 @Component({
+    standalone: false,
   selector: 'app-visual-market',
   templateUrl: './visual-market.component.html',
   styleUrls: ['./visual-market.component.scss']

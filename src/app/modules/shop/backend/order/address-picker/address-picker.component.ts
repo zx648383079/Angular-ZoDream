@@ -5,6 +5,7 @@ import { IAddress } from '../../../model';
 import { OrderService } from '../order.service';
 
 @Component({
+    standalone: false,
     selector: 'app-address-picker',
     templateUrl: './address-picker.component.html',
     styleUrls: ['./address-picker.component.scss'],

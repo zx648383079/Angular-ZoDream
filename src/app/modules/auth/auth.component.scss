@@ -1,4 +1,4 @@
-@import '../../theme/styles/theme';
+@use '../../theme/styles/theme';
 
 .login-box {
     max-width: 18.75rem;
@@ -9,14 +9,14 @@
 }
 
 footer {
-    background-color: var(--#{$prefix}-primary);
-    color: var(--#{$prefix}-primary-text);
+    background-color: var(--#{theme.$prefix}-primary);
+    color: var(--#{theme.$prefix}-primary-text);
     padding: 1.25rem 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: var(--#{$prefix}-primary-text);
+        color: var(--#{theme.$prefix}-primary-text);
         text-decoration: none;
     }
 }

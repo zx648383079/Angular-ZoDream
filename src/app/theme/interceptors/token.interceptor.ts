@@ -1,44 +1,34 @@
 import { environment } from './../../../environments/environment';
-import { Injectable, Injector } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
+  HttpInterceptorFn
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import {Md5} from 'ts-md5';
 import { EncryptorService } from '../services/encryptor.service';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
-
-    constructor(private injector: Injector) { }
-
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (request.method === 'JSONP') {
-            return next.handle(request);
-        }
-        const auth = this.injector.get(AuthService);
-        const encryptor = this.injector.get(EncryptorService);
-        const timestamp = encryptor.getCurrentTime();
-        const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
-        const clonedRequest = request.clone({
-            headers: auth.getTokenHeader(request),
-            url: this.fixUrl(request.url),
-            params: request.params
-                    .set('appid', environment.appid)
-                    .set('timestamp', timestamp)
-                    .set('sign', sign + '')
-        });
-        return next.handle(clonedRequest);
+function fixUrl(url: string) {
+    if (url.indexOf('http://') >= 0 || url.indexOf('https://') >= 0) {
+        return url;
     }
-
-    private fixUrl(url: string) {
-        if (url.indexOf('http://') >= 0 || url.indexOf('https://') >= 0) {
-            return url;
-        }
-        return environment.apiEndpoint + url;
-    }
+    return environment.apiEndpoint + url;
 }
+
+export const TokenInterceptorFn: HttpInterceptorFn = (req, next) => {
+    if (req.method === 'JSONP') {
+        return next(req);
+    }
+    const auth = inject(AuthService);
+    const encryptor = inject(EncryptorService);
+    const timestamp = encryptor.getCurrentTime();
+    const sign = Md5.hashStr(environment.appid + timestamp + environment.secret);
+    const clonedRequest = req.clone({
+        headers: auth.getTokenHeader(req),
+        url: fixUrl(req.url),
+        params: req.params
+                .set('appid', environment.appid)
+                .set('timestamp', timestamp)
+                .set('sign', sign + '')
+    });
+    return next(clonedRequest);
+};

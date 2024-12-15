@@ -9,6 +9,7 @@ import { FileUploadService } from '../../../../../theme/services/file-upload.ser
 import { ArticleService } from '../../article.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

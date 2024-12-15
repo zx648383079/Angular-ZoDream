@@ -32,14 +32,6 @@ import {
     AuthActions
 } from './actions';
 import {
-    HTTP_INTERCEPTORS
-} from '@angular/common/http';
-import {
-    TransferStateInterceptor,
-    TokenInterceptor,
-    ResponseInterceptor
-} from './interceptors';
-import {
     NavBarComponent,
     PageTipComponent,
     EditHeaderComponent,
@@ -109,6 +101,7 @@ const PIPES = [
 ];
 
 const SERVICES = [
+    TransferStateService,
     CookieService,
     DownloadService,
 ];
@@ -132,26 +125,6 @@ const DIRECTIVES = [
     imports: [...BASE_MODULES],
     exports: [...BASE_MODULES, ...COMPONENTS, ...PIPES, ...DIRECTIVES],
     declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
-    providers: [
-        ...SERVICES,
-        ...ACTIONS,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TransferStateInterceptor,
-            multi: true
-        },
-        TransferStateService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptor,
-            multi: true
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ResponseInterceptor,
-            multi: true
-        },
-    ],
 })
 export class ThemeModule {
     static forRoot(): ModuleWithProviders<ThemeModule> {

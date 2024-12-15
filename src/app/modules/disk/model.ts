@@ -146,4 +146,5 @@ export interface IStorageFile extends IPageEditItem {
     created_at: number;
     folder: number;
     path: string;
+    url?: string;
 }

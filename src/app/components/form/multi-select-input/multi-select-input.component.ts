@@ -14,6 +14,7 @@ interface ISelectColumn {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-multi-select-input',
     templateUrl: './multi-select-input.component.html',
     styleUrls: ['./multi-select-input.component.scss'],

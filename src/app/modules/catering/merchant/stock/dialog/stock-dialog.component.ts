@@ -5,6 +5,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 
 @Component({
+    standalone: false,
     selector: 'app-stock-dialog',
     templateUrl: './stock-dialog.component.html',
     styleUrls: ['./stock-dialog.component.scss'],

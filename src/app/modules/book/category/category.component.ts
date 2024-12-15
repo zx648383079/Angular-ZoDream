@@ -4,6 +4,7 @@ import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

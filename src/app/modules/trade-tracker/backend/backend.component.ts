@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TrackerBackendService } from './tracker.service';
 
 @Component({
+    standalone: false,
     selector: 'app-trade-tracker-backend',
     templateUrl: './backend.component.html',
     styleUrls: ['./backend.component.scss']

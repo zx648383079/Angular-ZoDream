@@ -3,6 +3,7 @@ import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../
 import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 
 @Component({
+    standalone: false,
     selector: 'app-dialog-box',
     templateUrl: './dialog-box.component.html',
     styleUrls: ['./dialog-box.component.scss'],

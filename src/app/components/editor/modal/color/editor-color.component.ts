@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-color',
   templateUrl: './editor-color.component.html',
   styleUrls: ['./editor-color.component.scss']

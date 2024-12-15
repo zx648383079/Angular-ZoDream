@@ -8,6 +8,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-rule-store',
   templateUrl: './rule-store.component.html',
   styleUrls: ['./rule-store.component.scss']

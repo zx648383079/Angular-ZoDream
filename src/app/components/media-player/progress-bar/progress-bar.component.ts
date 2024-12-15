@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { formatHour } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-player-progress-bar',
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss']

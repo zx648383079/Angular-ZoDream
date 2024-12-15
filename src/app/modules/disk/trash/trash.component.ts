@@ -10,6 +10,7 @@ import {
 } from '../disk.service';
 
 @Component({
+    standalone: false,
     selector: 'app-trash',
     templateUrl: './trash.component.html',
     styleUrls: ['./trash.component.scss']

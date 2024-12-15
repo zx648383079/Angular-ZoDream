@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewE
 import { rangeStep } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-flip-dot',
     encapsulation: ViewEncapsulation.None,
     template: `

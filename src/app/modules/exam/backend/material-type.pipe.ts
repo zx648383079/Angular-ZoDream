@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { mapFormat } from '../../../theme/utils';
 
 @Pipe({
-  name: 'materialType'
+    standalone: false,
+    name: 'materialType'
 })
 export class MaterialTypePipe implements PipeTransform {
 

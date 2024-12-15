@@ -11,6 +11,7 @@ import { selectShopCart } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']

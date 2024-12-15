@@ -4,6 +4,7 @@ import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
 
 @Component({
+    standalone: false,
   selector: 'app-cache',
   templateUrl: './cache.component.html',
   styleUrls: ['./cache.component.scss']

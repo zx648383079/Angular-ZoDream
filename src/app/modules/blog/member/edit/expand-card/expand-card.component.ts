@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-expand-card',
     templateUrl: './expand-card.component.html',
     styleUrls: ['./expand-card.component.scss'],

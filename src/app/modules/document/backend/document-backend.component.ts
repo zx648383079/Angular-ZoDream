@@ -7,6 +7,7 @@ import { IProject } from '../model';
 import { DocumentService } from './document.service';
 
 @Component({
+    standalone: false,
   selector: 'app-document-backend',
   templateUrl: './document-backend.component.html',
   styleUrls: ['./document-backend.component.scss']

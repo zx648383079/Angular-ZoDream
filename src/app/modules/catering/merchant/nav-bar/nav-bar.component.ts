@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-nav-bar',
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.scss']

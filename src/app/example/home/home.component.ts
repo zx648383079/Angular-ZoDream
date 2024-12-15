@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-example-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

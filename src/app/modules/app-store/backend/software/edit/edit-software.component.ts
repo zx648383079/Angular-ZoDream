@@ -10,6 +10,7 @@ import { ICategory, ISoftware, ITag } from '../../../model';
 import { AppService } from '../../app.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-software',
     templateUrl: './edit-software.component.html',
     styleUrls: ['./edit-software.component.scss']

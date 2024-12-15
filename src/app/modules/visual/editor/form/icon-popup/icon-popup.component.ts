@@ -3,6 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-icon-popup',
     templateUrl: './icon-popup.component.html',
     styleUrls: ['./icon-popup.component.scss'],

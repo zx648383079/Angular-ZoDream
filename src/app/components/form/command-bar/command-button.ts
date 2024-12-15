@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
 import { ButtonEvent, IButton } from '../event';
 
 @Component({
+    standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-command-button',
     template: ``,

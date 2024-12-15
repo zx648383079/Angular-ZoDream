@@ -8,6 +8,7 @@ import { IGameRuleGrade } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-rule-grade',
   templateUrl: './rule-grade.component.html',
   styleUrls: ['./rule-grade.component.scss']

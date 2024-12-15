@@ -5,6 +5,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 
 @Component({
+    standalone: false,
     selector: 'app-recipe-dialog',
     templateUrl: './recipe-dialog.component.html',
     styleUrls: ['./recipe-dialog.component.scss'],

@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-switch',
     templateUrl: './switch.component.html',
     styleUrls: ['./switch.component.scss'],

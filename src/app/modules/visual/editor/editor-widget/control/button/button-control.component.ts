@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-button-control',
   templateUrl: './button-control.component.html',
   styleUrls: ['./button-control.component.scss']

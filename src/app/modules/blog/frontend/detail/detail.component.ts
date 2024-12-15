@@ -25,6 +25,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { IErrorResult } from '../../../../theme/models/page';
 
 @Component({
+    standalone: false,
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']

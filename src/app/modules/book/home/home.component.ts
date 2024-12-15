@@ -6,6 +6,7 @@ import { ContextMenuComponent } from '../../../components/context-menu';
 import { DialogService } from '../../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']

@@ -12,6 +12,7 @@ import { ICourse, IExamPage, IQuestion, QuestionTypeItems } from '../model';
 import { questionNeedOption } from '../util';
 
 @Component({
+    standalone: false,
     selector: 'app-page-editor',
     templateUrl: './page-editor.component.html',
     styleUrls: ['./page-editor.component.scss']

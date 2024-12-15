@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdService } from './ad.service';
 
 @Component({
+    standalone: false,
     selector: 'app-ad-sense',
     templateUrl: './ad-sense.component.html',
     styleUrls: ['./ad-sense.component.scss']

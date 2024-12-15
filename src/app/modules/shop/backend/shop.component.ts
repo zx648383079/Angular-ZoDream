@@ -9,14 +9,13 @@ import {
     ISubtotal,
     ShopService
 } from './shop.service';
-import {
-    EChartsOption
-} from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import {
     map
 } from 'rxjs/operators';
 
 @Component({
+    standalone: false,
     selector: 'app-shop',
     templateUrl: './shop.component.html',
     styleUrls: ['./shop.component.scss']
@@ -25,7 +24,7 @@ export class ShopComponent implements OnInit {
 
     public items: ISubtotal[];
 
-    public options: Observable < EChartsOption > ;
+    public options: Observable < EChartsCoreOption > ;
 
     constructor(
         private service: ShopService
@@ -33,7 +32,7 @@ export class ShopComponent implements OnInit {
         this.service.statistics().subscribe(res => {
             this.items = res;
         });
-        this.options = this.service.order().pipe(map<any[], EChartsOption>(data => {
+        this.options = this.service.order().pipe(map<any[], EChartsCoreOption>(data => {
             return {
                 title: {
                     text: '订单月统计',

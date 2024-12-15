@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']

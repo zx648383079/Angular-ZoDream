@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { INav } from '../../../../theme/components';
 
 @Component({
+    standalone: false,
   selector: 'app-merchant-menu',
   templateUrl: './merchant-menu.component.html',
   styleUrls: ['./merchant-menu.component.scss']

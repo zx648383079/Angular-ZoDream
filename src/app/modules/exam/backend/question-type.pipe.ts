@@ -3,7 +3,8 @@ import { mapFormat } from '../../../theme/utils';
 import { QuestionTypeItems } from '../model';
 
 @Pipe({
-  name: 'questionType'
+    standalone: false,
+    name: 'questionType'
 })
 export class QuestionTypePipe implements PipeTransform {
 

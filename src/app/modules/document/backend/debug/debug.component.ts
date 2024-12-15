@@ -26,6 +26,7 @@ interface ICacheRequest {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-debug',
   templateUrl: './debug.component.html',
   styleUrls: ['./debug.component.scss']

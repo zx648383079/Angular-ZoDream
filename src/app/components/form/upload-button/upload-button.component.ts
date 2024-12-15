@@ -3,6 +3,7 @@ import { FileUploadService } from '../../../theme/services';
 import { UploadButtonEvent } from '../event';
 
 @Component({
+    standalone: false,
     selector: 'app-upload-button',
     templateUrl: './upload-button.component.html',
     styleUrls: ['./upload-button.component.scss']

@@ -3,6 +3,7 @@ import { hasElementByClass } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
 @Component({
+    standalone: false,
   selector: 'app-button-group',
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss']

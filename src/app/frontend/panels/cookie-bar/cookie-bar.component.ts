@@ -16,6 +16,7 @@ interface ICookieGroup {
 const CookiePolicyKey = 'cookie_policy';
 
 @Component({
+    standalone: false,
     selector: 'app-cookie-bar',
     templateUrl: './cookie-bar.component.html',
     styleUrls: ['./cookie-bar.component.scss']

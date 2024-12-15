@@ -15,6 +15,7 @@ type RenderSpectumRingFunc = (context: CanvasRenderingContext2D, pen: string, da
     angle: number, centerX: number, centerY: number, radius: number) => void;
 
 @Component({
+    standalone: false,
   selector: 'app-spectrum-panel',
   templateUrl: './spectrum-panel.component.html',
   styleUrls: ['./spectrum-panel.component.scss']

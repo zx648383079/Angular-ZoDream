@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
 
 
 @Component({
+    standalone: false,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
         type: 0
     };
     public typeItems = ['天', '月', '季度', '年'];
-    public options: EChartsOption;
+    public options: EChartsCoreOption;
 
     constructor(
         private service: FinanceService,

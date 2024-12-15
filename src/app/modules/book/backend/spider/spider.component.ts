@@ -6,6 +6,7 @@ import { IBookSpiderItem } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
     selector: 'app-spider',
     templateUrl: './spider.component.html',
     styleUrls: ['./spider.component.scss']

@@ -8,6 +8,7 @@ import { IMovieScore } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-movie-score',
   templateUrl: './movie-score.component.html',
   styleUrls: ['./movie-score.component.scss']

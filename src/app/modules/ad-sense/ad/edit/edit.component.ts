@@ -19,6 +19,7 @@ import { ButtonEvent } from '../../../../components/form';
 import { DEEPLINK_SCHEMA } from '../../../../theme/utils/deeplink';
 
 @Component({
+    standalone: false,
     selector: 'app-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']

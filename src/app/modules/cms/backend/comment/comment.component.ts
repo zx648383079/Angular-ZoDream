@@ -7,6 +7,7 @@ import { ICmsComment } from '../../model';
 import { CmsService } from '../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']

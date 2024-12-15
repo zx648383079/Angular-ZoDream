@@ -9,6 +9,7 @@ import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],

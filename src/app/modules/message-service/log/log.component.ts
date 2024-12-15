@@ -8,6 +8,7 @@ import { SearchService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-ms-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']

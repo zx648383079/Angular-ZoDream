@@ -3,6 +3,7 @@ import { DialogEvent } from '../../../../components/dialog';
 import { assetUri } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-shop-share-dialog',
     templateUrl: './share-dialog.component.html',
     styleUrls: ['./share-dialog.component.scss']

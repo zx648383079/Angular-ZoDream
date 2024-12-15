@@ -3,6 +3,7 @@ import { SystemService } from '../system.service';
 import { ButtonEvent } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-sitemap',
     templateUrl: './sitemap.component.html',
     styleUrls: ['./sitemap.component.scss']

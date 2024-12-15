@@ -7,6 +7,7 @@ import { ILastestLog } from './model';
 import { SuggestChangeEvent } from '../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-trade-tracker',
     templateUrl: './trade-tracker.component.html',
     styleUrls: ['./trade-tracker.component.scss']

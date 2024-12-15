@@ -5,6 +5,7 @@ import { toggleClass } from '../../../theme/utils/doc';
 import { DialogService } from '../../dialog';
 
 @Component({
+    standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-markdown-block',
     template: `

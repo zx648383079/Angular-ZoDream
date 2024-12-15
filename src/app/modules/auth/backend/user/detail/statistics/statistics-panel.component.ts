@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { IStatisticsItem } from '../../../../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-log-statistics-panel',
     templateUrl: './statistics-panel.component.html',
     styleUrls: ['./statistics-panel.component.scss']

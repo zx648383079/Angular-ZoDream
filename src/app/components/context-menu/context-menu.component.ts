@@ -3,9 +3,10 @@ import { hasElementByClass } from '../../theme/utils/doc';
 import { IMenuButton, IMenuItem, MenuEvent } from './model';
 
 @Component({
-  selector: 'app-context-menu',
-  templateUrl: './context-menu.component.html',
-  styleUrls: ['./context-menu.component.scss']
+    standalone: false,
+    selector: 'app-context-menu',
+    templateUrl: './context-menu.component.html',
+    styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
 

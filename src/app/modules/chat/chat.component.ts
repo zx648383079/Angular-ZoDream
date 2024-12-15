@@ -45,6 +45,7 @@ interface IMessagePing {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']

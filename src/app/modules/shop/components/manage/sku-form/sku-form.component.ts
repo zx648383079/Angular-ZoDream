@@ -20,6 +20,7 @@ interface ISkuSpec {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-sku-form',
     templateUrl: './sku-form.component.html',
     styleUrls: ['./sku-form.component.scss']

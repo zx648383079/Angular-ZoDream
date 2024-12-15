@@ -4,6 +4,7 @@ import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-datepicker',
     templateUrl: 'datepicker.component.html',
     styleUrls: ['./datepicker.component.scss']

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TbkService } from './tbk.service';
 
 @Component({
+    standalone: false,
   selector: 'app-tbk',
   templateUrl: './tbk.component.html',
   styleUrls: ['./tbk.component.scss']

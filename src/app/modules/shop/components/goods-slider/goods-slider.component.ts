@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-goods-slider',
   templateUrl: './goods-slider.component.html',
   styleUrls: ['./goods-slider.component.scss']

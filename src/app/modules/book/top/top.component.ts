@@ -4,6 +4,7 @@ import { IBook, ICategory } from '../model';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
   selector: 'app-top',
   templateUrl: './top.component.html',
   styleUrls: ['./top.component.scss']

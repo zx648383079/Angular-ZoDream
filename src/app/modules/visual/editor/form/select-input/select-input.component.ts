@@ -3,6 +3,7 @@ import { IItem } from '../../../../../theme/models/seo';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],

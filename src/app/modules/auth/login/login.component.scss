@@ -1,4 +1,4 @@
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/theme';
 .login-form {
     &.slided {
         transform: translate(-18.75rem, 0);
@@ -16,7 +16,7 @@
 
     a {
         font-size: 1.875rem;
-        color: $bodyText;
+        color: theme.$bodyText;
         margin: 0.3125rem;
         text-decoration: none;
 
@@ -36,7 +36,7 @@
         float: right;
         line-height: 1.875rem;
         margin-right: 0.625rem;
-        color: $bodyText;
+        color: theme.$bodyText;
     }
 }
 

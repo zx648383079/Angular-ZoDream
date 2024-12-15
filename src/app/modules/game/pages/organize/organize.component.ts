@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-organize',
     templateUrl: './organize.component.html',
     styleUrls: ['./organize.component.scss']

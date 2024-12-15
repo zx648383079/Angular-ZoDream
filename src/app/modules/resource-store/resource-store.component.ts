@@ -9,6 +9,7 @@ import { ICategory } from './model';
 import { ResourceService } from './resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-resource-store',
   templateUrl: './resource-store.component.html',
   styleUrls: ['./resource-store.component.scss']

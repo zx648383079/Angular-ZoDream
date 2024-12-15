@@ -4,6 +4,7 @@ import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model
 import Hls from 'hls.js';
 
 @Component({
+    standalone: false,
   selector: 'app-movie-player',
   templateUrl: './movie-player.component.html',
   styleUrls: ['./movie-player.component.scss']

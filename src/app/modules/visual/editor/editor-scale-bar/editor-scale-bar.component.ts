@@ -3,6 +3,7 @@ import { checkRange } from '../../../../theme/utils';
 import { EditorService } from '../editor.service';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-scale-bar',
   templateUrl: './editor-scale-bar.component.html',
   styleUrls: ['./editor-scale-bar.component.scss']

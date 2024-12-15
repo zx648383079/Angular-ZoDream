@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
+    standalone: false,
   selector: 'app-gua',
   templateUrl: './gua.component.html',
   styleUrls: ['./gua.component.scss']

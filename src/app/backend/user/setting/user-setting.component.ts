@@ -12,6 +12,7 @@ interface IGroupHeader {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-user-setting',
   templateUrl: './user-setting.component.html',
   styleUrls: ['./user-setting.component.scss']

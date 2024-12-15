@@ -10,6 +10,7 @@ import { BotInstanceKey, IBotAccount } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']

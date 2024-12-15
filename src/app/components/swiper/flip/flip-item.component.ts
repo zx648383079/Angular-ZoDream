@@ -2,6 +2,7 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
 import { FlipContainerComponent } from './flip-container.component';
 
 @Component({
+    standalone: false,
     selector: 'app-flip-item',
     encapsulation: ViewEncapsulation.None,
     template: `<div class="flip-router-bar" *ngIf="header">

@@ -7,6 +7,7 @@ import { ShopService } from '../../shop.service';
 import { IOrderRefund } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-price-protect',
   templateUrl: './price-protect.component.html',
   styleUrls: ['./price-protect.component.scss']

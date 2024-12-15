@@ -7,6 +7,7 @@ import { MicroService } from '../micro.service';
 import { IComment } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-comment-viewer',
   templateUrl: './comment-viewer.component.html',
   styleUrls: ['./comment-viewer.component.scss']

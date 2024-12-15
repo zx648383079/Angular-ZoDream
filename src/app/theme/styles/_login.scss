@@ -1,4 +1,4 @@
-@import 'theme';
+@use 'theme';
 .login-box {
     a {
         text-decoration: none;
@@ -31,7 +31,7 @@
         }
     }
     .form-ico {
-        .#{$prefix}-input-group {
+        .#{theme.$prefix}-input-group {
             position: relative;
             line-height: 2.5rem;
             height: 2.5rem;

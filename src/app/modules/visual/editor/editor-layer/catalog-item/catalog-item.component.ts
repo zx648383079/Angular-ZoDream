@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-catalog-item',
   templateUrl: './catalog-item.component.html',
   styleUrls: ['./catalog-item.component.scss']

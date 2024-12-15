@@ -1,5 +1,5 @@
-@import '../../theme/styles/theme';
-@import '../../theme/styles/mixins';
+@use '../../theme/styles/theme';
+@use '../../theme/styles/mixins';
 .editor-panel {
     flex-shrink: 0;
     overflow-y: auto;
@@ -7,15 +7,15 @@
     top: 0;
     bottom: 0;
     width: 20rem;
-    background-color: var(--#{$prefix}-tool);
-    color: var(--#{$prefix}-tool-text);
-    border-left: 1px solid var(--#{$prefix}-editor-border);
+    background-color: var(--#{theme.$prefix}-tool);
+    color: var(--#{theme.$prefix}-tool-text);
+    border-left: 1px solid var(--#{theme.$prefix}-editor-border);
     .panel-header {
         position: sticky;
-        border-bottom: 1px solid var(--#{$prefix}-editor-border);
+        border-bottom: 1px solid var(--#{theme.$prefix}-editor-border);
         line-height: 3rem;
         top: 0;
-        background-color: var(--#{$prefix}-tool);
+        background-color: var(--#{theme.$prefix}-tool);
         z-index: 2;
     }
     .panel-tab-bar {
@@ -34,7 +34,7 @@
                 height: 3px;
                 left: 0;
                 right: 0;
-                background-color: var(--#{$prefix}-primary);
+                background-color: var(--#{theme.$prefix}-primary);
             }
         }
     }
@@ -55,9 +55,9 @@
     }
     .panel-search-bar {
         position: sticky;
-        border-bottom: 1px solid var(--#{$prefix}-editor-border);
+        border-bottom: 1px solid var(--#{theme.$prefix}-editor-border);
         top: 0;
-        background-color: var(--#{$prefix}-tool);
+        background-color: var(--#{theme.$prefix}-tool);
         z-index: 2;
         .panel-tab-bar {
             line-height: 2.5rem;
@@ -98,7 +98,7 @@
         justify-content: space-between;
         padding: .8rem;
         &:hover {
-            color: var(--#{$prefix}-primary);
+            color: var(--#{theme.$prefix}-primary);
         }
     }
     .panel-action-btn {
@@ -117,7 +117,7 @@
             margin-right: .4rem;
         }
     }
-    .#{$prefix}-input-group {
+    .#{theme.$prefix}-input-group {
         >label {
             margin-bottom: .4rem;
             font-size: .8rem;
@@ -136,9 +136,9 @@
             display: flex;
             align-items: center;
             min-height: 3rem;
-            @include iconArrow();
+            @include mixins.iconArrow();
             &:hover {
-                background-color: var(--#{$prefix}-editor);
+                background-color: var(--#{theme.$prefix}-editor);
             }
         }
         .card-body {
@@ -156,7 +156,7 @@
             }
         }
         &:not(:last-of-type) {
-            border-bottom: 1px solid var(--#{$prefix}-editor-border);
+            border-bottom: 1px solid var(--#{theme.$prefix}-editor-border);
         }
     }
     &.scroll-body {
@@ -169,8 +169,8 @@
 
 .editor-panel-popup {
     position: absolute;
-    border-right: 1px solid var(--#{$prefix}-editor-border);
-    background-color: var(--#{$prefix}-editor);
+    border-right: 1px solid var(--#{theme.$prefix}-editor-border);
+    background-color: var(--#{theme.$prefix}-editor);
     top: 0;
     left: 100%;
     bottom: 0;
@@ -194,7 +194,7 @@
             border-radius: .25rem;
         }
         &:hover {
-            border: 2px solid var(--#{$prefix}-primary);
+            border: 2px solid var(--#{theme.$prefix}-primary);
         }
     }
 }

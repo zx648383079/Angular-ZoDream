@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResourceService } from './resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-resource-backend',
   templateUrl: './resource-backend.component.html',
   styleUrls: ['./resource-backend.component.scss']

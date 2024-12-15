@@ -10,6 +10,7 @@ import { ShopService } from '../shop.service';
 import { ICategory } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-market',
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.scss']

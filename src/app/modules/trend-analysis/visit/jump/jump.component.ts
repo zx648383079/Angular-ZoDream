@@ -7,6 +7,7 @@ import { TrendService } from '../../trend.service';
 import { IJumpLog, TimeTabItems } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-jump',
     templateUrl: './jump.component.html',
     styleUrls: ['./jump.component.scss']

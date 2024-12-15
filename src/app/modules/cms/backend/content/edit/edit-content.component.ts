@@ -7,6 +7,7 @@ import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-content',
   templateUrl: './edit-content.component.html',
   styleUrls: ['./edit-content.component.scss']

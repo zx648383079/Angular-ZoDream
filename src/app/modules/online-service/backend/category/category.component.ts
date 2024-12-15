@@ -8,6 +8,7 @@ import { ICategory } from '../../model';
 import { OnlineBackendService } from '../online.service';
 
 @Component({
+    standalone: false,
     selector: 'app-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']

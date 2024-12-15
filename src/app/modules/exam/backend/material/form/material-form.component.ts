@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICourse, IQuestionMaterial } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-material-form',
     templateUrl: './material-form.component.html',
     styleUrls: ['./material-form.component.scss']

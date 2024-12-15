@@ -1,4 +1,4 @@
-@import '../../theme/styles/theme';
+@use '../../theme/styles/theme';
 .container {
     min-height: 80vh;
     padding-top: 3.125rem;
@@ -10,11 +10,11 @@
     display: block;
     font-size: 1.875rem;
     text-align: center;
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     overflow-y: hidden;
-    box-shadow: 0 0 0.625rem $shadow;
+    box-shadow: 0 0 0.625rem theme.$shadow;
     text-decoration: none;
-    color: var(--#{$prefix}-panel-text);
+    color: var(--#{theme.$prefix}-panel-text);
     margin-bottom: 1rem;
     &.metro-desc {
         .name {

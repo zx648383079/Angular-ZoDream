@@ -11,6 +11,7 @@ import { IBotMedia, MediaTypeItems } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-media',
   templateUrl: './media.component.html',
   styleUrls: ['./media.component.scss']

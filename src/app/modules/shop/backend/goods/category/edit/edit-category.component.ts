@@ -8,6 +8,7 @@ import { filterTree } from '../../../../../../theme/utils';
 import { GoodsService } from '../../goods.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-category',
     templateUrl: './edit-category.component.html',
     styleUrls: ['./edit-category.component.scss']

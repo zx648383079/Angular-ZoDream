@@ -5,6 +5,7 @@ import { GenerateService } from '../../generate.service';
 import { ITable } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']

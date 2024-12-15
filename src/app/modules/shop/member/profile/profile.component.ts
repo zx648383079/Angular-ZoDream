@@ -9,6 +9,7 @@ import { parseNumber } from '../../../../theme/utils';
 import { ShopService } from '../../shop.service';
 
 @Component({
+    standalone: false,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']

@@ -4,6 +4,7 @@ import { AddWeightCommand, MENU_ACTION, Widget } from '../model';
 import { EditorService } from '../editor.service';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-window',
     templateUrl: './editor-window.component.html',
     styleUrls: ['./editor-window.component.scss']

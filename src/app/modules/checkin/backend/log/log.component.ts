@@ -6,6 +6,7 @@ import { ICheckIn } from '../../model';
 import { CheckinService } from '../checkin.service';
 
 @Component({
+    standalone: false,
   selector: 'app-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']

@@ -7,6 +7,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-attribute',
     templateUrl: './attribute.component.html',
     styleUrls: ['./attribute.component.scss']

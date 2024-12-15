@@ -48,7 +48,14 @@
                     </td>
                     <td>{{ item.id }}</td>
                     <td class="auto-hide">[{{ formatTag(item.folder) }}]</td>
-                    <td [title]="item.path">{{ item.name }}</td>
+                    <td [title]="item.path">
+                        <ng-container *ngIf="item.url; else elseTemplate">
+                            <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{ item.name }}</a>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            {{ item.name }}
+                        </ng-template>
+                    </td>
                     <td>{{ item.size | size }}</td>
                     <td [title]="item.path" class="auto-hide">{{ item.md5 }}</td>
                     <td [title]="item.created_at | timestamp">{{ item.created_at | ago }}</td>

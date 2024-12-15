@@ -7,6 +7,7 @@ import { MessageServiceService } from '../../ms.service';
 import { ButtonEvent } from '../../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-ms-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']

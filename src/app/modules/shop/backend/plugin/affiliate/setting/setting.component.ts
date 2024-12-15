@@ -4,6 +4,7 @@ import { ButtonEvent } from '../../../../../../components/form';
 import { AffiliateService } from '../affiliate.service';
 
 @Component({
+    standalone: false,
   selector: 'app-setting',
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.scss']

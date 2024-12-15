@@ -4,6 +4,7 @@ import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-game-organize-piazza',
     templateUrl: './organize-piazza.component.html',
     styleUrls: ['./organize-piazza.component.scss']

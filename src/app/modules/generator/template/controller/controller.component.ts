@@ -4,6 +4,7 @@ import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-controller',
   templateUrl: './controller.component.html',
   styleUrls: ['./controller.component.scss']

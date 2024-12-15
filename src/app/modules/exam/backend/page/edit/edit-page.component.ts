@@ -8,6 +8,7 @@ import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-page',
   templateUrl: './edit-page.component.html',
   styleUrls: ['./edit-page.component.scss']

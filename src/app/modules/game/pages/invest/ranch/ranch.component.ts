@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameFarmPlot, IGameRouter, IGameScene, InvestTabItems } from '../../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-ranch',
     templateUrl: './ranch.component.html',
     styleUrls: ['./ranch.component.scss']

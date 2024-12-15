@@ -8,6 +8,7 @@ import { parseNumber } from '../../../../theme/utils';
 import { MemberService } from '../member.service';
 
 @Component({
+    standalone: false,
   selector: 'app-member-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']

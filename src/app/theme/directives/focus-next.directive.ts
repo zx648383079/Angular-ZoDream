@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@
 
 
 @Directive({
+    standalone: false,
     selector: '[appFocusNext]'
 })
 export class FocusNextDirective implements OnInit, OnDestroy {

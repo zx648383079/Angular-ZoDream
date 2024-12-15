@@ -10,6 +10,7 @@ import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']

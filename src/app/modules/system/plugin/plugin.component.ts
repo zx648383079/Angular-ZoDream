@@ -8,6 +8,7 @@ import { IPluginItem } from '../../../theme/models/seo';
 import { ButtonEvent, FormPanelComponent, FormPanelEvent, IFormInput } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-system-plugin',
     templateUrl: './plugin.component.html',
     styleUrls: ['./plugin.component.scss']

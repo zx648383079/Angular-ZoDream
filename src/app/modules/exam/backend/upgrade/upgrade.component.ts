@@ -7,6 +7,7 @@ import { ICourse } from '../../model';
 import { ExamService } from '../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-upgrade',
   templateUrl: './upgrade.component.html',
   styleUrls: ['./upgrade.component.scss']

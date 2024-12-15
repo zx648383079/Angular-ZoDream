@@ -4,6 +4,7 @@ import { IBlockItem } from '../../../../components/link-rule';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']

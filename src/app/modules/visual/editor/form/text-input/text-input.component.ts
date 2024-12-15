@@ -2,6 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-text-input',
     templateUrl: './text-input.component.html',
     styleUrls: ['./text-input.component.scss'],

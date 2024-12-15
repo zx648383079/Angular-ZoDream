@@ -8,6 +8,7 @@ import { ICourse } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-course-grade',
   templateUrl: './course-grade.component.html',
   styleUrls: ['./course-grade.component.scss']

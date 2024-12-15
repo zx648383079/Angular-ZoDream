@@ -1,6 +1,6 @@
-@import '../../dialog';
+@use '../../dialog';
 .goods-dialog {
-    @include dialogSet(20rem);
+    @include dialog.dialogSet(20rem);
 }
 .item-price {
     display: inline-block;

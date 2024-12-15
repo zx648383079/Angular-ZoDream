@@ -1,7 +1,8 @@
+@use '../../../theme/styles/scrollbar';
 .chat-box {
     position: fixed;
     left: 0;
-    width: 300px;
+    width: 18.75rem;
     bottom: 0;
     background-color: #eee;
     top: 0;
@@ -128,7 +129,7 @@
             right: 0;
             left: 0;
             overflow-y: auto;
-            @include scrollbar();
+            @include scrollbar.scrollbar();
             &.active {
                 display: block;
             }
@@ -233,7 +234,7 @@
             right: 0;
             left: 0;
             overflow-y: auto;
-            @include scrollbar();
+            @include scrollbar.scrollbar();
         }
     }
     &.search-mode {

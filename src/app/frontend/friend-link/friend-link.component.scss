@@ -1,11 +1,11 @@
-@import '../../theme/styles/theme';
+@use '../../theme/styles/theme';
 .container {
     min-height: 80vh;
 }
 
 .friend-box {
     margin: 3.125rem 0;
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     min-height: 18.75rem;
     line-height: 2.5rem;
     padding: 1.25rem 0.625rem;
@@ -18,7 +18,7 @@
     text-align: left;
     font-weight: 700;
     span {
-        border-bottom: 5px solid var(--#{$prefix}-primary);
+        border-bottom: 5px solid var(--#{theme.$prefix}-primary);
         display: inline-block;
     }
 }
@@ -26,7 +26,7 @@
 .link-box {
     margin: 3.125rem 0;
     min-height: 18.75rem;
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     .inner-code {
         flex: 1;
         background-color: var(--bs-body-bg);
@@ -48,7 +48,7 @@
 .panel-header {
     line-height: 50px;
     padding-left: 20px;
-    border-left: 5px solid var(--#{$prefix}-primary);
+    border-left: 5px solid var(--#{theme.$prefix}-primary);
     font-size: 20px;
     font-weight: 700;
 }

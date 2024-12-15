@@ -1,4 +1,4 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 :host {
     display: inline-block;
 }
@@ -61,7 +61,7 @@
     .selector-body {
         overflow-y: auto;
         height: 12.5rem;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         ul {
             li {
                 list-style: none;

@@ -1,6 +1,6 @@
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/theme';
 .subscribe-bar {
-    background-color: var(--#{$prefix}-panel);
+    background-color: var(--#{theme.$prefix}-panel);
     padding: 3rem 0;
 }
 

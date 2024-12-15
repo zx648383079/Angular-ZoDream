@@ -7,6 +7,7 @@ import { ShopService } from '../../shop.service';
 import { IOrderRefund } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-refund',
   templateUrl: './refund.component.html',
   styleUrls: ['./refund.component.scss']

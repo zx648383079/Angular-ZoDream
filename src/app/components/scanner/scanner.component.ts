@@ -3,6 +3,7 @@ import { BarcodeFormat, BrowserCodeReader, BrowserQRCodeReader, IScannerControls
 import { DecodeHintType } from '@zxing/library';
 
 @Component({
+    standalone: false,
     selector: 'app-scanner',
     templateUrl: './scanner.component.html',
     styleUrls: ['./scanner.component.scss']

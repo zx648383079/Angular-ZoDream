@@ -4,6 +4,7 @@ import { IInvoiceTitle } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
 
 @Component({
+    standalone: false,
     selector: 'app-invoice-dialog',
     templateUrl: './invoice-dialog.component.html',
     styleUrls: ['./invoice-dialog.component.scss'],

@@ -6,6 +6,7 @@ import { AppStoreService } from '../../app-store.service';
 import { ISoftwareDownload } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['./download.component.scss']

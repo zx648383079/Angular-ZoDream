@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { IGamePeople } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-game-dialogue',
     templateUrl: './dialogue.component.html',
     styleUrls: ['./dialogue.component.scss']

@@ -8,6 +8,7 @@ import { ShopService } from '../shop.service';
 import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
+    standalone: false,
     selector: 'app-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],

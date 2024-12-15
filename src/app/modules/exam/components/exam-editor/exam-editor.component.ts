@@ -7,6 +7,7 @@ import { wordLength } from '../../../../theme/utils';
 import { MarkRangeMap } from '../math-mark/parser';
 
 @Component({
+    standalone: false,
     selector: 'app-exam-editor',
     templateUrl: './exam-editor.component.html',
     styleUrls: ['./exam-editor.component.scss'],

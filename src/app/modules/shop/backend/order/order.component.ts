@@ -9,6 +9,7 @@ import { SearchService } from '../../../../theme/services';
 import { OrderService } from './order.service';
 
 @Component({
+    standalone: false,
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],

@@ -8,6 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss']

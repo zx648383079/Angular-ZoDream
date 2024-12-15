@@ -7,6 +7,7 @@ import { DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-weight',
   templateUrl: './weight.component.html',
   styleUrls: ['./weight.component.scss']

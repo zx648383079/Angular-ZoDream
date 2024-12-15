@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberService } from '../member.service';
 
 @Component({
+    standalone: false,
     selector: 'app-member-driver',
     templateUrl: './driver.component.html',
     styleUrls: ['./driver.component.scss']

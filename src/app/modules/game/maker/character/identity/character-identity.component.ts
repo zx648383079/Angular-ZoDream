@@ -8,6 +8,7 @@ import { IGameCharacterIdentity } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-character-identity',
     templateUrl: './character-identity.component.html',
     styleUrls: ['./character-identity.component.scss']

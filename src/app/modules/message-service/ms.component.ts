@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageServiceService } from './ms.service';
 
 @Component({
+    standalone: false,
     selector: 'app-message-service',
     templateUrl: './ms.component.html',
     styleUrls: ['./ms.component.scss']

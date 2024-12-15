@@ -5,6 +5,7 @@ import { BotService } from './bot.service';
 import { ThemeService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-member',
   templateUrl: './bot-member.component.html',
   styleUrls: ['./bot-member.component.scss']

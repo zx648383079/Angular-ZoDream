@@ -1,4 +1,4 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 .time-input-container {
     display: inline-block;
     color: #333;
@@ -73,7 +73,7 @@
     .scroll-column {
         overflow-y: auto;
         max-height: 300px;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         flex: 1;
         line-height: 30px;
         li {

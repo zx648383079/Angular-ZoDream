@@ -7,6 +7,7 @@ import { IBook, IBookList } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']

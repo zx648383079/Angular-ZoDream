@@ -10,6 +10,7 @@ import { DocumentService } from '../document.service';
 import { treeRemoveId } from '../../shared';
 
 @Component({
+    standalone: false,
   selector: 'app-api-edit',
   templateUrl: './api-edit.component.html',
   styleUrls: ['./api-edit.component.scss']

@@ -7,6 +7,7 @@ import { confirmValidator } from '../../../theme/validators';
 import { UserService } from '../user.service';
 
 @Component({
+    standalone: false,
     selector: 'app-password',
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']

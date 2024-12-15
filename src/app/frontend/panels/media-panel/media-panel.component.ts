@@ -4,6 +4,7 @@ import { IPage } from '../../../theme/models/page';
 import { IResource } from '../../../modules/resource-store/model';
 
 @Component({
+    standalone: false,
     selector: 'app-media-panel',
     templateUrl: './media-panel.component.html',
     styleUrls: ['./media-panel.component.scss']

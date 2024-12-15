@@ -36,6 +36,7 @@ import { DialogBoxComponent } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-thread',
     templateUrl: './thread.component.html',
     styleUrls: ['./thread.component.scss']

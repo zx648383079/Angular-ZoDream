@@ -1,3 +1,4 @@
+@use 'theme';
 .tab-box {
     >.tab-header {
         position: relative;
@@ -61,28 +62,28 @@
 }
 
 .tab-bar {
-    --#{$prefix}-tab: transparent;
-    --#{$prefix}-tab-text: #333;
-    --#{$prefix}-tab-hover: #ccc;
-    --#{$prefix}-tab-active: red;
-    --#{$prefix}-tab-active-text: #fff;
+    --#{theme.$prefix}-tab: transparent;
+    --#{theme.$prefix}-tab-text: #333;
+    --#{theme.$prefix}-tab-hover: #ccc;
+    --#{theme.$prefix}-tab-active: red;
+    --#{theme.$prefix}-tab-active-text: #fff;
     display: block;
     line-height: 2.5rem;
     a {
-        color: var(--#{$prefix}-tab-text);
+        color: var(--#{theme.$prefix}-tab-text);
     }
     .item {
         display: inline-block;
         padding: 0 1.25rem;
         cursor: pointer;
-        color: var(--#{$prefix}-tab-text);
-        background-color: var(--#{$prefix}-tab);
+        color: var(--#{theme.$prefix}-tab-text);
+        background-color: var(--#{theme.$prefix}-tab);
         &:hover {
-            background-color: var(--#{$prefix}-tab-hover);
+            background-color: var(--#{theme.$prefix}-tab-hover);
         }
         &.active {
-            background-color: var(--#{$prefix}-tab-active);
-            color: var(--#{$prefix}-tab-active-text);
+            background-color: var(--#{theme.$prefix}-tab-active);
+            color: var(--#{theme.$prefix}-tab-active-text);
         }
         &:first-of-type {
             border-top-left-radius: 0.3125rem;
@@ -125,7 +126,7 @@
         user-select: none;
         .iconfont {
             line-height: 2rem;
-            border-left: 1px solid $border;
+            border-left: 1px solid theme.$border;
             opacity: .7;
         }
         span,

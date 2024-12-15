@@ -1,4 +1,4 @@
-@import '../../styles/scrollbar';
+@use '../../styles/scrollbar';
 $size: 40px;
 $boxWidth: $size * 8;
 
@@ -29,7 +29,7 @@ $boxWidth: $size * 8;
         }
     }
     .picker-body {
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         padding: 0 15px;
         overflow-y: auto;
         height: 200px;
@@ -57,7 +57,7 @@ $boxWidth: $size * 8;
         }
     }
     .nav-bar {
-        @include scrollbar();
+        @include scrollbar.scrollbar();
         background-color: #f4f4f4;
         overflow-x: auto;
         white-space: nowrap;

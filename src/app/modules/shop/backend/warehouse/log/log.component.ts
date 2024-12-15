@@ -7,6 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { WarehouseService } from '../warehouse.service';
 
 @Component({
+    standalone: false,
   selector: 'app-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']

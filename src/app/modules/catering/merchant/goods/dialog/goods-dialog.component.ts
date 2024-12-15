@@ -5,6 +5,7 @@ import { ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-goods-dialog',
     templateUrl: './goods-dialog.component.html',
     styleUrls: ['./goods-dialog.component.scss'],

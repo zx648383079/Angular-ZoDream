@@ -7,6 +7,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
+    standalone: false,
   selector: 'app-issue-page',
   templateUrl: './issue-page.component.html',
   styleUrls: ['./issue-page.component.scss']

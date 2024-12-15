@@ -4,6 +4,7 @@ import { IRole } from '../../../../theme/models/auth';
 import { RoleService } from './role.service';
 
 @Component({
+    standalone: false,
   selector: 'app-role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss']

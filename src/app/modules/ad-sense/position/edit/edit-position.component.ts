@@ -7,6 +7,7 @@ import { IAdPosition } from '../../model';
 import { ButtonEvent } from '../../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-ad-edit-position',
     templateUrl: './edit-position.component.html',
     styleUrls: ['./edit-position.component.scss']

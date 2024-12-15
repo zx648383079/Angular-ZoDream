@@ -10,6 +10,7 @@ import { ButtonEvent } from '../../../../../components/form';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-movie',
   templateUrl: './edit-movie.component.html',
   styleUrls: ['./edit-movie.component.scss']

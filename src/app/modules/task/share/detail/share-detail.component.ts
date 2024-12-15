@@ -7,6 +7,7 @@ import { formatHour } from '../../../../theme/utils';
 import { TaskService } from '../../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-share-detail',
     templateUrl: './share-detail.component.html',
     styleUrls: ['./share-detail.component.scss'],

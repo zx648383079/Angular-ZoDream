@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
@@ -10,6 +10,7 @@ import { TrendService } from '../../trend.service';
 import * as echarts from 'echarts/core';
 
 @Component({
+    standalone: false,
   selector: 'app-trend-district',
   templateUrl: './district.component.html',
   styleUrls: ['./district.component.scss']
@@ -31,7 +32,7 @@ export class DistrictComponent implements OnInit {
         {name: '按省', value: 0},
         {name: '按国家', value: 1},
     ];
-    public options?: EChartsOption;
+    public options?: EChartsCoreOption;
     public data?: ITrendAnalysis;
 
     constructor(
@@ -101,7 +102,7 @@ export class DistrictComponent implements OnInit {
 
     private formatChart() {
         const items = this.items;
-        this.options = <EChartsOption>{
+        this.options = <EChartsCoreOption>{
             // title: {
             //     text: '流量趋势分析',
             //     left: 'center',

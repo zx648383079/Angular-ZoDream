@@ -9,6 +9,7 @@ import { InviteDialogComponent } from './dialog/invite-dialog.component';
 import { RoleDialogComponent } from './role/role-dialog.component';
 
 @Component({
+    standalone: false,
   selector: 'app-staff',
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss']

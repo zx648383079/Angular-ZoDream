@@ -12,6 +12,7 @@ import { BotService } from '../../bot.service';
 
 
 @Component({
+    standalone: false,
   selector: 'app-reply-template',
   templateUrl: './reply-template.component.html',
   styleUrls: ['./reply-template.component.scss']

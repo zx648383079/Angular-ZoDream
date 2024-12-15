@@ -9,6 +9,7 @@ import { IItem } from '../../../../../theme/models/seo';
 import { mapFormat } from '../../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-goods-issue',
     templateUrl: './goods-issue.component.html',
     styleUrls: ['./goods-issue.component.scss']

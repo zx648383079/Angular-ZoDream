@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VisualService } from './visual.service';
 
 @Component({
+    standalone: false,
     selector: 'app-visual-backend',
     templateUrl: './visual-backend.component.html',
     styleUrls: ['./visual-backend.component.scss']

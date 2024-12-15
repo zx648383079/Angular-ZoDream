@@ -12,6 +12,7 @@ import { GameMakerService } from '../../game-maker.service';
 const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
 
 @Component({
+    standalone: false,
     selector: 'app-maker-map-editor',
     templateUrl: './map-editor.component.html',
     styleUrls: ['./map-editor.component.scss'],

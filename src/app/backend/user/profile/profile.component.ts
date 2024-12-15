@@ -12,6 +12,7 @@ import { ButtonEvent } from '../../../components/form';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']

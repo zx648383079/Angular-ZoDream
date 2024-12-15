@@ -8,6 +8,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-edit-news',
   templateUrl: './edit-news.component.html',
   styleUrls: ['./edit-news.component.scss']

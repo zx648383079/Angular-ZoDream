@@ -12,6 +12,7 @@ import { NavToggle, SearchEvents } from '../../../../theme/models/event';
 import { treeRemoveId } from '../../shared';
 
 @Component({
+    standalone: false,
   selector: 'app-api-edit',
   templateUrl: './api-edit.component.html',
   styleUrls: ['./api-edit.component.scss']

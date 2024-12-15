@@ -1,4 +1,4 @@
-@import '../../styles/scrollbar';
+@use '../../styles/scrollbar';
 
 ul,
 li {
@@ -27,7 +27,7 @@ li {
     .bar-top {
         overflow-y: auto;
         flex: 1;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     a {
         text-decoration: none;

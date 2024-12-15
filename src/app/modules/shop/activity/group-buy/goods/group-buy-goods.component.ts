@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-group-buy-goods',
   templateUrl: './group-buy-goods.component.html',
   styleUrls: ['./group-buy-goods.component.scss']

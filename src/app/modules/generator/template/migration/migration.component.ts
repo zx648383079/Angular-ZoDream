@@ -5,6 +5,7 @@ import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-migration',
   templateUrl: './migration.component.html',
   styleUrls: ['./migration.component.scss']

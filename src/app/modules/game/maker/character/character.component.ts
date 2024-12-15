@@ -8,6 +8,7 @@ import { IGameCharacter } from '../../model';
 import { parseNumber } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-character',
     templateUrl: './character.component.html',
     styleUrls: ['./character.component.scss']

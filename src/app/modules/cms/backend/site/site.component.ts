@@ -7,6 +7,7 @@ import { ICmsSite } from '../../model';
 import { CmsService } from '../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-site',
   templateUrl: './site.component.html',
   styleUrls: ['./site.component.scss']

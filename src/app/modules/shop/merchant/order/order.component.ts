@@ -9,6 +9,7 @@ import { ShopService } from '../shop.service';
 import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
+    standalone: false,
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],

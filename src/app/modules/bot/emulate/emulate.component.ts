@@ -12,6 +12,7 @@ import { BotService } from '../bot.service';
 import { IBotAccount, IBotMenuItem } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-emulate',
   templateUrl: './emulate.component.html',
   styleUrls: ['./emulate.component.scss']

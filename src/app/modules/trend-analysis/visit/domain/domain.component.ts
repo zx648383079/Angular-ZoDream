@@ -7,6 +7,7 @@ import { TrendService } from '../../trend.service';
 import { TimeTabItems } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-domain',
     templateUrl: './domain.component.html',
     styleUrls: ['./domain.component.scss']

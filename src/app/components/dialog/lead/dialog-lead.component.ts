@@ -5,6 +5,7 @@ import { DialogService } from '../dialog.service';
 import { scrollTop } from '../../../theme/utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-dialog-lead-tour',
     template: `
     <div class="lead-overlay-container" [ngStyle]="overlayStyle"></div>

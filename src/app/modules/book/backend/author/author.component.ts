@@ -7,6 +7,7 @@ import { IAuthor } from '../../model';
 import { BookService } from '../book.service';
 
 @Component({
+    standalone: false,
   selector: 'app-author',
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.scss']

@@ -14,6 +14,7 @@ import { SearchService } from '../../../theme/services';
 import { IAd } from '../model';
 
 @Component({
+    standalone: false,
     selector: 'app-ad',
     templateUrl: './ad.component.html',
     styleUrls: ['./ad.component.scss']

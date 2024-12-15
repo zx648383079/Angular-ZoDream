@@ -1,4 +1,4 @@
-@import '../../../../theme/styles/theme';
+@use '../../../../theme/styles/theme';
 .container-fluid {
     margin-top: 3rem;
 }
@@ -6,6 +6,6 @@
     float: right;
 }
 .column-full-item {
-    --#{$prefix}-column: var(--#{$prefix}-primary);
-    --#{$prefix}-column-text: var(--#{$prefix}-primary-text);
+    --#{theme.$prefix}-column: var(--#{theme.$prefix}-primary);
+    --#{theme.$prefix}-column-text: var(--#{theme.$prefix}-primary-text);
 }

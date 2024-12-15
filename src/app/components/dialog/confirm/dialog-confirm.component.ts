@@ -6,6 +6,7 @@ import { DialogConfirmOption } from '../model';
 import { AnimationEvent } from '@angular/animations';
 
 @Component({
+    standalone: false,
     selector: 'app-dialog-confirm',
     templateUrl: './dialog-confirm.component.html',
     styleUrls: ['./dialog-confirm.component.scss'],

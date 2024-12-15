@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AnimationTween } from '../../theme/utils/tween';
 
 @Component({
+    standalone: false,
     selector: 'app-swiper',
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush,

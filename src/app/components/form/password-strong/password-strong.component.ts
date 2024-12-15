@@ -7,6 +7,7 @@ interface IRatingItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-password-strong',
   templateUrl: './password-strong.component.html',
   styleUrls: ['./password-strong.component.scss']

@@ -1,4 +1,4 @@
-@import '../../theme/styles/theme';
+@use '../../theme/styles/theme';
 
 :host {
     margin: 4rem 0;
@@ -12,7 +12,7 @@
         top: 0;
     }
     .row-body {
-        --bs-table-bg: var(--#{$prefix}-panel);
+        --bs-table-bg: var(--#{theme.$prefix}-panel);
     }
     .inner-container {
         max-width: 48rem;

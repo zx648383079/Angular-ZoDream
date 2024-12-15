@@ -7,6 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-lottery',
   templateUrl: './lottery.component.html',
   styleUrls: ['./lottery.component.scss']

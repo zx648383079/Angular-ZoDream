@@ -8,6 +8,7 @@ import { IShare } from '../../model';
 import { TaskService } from '../../task.service';
 
 @Component({
+    standalone: false,
     selector: 'app-my-share',
     templateUrl: './my-share.component.html',
     styleUrls: ['./my-share.component.scss']

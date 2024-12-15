@@ -1,5 +1,6 @@
+@use '../../../theme/styles/scrollbar';
 .chat-room {
-    margin-left: 300px;
+    margin-left: 18.75rem;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -46,7 +47,7 @@
         height: 5rem;
         overflow-y: auto;
         outline: none;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .message-action {
         text-align: right;

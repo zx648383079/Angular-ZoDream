@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IMusic, IMusicList } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-music-list-detail',
     templateUrl: './music-list-detail.component.html',
     styleUrls: ['./music-list-detail.component.scss']

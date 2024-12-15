@@ -3,6 +3,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bargain-log',
   templateUrl: './bargain-log.component.html',
   styleUrls: ['./bargain-log.component.scss']

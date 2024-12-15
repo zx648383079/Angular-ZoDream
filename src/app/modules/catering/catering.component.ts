@@ -13,6 +13,7 @@ import { CateringService } from './catering.service';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
     selector: 'app-catering',
     templateUrl: './catering.component.html',
     styleUrls: ['./catering.component.scss'],

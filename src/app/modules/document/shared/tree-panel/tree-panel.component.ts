@@ -4,6 +4,7 @@ import { ContextMenuComponent } from '../../../../components/context-menu';
 import { treeRemoveId } from '../util';
 
 @Component({
+    standalone: false,
     selector: 'app-doc-tree-panel',
     templateUrl: './tree-panel.component.html',
     styleUrls: ['./tree-panel.component.scss']

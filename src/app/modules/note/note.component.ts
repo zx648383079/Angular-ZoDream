@@ -15,6 +15,7 @@ import { NoteService } from './note.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+    standalone: false,
   selector: 'app-note',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']

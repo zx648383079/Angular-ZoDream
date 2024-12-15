@@ -6,6 +6,7 @@ import { LegworkService } from '../../../legwork.service';
 import { ICategory, IService } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-service',
   templateUrl: './edit-service.component.html',
   styleUrls: ['./edit-service.component.scss']

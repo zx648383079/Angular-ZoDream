@@ -3,6 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { formatDate } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-date-input',
     templateUrl: './date-input.component.html',
     styleUrls: ['./date-input.component.scss'],

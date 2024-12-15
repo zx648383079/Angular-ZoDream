@@ -1,3 +1,4 @@
+@use '../../theme/styles/member';
 .person-box {
     margin: 5rem 0;
     .avatar {
@@ -139,5 +140,5 @@
 }
 
 .member-container ::ng-deep {
-    @import '../../theme/styles/member';
+    @include member.member-container;
 }

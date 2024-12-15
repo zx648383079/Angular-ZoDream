@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+    standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-bot-rich-block',
     template: `

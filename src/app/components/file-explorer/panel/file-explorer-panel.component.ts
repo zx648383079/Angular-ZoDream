@@ -4,6 +4,7 @@ import { IPage } from '../../../theme/models/page';
 import { parseNumber } from '../../../theme/utils';
 
 @Component({
+    standalone: false,
     selector: 'app-file-explorer-panel',
     templateUrl: './file-explorer-panel.component.html',
     styleUrls: ['./file-explorer-panel.component.scss']

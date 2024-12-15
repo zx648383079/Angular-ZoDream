@@ -8,6 +8,7 @@ import { IMovieArea } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-movie-area',
   templateUrl: './movie-area.component.html',
   styleUrls: ['./movie-area.component.scss']

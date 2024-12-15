@@ -17,6 +17,7 @@ import {
 } from '../region.service';
 
 @Component({
+    standalone: false,
     selector: 'app-region',
     templateUrl: './region.component.html',
     styleUrls: ['./region.component.scss']

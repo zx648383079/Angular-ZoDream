@@ -12,6 +12,7 @@ const MailSuffixMap = [
 ];
 
 @Component({
+    standalone: false,
     selector: 'app-autocomplete',
     templateUrl: './autocomplete.component.html',
     styleUrls: ['./autocomplete.component.scss']

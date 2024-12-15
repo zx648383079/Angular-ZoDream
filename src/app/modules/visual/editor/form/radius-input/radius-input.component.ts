@@ -2,6 +2,7 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-radius-input',
     templateUrl: './radius-input.component.html',
     styleUrls: ['./radius-input.component.scss'],

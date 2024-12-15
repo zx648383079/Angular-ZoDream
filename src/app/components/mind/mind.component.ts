@@ -20,6 +20,7 @@ interface IPointLink {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-mind',
     templateUrl: './mind.component.html',
     styleUrls: ['./mind.component.scss']

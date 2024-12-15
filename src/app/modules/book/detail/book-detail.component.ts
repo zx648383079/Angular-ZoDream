@@ -8,6 +8,7 @@ import { BookService } from '../book.service';
 import { DownloadService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-book-detail',
     templateUrl: './book-detail.component.html',
     styleUrls: ['./book-detail.component.scss']

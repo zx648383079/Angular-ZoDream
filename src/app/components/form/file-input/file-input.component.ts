@@ -8,6 +8,7 @@ import { UploadCustomEvent } from '../event';
 import { FileOnlineComponent } from '../file-online/file-online.component';
 
 @Component({
+    standalone: false,
     selector: 'app-file-input',
     templateUrl: './file-input.component.html',
     styleUrls: ['./file-input.component.scss'],

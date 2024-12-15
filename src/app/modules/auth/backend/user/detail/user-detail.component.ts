@@ -6,6 +6,7 @@ import { mapFormat } from '../../../../../theme/utils';
 import { AccountStatusItems } from '../../../../../theme/models/auth';
 
 @Component({
+    standalone: false,
     selector: 'app-user-detail',
     templateUrl: './user-detail.component.html',
     styleUrls: ['./user-detail.component.scss']

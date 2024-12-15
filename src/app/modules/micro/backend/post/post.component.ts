@@ -7,6 +7,7 @@ import { IMicro } from '../../model';
 import { MicroService } from '../micro.service';
 
 @Component({
+    standalone: false,
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']

@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-emoji',
     templateUrl: './emoji.component.html',
     styleUrls: ['./emoji.component.scss']

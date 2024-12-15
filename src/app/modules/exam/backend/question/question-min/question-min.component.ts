@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IQuestion } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-question-min',
   templateUrl: './question-min.component.html',
   styleUrls: ['./question-min.component.scss']

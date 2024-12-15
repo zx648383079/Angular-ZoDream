@@ -8,6 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 import { DialogEvent } from '../../../../../components/dialog';
 
 @Component({
+    standalone: false,
   selector: 'app-account-log',
   templateUrl: './account-log.component.html',
   styleUrls: ['./account-log.component.scss']

@@ -11,6 +11,7 @@ import { SearchService } from '../../../../../theme/services';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
   selector: 'app-ban',
   templateUrl: './ban.component.html',
   styleUrls: ['./ban.component.scss']

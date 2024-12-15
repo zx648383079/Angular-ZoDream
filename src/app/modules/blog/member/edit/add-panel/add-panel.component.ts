@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { EditorBlockType, IEditorBlock } from '../../../../../components/editor';
 
 @Component({
+    standalone: false,
     selector: 'app-blog-add-panel',
     templateUrl: './add-panel.component.html',
     styleUrls: ['./add-panel.component.scss'],

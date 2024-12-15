@@ -8,6 +8,7 @@ import { IBotQr } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-qrcode',
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']

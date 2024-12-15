@@ -8,6 +8,7 @@ import { IMovieSeries } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-series',
   templateUrl: './series.component.html',
   styleUrls: ['./series.component.scss']

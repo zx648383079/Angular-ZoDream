@@ -11,6 +11,7 @@ interface IRange {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-forum-editor',
     templateUrl: './forum-editor.component.html',
     styleUrls: ['./forum-editor.component.scss'],

@@ -6,6 +6,7 @@ import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-invite-log',
   templateUrl: './invite-log.component.html',
   styleUrls: ['./invite-log.component.scss']

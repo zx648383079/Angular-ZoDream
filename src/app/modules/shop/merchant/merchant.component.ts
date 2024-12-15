@@ -7,6 +7,7 @@ import { ThemeService } from '../../../theme/services';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
   selector: 'app-merchant',
   templateUrl: './merchant.component.html',
   styleUrls: ['./merchant.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IFormInput, FormPanelEvent } from '../event';
 
 @Component({
+    standalone: false,
     selector: 'app-form-panel',
     templateUrl: './form-panel.component.html',
     styleUrls: ['./form-panel.component.scss']

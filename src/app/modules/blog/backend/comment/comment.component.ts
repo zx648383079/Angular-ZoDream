@@ -7,6 +7,7 @@ import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']

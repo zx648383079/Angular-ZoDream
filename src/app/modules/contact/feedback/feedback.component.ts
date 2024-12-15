@@ -7,6 +7,7 @@ import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-contact-feedback',
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss'],

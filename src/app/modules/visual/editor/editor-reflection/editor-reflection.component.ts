@@ -11,6 +11,7 @@ enum EditMode {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-editor-reflection',
   templateUrl: './editor-reflection.component.html',
   styleUrls: ['./editor-reflection.component.scss']

@@ -5,6 +5,7 @@ import { DownloadService } from '../../../../theme/services';
 import { GenerateService } from '../../generate.service';
 
 @Component({
+    standalone: false,
   selector: 'app-export',
   templateUrl: './export.component.html',
   styleUrls: ['./export.component.scss']

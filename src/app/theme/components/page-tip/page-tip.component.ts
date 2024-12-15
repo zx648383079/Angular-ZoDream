@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-page-tip',
     templateUrl: './page-tip.component.html',
     styleUrls: ['./page-tip.component.scss']

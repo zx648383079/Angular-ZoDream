@@ -11,6 +11,7 @@ import { FileTypeItems, ICategory, IResource, IResourceFile, ITag } from '../../
 import { ResourceService } from '../../resource.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-resource',
   templateUrl: './edit-resource.component.html',
   styleUrls: ['./edit-resource.component.scss']

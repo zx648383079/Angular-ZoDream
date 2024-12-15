@@ -1,4 +1,4 @@
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/theme';
 .title-bar {
     margin: 2rem 0;
     font-size: 2rem;
@@ -20,7 +20,7 @@
 
 .tab-bar {
     margin-bottom: 1rem;
-    --#{$prefix}-tab: var(--#{$prefix}-panel);
+    --#{theme.$prefix}-tab: var(--#{theme.$prefix}-panel);
 }
 
 .page-search-bar {

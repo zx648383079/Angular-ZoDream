@@ -6,6 +6,7 @@ import { selectSystemConfig } from './theme/reducers/system.selectors';
 import { AuthService, ThemeService } from './theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-root',
     template: `<router-outlet></router-outlet>
                 <app-dialog-container></app-dialog-container>`,

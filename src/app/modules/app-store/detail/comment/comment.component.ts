@@ -11,6 +11,7 @@ import { AppStoreService } from '../../app-store.service';
 import { IComment } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']

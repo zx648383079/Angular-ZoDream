@@ -11,6 +11,7 @@ import { IBotTemplate, IBotTemplateCategory } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-template',
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']

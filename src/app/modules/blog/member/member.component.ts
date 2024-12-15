@@ -8,6 +8,7 @@ import { BlogService } from './blog.service';
 import { IItem } from '../../../theme/models/seo';
 
 @Component({
+    standalone: false,
     selector: 'app-member',
     templateUrl: './member.component.html',
     styleUrls: ['./member.component.scss']

@@ -6,6 +6,7 @@ import { IUser } from '../../models/user';
 import { hasElementByClass } from '../../utils/doc';
 
 @Component({
+    standalone: false,
     selector: 'app-user-picker',
     templateUrl: './user-picker.component.html',
     styleUrls: ['./user-picker.component.scss'],

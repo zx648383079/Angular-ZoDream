@@ -7,6 +7,7 @@ import { IForum } from '../../model';
 import { ForumService } from '../forum.service';
 
 @Component({
+    standalone: false,
   selector: 'app-forum-list',
   templateUrl: './forum-list.component.html',
   styleUrls: ['./forum-list.component.scss']

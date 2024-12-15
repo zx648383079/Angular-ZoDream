@@ -7,6 +7,7 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
     selector: 'app-game-maker',
     templateUrl: './game-maker.component.html',
     styleUrls: ['./game-maker.component.scss']

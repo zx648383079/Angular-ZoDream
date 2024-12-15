@@ -4,6 +4,7 @@ import { EditorBlockType, IEditorResizeBlock } from '../../model';
 import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-resizer',
     templateUrl: './editor-resizer.component.html',
     styleUrls: ['./editor-resizer.component.scss']

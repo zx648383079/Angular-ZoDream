@@ -7,6 +7,7 @@ import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { EditorService } from './container';
 
 @Component({
+    standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-zre-editor',
     templateUrl: './editor.component.html',

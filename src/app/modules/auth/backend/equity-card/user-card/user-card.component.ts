@@ -8,6 +8,7 @@ import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']

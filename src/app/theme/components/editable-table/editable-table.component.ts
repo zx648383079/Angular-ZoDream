@@ -4,9 +4,10 @@ import { IColumnLink, ITableHeaderItem } from './model';
 import { hasElementByClass } from '../../utils/doc';
 
 @Component({
-  selector: 'app-editable-table',
-  templateUrl: './editable-table.component.html',
-  styleUrls: ['./editable-table.component.scss']
+    standalone: false,
+    selector: 'app-editable-table',
+    templateUrl: './editable-table.component.html',
+    styleUrls: ['./editable-table.component.scss']
 })
 export class EditableTableComponent implements OnChanges {
 

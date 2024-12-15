@@ -1,4 +1,5 @@
-@import '../../../theme/styles/admin';
+@use '../../../theme/styles/admin';
+@include admin.admin-container;
 .head-row,
 .body-row {
     display: flex;

@@ -8,6 +8,7 @@ import { ITradeLog } from '../../model';
 import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-tracker-backend-log',
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']

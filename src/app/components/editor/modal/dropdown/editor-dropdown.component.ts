@@ -32,6 +32,7 @@ const FontItems: IEditorOptionItem[] = [
 ]
 
 @Component({
+    standalone: false,
   selector: 'app-editor-dropdown',
   templateUrl: './editor-dropdown.component.html',
   styleUrls: ['./editor-dropdown.component.scss']

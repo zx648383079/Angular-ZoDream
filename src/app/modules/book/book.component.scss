@@ -1,5 +1,6 @@
+@use '../../theme/styles/admin';
 .book-container ::ng-deep {
-    @import '../../theme/styles/admin';
+    @include admin.admin-container;
     .book-item {
         display: block;
         position: relative;

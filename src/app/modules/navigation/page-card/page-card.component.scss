@@ -1,4 +1,4 @@
-@import "../../../theme/styles/loading/circleButton";
+@use "../../../theme/styles/loading/circleButton";
 .card-dialog {
     width: 20rem;
     margin-left: -10rem;
@@ -41,7 +41,7 @@
         border: none;
         margin-top: 1.5rem;
         position: relative;
-        @include loadingRing(3rem);
+        @include circleButton.loadingRing(3rem);
         .btn {
             width: 3rem;
             height: 3rem;

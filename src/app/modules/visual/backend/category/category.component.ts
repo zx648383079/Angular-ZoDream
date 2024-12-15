@@ -6,6 +6,7 @@ import { ICategory } from '../../model';
 import { VisualService } from '../visual.service';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

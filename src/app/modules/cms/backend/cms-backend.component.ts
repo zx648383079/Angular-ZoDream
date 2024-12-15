@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CmsService } from './cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-cms-backend',
   templateUrl: './cms-backend.component.html',
   styleUrls: ['./cms-backend.component.scss']

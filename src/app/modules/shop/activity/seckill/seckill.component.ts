@@ -9,6 +9,7 @@ import { mapFormat } from '../../../../theme/utils';
 import { ActivityService } from '../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-seckill',
   templateUrl: './seckill.component.html',
   styleUrls: ['./seckill.component.scss']

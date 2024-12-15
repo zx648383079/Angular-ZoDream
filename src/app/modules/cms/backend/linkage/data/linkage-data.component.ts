@@ -8,6 +8,7 @@ import { ICmsLinkage, ICmsLinkageData } from '../../../model';
 import { CmsService } from '../../cms.service';
 
 @Component({
+    standalone: false,
   selector: 'app-linkage-data',
   templateUrl: './linkage-data.component.html',
   styleUrls: ['./linkage-data.component.scss']

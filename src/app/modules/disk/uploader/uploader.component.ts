@@ -23,6 +23,7 @@ interface IUploadGroup {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
   styleUrls: ['./uploader.component.scss']

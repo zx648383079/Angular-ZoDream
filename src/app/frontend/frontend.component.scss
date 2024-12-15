@@ -1,4 +1,4 @@
-@import '../theme/styles/theme';
+@use '../theme/styles/theme';
 
 @mixin navbarCustom($bg, $fg) {
     background-color: $bg;
@@ -65,7 +65,7 @@
 }
 
 .navbar-custom {
-    @include navbarCustom(var(--#{$prefix}-primary), var(--#{$prefix}-primary-text));
+    @include navbarCustom(var(--#{theme.$prefix}-primary), var(--#{theme.$prefix}-primary-text));
 }
 
 .navbar-not {
@@ -95,14 +95,14 @@
 }
 
 footer {
-    background-color: var(--#{$prefix}-primary);
-    color: var(--#{$prefix}-primary-text);
+    background-color: var(--#{theme.$prefix}-primary);
+    color: var(--#{theme.$prefix}-primary-text);
     padding: 20px 0;
     .copyright {
         text-align: center;
     }
     a {
-        color: var(--#{$prefix}-primary-text);
+        color: var(--#{theme.$prefix}-primary-text);
         text-decoration: none;
     }
 }
@@ -114,7 +114,7 @@ footer {
         position: absolute;
         left: 0;
         width: 5.625rem;
-        border-right: 5px solid var(--#{$prefix}-primary-text);
+        border-right: 5px solid var(--#{theme.$prefix}-primary-text);
         text-align: center;
     }
     a {
@@ -136,25 +136,25 @@ footer {
 
 .inner-body ::ng-deep {
     .panel {
-        background-color: var(--#{$prefix}-panel);
+        background-color: var(--#{theme.$prefix}-panel);
         margin-bottom: 1.25rem;
         .panel-header {
             line-height: 3.125rem;
             padding-left: 1.25rem;
-            border-left: 0.3125rem solid var(--#{$prefix}-primary);
+            border-left: 0.3125rem solid var(--#{theme.$prefix}-primary);
             font-size: 1.25rem;
             font-weight: 700;
         }
     }
     .simple-panel {
-        background-color: var(--#{$prefix}-panel);
-        color: var(--#{$prefix}-body-text);
+        background-color: var(--#{theme.$prefix}-panel);
+        color: var(--#{theme.$prefix}-body-text);
         padding: 1.25rem;
         .panel-header {
             h3, 
             h1, 
             h2 {
-                color: var(--#{$prefix}-body-text);
+                color: var(--#{theme.$prefix}-body-text);
                 font-size: 2.1em;
                 font-weight: 500;
                 margin: 0;

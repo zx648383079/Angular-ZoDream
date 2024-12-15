@@ -3,6 +3,7 @@ import { IGoods, IGoodsAttr, IGoodsResult, IProduct } from '../../../model';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
+    standalone: false,
   selector: 'app-product-dialog',
   templateUrl: './product-dialog.component.html',
   styleUrls: ['./product-dialog.component.scss']

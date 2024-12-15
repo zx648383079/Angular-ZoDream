@@ -3,6 +3,7 @@ import { BookService } from '../book.service';
 import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-preferences-panel',
     templateUrl: './editor-preferences-panel.component.html',
     styleUrls: ['./editor-preferences-panel.component.scss'],

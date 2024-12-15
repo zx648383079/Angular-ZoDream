@@ -5,6 +5,7 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
  * 题目选择
  */
 @Component({
+    standalone: false,
   selector: 'app-question-input',
   templateUrl: './question-input.component.html',
   styleUrls: ['./question-input.component.scss']

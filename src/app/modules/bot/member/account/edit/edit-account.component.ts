@@ -8,6 +8,7 @@ import { BotService } from '../../bot.service';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-m-edit-account',
   templateUrl: './edit-account.component.html',
   styleUrls: ['./edit-account.component.scss']

@@ -7,6 +7,7 @@ import { SearchService } from '../../../../theme/services';
 import { ICateringStore } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-backend-store',
     templateUrl: './store.component.html',
     styleUrls: ['./store.component.scss']

@@ -10,6 +10,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-add-dialog',
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss']

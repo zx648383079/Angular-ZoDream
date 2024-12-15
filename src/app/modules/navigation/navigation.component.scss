@@ -1,4 +1,4 @@
-@import '../../theme/styles/theme';
+@use '../../theme/styles/theme';
 .main-container {
     padding-top: 30vh;
     transition: all .5s;
@@ -69,6 +69,6 @@
 .main-container ::ng-deep {
     .panel,
     .page-container {
-        background-color: var(--#{$prefix}-dialog);
+        background-color: var(--#{theme.$prefix}-dialog);
     }
 }

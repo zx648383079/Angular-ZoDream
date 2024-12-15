@@ -37,6 +37,7 @@ interface IColumnValue {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-copy-table',
   templateUrl: './copy-table.component.html',
   styleUrls: ['./copy-table.component.scss']

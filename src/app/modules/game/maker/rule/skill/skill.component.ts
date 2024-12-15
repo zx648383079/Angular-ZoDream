@@ -8,6 +8,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
     selector: 'app-maker-skill',
     templateUrl: './skill.component.html',
     styleUrls: ['./skill.component.scss']

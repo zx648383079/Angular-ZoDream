@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrackerService } from '../tracker.service';
 import { IChannel, IProduct } from '../model';
-import { EChartsOption } from 'echarts';
+import { EChartsCoreOption } from 'echarts/core';
 import { parseNumber } from '../../../theme/utils';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
@@ -10,6 +10,7 @@ import { IItem } from '../../../theme/models/seo';
 
 
 @Component({
+    standalone: false,
     selector: 'app-tracker-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']
@@ -20,7 +21,7 @@ export class ProductComponent implements OnInit {
     public children: IProduct[] = [];
     public channelItems: IChannel[] = [];
     public isLoading = false;
-    public options: EChartsOption;
+    public options: EChartsCoreOption;
     public channelSelected = 0;
     public productSelected = 0;
     public typeItems: IItem[] = [

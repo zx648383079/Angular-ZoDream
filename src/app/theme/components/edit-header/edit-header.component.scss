@@ -1,4 +1,4 @@
-@import "../../styles/loading/circleButton";
+@use "../../styles/loading/circleButton";
 // $primary: #05a6b1;
 // $primaryText: white;
 // $hoverText: red;
@@ -55,7 +55,7 @@ $hoverText: red;
             color: #ccc;
         }
     }
-    @include loadingRing();
+    @include circleButton.loadingRing();
     &.min {
         padding: 0;
         .remark {

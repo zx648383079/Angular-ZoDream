@@ -1,11 +1,11 @@
-@import '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/scrollbar';
 .scroll-nav {
     margin-left: 80px;
     line-height: 40px;
     white-space: nowrap;
     overflow: hidden;
     overflow-x: auto;
-    @include scrollbar();
+    @include scrollbar.scrollbar();
     .item {
         display: inline-block;
         padding: 0 10px;

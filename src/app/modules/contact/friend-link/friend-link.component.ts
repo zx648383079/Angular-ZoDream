@@ -8,6 +8,7 @@ import { SearchService } from '../../../theme/services';
 import { emailValidate, emptyValidate } from '../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-contact-friend-link',
   templateUrl: './friend-link.component.html',
   styleUrls: ['./friend-link.component.scss']

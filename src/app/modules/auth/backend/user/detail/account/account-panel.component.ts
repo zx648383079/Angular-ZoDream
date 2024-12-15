@@ -6,6 +6,7 @@ import { DialogEvent } from '../../../../../../components/dialog';
 import { SearchService } from '../../../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-log-account-panel',
     templateUrl: './account-panel.component.html',
     styleUrls: ['./account-panel.component.scss']

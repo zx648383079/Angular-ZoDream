@@ -2,6 +2,7 @@ import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-check-input',
     templateUrl: './check-input.component.html',
     styleUrls: ['./check-input.component.scss'],

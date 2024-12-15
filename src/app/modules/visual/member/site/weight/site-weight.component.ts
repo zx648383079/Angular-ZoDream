@@ -8,6 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
+    standalone: false,
   selector: 'app-site-weight',
   templateUrl: './site-weight.component.html',
   styleUrls: ['./site-weight.component.scss']

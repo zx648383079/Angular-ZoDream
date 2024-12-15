@@ -8,6 +8,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { TimeTabItems } from '../../model';
 
 @Component({
+    standalone: false,
     selector: 'app-trend-analysis',
     templateUrl: './analysis.component.html',
     styleUrls: ['./analysis.component.scss']

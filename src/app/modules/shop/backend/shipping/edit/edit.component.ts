@@ -11,6 +11,7 @@ import { PaymentService } from '../../payment.service';
 import { RegionService } from '../../region.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']

@@ -7,6 +7,7 @@ import { IActivity, IGoodsResult, IMixConfigure, IMixGoods } from '../../../../m
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
     selector: 'app-shop-mix-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],

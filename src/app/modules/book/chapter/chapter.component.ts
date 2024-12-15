@@ -15,6 +15,7 @@ import {
 } from '@angular/router';
 
 @Component({
+    standalone: false,
     selector: 'app-chapter',
     templateUrl: './chapter.component.html',
     styleUrls: ['./chapter.component.scss']

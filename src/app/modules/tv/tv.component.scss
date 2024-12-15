@@ -1,3 +1,4 @@
+@use 'tv';
 ul {
     list-style: outside none none;
     margin: 0;
@@ -55,5 +56,5 @@ ul {
 }
 
 .flex-body ::ng-deep {
-    @import 'tv';
+    @include tv.container;
 }

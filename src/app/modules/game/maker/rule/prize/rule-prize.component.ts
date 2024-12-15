@@ -8,6 +8,7 @@ import { IGamePrizeItem } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
+    standalone: false,
   selector: 'app-maker-rule-prize',
   templateUrl: './rule-prize.component.html',
   styleUrls: ['./rule-prize.component.scss']

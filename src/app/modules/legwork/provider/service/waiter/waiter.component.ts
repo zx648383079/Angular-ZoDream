@@ -8,6 +8,7 @@ import { LegworkService } from '../../../legwork.service';
 import { IService } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-waiter',
   templateUrl: './waiter.component.html',
   styleUrls: ['./waiter.component.scss']

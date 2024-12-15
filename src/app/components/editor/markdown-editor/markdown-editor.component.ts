@@ -6,6 +6,7 @@ import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_RE
 import { IPoint } from '../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
     selector: 'app-markdown-editor',
     templateUrl: './markdown-editor.component.html',
     styleUrls: ['./markdown-editor.component.scss'],

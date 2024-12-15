@@ -7,6 +7,7 @@ import { BookService } from '../../book.service';
 import { DialogService } from '../../../../../components/dialog';
 
 @Component({
+    standalone: false,
   selector: 'app-author-detail',
   templateUrl: './author-detail.component.html',
   styleUrls: ['./author-detail.component.scss']

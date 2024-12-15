@@ -8,6 +8,7 @@ import { IBotUser } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
+    standalone: false,
   selector: 'app-bot-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']

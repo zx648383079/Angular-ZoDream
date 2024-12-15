@@ -6,6 +6,7 @@ import { FinanceService } from '../../finance.service';
 import { IConsumptionChannel } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-channel',
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.scss']

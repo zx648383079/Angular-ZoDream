@@ -42,6 +42,7 @@ import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
 
 @Component({
+    standalone: false,
     selector: 'app-auth-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']

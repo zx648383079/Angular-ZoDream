@@ -1,5 +1,5 @@
-@import '../../../theme/styles/scrollbar';
-@import '../../../theme/styles/theme';
+@use '../../../theme/styles/scrollbar';
+@use '../../../theme/styles/theme';
 ul, li {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ ul, li {
         width: 15.625rem;
         background-color: #e0f0fd;
         overflow: auto;
-        @include scrollbar();
+        @include scrollbar.scrollbar();
     }
     .menu-item {
         padding: 0.75rem 1.125rem 0.75rem 1rem;

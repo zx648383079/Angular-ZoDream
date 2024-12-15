@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberService } from '../member.service';
 
 @Component({
+    standalone: false,
     selector: 'app-member-authorize',
     templateUrl: './authorize.component.html',
     styleUrls: ['./authorize.component.scss']

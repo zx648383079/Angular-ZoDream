@@ -8,6 +8,7 @@ import { IBotTemplate } from '../../../model';
 import { BotService } from '../../bot.service';
 
 @Component({
+    standalone: false,
     selector: 'app-bot-template-editor',
     templateUrl: './template-editor.component.html',
     styleUrls: ['./template-editor.component.scss'],

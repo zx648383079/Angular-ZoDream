@@ -24,6 +24,7 @@ import {
 } from '../../article.service';
 
 @Component({
+    standalone: false,
     selector: 'app-edit-category',
     templateUrl: './edit-category.component.html',
     styleUrls: ['./edit-category.component.scss']

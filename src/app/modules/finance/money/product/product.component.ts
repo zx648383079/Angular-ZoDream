@@ -5,6 +5,7 @@ import { FinanceService } from '../../finance.service';
 import { IFinancialProduct } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']

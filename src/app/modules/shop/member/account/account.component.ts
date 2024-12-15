@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 
 @Component({
+    standalone: false,
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']

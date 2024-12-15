@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-invite-code',
   templateUrl: './invite-code.component.html',
   styleUrls: ['./invite-code.component.scss']

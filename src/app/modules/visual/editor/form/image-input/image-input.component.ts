@@ -3,6 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { FileUploadService } from '../../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-image-input',
     templateUrl: './image-input.component.html',
     styleUrls: ['./image-input.component.scss'],

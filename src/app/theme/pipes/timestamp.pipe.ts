@@ -5,6 +5,7 @@ import {
 import { formatDate } from '../utils';
 
 @Pipe({
+    standalone: false,
     name: 'timestamp'
 })
 export class TimestampPipe implements PipeTransform {

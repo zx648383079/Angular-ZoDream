@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-equity-card',
     templateUrl: './equity-card.component.html',
     styleUrls: ['./equity-card.component.scss']

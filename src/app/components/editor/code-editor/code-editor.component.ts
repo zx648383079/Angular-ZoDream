@@ -6,6 +6,7 @@ import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
 import { EditorService } from '../container';
 
 @Component({
+    standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-code-editor',
     template: '',

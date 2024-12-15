@@ -2,6 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef
 import { FlipItemComponent } from './flip-item.component';
 
 @Component({
+    standalone: false,
     selector: 'app-flip-container',
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush,

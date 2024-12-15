@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { assetUri } from '../utils';
 
 @Pipe({
-  name: 'asset'
+    standalone: false,
+    name: 'asset'
 })
 export class AssetPipe implements PipeTransform {
 

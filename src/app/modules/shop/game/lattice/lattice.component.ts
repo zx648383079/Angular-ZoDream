@@ -8,6 +8,7 @@ interface ILatticeItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-lattice',
   templateUrl: './lattice.component.html',
   styleUrls: ['./lattice.component.scss']

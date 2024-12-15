@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TVService } from './tv.service';
 
 @Component({
+    standalone: false,
   selector: 'app-tv-backend',
   templateUrl: './tv-backend.component.html',
   styleUrls: ['./tv-backend.component.scss']

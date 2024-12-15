@@ -2,6 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-editor-background-popup',
     templateUrl: './background-popup.component.html',
     styleUrls: ['./background-popup.component.scss'],

@@ -3,6 +3,7 @@ import { EditorService } from '../editor.service';
 import { alginOptions, WidgetType } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-property',
   templateUrl: './editor-property.component.html',
   styleUrls: ['./editor-property.component.scss']

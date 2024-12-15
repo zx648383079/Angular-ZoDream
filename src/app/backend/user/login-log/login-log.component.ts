@@ -9,6 +9,7 @@ import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 
 @Component({
+    standalone: false,
     selector: 'app-login-log',
     templateUrl: './login-log.component.html',
     styleUrls: ['./login-log.component.scss']

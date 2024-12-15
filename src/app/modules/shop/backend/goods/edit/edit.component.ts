@@ -10,6 +10,7 @@ import { GoodsService } from '../goods.service';
 import { SkuFormComponent } from '../../../components';
 
 @Component({
+    standalone: false,
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']

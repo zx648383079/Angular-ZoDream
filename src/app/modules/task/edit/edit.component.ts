@@ -21,6 +21,7 @@ import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']

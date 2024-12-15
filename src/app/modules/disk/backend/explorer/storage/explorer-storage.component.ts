@@ -10,6 +10,7 @@ import { mapFormat } from '../../../../../theme/utils';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-disk-explorer-storage',
   templateUrl: './explorer-storage.component.html',
   styleUrls: ['./explorer-storage.component.scss']

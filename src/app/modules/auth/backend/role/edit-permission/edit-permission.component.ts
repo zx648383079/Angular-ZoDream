@@ -6,6 +6,7 @@ import { IPermission } from '../../../../../theme/models/auth';
 import { RoleService } from '../role.service';
 
 @Component({
+    standalone: false,
   selector: 'app-role-edit-permission',
   templateUrl: './edit-permission.component.html',
   styleUrls: ['./edit-permission.component.scss']

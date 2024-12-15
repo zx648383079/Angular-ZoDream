@@ -11,7 +11,8 @@ interface IRect {
 }
 
 @Directive({
-  selector: '[appLazyLoad]'
+    standalone: false,
+    selector: '[appLazyLoad]'
 })
 export class LazyLoadDirective implements OnInit, OnDestroy {
 

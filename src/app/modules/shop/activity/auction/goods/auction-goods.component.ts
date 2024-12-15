@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 
 @Component({
+    standalone: false,
   selector: 'app-auction-goods',
   templateUrl: './auction-goods.component.html',
   styleUrls: ['./auction-goods.component.scss']

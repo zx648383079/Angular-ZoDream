@@ -7,6 +7,7 @@ import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
 
 @Component({
+    standalone: false,
   selector: 'app-contact-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']

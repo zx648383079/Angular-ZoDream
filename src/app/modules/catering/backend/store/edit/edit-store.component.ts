@@ -9,6 +9,7 @@ import { FileUploadService } from '../../../../../theme/services';
 import { IUser } from '../../../../../theme/models/user';
 
 @Component({
+    standalone: false,
     selector: 'app-catering-backend-edit-store',
     templateUrl: './edit-store.component.html',
     styleUrls: ['./edit-store.component.scss']

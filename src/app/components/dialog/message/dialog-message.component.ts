@@ -14,6 +14,7 @@ interface IThemeGroup {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-dialog-message',
     templateUrl: './dialog-message.component.html',
     styleUrls: ['./dialog-message.component.scss'],

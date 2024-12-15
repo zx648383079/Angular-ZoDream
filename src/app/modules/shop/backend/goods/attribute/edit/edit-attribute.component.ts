@@ -8,6 +8,7 @@ import { IAttribute, IAttributeGroup } from '../../../../model';
 import { AttributeService } from '../../attribute.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-attribute',
   templateUrl: './edit-attribute.component.html',
   styleUrls: ['./edit-attribute.component.scss']

@@ -9,6 +9,7 @@ import { ActivityService } from '../activity.service';
 import { ActivityRuleItems } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-shop-coupon',
   templateUrl: './coupon.component.html',
   styleUrls: ['./coupon.component.scss']

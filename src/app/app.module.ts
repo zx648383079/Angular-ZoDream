@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { ThemeModule } from './theme/theme.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './theme/theme.reducers';
-import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogModule } from './components/dialog';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { provideHttpClient, withInterceptors, withJsonpSupport } from '@angular/common/http';
+import { ResponseInterceptorFn, TokenInterceptorFn, TransferStateInterceptorFn } from './theme/interceptors';
 
 @NgModule({
     declarations: [
@@ -19,8 +20,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
-        HttpClientJsonpModule,
         AppRoutingModule,
         ThemeModule.forRoot(),
         DialogModule.forRoot(),
@@ -37,6 +36,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         }),
     ],
     providers: [
+        provideHttpClient(withInterceptors([TransferStateInterceptorFn, TokenInterceptorFn, ResponseInterceptorFn]), withJsonpSupport()),
         // { provide: APP_BASE_HREF, useValue: '/' },
         { provide: APP_ID, useValue: 'ng-zo' },
     ],

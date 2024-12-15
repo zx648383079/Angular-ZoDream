@@ -6,6 +6,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { MicroService } from '../micro.service';
 
 @Component({
+    standalone: false,
   selector: 'app-share',
   templateUrl: './share.component.html',
   styleUrls: ['./share.component.scss']

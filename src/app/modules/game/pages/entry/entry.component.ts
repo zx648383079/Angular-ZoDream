@@ -5,6 +5,7 @@ import { ButtonEvent } from '../../../../components/form';
 import { emailValidate } from '../../../../theme/validators';
 
 @Component({
+    standalone: false,
     selector: 'app-game-entry',
     templateUrl: './entry.component.html',
     styleUrls: ['./entry.component.scss']

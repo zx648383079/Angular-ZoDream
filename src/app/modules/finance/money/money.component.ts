@@ -6,6 +6,7 @@ import { FinanceService } from '../finance.service';
 import { IAccount } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-money',
   templateUrl: './money.component.html',
   styleUrls: ['./money.component.scss']

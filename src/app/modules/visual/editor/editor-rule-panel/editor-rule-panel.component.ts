@@ -4,6 +4,7 @@ import { EditorService } from '../editor.service';
 import { IRuleLine } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-rule-panel',
   templateUrl: './editor-rule-panel.component.html',
   styleUrls: ['./editor-rule-panel.component.scss']

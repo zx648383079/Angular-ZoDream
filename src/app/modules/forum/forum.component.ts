@@ -5,6 +5,7 @@ import { SearchService, ThemeService } from '../../theme/services';
 import { ForumService } from './forum.service';
 
 @Component({
+    standalone: false,
   selector: 'app-forum',
   templateUrl: './forum.component.html',
   styleUrls: ['./forum.component.scss']

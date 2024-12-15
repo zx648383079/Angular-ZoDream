@@ -4,6 +4,7 @@ import { eachObject } from '../../../../../theme/utils';
 import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-reply',
   templateUrl: './edit-reply.component.html',
   styleUrls: ['./edit-reply.component.scss']

@@ -8,6 +8,7 @@ import { ForumService } from '../../forum.service';
 import { ButtonEvent } from '../../../../components/form';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-thread',
   templateUrl: './edit-thread.component.html',
   styleUrls: ['./edit-thread.component.scss']

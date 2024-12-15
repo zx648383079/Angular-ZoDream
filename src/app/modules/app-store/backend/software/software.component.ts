@@ -7,6 +7,7 @@ import { ICategory, ISoftware } from '../../model';
 import { AppService } from '../app.service';
 
 @Component({
+    standalone: false,
     selector: 'app-software',
     templateUrl: './software.component.html',
     styleUrls: ['./software.component.scss']

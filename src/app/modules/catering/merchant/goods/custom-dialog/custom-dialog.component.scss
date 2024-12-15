@@ -1,4 +1,4 @@
-@import '../../../dialog';
+@use '../../../dialog';
 .dialog-box {
-    @include dialogSet(20rem);
+    @include dialog.dialogSet(20rem);
 }

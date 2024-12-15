@@ -1,6 +1,8 @@
+@use 'dialogue';
+@use 'bag';
 .game-container ::ng-deep {
-    @import 'dialogue';
-    @import 'bag';
+   @include dialogue.dialogue-container;
+   @include bag.bag-container;
     a:not([href]):not([class]),
     a:not([class]) {
         color: var(--bs-link-color);

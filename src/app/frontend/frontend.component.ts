@@ -27,6 +27,7 @@ interface IDropNavItem {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-frontend',
   templateUrl: './frontend.component.html',
   styleUrls: ['./frontend.component.scss']

@@ -6,6 +6,7 @@ import { CmsService } from '../cms.service';
 import { toggleTreeItem } from '../../../../theme/utils';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

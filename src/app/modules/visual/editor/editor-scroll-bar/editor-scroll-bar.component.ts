@@ -3,6 +3,7 @@ import { EditorService } from '../editor.service';
 import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
+    standalone: false,
   selector: 'app-editor-scroll-bar',
   templateUrl: './editor-scroll-bar.component.html',
   styleUrls: ['./editor-scroll-bar.component.scss']

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IAttachment } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-attachment-viewer',
   templateUrl: './attachment-viewer.component.html',
   styleUrls: ['./attachment-viewer.component.scss']

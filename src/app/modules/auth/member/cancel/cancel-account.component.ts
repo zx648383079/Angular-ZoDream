@@ -6,6 +6,7 @@ import { AuthService } from '../../../../theme/services';
 import { Router } from '@angular/router';
 
 @Component({
+    standalone: false,
     selector: 'app-member-cancel-account',
     templateUrl: './cancel-account.component.html',
     styleUrls: ['./cancel-account.component.scss']

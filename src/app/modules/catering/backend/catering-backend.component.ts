@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CateringBackendService } from './catering.service';
 
 @Component({
+    standalone: false,
   selector: 'app-catering-backend',
   templateUrl: './catering-backend.component.html',
   styleUrls: ['./catering-backend.component.scss']

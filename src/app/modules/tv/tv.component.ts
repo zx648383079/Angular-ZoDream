@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { INav } from '../../theme/components';
 
 @Component({
+    standalone: false,
   selector: 'app-tv',
   templateUrl: './tv.component.html',
   styleUrls: ['./tv.component.scss']

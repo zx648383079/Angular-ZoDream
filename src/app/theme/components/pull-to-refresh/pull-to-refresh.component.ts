@@ -32,6 +32,7 @@ enum EDIRECTION {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-pull-to-refresh',
     templateUrl: './pull-to-refresh.component.html',
     styleUrls: ['./pull-to-refresh.component.scss']

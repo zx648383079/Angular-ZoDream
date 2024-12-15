@@ -4,6 +4,7 @@ import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 
 @Component({
+    standalone: false,
   selector: 'app-dialog-loading',
   templateUrl: './dialog-loading.component.html',
   styleUrls: ['./dialog-loading.component.scss']

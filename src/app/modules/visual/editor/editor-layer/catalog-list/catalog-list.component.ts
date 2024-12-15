@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeEvent, TreeItem } from '../../model';
 
 @Component({
+    standalone: false,
   selector: 'app-catalog-list',
   templateUrl: './catalog-list.component.html',
   styleUrls: ['./catalog-list.component.scss']

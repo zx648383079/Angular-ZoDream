@@ -5,6 +5,7 @@ import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, FormPanelComponent, FormPanelEvent } from '../../../components/form';
 
 @Component({
+    standalone: false,
     selector: 'app-ms-option',
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss']

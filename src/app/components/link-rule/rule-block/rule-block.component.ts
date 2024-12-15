@@ -3,6 +3,7 @@ import { formatLinkRule } from '../util';
 import { IBlockItem, IExtraRule } from './model';
 
 @Component({
+    standalone: false,
   selector: 'app-rule-block',
   templateUrl: './rule-block.component.html',
   styleUrls: ['./rule-block.component.scss']

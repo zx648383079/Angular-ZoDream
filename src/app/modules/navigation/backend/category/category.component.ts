@@ -6,6 +6,7 @@ import { ISiteCategory } from '../../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
+    standalone: false,
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']

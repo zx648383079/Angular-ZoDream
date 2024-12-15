@@ -6,6 +6,7 @@ import { AppStoreService } from '../app-store.service';
 import { ISoftware, ISoftwarePackage } from '../model';
 
 @Component({
+    standalone: false,
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']

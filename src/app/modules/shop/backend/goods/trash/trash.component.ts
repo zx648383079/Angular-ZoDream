@@ -7,6 +7,7 @@ import { SearchService } from '../../../../../theme/services';
 import { GoodsService } from '../goods.service';
 
 @Component({
+    standalone: false,
   selector: 'app-trash',
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.scss']

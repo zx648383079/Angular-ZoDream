@@ -9,6 +9,7 @@ import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, IQuestionOpti
 import { ExamService } from '../../exam.service';
 
 @Component({
+    standalone: false,
   selector: 'app-edit-question',
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.scss']

@@ -6,6 +6,7 @@ import { VisualService } from '../visual.service';
 import { SearchService } from '../../../../theme/services';
 
 @Component({
+    standalone: false,
     selector: 'app-search-dialog',
     templateUrl: './search-dialog.component.html',
     styleUrls: ['./search-dialog.component.scss']

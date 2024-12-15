@@ -15,6 +15,7 @@ interface IPluginItem {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-plugin',
     templateUrl: './plugin.component.html',
     styleUrls: ['./plugin.component.scss']

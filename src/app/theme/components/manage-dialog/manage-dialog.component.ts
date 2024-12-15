@@ -3,6 +3,7 @@ import { DialogAnimation } from '../../constants';
 import { ManageDialogEvent } from '../../../components/dialog';
 
 @Component({
+    standalone: false,
     selector: 'app-manage-dialog',
     templateUrl: './manage-dialog.component.html',
     styleUrls: ['./manage-dialog.component.scss'],

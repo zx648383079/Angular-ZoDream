@@ -7,6 +7,7 @@ import { SearchService } from '../../../../theme/services';
 import { PaymentService } from '../payment.service';
 
 @Component({
+    standalone: false,
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']

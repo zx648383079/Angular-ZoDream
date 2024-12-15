@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 
 @Component({
+    standalone: false,
   selector: 'app-image-player',
   templateUrl: './image-player.component.html',
   styleUrls: ['./image-player.component.scss']

@@ -9,6 +9,7 @@ import { DownloadService } from '../../../../../theme/services';
 import { GoodsService } from '../goods.service';
 
 @Component({
+    standalone: false,
   selector: 'app-goods-card',
   templateUrl: './goods-card.component.html',
   styleUrls: ['./goods-card.component.scss']

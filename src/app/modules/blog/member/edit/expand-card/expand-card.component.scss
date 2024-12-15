@@ -1,5 +1,5 @@
-@import '../../../../../theme/styles/theme';
-@import '../../../../../theme/styles/mixins';
+@use '../../../../../theme/styles/theme';
+@use '../../../../../theme/styles/mixins';
 .card-header {
     position: relative;
     padding: .8rem;
@@ -7,9 +7,9 @@
     align-items: center;
     font-weight: bold;
     min-height: 3rem;
-    @include iconArrow();
+    @include mixins.iconArrow();
     &:hover {
-        background-color: var(--#{$prefix}-editor);
+        background-color: var(--#{theme.$prefix}-editor);
     }
 }
 .card-body {

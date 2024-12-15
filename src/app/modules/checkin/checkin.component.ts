@@ -17,6 +17,7 @@ interface IDay {
 }
 
 @Component({
+    standalone: false,
   selector: 'app-checkin',
   templateUrl: './checkin.component.html',
   styleUrls: ['./checkin.component.scss']

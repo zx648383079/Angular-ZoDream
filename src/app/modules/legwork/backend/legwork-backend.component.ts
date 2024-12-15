@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LegworkService } from './legwork.service';
 
 @Component({
+    standalone: false,
   selector: 'app-legwork-backend',
   templateUrl: './legwork-backend.component.html',
   styleUrls: ['./legwork-backend.component.scss']
