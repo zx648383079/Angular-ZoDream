@@ -125,6 +125,10 @@ const DIRECTIVES = [
     imports: [...BASE_MODULES],
     exports: [...BASE_MODULES, ...COMPONENTS, ...PIPES, ...DIRECTIVES],
     declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
+    providers: [
+        ...SERVICES,
+        ...ACTIONS,
+    ]
 })
 export class ThemeModule {
     static forRoot(): ModuleWithProviders<ThemeModule> {

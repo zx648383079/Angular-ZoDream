@@ -2,6 +2,8 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --bs-body-bg: #{theme.$dark-body};
+        --bs-body-color: #{theme.$dark-bodyText};
         // --#{theme.$prefix}-body: #{theme.$dark-body};
         // --#{theme.$prefix}-body-text: #{theme.$dark-bodyText};
         --#{theme.$prefix}-panel: #{theme.$dark-panel};
@@ -16,6 +18,8 @@
 
 @media (prefers-color-scheme: light) {
     :root {
+        --bs-body-bg: #{theme.$body};
+        --bs-body-color: #{theme.$bodyText};
         // --#{theme.$prefix}-body: #{theme.$body};
         // --#{theme.$prefix}-body-text: #{theme.$bodyText};
         --#{theme.$prefix}-panel: #{theme.$panel};
