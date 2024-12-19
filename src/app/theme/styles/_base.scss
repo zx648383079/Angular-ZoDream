@@ -1,18 +1,19 @@
 @use 'theme';
+@use 'variables/dark';
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bs-body-bg: #{theme.$dark-body};
-        --bs-body-color: #{theme.$dark-bodyText};
-        // --#{theme.$prefix}-body: #{theme.$dark-body};
-        // --#{theme.$prefix}-body-text: #{theme.$dark-bodyText};
-        --#{theme.$prefix}-panel: #{theme.$dark-panel};
-        --#{theme.$prefix}-panel-text: #{theme.$dark-bodyText};
-        --#{theme.$prefix}-primary: #{theme.$dark-primary};
-        --#{theme.$prefix}-primary-text: #{theme.$dark-primaryText};
-        --#{theme.$prefix}-dialog: #{theme.$dark-dialog};
-        --#{theme.$prefix}-dialog-text: #{theme.$dark-dialogText};
-        --#{theme.$prefix}-dialog-mask: #{theme.$dark-dialogMask};
+        --bs-body-bg: #{dark.$body};
+        --bs-body-color: #{dark.$bodyText};
+        // --#{theme.$prefix}-body: #{dark.$body};
+        // --#{theme.$prefix}-body-text: #{dark.$bodyText};
+        --#{theme.$prefix}-panel: #{dark.$panel};
+        --#{theme.$prefix}-panel-text: #{dark.$bodyText};
+        --#{theme.$prefix}-primary: #{dark.$primary};
+        --#{theme.$prefix}-primary-text: #{dark.$primaryText};
+        --#{theme.$prefix}-dialog: #{dark.$dialog};
+        --#{theme.$prefix}-dialog-text: #{dark.$dialogText};
+        --#{theme.$prefix}-dialog-mask: #{dark.$dialogMask};
     }
 }
 
