@@ -1,6 +1,6 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { CharIterator } from '../../../../theme/utils/char';
-import katex from 'katex';
+import * as katex from 'katex';
 import AsciiMathParser from 'asciimath2tex';
 
 export interface IMarkItem {

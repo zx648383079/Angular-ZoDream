@@ -140,5 +140,7 @@
 }
 
 .member-container ::ng-deep {
+    @include member.list-table;
     @include member.member-container;
+
 }
