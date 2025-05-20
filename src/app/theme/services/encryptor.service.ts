@@ -40,7 +40,7 @@ export class EncryptorService {
             if (!this.isDictionaryCode(data.charAt(i))) {
                 step ++;
             }
-            items.push(String.fromCharCode(this.dictionaryKey(data.substring(i, i + step) + keyItems[j % keyItems.length])));
+            items.push(String.fromCharCode(this.dictionaryKey(data.substring(i, i + step)) + keyItems[j % keyItems.length]));
             i += step;
             j ++;
         }
