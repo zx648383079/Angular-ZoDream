@@ -139,7 +139,7 @@ export class CashierComponent implements OnInit {
     public shippingChanged(item: IShipping) {
         this.shipping = item;
         this.refreshPrice();
-        this.service.paymentList(this.cartData.goods, item.id, this.cartData.type).subscribe(res => {
+        this.service.paymentList(this.cartData.goods, item.code, this.cartData.type).subscribe(res => {
             this.paymentItems = res.data;
         });
         if (this.couponLoaded) {
@@ -180,8 +180,8 @@ export class CashierComponent implements OnInit {
         this.service.previewOrder({
             goods: this.cartData.goods,
             address: this.address.id,
-            shipping: this.shipping ? this.shipping.id : 0,
-            payment: this.payment ? this.payment.id : 0,
+            shipping: this.shipping ? this.shipping.code : '',
+            payment: this.payment ? this.payment.code : '',
             type: this.cartData.type,
             coupon: this.coupon ? this.coupon.id : 0,
             invoice: this.invoice || 0
@@ -216,8 +216,8 @@ export class CashierComponent implements OnInit {
         this.service.checkoutOrder({
             goods: this.cartData.goods,
             address: this.address.id,
-            shipping: this.shipping.id,
-            payment: this.payment.id,
+            shipping: this.shipping.code,
+            payment: this.payment.code,
             type: this.cartData.type,
             coupon: this.coupon ? this.coupon.id : 0,
             invoice: this.invoice || 0

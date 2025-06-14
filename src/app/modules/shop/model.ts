@@ -143,9 +143,9 @@ export interface IOrder {
     status_label: string;
     status: number;
     goods_amount: number;
-    payment_id: number;
+    payment_id: string;
     payment_name: string;
-    shipping_id: number;
+    shipping_id: string;
     shipping_name: string;
     shipping_fee: number;
     order_amount: number;
@@ -228,6 +228,7 @@ export interface IShipping {
     icon: string;
     description: string;
     position: number;
+    cod_enabled: number;
     created_at: string;
     updated_at: string;
     groups?: IShippingGroup[];
@@ -346,8 +347,8 @@ export interface ICashierData {
     type?: number;
     goods: number[] | ICartItem[];
     address: number|IAddress;
-    shipping?: number;
-    payment?: number;
+    shipping?: string;
+    payment?: string;
     coupon?: number;
     coupon_code?: string;
     invoice?: IInvoiceTitle|number;

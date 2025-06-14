@@ -128,7 +128,7 @@ export class CreateComponent implements OnInit {
     public shippingChanged(item: IShipping) {
         this.shipping = item;
         this.refreshPrice();
-        this.service.paymentList(this.user.id, this.goodsItems, item.id).subscribe(res => {
+        this.service.paymentList(this.user.id, this.goodsItems, item.code).subscribe(res => {
             this.paymentItems = res.data;
         });
     }
@@ -154,8 +154,8 @@ export class CreateComponent implements OnInit {
         this.service.checkoutOrder({
             goods: this.goodsItems,
             address: this.address.id > 0 ? this.address.id : this.address,
-            shipping: this.shipping.id,
-            payment: this.payment.id,
+            shipping: this.shipping.code,
+            payment: this.payment.code,
             coupon: this.coupon ? this.coupon.id : 0,
             user: this.user.id,
         }).subscribe({
@@ -179,8 +179,8 @@ export class CreateComponent implements OnInit {
         this.service.previewOrder({
             goods: this.goodsItems,
             address: this.address.id > 0 ? this.address.id : this.address,
-            shipping: this.shipping?.id,
-            payment: this.payment?.id,
+            shipping: this.shipping?.code,
+            payment: this.payment?.code,
             coupon: this.coupon ? this.coupon.id : 0,
             user: this.user.id,
         }).subscribe({

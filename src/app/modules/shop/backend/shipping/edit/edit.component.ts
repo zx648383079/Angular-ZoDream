@@ -34,6 +34,7 @@ export class EditShippingComponent implements OnInit {
         method: ['0'],
         icon: [''],
         description: [''],
+        cod_enabled: [0],
         position: [99],
     });
 
@@ -69,6 +70,7 @@ export class EditShippingComponent implements OnInit {
                     icon: res.icon,
                     description: res.description,
                     position: res.position,
+                    cod_enabled: res.cod_enabled
                 });
             });
         });

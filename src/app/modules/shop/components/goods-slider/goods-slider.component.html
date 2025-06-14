@@ -7,7 +7,7 @@
             <li #itemView class="goods-item item-hover fixed-item" *ngFor="let item of items">
                 <ng-container *ngIf="itemType < 1; else elseTemplate">
                     <div class="thumb">
-                        <a [routerLink]="'./goods/' + item.id">
+                        <a [routerLink]="'goods/' + item.id" [relativeTo]="baseRoute">
                             <img [src]="item.thumb" alt="">
                         </a>
                     </div>
@@ -16,7 +16,7 @@
                 </ng-container>
                 <ng-template #elseTemplate>
                     <div class="thumb">
-                        <a [routerLink]="'./goods/' + item.goods.id">
+                        <a [routerLink]="'goods/' + item.goods.id" [relativeTo]="baseRoute">
                             <img [src]="item.goods.thumb" alt="">
                         </a>
                     </div>

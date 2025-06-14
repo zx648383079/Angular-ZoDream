@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     standalone: false,
-  selector: 'app-goods-slider',
-  templateUrl: './goods-slider.component.html',
-  styleUrls: ['./goods-slider.component.scss']
+    selector: 'app-goods-slider',
+    templateUrl: './goods-slider.component.html',
+    styleUrls: ['./goods-slider.component.scss']
 })
 export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
@@ -15,6 +16,7 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     public itemType = 0;
     public index = 0;
+    public baseRoute: ActivatedRoute;
 
     private itemWidth = 0;
     private itemHeight = 0;
@@ -23,7 +25,14 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
     constructor(
         private elementRef: ElementRef<HTMLDivElement>,
         private renderer: Renderer2,
-    ) { }
+        route: ActivatedRoute,
+    ) {
+        let next = route;
+        while (next.routeConfig.path !== 'market') {
+            next = next.parent;
+        }
+        this.baseRoute = next;
+    }
 
     public get boxStyle() {
         if (this.itemHeight < 1) {

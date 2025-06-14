@@ -73,7 +73,7 @@ export class OrderService {
         });
     }
 
-    public paymentList(user: number, goods?: ICartItem[], shipping?: number) {
+    public paymentList(user: number, goods?: ICartItem[], shipping?: string) {
         return this.http.post<IData<IPayment>>('shop/admin/cashier/payment', {goods, shipping, user});
     }
 

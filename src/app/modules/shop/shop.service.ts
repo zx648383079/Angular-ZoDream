@@ -149,7 +149,7 @@ export class ShopService {
         return this.http.post<ICart>('shop/cart/delete_invalid', {});
     }
 
-    public paymentList(goods?: number[] | ICartItem[], shipping?: number, type = 0) {
+    public paymentList(goods?: number[] | ICartItem[], shipping?: string, type = 0) {
         return this.http.post<IData<IPayment>>('shop/cashier/payment', {goods, shipping, type});
     }
 

@@ -45,6 +45,10 @@ export class PayComponent implements OnInit {
                     return;
                 }
                 this.data = res;
+                this.payment = {
+                    code: res.payment_id,
+                    name: res.payment_name
+                } as any;
             },
             error: err => {
                 this.toastrService.error(err);

@@ -4,7 +4,7 @@
             <div class="order-pay-tip">
                 <div class="primary-tip">
                     <i class="fa fa-check"></i>
-                    订单提交成功，请尽快支付
+                    订单提交成功，{{data.payment_id === 'cod' ? '请等待收货且付款' : '请尽快支付'}}
                 </div>
                 <div class="order-bar">
                     <div class="no-item">
@@ -17,12 +17,12 @@
             </div>
             <div class="panel">
                 <div class="panel-header">
-                选择付款方式
+                    更换付款方式
                 </div>
                 <div class="pannel-body payment-box">
                     <ng-container *ngFor="let item of paymentItems">
-                        <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
-                            <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+                        <span class="radio-label" [ngClass]="{checked: payment && item.code == payment.code}" (click)="paymentChanged(item)">
+                            <i class="iconfont" [ngClass]="{'icon-check': payment && item.code == payment.code, 'icon-circle': !payment || item.code != payment.code}"></i>
                             {{ item.name }}
                         </span>
                     </ng-container>
@@ -31,7 +31,7 @@
             
             <div class="pay-btn">
                 <button class="btn btn-primary">立即付款</button>
-                <div>
+                <div *ngIf="data.expired_at">
                     <app-countdown [end]="data.expired_at" [auto]="true" label="剩余付款时间：" (finished)="onExpired()"></app-countdown>
                 </div>
             </div>
