@@ -1,0 +1,7 @@
+<div class="letter-container">
+    <ng-container *ngFor="let item of items;let i = index">
+        <span class="letter-item" [ngClass]="{active: isEnabled && i == value.length}">{{ item }}</span>
+    </ng-container>
+    
+    <input type="text" class="letter-input" [disabled]="disabled" [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" (ngModelChange)="onValueChanged()">
+</div>

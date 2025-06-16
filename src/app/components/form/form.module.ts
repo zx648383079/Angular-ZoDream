@@ -28,6 +28,7 @@ import { FormPanelComponent } from './form-panel/form-panel.component';
 import { ImageInputComponent } from './image-input/image-input.component';
 import { CommandBarComponent } from './command-bar/command-bar.component';
 import { CommandButtonComponent } from './command-bar/command-button';
+import { LetterInputComponent } from './letter-input/letter-input.component';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -56,6 +57,7 @@ const COMPONENTS = [
     ImageInputComponent,
     CommandBarComponent,
     CommandButtonComponent,
+    LetterInputComponent,
 ];
 
 @NgModule({
