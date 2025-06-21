@@ -70,7 +70,7 @@
     position: absolute;
     z-index: 99;
     right: 0;
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     box-shadow: 0 2px 5px #777;
     min-width: 5rem;
     display: none;

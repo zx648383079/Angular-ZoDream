@@ -147,7 +147,7 @@ li {
 }
 .tool-drop-bar {
     position: absolute;
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     box-shadow: 0 2px 5px $shadow;
     z-index: 99;
     display: none;
@@ -170,24 +170,24 @@ li {
     display: flex;
     justify-content: space-between;
     .tool-item {
-        --bs-btn-hover-bg: #ccc;
+        --#{theme.$prefix}btn-hover-bg: #ccc;
         display: inline-block;
         line-height: 3em;
         width: 3em;
         text-align: center;
-        background-color: var(--bs-btn-bg);
-        color: var(--bs-btn-color);
+        background-color: var(--#{theme.$prefix}btn-bg);
+        color: var(--#{theme.$prefix}btn-color);
         &:hover {
-            background-color: var(--bs-btn-hover-bg);
-            color: var(--bs-btn-hover-color);
+            background-color: var(--#{theme.$prefix}btn-hover-bg);
+            color: var(--#{theme.$prefix}btn-hover-color);
         }
         &.active {
-            background-color: var(--bs-btn-active-bg);
-            color: var(--bs-btn-active-color);
+            background-color: var(--#{theme.$prefix}btn-active-bg);
+            color: var(--#{theme.$prefix}btn-active-color);
         }
         &.disabled {
-            background-color: var(--bs-btn-disabled-bg);
-            color: var(--bs-btn-disabled-color);
+            background-color: var(--#{theme.$prefix}btn-disabled-bg);
+            color: var(--#{theme.$prefix}btn-disabled-color);
             cursor: not-allowed;
         }
     }

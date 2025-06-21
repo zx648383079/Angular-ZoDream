@@ -1,0 +1,78 @@
+// 黑暗模式
+$prefix: 'bs-' !default;
+$enable-dark-mode: true !default;
+
+
+
+$primary: #2e2e2e;
+$primary-text: #eee;
+
+$body: #333;
+$body-text: white;
+
+$secondary: #333;
+$secondary-text: white;
+
+$third: #6c757d;
+$third-text: $body-text;
+
+$gray: #6c757d;
+$grayText: #fff;
+
+$disabled-text: #ababaa;
+
+$linkText: #43a1e1;
+$linkHover-text: #0a58ca;
+
+$hover: #404040;
+$hoverText: white;
+
+$active: #454545;
+$activeText: white;
+
+$shadow: rgba(0, 0, 0, .25);
+$border: #7B7B7B;
+
+$panel: #3b3b3b;
+
+$dialog: #3b3b3b;
+$dialogText: white;
+$dialogMask: rgba(0, 0, 0, .3);
+
+$button: transparent;
+$buttonText: white;
+$buttonBorder: #7B7B7B;
+$buttonHoverBorder:  #A2A2A2;
+
+$input: #2b2b2b;
+$inputTextIcon: white;
+$inputText: white;
+$inputLabel: #929292;
+$inputBorder: #6B6B6B;
+$inputFocusBorder: #808080;
+$inputFocusShadow: 0 0 0 1px #808080 inset;
+
+
+@mixin theme-dark {
+    --#{$prefix}body: #{$body};
+    --#{$prefix}body-color: #{$body-text};
+    --#{$prefix}panel: #{$panel};
+    --#{$prefix}panel-text: #{$body-text};
+}
+
+
+@if $enable-dark-mode {
+    :root,
+    [data-theme="dark"] {
+        @include theme-dark;
+    }
+} @else {
+    [data-theme="dark"] {
+        @include theme-dark;
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            @include theme-dark;
+        }
+    }
+}

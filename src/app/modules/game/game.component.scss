@@ -5,11 +5,11 @@
    @include bag.bag-container;
     a:not([href]):not([class]),
     a:not([class]) {
-        color: var(--bs-link-color);
+        color: var(--#{theme.$prefix}link-color);
         user-select: none;
         cursor: pointer;
         &:hover {
-            color: var(--bs-link-hover-color);
+            color: var(--#{theme.$prefix}link-hover-color);
         }
     }
 }

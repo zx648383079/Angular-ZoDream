@@ -7,7 +7,7 @@
     top: 0;
     width: 20rem;
     min-height: 6rem;
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     box-shadow: 0 0 .2rem 0.2rem #ccc;
     border-radius: .25rem;
     .input-header-block {

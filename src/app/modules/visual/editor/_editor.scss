@@ -304,8 +304,8 @@ $inputShadow: rgba(0,0,0, .1);
             justify-content: space-between;
             .fa {
                 display: block;
-                background-color: var(--#{theme.$prefix}-primary);
-                color: var(--#{theme.$prefix}-primary-text);
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
             }
         }
     }
@@ -448,13 +448,13 @@ $inputShadow: rgba(0,0,0, .1);
             font-weight: bold;
             font-style: normal;
             line-height: $lineHight;
-            color: var(--#{theme.$prefix}-primary);
+            color: var(--#{theme.$prefix}primary);
             &::before {
                 display: block;
                 content: '·';
             }
             &:hover {
-                color: var(--#{theme.$prefix}-danger);
+                color: var(--#{theme.$prefix}danger);
                 &::before {
                     content: '×';
                 }
@@ -538,11 +538,11 @@ $inputShadow: rgba(0,0,0, .1);
     }
     
     .control-popup {
-        --#{theme.$prefix}-popup: #fff;
+        --#{theme.$prefix}popup: #fff;
         position: absolute;
         border-radius: $radius;
         padding: 0 0 .8rem 0;
-        background-color: var(--#{theme.$prefix}-popup);
+        background-color: var(--#{theme.$prefix}popup);
         box-shadow: 0 0 20px $inputShadow;
         margin-top: .5rem;
         left: 0;
@@ -583,7 +583,7 @@ $inputShadow: rgba(0,0,0, .1);
                 top: 0;
                 left: 0;
                 display: block;
-                color: var(--#{theme.$prefix}-secondary-text);
+                color: var(--#{theme.$prefix}secondary-text);
                 width: $iconWidth;
                 text-align: center;
                 line-height: $lineHight;
@@ -601,8 +601,8 @@ $inputShadow: rgba(0,0,0, .1);
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: var(--#{theme.$prefix}-input);
-            color: var(--#{theme.$prefix}-input-text);
+            background-color: var(--#{theme.$prefix}input);
+            color: var(--#{theme.$prefix}input-text);
             border-radius: $radius;
             user-select: none;
             font-size: .6rem;
@@ -611,8 +611,8 @@ $inputShadow: rgba(0,0,0, .1);
                 font-size: 1rem;
             }
             &.selected {
-                background-color: var(--#{theme.$prefix}-primary-active);
-                color:  var(--#{theme.$prefix}-primary-text);
+                background-color: var(--#{theme.$prefix}primary-active);
+                color:  var(--#{theme.$prefix}primary-text);
             }
         }
         &::before {
@@ -621,7 +621,7 @@ $inputShadow: rgba(0,0,0, .1);
             position: absolute;
             top: -1rem;
             right: math.div($lineHight, 2) + .3rem;
-            border-bottom-color: var(--#{theme.$prefix}-popup);
+            border-bottom-color: var(--#{theme.$prefix}popup);
         }
     }
     
@@ -631,7 +631,7 @@ $inputShadow: rgba(0,0,0, .1);
             padding-left: .4rem;
             display: flex;
             justify-content: space-between;
-            background-color: var(--#{theme.$prefix}-input);
+            background-color: var(--#{theme.$prefix}input);
             user-select: none;
             .control-action {
                 width: 1.5rem;
@@ -639,7 +639,7 @@ $inputShadow: rgba(0,0,0, .1);
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: center;
-                color: var(--#{theme.$prefix}-secondary-text);
+                color: var(--#{theme.$prefix}secondary-text);
             }
         }
         .multiple-control-body {
@@ -648,13 +648,13 @@ $inputShadow: rgba(0,0,0, .1);
         }
         &:hover {
             .multiple-control-header {
-                background-color: var(--#{theme.$prefix}-hover);
+                background-color: var(--#{theme.$prefix}hover);
             }
         }
         &.open {
             .multiple-control-header {
-                background-color: var(--#{theme.$prefix}-primary);
-                color: var(--#{theme.$prefix}-primary-text);
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
             }
             .multiple-control-body {
                 display: block;
@@ -670,7 +670,7 @@ $inputShadow: rgba(0,0,0, .1);
             justify-content: center;
             height: $lineHight;
             border-radius: $radius;
-            border: 1px solid var(--#{theme.$prefix}-gray);
+            border: 1px solid var(--#{theme.$prefix}gray);
         }
     }
     .fa-vertical {
@@ -709,7 +709,7 @@ $inputShadow: rgba(0,0,0, .1);
             top: 0;
             z-index: 2;
             display: none;
-            background-color: var(--#{theme.$prefix}-input);
+            background-color: var(--#{theme.$prefix}input);
             height: $lineHight;
             .fa {
                 display: inline-block;
@@ -723,11 +723,11 @@ $inputShadow: rgba(0,0,0, .1);
                     border-radius: 0 $radius $radius 0;
                 }
                 &:not(:last-of-type) {
-                    border-right: 1px solid var(--#{theme.$prefix}-primary);
+                    border-right: 1px solid var(--#{theme.$prefix}primary);
                 }
                 &:hover {
-                    background-color: var(--#{theme.$prefix}-primary);
-                    color: var(--#{theme.$prefix}-primary-text);
+                    background-color: var(--#{theme.$prefix}primary);
+                    color: var(--#{theme.$prefix}primary-text);
                 }
             }
         }
@@ -746,7 +746,7 @@ $inputShadow: rgba(0,0,0, .1);
         position: relative;
         border-radius: $radius;
         line-height: $lineHight;
-        background-color: var(--#{theme.$prefix}-input);
+        background-color: var(--#{theme.$prefix}input);
         margin-bottom: .2rem;
         span {
             flex: 1;
@@ -755,9 +755,9 @@ $inputShadow: rgba(0,0,0, .1);
     
     .list-item {
         &.active {
-            border: .1rem solid var(--#{theme.$prefix}-primary);
+            border: .1rem solid var(--#{theme.$prefix}primary);
             .item-title {
-                color: var(--#{theme.$prefix}-primary);
+                color: var(--#{theme.$prefix}primary);
             }
             &::after {
                 content: '√';
@@ -765,8 +765,8 @@ $inputShadow: rgba(0,0,0, .1);
                 position: absolute;
                 right: .8rem;
                 top: -.2rem;
-                background-color: var(--#{theme.$prefix}-primary);
-                color: var(--#{theme.$prefix}-primary-text);
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
                 line-height: 1;
                 font-size: .6rem;
                 min-width: 2rem;
@@ -807,7 +807,7 @@ $inputShadow: rgba(0,0,0, .1);
         position: relative;
         border-radius: $radius;
         padding: .2rem .2rem .2rem 1.2rem;
-        border: 1px dotted var(--#{theme.$prefix}-gray);
+        border: 1px dotted var(--#{theme.$prefix}gray);
         max-height: 20rem;
         overflow: auto;
         margin: 0 -.8rem;

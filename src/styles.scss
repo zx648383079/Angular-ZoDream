@@ -1,7 +1,18 @@
-// 覆盖 bootstrap 样式
-// $body-bg: #f4f4f4,
-// $body-color: #333,
-@use "../node_modules/bootstrap-sass-modules/scss/bootstrap";
+@use './app/theme/styles/theme';
+@use './assets/iconfont/iconfont';
+
+
+@use './bootstrap/default' with (
+    $prefix: theme.$prefix
+);
+@use './bootstrap/dark' with (
+    $prefix: theme.$prefix,
+    $enable-dark-mode: false
+);
+@use './bootstrap/skeleton' with (
+    $prefix: theme.$prefix
+);
+
 
 @use './app/theme/styles/base';
 @use './app/theme/styles/code';

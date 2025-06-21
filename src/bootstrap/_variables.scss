@@ -1,0 +1,52 @@
+$container-max-widths: (
+    sm: 33.75rem,
+    md: 45rem,
+    lg: 60rem,
+    xl: 71.25rem,
+    xxl: 82.5rem
+) !default;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 36rem,
+    md: 48rem,
+    lg: 62rem,
+    xl: 75rem,
+    xxl: 87.5rem
+) !default;
+
+
+$spacer: 1rem !default;
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-sm:                $font-size-base * .875 !default;
+$font-size-lg:                $font-size-base * 1.25 !default;
+$font-weight-base: 400 !default;
+
+$line-height-base:            1.5 !default;
+$line-height-sm:              1.25 !default;
+$line-height-lg:              2 !default;
+
+$border-radius:               .375rem !default;
+$border-width:                1px !default;
+$link-decoration:                         underline !default;
+
+$btn-font-size:               $font-size-base !default;
+$btn-font-weight: $font-weight-base !default;
+$btn-padding-y:               .375rem !default;
+$btn-padding-x:               .75rem !default;
+$btn-line-height:             $line-height-base !default;
+$btn-border-width:            .25rem !default;
+$btn-border-radius:           $border-radius !default;
+$btn-focus-width:             .25rem !default;
+
+
+$input-font-weight: $font-weight-base !default;
+$input-font-size:             $font-size-base !default;
+$input-padding-y:                       $btn-padding-y !default;
+$input-padding-x:                       $btn-padding-x !default;
+$input-border-radius:                   $border-radius !default;
+$input-border-width:                    .25rem !default;
+$input-line-height: $line-height-base !default;
+$input-height:                          add($input-line-height * 1em, add($input-padding-y * 2, calc(#{$input-border-width} * 2), false)) !default;
+$input-focus-width:                     .25rem !default;

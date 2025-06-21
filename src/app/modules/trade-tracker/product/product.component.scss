@@ -20,7 +20,7 @@
 
 .tab-bar {
     margin-bottom: 1rem;
-    --#{theme.$prefix}-tab: var(--#{theme.$prefix}-panel);
+    --#{theme.$prefix}tab: var(--#{theme.$prefix}panel);
 }
 
 .page-search-bar {

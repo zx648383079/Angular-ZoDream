@@ -229,7 +229,7 @@
                 margin-right: .8rem;
             }
             &.disabled {
-                color: var(--bs-secondary-color);
+                color: var(--#{theme.$prefix}secondary-color);
             }
         }
     }

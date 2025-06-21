@@ -4,8 +4,8 @@ p {
     margin: 0;
 }
 .article-container {
-    background-color: var(--#{theme.$prefix}-panel);
-    color: var(--#{theme.$prefix}-panel-text);
+    background-color: var(--#{theme.$prefix}panel);
+    color: var(--#{theme.$prefix}panel-text);
     margin-top: 4rem;
     border-radius: .375rem;
     box-shadow: $shadow;
@@ -19,8 +19,8 @@ p {
 }
 
 .vs-container {
-    --#{theme.$prefix}-positive: red;
-    --#{theme.$prefix}-negative: green;
+    --#{theme.$prefix}positive: red;
+    --#{theme.$prefix}negative: green;
     position: relative;
     .vs-icon {
         margin: 0 auto;
@@ -29,8 +29,8 @@ p {
         height: 6rem;
         border-radius: 50%;
         box-shadow: $shadow;
-        background-color: var(--#{theme.$prefix}-panel);
-        color: var(--#{theme.$prefix}-panel-text);
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}panel-text);
         font-size: 4rem;
         text-align: center;
         span {
@@ -38,11 +38,11 @@ p {
             text-transform: lowercase;
             &:first-of-type {
                 transform: translateY(-.5rem);
-                color: var(--#{theme.$prefix}-positive);
+                color: var(--#{theme.$prefix}positive);
             }
             &:last-of-type {
                 transform: translateY(.5rem);
-                color: var(--#{theme.$prefix}-negative);
+                color: var(--#{theme.$prefix}negative);
             }
         }
         &::after {
@@ -59,7 +59,7 @@ p {
     }
     .positive-bar,
     .negative-bar {
-        border-color: var(--#{theme.$prefix}-inner);
+        border-color: var(--#{theme.$prefix}inner);
         position: relative;
         position: absolute;
         height: 3rem;
@@ -67,11 +67,11 @@ p {
         top: 1.5rem;
         border-width: .2rem;
         border-style: solid;
-        background-color: var(--#{theme.$prefix}-panel);
+        background-color: var(--#{theme.$prefix}panel);
         box-shadow: $shadow;
         overflow: hidden;
         .inner-bar {
-            background-color: var(--#{theme.$prefix}-inner);
+            background-color: var(--#{theme.$prefix}inner);
             height: 100%;
             display: inline-block;
             transition: width 1s;
@@ -79,20 +79,20 @@ p {
     }
     
     .positive-bar {
-        --#{theme.$prefix}-inner: var(--#{theme.$prefix}-positive);
+        --#{theme.$prefix}inner: var(--#{theme.$prefix}positive);
         left: 0;
         border-radius: 1.5rem 0 0 1.5rem;
         text-align: right;
     }
     .negative-bar {
-        --#{theme.$prefix}-inner: var(--#{theme.$prefix}-negative);
+        --#{theme.$prefix}inner: var(--#{theme.$prefix}negative);
         right: 0;
         border-radius: 0 1.5rem 1.5rem 0;
     }
 }
 
 .comment-container {
-    --#{theme.$prefix}-comment: var(--bs-body-bg);
+    --#{theme.$prefix}comment: var(--#{theme.$prefix}body-bg);
     height: 30rem;
     overflow-y: auto;
     border-radius: .375rem;
@@ -100,7 +100,7 @@ p {
     border: 1px solid #ccc;
     box-shadow: $shadow;
     margin-top: 1rem;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     .message-line {
         text-align: center;
     }
@@ -111,14 +111,14 @@ p {
         display: flex;
         align-items: center;
         .item-body {
-            background-color: var(--#{theme.$prefix}-comment);
+            background-color: var(--#{theme.$prefix}comment);
             padding: .8rem;
             max-width: 80%;
             display: inline-block;
             word-break: break-word;
         }
         .item-action {
-            background-color: var(--#{theme.$prefix}-comment);
+            background-color: var(--#{theme.$prefix}comment);
             text-align: center;
             border-radius: .375rem;
             display: inline-flex;
@@ -154,10 +154,10 @@ p {
 }
 
 .comment-panel {
-    --#{theme.$prefix}-comment: var(--bs-body-bg);
+    --#{theme.$prefix}comment: var(--#{theme.$prefix}body-bg);
     box-shadow: $shadow;
     margin-top: 1rem;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     padding: 1rem;
     .panel-header {
         display: flex;
@@ -173,7 +173,7 @@ p {
             padding: .4rem;
         }
         .active {
-            color: var(--#{theme.$prefix}-primary);
+            color: var(--#{theme.$prefix}primary);
         }
     }
 }
@@ -183,7 +183,7 @@ p {
     margin-bottom: .75em;
     .item-body {
         padding: 0.9375rem 0.625rem;
-        background-color: var(--#{theme.$prefix}-comment);
+        background-color: var(--#{theme.$prefix}comment);
     }
     .item-content {
         margin: 0.9375rem 0;
@@ -219,7 +219,7 @@ p {
     }
     .item-children {
         padding-left: 1.5em;
-        border-left: 1px solid var(--#{theme.$prefix}-comment);
+        border-left: 1px solid var(--#{theme.$prefix}comment);
         margin: .75em 0;
     }
 }
@@ -228,7 +228,7 @@ p {
     box-shadow: $shadow;
     margin-top: 1rem;
     margin-bottom: 3rem;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     .panel-header {
         display: flex;
         justify-content: space-between;

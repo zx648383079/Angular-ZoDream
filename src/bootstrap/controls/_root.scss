@@ -1,0 +1,9 @@
+@use '../variables';
+$prefix: 'bs-' !default;
+
+
+:root {
+    --#{$prefix}border-width: #{variables.$border-width};
+    --#{$prefix}border-radius: #{variables.$border-radius};
+    --#{$prefix}link-decoration: #{variables.$link-decoration};
+}

@@ -9,7 +9,7 @@ $headerHeight: 2.5rem;
     margin: 0;
     width: auto;
     transform: none;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     display: flex;
     flex-direction: column;
 }
@@ -83,7 +83,7 @@ $headerHeight: 2.5rem;
 .attachment-property-panel {
     width: 20rem;
     border-left: 1px solid #dcdcde;
-    background: var(--bs-body-bg);
+    background: var(--#{theme.$prefix}body-bg);
     padding: .8rem;
 }
 
@@ -93,14 +93,14 @@ $headerHeight: 2.5rem;
         display: inline-block;
         word-break: keep-all;
         padding-left: .4rem;
-        color: var(--bs-link-color);
+        color: var(--#{theme.$prefix}link-color);
         cursor: pointer;
         &:not(:last-of-type) {
             border-right: 1px solid #ccc;
             padding-right: .4rem;
         }
         &.text-danger {
-            color: var(--bs-danger-text);
+            color: var(--#{theme.$prefix}danger-text);
         }
     }
 }

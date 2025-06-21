@@ -12,7 +12,7 @@
         outline: none;
         box-sizing: border-box;
         &:focus {
-            border-bottom: 2px solid var(--bs-primary);
+            border-bottom: 2px solid var(--#{theme.$prefix}primary);
         }
     }
     .icon-search {
@@ -48,8 +48,8 @@
     }
     .item-action {
         display: none;
-        background-color: var(--bs-btn-bg);
-        color: var(--bs-btn-color);
+        background-color: var(--#{theme.$prefix}btn-bg);
+        color: var(--#{theme.$prefix}btn-color);
     }
     .active {
         .item-action {

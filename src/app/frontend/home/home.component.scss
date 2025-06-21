@@ -10,11 +10,11 @@
     display: block;
     font-size: 1.875rem;
     text-align: center;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     overflow-y: hidden;
     box-shadow: 0 0 0.625rem theme.$shadow;
     text-decoration: none;
-    color: var(--#{theme.$prefix}-panel-text);
+    color: var(--#{theme.$prefix}panel-text);
     margin-bottom: 1rem;
     &.metro-desc {
         .name {

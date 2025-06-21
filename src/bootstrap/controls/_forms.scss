@@ -1,0 +1,291 @@
+@use '../variables';
+@use '../rfs';
+@use '../mixins';
+@use 'sass:math';
+$prefix: 'bs-' !default;
+
+$input-box-shadow:                      var(--#{$prefix}box-shadow-inset) !default;
+$input-focus-box-shadow:                0 0 0 .25rem rgba(var(--#{$prefix}primary-rgb), .25) !default;
+$input-transition:                      border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+$form-range-thumb-width:                   1rem !default;
+$form-range-thumb-height:                  $form-range-thumb-width !default;
+$form-range-thumb-focus-box-shadow-width:  0.25rem !default;
+$form-range-thumb-focus-box-shadow:        0 0 0 1px var(--#{$prefix}body), $input-focus-box-shadow !default;
+$form-range-track-width:          100% !default;
+$form-range-track-height:         .5rem !default;
+$form-range-track-cursor:         pointer !default;
+$form-range-thumb-bg:             var(--#{$prefix}primary) !default;
+$form-range-thumb-border:                  0 !default;
+$form-range-thumb-border-radius:           1rem !default;
+$form-range-thumb-box-shadow:              0 .1rem .25rem rgba(0,0,0, .1) !default;
+$form-range-thumb-transition:              background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+$form-range-track-bg: var(--#{$prefix}secondary-bg) !default;
+$form-range-track-border-radius:  1rem !default;
+$form-range-track-box-shadow:     var(--#{$prefix}box-shadow-inset) !default;
+
+$form-select-indicator-color:       #343a40 !default;
+$form-select-indicator:             url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>") !default;
+
+$form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: variables.$input-padding-y variables.$input-padding-x;
+    @include rfs.font-size(variables.$input-font-size);
+    font-weight: variables.$input-font-weight;
+    line-height: variables.$input-line-height;
+
+    color: var(--#{$prefix}input-text);
+    appearance: none; // Fix appearance for date inputs in Safari
+    background-color: var(--#{$prefix}input);
+    background-clip: padding-box;
+    border: variables.$input-border-width solid var(--#{$prefix}input-border-color);
+
+    // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
+    @include mixins.border-radius(variables.$input-border-radius);
+
+    @include mixins.box-shadow($input-box-shadow);
+    @include mixins.transition($input-transition);
+
+    &[type="file"] {
+        overflow: hidden; // prevent pseudo element button overlap
+
+        &:not(:disabled):not([readonly]) {
+            cursor: pointer;
+        }
+    }
+
+    // Customize the `:focus` state to imitate native WebKit styles.
+    &:focus {
+        color: var(--#{$prefix}input-text);
+        background-color: var(--#{$prefix}input);
+        border-color: var(--#{$prefix}input-focus-border-color);
+        outline: 0;
+        @include mixins.box-shadow($input-box-shadow, $input-focus-box-shadow);
+    }
+
+    &::-webkit-date-and-time-value {
+        // On Android Chrome, form-control's "width: 100%" makes the input width too small
+        // Tested under Android 11 / Chrome 89, Android 12 / Chrome 100, Android 13 / Chrome 109
+        //
+        // On iOS Safari, form-control's "appearance: none" + "width: 100%" makes the input width too small
+        // Tested under iOS 16.2 / Safari 16.2
+        min-width: 85px; // Seems to be a good minimum safe width
+
+        // Add some height to date inputs on iOS
+        // https://github.com/twbs/bootstrap/issues/23307
+        // TODO: we can remove this workaround once https://bugs.webkit.org/show_bug.cgi?id=198959 is resolved
+        // Multiply line-height by 1em if it has no unit
+        height: if(math.unit(variables.$input-line-height) == "", variables.$input-line-height * 1em, variables.$input-line-height);
+
+        // Android Chrome type="date" is taller than the other inputs
+        // because of "margin: 1px 24px 1px 4px" inside the shadow DOM
+        // Tested under Android 11 / Chrome 89, Android 12 / Chrome 100, Android 13 / Chrome 109
+        margin: 0;
+    }
+
+    // Prevent excessive date input height in Webkit
+    // https://github.com/twbs/bootstrap/issues/34433
+    &::-webkit-datetime-edit {
+        display: block;
+        padding: 0;
+    }
+
+    // Placeholder
+    &::placeholder {
+        color: var(--#{$prefix}input-placeholder-color);
+        // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
+        opacity: 1;
+    }
+
+    // Disabled inputs
+    //
+    // HTML5 says that controls under a fieldset > legend:first-child won't be
+    // disabled if the fieldset is disabled. Due to implementation difficulty, we
+    // don't honor that edge case; we style them as disabled anyway.
+    &:disabled {
+        color: var(--#{$prefix}input-text);
+        background-color: var(--#{$prefix}input-disabled);
+        border-color: var(--#{$prefix}input-border-color);
+        // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
+        opacity: 1;
+    }
+
+}
+
+textarea {
+    &.form-control {
+        min-height: variables.$input-height;
+    }
+}
+
+
+.form-range {
+    width: 100%;
+    height: add($form-range-thumb-height, $form-range-thumb-focus-box-shadow-width * 2);
+    padding: 0; // Need to reset padding
+    appearance: none;
+    background-color: transparent;
+
+    &:focus {
+        outline: 0;
+
+        // Pseudo-elements must be split across multiple rulesets to have an effect.
+        // No box-shadow() mixin for focus accessibility.
+        &::-webkit-slider-thumb { box-shadow: $form-range-thumb-focus-box-shadow; }
+        &::-moz-range-thumb     { box-shadow: $form-range-thumb-focus-box-shadow; }
+    }
+
+    &::-moz-focus-outer {
+        border: 0;
+    }
+
+    &::-webkit-slider-thumb {
+        width: $form-range-thumb-width;
+        height: $form-range-thumb-height;
+        margin-top: ($form-range-track-height - $form-range-thumb-height) * .5; // Webkit specific
+        appearance: none;
+        @include mixins.gradient-bg($form-range-thumb-bg);
+        border: $form-range-thumb-border;
+        @include mixins.border-radius($form-range-thumb-border-radius);
+        @include mixins.box-shadow($form-range-thumb-box-shadow);
+        @include mixins.transition($form-range-thumb-transition);
+
+        &:active {
+            @include mixins.gradient-bg(var(--#{$prefix}range-thumb-active));
+        }
+    }
+
+    &::-webkit-slider-runnable-track {
+        width: $form-range-track-width;
+        height: $form-range-track-height;
+        color: transparent; // Why?
+        cursor: $form-range-track-cursor;
+        background-color: $form-range-track-bg;
+        border-color: transparent;
+        @include mixins.border-radius($form-range-track-border-radius);
+        @include mixins.box-shadow($form-range-track-box-shadow);
+    }
+
+    &::-moz-range-thumb {
+        width: $form-range-thumb-width;
+        height: $form-range-thumb-height;
+        appearance: none;
+        @include mixins.gradient-bg($form-range-thumb-bg);
+        border: $form-range-thumb-border;
+        @include mixins.border-radius($form-range-thumb-border-radius);
+        @include mixins.box-shadow($form-range-thumb-box-shadow);
+        @include mixins.transition($form-range-thumb-transition);
+
+        &:active {
+            @include mixins.gradient-bg(var(--#{$prefix}range-thumb-active));
+        }
+    }
+
+    &::-moz-range-track {
+        width: $form-range-track-width;
+        height: $form-range-track-height;
+        color: transparent;
+        cursor: $form-range-track-cursor;
+        background-color: $form-range-track-bg;
+        border-color: transparent; // Firefox specific?
+        @include mixins.border-radius($form-range-track-border-radius);
+        @include mixins.box-shadow($form-range-track-box-shadow);
+    }
+
+    &:disabled {
+        pointer-events: none;
+
+        &::-webkit-slider-thumb {
+            background-color: var(--#{$prefix}range-thumb-disabled);
+        }
+
+        &::-moz-range-thumb {
+            background-color: var(--#{$prefix}range-thumb-disabled);
+        }
+    }
+}
+
+.form-select {
+    --#{$prefix}form-select-bg-img: #{escape-svg($form-select-indicator)};
+
+    display: block;
+    width: 100%;
+    padding: variables.$input-padding-y $form-select-indicator-padding variables.$input-padding-y variables.$input-padding-x;
+    @include rfs.font-size(variables.$input-font-size);
+    font-weight: variables.$input-font-weight;
+    line-height: variables.$input-line-height;
+    color: var(--#{$prefix}input-text);
+    appearance: none;
+    background-color: var(--#{$prefix}input);
+    background-image: var(--#{$prefix}form-select-bg-img), var(--#{$prefix}form-select-bg-icon, none);
+    background-repeat: no-repeat;
+    background-position: right variables.$input-padding-x center;
+    background-size: 1rem .75rem;
+    border: variables.$input-border-width solid var(--#{$prefix}input-border-color);
+    @include mixins.border-radius(variables.$input-border-radius);
+    @include mixins.box-shadow($input-box-shadow);
+    @include mixins.transition($input-transition);
+
+    &:focus {
+        border-color: var(--#{$prefix}input-focus-border-color);
+        outline: 0;
+        @include mixins.box-shadow($input-box-shadow, $input-focus-box-shadow);
+    }
+
+    &[multiple],
+    &[size]:not([size="1"]) {
+        padding-right: variables.$input-padding-x;
+        background-image: none;
+    }
+
+    &:disabled {
+        color: var(--#{$prefix}input-text);
+        background-color: var(--#{$prefix}input-disabled);
+        border-color: var(--#{$prefix}input-border-color);
+    }
+
+    // Remove outline from select box in FF
+    &:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 var(--#{$prefix}input-text);
+    }
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap; // For form validation feedback
+    align-items: stretch;
+    width: 100%;
+
+    > .form-control,
+    > .form-select,
+    > .form-floating {
+        position: relative; // For focus state's z-index
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+    }
+
+    // Bring the "active" form control to the top of surrounding elements
+    > .form-control:focus,
+    > .form-select:focus,
+    > .form-floating:focus-within {
+        z-index: 5;
+    }
+
+    // Ensure buttons are always above inputs for more visually pleasing borders.
+    // This isn't needed for `.input-group-text` since it shares the same border-color
+    // as our inputs.
+    .btn {
+        position: relative;
+        z-index: 2;
+
+        &:focus {
+            z-index: 5;
+        }
+    }
+}

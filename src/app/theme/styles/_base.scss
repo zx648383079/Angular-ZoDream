@@ -1,42 +1,9 @@
 @use 'theme';
-@use 'variables/dark';
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bs-body-bg: #{dark.$body};
-        --bs-body-color: #{dark.$bodyText};
-        // --#{theme.$prefix}-body: #{dark.$body};
-        // --#{theme.$prefix}-body-text: #{dark.$bodyText};
-        --#{theme.$prefix}-panel: #{dark.$panel};
-        --#{theme.$prefix}-panel-text: #{dark.$bodyText};
-        --#{theme.$prefix}-primary: #{dark.$primary};
-        --#{theme.$prefix}-primary-text: #{dark.$primaryText};
-        --#{theme.$prefix}-dialog: #{dark.$dialog};
-        --#{theme.$prefix}-dialog-text: #{dark.$dialogText};
-        --#{theme.$prefix}-dialog-mask: #{dark.$dialogMask};
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --bs-body-bg: #{theme.$body};
-        --bs-body-color: #{theme.$bodyText};
-        // --#{theme.$prefix}-body: #{theme.$body};
-        // --#{theme.$prefix}-body-text: #{theme.$bodyText};
-        --#{theme.$prefix}-panel: #{theme.$panel};
-        --#{theme.$prefix}-panel-text: #{theme.$bodyText};
-        --#{theme.$prefix}-primary: #{theme.$primary};
-        --#{theme.$prefix}-primary-text: #{theme.$primaryText};
-        --#{theme.$prefix}-dialog: #{theme.$dialog};
-        --#{theme.$prefix}-dialog-text: #{theme.$dialogText};
-        --#{theme.$prefix}-dialog-mask: #{theme.$dialogMask};
-    }
-}
 
 
 body {
-    // background-color: var(--#{theme.$prefix}-body);
-    // color: var(--#{theme.$prefix}-body-text);
+    // background-color: var(--#{theme.$prefix}body);
+    // color: var(--#{theme.$prefix}body-text);
     background-attachment: fixed;
     background-repeat:no-repeat;
     background-size: cover;

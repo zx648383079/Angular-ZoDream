@@ -10,7 +10,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     right: 0;
     bottom: 0;
     z-index: 200;
-    background-color:  var(--#{theme.$prefix}-dialog-mask);
+    background-color:  var(--#{theme.$prefix}dialog-mask);
 }
 .dialog-loading {
     position: fixed;
@@ -31,9 +31,9 @@ $shadow: rgba(0, 0, 0, 0.2);
     z-index: 920;
     left: 50%;
     top: 50%;
-    background-color: var(--#{theme.$prefix}-dialog);
+    background-color: var(--#{theme.$prefix}dialog);
     backdrop-filter: blur(1.875rem);
-    color: var(--#{theme.$prefix}-dialog-text);
+    color: var(--#{theme.$prefix}dialog-text);
     box-shadow: 0 0 1.25rem $shadow;
 }
 
@@ -102,8 +102,8 @@ $shadow: rgba(0, 0, 0, 0.2);
     width: 30rem;
     top: 0;
     bottom: 0;
-    background-color: var(--bs-body-bg);
-    color: var(--#{theme.$prefix}-dialog-text);
+    background-color: var(--#{theme.$prefix}body-bg);
+    color: var(--#{theme.$prefix}dialog-text);
     z-index: 99;
     box-shadow: $shadow 0 0 0.625rem;
     display: flex;
@@ -287,8 +287,8 @@ $shadow: rgba(0, 0, 0, 0.2);
     word-spacing: normal;
     line-break: auto;
     word-wrap: break-word;
-    background-color: var(--#{theme.$prefix}-dialog);
-    color: var(--#{theme.$prefix}-dialog-text);
+    background-color: var(--#{theme.$prefix}dialog);
+    color: var(--#{theme.$prefix}dialog-text);
     border-radius: .25rem;
     max-width: 18rem;
     z-index: 188;
@@ -429,11 +429,11 @@ $shadow: rgba(0, 0, 0, 0.2);
                 padding: 0 .5rem;
                 min-width: 2.5rem;
                 word-break: keep-all;
-                background-color: var(--bs-btn-bg);
-                color: var(--bs-btn-color);
+                background-color: var(--#{theme.$prefix}btn-bg);
+                color: var(--#{theme.$prefix}btn-color);
                 &:hover {
-                    background-color: var(--bs-btn-hover-bg);
-                    color: var(--bs-btn-hover-color);
+                    background-color: var(--#{theme.$prefix}btn-hover-bg);
+                    color: var(--#{theme.$prefix}btn-hover-color);
                 }
             }
         }

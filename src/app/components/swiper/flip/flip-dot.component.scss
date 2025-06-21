@@ -14,7 +14,7 @@
         }
     }
     .active {
-        background-color: var(--bs-primary);
+        background-color: var(--#{theme.$prefix}primary);
         width: 3rem;
     }
 }

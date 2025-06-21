@@ -17,7 +17,7 @@
     position: absolute;
     left: 30%;
     bottom: .8rem;
-    color: var(--bs-btn-bg);
+    color: var(--#{theme.$prefix}btn-bg);
     font-weight: 700;
     border: 1px solid;
     display: flex;
@@ -33,6 +33,6 @@
         transform: scale(1.2);
         border-style: dotted;
         border-width: .3rem;
-        color: var(--bs-btn-hover-bg);
+        color: var(--#{theme.$prefix}btn-hover-bg);
     }
 }

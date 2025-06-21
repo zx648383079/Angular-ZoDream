@@ -62,28 +62,28 @@
 }
 
 .tab-bar {
-    --#{theme.$prefix}-tab: transparent;
-    --#{theme.$prefix}-tab-text: #333;
-    --#{theme.$prefix}-tab-hover: #ccc;
-    --#{theme.$prefix}-tab-active: red;
-    --#{theme.$prefix}-tab-active-text: #fff;
+    --#{theme.$prefix}tab: transparent;
+    --#{theme.$prefix}tab-text: #333;
+    --#{theme.$prefix}tab-hover: #ccc;
+    --#{theme.$prefix}tab-active: red;
+    --#{theme.$prefix}tab-active-text: #fff;
     display: block;
     line-height: 2.5rem;
     a {
-        color: var(--#{theme.$prefix}-tab-text);
+        color: var(--#{theme.$prefix}tab-text);
     }
     .item {
         display: inline-block;
         padding: 0 1.25rem;
         cursor: pointer;
-        color: var(--#{theme.$prefix}-tab-text);
-        background-color: var(--#{theme.$prefix}-tab);
+        color: var(--#{theme.$prefix}tab-text);
+        background-color: var(--#{theme.$prefix}tab);
         &:hover {
-            background-color: var(--#{theme.$prefix}-tab-hover);
+            background-color: var(--#{theme.$prefix}tab-hover);
         }
         &.active {
-            background-color: var(--#{theme.$prefix}-tab-active);
-            color: var(--#{theme.$prefix}-tab-active-text);
+            background-color: var(--#{theme.$prefix}tab-active);
+            color: var(--#{theme.$prefix}tab-active-text);
         }
         &:first-of-type {
             border-top-left-radius: 0.3125rem;
@@ -116,8 +116,8 @@
     .tab-item {
         line-height: 2rem;
         font-size: 1rem;
-        background-color: var(--bs-btn-bg);
-        color: var(--bs-btn-color);
+        background-color: var(--#{theme.$prefix}btn-bg);
+        color: var(--#{theme.$prefix}btn-color);
         margin-bottom: 0.3125rem;
         border-radius: 0.125rem;
         margin-right: 0.3125rem;
@@ -126,7 +126,7 @@
         user-select: none;
         .iconfont {
             line-height: 2rem;
-            border-left: 1px solid theme.$border;
+            border-left: 1px solid var(--#{theme.$prefix}border-color);
             opacity: .7;
         }
         span,

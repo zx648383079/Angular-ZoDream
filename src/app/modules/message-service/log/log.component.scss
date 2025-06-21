@@ -1,12 +1,12 @@
 .tr-sending {
     td {
-        background-color: var(--bs-info);
+        background-color: var(--#{theme.$prefix}info);
     }
 }
 
 .tr-error {
     td {
-        background-color: var(--bs-danger);
+        background-color: var(--#{theme.$prefix}danger);
     }
 }
 

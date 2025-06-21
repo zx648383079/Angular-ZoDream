@@ -53,7 +53,7 @@
 }
 
 .more-container {
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     position: relative;
     z-index: 1;
     padding: 1rem;

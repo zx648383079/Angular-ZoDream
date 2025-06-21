@@ -1,0 +1,142 @@
+@use "sass:map";
+@use 'sass:meta';
+@use 'sass:list';
+@use './variables';
+
+@function breakpoint-next($name, $breakpoints: variables.$grid-breakpoints, $breakpoint-names: map.keys($breakpoints)) {
+    $n: list.index($breakpoint-names, $name);
+    @if not $n {
+        @error "breakpoint `#{$name}` not found in `#{$breakpoints}`";
+    }
+    @return if($n < list.length($breakpoint-names), list.nth($breakpoint-names, $n + 1), null);
+}
+
+@function breakpoint-min($name, $breakpoints: variables.$grid-breakpoints) {
+    $min: map.get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoints: variables.$grid-breakpoints) {
+    $max: map.get($breakpoints, $name);
+    @return if($max and $max > 0, $max - .02, null);
+}
+
+@function breakpoint-infix($name, $breakpoints: variables.$grid-breakpoints) {
+    @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: variables.$grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin box-shadow($shadow...) {
+    $result: ();
+    $has-single-value: false;
+    $single-value: null;
+
+    @each $value in $shadow {
+        @if $value != null {
+            @if $value == none or $value == initial or $value == inherit or $value == unset {
+                $has-single-value: true;
+                $single-value: $value;
+            } @else {
+                $result: list.append($result, $value, "comma");
+            }
+        }
+    }
+
+    @if $has-single-value {
+        box-shadow: $single-value;
+    } @else if (list.length($result) > 0) {
+        box-shadow: $result;
+    }
+}
+
+@mixin gradient-bg($color: null) {
+    background-color: $color;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+}
+
+@mixin transition($transition...) {
+    @if list.length($transition) == 0 {
+        $transition: $transition-base;
+    }
+
+    @if list.length($transition) > 1 {
+        @each $value in $transition {
+            @if $value == null or $value == none {
+                @warn "The keyword 'none' or 'null' must be used as a single argument.";
+            }
+        }
+    }
+
+  @if list.nth($transition, 1) != null {
+        transition: $transition;
+    }
+
+    @if list.nth($transition, 1) != null and list.nth($transition, 1) != none {
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+    }
+}
+
+@function valid-radius($radius) {
+    $return: ();
+    @each $value in $radius {
+        @if meta.type-of($value) == number {
+            $return: list.append($return, max($value, 0));
+        } @else {
+            $return: list.append($return, $value);
+        }
+    }
+    @return $return;
+}
+
+// scss-docs-start border-radius-mixins
+@mixin border-radius($radius: $border-radius) {
+    border-radius: valid-radius($radius);
+}
+
+@mixin border-top-radius($radius: $border-radius) {
+    border-top-left-radius: valid-radius($radius);
+    border-top-right-radius: valid-radius($radius);
+}
+
+@mixin border-end-radius($radius: $border-radius) {
+    border-top-right-radius: valid-radius($radius);
+    border-bottom-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-radius($radius: $border-radius) {
+    border-bottom-right-radius: valid-radius($radius);
+    border-bottom-left-radius: valid-radius($radius);
+}
+
+@mixin border-start-radius($radius: $border-radius) {
+    border-top-left-radius: valid-radius($radius);
+    border-bottom-left-radius: valid-radius($radius);
+}
+
+@mixin border-top-start-radius($radius: $border-radius) {
+    border-top-left-radius: valid-radius($radius);
+}
+
+@mixin border-top-end-radius($radius: $border-radius) {
+    border-top-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-end-radius($radius: $border-radius) {
+    border-bottom-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-start-radius($radius: $border-radius) {
+    border-bottom-left-radius: valid-radius($radius);
+}

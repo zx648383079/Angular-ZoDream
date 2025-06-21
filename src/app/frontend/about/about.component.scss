@@ -6,7 +6,7 @@
 
 
 .person-box {
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     padding: 1.25rem 0.625rem;
     margin-bottom: 1.25rem;
     color: #555;
@@ -100,7 +100,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: var(--#{theme.$prefix}-primary);
+        background: var(--#{theme.$prefix}primary);
         transform: scaleX(0);
         transform-origin: 50%;
         transition-property: transform;
@@ -108,7 +108,7 @@
         transition-timing-function: ease-out;
     }
     &:hover {
-        color: var(--#{theme.$prefix}-primary-text);
+        color: var(--#{theme.$prefix}primary-text);
         &::before {
             transform: scaleX(1);
         }
@@ -160,22 +160,22 @@
         display: flex;
         height: .8rem;
         border-radius: .25rem;
-        background-color: var(--#{theme.$prefix}-primary-text);
-        border: 1px solid var(--#{theme.$prefix}-primary);
+        background-color: var(--#{theme.$prefix}primary-text);
+        border: 1px solid var(--#{theme.$prefix}primary);
         .inner-bar {
             display: flex;
             flex-direction: column;
             justify-content: center;
             overflow: hidden;
-            color: var(--#{theme.$prefix}-primary-text);
+            color: var(--#{theme.$prefix}primary-text);
             text-align: center;
             white-space: nowrap;
-            background-color: var(--#{theme.$prefix}-primary);
+            background-color: var(--#{theme.$prefix}primary);
             transition: width 2s;
         }
     }
     .skill-meta {
-        color: var(--#{theme.$prefix}-secondary-text);
+        color: var(--#{theme.$prefix}secondary-text);
         font-size: .8rem;
     }
 }

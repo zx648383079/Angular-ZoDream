@@ -69,6 +69,6 @@
 .main-container ::ng-deep {
     .panel,
     .page-container {
-        background-color: var(--#{theme.$prefix}-dialog);
+        background-color: var(--#{theme.$prefix}dialog);
     }
 }

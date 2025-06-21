@@ -1,0 +1,29 @@
+$prefix: 'bs-' !default;
+
+@use './controls/root' with (
+    $prefix: $prefix
+);
+
+@use './controls/flexbox' with (
+    $prefix: $prefix
+);
+
+@use './controls/buttons' with (
+    $prefix: $prefix
+);
+
+@use './controls/tables' with (
+    $prefix: $prefix
+);
+
+@use './controls/forms' with (
+    $prefix: $prefix
+);
+
+@use './controls/navbar' with (
+    $prefix: $prefix
+);
+
+@use './controls/tab' with (
+    $prefix: $prefix
+);

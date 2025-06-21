@@ -1,7 +1,7 @@
 @use '../../../theme/styles/theme';
 .space-container {
-    background-color: var(--#{theme.$prefix}-panel);
-    color: var(--#{theme.$prefix}-panel-text);
+    background-color: var(--#{theme.$prefix}panel);
+    color: var(--#{theme.$prefix}panel-text);
     margin-top: 2rem;
     margin-bottom: 4rem;
     .space-image {
@@ -29,8 +29,8 @@
             width: 8rem;
             height: 8rem;
             border-radius: 50%;
-            border: .3rem solid var(--#{theme.$prefix}-panel);
-            background-color: var(--#{theme.$prefix}-panel);
+            border: .3rem solid var(--#{theme.$prefix}panel);
+            background-color: var(--#{theme.$prefix}panel);
         }
     }
     .user-name {
@@ -46,7 +46,7 @@
 .space-action-bar {
     line-height: 2.5rem;
     .action-item {
-        color: var(--#{theme.$prefix}-panel-text);
+        color: var(--#{theme.$prefix}panel-text);
         display: inline-block;
         border-radius: 1.25rem;
         border: 1px solid #ccc;
@@ -60,14 +60,14 @@
             }
         }
         &.active {
-            border: 1px solid var(--#{theme.$prefix}-primary);
-            color: var(--#{theme.$prefix}-primary);
+            border: 1px solid var(--#{theme.$prefix}primary);
+            color: var(--#{theme.$prefix}primary);
         }
     }
 }
 .action-drop-bar {
     position: absolute;
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     box-shadow: 0 2px 5px theme.$shadow;
     z-index: 99;
     display: none;
@@ -107,7 +107,7 @@
             display: inline-block;
             font-weight: bold;
             margin-right: .4rem;
-            color: var(--#{theme.$prefix}-panel-text);
+            color: var(--#{theme.$prefix}panel-text);
         }
         &:not(:last-of-type) {
             margin-right: 2rem;

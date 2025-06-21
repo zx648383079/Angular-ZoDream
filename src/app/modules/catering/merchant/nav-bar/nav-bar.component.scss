@@ -10,7 +10,7 @@ li {
         display: flex;
         text-align: center;
         line-height: 3rem;
-        border-bottom: 2px solid var(--bs-secondary);
+        border-bottom: 2px solid var(--#{theme.$prefix}secondary);
         span {
             flex: 1;
         }
@@ -20,10 +20,10 @@ li {
     .menu-action {
         display: inline-block;
         width: 2rem;
-        background-color: var(--bs-btn-bg);
-        color: var(--bs-btn-color);
+        background-color: var(--#{theme.$prefix}btn-bg);
+        color: var(--#{theme.$prefix}btn-color);
         &:hover {
-            background-color: var(--bs-btn-hover-bg);
+            background-color: var(--#{theme.$prefix}btn-hover-bg);
         }
     }
     .menu-item {

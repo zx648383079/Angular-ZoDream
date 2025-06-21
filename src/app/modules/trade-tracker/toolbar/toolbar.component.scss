@@ -52,9 +52,9 @@
         }
     }
     .btn {
-        --bs-btn-border-radius: 0;
-        --bs-btn-line-height: 2.5rem;
-        --bs-btn-padding-y: 0;
+        --#{theme.$prefix}btn-border-radius: 0;
+        --#{theme.$prefix}btn-line-height: 2.5rem;
+        --#{theme.$prefix}btn-padding-y: 0;
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
         height: 2.5rem;

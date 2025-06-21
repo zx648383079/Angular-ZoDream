@@ -1,0 +1,116 @@
+$prefix: 'bs-' !default;
+
+@use '../mixins';
+@use '../variables';
+
+
+$grid-columns:                12 !default;
+$grid-gutter-width:           1.5rem !default;
+$grid-row-columns:            6 !default;
+
+// Container padding
+$container-padding-x: $grid-gutter-width !default;
+
+
+@mixin make-container($gutter: $container-padding-x) {
+    --#{$prefix}gutter-x: #{$gutter};
+    --#{$prefix}gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    padding-left: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@mixin make-row($gutter: $grid-gutter-width) {
+    --#{$prefix}gutter-x: #{$gutter};
+    --#{$prefix}gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--#{$prefix}gutter-y)); // stylelint-disable-line function-disallowed-list
+    margin-right: calc(-.5 * var(--#{$prefix}gutter-x)); // stylelint-disable-line function-disallowed-list
+    margin-left: calc(-.5 * var(--#{$prefix}gutter-x)); // stylelint-disable-line function-disallowed-list
+}
+
+@mixin make-col-ready() {
+    // Add box sizing if only the grid is loaded
+    box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+    // Prevent columns from becoming too narrow when at smaller grid tiers by
+    // always setting `width: 100%;`. This works because we set the width
+    // later on to override this initial width.
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+    padding-right: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    padding-left: calc(var(--#{$prefix}gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    margin-top: var(--#{$prefix}gutter-y);
+}
+
+@mixin make-col($size: false, $columns: $grid-columns) {
+    @if $size {
+        flex: 0 0 auto;
+        width: percentage(divide($size, $columns));
+
+    } @else {
+        flex: 1 1 0;
+        max-width: 100%;
+    }
+}
+
+@mixin make-col-auto() {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+@mixin make-col-offset($size, $columns: $grid-columns) {
+    $num: divide($size, $columns);
+    margin-left: if($num == 0, 0, percentage($num));
+}
+
+// Row columns
+//
+// Specify on a parent element(e.g., .row) to force immediate children into NN
+// number of columns. Supports wrapping to new lines, but does not do a Masonry
+// style grid.
+@mixin row-cols($count) {
+    > * {
+        flex: 0 0 auto;
+        width: percentage(divide(1, $count));
+    }
+}
+
+// Single container class with breakpoint max-widths
+.container,
+// 100% wide container at all breakpoints
+.container-fluid {
+    @include make-container();
+}
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in variables.$container-max-widths {
+    .container-#{$breakpoint} {
+        @extend .container-fluid;
+    }
+
+    @include mixins.media-breakpoint-up($breakpoint, variables.$grid-breakpoints) {
+        %responsive-container-#{$breakpoint} {
+            max-width: $container-max-width;
+        }
+
+        // Extend each breakpoint which is smaller or equal to the current breakpoint
+        $extend-breakpoint: true;
+
+        @each $name, $width in variables.$grid-breakpoints {
+            @if ($extend-breakpoint) {
+                .container#{mixins.breakpoint-infix($name, variables.$grid-breakpoints)} {
+                    @extend %responsive-container-#{$breakpoint};
+                }
+
+                // Once the current breakpoint is reached, stop extending
+                @if ($breakpoint == $name) {
+                    $extend-breakpoint: false;
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 @use 'theme';
 .panel {
-    background-color: var(--bs-body-bg);
+    background-color: var(--#{theme.$prefix}body-bg);
     border-radius: 0.1875rem;
     margin-bottom: 0.625rem;
     .panel-header {
@@ -76,11 +76,11 @@
     box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;
     margin-top: 1rem;
-    background-color: var(--#{theme.$prefix}-panel);
+    background-color: var(--#{theme.$prefix}panel);
     padding: 1.25rem;
     .page-empty-tip {
         font-size: 3em;
-        color: var(--bs-tertiary-color);
+        color: var(--#{theme.$prefix}tertiary-color);
         font-weight: 700;
         text-align: center;
         padding: 2em 0;
@@ -88,7 +88,7 @@
         user-select: none;
     }
     .table {
-        --bs-table-bg: var(--#{theme.$prefix}-panel);
+        --#{theme.$prefix}table-bg: var(--#{theme.$prefix}panel);
     }
 }
 
@@ -107,11 +107,11 @@
             padding: 0 .5rem;
             min-width: 2.5rem;
             word-break: keep-all;
-            background-color: var(--bs-btn-bg);
-            color: var(--bs-btn-color);
+            background-color: var(--#{theme.$prefix}btn-bg);
+            color: var(--#{theme.$prefix}btn-color);
             &:hover {
-                background-color: var(--bs-btn-hover-bg);
-                color: var(--bs-btn-hover-color);
+                background-color: var(--#{theme.$prefix}btn-hover-bg);
+                color: var(--#{theme.$prefix}btn-hover-color);
             }
         }
     }
@@ -121,12 +121,12 @@
 }
 
 .items-panel-container {
-    // --#{theme.$prefix}-panel: var(--#{theme.$prefix}-panel);
-    --#{theme.$prefix}-panel-hover: var(--bs-light);
+    // --#{theme.$prefix}panel: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}panel-hover: var(--#{theme.$prefix}light);
     .panel-body,
     .panel-action-btn {
-        background-color: var(--#{theme.$prefix}-panel);
-        color: var(--#{theme.$prefix}-panel-color);
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}panel-color);
     }
     .panel-action-btn {
         display: inline-block;
@@ -134,7 +134,7 @@
         padding: 0 .8rem;
         cursor: pointer;
         &:hover {
-            background-color: var(--#{theme.$prefix}-panel-hover);
+            background-color: var(--#{theme.$prefix}panel-hover);
         }
     }
     .panel-header {

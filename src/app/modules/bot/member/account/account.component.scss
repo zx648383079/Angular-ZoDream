@@ -6,6 +6,6 @@
     float: right;
 }
 .column-full-item {
-    --#{theme.$prefix}-column: var(--#{theme.$prefix}-primary);
-    --#{theme.$prefix}-column-text: var(--#{theme.$prefix}-primary-text);
+    --#{theme.$prefix}column: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}column-text: var(--#{theme.$prefix}primary-text);
 }
