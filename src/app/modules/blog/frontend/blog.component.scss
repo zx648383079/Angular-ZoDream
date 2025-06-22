@@ -1,8 +1,9 @@
+@use '../../../theme/styles/theme';
 .blog-container ::ng-deep {
     .book-full-body,
     .book-body {
         margin: 3.125rem 0;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         padding: 1.875rem 0.9375rem;
         min-height: 25rem;
         position: relative;
@@ -21,9 +22,9 @@
             line-height: 1.875rem;
             text-align: center;
             position: relative;
-            background: #fff;
+            background-color: var(--#{theme.$prefix}panel);
             text-decoration: none;
-            color: #333;
+            color: var(--#{theme.$prefix}panel-text);
             &:after {
                 position: absolute;
                 content: "";
@@ -31,14 +32,14 @@
                 height: 0;
                 left: 0;
                 bottom: -3.125rem;
-                border: transparent 1.5625rem solid;
-                border-top-color: rgba(161,0,0,.6);
+                border: 1.5625rem solid transparent;
+                border-top-color: rgba(var(--#{theme.$prefix}primary-rgb),.6);
             }
             &.active {
-                background: #a10000;
-                color: #fff;
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
                 &:after {
-                    border-top-color: #a10000;
+                    border-top-color: var(--#{theme.$prefix}primary);
                 }
             }
         }

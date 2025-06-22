@@ -29,7 +29,7 @@
     background-color: var(--#{theme.$prefix}panel);
     .inner-code {
         flex: 1;
-        background-color: var(--#{theme.$prefix}body-bg);
+        background-color: var(--#{theme.$prefix}body);
         border-radius: .25rem;
         padding: 0 .4rem;
         word-break: break-all;
@@ -67,7 +67,7 @@
 .link-item {
     display: flex;
     height: 5rem;
-    background-color: var(--#{theme.$prefix}body-bg);
+    background-color: var(--#{theme.$prefix}body);
     border-radius: .25rem;
     margin-top: .25rem;
     .item-logo {
@@ -90,10 +90,11 @@
         font-size: .8rem;
         line-height: 1.2rem;
         word-break: break-all;
+        color: var(--#{theme.$prefix}meta-text);
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
     .order-md {
         order: 1;
     }

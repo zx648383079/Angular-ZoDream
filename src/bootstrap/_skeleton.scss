@@ -1,5 +1,5 @@
 $prefix: 'bs-' !default;
-
+@use './controls/margin';
 @use './controls/root' with (
     $prefix: $prefix
 );
@@ -32,5 +32,13 @@ $prefix: 'bs-' !default;
     $prefix: $prefix
 );
 @use './controls/breadcrumb' with (
+    $prefix: $prefix
+);
+
+@use './controls/select' with (
+    $prefix: $prefix
+);
+
+@use './controls/code' with (
     $prefix: $prefix
 );

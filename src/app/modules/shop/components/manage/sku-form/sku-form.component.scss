@@ -16,7 +16,7 @@ select.form-control {
 }
 
 .product-box {
-    .#{theme.$prefix}-input-group {
+    .#{theme.$prefix}input-group {
         input[type="text"],
         input[type="number"] {
             min-width: 0;
@@ -31,7 +31,7 @@ select.form-control {
 }
 
 .attr-box {
-	.#{theme.$prefix}-input-group {
+	.#{theme.$prefix}input-group {
 		input {
 			min-width: 0;
 		}

@@ -1,3 +1,4 @@
+@use '../../theme/styles/theme';
 .dialog-search {
     position: fixed;
     left: 0;
@@ -5,15 +6,16 @@
     bottom: 0;
     top: 0;
     z-index: 99;
-    background-color: rgba($color: #e97474, $alpha: .7);
+    background-color: var(--#{theme.$prefix}dialog-mask);
     .dialog-close {
         position: absolute;
         right: 0;
-        background-color: yellow;
-        padding: 5px 10px;
+        background-color: var(--#{theme.$prefix}primary);
+        color: var(--#{theme.$prefix}primary-text);
+        padding: .75rem 1rem;
         font-size: 2rem;
     }
     .dialog-body {
-        padding: 80px 20px;
+        padding: 5rem 1.25rem;
     }
 }

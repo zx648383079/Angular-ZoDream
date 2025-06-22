@@ -1,6 +1,7 @@
+@use '../../../theme/styles/theme';
 .style-markdown {
     font: 1.3em "Vollkorn", "Microsoft YaHei", 微软雅黑, 宋体;
-    color: #333;
+    color: var(--#{theme.$prefix}body-text);
     line-height: 1.4;
     text-align: justify;
 
@@ -21,7 +22,7 @@
             > tr {
                 > th {
                     text-align: left;
-                    border-bottom: 2px solid rgba(0, 0, 0, 0.69);
+                    border-bottom: 2px solid var(--#{theme.$prefix}border);
                     padding: 0.25rem 0.5rem;
                 }
                 > td {
@@ -40,7 +41,7 @@
                 padding: 0.25rem 0.5rem;
             }
             + tr > td {
-                border-top: 1px solid rgba(0, 0, 0, 0.18);
+                border-top: 1px solid var(--#{theme.$prefix}border);
             }
         }
         th,
@@ -58,7 +59,7 @@
         margin: 0 auto;
         font-size: .9em;
         font-style: italic;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         padding: 1em 0;
         p {
             margin: 0;
@@ -78,7 +79,7 @@
     }
     video {
         margin: 2em 0;
-        border: 1px solid #ddd;
+        border: 1px solid var(--#{theme.$prefix}border);
     }
     h1 {
         margin-top: 0;
@@ -88,7 +89,7 @@
         color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
-        border-bottom: 2px solid rgb(248,57,41);
+        border-bottom: 2px solid var(--#{theme.$prefix}border);
         a {
             color: #333;
             text-decoration: none;
@@ -108,7 +109,7 @@
         color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
-        border-bottom: 1px solid rgb(248,57,41);
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         &:first-child {
             margin-top: 0;
         }
@@ -121,7 +122,7 @@
         color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
-        border-bottom: 1px solid rgb(248,57,41);
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         &:first-child {
             margin-top: 0;
         }
@@ -161,29 +162,27 @@
     blockquote {
         margin-left: 1em;
         padding-left: 1em;
-        border-left: 1px solid #ddd;
         margin: 0 0 0 0.25rem;
         padding-left: 0.65rem;
-        border-left: 0.25rem solid #007acc;
+        border-left: 0.25rem solid var(--#{theme.$prefix}border);
         background: rgba(127, 127, 127, 0.1);
         &:not(:first-child) {
             margin-top: 1rem;
         }
     }
     a {
-        color: #2484c1;
-        color: #007acc;
+        color: var(--#{theme.$prefix}link-text);
         text-decoration: none;
         &:hover {
             text-decoration: underline;
-            color: #007acc;
+            color: var(--#{theme.$prefix}link-hover-text);
             text-decoration: underline;
         }
         img {
             border: none;
         }
         &:visited {
-            color: #007acc;
+            color: var(--#{theme.$prefix}link-hover-text);
         }
         &:active {
             text-decoration: underline;
@@ -200,18 +199,17 @@
         display: block;
         border: 0;
         height: 2px;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.18);
+        border-bottom: 2px solid var(--#{theme.$prefix}border);
         margin: 0;
         &:not(:first-child) {
             margin-top: 1rem;
         }
     }
     .red {
-        color: #b50000;
+        color:  var(--#{theme.$prefix}danger);
     }
     h4 {
         font-weight: normal;
-        color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
         font-weight: bold;
@@ -223,7 +221,6 @@
     }
     h5 {
         font-weight: normal;
-        color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
         font-weight: bold;
@@ -235,7 +232,6 @@
     }
     h6 {
         font-weight: normal;
-        color: #111;
         line-height: 1.2;
         margin: 1em 0 0.6em;
         font-weight: bold;
@@ -280,7 +276,7 @@
     code {
         font-family: Menlo, Monaco, Consolas, Droid Sans Mono, Courier New, monospace, Microsoft YaHei, 微软雅黑, 宋体;
         background: rgba(127, 127, 127, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.18);
+        border: 1px solid  var(--#{theme.$prefix}border);
         border-radius: 0.25rem;
         font-size: .9em;
     }
@@ -314,7 +310,7 @@
         border: none;
         color: inherit;
         cursor: pointer;
-        background-color: #f6f6f6;
+        background-color: var(--#{theme.$prefix}body);
         .name {
             display: inline-block;
             height: 2.5rem;
@@ -322,7 +318,7 @@
             flex: 1;
         }
         .time {
-            color: #b3b1b1;
+            color: var(--#{theme.$prefix}meta-text);
             font-size: .8rem;
             height: 2.5rem;
             word-break: keep-all;
@@ -335,11 +331,11 @@
         }
         .item-meta {
             padding: 0 .5rem .5rem;
-            color: #767676;
+            color:  var(--#{theme.$prefix}meta-text);
             font-size: .8rem;
         }
         &:hover {
-            box-shadow: rgb(51 51 51 / 70%) 0 0 .8rem;  
+            box-shadow:  var(--#{theme.$prefix}box-shadow);
         }
     }
 }

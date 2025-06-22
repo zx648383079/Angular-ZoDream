@@ -1,3 +1,5 @@
+@use '../../../../theme/styles/theme';
+
 ul,
 li {
     margin: 0;
@@ -12,7 +14,7 @@ li {
     right: 0;
     top: 3.125rem;
     a {
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         text-decoration: none;
         cursor: pointer;
     }
@@ -30,8 +32,8 @@ li {
             }
             .count {
                 position: absolute;
-                color: #fff;
-                background-color: #a10000;
+                color: var(--#{theme.$prefix}primary-text);
+                background-color: var(--#{theme.$prefix}primary);
                 border-radius: 50%;
                 display: inline-block;
                 width: 1.5625rem;
@@ -44,18 +46,21 @@ li {
                 overflow: hidden;
             }
             &.active {
-                background: #a10000;
-                color: #fff;
+                color: var(--#{theme.$prefix}primary-text);
+                background-color: var(--#{theme.$prefix}primary);
                 // width: 200px;
                 &:hover {
                     // width: 200px;
+                    a {
+                        color: var(--#{theme.$prefix}body-text);
+                    }
                 }
                 a {
-                    color: #fff;
+                    color: var(--#{theme.$prefix}primary-text);
                 }
                 .count {
-                    color: #a10000; 
-                    background-color: #fff;
+                    color: var(--#{theme.$prefix}primary);
+                    background-color: var(--#{theme.$prefix}primary-text);
                     left: auto;
                     right: 0;
                 }
@@ -63,11 +68,11 @@ li {
             &:hover {
                 // width: 175px;
                 a {
-                    color: #339cff;
+                    color: var(--#{theme.$prefix}primary);
                 }
             }
             &:not(:last-child) {
-                border-bottom: 1px solid #a10000;
+                border-bottom: 1px solid var(--#{theme.$prefix}primary);
             }
         }
     }
@@ -124,7 +129,7 @@ li {
     animation-timing-function: linear;
     transition: box-shadow 1s;
     .icon-lock {
-        color: #a10000;
+        color: var(--#{theme.$prefix}primary);
     }
     .item-body {
         padding: 0.9375rem 1.25rem 0.3125rem;
@@ -147,7 +152,7 @@ li {
     }
     a {
         text-decoration: none;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
     }
     dt {
         font-size: 1.25rem;
@@ -181,17 +186,17 @@ li {
         }
     }
     &:hover {
-        box-shadow: rgba(51,51,51,.7) 0 0 10px;
+        box-shadow: var(--#{theme.$prefix}box-shadow);
     }
     &:not(:last-child) {
-        border-bottom: 1px solid #a10000;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
     }
     &.fade-pre-item {
         visibility: hidden;
     }
     &.fade-item {
         animation-name: fadeInLeft;
-        background: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         border-bottom: none;
         visibility: visible;
     }
@@ -255,22 +260,12 @@ li {
                 }
                 &.active {
                     width: 100%;
-                    background: #a10000;
-                    color: #fff;
                     &:hover {
                         width: 100%;
-                    }
-                    a {
-                        color: #fff;
                     }
                 }
                 &:hover {
                     width: 100%;
-                    background: #cc2525;
-                    color: #fff;
-                    a {
-                        color: #fff;
-                    }
                 }
             }
             
@@ -290,19 +285,19 @@ li {
     dt {
         font-weight: 500;
         font-size: .8rem;
-        border-bottom: 1px dotted #cc2525;
+        border-bottom: 1px dotted var(--#{theme.$prefix}border);
     }
     .book-time {
         font-size: .8rem;
-        color: #666;
+        color: var(--#{theme.$prefix}meta-text);
         user-select: none;
     }
     dl {
         &:not(:last-child) {
-            border-bottom: 1px solid #a10000;
+            border-bottom: 1px solid var(--#{theme.$prefix}border);
         }
         &:hover {
-            background-color: white;
+            background-color: var(--#{theme.$prefix}panel);
         }
     }
 }

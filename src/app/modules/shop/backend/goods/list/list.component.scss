@@ -1,6 +1,6 @@
 @use '../../../../../theme/styles/theme';
 .search {
-    .#{theme.$prefix}-input-group {
+    .#{theme.$prefix}input-group {
         display: inline-block;
         width: auto;
     }

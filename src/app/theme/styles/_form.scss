@@ -1,9 +1,6 @@
 @use 'mixins';
 @use 'theme';
 
-.form-control {
-    background-color: var(--#{theme.$prefix}panel);
-}
 .checkbox {
     position: relative;
     display: inline-block;
@@ -145,7 +142,7 @@ i {
 }
 
 .input-line-group,
-.#{theme.$prefix}-input-group {
+.#{theme.$prefix}input-group {
     .input-tip {
         color: var(--#{theme.$prefix}secondary);
         font-size: 0.75rem;
@@ -167,7 +164,7 @@ i {
 
 .form-table {
     --#{theme.$prefix}label-width: 8rem;
-    .#{theme.$prefix}-input-group {
+    .#{theme.$prefix}input-group {
         display: flex;
         input.form-control {
             min-width: 12.5rem;
@@ -261,7 +258,7 @@ i {
 
 .form-horizontal {
     line-height: 2.5rem;
-    .#{theme.$prefix}-input-group {
+    .#{theme.$prefix}input-group {
         display: inline-block;
         border-bottom: 1px solid #777;
         height: 2.5rem;

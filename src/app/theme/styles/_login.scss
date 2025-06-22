@@ -8,16 +8,16 @@
         border: none;
         line-height: 2.5rem;
         vertical-align: middle;
-        background: #cc2525;
-        color: #fff;
+        background-color: var(--#{theme.$prefix}primary);
+        color: var(--#{theme.$prefix}primary-text);
         width: 100%;
         margin: 0;
         &:hover {
-            background: #a10000;
-            color: #fff;
+            background-color: var(--#{theme.$prefix}primary-hover);
+            color: var(--#{theme.$prefix}primary-hover-text);
         }
         &.disabled {
-            background-color: #c49b9b;
+            background-color: rgba(var(--#{theme.$prefix}primary-rgb), .4);
             pointer-events: none;
             cursor: not-allowed;
         }
@@ -31,7 +31,7 @@
         }
     }
     .form-ico {
-        .#{theme.$prefix}-input-group {
+        .#{theme.$prefix}input-group {
             position: relative;
             line-height: 2.5rem;
             height: 2.5rem;
@@ -50,7 +50,7 @@
                 box-sizing: border-box;
                 border: none;
                 outline: none;
-                border-bottom: 1px solid #767676;
+                border-bottom: 1px solid var(--#{theme.$prefix}border);
                 background-color: transparent;
             }
             .iconfont {
@@ -66,7 +66,7 @@
                 input {
                     padding-left: 0;
                     padding-right: 1.875rem;
-                    border-bottom: 2px solid #a10000;
+                    border-bottom: 2px solid var(--#{theme.$prefix}primary);
                 }
                 // .iconfont {
                 //     left: 280px;
@@ -75,11 +75,11 @@
             }
             &.error {
                 input {
-                    border: 1px solid red;
-                    border-bottom-color: red;
+                    border: 1px solid var(--#{theme.$prefix}danger);
+                    border-bottom-color: var(--#{theme.$prefix}danger);
                 }
                 .iconfont {
-                    color: red;
+                    color: var(--#{theme.$prefix}danger);
                 }
             }
             .checkbox {
@@ -93,7 +93,7 @@
                         &+label {
                             &::before {
                                 content: "\e646";
-                                color: red;
+                                color: var(--#{theme.$prefix}success);
                             }
                         }
                     }

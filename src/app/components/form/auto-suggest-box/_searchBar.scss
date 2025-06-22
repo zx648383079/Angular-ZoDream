@@ -1,3 +1,4 @@
+@use '../../../theme/styles/theme';
 $iconWidth: 3.125rem;
 
 ul,
@@ -21,7 +22,7 @@ li {
             background: transparent;
             border: none;
             font-size: 1.5625rem;
-            color: #ddd;
+            color: var(--#{theme.$prefix}input-icon);
             font-weight: bold;
             outline: none;
             padding: 0 0.625rem;
@@ -33,18 +34,22 @@ li {
             overflow: hidden;
             border-radius: 1.5625rem;
             background-size: 100%;
-            color: #333;
+            color: var(--#{theme.$prefix}input-icon);
         }
         input {
             width: 100%;
             height: 3.125rem;
             line-height: 3.125rem;
             font-size: 1rem;
-            color: #999;
+            color: var(--#{theme.$prefix}input-text);
+            background-color: var(--#{theme.$prefix}input);
             border: none;
             outline: none;
             padding: 0 2.8125rem;
-            border: 1px solid #e6e6e6;
+            border: var(--#{theme.$prefix}border-width) solid var(--#{theme.$prefix}input-border);
+            &:focus {
+                box-shadow: var(--#{theme.$prefix}box-shadow-inset);
+            }
         }
         .search-btn {
             left: 0;
@@ -59,11 +64,11 @@ li {
         z-index: 100;
         width: 100%;
         border-radius: 0 0 0.625rem 0.625rem;
-        background: #FFF;
-        box-shadow: 0px 4px 5px 0px #cccccc94;
+        background-color: var(--#{theme.$prefix}panel);
+        box-shadow: var(--#{theme.$prefix}box-shadow);
         overflow: hidden;
         li {
-            border-top: 1px solid #f2f2f2;
+            border-top: var(--#{theme.$prefix}border-width) solid var(--#{theme.$prefix}border);
             line-height: 2.5rem;
             font-size: 0.875rem;
             padding: 0 1.5625rem;
@@ -76,16 +81,16 @@ li {
                 font-size: 0.75rem;
                 line-height: 1.25rem;
                 text-align: center;
-                background: #e5e5e5;
+                background-color: var(--#{theme.$prefix}secondary);
                 margin-right: 0.625rem;
                 border-radius: 0.625rem;
-                color: #999;
+                color: var(--#{theme.$prefix}secondary-text);
             }
             &.active {
-                background-color: rgba(#999,.1);
+                background-color: var(--#{theme.$prefix}body)
             }
             &:hover {
-                background-color: rgba(#ccc,.1);
+                background-color: var(--#{theme.$prefix}body)
             }
         }
     }
@@ -106,10 +111,10 @@ li {
         top: 3.75rem;
         left: 0;
         width: 100%;
-        background: #FFF;
+        background: var(--#{theme.$prefix}panel);
         padding: 0.8rem;
         border-radius: 0.25rem;
-        box-shadow: 0px 0.25rem 1.25rem 0px #d8d7d7;
+        box-shadow: var(--#{theme.$prefix}box-shadow);
         transition: all 0.3s;
         z-index: 99;
         .search-engine-header {
@@ -124,8 +129,8 @@ li {
                 line-height: 2rem;
                 font-size: .85rem;
                 padding: 0.25rem 0.8rem;
-                background: #f9f9f9;
-                color: #999;
+                background-color: var(--#{theme.$prefix}body);
+                color: var(--#{theme.$prefix}body-text);
                 cursor: pointer;
                 .iconfont {
                     font-size: 1.5rem;
@@ -147,7 +152,7 @@ li {
         font-size: 1.25rem;
         &.checked {
             &::before {
-                color: #5cb85c;
+                color: var(--#{theme.$prefix}success);
             }
         }
     }

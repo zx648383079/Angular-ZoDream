@@ -3,6 +3,21 @@
 @use 'sass:list';
 @use './variables';
 
+@mixin rtl {
+	@at-root [dir='rtl'] #{&} {
+		@content;
+	}
+}
+
+@mixin clearfix() {
+    &::after {
+        display: block;
+        clear: both;
+        content: "";
+    }
+}
+
+
 @function breakpoint-next($name, $breakpoints: variables.$grid-breakpoints, $breakpoint-names: map.keys($breakpoints)) {
     $n: list.index($breakpoint-names, $name);
     @if not $n {

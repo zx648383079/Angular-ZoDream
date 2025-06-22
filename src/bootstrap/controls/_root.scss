@@ -1,5 +1,6 @@
 @use '../variables';
 @use '../rfs';
+@use '../mixins';
 $prefix: 'bs-' !default;
 
 
@@ -94,4 +95,8 @@ a:not([href]):not([class]) {
 
 [hidden] {
     display: none !important;
+}
+
+.clearfix {
+    @include mixins.clearfix();
 }

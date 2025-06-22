@@ -57,8 +57,8 @@
         .auto-toggle-hide {
             display: block;
         }
-        .form-table .#{theme.$prefix}-input-group,
-        .#{theme.$prefix}-input-group {
+        .form-table .#{theme.$prefix}input-group,
+        .#{theme.$prefix}input-group {
             display: block;
             >label:first-child {
                 text-align: left;
@@ -70,7 +70,7 @@
     
     @media screen and (max-width: 36rem) {
         .form-table {
-            .#{theme.$prefix}-input-group {
+            .#{theme.$prefix}input-group {
                 .form-control {
                     min-width: 5em;
                     width: 100%;
