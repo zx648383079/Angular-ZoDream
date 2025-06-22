@@ -41,7 +41,7 @@ $form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
     appearance: none; // Fix appearance for date inputs in Safari
     background-color: var(--#{$prefix}input);
     background-clip: padding-box;
-    border: variables.$input-border-width solid var(--#{$prefix}input-border-color);
+    border: variables.$input-border-width solid var(--#{$prefix}input-border);
 
     // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
     @include mixins.border-radius(variables.$input-border-radius);
@@ -61,7 +61,7 @@ $form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
     &:focus {
         color: var(--#{$prefix}input-text);
         background-color: var(--#{$prefix}input);
-        border-color: var(--#{$prefix}input-focus-border-color);
+        border-color: var(--#{$prefix}input-focus-border);
         outline: 0;
         @include mixins.box-shadow($input-box-shadow, $input-focus-box-shadow);
     }
@@ -95,7 +95,7 @@ $form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
 
     // Placeholder
     &::placeholder {
-        color: var(--#{$prefix}input-placeholder-color);
+        color: var(--#{$prefix}input-placeholder-text);
         // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
         opacity: 1;
     }
@@ -108,7 +108,7 @@ $form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
     &:disabled {
         color: var(--#{$prefix}input-text);
         background-color: var(--#{$prefix}input-disabled);
-        border-color: var(--#{$prefix}input-border-color);
+        border-color: var(--#{$prefix}input-border);
         // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
         opacity: 1;
     }

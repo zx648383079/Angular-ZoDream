@@ -1,50 +1,31 @@
 @use './functions';
+@use './colors';
 // 默认主题
 
 $prefix: 'bs-' !default;
 
-$white:    #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black:    #000 !default;
 
-$blue:    #0d6efd !default;
-$indigo:  #6610f2 !default;
-$purple:  #6f42c1 !default;
-$pink:    #d63384 !default;
-$red:     #dc3545 !default;
-$orange:  #fd7e14 !default;
-$yellow:  #ffc107 !default;
-$green:   #198754 !default;
-$teal:    #20c997 !default;
-$cyan:    #0dcaf0 !default;
 
 // scss-docs-start theme-color-variables
-$primary:       $blue !default;
-$secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
-$danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-900 !default;
+$primary:       colors.$blue !default;
+$secondary:     colors.$gray-600 !default;
+$success:       colors.$green !default;
+$info:          colors.$cyan !default;
+$warning:       colors.$yellow !default;
+$danger:        colors.$red !default;
+$light:         colors.$gray-100 !default;
+$dark:          colors.$gray-900 !default;
 // scss-docs-end theme-color-variables
 
-$primary-text:   functions.shade-color($primary, 60%) !default;
+$primary-text:   #ffffd9 !default;
+$primary-hover-text:   colors.$white !default;
 $secondary-text: functions.shade-color($secondary, 60%) !default;
-$success-text:   functions.shade-color($success, 60%) !default;
-$info-text:      functions.shade-color($info, 60%) !default;
-$warning-text:   functions.shade-color($warning, 60%) !default;
-$danger-text:    functions.shade-color($danger, 60%) !default;
-$light-text:     $gray-700 !default;
-$dark-text:      $gray-700 !default;
+$success-text:   colors.$white !default;
+$info-text:      colors.$white !default;
+$warning-text:   colors.$white !default;
+$danger-text:    colors.$white !default;
+$light-text:     colors.$gray-700 !default;
+$dark-text:      colors.$gray-700 !default;
 
 // scss-docs-start theme-colors-map
 $theme-colors: (
@@ -72,8 +53,8 @@ $theme-colors-text: (
 
 $body: #f4f4f4;
 $body-text: #333;
-$box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
-$box-shadow-inset: inset 0 1px 2px rgba($black, .075) !default;
+$box-shadow: 0 .5rem 1rem rgba(colors.$black, .15) !default;
+$box-shadow-inset: inset 0 1px 2px rgba(colors.$black, .075) !default;
 $panel: white;
 
 $dialog: rgba(255, 255, 255, .9);
@@ -81,7 +62,7 @@ $dialog-mask: rgba(0, 0, 0, .3);
 $dialog-text: #333;
 
 
-$border-color:                $gray-300 !default;
+$border-color:                colors.$gray-300 !default;
 
 $form-valid-color:                  $success !default;
 $form-valid-border-color:           $success !default;
@@ -94,13 +75,14 @@ $link-hover-color:                        functions.shift-color($link-color, $li
 
 $btn-color:                   var(--#{$prefix}body-color) !default;
 $btn-focus-box-shadow:        0 0 0 .25rem rgba($primary, .25) !default;
-$btn-active-box-shadow:       inset 0 3px 5px rgba($black, .125) !default;
+$btn-active-box-shadow:       inset 0 3px 5px rgba(colors.$black, .125) !default;
 
 $input-color:                           var(--#{$prefix}body-color) !default;
 $input-bg:                              var(--#{$prefix}body-bg) !default;
 $input-disabled-bg:                     var(--#{$prefix}secondary-bg) !default;
 $input-placeholder-color:               var(--#{$prefix}secondary-color) !default;
 $input-focus-border-color:              functions.tint-color($primary, 50%) !default;
+$input-border-color: $border-color !default;
 
 $range-thumb-active-bg:               functions.tint-color($primary, 70%) !default;
 $range-thumb-disabled-bg:             var(--#{$prefix}secondary-color) !default;
@@ -118,9 +100,11 @@ $range-thumb-disabled-bg:             var(--#{$prefix}secondary-color) !default;
     }
 
     --#{$prefix}primary-rgb: #{functions.to-rgb($primary)};
+    --#{$prefix}primary-text-rgb: #{functions.to-rgb($primary-text)};
+    --#{$prefix}primary-hover-text: #{$primary-hover-text};
 
     --#{$prefix}body: #{$body};
-    --#{$prefix}body-color: #{$body-text};
+    --#{$prefix}body-text: #{$body-text};
     --#{$prefix}body-text-rgb: #{functions.to-rgb($body-text)};
 
     --#{$prefix}panel: #{$panel};
@@ -130,30 +114,30 @@ $range-thumb-disabled-bg:             var(--#{$prefix}secondary-color) !default;
     --#{$prefix}dialog-text: #{$dialog-text};
     --#{$prefix}dialog-mask: #{$dialog-mask};
 
-    --#{$prefix}border-color: #{$border-color};
+    --#{$prefix}border: #{$border-color};
     --#{$prefix}box-shadow: #{$box-shadow};
     --#{$prefix}box-shadow-inset: #{$box-shadow-inset};
 
 
-    --#{$prefix}form-valid-color: #{$form-valid-color};
-    --#{$prefix}form-valid-border-color: #{$form-valid-border-color};
-    --#{$prefix}form-invalid-color: #{$form-invalid-color};
-    --#{$prefix}form-invalid-border-color: #{$form-invalid-border-color};
+    --#{$prefix}form-valid-text: #{$form-valid-color};
+    --#{$prefix}form-valid-border: #{$form-valid-border-color};
+    --#{$prefix}form-invalid-text: #{$form-invalid-color};
+    --#{$prefix}form-invalid-border: #{$form-invalid-border-color};
 
-    --#{$prefix}link-color: #{$link-color};
+    --#{$prefix}link-text: #{$link-color};
 
-    --#{$prefix}link-hover-color: #{$link-hover-color};
+    --#{$prefix}link-text-hover: #{$link-hover-color};
 
-    --#{$prefix}btn-text: $btn-color;
+    --#{$prefix}btn-text: #{$btn-color};
 
-    --#{$prefix}input-text: $input-color;
-    --#{$prefix}input: $input-bg;
-    --#{$prefix}input-disabled: $input-disabled-bg;
+    --#{$prefix}input-text: #{$input-color};
+    --#{$prefix}input: #{$input-bg};
+    --#{$prefix}input-disabled: #{$input-disabled-bg};
 
-    --#{$prefix}input-placeholder-color: $input-placeholder-color;
-    --#{$prefix}input-border-color: $input-border-color;
-    --#{$prefix}input-focus-border-color: $input-focus-border-color;
+    --#{$prefix}input-placeholder-text: #{$input-placeholder-color};
+    --#{$prefix}input-border: #{$input-border-color};
+    --#{$prefix}input-focus-border: #{$input-focus-border-color};
 
-    --#{$prefix}range-thumb-active: $range-thumb-active-bg;
-    --#{$prefix}range-thumb-disabled: $range-thumb-disabled-bg;
+    --#{$prefix}range-thumb-active: #{$range-thumb-active-bg};
+    --#{$prefix}range-thumb-disabled: #{$range-thumb-disabled-bg};
 }

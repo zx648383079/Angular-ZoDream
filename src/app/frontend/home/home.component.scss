@@ -12,7 +12,7 @@
     text-align: center;
     background-color: var(--#{theme.$prefix}panel);
     overflow-y: hidden;
-    box-shadow: 0 0 0.625rem theme.$shadow;
+    box-shadow: var(--#{theme.$prefix}box-shadow);
     text-decoration: none;
     color: var(--#{theme.$prefix}panel-text);
     margin-bottom: 1rem;

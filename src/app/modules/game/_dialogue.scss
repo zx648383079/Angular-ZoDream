@@ -39,7 +39,7 @@
         position: fixed;
         z-index: 201;
         background-color: var(--#{theme.$prefix}body-bg);
-        box-shadow: 0 0 10px theme.$shadow;
+        box-shadow: var(--#{theme.$prefix}box-shadow);
         bottom: 0;
         left: 0;
         right: 0;

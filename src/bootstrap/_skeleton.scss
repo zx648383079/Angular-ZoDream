@@ -27,3 +27,10 @@ $prefix: 'bs-' !default;
 @use './controls/tab' with (
     $prefix: $prefix
 );
+
+@use './controls/pagination' with (
+    $prefix: $prefix
+);
+@use './controls/breadcrumb' with (
+    $prefix: $prefix
+);

@@ -1,3 +1,4 @@
+@use '../../../theme/styles/theme';
 @use '../../../theme/styles/admin';
 @include admin.admin-container;
 .head-row,
@@ -70,7 +71,7 @@
     position: absolute;
     z-index: 99;
     right: 0;
-    background-color: var(--#{theme.$prefix}body-bg);
+    background-color: var(--#{theme.$prefix}body);
     box-shadow: 0 2px 5px #777;
     min-width: 5rem;
     display: none;

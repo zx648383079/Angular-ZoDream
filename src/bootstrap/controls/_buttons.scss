@@ -1,24 +1,39 @@
+@use 'sass:color';
 @use '../variables';
 @use '../rfs';
 @use '../mixins';
 @use '../functions';
+@use '../colors';
 $prefix: 'bs-' !default;
 
 $theme-colors: (
-  'primary':    var(--#{$prefix}primary),
-  'secondary':  var(--#{$prefix}secondary),
-  'success':    var(--#{$prefix}success),
-  'info':       var(--#{$prefix}info),
-  'warning':    var(--#{$prefix}warning),
-  'danger':     var(--#{$prefix}danger),
-  'light':      var(--#{$prefix}light),
-  'dark':       var(--#{$prefix}dark)
+  'primary':    colors.$blue,
+  'secondary':  colors.$gray-600,
+  'success':    colors.$green,
+  'info':       colors.$cyan,
+  'warning':    colors.$yellow,
+  'danger':     colors.$red,
+  'light':      colors.$gray-100,
+  'dark':       colors.$gray-900
 ) !default;
+
+$color-contrast-dark:      colors.$black !default;
+$color-contrast-light:     colors.$white !default;
 
 $btn-box-shadow:              inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0,0,0, .075) !default;
 $btn-disabled-opacity:        .65 !default;
 $btn-focus-width:             .25rem !default;
 $btn-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+$btn-active-box-shadow:       inset 0 3px 5px rgba(0,0,0, .125) !default;
+
+$btn-hover-bg-shade-amount:       15% !default;
+$btn-hover-bg-tint-amount:        15% !default;
+$btn-hover-border-shade-amount:   20% !default;
+$btn-hover-border-tint-amount:    10% !default;
+$btn-active-bg-shade-amount:      20% !default;
+$btn-active-bg-tint-amount:       20% !default;
+$btn-active-border-shade-amount:  25% !default;
+$btn-active-border-tint-amount:   10% !default;
 
 @mixin button-variant(
     $background,
@@ -200,19 +215,19 @@ $btn-transition:              color .15s ease-in-out, background-color .15s ease
             @include button-variant(
                 $value,
                 $value,
-                $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
-                $hover-border: shade-color($value, $btn-hover-border-shade-amount),
-                $active-background: shade-color($value, $btn-active-bg-shade-amount),
-                $active-border: shade-color($value, $btn-active-border-shade-amount)
+                $hover-background: functions.shade-color($value, $btn-hover-bg-shade-amount),
+                $hover-border: functions.shade-color($value, $btn-hover-border-shade-amount),
+                $active-background: functions.shade-color($value, $btn-active-bg-shade-amount),
+                $active-border: functions.shade-color($value, $btn-active-border-shade-amount)
             );
         } @else if $color == "dark" {
             @include button-variant(
                 $value,
                 $value,
-                $hover-background: tint-color($value, $btn-hover-bg-tint-amount),
-                $hover-border: tint-color($value, $btn-hover-border-tint-amount),
-                $active-background: tint-color($value, $btn-active-bg-tint-amount),
-                $active-border: tint-color($value, $btn-active-border-tint-amount)
+                $hover-background: functions.tint-color($value, $btn-hover-bg-tint-amount),
+                $hover-border: functions.tint-color($value, $btn-hover-border-tint-amount),
+                $active-background: functions.tint-color($value, $btn-active-bg-tint-amount),
+                $active-border: functions.tint-color($value, $btn-active-border-tint-amount)
             );
         } @else {
             @include button-variant($value, $value);

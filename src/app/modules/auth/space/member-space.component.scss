@@ -68,7 +68,7 @@
 .action-drop-bar {
     position: absolute;
     background-color: var(--#{theme.$prefix}body-bg);
-    box-shadow: 0 2px 5px theme.$shadow;
+    box-shadow:  var(--#{theme.$prefix}box-shadow);
     z-index: 99;
     display: none;
     right: 0;

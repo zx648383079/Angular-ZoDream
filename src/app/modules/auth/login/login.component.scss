@@ -16,7 +16,7 @@
 
     a {
         font-size: 1.875rem;
-        color: theme.$bodyText;
+        color: var(--#{theme.$prefix}body-text);
         margin: 0.3125rem;
         text-decoration: none;
 
@@ -36,7 +36,7 @@
         float: right;
         line-height: 1.875rem;
         margin-right: 0.625rem;
-        color: theme.$bodyText;
+        color: var(--#{theme.$prefix}body-text);
     }
 }
 
