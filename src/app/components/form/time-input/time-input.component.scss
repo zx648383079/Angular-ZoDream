@@ -1,16 +1,18 @@
+@use '../../../theme/styles/theme';
 @use '../../../theme/styles/scrollbar';
 .time-input-container {
     display: inline-block;
-    color: #333;
-    background-color: #ffffff;
+    color: var(--#{theme.$prefix}input-text);
+    background-color: var(--#{theme.$prefix}input);
     border-radius: 4px;
-    border: 1px solid #ccc;
-    min-height: 36px;
+    border: 1px solid var(--#{theme.$prefix}input-border);
+    min-height: 2.25rem;
     align-items: center;
     position: relative;
     .input-container {
         padding-top: 5px;
         padding-left: 7px;
+        height: 2em;
         display: flex;
         flex-direction: row;
         input {
@@ -35,8 +37,8 @@
         align-items: center;
         justify-content: center;
         .arrow-icon {
-            border-top-color: #666666;
-            border-color: #999999 transparent transparent;
+            border-top-color: var(--#{theme.$prefix}input-icon);
+            border-color: var(--#{theme.$prefix}input-icon) transparent transparent;
             border-style: solid;
             border-width: 5px 5px 2.5px;
             pointer-events: none;
@@ -52,14 +54,14 @@
         display: none;
         width: 100%;
         z-index: 1050;
-        background-color: #ffffff;
-        border: 1px solid #ccc;
-        box-shadow: 0 1px 0 rgb(0 0 0 / 6%);
+        background-color: var(--#{theme.$prefix}input);
+        border: 1px solid var(--#{theme.$prefix}input-border);
+        box-shadow: 0 1px 0 rgba(var(--#{theme.$prefix}mask-rgb), .06);
         left: 0;
         top: 100%;
         border-bottom-right-radius: 4px;
         border-bottom-left-radius: 4px;
-        border-top-color: #e6e5e5;
+        border-top-color: var(--#{theme.$prefix}input-border);
         margin-top: -1px;
     }
     ul,li {
@@ -81,12 +83,12 @@
             user-select: none;
             cursor: default;
             &:hover {
-                background-color: #f5faff;
-                color: #333;
+                background-color: var(--#{theme.$prefix}input-hovered);
+                color: var(--#{theme.$prefix}body-text);
             }
             &.selected {
-                color: #333;
-                background-color: #ebf5ff;
+                color: var(--#{theme.$prefix}body-text);
+                background-color: var(--#{theme.$prefix}input-selected);
             }
         }
     }
@@ -98,7 +100,7 @@
         .input-arrow {
             .arrow-icon {
                 top: -2px;
-                border-color: transparent transparent #999999;
+                border-color: transparent transparent var(--#{theme.$prefix}input-hover-icon);
                 border-width: 0 5px 5px;
             }
         }

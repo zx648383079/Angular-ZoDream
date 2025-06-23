@@ -14,7 +14,7 @@
     overflow-y: hidden;
     box-shadow: var(--#{theme.$prefix}box-shadow);
     text-decoration: none;
-    color: var(--#{theme.$prefix}panel-text);
+    color: var(--#{theme.$prefix}body-text);
     margin-bottom: 1rem;
     &.metro-desc {
         .name {

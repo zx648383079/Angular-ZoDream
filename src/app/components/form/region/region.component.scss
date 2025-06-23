@@ -1,3 +1,4 @@
+@use '../../../theme/styles/theme';
 @use '../../../theme/styles/scrollbar';
 :host {
     display: inline-block;
@@ -10,16 +11,16 @@
     }
     .select-header {
         position: relative;
-        border: 1px solid #ccc;
+        border: 1px solid var(--#{theme.$prefix}input-border);
         line-height: 2rem;
         display: inline-block;
         padding: 0 5px;
         z-index: 3;
-        background-color: white;
+        background-color: var(--#{theme.$prefix}input);
         cursor: pointer;
         user-select: none;
         .iconfont {
-            color: #ccc;
+            color: var(--#{theme.$prefix}input-icon);
         }
         &.open {
             border-bottom: none;
@@ -28,13 +29,13 @@
     .selector-panel-container {
         position: absolute;
         width: 25rem;
-        background-color: white;
-        box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+        background-color: var(--#{theme.$prefix}input);
+        box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb), .1);
         padding: 0.625rem;
         z-index: 2;
         .select-header {
             &.open {
-                border-color: #0275d8;
+                border-color: var(--#{theme.$prefix}input-border);
                 border-width: 2px;
                 border-bottom: none;
                 transform: scaleY(1.1);
@@ -42,7 +43,7 @@
         }
     }
     .selector-header {
-        border-bottom: 2px solid #0275d8;
+        border-bottom: 2px solid var(--#{theme.$prefix}input-border);
         li {
             list-style: none;
             display: inline-block;
@@ -52,8 +53,8 @@
             min-width: 4.875rem;
 
             &.active {
-                background: #0275d8;
-                color: #fff;
+                background: var(--#{theme.$prefix}input-selected);
+                color: var(--#{theme.$prefix}input-text);
             }
         }
     }
@@ -74,8 +75,8 @@
                 user-select: none;
                 &.selected,
                 &:hover {
-                    background: #0275d8;
-                    color: #fff;
+                    background: var(--#{theme.$prefix}input-hovered);
+                    color: var(--#{theme.$prefix}input-text);
                 }
             }
         }
@@ -85,8 +86,8 @@
         text-align: right;
         .selector-yes {
             width: 30%;
-            background: #0275d8;
-            color: #fff;
+            background: var(--#{theme.$prefix}btn-bg);
+            color: var(--#{theme.$prefix}btn-color);
             padding: 0 0.5rem;
             border: none;
             line-height: 1.875rem;
@@ -100,12 +101,12 @@
         line-height: 1.875rem;
         font-size: 1rem;
         right: 0.625rem;
-        color: #ccc;
+        color: var(--#{theme.$prefix}input-icon);
     }
     &.disabled {
         cursor: not-allowed;
         .select-header {
-            color: #ccc;
+            color: var(--#{theme.$prefix}input-placeholder-text);
         }
     }
 }

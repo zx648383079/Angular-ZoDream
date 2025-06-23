@@ -87,10 +87,10 @@ li {
                 color: var(--#{theme.$prefix}secondary-text);
             }
             &.active {
-                background-color: var(--#{theme.$prefix}body)
+                background-color: var(--#{theme.$prefix}input-selected);
             }
             &:hover {
-                background-color: var(--#{theme.$prefix}body)
+                background-color: var(--#{theme.$prefix}input-hovered);
             }
         }
     }

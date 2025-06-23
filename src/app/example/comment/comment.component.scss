@@ -1,11 +1,11 @@
 @use '../../theme/styles/theme';
-$shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+$shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
 p {
     margin: 0;
 }
 .article-container {
     background-color: var(--#{theme.$prefix}panel);
-    color: var(--#{theme.$prefix}panel-text);
+    color: var(--#{theme.$prefix}body-text);
     margin-top: 4rem;
     border-radius: .375rem;
     box-shadow: $shadow;
@@ -19,8 +19,8 @@ p {
 }
 
 .vs-container {
-    --#{theme.$prefix}positive: red;
-    --#{theme.$prefix}negative: green;
+    --#{theme.$prefix}positive: var(--#{theme.$prefix}danger);
+    --#{theme.$prefix}negative: var(--#{theme.$prefix}success);
     position: relative;
     .vs-icon {
         margin: 0 auto;
@@ -30,7 +30,7 @@ p {
         border-radius: 50%;
         box-shadow: $shadow;
         background-color: var(--#{theme.$prefix}panel);
-        color: var(--#{theme.$prefix}panel-text);
+        color: var(--#{theme.$prefix}body-text);
         font-size: 4rem;
         text-align: center;
         span {
@@ -51,7 +51,7 @@ p {
             position: absolute;
             width: 4.5rem;
             height: 0.2rem;
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}border);
             top: 3.2rem;
             left: 0.8rem;
             transform: rotate(-60deg);
@@ -92,12 +92,12 @@ p {
 }
 
 .comment-container {
-    --#{theme.$prefix}comment: var(--#{theme.$prefix}body-bg);
+    --#{theme.$prefix}comment: var(--#{theme.$prefix}body);
     height: 30rem;
     overflow-y: auto;
     border-radius: .375rem;
     padding: .8rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--#{theme.$prefix}border);
     box-shadow: $shadow;
     margin-top: 1rem;
     background-color: var(--#{theme.$prefix}panel);
@@ -154,7 +154,7 @@ p {
 }
 
 .comment-panel {
-    --#{theme.$prefix}comment: var(--#{theme.$prefix}body-bg);
+    --#{theme.$prefix}comment: var(--#{theme.$prefix}body);
     box-shadow: $shadow;
     margin-top: 1rem;
     background-color: var(--#{theme.$prefix}panel);

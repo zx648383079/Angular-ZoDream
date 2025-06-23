@@ -1,3 +1,4 @@
+@use '../../styles/theme';
 @use '../../styles/scrollbar';
 
 ul,
@@ -6,11 +7,15 @@ li {
     padding: 0;
 }
 .nav-bar {
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}nav-hover: var(--#{theme.$prefix}body);
     position: fixed;
     left: 0;
     width: 12.5rem;
     bottom: 0;
-    background-color: #eee;
+    background-color: var(--#{theme.$prefix}nav);
+    color: var(--#{theme.$prefix}nav-text);
     top: 0;
     z-index: 99;
     display: flex;
@@ -21,7 +26,7 @@ li {
         padding: 0 0.625rem;
         display: inline-block;
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}nav-hover);
         }
     }
     .bar-top {
@@ -31,17 +36,17 @@ li {
     }
     a {
         text-decoration: none;
-        color: #333;
+        color: var(--#{theme.$prefix}nav-text);
     }
     .search-input {
         position: relative;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}nav-hover);
         padding-right: 1.875rem;
         .iconfont {
             position: absolute;
             top: 0.5625rem;
             right: 0.625rem;
-            color: #777;
+            color: var(--#{theme.$prefix}input-icon);
         }
         input {
             width: 100%;
@@ -59,7 +64,7 @@ li {
 
 .nav-flow {
     .nav-bar {
-        box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+        box-shadow: var(--#{theme.$prefix}box-shadow);
     }
     .page-body {
         margin-left: 0;
@@ -88,7 +93,7 @@ li {
                 position: static;
                 font-size: 1.875rem;
                 display: block;
-                color: #333;
+                color: var(--#{theme.$prefix}surface-text);
             }
             input {
                 display: none;
@@ -145,43 +150,5 @@ li {
     }
     .page-body {
         margin-left: 0;
-    }
-}
-
-
-@media (prefers-color-scheme: dark) {
-    .nav-bar {
-        background-color: #2e2e2e;
-        color: #eee;
-        .nav-toggle-icon {
-            &:hover {
-                background-color: #3b3b3b;
-            }
-        }
-        a {
-            color: #eee;
-        }
-        .menu-item {
-            &:hover {
-                >a {
-                    background-color: #3b3b3b;
-                }
-            }
-        }
-        .search-input {
-            background-color: #eee;
-            .iconfont {
-                color: #2b2b2b;
-            }
-        }
-    }
-    .nav-toggle {
-        .nav-bar {
-            .search-input {
-                .iconfont {
-                    color: #eee;
-                }
-            }
-        }
     }
 }

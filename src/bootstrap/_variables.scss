@@ -66,3 +66,10 @@ $input-border-width:                    $border-width !default;
 $input-line-height: $line-height-base !default;
 $input-height:                          add($input-line-height * 1em, add($input-padding-y * 2, calc(#{$input-border-width} * 2), false)) !default;
 $input-focus-width:                     .25rem !default;
+
+
+$transition-base:             all .2s ease-in-out !default;
+$transition-fade:             opacity .15s linear !default;
+// scss-docs-start collapse-transition
+$transition-collapse:         height .35s ease !default;
+$transition-collapse-width:   width .35s ease !default;

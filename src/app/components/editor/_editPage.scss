@@ -4,7 +4,7 @@ $shadow: rgba(0, 0, 0, 0.2);
 .editor-container {
     --#{theme.$prefix}tool-height: 3.75rem;
     --#{theme.$prefix}tool: var(--#{theme.$prefix}panel);
-    --#{theme.$prefix}tool-text: var(--#{theme.$prefix}panel-text);
+    --#{theme.$prefix}tool-text: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}editor: var(--#{theme.$prefix}body-bg);
     --#{theme.$prefix}editor-border: #e0e0e0;
     position: fixed;
@@ -128,7 +128,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     position: absolute;
     z-index: 99;
     background-color: var(--#{theme.$prefix}panel);
-    color: var(--#{theme.$prefix}panel-text);
+    color: var(--#{theme.$prefix}body-text);
     box-shadow: 0 0 1.25rem $shadow;
     border: 1px solid #e0e0e0;
     width: 20rem;

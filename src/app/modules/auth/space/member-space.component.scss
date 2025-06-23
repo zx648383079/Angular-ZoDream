@@ -1,7 +1,7 @@
 @use '../../../theme/styles/theme';
 .space-container {
     background-color: var(--#{theme.$prefix}panel);
-    color: var(--#{theme.$prefix}panel-text);
+    color: var(--#{theme.$prefix}body-text);
     margin-top: 2rem;
     margin-bottom: 4rem;
     .space-image {
@@ -46,7 +46,7 @@
 .space-action-bar {
     line-height: 2.5rem;
     .action-item {
-        color: var(--#{theme.$prefix}panel-text);
+        color: var(--#{theme.$prefix}body-text);
         display: inline-block;
         border-radius: 1.25rem;
         border: 1px solid #ccc;
@@ -107,7 +107,7 @@
             display: inline-block;
             font-weight: bold;
             margin-right: .4rem;
-            color: var(--#{theme.$prefix}panel-text);
+            color: var(--#{theme.$prefix}body-text);
         }
         &:not(:last-of-type) {
             margin-right: 2rem;

@@ -1,3 +1,4 @@
+@use '../../theme/styles/theme';
 .mini-player-bar {
     display: flex;
     box-sizing: border-box;
@@ -37,7 +38,7 @@
 }
 
 .player-bar {
-    background-color: #fff;
+    background-color: var(--#{theme.$prefix}panel);
     display: flex;
     padding: .8rem 0;
     .bar-cover {
@@ -55,7 +56,7 @@
     }
     .bar-action {
         .iconfont {
-            border: 2px solid #666;
+            border: 2px solid var(--#{theme.$prefix}border);
             border-radius: 50%;
             display: inline-flex;
             width: 2.5rem;
@@ -77,7 +78,7 @@
         flex: 1;
         display: flex;
         .name-meta {
-            color: #767676;
+            color: var(--#{theme.$prefix}meta-text);
             margin-left: .8rem;
             font-size: .8em;
         }
@@ -120,7 +121,7 @@
     bottom: 5rem;
     right: 0;
     z-index: 999;
-    background-color: #fff;
+    background-color: var(--#{theme.$prefix}panel);
     width: 15rem;
     border-radius: .5rem;
     padding: 1rem .5rem;

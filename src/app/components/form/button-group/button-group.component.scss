@@ -1,3 +1,4 @@
+@use '../../../theme/styles/theme';
 @use '../action-button/actionButton';
 .btn-setting {
     background-color: red;
@@ -37,7 +38,7 @@
 }
 
 .action-loading {
-    background-color: #f4f4f4;
+    background-color: var(--#{theme.$prefix}body);
 }
 
 .btn {
@@ -50,7 +51,7 @@
     }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 75rem) {
     .btn {
         .btn-label {
             display: inline-block;
@@ -62,7 +63,7 @@
 }
 
 
-@media screen and (min-width: 770px) {
+@media screen and (min-width: 48rem) {
     .btn {
         .btn-label {
             display: inline-block;
@@ -73,7 +74,7 @@
     }
 }
 
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 48rem) {
     .btn {
         .btn-label {
             display: none;

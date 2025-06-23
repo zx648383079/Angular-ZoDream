@@ -1,15 +1,16 @@
-$headerHeight: 2.5rem;
-$border: 1px solid gray;
-$itemRadius: .25rem;
-
+@use '../../theme/styles/theme';
 @use '../../theme/styles/scrollbar';
+
+$headerHeight: 2.5rem;
+$border: 1px solid var(--#{theme.$prefix}border);
+$itemRadius: .25rem;
 
 .explorer-header {
     display: flex;
     height: $headerHeight;
     line-height: $headerHeight;
     box-sizing: content-box;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
     .breadcrumb-bar,
     .search-bar {
         display: block;
@@ -34,7 +35,7 @@ $itemRadius: .25rem;
             position: absolute;
             top: 0;
             right: .4rem;
-            color: #ccc;
+            color: var(--#{theme.$prefix}input-icon);
         }
     }
 }
@@ -49,7 +50,7 @@ $itemRadius: .25rem;
         outline: none;  
     }
     .breadcrumb-item {
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         user-select: none;
         &::before {
             display: none !important;
@@ -58,7 +59,7 @@ $itemRadius: .25rem;
             &::after {
                 content: ">";
                 display: inline-block;
-                color: #ccc;
+                color: var(--#{theme.$prefix}border);
                 margin: 0 .2rem;
             }
         }
@@ -94,19 +95,19 @@ $itemRadius: .25rem;
             &:first-of-type {
                 font-size: .8rem;
                 font-weight: 300;
-                color: #ccc;
+                color: var(--#{theme.$prefix}border);
             }
         }
         span {
             flex: 1;
         }
         &:hover {
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}body);
         }
     }
     .active {
         >.tree-item-header {
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}body);
         }
     }
     .open {
@@ -152,14 +153,14 @@ $itemRadius: .25rem;
             margin-right: .4rem;
         }
         &:hover {
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}body);
             .action-dropdown {
                 display: block;
             }
         }
         &.disabled {
             cursor: not-allowed;
-            color: #ccc;
+            color: var(--#{theme.$prefix}input-disabled);
             background-color: transparent;
         }
     }
@@ -169,17 +170,17 @@ $itemRadius: .25rem;
         right: 0;
         width: 12.5rem;
         z-index: 5;
-        border: 1px solid #eee;
+        border: 1px solid var(--#{theme.$prefix}border);
         border-top: none;
-        background-color: white;
+        background-color: var(--#{theme.$prefix}panel);
         text-align: left;
         .nav-item {
             display: flex;
             justify-content: space-between;
             padding-left: .4rem;
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
             &:hover {
-                background-color: #f4f4f4;
+                background-color: var(--#{theme.$prefix}body);
             }
         }
     }
@@ -224,7 +225,7 @@ $itemRadius: .25rem;
         display: flex;
         line-height: 2rem;
         user-select: none;
-        color: #767676;
+        color: var(--#{theme.$prefix}secondary);
         .file-sortable {
             padding-left: .4rem;
             display: flex;
@@ -277,7 +278,7 @@ $itemRadius: .25rem;
             }
         }
         &:hover {
-            background-color: #eee;
+            background-color: var(--#{theme.$prefix}border);
             .file-item-action {
                 display: block;
             }
@@ -286,7 +287,7 @@ $itemRadius: .25rem;
             }
         }
         &:not(:last-of-type) {
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--#{theme.$prefix}border);
         }
     }
     &.file-list-view {
@@ -312,8 +313,8 @@ $itemRadius: .25rem;
                 object-fit: contain;
             }
             &::before {
-                box-shadow: inset 0 0 15px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.05);
-                background: #f0f0f1;
+                box-shadow: inset 0 0 15px rgba(var(--#{theme.$prefix}mask-rgb),.1), inset 0 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.05);
+                background: var(--#{theme.$prefix}body);
                 content: '';
                 display: block;
                 width: 100%;
@@ -349,7 +350,7 @@ $itemRadius: .25rem;
             &:hover {
                 border-radius: $itemRadius;
                 .file-item-action {
-                    background-color: #fff;
+                    background-color: var(--#{theme.$prefix}panel);
                 }
             }
         }

@@ -24,7 +24,7 @@
             position: relative;
             background-color: var(--#{theme.$prefix}panel);
             text-decoration: none;
-            color: var(--#{theme.$prefix}panel-text);
+            color: var(--#{theme.$prefix}body-text);
             &:after {
                 position: absolute;
                 content: "";

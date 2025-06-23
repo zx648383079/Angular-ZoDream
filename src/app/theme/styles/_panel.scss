@@ -1,6 +1,6 @@
 @use 'theme';
 .panel {
-    background-color: var(--#{theme.$prefix}body-bg);
+    background-color: var(--#{theme.$prefix}body);
     border-radius: 0.1875rem;
     margin-bottom: 0.625rem;
     .panel-header {
@@ -18,9 +18,9 @@
     margin: 0.625rem 0;
     .panel-header {
         line-height: 3.125rem;
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         padding: 0 1.25rem;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
     }
     .pull-right {
         float: right;
@@ -28,7 +28,7 @@
     }
     .catalog-item {
         display: flex;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         margin-bottom: .5em;
         .cover {
             display: flex;
@@ -62,7 +62,7 @@
             }
         }
         &:hover {
-            box-shadow: rgba(#333, .7) 0 0 10px;
+            box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .7) 0 0 10px;
         }
     }
     &.min {
@@ -73,14 +73,14 @@
 }
 
 .panel-container {
-    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
     margin-bottom: 1rem;
     margin-top: 1rem;
     background-color: var(--#{theme.$prefix}panel);
     padding: 1.25rem;
     .page-empty-tip {
         font-size: 3em;
-        color: var(--#{theme.$prefix}tertiary-color);
+        color: var(--#{theme.$prefix}meta-text);
         font-weight: 700;
         text-align: center;
         padding: 2em 0;
@@ -116,7 +116,7 @@
         }
     }
     &:hover {
-        background-color: #eee;
+        background-color: var(--#{theme.$prefix}body)
     }
 }
 

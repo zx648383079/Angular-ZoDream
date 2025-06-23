@@ -1,9 +1,9 @@
 @use 'theme';
 .column-item {
-    --#{theme.$prefix}column: #fff;
-    --#{theme.$prefix}column-text: #333;
-    --#{theme.$prefix}column-icon: #333;
-    --#{theme.$prefix}column-icon-text: #fff;
+    --#{theme.$prefix}column: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}column-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}column-icon: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}column-icon-text: var(--#{theme.$prefix}panel);
     display: inline-block;
     position: relative;
     height: 6.25rem;
@@ -30,10 +30,10 @@
 }
 
 .column-full-item {
-    --#{theme.$prefix}column: #17a2b8;
-    --#{theme.$prefix}column-text: #fff;
+    --#{theme.$prefix}column: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}column-text: var(--#{theme.$prefix}primary-text);
     border-radius: .25rem;
-    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
     display: block;
     margin-bottom: 1.25rem;
     position: relative;
@@ -47,13 +47,13 @@
         width: 100%;
         border-radius: .25rem;
         align-items: center;
-        background: rgba(255,255,255,.7);
+        background-color: rgba(var(--#{theme.$prefix}primary-text-rgb), .7);
         display: -ms-flexbox;
         display: flex;
         justify-content: center;
         z-index: 50;
         i {
-            color: #343a40;
+            color: var(--#{theme.$prefix}meta-text);
             font-size: 3em;
             animation: spin 1s linear infinite;
         }
@@ -73,7 +73,7 @@
         font-size: 1rem;
     }
     .icon {
-        color: rgba(0,0,0,.15);
+        color: rgba(var(--#{theme.$prefix}mask-rgb),.15);
         z-index: 0;
         i {
             font-size: 50px;
@@ -84,8 +84,8 @@
         }
     }
     .column-footer {
-        background: rgba(0,0,0,.1);
-        color: rgba(255,255,255,.8);
+        background-color: rgba(var(--#{theme.$prefix}mask-rgb),.1);
+        color: rgba(var(--#{theme.$prefix}primary-text-rgb),.8);
         display: block;
         padding: 3px 0;
         position: relative;

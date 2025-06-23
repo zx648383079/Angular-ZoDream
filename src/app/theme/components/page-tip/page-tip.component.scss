@@ -1,25 +1,25 @@
-$tipBg: #F5FAFF;
-$tipFg: #666;
-$bg: #333;
+@use '../../styles/theme';
 
 .page-tooltip-bar {
-    border: 1px dashed $bg;
+    --#{theme.$prefix}tooltip: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}tooltip-text: var(--#{theme.$prefix}surface-text);
+    border: 1px dashed var(--#{theme.$prefix}border);
     padding: 10px;
     border-radius: 5px;
-    background-color: $tipBg;
+    background-color: var(--#{theme.$prefix}tooltip);
     position: relative;
     .tooltip-header {
-        color: $bg;
+        color: var(--#{theme.$prefix}info);
     }
     .tooltip-body {
         ul {
             width: 100%;
             padding: 0;
             li {
-                padding-left: 10px;
+                padding-left: .625rem;
                 list-style: inside;
                 a {
-                    color: $tipFg;
+                    color: var(--#{theme.$prefix}tooltip-text);
                 }
             }
         }
@@ -27,9 +27,9 @@ $bg: #333;
     .tooltip-toggle {
         position: absolute;
         right: 0;
-        top: 10px;
-        height: 26px;
-        width: 26px;
+        top: .625rem;
+        height: 1.625rem;
+        width: 1.625rem;
         &::before {
             font-family: "iconfont";
             font-size: 14px;
@@ -40,7 +40,7 @@ $bg: #333;
         }
     }
     &.tooltip-min {
-        width: 200px;
+        width: 12.5rem;
         .tooltip-header {
             margin-bottom: 0;
         }

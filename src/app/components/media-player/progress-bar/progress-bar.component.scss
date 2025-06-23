@@ -1,3 +1,4 @@
+@use '../../../theme/styles/theme';
 $height: .4rem;
 :host {
     display: block;
@@ -7,19 +8,19 @@ $height: .4rem;
     position: relative;
     height: $height;
     width: 100%;
-    background: #cdcdcd;
+    background-color: var(--#{theme.$prefix}body);
     .load-bar {
         height: $height;
         position: absolute;
         left: 0;
         top: 0;
         bottom: 0;
-        background: #aaa;
+        background-color: var(--#{theme.$prefix}secondary);
         transition: all 0.5s ease;
     }
     .inner-bar {
         height: $height;
-        background-color: #106ebe;
+        background-color: var(--#{theme.$prefix}primary);
         position: absolute;
         left: 0;
         top: 0;
@@ -34,7 +35,7 @@ $height: .4rem;
         border-radius: 50%;
         cursor: pointer;
         transition: all .3s ease-in-out;
-        background-color: #555;
+        background-color: var(--#{theme.$prefix}body-text);
         transform: scale(0);
         &::after {
             content: " ";
@@ -45,7 +46,7 @@ $height: .4rem;
             position: absolute;
             right: $height;
             top: $height;
-            background-color: #fff;
+            background-color: var(--#{theme.$prefix}panel);
         }
     }
     &:hover {

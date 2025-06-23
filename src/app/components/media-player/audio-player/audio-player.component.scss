@@ -1,4 +1,5 @@
+@use '../../../theme/styles/theme';
 @use '../player';
 .mini-player-bar {
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 7%), 0 1px 5px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 2px 0 rgba(var(--#{theme.$prefix}mask-rgb), .07), 0 1px 5px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.1);
 }

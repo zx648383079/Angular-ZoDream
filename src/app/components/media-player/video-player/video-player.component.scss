@@ -1,21 +1,24 @@
+@use '../../../theme/styles/theme';
 @use '../player';
 .video-player {
+    --#{theme.$prefix}player: var(--#{theme.$prefix}accent-text);
+    --#{theme.$prefix}player-text: var(--#{theme.$prefix}accent);
     position: relative;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 7%), 0 1px 5px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 2px 0 rgba(var(--#{theme.$prefix}mask-rgb), .07), 0 1px 5px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.1);
     i {
         font-style: normal;
     }
     .player-mask {
-        background-color: #000;
+        background-color: var(--#{theme.$prefix}player);
         text-align: center;
         padding: 1em;
         .iconfont {
-            color: #fff;
+            color: var(--#{theme.$prefix}player-text);
             font-size: 4em;
         }
         &:hover {
             .iconfont {
-                color: #a10000;
+                color: var(--#{theme.$prefix}primary);
             }
         }
     }
@@ -30,7 +33,7 @@
         width: 100%;
         height: 100vw;
         max-height: 400px;
-        background-color: #000;
+        background-color: var(--#{theme.$prefix}player);
         margin: 0;
     }
     
@@ -41,7 +44,7 @@
         bottom: 0;
         top: 0;
         z-index: 9999;
-        background-color: #000;
+        background-color: var(--#{theme.$prefix}player);
         box-shadow: none;
         .player-video {
             width: 100%;
@@ -49,8 +52,8 @@
             max-height: 100%;
         }
         .mini-player-bar {
-            background-color: rgba(43,51,63,.7);
-            color: #fff;
+            background-color: rgba(var(--#{theme.$prefix}primary-text-rgb), .15);
+            color: var(--#{theme.$prefix}player-text);
             position: absolute;
             bottom: 0;
             left: 0;
