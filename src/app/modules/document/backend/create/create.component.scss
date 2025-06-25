@@ -1,21 +1,16 @@
+@use '../../../../theme/styles/theme';
 .column-item {
+    --#{theme.$prefix}column: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}column-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}column-icon: transparent;
+    --#{theme.$prefix}column-icon-text: var(--#{theme.$prefix}accent-text);
     width: auto;
-    display: block;
+    display: flex;
     margin: 0;
-    margin: 0 -1.25rem;
-    .icon {
-        width: 60px;
-        height: 60px;
-        background-color: transparent;
-        color: #777;
-    }
-    .content {
-        margin-left: 60px;
-    }
     &:hover {
-        background-color: #fafafa;
+        background-color: var(--#{theme.$prefix}input-hovered);
     }
     &.active {
-        background-color: #e5e5e5;
+        background-color: var(--#{theme.$prefix}input-selected);
     }
 }

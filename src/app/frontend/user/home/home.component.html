@@ -1,6 +1,6 @@
 <ng-container *ngFor="let item of items">
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
-        <div class="icon">
+        <div class="item-icon">
             <ng-container *ngIf="item.icon; else elseTemplate">
                 <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
             </ng-container>
@@ -8,7 +8,7 @@
                 <i class="iconfont icon-file-o"></i>
             </ng-template>
         </div>
-        <div class="content">
+        <div class="item-body">
             <h3>{{ item.name }}</h3>
             <p>
                 {{ item.count }}

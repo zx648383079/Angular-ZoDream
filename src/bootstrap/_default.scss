@@ -51,28 +51,31 @@ $theme-colors-text: (
 
 $primary-hover:   functions.shade-color($primary, 20%) !default;
 $primary-hover-text:   colors.$white !default;
-$body: #f4f4f4;
-$body-text: #333;
+$body: #f4f4f4 !default;
+$body-text: #333 !default;
+
+$tertiary: rgba($body, .5) !default;
+$tertiary-text: colors.$gray-100 !default;
 
 
 // 强调色
-$accent: #fff;
-$accent-text: #000;
+$accent: #fff !default;
+$accent-text: #000 !default;
 
 // 导航栏等部位的颜色
-$surface: #eee;
-$surface-text: #333;
+$surface: #eee !default;
+$surface-text: #333 !default;
 
 
-$meta-text: #767676;
-$mask-color: colors.$black;
+$meta-text: #767676 !default;
+$mask-color: colors.$black !default;
 $box-shadow: 0 .5rem 1rem rgba($mask-color, .15) !default;
 $box-shadow-inset: inset 0 1px 2px rgba($mask-color, .075) !default;
-$panel: white;
+$panel: white !default;
 
-$dialog: rgba(255, 255, 255, .9);
-$dialog-mask: rgba($mask-color, .3);
-$dialog-text: #333;
+$dialog: rgba(255, 255, 255, .9) !default;
+$dialog-mask: rgba($mask-color, .3) !default;
+$dialog-text: #333 !default;
 
 
 $border-color:                colors.$gray-300 !default;
@@ -131,6 +134,10 @@ $range-thumb-disabled-bg:             var(--#{$prefix}secondary-text) !default;
     --#{$prefix}surface-text: #{$surface-text};
 
     --#{$prefix}panel: #{$panel};
+
+    --#{$prefix}tertiary: #{$tertiary};
+    --#{$prefix}tertiary-text: #{$tertiary-text};
+
     --#{$prefix}accent: #{$accent};
     --#{$prefix}accent-text: #{$accent-text};
 

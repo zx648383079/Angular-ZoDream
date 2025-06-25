@@ -12,7 +12,7 @@ import { ThemeService } from '../../../theme/services';
 export class PiazzaComponent implements OnInit {
 
     public items: IGameProject[] = [
-        {id: 1, name: 'test', logo: '/assets/images/logo.png', description: ''}
+        {id: 1, name: 'test', logo: '/assets/images/logo.png', description: 'This is test app, this is an ex for any items in anythings.'}
     ];
 
     constructor(

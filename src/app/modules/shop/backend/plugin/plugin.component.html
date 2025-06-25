@@ -7,10 +7,10 @@
     </app-page-tip>
 
     <div class="column-item" *ngFor="let item of items" [ngClass]="{inactive: !item.is_actived}">
-        <div class="icon" (click)="tapToggle(item)" title="点击启用/卸载此插件">
+        <div class="item-icon" (click)="tapToggle(item)" title="点击启用/卸载此插件">
             <i class="iconfont" [ngClass]="item.is_actived ? item.icon : 'icon-close'"></i>
         </div>
-        <a class="content" [routerLink]="item.url">
+        <a class="item-body" [routerLink]="item.url">
             <h3>{{ item.name }}</h3>
             <p>{{ item.description }}</p>
         </a>

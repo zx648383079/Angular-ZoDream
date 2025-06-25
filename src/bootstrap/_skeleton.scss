@@ -20,6 +20,10 @@ $prefix: 'bs-' !default;
     $prefix: $prefix
 );
 
+@use './controls/dropdown' with (
+    $prefix: $prefix
+);
+
 @use './controls/navbar' with (
     $prefix: $prefix
 );

@@ -63,10 +63,10 @@
 
 .tab-bar {
     --#{theme.$prefix}tab: transparent;
-    --#{theme.$prefix}tab-text: #333;
-    --#{theme.$prefix}tab-hover: #ccc;
-    --#{theme.$prefix}tab-active: red;
-    --#{theme.$prefix}tab-active-text: #fff;
+    --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}tab-hover: var(--#{theme.$prefix}tertiary);
+    --#{theme.$prefix}tab-active: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}tab-active-text: var(--#{theme.$prefix}primary-text);
     display: block;
     line-height: 2.5rem;
     a {

@@ -4,7 +4,8 @@
     --#{theme.$prefix}column-text: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}column-icon: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}column-icon-text: var(--#{theme.$prefix}panel);
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: row;
     position: relative;
     height: 6.25rem;
     background-color: var(--#{theme.$prefix}column);
@@ -12,20 +13,67 @@
     vertical-align: top;
     width: 90%;
     margin: 0.625rem 5%;
-    .icon {
-        position: absolute;
+    p {
+        margin: 0;
+        color: var(--#{theme.$prefix}meta-text);
+    }
+    .item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 6.25rem;
         height: 6.25rem;
-        text-align: center;
         background-color: var(--#{theme.$prefix}column-icon);
         color: var(--#{theme.$prefix}column-icon-text);
-        padding-top: 1.25rem;
         font-size: 2.5rem;
     }
-    .content {
-        display: block;
-        margin-left: 6.25rem;
-        padding: 1.25rem 0.625rem;
+    .item-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        padding: .8rem;
+        justify-content: center;
+    }
+}
+
+.column-image-item {
+    --#{theme.$prefix}column: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}column-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}column-meta-text: var(--#{theme.$prefix}meta-text);
+    --#{theme.$prefix}column-icon: var(--#{theme.$prefix}body);
+    --#{theme.$prefix}column-radius: .75rem;
+    background-color: var(--#{theme.$prefix}column);
+    height: 10rem;
+    display: flex;
+    border-radius: var(--#{theme.$prefix}column-radius);
+    user-select: none;
+    padding: .8rem;
+    transition: all .2s;
+    .item-logo {
+        width: 8rem;
+        background-color: var(--#{theme.$prefix}column-icon);
+        border-radius: var(--#{theme.$prefix}column-radius);
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    .item-body {
+        flex: 1;
+        padding: .8rem;
+    }
+    .item-name {
+        font-size: 1.2rem;
+        color: var(--#{theme.$prefix}column-text);
+        font-weight: 600;
+    }
+    .item-meta {
+        margin-top: .8rem;
+        color: var(--#{theme.$prefix}column-meta-text);
+    }
+    &:hover {
+        box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb),.7);
     }
 }
 

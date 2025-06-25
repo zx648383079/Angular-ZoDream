@@ -1,3 +1,4 @@
+@use '../../theme/styles/theme';
 @use '../../theme/styles/member';
 .person-box {
     margin: 5rem 0;
@@ -7,7 +8,7 @@
             width: 10rem;
             height: 10rem;
             border-radius: 50%;
-            border: 1px solid #ccc;
+            border: 1px solid var(--#{theme.$prefix}border);
         }
     }
     .name {
@@ -19,11 +20,11 @@
             // right: 0;
             top: 0;
             font-size: .8rem;
-            color: green;
+            color: var(--#{theme.$prefix}success);
         }
     }
     .meta {
-        color: #ccc;
+        color: var(--#{theme.$prefix}meta-text);
     }
     .desc {
         margin: 1rem 0;
@@ -40,7 +41,7 @@
         text-align: center;
         font-size: 0.75rem;
         &:not(:last-of-type) {
-            border-right: 1px solid #ccc;
+            border-right: 1px solid var(--#{theme.$prefix}border);
         }
     }
 }
@@ -66,7 +67,7 @@
     display: flex;
     margin-top: 2rem;
     margin-bottom: .8rem;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
     .tab-bar {
         flex: 1;
     }
@@ -83,11 +84,12 @@
         right: 0;
         width: 12rem;
         z-index: 5;
-        border: 1px solid #eee;
+        border: 1px solid var(--#{theme.$prefix}border);
         border-top: none;
-        background-color: #eee;
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
         text-align: left;
-        box-shadow: rgba(51,51,51,.7) 0 0 10px;
+        box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb),.7);
         border-radius: .3125rem;
         .item {
             display: flex;
@@ -95,11 +97,11 @@
             padding: 0 .8rem;
             cursor: pointer;
             &:hover {
-                background-color: rgba($color: #ccc, $alpha: .3);
+                background-color: var(--#{theme.$prefix}body);
             }
             &.active {
-                background-color: red;
-                color: #fff;
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
             }
             &:first-of-type {
                 border-top-left-radius: 0.3125rem;
@@ -113,7 +115,7 @@
         .iconfont {
             display: inline-block;
             width: 1.5rem;
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
         }
     }
     &.nav-more-open {

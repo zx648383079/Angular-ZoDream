@@ -6,10 +6,10 @@
             <div class="col-md-4">
                 <div class="panel-container">
                     <div class="column-item" *ngFor="let item of typeItems" (click)="tapType(item)" [ngClass]="{active: data.type == item.value}">
-                        <div class="icon">
+                        <div class="item-icon">
                             <div class="iconfont" [ngClass]="item.icon"></div>
                         </div>
-                        <div class="content">
+                        <div class="item-body">
                             <h4>{{ item.name }}</h4>
                             <p>{{ item.desc }}</p>
                         </div>

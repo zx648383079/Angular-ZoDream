@@ -6,7 +6,7 @@
     .item-unit {
         font-size: 1rem;
         font-weight: 500;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         display: inline-block;
     }
     .item-tag {
@@ -19,9 +19,9 @@
         transform: translateX(-.5rem);
     }
     .icon-arrow-down {
-        color: red;
+        color: var(--#{theme.$prefix}danger);
     }
     .icon-arrow-up {
-        color: green;
+        color: var(--#{theme.$prefix}success);
     }
 }

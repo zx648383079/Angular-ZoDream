@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-lg-4" *ngFor="let item of items">
-            <a class="column-image-item mt-10" [routerLink]="['play', item.id]">
+            <a class="column-image-item mt-10" [routerLink]="item.id">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
                 </div>

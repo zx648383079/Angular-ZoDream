@@ -54,6 +54,11 @@ const routes: Routes = [
         canActivate: [CanActivateViaAuthGuard],
         loadChildren: () => import('./modules/game/maker/game-maker.module').then(m => m.GameMakerModule) 
     },
+    { 
+        path: 'game/profiler',
+        canActivate: [CanActivateViaAuthGuard],
+        loadChildren: () => import('./modules/game/profiler/game-profiler.module').then(m => m.GameProfilerModule) 
+    },
     { path: 'game', loadChildren: () => import('./modules/game/game.module').then(m => m.GameModule) },
     {
         path: 'finance',

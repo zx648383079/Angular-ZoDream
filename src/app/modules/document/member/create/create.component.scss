@@ -3,14 +3,11 @@
     display: block;
     margin: 0;
     margin: 0 -1.25rem;
-    .icon {
+    .item-icon {
         width: 60px;
         height: 60px;
         background-color: transparent;
         color: #777;
-    }
-    .content {
-        margin-left: 60px;
     }
     &:hover {
         background-color: #fafafa;
