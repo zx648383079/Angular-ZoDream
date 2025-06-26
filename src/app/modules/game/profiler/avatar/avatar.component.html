@@ -1,0 +1,156 @@
+<div class="container-fluid">
+    <div class="filter-container pt-30">
+        <div class="filter-group">
+            <div class="group-header">
+                属性
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>风</a>
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="group-header">
+                武器
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>剑</a>
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="group-header">
+                性别
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>男</a>
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="group-header">
+                稀有度
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>SSR</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="avatar-item" *ngFor="let item of items" (click)="tapItem(item)">
+                <div class="item-thumb">
+                    <img [appLazyLoad]="item.logo" [alt]="item.name">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                </div>
+                <div class="item-icon">
+                    <img src="" alt="">
+                </div>
+                <div class="item-tag">
+                    最近上新
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-mask" *ngIf="modalVisible" (click)="modalClose()"></div>
+<div class="avatar-modal" *ngIf="modalVisible">
+    <div class="modal-body">
+        <div class="card-image">
+            <img src="" alt="">
+            <div class="card-header">
+                <div class="meta-bar">
+                    <span>lv.6</span>
+                    <span>ID: 8888</span>
+                </div>
+                <div class="tag-bar">
+                    <div class="tag-item">
+                        <div class="item-icon">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-label">lv.10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="item-name">
+                <span class="level-tag">lv.90</span>
+                名称</div>
+            <div class="panel-body">
+                <div class="line-item">
+                    <span>攻击</span>
+                    <span>+129</span>
+                </div>
+                <div class="line-item">
+                    <span>攻击</span>
+                    <span>+129</span>
+                </div>
+                <div class="line-item">
+                    <span>攻击</span>
+                    <span>+129</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-scoring">
+        <div class="count-item">
+            <div class="item-header">
+                212
+            </div>
+            <div class="item-body">
+                评分
+            </div>
+        </div>
+        <div class="count-item">
+            <div class="item-header">
+                212
+            </div>
+            <div class="item-body">
+                评分
+            </div>
+        </div>
+    </div>
+    <div class="modal-items">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let item of items">
+                <div class="item-panel">
+                    <div class="panel-header">
+                        <div class="item-thumb">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-body">
+                            <div class="line-item">
+                                <span>名称</span>
+                                <span>lv.25</span>
+                            </div>
+                            <div class="line-item">
+                                <span>41分 SSR</span>
+                                <span>C4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="line-item">
+                            <span>攻击</span>
+                            <span>+129</span>
+                        </div>
+                        <div class="line-item">
+                            <span>攻击</span>
+                            <span>+129</span>
+                        </div>
+                        <div class="line-item">
+                            <span>攻击</span>
+                            <span>+129</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

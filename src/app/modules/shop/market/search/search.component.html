@@ -7,22 +7,37 @@
       </nav>
 
       <div class="goods-area">
-          <div class="filter-box">
-            <div class="filter-line" *ngFor="let item of filterItems">
-                <div class="filter-header">
+          <div class="filter-container pt-30">
+            <div class="filter-group" *ngFor="let item of filterItems">
+                <div class="group-header">
                     {{ item.label }}
                 </div>
-                <div class="filter-body">
+                <div class="group-body">
                     <ng-container *ngFor="let it of item.items">
                         <a [ngClass]="{active: it.selected}">{{ it.label }}</a>
                     </ng-container>
                 </div>
               </div>
-              <div class="filter-line">
-                <div class="filter-header" i18n>
+              <div class="filter-group">
+                    <div class="group-header">
+                        价格
+                    </div>
+                    <div class="group-body">
+                        <a >不限</a>
+                        <a class="active">0-100</a>
+                        <a>101-200</a>
+                        <div class="filter-range-group">
+                            <input type="text">
+                            <span>-</span>
+                            <input type="text">
+                        </div>
+                    </div>
+              </div>
+              <div class="filter-group">
+                <div class="group-header" i18n>
                     Sort by
                 </div>
-                <div class="filter-body">
+                <div class="group-body">
                     <ng-container *ngFor="let item of sortItems">
                         <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
                             <i class="iconfont" *ngIf="item.value && sortKey == item.value" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>

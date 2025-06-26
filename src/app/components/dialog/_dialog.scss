@@ -1,7 +1,7 @@
 @use "../../theme/styles/scrollbar";
 @use '../../theme/styles/theme';
 
-$shadow: rgba(0, 0, 0, 0.2);
+$shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 
 .dialog-mask {
     position: fixed;
@@ -52,7 +52,7 @@ $shadow: rgba(0, 0, 0, 0.2);
         line-height: 1.875rem;
         text-align: center;
         padding: 0.3125rem 0.625rem;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         .iconfont {
             width: 1.875rem;
             height: 1.875rem;
@@ -75,7 +75,7 @@ $shadow: rgba(0, 0, 0, 0.2);
         @include scrollbar.scrollbar();
     }
     .dialog-footer {
-        border-top: 1px solid #ccc;
+        border-top: 1px solid var(--#{theme.$prefix}border);
         text-align: center;
     }
     .dialog-invail-tip {
@@ -123,12 +123,12 @@ $shadow: rgba(0, 0, 0, 0.2);
             font-size: 1rem;
             font-weight: 400;
             line-height: 2.5rem;
-            color: #495057;
-            background-color: #fff;
+            color: var(--#{theme.$prefix}input-text);
+            background-color: var(--#{theme.$prefix}input);
             background-clip: padding-box;
             border: none;
             &:focus {
-                border: 1px solid #80bdff;
+                border: 1px solid var(--#{theme.$prefix}input-focus-border);
                 box-shadow: none;
             }
         }
@@ -138,8 +138,9 @@ $shadow: rgba(0, 0, 0, 0.2);
             padding: 0 0.625rem;
             cursor: pointer;
             border: 0;
+            color: var(--#{theme.$prefix}input-icon);
             &:hover {
-                background-color: rgba($color: #ccc, $alpha: .5);
+                background-color: var(--#{theme.$prefix}input-hover-icon);
             }
         }
     }
@@ -167,7 +168,7 @@ $shadow: rgba(0, 0, 0, 0.2);
         font-size: 30px;
         right: 0;
         top: 0;
-        color: #ccc;
+        color: var(--#{theme.$prefix}meta-text);
     }
     .search-bar {
         select.form-control {
@@ -175,16 +176,16 @@ $shadow: rgba(0, 0, 0, 0.2);
         }
     }
     .search-body {
-        background-color: #f4f4f4;
+        background-color: var(--#{theme.$prefix}body);
     }
     .option-item {
         position: relative;
         &.selected {
-            background-color: #aeffee;
+            background-color: var(--#{theme.$prefix}input-selected);
             &::after {
                 position: absolute;
                 font-size: 3em;
-                color: rgba(255,0,0,.3);
+                color: rgba(var(--#{theme.$prefix}primary-rgb),.3);
                 font-family: "iconfont";
                 content: "\e648";
                 font-weight: 900;
@@ -212,11 +213,11 @@ $shadow: rgba(0, 0, 0, 0.2);
     .body-container {
         overflow-y: auto;
         flex: 1;
-        background-color: #f4f4f4;
+        background-color:  var(--#{theme.$prefix}body);
         .option-item {
             text-align: center;
             display: inline-block;
-            background-color: #fff;
+            background-color:  var(--#{theme.$prefix}input);
             margin: 3px;
             position: relative;
             .thumb {
@@ -230,19 +231,19 @@ $shadow: rgba(0, 0, 0, 0.2);
             .name {
                 width: 6.25rem;
                 overflow: hidden;
-                color: #333;
+                color: var(--#{theme.$prefix}body-text);
                 font-size: 0.75rem;
                 height: 1rem;
             }
             .price {
-                color: red;
+                color: var(--#{theme.$prefix}danger);
             }
             &.selected {
-                background-color: #aeffee;
+                background-color: var(--#{theme.$prefix}input-selected);
                 &::after {
                     position: absolute;
                     font-size: 100px;
-                    color: rgba(255,0,0,.3);
+                    color: rgba(var(--#{theme.$prefix}primary-rgb),.3);
                     font-family: "iconfont";
                     content: "\e648";
                     font-weight: 900;
@@ -264,7 +265,7 @@ $shadow: rgba(0, 0, 0, 0.2);
 .dialog-invail-tip {
     text-align: center;
     padding: .4rem;
-    color: #b02a37;
+    color: var(--#{theme.$prefix}danger);
     font-size: .8rem;
     background: linear-gradient(to right,transparent, #f5dfe1 50%, transparent);
     user-select: none;
@@ -292,7 +293,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     border-radius: .25rem;
     max-width: 18rem;
     z-index: 188;
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 16px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.08), 0 3px 6px -4px rgba(var(--#{theme.$prefix}mask-rgb), 0.12), 0 9px 28px 8px rgba(var(--#{theme.$prefix}mask-rgb), 0.05);
     .popup-arrow {
         position: absolute;
         z-index: 1;
@@ -316,11 +317,11 @@ $shadow: rgba(0, 0, 0, 0.2);
         }
         &::before {
             border-width: .5rem .5rem 0;
-            border-top-color: rgba($color: #000000, $alpha: .175);
+            border-top-color: rgba(var(--#{theme.$prefix}mask-rgb), .175);
         }
         &::after {
             border-width: .5rem .5rem 0;
-            border-top-color: #fff;
+            border-top-color: var(--#{theme.$prefix}border);
         }
     }
     &.dialog-popup-top {
@@ -357,7 +358,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     position: fixed;
     z-index: 999989;
     transition: all .3s ease-out;
-    box-shadow: rgba($color: #333, $alpha: .8) 0px 0px 1px 2px, rgba($color: #333, $alpha: .5) 0px 0px 0px 312.5rem;
+    box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .8) 0px 0px 1px 2px, rgba(var(--#{theme.$prefix}mask-rgb), .5) 0px 0px 0px 312.5rem;
     opacity: 1;
 }
 .lead-dialog-box {
@@ -398,7 +399,7 @@ $shadow: rgba(0, 0, 0, 0.2);
             position: static;
         }
         .dialog-action {
-            color: #767676;
+            color: var(--#{theme.$prefix}meta-text);
         }
     }
     .title-bar {
@@ -408,7 +409,7 @@ $shadow: rgba(0, 0, 0, 0.2);
             display: block;
         }
         p {
-            color: #999;
+            color: var(--#{theme.$prefix}meta-text);
             font-size: .8rem;
             margin: 0;
         }

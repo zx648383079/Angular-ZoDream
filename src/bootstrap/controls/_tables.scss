@@ -4,7 +4,7 @@ $prefix: 'bs-' !default;
 $table-cell-vertical-align: top !default;
 $table-cell-padding-y:        .5rem !default;
 $table-cell-padding-x:        .5rem !default;
-$table-border-width:          var(--#{$prefix}border-width) !default;
+$table-border-width:          1px !default;
 
 $table-striped-order:         odd !default;
 $table-striped-columns-order: even !default;
@@ -18,15 +18,15 @@ $table-group-separator-color: currentcolor !default;
     --#{$prefix}table-color-state: initial;
     --#{$prefix}table-bg-state: initial;
     // End of reset
-    --#{$prefix}table-color: var(--#{$prefix}-body-text);
-    --#{$prefix}table-bg: var(--#{$prefix}-body);
-    --#{$prefix}table-border-color: var(--#{$prefix}border-color);
+    --#{$prefix}table-color: var(--#{$prefix}body-text);
+    --#{$prefix}table-bg: var(--#{$prefix}body);
+    --#{$prefix}table-border-color: var(--#{$prefix}border);
     --#{$prefix}table-accent-bg: transparent;
-    --#{$prefix}table-striped-color: var(--#{$prefix}-body-text);
+    --#{$prefix}table-striped-color: var(--#{$prefix}body-text);
     --#{$prefix}table-striped-bg: rgba(var(--#{$prefix}body-text-rgb), .05);
-    --#{$prefix}table-active-color: var(--#{$prefix}-body-text);
+    --#{$prefix}table-active-color: var(--#{$prefix}body-text);
     --#{$prefix}table-active-bg: rgba(var(--#{$prefix}body-text-rgb), .1);
-    --#{$prefix}table-hover-color: var(--#{$prefix}-body-text);
+    --#{$prefix}table-hover-color: var(--#{$prefix}body-text);
     --#{$prefix}table-hover-bg: rgba(var(--#{$prefix}body-text-rgb), .075);
 
     width: 100%;
@@ -87,7 +87,7 @@ $table-group-separator-color: currentcolor !default;
 
         // stylelint-disable-next-line selector-max-universal
         > * {
-        border-width: 0 $table-border-width;
+            border-width: 0 $table-border-width;
         }
     }
 }

@@ -1,0 +1,108 @@
+@use '../mixins';
+$prefix: 'bs-' !default;
+
+.filter-container {
+    --#{$prefix}filter: transparent;
+    --#{$prefix}filter-text: var(--#{$prefix}body-text);
+    --#{$prefix}filter-hover-text: var(--#{$prefix}meta-text);
+    --#{$prefix}filter-active-text: var(--#{$prefix}primary);
+    --#{$prefix}filter-more: var(--#{$prefix}meta-text);
+    --#{$prefix}filter-header: var(--#{$prefix}meta-text);
+    --#{$prefix}filter-header-width: 5rem;
+    background-color: var(--#{$prefix}filter);
+    .filter-body {
+        max-height: 7.5rem;
+        overflow-y: hidden;
+    }
+    .filter-more {
+        border-top: 1px solid var(--#{$prefix}border);
+        text-align: center;
+        color: var(--#{$prefix}filter-more);
+        a {
+            border: 1px solid var(--#{$prefix}border);
+            padding: 0 20px;
+        }
+    }
+    &.open {
+        .filter-body {
+            max-height: initial;
+        }
+        .filter-more {
+            display: none;
+        }
+    }
+}
+.filter-group {
+    display: flex;
+    border-bottom: 1px dashed var(--#{$prefix}border);
+    line-height: 2.5rem;
+    .group-header {
+        flex: 0 0 auto;
+        width: var(--#{$prefix}filter-header-width);
+        text-align: left;
+    }
+    .group-body {
+        flex: 1;
+        max-height: 2.5rem;
+        overflow-y: hidden;
+        a {
+            word-break: keep-all;
+            cursor: pointer;
+            line-height: 1.875rem;
+            padding: 0 .3125rem;
+            margin: 0 .3125rem;
+            font-size: 14px;
+            display: inline-block;
+            color: var(--#{$prefix}filter-text);
+            &:hover {
+                color: var(--#{$prefix}filter-hover-text);
+            }
+            &.active {
+                color: var(--#{$prefix}filter-active-text);
+            }
+        }
+    }
+    .group-more {
+        color: var(--#{$prefix}filter-more);
+        flex: 0 0 auto;
+        width: 3.75rem;
+        cursor: pointer;
+    }
+    &.open {
+        .group-body {
+            max-height: initial;
+        }
+        .group-more {
+            display: none;
+        }
+    }
+}
+
+.filter-range-group {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid var(--#{$prefix}border);
+    border-radius: .25rem;
+    height: 2rem;
+    line-height: 2rem;
+    box-sizing: content-box;
+    input {
+        font-size: 14px;
+        border: none;
+        outline: none;
+        width: 4rem;
+        text-align: center;
+        height: 100%;
+        border-radius: .25rem;
+    }
+    span {
+        color: var(--#{$prefix}meta-text);
+        font-weight: bold;
+        display: inline-block;
+        padding: 0 .3rem;
+    }
+    &.focus {
+       box-shadow: var(--#{$prefix}box-shadow-inset);
+    }
+}

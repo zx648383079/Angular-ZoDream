@@ -1,0 +1,45 @@
+@use '../variables';
+$prefix: 'bs-' !default;
+
+$tag-font-size: variables.$btn-font-size !default;
+$tag-border-radius: variables.$btn-border-radius !default;
+.tooltip-group {
+    white-space: nowrap;
+}
+
+.tool-tag {
+    --#{$prefix}btn-bg: var(--#{$prefix}primary);
+    --#{$prefix}btn-color: var(--#{$prefix}primary-text);
+    --#{$prefix}btn-border-color: var(--#{$prefix}border);
+    --#{$prefix}tag-icon-size: 1rem;
+    padding: 0 .75rem;
+    height: 2rem;
+    background-color: var(--#{$prefix}btn-bg);
+    color: var(--#{$prefix}btn-color);
+    border-color: var(--#{$prefix}btn-border-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    font-size: #{$tag-font-size};
+    line-height: 1;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: #{$tag-border-radius};
+    box-sizing: border-box;
+    white-space: nowrap;
+    .tag-icon {
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: calc(var(--#{$prefix}tag-icon-size) - 2px);
+        height: var(--#{$prefix}tag-icon-size);
+        width: var(--#{$prefix}tag-icon-size)
+    }
+}
+
+.tool-flex-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

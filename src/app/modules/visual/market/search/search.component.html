@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-lg-2">
-            <div class="filter-box">
-                <div class="filter-line" *ngFor="let item of filterItems">
-                    <div class="filter-header">
+            <div class="filter-container">
+                <div class="filter-group" *ngFor="let item of filterItems">
+                    <div class="group-header">
                         {{ item.label }}
                     </div>
-                    <div class="filter-body">
+                    <div class="group-body">
                         <ng-container *ngFor="let it of item.items">
                             <a class="filter-line-item" [ngClass]="{active: it.selected}">
                                 <span class="item-body">

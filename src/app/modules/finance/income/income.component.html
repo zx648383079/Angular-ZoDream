@@ -43,10 +43,19 @@
                     <td>{{ item.happened_at }}</td>
                     <td>{{ item.account ? item.account.name : '-' }}</td>
                     <td class="money-td">
-                        <div *ngIf="item.type != 1" class="btn btn-danger btn-xs">
-                            {{ item.type | logType }}
-                        </div>
-                        {{ item.money }}</td>
+                        <ng-container *ngIf="item.type != 1; else elseTemplate">
+                            <div class="tool-flex-group">
+                                <span class="tool-tag btn-danger">
+                                    {{ item.type | logType }}
+                                </span>
+                            
+                                {{ item.money }}
+                            </div>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            {{ item.money }}
+                        </ng-template>
+                    </td>
                     <td>{{ item.remark }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">

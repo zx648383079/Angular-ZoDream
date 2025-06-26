@@ -34,8 +34,8 @@ $pagination-active-color:           var(--#{$prefix}primary-text) !default;
 $pagination-active-bg:              var(--#{$prefix}primary) !default;
 $pagination-active-border-color:    var(--#{$prefix}primary) !default;
 
-$pagination-disabled-color:         var(--#{$prefix}secondary-text) !default;
-$pagination-disabled-bg:            var(--#{$prefix}secondary) !default;
+$pagination-disabled-color:         var(--#{$prefix}meta-text) !default;
+$pagination-disabled-bg:            var(--#{$prefix}body) !default;
 $pagination-disabled-border-color:  var(--#{$prefix}border) !default;
 
 $pagination-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;

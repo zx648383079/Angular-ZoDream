@@ -54,36 +54,6 @@
         }
     }
     
-    .filter-box {
-        padding-top: 20px;
-        a {
-            margin-right: 30px;
-            font-size: 14px;
-            color: #333;
-            word-break: keep-all;
-            display: inline-block;
-            cursor: pointer;
-            &.active {
-                color: #b4a078;
-            }
-            &:hover {
-                color: #b4a078;
-            }
-        }
-        .filter-line {
-            border-bottom: 1px dashed #dedede;
-            line-height: 50px;
-            display: flex;
-            .filter-header {
-                width: 6.25rem;
-            }
-            .filter-body {
-                flex: 1;
-            }
-        }
-    
-    }
-    
     .price-group {
         .price {
             font-size: 24px;

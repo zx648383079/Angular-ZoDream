@@ -116,6 +116,10 @@ export class HomeComponent implements AfterViewInit {
             url: '/game'
         },
         {
+            name: $localize `Game Profiler`,
+            url: '/game/profiler'
+        },
+        {
             name: $localize `Visual`,
             url: '/visual'
         },

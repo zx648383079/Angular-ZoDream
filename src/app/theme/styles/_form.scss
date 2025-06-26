@@ -260,7 +260,7 @@ i {
     line-height: 2.5rem;
     .#{theme.$prefix}input-group {
         display: inline-block;
-        border-bottom: 1px solid #777;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         height: 2.5rem;
         width: auto;
         input[type="text"],
@@ -271,9 +271,10 @@ i {
         input[type="number"],
         input[type="date"],
         select {
+            border-radius: 0;
             display: inline-block;
             border: none;
-            background: transparent;
+            background: var(--#{theme.$prefix}body);
             height: 2.5rem;
             box-sizing: border-box;
             width: auto;

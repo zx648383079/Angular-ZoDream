@@ -6,6 +6,7 @@ import { MapComponent } from './map/map.component';
 import { HomeComponent } from './home/home.component';
 import { GameListComponent } from './list/game-list.component';
 import { LotteryComponent } from './lottery/lottery.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 const routes: Routes = [
     {
@@ -19,6 +20,10 @@ const routes: Routes = [
             {
                 path: 'map',
                 component: MapComponent,
+            },
+            {
+                path: 'avatar',
+                component: AvatarComponent,
             },
             {
                 path: 'lottery',
@@ -43,5 +48,5 @@ const routes: Routes = [
 export class GameProfilerRoutingModule { }
 
 export const gameProfilerRoutedComponents = [
-    GameProfilerComponent, HomeComponent, GameListComponent, LotteryComponent, MapComponent, ItemComponent
+    GameProfilerComponent, HomeComponent, GameListComponent, LotteryComponent, MapComponent, ItemComponent, AvatarComponent
 ];

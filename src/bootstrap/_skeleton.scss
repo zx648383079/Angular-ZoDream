@@ -7,6 +7,9 @@ $prefix: 'bs-' !default;
 @use './controls/flexbox' with (
     $prefix: $prefix
 );
+@use './controls/tooltip' with (
+    $prefix: $prefix
+);
 
 @use './controls/buttons' with (
     $prefix: $prefix
@@ -40,6 +43,10 @@ $prefix: 'bs-' !default;
 );
 
 @use './controls/select' with (
+    $prefix: $prefix
+);
+
+@use './controls/search' with (
     $prefix: $prefix
 );
 

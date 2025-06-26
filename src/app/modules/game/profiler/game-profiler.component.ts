@@ -21,6 +21,11 @@ public navItems: INav[] = [
             url: './'
         },
         {
+            name: $localize `Avatar`,
+            icon: 'icon-group',
+            url: './avatar'
+        },
+        {
             name: $localize `Map`,
             icon: 'icon-globe',
             url: './map'
