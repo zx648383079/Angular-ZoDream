@@ -1,8 +1,17 @@
 @use 'theme';
 .tab-box {
+    --#{theme.$prefix}tab-radius: 0.3125rem;
+    --#{theme.$prefix}tab: transparent;
+    --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}tab-hover: var(--#{theme.$prefix}tertiary);
+    --#{theme.$prefix}tab-active: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}tab-active-text: var(--#{theme.$prefix}primary-text);
+
+    --#{theme.$prefix}tab-body: var(--#{theme.$prefix}body);
+    --#{theme.$prefix}tab-body-text: var(--#{theme.$prefix}body-text);
     >.tab-header {
         position: relative;
-        background-color: #f4f4f4;
+        background-color: var(--#{theme.$prefix}tab);
         >.tab-item {
             display: inline-block;
             width: 9.375rem;
@@ -12,11 +21,11 @@
             position: relative;
             cursor: default;
             &:hover {
-                background: #ccc;
+                background-color: var(--#{theme.$prefix}tab-hover);
             }
             &.active {
-                background: #767676;
-                color: #fff;
+                background-color: var(--#{theme.$prefix}tab-active);
+                color: var(--#{theme.$prefix}tab-active-text);
                 .iconfont {
                     display: block;
                 }
@@ -52,16 +61,17 @@
             display: none;
             width: 100%;
             padding: 0.625rem;
+            background-color: var(--#{theme.$prefix}tab-body);
+            color: var(--#{theme.$prefix}tab-body-text);
             &.active {
                 display: block;
-                background: transparent;
-                color: #767676;
             }
         }
     }
 }
 
 .tab-bar {
+    --#{theme.$prefix}tab-radius: 0.3125rem;
     --#{theme.$prefix}tab: transparent;
     --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}tab-hover: var(--#{theme.$prefix}tertiary);
@@ -86,12 +96,12 @@
             color: var(--#{theme.$prefix}tab-active-text);
         }
         &:first-of-type {
-            border-top-left-radius: 0.3125rem;
-            border-bottom-left-radius: 0.3125rem;
+            border-top-left-radius: var(--#{theme.$prefix}tab-radius);
+            border-bottom-left-radius: var(--#{theme.$prefix}tab-radius);
         }
         &:last-of-type {
-            border-top-right-radius: 0.3125rem;
-            border-bottom-right-radius: 0.3125rem;
+            border-top-right-radius: var(--#{theme.$prefix}tab-radius);
+            border-bottom-right-radius: var(--#{theme.$prefix}tab-radius);
         }
     }
 }
@@ -112,21 +122,28 @@
 }
 
 .tab-header-bar {
-    min-height: 2.5rem;
+    --#{theme.$prefix}tab-radius: 0.3125rem;
+    --#{theme.$prefix}tab: transparent;
+    --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}tab-hover: var(--#{theme.$prefix}tertiary);
+    --#{theme.$prefix}tab-active: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}tab-active-text: var(--#{theme.$prefix}primary-text);
+    line-height: 3rem;
     .tab-item {
-        line-height: 2rem;
+        --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}tab);
+        --#{theme.$prefix}btn-color: var(--#{theme.$prefix}tab-text);
+        display: inline-flex;
+        text-decoration: none;
+        padding: 0 1rem;
         font-size: 1rem;
         background-color: var(--#{theme.$prefix}btn-bg);
         color: var(--#{theme.$prefix}btn-color);
         margin-bottom: 0.3125rem;
-        border-radius: 0.125rem;
-        margin-right: 0.3125rem;
+        border-radius: var(--#{theme.$prefix}tab-radius);
         white-space: nowrap;
-        display: inline-flex;
         user-select: none;
         .iconfont {
-            line-height: 2rem;
-            border-left: 1px solid var(--#{theme.$prefix}border-color);
+            border-left: 1px solid var(--#{theme.$prefix}border);
             opacity: .7;
         }
         span,
@@ -135,7 +152,11 @@
             padding: 0 0.3125rem;
         }
         &:hover {
-            box-shadow: 0 .3rem .5rem rgba($color: #000000, $alpha: .1);
+            box-shadow: 0 .3rem .5rem rgba(var(--#{theme.$prefix}mask-rgb), .1);
+        }
+        &.active {
+            background-color: var(--#{theme.$prefix}tab-active);
+            color: var(--#{theme.$prefix}tab-active-text);
         }
     }
 }

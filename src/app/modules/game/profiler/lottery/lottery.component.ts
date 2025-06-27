@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LotteryComponent implements OnInit {
 
+    public items: any[] = [
+        1, 2, 4, 5
+    ]
+
     constructor() { }
 
     ngOnInit() {

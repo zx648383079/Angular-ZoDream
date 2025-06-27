@@ -8,6 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemComponent implements OnInit {
 
+    public items: any[] = [
+        {
+            name: 'test'
+        },
+        {
+            name: 'test2'
+        },
+        {
+            name: 'test5'
+        }
+    ];
+    public itemMode = true;
+
     constructor() { }
 
     ngOnInit() {

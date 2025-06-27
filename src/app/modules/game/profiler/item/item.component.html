@@ -1,7 +1,122 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            
+    <div class="counter-bar">
+        <div class="count-item">
+            <div class="item-label">市场价￥</div>
+            <div class="item-count">900</div>
+            <div class="item-meta">19件</div>
+        </div>
+        <div class="count-item">
+            <div class="item-label">购入价￥</div>
+            <div class="item-count">900</div>
+            <div class="item-meta">19件</div>
+        </div>
+        <div class="count-item">
+            <div class="item-label">总盈亏￥</div>
+            <div class="item-count">+900</div>
+            <div class="item-meta">+100%</div>
         </div>
     </div>
+    <div class="filter-container pt-30">
+        <div class="filter-group">
+            <div class="group-header">
+                属性
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>风</a>
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="group-header">
+                稀有度
+            </div>
+            <div class="group-body">
+                <a>不限</a>
+                <a>SSR</a>
+            </div>
+        </div>
+        <div class="filter-row">
+            <div class="filter-group">
+                <div class="group-header">
+                    排序
+                </div>
+                <div class="group-body">
+                    <a>价值</a>
+                    <a>时间</a>
+                </div>
+            </div>
+            <div class="filter-tab-bar">
+                <a [ngClass]="{active: itemMode}" (click)="itemMode = true">
+                    <i class="iconfont icon-th-large"></i>
+                </a>
+                <a [ngClass]="{active: !itemMode}" (click)="itemMode = false">
+                    <i class="iconfont icon-th-list"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="itemMode">
+        <div class="col-12">
+            <div class="avatar-item" *ngFor="let item of items">
+                <div class="item-thumb">
+                    <img [appLazyLoad]="item.logo" [alt]="item.name">
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                </div>
+                <div class="item-icon">
+                    <img src="" alt="">
+                </div>
+                <div class="item-tag">
+                    最近上新
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover" *ngIf="!itemMode">
+        <thead>
+            <tr>
+                <th></th>
+                <th>物品</th>
+                <th>购买价</th>
+                <th>市场价</th>
+                <th>涨跌</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>
+                    <div class="item-thumb">
+                        <img [appLazyLoad]="item.logo" [alt]="item.name">
+                    </div>
+                </td>
+                <td>
+                    <div class="item-name">{{ item.name }}</div>
+                </td>
+                <td>
+                    <div class="item-price">
+                        -
+                    </div>
+                </td>
+                <td>
+                    <div class="item-price">
+                        100
+                    </div>
+                </td>
+                <td>
+                    <div class="item-price">
+                        + 10
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">统计</td>
+                <th>100</th>
+                <th>100</th>
+                <th>+100</th>
+            </tr>
+        </tfoot>
+    </table>
 </div>
