@@ -11,6 +11,10 @@ $prefix: 'bs-' !default;
     $prefix: $prefix
 );
 
+@use './controls/progress' with (
+    $prefix: $prefix
+);
+
 @use './controls/buttons' with (
     $prefix: $prefix
 );

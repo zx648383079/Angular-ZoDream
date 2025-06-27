@@ -50,7 +50,28 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            
+            <div class="lottery-item">
+                <div class="item-icon">
+                    ?
+                </div>
+                <div class="item-body">
+                    <div class="item-progress-bar progress-bar-striped">
+                        6 抽
+                    </div>
+                </div>
+            </div>
+            <div class="lottery-item" *ngFor="let item of items">
+                <div class="item-icon">
+                    <img src="" alt="">
+                </div>
+                <div class="item-body">
+                    <div class="item-progress-bar progress-bar-striped">
+                        6 抽
+                    </div>
+                    <span class="item-label">超非</span>
+                    <span class="item-stamp">歪</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

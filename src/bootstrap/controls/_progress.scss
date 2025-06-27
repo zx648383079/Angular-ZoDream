@@ -1,0 +1,77 @@
+@use '../rfs';
+@use '../mixins';
+@use '../variables';
+$prefix: 'bs-' !default;
+
+// scss-docs-start progress-variables
+$progress-height:                   1rem !default;
+$progress-font-size:                variables.$font-size-base * .75 !default;
+$progress-bg:                       var(--#{$prefix}secondary-bg) !default;
+$progress-border-radius:            var(--#{$prefix}border-radius) !default;
+$progress-box-shadow:               var(--#{$prefix}box-shadow-inset) !default;
+$progress-bar-color:                var(--#{$prefix}primary-text) !default;
+$progress-bar-bg:                   var(--#{$prefix}primary) !default;
+$progress-bar-animation-timing:     1s linear infinite !default;
+$progress-bar-transition:           width .6s ease !default;
+// scss-docs-end progress-variables
+
+
+@keyframes progress-bar-stripes {
+    0% { background-position-x: var(--#{$prefix}progress-height); }
+}
+
+.progress,
+.progress-stacked {
+    // scss-docs-start progress-css-vars
+    --#{$prefix}progress-height: #{$progress-height};
+    @include rfs.rfs($progress-font-size, --#{$prefix}progress-font-size);
+    --#{$prefix}progress-bg: #{$progress-bg};
+    --#{$prefix}progress-border-radius: #{$progress-border-radius};
+    --#{$prefix}progress-box-shadow: #{$progress-box-shadow};
+    --#{$prefix}progress-bar-color: #{$progress-bar-color};
+    --#{$prefix}progress-bar-bg: #{$progress-bar-bg};
+    --#{$prefix}progress-bar-transition: #{$progress-bar-transition};
+    // scss-docs-end progress-css-vars
+
+    display: flex;
+    height: var(--#{$prefix}progress-height);
+    overflow: hidden; // force rounded corners by cropping it
+    @include rfs.font-size(var(--#{$prefix}progress-font-size));
+    background-color: var(--#{$prefix}progress-bg);
+    @include mixins.border-radius(var(--#{$prefix}progress-border-radius));
+    @include mixins.box-shadow(var(--#{$prefix}progress-box-shadow));
+}
+
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--#{$prefix}progress-bar-color);
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--#{$prefix}progress-bar-bg);
+    @include mixins.transition(var(--#{$prefix}progress-bar-transition));
+}
+
+.progress-bar-striped {
+    @include mixins.gradient-striped();
+    background-size: var(--#{$prefix}progress-height) var(--#{$prefix}progress-height);
+}
+
+.progress-stacked {
+    &> .progress {
+        overflow: visible;
+        &> .progress-bar {
+            width: 100%;
+        }
+    }
+}
+
+.progress-bar-animated {
+    animation: $progress-bar-animation-timing progress-bar-stripes;
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+}

@@ -2,6 +2,7 @@
 @use 'sass:meta';
 @use 'sass:list';
 @use './variables';
+@use './colors';
 
 @mixin rtl {
 	@at-root [dir='rtl'] #{&} {
@@ -154,6 +155,10 @@
 
 @mixin border-bottom-start-radius($radius: $border-radius) {
     border-bottom-left-radius: valid-radius($radius);
+}
+
+@mixin gradient-striped($color: rgba(colors.$white, .15), $angle: 45deg) {
+    background-image: linear-gradient($angle, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
 }
 
 // scss-docs-start caret-mixins

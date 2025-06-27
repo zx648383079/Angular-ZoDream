@@ -1,0 +1,69 @@
+@use '../../../../theme/styles/theme';
+
+.lottery-item {
+    --#{theme.$prefix}item-radius: .25rem;
+    --#{theme.$prefix}item-bar-height: 2rem;
+    display: flex;
+    align-items: center;
+    .item-icon {
+        background-color: var(--#{theme.$prefix}secondary);
+        color: var(--#{theme.$prefix}secondary-text);
+        width: 3rem;
+        height: 3rem;
+        font-size: 2rem;
+        border-radius: .25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .item-body {
+        flex: 1;
+        position: relative;
+        padding: 0 .8rem;
+        --#{theme.$prefix}progress-bar-bg: var(--#{theme.$prefix}primary-text);
+        --#{theme.$prefix}progress-bar-color: var(--#{theme.$prefix}primary);
+    }
+    .item-progress-bar {
+        --#{theme.$prefix}progress-height: var(--#{theme.$prefix}item-bar-height);
+        --#{theme.$prefix}progress-border-radius: var(--#{theme.$prefix}item-radius);
+        --#{theme.$prefix}progress-bar-color: var(--#{theme.$prefix}primary-text);
+        --#{theme.$prefix}progress-bar-bg: var(--#{theme.$prefix}primary);
+        display: inline-flex;
+        padding: 0 .8rem;
+        align-items: center;
+        height: var(--#{theme.$prefix}progress-height);
+        overflow: hidden;
+        color: var(--#{theme.$prefix}progress-bar-color);
+        white-space: nowrap;
+        background-color: var(--#{theme.$prefix}progress-bar-bg);
+        border-radius: var(--#{theme.$prefix}progress-border-radius);
+        width: 50%;
+    }
+    .item-label {
+        display: inline-block;
+        background-color: var(--#{theme.$prefix}progress-bar-color);
+        color: var(--#{theme.$prefix}progress-bar-bg);
+        border-radius: var(--#{theme.$prefix}item-radius);
+        font-size: .8rem;
+        padding: .1rem .2rem;
+        margin-left: .8rem;
+    }
+    .item-stamp {
+        height: var(--#{theme.$prefix}item-bar-height);
+        width: var(--#{theme.$prefix}item-bar-height);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--#{theme.$prefix}danger);
+        color: var(--#{theme.$prefix}danger-text);
+        border-radius: 50%;
+        margin-left: .8rem;
+        transform: rotate(45deg);
+    }
+}
