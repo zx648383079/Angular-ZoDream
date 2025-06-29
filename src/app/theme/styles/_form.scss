@@ -259,26 +259,24 @@ i {
 .form-horizontal {
     line-height: 2.5rem;
     .#{theme.$prefix}input-group {
+        --#{theme.$prefix}input: var(--#{theme.$prefix}body);
         display: inline-block;
         border-bottom: 1px solid var(--#{theme.$prefix}border);
         height: 2.5rem;
         width: auto;
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="password"],
-        input[type="url"], 
-        input[type="number"],
-        input[type="date"],
-        select {
-            border-radius: 0;
-            display: inline-block;
-            border: none;
-            background: var(--#{theme.$prefix}body);
-            height: 2.5rem;
-            box-sizing: border-box;
-            width: auto;
-        }
+    }
+    label {
+        color: var(--#{theme.$prefix}meta-text);
+        display: inline-block;
+        padding: 0 .2rem;
+    }
+    .form-control {
+        border-radius: 0;
+        display: inline-block;
+        border: none;;
+        height: 2.5rem;
+        box-sizing: border-box;
+        width: auto;
     }
     .btn {
         vertical-align: top;

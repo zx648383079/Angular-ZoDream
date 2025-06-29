@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { IGameRecipe } from '../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
-import { IGamePrizeItem } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
 
 @Component({
     standalone: false,
-    selector: 'app-maker-rule-prize',
-    templateUrl: './rule-prize.component.html',
-    styleUrls: ['./rule-prize.component.scss']
+    selector: 'app-maker-recipe',
+    templateUrl: './recipe.component.html',
+    styleUrls: ['./recipe.component.scss']
 })
-export class RulePrizeComponent implements OnInit {
+export class RecipeComponent implements OnInit {
 
-    public items: IGamePrizeItem[] = [];
+    public items: IGameRecipe[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -25,7 +25,7 @@ export class RulePrizeComponent implements OnInit {
         keywords: '',
         project: 0
     };
-    public editData: IGamePrizeItem = {} as any;
+    public editData: IGameRecipe = {} as any;
 
     constructor(
         private service: GameMakerService,
@@ -45,10 +45,10 @@ export class RulePrizeComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogEvent, item?: IGamePrizeItem) {
+    public open(modal: DialogEvent, item?: IGameRecipe) {
         this.editData = item ? {...item} : {} as any;
         modal.open(() => {
-            this.service.storeSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.recipeSave({...this.editData, project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -82,7 +82,7 @@ export class RulePrizeComponent implements OnInit {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.prizeList(queries).subscribe({
+        this.service.recipeList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
@@ -101,9 +101,9 @@ export class RulePrizeComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IGamePrizeItem) {
-        this.toastrService.confirm('确定删除“' + item.name + '”物品？', () => {
-            // this.service.forumRemove(item.id).subscribe(res => {
+    public tapRemove(item: IGameRecipe) {
+        this.toastrService.confirm('确定删除“' + item.name + '”配方？', () => {
+            // this.service.recipeRemove(item.id).subscribe(res => {
             //     if (!res.data) {
             //         return;
             //     }

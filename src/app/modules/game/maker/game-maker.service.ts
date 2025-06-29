@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
-import { IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameIndigenous, IGameItem, IGameMap, IGameMapArea, IGameMapItem, IGameProject, IGameRuleGrade, IGameSkill, IGameStoreItem, IGameTask } from '../model';
+import { IGameAchieve, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameIndigenous, IGameItem, IGameMap, IGameMapArea, IGameMapItem, IGamePrizeItem, IGameProject, IGameRecipe, IGameRuleGrade, IGameSkill, IGameStoreItem, IGameTask } from '../model';
 
 @Injectable()
 export class GameMakerService {
@@ -228,15 +228,43 @@ export class GameMakerService {
     }
 
     public prizeList(params: any) {
-        return this.http.get<IPage<IGameDescent>>('game/maker/prize', {params});
+        return this.http.get<IPage<IGamePrizeItem>>('game/maker/prize', {params});
     }
 
     public prizeSave(data: any) {
-        return this.http.post<IGameRuleGrade>('game/maker/prize/save', data);
+        return this.http.post<IGamePrizeItem>('game/maker/prize/save', data);
     }
 
     public prizeRemove(id: any, project: any) {
         return this.http.delete<IDataOne<true>>('game/maker/prize/delete', {
+            params: {id, project}
+        });
+    }
+
+    public achieveList(params: any) {
+        return this.http.get<IPage<IGameAchieve>>('game/maker/achieve', {params});
+    }
+
+    public achieveSave(data: any) {
+        return this.http.post<IGameAchieve>('game/maker/achieve/save', data);
+    }
+
+    public achieveRemove(id: any, project: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/achieve/delete', {
+            params: {id, project}
+        });
+    }
+
+    public recipeList(params: any) {
+        return this.http.get<IPage<IGameRecipe>>('game/maker/recipe', {params});
+    }
+
+    public recipeSave(data: any) {
+        return this.http.post<IGameRecipe>('game/maker/recipe/save', data);
+    }
+
+    public recipeRemove(id: any, project: any) {
+        return this.http.delete<IDataOne<true>>('game/maker/recipe/delete', {
             params: {id, project}
         });
     }

@@ -40,6 +40,23 @@ export interface IGamePeople {
 export interface IGameDescent {
     id: number;
     name: string;
+    lifespan: number;
+    description: string;
+}
+
+export interface IGameAchieve {
+    id: number;
+    name: string;
+    icon: string;
+    description: string;
+    demand: number;
+}
+
+export interface IGameRecipe {
+    id: number;
+    name: string;
+    icon: string;
+    description: string;
 }
 
 export interface IGameCharacter extends IGameBattleProperty {

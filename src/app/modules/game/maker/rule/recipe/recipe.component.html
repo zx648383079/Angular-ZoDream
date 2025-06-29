@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理血统列表</li>
+            <li>管理配方列表</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary" (click)="open(modal)">新增血统</a>
+                    <a class="btn btn-primary" (click)="open(modal)">新增配方</a>
                 </div>
             </form>
         </div>
@@ -24,7 +24,7 @@
                 <tr>
                     <th>ID</th>
                     <th>名称</th>
-                    <th>等级</th>
+                    <th>图标</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -32,7 +32,7 @@
                 <tr *ngFor="let item of items">
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td></td>
+                    <td>{{ item.icon }}</td>
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
@@ -49,28 +49,15 @@
 
 <app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group">
-        <label>血统</label>
+        <label>成就</label>
         <div class="zre-input-group">
-            <input class="form-control"[(ngModel)]="editData.name" placeholder="请输入血统">
+            <input class="form-control"[(ngModel)]="editData.name" placeholder="请输入成就名">
         </div>
     </div>
     <div class="form-group">
-        <label>寿命</label>
+        <label>图标</label>
         <div class="zre-input-group">
-            <app-number-input [(ngModel)]="editData.lifespan"></app-number-input>
-        </div>
-    </div>
-    <div class="group-panel">
-        <div class="group-header">基础属性</div>
-        <div class="group-body">
-            <div class="property-item">
-                <label for="">生命值</label>
-                <app-number-input></app-number-input>
-            </div>
-            <div class="property-item">
-                <label for="">攻击</label>
-                <app-number-input></app-number-input>
-            </div>
+            <app-file-input [(ngModel)]="editData.icon" [online]="true"></app-file-input>
         </div>
     </div>
 </app-dialog-box>

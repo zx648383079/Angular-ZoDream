@@ -23,6 +23,8 @@ import { MapAreaComponent } from './map/area/map-area.component';
 import { MapEditorComponent } from './map/editor/map-editor.component';
 import { MapItemComponent } from './map/item/map-item.component';
 import { DescentComponent } from './rule/descent/descent.component';
+import { AchieveComponent } from './rule/achieve/achieve.component';
+import { RecipeComponent } from './rule/recipe/recipe.component';
 
 const routes: Routes = [
     {
@@ -82,6 +84,14 @@ const routes: Routes = [
                 component: RuleGradeComponent,
             },
             {
+                path: 'rule/achieve',
+                component: AchieveComponent,
+            },
+            {
+                path: 'rule/recipe',
+                component: RecipeComponent,
+            },
+            {
                 path: 'rule/farm',
                 component: RuleFarmComponent,
             },
@@ -129,5 +139,5 @@ export class GameMakerRoutingModule { }
 
 export const gameMakerRoutedComponents = [
     GameMakerComponent, HomeComponent, TaskComponent, TaskDialogueComponent, RuleGradeComponent, MapComponent, ItemComponent, IndigenousComponent,
-    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent, MapAreaComponent, MapEditorComponent, MapItemComponent, DescentComponent
+    CharacterComponent, RuleFarmComponent, RuleCheckinComponent, RulePrizeComponent, RuleRanchComponent, RuleStoreComponent, GameListComponent, FinancialComponent, MineComponent, CharacterIdentityComponent, SkillComponent, MapAreaComponent, MapEditorComponent, MapItemComponent, DescentComponent, AchieveComponent, RecipeComponent
 ];

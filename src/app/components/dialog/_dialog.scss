@@ -102,7 +102,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     width: 30rem;
     top: 0;
     bottom: 0;
-    background-color: var(--#{theme.$prefix}body-bg);
+    background-color: var(--#{theme.$prefix}body);
     color: var(--#{theme.$prefix}dialog-text);
     z-index: 99;
     box-shadow: $shadow 0 0 0.625rem;
@@ -136,11 +136,14 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
             display: block;
             line-height: 2.5rem;
             padding: 0 0.625rem;
+            min-width: 3rem;
+            text-align: center;
             cursor: pointer;
             border: 0;
             color: var(--#{theme.$prefix}input-icon);
             &:hover {
-                background-color: var(--#{theme.$prefix}input-hover-icon);
+                color: var(--#{theme.$prefix}input-hover-icon);
+                background-color: var(--#{theme.$prefix}input-hovered);
             }
         }
     }

@@ -85,6 +85,10 @@ export class GameMakerComponent implements OnDestroy {
                     name: $localize `Store`,
                     url: './rule/store'
                 },
+                {
+                    name: $localize `Achieve`,
+                    url: './rule/achieve'
+                },
             ]
         },
     ];

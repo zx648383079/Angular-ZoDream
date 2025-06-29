@@ -5,9 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     standalone: false,
-  selector: 'app-maker-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-maker-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
