@@ -1,9 +1,11 @@
 @use '../../theme/styles/theme';
 @use 'dialogue';
 @use 'bag';
+@use './character';
 .game-container ::ng-deep {
    @include dialogue.dialogue-container;
    @include bag.bag-container;
+   @include character.character-container;
     a:not([href]):not([class]),
     a:not([class]) {
         color: var(--#{theme.$prefix}link-color);

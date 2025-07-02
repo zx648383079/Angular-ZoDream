@@ -29,13 +29,14 @@ const FontItems: IEditorOptionItem[] = [
         name: '黑体',
         value: 'sans-serif',
     }
-]
+];
+const HeadingItems = [2.5, 2, 1.75, 1.5, 1.25, 1];
 
 @Component({
     standalone: false,
-  selector: 'app-editor-dropdown',
-  templateUrl: './editor-dropdown.component.html',
-  styleUrls: ['./editor-dropdown.component.scss']
+    selector: 'app-editor-dropdown',
+    templateUrl: './editor-dropdown.component.html',
+    styleUrls: ['./editor-dropdown.component.scss']
 })
 export class EditorDropdownComponent implements IEditorSharedModal {
 
@@ -73,6 +74,25 @@ export class EditorDropdownComponent implements IEditorSharedModal {
                 last = value;
             }
             this.items = items;
+            return;
+        } else if (module.name === 'heading') {
+            const items = [];
+            for (let i = 1; i <= 6; i++) {
+                items.push({
+                    name: `H${i}`,
+                    value: `h${i}`,
+                });
+            }
+            this.items = HeadingItems.map((i, j) => {
+                    return {
+                        name: `H${j+1}`,
+                        value: `h${j+1}`,
+                        style: {
+                            'font-size': i * 16 + 'px',
+                            'font-weight': 'blod'
+                        }
+                    }
+                });
             return;
         }
     }

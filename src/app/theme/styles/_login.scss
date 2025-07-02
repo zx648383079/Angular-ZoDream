@@ -13,8 +13,8 @@
         width: 100%;
         margin: 0;
         &:hover {
-            background-color: var(--#{theme.$prefix}primary-hover);
-            color: var(--#{theme.$prefix}primary-hover-text);
+            background-color: var(--#{theme.$prefix}primary-hovered);
+            color: var(--#{theme.$prefix}primary-hovered-text);
         }
         &.disabled {
             background-color: rgba(var(--#{theme.$prefix}primary-rgb), .4);

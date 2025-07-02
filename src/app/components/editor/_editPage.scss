@@ -5,7 +5,7 @@ $shadow: rgba(0, 0, 0, 0.2);
     --#{theme.$prefix}tool-height: 3.75rem;
     --#{theme.$prefix}tool: var(--#{theme.$prefix}panel);
     --#{theme.$prefix}tool-text: var(--#{theme.$prefix}body-text);
-    --#{theme.$prefix}editor: var(--#{theme.$prefix}body-bg);
+    --#{theme.$prefix}editor: var(--#{theme.$prefix}body);
     --#{theme.$prefix}editor-border: #e0e0e0;
     position: fixed;
     top: 0;

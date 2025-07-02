@@ -106,7 +106,7 @@
     &.disabled {
         cursor: not-allowed;
         .select-header {
-            color: var(--#{theme.$prefix}input-placeholder-text);
+            color: var(--#{theme.$prefix}input-placeholder);
         }
     }
 }

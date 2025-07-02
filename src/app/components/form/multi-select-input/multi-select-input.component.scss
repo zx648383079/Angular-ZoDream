@@ -22,7 +22,7 @@ $dialogIndex: 99;
         @include mixins.iconArrow();
     }
     .input--with-placeholder {
-        color: var(--#{theme.$prefix}input-placeholder-text);
+        color: var(--#{theme.$prefix}input-placeholder);
     }
     .select-option-bar {
         position: absolute;
@@ -52,7 +52,7 @@ $dialogIndex: 99;
     }
     .loading-option-item {
         border-top: 1px solid var(--#{theme.$prefix}input-border);
-        color: var(--#{theme.$prefix}input-placeholder-text);
+        color: var(--#{theme.$prefix}input-placeholder);
         text-align: center;
         font-size: .8rem;
         user-select: none;

@@ -76,10 +76,22 @@
     }
 }
 
+
+@mixin customFont($code) {
+    font-family: 'Courier New', Courier, monospace;
+    &::before {
+        content: $code;
+    }
+}
+
 .icon-wavyline {
-    content: '~';
+    @include customFont('~');
 }
 
 .icon-dashed {
-    content: '.';
+    @include customFont('.');
+}
+
+.icon-heading {
+    @include customFont('H');
 }

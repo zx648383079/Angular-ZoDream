@@ -8,7 +8,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: row;
-        border: 1px solid var(--#{theme.$prefix}border-color);
+        border: 1px solid var(--#{theme.$prefix}border);
         user-select: none;
         &:hover {
             background-color: var(--#{theme.$prefix}light);
@@ -38,7 +38,7 @@
     .form-dialog {
         position: fixed;
         z-index: 201;
-        background-color: var(--#{theme.$prefix}body-bg);
+        background-color: var(--#{theme.$prefix}body);
         box-shadow: var(--#{theme.$prefix}box-shadow);
         bottom: 0;
         left: 0;
@@ -117,7 +117,7 @@
             font-size: 1.5rem;
             line-height: 2rem;
             text-align: center;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--#{theme.$prefix}border);
             position: relative;
         }
         .dialog-close {
@@ -126,7 +126,7 @@
             top: 0;
             width: 2rem;
             &:hover {
-                background-color: #f4f4f4;
+                background-color: var(--#{theme.$prefix}body);
             }
         }
         .dialog-body {
@@ -163,7 +163,7 @@
             padding: .2rem .8rem;
             background-color: transparent;
             border-radius: var(--#{theme.$prefix}border-radius);
-            border-color: #ccc;
+            border-color: var(--#{theme.$prefix}border);
             &:focus {
                 border-color: #333;
                 & + label {
@@ -180,8 +180,8 @@
         label {
             display: block;
             padding: 0 .4rem;
-            background-color: #f4f4f4;
-            color: #666;
+            background-color: var(--#{theme.$prefix}body);
+            color: var(--#{theme.$prefix}meta-text);
             position: absolute;
             left: .8rem;
             top: .6rem;
@@ -209,11 +209,11 @@
 
     @keyframes blinkingAnimate {
         from {
-            color: #666;
+            color: var(--#{theme.$prefix}border);
             opacity: 1;
         }
         to {
-            color: #f4f4f4;
+            color: var(--#{theme.$prefix}body);
             opacity: .1;
         }
     }

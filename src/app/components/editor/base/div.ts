@@ -324,7 +324,7 @@ export class DivElement implements IEditorElement {
         this.selectNode(p);
     }
 
-    private hExecute(range: Range, block: IEditorValueBlock) {
+    private headingExecute(range: Range, block: IEditorValueBlock) {
         this.replaceNodeName(range.startContainer, block.value);
     }
     private blockquoteExecute(range: Range) {
@@ -356,6 +356,7 @@ export class DivElement implements IEditorElement {
             li.appendChild(node);
         });
     }
+
 
     private boldExecute(range: Range) {
         this.toggleRangeTag(range, 'b');
@@ -618,7 +619,7 @@ export class DivElement implements IEditorElement {
             } else if (item.nodeName === 'BLOCKQUOTE') {
                 data.push('blockquote');
             } else if (/^H[1-6]$/.test(item.nodeName)) {
-                data.push('head');
+                data.push('heading');
             }
             if (item.style.verticalAlign === 'text-top') {
                 data.push('sup');

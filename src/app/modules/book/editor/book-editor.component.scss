@@ -147,7 +147,7 @@ li {
 }
 .tool-drop-bar {
     position: absolute;
-    background-color: var(--#{theme.$prefix}body-bg);
+    background-color: var(--#{theme.$prefix}body);
     box-shadow: 0 2px 5px $shadow;
     z-index: 99;
     display: none;

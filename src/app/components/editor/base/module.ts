@@ -70,12 +70,22 @@ export const EditorModules: IEditorModule[] = [
     },
     // 文字处理
     {
+        name: 'heading',
+        icon: 'icon-heading',
+        label: $localize `Heading`,
+        parent: 'text',
+        modal: EditorDropdownComponent,
+        handler(editor, _, data) {
+            editor.insert({...data, type: EditorBlockType.Heading});
+        },
+    },
+    {
         name: 'bold',
         icon: 'icon-bold',
         label: $localize `Font Bold`,
         parent: 'text',
-        handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.H});
+        handler(editor) {
+            editor.insert({type: EditorBlockType.Bold});
         },
     },
     {
@@ -84,7 +94,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Italic`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Bold});
+            editor.insert({type: EditorBlockType.Italic});
         },
     },
     {

@@ -25,7 +25,7 @@ $shadow: rgba(0,0,0,.125);
     .panel-swiper-item {
         display: flex;
         &:hover {
-            background-color: var(--#{theme.$prefix}body-bg);
+            background-color: var(--#{theme.$prefix}body);
         }
         &:not(:first-child) {
             margin-top: .1rem;

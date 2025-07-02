@@ -1,7 +1,12 @@
+@use './theme';
 .nav-menu {
+    --#{theme.$prefix}menu: transparent;
+    --#{theme.$prefix}menu-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}primary);
     a {
         text-decoration: none;
-        color: #333;
+        color: var(--#{theme.$prefix}menu-text);
     }
     ul,li {
         padding: 0;
@@ -31,7 +36,7 @@
         }
         &:hover {
             >a {
-                background-color: #ccc;
+                background-color: var(--#{theme.$prefix}menu-hovered);
             }
         }
         &.active {
@@ -43,7 +48,7 @@
                     left: 0;
                     width: 0.3125rem;
                     height: 2.5rem;
-                    background-color: red;
+                    background-color: var(--#{theme.$prefix}menu-selected);
                 }
             }
         }
@@ -55,7 +60,7 @@
     }
 
     .menu-children {
-        box-shadow: inset 0 5px 5px -5px #000, inset 0 -5px 5px -5px #000;
+        box-shadow: inset 0 5px 5px -5px rgb(var(--#{theme.$prefix}mask-rgb)), inset 0 -5px 5px -5px rgb(var(--#{theme.$prefix}mask-rgb));
         display: none;
     }
 }
@@ -75,8 +80,14 @@
 }
 
 .line-menu-bar {
+    --#{theme.$prefix}menu: transparent;
+    --#{theme.$prefix}menu-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}menu-icon: var(--#{theme.$prefix}meta-text);
     display: flex;
     line-height: 2.5rem;
+    background-color: var(--#{theme.$prefix}menu);
+    color: var(--#{theme.$prefix}menu-text);
     .menu-name {
         flex: 1;
         padding-left: .8rem;
@@ -86,9 +97,9 @@
         display: inline-block;
     }
     .menu-arrow {
-        color: #777;
+        color: var(--#{theme.$prefix}menu-icon);
     }
     &:hover {
-        background-color: #ccc;
+        background-color: var(--#{theme.$prefix}menu-hovered);
     }
 }

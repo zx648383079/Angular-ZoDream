@@ -1,5 +1,9 @@
 @use '../../theme/styles/theme';
 .editor-modal-box {
+    --#{theme.$prefix}modal: var(--#{theme.$prefix}input);
+    --#{theme.$prefix}modal-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}modal-hovered: var(--#{theme.$prefix}input-hovered);
+    --#{theme.$prefix}modal-selected: var(--#{theme.$prefix}input-selected);
     position: absolute;
     display: none;
     padding: .8rem;
@@ -8,8 +12,8 @@
     top: 0;
     width: 20rem;
     min-height: 6rem;
-    background-color: var(--#{theme.$prefix}body-bg);
-    box-shadow: 0 0 .2rem 0.2rem #ccc;
+    background-color: var(--#{theme.$prefix}modal);
+    box-shadow: 0 0 .2rem 0.2rem rgba(var(--#{theme.$prefix}mask-rgb), .3);
     border-radius: .25rem;
     .input-header-block {
         position: relative;
@@ -20,9 +24,9 @@
             padding: .2rem .8rem;
             background-color: transparent;
             border-radius: .25rem;
-            border-color: #ccc;
+            border-color: var(--#{theme.$prefix}border);
             &:focus {
-                border-color: #333;
+                border-color: var(--#{theme.$prefix}body-text);
                 & + label {
                     font-size: .8rem;
                     top: -.5rem;
@@ -37,7 +41,7 @@
         label {
             display: block;
             padding: 0 .4rem;
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}body);
             position: absolute;
             left: .8rem;
             top: .6rem;
@@ -71,7 +75,7 @@
         border-radius: .25rem;
         padding: 2rem 0 1rem;
         text-align: center;
-        border: .2rem dotted #ccc;
+        border: .2rem dotted var(--#{theme.$prefix}border);
         p {
             margin: 0;
         }
@@ -81,7 +85,7 @@
             overflow: hidden;
         }
         &:hover {
-            background-color: rgba($color: #ccc, $alpha: .4);
+            background-color: var(--#{theme.$prefix}input-hovered);
         }
     }
     .tab-bar {

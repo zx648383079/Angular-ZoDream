@@ -10,7 +10,7 @@
             user-select: none;
             cursor: pointer;
             &:hover {
-                background-color: #f4f4f4;
+                background-color: var(--#{theme.$prefix}body);
             }
         }
         .title-bar {
@@ -23,13 +23,13 @@
             display: inline-block;
             text-align: center;
             .item {
-                background-color: #fff;
+                background-color: var(--#{theme.$prefix}panel);
                 display: inline-block;
                 padding: 0 .8rem;
                 user-select: none;
                 &.active {
-                    background-color: #f4f4f4;
-                    color: #333;
+                    background-color: var(--#{theme.$prefix}body);
+                    color: var(--#{theme.$prefix}body-text);
                     cursor: not-allowed;
                 }
             }
@@ -38,15 +38,15 @@
     
     .tab-bar {
         border-radius: 0;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         .item {
-            background-color: #fff;
+            background-color: var(--#{theme.$prefix}panel);
             &:hover {
-                background-color: #ccc;
+                background-color: var(--#{theme.$prefix}border);
             }
             &.active {
-                background-color: #f4f4f4;
-                color: #666;
+                background-color: var(--#{theme.$prefix}body);
+                color: var(--#{theme.$prefix}meta-text);
             }
             &:first-of-type,
             &:last-of-type {
@@ -80,7 +80,7 @@
             line-height: 1;
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}border);
         }
     }
     
@@ -102,14 +102,14 @@
             padding-right: .8rem;
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}border);
         }
     }
     
     .cart-dialog {
         .item-price {
             display: inline-block;
-            color: red;
+            color: var(--#{theme.$prefix}danger);
             font-size: 1.5em;
             em {
                 font-style: normal;
@@ -127,7 +127,7 @@
             }
         }
         .item-meta {
-            color: #999;
+            color: var(--#{theme.$prefix}meta-text);
         }
         .item-body {
             padding: .4rem .4rem 0;
@@ -176,13 +176,13 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 50%;
-                background-color: #fff;
+                background-color: var(--#{theme.$prefix}panel);
             }
             &::after {
                 content: "";
                 width: 6.2rem;
                 height: 6.2rem;
-                border: 0.125rem solid #99e3ff;
+                border: 0.125rem solid var(--#{theme.$prefix}border);
                 border-radius: 100%;
                 position: absolute;
                 left: -0.3rem;
@@ -257,7 +257,7 @@
             }
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}meta-text);
         }
     }
 }

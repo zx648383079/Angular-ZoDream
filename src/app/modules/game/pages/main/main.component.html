@@ -1,3 +1,36 @@
+<div class="characher-row">
+    <div class="character-card-item">
+        <div class="item-avatar">
+            <img src="" alt="">
+        </div>
+        <div class="item-body">
+            <div class="item-name">{{ character.nickname }}</div>
+            <div class="item-progress-bar">
+                <div class="progress-inner"></div>
+                <span class="progress-label">lv.{{ character.grade }}
+                ({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }})</span>
+            </div>
+            <div class="item-progress-bar progress-danger">
+                <div class="progress-inner"></div>
+            </div>
+            <div class="item-progress-bar progress-success">
+                <div class="progress-inner"></div>
+            </div>
+        </div>
+    </div>
+    <div class="character-card-item">
+        <div class="item-avatar">
+            <img src="" alt="">
+        </div>
+        <div class="item-body">
+            <div class="item-name">{{ character.nickname }}(lv.{{ character.grade }})</div>
+            <div class="item-progress-bar progress-danger">
+                <div class="progress-inner"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="top-menu-bar">
     <ng-container *ngFor="let item of topItems">
         <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}

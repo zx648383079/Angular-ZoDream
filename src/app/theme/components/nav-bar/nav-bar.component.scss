@@ -6,10 +6,20 @@ li {
     margin: 0;
     padding: 0;
 }
+
+.nav-menu {
+    --#{theme.$prefix}menu: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}menu-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}surface-hovered);
+    --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}surface-selected);
+    --#{theme.$prefix}menu-child: var(--#{theme.$prefix}surface-child);
+}
+
+
 .nav-bar {
     --#{theme.$prefix}nav: var(--#{theme.$prefix}surface);
     --#{theme.$prefix}nav-text: var(--#{theme.$prefix}surface-text);
-    --#{theme.$prefix}nav-hover: var(--#{theme.$prefix}body);
+    --#{theme.$prefix}nav-hover: var(--#{theme.$prefix}surface-hovered);
     position: fixed;
     left: 0;
     width: 12.5rem;
@@ -23,7 +33,7 @@ li {
     user-select: none;
     .nav-toggle-icon {
         font-size: 1.875rem;
-        padding: 0 0.625rem;
+        padding: 0.2rem 0.625rem;
         display: inline-block;
         &:hover {
             background-color: var(--#{theme.$prefix}nav-hover);
@@ -40,11 +50,11 @@ li {
     }
     .search-input {
         position: relative;
-        background-color: var(--#{theme.$prefix}nav-hover);
+        background-color: var(--#{theme.$prefix}input);
         padding-right: 1.875rem;
         .iconfont {
             position: absolute;
-            top: 0.5625rem;
+            top: 0.625rem;
             right: 0.625rem;
             color: var(--#{theme.$prefix}input-icon);
         }
@@ -57,6 +67,7 @@ li {
         }
     }
 }
+
 
 .page-body {
     margin-left: 12.5rem;

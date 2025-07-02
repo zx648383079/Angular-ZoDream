@@ -41,7 +41,7 @@ export enum EditorBlockType {
     AddFile = 'addFile',
     AddCode = 'addCode',
     AddData = 'addData',
-    H = 'h',
+    Heading = 'heading',
     Bold = 'bold',
     Italic = 'italic',
     Underline = 'underline',

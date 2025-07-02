@@ -95,7 +95,7 @@ $form-select-indicator-padding:     variables.$input-padding-x * 3 !default;
 
     // Placeholder
     &::placeholder {
-        color: var(--#{$prefix}input-placeholder-text);
+        color: var(--#{$prefix}input-placeholder);
         // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
         opacity: 1;
     }

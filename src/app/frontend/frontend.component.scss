@@ -32,7 +32,7 @@
 .navbar-custom {
     --#{theme.$prefix}navbar: var(--#{theme.$prefix}primary);
     --#{theme.$prefix}navbar-color: var(--#{theme.$prefix}primary-text);
-    --#{theme.$prefix}navbar-hover-color: var(--#{theme.$prefix}primary-hover-text);
+    --#{theme.$prefix}navbar-hover-color: var(--#{theme.$prefix}primary-hovered-text);
     --#{theme.$prefix}navbar-disabled-color: rgba(var(--#{theme.$prefix}primary-text-rgb), .7);
     @extend %navbar-custom;
 }

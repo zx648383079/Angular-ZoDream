@@ -12,6 +12,7 @@
         color: var(--#{theme.$prefix}info);
     }
     .tooltip-body {
+        color: var(--#{theme.$prefix}tooltip-text);
         ul {
             width: 100%;
             padding: 0;
@@ -25,6 +26,7 @@
         }
     }
     .tooltip-toggle {
+        color: var(--#{theme.$prefix}tooltip-text);
         position: absolute;
         right: 0;
         top: .625rem;
