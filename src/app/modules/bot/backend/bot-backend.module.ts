@@ -8,6 +8,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreEditorModule } from '../../../components/editor';
 import { BotBackendRoutingModule, botBackendRoutingComponents } from './backend-routing.module';
 import { BotService } from './bot.service';
+import { DesktopModule } from '../../../components/desktop';
+import { TabletModule } from '../../../components/tablet';
 
 @NgModule({
     imports: [
@@ -15,6 +17,8 @@ import { BotService } from './bot.service';
         ThemeModule,
         ReactiveFormsModule,
         DialogModule,
+        DesktopModule,
+        TabletModule,
         BotBackendRoutingModule,
         ZreFormModule,
         NgSelectModule,

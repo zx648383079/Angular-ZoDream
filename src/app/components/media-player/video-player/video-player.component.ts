@@ -4,9 +4,9 @@ import { ScreenFull, mediaIsFrame } from '../util';
 
 @Component({
     standalone: false,
-  selector: 'app-video-player',
-  templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.scss']
+    selector: 'app-video-player',
+    templateUrl: './video-player.component.html',
+    styleUrls: ['./video-player.component.scss']
 })
 export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy {
 

@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const MicroMemberMenu: INav[] = [
+export const MicroMemberMenu: INavLink[] = [
     {
         name: $localize `My Posts`,
         icon: 'icon-at',

@@ -10,8 +10,8 @@ import { IErrorResponse } from '../../../../theme/models/page';
 import { selectAuthStatus } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../../theme/services';
 import { assetUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
-import { mobileValidator, passwordValidator } from '../../../../theme/validators';
 import { ShopAppState } from '../../shop.reducer';
+import { mobileValidator, passwordValidator } from '../../../../components/desktop/directives';
 
 @Component({
     standalone: false,

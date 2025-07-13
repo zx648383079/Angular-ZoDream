@@ -1,5 +1,5 @@
-@use '../../../theme/styles/theme';
-@use '../../../theme/styles/admin';
+@use '../../../theme/theme';
+@use '../../../../bootstrap/desktop/admin';
 @include admin.admin-container;
 .head-row,
 .body-row {

@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const NoteBackendMenu: INav[] = [
+export const NoteBackendMenu: INavLink[] = [
     {
         name: '便签管理',
         icon: 'icon-copy',

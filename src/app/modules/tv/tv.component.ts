@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
+
 
 @Component({
     standalone: false,
@@ -9,7 +10,7 @@ import { INav } from '../../theme/components';
 })
 export class TvComponent implements OnInit {
 
-    public items: INav[] = [
+    public items: INavLink[] = [
         {
             name: $localize `Home`,
             url: './',

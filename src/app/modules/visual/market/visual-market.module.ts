@@ -4,11 +4,13 @@ import { VisualMarketRoutingModule, visualMarketRoutingComponents } from './mark
 import { ThemeModule } from '../../../theme/theme.module';
 import { VisualService } from './visual.service';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         VisualMarketRoutingModule,
         ZreFormModule,
     ],

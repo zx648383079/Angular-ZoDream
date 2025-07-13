@@ -1,6 +1,6 @@
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 
-export const AdBackendMenu: INav[] = [
+export const AdBackendMenu: INavLink[] = [
     {
         name: '广告管理',
         icon: 'icon-recycle',

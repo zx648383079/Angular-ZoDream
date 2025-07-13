@@ -1,15 +1,12 @@
 import {
     Component,
     OnDestroy,
-    OnInit
 } from '@angular/core';
 import {
     FormBuilder,
     Validators
 } from '@angular/forms';
 import {
-    passwordValidator,
-    confirmValidator,
     emptyValidate
 } from '../../../theme/validators';
 import {
@@ -25,6 +22,7 @@ import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../theme/utils';
 import { Subscription } from 'rxjs';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
+import { confirmValidator, passwordValidator } from '../../../components/desktop/directives';
 
 @Component({
     standalone: false,

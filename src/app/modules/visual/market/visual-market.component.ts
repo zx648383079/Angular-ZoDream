@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 import { VisualService } from './visual.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { VisualService } from './visual.service';
 })
 export class VisualMarketComponent implements OnInit {
 
-    public navItems: INav[] = [
+    public navItems: INavLink[] = [
     ];
 
     constructor(

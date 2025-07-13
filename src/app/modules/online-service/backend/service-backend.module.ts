@@ -7,11 +7,13 @@ import { OnlineBackendService } from './online.service';
 import { MessageContainerModule } from '../../../components/message-container';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         OnlineServiceBackendRoutingModule,
         MessageContainerModule,

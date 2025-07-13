@@ -5,13 +5,15 @@ import { FileExplorerDialogComponent } from './dialog/file-explorer-dialog.compo
 import { FILE_PROVIDER } from './model';
 import { FileExplorerService } from './file-explorer.service';
 import { FileExplorerCatalogComponent } from './catalog/file-explorer-catalog.component';
-import { ThemeModule } from '../../theme/theme.module';
 import { FileExplorerImageEditorComponent } from './tools';
+import { DesktopModule } from '../desktop';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
-        ThemeModule,
+        DesktopModule,
+        FormsModule,
     ],
     declarations: [
         FileExplorerPanelComponent, 

@@ -27,8 +27,7 @@ import {
     Validators
 } from '@angular/forms';
 import {
-    emptyValidate,
-    passwordValidator
+    emptyValidate
 } from '../../../theme/validators';
 import {
     apiUri, assetUri
@@ -40,6 +39,7 @@ import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
+import { passwordValidator } from '../../../components/desktop/directives';
 
 @Component({
     standalone: false,

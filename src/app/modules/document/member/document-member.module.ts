@@ -8,12 +8,14 @@ import { ZreEditorModule } from '../../../components/editor';
 import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { DocumentSharedModule } from '../shared';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         DocumentMemberRoutingModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ZreEditorModule,
         DocumentSharedModule,

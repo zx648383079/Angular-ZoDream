@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const BlogMemberMenu: INav[] = [
+export const BlogMemberMenu: INavLink[] = [
     {
         name: $localize `My Blog`,
         icon: 'icon-file-text-o',

@@ -7,12 +7,14 @@ import { ZreFormModule } from '../../../components/form';
 import { LinkRuleModule } from '../../../components/link-rule';
 import { ThemeModule } from '../../../theme/theme.module';
 import { MemberService } from './member.service';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         ZreFormModule,
+        DesktopModule,
         LinkRuleModule,
         ReactiveFormsModule,
         DialogModule,

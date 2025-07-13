@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 @use '../player';
 .video-player {
     --#{theme.$prefix}player: var(--#{theme.$prefix}accent-text);

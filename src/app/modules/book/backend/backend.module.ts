@@ -7,11 +7,13 @@ import { BookService } from './book.service';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         BookBackendRoutingModule,
         ReactiveFormsModule,
         DialogModule,

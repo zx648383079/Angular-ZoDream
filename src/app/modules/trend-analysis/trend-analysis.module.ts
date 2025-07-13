@@ -6,11 +6,13 @@ import { ThemeModule } from '../../theme/theme.module';
 import { TrendRoutingModule, trendRoutingComponents } from './routing.module';
 import { TrendService } from './trend.service';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         TrendRoutingModule,
         ZreFormModule,
         DialogModule,

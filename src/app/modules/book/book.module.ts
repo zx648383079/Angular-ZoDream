@@ -10,6 +10,8 @@ import { ProgressModule } from '../../components/progress';
 import { ZreFormModule } from '../../components/form';
 import { DialogModule } from '../../components/dialog';
 import { ZreEditorModule } from '../../components/editor';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { ZreEditorModule } from '../../components/editor';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         ContextMenuModule,
         BookRoutingModule,
         ProgressModule,

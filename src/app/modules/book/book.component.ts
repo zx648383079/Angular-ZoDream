@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class BookComponent implements OnDestroy {
 
-    public navItems: INav[] = [
+    public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -37,7 +37,7 @@ export class BookComponent implements OnDestroy {
         },
     ];
 
-    public bottomNavs: INav[] = [
+    public bottomNavs: INavLink[] = [
         {
             name: $localize `Login in`,
             icon: 'icon-user',

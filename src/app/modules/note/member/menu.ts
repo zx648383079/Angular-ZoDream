@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const NoteMemberMenu: INav[] = [
+export const NoteMemberMenu: INavLink[] = [
     {
         name: $localize `My Notes`,
         icon: 'icon-copy',

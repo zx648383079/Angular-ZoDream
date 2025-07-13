@@ -5,7 +5,6 @@ import { MediaPlayerModule } from '../media-player/media-player.module';
 import { VoicePlayerComponent } from './voice-player/voice-player.component';
 import { ProgressModule } from '../progress';
 import { LinkRuleModule } from '../link-rule';
-import { ThemeModule } from '../../theme/theme.module';
 
 @NgModule({
     imports: [
@@ -13,7 +12,6 @@ import { ThemeModule } from '../../theme/theme.module';
         ProgressModule,
         MediaPlayerModule,
         LinkRuleModule,
-        ThemeModule,
     ],
     declarations: [MessageContainerComponent, VoicePlayerComponent],
     exports: [

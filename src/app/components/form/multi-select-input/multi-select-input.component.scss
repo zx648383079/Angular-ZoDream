@@ -1,6 +1,6 @@
 @use "sass:math";
-@use '../../../theme/styles/theme';
-@use '../../../theme/styles/mixins';
+@use '../../../theme/theme';
+@use '../../../../bootstrap/desktop/mixins';
 
 $lineHeight: 2.5rem;
 $dialogIndex: 99;

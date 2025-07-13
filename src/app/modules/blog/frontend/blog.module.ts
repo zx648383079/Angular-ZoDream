@@ -9,6 +9,8 @@ import { MediaPlayerModule } from '../../../components/media-player';
 import { ZreFormModule } from '../../../components/form';
 import { LinkRuleModule } from '../../../components/link-rule';
 import { ZreEditorModule } from '../../../components/editor';
+import { DesktopModule } from '../../../components/desktop';
+import { TabletModule } from '../../../components/tablet';
 
 
 @NgModule({
@@ -18,6 +20,8 @@ import { ZreEditorModule } from '../../../components/editor';
         ThemeModule,
         ReactiveFormsModule,
         FormsModule,
+        DesktopModule,
+        TabletModule,
         BlogRoutingModule,
         MediaPlayerModule,
         ZreFormModule,

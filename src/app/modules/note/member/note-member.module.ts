@@ -5,11 +5,13 @@ import { NoteService } from './note.service';
 import { DialogModule } from '../../../components/dialog';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ZreEditorModule } from '../../../components/editor';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         DialogModule,
         ZreEditorModule,
         NoteMemberRoutingModule

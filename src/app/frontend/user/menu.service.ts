@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { VisualMemberMenu } from '../../modules/visual/member/menu';
 import { eachObject, isNumber } from '../../theme/utils';
 import { BlogMemberMenu } from '../../modules/blog/member/menu';
@@ -14,12 +14,12 @@ import { MemberMenu } from '../../modules/auth/member/menu';
 import { TrackerMemberMenu } from '../../modules/trade-tracker/member/menu';
 
 interface MenuReadyMap {
-    [path: string]: INav[];
+    [path: string]: INavLink[];
 }
 
 interface INavCollection {
-    tab: INav[];
-    more: INav[];
+    tab: INavLink[];
+    more: INavLink[];
 }
 
 @Injectable({
@@ -67,8 +67,8 @@ export class MenuService {
             more: []
         };
         const path = window.location.pathname.substring(15);
-        let formatItems: INav[] = [];
-        let activeItem: INav = undefined;
+        let formatItems: INavLink[] = [];
+        let activeItem: INavLink = undefined;
         eachObject(this.readyMap, (items, key: string) => {
             const currentBasePath = this.formatRoutePath(key);
             const formatSource = this.filterNav(items, currentBasePath);
@@ -141,8 +141,8 @@ export class MenuService {
      * @param base 
      * @returns 
      */
-    private filterNav(items: INav[], base: string): INav[] {
-        const data: INav[] = [];
+    private filterNav(items: INavLink[], base: string): INavLink[] {
+        const data: INavLink[] = [];
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNav(item.children, base);
             const dist = {...item, children};

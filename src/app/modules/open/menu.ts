@@ -1,6 +1,6 @@
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 
-export const OpenBackendMenu: INav[] = [
+export const OpenBackendMenu: INavLink[] = [
     {
         name: '开放平台',
         icon: 'icon-th-large',

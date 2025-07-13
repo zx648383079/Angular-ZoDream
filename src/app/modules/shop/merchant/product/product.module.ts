@@ -7,6 +7,7 @@ import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
 import { ShopManageModule } from '../../components';
 import { ZreEditorModule } from '../../../../components/editor';
+import { DesktopModule } from '../../../../components/desktop';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { ZreEditorModule } from '../../../../components/editor';
         FormsModule,
         ThemeModule,
         ZreFormModule,
+        DesktopModule,
         DialogModule,
         ProductRoutingModule,
         ShopManageModule,

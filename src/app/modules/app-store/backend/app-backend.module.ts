@@ -8,11 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ZreEditorModule } from '../../../components/editor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         BackendRoutingModule,
         DialogModule,
         ReactiveFormsModule,

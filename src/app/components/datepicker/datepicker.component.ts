@@ -118,6 +118,13 @@ export class DatepickerComponent implements OnInit, OnChanges {
         this.refresh();
     }
 
+    public twoPad(val: number) {
+        if (val < 10) {
+            return '0' + val;
+        }
+        return val;
+    }
+
     /**
      * 转化date
      */

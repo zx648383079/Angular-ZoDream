@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CountdownComponent } from '../../../../theme/components';
+import { CountdownComponent } from '../../../../components/desktop';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivity, IGroupBuyConfigure } from '../../model';
 import { SearchService } from '../../../../theme/services';

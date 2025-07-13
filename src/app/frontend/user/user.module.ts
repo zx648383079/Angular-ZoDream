@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuService } from './menu.service';
 import { DialogModule } from '../../components/dialog';
 import { MessageContainerModule } from '../../components/message-container';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { MessageContainerModule } from '../../components/message-container';
         ThemeModule,
         ZreFormModule,
         LinkRuleModule,
+        DesktopModule,
         ReactiveFormsModule,
         DialogModule,
         FormsModule,

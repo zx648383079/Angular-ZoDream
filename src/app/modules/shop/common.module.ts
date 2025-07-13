@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { ZreFormModule } from '../../components/form';
-import { ThemeModule } from '../../theme/theme.module';
 import { BottomBarComponent, CartDialogComponent, CommentPageComponent, GallerySliderComponent, GoodsSliderComponent, IssuePageComponent, ShareDialogComponent, TopBarComponent } from './components';
 import { PricePipe } from './pipes';
+import { DesktopModule } from '../../components/desktop';
 
 
 const COMPONENTS = [
@@ -30,7 +30,7 @@ const PIPES = [
         RouterModule,
         FormsModule,
         ZreFormModule,
-        ThemeModule,
+        DesktopModule,
     ],
     declarations: [...COMPONENTS, ...PIPES],
     exports: [

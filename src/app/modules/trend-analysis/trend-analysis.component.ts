@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { ThemeService } from '../../theme/services';
@@ -13,7 +13,7 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 })
 export class TrendAnalysisComponent {
 
-    public navItems: INav[] = [
+    public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -118,7 +118,7 @@ export class TrendAnalysisComponent {
         },
     ];
 
-    public bottomNavs: INav[] = [
+    public bottomNavs: INavLink[] = [
         {
             name: $localize `Login in`,
             icon: 'icon-user',

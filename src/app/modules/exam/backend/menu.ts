@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ExamBackendMenu: INav[] = [
+export const ExamBackendMenu: INavLink[] = [
     {
         name: '题库管理',
         icon: 'icon-edit',

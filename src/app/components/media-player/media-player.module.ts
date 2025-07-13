@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { VideoPlayerComponent } from './video-player/video-player.component';
-import { ThemeModule } from '../../theme/theme.module';
 import { MusicPlayerComponent } from './fixed/music-player/music-player.component';
 import { MoviePlayerComponent } from './fixed/movie-player/movie-player.component';
 import { LyricsViewerComponent } from './fixed/music-player/lyrics-viewer/lyrics-viewer.component';
@@ -13,6 +12,7 @@ import { PlayerService } from './fixed/player.service';
 import { ImagePlayerComponent } from './fixed/image-player/image-player.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { ZreFormModule } from '../form';
+import { FormsModule } from '@angular/forms';
 
 const COMPONENTS = [
     AudioPlayerComponent,
@@ -26,7 +26,7 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
-        ThemeModule,
+        FormsModule,
         ZreFormModule,
     ],
     declarations: [	

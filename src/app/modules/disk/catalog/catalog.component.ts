@@ -10,9 +10,6 @@ import {
 import {
     IDisk
 } from '../model';
-import {
-    PullToRefreshComponent
-} from '../../../theme/components';
 import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
@@ -23,6 +20,7 @@ import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { UploadStatus } from '../../../theme/services/uploader';
+import { PullToRefreshComponent } from '../../../components/tablet';
 
 
 interface ICrumb {
@@ -34,7 +32,7 @@ interface ICrumb {
 
 @Component({
     standalone: false,
-    selector: 'app-catalog',
+    selector: 'app-disk-catalog',
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss']
 })

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CountdownComponent } from '../../../../theme/components';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivityTime, ISeckillGoods } from '../../model';
 import { SearchService } from '../../../../theme/services';
 import { ThemeService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
 import { ActivityService } from '../activity.service';
+import { CountdownComponent } from '../../../../components/desktop';
 
 @Component({
     standalone: false,

@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const DocumentMemberMenu: INav[] = [
+export const DocumentMemberMenu: INavLink[] = [
     {
         name: $localize `My Document`,
         icon: 'icon-file-text-o',

@@ -13,7 +13,7 @@ import { NavigationBackendMenu } from '../modules/navigation/backend/menu';
 import { NoteBackendMenu } from '../modules/note/backend/menu';
 import { OnlineServiceBackendMenu } from '../modules/online-service/backend/menu';
 import { ShopBackendMenu } from '../modules/shop/backend/menu';
-import { INav } from '../theme/components';
+import { INavLink } from '../theme/models/seo';
 import { IUser } from '../theme/models/user';
 import { eachObject, isNumber } from '../theme/utils';
 import { VideoBackendMenu } from '../modules/video/backend/menu';
@@ -34,8 +34,8 @@ import { BotBackendMenu } from '../modules/bot/backend/menu';
 import { TrackerBackendMenu } from '../modules/trade-tracker/backend/menu';
 
 interface INavCollection {
-    items: INav[];
-    bottom: INav[];
+    items: INavLink[];
+    bottom: INavLink[];
 }
 
 interface IMenuReadyCollection {
@@ -44,11 +44,11 @@ interface IMenuReadyCollection {
 }
 
 interface MenuReadyMap {
-    [path: string]: MenuReadyFn|INav[];
+    [path: string]: MenuReadyFn|INavLink[];
 }
 
-type MenuReadyItem = MenuReadyMap|INav[][];
-export type MenuReadyFn = (this: MenuService, basePath: string, value: any, option: any) => INav[];
+type MenuReadyItem = MenuReadyMap|INavLink[][];
+export type MenuReadyFn = (this: MenuService, basePath: string, value: any, option: any) => INavLink[];
 
 const USER_OPTION_KEY = '_user';
 const ROLE_OPTION_KEY = '_roles';
@@ -140,7 +140,7 @@ export class MenuService {
         const path = window.location.pathname.substring(9);
         eachObject(this.readyMap, (items, k) => {
             let formatItems = [];
-            eachObject(items, (source: MenuReadyFn|INav[], key: string) => {
+            eachObject(items, (source: MenuReadyFn|INavLink[], key: string) => {
                 this.currentBasePath = this.formatRoutePath(key);
                 const formatSource = this.filterNavByRole(typeof source === 'function' ? (source as MenuReadyFn).call(this, this.currentBasePath, this.get(this.currentBasePath), this.option) : this.filterNav(source, this.currentBasePath), roles);
                 if (!formatSource || formatSource.length < 1) {
@@ -166,8 +166,8 @@ export class MenuService {
         return './' + base + (path.length > 0 && path.charAt(0) === '/' ? path.substring(1) : path);
     }
 
-    public filterNavByRole(items: INav[], roles: string[], parentRole?: string): INav[] {
-        const data: INav[] = [];
+    public filterNavByRole(items: INavLink[], roles: string[], parentRole?: string): INavLink[] {
+        const data: INavLink[] = [];
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNavByRole(item.children, roles, item.role);
             const current = item.role || parentRole;
@@ -222,8 +222,8 @@ export class MenuService {
      * @param base 
      * @returns 
      */
-    private filterNav(items: INav[], base: string): INav[] {
-        const data: INav[] = [];
+    private filterNav(items: INavLink[], base: string): INavLink[] {
+        const data: INavLink[] = [];
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNav(item.children, base);
             const dist = {...item, children};

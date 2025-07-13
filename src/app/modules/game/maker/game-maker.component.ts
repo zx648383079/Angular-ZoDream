@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class GameMakerComponent implements OnDestroy {
 
-    public navItems: INav[] = [
+    public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -93,7 +93,7 @@ export class GameMakerComponent implements OnDestroy {
         },
     ];
 
-    public bottomNavs: INav[] = [
+    public bottomNavs: INavLink[] = [
         {
             name: $localize `Login in`,
             icon: 'icon-user',

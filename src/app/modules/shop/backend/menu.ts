@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ShopBackendMenu: INav[] = [
+export const ShopBackendMenu: INavLink[] = [
     {
         name: '商城',
         icon: 'icon-shopping-cart',

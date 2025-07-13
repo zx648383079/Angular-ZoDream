@@ -6,12 +6,14 @@ import { ActivityService } from './activity.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ShopCommonModule } from '../common.module';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         DialogModule,
         ThemeModule,
+        DesktopModule,
         ActivityRoutingModule,
         ShopCommonModule,
         ZreFormModule,

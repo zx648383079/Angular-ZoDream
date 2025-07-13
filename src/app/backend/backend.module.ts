@@ -4,6 +4,7 @@ import { BackendRoutingModule, backendRoutedComponents } from './backend-routing
 import { ThemeModule } from '../theme/theme.module';
 import { BackendService } from './backend.service';
 import { MenuService } from './menu.service';
+import { DesktopModule } from '../components/desktop';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { MenuService } from './menu.service';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         BackendRoutingModule,
     ],
     providers: [

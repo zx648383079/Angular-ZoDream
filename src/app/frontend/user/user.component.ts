@@ -5,7 +5,7 @@ import { IUserStatus } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { SearchService } from '../../theme/services';
 import { NavToggle, SearchEvents } from '../../theme/models/event';
 
@@ -18,8 +18,8 @@ import { NavToggle, SearchEvents } from '../../theme/models/event';
 export class UserComponent implements OnInit, OnDestroy {
 
     public user: IUserStatus;
-    public tabItems: INav[] = [];
-    public moreItems: INav[] = [];
+    public tabItems: INavLink[] = [];
+    public moreItems: INavLink[] = [];
     public moreVisible = false;
     public navToggle = NavToggle.Unreal;
 

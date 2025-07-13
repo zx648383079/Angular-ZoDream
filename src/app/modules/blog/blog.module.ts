@@ -7,6 +7,8 @@ import { BlogService } from './blog.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { MediaPlayerModule } from '../../components/media-player';
 import { ZreEditorModule } from '../../components/editor';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { ZreEditorModule } from '../../components/editor';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         BlogRoutingModule,
         MediaPlayerModule,
         ZreEditorModule,

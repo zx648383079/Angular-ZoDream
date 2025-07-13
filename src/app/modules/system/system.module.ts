@@ -6,6 +6,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { SystemService } from './system.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { ZreFormModule } from '../../components/form';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         SystemRoutingModule,
         DialogModule,
         ZreFormModule,

@@ -8,11 +8,13 @@ import { OpenService } from './open.service';
 import { ZreFormModule } from '../../components/form';
 import { DialogModule } from '../../components/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         OpenRoutingModule,
         ZreFormModule,

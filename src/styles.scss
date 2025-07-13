@@ -1,4 +1,4 @@
-@use './app/theme/styles/theme';
+@use './app/theme/theme';
 @use './assets/iconfont/iconfont';
 
 
@@ -13,12 +13,12 @@
     $prefix: theme.$prefix
 );
 
-@use './app/theme/styles/login';
-@use './app/theme/styles/form';
-@use './app/theme/styles/grid';
-@use './app/theme/styles/tab';
-@use './app/theme/styles/panel';
-@use './app/theme/styles/menu';
+@use './bootstrap/desktop/login';
+@use './bootstrap/desktop/form';
+@use './bootstrap/desktop/grid';
+@use './bootstrap/desktop/tab';
+@use './bootstrap/desktop/panel';
+@use './bootstrap/desktop/menu';
 @use './app/components/dialog/dialog';
 
 

@@ -7,11 +7,15 @@ import { LogTypePipe } from './log-type.pipe';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         FinanceRoutingModule,
         DialogModule,
         ZreFormModule,

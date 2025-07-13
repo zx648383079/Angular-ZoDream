@@ -1,5 +1,4 @@
-@use '../../../../theme/styles/prefix';
-@use '../../../../theme/styles/loading/cute';
+@use '../../../../../bootstrap/loading/cute';
 .dialog-image {
     position: fixed;
     z-index: 920;

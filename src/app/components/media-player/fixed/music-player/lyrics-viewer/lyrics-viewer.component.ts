@@ -12,9 +12,9 @@ interface ILyricsItem {
 
 @Component({
     standalone: false,
-  selector: 'app-lyrics-viewer',
-  templateUrl: './lyrics-viewer.component.html',
-  styleUrls: ['./lyrics-viewer.component.scss']
+    selector: 'app-lyrics-viewer',
+    templateUrl: './lyrics-viewer.component.html',
+    styleUrls: ['./lyrics-viewer.component.scss']
 })
 export class LyricsViewerComponent implements OnChanges {
 

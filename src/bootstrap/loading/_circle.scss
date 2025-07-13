@@ -1,0 +1,201 @@
+@use '../../app/theme/theme';
+
+$ring: var(--#{theme.$prefix}primary);
+$ring-secondary: var(--#{theme.$prefix}primary-active);
+
+/** 横向圆点滚动显示 */
+.loading-ring2{   
+    width: 9.375em;   
+    height: 0.9375em;   
+    margin: 0 auto;   
+    position: relative;
+    span{   
+        position: absolute;   
+        width: 0.9375em;   
+        height: 100%;   
+        border-radius: 50%;   
+        background-color: $ring;   
+        animation: load2 1.04s ease-in infinite alternate;
+        &:nth-child(1){
+            animation-delay: 0.13s;
+        }
+        &:nth-child(2){
+            animation-delay: 0.26s;
+        }
+        &:nth-child(3){
+            animation-delay: 0.39s;
+        }
+        &:nth-child(4){
+            animation-delay: 0.42s;
+        }
+        &:nth-child(5){
+            animation-delay: 0.65s;
+        }
+    }
+}
+@keyframes load2 {
+    0%{   
+        opacity: 1;   
+        transform: translate(0px);   
+    }   
+    100%{   
+        opacity: 0.2;   
+        transform: translate(9.375rem);   
+    } 
+}
+
+
+/** 圆形8个点显示 */
+.loading-ring4{   
+    width: 6.25em;   
+    height: 6.25em;   
+    position: relative;   
+    margin: 0 auto;
+    span{   
+        display: inline-block;   
+        width: 1em;   
+        height: 1em;   
+        border-radius: 50%;   
+        background-color: $ring;      
+        position: absolute; 
+        animation: load4 1.04s ease infinite;
+        &:nth-child(1){
+            left: 0;   
+            top: 50%;   
+            margin-top:-0.5em;
+            animation-delay: 0.13s;
+        }
+        &:nth-child(2){
+            left: 0.875em;   
+            top: 0.875em;
+            animation-delay: 0.26s;
+        }
+        &:nth-child(3){
+            left: 50%;   
+            top: 0;   
+            margin-left: -0.5em;
+            animation-delay: 0.39s;
+        }
+        &:nth-child(4){
+            top: 0.875em;   
+            right: 0.875em;
+            animation-delay: 0.42s;
+        }
+        &:nth-child(5){
+            right: 0;   
+            top: 50%;   
+            margin-top:-0.5em;
+            animation-delay: 0.65s;
+        }
+        &:nth-child(6){
+            right: 0.875em;   
+            bottom:0.875em;
+            animation-delay: 0.78s;
+        }
+        &:nth-child(7){
+            bottom: 0;   
+            left: 50%;   
+            margin-left: -0.5em;
+            animation-delay: 0.91s;
+        }
+        &:nth-child(8){
+            bottom: 0.875em;   
+            left: 0.875em;
+            animation-delay: 1.04s;
+        }
+
+    }
+}
+@keyframes load4 {
+    0%{   
+        opacity: 1;   
+    }   
+    100%{   
+        opacity: 0.2;   
+    }
+}
+
+
+
+/*** 吃豆豆 **/
+.loading-ring6 {
+    position: relative;
+    span {
+        &:nth-child(1) {
+            width: 0px;
+            height: 0px;
+            border-right: 1.5625em solid transparent;
+            border-top: 1.5625em solid $ring;
+            border-left: 1.5625em solid $ring;
+            border-bottom: 1.5625em solid $ring;
+            border-radius: 1.5625em;
+             animation: load6 0.5s 0s infinite;
+        }
+        &:nth-child(2) {
+            width: 0px;
+            height: 0px;
+            border-right: 1.5625em solid transparent;
+            border-top: 1.5625em solid $ring;
+            border-left: 1.5625em solid $ring;
+            border-bottom: 1.5625em solid $ring;
+            border-radius: 1.5625em;
+             animation: load6_1 0.5s 0s infinite;
+            margin-top: -3.125em;
+        }
+        &:nth-child(3) {
+             animation: load6_2 1s 0.33s infinite linear;
+        }
+        &:nth-child(4) {
+             animation: load6_2 1s 0.66s infinite linear;
+        }
+        &:nth-child(5) {
+            animation: load6_2 1s 0.99s infinite linear;
+        }
+        &:nth-child(3),
+        &:nth-child(4),
+        &:nth-child(5) {
+            background-color: $ring;
+            width: 0.9375em;
+            height: 0.9375em;
+            border-radius: 100%;
+            margin: 0.125em;
+            width: 0.625em;
+            height: 0.625em;
+            position: absolute;
+            transform: translate(0, -0.3906em);
+            top: 1.5625em;
+            left: 6.25em;
+        }
+    }
+}
+
+@keyframes load6 {
+    0% {
+        transform: rotate(270deg);
+    }
+    50% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(270deg);
+    }
+}
+@keyframes load6_1 {
+    0% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
+}
+@keyframes load6_2 {
+    75% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-6.25em, -0.3906em);
+    }
+}

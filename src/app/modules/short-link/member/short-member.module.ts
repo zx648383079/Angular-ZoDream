@@ -4,12 +4,16 @@ import { ShortMemberRoutingComponents, ShortMemberRoutingModule } from './routin
 import { ShortLinkService } from './short-link.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { DialogModule } from '../../../components/dialog';
+import { TabletModule } from '../../../components/tablet';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
+        TabletModule,
         ShortMemberRoutingModule
     ],
     declarations: [...ShortMemberRoutingComponents],

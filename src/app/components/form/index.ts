@@ -6,11 +6,11 @@ export * from './color-picker/color-picker.component';
 export * from './color-layer/color-layer.component';
 export * from './star/star.component';
 export * from './select-input/select-input.component';
-export * from './file-input/file-input.component';
+
 export * from './date-input/date-input.component';
 export * from './time-input/time-input.component';
 export * from './check-input/check-input.component';
-export * from './file-online/file-online.component';
+
 export * from './switch/util';
 export * from './password-strong/password-strong.component';
 export * from './action-button/action-button.component';

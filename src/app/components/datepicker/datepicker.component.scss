@@ -1,5 +1,5 @@
 @use "sass:math";
-@use '../../theme/styles/scrollbar';
+@use '../../../bootstrap/desktop/scrollbar';
 $size: 40px;
 $boxWidth: $size * 7;
 

@@ -7,12 +7,14 @@ import { BookEditorRoutingModule, bookEditorRoutingComponents } from './routing.
 import { ContextMenuModule } from '../../../components/context-menu';
 import { ZreMindModule } from '../../../components/mind';
 import { BookService } from './book.service';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         ContextMenuModule,
         BookEditorRoutingModule,
         ZreMindModule,

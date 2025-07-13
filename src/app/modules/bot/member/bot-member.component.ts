@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BotService } from './bot.service';
 import { ThemeService } from '../../../theme/services';
@@ -12,7 +12,7 @@ import { ThemeService } from '../../../theme/services';
 })
 export class BotMemberComponent implements OnInit {
 
-    public items: INav[] = [
+    public items: INavLink[] = [
         {
             name: '账号列表',
             label: '账',
@@ -70,7 +70,7 @@ export class BotMemberComponent implements OnInit {
         });
     }
 
-    public tapNav(item: INav) {
+    public tapNav(item: INavLink) {
         for (const it of this.items) {
             it.active = item == it;
         }

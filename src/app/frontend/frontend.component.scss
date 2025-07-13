@@ -1,4 +1,4 @@
-@use '../theme/styles/theme';
+@use '../theme/theme';
 
 %navbar-custom {
     --#{theme.$prefix}navbar-brand-color: var(--#{theme.$prefix}navbar-color);

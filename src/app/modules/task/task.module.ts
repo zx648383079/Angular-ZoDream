@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         CommonModule,
         ReactiveFormsModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         TaskRoutingModule,
         DialogModule,
         ZreFormModule,

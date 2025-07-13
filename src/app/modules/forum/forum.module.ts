@@ -8,6 +8,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { MediaPlayerModule } from '../../components/media-player';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     declarations: [...forumRoutedComponents],
@@ -15,6 +16,7 @@ import { ZreFormModule } from '../../components/form';
         CommonModule,
         FormsModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ForumRoutingModule,
         MediaPlayerModule,

@@ -6,16 +6,16 @@
         </ng-container>
         <ng-template #elseTemplate>
             <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
-                <img class="avatar" [src]="item.user.avatar | asset">
+                <img class="avatar" [src]="formatAsset(item.user.avatar)">
                 <div class="content">
                     <ng-container *ngIf="item.type == 1">
-                        <img [src]="getMediaSource(item) | asset">
+                        <img [src]="getMediaSource(item)">
                     </ng-container>
                     <ng-container *ngIf="item.type == 2">
-                        <video [src]="getMediaSource(item) | asset"></video>
+                        <video [src]="getMediaSource(item)"></video>
                     </ng-container>
                     <ng-container *ngIf="item.type == 3">
-                        <app-voice-player [src]="getMediaSource(item) | asset"></app-voice-player>
+                        <app-voice-player [src]="getMediaSource(item)"></app-voice-player>
                     </ng-container>
                     <ng-container *ngIf="item.type == 4">
                         <div class="file-block">
@@ -36,7 +36,7 @@
                                 <div [ngClass]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
                                     <div class="news-title">{{ news.title }}</div>
                                     <div class="news-thumb">
-                                        <img [src]="news.thumb | asset" [alt]="news.title">
+                                        <img [src]="formatAsset(news.thumb)" [alt]="news.title">
                                     </div>
                                 </div>
                             </ng-container>

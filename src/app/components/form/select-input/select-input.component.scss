@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 .select-input-container {
     color: var(--#{theme.$prefix}input-text);
     background-color: var(--#{theme.$prefix}input);

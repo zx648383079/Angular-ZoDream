@@ -9,6 +9,8 @@ import { MediaPlayerModule } from '../../components/media-player';
 import { DialogModule } from '../../components/dialog';
 import { LinkRuleModule } from '../../components/link-rule';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { ZreFormModule } from '../../components/form';
         CommonModule,
         FormsModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         MediaPlayerModule,
         MicroRoutingModule,
         DialogModule,

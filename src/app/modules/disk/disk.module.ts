@@ -6,6 +6,8 @@ import { DiskService } from './disk.service';
 import { DialogModule } from '../../components/dialog';
 import { ProgressModule } from '../../components/progress';
 import { MediaPlayerModule } from '../../components/media-player';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 
 @NgModule({
@@ -15,6 +17,8 @@ import { MediaPlayerModule } from '../../components/media-player';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         DiskRoutingModule,
         DialogModule,
         ProgressModule,

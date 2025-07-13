@@ -6,11 +6,13 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { ZreEditorModule } from '../../components/editor';
 import { LinkRuleModule } from '../../components/link-rule';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ZreFormModule,
         ZreEditorModule,
         LinkRuleModule,

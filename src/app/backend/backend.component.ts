@@ -4,9 +4,6 @@ import {
     OnInit
 } from '@angular/core';
 import {
-    INav
-} from '../theme/components';
-import {
     AppState
 } from '../theme/interfaces';
 import {
@@ -24,6 +21,7 @@ import { DialogService } from '../components/dialog';
 import { MenuService } from './menu.service';
 import { ThemeService } from '../theme/services';
 import { Subscription } from 'rxjs';
+import { INavLink } from '../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -33,8 +31,8 @@ import { Subscription } from 'rxjs';
 })
 export class BackendComponent implements OnInit, OnDestroy {
 
-    public navItems: INav[] = [];
-    public bottomNavs: INav[] = [];
+    public navItems: INavLink[] = [];
+    public bottomNavs: INavLink[] = [];
     private subItems: Subscription[] = [];
 
     constructor(

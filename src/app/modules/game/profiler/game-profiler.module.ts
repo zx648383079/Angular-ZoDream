@@ -4,11 +4,13 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { GameProfilerRoutingModule, gameProfilerRoutedComponents } from './routing.module';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ZreFormModule,
         DialogModule,
         GameProfilerRoutingModule

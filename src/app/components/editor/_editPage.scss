@@ -1,5 +1,5 @@
-@use '../../theme/styles/theme';
-@use '../../theme/styles/mixins';
+@use '../../theme/theme';
+@use '../../../bootstrap/desktop/mixins';
 $shadow: rgba(0, 0, 0, 0.2);
 .editor-container {
     --#{theme.$prefix}tool-height: 3.75rem;

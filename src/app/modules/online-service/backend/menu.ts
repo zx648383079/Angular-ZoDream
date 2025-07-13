@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const OnlineServiceBackendMenu: INav[] = [
+export const OnlineServiceBackendMenu: INavLink[] = [
     {
         name: '在线客服',
         icon: 'icon-service',

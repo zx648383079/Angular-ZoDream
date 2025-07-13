@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ResourceBackendMenu: INav[] = [
+export const ResourceBackendMenu: INavLink[] = [
     {
         name: '资源管理',
         icon: 'icon-gift',

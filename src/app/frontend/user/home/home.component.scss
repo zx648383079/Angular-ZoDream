@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 .column-item {
     --#{theme.$prefix}column-icon: var(--#{theme.$prefix}primary);
     --#{theme.$prefix}column-icon-text: var(--#{theme.$prefix}primary-text);

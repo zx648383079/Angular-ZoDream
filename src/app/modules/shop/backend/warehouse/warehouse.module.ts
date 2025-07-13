@@ -7,11 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../../../components/dialog';
 import { ZreFormModule } from '../../../../components/form';
 import { ShopManageModule } from '../../components';
+import { DesktopModule } from '../../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         WarehouseRoutingModule,
         ShopManageModule,

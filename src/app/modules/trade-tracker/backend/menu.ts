@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const TrackerBackendMenu: INav[] = [
+export const TrackerBackendMenu: INavLink[] = [
     {
         name: '行情管理',
         icon: 'icon-line-chart',

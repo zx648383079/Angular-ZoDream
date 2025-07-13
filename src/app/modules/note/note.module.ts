@@ -4,11 +4,15 @@ import { ThemeModule } from '../../theme/theme.module';
 import { noteRoutingComponents, NoteRoutingModule } from './note-routing.module';
 import { NoteService } from './note.service';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         ZreFormModule,
         NoteRoutingModule,
     ],

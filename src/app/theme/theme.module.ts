@@ -5,16 +5,7 @@ import {
 import {
     CommonModule
 } from '@angular/common';
-import {
-    AssetPipe,
-    SizePipe,
-    TimestampPipe,
-    AgoPipe,
-    TwoPadPipe,
-    TreeLevelPipe,
-    NumberFormatPipe,
-    IconfontPipe
-} from './pipes';
+
 import {
     RouterModule
 } from '@angular/router';
@@ -31,35 +22,7 @@ import {
 import {
     AuthActions
 } from './actions';
-import {
-    NavBarComponent,
-    PageTipComponent,
-    EditHeaderComponent,
-    PullToRefreshComponent,
-    PanelComponent,
-    CountdownComponent,
-    EmojiPickerComponent,
-    PaginationComponent,
-    EditableTableComponent,
-    LoadingRingComponent,
-    LoadingTipComponent,
-    ManageDialogComponent,
-    CaptchaComponent,
-    UserPickerComponent,
-    ToggleBarComponent
-} from './components';
-import {
-    PasswordValidatorDirective
-} from './validators';
-import {
-    FocusNextDirective,
-    InfiniteScrollDirective,
-    LazyLoadDirective,
-    ScrollFixedDirective,
-    FileDropDirective,
-    DropdownDirective,
-    DragDropDirective
-} from './directives';
+
 import {
     FormsModule
 } from '@angular/forms';
@@ -69,35 +32,6 @@ const BASE_MODULES = [
     CommonModule,
     FormsModule,
     RouterModule,
-];
-
-const COMPONENTS = [
-    NavBarComponent,
-    PageTipComponent,
-    EditHeaderComponent,
-    PullToRefreshComponent,
-    PanelComponent,
-    CountdownComponent,
-    EmojiPickerComponent,
-    PaginationComponent,
-    EditableTableComponent,
-    LoadingRingComponent,
-    LoadingTipComponent,
-    ManageDialogComponent,
-    CaptchaComponent,
-    UserPickerComponent,
-    ToggleBarComponent,
-];
-
-const PIPES = [
-    AssetPipe,
-    SizePipe,
-    TimestampPipe,
-    AgoPipe,
-    TwoPadPipe,
-    TreeLevelPipe,
-    NumberFormatPipe,
-    IconfontPipe,
 ];
 
 const SERVICES = [
@@ -110,21 +44,11 @@ const ACTIONS = [
     AuthActions,
 ];
 
-const DIRECTIVES = [
-    PasswordValidatorDirective,
-    InfiniteScrollDirective,
-    LazyLoadDirective,
-    FileDropDirective,
-    FocusNextDirective,
-    ScrollFixedDirective,
-    DropdownDirective,
-    DragDropDirective
-];
+
 
 @NgModule({
     imports: [...BASE_MODULES],
-    exports: [...BASE_MODULES, ...COMPONENTS, ...PIPES, ...DIRECTIVES],
-    declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
+    exports: [...BASE_MODULES ],
     providers: [
         ...SERVICES,
         ...ACTIONS,

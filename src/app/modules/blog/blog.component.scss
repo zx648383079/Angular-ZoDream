@@ -1,6 +1,7 @@
+@use '../../../bootstrap/desktop/scrollbar';
+
 $leftWidth: 25rem;
 
-@use "../../theme/styles/scrollbar";
 .master-box {
     position: absolute;
     left: 0;

@@ -13,12 +13,16 @@ import { ThemeModule } from '../../theme/theme.module';
 import { VideoService } from './video.service';
 import { ZreFormModule } from '../../components/form';
 import { MediaPlayerModule } from '../../components/media-player';
+import { DesktopModule } from '../../components/desktop';
+import { TabletModule } from '../../components/tablet';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         MediaPlayerModule,
         VideoRoutingModule,
         ZreFormModule,

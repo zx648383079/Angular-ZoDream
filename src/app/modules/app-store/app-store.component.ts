@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';

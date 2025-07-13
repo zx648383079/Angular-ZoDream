@@ -13,6 +13,7 @@ import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { OpenModule } from '../../open/open.module';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     declarations: [...shopBackendRoutedComponents],
@@ -21,6 +22,7 @@ import { OpenModule } from '../../open/open.module';
         ReactiveFormsModule,
         NgSelectModule,
         ThemeModule,
+        DesktopModule,
         ShopBackendRoutingModule,
         ZreEditorModule,
         OpenModule,

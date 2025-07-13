@@ -1,6 +1,7 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const VisualBackendMenu: INav[] = [
+
+export const VisualBackendMenu: INavLink[] = [
     {
         name: '模板管理',
         icon: 'icon-zuhe',

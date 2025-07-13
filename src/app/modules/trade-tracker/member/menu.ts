@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const TrackerMemberMenu: INav[] = [
+export const TrackerMemberMenu: INavLink[] = [
     {
         name: $localize `My Trades`,
         icon: 'icon-shopping-cart',

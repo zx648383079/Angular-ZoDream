@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { LinkRuleModule } from '../../components/link-rule';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { LinkRuleModule } from '../../components/link-rule';
         ReactiveFormsModule,
         NgSelectModule,
         ThemeModule,
+        DesktopModule,
         UserRoutingModule,
         DialogModule,
         ZreFormModule,

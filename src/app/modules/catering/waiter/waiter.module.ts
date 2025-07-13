@@ -5,12 +5,16 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { DialogModule } from '../../../components/dialog';
 import { ZreSwiperModule } from '../../../components/swiper';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
+import { TabletModule } from '../../../components/tablet';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        TabletModule,
+        DesktopModule,
         ZreSwiperModule,
         ZreFormModule,
         WaiterRoutingModule

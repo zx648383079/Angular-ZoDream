@@ -8,6 +8,7 @@ import { ThemeModule } from '../../theme/theme.module';
 import { MessageContainerModule } from '../../components/message-container';
 import { ContextMenuModule } from '../../components/context-menu';
 import { DialogModule } from '../../components/dialog';
+import { DesktopModule } from '../../components/desktop';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DialogModule } from '../../components/dialog';
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ChatRoutingModule,
         MessageContainerModule,
         ContextMenuModule,

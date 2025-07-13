@@ -4,6 +4,7 @@ import { ApiFieldTrComponent } from './api-field-tr/api-field-tr.component';
 import { TreePanelComponent } from './tree-panel/tree-panel.component';
 import { ContextMenuModule } from '../../../components/context-menu';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DesktopModule } from '../../../components/desktop';
 import { ThemeModule } from '../../../theme/theme.module';
 
 const COMPONENTS = [
@@ -15,6 +16,7 @@ const COMPONENTS = [
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ContextMenuModule,
     ],

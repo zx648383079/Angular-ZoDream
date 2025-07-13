@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 
 @Component({
     standalone: false,
-  selector: 'app-audio-player',
-  templateUrl: './audio-player.component.html',
-  styleUrls: ['./audio-player.component.scss']
+    selector: 'app-audio-player',
+    templateUrl: './audio-player.component.html',
+    styleUrls: ['./audio-player.component.scss']
 })
 export class AudioPlayerComponent implements OnDestroy, OnChanges {
     

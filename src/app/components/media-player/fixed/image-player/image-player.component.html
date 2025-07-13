@@ -1,6 +1,6 @@
 <div class="image-player" *ngIf="data">
     <div class="player-body">
-        <img [src]="data.source | asset" [alt]="data.name">
+        <img [src]="formatAsset(data.source)" [alt]="data.name">
     </div>
     <div class="player-action">
         <i class="iconfont icon-close" (click)="stop()"></i>

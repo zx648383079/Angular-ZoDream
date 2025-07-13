@@ -7,11 +7,13 @@ import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { NavigationService } from './navigation.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         DialogModule,
         ZreFormModule,

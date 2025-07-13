@@ -6,12 +6,14 @@ import { ZreFormModule } from '../../../components/form';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DialogModule } from '../../../components/dialog';
 import { ZreSwiperModule } from '../../../components/swiper';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         ZreFormModule,
+        DesktopModule,
         DialogModule,
         NgSelectModule,
         ZreSwiperModule,

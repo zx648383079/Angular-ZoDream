@@ -1,13 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { IBlockItem } from '../link-rule';
-import { formatAgo } from '../../theme/utils';
+import { assetUri, formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
 
 @Component({
     standalone: false,
-  selector: 'app-message-container',
-  templateUrl: './message-container.component.html',
-  styleUrls: ['./message-container.component.scss']
+    selector: 'app-message-container',
+    templateUrl: './message-container.component.html',
+    styleUrls: ['./message-container.component.scss']
 })
 export class MessageContainerComponent {
 
@@ -76,18 +76,22 @@ export class MessageContainerComponent {
         }
     }
 
+    public formatAsset(val?: string) {
+        return assetUri(val);
+    }
+
     public getMediaSource(item: IMessageBase) {
         if (!item.extra_rule || item.extra_rule.length < 1) {
-            return item.content;
+            return this.formatAsset(item.content);
         }
         const rule = item.extra_rule[0];
         if (item.type === 1) {
-            return rule.i;
+            return this.formatAsset(rule.i);
         }
         if (item.type === 2 || item.type === 3) {
-            return rule.f;
+            return this.formatAsset(rule.f);
         }
-        return rule.s;
+        return this.formatAsset(rule.s);
     }
 
     public onRuleTap(item: any) {

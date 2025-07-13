@@ -1,7 +1,7 @@
 <div class="action-btn" [ngClass]="{disabled: disabled, loading: isLoading}">
     <ng-container *ngIf="value; else elseTemplate">
         <div class="action-body">
-            <img [src]="value | asset" alt="">
+            <img [src]="formatAsset(value)" alt="">
             <div class="btn-group">
                 <label [for]="fileName" class="btn btn-info" i18n>
                     Change

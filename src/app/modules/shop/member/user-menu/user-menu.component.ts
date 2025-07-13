@@ -1,16 +1,17 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { INav } from '../../../../theme/components';
+import { INavLink } from '../../../../theme/models/seo';
+
 
 @Component({
     standalone: false,
-  selector: 'app-user-menu',
-  templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.scss']
+    selector: 'app-user-menu',
+    templateUrl: './user-menu.component.html',
+    styleUrls: ['./user-menu.component.scss']
 })
 export class UserMenuComponent implements OnChanges {
 
-    public items: INav[] = [{
+    public items: INavLink[] = [{
             name: '账号管理',
             children: [{
                 name: '个人中心',
@@ -99,7 +100,7 @@ export class UserMenuComponent implements OnChanges {
         }
     }
 
-    public tapNav(item: INav) {
+    public tapNav(item: INavLink) {
         this.items = this.items.map(group => {
             group.children = group.children.map(i => {
                 i.active = i === item;

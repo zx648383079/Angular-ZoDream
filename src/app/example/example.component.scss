@@ -1,4 +1,4 @@
-@use '../theme/styles/admin';
+@use '../../bootstrap/desktop/admin';
 .example-container ::ng-deep {
     @include admin.admin-container;
 }

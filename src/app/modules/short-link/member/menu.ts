@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ShortLinkMemberMenu: INav[] = [
+export const ShortLinkMemberMenu: INavLink[] = [
     {
         name: $localize `My Short Links`,
         icon: 'icon-chain',

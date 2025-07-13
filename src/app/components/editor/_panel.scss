@@ -1,5 +1,5 @@
-@use '../../theme/styles/theme';
-@use '../../theme/styles/mixins';
+@use '../../theme/theme';
+@use '../../../bootstrap/desktop/mixins';
 .editor-panel {
     flex-shrink: 0;
     overflow-y: auto;

@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const CateringBackendMenu: INav[] = [
+export const CateringBackendMenu: INavLink[] = [
     {
         name: '餐饮管理',
         icon: 'icon-fire',

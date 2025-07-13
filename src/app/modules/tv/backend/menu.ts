@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const TVBackendMenu: INav[] = [
+export const TVBackendMenu: INavLink[] = [
     {
         name: 'TV管理',
         icon: 'icon-globe',

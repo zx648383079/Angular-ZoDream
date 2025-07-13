@@ -3,9 +3,9 @@ import { twoPad } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-voice-player',
-  templateUrl: './voice-player.component.html',
-  styleUrls: ['./voice-player.component.scss']
+    selector: 'app-voice-player',
+    templateUrl: './voice-player.component.html',
+    styleUrls: ['./voice-player.component.scss']
 })
 export class VoicePlayerComponent implements OnChanges, OnDestroy {
 

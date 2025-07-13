@@ -22,3 +22,4 @@ export function emptyValidate(value: string): boolean {
 export function intValidate(val: string): boolean {
     return val && /^\d+$/.test(val);
 }
+

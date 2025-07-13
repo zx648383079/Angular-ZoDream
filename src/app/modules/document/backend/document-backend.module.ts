@@ -19,12 +19,14 @@ import { ZreEditorModule } from '../../../components/editor';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DocumentSharedModule } from '../shared';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         DocumentBackendRoutingModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ZreEditorModule,
         DocumentSharedModule,

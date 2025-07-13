@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const BlogBackendMenu: INav[] = [
+export const BlogBackendMenu: INavLink[] = [
     {
         name: '博客',
         icon: 'icon-file-text-o',

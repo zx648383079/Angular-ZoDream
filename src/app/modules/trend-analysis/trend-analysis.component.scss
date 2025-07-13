@@ -1,4 +1,4 @@
-@use '../../theme/styles/admin';
+@use '../../../bootstrap/desktop/admin';
 .trend-container ::ng-deep {
     @include admin.admin-container;
     .text-wrap {

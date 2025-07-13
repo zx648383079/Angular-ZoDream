@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ITableHeaderItem } from '../../../../theme/components/editable-table/model';
 import { GenerateService } from '../../generate.service';
 import { IColumn } from '../../model';
+import { ITableHeaderItem } from '../../../../components/desktop/editable-table/model';
 
 @Component({
     standalone: false,

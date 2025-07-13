@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ForumMemberMenu: INav[] = [
+export const ForumMemberMenu: INavLink[] = [
     {
         name: $localize `My Threads`,
         icon: 'icon-smile-o',

@@ -1,4 +1,4 @@
-@use '../../theme/styles/theme';
+@use '../../theme/theme';
 .editor-modal-box {
     --#{theme.$prefix}modal: var(--#{theme.$prefix}input);
     --#{theme.$prefix}modal-text: var(--#{theme.$prefix}body-text);

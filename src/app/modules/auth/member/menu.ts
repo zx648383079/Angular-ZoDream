@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const MemberMenu: INav[] = [
+export const MemberMenu: INavLink[] = [
     {
         name: $localize `Thirdparty App`,
         icon: 'icon-rocket',

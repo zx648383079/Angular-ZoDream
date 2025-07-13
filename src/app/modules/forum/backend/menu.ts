@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ForumBackendMenu: INav[] = [
+export const ForumBackendMenu: INavLink[] = [
     {
         name: '论坛管理',
         icon: 'icon-smile-o',

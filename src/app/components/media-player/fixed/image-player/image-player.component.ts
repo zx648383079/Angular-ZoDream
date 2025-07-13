@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
+import { assetUri } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-image-player',
-  templateUrl: './image-player.component.html',
-  styleUrls: ['./image-player.component.scss']
+    selector: 'app-image-player',
+    templateUrl: './image-player.component.html',
+    styleUrls: ['./image-player.component.scss']
 })
 export class ImagePlayerComponent implements PlayerEvent {
 
@@ -25,6 +26,10 @@ export class ImagePlayerComponent implements PlayerEvent {
 
     public get canNext() {
         return this.items.length > 1 && this.index < this.items.length - 1;
+    }
+
+    public formatAsset(val?: string) {
+        return assetUri(val);
     }
 
     public tapPrevious() {

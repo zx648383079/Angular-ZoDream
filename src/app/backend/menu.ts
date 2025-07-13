@@ -1,4 +1,4 @@
-import { INav } from '../theme/components';
+import { INavLink } from '../theme/models/seo';
 
 export const backendMenuItems = [
     {
@@ -44,7 +44,7 @@ export const backendMenuItems = [
 
 
 
-export const backendBottomMenu: INav[] = [
+export const backendBottomMenu: INavLink[] = [
     {
         name: $localize `Login in`,
         icon: 'icon-user',

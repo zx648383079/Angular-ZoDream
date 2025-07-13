@@ -1,0 +1,165 @@
+@use '../../../theme/theme';
+@use '../../../../bootstrap/desktop/scrollbar';
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu {
+    --#{theme.$prefix}menu: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}menu-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}surface-hovered);
+    --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}surface-selected);
+    --#{theme.$prefix}menu-child: var(--#{theme.$prefix}surface-child);
+}
+
+
+.nav-bar {
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}nav-hover: var(--#{theme.$prefix}surface-hovered);
+    position: fixed;
+    left: 0;
+    width: 12.5rem;
+    bottom: 0;
+    background-color: var(--#{theme.$prefix}nav);
+    color: var(--#{theme.$prefix}nav-text);
+    top: 0;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    .nav-toggle-icon {
+        font-size: 1.875rem;
+        padding: 0.2rem 0.625rem;
+        display: inline-block;
+        &:hover {
+            background-color: var(--#{theme.$prefix}nav-hover);
+        }
+    }
+    .bar-top {
+        overflow-y: auto;
+        flex: 1;
+        @include scrollbar.scrollbar();
+    }
+    a {
+        text-decoration: none;
+        color: var(--#{theme.$prefix}nav-text);
+    }
+    .search-input {
+        position: relative;
+        background-color: var(--#{theme.$prefix}input);
+        padding-right: 1.875rem;
+        .iconfont {
+            position: absolute;
+            top: 0.625rem;
+            right: 0.625rem;
+            color: var(--#{theme.$prefix}input-icon);
+        }
+        input {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            height: 2.5rem;
+        }
+    }
+}
+
+
+.page-body {
+    margin-left: 12.5rem;
+}
+
+.nav-flow {
+    .nav-bar {
+        box-shadow: var(--#{theme.$prefix}box-shadow);
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}
+
+.nav-min {
+    .nav-bar {
+        width: 3.125rem;
+        .menu-name {
+            display: none;
+        }
+        .menu-item {
+            .iconfont {
+                position: static;
+            }
+            .menu-icon {
+                display: inline-block;
+            }
+        }
+        .search-input {
+            background-color: transparent;
+            padding-right: 0;
+            text-align: center;
+            .iconfont {
+                position: static;
+                font-size: 1.875rem;
+                display: block;
+                color: var(--#{theme.$prefix}surface-text);
+            }
+            input {
+                display: none;
+            }
+        }
+    }
+    .page-body {
+        margin-left: 3.125rem;
+    }
+}
+
+.nav-mini {
+    .nav-bar {
+        width: 3.125rem;
+        bottom: auto;
+        .bar-top,
+        .bar-bottom {
+            display: none;
+        }
+    }
+    .page-body {
+        margin-left: 0;
+        margin-top: 3rem;
+    }
+    ::ng-deep {
+        .edit-header {
+            padding: 3rem 0 1.25rem;
+            margin-top: -3rem;
+        }
+    }
+}
+
+.nav-unreal {
+    .nav-bar {
+        width: 3.125rem;
+        bottom: auto;
+        opacity: .2;
+        .bar-top,
+        .bar-bottom {
+            display: none;
+        }
+        &:hover {
+            opacity: 1;
+        }
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}
+
+.nav-hide {
+    .nav-bar {
+        display: none;
+    }
+    .page-body {
+        margin-left: 0;
+    }
+}

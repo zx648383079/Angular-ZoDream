@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const LegworkBackendMenu: INav[] = [
+export const LegworkBackendMenu: INavLink[] = [
     {
         name: '跑腿服务',
         icon: 'icon-rocket',

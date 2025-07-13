@@ -13,10 +13,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
+        DesktopModule,
         LegworkRoutingModule,
         ThemeModule,
         FormsModule,

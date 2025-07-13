@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
-import { ITableHeaderItem } from '../../../theme/components/editable-table/model';
 import { IItem } from '../../../theme/models/seo';
 import { emptyValidate } from '../../../theme/validators';
 import { GenerateService } from '../generate.service';
+import { ITableHeaderItem } from '../../../components/desktop/editable-table/model';
 
 @Component({
     standalone: false,

@@ -1,0 +1,64 @@
+@use '../../app/theme/theme';
+@forward 'list';
+
+@mixin member-container {
+    .page-search-bar {
+        .flat-input {
+            display: inline-flex;
+            width: auto;
+        }
+        .form-control {
+            width: auto;
+            background-color: transparent;
+        }
+        .pull-right {
+            float: right;
+        }
+        &::after {
+            content: " ";
+            display: block;
+            clear: both;
+        }
+    }
+    
+    .route-bar {
+        display: flex;
+        .back-btn {
+            position: static;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            z-index: 9;
+            font-size: 1.875rem;
+            cursor: pointer;
+            background-color: #fff;
+            color: #666;
+            border: 1px solid #ccc;
+            margin-right: 1rem;
+            margin-left: .8rem;
+            margin-bottom: .8rem;
+            &:hover {
+                background-color: #eee;
+            }
+        }
+        .breadcrumb {
+            margin: 0;
+            line-height: 2.5rem;
+        }
+        .route-title {
+            flex: 1;
+            margin: 0;
+            line-height: 2.5rem;
+            user-select: none;
+            font-weight: 700;
+        }
+    }
+    
+    .list-table {
+        margin-top: 1rem;
+    }
+    
+}

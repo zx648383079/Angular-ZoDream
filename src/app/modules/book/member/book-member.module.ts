@@ -4,12 +4,14 @@ import { bookMemberRoutingComponents, BookMemberRoutingModule } from './book-rou
 import { ThemeModule } from '../../../theme/theme.module';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         BookMemberRoutingModule,
         ZreFormModule,
     ],

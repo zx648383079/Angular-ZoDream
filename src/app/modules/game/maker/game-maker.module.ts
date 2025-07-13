@@ -5,11 +5,13 @@ import { GameMakerService } from './game-maker.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ZreFormModule } from '../../../components/form';
 import { DialogModule } from '../../../components/dialog';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ZreFormModule,
         DialogModule,
         GameMakerRoutingModule

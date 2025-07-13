@@ -13,7 +13,7 @@
         <div class="body">
             <div class="month-grid" *ngIf="gridMode == 0">
                 <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
-                <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ item.val | twoPad }}</li></ul>
+                <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li></ul>
             </div>
             <div class="year-grid" *ngIf="gridMode == 1">
                 <div class="list-group year">
@@ -25,7 +25,7 @@
                 <div class="list-group month">
                 <div class="title" i18n>Month</div>
                 <ul>
-                    <li *ngFor="let item of monthItems" [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ item | twoPad }}</li>
+                    <li *ngFor="let item of monthItems" [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
                 </ul>
                 </div>
                 <i class="iconfont icon-close" (click)="toggleYear()"></i>
@@ -34,19 +34,19 @@
                 <div class="list-group hour">
                 <div class="title" i18n>Hour</div>
                 <ul>
-                    <li *ngFor="let item of hourItems" [ngClass]="{active: item == currentHour}" (click)="changeHour(item)">{{ item | twoPad }}</li>
+                    <li *ngFor="let item of hourItems" [ngClass]="{active: item == currentHour}" (click)="changeHour(item)">{{ twoPad(item) }}</li>
                 </ul>
                 </div>
                 <div class="list-group minute">
                 <div class="title" i18n>Minute</div>
                 <ul>
-                    <li *ngFor="let item of minuteItems" [ngClass]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ item | twoPad }}</li>
+                    <li *ngFor="let item of minuteItems" [ngClass]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
                 </ul>
                 </div>
                 <div class="list-group second">
                 <div class="title" i18n>Second</div>
                 <ul>
-                    <li *ngFor="let item of secondItems" [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ item | twoPad }}</li>
+                    <li *ngFor="let item of secondItems" [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ twoPad(item) }}</li>
                 </ul>
                 </div>
                 <i class="iconfont icon-close"></i>
@@ -54,9 +54,9 @@
         </div>
         <div class="footer" *ngIf="hasTime">
             <div class="time-box" (click)="toggleTime()">
-                <span>{{ currentHour | twoPad }}</span>:
-                <span>{{ currentMinute | twoPad }}</span>:
-                <span>{{ currentSecond | twoPad }}</span>
+                <span>{{ twoPad(currentHour) }}</span>:
+                <span>{{ twoPad(currentMinute) }}</span>:
+                <span>{{ twoPad(currentSecond) }}</span>
             </div>
             <button type="button" (click)="enterChange()" i18n>Ok</button>
         </div>

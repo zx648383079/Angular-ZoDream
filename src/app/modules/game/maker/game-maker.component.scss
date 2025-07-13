@@ -1,4 +1,4 @@
-@use '../../../theme/styles/admin';
+@use '../../../../bootstrap/desktop/admin';
 .maker-container ::ng-deep {
     @include admin.admin-container;
     .group-panel {

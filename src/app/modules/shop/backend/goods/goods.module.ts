@@ -8,10 +8,12 @@ import { ZreFormModule } from '../../../../components/form';
 import { DialogModule } from '../../../../components/dialog';
 import { ZreEditorModule } from '../../../../components/editor';
 import { ShopManageModule } from '../../components';
+import { DesktopModule } from '../../../../components/desktop';
 
 @NgModule({
     imports: [
         ThemeModule,
+        DesktopModule,
         GoodsRoutingModule,
         ReactiveFormsModule,
         ZreEditorModule,

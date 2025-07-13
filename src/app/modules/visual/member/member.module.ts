@@ -7,11 +7,13 @@ import { VisualMemberRoutingModule, visualMemberRoutingComponents } from './visu
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
 import { VisualService } from './visual.service';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         DialogModule,
         ReactiveFormsModule,
         VisualMemberRoutingModule,

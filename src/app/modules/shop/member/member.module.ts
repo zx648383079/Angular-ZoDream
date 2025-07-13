@@ -8,6 +8,7 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { MessageContainerModule } from '../../../components/message-container';
 import { ZreFormModule } from '../../../components/form';
 import { ShopCommonModule } from '../common.module';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
@@ -17,6 +18,7 @@ import { ShopCommonModule } from '../common.module';
         ReactiveFormsModule,
         FormsModule,
         ThemeModule,
+        DesktopModule,
         MessageContainerModule,
         ZreFormModule,
         ShopCommonModule,

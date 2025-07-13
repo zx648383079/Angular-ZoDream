@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 .profiler-container ::ng-deep {
     .avatar-item {
         --#{theme.$prefix}item-radius: .75rem;

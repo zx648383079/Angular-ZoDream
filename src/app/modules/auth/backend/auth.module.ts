@@ -9,12 +9,14 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { OpenModule } from '../../open/open.module';
+import { DesktopModule } from '../../../components/desktop';
 
 
 @NgModule({
     declarations: [...authRoutedComponents],
     imports: [
         CommonModule,
+        DesktopModule,
         ReactiveFormsModule,
         NgSelectModule,
         ThemeModule,

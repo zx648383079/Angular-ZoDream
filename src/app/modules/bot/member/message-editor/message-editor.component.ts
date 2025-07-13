@@ -22,9 +22,9 @@ interface IEditorData {
 
 @Component({
     standalone: false,
-  selector: 'app-bot-message-editor',
-  templateUrl: './message-editor.component.html',
-  styleUrls: ['./message-editor.component.scss']
+    selector: 'app-bot-message-editor',
+    templateUrl: './message-editor.component.html',
+    styleUrls: ['./message-editor.component.scss']
 })
 export class MessageEditorComponent implements OnChanges {
 

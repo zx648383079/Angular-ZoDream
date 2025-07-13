@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { LegworkService } from './legwork.service';
 
@@ -11,7 +11,7 @@ import { LegworkService } from './legwork.service';
 })
 export class LegworkComponent implements OnInit {
 
-    public items: INav[] = this.renderNav();
+    public items: INavLink[] = this.renderNav();
 
     constructor(
         private service: LegworkService,
@@ -26,7 +26,7 @@ export class LegworkComponent implements OnInit {
     ngOnInit() {
     }
 
-    public tapNav(item: INav) {
+    public tapNav(item: INavLink) {
         this.items = this.items.map(group => {
             group.children = group.children.map(i => {
                 i.active = i === item;

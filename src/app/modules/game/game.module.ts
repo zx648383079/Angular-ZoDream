@@ -6,11 +6,13 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { MessageContainerModule } from '../../components/message-container';
 import { ProgressModule } from '../../components/progress';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ZreFormModule,
         GameRoutingModule,
         ProgressModule,

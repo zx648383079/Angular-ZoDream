@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { INav } from '../../theme/components';
+import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
@@ -13,7 +13,7 @@ import { ThemeService } from '../../theme/services';
 })
 export class DiskComponent implements OnInit {
 
-    public navItems: INav[] = [{
+    public navItems: INavLink[] = [{
             name: '首页',
             icon: 'icon-home',
             url: './'
@@ -101,7 +101,7 @@ export class DiskComponent implements OnInit {
         }
     ];
 
-    public bottomNavs: INav[] = [{
+    public bottomNavs: INavLink[] = [{
             name: 'zodream',
             icon: 'icon-user',
             url: './auth/profile'

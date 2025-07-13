@@ -9,6 +9,7 @@ import { CheckinModule } from '../modules/checkin/checkin.module';
 import { DialogModule } from '../components/dialog';
 import { ZreFormModule } from '../components/form';
 import { AuthSharedModule } from '../modules/auth/auth-shared.module';
+import { DesktopModule } from '../components/desktop';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AuthSharedModule } from '../modules/auth/auth-shared.module';
         CommonModule,
         ThemeModule,
         CheckinModule,
+        DesktopModule,
         FrontendRoutingModule,
         OnlineServiceModule,
         DialogModule,

@@ -8,11 +8,13 @@ import { ZreFormModule } from '../../components/form';
 import { AuthSharedModule } from '../auth/auth-shared.module';
 import { CateringService } from './catering.service';
 import { ZreScannerModule } from '../../components/scanner';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         CateringRoutingModule,
         ContextMenuModule,

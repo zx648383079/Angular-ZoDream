@@ -6,12 +6,14 @@ import { NavigationService } from './navigation.service';
 import { DialogModule } from '../../components/dialog';
 import { LinkRuleModule } from '../../components/link-rule';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         NavigationRoutingModule,
         LinkRuleModule,
         ZreFormModule,

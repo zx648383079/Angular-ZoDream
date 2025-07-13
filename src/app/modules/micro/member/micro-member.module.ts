@@ -4,11 +4,13 @@ import { MicroMemberRoutingComponents, MicroMemberRoutingModule } from './routin
 import { MicroService } from './micro.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { LinkRuleModule } from '../../../components/link-rule';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         LinkRuleModule,
         MicroMemberRoutingModule
     ],

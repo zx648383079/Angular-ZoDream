@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/cor
 import { FileUploadService } from '../../../theme/services';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { IUploadResult, IUploadFile } from '../../../theme/models/open';
+import { assetUri } from '../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -31,6 +32,10 @@ export class ImageInputComponent implements ControlValueAccessor {
     constructor(
         private uploadService: FileUploadService,
     ) { }
+
+    public formatAsset(val?: string) {
+        return assetUri(val);
+    }
 
     public tapRemove() {
         this.onChange(this.value = '');

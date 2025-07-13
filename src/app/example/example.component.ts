@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { INav } from '../theme/components';
+import { INavLink } from '../theme/models/seo';
 import { SearchService, ThemeService } from '../theme/services';
 import { SearchEvents } from '../theme/models/event';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ExampleComponent {
 
-    public navItems: INav[] = [
+    public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -155,7 +155,7 @@ export class ExampleComponent {
             ]
         },
     ];
-    public bottomNavs: INav[] = [
+    public bottomNavs: INavLink[] = [
         {
             name: $localize `Login in`,
             icon: 'icon-user',

@@ -1,5 +1,5 @@
-@use '../../theme/styles/theme';
-@use '../../theme/styles/member';
+@use '../../theme/theme';
+@use '../../../bootstrap/desktop/member';
 .person-box {
     margin: 5rem 0;
     .avatar {

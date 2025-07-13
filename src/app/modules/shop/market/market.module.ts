@@ -8,6 +8,7 @@ import { GameModule } from '../game/game.module';
 import { ZreFormModule } from '../../../components/form';
 import { ShopCommonModule } from '../common.module';
 import { ZreSwiperModule } from '../../../components/swiper';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     declarations: [...marketRoutingComponents],
@@ -15,6 +16,7 @@ import { ZreSwiperModule } from '../../../components/swiper';
         CommonModule,
         MarketRoutingModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         GameModule,
         ZreFormModule,

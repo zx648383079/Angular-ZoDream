@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 .space-container {
     background-color: var(--#{theme.$prefix}panel);
     color: var(--#{theme.$prefix}body-text);

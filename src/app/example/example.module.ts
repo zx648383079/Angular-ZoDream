@@ -12,11 +12,15 @@ import { FileExplorerModule } from '../components/file-explorer';
 import { MediaPlayerModule } from '../components/media-player';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ZreSwiperModule } from '../components/swiper';
+import { DesktopModule } from '../components/desktop';
+import { TabletModule } from '../components/tablet';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
+        TabletModule,
         ZreEditorModule,
         ZreFormModule,
         DialogModule,

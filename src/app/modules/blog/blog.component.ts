@@ -11,21 +11,15 @@ import {
     IBlog
 } from './model';
 import {
-    SafeHtml,
-    DomSanitizer
-} from '@angular/platform-browser';
-import {
     IUser
 } from '../../theme/models/user';
-import {
-    PullToRefreshComponent
-} from '../../theme/components';
 import {
     ActivatedRoute
 } from '@angular/router';
 import { IErrorResult } from '../../theme/models/page';
 import { DialogService } from '../../components/dialog';
 import { SearchService } from '../../theme/services';
+import { PullToRefreshComponent } from '../../components/tablet';
 
 @Component({
     standalone: false,

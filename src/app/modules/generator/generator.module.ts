@@ -6,11 +6,13 @@ import { DialogModule } from '../../components/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GenerateService } from './generate.service';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         DialogModule,
         GeneratorRoutingModule,
         NgSelectModule,

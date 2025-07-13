@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const DocumentBackendMenu: INav[] = [
+export const DocumentBackendMenu: INavLink[] = [
     {
         name: '文档管理',
         icon: 'icon-file-text-o',

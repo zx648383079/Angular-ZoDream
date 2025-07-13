@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const VisualMemberMenu: INav[] = [
+export const VisualMemberMenu: INavLink[] = [
     {
         name: $localize `My Components`,
         icon: 'icon-zuhe',

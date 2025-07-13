@@ -1,5 +1,5 @@
-@use '../../../theme/styles/theme';
-@use '../../../theme/styles/scrollbar';
+@use '../../../theme/theme';
+@use '../../../../bootstrap/desktop/scrollbar';
 .time-input-container {
     display: inline-block;
     color: var(--#{theme.$prefix}input-text);

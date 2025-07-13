@@ -6,11 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LegworkService } from './legwork.service';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         LegworkBackendRoutingModule,
         ReactiveFormsModule,
         DialogModule,

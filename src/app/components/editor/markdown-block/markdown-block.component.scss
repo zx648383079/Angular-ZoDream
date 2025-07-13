@@ -1,4 +1,4 @@
-@use '../../../theme/styles/theme';
+@use '../../../theme/theme';
 .style-markdown {
     font: 1.3em "Vollkorn", "Microsoft YaHei", 微软雅黑, 宋体;
     color: var(--#{theme.$prefix}body-text);

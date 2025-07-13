@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const NavigationBackendMenu: INav[] = [
+export const NavigationBackendMenu: INavLink[] = [
     {
         name: '导航管理',
         icon: 'icon-google',

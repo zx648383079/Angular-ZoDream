@@ -1,7 +1,6 @@
 @use 'sass:math';
-@use '../../../theme/styles/theme';
-@use '../../../theme/styles/prefix';
-@use '../../../theme/styles/loading/circle';
+@use '../../../theme/theme';
+@use '../../../../bootstrap/loading/circle';
 
 $radius: .25rem;
 $lineHight: 2.25rem;

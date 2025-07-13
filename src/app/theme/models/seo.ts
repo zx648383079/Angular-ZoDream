@@ -1,6 +1,19 @@
 import { IPageEditItem } from './page';
 import { IUser } from './user';
 
+
+export interface INavLink {
+    name: string;
+    icon?: string;
+    label?: string;
+    url?: string;
+    urlQuery?: any;
+    children?: INavLink[];
+    expand?: boolean;
+    active?: boolean;
+    role?: string;
+}
+
 export interface ILink {
     name: string;
     url: string;

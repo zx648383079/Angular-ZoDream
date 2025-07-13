@@ -4,12 +4,14 @@ import { shortBackendRoutingComponents, ShortBackendRoutingModule } from './rout
 import { ThemeModule } from '../../../theme/theme.module';
 import { ShortLinkService } from './short-link.service';
 import { DialogModule } from '../../../components/dialog';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         ShortBackendRoutingModule
     ],
     declarations: [...shortBackendRoutingComponents],

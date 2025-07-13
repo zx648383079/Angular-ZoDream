@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { confirmValidator } from '../../../theme/validators';
 import { IErrorResponse } from '../../../theme/models/page';
 import { AuthService, ThemeService } from '../../../theme/services';
 import { DialogService } from '../../../components/dialog';
+import { confirmValidator } from '../../../components/desktop/directives';
 
 @Component({
     standalone: false,
-  selector: 'app-auth-find',
-  templateUrl: './find.component.html',
-  styleUrls: ['./find.component.scss']
+    selector: 'app-auth-find',
+    templateUrl: './find.component.html',
+    styleUrls: ['./find.component.scss']
 })
 export class FindComponent implements OnInit {
 

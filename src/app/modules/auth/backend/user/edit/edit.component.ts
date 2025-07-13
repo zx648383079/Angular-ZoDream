@@ -5,8 +5,8 @@ import { DialogService } from '../../../../../components/dialog';
 import { IRole } from '../../../../../theme/models/auth';
 import { IUser, SexItems } from '../../../../../theme/models/user';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
-import { confirmValidator } from '../../../../../theme/validators';
 import { AuthService } from '../../auth.service';
+import { confirmValidator } from '../../../../../components/desktop/directives';
 
 @Component({
     standalone: false,

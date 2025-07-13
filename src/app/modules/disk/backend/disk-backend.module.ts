@@ -6,11 +6,13 @@ import { DiskService } from './disk.service';
 import { FileExplorerModule } from '../../../components/file-explorer';
 import { FILE_PROVIDER } from '../../../components/file-explorer/model';
 import { ZreFormModule } from '../../../components/form';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         FileExplorerModule,
         DiskBackendRoutingModule,
         ZreFormModule,

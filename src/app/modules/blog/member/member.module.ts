@@ -8,12 +8,14 @@ import { ZreEditorModule } from '../../../components/editor';
 import { BlogMemberRoutingModule, blogMemberRoutingComponents } from './blog-routing.module';
 import { BlogService } from './blog.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         ReactiveFormsModule,
         BlogMemberRoutingModule,
         ZreFormModule,

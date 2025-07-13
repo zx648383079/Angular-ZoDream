@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const ShortLinkBackendMenu: INav[] = [
+export const ShortLinkBackendMenu: INavLink[] = [
     {
         name: '短链接管理',
         icon: 'icon-chain',

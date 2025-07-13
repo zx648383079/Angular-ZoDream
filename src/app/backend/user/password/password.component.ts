@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
-import { confirmValidator } from '../../../theme/validators';
 import { UserService } from '../user.service';
+import { confirmValidator } from '../../../components/desktop/directives';
 
 @Component({
     standalone: false,

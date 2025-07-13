@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const AppBackendMenu: INav[] = [
+export const AppBackendMenu: INavLink[] = [
     {
         name: '应用管理',
         icon: 'icon-APP',

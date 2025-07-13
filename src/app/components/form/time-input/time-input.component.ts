@@ -53,6 +53,13 @@ export class TimeInputComponent implements ControlValueAccessor, OnChanges {
         }
     }
 
+    public twoPad(val: number) {
+        if (val < 10) {
+            return '0' + val;
+        }
+        return val;
+    }
+
     public onValueChange(event: Event) {
         const value = (event.target as HTMLInputElement).value;
         this.value = this.timeParse(value).map(twoPad).join(':');

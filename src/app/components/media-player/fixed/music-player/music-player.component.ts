@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
-import { randomInt } from '../../../../theme/utils';
+import { assetUri, randomInt } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -107,6 +107,10 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             return;
         }
         this.audio.pause();
+    }
+
+    public formatAsset(val?: string) {
+        return assetUri(val);
     }
 
     public tapPrevious() {

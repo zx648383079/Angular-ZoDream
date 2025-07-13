@@ -6,11 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MessageServiceService } from './ms.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         MessageServiceRoutingModule,
         ZreFormModule,

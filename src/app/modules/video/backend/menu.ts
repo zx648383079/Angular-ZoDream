@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const VideoBackendMenu: INav[] = [
+export const VideoBackendMenu: INavLink[] = [
     {
         name: '短视频管理',
         icon: 'icon-film',

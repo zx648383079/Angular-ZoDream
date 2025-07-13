@@ -7,12 +7,14 @@ import { ZreFormModule } from '../../components/form';
 import { ContextMenuModule } from '../../components/context-menu';
 import { ExamCommonModule } from './exam-common';
 import { DialogModule } from '../../components/dialog';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ExamRoutingModule,
         ZreFormModule,
+        DesktopModule,
         ContextMenuModule,
         ExamCommonModule,
         ThemeModule,

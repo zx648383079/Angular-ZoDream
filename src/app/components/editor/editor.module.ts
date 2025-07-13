@@ -19,6 +19,7 @@ import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { EditorSearchComponent } from './modal/search/editor-search.component';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 import { EditorService } from './container';
+import { DesktopModule } from '../desktop';
 
 const COMPONENTS = [
     MarkdownEditorComponent,
@@ -31,7 +32,7 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
-        ThemeModule,
+        DesktopModule,
         ZreFormModule,
         FormsModule,
     ],

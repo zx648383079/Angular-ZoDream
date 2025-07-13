@@ -1,5 +1,5 @@
-@use '../../theme/styles/theme';
-@use '../../theme/styles/scrollbar';
+@use '../../theme/theme';
+@use '../../../bootstrap/desktop/scrollbar';
 
 $headerHeight: 2.5rem;
 $border: 1px solid var(--#{theme.$prefix}border);

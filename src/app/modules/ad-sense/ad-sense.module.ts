@@ -6,12 +6,14 @@ import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { ThemeModule } from '../../theme/theme.module';
 import { AdService } from './ad.service';
+import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DialogModule,
+        DesktopModule,
         ReactiveFormsModule,
         ZreFormModule,
         AdRoutingModule,

@@ -6,12 +6,14 @@ import { cateringBackendRoutingComponents, CateringBackendRoutingModule } from '
 import { CateringBackendService } from './catering.service';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         CateringBackendRoutingModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ZreFormModule,
         ZreEditorModule,

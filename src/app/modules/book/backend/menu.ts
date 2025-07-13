@@ -1,6 +1,6 @@
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 
-export const BookBackendMenu: INav[] = [
+export const BookBackendMenu: INavLink[] = [
     {
         name: '书籍管理',
         icon: 'icon-book',

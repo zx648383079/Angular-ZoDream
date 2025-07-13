@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 })
 export class GameProfilerComponent implements OnDestroy {
 
-public navItems: INav[] = [
+public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -42,7 +42,7 @@ public navItems: INav[] = [
         },
     ];
 
-    public bottomNavs: INav[] = [
+    public bottomNavs: INavLink[] = [
         {
             name: $localize `Login in`,
             icon: 'icon-user',

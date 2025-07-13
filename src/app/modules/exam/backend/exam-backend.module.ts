@@ -10,11 +10,13 @@ import { ZreFormModule } from '../../../components/form';
 import { MaterialTypePipe } from './material-type.pipe';
 import { MediaPlayerModule } from '../../../components/media-player';
 import { ExamCommonModule } from '../exam-common';
+import { DesktopModule } from '../../../components/desktop';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        DesktopModule,
         ReactiveFormsModule,
         ExamBackendRoutingModule,
         DialogModule,

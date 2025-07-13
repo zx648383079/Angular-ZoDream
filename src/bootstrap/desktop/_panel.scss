@@ -1,0 +1,159 @@
+@use '../../app/theme/theme';
+.panel {
+    background-color: var(--#{theme.$prefix}body);
+    border-radius: 0.1875rem;
+    margin-bottom: 0.625rem;
+    .panel-header {
+        line-height: 2.5rem;
+        border-left: none;
+        font-size: 1.125rem;
+        padding: 0 0.625rem;
+    }
+    .panel-body {
+        padding: 0.625rem;
+    }
+}
+
+.catalog-panel {
+    margin: 0.625rem 0;
+    .panel-header {
+        line-height: 3.125rem;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
+        padding: 0 1.25rem;
+        background-color: var(--#{theme.$prefix}panel);
+    }
+    .pull-right {
+        float: right;
+        font-size: 0.5rem;
+    }
+    .catalog-item {
+        display: flex;
+        background-color: var(--#{theme.$prefix}panel);
+        margin-bottom: .5em;
+        .cover {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 5rem;
+            height: 5rem;
+            img {
+                max-width: 5rem;
+                max-height: 5rem;
+            }
+        }
+        .item-body {
+            flex: 1;
+            .name {
+                line-height: 2rem;
+                font-size: 1rem;
+                a {
+                    text-decoration: none;
+                }
+            }
+            .meta {
+                display: block;
+                height: 20px;
+                line-height: 20px;
+                font-size: 13px;
+                padding-top: 2px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+        &:hover {
+            box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .7) 0 0 10px;
+        }
+    }
+    &.min {
+        .panel-body {
+            display: none;
+        }
+    }
+}
+
+.panel-container {
+    box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    background-color: var(--#{theme.$prefix}panel);
+    padding: 1.25rem;
+    .page-empty-tip {
+        font-size: 3em;
+        color: var(--#{theme.$prefix}meta-text);
+        font-weight: 700;
+        text-align: center;
+        padding: 2em 0;
+        cursor: default;
+        user-select: none;
+    }
+    .table {
+        --#{theme.$prefix}table-bg: var(--#{theme.$prefix}panel);
+    }
+}
+
+.swipe-row {
+    display: flex;
+    .swipe-body {
+        flex: 1;
+    }
+    .swipe-action {
+        display: flex;
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 .5rem;
+            min-width: 2.5rem;
+            word-break: keep-all;
+            background-color: var(--#{theme.$prefix}btn-bg);
+            color: var(--#{theme.$prefix}btn-color);
+            &:hover {
+                background-color: var(--#{theme.$prefix}btn-hover-bg);
+                color: var(--#{theme.$prefix}btn-hover-color);
+            }
+        }
+    }
+    &:hover {
+        background-color: var(--#{theme.$prefix}body)
+    }
+}
+
+.items-panel-container {
+    // --#{theme.$prefix}panel: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}panel-hover: var(--#{theme.$prefix}light);
+    .panel-body,
+    .panel-action-btn {
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}panel-color);
+    }
+    .panel-action-btn {
+        display: inline-block;
+        border-radius: 0.25rem 0.25rem 0 0;
+        padding: 0 .8rem;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--#{theme.$prefix}panel-hover);
+        }
+    }
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        line-height: 2.5rem;
+        padding-left: .8rem;
+    }
+    .panel-body {
+        border-radius: 0.25rem 0 0.25rem 0.25rem;
+        padding: .8rem;
+    }
+    .form-control {
+        width: auto;
+        display: inline-block;
+    }
+    .flat-input {
+        &:not(:last-of-type) {
+            margin-bottom: .4rem;
+        }
+    }
+}

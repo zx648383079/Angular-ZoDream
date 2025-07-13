@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { INav } from '../../../../theme/components';
+import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -9,7 +9,7 @@ import { INav } from '../../../../theme/components';
 })
 export class MerchantMenuComponent implements OnChanges, OnInit {
 
-    public items: INav[] = [
+    public items: INavLink[] = [
         {name: '统计', url: '', active: true},
         {name: '订单管理', url: 'order'},
         {name: '商品管理', url: 'goods'},
@@ -36,7 +36,7 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
         }
     }
 
-    public fullPath(item: INav) {
+    public fullPath(item: INavLink) {
         const path = this.basePath + item.url;
         if (path.length < 1) {
             return './';

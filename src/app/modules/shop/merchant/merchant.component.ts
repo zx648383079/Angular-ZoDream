@@ -1,6 +1,6 @@
 import { Component, OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { INav } from '../../../theme/components';
+import { INavLink } from '../../../theme/models/seo';
 import { AppState } from '../../../theme/interfaces';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../theme/services';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class MerchantComponent implements OnDestroy {
 
-    public navItems: INav[] = [{
+    public navItems: INavLink[] = [{
             name: '首页',
             icon: 'icon-home',
             url: './'
@@ -106,7 +106,7 @@ export class MerchantComponent implements OnDestroy {
         },
     ];
 
-    public bottomNavs: INav[] = [{
+    public bottomNavs: INavLink[] = [{
             name: 'zodream',
             icon: 'icon-user',
             url: './'
