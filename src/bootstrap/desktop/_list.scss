@@ -3,12 +3,20 @@
 
 @mixin list-table {
     .list-table {
+        --#{theme.$prefix}table: var(--#{theme.$prefix}panel);
+        --#{theme.$prefix}table-meta: var(--#{theme.$prefix}body);
+        --#{theme.$prefix}table-meta-text: var(--#{theme.$prefix}meta-text);
+        --#{theme.$prefix}table-stamp: var(--#{theme.$prefix}tertiary);
+        --#{theme.$prefix}table-hover: var(--#{theme.$prefix}table);
+        --#{theme.$prefix}table-hover-meta: var(--#{theme.$prefix}body);
+        --#{theme.$prefix}table-hover-stamp: var(--#{theme.$prefix}primary);
+        --#{theme.$prefix}table-hover-stamp-text: var(--#{theme.$prefix}primary-text);
         .row-item,
         .image-row-item {
             .item-meta-bar {
                 float: left;
                 font-size: .8rem;
-                color: #555;
+                color: var(--#{theme.$prefix}table-meta-text);
                 >a,
                 >span {
                     margin-right: .4rem;
@@ -25,14 +33,14 @@
         }
         .row-item {
             position: relative;
-            background-color: #fff;
+            background-color: var(--#{theme.$prefix}table);
             margin-bottom: 1.25rem;
             .stamp {
                 position: absolute;
                 right: 0;
                 top: 0;
                 transform: rotate(30deg);
-                color: rgba($color: #ccc, $alpha: .4);
+                color: var(--#{theme.$prefix}table-meta-text);
                 border: 2px solid;
                 display: flex;
                 align-items: center;
@@ -48,7 +56,7 @@
                 font-weight: 700;
                 .no {
                     display: inline-block;
-                    background-color: #ccc;
+                    background-color: var(--#{theme.$prefix}table-stamp);
                     padding: 0 5px;
                     line-height: 1.875rem;
                     margin-right: 0.625rem;
@@ -56,7 +64,7 @@
                     &::after {
                         content: "";
                         border: 6px solid transparent;
-                        border-left-color: #ccc;
+                        border-left-color: var(--#{theme.$prefix}table-stamp);
                         position: absolute;
                         right: -12px;
                         top: 9px;
@@ -64,7 +72,7 @@
                 }
             }
             .item-body {
-                color: #777;
+                color: var(--#{theme.$prefix}table-meta-text);
                 padding: 5px;
             }
             &.thumb-item {
@@ -80,32 +88,36 @@
                 }
             }
             &:hover {
+                background-color: var(--#{theme.$prefix}table-hover);
                 .item-header {
                     .no {
-                        background-color: red;
-                        color: #fff;
+                        background-color: var(--#{theme.$prefix}table-hover-stamp);
+                        color: var(--#{theme.$prefix}table-hover-stamp-text);
                         &::after {
-                            border-left-color: red;
+                            border-left-color: var(--#{theme.$prefix}table-hover-stamp);
                         }
                     }
                 }
                 .stamp {
-                    color: rgba($color: green, $alpha: .4);
+                    color: var(--#{theme.$prefix}table-hover-stamp);
                     transform: rotate(390deg);
                 }
                 .item-body {
-                    background-color: rgb(253, 253, 253);
+                    background-color: var(--#{theme.$prefix}table-hover-meta);
                 }
             }
         }
     
         .image-row-item {
+            --#{theme.$prefix}item: var(--#{theme.$prefix}panel);
+            --#{theme.$prefix}item-stamp: var(--#{theme.$prefix}body);
+            --#{theme.$prefix}item-meta-text: var(--#{theme.$prefix}meta-text);
             display: flex;
-            background-color: #fff;
+            background-color: var(--#{theme.$prefix}item);
             margin-bottom: 1.25rem;
             .no {
                 display: inline-block;
-                background-color: #ccc;
+                background-color: var(--#{theme.$prefix}item-stamp);
                 padding: 0 5px;
                 line-height: 1.875rem;
                 margin-right: 0.625rem;
@@ -113,7 +125,7 @@
                 &::after {
                     content: "";
                     border: 6px solid transparent;
-                    border-left-color: #ccc;
+                    border-left-color:  var(--#{theme.$prefix}item-stamp);
                     position: absolute;
                     right: -12px;
                     top: 9px;
@@ -134,7 +146,7 @@
                 font-weight: 700;
             }
             .item-meta {
-                color: #777;
+                color: var(--#{theme.$prefix}item-meta-text);
                 padding: 0.3125rem;
             }
             
@@ -144,10 +156,11 @@
 
 @mixin line-row {
     .line-row-item {
+        --#{theme.$prefix}row-label: var(--#{theme.$prefix}meta-text);
         padding: .2rem 0;
         display: flex;
         .item-label {
-            color: #777;
+            color: var(--#{theme.$prefix}row-label);
             flex: 1;
             max-width: 8rem;
             text-align: right;
@@ -166,13 +179,16 @@
 
 @mixin tree-table {
     .tree-table {
+        --#{theme.$prefix}tree-icon: var(--#{theme.$prefix}input-icon);
+        --#{theme.$prefix}tree-next-icon: var(--#{theme.$prefix}input-icon);
+        --#{theme.$prefix}tree-active-icon: var(--#{theme.$prefix}primary);
         .tree-arrow-td {
             padding: 0 0 0 .3rem;
             text-align: left;
             vertical-align: middle;
         }
         .tree-item-arrow {
-            color: #444;
+            color: var(--#{theme.$prefix}tree-icon);
             font-style: normal;
             &::before {
                 @include mixins.icon('\e64b');
@@ -184,7 +200,7 @@
         .tree-next-level {
             display: none;
             .tree-item-arrow {
-                color: #767676;
+                color: var(--#{theme.$prefix}tree-next-icon);
             }
         }
         .treee-item-visible {
@@ -193,7 +209,7 @@
         .tree-item-open {
             display: table-row;
             .tree-item-arrow {
-                color: #337ab7;
+                color: var(--#{theme.$prefix}tree-active-icon);
                 &::before {
                     content: "\e649";
                 }

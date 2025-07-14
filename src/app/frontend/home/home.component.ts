@@ -3,7 +3,7 @@ import { ThemeService } from '../../theme/services';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../components/dialog';
 
-interface ILink {
+interface IMetaLink {
     name: string;
     url: string;
     description?: string;
@@ -17,7 +17,7 @@ interface ILink {
 })
 export class HomeComponent implements AfterViewInit {
 
-    public linkItems: ILink[] = [
+    public linkItems: IMetaLink[] = [
         {
             name: $localize `Example`,
             url: '/example'
