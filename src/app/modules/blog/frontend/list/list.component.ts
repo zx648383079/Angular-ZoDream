@@ -65,7 +65,7 @@ export class ListComponent implements OnInit, OnDestroy {
         language: '',
         programming_language: '',
     };
-    public listView = 0;
+    public listView = 2;
 
     private searchFn = res => {
         if (typeof res === 'object') {
@@ -85,7 +85,7 @@ export class ListComponent implements OnInit, OnDestroy {
     ) {
         this.themeService.setTitle($localize `Blog`);
         this.store.select(selectSystemConfig).subscribe(res => {
-            this.listView = parseNumber(res.blog_list_view);
+            // this.listView = parseNumber(res.blog_list_view);
         });
         this.service.batch({
             categories: {},

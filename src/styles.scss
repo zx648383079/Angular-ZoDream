@@ -13,15 +13,12 @@
     $prefix: theme.$prefix
 );
 
-@use './bootstrap/desktop/login';
-@use './bootstrap/desktop/form';
-@use './bootstrap/desktop/grid';
-@use './bootstrap/desktop/tab';
-@use './bootstrap/desktop/panel';
-@use './bootstrap/desktop/menu';
+
 @use './app/components/dialog/dialog';
 
 
-.theme-gray {
-    filter: grayscale(100%);
-}
+
+@use './bootstrap/desktop/layout' as desktop;
+@use './bootstrap/tablet/layout' as tablet;
+
+

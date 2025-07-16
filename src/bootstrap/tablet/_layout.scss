@@ -1,0 +1,114 @@
+@use './tab';
+@use '../../app/theme/theme';
+
+.tablet-search-header {
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}primary-text);
+    background-color: var(--#{theme.$prefix}nav);
+    color: var(--#{theme.$prefix}nav-text);
+    display: flex;
+    line-height: 3rem;
+    align-items: center;
+    .navbar-brand {
+        font-size: .8rem;
+        padding: 0 .4rem;
+        text-align: center;
+        min-width: 3rem;
+    }
+    .search-entry {
+        display: flex;
+        justify-content: center;
+        gap: .4rem;
+        line-height: 2.5rem;
+        flex: 1;
+        background-color: var(--#{theme.$prefix}body);
+        color: var(--#{theme.$prefix}meta-text);
+        border-radius: .25rem;
+    }
+    .tool-item {
+        min-width: 2.5rem;
+        text-align: center;
+        display: inline-block;
+        color: var(--#{theme.$prefix}nav-text);
+        padding: 0 .4rem;
+    }
+}
+
+.tablet-header {
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}primary-text);
+    background-color: var(--#{theme.$prefix}nav);
+    color: var(--#{theme.$prefix}nav-text);
+    display: flex;
+    line-height: 3rem;
+}
+
+
+.tablet-scroll-bar {
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}nav-active-text: var(--#{theme.$prefix}primary);
+    position: relative;
+    height: 2.8125rem;
+    background-color: var(--#{theme.$prefix}nav);
+    z-index: 10;
+    ul {
+        padding-right: 2.1875rem;
+        font-size: 0;
+        font-family: none;
+        white-space: nowrap;
+        overflow: hidden;
+        overflow-x: auto;
+        background-color: var(--#{theme.$prefix}nav);
+    }
+    li {
+        width: 3.75rem;
+        text-align: center;
+        font-size: .8125rem;
+        display: inline-block;
+        vertical-align: top;
+        a {
+            display: inline-block;
+            height: 2.8125rem;
+            line-height: 2.8125rem;
+            color: var(--#{theme.$prefix}nav-text);
+        }
+        &.active {
+            a {
+                color: var(--#{theme.$prefix}nav-active-text);
+                border-bottom: 2px solid var(--#{theme.$prefix}nav-active-text);
+            }
+        }
+    }
+    .scroll-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 2.1875rem;
+        height: 2.8125rem;
+        line-height: 2.8125rem;
+        text-align: center;
+        background-color: var(--#{theme.$prefix}nav);
+    }
+    &.--with-open {
+        ul {
+            padding-right: 0;
+            white-space: normal;
+            padding-right: 1.875rem;
+        }
+    }
+}
+
+@media (width < 48rem) {
+    .tablet-visible {
+
+    }
+
+    .tablet-collapse {
+        display: none !important;
+    }
+
+    .container {
+        max-width: unset;
+    }
+}

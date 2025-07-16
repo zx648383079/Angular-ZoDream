@@ -1,0 +1,22 @@
+@use './login';
+@use './form';
+@use './grid';
+@use './tab';
+@use './panel';
+@use './menu';
+@use './article';
+
+
+.theme-gray {
+    filter: grayscale(100%);
+}
+
+@media (min-width: 48rem) {
+    .tablet-visible {
+        display: none !important;
+    }
+
+    .tablet-collapse {
+
+    }
+}

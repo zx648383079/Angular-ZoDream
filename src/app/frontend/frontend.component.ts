@@ -28,9 +28,9 @@ interface IDropNavItem {
 
 @Component({
     standalone: false,
-  selector: 'app-frontend',
-  templateUrl: './frontend.component.html',
-  styleUrls: ['./frontend.component.scss']
+    selector: 'app-frontend',
+    templateUrl: './frontend.component.html',
+    styleUrls: ['./frontend.component.scss']
 })
 export class FrontendComponent implements OnDestroy {
 

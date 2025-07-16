@@ -1,17 +1,16 @@
 @use '../../../theme/theme';
-.blog-container ::ng-deep {
-    .book-full-body,
-    .book-body {
+:host ::ng-deep {
+    .panel-sort-container {
         margin: 3.125rem 0;
         background-color: var(--#{theme.$prefix}panel);
-        padding: 1.875rem 0.9375rem;
+        padding: 2rem 1rem;
         min-height: 25rem;
         position: relative;
+        &.--width-sidebar {
+            padding: 2rem 0;
+        }
     }
-    .book-body {
-        margin-right: 12.5rem;
-    }
-    .book-sort {
+    .panel-sort-bar {
         position: absolute;
         right: 1.5625rem;
         top: -1.875rem;
@@ -41,6 +40,16 @@
                 &:after {
                     border-top-color: var(--#{theme.$prefix}primary);
                 }
+            }
+        }
+    }
+}
+
+@media (min-width: 48rem) {
+    :host ::ng-deep {
+        .panel-sort-container {
+            &.--width-sidebar {
+                margin-right: 12.5rem;
             }
         }
     }

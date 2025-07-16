@@ -12,6 +12,16 @@
     .panel-body {
         padding: 0.625rem;
     }
+    .panel-menu-bar {
+        --#{theme.$prefix}link-text: var(--#{theme.$prefix}meta-text);
+        display: block;
+        float: right;
+        font-size: 0.8rem;
+        font-weight: 400;
+        a {
+            margin-left: .625rem;
+        }
+    }
 }
 
 .catalog-panel {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, Inject, Injectable } from '@angular/core';
 import { css, toggleClass } from '../utils/doc';
 
 @Injectable({
@@ -9,7 +9,9 @@ export class ThemeService {
     public body: HTMLElement;
     private oldTitle = '';
 
-    constructor() {
+    constructor(
+        @Inject(DOCUMENT) document: Document
+    ) {
         this.body = document.body;
         this.oldTitle = document.title;
     }

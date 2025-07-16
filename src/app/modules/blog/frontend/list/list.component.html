@@ -31,8 +31,8 @@
                 </dl>
             </div>
         </div>
-        <div class="book-body">
-            <div class="book-sort">
+        <div class="panel-sort-container --width-sidebar">
+            <div class="panel-sort-bar">
                 <a routerLink="./tag" i18n>Tags</a>
                 <a routerLink="./archives" i18n>Archives</a>
                 <ng-container *ngFor="let item of sortItems">
@@ -47,39 +47,45 @@
                 </div>
                 <div class="term-desc">{{ category.description }}</div>
             </div>
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
             <ng-container *ngFor="let item of items">
-            <div class="book-item">
-                <div class="item-cover" *ngIf="listView == 1">
+            <div class="article-panel-item" [ngClass]="{'--with-cover': listView == 1, '--with-right-cover': listView == 2}">
+                <div class="item-cover">
                     <img [src]="item.thumb">
                 </div>
-                <dl class="item-body">
-                    <dt>
+                <dl class="item-panel-body">
+                    <dt class="item-title">
                         <a [routerLink]="[item.id]" [title]="item.title">
                             <ng-container *ngIf="item.open_type > 0">
                                 <i class="iconfont icon-lock" i18n-title title="Reading needs to meet the conditions"></i>
                             </ng-container>
-                            {{ item.title }}</a>
-                        <span class="book-time">{{ item.created_at | ago }}</span></dt>
+                            {{ item.title }}
+                        </a>
+                    </dt>
                     <dd>
-                        <p>{{ item.description }}</p>
-                        <a class="author" *ngIf="item.user" (click)="tapUser(item.user)"><i
-                                class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
-                        <a class="category" *ngIf="item.term" (click)="tapCategory(item.term)"><i
-                                class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
-                        <a class="language" *ngIf="item.programming_language"
-                            (click)="tapLanguage(item.programming_language)"><i
-                                class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
-                        <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
-                        <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
-                        <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                        <p class="item-body">{{ item.description }}</p>
+                        <div class="item-footer item-flex-footer">
+                            <div>
+                                <span class="item-time">{{ item.created_at | ago }}</span>
+                                <a class="item-tag-block --with-tag-icon" *ngIf="item.user" (click)="tapUser(item.user)"><i
+                                    class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
+                                <a class="item-tag-block --with-tag-icon" *ngIf="item.term" (click)="tapCategory(item.term)"><i
+                                        class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+                                <a class="item-tag-block --with-tag-icon" *ngIf="item.programming_language"
+                                    (click)="tapLanguage(item.programming_language)"><i
+                                        class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
+                            </div>
+                            <div>
+                                <span class="item-tag-block --with-tag-icon"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
+                                <span class="item-tag-block --with-tag-icon"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
+                                <span class="item-tag-block --with-tag-icon"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
+                            </div>
+                        </div>
                     </dd>
                 </dl>
-                <div class="item-cover" *ngIf="listView == 2">
-                    <img [src]="item.thumb">
-                </div>
             </div>
             </ng-container>
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+            
         </div>
         <div class="book-footer mb-30">
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

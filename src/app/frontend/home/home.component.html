@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div class="row tablet-collapse">
         <div class="col-md-4" *ngFor="let item of linkItems">
             <ng-container *ngIf="!item.description; else elseTemplate">
                 <a class="metro-item" [routerLink]="item.url">

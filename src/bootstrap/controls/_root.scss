@@ -161,21 +161,3 @@ th {
         @include mixins.transition(variables.$transition-collapse-width);
     }
 }
-
-.tablet-visible {
-
-}
-
-.tablet-collapse {
-    display: none !important;
-}
-
-@media (min-width: 48rem) {
-    .tablet-visible {
-        display: none !important;
-    }
-
-    .tablet-collapse {
-        display: block !important;
-    }
-}

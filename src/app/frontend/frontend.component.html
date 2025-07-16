@@ -1,4 +1,4 @@
-<header [hidden]="navToggle > 3">
+<header class="tablet-collapse" [hidden]="navToggle > 3">
     <nav class="navbar navbar-expand-lg" [ngClass]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
@@ -66,6 +66,17 @@
         </div>
     </nav>
 </header>
+<header class="tablet-search-header tablet-visible">
+    <a class="navbar-brand" routerLink="./">ZoDream</a>
+    <div class="search-entry" (click)="searchModal.open()">
+        <i class="iconfont icon-search"></i>
+        <span>Search keywords</span>
+    </div>
+    <a class="tool-item" routerLink="user/bulletin">
+        <i class="iconfont icon-commenting"></i>
+    </a>
+</header>
+
 
 <div class="inner-body">
     <router-outlet></router-outlet>
@@ -94,7 +105,23 @@
         </div>
     </div>
 </footer>
-<app-online-service [hidden]="navToggle > 3"></app-online-service>
+
+<div class="tablet-tab-bar tablet-visible">
+    <a class="tab-item" routerLink="../">
+        <i class="iconfont icon-home item-icon"></i>
+        <span class="item-body">Home</span>
+    </a>
+    <a class="tab-item" routerLink="blog">
+        <i class="iconfont icon-file-text-o item-icon"></i>
+        <span class="item-body">Blog</span>
+    </a>
+    <a class="tab-item" routerLink="user">
+        <i class="iconfont icon-user item-icon"></i>
+        <span class="item-body">My</span>
+    </a>
+</div>
+
+<app-online-service class="tablet-collapse" [hidden]="navToggle > 3"></app-online-service>
 <app-search #searchModal></app-search>
 <app-login-dialog></app-login-dialog>
 <app-cookie-bar></app-cookie-bar>

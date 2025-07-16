@@ -158,42 +158,6 @@
     }
 }
 
-.article-list-item {
-    display: block;
-    position: relative;
-    margin: 0 -0.625rem;
-    padding: 0.5rem;
-    .name {
-        display: inline-block;
-        height: 2.5rem;
-        overflow: hidden;
-        flex: 1;
-    }
-    .time {
-        color: var(--#{theme.$prefix}meta-text);
-        font-size: .8rem;
-        height: 2.5rem;
-        word-break: keep-all;
-        word-wrap: normal;
-    }
-    .item-title {
-        display: flex;
-        padding: 0 .5rem;
-        line-height: 2.5rem;
-    }
-    .item-meta {
-        padding: 0 .5rem .5rem;
-        color: var(--#{theme.$prefix}meta-text);
-        font-size: .8rem;
-    }
-    &:hover {
-        box-shadow: var(--#{theme.$prefix}box-shadow);
-    }
-    &:not(:last-of-type) {
-        border-bottom: 1px solid var(--#{theme.$prefix}border);
-    }
-}
-
 .rule-box {
     margin-top: 2.5rem;
     .rule-header {

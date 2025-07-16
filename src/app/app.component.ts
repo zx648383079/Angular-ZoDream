@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DOCUMENT, Inject, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './theme/interfaces';
@@ -19,15 +19,21 @@ export class AppComponent implements OnInit {
         private router: Router,
         private store: Store<AppState>,
         private themeService: ThemeService,
+        private renderer: Renderer2,
+        @Inject(DOCUMENT) private document: Document
     ) {
-        const loading = document.querySelector('.loading-theme') as HTMLDivElement;
-        if (loading) {
-            loading.style.display = 'none';
-        }
-        this.auth.systemBoot();
+        
     }
 
     ngOnInit() {
+        this.auth.systemBoot();
+        const loading = this.document.querySelector('.loading-theme');
+        if (loading) {
+            this.renderer.setStyle(loading, "display", "none");
+        }
+        const queryFn = window.matchMedia('(min-width: 48rem)');
+        this.onResize(queryFn);
+        queryFn.addEventListener('change', () => this.onResize(queryFn));
         this.store.select(selectSystemConfig).subscribe(res => {
             this.themeService.toggleClass('theme-gray', res && res.site_gray == true);
         });
@@ -36,5 +42,9 @@ export class AppComponent implements OnInit {
                 document.documentElement.scrollTop = 0;
             }
         });
+    }
+
+    private onResize(queryFn: MediaQueryList) {
+        this.themeService.toggleClass('screen-tablet', !queryFn.matches);
     }
 }

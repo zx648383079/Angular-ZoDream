@@ -4,7 +4,7 @@
         <div class="book-title">
             {{ data.title }}
         </div>
-        <div class="book-full-body">
+        <div class="panel-sort-container">
             <div class="info">
                 <div class="language-toggle" *ngIf="data.languages && data.languages.length > 1">
                     <ng-container *ngFor="let item of data.languages">
@@ -103,13 +103,13 @@
                 <a routerLink="../" i18n>Related Articles</a>
             </div>
             <div class="panel-body">
-                <ng-container *ngFor="let blog of relationItems">
-                    <div class="article-list-item" (click)="loadBlog(blog.id)">
-                        <div class="item-title">
-                            <a class="name">{{ blog.title }}</a>
-                            <div class="time">{{ blog.created_at | ago }}</div>
+                <ng-container *ngFor="let item of relationItems">
+                    <div class="article-list-item" (click)="loadBlog(item.id)">
+                        <div class="item-body">
+                            <a class="item-title">{{ item.title }}</a>
+                            <div class="item-time">{{ item.created_at | ago }}</div>
                         </div>
-                        <div class="item-meta">{{ blog.description }}</div>
+                        <div class="item-meta">{{ item.description }}</div>
                     </div>
                 </ng-container>
             </div>
