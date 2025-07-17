@@ -65,7 +65,7 @@ export class CashierComponent implements OnInit {
         private store: Store<ShopAppState>,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('结算');
+        this.themeService.titleChanged.next('结算');
         this.store.select(selectShopCheckout).subscribe(res => {
             if (!res || res.length < 1) {
                 // 判断是否是结算时清空的

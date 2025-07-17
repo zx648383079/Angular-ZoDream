@@ -61,7 +61,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         private themeService: ThemeService,
         private editor: EditorService
     ) {
-        this.themeService.setTitle('编辑书籍');
+        this.themeService.titleChanged.next('编辑书籍');
     }
 
 

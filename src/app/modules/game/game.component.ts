@@ -39,7 +39,7 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         injector: Injector,
         private route: ActivatedRoute,
     ) {
-        this.themeService.setTitle('Game');
+        this.themeService.titleChanged.next('Game');
         this.injector = new GameInjector(this, injector);
     }
 
@@ -189,7 +189,7 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         this.character = {id: character} as any;
         this.request(GameCommand.Query).subscribe(res => {
             this.project = res.data.project;
-            this.themeService.setTitle(this.project.name);
+            this.themeService.titleChanged.next(this.project.name);
             this.character = res.data.character;
             this.navigate(GameScenePath.Main);
         });
@@ -209,7 +209,7 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
         if (characterId < 1) {
             this.request(GameCommand.Query).subscribe(res => {
                 this.project = res.data.project;
-                this.themeService.setTitle(this.project.name);
+                this.themeService.titleChanged.next(this.project.name);
                 this.navigate(GameScenePath.Entry);
             });
             return;

@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit {
         this.service.app(id).subscribe({
             next: res => {
                 this.isLoading = false;
-                this.themeSerive.setTitle(res.name);
+                this.themeSerive.titleChanged.next(res.name);
                 this.data = res;
                 this.currentPackage = this.findPackage(res.packages);
             },

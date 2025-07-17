@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SuggestChangeEvent, SuggestEvent } from '../event';
+import { SuggestChangeEvent } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 @Component({
@@ -8,7 +8,7 @@ import { hasElementByClass } from '../../../theme/utils/doc';
     templateUrl: './auto-suggest-box.component.html',
     styleUrls: ['./auto-suggest-box.component.scss']
 })
-export class AutoSuggestBoxComponent implements OnChanges, SuggestEvent {
+export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
 
     @Input() public text = '';
     @Input() public placeholder = $localize `Please enter a keyword, press Enter to search`;

@@ -5,9 +5,9 @@ import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
         private service: BlogService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Categories`);
+        this.themeService.titleChanged.next($localize `Categories`);
         this.service.getCategories().subscribe(res => {
             this.items = res;
         });

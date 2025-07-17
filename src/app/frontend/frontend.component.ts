@@ -6,12 +6,12 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../theme/interfaces';
 import { selectAuth } from '../theme/reducers/auth.selectors';
 import { IUserStatus } from '../theme/models/user';
-import { AuthService, SearchService } from '../theme/services';
+import { AuthService, ThemeService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
-import { SearchEvents } from '../theme/models/event';
 import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../theme/reducers/system.selectors';
+import { NavigationDisplayMode } from '../theme/models/event';
 
 interface IMenuItem {
   name: string;
@@ -47,7 +47,7 @@ export class FrontendComponent implements OnDestroy {
     public friendLinks: ILink[] = [];
     public navExpand = false;
     public fixedTop = false;
-    public navToggle = 3;
+    public navToggle = NavigationDisplayMode.Compact;
     public navStyle = true;
     public activeUri = '';
     public site: ISystemOption = {} as any;
@@ -75,7 +75,7 @@ export class FrontendComponent implements OnDestroy {
         private store: Store<AppState>,
         private authService: AuthService,
         private toastrService: DialogService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
         this.subItems.push(
             this.store.select(selectAuth).subscribe(res => {
@@ -111,14 +111,16 @@ export class FrontendComponent implements OnDestroy {
                 this.routerChanged(event.url);
             }
         });
-        this.searchService.on(SearchEvents.LOGIN, () => {
+        this.subItems.push(this.themeService.loginRequest.subscribe(() => {
             this.loginModal.open();
-        });
-        this.searchService.on(SearchEvents.NAV_TOGGLE, toggle => {
-            setTimeout(() => {
-                this.navToggle = toggle;
-            }, 1);
-        });
+        }));
+        this.subItems.push(
+            this.themeService.navigationDisplayRequest.subscribe(toggle => {
+                setTimeout(() => {
+                    this.navToggle = toggle;
+                }, 1);
+            })
+        );
     }
 
     public get locationHref() {
@@ -130,7 +132,6 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.off(SearchEvents.LOGIN, SearchEvents.NAV_TOGGLE);
         for (const item of this.subItems) {
             item.unsubscribe();
         }
@@ -148,7 +149,7 @@ export class FrontendComponent implements OnDestroy {
 
     public tapLogin() {
         this.router.navigate(['/auth'], {queryParams: {redirect_uri: this.locationHref}});
-        // this.searchService.emitLogin(true);
+        // this.themeService.emitLogin(true);
     }
 
     public tapLogout() {

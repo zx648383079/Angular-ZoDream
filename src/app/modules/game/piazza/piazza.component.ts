@@ -19,7 +19,7 @@ export class PiazzaComponent implements OnInit {
         private service: GameService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Piazza of Games`);
+        this.themeService.titleChanged.next($localize `Piazza of Games`);
     }
 
     ngOnInit() {

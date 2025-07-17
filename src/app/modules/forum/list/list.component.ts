@@ -70,7 +70,7 @@ export class ListComponent implements OnInit {
             this.forum = {id: params.id} as any;
             this.service.getForum(params.id).subscribe(res => {
                 this.forum = res;
-                this.themeService.setTitle(res.name);
+                this.themeService.titleChanged.next(res.name);
                 if (res.thread_top) {
                     res.thread_top = this.formatItems(res.thread_top);
                 }
@@ -121,7 +121,7 @@ export class ListComponent implements OnInit {
             error: (err: IErrorResult) => {
                 e?.reset();
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin();
+                    this.themeService.emitLogin();
                     return;
                 }
                 this.toastrService.warning(err.error.message);

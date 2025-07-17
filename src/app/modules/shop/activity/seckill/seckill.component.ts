@@ -37,7 +37,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle('秒杀');
+        this.themeService.titleChanged.next('秒杀');
     }
 
     ngOnInit() {

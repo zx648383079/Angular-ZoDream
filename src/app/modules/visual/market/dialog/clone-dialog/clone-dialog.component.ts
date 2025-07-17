@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ISite } from '../../../model';
 import { VisualService } from '../../visual.service';
-import { SearchService } from '../../../../../theme/services';
+import { ThemeService } from '../../../../../theme/services';
 import { AppState } from '../../../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
@@ -11,9 +11,9 @@ import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
-  selector: 'app-clone-dialog',
-  templateUrl: './clone-dialog.component.html',
-  styleUrls: ['./clone-dialog.component.scss']
+    selector: 'app-clone-dialog',
+    templateUrl: './clone-dialog.component.html',
+    styleUrls: ['./clone-dialog.component.scss']
 })
 export class CloneDialogComponent {
 
@@ -24,7 +24,7 @@ export class CloneDialogComponent {
 
     constructor(
         private service: VisualService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
         private toastrService: DialogService,
         private store: Store<AppState>,
     ) {
@@ -38,7 +38,7 @@ export class CloneDialogComponent {
 
     public cloneTo(item: ISite) {
         if (this.isGuest) {
-            this.searchService.emitLogin(true);
+            this.themeService.emitLogin(true);
             return;
         }
         this.editData = {} as any;

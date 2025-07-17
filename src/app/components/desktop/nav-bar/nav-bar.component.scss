@@ -73,7 +73,7 @@ li {
     margin-left: 12.5rem;
 }
 
-.nav-flow {
+.--pane-overlay {
     .nav-bar {
         box-shadow: var(--#{theme.$prefix}box-shadow);
     }
@@ -82,7 +82,7 @@ li {
     }
 }
 
-.nav-min {
+.--pane-compact {
     .nav-bar {
         width: 3.125rem;
         .menu-name {
@@ -116,7 +116,7 @@ li {
     }
 }
 
-.nav-mini {
+.--pane-toggle {
     .nav-bar {
         width: 3.125rem;
         bottom: auto;
@@ -137,7 +137,7 @@ li {
     }
 }
 
-.nav-unreal {
+.--pane-toggle-overlay {
     .nav-bar {
         width: 3.125rem;
         bottom: auto;
@@ -155,7 +155,7 @@ li {
     }
 }
 
-.nav-hide {
+.--pane-collapse {
     .nav-bar {
         display: none;
     }

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.themeService.setTitle('商城');
+        this.themeService.titleChanged.next('商城');
         this.service.banners().subscribe(res => {
             this.bannerItems = res.data;
         });

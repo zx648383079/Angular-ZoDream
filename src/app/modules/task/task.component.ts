@@ -133,7 +133,7 @@ export class TaskComponent implements OnInit {
         private store: Store<AppState>,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('时间管理');
+        this.themeService.titleChanged.next('时间管理');
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

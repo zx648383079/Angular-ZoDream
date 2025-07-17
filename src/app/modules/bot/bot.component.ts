@@ -31,7 +31,7 @@ export class BotComponent implements OnInit {
         private themeService: ThemeService,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle($localize `Bot`);
+        this.themeService.titleChanged.next($localize `Bot`);
     }
 
     ngOnInit() {

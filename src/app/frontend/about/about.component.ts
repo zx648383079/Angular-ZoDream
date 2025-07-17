@@ -47,7 +47,7 @@ export class AboutComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `Abount`);
+        this.themeService.titleChanged.next($localize `Abount`);
         this.service.developer().subscribe(res => {
             this.developer = {...res, skills: res.skills.map(i => {
                 return {...i, proficiency: 0}

@@ -5,8 +5,8 @@ import { IBlockItem } from '../../../components/link-rule';
 import { IMessageBase } from '../../../components/message-container';
 import { openLink } from '../../../theme/utils/deeplink';
 import { DialogService } from '../../../components/dialog';
-import { SearchService, ThemeService } from '../../../theme/services';
-import { NavToggle, SearchEvents } from '../../../theme/models/event';
+import { ThemeService } from '../../../theme/services';
+import { NavigationDisplayMode } from '../../../theme/models/event';
 import { parseNumber } from '../../../theme/utils';
 import { ButtonEvent } from '../../../components/form';
 import { emptyValidate } from '../../../theme/validators';
@@ -48,7 +48,6 @@ export class MessageComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private searchService: SearchService,
         private themeService: ThemeService,
     ) {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -57,8 +56,8 @@ export class MessageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `My Messages`);
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Flow);
+        this.themeService.titleChanged.next($localize `My Messages`);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
         this.route.queryParams.subscribe(params => {
             const extra = parseNumber(params.user);
             this.service.bulletinUser(extra).subscribe(res => {
@@ -69,7 +68,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public get wordLength() {

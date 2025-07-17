@@ -1,35 +1,39 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchEvents } from '../../theme/models/event';
-import { SearchService, ThemeService } from '../../theme/services';
+import { ThemeService } from '../../theme/services';
 import { ExamService } from './exam.service';
 import { ICourse } from './model';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-exam',
-  templateUrl: './exam.component.html',
-  styleUrls: ['./exam.component.scss']
+    selector: 'app-exam',
+    templateUrl: './exam.component.html',
+    styleUrls: ['./exam.component.scss']
 })
 export class ExamComponent implements OnInit, OnDestroy {
 
     public items: ICourse[] = [];
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: ExamService,
-        private searchService: SearchService,
         private router: Router,
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Exam`);
+        this.themeService.titleChanged.next($localize `Exam`);
     }
   
     ngOnInit() {
-        this.searchService.on(SearchEvents.CHANGE, keywords => {
-            return this.service.suggestion({keywords});
-        });
-        this.searchService.on(SearchEvents.CONFIRM, res => {
+        this.subItems.push(
+            this.themeService.suggestTextChanged.subscribe(req => {
+                this.service.suggestion({keywords: req.text}).subscribe(res => {
+                    req.suggest(res);
+                });
+            })
+        );
+        this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.router.navigate(['pager', res.id], {relativeTo: this.route});
                 return;
@@ -42,7 +46,9 @@ export class ExamComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.offReceiver();
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 }

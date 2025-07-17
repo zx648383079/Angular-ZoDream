@@ -44,7 +44,7 @@ export class MemberComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `My Blog`);
+        this.themeService.titleChanged.next($localize `My Blog`);
         this.route.queryParams.subscribe(res => {
             this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();

@@ -3,16 +3,16 @@ import {
     OnInit,
     ViewChild
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { SearchEvents } from '../../../theme/models/event';
-import { SearchService } from '../../../theme/services';
+import { ThemeService } from '../../../theme/services';
 import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
 import {
     ITask,
     ITaskDay
 } from '../model';
 import { TaskService } from '../task.service';
+import { NavigationDisplayMode } from '../../../theme/models/event';
 
 @Component({
     standalone: false,
@@ -35,9 +35,8 @@ export class DetailComponent implements OnInit {
     constructor(
         private service: TaskService,
         private toastrService: DialogService,
-        private router: Router,
         private route: ActivatedRoute,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) {}
 
     ngOnInit() {
@@ -52,7 +51,7 @@ export class DetailComponent implements OnInit {
                     this.items = res.task.children;
                 }
                 if (res.log && res.status === 9) {
-                    this.searchService.emit(SearchEvents.NAV_TOGGLE, 4);
+                    this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
                     this.maxProgress = res.task.every_time * 60;
                     this.progress = res.log?.time;
                     setTimeout(() => {
@@ -83,7 +82,7 @@ export class DetailComponent implements OnInit {
             child_id: this.current.id !== this.data.task_id ? this.current.id : 0,
         }).subscribe({
             next: res => {
-                this.searchService.emit(SearchEvents.NAV_TOGGLE, 4);
+                this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
                 this.data = res;
                 this.maxProgress = res.task.every_time * 60;
                 this.progress = res.log?.time;
@@ -96,7 +95,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapPause() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
         this.service.taskPause(this.data.id).subscribe({
             next: res => {
                 this.data = res;
@@ -109,7 +108,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapStop() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
         this.service.taskStop(this.data.id).subscribe({
             next: res => {
                 this.data = res;
@@ -130,7 +129,7 @@ export class DetailComponent implements OnInit {
                 if (!res.data) {
                     return;
                 }
-                this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
+                this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
                 this.data = res.data;
                 this.toastrService.success(res.message);
                 this.toastrService.notify({

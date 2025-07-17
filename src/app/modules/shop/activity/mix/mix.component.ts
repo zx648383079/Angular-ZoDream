@@ -30,7 +30,7 @@ export class MixComponent implements OnInit {
         private service: ActivityService,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle('超值礼包');
+        this.themeService.titleChanged.next('超值礼包');
     }
 
     ngOnInit() {

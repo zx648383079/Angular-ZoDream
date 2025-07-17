@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private encryptor: EncryptorService,
         private webAuthn: WebAuthn) {
-        this.themeService.setTitle($localize `Sign in`);
+        this.themeService.titleChanged.next($localize `Sign in`);
         this.subItems.push(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openAuth = res && res.auth_oauth;

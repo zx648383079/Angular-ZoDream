@@ -32,7 +32,7 @@ export class CouponComponent implements OnInit {
         private route: ActivatedRoute,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle('领券中心');
+        this.themeService.titleChanged.next('领券中心');
     }
 
     ngOnInit() {

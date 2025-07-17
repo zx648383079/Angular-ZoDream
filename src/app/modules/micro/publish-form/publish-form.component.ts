@@ -9,13 +9,13 @@ import { IUploadResult } from '../../../theme/models/open';
 import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
-import { SearchService } from '../../../theme/services';
+import { ThemeService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-publish-form',
-  templateUrl: './publish-form.component.html',
-  styleUrls: ['./publish-form.component.scss']
+    selector: 'app-publish-form',
+    templateUrl: './publish-form.component.html',
+    styleUrls: ['./publish-form.component.scss']
 })
 export class PublishFormComponent {
 
@@ -43,7 +43,7 @@ export class PublishFormComponent {
         private service: MicroService,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
     public onTopicChange() {
@@ -98,7 +98,7 @@ export class PublishFormComponent {
                 e?.reset();
                 const res = err.error as IErrorResponse;
                 if (res.code === 401) {
-                    this.searchService.emitLogin();
+                    this.themeService.emitLogin();
                     return;
                 }
                 this.toastrService.warning(res.message);

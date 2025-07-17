@@ -9,9 +9,9 @@ import { IProject } from './model';
 
 @Component({
     standalone: false,
-  selector: 'app-document',
-  templateUrl: './document.component.html',
-  styleUrls: ['./document.component.scss']
+    selector: 'app-document',
+    templateUrl: './document.component.html',
+    styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
 
@@ -34,7 +34,7 @@ export class DocumentComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `Document`);
+        this.themeService.titleChanged.next($localize `Document`);
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {

@@ -121,7 +121,7 @@ export class GeneratorComponent implements OnInit {
     constructor(
         private store: Store<AppState>,
         private themeService: ThemeService,) {
-        this.themeService.setTitle($localize `Generator`);
+        this.themeService.titleChanged.next($localize `Generator`);
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

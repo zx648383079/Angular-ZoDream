@@ -14,7 +14,7 @@ import { DialogBoxComponent } from '../../components/dialog';
 import { IBlockItem } from '../../components/link-rule';
 import { SearchService, ThemeService } from '../../theme/services';
 import { IItem } from '../../theme/models/seo';
-import { SearchEvents } from '../../theme/models/event';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -59,6 +59,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             value: 'hot',
         }
     ];
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: MicroService,
@@ -69,17 +70,21 @@ export class MicroComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Micro Blog`);
+        this.themeService.titleChanged.next($localize `Micro Blog`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });
     }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.CHANGE, keywords => {
-            return this.service.suggestion({keywords});
-        });
-        this.searchService.on(SearchEvents.CONFIRM, res => {
+        this.subItems.push(
+            this.themeService.suggestTextChanged.subscribe(req => {
+                this.service.suggestion({keywords: req.text}).subscribe(res => {
+                    req.suggest(res);
+                });
+            })
+        );
+        this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.loadTopic(res.id);
                 this.queries.topic = res.id;
@@ -102,7 +107,9 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.offReceiver();
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     private loadUser(user: number) {
@@ -141,7 +148,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             error: (err: IErrorResult) => {
                 this.toastrService.error(err.error);
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin(true);
+                    this.themeService.emitLogin(true);
                 }
             }
         })

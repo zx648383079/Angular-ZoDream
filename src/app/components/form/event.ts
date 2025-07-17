@@ -26,7 +26,7 @@ export interface ButtonEvent {
 }
 
 export interface SuggestEvent {
-    suggest(item: any[]): void;
+    suggest(items: any[]): void;
 }
 
 export interface SuggestChangeEvent extends SuggestEvent {

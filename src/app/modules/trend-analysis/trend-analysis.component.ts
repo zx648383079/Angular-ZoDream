@@ -133,7 +133,7 @@ export class TrendAnalysisComponent {
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
-        this.themeService.setTitle($localize `Trend Analysis`);
+        this.themeService.titleChanged.next($localize `Trend Analysis`);
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

@@ -34,7 +34,7 @@ export class BargainComponent implements OnInit {
         private service: ActivityService,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle('预售中心');
+        this.themeService.titleChanged.next('预售中心');
     }
 
     ngOnInit() {

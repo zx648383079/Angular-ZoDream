@@ -54,7 +54,7 @@ export class RegisterComponent implements OnDestroy {
         private encryptor: EncryptorService,
         private store: Store<AppState>,
     ) {
-        this.themeService.setTitle($localize `Sign up`);
+        this.themeService.titleChanged.next($localize `Sign up`);
         this.subItems.push(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openStatus = parseNumber(res.auth_register);

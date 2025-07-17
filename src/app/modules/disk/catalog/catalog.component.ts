@@ -13,14 +13,14 @@ import {
 import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
-import { FileUploadService, SearchService } from '../../../theme/services';
-import { SearchEvents } from '../../../theme/models/event';
+import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
 import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
 import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { UploadStatus } from '../../../theme/services/uploader';
 import { PullToRefreshComponent } from '../../../components/tablet';
+import { Subscription } from 'rxjs';
 
 
 interface ICrumb {
@@ -73,6 +73,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public orderAsc = true;
     public editData: any = {};
     public playerStyle: any = {};
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: DiskService,
@@ -80,6 +81,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         private toastrService: DialogService,
         private uploadService: FileUploadService,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {}
 
     ngOnInit() {
@@ -87,15 +89,19 @@ export class CatalogComponent implements OnInit, OnDestroy {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapRefresh();
         });
-        this.searchService.on(SearchEvents.NAV_RESIZE, (_, w) => {
-            this.playerStyle = {
-                left: w + 'px',
-            }
-        });
+        this.subItems.push(
+            this.themeService.navigationChanged.subscribe(res => {
+                this.playerStyle = {
+                    left: res.paneWidth + 'px',
+                }
+            })
+        );
     }
 
     ngOnDestroy(): void {
-        this.searchService.off(SearchEvents.NAV_RESIZE);
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 

@@ -45,6 +45,6 @@ export class AppComponent implements OnInit {
     }
 
     private onResize(queryFn: MediaQueryList) {
-        this.themeService.toggleClass('screen-tablet', !queryFn.matches);
+        this.themeService.tabletChanged.next(!queryFn.matches);
     }
 }

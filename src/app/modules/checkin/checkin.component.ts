@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angu
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IErrorResult } from '../../theme/models/page';
-import { SearchService } from '../../theme/services';
+import { ThemeService } from '../../theme/services';
 import { twoPad } from '../../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
@@ -18,9 +18,9 @@ interface IDay {
 
 @Component({
     standalone: false,
-  selector: 'app-checkin',
-  templateUrl: './checkin.component.html',
-  styleUrls: ['./checkin.component.scss']
+    selector: 'app-checkin',
+    templateUrl: './checkin.component.html',
+    styleUrls: ['./checkin.component.scss']
 })
 export class CheckinComponent {
 
@@ -43,7 +43,7 @@ export class CheckinComponent {
         private service: CheckinService,
         private elementRef: ElementRef<HTMLDivElement>,
         private toastrService: DialogService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
     get panelStyle() {
@@ -89,7 +89,7 @@ export class CheckinComponent {
             },
             error: (err: IErrorResult) => {
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin(false);
+                    this.themeService.emitLogin(false);
                 }
             }
         })
@@ -198,7 +198,7 @@ export class CheckinComponent {
                 e?.reset();
                 this.toastrService.error(err);
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin(false);
+                    this.themeService.emitLogin(false);
                 }
             }
         });

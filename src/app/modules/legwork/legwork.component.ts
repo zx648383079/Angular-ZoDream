@@ -17,7 +17,7 @@ export class LegworkComponent implements OnInit {
         private service: LegworkService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('跑腿');
+        this.themeService.titleChanged.next('跑腿');
         this.service.role().subscribe(res => {
             this.items = this.renderNav(res.is_waiter === 1, res.is_provider === 1);
         });

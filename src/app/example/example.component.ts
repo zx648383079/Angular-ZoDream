@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { INavLink } from '../theme/models/seo';
 import { SearchService, ThemeService } from '../theme/services';
-import { SearchEvents } from '../theme/models/event';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SuggestChangeEvent } from '../components/form';
 
 @Component({
     standalone: false,
@@ -179,11 +179,12 @@ export class ExampleComponent {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Example`);
+        this.themeService.titleChanged.next($localize `Example`);
     }
 
 
-    public onSearch(keywords: string) {
+    public onSearch(e: SuggestChangeEvent) {
+        const keywords = e.text;
         if (!keywords) {
             return;
         }
@@ -191,7 +192,7 @@ export class ExampleComponent {
         for (let i = 0; i < 5; i++) {
             items.push(`Found ${keywords} - ${i}`);
         }
-        this.searchService.emit(SearchEvents.SUGGEST, items);
+        e.suggest(items);
     }
 
     public tapSearch(keywords: string) {

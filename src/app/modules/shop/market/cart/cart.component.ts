@@ -33,7 +33,7 @@ export class CartComponent implements OnInit {
         private store: Store<ShopAppState>,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('购物车');
+        this.themeService.titleChanged.next('购物车');
         this.store.select(selectAuthStatus).subscribe(res => {
             this.guest = res.guest;
         });

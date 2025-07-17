@@ -8,9 +8,9 @@ import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.scss']
+    selector: 'app-book',
+    templateUrl: './book.component.html',
+    styleUrls: ['./book.component.scss']
 })
 export class BookComponent implements OnDestroy {
 
@@ -58,7 +58,7 @@ export class BookComponent implements OnDestroy {
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
-        this.themeService.setTitle($localize `Book`);
+        this.themeService.titleChanged.next($localize `Book`);
         this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

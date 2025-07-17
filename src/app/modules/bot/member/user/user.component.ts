@@ -9,9 +9,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+    selector: 'app-bot-m-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
 
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
         private searchService: SearchService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Account Center`);
+        this.themeService.titleChanged.next($localize `Account Center`);
     }
 
     get selectUrl() {

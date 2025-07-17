@@ -10,9 +10,9 @@ import { UserService } from '../user.service';
 
 @Component({
     standalone: false,
-  selector: 'app-member-bulletin',
-  templateUrl: './bulletin.component.html',
-  styleUrls: ['./bulletin.component.scss']
+    selector: 'app-member-bulletin',
+    templateUrl: './bulletin.component.html',
+    styleUrls: ['./bulletin.component.scss']
 })
 export class BulletinComponent implements OnInit {
 
@@ -37,7 +37,7 @@ export class BulletinComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `Bulletin`);
+        this.themeService.titleChanged.next($localize `Bulletin`);
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ISite, IThemeComponent } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
-import { SearchService } from '../../../../../theme/services';
+import { SearchService, ThemeService } from '../../../../../theme/services';
 import { AppState } from '../../../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
@@ -11,9 +11,9 @@ import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
-  selector: 'app-add-dialog',
-  templateUrl: './add-dialog.component.html',
-  styleUrls: ['./add-dialog.component.scss']
+    selector: 'app-add-dialog',
+    templateUrl: './add-dialog.component.html',
+    styleUrls: ['./add-dialog.component.scss']
 })
 export class AddDialogComponent {
     @Input() public multiple = false;
@@ -35,6 +35,7 @@ export class AddDialogComponent {
     constructor(
         private service: VisualService,
         private searchService: SearchService,
+        private themeService: ThemeService,
         private store: Store<AppState>,
         private toastrService: DialogService,
     ) {
@@ -48,7 +49,7 @@ export class AddDialogComponent {
 
     public addTo(item: IThemeComponent) {
         if (this.isGuest) {
-            this.searchService.emitLogin(true);
+            this.themeService.emitLogin(true);
             return;
         }
         this.sourceData = item;

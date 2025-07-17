@@ -22,12 +22,12 @@ import { SearchService, ThemeService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../theme/interfaces';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
+import { Subscription } from 'rxjs';
 import { parseNumber } from '../../../../theme/utils';
-import { SearchEvents } from '../../../../theme/models/event';
 
 @Component({
     standalone: false,
-    selector: 'app-list',
+    selector: 'app-blog-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
@@ -65,7 +65,9 @@ export class ListComponent implements OnInit, OnDestroy {
         language: '',
         programming_language: '',
     };
-    public listView = 2;
+    public listView = 0;
+
+    private subItems: Subscription[] = [];
 
     private searchFn = res => {
         if (typeof res === 'object') {
@@ -83,9 +85,9 @@ export class ListComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
         private store: Store<AppState>,
     ) {
-        this.themeService.setTitle($localize `Blog`);
+        this.themeService.titleChanged.next($localize `Blog`);
         this.store.select(selectSystemConfig).subscribe(res => {
-            // this.listView = parseNumber(res.blog_list_view);
+            this.listView = parseNumber(res.blog_list_view);
         });
         this.service.batch({
             categories: {},
@@ -107,7 +109,9 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.CONFIRM, this.searchFn);
+        this.subItems.push(
+            this.themeService.suggestQuerySubmitted.subscribe(this.searchFn)
+        );
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             if (this.queries.tag) {
@@ -118,7 +122,9 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.off(SearchEvents.CONFIRM, this.searchFn);
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public tapRefresh() {

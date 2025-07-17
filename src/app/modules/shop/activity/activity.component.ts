@@ -12,7 +12,7 @@ export class ActivityComponent implements OnInit {
     constructor(
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('活动中心');
+        this.themeService.titleChanged.next('活动中心');
     }
 
     ngOnInit() {

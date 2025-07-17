@@ -34,7 +34,7 @@ export class FindComponent implements OnInit {
         private route: ActivatedRoute,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Retrieve password`);
+        this.themeService.titleChanged.next($localize `Retrieve password`);
     }
 
     ngOnInit() {}

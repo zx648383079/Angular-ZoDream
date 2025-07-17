@@ -1,32 +1,37 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchEvents } from '../../theme/models/event';
-import { SearchService, ThemeService } from '../../theme/services';
+import { ThemeService } from '../../theme/services';
 import { ForumService } from './forum.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-forum',
-  templateUrl: './forum.component.html',
-  styleUrls: ['./forum.component.scss']
+    selector: 'app-forum',
+    templateUrl: './forum.component.html',
+    styleUrls: ['./forum.component.scss']
 })
 export class ForumComponent implements OnInit, OnDestroy {
 
+    private subItems: Subscription[] = [];
+
     constructor(
         private themeService: ThemeService,
-        private searchService: SearchService,
         private router: Router,
         private route: ActivatedRoute,
         private service: ForumService,
     ) {
-        this.themeService.setTitle($localize `Forum`);
+        this.themeService.titleChanged.next($localize `Forum`);
     }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.CHANGE, keywords => {
-            return this.service.suggestion({keywords});
-        });
-        this.searchService.on(SearchEvents.CONFIRM, res => {
+        this.subItems.push(
+            this.themeService.suggestTextChanged.subscribe(req => {
+                this.service.suggestion({keywords: req.text}).subscribe(res => {
+                    req.suggest(res);
+                });
+            })
+        );
+        this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.router.navigate(['thread', res.id], {relativeTo: this.route});
                 return;
@@ -38,7 +43,9 @@ export class ForumComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.offReceiver();
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 }

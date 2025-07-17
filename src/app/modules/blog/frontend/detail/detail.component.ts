@@ -4,10 +4,6 @@ import {
     OnInit
 } from '@angular/core';
 import {
-    DomSanitizer,
-    SafeHtml
-} from '@angular/platform-browser';
-import {
     BlogService
 } from '../blog.service';
 import {
@@ -78,7 +74,7 @@ export class DetailComponent implements OnInit {
             next: res => {
                 this.isLoading = false;
                 this.data = res.detail;
-                this.themeService.setTitle(this.data.seo_title || this.data.title);
+                this.themeService.titleChanged.next(this.data.seo_title || this.data.title);
                 this.relationItems = res.relation;
                 this.renderContent(this.data.content);
                 this.searchService.pushHistoryState(this.data.title,
@@ -97,7 +93,7 @@ export class DetailComponent implements OnInit {
             return;
         }
         if (this.data.open_type === 1) {
-            this.searchService.emitLogin(true);
+            this.themeService.emitLogin(true);
             return;
         }
         const openKey = this.openKey;
@@ -121,7 +117,7 @@ export class DetailComponent implements OnInit {
             error: (err: IErrorResult) => {
                 this.toastrService.error(err.error);
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin(true);
+                    this.themeService.emitLogin(true);
                 }
             }
         })

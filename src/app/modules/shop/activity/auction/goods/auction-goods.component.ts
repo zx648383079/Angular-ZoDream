@@ -41,7 +41,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                 this.data = res.goods;
                 this.activity = res;
                 this.refreshBid(res.price, res.log_count);
-                this.themeService.setTitle(this.data.seo_title || this.data.name);
+                this.themeService.titleChanged.next(this.data.seo_title || this.data.name);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
                 this.galleryItems = [].concat([{thumb: this.data.thumb, type: 0, file: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
                     if (!i.thumb) {

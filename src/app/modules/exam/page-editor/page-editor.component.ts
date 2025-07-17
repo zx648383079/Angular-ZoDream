@@ -4,7 +4,7 @@ import { ContextMenuComponent } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
-import { SearchService } from '../../../theme/services';
+import { ThemeService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ExamService } from '../exam.service';
@@ -50,7 +50,7 @@ export class PageEditorComponent implements OnInit {
         private service: ExamService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
@@ -140,7 +140,7 @@ export class PageEditorComponent implements OnInit {
                 e?.reset();
                 this.toastrService.error(err);
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin(false);
+                    this.themeService.emitLogin(false);
                 }
             }
         });

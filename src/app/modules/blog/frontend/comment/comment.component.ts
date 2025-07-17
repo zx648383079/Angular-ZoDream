@@ -11,16 +11,16 @@ import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
 import { BlogService } from '../blog.service';
-import { SearchService } from '../../../../theme/services';
+import { ThemeService } from '../../../../theme/services';
 import { eachObject } from '../../../../theme/utils';
 
 const GuestUserKey = 'gu';
 
 @Component({
     standalone: false,
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnChanges {
 
@@ -57,7 +57,7 @@ export class CommentComponent implements OnChanges {
     constructor(
         private service: BlogService,
         private toastrService: DialogService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
         private store: Store<AppState>,
     ) {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -88,7 +88,7 @@ export class CommentComponent implements OnChanges {
     }
 
     public tapLogin() {
-        this.searchService.emitLogin(true);
+        this.themeService.emitLogin(true);
     }
 
     public onEmailChange() {

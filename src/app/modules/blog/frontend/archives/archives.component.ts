@@ -5,9 +5,9 @@ import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-archives',
-  templateUrl: './archives.component.html',
-  styleUrls: ['./archives.component.scss']
+    selector: 'app-archives',
+    templateUrl: './archives.component.html',
+    styleUrls: ['./archives.component.scss']
 })
 export class ArchivesComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class ArchivesComponent implements OnInit {
         private service: BlogService,
         private themeService: ThemeService,
         ) {
-        this.themeService.setTitle($localize `Archives`);
+        this.themeService.titleChanged.next($localize `Archives`);
         this.service.getArchives().subscribe(res => {
             this.items = res;
         });

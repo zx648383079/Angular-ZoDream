@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { SearchEvents } from '../../../theme/models/event';
-import { SearchService } from '../../../theme/services';
+import { Component } from '@angular/core';
+import { ThemeService } from '../../../theme/services';
+import { SuggestChangeEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
-  selector: 'app-catering-search-input',
-  templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.scss']
+    selector: 'app-catering-search-input',
+    templateUrl: './search-input.component.html',
+    styleUrls: ['./search-input.component.scss']
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements SuggestChangeEvent {
 
     public panelVisible = false;
     public suggestItems: any[] = [];
@@ -17,18 +17,16 @@ export class SearchInputComponent implements OnInit {
     private asyncHandle = 0;
 
     constructor(
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
-    ngOnInit() {
-        this.searchService.on(SearchEvents.SUGGEST, items => {
-            this.suggestIndex = -1;
-            this.suggestItems = items;
-        });
+    public get text() {
+        return this.suggestText;
     }
 
-    ngOnDestroy() {
-        this.searchService.offTrigger();
+    public suggest(items: any[]): void {
+        this.suggestIndex = -1;
+        this.suggestItems = items;
     }
 
     public formatTitle(item: any) {
@@ -40,7 +38,7 @@ export class SearchInputComponent implements OnInit {
 
     public suggestKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.searchService.emit(SearchEvents.CONFIRM, this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
+            this.themeService.suggestQuerySubmitted.next(this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText);
             this.close();
             return;
         }
@@ -69,7 +67,7 @@ export class SearchInputComponent implements OnInit {
     }
 
     public tapItem(item: any) {
-        this.searchService.emit(SearchEvents.CONFIRM, item);
+        this.themeService.suggestQuerySubmitted.next(item);
         this.close();
     }
 
@@ -98,7 +96,7 @@ export class SearchInputComponent implements OnInit {
                 this.suggestItems = [];
                 return;
             }
-            this.searchService.emit(SearchEvents.CHANGE, this.suggestText);
+            this.themeService.suggestTextChanged.next(this);
         }, 300);
     }
 

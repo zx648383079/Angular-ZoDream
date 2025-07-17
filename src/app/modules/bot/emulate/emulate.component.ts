@@ -61,7 +61,7 @@ export class EmulateComponent implements OnInit {
         this.service.get(id).subscribe({
             next: (res: any) => {
                 this.account = res;
-                this.themeService.setTitle(res.name);
+                this.themeService.titleChanged.next(res.name);
                 if (res.menu_list && res.menu_list.length > 0) {
                     this.menuItems = res.menu_list;
                     this.footerIndex = 0;

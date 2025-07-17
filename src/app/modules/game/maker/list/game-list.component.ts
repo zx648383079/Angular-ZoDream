@@ -32,7 +32,7 @@ export class GameListComponent implements OnInit {
         private searchService: SearchService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Game Maker`);
+        this.themeService.titleChanged.next($localize `Game Maker`);
     }
 
     ngOnInit() {

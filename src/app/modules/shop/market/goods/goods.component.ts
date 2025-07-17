@@ -53,7 +53,7 @@ export class GoodsComponent implements OnInit {
     public loadGoods(id: number, product: number) {
         this.service.goods(id, product).subscribe({
             next: res => {
-                this.themeService.setTitle(res.seo_title || res.name);
+                this.themeService.titleChanged.next(res.seo_title || res.name);
                 this.data = res;
                 this.stock = res.stock;
                 this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);

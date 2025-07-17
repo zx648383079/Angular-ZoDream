@@ -24,7 +24,7 @@ export class PayComponent implements OnInit {
         private toastrService: DialogService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('订单支付');
+        this.themeService.titleChanged.next('订单支付');
     }
 
     ngOnInit() {

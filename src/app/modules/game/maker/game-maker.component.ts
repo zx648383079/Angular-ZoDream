@@ -114,7 +114,7 @@ export class GameMakerComponent implements OnDestroy {
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
-        this.themeService.setTitle($localize `Game Maker`);
+        this.themeService.titleChanged.next($localize `Game Maker`);
         this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

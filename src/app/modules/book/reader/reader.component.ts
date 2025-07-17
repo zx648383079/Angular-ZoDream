@@ -11,8 +11,8 @@ import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
 import { scrollBottom, windowHeight, windowScollTop } from '../util';
-import { SearchEvents } from '../../../theme/models/event';
-import { SearchService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
+import { NavigationDisplayMode } from '../../../theme/models/event';
 
 @Component({
     standalone: false,
@@ -62,10 +62,11 @@ export class ReaderComponent implements OnInit, OnDestroy {
         private service: BookService,
         private renderer: Renderer2,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {}
 
     ngOnInit() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 3);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
         this.scrollTop = windowScollTop();
         this.route.params.subscribe(params => {
@@ -84,7 +85,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     get container() {

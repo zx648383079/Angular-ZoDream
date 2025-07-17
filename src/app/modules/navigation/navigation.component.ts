@@ -56,7 +56,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 this.wallpager(res.today_wallpaper[0]);
             }
         });
-        this.themeService.setTitle('ZoDream Search');
+        this.themeService.titleChanged.next('ZoDream Search');
         
     }
 

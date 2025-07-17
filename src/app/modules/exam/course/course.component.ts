@@ -1,39 +1,46 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchEvents } from '../../../theme/models/event';
-import { SearchService } from '../../../theme/services';
+import { ThemeService } from '../../../theme/services';
 import { ExamService } from '../exam.service';
 import { ICourse } from '../model';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-course',
-  templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss']
+    selector: 'app-course',
+    templateUrl: './course.component.html',
+    styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit, OnDestroy {
 
     public data: ICourse;
     public items: ICourse[] = [];
+    private subItems: Subscription[] = [];
 
     constructor(
         private service: ExamService,
         private route: ActivatedRoute,
-        private searchService: SearchService,
+        private themeService: ThemeService,
         private router: Router,
     ) { }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.CHANGE, keywords => {
-            return this.service.suggestion({keywords, course: this.data.id});
-        });
-        this.searchService.on(SearchEvents.CONFIRM, res => {
-            if (typeof res === 'object') {
-                this.router.navigate(['../pager', res.id], {relativeTo: this.route});
-                return;
-            }
-            this.router.navigate(['../search'], {relativeTo: this.route, queryParams: {keywords: res, course: this.data.id}});
-        });
+        this.subItems.push(
+            this.themeService.suggestTextChanged.subscribe(req => {
+                this.service.suggestion({keywords: req.text, course: this.data.id}).subscribe(res => {
+                    req.suggest(res);
+                });
+            })
+        );
+        this.subItems.push(
+            this.themeService.suggestQuerySubmitted.subscribe(res => {
+                if (typeof res === 'object') {
+                    this.router.navigate(['../pager', res.id], {relativeTo: this.route});
+                    return;
+                }
+                this.router.navigate(['../search'], {relativeTo: this.route, queryParams: {keywords: res, course: this.data.id}});
+            })
+        );
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -45,7 +52,9 @@ export class CourseComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.offReceiver();
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 }

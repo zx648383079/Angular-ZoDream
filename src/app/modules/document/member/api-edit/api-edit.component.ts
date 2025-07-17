@@ -7,8 +7,8 @@ import { IErrorResult } from '../../../../theme/models/page';
 import { emptyValidate } from '../../../../theme/validators';
 import { IApiField, IDocApi, IDocTreeItem, IProject, IProjectVersion } from '../../model';
 import { DocumentService } from '../document.service';
-import { SearchService } from '../../../../theme/services';
-import { NavToggle, SearchEvents } from '../../../../theme/models/event';
+import { ThemeService } from '../../../../theme/services';
+import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { treeRemoveId } from '../../shared';
 
 @Component({
@@ -40,11 +40,11 @@ export class ApiEditComponent implements OnInit, OnDestroy {
         private service: DocumentService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Mini);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
         this.route.params.subscribe(params => {
             if (!params.project) {
                 return;
@@ -59,7 +59,7 @@ export class ApiEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public tapBack() {

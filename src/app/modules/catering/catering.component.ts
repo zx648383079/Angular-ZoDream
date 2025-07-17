@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
@@ -43,7 +43,7 @@ export class CateringComponent implements OnDestroy {
         private themeService: ThemeService,
         private router: Router,
         private route: ActivatedRoute) {
-        this.themeService.setTitle($localize `Catering`);
+        this.themeService.titleChanged.next($localize `Catering`);
         this.subItems.push(
             this.store.select(selectAuthUser).subscribe(user => {
                 const oldUser = this.user;

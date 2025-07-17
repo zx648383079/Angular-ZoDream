@@ -95,7 +95,7 @@ export class ThreadComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             this.service.getThread(params.id).subscribe(res => {
-                this.themeService.setTitle(res.title);
+                this.themeService.titleChanged.next(res.title);
                 if (res.classify && res.classify instanceof Array) {
                     res.classify = undefined;
                 }
@@ -370,7 +370,7 @@ export class ThreadComponent implements OnInit {
             error: (err: IErrorResult) => {
                 e?.reset();
                 if (err.error.code === 401) {
-                    this.searchService.emitLogin();
+                    this.themeService.emitLogin();
                     return;
                 }
                 this.toastrService.warning(err.error.message);

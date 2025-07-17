@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
-import { SearchEvents } from '../../../../../theme/models/event';
-import { SearchService } from '../../../../../theme/services';
+import { ThemeService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
+import { NavigationDisplayMode } from '../../../../../theme/models/event';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-edit-news',
-  templateUrl: './edit-news.component.html',
-  styleUrls: ['./edit-news.component.scss']
+    selector: 'app-bot-m-edit-news',
+    templateUrl: './edit-news.component.html',
+    styleUrls: ['./edit-news.component.scss']
 })
 export class EditNewsComponent implements OnInit, OnDestroy {
 
@@ -28,14 +28,14 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     public requestUrl = 'wx/admin/media/search?type=news';
 
     constructor(
-        private searchService: SearchService,
         private route: ActivatedRoute,
         private service: BotService,
         private toastrService: DialogService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 2);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
         this.requestUrl += '&wid=' + this.service.baseId;
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -54,7 +54,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, 0);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public tapSubmit(e?: ButtonEvent) {

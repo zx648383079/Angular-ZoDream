@@ -8,8 +8,8 @@ import { ButtonEvent } from '../../../../components/form';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorBlockType, EditorService, IEditorBlock, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
-import { FileUploadService, SearchService, ThemeService } from '../../../../theme/services';
-import { NavToggle, SearchEvents } from '../../../../theme/models/event';
+import { FileUploadService, ThemeService } from '../../../../theme/services';
+import { NavigationDisplayMode } from '../../../../theme/models/event';
 
 @Component({
     standalone: false,
@@ -78,7 +78,6 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private uploadService: FileUploadService,
-        private searchService: SearchService,
         private themeService: ThemeService,
         private editor: EditorService,
     ) {
@@ -121,9 +120,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.propertyToggle = window.innerWidth > 769;
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         this.route.params.subscribe(params => {
-            this.themeService.setTitle(params.id ? $localize `Edit post` : $localize `New post`);
+            this.themeService.titleChanged.next(params.id ? $localize `Edit post` : $localize `New post`);
             if (!params.id) {
                 return;
             }
@@ -136,7 +135,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
         this.editor.destroy();
     }
 

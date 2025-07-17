@@ -77,7 +77,7 @@ export class FinanceComponent {
         private store: Store<AppState>,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('个人财务');
+        this.themeService.titleChanged.next('个人财务');
         this.store.select(selectAuthUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;
         });

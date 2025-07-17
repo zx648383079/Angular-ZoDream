@@ -127,7 +127,7 @@ export class DiskComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.themeService.setTitle($localize `Disk`);
+        this.themeService.titleChanged.next($localize `Disk`);
     }
 
 }

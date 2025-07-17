@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, Renderer2, OnDestroy } from '@angular/core';
-import { SearchEvents } from '../../../theme/models/event';
-import { SearchService } from '../../../theme/services';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
+import { SuggestChangeEvent } from '../../form';
+import { Subscription } from 'rxjs';
+import { NavigationDisplayMode } from '../../../theme/models/event';
 
 
 
@@ -11,44 +13,53 @@ import { INavLink } from '../../../theme/models/seo';
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent implements OnInit, OnDestroy {
+export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
-    public navToggle = 0; // 0 为展开 1 为 一条线 2 为 一个点 3 为不显示
-    public navFlow = false;
+    public displayMode: NavigationDisplayMode = 0; // 0 为展开 1 为 一条线 2 为 一个点 3 为不显示
+    public isPaneOverlay = false;
     public suggestIndex = -1;
     @Input() public menu: INavLink[] = [];
     @Input() public bottomMenu: INavLink[] = [];
     @Input() public hasSuggest = false;
     @Input() public suggestItems: any[] = [];
-    @Output() public textChanged = new EventEmitter<string>();
+    @Output() public textChanged = new EventEmitter<SuggestChangeEvent>();
     @Output() public querySubmitted = new EventEmitter<any>();
     @Output() public suggestionChosen = new EventEmitter<number>();
 
     public suggestText = '';
 
+    private subItems: Subscription[] = [];
+
     constructor(
-        private renderer: Renderer2,
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.NAV_TOGGLE, (res: number) => {
-            this.navToggle = typeof res === 'number' ? res : 0;
-        });
-        this.searchService.on(SearchEvents.SUGGEST, items => {
-            this.suggestIndex = -1;
-            this.suggestItems = items;
-        });
-        this.renderer.listen(window, 'resize', () => {
-            this.resize();
-        });
-        this.resize();
+        this.subItems.push(
+            this.themeService.navigationDisplayRequest.subscribe(res => {
+                this.displayMode = typeof res === 'number' ? res : 0;
+            }),
+            this.themeService.tabletChanged.subscribe(isTablet => {
+                this.isPaneOverlay = isTablet;
+                this.displayMode = isTablet ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Inline;
+                this.emitResize();
+            })
+        );
     }
 
     ngOnDestroy() {
-        this.searchService.offTrigger();
-        this.searchService.off(SearchEvents.NAV_TOGGLE);
-        this.searchService.off(SearchEvents.NAV_RESIZE);
+         for (const item of this.subItems) {
+            item.unsubscribe();
+        }
+    }
+
+    public get text() {
+        return this.suggestText;
+    }
+
+    public suggest(items: any[]): void {
+        this.suggestIndex = -1;
+        this.suggestItems = items;
     }
 
     public formatTitle(item: any) {
@@ -58,44 +69,56 @@ export class NavBarComponent implements OnInit, OnDestroy {
         return item.title || item.name;
     }
 
-    private resize() {
-        const isFlow = document.body.clientWidth <= 769;
-        this.navFlow = isFlow;
-        if (isFlow && this.navToggle < 1) {
-            this.navToggle = 1;
+    public get navClass() {
+        return {'--pane-overlay': this.isPaneOverlay && this.displayMode < 1, '--pane-compact': this.displayMode === NavigationDisplayMode.Compact, '--pane-toggle': this.displayMode === NavigationDisplayMode.Toggle, '--pane-collapse': this.displayMode > NavigationDisplayMode.Collapse, '--pane-toggle-overlay': this.displayMode === NavigationDisplayMode.ToggleOverlay};
+    }
+
+    public tapToggle() {
+        if (this.themeService.tabletChanged.value) {
+            this.displayMode = this.displayMode !== NavigationDisplayMode.Collapse ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Overlay;
+        } else {
+            this.displayMode = this.paneDisplayNext(this.displayMode);
         }
         this.emitResize();
     }
 
-    public get navClass() {
-        return {'nav-flow': this.navFlow && this.navToggle < 1, 'nav-min': this.navToggle === 1, 'nav-mini': this.navToggle === 2, 'nav-hide': this.navToggle > 3, 'nav-unreal': this.navToggle === 3};
-    }
-
-    public tapToggle() {
-        this.navToggle = this.navToggle > 1 ? 0 : (this.navToggle + 1);
-        this.emitResize();
+    private paneDisplayNext(mode: NavigationDisplayMode): NavigationDisplayMode
+    {
+        switch (mode) 
+        {
+            case NavigationDisplayMode.Inline:
+                return NavigationDisplayMode.Compact;
+            case NavigationDisplayMode.Compact:
+                return NavigationDisplayMode.Toggle;
+            default:
+                return NavigationDisplayMode.Inline;
+        }
     }
 
     private emitResize() {
-        this.searchService.emit(SearchEvents.NAV_RESIZE, this.navToggle, [200, 50, 0][this.navToggle], document.body.clientWidth);
+        this.themeService.navigationChanged.next({
+            mode: this.displayMode, 
+            paneWidth: [200, 50, 0][this.displayMode], 
+            bodyWidth: this.themeService.bodyWidth
+        });
     }
 
     public tapSuggest() {
-        this.navToggle = 0;
+        this.displayMode = 0;
         this.querySubmitted.emit(this.suggestText);
     }
 
     public suggestKeyPress(e: KeyboardEvent) {
         if (e.key === 'Enter') {
             const item = this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText;
-            this.searchService.emit(SearchEvents.CONFIRM, item);
+            this.themeService.suggestQuerySubmitted.next(item);
             this.querySubmitted.emit(item);
             return;
         }
         
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
             this.suggestIndex = -1;
-            this.textChanged.emit(this.suggestText);
+            this.textChanged.emit(this);
             return;
         }
         if (this.suggestItems.length < 0) {
@@ -113,7 +136,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
     public tapSuggestion(i: number) {
         this.suggestionChosen.emit(i);
-        this.searchService.emit(SearchEvents.CONFIRM, this.suggestItems[i]);
+        this.themeService.suggestQuerySubmitted.next(this.suggestItems[i]);
     }
 
     public tapItem(item: INavLink, e: MouseEvent) {

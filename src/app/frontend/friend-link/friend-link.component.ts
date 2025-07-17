@@ -33,7 +33,7 @@ export class FriendLinkComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.themeService.setTitle($localize `Friend Link`);
+        this.themeService.titleChanged.next($localize `Friend Link`);
     }
 
     public openApply(modal: DialogBoxComponent) {

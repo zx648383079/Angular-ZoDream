@@ -1,41 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { SearchEvents } from '../../theme/models/event';
-import { SearchService } from '../../theme/services';
-import { SuggestChangeEvent, AutoSuggestBoxComponent } from '../../components/form';
+import { Component } from '@angular/core';
+import { ThemeService } from '../../theme/services';
+import { SuggestChangeEvent } from '../../components/form';
 
 @Component({
     standalone: false,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent {
 
-    @ViewChild(AutoSuggestBoxComponent)
-    private searchBar: AutoSuggestBoxComponent;
     public panelVisible = false;
 
     constructor(
-        private searchService: SearchService,
+        private themeService: ThemeService,
     ) { }
 
-    ngOnInit() {
-        this.searchService.on(SearchEvents.SUGGEST, items => {
-            this.searchBar.suggest(items);
-        });
-    }
-
-    ngOnDestroy() {
-        this.searchService.offTrigger();
-    }
-
     public tapConfirm(keywords: any) {
-        this.searchService.emit(SearchEvents.CONFIRM, keywords);
+        this.themeService.suggestQuerySubmitted.next(keywords);
         this.close();
     }
 
     public onSuggestChange(e: SuggestChangeEvent) {
-        this.searchService.emit(SearchEvents.CHANGE, e.text);
+        this.themeService.suggestTextChanged.next(e);
     }
 
     public open() {

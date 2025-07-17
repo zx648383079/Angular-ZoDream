@@ -22,7 +22,7 @@ export class EditHeaderComponent implements OnChanges, ButtonEvent {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.title) {
-            this.themeService.setTitle(changes.title.currentValue);
+            this.themeService.titleChanged.next(changes.title.currentValue);
         }
     }
 

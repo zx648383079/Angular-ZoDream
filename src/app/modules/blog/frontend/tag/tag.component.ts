@@ -6,9 +6,9 @@ import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.scss']
+    selector: 'app-blog-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.scss']
 })
 export class TagComponent {
 
@@ -19,7 +19,7 @@ export class TagComponent {
         private service: BlogService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `Tags`);
+        this.themeService.titleChanged.next($localize `Tags`);
         this.isLoading = true;
         this.service.getTags().subscribe({
             next: res => {

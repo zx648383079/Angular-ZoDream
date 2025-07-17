@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { AppState } from '../../theme/interfaces';
-import { SearchEvents } from '../../theme/models/event';
 import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
@@ -13,12 +12,13 @@ import { wordLength } from '../../theme/utils';
 import { INote } from './model';
 import { NoteService } from './note.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-note',
-  templateUrl: './note.component.html',
-  styleUrls: ['./note.component.scss']
+    selector: 'app-note',
+    templateUrl: './note.component.html',
+    styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit, OnDestroy {
 
@@ -38,6 +38,8 @@ export class NoteComponent implements OnInit, OnDestroy {
     };
     public authUser: IUser;
 
+    private subItems: Subscription[] = [];
+
     constructor(
         private service: NoteService,
         private toastrService: DialogService,
@@ -47,7 +49,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         private themeService: ThemeService,
         private sanitizer: DomSanitizer,
     ) {
-        this.themeService.setTitle($localize `Note`);
+        this.themeService.titleChanged.next($localize `Note`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });
@@ -58,10 +60,10 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.CONFIRM, res => {
+        this.subItems.push(this.themeService.suggestQuerySubmitted.subscribe(res => {
             this.queries.keywords = res;
             this.tapRefresh();
-        });
+        }));
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
@@ -69,7 +71,9 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.searchService.offReceiver();
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
     public toggleVisible() {

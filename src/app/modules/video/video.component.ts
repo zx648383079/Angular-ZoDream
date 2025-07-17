@@ -34,7 +34,7 @@ export class VideoComponent implements OnInit {
         private themeService: ThemeService,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle($localize `Short video`);
+        this.themeService.titleChanged.next($localize `Short video`);
     }
 
     @HostListener('scroll', [

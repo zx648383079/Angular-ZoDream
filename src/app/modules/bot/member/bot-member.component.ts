@@ -6,9 +6,9 @@ import { ThemeService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-member',
-  templateUrl: './bot-member.component.html',
-  styleUrls: ['./bot-member.component.scss']
+    selector: 'app-bot-member',
+    templateUrl: './bot-member.component.html',
+    styleUrls: ['./bot-member.component.scss']
 })
 export class BotMemberComponent implements OnInit {
 
@@ -64,7 +64,7 @@ export class BotMemberComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.themeService.setTitle($localize `Bot Manage`);
+        this.themeService.titleChanged.next($localize `Bot Manage`);
         this.route.params.subscribe(res => {
             this.service.baseId = res.wid;
         });

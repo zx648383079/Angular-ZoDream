@@ -7,7 +7,8 @@ import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { INavLink } from '../../theme/models/seo';
 import { SearchService, ThemeService } from '../../theme/services';
-import { NavToggle, SearchEvents } from '../../theme/models/event';
+import { NavigationDisplayMode } from '../../theme/models/event';
+import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -21,7 +22,9 @@ export class UserComponent implements OnInit, OnDestroy {
     public tabItems: INavLink[] = [];
     public moreItems: INavLink[] = [];
     public moreVisible = false;
-    public navToggle = NavToggle.Unreal;
+    public navToggle = NavigationDisplayMode.Compact;
+
+    private subItems: Subscription[] = [];
 
     constructor(
         private store: Store<AppState>,
@@ -31,7 +34,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle($localize `My`);
+        this.themeService.titleChanged.next($localize `My`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user as any;
         });
@@ -42,11 +45,13 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.searchService.on(SearchEvents.NAV_TOGGLE, toggle => {
-            setTimeout(() => {
-                this.navToggle = toggle;
-            }, 1);
-        });
+        this.subItems.push(
+            this.themeService.navigationDisplayRequest.subscribe(toggle => {
+                setTimeout(() => {
+                    this.navToggle = toggle;
+                }, 1);
+            })
+        );
         this.menuService.refresh();
         // this.service.profile().subscribe(res => {
         //     this.user = res;
@@ -59,7 +64,9 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        // this.searchService.off(SearchEvents.NAV_TOGGLE);
+        for (const item of this.subItems) {
+            item.unsubscribe();
+        }
     }
 
 }

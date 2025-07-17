@@ -43,7 +43,7 @@ export class BackendComponent implements OnInit, OnDestroy {
         private menuService: MenuService,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('管理平台');
+        this.themeService.titleChanged.next('管理平台');
         this.menuService.change$.subscribe(res => {
             this.navItems = res.items;
             this.bottomNavs = res.bottom;

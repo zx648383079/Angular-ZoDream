@@ -3,15 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
 import { IAgreement, IAgreementGroup } from '../../theme/models/seo';
-import { SearchService, ThemeService } from '../../theme/services';
+import { ThemeService } from '../../theme/services';
 import { FrontendService } from '../frontend.service';
-import { NavToggle, SearchEvents } from '../../theme/models/event';
+import { NavigationDisplayMode } from '../../theme/models/event';
 
 @Component({
     standalone: false,
-  selector: 'app-agreement',
-  templateUrl: './agreement.component.html',
-  styleUrls: ['./agreement.component.scss']
+    selector: 'app-agreement',
+    templateUrl: './agreement.component.html',
+    styleUrls: ['./agreement.component.scss']
 })
 export class AgreementComponent implements OnInit {
 
@@ -23,7 +23,6 @@ export class AgreementComponent implements OnInit {
         private route: ActivatedRoute,
         private toastrService: DialogService,
         private themeService: ThemeService,
-        private searchService: SearchService,
     ) {
         
     }
@@ -33,7 +32,7 @@ export class AgreementComponent implements OnInit {
             this.service.agreement(params.name || 'agreement').subscribe({
                 next: res => {
                     this.data = res;
-                    this.themeService.setTitle(res.title);
+                    this.themeService.titleChanged.next(res.title);
                 }, 
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
@@ -51,10 +50,10 @@ export class AgreementComponent implements OnInit {
 
     public tapPrint() {
         this.navVisible = false;
-        this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Hide);
+        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         setTimeout(() => {
             window.print();
-            this.searchService.emit(SearchEvents.NAV_TOGGLE, NavToggle.Unreal);
+            this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
             this.navVisible = true;
         }, 100);
     }

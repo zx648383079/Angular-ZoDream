@@ -23,7 +23,7 @@ export class DetailComponent implements OnInit {
         private service: ResourceService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private themeSerive: ThemeService,
+        private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
@@ -46,7 +46,7 @@ export class DetailComponent implements OnInit {
             next: res => {
                 this.isLoading = false;
                 res.score = parseNumber(res.score);
-                this.themeSerive.setTitle(res.title);
+                this.themeService.titleChanged.next(res.title);
                 this.data = res;
                 this.catalogItems = res.file_catalog;
                 // this.loadCatalog();

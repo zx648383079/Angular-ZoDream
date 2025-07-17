@@ -34,7 +34,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
         private service: ActivityService,
         private searchService: SearchService,
     ) {
-        this.themeService.setTitle('拍卖中心');
+        this.themeService.titleChanged.next('拍卖中心');
     }
 
     ngOnInit() {

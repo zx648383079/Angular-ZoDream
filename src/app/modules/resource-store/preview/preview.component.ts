@@ -14,9 +14,9 @@ interface ISizeItem {
 
 @Component({
     standalone: false,
-  selector: 'app-preview',
-  templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.scss']
+    selector: 'app-preview',
+    templateUrl: './preview.component.html',
+    styleUrls: ['./preview.component.scss']
 })
 export class PreviewComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class PreviewComponent implements OnInit {
         private service: ResourceService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private themeSerive: ThemeService,
+        private themeService: ThemeService,
         private sanitizer: DomSanitizer,
     ) { }
 
@@ -66,7 +66,7 @@ export class PreviewComponent implements OnInit {
         this.service.resourcePreview(id).subscribe({
             next: res => {
                 this.isLoading = false;
-                this.themeSerive.setTitle(res.title);
+                this.themeService.titleChanged.next(res.title);
                 this.data = res;
                 this.previewSrc = this.sanitizer.bypassSecurityTrustResourceUrl(res.preview_url);
             },

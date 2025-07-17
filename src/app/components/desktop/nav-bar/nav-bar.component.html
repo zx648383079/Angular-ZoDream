@@ -79,5 +79,14 @@
         <ng-content></ng-content>
     </div>
 
-    
+    <div class="tablet-tab-bar tablet-visible">
+        <a class="tab-item">
+            <i class="iconfont icon-home item-icon"></i>
+            <span class="item-body" i18n>Home</span>
+        </a>
+        <a class="tab-item" (click)="tapToggle()">
+            <i class="iconfont icon-bars item-icon"></i>
+            <span class="item-body" i18n>More</span>
+        </a>
+    </div>
 </div>

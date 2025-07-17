@@ -129,7 +129,7 @@ export class MerchantComponent implements OnDestroy {
         private store: Store<AppState>,
         private themeService: ThemeService,
     ) {
-        this.themeService.setTitle('商家中心');
+        this.themeService.titleChanged.next('商家中心');
             this.subItems.push(
                 this.store.select(selectAuthUser).subscribe(user => {
                 if (!user) {

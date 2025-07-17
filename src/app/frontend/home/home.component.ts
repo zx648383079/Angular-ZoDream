@@ -134,7 +134,7 @@ export class HomeComponent implements AfterViewInit {
         private themeService: ThemeService,
         private toastrService: DialogService,
     ) {
-        this.themeService.setTitle($localize `Home`);
+        this.themeService.titleChanged.next($localize `Home`);
         if (!environment.production) {
             this.linkItems.push({
                 name: $localize `Generator`,
