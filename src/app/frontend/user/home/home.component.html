@@ -1,3 +1,5 @@
+<app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>
+
 <ng-container *ngFor="let item of items">
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="item-icon">
@@ -19,4 +21,30 @@
     </a>
 </ng-container>
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>
+<div class="route-list-bar tablet-visible">
+    <a routerLink="../../micro" class="route-item">
+        <i class="iconfont icon-comments item-icon"></i>
+        <span class="item-body" i18n>Micro</span>
+        <i class="iconfont icon-chevron-right item-arrow"></i>
+    </a>
+    <a routerLink="/navigation" class="route-item">
+        <i class="iconfont icon-search item-icon"></i>
+        <span class="item-body" i18n>Navigation</span>
+        <i class="iconfont icon-chevron-right item-arrow"></i>
+    </a>
+    <a routerLink="/task" class="route-item">
+        <i class="iconfont icon-calendar item-icon"></i>
+        <span class="item-body" i18n>Task</span>
+        <i class="iconfont icon-chevron-right item-arrow"></i>
+    </a>
+     <a routerLink="/finance" class="route-item">
+        <i class="iconfont icon-bar-chart item-icon"></i>
+        <span class="item-body" i18n>Finance</span>
+        <i class="iconfont icon-chevron-right item-arrow"></i>
+    </a>
+     <a routerLink="/doc" class="route-item">
+        <i class="iconfont icon-book item-icon"></i>
+        <span class="item-body" i18n>Document</span>
+        <i class="iconfont icon-chevron-right item-arrow"></i>
+    </a>
+</div>

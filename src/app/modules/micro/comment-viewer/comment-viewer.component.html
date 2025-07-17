@@ -5,7 +5,8 @@
         </div>
         <div class="reply-input">
             <div class="input">
-                <textarea class="form-control" [(ngModel)]="editData.content" (ngModelChange)="onCommentChange()"></textarea>
+                <textarea class="form-control" [(ngModel)]="editData.content" (ngModelChange)="onCommentChange()"
+                placeholder="Say something." i18n-placeholder></textarea>
             </div>
             <div class="input-actions">
                 <div class="tools">

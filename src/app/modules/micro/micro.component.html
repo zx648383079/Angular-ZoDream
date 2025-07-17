@@ -3,9 +3,9 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="nav-tab">
+            <div class="sort-tab-bar">
                 <ng-container *ngFor="let item of tabItems">
-                    <a class="nav-item" [ngClass]="{active: item.value == queries.sort}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                    <a class="tab-item" [ngClass]="{active: item.value == queries.sort}" (click)="tapTab(item.value)">{{ item.name }}</a>
                 </ng-container>
             </div>
         </div>

@@ -6,7 +6,7 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { INavLink } from '../../theme/models/seo';
-import { SearchService } from '../../theme/services';
+import { SearchService, ThemeService } from '../../theme/services';
 import { NavToggle, SearchEvents } from '../../theme/models/event';
 
 @Component({
@@ -29,7 +29,9 @@ export class UserComponent implements OnInit, OnDestroy {
         private router: Router,
         private menuService: MenuService,
         private searchService: SearchService,
+        private themeService: ThemeService,
     ) {
+        this.themeService.setTitle($localize `My`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user as any;
         });

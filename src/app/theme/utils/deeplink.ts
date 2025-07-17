@@ -53,6 +53,15 @@ export const openLink = (router: Router, link: string): boolean => {
         }
         return;
     }
+    const isMember = ['u', 'user', 'space'].indexOf(host) >= 0;
+    if (isMember) {
+        if (['blog', 'note', 'bulletin', 'doc'].indexOf(path) >= 0) {
+            router.navigate(['/frontend/user', path]);
+            return 
+        }
+        router.navigate(['/frontend/user']);
+        return 
+    }
     const isBackend = ['b', 'admin', 'backend', 'system'].indexOf(host) >= 0;
     if (isBackend) {
         if (path === 'user' && intValidate(params[0])) {

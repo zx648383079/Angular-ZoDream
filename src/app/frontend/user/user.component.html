@@ -2,15 +2,15 @@
     <div class="row">
         <div class="col-md-3" [hidden]="navToggle != 3">
             <div class="person-box" *ngIf="user">
-                <div class="avatar">
+                <div class="control-avatar">
                     <img [src]="user.avatar|asset" [alt]="user.name">
                 </div>
-                <div class="name">
+                <div class="control-name">
                     {{ user.name }}
                     <i class="iconfont icon-shield" *ngIf="user.is_verified" i18n-title title="This user is verified"></i>
                 </div>
-                <div class="meta">uid: {{ user.id }}</div>
-                <div class="desc"></div>
+                <div class="control-meta">uid: {{ user.id }}</div>
+                <div class="control-desc"></div>
                 <a routerLink="account/profile" class="btn btn-primary" i18n>Edit Profile</a>
                 <div class="count-bar">
                     <div class="count-item">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="link-panel">
+                <div class="link-panel tablet-collapse">
                     <a>
                         <i class="iconfont icon-map-marker"></i>
                         {{ user.country }}

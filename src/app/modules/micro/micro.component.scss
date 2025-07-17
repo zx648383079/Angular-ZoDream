@@ -1,22 +1,24 @@
+@use '../../theme/theme';
 @use './micro';
 
 
-.nav-tab {
-    background-color: #fff;
+.sort-tab-bar {
+    background-color: var(--#{theme.$prefix}panel);
     margin-bottom: 1rem;
-    .nav-item {
-        display: block;
+    text-align: right;
+    .tab-item {
+        display: inline-block;
         line-height: 2.5rem;
         height: 2.5rem;
         padding: 0 .8rem;
         overflow: hidden;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         cursor: pointer;
         &.active {
-            color: #a10000;
+            color: var(--#{theme.$prefix}primary);
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}body);
         }
     }
 }
@@ -94,5 +96,14 @@
         font-size: 14px;
         color: #636363;
         margin-top: 10px;
+    }
+}
+
+@media (min-width: 48rem) {
+    .sort-tab-bar {
+        text-align: left;
+        .tab-item {
+            display: block;
+        }
     }
 }

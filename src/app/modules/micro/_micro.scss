@@ -1,8 +1,10 @@
+@use '../../theme/theme';
+
 a {
     text-decoration: none;
 }
 .micro-item {
-    background-color: #fff;
+    background-color: var(--#{theme.$prefix}panel);
     margin-bottom: 20px;
     .body {
         padding: 10px;
@@ -17,19 +19,18 @@ a {
         }
         .name {
             font-weight: 700px;
-            color: #000;
+            color: var(--#{theme.$prefix}accent-text);
             font-size: 20px;
         }
         .time,
         .from {
-            color: #777;
+            color:  var(--#{theme.$prefix}meta-text);
             font-size: 12px;
             margin-right: 10px;
         }
     }
     .content {
         a {
-            color: #eb7350;
             cursor: pointer;
             text-decoration: none;
         }
@@ -38,7 +39,7 @@ a {
     .tags {
         li {
             display: inline-block;
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}tertiary-text);
             padding: 2px 5px;
         }
     }
@@ -59,15 +60,15 @@ a {
                 border-right: 1px solid #333;
             }
             &.active {
-                color: #f00;
+                color: var(--#{theme.$prefix}primary);
             }
             &.open {
-                color: #00a1d6;
+                color: var(--#{theme.$prefix}info);
             }
         }
     }
     .forward-source {
-        background-color: #f2f2f5;
+        background-color: var(--#{theme.$prefix}body);
         padding: 4px 20px 1px 60px;
         grid-column: 1/3;
         .content {
