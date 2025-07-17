@@ -1,10 +1,23 @@
 @use '../../../theme/theme';
 @use '../../../../bootstrap/desktop/scrollbar';
 
+$paneIndex: 99;
+$paneMaskIndex: $paneIndex - 1;
+
 ul,
 li {
     margin: 0;
     padding: 0;
+}
+
+.pane-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $paneMaskIndex;
+    background-color:  var(--#{theme.$prefix}dialog-mask);
 }
 
 .nav-menu {
@@ -16,7 +29,7 @@ li {
 }
 
 
-.nav-bar {
+.nav-pane-bar {
     --#{theme.$prefix}nav: var(--#{theme.$prefix}surface);
     --#{theme.$prefix}nav-text: var(--#{theme.$prefix}surface-text);
     --#{theme.$prefix}nav-hover: var(--#{theme.$prefix}surface-hovered);
@@ -27,7 +40,7 @@ li {
     background-color: var(--#{theme.$prefix}nav);
     color: var(--#{theme.$prefix}nav-text);
     top: 0;
-    z-index: 99;
+    z-index: $paneIndex;
     display: flex;
     flex-direction: column;
     user-select: none;
@@ -74,7 +87,7 @@ li {
 }
 
 .--pane-overlay {
-    .nav-bar {
+    .nav-pane-bar {
         box-shadow: var(--#{theme.$prefix}box-shadow);
     }
     .page-body {
@@ -83,7 +96,7 @@ li {
 }
 
 .--pane-compact {
-    .nav-bar {
+    .nav-pane-bar {
         width: 3.125rem;
         .menu-name {
             display: none;
@@ -117,7 +130,7 @@ li {
 }
 
 .--pane-toggle {
-    .nav-bar {
+    .nav-pane-bar {
         width: 3.125rem;
         bottom: auto;
         .bar-top,
@@ -138,7 +151,7 @@ li {
 }
 
 .--pane-toggle-overlay {
-    .nav-bar {
+    .nav-pane-bar {
         width: 3.125rem;
         bottom: auto;
         opacity: .2;
@@ -156,7 +169,7 @@ li {
 }
 
 .--pane-collapse {
-    .nav-bar {
+    .nav-pane-bar {
         display: none;
     }
     .page-body {

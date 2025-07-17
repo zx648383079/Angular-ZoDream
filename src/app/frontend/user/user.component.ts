@@ -6,7 +6,7 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { INavLink } from '../../theme/models/seo';
-import { SearchService, ThemeService } from '../../theme/services';
+import { ThemeService } from '../../theme/services';
 import { NavigationDisplayMode } from '../../theme/models/event';
 import { Subscription } from 'rxjs';
 
@@ -22,7 +22,7 @@ export class UserComponent implements OnInit, OnDestroy {
     public tabItems: INavLink[] = [];
     public moreItems: INavLink[] = [];
     public moreVisible = false;
-    public navToggle = NavigationDisplayMode.Compact;
+    public diplayMode = NavigationDisplayMode.Inline;
 
     private subItems: Subscription[] = [];
 
@@ -31,7 +31,6 @@ export class UserComponent implements OnInit, OnDestroy {
         // private service: UserService,
         private router: Router,
         private menuService: MenuService,
-        private searchService: SearchService,
         private themeService: ThemeService,
     ) {
         this.themeService.titleChanged.next($localize `My`);
@@ -48,7 +47,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.subItems.push(
             this.themeService.navigationDisplayRequest.subscribe(toggle => {
                 setTimeout(() => {
-                    this.navToggle = toggle;
+                    this.diplayMode = toggle;
                 }, 1);
             })
         );

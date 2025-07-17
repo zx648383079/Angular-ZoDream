@@ -12,6 +12,8 @@ export interface INavLink {
     expand?: boolean;
     active?: boolean;
     role?: string;
+    /** 小屏下是否显示 */
+    tabletEnabled?: boolean;
 }
 
 export interface ILink {

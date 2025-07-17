@@ -53,6 +53,19 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
         }
     }
 
+    public get tabletItems(): INavLink[] {
+        const items: INavLink[] = [];
+        for (const item of this.menu) {
+            if (item.tabletEnabled) {
+                items.push(item);
+            }
+        }
+        if (items.length === 0 && this.menu.length > 0) {
+            items.push(this.menu[0]);
+        }
+        return items;
+    }
+
     public get text() {
         return this.suggestText;
     }
@@ -70,7 +83,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     }
 
     public get navClass() {
-        return {'--pane-overlay': this.isPaneOverlay && this.displayMode < 1, '--pane-compact': this.displayMode === NavigationDisplayMode.Compact, '--pane-toggle': this.displayMode === NavigationDisplayMode.Toggle, '--pane-collapse': this.displayMode > NavigationDisplayMode.Collapse, '--pane-toggle-overlay': this.displayMode === NavigationDisplayMode.ToggleOverlay};
+        return {'--pane-overlay': this.displayMode === NavigationDisplayMode.Overlay, '--pane-compact': this.displayMode === NavigationDisplayMode.Compact, '--pane-toggle': this.displayMode === NavigationDisplayMode.Toggle, '--pane-collapse': this.displayMode === NavigationDisplayMode.Collapse, '--pane-toggle-overlay': this.displayMode === NavigationDisplayMode.ToggleOverlay};
     }
 
     public tapToggle() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -7,9 +7,9 @@ import { ThemeService } from '../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-finance',
-  templateUrl: './finance.component.html',
-  styleUrls: ['./finance.component.scss']
+    selector: 'app-finance',
+    templateUrl: './finance.component.html',
+    styleUrls: ['./finance.component.scss']
 })
 export class FinanceComponent {
 
@@ -17,7 +17,8 @@ export class FinanceComponent {
         {
             name: $localize `Home`,
             icon: 'icon-home',
-            url: './'
+            url: './',
+            tabletEnabled: true,
         },
         {
             name: '资金账户',
@@ -40,6 +41,7 @@ export class FinanceComponent {
             name: '收支管理',
             icon: 'icon-calendar',
             url: './income',
+            tabletEnabled: true,
             children: [
                 {
                     name: '消费渠道',
@@ -51,7 +53,8 @@ export class FinanceComponent {
         {
             name: '生活预算',
             icon: 'icon-gift',
-            url: './budget'
+            url: './budget',
+            tabletEnabled: true,
         },
     ];
 
