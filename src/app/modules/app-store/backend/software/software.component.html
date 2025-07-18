@@ -6,12 +6,12 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
-                <div class="zre-input-group">
+                <div class="input-group-control">
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>

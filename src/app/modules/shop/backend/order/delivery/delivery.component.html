@@ -7,8 +7,8 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -88,8 +88,8 @@
 <div class="btn btn-primary" *ngIf="!logisticsData.open" (click)="tapOpenAdd()">
     <i class="iconfont icon-plus"></i>
 </div>
-<div class="form-table" *ngIf="logisticsData.open">
-    <div class="zre-input-group">
+<div class="form-table-control" *ngIf="logisticsData.open">
+    <div class="input-group-control">
         <label for="">状态</label>
         <div>
             <select  class="form-control" [(ngModel)]="logisticsData.status">
@@ -97,13 +97,13 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">物流内容</label>
         <div>
             <textarea class="form-control" [(ngModel)]="logisticsData.content"></textarea>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">发生时间</label>
         <div>
             <app-date-input format="yyyy-mm-dd hh:ii:ss" [(ngModel)]="logisticsData.time"></app-date-input>

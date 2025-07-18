@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../../components/dialog';
-import { DialogBoxComponent } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IFinancialProduct, IFinancialProject } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss']
+    selector: 'app-finance-project',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
 
@@ -84,7 +83,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IFinancialProject) {
+    open(modal: DialogEvent, item?: IFinancialProject) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: '',
@@ -107,7 +106,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    public tapConfirm(modal: DialogBoxComponent, item: IFinancialProject) {
+    public tapConfirm(modal: DialogEvent, item: IFinancialProject) {
         this.editData = {
             id: item.id,
             name: item.name,

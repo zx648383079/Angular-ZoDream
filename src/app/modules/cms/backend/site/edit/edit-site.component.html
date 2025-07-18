@@ -1,14 +1,14 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑站点' : '新增站点'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="title">站点标题</label>
             <div>
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="theme">主题</label>
             <div>
                 <select id="theme" class="form-control" formControlName="theme">
@@ -16,7 +16,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="match_type">匹配类型</label>
             <div>
                 <select id="match_type" class="form-control" formControlName="match_type">
@@ -25,38 +25,38 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="match_rule">匹配规则</label>
             <div>
                 <input type="text" id="match_rule" class="form-control" formControlName="match_rule">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="language">本地化语言</label>
             <div>
                 <input type="text" id="language" class="form-control" formControlName="language">
                 <div class="input-tip">具体语言请查看模板</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="logo">Logo</label>
             <div>
                 <app-file-input id="logo" [online]="true" formControlName="logo"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="keywords">关键词</label>
             <div>
                 <input type="text" id="keywords" class="form-control" formControlName="keywords">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">简介</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="status">状态</label>
             <div>
                 <select id="status" class="form-control" formControlName="status">

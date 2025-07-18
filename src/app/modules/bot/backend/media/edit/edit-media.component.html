@@ -1,11 +1,11 @@
-<div class="form-table">
-    <div class="zre-input-group">
+<div class="form-table-control">
+    <div class="input-group-control">
         <label for="title">素材标题</label>
         <div>
             <input type="text" id="title" class="form-control" [(ngModel)]="value.title" (ngModelChange)="onValueChange()">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="type">类型</label>
         <div>
             <select id="type" [(ngModel)]="value.type" (ngModelChange)="onValueChange()" class="form-control">
@@ -13,7 +13,7 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="material_type">素材类别</label>
         <div>
             <select id="material_type" [(ngModel)]="value.material_type" (ngModelChange)="onValueChange()" class="form-control">
@@ -21,7 +21,7 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="content">文件</label>
         <div>
             <app-file-input [accept]="fileFilter" [(ngModel)]="value.content" (ngModelChange)="onValueChange()" (fileUploaded)="onFileUpload($event)"></app-file-input>

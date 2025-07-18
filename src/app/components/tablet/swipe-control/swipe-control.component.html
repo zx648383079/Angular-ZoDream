@@ -1,0 +1,19 @@
+<div class="swipe-control">
+    <div class="control-scroll-body" [ngStyle]="boxStyle">
+        <div class="control-left" #leftBox>
+            <ng-content select="[name=left]"></ng-content>
+        </div>
+        <div class="control-body"
+            (mousedown)="onMouseDown($event)" 
+            (touchstart)="onTouchStart($event)"
+            (touchmove)="onTouchMove($event)"
+            (touchend)="onTouchEnd()"
+            [ngStyle]="bodyStyle">
+            <ng-content></ng-content>
+        </div>
+        <div class="control-right" #rightBox>
+            <ng-content select="[name=right]"></ng-content>
+        </div>
+    </div>
+
+</div>

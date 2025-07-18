@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid tablet-collapse">
     <app-page-tip>
         <ul>
             <li>管理预算列表</li>
@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">预算名</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="预算名">
                 </div>
@@ -49,22 +49,68 @@
     </div>
 </div>
 
+<div class="tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title">预算</span>
+        <a class="route-icon" (click)="open(modal)">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+
+    <app-swipe-list-control>
+        <ng-container *ngFor="let item of items">
+        <app-swipe-control>
+            <div class="line-row-item">
+                <div class="item-icon">
+                    {{ formatCycle(item.cycle) }}
+                </div>
+                <div class="item-body">
+                    {{ item.name }}
+                </div>
+                <div class="item-meta-bar">
+                    <div class="item-count" [ngClass]="{'--with-danger': item.remain < 0}">{{ item.budget }}</div>
+                    <div class="item-meta" *ngIf="item.spent > 0">
+                        <b>-</b>
+                        {{ item.spent }} 
+                        <b>=</b> 
+                        {{ item.remain }}
+                    </div>
+                </div>
+            </div>
+            <ng-container name="left">
+                <a class="btn-primary" (click)="open(modal, item)">
+                    <i class="iconfont icon-edit"></i>
+                </a>
+            </ng-container>
+            <ng-container name="right">
+                <a class="btn-danger" (click)="tapRemove(item)">
+                    <i class="iconfont icon-trash"></i>
+                </a>
+            </ng-container>
+        </app-swipe-control>
+        </ng-container>
+    </app-swipe-list-control>
+</div>
+
 <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑预算' : '新增预算'">
     <div class="form-group">
         <label for="name">预算名</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入预算名">
         </div>
     </div>
     <div class="form-group">
         <label for="budget">预算(元)</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="budget" [(ngModel)]="editData.budget" placeholder="请输入预算">
         </div>
     </div>
     <div class="form-group">
         <label for="cycle">周期</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <select class="form-control" id="cycle" [(ngModel)]="editData.cycle">
                 <option *ngFor="let item of cycleItems;let i = index" [value]="i">{{ item }}</option>
             </select>

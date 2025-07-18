@@ -19,8 +19,8 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel-container" [hidden]="tabIndex > 0">
-                        <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
-                            <div class="zre-input-group">
+                        <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+                            <div class="input-group-control">
                                 <label for="fileUpload">用户头像</label>
                                 <div>
                                     <div class="avatar-input">
@@ -30,31 +30,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="zre-input-group">
+                            <div class="input-group-control">
                                 <label for="name">昵　　称</label>
                                 <div>
                                     <input type="text" id="name" class="form-control " formControlName="name">
                                 </div>
                             </div>
-                            <div class="zre-input-group">
+                            <div class="input-group-control">
                                 <label for="email">邮　　箱</label>
                                 <div>
                                     <input type="email" id="email" class="form-control" placeholder="请输入 邮箱" [value]="user?.email" (click)="tapStepEdit()" readonly>
                                 </div>
                             </div>
-                            <div class="zre-input-group">
+                            <div class="input-group-control">
                                 <label for="性　　别">性　　别</label>
                                 <div>
                                     <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex"></app-check-input>
                                 </div>
                             </div>
-                            <div class="zre-input-group">
+                            <div class="input-group-control">
                                 <label for="mobile">手机号码</label>
                                 <div>
                                     <input type="text" id="mobile" class="form-control" [value]="user?.mobile" (click)="tapStepEdit('mobile')" readonly>
                                 </div>
                             </div>
-                            <div class="zre-input-group">
+                            <div class="input-group-control">
                                 <label for="birthday">出生日期</label>
                                 <div>
                                     <app-date-input formControlName="birthday"></app-date-input>

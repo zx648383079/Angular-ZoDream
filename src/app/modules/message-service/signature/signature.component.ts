@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ISignature } from '../model';
 import { SearchService } from '../../../theme/services';
@@ -9,9 +9,9 @@ import { MessageServiceService } from '../ms.service';
 
 @Component({
     standalone: false,
-  selector: 'app-ms-signature',
-  templateUrl: './signature.component.html',
-  styleUrls: ['./signature.component.scss']
+    selector: 'app-ms-signature',
+    templateUrl: './signature.component.html',
+    styleUrls: ['./signature.component.scss']
 })
 export class SignatureComponent implements OnInit {
 
@@ -104,7 +104,7 @@ export class SignatureComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: ISignature) {
+    open(modal: DialogEvent, item?: ISignature) {
         this.editData = item ? {...item} : {id: undefined, name: '', sign_no: ''};
         modal.open(() => {
             this.service.signatureSave({

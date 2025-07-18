@@ -5,38 +5,38 @@
             <li>控制器、模型、视图至少选择一个，不然无法生成</li>
         </ul>
     </app-page-tip>
-    <div class="panel-container form-table">
-        <div class="zre-input-group">
+    <div class="panel-container form-table-control">
+        <div class="input-group-control">
             <label for="">模块名</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="module">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">数据表</label>
             <div>
                 <ng-select [(ngModel)]="selected" [items]="tableItems" bindLabel="name" bindValue="value"></ng-select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">文件名</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="name">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for=""></label>
             <div>
                 <app-switch [(ngModel)]="hasController">生成控制器</app-switch>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for=""></label>
             <div>
                 <app-switch [(ngModel)]="hasModel">生成数据模型</app-switch>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for=""></label>
             <div>
                 <app-switch [(ngModel)]="hasView">生成视图</app-switch>

@@ -49,20 +49,20 @@
 </div>
 
 <app-dialog-box #bookModal i18n-title title="New Novel">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="name" i18n>Name</label>
             <div>
                 <input type="text" id="name" [(ngModel)]="bookData.name" class="form-control">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="cover" i18n>Cover</label>
             <div>
                 <app-file-input [(ngModel)]="bookData.cover"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description" i18n>Summary</label>
             <div>
                 <textarea id="description"  [(ngModel)]="bookData.description" class="form-control"></textarea>

@@ -90,7 +90,7 @@
     <div class="row">
         <div class="col-md-6">
             <app-panel title="备注信息">
-                <div class="form-table" >
+                <div class="form-table-control" >
                     <div class="remark-box">
                         <textarea name="remark" class="form-control" [(ngModel)]="remarkData.remark"></textarea>
                     </div>
@@ -182,8 +182,8 @@
 </div>
 
 <app-dialog-box #refundModal title="订单退款" confirmText="确认提交">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">退款方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="refundData.refund_type">
@@ -191,7 +191,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">退款金额</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="refundData.money">
@@ -226,8 +226,8 @@
             </tr>
         </tbody>
     </table>
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">物流方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="shipData.shipping_id">
@@ -235,7 +235,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">物流单号</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="shipData.logistics_number">

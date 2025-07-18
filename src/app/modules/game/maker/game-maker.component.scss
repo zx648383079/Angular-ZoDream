@@ -1,6 +1,5 @@
-@use '../../../../bootstrap/desktop/admin';
-.maker-container ::ng-deep {
-    @include admin.admin-container;
+
+:host ::ng-deep {
     .group-panel {
         .group-header {
             line-height: 3rem;

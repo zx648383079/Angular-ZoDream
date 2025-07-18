@@ -1,13 +1,13 @@
 <app-edit-header title="淘宝客设置" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="option_taobaoke_app_key">APP KEY</label>
             <div>
                 <input type="text" id="option_taobaoke_app_key"class="form-control"  formControlName="app_key">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="option_taobaoke_secret">Secret</label>
             <div>
                 <input type="text" id="option_taobaoke_secret" class="form-control" formControlName="secret">

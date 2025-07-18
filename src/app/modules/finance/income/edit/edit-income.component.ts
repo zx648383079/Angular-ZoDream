@@ -7,9 +7,9 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from 
 
 @Component({
     standalone: false,
-  selector: 'app-edit-income',
-  templateUrl: './edit-income.component.html',
-  styleUrls: ['./edit-income.component.scss']
+    selector: 'app-finance-edit-income',
+    templateUrl: './edit-income.component.html',
+    styleUrls: ['./edit-income.component.scss']
 })
 export class EditIncomeComponent implements OnInit {
 

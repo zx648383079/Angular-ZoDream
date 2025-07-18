@@ -1,10 +1,10 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
-                    <div class="zre-input-group avatar-input" *ngIf="data">
+                    <div class="input-group-control avatar-input" *ngIf="data">
                         <label for="avatar">头像</label>
                         <div>
                             <div class="avatar">
@@ -14,33 +14,33 @@
                             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
                             <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:zodream">
                             <div class="input-tip" *ngIf="name.invalid">请输入昵称</div>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
                             <input type="email" id="email" class="form-control" formControlName="email">
                             <div class="input-tip" *ngIf="email.invalid">请输入邮箱</div>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
                             <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
                             <app-date-input formControlName="birthday"></app-date-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>角色</label>
                         <div>
                             <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色"></ng-select>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="修改密码">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="password">密码</label>
                         <div>
                             <input type="password" id="password" class="form-control" formControlName="password"
@@ -58,7 +58,7 @@
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="confirm_password">确认密码</label>
                         <div>
                             <input type="password" id="confirm_password" class="form-control" formControlName="confirm_password"

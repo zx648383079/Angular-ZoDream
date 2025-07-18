@@ -1,30 +1,30 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="title">名称</label>
                         <div>
                             <input type="text" id="title" class="form-control" formControlName="title" (blur)="onTitleChange()">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="name">目录名</label>
                         <div>
                             <input type="text" id="name" class="form-control" formControlName="name" >
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
                             <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
                         </div>
                     </div>
-                    <div class="zre-input-group" *ngIf="typeValue < 1">
+                    <div class="input-group-control" *ngIf="typeValue < 1">
                         <label for="model_id">模型</label>
                         <div>
                             <select id="model_id" class="form-control" formControlName="model_id">
@@ -34,46 +34,46 @@
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>上级</label>
                         <select class="form-control" formControlName="parent_id">
                             <option [value]="0">-- 无上级分类 --</option>
                             <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
                         </select>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
                             <app-file-input formControlName="thumb"></app-file-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="image">主图</label>
                         <div>
                             <app-file-input formControlName="image"></app-file-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="keywords">关键词</label>
                         <div>
                             <input type="text" id="keywords" class="form-control" formControlName="keywords" >
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="description">简介</label>
                         <div>
                             <textarea id="description" class="form-control"  formControlName="description"
                                 ></textarea>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="groups">分组</label>
                         <div>
                             <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" formControlName="groups"></app-check-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="position">排序</label>
                         <div>
                             <input type="text" id="position" class="form-control" formControlName="position">
@@ -84,28 +84,28 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="模板">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="category_template">分类模板</label>
                         <div>
                             <input type="text" id="category_template" class="form-control" formControlName="category_template">
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="list_template">列表模板</label>
                         <div>
                             <input type="text" id="list_template" class="form-control" formControlName="list_template" >
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="show_template">详情模板</label>
                         <div>
                             <input type="text" id="show_template" class="form-control" formControlName="show_template" >
 
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="setting_open_comment">开启评论</label>
                         <div formGroupName="setting">
                             <app-switch formControlName="open_comment"></app-switch>
@@ -115,7 +115,7 @@
             </div>
             <div class="col-md-12" *ngIf="typeValue > 0">
                 <app-panel title="详情">
-                    <div class="zre-input-group" *ngIf="typeValue > 1">
+                    <div class="input-group-control" *ngIf="typeValue > 1">
                         <label for="url">链接</label>
                         <div>
                             <input type="text" id="url" class="form-control" formControlName="url" >

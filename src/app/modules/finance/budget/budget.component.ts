@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
-import { DialogBoxComponent } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IBudget } from '../model';
+import { mapFormat } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-budget',
-  templateUrl: './budget.component.html',
-  styleUrls: ['./budget.component.scss']
+    selector: 'app-finance-budget',
+    templateUrl: './budget.component.html',
+    styleUrls: ['./budget.component.scss']
 })
 export class BudgetComponent implements OnInit {
 
@@ -47,9 +47,14 @@ export class BudgetComponent implements OnInit {
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapBack() {
+        history.back();
+    }
+
+    public formatCycle(val: number) {
+        return mapFormat(val, ['次', '天', '周', '月', '年']);
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -62,9 +67,6 @@ export class BudgetComponent implements OnInit {
         this.goPage(this.queries.page + 1);
     }
 
-    /**
-     * goPage
-     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
@@ -104,7 +106,7 @@ export class BudgetComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IBudget) {
+    public open(modal: DialogEvent, item?: IBudget) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: '',

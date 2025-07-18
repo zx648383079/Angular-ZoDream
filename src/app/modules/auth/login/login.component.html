@@ -1,18 +1,18 @@
-<form class="form-ico login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}" [hidden]="mode > 6">
+<form class="form-icon-control login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}" [hidden]="mode > 6">
   <div class="input-box">
         <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
-            <div class="zre-input-group" [class]="{error: email.invalid}">
+            <div class="input-group-control" [class]="{error: email.invalid}">
                 <input type="email" appFocusNext formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
-        <div class="zre-input-group" [class]="{error: password.invalid}">
+        <div class="input-group-control" [class]="{error: password.invalid}">
             <input [type]="isObserve ? 'text' : 'password'" appFocusNext formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
-        <div class="zre-input-group captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
+        <div class="input-group-control captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
             <input type="text" appFocusNext formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
@@ -20,13 +20,13 @@
             </a>
         </div>
 
-        <!-- <div class="zre-input-group code-input" [class]="{error: password.invalid}">
+        <!-- <div class="input-group-control code-input" [class]="{error: password.invalid}">
             <input type="text" formControlName="code" i18n-placeholder placeholder="lease enter verification code">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div> -->
 
-      <div class="zre-input-group">
+      <div class="input-group-control">
           <!-- <div class="checkbox">
               <input type="checkbox" formControlName="remember" value="1" id="checkboxInput">
               <label for="checkboxInput"></label>
@@ -62,9 +62,9 @@
   </div>
 </form>
 
-<div class="form-ico auth-panel" *ngIf="mode == 8">
+<div class="form-icon-control auth-panel" *ngIf="mode == 8">
     <div class="title-bar" i18n>Two-factor authentication</div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <input type="text" i18n-placeholder placeholder="Authentication code" [(ngModel)]="twoFaCode">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
@@ -80,9 +80,9 @@
 
 </div>
 
-<div class="form-ico auth-panel" *ngIf="mode == 9">
+<div class="form-icon-control auth-panel" *ngIf="mode == 9">
     <div class="title-bar" i18n>Use a Recovery Code</div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <input type="text" i18n-placeholder placeholder="Recovery Code" [(ngModel)]="recoveryCode">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>

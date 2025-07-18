@@ -5,18 +5,12 @@
 @use './panel';
 @use './menu';
 @use './article';
+@use './admin';
+@use './list';
+@use './member';
 
 
 .theme-gray {
     filter: grayscale(100%);
 }
 
-@media (min-width: 48rem) {
-    .tablet-visible {
-        display: none !important;
-    }
-
-    .tablet-collapse {
-
-    }
-}

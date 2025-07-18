@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
@@ -9,9 +9,9 @@ import { CmsService } from '../cms.service';
 
 @Component({
     standalone: false,
-  selector: 'app-linkage',
-  templateUrl: './linkage.component.html',
-  styleUrls: ['./linkage.component.scss']
+    selector: 'app-linkage',
+    templateUrl: './linkage.component.html',
+    styleUrls: ['./linkage.component.scss']
 })
 export class LinkageComponent implements OnInit {
     public items: ICmsLinkage[] = [];
@@ -40,7 +40,7 @@ export class LinkageComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item?: ICmsLinkage) {
+    public open(modal: DialogEvent, item?: ICmsLinkage) {
         this.editData = item ? {...item} : {
             id: 0,
             name: '',

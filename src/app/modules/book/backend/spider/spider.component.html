@@ -1,7 +1,7 @@
 <div class="dialog-mask" *ngIf="visible"></div>
 <div class="search-dialog-container" *ngIf="visible">
     <div class="search-bar">
-        <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="flat-input">
                 <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
                 <button type="submit" class="btn btn-primary">搜索</button>

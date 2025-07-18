@@ -1,38 +1,38 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑仓库' : '新增仓库'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">仓库名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入仓库名</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="tel">联系电话</label>
             <div>
                 <input type="text" id="tel" class="form-control" formControlName="tel">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="link_user">联系人</label>
             <div>
                 <input type="text" id="link_user" class="form-control" formControlName="link_user">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="address">地址</label>
             <div>
                 <textarea id="address" class="form-control" formControlName="address"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="remark">备注</label>
             <div>
                 <textarea id="remark" class="form-control" formControlName="remark"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="region">支持地区</label>
             <div>
                 <app-select-input url="shop/region/search" formControlName="region" [multiple]="true"></app-select-input>

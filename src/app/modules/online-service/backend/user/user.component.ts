@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { SearchService } from '../../../../theme/services';
@@ -46,7 +46,7 @@ export class UserComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent) {
+    public open(modal: DialogEvent) {
         this.users = [];
         modal.open(() => {
             this.service.userAdd({

@@ -1,7 +1,7 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
@@ -12,7 +12,7 @@
         </div>
 
         <app-panel title="附加属性">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="price">章节类型</label>
                 <div>
                     <select class="form-control" [(ngModel)]="data.type">
@@ -22,13 +22,13 @@
                     </select>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="source">来源</label>
                 <div>
                     <input type="text" id="source" class="form-control" formControlName="source">
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
                     <input type="text" id="position" class="form-control" formControlName="position" size="4">

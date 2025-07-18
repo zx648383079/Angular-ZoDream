@@ -1,7 +1,6 @@
 import { IPageEditItem } from './page';
 import { IUser } from './user';
 
-
 export interface INavLink {
     name: string;
     icon?: string;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IWaiter } from '../../model';
@@ -8,9 +8,9 @@ import { LegworkService } from '../legwork.service';
 
 @Component({
     standalone: false,
-  selector: 'app-waiter',
-  templateUrl: './waiter.component.html',
-  styleUrls: ['./waiter.component.scss']
+    selector: 'app-waiter',
+    templateUrl: './waiter.component.html',
+    styleUrls: ['./waiter.component.scss']
 })
 export class WaiterComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class WaiterComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item: IWaiter) {
+    public open(modal: DialogEvent, item: IWaiter) {
         this.editData = item;
         modal.openCustom(value => {
             this.service.waiterChange(this.editData?.id, value).subscribe(res => {

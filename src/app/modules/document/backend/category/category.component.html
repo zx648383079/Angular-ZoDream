@@ -9,7 +9,7 @@
             <a class="btn btn-success pull-right" (click)="open(modal)">新增分类</a>
         </div>
     
-        <table class="table table-hover tree-table">
+        <table class="table table-hover tree-table-control">
             <thead>
                 <tr>
                     <th></th>
@@ -46,13 +46,13 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑分类' : '新增分类'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>图标</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-file-input [(ngModel)]="editData.icon"></app-file-input>
         </div>
     </div>

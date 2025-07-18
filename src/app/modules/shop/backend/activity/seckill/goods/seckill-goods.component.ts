@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { ISeckillGoods } from '../../../../model';
 import { SearchService } from '../../../../../../theme/services';
@@ -8,9 +8,9 @@ import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-seckill-goods',
-  templateUrl: './seckill-goods.component.html',
-  styleUrls: ['./seckill-goods.component.scss']
+    selector: 'app-shop-seckill-goods',
+    templateUrl: './seckill-goods.component.html',
+    styleUrls: ['./seckill-goods.component.scss']
 })
 export class SeckillGoodsComponent implements OnInit {
 
@@ -103,7 +103,7 @@ export class SeckillGoodsComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: ISeckillGoods) {
+    open(modal: DialogEvent, item?: ISeckillGoods) {
         this.editData = item ? Object.assign({}, item) : {
             id: undefined,
             act_id: this.queries.act_id,

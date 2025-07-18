@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
@@ -74,37 +74,37 @@
 <app-dialog-box #modal title="新增价格变动记录">
     <div class="form-group">
         <label for="name-input">产品</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.product" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="short_name-input">渠道</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="short_name-input" [(ngModel)]="editData.channel" placeholder="请输入简称">
         </div>
     </div>
     <div class="form-group">
         <label for="site_url-input">类型</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-switch [(ngModel)]="editData.type" offLabel="出售" onLabel="求购"></app-switch>
         </div>
     </div>
     <div class="form-group">
         <label for="price-input">价格</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="price-input" [(ngModel)]="editData.price" placeholder="请输入价格">
         </div>
     </div>
     <div class="form-group">
         <label for="o-input">订单数量</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-number-input [(ngModel)]="editData.order_count"></app-number-input>
         </div>
     </div>
     <div class="form-group">
         <label for="c-input">变动时间</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-date-input [(ngModel)]="editData.created_at" format="yyyy-mm-dd hh:ii:ss"></app-date-input>
         </div>
     </div>

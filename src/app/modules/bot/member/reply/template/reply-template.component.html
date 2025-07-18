@@ -7,8 +7,8 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -51,28 +51,28 @@
 </div>
 
 <app-dialog-box #editModal [title]="editData.id ? '编辑模板' : '新增模板'">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">模板名称</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.title">
                 <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.status"></app-switch>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">模板ID</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.template_id">
             </div>
         </div>
         
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">内容</label>
             <div>
                 <textarea class="form-control" [(ngModel)]="editData.content"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">示例</label>
             <div>
                 <textarea class="form-control" [(ngModel)]="editData.example"></textarea>
@@ -81,15 +81,15 @@
     </div>
 </app-dialog-box>
 <app-dialog-box #modal [title]="'发送模板消息'">
-<div class="form-table" *ngIf="sendData.template">
-    <div class="zre-input-group">
+<div class="form-table-control" *ngIf="sendData.template">
+    <div class="input-group-control">
         <label for="">模板名称</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="sendData.template.title">
             <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status"></app-switch>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">接收者</label>
         <div>
             <div>
@@ -97,31 +97,31 @@
             </div>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">标题</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="sendData.title">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">链接</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="sendData.template_url">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">小程序appid</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="sendData.appid">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">小程序路径</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="sendData.path">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="">模板内容</label>
         <div>
             <textarea class="form-control" readonly [(ngModel)]="sendData.content"></textarea>

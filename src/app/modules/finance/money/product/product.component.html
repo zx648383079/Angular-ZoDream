@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">产品名</label>
                     <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="产品名">
                 </div>
@@ -51,19 +51,19 @@
   <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑理财产品' : '新增理财产品'">
     <div class="form-group">
         <label for="name">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" id="remark" [(ngModel)]="editData.remark" placeholder="请输入备注"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label for="status">是否开启</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-switch id="status" [(ngModel)]="editData.status"></app-switch>
         </div>
     </div>

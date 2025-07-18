@@ -1,11 +1,11 @@
-<div class="zre-input-group">
+<div class="input-group-control">
     <label for="title8">题目</label>
     <div>
         <textarea id="title8" class="form-control" [(ngModel)]="value.title" (ngModelChange)="onTypeChange()">
         </textarea>
     </div>
 </div>
-<div class="zre-input-group">
+<div class="input-group-control">
     <label for="type8">类型</label>
     <div>
         <select id="type8" class="form-control" [(ngModel)]="value.type" (ngModelChange)="onTypeChange()">
@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="option-box">
-    <div class="zre-input-group" *ngIf="value.type < 2">
+    <div class="input-group-control" *ngIf="value.type < 2">
         <label for="">选项</label>
         <div>
             <ng-container *ngFor="let item of value.option_items; let i = index">
@@ -44,7 +44,7 @@
             </a>
         </div>
     </div>
-    <div class="zre-input-group" *ngIf="value.type == 2">
+    <div class="input-group-control" *ngIf="value.type == 2">
         <label for="answer9">答案</label>
         <div>
             <select id="answer9" class="form-control" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()">
@@ -53,13 +53,13 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group" *ngIf="value.type == 3">
+    <div class="input-group-control" *ngIf="value.type == 3">
         <label for="answer0">答案</label>
         <div>
             <textarea id="answer0" class="form-control"  [(ngModel)]="value.answer" (ngModelChange)="onValueChange()"></textarea>
         </div>
     </div>
-    <div class="zre-input-group" *ngIf="value.type == 4">
+    <div class="input-group-control" *ngIf="value.type == 4">
         <label for="answer">答案</label>
         <div>
             <div>
@@ -80,7 +80,7 @@
         </div>
     </div>
     
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="analysis">解析</label>
         <div>
             <app-question-analysis [(value)]="value.analysis_items" (valueChange)="onValueChange()"></app-question-analysis>

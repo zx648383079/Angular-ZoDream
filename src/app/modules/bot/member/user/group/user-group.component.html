@@ -7,8 +7,8 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -50,8 +50,8 @@
 </div>
 
 <app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新增分组'" [scrollable]="false">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">名称</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.name">

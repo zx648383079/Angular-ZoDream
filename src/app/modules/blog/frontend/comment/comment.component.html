@@ -1,7 +1,7 @@
 <div id="comments" class="book-footer comment">
     <div class="book-comment-form" *ngIf="commentData.parent_id < 1">
         <div class="title" i18n>Post a comment</div>
-        <div class="form-table" *ngIf="status != 2 && !user">
+        <div class="form-table-control" *ngIf="status != 2 && !user">
             <div class="form-group">
                 <label i18n>Nickname</label>
                 <input type="text" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">

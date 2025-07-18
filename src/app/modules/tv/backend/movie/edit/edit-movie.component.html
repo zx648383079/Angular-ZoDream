@@ -2,7 +2,7 @@
 
 
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">剧名</label>
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="高级属性">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
                             <select id="cat_id" class="form-control" formControlName="cat_id">
@@ -25,7 +25,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="area_id">地区</label>
                         <div>
                             <select id="area_id" class="form-control" formControlName="area_id">
@@ -36,20 +36,20 @@
                         </div>
                     </div>
                    
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="thumb">封面</label>
                         <div>
                             <app-file-input formControlName="cover"></app-file-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
                             <app-text-editor formControlName="description" height="100"></app-text-editor>
                         </div>
                     </div>
                     
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>标签</label>
                         <div>
                             <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
@@ -59,55 +59,55 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="附加属性">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>片名</label>
                         <div>
                             <input type="text" class="form-control" formControlName="film_title">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>译名</label>
                         <div>
                             <input type="text" class="form-control" formControlName="translation_title">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>导演</label>
                         <div>
                             <app-words-input formControlName="director"></app-words-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>主演</label>
                         <div>
                             <app-words-input formControlName="leader"></app-words-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>年代</label>
                         <div>
                             <input type="number" class="form-control" formControlName="age">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>语言</label>
                         <div>
                             <input type="text" class="form-control" formControlName="language">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>上映日期</label>
                         <div>
                             <app-date-input formControlName="release_date"></app-date-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>集数</label>
                         <div>
                             <app-number-input formControlName="series_count"></app-number-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>总时长</label>
                         <div>
                             <input type="number" class="form-control" formControlName="duration">

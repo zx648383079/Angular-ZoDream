@@ -10,10 +10,11 @@ import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../model';
+import { mapFormat } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-    selector: 'app-income',
+    selector: 'app-finance-income',
     templateUrl: './income.component.html',
     styleUrls: ['./income.component.scss'],
     animations: [
@@ -83,9 +84,14 @@ export class IncomeComponent implements OnInit {
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapBack() {
+        history.back();
+    }
+
+    public formatType(val: number) {
+        return mapFormat(val, ['支', '收', '借', '还']);
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

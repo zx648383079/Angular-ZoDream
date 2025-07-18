@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
@@ -9,9 +9,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-qrcode',
-  templateUrl: './qrcode.component.html',
-  styleUrls: ['./qrcode.component.scss']
+    selector: 'app-bot-qrcode',
+    templateUrl: './qrcode.component.html',
+    styleUrls: ['./qrcode.component.scss']
 })
 export class QrcodeComponent implements OnInit {
 
@@ -43,7 +43,7 @@ export class QrcodeComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item?: any) {
+    public open(modal: DialogEvent, item?: any) {
         this.editData = item ? {...item} : {scene_type: 0};
         modal.open(() => {
             this.service.qrcodeSave(this.editData).subscribe({

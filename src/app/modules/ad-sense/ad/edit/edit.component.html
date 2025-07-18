@@ -1,14 +1,14 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">广告名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入广告名</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="position_id">广告位</label>
             <div>
                 <select id="position_id" formControlName="position_id" class="form-control">
@@ -17,7 +17,7 @@
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="type">类型</label>
             <div>
                 <select id="type" formControlName="type" class="form-control">
@@ -30,19 +30,19 @@
             </div>
         </div>
         <div class="type-group">
-            <div class="zre-input-group" *ngIf="uploadType === 0">
+            <div class="input-group-control" *ngIf="uploadType === 0">
                 <label for="content">内容</label>
                 <div>
                     <textarea id="content" class="form-control" formControlName="content"></textarea>
                 </div>
             </div>
-            <div class="zre-input-group"  *ngIf="uploadType === 1">
+            <div class="input-group-control"  *ngIf="uploadType === 1">
                 <label for="content_url">图片</label>
                 <div>
                     <app-file-input id="content_url" formControlName="content"></app-file-input>
                 </div>
             </div>
-            <div class="zre-input-group"  *ngIf="uploadType === 2">
+            <div class="input-group-control"  *ngIf="uploadType === 2">
                 <label for="file_url">视频</label>
                 <div>
                     <app-file-input id="file_url" formControlName="content" accept="video/*"></app-file-input>
@@ -50,26 +50,26 @@
             </div>
         </div>
 
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="url">链接</label>
             <div>
                 <input type="text" id="url" class="form-control" formControlName="url">
                 <div class="input-tip">链接格式：{{ deepSchame }}://goto/</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div class="calendar-input">
                 <app-date-input formControlName="start_at"></app-date-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div class="calendar-input">
                 <app-date-input formControlName="end_at"></app-date-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="status">状态</label>
             <div>
                 <app-switch id="status" formControlName="status" onLabel="启用" offLabel="关闭"></app-switch>

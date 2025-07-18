@@ -7,8 +7,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键词</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="关键词">
@@ -49,7 +49,7 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑快捷语' : '新增快捷语'">
     <div class="form-group">
         <label for="name-input">内容</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.content" placeholder="请输入内容">
         </div>
     </div>

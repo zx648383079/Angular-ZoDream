@@ -1,4 +1,5 @@
 @use '../../app/theme/theme';
+@use '../variables';
 
 .tablet-tab-bar {
     --#{theme.$prefix}tab: var(--#{theme.$prefix}panel);
@@ -11,7 +12,7 @@
     justify-content: space-around;
     flex-flow: row nowrap;
     position: fixed;
-    z-index: 5;
+    z-index: variables.$zindex-dropdown;
     left: 0;
     bottom: 0;
     width: 100%;

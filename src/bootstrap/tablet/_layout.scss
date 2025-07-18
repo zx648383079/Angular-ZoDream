@@ -1,5 +1,18 @@
-@use './tab';
 @use '../../app/theme/theme';
+@use '../variables';
+
+@use './tab';
+@use './swipe';
+
+.tablet-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: variables.$zindex-modal-backdrop;
+    background-color:  var(--#{theme.$prefix}dialog-mask);
+}
 
 .tablet-search-header {
     --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
@@ -34,13 +47,30 @@
     }
 }
 
-.tablet-header {
+.tablet-route-header {
     --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
     --#{theme.$prefix}nav-text: var(--#{theme.$prefix}primary-text);
     background-color: var(--#{theme.$prefix}nav);
     color: var(--#{theme.$prefix}nav-text);
     display: flex;
+    align-items: center;
     line-height: 3rem;
+
+    .route-title {
+        flex: 1;
+        text-align: center;
+    }
+    .route-icon {
+        min-width: 2.5rem;
+        text-align: center;
+        display: inline-block;
+        color: var(--#{theme.$prefix}nav-text);
+        padding: 0 .4rem;
+    }
+    .route-pane {
+        position: fixed;
+        bottom: 0;
+    }
 }
 
 
@@ -147,7 +177,33 @@
     }
 }
 
+@media (min-width: 48rem) {
+    .tablet-visible {
+        display: none !important;
+    }
+
+    .tablet-collapse {
+
+    }
+}
+
+
 @media (width < 48rem) {
+    .--with-tablet-bottom {
+        margin-bottom: 3rem;
+    }
+    .--with-tablet-header {
+        margin-top: 3rem;
+        .tablet-route-header,
+        .tablet-search-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 5;
+        }
+    }
+    
     .tablet-visible {
 
     }

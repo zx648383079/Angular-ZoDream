@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
@@ -9,9 +9,9 @@ import { ExamService } from '../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-material',
-  templateUrl: './material.component.html',
-  styleUrls: ['./material.component.scss']
+    selector: 'app-material',
+    templateUrl: './material.component.html',
+    styleUrls: ['./material.component.scss']
 })
 export class MaterialComponent implements OnInit {
 
@@ -52,7 +52,7 @@ export class MaterialComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item?: IQuestionMaterial) {
+    public open(modal: DialogEvent, item?: IQuestionMaterial) {
         this.editData = item ? {...item} : {
             title: '',
             course_id: 0,

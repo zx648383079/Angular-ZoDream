@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">名称</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="关键字">
@@ -50,19 +50,19 @@
 <app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="">物品</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-multi-select-input></app-multi-select-input>
         </div>
     </div>
     <div class="form-group">
         <label for="">数量</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-number-input></app-number-input>
         </div>
     </div>
     <div class="form-group">
         <label for="">刷新间隔/s</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-number-input></app-number-input>
         </div>
     </div>

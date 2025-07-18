@@ -1,38 +1,38 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑支付方式' : '新增支付方式'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
                 <app-file-input id="icon" formControlName="icon"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="code">Code</label>
             <div>
                 <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code"></ng-select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="fee">Fee</label>
             <div>
                 <input type="text" id="fee" class="form-control" formControlName="fee">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label>限定配送</label>
             <div>
                 <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" formControlName="shipping" placeholder="选择配送"></ng-select>

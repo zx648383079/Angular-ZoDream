@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../../components/dialog';
-import { DialogBoxComponent } from '../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
@@ -56,7 +55,7 @@ export class ProductComponent implements OnInit {
         this.editData.product_id = event.child ? event.child.id : 0;
     }
 
-    open(modal: DialogBoxComponent, item?: IWarehouseGoods) {
+    open(modal: DialogEvent, item?: IWarehouseGoods) {
         this.editData = item ? {
             id: 1,
             goods_id: item.goods_id,

@@ -21,8 +21,8 @@
 </div>
 
 <app-dialog-box #faModal i18n-title title="Enable two-step verification" [scrollable]="false">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="" i18n>Recovery Code</label>
             <div>
                 <input type="text" class="form-control" [value]="data.recovery_code" readonly>
@@ -32,7 +32,7 @@
 
         <img [src]="data.qr" i18n-alt alt="Add by scanning the code">
 
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="" i18n>Authentication code</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="data.twofa_code">

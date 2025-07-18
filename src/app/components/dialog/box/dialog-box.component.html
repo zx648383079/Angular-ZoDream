@@ -3,6 +3,9 @@
     <div class="dialog-header" *ngIf="title || customHeader">
         <div class="dialog-title">{{ title }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>
+        <ng-container *ngIf="buttonVisible">
+            <div class="btn btn-primary tablet-visible" (click)="close(true)">{{ confirmText }}</div>
+        </ng-container>
         <ng-content select="[name=header]"></ng-content>
     </div>
     <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
@@ -11,7 +14,7 @@
             {{ invalidTip }}
         </div>
     </div>
-    <div class="dialog-footer" *ngIf="footerVisible">
+    <div class="dialog-footer tablet-collapse" *ngIf="footerVisible">
         <div class="btn-group">
             <ng-container *ngIf="buttonVisible">
                 <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>

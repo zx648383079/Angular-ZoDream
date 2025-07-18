@@ -1,8 +1,5 @@
 @use '../../../../theme/theme';
 @use '../../../../../bootstrap/desktop/list';
-
-@include list.list-table;
-
 .item {
     .status {
         a,

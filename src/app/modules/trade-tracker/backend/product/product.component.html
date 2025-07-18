@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label class="sr-only" for="keywords">关键词</label>
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="关键词" [ngModel]="queries.keywords">
                 </div>
@@ -55,19 +55,19 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑产品' : '新增产品'">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="en_name-input">英文名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="en_name-input" [(ngModel)]="editData.en_name" placeholder="请输入英文名称">
         </div>
     </div>
     <div class="form-group">
         <label for="unique_code-input">唯一编码</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="unique_code-input" [(ngModel)]="editData.unique_code" placeholder="请输入唯一编码">
         </div>
     </div>

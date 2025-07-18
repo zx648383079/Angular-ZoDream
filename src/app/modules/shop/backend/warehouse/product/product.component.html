@@ -7,8 +7,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">标题</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
                 </div>
@@ -68,13 +68,13 @@
     </div>
     <div class="form-group">
         <label for="region-input">数量</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input type="number" class="form-control" [(ngModel)]="editData.amount">
         </div>
     </div>
     <div class="form-group">
         <label for="region-input">备注</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" [(ngModel)]="editData.remark"></textarea>
         </div>
     </div>

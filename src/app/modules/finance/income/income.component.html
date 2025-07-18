@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid tablet-collapse">
     <app-page-tip>
         <ul>
             <li>管理流水列表</li>
@@ -6,12 +6,12 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键字">
                 </div>
-                <div class="zre-input-group">
+                <div class="input-group-control">
                     <label for="type">类型</label>
                     <select class="form-control" name="type" [ngModel]="queries.type" id="type">
                         <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
@@ -76,6 +76,46 @@
     </div>
 </div>
 
+<div class="tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title">明细</span>
+        <a class="route-icon" routerLink="create">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+
+    <app-swipe-list-control>
+        <ng-container *ngFor="let item of items">
+            <app-swipe-control>
+                <div class="line-row-item">
+                    <div class="item-icon">
+                        {{ formatType(item.type) }}
+                    </div>
+                    <div class="item-body">
+                        <div class="item-title">{{ item.account ? item.account.name : '-' }}</div>
+                        <div class="item-meta">{{ item.happened_at | timestamp }}</div>
+                    </div>
+                    <div class="item-count" [ngClass]="{'--with-danger': item.type != 1}">{{ item.money }}</div>
+                </div>
+                <ng-container name="left">
+                    <a class="btn-success" *ngIf="item.type == 2 || item.type == 3">还款</a>
+                    <a class="btn-info" *ngIf="item.type == 2">坏账</a>
+                    <a class="btn-light" [routerLink]="['edit', item.id]">编辑</a>
+                     <a class="btn-primary">克隆</a>
+                </ng-container>
+                <ng-container name="right">
+                    <a class="btn-danger" (click)="tapRemove(item)">
+                        <i class="iconfont icon-trash"></i>
+                    </a>
+                </ng-container>
+            </app-swipe-control>
+        </ng-container>
+    </app-swipe-list-control>
+</div>
+
 
 <div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
     <div class="panel-header">
@@ -84,7 +124,7 @@
     <form class="panel-body" (ngSubmit)="tapSearch(advancedForm.value)" #advancedForm="ngForm">
         <div class="form-group">
             <label for="type1">类型</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <select class="form-control" name="type" [ngModel]="queries.type" id="type1">
                     <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
                 </select>
@@ -92,7 +132,7 @@
         </div>
         <div class="form-group">
             <label for="account">账户</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <select class="form-control" name="account" [ngModel]="queries.account" id="account">
                     <option [value]="0">请选择</option>
                     <option *ngFor="let item of accountItems" [value]="item.id" >{{ item.name }}</option>
@@ -101,7 +141,7 @@
         </div>
         <div class="form-group">
             <label for="project">项目</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <select class="form-control" id="project" [ngModel]="queries.project" name="project">
                     <option [value]="0">请选择</option>
                     <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
@@ -110,7 +150,7 @@
         </div>
         <div class="form-group">
             <label for="channel">渠道</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <select class="form-control" id="channel" [ngModel]="queries.channel" name="channel">
                     <option [value]="0">请选择</option>
                     <option *ngFor="let item of channelItems;" [value]="item.id" >{{ item.name }}</option>
@@ -119,7 +159,7 @@
         </div>
         <div class="form-group">
             <label for="budget">预算</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <select class="form-control" id="budget" [ngModel]="queries.budget" name="budget">
                     <option [value]="0">请选择</option>
                     <option *ngFor="let item of budgetItems;" [value]="item.id" >{{ item.name }}</option>
@@ -128,19 +168,19 @@
         </div>
         <div class="form-group">
             <label for="start_at">开始时间</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <app-date-input id="start_at" [ngModel]="queries.start_at" name="start_at"></app-date-input>
             </div>
         </div>
         <div class="form-group">
             <label for="end_at">结束时间</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <app-date-input id="end_at" [ngModel]="queries.end_at" name="end_at"></app-date-input>
             </div>
         </div>
         <div class="form-group">
             <label for="keywords2">关键字</label>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords2" placeholder="关键字">
             </div>
         </div>
@@ -156,7 +196,7 @@
 <app-dialog-box #updateModal title="批量编辑">
     <div class="form-group">
         <label for="keywords3">根据关键词搜索备注，符合条件的进行修改数据</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="keywords3" [(ngModel)]="editData.keywords" placeholder="请输入关键词" (ngModelChange)="onEditKeywords()">
         </div>
     </div>
@@ -164,7 +204,7 @@
     <p>影响 {{ editData.count }} 条数据，未选择的将不会进行修改</p>
     <div class="form-group">
         <label for="account">账户</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <select class="form-control" id="account" [(ngModel)]="editData.account_id">
                 <option [value]="0">请选择</option>
                 <option *ngFor="let item of accountItems;" [value]="item.id">{{ item.name }}</option>
@@ -173,7 +213,7 @@
     </div>
     <div class="form-group">
         <label for="project">项目</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <select class="form-control" id="project" [(ngModel)]="editData.project_id">
                 <option [value]="0">请选择</option>
                 <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
@@ -182,7 +222,7 @@
     </div>
     <div class="form-group">
         <label for="channel">渠道</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <select class="form-control" id="channel" [(ngModel)]="editData.channel_id">
                 <option [value]="0">请选择</option>
                 <option *ngFor="let item of channelItems;" [value]="item.id">{{ item.name }}</option>
@@ -191,7 +231,7 @@
     </div>
     <div class="form-group">
         <label for="budget">预算</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <select class="form-control" id="budget" [(ngModel)]="editData.budget_id">
                 <option [value]="0">请选择</option>
                 <option *ngFor="let item of budgetItems;" [value]="item.id">{{ item.name }}</option>

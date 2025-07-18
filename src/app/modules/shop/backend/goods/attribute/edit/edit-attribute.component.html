@@ -1,14 +1,14 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑属性' : '新增属性'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="group_id">类型分组</label>
             <div>
                 <select id="group_id" class="form-control" formControlName="group_id" (ngModelChange)="onGroupChange()">
@@ -18,7 +18,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="property_group">属性分组</label>
             <div>
                 <select id="property_group" class="form-control" formControlName="property_group">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="search_type">搜索类型</label>
             <div>
                 <span class="radio-label">
@@ -46,7 +46,7 @@
                 </span>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="type">类型</label>
             <div>
                 <span class="radio-label">
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="input_type">输入类型</label>
             <div>
                 <span class="radio-label">
@@ -76,13 +76,13 @@
                 </span>
             </div>
         </div>
-        <div class="zre-input-group" *ngIf="isInput">
+        <div class="input-group-control" *ngIf="isInput">
             <label for="default_value">默认值</label>
             <div>
                 <textarea id="default_value" class="form-control" formControlName="default_value"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="position">排序</label>
             <div>
                 <input type="text" id="position" class="form-control" formControlName="position">

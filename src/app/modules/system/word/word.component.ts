@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IBlackWord } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
@@ -9,9 +9,9 @@ import { SystemService } from '../system.service';
 
 @Component({
     standalone: false,
-  selector: 'app-word',
-  templateUrl: './word.component.html',
-  styleUrls: ['./word.component.scss']
+    selector: 'app-sys-word',
+    templateUrl: './word.component.html',
+    styleUrls: ['./word.component.scss']
 })
 export class WordComponent implements OnInit {
 
@@ -95,7 +95,7 @@ export class WordComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IBlackWord) {
+    open(modal: DialogEvent, item?: IBlackWord) {
         this.editData = item ? {...item} : {id: 0, words: '', replace_words: ''};
         modal.open(() => {
             this.service.wordSave(Object.assign({}, this.editData)).subscribe(res => {

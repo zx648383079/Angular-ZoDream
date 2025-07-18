@@ -32,7 +32,6 @@ import { DownloadService, SearchService, ThemeService } from '../../../theme/ser
 import { openLink } from '../../../theme/utils/deeplink';
 import { eachObject, mapFormat } from '../../../theme/utils';
 import { emailValidate } from '../../../theme/validators';
-import { DialogBoxComponent } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 
 @Component({
@@ -152,7 +151,7 @@ export class ThreadComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public open(modal: DialogBoxComponent) {
+    public open(modal: DialogEvent) {
         if (!this.thread || !this.user || !modal) {
             return;
         }

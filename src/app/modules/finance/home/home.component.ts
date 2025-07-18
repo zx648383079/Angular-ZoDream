@@ -6,9 +6,9 @@ import { FinanceService } from '../finance.service';
 
 @Component({
     standalone: false,
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-finance-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 

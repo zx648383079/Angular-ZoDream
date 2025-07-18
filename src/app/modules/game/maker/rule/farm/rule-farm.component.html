@@ -37,25 +37,25 @@
 <app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group" *ngIf="editData.grade > 0">
         <label for="name-input">别名</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.grade_alias" placeholder="请输入别名">
         </div>
     </div>
     <div class="form-group">
         <label>{{ editData.grade > 0 ? '升级' : '开垦' }}价格</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-number-input [(ngModel)]="editData.price"></app-number-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.grade > 0">
         <label>时间效率</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-time-input [(ngModel)]="editData.time_scale"></app-time-input>
         </div>
     </div>
     <div class="form-group" *ngIf="editData.grade > 0">
         <label>收益率</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-time-input [(ngModel)]="editData.yield_scale"></app-time-input>
         </div>
     </div>

@@ -1,6 +1,5 @@
-@use '../../../bootstrap/desktop/admin';
-::ng-deep {
-    @include admin.admin-container;
+
+:host ::ng-deep {
     .preview-item {
         .item-path {
             line-height: 3em;

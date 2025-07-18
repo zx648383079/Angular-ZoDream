@@ -7,9 +7,9 @@ import { IBudget } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-budget-container',
-  templateUrl: './budget-container.component.html',
-  styleUrls: ['./budget-container.component.scss']
+    selector: 'app-finance-budget-container',
+    templateUrl: './budget-container.component.html',
+    styleUrls: ['./budget-container.component.scss']
 })
 export class BudgetContainerComponent implements OnInit {
 

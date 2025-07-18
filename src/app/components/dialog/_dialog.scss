@@ -1,5 +1,6 @@
 @use '../../../bootstrap/desktop/scrollbar';
 @use '../../theme/theme';
+@use '../../../bootstrap/variables';
 
 $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 
@@ -9,12 +10,12 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 200;
+    z-index: variables.$zindex-modal-backdrop;
     background-color:  var(--#{theme.$prefix}dialog-mask);
 }
 .dialog-loading {
     position: fixed;
-    z-index: 920;
+    z-index: variables.$zindex-modal;
     left: 0;
     top: 0;
     width: 100%;
@@ -28,7 +29,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 .dialog-flip-box,
 .search-dialog-container {
     position: fixed;
-    z-index: 920;
+    z-index: variables.$zindex-modal;
     left: 50%;
     top: 50%;
     background-color: var(--#{theme.$prefix}dialog);
@@ -104,7 +105,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     bottom: 0;
     background-color: var(--#{theme.$prefix}body);
     color: var(--#{theme.$prefix}dialog-text);
-    z-index: 99;
+    z-index: variables.$zindex-fixed;
     box-shadow: $shadow 0 0 0.625rem;
     display: flex;
     flex-direction: column;
@@ -295,7 +296,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     color: var(--#{theme.$prefix}dialog-text);
     border-radius: .25rem;
     max-width: 18rem;
-    z-index: 188;
+    z-index: variables.$zindex-popover;
     box-shadow: 0 6px 16px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.08), 0 3px 6px -4px rgba(var(--#{theme.$prefix}mask-rgb), 0.12), 0 9px 28px 8px rgba(var(--#{theme.$prefix}mask-rgb), 0.05);
     .popup-arrow {
         position: absolute;
@@ -359,13 +360,13 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 .lead-overlay-container {
     box-sizing: content-box;
     position: fixed;
-    z-index: 999989;
+    z-index: variables.$zindex-overlay - 1;
     transition: all .3s ease-out;
     box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .8) 0px 0px 1px 2px, rgba(var(--#{theme.$prefix}mask-rgb), .5) 0px 0px 0px 312.5rem;
     opacity: 1;
 }
 .lead-dialog-box {
-    z-index: 999990;
+    z-index: variables.$zindex-overlay;
     width: 100%;
     max-width: 20rem;
     margin-top: 0;
@@ -444,7 +445,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 48rem) {
     .dialog-box,
     .search-dialog-container {
         width: 100%;

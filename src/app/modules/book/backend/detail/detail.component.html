@@ -1,15 +1,15 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑书籍' : '新增书籍'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">书名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="cat_id">分类</label>
             <div>
                 <select id="cat_id" formControlName="cat_id" class="form-control">
@@ -20,13 +20,13 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="author_id">作者</label>
             <div>
                 <app-select-input formControlName="author_id" url="book/admin/author/search"></app-select-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="classify">分级</label>
             <div>
                 <select id="classify" formControlName="classify" class="form-control">
@@ -34,25 +34,25 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="source">来源</label>
             <div>
                 <input type="text" id="source" class="form-control" formControlName="source">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="cover">封面</label>
             <div>
                 <app-file-input formControlName="cover"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">简介</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="status">状态</label>
             <div>
                 <select id="status" formControlName="status" class="form-control">

@@ -10,12 +10,12 @@
                     <div class="box-tab">
                           <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                                 <form [formGroup]="mobileForm" (ngSubmit)="tapSignIn()">
-                                    <div class="zre-input-group">
+                                    <div class="input-group-control">
                                         <input type="text" i18n-placeholder placeholder="Please input phone number" formControlName="mobile" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
-                                    <div class="zre-input-group code-input">
+                                    <div class="input-group-control code-input">
                                         <input type="text" formControlName="code" i18n-placeholder placeholder="SMS verification code">
                                         <i class="iconfont icon-lock" aria-hidden="true"></i>
                                         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
@@ -25,12 +25,12 @@
                           </div>
                           <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
                                 <form [formGroup]="emailForm" (ngSubmit)="tapSignIn()">
-                                    <div class="zre-input-group">
+                                    <div class="input-group-control">
                                         <input type="email" formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
-                                    <div class="zre-input-group">
+                                    <div class="input-group-control">
                                         <input type="password" formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
                                         <i class="iconfont icon-lock" aria-hidden="true" ></i>
                                     </div>

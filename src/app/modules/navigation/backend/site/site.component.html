@@ -6,12 +6,12 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
-                <div class="zre-input-group">
+                <div class="input-group-control">
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
@@ -69,13 +69,13 @@
 <app-dialog-box #scoringModal [title]="'站点评分'" [scrollable]="false">
     <div class="form-group">
         <label>分数%</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input type="number" class="form-control" [(ngModel)]="scoringData.score" placeholder="请输入分数">
         </div>
     </div>
     <div class="form-group">
         <label>本次评分理由</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" [(ngModel)]="scoringData.change_reason" placeholder="请输入评分理由"></textarea>
         </div>
     </div>
@@ -84,25 +84,25 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑站点' : '新增站点'">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>LOGO</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-file-input [(ngModel)]="editData.logo"></app-file-input>
         </div>
     </div>
     <div class="form-group">
         <label for="name-input1">Schema</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input1" [(ngModel)]="editData.schema" placeholder="请输入Schema: http/https">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input2">域名</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input2" [(ngModel)]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
         <div class="input-tip" *ngIf="editExistData" title="已存在相同站点">
@@ -112,7 +112,7 @@
     </div>
     <div class="form-group">
         <label for="name-input3">简介</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" id="name-input3" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
         </div>
     </div>

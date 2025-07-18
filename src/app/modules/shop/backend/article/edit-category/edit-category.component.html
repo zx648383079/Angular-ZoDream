@@ -1,14 +1,14 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="parent_id">上级</label>
             <div>
                 <select id="parent_id" class="form-control" formControlName="parent_id">
@@ -18,20 +18,20 @@
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="thumb">Thumb</label>
             <div>
                 <app-file-input id="thumb" formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
                 <input type="text" id="keywords" class="form-control" formControlName="keywords">
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>

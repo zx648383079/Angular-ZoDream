@@ -2,39 +2,39 @@
 
 
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="panel-container">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="title">店铺名</label>
                 <div>
                     <input type="text" id="title" class="form-control" formControlName="name">
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="logo">店主</label>
                 <div>
                     <app-user-picker [(ngModel)]="user" [ngModelOptions]="{standalone: true}"></app-user-picker>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="logo">图标</label>
                 <div>
                     <app-file-input formControlName="logo"></app-file-input>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
                     <app-words-input id="keywords" formControlName="keywords"></app-words-input>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
                     <app-text-editor formControlName="description" height="100"></app-text-editor>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="status">状态</label>
                 <div>
                     <select formControlName="status" class="form-control">

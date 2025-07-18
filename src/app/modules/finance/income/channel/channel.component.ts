@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../../components/dialog';
-import { DialogBoxComponent } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IConsumptionChannel } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-channel',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss']
+    selector: 'app-finance-channel',
+    templateUrl: './channel.component.html',
+    styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
 
@@ -30,9 +29,10 @@ export class ChannelComponent implements OnInit {
         this.tapRefresh();
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapBack() {
+        history.back();
+    }
+
     public tapRefresh() {
         if (this.isLoading) {
             return;
@@ -66,7 +66,7 @@ export class ChannelComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IConsumptionChannel) {
+    public open(modal: DialogEvent, item?: IConsumptionChannel) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: '',

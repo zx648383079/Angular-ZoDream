@@ -2,34 +2,34 @@
     [disabled]="form.invalid">
 </app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" >
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="scope">商品</label>
             <div>
                 <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
             </div>
         </div>
-        <div class="zre-input-group" formGroupName="configure">
+        <div class="input-group-control" formGroupName="configure">
             <label for="configure_amount">试用数量</label>
             <div>
                 <input type="text" id="configure_amount" class="form-control" formControlName="amount"
@@ -37,7 +37,7 @@
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>

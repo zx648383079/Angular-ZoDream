@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
@@ -42,7 +42,7 @@ export class CategoryComponent implements OnInit {
     }
 
 
-    public open(modal: DialogBoxComponent, item?: ICategory) {
+    public open(modal: DialogEvent, item?: ICategory) {
         this.editData = item ? Object.assign({}, item) : {
             id: 0,
             name: '',

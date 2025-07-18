@@ -1,6 +1,5 @@
-@use '../../../bootstrap/desktop/admin';
-::ng-deep {
-    @include admin.admin-container;
+
+:host ::ng-deep {
     .task-item {
         min-height: 80px;
         padding: 10px 10px;

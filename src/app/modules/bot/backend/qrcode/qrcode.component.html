@@ -7,8 +7,8 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -63,14 +63,14 @@
 </div>
 
 <app-dialog-box #modal [title]="'新增二维码'">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">标记</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.name">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">二维码类型</label>
             <div>
                 <app-switch [(ngModel)]="editData.type" offLabel="临时" onLabel="永久"></app-switch>
@@ -79,19 +79,19 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
                 <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type"></app-check-input>
             </div>
         </div>
-        <div class="zre-input-group" *ngIf="editData.scene_type < 1">
+        <div class="input-group-control" *ngIf="editData.scene_type < 1">
             <label for="">场景值</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.scene_str">
             </div>
         </div>
-        <div class="zre-input-group" *ngIf="editData.scene_type == 1">
+        <div class="input-group-control" *ngIf="editData.scene_type == 1">
             <label for="">场景值</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="editData.scene_id">
@@ -100,7 +100,7 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group" *ngIf="!editData.type">
+        <div class="input-group-control" *ngIf="!editData.type">
             <label for="">有效期</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">

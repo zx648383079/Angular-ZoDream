@@ -1,19 +1,19 @@
 <div class="editor-container" [ngClass]="{'top-open': topVisible}">
     <div class="top-container"  *ngIf="book">
-        <div class="form-table">
-            <div class="zre-input-group">
+        <div class="form-table-control">
+            <div class="input-group-control">
                 <label for="name2" i18n>Name</label>
                 <div>
                     <input type="text" id="name2" [(ngModel)]="book.name" class="form-control">
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="cover" i18n>Cover</label>
                 <div>
                     <app-file-input  [(ngModel)]="book.cover"></app-file-input>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="description2" i18n>Summary</label>
                 <div>
                     <textarea id="description2" [(ngModel)]="book.description" class="form-control"></textarea>
@@ -115,20 +115,20 @@
 <app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0"></app-editor-map-panel>
 
 <app-dialog-box #publishModal title="发布章节">
-    <div class="form-table" *ngIf="data">
-        <div class="zre-input-group">
+    <div class="form-table-control" *ngIf="data">
+        <div class="input-group-control">
             <label for="">发布章节</label>
             <div>
                 <input type="text" class="form-control" [ngModel]="data.title" readonly>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">字数统计</label>
             <div>
                 <input type="text" class="form-control" [ngModel]="data.size" readonly>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="price">章节类型</label>
             <div>
                 <select class="form-control" [(ngModel)]="data.type">
@@ -138,7 +138,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">设置发布时间</label>
             <div>
                 <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1"></app-check-input>
@@ -152,8 +152,8 @@
 </app-dialog-box>
 
 <app-dialog-box #moveModal [scrollable]="false">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">移动到章节</label>
             <div>
                 <select [(ngModel)]="moveData.target" class="form-control">
@@ -166,7 +166,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for=""></label>
             <div>
                 <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1"></app-check-input>

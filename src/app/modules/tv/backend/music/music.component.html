@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
@@ -60,31 +60,31 @@
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑歌曲' : '新增歌曲'">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">封面</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-file-input [(ngModel)]="editData.cover"></app-file-input>
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">专辑</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" [(ngModel)]="editData.album">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">演唱</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" [(ngModel)]="editData.artist">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">时长</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" [(ngModel)]="editData.duration">
         </div>
     </div>

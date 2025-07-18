@@ -2,26 +2,26 @@
     [disabled]="form.invalid">
 </app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
@@ -29,7 +29,7 @@
                 <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="状态">状态</label>
             <div>
                 <app-switch formControlName="status"></app-switch>

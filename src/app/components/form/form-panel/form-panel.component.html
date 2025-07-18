@@ -1,4 +1,4 @@
-<div class="zre-input-group" *ngFor="let item of items">
+<div class="input-group-control" *ngFor="let item of items">
     <label>{{ item.label }}</label>
     <div *ngIf="item.type == 'text' || item.type === 'tel' || item.type === 'url'">
         <input type="text" class="form-control" [(ngModel)]="item.value">

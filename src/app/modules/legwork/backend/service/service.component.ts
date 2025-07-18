@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IService } from '../../model';
@@ -8,9 +8,9 @@ import { LegworkService } from '../legwork.service';
 
 @Component({
     standalone: false,
-  selector: 'app-service',
-  templateUrl: './service.component.html',
-  styleUrls: ['./service.component.scss']
+    selector: 'app-service',
+    templateUrl: './service.component.html',
+    styleUrls: ['./service.component.scss']
 })
 export class ServiceComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class ServiceComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item: IService) {
+    public open(modal: DialogEvent, item: IService) {
         this.editData = item;
         modal.openCustom(value => {
             this.service.serviceChange(this.editData?.id, value).subscribe(res => {

@@ -1,20 +1,20 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑模型' : '新增模型'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="type">类型</label>
             <div>
                 <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="table">表名</label>
             <div>
                 <input type="text" id="table" class="form-control" formControlName="table">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="content-box" *ngIf="typeValue < 1">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="child_model">分级模型</label>
                 <div>
                     <select  class="form-control" id="child_model" formControlName="child_model">
@@ -32,21 +32,21 @@
 
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="category_template">分类模板</label>
                 <div>
                     <input type="text" id="category_template" class="form-control" formControlName="category_template">
 
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="list_template">列表模板</label>
                 <div>
                     <input type="text" id="list_template" class="form-control" formControlName="list_template" >
 
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="show_template">详情模板</label>
                 <div>
                     <input type="text" id="show_template" class="form-control" formControlName="show_template" >
@@ -55,49 +55,49 @@
             </div>
         </div>
         <div class="form-box"  *ngIf="typeValue > 0">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_is_show">显示</label>
                 <div formGroupName="setting">
                     <app-switch formControlName="is_show"></app-switch>
                     <div class="input-tip">允许显示在前台</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_is_only">唯一</label>
                 <div formGroupName="setting">
                     <app-switch formControlName="is_only"></app-switch>
                     <div class="input-tip">是否保持用户唯一</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_is_extend_auth">是否继承拓展用户表单</label>
                 <div formGroupName="setting">
                     <app-switch formControlName="is_extend_auth"></app-switch>
                     <div class="input-tip">在会员注册时需要填写此表单数据</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_open_captcha">验证码</label>
                 <div formGroupName="setting">
                     <app-switch formControlName="open_captcha"></app-switch>
                     <div class="input-tip">是否开启验证码</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_form_template">表单模板</label>
                 <div formGroupName="setting">
                     <input class="form-control" formControlName="form_template">
                     <div class="input-tip">表单填写的模板，文件夹为Form</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_show_template">显示模板</label>
                 <div formGroupName="setting">
                     <input class="form-control" formControlName="show_template">
                     <div class="input-tip">表单内容显示的模板，文件夹为Content</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="setting_notify_mail">邮件通知地址</label>
                 <div formGroupName="setting">
                     <input class="form-control" formControlName="notify_mail">
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="position">排序</label>
             <div>
                 <input type="text" id="position" class="form-control" formControlName="position" >

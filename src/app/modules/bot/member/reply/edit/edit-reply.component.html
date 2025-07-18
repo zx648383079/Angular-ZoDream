@@ -1,5 +1,5 @@
-<div class="form-table" *ngIf="value">
-    <div class="zre-input-group">
+<div class="form-table-control" *ngIf="value">
+    <div class="input-group-control">
         <label for="event">事件</label>
         <div>
             <select id="event" [(ngModel)]="value.event" class="form-control" (ngModelChange)="onValueChange()">
@@ -9,13 +9,13 @@
     </div>
 
     <div *ngIf="value.event == 'message'">
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">精确匹配</label>
             <div>
                 <app-switch [(ngModel)]="value.match" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">关键词</label>
             <div>
                 <app-words-input [(ngModel)]="value.keywords" (ngModelChange)="onValueChange()"></app-words-input>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="zre-input-group" *ngIf="value.event == 'CLICK'">
+    <div class="input-group-control" *ngIf="value.event == 'CLICK'">
         <label for="">事件名</label>
         <div>
             <input type="text" class="form-control" [(ngModel)]="value.keywords" (ngModelChange)="onValueChange()">

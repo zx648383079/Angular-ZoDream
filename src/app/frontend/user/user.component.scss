@@ -1,5 +1,6 @@
 @use '../../theme/theme';
 @use '../../../bootstrap/desktop/member';
+@use '../../../bootstrap/variables';
 .person-box {
     margin: 5rem 0;
     .control-avatar {
@@ -82,19 +83,20 @@
         padding: 0 .5rem;
         line-height: 2.5rem;
     }
-    .more-body {
-        position: absolute;
+    .more-pane {
         display: none;
+        position: fixed;
         right: 0;
-        width: 12rem;
-        z-index: 5;
+        left: 0;
+        bottom: 0;
+        z-index: variables.$zindex-modal;
         border: 1px solid var(--#{theme.$prefix}border);
         border-top: none;
         background-color: var(--#{theme.$prefix}panel);
         color: var(--#{theme.$prefix}body-text);
         text-align: left;
-        box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb),.7);
-        border-radius: .3125rem;
+        max-height: 60%;
+        overflow-y: auto;
         .item {
             display: flex;
             line-height: 2.5rem;
@@ -123,7 +125,7 @@
         }
     }
     &.nav-more-open {
-        .more-body {
+        .more-pane {
             display: block;
         }
     }
@@ -145,17 +147,24 @@
     }
 }
 
-:host ::ng-deep {
-    @include member.list-table;
-    @include member.member-container;
-
-}
-
 @media (min-width: 48rem) {
     .person-box {
         .control-name,
         .control-meta {
             text-align: left;
+        }
+    }
+    .tab-nav-bar {
+        .more-pane {
+            max-height: unset;
+            position: absolute;
+            right: 0;
+            left: auto;
+            bottom: auto;
+            width: 12rem;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb),.7);
+            border-radius: .3125rem;
         }
     }
 }

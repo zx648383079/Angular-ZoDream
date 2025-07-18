@@ -11,7 +11,7 @@
                 生成模块
             </div>
         </div>
-        <div class="tab-body form-table">
+        <div class="tab-body form-table-control">
             <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                 <app-page-tip>
                     <ul>
@@ -20,31 +20,31 @@
                     </ul>
                 </app-page-tip>
                 <div class="panel-container">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="">路由</label>
                         <div>
                             <input type="text" class="form-control" [(ngModel)]="installData.name">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="">命名空间</label>
                         <div>
                             <ng-select [(ngModel)]="installData.module" [items]="moduleItems" bindLabel="name" bindValue="value" (ngModelChange)="onModuleChange($event)"></ng-select>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for=""></label>
                         <div>
                             <app-switch [(ngModel)]="installData.hasTable">创建数据结构</app-switch>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for=""></label>
                         <div>
                             <app-switch [(ngModel)]="installData.hasSeed">生成测试数据</app-switch>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for=""></label>
                         <div>
                             <app-switch [(ngModel)]="installData.hasAssets">复制资源文件</app-switch>
@@ -62,7 +62,7 @@
                     </ul>
                 </app-page-tip>
                 <div class="panel-container">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="">路由</label>
                         <div>
                             <ng-select [(ngModel)]="name" [items]="routeItems" bindLabel="name" bindValue="name"></ng-select>
@@ -78,13 +78,13 @@
                     </ul>
                 </app-page-tip>
                 <div class="panel-container">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="">命名空间</label>
                         <div>
                             <input type="text" class="form-control" [(ngModel)]="generateData.module">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="">数据表</label>
                         <div>
                             <ng-select [(ngModel)]="generateData.table" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true"></ng-select>

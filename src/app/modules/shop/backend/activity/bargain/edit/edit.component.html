@@ -1,28 +1,28 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑砍价' : '新增砍价'" (submited)="tapSubmit()" [disabled]="form.invalid">
 </app-edit-header>
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
                 <app-file-input formControlName="thumb"></app-file-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">说明</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
 
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="scope">商品</label>
             <div>
                 <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div formGroupName="configure">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="start_at">单次砍价范围</label>
                 <div>
                     <input type="text" id="min" class="form-control" formControlName="min" placeholder="请输入最低砍价">
@@ -39,7 +39,7 @@
                 </div>
             </div>
     
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="configure_times">砍价次数</label>
                 <div>
                     <input type="text" id="configure_times" class="form-control" formControlName="times"
@@ -47,7 +47,7 @@
     
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="configure_amount">商品件数</label>
                 <div>
                     <input type="text" id="configure_amount" class="form-control" formControlName="amount"
@@ -55,7 +55,7 @@
     
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="configure_shipping_fee">运费</label>
                 <div>
                     <input type="text" id="configure_shipping_fee" class="form-control" formControlName="shipping_fee"
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
                 <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>

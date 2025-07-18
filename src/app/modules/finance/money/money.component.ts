@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../../components/dialog';
-import { DialogBoxComponent } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-money',
-  templateUrl: './money.component.html',
-  styleUrls: ['./money.component.scss']
+    selector: 'app-finance-money',
+    templateUrl: './money.component.html',
+    styleUrls: ['./money.component.scss']
 })
 export class MoneyComponent implements OnInit {
 
@@ -76,7 +75,7 @@ export class MoneyComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IAccount) {
+    open(modal: DialogEvent, item?: IAccount) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: '',

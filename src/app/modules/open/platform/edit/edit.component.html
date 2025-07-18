@@ -2,15 +2,15 @@
 </app-edit-header>
 
 <div class="container-fluid">
-    <form class="form-table panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="zre-input-group">
+    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <div class="input-group-control">
             <label for="name">应用名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如: xx应用">
                 <div class="input-tip" *ngIf="name.invalid">请输入应用名</div>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="type">类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type">
@@ -18,13 +18,13 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="domain">域名</label>
             <div>
                 <input type="text" id="domain" class="form-control" formControlName="domain">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
                 <textarea id="description" class="form-control" formControlName="description"></textarea>
@@ -32,14 +32,14 @@
             </div>
         </div>
         <ng-container *ngIf="data && data.id > 0">
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="appid">App Id</label>
                 <div>
                     <input type="text" id="appid" class="form-control" name="appid" [value]="data.appid" readonly>
 
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="secret">Secret</label>
                 <div>
                     <input type="text" id="secret" class="form-control" name="secret" [value]="data.secret" readonly
@@ -47,7 +47,7 @@
 
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="sign_type">签名方式</label>
                 <div>
                     <select id="sign_type" class="form-control" formControlName="sign_type">
@@ -56,14 +56,14 @@
 
                 </div>
             </div>
-            <div class="zre-input-group" *ngIf="signType > 0">
+            <div class="input-group-control" *ngIf="signType > 0">
                 <label for="sign_key">签名密钥</label>
                 <div>
                     <textarea id="sign_key" class="form-control" formControlName="sign_key"></textarea>
                     <div class="input-tip">请输入签名密钥或签名组成字段请用“+”链接,例如：appid+timestamp+secret</div>
                 </div>
             </div>
-            <div class="zre-input-group">
+            <div class="input-group-control">
                 <label for="encrypt_type">加密方式</label>
                 <div>
                     <select id="encrypt_type" class="form-control" formControlName="encrypt_type">
@@ -72,13 +72,13 @@
 
                 </div>
             </div>
-            <div class="zre-input-group" *ngIf="encryptType > 0">
+            <div class="input-group-control" *ngIf="encryptType > 0">
                 <label for="public_key">加密公钥</label>
                 <div>
                     <textarea id="public_key" class="form-control" formControlName="public_key"></textarea>
                 </div>
             </div>
-            <div class="zre-input-group" *ngIf="reviewable">
+            <div class="input-group-control" *ngIf="reviewable">
                 <label for="rules">允许规则</label>
                 <div>
                     <textarea id="rules" class="form-control" formControlName="rules"></textarea>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="zre-input-group" *ngIf="reviewable">
+            <div class="input-group-control" *ngIf="reviewable">
                 <label for="status">状态</label>
                 <div>
                     <select id="status" class="form-control" formControlName="status">
@@ -97,7 +97,7 @@
             </div>
         </ng-container>
 
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="allow_self">允许手动生成</label>
             <div>
                 <app-switch id="allow_self" formControlName="allow_self"></app-switch>

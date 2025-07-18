@@ -1,0 +1,56 @@
+@use '../../app/theme/theme';
+
+.swipe-list-control {
+}
+
+.swipe-control {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    .control-scroll-body {
+        transition: transform .5s;
+        display: flex;
+    }
+    .control-body {
+        transition: padding-left .5s;
+        flex-shrink: 0;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 3rem;
+        padding: .8rem;
+    }
+    .control-left,
+    .control-right {
+        flex-shrink: 0;
+        display: flex;
+        top: 0;
+        white-space: nowrap;
+        .iconfont {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+        a {
+            display: flex;
+            flex-direction: column;
+            padding: 0 .8rem;
+            min-width: 4rem;
+            align-items: center;
+            justify-content: center;
+            color: var(--#{theme.$prefix}btn-color);
+            background-color: var(--#{theme.$prefix}btn-bg);
+            text-decoration: none;
+        }
+    }
+    .control-left {
+        --#{theme.$prefix}btn-color: var(--#{theme.$prefix}primary-text);
+        --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}primary);
+    }
+    .control-right {
+        --#{theme.$prefix}btn-color: var(--#{theme.$prefix}danger-text);
+        --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}danger);
+    }
+}

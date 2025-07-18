@@ -1,10 +1,41 @@
 .dialog-box {
     display: flex;
     flex-direction: column;
+    top: auto;
+    bottom: 0;
     .dialog-body {
         flex: 1;
         &.scrollable {
             overflow-y: auto;
+        }
+    }
+    .dialog-header{
+        .dialog-close {
+            left: 0;
+            right: auto;
+        }
+        .btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 2.5rem;
+            padding: 0 .8rem;
+            line-height: 2.5rem;
+            border-radius: 0;
+            text-align: center;
+            min-width: 4rem;
+        }
+    }
+}
+
+@media (min-width: 48rem) {
+    .dialog-box {
+        top: 50%;
+        .dialog-header{
+            .dialog-close {
+                left: auto;
+                right: 0;
+            }
         }
     }
 }

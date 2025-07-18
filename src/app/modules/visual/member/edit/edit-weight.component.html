@@ -7,14 +7,14 @@
     </div>
 </div>
 
-<form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
-    <div class="zre-input-group">
+<form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <div class="input-group-control">
         <label for="title">名称</label>
         <div>
             <input type="text" id="title" class="form-control" formControlName="name">
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label>类型*</label>
         <div>
             <select class="form-control" formControlName="type">
@@ -24,7 +24,7 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="cat_id">分类</label>
         <div>
             <select id="cat_id" class="form-control" formControlName="cat_id">
@@ -34,32 +34,32 @@
             </select>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="thumb">图片</label>
         <div>
             <app-file-input formControlName="thumb"></app-file-input>
         </div>
     </div>
     
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="keywords">关键字</label>
         <div>
             <app-words-input id="keywords" formControlName="keywords"></app-words-input>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="description">说明</label>
         <div>
             <app-text-editor formControlName="description" height="100"></app-text-editor>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label>价格</label>
         <div>
             <app-number-input formControlName="price"></app-number-input>
         </div>
     </div>
-    <div class="zre-input-group">
+    <div class="input-group-control">
         <label for="official_website">文件</label>
         <div>
             <app-file-input formControlName="path" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"></app-file-input>

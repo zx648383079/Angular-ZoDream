@@ -1,7 +1,8 @@
 @use '../../../theme/theme';
 @use '../../../../bootstrap/desktop/scrollbar';
+@use '../../../../bootstrap/variables';
 
-$paneIndex: 99;
+$paneIndex: variables.$zindex-fixed;
 $paneMaskIndex: $paneIndex - 1;
 
 ul,

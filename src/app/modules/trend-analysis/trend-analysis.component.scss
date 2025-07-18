@@ -1,6 +1,5 @@
-@use '../../../bootstrap/desktop/admin';
-.trend-container ::ng-deep {
-    @include admin.admin-container;
+
+:host ::ng-deep {
     .text-wrap {
         word-wrap: break-word;
         word-break: break-all;

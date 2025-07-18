@@ -1,10 +1,10 @@
 @use '../../../../../theme/theme';
 .search {
-    .#{theme.$prefix}input-group {
+    .input-group-control {
         display: inline-block;
         width: auto;
     }
-    .form-horizontal {
+    .form-horizontal-control {
         display: inline-block;
     }
 }

@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">名称</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="关键字">
@@ -50,31 +50,31 @@
 <app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">职业名</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入职业名">
         </div>
     </div>
     <div class="form-group">
         <label>预览图</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-file-input [(ngModel)]="editData.image" [online]="true"></app-file-input>
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>是否限种族</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-switch></app-switch>
         </div>
     </div>
     <div class="form-group">
         <label>限制种族</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <textarea class="form-control" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
         </div>
     </div>

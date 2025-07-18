@@ -6,19 +6,19 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">关键字</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
-                <div class="zre-input-group">
+                <div class="input-group-control">
                     <label>类型</label>
                     <select name="type" [ngModel]="queries.type" class="form-control">
                         <option [value]="-1">全部</option>
                         <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
                     </select>
                 </div>
-                <div class="zre-input-group">
+                <div class="input-group-control">
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">全部</option>
@@ -63,14 +63,14 @@
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑模板' : '新增模板'">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" [(ngModel)]="editData.name" class="form-control">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="type">类型</label>
             <div>
                 <select id="type" [(ngModel)]="editData.type" class="form-control">
@@ -78,7 +78,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="category">分类</label>
             <div>
                 <select id="category" [(ngModel)]="editData.cat_id" class="form-control">
@@ -87,7 +87,7 @@
                 </select>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="content">内容
                 <i class="iconfont" [ngClass]="{'icon-eye-slash': previewData.toggle, 'icon-eye': !previewData.toggle}" (click)="tapPreview()"></i>
             </label>

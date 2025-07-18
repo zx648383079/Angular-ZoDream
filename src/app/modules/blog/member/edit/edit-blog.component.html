@@ -64,7 +64,7 @@
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="Advanced">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="term_id" i18n>Term</label>
                         <div>
                             <select id="term_id" class="form-control" formControlName="term_id">
@@ -74,7 +74,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="programming_language" i18n>Programming Language</label>
                         <div>
                             <select id="programming_language" class="form-control" formControlName="programming_language">
@@ -85,7 +85,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="type" i18n>Type</label>
                         <div>
                             <select id="type" class="form-control" formControlName="type">
@@ -95,13 +95,13 @@
                         </div>
                     </div>
                    
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="thumb" i18n>Image</label>
                         <div>
                             <app-image-input formControlName="thumb"></app-image-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="edit_type" i18n>Editor</label>
                         <div>
                             <select id="edit_type" class="form-control" formControlName="edit_type">
@@ -112,20 +112,20 @@
                         </div>
                     </div>
                     
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="keywords" i18n>Keywords</label>
                         <div>
                             <app-words-input id="keywords" formControlName="keywords"></app-words-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="description" i18n>Description</label>
                         <div>
                             <app-text-editor formControlName="description" [height]="120"></app-text-editor>
                         </div>
                     </div>
                     
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
                             <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags"></ng-select>
@@ -133,20 +133,20 @@
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="Additional">
-                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                    <div class="input-group-control" *ngIf="typeValue > 0">
                         <label for="meta_source_author" i18n>Original's author</label>
                         <div>
                             <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
                     
                         </div>
                     </div>
-                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                    <div class="input-group-control" *ngIf="typeValue > 0">
                         <label for="source_url" i18n>Original's link</label>
                         <div>
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="weather" i18n>Weather</label>
                         <div>
                             <select id="weather" class="form-control" formControlName="weather">
@@ -158,19 +158,19 @@
         
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="audio_url" i18n>Audio</label>
                         <div class="file-input">
                             <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="video_url" i18n>Video</label>
                         <div>
                             <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="meta_cc_license" i18n>Copyright License</label>
                         <div>
                             <select id="meta_cc_license" class="form-control" formControlName="cc_license">
@@ -181,7 +181,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="comment_status" i18n>Comment Status</label>
                         <div>
                             <app-switch id="comment_status" formControlName="comment_status"></app-switch>
@@ -189,25 +189,25 @@
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="SEO Optimization">
-                    <div class="zre-input-group" *ngIf="typeValue > 0">
+                    <div class="input-group-control" *ngIf="typeValue > 0">
                         <label for="meta_is_hide" i18n>Whether to hide</label>
                         <div>
                             <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="meta_seo_title" i18n>SEO Title</label>
                         <div>
                             <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="meta_seo_description" i18n>SEO Description</label>
                         <div>
                             <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120"></app-text-editor>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="meta_seo_link" i18n>Link Alias</label>
                         <div>
                             <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
@@ -244,7 +244,7 @@
                 <div class="item-meta">{{ item.meta }}</div>
             </div>
         </div>
-        <div class="zre-input-group" *ngIf="openType > 4">
+        <div class="input-group-control" *ngIf="openType > 4">
             <label for="open_rule">{{ ruleLabel }}</label>
             <div>
                 <input type="text" id="open_rule" class="form-control" [(ngModel)]="openRule">

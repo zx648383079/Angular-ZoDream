@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
 import { parseNumber } from '../../../../../theme/utils';
@@ -115,7 +115,7 @@ export class EditShippingComponent implements OnInit {
         });
     }
     
-    public open(modal: DialogBoxComponent, item?: IShippingGroup) {
+    public open(modal: DialogEvent, item?: IShippingGroup) {
         const isNew = !item;
         if (!item) {
             item = {

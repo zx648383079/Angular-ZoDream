@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ICategory, IProvider } from '../../model';
@@ -8,9 +8,9 @@ import { LegworkService } from '../legwork.service';
 
 @Component({
     standalone: false,
-  selector: 'app-provider',
-  templateUrl: './provider.component.html',
-  styleUrls: ['./provider.component.scss']
+    selector: 'app-provider',
+    templateUrl: './provider.component.html',
+    styleUrls: ['./provider.component.scss']
 })
 export class ProviderComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class ProviderComponent implements OnInit {
         });
     }
 
-    public open(modal: DialogBoxComponent, item: IProvider) {
+    public open(modal: DialogEvent, item: IProvider) {
         this.editData = item;
         this.service.providerCategories(item.user_id).subscribe(res => {
             this.editData.categories = res.data;

@@ -1,6 +1,5 @@
-@use '../../../bootstrap/desktop/admin';
-.book-container ::ng-deep {
-    @include admin.admin-container;
+
+:host ::ng-deep {
     .book-item {
         display: block;
         position: relative;

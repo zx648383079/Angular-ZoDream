@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IActivityTime } from '../../../../model';
 import { emptyValidate } from '../../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-skill-time',
-  templateUrl: './time.component.html',
-  styleUrls: ['./time.component.scss']
+    selector: 'app-shop-skill-time',
+    templateUrl: './time.component.html',
+    styleUrls: ['./time.component.scss']
 })
 export class TimeComponent implements OnInit {
 
@@ -61,7 +61,7 @@ export class TimeComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IActivityTime) {
+    open(modal: DialogEvent, item?: IActivityTime) {
         this.editData = item ? Object.assign({}, item) : {
             id: undefined,
             title: '',

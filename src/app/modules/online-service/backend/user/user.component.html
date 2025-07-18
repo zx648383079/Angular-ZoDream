@@ -7,8 +7,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">名称</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
                         placeholder="名称">
@@ -46,7 +46,7 @@
 <app-dialog-box #modal title="新增客服">
     <div class="form-group">
         <label for="name-input">名称</label>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <app-select-input url="auth/admin/user/search" [multiple]="true" [(ngModel)]="users"></app-select-input>
         </div>
     </div>

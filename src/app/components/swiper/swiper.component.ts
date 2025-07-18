@@ -44,7 +44,6 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     constructor(
         private elementRef: ElementRef,
         private renderer: Renderer2,
-        private zone: NgZone,
     ) {
         this.resize$ = new ResizeObserver(entries => {
             for (const item of entries) {

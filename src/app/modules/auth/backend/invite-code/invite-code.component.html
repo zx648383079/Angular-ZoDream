@@ -6,8 +6,8 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">邀请码</label>
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索邀请码">
                 </div>
@@ -54,14 +54,14 @@
 </div>
 
 <app-dialog-box #modal [scrollable]="false" title="生成邀请码">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="">可使用次数</label>
             <div>
                 <app-number-input [(ngModel)]="editData.amount"></app-number-input>
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="">过期时间</label>
             <div>
                 <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>

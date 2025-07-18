@@ -2,7 +2,7 @@
 
 
 <div class="container-fluid">
-    <form class="form-table" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="高级属性">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
                             <select id="cat_id" class="form-control" formControlName="cat_id">
@@ -26,27 +26,27 @@
         
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
                             <app-file-input formControlName="thumb"></app-file-input>
                         </div>
                     </div>
                     
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
                             <app-words-input id="keywords" formControlName="keywords"></app-words-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
                             <app-text-editor formControlName="description" height="100"></app-text-editor>
                         </div>
                     </div>
                     
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>标签</label>
                         <div>
                             <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
@@ -56,31 +56,31 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="附加属性">
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>价格</label>
                         <div>
                             <app-number-input formControlName="price"></app-number-input>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="is_open_source">允许商用</label>
                         <div>
                             <app-switch formControlName="is_commercial"></app-switch>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="is_open_source">允许转载</label>
                         <div>
                             <app-switch formControlName="is_reprint"></app-switch>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label for="official_website">文件大小</label>
                         <div>
                             <app-data-size formControlName="size"></app-data-size>
                         </div>
                     </div>
-                    <div class="zre-input-group">
+                    <div class="input-group-control">
                         <label>预览类型</label>
                         <div>
                             <select class="form-control" formControlName="preview_type">
@@ -90,7 +90,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="zre-input-group" *ngIf="previewType > 0">
+                    <div class="input-group-control" *ngIf="previewType > 0">
                         <label for="official_website">预览文件</label>
                         <div>
                             <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>

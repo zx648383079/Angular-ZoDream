@@ -38,8 +38,8 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <div class="zre-input-group">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
                     <label for="keywords">文件名</label>
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索文件" [ngModel]="queries.keywords">
                 </div>

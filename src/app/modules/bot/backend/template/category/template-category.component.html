@@ -38,14 +38,14 @@
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑分类' : '新增分类'">
-    <div class="form-table">
-        <div class="zre-input-group">
+    <div class="form-table-control">
+        <div class="input-group-control">
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" [(ngModel)]="editData.name" class="form-control">
             </div>
         </div>
-        <div class="zre-input-group">
+        <div class="input-group-control">
             <label for="category">上级</label>
             <div>
                 <select id="category" [(ngModel)]="editData.parent_id" class="form-control">

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IFinancialProduct } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+    selector: 'app-finance-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
 
@@ -73,7 +73,7 @@ export class ProductComponent implements OnInit {
         });
     }
 
-    open(modal: DialogBoxComponent, item?: IFinancialProduct) {
+    open(modal: DialogEvent, item?: IFinancialProduct) {
         this.editData = item ? {...item} : {
             id: undefined,
             name: '',

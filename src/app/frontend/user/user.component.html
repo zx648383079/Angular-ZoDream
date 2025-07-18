@@ -54,7 +54,7 @@
                     <div class="more-icon" (click)="moreVisible = !moreVisible">
                         <i class="iconfont icon-ellipsis-v"></i>
                     </div>
-                    <div class="more-body" (click)="moreVisible = false">
+                    <div class="more-pane" (click)="moreVisible = false">
                         <ng-container *ngFor="let item of moreItems">
                             <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">
                                 <i class="iconfont" [ngClass]="item.icon"></i>
@@ -70,4 +70,5 @@
         </div>
     </div>
 </div>
+<div class="tablet-mask tablet-visible" *ngIf="moreVisible" (click)="moreVisible = false"></div>
 
