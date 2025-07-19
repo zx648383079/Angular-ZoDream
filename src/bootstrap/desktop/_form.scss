@@ -426,6 +426,16 @@ i {
     }
 }
 
+.select-shell-control {
+    display: inline-block;
+    position: relative;
+    padding: 0 .8rem;
+    line-height: 2rem;
+    .iconfont {
+        margin-left: .4rem;
+    }
+}
+
 @media (min-width: 48rem) {
     .form-table-control {
         --#{theme.$prefix}label-width: 30%;

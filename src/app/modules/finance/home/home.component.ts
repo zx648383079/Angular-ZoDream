@@ -17,9 +17,11 @@ export class HomeComponent implements OnInit {
     public queries = {
         start_at: '',
         end_at: '',
-        type: 0
+        type: 1,
+        log_type: 0
     };
     public typeItems = ['天', '月', '季度', '年'];
+    public logTypeItems = ['收入', '支出', '其他'];
     public options: EChartsCoreOption;
 
     constructor(
@@ -75,6 +77,10 @@ export class HomeComponent implements OnInit {
     public tapType(i: number) {
         this.queries.type = i;
         this.onQueriesChange();
+    }
+
+    public tapLogType(i: number) {
+        this.queries.log_type = i;
     }
 
     public formatType(v: number) {

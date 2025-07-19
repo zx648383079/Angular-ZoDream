@@ -1,3 +1,4 @@
+@use '../../app/theme/theme';
 @mixin icon($code: '') {
     font-family: "iconfont";
     font-size: inherit;
@@ -8,7 +9,7 @@
     }
 }
 
-@mixin iconArrow($color: #666) {
+@mixin iconArrow($color: var(--#{theme.$prefix}border)) {
     &::after {
         content: "";
         position: absolute;

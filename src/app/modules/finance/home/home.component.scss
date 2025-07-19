@@ -1,3 +1,54 @@
+@use '../../../theme/theme';
 .tab-bar {
     float: right;
+}
+
+.tablet-large-header {
+    --#{theme.$prefix}header: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}header-text: rgba(var(--#{theme.$prefix}primary-text-rgb), .7);
+    --#{theme.$prefix}header-active-text: rgba(var(--#{theme.$prefix}primary-text-rgb), 1);
+    background-color: var(--#{theme.$prefix}header);
+    color: var(--#{theme.$prefix}header-text);
+    padding: 3rem 0;
+    a {
+        color: var(--#{theme.$prefix}header-text);
+    }
+    .tab-bar {
+        --#{theme.$prefix}tab-text: var(--#{theme.$prefix}header-text);
+        --#{theme.$prefix}tab-active-text: var(--#{theme.$prefix}header-active-text);
+        line-height: 2rem;
+        .item {
+            padding: 0 .6rem;
+            &.active {
+                border-radius: 1rem;
+                border: 1px solid var(--#{theme.$prefix}header-active-text);
+            }
+        }
+    }
+    .couter-control {
+        padding: 0 .8rem;
+        margin-top: 1rem;
+        color: var(--#{theme.$prefix}header-active-text);
+        .couter-label {
+            color: var(--#{theme.$prefix}header-text);
+            font-size: .8rem;
+            line-height: 2rem;
+        }
+        .couter-body {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+    }
+}
+
+.align-tab-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+    .active {
+        color: var(--#{theme.$prefix}header-active-text);
+        border-bottom: 2px solid var(--#{theme.$prefix}header-active-text);
+    }
 }

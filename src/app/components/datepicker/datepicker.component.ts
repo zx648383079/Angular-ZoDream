@@ -217,7 +217,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
         this.gridMode = this.gridMode === DayMode.Year ? DayMode.Day : DayMode.Year;
     }
 
-    toggleTime() {
+    toggleTime(e?: Event) {
+        e?.stopPropagation();
         this.gridMode = this.gridMode === DayMode.Hour ? DayMode.Day : DayMode.Hour;
     }
 

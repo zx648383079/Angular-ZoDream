@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid tablet-collapse">
     <app-page-tip>
         <ul>
             <li>财务管理</li>
@@ -77,10 +77,46 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div echarts [options]="options" class="chart-lg"></div>
+
+</div>
+
+<div class="tablet-large-header tablet-visible">
+    <div class="container-fluid">
+        <div class="align-tab-bar">
+            <a [ngClass]="{active: queries.type == 1}" (click)="tapType(1)">月账单</a>
+            <a [ngClass]="{active: queries.type == 3}" (click)="tapType(3)">年账单</a>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <app-datepicker>
+                    <div class="select-shell-control">
+                        <span>2020-10</span>
+                        <i class="iconfont icon-chevron-down"></i>
+                    </div>
+                </app-datepicker>
+            </div>
+            <div class="col-6">
+                <div class="tab-bar">
+                    <ng-container *ngFor="let item of logTypeItems;let i = index">
+                        <div class="item" [ngClass]="{active: queries.log_type == i}" (click)="tapLogType(i)">
+                            {{ item }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div class="couter-control">
+            <div class="couter-label">共支出 {{ 0 }} 笔，合计</div>
+            <div class="couter-body">
+                ￥{{ 0 }}
+            </div>
         </div>
     </div>
+    
+</div>
 
+
+<div class="container-fluid">
+    <div echarts [options]="options" class="chart-lg"></div>
 </div>

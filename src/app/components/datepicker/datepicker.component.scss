@@ -1,218 +1,212 @@
 @use "sass:math";
+@use '../../theme/theme';
+@use '../../../bootstrap/variables';
 @use '../../../bootstrap/desktop/scrollbar';
-$size: 40px;
+$size: 2.5rem;
 $boxWidth: $size * 7;
 
-$minSize: 35px;
-$minBoxWidth: $size * 7;
-
-@mixin prefix-animation($animation-name){
-    animation: $animation-name;
-    -webkit-animation: $animation-name;
-    -moz-animation: $animation-name;
-    -o-animation: $animation-name;
-}
-
-@mixin prefix-keyframes($animation-name){
-    @keyframes #{$animation-name}{
-        @content;
-    }
-    @-webkit-keyframes #{$animation-name}{
-        @content; 
-    }
-    @-moz-keyframes #{$animation-name}{
-        @content; 
-    }
-    @-o-keyframes #{$animation-name}{
-        @content; 
-    }
-} 
-
-@mixin prefix-content($content-name, $content-txt){
-    #{$content-name}: $content-txt;
-    -webkit-#{$content-name}: $content-txt;
-    -moz-#{$content-name}: $content-txt;
-    -ms-#{$content-name}: $content-txt;
-    -o-#{$content-name}: $content-txt;
-}
+$minSize: 2.1875rem;
+$minBoxWidth: $minSize * 7;
 
 .datepicker {
+    --#{theme.$prefix}picker: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}picker-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}picker-disabled-text: rgba(var(--#{theme.$prefix}body-text-rgb), .2);
+    --#{theme.$prefix}picker-header: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}picker-header-text: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}picker-border: var(--#{theme.$prefix}border);
+
     position: relative;
     .datepicker__calendar {
-        width: $boxWidth;
-        position: absolute;
-        z-index: 999;
+        position: fixed;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        z-index: variables.$zindex-modal;
         user-select: none;
-        background: #fff;
-        color: #333;
-        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
-        @include prefix-content(user-select, none);
-        .header {
-            position: relative;
-            text-align: center;
-            line-height: $size;
-            background: #006cff;
-            color: #fff;
-            font-size: $size * .5;
-            span {
-                width: 60%;
-                display: inline-block;
-            }
-            .previousMonth,
-            .nextYear {
-                margin-left: $size * .2;
-            }
-        }
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb), .13), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb), .2);
+        user-select: none;
+        
         li {
             list-style: none;
-            color: #333;
+            color: var(--#{theme.$prefix}picker-text);
         }
-        .body {
-            height: $boxWidth;
-            position: relative;
-            .month-grid, 
-            .year-grid, 
-            .day-grid {
-                background: #fff;
-                position: absolute;
-                top: 0;
-                width: 100%;
-                bottom: 0;
-                left: 0;
+        
+        
+    }
+    .picker-header {
+        position: relative;
+        text-align: center;
+        line-height: $size;
+        background-color: var(--#{theme.$prefix}picker-header);
+        color: var(--#{theme.$prefix}picker-header-text);
+        font-size: $size * .5;
+        span {
+            width: 60%;
+            display: inline-block;
+        }
+        .previousMonth,
+        .nextYear {
+            margin-left: $size * .2;
+        }
+    }
+    .picker-body {
+        margin: 0 auto;
+        width: $minBoxWidth;
+        height: $minBoxWidth;
+        position: relative;
+        
+        ol, ul {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .list-group {
+            width: 5rem;
+            display: inline-block;
+            .picker-title {
+                height: 1.875rem;
             }
-            ol, ul {
-                padding: 0;
-                margin: 0;
-            }
-            .month-grid {
-                ol {
-                    background: #eee;
-                }
+            ul {
+                height: $minBoxWidth - 1.875rem;
                 li {
-                    display: inline-block;
-                    width: $size;
-                    line-height: $size;
-                    text-align: center;
-                    box-sizing: border-box;
-                }
-                ul {
-                    li {
-                        cursor: pointer;
-                        &.active {
-                            background: #006cff;
-                            color: #fff;
-                        }
-                        &.disable {
-                            color: #ccc;
-                        }
+                    line-height: 1.875rem;
+                    &.active {
+                        background-color: var(--#{theme.$prefix}picker-header);
+                        color: var(--#{theme.$prefix}picker-header-text);
                     }
-                }
-            }
-            .list-group {
-                width: 80px;
-                display: inline-block;
-                .title {
-                    height: 30px;
-                }
-                ul {
-                    height: $boxWidth - 30px;
-                    li {
-                        line-height: 30px;
-                        &.active {
-                            background: #006cff;
-                            color: #fff;
-                        }
-                    }
-                }
-            }
-            .day-grid {
-                .list-group {
-                    width: 60px;
-                    &:first-child {
-                        margin-left: math.div($boxWidth - 190px, 2);
-                    }
-                }
-            }
-            .year-grid {
-                .list-group {
-                    &:first-child {
-                        margin-left: math.div($boxWidth - 160px, 2);
-                    }
-                }
-            }
-            .year-grid,
-            .day-grid {
-                .fa-close {
-                    position: absolute;
-                    top: 5px;
-                    right: 5px;
                 }
             }
         }
-        .footer {
-            background: #eee;
-            position: relative;
-            height: 30px;
-            .time-box {
-                display: inline-block;
-                line-height: 30px;
-                height: 30px;
-                position: absolute;
-                span {
-                    display: inline-block;
-                    width: 30px;
-                    text-align: center;
+        
+    }
+    .picker-month-grid, 
+    .picker-year-grid, 
+    .picker-day-grid {
+        background-color: var(--#{theme.$prefix}picker);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+    }
+    .picker-month-grid {
+        ol {
+            background-color: var(--#{theme.$prefix}picker-border);
+        }
+        li {
+            width: $minSize;
+            line-height: $minSize;
+            display: inline-block;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        ul {
+            li {
+                cursor: pointer;
+                &.active {
+                    background-color: var(--#{theme.$prefix}picker-header);
+                    color: var(--#{theme.$prefix}picker-header-text);
+                }
+                &.disable {
+                    color: var(--#{theme.$prefix}picker-disabled-text);
                 }
             }
-            button {
-                position: absolute;
-                right: 0;
-                width: 100px;
-                background: green;
-                color: #fff;
-                height: 30px;    
-                line-height: 30px;
-                border: none;
+        }
+    }
+    .picker-day-grid {
+        .list-group {
+            width: 3.75rem;
+            &:first-child {
+                margin-left: math.div($boxWidth - 11.875rem, 2);
             }
+        }
+    }
+    .picker-year-grid {
+        .list-group {
+            &:first-child {
+                margin-left: math.div($boxWidth - 10rem, 2);
+            }
+        }
+    }
+    .picker-year-grid,
+    .picker-day-grid {
+        .fa-close {
+            position: absolute;
+            top: .3125rem;
+            right: .3125rem;
+        }
+    }
+    .picker-footer {
+        background-color: var(--#{theme.$prefix}picker-border);
+        position: relative;
+        height: 1.875rem;
+        .picker-time-box {
+            display: inline-block;
+            line-height: 1.875rem;
+            height: 1.875rem;
+            position: absolute;
+            span {
+                display: inline-block;
+                width: 1.875rem;
+                text-align: center;
+            }
+        }
+        button {
+            position: absolute;
+            right: 0;
+            width: 6.25rem;
+            background-color: var(--#{theme.$prefix}picker-header);
+            color: var(--#{theme.$prefix}picker-header-text);
+            height: 1.875rem;    
+            line-height: 1.875rem;
+            border: none;
         }
     }
     .list-group {
-        .title,
+        .picker-title,
         ul {
             width: 100%;
             text-align: center;
         }
         ul {
             overflow-y: auto;
-            border: 1px solid #eee;
+            border: 1px solid var(--#{theme.$prefix}picker-border);
             @include scrollbar.scrollbar();
         }
     }
 }
-
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 36rem) {
+    .datepicker {
+        .picker-body {
+            height: $boxWidth;
+            width: $boxWidth;
+        }
+        .list-group {
+            ul {
+                height: $boxWidth - 1.875rem;
+            }
+        }
+        .picker-month-grid {
+            li {
+                width: $size;
+                line-height: $size;
+            }
+        }
+    }
+}
+@media screen and (min-width: 48rem) {
     .datepicker {
         .datepicker__calendar {
-            position: fixed;
-            width: 100%;
-            left: 0;
-            bottom: 0;
-            .body {
-                height: $minBoxWidth;
-                width: $minBoxWidth;
-                margin: 0 auto;
-                .month-grid {
-                    li {
-                        width: $minSize;
-                        line-height: $minSize;
-                    }
-                }
-                .list-group {
-                    ul {
-                        height: $minBoxWidth - 30px;
-                    }
-                }
-            }
+            position: absolute;
+            left: auto;
+            bottom: auto;
+            width: $boxWidth;
+        }
+        .picker-body {
+            margin: 0;
         }
     }
 }

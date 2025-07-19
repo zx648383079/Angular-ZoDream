@@ -9,6 +9,7 @@ import { ZreFormModule } from '../../components/form';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
+import { DatePickerModule } from '../../components/datepicker';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { TabletModule } from '../../components/tablet';
         TabletModule,
         FinanceRoutingModule,
         DialogModule,
+        DatePickerModule,
         ZreFormModule,
         NgxEchartsModule.forChild()
     ],
