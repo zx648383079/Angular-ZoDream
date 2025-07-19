@@ -1,3 +1,5 @@
+@use '../../../../theme/theme';
+
 .title-bar {
     text-align: center;
     small {
@@ -6,4 +8,22 @@
 }
 .text-right {
     text-align: right;
+}
+
+.tablet-large-header {
+    --#{theme.$prefix}header: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}header-text: rgba(var(--#{theme.$prefix}primary-text-rgb), .7);
+    --#{theme.$prefix}header-active-text: rgba(var(--#{theme.$prefix}primary-text-rgb), 1);
+    background-color: var(--#{theme.$prefix}header);
+    color: var(--#{theme.$prefix}header-text);
+    padding-bottom: 1rem;
+
+    .meta-bar {
+        text-align: center;
+        color: var(--#{theme.$prefix}header-text);
+        margin-bottom: .8rem;
+    }
+    .title-bar {
+        color: var(--#{theme.$prefix}header-active-text);
+    }
 }

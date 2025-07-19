@@ -31,9 +31,9 @@ export class ProductComponent implements OnInit {
         this.tapRefresh();
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapBack() {
+        history.back();
+    }
     public tapRefresh() {
         if (this.isLoading) {
             return;

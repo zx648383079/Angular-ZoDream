@@ -88,9 +88,9 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <app-datepicker>
+                <app-datepicker format="yyyy-mm-dd" [(value)]="queries.start_at" (valueChange)="onQueriesChange()">
                     <div class="select-shell-control">
-                        <span>2020-10</span>
+                        <span>{{ queries.start_at }}</span>
                         <i class="iconfont icon-chevron-down"></i>
                     </div>
                 </app-datepicker>
@@ -106,10 +106,22 @@
             </div>
         </div>
 
-        <div class="couter-control">
-            <div class="couter-label">共支出 {{ 0 }} 笔，合计</div>
+        <div class="couter-control" *ngIf="queries.log_type == 1">
+            <div class="couter-label">共支出 {{ data.expenditure_count || 0 | numberFormat }} 笔，合计</div>
             <div class="couter-body">
-                ￥{{ 0 }}
+                {{ data.expenditure_current || 0 | numberFormat }}
+            </div>
+        </div>
+        <div class="couter-control" *ngIf="queries.log_type == 0">
+            <div class="couter-label">共收入 {{ data.income_count || 0 | numberFormat }} 笔，合计</div>
+            <div class="couter-body">
+                {{ data.income_current || 0 | numberFormat }}
+            </div>
+        </div>
+        <div class="couter-control" *ngIf="queries.log_type == 2">
+            <div class="couter-label">共收入 {{ data.other_count || 0 | numberFormat }} 笔，合计</div>
+            <div class="couter-body">
+                {{ data.other_current || 0 | numberFormat }}
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid tablet-collapse">
     <app-page-tip>
         <ul>
             <li>管理理财产品列表</li>
@@ -47,6 +47,44 @@
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     </div>
   </div>
+
+
+  <div class="tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title">理财产品</span>
+        <a class="route-icon" (click)="open(modal)">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-swipe-list-control>
+        <ng-container *ngFor="let item of items">
+        <app-swipe-control>
+            <div class="line-row-item --with-icon">
+                <div class="item-icon">
+                    ￥
+                </div>
+                <div class="item-body">
+                    {{ item.name }}
+                </div>
+            </div>
+            <ng-container name="left">
+                <a class="btn-primary" (click)="open(modal, item)">
+                    <i class="iconfont icon-edit"></i>
+                </a>
+            </ng-container>
+            <ng-container name="right">
+                <a class="btn-danger" (click)="tapRemove(item)">
+                    <i class="iconfont icon-trash"></i>
+                </a>
+            </ng-container>
+        </app-swipe-control>
+        </ng-container>
+    </app-swipe-list-control>
+</div>
   
   <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑理财产品' : '新增理财产品'">
     <div class="form-group">

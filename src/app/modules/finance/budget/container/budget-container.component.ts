@@ -32,6 +32,10 @@ export class BudgetContainerComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public onQueriesChange(id: number) {
         this.isLoading = true;
         this.service.budgetStatistics(id).subscribe(res => {

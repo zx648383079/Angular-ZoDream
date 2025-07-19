@@ -29,7 +29,7 @@
             <tbody>
                 <tr *ngFor="let item of items" [ngClass]="{danger: item.remain < 0}">
                     <td>
-                        <a [routerLink]="item.id + ''">{{ item.name }}</a>
+                        <a [routerLink]="[item.id]">{{ item.name }}</a>
                     </td>
                     <td>{{ item.budget }}</td>
                     <td>{{ item.spent }}</td>
@@ -59,11 +59,11 @@
             <i class="iconfont icon-plus"></i>
         </a>
     </div>
-
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     <app-swipe-list-control>
         <ng-container *ngFor="let item of items">
-        <app-swipe-control>
-            <div class="line-row-item">
+        <app-swipe-control (tapped)="tapItem(item)">
+            <div class="line-row-item --with-icon">
                 <div class="item-icon">
                     {{ formatCycle(item.cycle) }}
                 </div>
@@ -71,12 +71,12 @@
                     {{ item.name }}
                 </div>
                 <div class="item-meta-bar">
-                    <div class="item-count" [ngClass]="{'--with-danger': item.remain < 0}">{{ item.budget }}</div>
+                    <div class="item-count" [ngClass]="{'--with-danger': item.remain < 0}">{{ item.budget | numberFormat }}</div>
                     <div class="item-meta" *ngIf="item.spent > 0">
                         <b>-</b>
-                        {{ item.spent }} 
+                        {{ item.spent | numberFormat }} 
                         <b>=</b> 
-                        {{ item.remain }}
+                        {{ item.remain | numberFormat }}
                     </div>
                 </div>
             </div>

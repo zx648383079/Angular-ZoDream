@@ -47,9 +47,14 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public tapBack() {
+        history.back();
+    }
+
+    public formatScale(val: number) {
+        return `${val * 100}%`;
+    }
+
     public tapRefresh() {
         if (this.isLoading) {
             return;

@@ -108,15 +108,21 @@ export function formatTime(date: Date): string {
     return formatDate(date, 'yyyy-mm-dd hh:ii:ss');
 }
 
+export function parseDate(value: any) : Date {
+    if (typeof value === 'number') {
+        return new Date(value.toString().length === 13 ? value : (value * 1000));
+    }
+    if (typeof value === 'string') {
+        return new Date(/^\d+$/.test(value) ? parseInt(value, 10) * 1000 : value);
+    }
+    return value;
+}
+
 /**
  * 格式化日期
  */
 export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd hh:ii:ss'): string {
-    if (typeof date === 'number') {
-        date = new Date(date * 1000);
-    } else if (typeof date === 'string') {
-        date = new Date(/^\d+$/.test(date) ? parseInt(date, 10) * 1000 : date);
-    }
+    date = parseDate(date);
     const o = {
         'y+': date.getFullYear(),
         'm+': date.getMonth() + 1, // 月份
@@ -158,7 +164,7 @@ export function formatAgo(value: any, now: Date = new Date()): string {
     if (!value) {
         return '--';
     }
-    const timeDate = new Date(/^\d{10}$/.test(value) ? value * 1000 : value);
+    const timeDate = parseDate(value);
     let time = Math.floor((now.getTime() - timeDate.getTime()) / 1000);
     if (time < 1) {
         return $localize `now`;
@@ -182,6 +188,20 @@ export function formatAgo(value: any, now: Date = new Date()): string {
         return twoPad(timeDate.getMonth() + 1) + '-' + twoPad(timeDate.getDate());
     }
     return timeDate.getFullYear() + '-' + twoPad(timeDate.getMonth() + 1);
+}
+
+export function formatShort(value: any, now: Date = new Date()): string {
+    if (!value) {
+        return '--';
+    }
+    const timeDate = parseDate(value);
+    if (timeDate.getFullYear() !== now.getFullYear()) {
+        return timeDate.getFullYear() + '-' + twoPad(timeDate.getMonth() + 1);
+    }
+    if (timeDate.getMonth() !== now.getMonth() || timeDate.getDate() !== now.getDate()) {
+        return twoPad(timeDate.getMonth() + 1) + '-' + twoPad(timeDate.getDate());
+    }
+    return twoPad(timeDate.getHours()) + ':' + twoPad(timeDate.getMinutes());
 }
 
 export function assetUri(value: string) {

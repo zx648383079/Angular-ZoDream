@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class NumberFormatPipe implements PipeTransform {
 
-    transform(value: number): string {
+    transform(value: number, args?: any): string {
         if (!value) {
             return '0';
         }

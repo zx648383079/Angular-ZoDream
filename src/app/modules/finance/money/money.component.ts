@@ -32,10 +32,11 @@ export class MoneyComponent implements OnInit {
     ngOnInit() {
         this.tapRefresh();
     }
+    
+    public tapBack() {
+        history.back();
+    }
 
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         if (this.isLoading) {
             return;

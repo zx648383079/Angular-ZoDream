@@ -2,7 +2,7 @@ import {
     Pipe,
     PipeTransform
 } from '@angular/core';
-import { formatDate } from '../../../theme/utils';
+import { formatAgo, formatDate, formatHour, formatShort } from '../../../theme/utils';
 
 @Pipe({
     standalone: false,
@@ -11,13 +11,20 @@ import { formatDate } from '../../../theme/utils';
 export class TimestampPipe implements PipeTransform {
 
     transform(value: any, args?: any): any {
+        switch (args) {
+            case 'short':
+                return formatShort(value);
+            case 'ago':
+                return formatAgo(value);
+            case 'hour':
+                return formatHour(value);
+            default:
+                break;
+        }
         if (!value) {
-            return;
+            return '';
         }
-        if (!/^\d+$/.test(value)) {
-            return value;
-        }
-        return formatDate(value, 'yyyy-mm-dd hh:ii');
+        return formatDate(value, args ? args : 'yyyy-mm-dd hh:ii');
     }
 
 }

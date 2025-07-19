@@ -26,6 +26,10 @@ export class EditHeaderComponent implements OnChanges, ButtonEvent {
         }
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapSubmit() {
         if (this.disabled || this.loading) {
             return;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -36,6 +36,7 @@ export class BudgetComponent implements OnInit {
     constructor(
         private service: FinanceService,
         private toastrService: DialogService,
+        private router: Router,
         private route: ActivatedRoute,
         private searchService: SearchService,
     ) {}
@@ -53,6 +54,10 @@ export class BudgetComponent implements OnInit {
 
     public formatCycle(val: number) {
         return mapFormat(val, ['次', '天', '周', '月', '年']);
+    }
+
+    public tapItem(item: IBudget) {
+        this.router.navigate([item.id], {relativeTo: this.route});
     }
 
     public tapRefresh() {

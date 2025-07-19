@@ -1,30 +1,37 @@
+@use '../../../theme/theme';
 @use "../../../../bootstrap/loading/circleButton";
-// $primary: #05a6b1;
-// $primaryText: white;
-// $hoverText: red;
-$primary: white;
-$primaryText: #333;
-$hoverText: red;
 
 .edit-header {
-    background-color: $primary;
+    --#{theme.$prefix}control: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}control-text: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}control-hovered-text:  rgba(var(--#{theme.$prefix}primary-text-rgb), .6);
+    --#{theme.$prefix}control-disabled-text: rgba(var(--#{theme.$prefix}primary-text-rgb), .2);
+    background-color: var(--#{theme.$prefix}control);
     position: relative;
-    padding: 1.25rem 0;
+    padding: 0 0 1.25rem 0;
     margin-bottom: 1.25rem;
-    .title {
-        padding: 1.25rem 1.25rem 0;
-        font-size: 1.875rem;
-        color: $primaryText;
+    .control-route-icon {
+        color: var(--#{theme.$prefix}control-text);
+        min-width: 2.5rem;
+        line-height: 3rem;
+        text-align: center;
+        display: inline-block;
+        padding: 0 .4rem;
     }
-    .remark {
+    .control-title {
+        padding: 0 1.25rem 0;
+        font-size: 1.875rem;
+        color: var(--#{theme.$prefix}control-text);
+    }
+    .control-remark {
         padding-left: .8em;
     }
-    .submit-btn {
+    .control-submit-btn {
         position: absolute;
         bottom: -1.25rem;
         right: 3.75rem;
-        background-color: $primary;
-        color: $primaryText;
+        background-color: var(--#{theme.$prefix}control);
+        color: var(--#{theme.$prefix}control-text);
         display: block;
         width: 2.5rem;
         height: 2.5rem;
@@ -34,37 +41,53 @@ $hoverText: red;
         border-radius: 50%;
         z-index: 9;
         font-size: 1.875rem;
-        box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+        box-shadow: 0 0 0.625rem rgba(var(--#{theme.$prefix}mask-rgb),.3);
         cursor: pointer;
         &:hover {
-            color: $hoverText;
+            color: var(--#{theme.$prefix}control-hovered-text);
         }
         &.btn-loading {
             cursor: not-allowed;
-            color: rgba($color: $primaryText, $alpha: .1);
+            color: var(--#{theme.$prefix}control-disabled-text);
             .loading-ring {
                 display: block;
             }
         }
     }
-    .btn-disable {
+    .btn-disabled {
         box-shadow: none;
         cursor: not-allowed;
-        color: #ccc;
+        color: var(--#{theme.$prefix}control-disabled-text);
         &:hover {
-            color: #ccc;
+            color: var(--#{theme.$prefix}control-disabled-text);
         }
     }
     @include circleButton.loadingRing();
-    &.min {
+    &.--with-min {
         padding: 0;
-        .remark {
+        .control-remark {
             display: none;
         }
-        .title {
+        .control-title {
             line-height: 2.5rem;
             font-size: 1.25rem;
             padding-top: 0;
+        }
+    }
+}
+
+@media (min-width: 48rem) {
+    .edit-header {
+        --#{theme.$prefix}control: var(--#{theme.$prefix}panel);
+        --#{theme.$prefix}control-text: var(--#{theme.$prefix}body-text);
+        --#{theme.$prefix}control-hovered-text: var(--#{theme.$prefix}accent-text);
+        --#{theme.$prefix}control-disabled-text: rgba(var(--#{theme.$prefix}body-text-rgb), .2);
+        padding: 1.25rem 0;
+        .control-route-icon {
+            display: none;
+        }
+        .control-title {
+            padding: 1.25rem 1.25rem 0;
         }
     }
 }

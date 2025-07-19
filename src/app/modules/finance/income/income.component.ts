@@ -9,8 +9,8 @@ import { SearchService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
-import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../model';
-import { mapFormat } from '../../../theme/utils';
+import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGroup } from '../model';
+import { formatDate, mapFormat } from '../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -57,6 +57,8 @@ export class IncomeComponent implements OnInit {
         count: 0,
     };
 
+    public groupItems: ILogGroup[] = [];
+
     constructor(
         private service: FinanceService,
         private toastrService: DialogService,
@@ -83,6 +85,32 @@ export class IncomeComponent implements OnInit {
             this.tapPage();
         });
     }
+
+ 
+
+    public formatGroup(): ILogGroup[] {
+        const items: ILogGroup[] = [];
+        let last: ILogGroup = null;
+        for (const item of this.items) {
+            const current = formatDate(item.happened_at, 'yyyy-mm-dd');
+            if (current !== last?.name) 
+            {
+                items.push(last = {
+                    name: current,
+                    expenditure: 0,
+                    income: 0,
+                    items: []
+                });
+            }
+            if (item.type % 2 === 1) {
+                last.income += item.money;
+            } else {
+                last.expenditure += item.money;
+            }
+            last.items.push(item);
+        }
+        return items;
+    };
 
     public tapBack() {
         history.back();
@@ -116,6 +144,7 @@ export class IncomeComponent implements OnInit {
         this.service.logList(queries).subscribe({
             next: res => {
                 this.items = res.data;
+                this.groupItems = this.formatGroup();
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isLoading = false;
@@ -134,16 +163,15 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapRemove(item: ILog) {
-        if (!confirm('确定删除“' + item.id + '”流水记录？')) {
-            return;
-        }
-        this.service.logRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.id + '”流水记录？', () => {
+            this.service.logRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

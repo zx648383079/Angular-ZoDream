@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid tablet-collapse">
     <app-page-tip>
         <ul>
             <li>预算支出曲线图</li>
@@ -19,6 +19,38 @@
             </div>
         </div>
     </div>
+
+</div>
+
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title"></span>
+        <a class="route-icon" routerLink="../../income">
+            消费记录
+        </a>
+    </div>
+    <h2 class="title-bar"> 
+            <strong>{{ data.name }}</strong>    
+            预算支出曲线图
+    </h2>
+    <div class="meta-bar">
+        <small>按 
+            <strong>{{ cycleFormat }}</strong>    
+            周期统计</small>
+    </div>
+
+    <div class="meta-bar">
+        {{ budgetTotal | numberFormat }} - {{ total | numberFormat }} = 
+        <ng-container *ngIf="overTotal > 0">
+            -
+        </ng-container>
+        {{ overTotal | numberFormat }}
+    </div>
+</div>
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div echarts [options]="options" class="chart-lg"></div>

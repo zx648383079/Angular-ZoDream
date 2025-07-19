@@ -77,5 +77,10 @@ export interface ILog {
     created_at:     string;
 }
 
-
+export interface ILogGroup {
+    name: string;
+    expenditure: number;
+    income: number;
+    items: ILog[];
+}
 

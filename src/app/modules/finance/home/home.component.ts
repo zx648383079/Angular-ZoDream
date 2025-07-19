@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
-import { mapFormat } from '../../../theme/utils';
+import { formatDate, mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
 
 
@@ -26,7 +26,9 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private service: FinanceService,
-    ) { }
+    ) {
+        this.queries.start_at = formatDate(new Date(), 'yyyy-mm-dd');
+    }
 
     ngOnInit() {
         this.onQueriesChange();
@@ -61,12 +63,12 @@ export class HomeComponent implements OnInit {
                 series: [
                     {
                         name: '收入',
-                        type: 'line',
+                        type: 'bar',
                         data: items.map(item => item.income),
                     },
                     {
                         name: '支出',
-                        type: 'line',
+                        type: 'bar',
                         data: items.map(item => item.expenditure),
                     }
                 ]
