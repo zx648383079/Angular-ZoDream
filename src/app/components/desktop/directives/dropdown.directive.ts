@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import { toggleClass } from '../../../theme/utils/doc';
 
 @Directive({
     standalone: false,
@@ -16,17 +17,6 @@ export class DropdownDirective {
         if (!element) {
             return;
         }
-        this.toggleClass(element.parentElement, 'dropdown-open');
-    }
-
-    private toggleClass(ele: HTMLElement, tag: string, force?: boolean) {
-        if (force === void 0) {
-            force = !ele.classList.contains(tag);
-        }
-        if (force) {
-            ele.classList.add(tag);
-            return;
-        }
-        ele.classList.remove(tag);
+        toggleClass(element.parentElement, '--with-open');
     }
 }

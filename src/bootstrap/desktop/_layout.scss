@@ -9,6 +9,10 @@
 @use './list';
 @use './member';
 
+.align-center {
+    text-align: center;
+}
+
 
 .theme-gray {
     filter: grayscale(100%);

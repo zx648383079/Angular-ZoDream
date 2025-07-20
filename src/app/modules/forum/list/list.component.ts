@@ -15,9 +15,9 @@ import { SearchService, ThemeService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
 
@@ -41,6 +41,8 @@ export class ListComponent implements OnInit {
     public user: IUser;
     public sortKey = 'updated_at';
     public orderAsc = false;
+
+    public unreadCount = 0;
     public sortItems: ISortItem[] = [
         {name: $localize `Publish time`, value: 'created_at', asc: false},
         {name: $localize `Reply time`, value: 'updated_at', asc: false},

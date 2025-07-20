@@ -27,7 +27,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
-import { ForumEditorComponent } from '../forum-editor/forum-editor.component';
+import { ForumEditorComponent } from '../components/forum-editor/forum-editor.component';
 import { DownloadService, SearchService, ThemeService } from '../../../theme/services';
 import { openLink } from '../../../theme/utils/deeplink';
 import { eachObject, mapFormat } from '../../../theme/utils';

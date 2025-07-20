@@ -1,8 +1,8 @@
 <div class="score-panel" *ngIf="subtotal">
     <div class="row">
         <div class="col-4">
-            <div class="text-center" i18n>Favorable rate</div>
-            <div class="text-center">
+            <div class="align-center" i18n>Favorable rate</div>
+            <div class="align-center">
                 <div class="rate">{{ subtotal.favorable_rate }}%</div>
                 <div class="score">
                     <app-star [ngModel]="subtotal.avg"></app-star>

@@ -15,12 +15,12 @@
 
 <div class="container">
     <div class="thread-box">
-        <div class="thread-title" *ngIf="thread"  [ngClass]="{'thread-highlight': thread.is_highlight}">
-            <div class="count">
+        <div class="thread-title-bar" *ngIf="thread"  [ngClass]="{'thread-highlight': thread.is_highlight}">
+            <div class="item-count">
                 <span i18n>View: {{ thread.view_count | numberFormat }}</span>
                 <span i18n>Reply: {{ thread.post_count | numberFormat }}</span>
             </div>
-            <div class="title">
+            <div class="item-title">
                 <ng-container *ngIf="thread.is_closed">
                     <i class="iconfont icon-lock" i18n-title title="Thread is closed "></i>
                 </ng-container>
@@ -50,11 +50,11 @@
             <ng-container *ngFor="let item of items">
               <ng-container *ngIf="item.grade < 1; else elseTemplate">
                 <div class="post-item">
-                    <div class="post-user" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{open: item.is_hover_user}">
+                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
                     </div>
-                    <div class="post-content">
-                        <div class="header">
+                    <div class="item-body">
+                        <div class="item-header">
                             <i class="iconfont icon-user"></i>
                             <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
@@ -64,10 +64,10 @@
                             </div>
                         </div>
                         <div class="last-time" i18n>Last edit {{ item.updated_at | ago }}</div>
-                        <div class="content">
+                        <div class="item-content">
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
-                        <div class="post-action">
+                        <div class="item-action-bar">
                             <ng-container *ngIf="thread.like_type == 1; else elseLikeTemplate">
                                 <div class="action-btn active" i18n-title title="Cancel Like" (click)="toggleLike()">
                                     <i class="iconfont icon-thumbs-o-up"></i>
@@ -92,7 +92,7 @@
                                 </div>
                             </ng-template>
                         </div>
-                        <div class="footer">
+                        <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
                                 <app-command-button *ngIf="user" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
                                 <app-command-button *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable" icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)"></app-command-button>
@@ -103,11 +103,11 @@
               </ng-container>
               <ng-template #elseTemplate>
                 <div class="post-item">
-                    <div class="post-user" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{open: item.is_hover_user}">
+                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
                     </div>
-                    <div class="post-content">
-                        <div class="header">
+                    <div class="item-body">
+                        <div class="item-header">
                             <i class="iconfont icon-user"></i>
                                 <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
@@ -117,11 +117,11 @@
                                 {{ item.grade }} floor
                             </div>
                         </div>
-                        <div class="content">
+                        <div class="item-content">
                             <div class="stamp" *ngIf="item.status > 0">{{ formatStatus(item) }}</div>
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
-                        <div class="footer">
+                        <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
                                 <app-command-button *ngIf="user && item.is_public_post" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
                                 <app-command-button *ngIf="thread.editable" icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)"></app-command-button>
@@ -139,17 +139,17 @@
         <div class="paging-box">
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
-        <div class="post-item post-new" *ngIf="user && thread && !thread.is_closed">
-            <div class="post-user">
-                <div class="name">{{ user.name }}</div>
-                <div class="avatar">
+        <div class="post-item --with-new" *ngIf="user && thread && !thread.is_closed">
+            <div class="item-user-header">
+                <div class="control-name">{{ user.name }}</div>
+                <div class="control-avatar">
                     <img [src]="user.avatar" alt="">
                 </div>
             </div>
-            <div id="post-editor" class="post-content">
+            <div id="post-editor" class="item-body">
                 <form [formGroup]="form" (ngSubmit)="tapSubmit()">
                     <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
-                    <div class="footer">
+                    <div class="item-footer">
                         <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
                     </div>
                 </form>
@@ -159,15 +159,15 @@
 </div>
 
 <ng-template #userTpl let-user>
-    <div class="user-inner-box">
-        <div class="name">{{ user.name }}
+    <div class="user-inner-pane">
+        <div class="control-name">{{ user.name }}
             <div class="card-more" *ngIf="user.card_items && user.card_items.length > 0">
                 <a *ngFor="let it of user.card_items">
                     <img [src]="it.icon|asset" [alt]="it.name" i18n-title [title]="it.name + ' Valid until' + it.expired_at">
                 </a>
             </div>
         </div>
-        <div class="avatar">
+        <div class="control-avatar">
             <img [src]="user.avatar" alt="">
         </div>
         <div class="user-meta-body">

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ForumEditorComponent } from './forum-editor/forum-editor.component';
+import { ForumEditorComponent, PostBlockComponent, SearchBarComponent, ThreadListItemComponent } from './components';
 
 import { ForumComponent } from './forum.component';
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
-import { PostBlockComponent } from './post-block/post-block.component';
-import { SearchBarComponent } from './search-bar/search-bar.component';
 import { EditThreadComponent } from './thread/edit/edit-thread.component';
 import { ThreadComponent } from './thread/thread.component';
 
@@ -47,4 +45,5 @@ export class ForumRoutingModule { }
 
 export const forumRoutedComponents = [
     ForumComponent, ThreadComponent, ListComponent, HomeComponent, ForumEditorComponent, EditThreadComponent, PostBlockComponent, SearchBarComponent,
+    ThreadListItemComponent
 ];

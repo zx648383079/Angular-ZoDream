@@ -1,0 +1,79 @@
+<div class="thread-item" [ngClass]="{'thread-highlight': value.is_highlight}">
+    <div class="item-tool-bar">
+        <div class="item-circle-profile">
+            <img [appLazyLoad]="value.user.avatar">
+            <span>{{ value.user.name }}</span>
+        </div>
+        <div class="item-dropdown-bar" [ngClass]="{'--with-open': dropdownVisible}">
+            <div class="dropdown-toggle-arrow" (click)="dropdownVisible = !dropdownVisible">
+                <i class="iconfont icon-ellipsis-h"></i>
+            </div>
+            <div class="tablet-mask" (click)="dropdownVisible = false"></div>
+            <div class="dropdowm-pane">
+                <a href="">
+                    <i class="iconfont icon-eye-slash"></i>
+                    <ng-container i18n>Diskie author</ng-container>
+                </a>
+                <a href="">
+                    <i class="iconfont icon-thumbs-o-down"></i>
+                    <ng-container i18n>Diskie topic</ng-container>
+                </a>
+                <a href="">
+                    <i class="iconfont icon-exclamation-circle"></i>
+                    <ng-container i18n>Report</ng-container>
+                </a>
+                <a href="">
+                    <i class="iconfont icon-share-alt"></i>
+                    <ng-container i18n>Share</ng-container>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="item-body">
+        <div class="item-title">
+            <ng-container *ngIf="value.top_type > 0">
+                <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
+            </ng-container>
+            <ng-container *ngIf="value.top_type < 1 && value.is_closed">
+                <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
+            </ng-container>
+            <ng-container *ngIf="value.top_type < 1 && !value.is_closed">
+                <i class="iconfont icon-file-o"></i>
+            </ng-container>
+            <em class="tag-item" *ngIf="value.classify">
+                [<a (click)="classifyChanged.emit(value.classify)">{{ value.classify.name }}</a>]
+            </em>
+            <a class="title-text" [routerLink]="['../thread', value.id]">{{ value.title }}</a>
+            <i class="iconfont icon-fire" *ngIf="value.is_digest"></i>
+            <a class="new-tag" *ngIf="value.is_new">New</a>
+        </div>
+        <div class="item-brief" *ngIf="value.brief">{{ value.brief }}…</div>
+        <div class="item-image-bar" *ngIf="value.image_items?.length > 0">
+            <div class="image-preview-control" *ngFor="let item of value.image_items">
+                <img [appLazyLoad]="item.url" [title]="item.title">
+            </div>
+        </div>
+    </div>
+    <div class="item-participant-bar">
+        <div class="item-cute-profile">
+            <img [appLazyLoad]="value.user.avatar">
+        </div>
+        <div class="item-cute-profile" *ngFor="let item of value.user_items">
+            <img [appLazyLoad]="item.avatar">
+        </div>
+    </div>
+    <div class="item-footer">
+        <div class="item-time-bar">
+            <em class="tag-item tablet-visible" *ngIf="value.forum">{{ value.forum.name }}</em>
+            <em>{{ value.updated_at | ago }}</em>
+        </div>
+        <div class="item-count-bar">
+            <em>
+                <i class="iconfont icon-comments"></i>
+                {{ value.post_count | numberFormat }}</em>
+            <em>
+                <i class="iconfont icon-eye"></i>
+                {{ value.view_count | numberFormat }}</em>
+        </div>
+    </div>
+</div>

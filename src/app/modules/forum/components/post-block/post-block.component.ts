@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { DialogService } from '../../../components/dialog';
-import { IBlockItem, IExtraRule, formatLinkRule } from '../../../components/link-rule';
+import { DialogService } from '../../../../components/dialog';
+import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/link-rule';
 
 @Component({
     standalone: false,
-  selector: 'app-post-block',
-  templateUrl: './post-block.component.html',
-  styleUrls: ['./post-block.component.scss']
+    selector: 'app-post-block',
+    templateUrl: './post-block.component.html',
+    styleUrls: ['./post-block.component.scss']
 })
 export class PostBlockComponent implements OnChanges {
 

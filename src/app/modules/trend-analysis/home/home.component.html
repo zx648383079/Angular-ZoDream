@@ -78,7 +78,7 @@
                     <td [title]="'峰值日: ' + todayData.dayMax.next_count.day ">{{ todayData.dayMax.next_count.value | numberFormat }}</td>
                 </tr>
                 <tr [ngClass]="{'table-light': trendToggle}">
-                    <td colspan="7" class="text-center">
+                    <td colspan="7" class="align-center">
                         <i class="iconfont" [ngClass]="{'icon-angle-double-down': !trendToggle, 'icon-angle-double-up': trendToggle}" (click)="trendToggle = !trendToggle"></i>
                     </td>
                 </tr>

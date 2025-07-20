@@ -36,7 +36,7 @@
         <div class="panel-body" *ngIf="forum.children && forum.children.length > 0">
             <div class="row">
                 <ng-container *ngFor="let item of forum.children">
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-sm-12">
                         <div class="catalog-item">
                             <div class="cover">
                                 <img [src]="item.thumb" alt="">
@@ -77,97 +77,39 @@
 
     <div class="thread-list">
         <div class="thread-item-header">
-            <div class="name">
-                <ng-container i18n>Title</ng-container>
+            <div class="item-body">
+                <ng-container i18n>Topic</ng-container>
                 <div class="sort-bar">
                     <ng-container *ngFor="let item of sortItems">
                         <a [ngClass]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
                     </ng-container>
                 </div>
             </div>
-            <div class="time" i18n>
-                Author
+            <div class="item-count" i18n>
+                Reply
             </div>
-            <div class="count" i18n>
-                Reply/View
+            <div class="item-count" i18n>
+                View
             </div>
-            <div class="reply" i18n>
-                Last publish
+            <div class="item-time" i18n>
+                Activity
             </div>
         </div>
         <ng-container *ngIf="forum && forum.thread_top && forum.thread_top.length > 0">
             <ng-container *ngFor="let item of forum.thread_top">
-                <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
-                  <div class="title">
-                      <ng-container *ngIf="item.top_type > 0">
-                          <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
-                      </ng-container>
-                      <ng-container *ngIf="item.top_type < 1 && item.is_closed">
-                          <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
-                      </ng-container>
-                      <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
-                          <i class="iconfont icon-file-o"></i>
-                      </ng-container>
-                      <em class="tag-item" *ngIf="item.classify">
-                          [<a (click)="tapClassify(item.classify)">{{ item.classify.name }}</a>]
-                      </em>
-                      <a class="title-text" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
-                      <i class="iconfont icon-fire" *ngIf="item.is_digest"></i>
-                      <a class="new-tag" *ngIf="item.is_new">New</a>
-                  </div>
-                  <div class="time">
-                      <em data-action="user" data-id="1">{{ item.user.name }}</em>
-                      <em>{{ item.created_at | ago }}</em>
-                  </div>
-                  <div class="count">
-                      <em>{{ item.post_count | numberFormat }}</em>
-                      <em>{{ item.view_count | numberFormat }}</em>
-                  </div>
-                  <div class="reply">
-                      <ng-container *ngIf="item.last_post">
-                          <em>{{ item.last_post.user.name }}</em>
-                          <em>{{ item.last_post.created_at | ago }}</em>
-                      </ng-container>
-                  </div>
-              </div>
+                <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
               </ng-container>
             <div class="split-line"></div>
         </ng-container>
+
+        <div class="align-center" *ngIf="unreadCount">
+            <a class="new-post-bar">
+                There are {{ unreadCount | numberFormat}} new or updated topics
+            </a>
+        </div>
         
         <ng-container *ngFor="let item of items">
-          <div class="thread-item" [ngClass]="{'thread-highlight': item.is_highlight}">
-            <div class="title">
-                <ng-container *ngIf="item.top_type > 0">
-                    <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
-                </ng-container>
-                <ng-container *ngIf="item.top_type < 1 && item.is_closed">
-                    <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
-                </ng-container>
-                <ng-container *ngIf="item.top_type < 1 && !item.is_closed">
-                    <i class="iconfont icon-file-o"></i>
-                </ng-container>
-                <em class="tag-item" *ngIf="item.classify">
-                    [<a (click)="tapClassify(item.classify)">{{ item.classify.name }}</a>]
-                </em>
-                <a class="title-text" [routerLink]="['../thread', item.id]">{{ item.title }}</a>
-                <i class="iconfont icon-fire" *ngIf="item.is_digest"></i>
-                <a class="new-tag" *ngIf="item.is_new">New</a>
-            </div>
-            <div class="time">
-                <em data-action="user" data-id="1">{{ item.user.name }}</em>
-                <em>{{ item.created_at | ago }}</em>
-            </div>
-            <div class="count">
-                <em>{{ item.post_count | numberFormat }}</em>
-                <em>{{ item.view_count | numberFormat }}</em>
-            </div>
-            <div class="reply">
-                <ng-container *ngIf="item.last_post">
-                    <em>{{ item.last_post.user.name }}</em>
-                    <em>{{ item.last_post.created_at | ago }}</em>
-                </ng-container>
-            </div>
-        </div>
+            <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
         </ng-container>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <div class="paging-box">

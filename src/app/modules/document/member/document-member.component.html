@@ -17,7 +17,7 @@
             <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]" i18n>Edit</a>
             <div class="dropdown-bar">
               <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
-              <div class="dropdown-menu">
+              <div class="dropdown-pane">
                 <a class="btn-info" [routerLink]="['edit', item.id]" i18n>Setting</a>
                 <a class="btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
               </div>

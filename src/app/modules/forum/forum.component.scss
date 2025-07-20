@@ -1,18 +1,14 @@
-::ng-deep {
+@use '../../theme/theme';
+
+:host ::ng-deep {
     .catalog-item {
         cursor: default;
         .meta {
-            color: #888;
-            a {
-                color: #369;
-            }
+            color: var(--#{theme.$prefix}meta-text);
         }
         .last-thread {
-            color: #888;
+            color: var(--#{theme.$prefix}meta-text);
             font-size: .8em;
-            a {
-                color: #369;
-            }
         }
     }
 }

@@ -385,9 +385,9 @@ i {
         height: 100%;
         text-align: center;
         position: relative;
-        @include mixins.iconArrow(#fff);
+        @include mixins.iconArrow(var(--#{theme.$prefix}panel));
     }
-    .dropdown-menu {
+    .dropdown-pane {
         right: 0;
         border-top-right-radius: 0;
         padding: 0;
@@ -413,18 +413,19 @@ i {
         }
         
     }
-}
-
-.dropdown-open {
-    .dropdown-toggle-arrow {
-        &::after {
-            transform: rotate(180deg);
+    &.--with-open {
+        .dropdown-toggle-arrow {
+            &::after {
+                transform: rotate(180deg);
+            }
+        }
+        .dropdown-pane {
+            display: block;
         }
     }
-    .dropdown-menu {
-        display: block;
-    }
 }
+
+
 
 .select-shell-control {
     display: inline-block;

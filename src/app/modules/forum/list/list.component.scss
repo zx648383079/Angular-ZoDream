@@ -1,109 +1,55 @@
+@use '../../../theme/theme';
 .group-content {
     padding: 10px;
-    a {
-        color: #007CD5;
-    }
 }
 
 .classify-bar {
     padding: .8rem 0;
     .item {
         display: inline-block;
-        margin-right: 5px;
-        padding: 4px 8px 3px;
+        margin-right: .3125rem;
+        padding: .25rem .5rem .1875rem;
         // height: 18px;
-        border: 1px solid #CDCDCD;
-        background: #FFF;
+        border: 1px solid var(--#{theme.$prefix}border);
+        background-color: var(--#{theme.$prefix}panel);
         white-space: nowrap;
         cursor: pointer;
         &.active {
             padding-right: 12px;
             padding-left: 12px;
-            border-color: #369;
-            background: #E5EDF2;
-            color: #369;
+            border-color: var(--#{theme.$prefix}primary);
+            background-color: var(--#{theme.$prefix}primary-text);
+            color: var(--#{theme.$prefix}primary);
         }
     }
 }
 .split-line {
     height: 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--#{theme.$prefix}panel);
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
 }
-.thread-list {
-    .thread-item-header {
-        border-bottom: 1px solid;
-        display: grid;
-        grid-template-columns: 1fr 105px 60px 105px;
-        background-color: #fff;
-        line-height: 30px;
-        .count {
-            font-size: 12px;
-        }
-    }
-    .thread-item {
-        border-bottom: 1px solid #ccc;
-        display: grid;
-        grid-template-columns: 1fr 105px 60px 105px;
-        .title {
-            line-height: 40px;
-        }
-        .time,
-        .count,
-        .reply {
-            em {
-                display: block;
-                font-style: normal;
-            }
-        }
-        &:hover {
-            background-color: rgba(#333, .2);
-        }
-    }
+.thread-item-header {
+    display: none;
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
+    background-color: var(--#{theme.$prefix}panel);
+    line-height: 1.875rem;
 }
 
-.thread-item {
-    .title-text {
-        color: #333;
-    }
-    .title {
-        .icon-arrow-up {
-            color: #ffaa00;
-        }
-        .iconfont,
-        .tag-item,
-        .title-text {
-            margin-right: .5rem;
-        }
-        .icon-fire {
-            color: red;
-        }
-        .tag-item {
-            color: #007CD5;
-            display: inline-block;
-            font-style: normal;
-            a {
-                color: #007CD5; 
-            }
-        }
-        .icon-lock {
-            color: #fcb716;
-        }
-        .new-tag {
-            color: #F26C4F;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 12px;
-        }
-    }
-    &.thread-highlight {
-        .title-text {
-            color: #a10000;
-            font-weight: 700;
-            a {
-                color: #a10000;
-            }
-        }
+.new-post-bar {
+    cursor: pointer;
+    display: inline-block;
+    line-height: 3rem;
+    opacity: .4;
+    width: 20rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    background-color: var(--#{theme.$prefix}info);
+    color: var(--#{theme.$prefix}info-text);
+    transition: all .3s;
+    &:hover {
+        opacity: 1;
+        width: 100%;
+        border-radius: .75rem;
     }
 }
 
@@ -113,10 +59,10 @@
     a {
         display: inline-block;
         padding: 0 .4em;
-        color: #aaa;
+        color: var(--#{theme.$prefix}meta-text);
         cursor: pointer;
         &.active {
-            color: #a10000;
+            color: var(--#{theme.$prefix}primary);
         }
     }
 }
@@ -124,8 +70,8 @@
 .thread-new-box {
     .header {
         line-height: 2.5rem;
-        background-color: #fff;
-        padding: 0 10px;
+        background-color: var(--#{theme.$prefix}panel);
+        padding: 0 .625rem;
         .pull-right {
             float: right;
             text-decoration: none;
@@ -135,71 +81,26 @@
     }
 }
 
-@media (max-width: 769px) {
-    .thread-list {
-        .thread-item-header {
-            display: none;
-        }
-        .thread-item {
-            display: block;
-            .time {
-                display: inline-block;
-                em {
-                    display: inline-block;
-                    margin-right: 10px;
-                }
-            }
-            .reply {
-                display: none;
-            }
-            .count {
-                float: right;
-                em {
-                    display: inline-block;
-                    margin-right: 10px;
-                    &::before {
-                        font-weight: 900;
-                        font-style: normal;
-                        font-family: "iconfont";
-                    }
-                    &:first-child {
-                        &::before {
-                            content: "\e65d";
-                        }
-                    }
-                    &:last-child {
-                        &::before {
-                            content: "\e680";
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
-@media (min-width: 576px) {
-    .thread-new-box {
-        margin: 30px 0;
-        .title {
-            display: flex;
-            .form-control {
-                width: auto;
-                min-width: auto;
-                display: inline-block;
-                border-radius: 0;
-                &:first-child {
-                    border-top-left-radius: 0.25rem;
-                    border-bottom-left-radius: 0.25rem;
-                }
-                &:last-child {
-                    border-top-right-radius: 0.25rem;
-                    border-bottom-right-radius: 0.25rem;
-                }
-            }
-            input {
-                flex: 1;
-            }
+@media (min-width: 48rem) {
+    .thread-item-header {
+        display: flex;
+        .item-body {
+            flex: 1;
+        }
+        .item-count,
+        .item-time {
+            font-size: .75rem;
+            text-align: center;
+            display: inline-block;
+            color: var(--#{theme.$prefix}meta-text);
+        }
+        .item-count {
+            width: 4rem;
+          
+        }
+        .item-time {
+            width: 6rem;
         }
     }
 }

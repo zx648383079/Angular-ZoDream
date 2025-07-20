@@ -1,12 +1,12 @@
 <div class="comment-box" *ngIf="subtotal">
     <div class="comment-header">
-        <div class="text-center">
+        <div class="align-center">
         好评率
         </div>
         <div>
         Customer reviews：
         </div>
-        <div class="text-center">
+        <div class="align-center">
             <div class="rate">{{ subtotal.favorable_rate }}%</div>
             <div class="score">
                 <app-star [ngModel]="subtotal.avg"></app-star>

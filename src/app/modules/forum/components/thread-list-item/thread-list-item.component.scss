@@ -1,0 +1,211 @@
+@use '../../../../theme/theme';
+@use '../../../../../bootstrap/variables';
+
+.thread-item {
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
+    padding: .8rem 0;
+    .title-text {
+        color: var(--#{theme.$prefix}body-text);
+    }
+    .item-title {
+        .icon-arrow-up {
+            color: var(--#{theme.$prefix}warning);
+        }
+        .iconfont,
+        .tag-item,
+        .title-text {
+            margin-right: .5rem;
+        }
+        .icon-fire {
+            color: var(--#{theme.$prefix}danger);
+        }
+        .tag-item {
+            color: var(--#{theme.$prefix}primary);
+            display: inline-block;
+            font-style: normal;
+            a {
+                color: var(--#{theme.$prefix}primary);
+            }
+        }
+        .icon-lock {
+            color: var(--#{theme.$prefix}secondary);
+        }
+        .new-tag {
+            color: var(--#{theme.$prefix}info);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: .8rem;
+        }
+    }
+
+    .item-title {
+        line-height: 2.5rem;
+    }
+    // &:hover {
+    //     background-color: rgba(#333, .2);
+    // }
+    &.thread-highlight {
+        .title-text {
+            color: var(--#{theme.$prefix}danger);
+            font-weight: 700;
+            a {
+                color: var(--#{theme.$prefix}danger);
+            }
+        }
+    }
+}
+
+.item-count-bar,
+.item-time-bar {
+    em {
+        display: inline-block;
+        font-style: normal;
+        &:not(:last-of-type) {
+            margin-right: .4rem;
+        }
+    }
+}
+
+.item-tool-bar,
+.item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.5rem;
+}
+
+.item-footer {
+    color: var(--#{theme.$prefix}meta-text);
+    font-size: .8rem;
+    line-height: 2rem;
+}
+
+.item-brief {
+    color: var(--#{theme.$prefix}meta-text);
+    padding: 0 .4rem .4rem;
+}
+
+.item-image-bar {
+    display: flex;
+    gap: .3rem;
+    overflow: hidden;
+    padding: 0 .4rem;
+    .image-preview-control {
+        flex-shrink: 0;
+        width: 8rem;
+        height: 8rem;
+        border-radius: .8rem;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+
+.item-circle-profile {
+    display: inline-flex;
+    align-items: center;
+    color: var(--#{theme.$prefix}meta-text);
+    img {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        margin-right: .4rem;
+    }
+}
+
+.item-participant-bar {
+    display: none;
+    width: 10rem;
+    .item-cute-profile {
+        display: inline-block;
+        img {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: .25rem;
+            margin-right: .4rem;
+        }
+    }
+}
+
+.tablet-mask {
+    display: none;
+}
+
+.item-dropdown-bar {
+    display: inline-block;
+    position: relative;
+    .dropdown-toggle-arrow {
+        display: inline-block;
+        color: var(--#{theme.$prefix}meta-text);
+        padding: 0 .8rem;
+    }
+    .dropdowm-pane {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        z-index: variables.$zindex-modal;
+        left: 0;
+        right: 0;
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        a {
+            display: block;
+            color: var(--#{theme.$prefix}body-text);
+            line-height: 2.5rem;
+            padding: 0 .8rem;
+            &:not(:last-of-type) {
+                border-bottom: 1px solid var(--#{theme.$prefix}border);
+            }
+        }
+        .iconfont {
+            margin-right: .4rem;
+        }
+    }
+    &.--with-open {
+        .tablet-mask {
+            display: block;
+        }
+        .dropdowm-pane {
+            display: block;
+        }
+    }
+}
+
+
+@media (min-width: 48rem) {
+    .thread-item {
+        min-height: 5rem;
+        display: flex;
+        align-items: center;
+        .item-body {
+            flex: 1;
+        }
+    }
+    .item-time-bar {
+        order: 1;
+        text-align: center;
+        width: 6rem;
+    }
+    
+    .item-count-bar {
+        .iconfont {
+            display: none;
+        }
+        em {
+            display: inline-block;
+            text-align: center;
+            width: 4rem;
+        }
+    }
+    .item-participant-bar {
+        display: block;
+    }
+    .item-tool-bar {
+        display: none;
+    }
+    
+}

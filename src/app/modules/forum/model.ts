@@ -54,6 +54,12 @@ export interface IThread {
     reward_items?: IThreadLog[];
     reward_count?: number;
     checked?: boolean;
+    brief?: string;
+    user_items?: IUser[];
+    image_items: {
+        url: string;
+        title: string;
+    }[];
 }
 
 export interface IThreadPost {
