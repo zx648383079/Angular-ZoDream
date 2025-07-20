@@ -1,4 +1,4 @@
-<header class="tablet-collapse" [hidden]="navToggle > 3">
+<header class="tablet-collapse" [hidden]="diplayMode > 3">
     <nav class="navbar navbar-expand-lg" [ngClass]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
@@ -66,7 +66,7 @@
         </div>
     </nav>
 </header>
-<header class="tablet-search-header tablet-visible">
+<header class="tablet-search-header tablet-visible" [hidden]="diplayMode > 1">
     <a class="navbar-brand" routerLink="./">ZoDream</a>
     <div class="search-entry" (click)="searchModal.open()">
         <i class="iconfont icon-search"></i>
@@ -82,7 +82,7 @@
     <router-outlet></router-outlet>
 </div>
 
-<footer class="--with-tablet-bottom" [hidden]="navToggle > 3">
+<footer class="--with-tablet-bottom" [hidden]="diplayMode > 3">
     <div class="container">
         <div class="friend-link">
             <div i18n>Friend Link</div>
@@ -125,7 +125,7 @@
     </a>
 </div>
 
-<app-online-service class="tablet-collapse" [hidden]="navToggle > 3"></app-online-service>
+<app-online-service class="tablet-collapse" [hidden]="diplayMode > 3"></app-online-service>
 <app-search #searchModal></app-search>
 <app-login-dialog></app-login-dialog>
 <app-cookie-bar></app-cookie-bar>

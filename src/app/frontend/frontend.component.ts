@@ -47,7 +47,7 @@ export class FrontendComponent implements OnDestroy {
     public friendLinks: ILink[] = [];
     public navExpand = false;
     public fixedTop = false;
-    public navToggle = NavigationDisplayMode.Compact;
+    public diplayMode = NavigationDisplayMode.Compact;
     public navStyle = true;
     public activeUri = '';
     public site: ISystemOption = {} as any;
@@ -117,7 +117,7 @@ export class FrontendComponent implements OnDestroy {
         this.subItems.push(
             this.themeService.navigationDisplayRequest.subscribe(toggle => {
                 setTimeout(() => {
-                    this.navToggle = toggle;
+                    this.diplayMode = toggle;
                 }, 1);
             })
         );
