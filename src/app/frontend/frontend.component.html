@@ -82,7 +82,7 @@
     <router-outlet></router-outlet>
 </div>
 
-<footer class="--with-tablet-bottom" [hidden]="diplayMode > 3">
+<footer class="--with-tablet-bottom" [hidden]="diplayMode > 0">
     <div class="container">
         <div class="friend-link">
             <div i18n>Friend Link</div>
@@ -106,7 +106,7 @@
     </div>
 </footer>
 
-<div class="tablet-tab-bar tablet-visible">
+<div class="tablet-tab-bar tablet-visible" [hidden]="diplayMode > 3">
     <a class="tab-item" routerLink="../">
         <i class="iconfont icon-home item-icon"></i>
         <span class="item-body" i18n>Home</span>
@@ -125,7 +125,7 @@
     </a>
 </div>
 
-<app-online-service class="tablet-collapse" [hidden]="diplayMode > 3"></app-online-service>
+<app-online-service class="tablet-collapse" [hidden]="diplayMode > 0"></app-online-service>
 <app-search #searchModal></app-search>
 <app-login-dialog></app-login-dialog>
 <app-cookie-bar></app-cookie-bar>

@@ -4,7 +4,7 @@ import { AppState } from '../../theme/interfaces';
 import { IUserStatus } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { MenuService } from './menu.service';
-import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
+import { ActivationEnd, NavigationEnd, Router, Scroll } from '@angular/router';
 import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { NavigationDisplayMode } from '../../theme/models/event';
@@ -45,17 +45,18 @@ export class UserComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subItems.push(
-            this.themeService.navigationDisplayRequest.subscribe(toggle => {
+            this.themeService.navigationChanged.subscribe(res => {
                 setTimeout(() => {
-                    this.diplayMode = toggle;
+                    this.diplayMode = res.mode;
                 }, 1);
             })
         );
         this.menuService.refresh();
-        // this.service.profile().subscribe(res => {
-        //     this.user = res;
-        // });
-        this.router.events.subscribe((event: NavigationEnd) => {
+        this.router.events.subscribe(event => {
+            event = event instanceof Scroll ? event.routerEvent : event;
+            if (event instanceof NavigationEnd && this.themeService.tabletChanged.value) {
+                this.themeService.navigationDisplayRequest.next(event.url.endsWith('/user/home') ? NavigationDisplayMode.Inline : NavigationDisplayMode.Collapse);
+            }
             if (event instanceof ActivationEnd) {// 当导航成功结束时执行
                 this.menuService.refresh();
             }

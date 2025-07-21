@@ -80,7 +80,11 @@ export class SettingComponent implements OnInit {
     }
 
     public tapBack() {
-        this.crumbs.pop();
+        if (this.crumbs.length > 0) {
+            this.crumbs.pop();
+            return;
+        }
+        history.back();
     }
 
     public onValueChange() {

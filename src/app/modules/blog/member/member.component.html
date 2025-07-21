@@ -1,3 +1,15 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Blog</span>
+        <a class="route-icon" routerLink="create">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+</div>
+
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
         <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
@@ -7,7 +19,7 @@
                 <option [value]="item.id">{{ item.name }}</option>
             </ng-container>
         </select>
-        <select name="term" [ngModel]="queries.status" class="form-control">
+        <select name="term" [ngModel]="queries.status" class="form-control tablet-collapse">
             <option [value]="0" i18n>Select...</option>
             <ng-container *ngFor="let item of statusItems">
                 <option [value]="item.value + 1">{{ item.name }}</option>
@@ -15,7 +27,7 @@
         </select>
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
-    <div class="btn-group pull-right">
+    <div class="btn-group pull-right tablet-collapse">
         <a class="btn btn-success" routerLink="create" i18n>Create</a>
     </div>
 </div>

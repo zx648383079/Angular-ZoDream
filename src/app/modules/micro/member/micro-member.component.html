@@ -1,3 +1,11 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Micro Blog</span>
+    </div>
+</div>
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
         <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">

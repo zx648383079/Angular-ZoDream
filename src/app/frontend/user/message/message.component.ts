@@ -41,6 +41,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     public total = 0;
     public content = '';
     public authUser: IUser;
+    public dropdownVisible = false;
 
     constructor(
         private store: Store<AppState>,
@@ -79,12 +80,28 @@ export class MessageComponent implements OnInit, OnDestroy {
         return this.navIndex >= 0 && this.navIndex < this.navItems.length ? this.navItems[this.navIndex] : {};
     }
 
+
+    public openDropdown() {
+        this.dropdownVisible = !this.dropdownVisible;
+    }
+
+    public tapBack() {
+        if (this.navIndex >= 0) {
+            this.navIndex = -1;
+            return;
+        }
+        history.back();
+    }
+
     public tapUser(user: number) {
         for (let i = 0; i < this.navItems.length; i++) {
             if (this.navItems[i].id === user) {
                 this.tapNav(i);
                 return;
             }
+        }
+        if (this.themeService.tabletChanged.value) {
+            return;
         }
         return this.tapNav(0);
     }

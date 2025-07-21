@@ -51,6 +51,10 @@ export class MemberComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }

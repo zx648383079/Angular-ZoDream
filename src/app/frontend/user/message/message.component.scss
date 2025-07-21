@@ -1,16 +1,28 @@
 @use '../../../../bootstrap/desktop/scrollbar';
 @use '../../../theme/theme';
+@use '../../../../bootstrap/variables';
 ul, li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 .message-box {
+    --#{theme.$prefix}pane: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}pane-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}pane-selected: var(--#{theme.$prefix}surface-selected);
+    --#{theme.$prefix}pane-selected-text: var(--#{theme.$prefix}surface-selected-text);
     display: flex;
-    height: 70vh;
-    .message-menu {
-        width: 15.625rem;
-        background-color: #e0f0fd;
+    height: 100vh;
+    .message-pane {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        background-color: var(--#{theme.$prefix}pane);
+        color: var(--#{theme.$prefix}pane-text);
+    }
+    .pane-body {
+        flex: 1;
+        display: block;
         overflow: auto;
         @include scrollbar.scrollbar();
     }
@@ -40,19 +52,19 @@ ul, li {
         }
         .info {
             .name {
-                color: #000;
+                color: var(--#{theme.$prefix}pane-text);
                 font-weight: 700;
             }
             p {
-                color: #676d70;
+                color: var(--#{theme.$prefix}pane-text);
             }
         }
         &:hover {
-            background-color: #fff;
+            background-color: var(--#{theme.$prefix}pane-selected);
         }
         &.active {
-            background-color: #fff;
-            border-left: 0.25rem solid #d75650;
+            background-color: var(--#{theme.$prefix}pane-selected);
+            border-left: 0.25rem solid var(--#{theme.$prefix}primary);
         }
     }
     .message-body {
@@ -60,49 +72,60 @@ ul, li {
         background-color: white;
         border-right: 1px solid white;
         border-bottom: 1px solid white;
-        display: flex;
+        display: none;
         flex-direction: column;
-        .title-bar {
-            line-height: 2.5rem;
+        
+    }
+    .message-title-bar {
+        line-height: 3rem;
+        text-align: center;
+        display: flex;
+        background-color: var(--#{theme.$prefix}primary);
+        color: var(--#{theme.$prefix}primary-text);
+        .control-body {
+            flex: 1;
             text-align: center;
-            position: relative;
         }
-        .drop-menu-box {
-            float: right;
-            .menu-body {
-                display: none;
-            }
-            .iconfont {
-                display: inline-block;
-                width: 2.5rem;
-                text-align: center;
-                cursor: pointer;
-            }
-            &:hover {
-                .menu-body {
-                    display: block;
-                }
-            }
+        .route-icon {
+            min-width: 2.5rem;
+            text-align: center;
+            display: inline-block;
+            color: var(--#{theme.$prefix}nav-text);
+            padding: 0 .4rem;
         }
     }
-    .drop-menu-box {
-        .menu-body {
-            position: absolute;
+    .dropdown-box {
+        .dropdown-pane {
+            display: none;
+            position: fixed;
             right: 0;
-            width: 10rem;
-            z-index: 5;
-            background-color: white;
+            left: 0;
+            bottom: 0;
+            z-index: variables.$zindex-modal;
+            background-color: var(--#{theme.$prefix}panel);
+            color: var(--#{theme.$prefix}body-text);
             text-align: left;
-            box-shadow: rgba(51,51,51,.7) 0 0 0.625rem;
+            
             li {
                 cursor: default;
-                padding: 0 .4rem;
+                padding: 0 .8rem;
+                line-height: 2.5rem;
                 &:hover {
-                    background-color: #eee;
+                    background-color: var(--#{theme.$prefix}input-hovered);
                 }
             }
         }
-        
+        .iconfont {
+            display: inline-block;
+            width: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        &.--with-open {
+            .dropdown-pane {
+                display: block;
+            }
+        }
     }
 
     .message-tools {
@@ -146,4 +169,51 @@ ul, li {
 app-message-container {
     background-color: #fafafa;
     height: 0;
+}
+
+.--with-flip {
+    .message-pane {
+        display: none;
+    }
+    .message-body {
+        display: flex;
+    }
+}
+
+@media (min-width: 48rem) {
+    .message-box {
+        height: 70vh;
+        .message-pane {
+            width: 15.625rem;
+        }
+        .message-body {
+            position: relative;
+            display: flex;
+        }
+        .dropdown-box {
+            .dropdown-pane {
+                position: absolute;
+                left: auto;
+                bottom: auto;
+                width: 10rem;
+                z-index: 5;
+                box-shadow: rgba(var(--#{theme.$prefix}mask-rgb),.7) 0 0 0.625rem;
+                li {
+                    padding: 0 .4rem;
+                }
+            }
+        }
+        .message-title-bar {
+            background-color: transparent;
+            color: var(--#{theme.$prefix}body-text);
+            .route-icon {
+                display: none;
+            }
+        }
+    }
+    .--with-flip {
+        .message-pane {
+            display: flex;
+        }
+    }
 }

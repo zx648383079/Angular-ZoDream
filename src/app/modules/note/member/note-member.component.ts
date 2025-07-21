@@ -9,9 +9,9 @@ import { emptyValidate } from '../../../theme/validators';
 
 @Component({
     standalone: false,
-  selector: 'app-note-member',
-  templateUrl: './note-member.component.html',
-  styleUrls: ['./note-member.component.scss']
+    selector: 'app-note-member',
+    templateUrl: './note-member.component.html',
+    styleUrls: ['./note-member.component.scss']
 })
 export class NoteMemberComponent implements OnInit {
 
@@ -39,6 +39,10 @@ export class NoteMemberComponent implements OnInit {
             this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapBack() {
+        history.back();
     }
 
     public tapEdit(modal: DialogEvent, item?: INote) {

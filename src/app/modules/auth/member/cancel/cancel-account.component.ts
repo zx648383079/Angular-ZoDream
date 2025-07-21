@@ -40,6 +40,10 @@ export class CancelAccountComponent implements AfterViewInit {
         });
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         this.toastrService.confirm($localize `Confirming account cancellation? You can't log in again after submitting!`, () => {
             e?.enter();

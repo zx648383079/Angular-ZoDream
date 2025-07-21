@@ -1,9 +1,11 @@
 @use '../../app/theme/theme';
 
 .step-header {
+    --#{theme.$prefix}step-text: var(--#{theme.$prefix}meta-text);
+    --#{theme.$prefix}step-selected-text: var(--#{theme.$prefix}primary);
     text-align: center;
     .step-item {
-        color: #ccc;
+        color: var(--#{theme.$prefix}step-text);
         display: inline-block;
         &::after {
             display: block;
@@ -11,7 +13,7 @@
             clear: both;
         }
         &.active {
-            color: #b4a078;
+            color: var( --#{theme.$prefix}step-selected-text);
         }
     }
     .step-no {
@@ -29,10 +31,12 @@
     .step-line {
         display: block;
         float: right;
-        height: 1px;
-        background: #e5e9ef;
-        width: 60px;
-        margin: 11px 10px 0;
+        color: var(--#{theme.$prefix}step-text);
+        padding: 0 .2rem;
+        &::after {
+            content: '/';
+            display: block;
+        }
     }
 }
 
@@ -98,5 +102,20 @@
         display: block;
         font-size: 3rem;
         color: #b4a078;
+    }
+}
+
+@media (min-width: 48rem) {
+    .step-header {
+        .step-line {
+            height: 1px;
+            background-color: var(--#{theme.$prefix}step-text);
+            width: 60px;
+            margin: 11px 10px 0;
+            padding: 0;
+            &::after {
+                display: none;
+            }
+        }
     }
 }

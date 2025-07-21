@@ -30,7 +30,11 @@ export class ThemeService {
     /**
      * 导航样式变更结果通知
      */
-    public readonly navigationChanged = new BehaviorSubject<INavigationDisplay>(null);
+    public readonly navigationChanged = new BehaviorSubject<INavigationDisplay>({
+        mode: NavigationDisplayMode.Inline,
+        paneWidth: 0,
+        bodyWidth: 0
+    });
     /**
      * 搜索文字输入事件
      */

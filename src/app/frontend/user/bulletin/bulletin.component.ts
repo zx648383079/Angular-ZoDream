@@ -44,6 +44,10 @@ export class BulletinComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapToggle(item: IBulletinUser) {
         item.open = !item.open;
         if (item.status > 0) {

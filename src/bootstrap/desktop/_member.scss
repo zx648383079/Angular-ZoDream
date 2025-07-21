@@ -25,7 +25,8 @@
     --#{theme.$prefix}route-border: var(--#{theme.$prefix}border);
     --#{theme.$prefix}route-text: var(--#{theme.$prefix}meta-text);
     display: flex;
-    .back-btn {
+    position: relative;
+    .route-back-icon {
         position: static;
         width: 2.5rem;
         height: 2.5rem;

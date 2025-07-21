@@ -20,6 +20,10 @@ export class DriverComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapRefresh() {
         this.isLoading = true;
         this.service.driverList().subscribe({

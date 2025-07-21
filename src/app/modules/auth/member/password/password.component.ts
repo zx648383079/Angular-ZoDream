@@ -14,7 +14,7 @@ import { MemberService } from '../member.service';
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent {
 
     public tabIndex = 0;
     public user: IUser;
@@ -37,7 +37,12 @@ export class PasswordComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    public tapBack() {
+        if (this.tabIndex > 0) {
+            this.tabIndex = 0;
+            return;
+        }
+        history.back();
     }
 
     public tapSendCode(e: CountdownEvent) {

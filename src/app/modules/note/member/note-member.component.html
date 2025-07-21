@@ -1,9 +1,20 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Note</span>
+        <a class="route-icon" (click)="tapEdit(modal)">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+</div>
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
         <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
-    <div class="btn-group pull-right">
+    <div class="btn-group pull-right  tablet-collapse">
         <a class="btn btn-success" (click)="tapEdit(modal)" i18n>Create</a>
     </div>
 </div>

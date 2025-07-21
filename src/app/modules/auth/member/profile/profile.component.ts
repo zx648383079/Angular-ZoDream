@@ -9,9 +9,9 @@ import { MemberService } from '../member.service';
 
 @Component({
     standalone: false,
-  selector: 'app-member-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-member-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
 
@@ -47,6 +47,10 @@ export class ProfileComponent implements OnInit {
                 this.toastrService.warning(err);
             }
         });
+    }
+
+    public tapBack() {
+        history.back();
     }
 
     public tapStepEdit(name = 'email') {

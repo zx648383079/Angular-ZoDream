@@ -1,28 +1,42 @@
-<div class="message-box">
-    <div class="message-menu">
-        <ng-container *ngFor="let item of navItems; let i = index">
-            <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
-                <ng-container *ngIf="!item.avatar; else elseTemplate">
-                    <div class="icon" *ngIf="!item.avatar">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
-                    </div>
-                </ng-container>
-                <ng-template #elseTemplate>
-                    <div class="avatar">
-                        <img [src]="item.avatar" >
-                    </div>
-                </ng-template>
-                <div class="info">
-                    <div class="name">{{ item.name }}</div>
-                    <p>{{ item.remark }}</p>
-                </div>
+
+
+<div class="message-box" [ngClass]="{'--with-flip': navIndex >= 0}">
+    <div class="message-pane">
+        <div class="tablet-large-header tablet-visible">
+            <div class="tablet-route-header">
+                <a class="route-icon" (click)="tapBack()">
+                    <i class="iconfont icon-chevron-left"></i>
+                </a>
+                <span class="route-title" i18n>Message</span>
             </div>
-        </ng-container>
-        
+        </div>
+        <div class="pane-body">
+            <ng-container *ngFor="let item of navItems; let i = index">
+                <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
+                    <ng-container *ngIf="!item.avatar; else elseTemplate">
+                        <div class="icon" *ngIf="!item.avatar">
+                            <i class="iconfont" [ngClass]="item.icon"></i>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <div class="avatar">
+                            <img [src]="item.avatar" >
+                        </div>
+                    </ng-template>
+                    <div class="info">
+                        <div class="name">{{ item.name }}</div>
+                        <p>{{ item.remark }}</p>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
     </div>
     <div class="message-body">
-        <div class="title-bar">
-            <span>
+        <div class="message-title-bar">
+            <a class="route-icon" (click)="tapBack()">
+                <i class="iconfont icon-chevron-left"></i>
+            </a>
+            <span class="control-body">
                 <ng-container *ngIf="!currentUser || currentUser.id <= 1; else elseTemplate" i18n>
                     System Messages
                 </ng-container>
@@ -30,9 +44,9 @@
                     Chat with "{{ currentUser.name }}"
                 </ng-template>
             </span>
-            <div class="drop-menu-box" [hidden]="!currentUser || currentUser.id <= 1">
-                <i class="iconfont icon-ellipsis-v"></i>
-                <div class="menu-body">
+            <div class="dropdown-box" [ngClass]="{'--with-open': dropdownVisible}">
+                <i class="iconfont icon-ellipsis-v" (click)="openDropdown()"></i>
+                <div class="dropdown-pane">
                     <ul>
                         <li i18n>Top chat</li>
                         <li i18n>Do Not Disturb</li>
@@ -57,3 +71,5 @@
         </div>
     </div>
 </div>
+
+<div class="tablet-mask tablet-visible" *ngIf="dropdownVisible" (click)="dropdownVisible = false"></div>

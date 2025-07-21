@@ -33,6 +33,10 @@ export class ConnectComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapRefresh() {
         this.isLoading = true;
         this.service.connect().subscribe({

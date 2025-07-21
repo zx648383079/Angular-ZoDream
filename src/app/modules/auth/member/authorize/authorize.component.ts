@@ -20,6 +20,10 @@ export class AuthorizeComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public tapBack() {
+        history.back();
+    }
+
     public tapRefresh() {
         this.isLoading = true;
         this.service.authorizeAppList().subscribe({

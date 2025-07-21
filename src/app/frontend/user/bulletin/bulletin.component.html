@@ -1,3 +1,12 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Bulletin</span>
+    </div>
+</div>
+
 <div class="container">
     <ng-container *ngFor="let item of items">
         <div class="bulletin-item" [ngClass]="{min: !item.open}">

@@ -1,5 +1,21 @@
-<div class="route-bar" *ngIf="crumbs.length > 0">
-    <div class="back-btn" (click)="tapBack()">
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title">
+            <ng-container *ngIf="crumbs.length > 0">
+                {{ crumbs[crumbs.length - 1].name }}
+            </ng-container>
+            <ng-container *ngIf="crumbs.length == 0" i18n>
+                Settings
+            </ng-container>
+        </span>
+    </div>
+</div>
+
+<div class="route-bar tablet-collapse" *ngIf="crumbs.length > 0">
+    <div class="route-back-icon" (click)="tapBack()">
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <nav aria-label="breadcrumb">

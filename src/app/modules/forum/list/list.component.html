@@ -1,4 +1,4 @@
-<div class="container" *ngIf="forum">
+<div class="container tablet-collapse" *ngIf="forum">
     <app-search-bar [keywords]="queries.keywords" [type]="queries.type" (confirm)="tapSearch($event)"></app-search-bar>
     <ul  class="breadcrumb">
         <li class="breadcrumb-item">

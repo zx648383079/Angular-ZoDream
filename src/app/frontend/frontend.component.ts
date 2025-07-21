@@ -47,7 +47,7 @@ export class FrontendComponent implements OnDestroy {
     public friendLinks: ILink[] = [];
     public navExpand = false;
     public fixedTop = false;
-    public diplayMode = NavigationDisplayMode.Compact;
+    public diplayMode = NavigationDisplayMode.Inline;
     public navStyle = true;
     public activeUri = '';
     public site: ISystemOption = {} as any;
@@ -101,6 +101,19 @@ export class FrontendComponent implements OnDestroy {
                 if (this.site.site_pns_beian) {
                     this.site.site_pns_beian_no = this.site.site_pns_beian.match(/\d+/).toString();
                 }
+            }),
+            this.themeService.loginRequest.subscribe(() => {
+                this.loginModal.open();
+            }),
+            this.themeService.navigationDisplayRequest.subscribe(toggle => {
+                setTimeout(() => {
+                    this.diplayMode = toggle;
+                }, 1);
+                this.themeService.navigationChanged.next({
+                    mode: toggle,
+                    paneWidth: 0,
+                    bodyWidth: this.themeService.bodyWidth
+                });
             })
         );
         this.service.friendLinks().subscribe(res => {
@@ -111,16 +124,6 @@ export class FrontendComponent implements OnDestroy {
                 this.routerChanged(event.url);
             }
         });
-        this.subItems.push(this.themeService.loginRequest.subscribe(() => {
-            this.loginModal.open();
-        }));
-        this.subItems.push(
-            this.themeService.navigationDisplayRequest.subscribe(toggle => {
-                setTimeout(() => {
-                    this.diplayMode = toggle;
-                }, 1);
-            })
-        );
     }
 
     public get locationHref() {

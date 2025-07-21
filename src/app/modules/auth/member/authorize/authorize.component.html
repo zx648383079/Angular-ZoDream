@@ -1,5 +1,14 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="tablet-route-header">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Authorized Applications</span>
+    </div>
+</div>
+
 <div class="container">
-    <div class="tip" i18n>
+    <div class="tip tablet-collapse" i18n>
         Authorized Applications
     </div>
     <div class="app-item" *ngFor="let item of items">
