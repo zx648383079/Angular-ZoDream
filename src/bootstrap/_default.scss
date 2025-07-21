@@ -70,6 +70,8 @@ $surface-child: $surface-selected !default;
 $surface-text: rgb(185, 201, 218) !default;
 $surface-selected-text: $surface-text !default;
 
+$repeater: colors.$gray-500 !default; // 占位符
+
 
 $meta-text: #767676 !default;
 $mask: colors.$black !default;
@@ -133,6 +135,7 @@ $input-label: #929292 !default;
     --#{$prefix}surface-text: #{$surface-text};
 
     --#{$prefix}panel: #{$panel};
+    --#{$prefix}repeater: #{$repeater};
 
     --#{$prefix}tertiary: #{$tertiary};
     --#{$prefix}tertiary-text: #{$tertiary-text};

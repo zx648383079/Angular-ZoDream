@@ -55,7 +55,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.router.events.subscribe(event => {
             event = event instanceof Scroll ? event.routerEvent : event;
             if (event instanceof NavigationEnd && this.themeService.tabletChanged.value) {
-                this.themeService.navigationDisplayRequest.next(event.url.endsWith('/user/home') ? NavigationDisplayMode.Inline : NavigationDisplayMode.Collapse);
+                this.themeService.navigationDisplayRequest.next(event.url.endsWith('/user/home') || event.url.endsWith('/user') ? NavigationDisplayMode.Inline : NavigationDisplayMode.Collapse);
             }
             if (event instanceof ActivationEnd) {// 当导航成功结束时执行
                 this.menuService.refresh();

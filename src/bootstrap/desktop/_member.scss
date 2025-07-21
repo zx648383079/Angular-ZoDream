@@ -19,43 +19,45 @@
     }
 }
 
-.route-bar {
-    --#{theme.$prefix}route-btn: var(--#{theme.$prefix}panel);
-    --#{theme.$prefix}route-hover-btn: var(--#{theme.$prefix}body);
-    --#{theme.$prefix}route-border: var(--#{theme.$prefix}border);
-    --#{theme.$prefix}route-text: var(--#{theme.$prefix}meta-text);
-    display: flex;
-    position: relative;
-    .route-back-icon {
-        position: static;
-        width: 2.5rem;
-        height: 2.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        z-index: 9;
-        font-size: 1.875rem;
-        cursor: pointer;
-        background-color: var(--#{theme.$prefix}route-btn);
-        color: var(--#{theme.$prefix}route-text);
-        border: 1px solid var(--#{theme.$prefix}route-border);
-        margin-right: 1rem;
-        margin-left: .8rem;
-        margin-bottom: .8rem;
-        &:hover {
-            background-color: var(--#{theme.$prefix}route-hover-btn);
+
+
+@media (min-width: 48rem) {
+    .route-bar {
+        --#{theme.$prefix}route: transparent;
+        --#{theme.$prefix}route-btn: var(--#{theme.$prefix}panel);
+        --#{theme.$prefix}route-hover-btn: var(--#{theme.$prefix}body);
+        --#{theme.$prefix}route-border: var(--#{theme.$prefix}border);
+        --#{theme.$prefix}route-text: var(--#{theme.$prefix}meta-text);
+        line-height: auto;
+        line-height: 2.5rem;
+        .route-back-icon {
+            padding: 0;
+            position: static;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            z-index: 9;
+            font-size: 1.875rem;
+            cursor: pointer;
+            background-color: var(--#{theme.$prefix}route-btn);
+            color: var(--#{theme.$prefix}route-text);
+            border: 1px solid var(--#{theme.$prefix}route-border);
+            margin-right: 1rem;
+            &:hover {
+                background-color: var(--#{theme.$prefix}route-hover-btn);
+            }
         }
-    }
-    .breadcrumb {
-        margin: 0;
-        line-height: 2.5rem;
-    }
-    .route-title {
-        flex: 1;
-        margin: 0;
-        line-height: 2.5rem;
-        user-select: none;
-        font-weight: 700;
+        .breadcrumb {
+            margin: 0;
+        }
+        .route-title {
+            margin: 0;
+            text-align: left;
+            user-select: none;
+            font-weight: 700;
+        }
     }
 }

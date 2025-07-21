@@ -1,11 +1,12 @@
 .column-item {
+    display: flex;
     width: auto;
-    display: block;
+    // display: block;
     margin: 0;
     margin: 0 -1.25rem;
     .item-icon {
-        width: 60px;
-        height: 60px;
+        // width: 3.75rem;
+        // height: 3.75rem;
         background-color: transparent;
         color: #777;
     }

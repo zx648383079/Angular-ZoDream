@@ -1,30 +1,31 @@
+@use '.././../../theme/theme';
 .project-item {
     position: relative;
-    padding: 10px 10px 10px 80px;
-    height: 100px;
-    .cover {
+    padding: .625rem .625rem .625rem 5rem;
+    height: 6.25rem;
+    .item-cover {
         position: absolute;
-        left: 10px;
-        top: 10px;
+        left: .625rem;
+        top: .625rem;
         img {
-            width: 60px;
-            height: 80px;
+            width: 3.75rem;
+            height: 5rem;
         }
     }
-    .name {
-        font-size: 18px;
-        line-height: 30px;
+    .item-name {
+        font-size: 1.125rem;
+        line-height: 1.875rem;
     }
-    .desc {
-        color: #777;
-        font-size: 13px;
+    .item-desc {
+        color: var(--#{theme.$prefix}meta-text);
+        font-size: .8125rem;
     }
-    .action {
+    .item-action {
         position: absolute;
         right: 10px;
         top: 10px;
     }
     &:not(:last-of-type) {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
     }
 }

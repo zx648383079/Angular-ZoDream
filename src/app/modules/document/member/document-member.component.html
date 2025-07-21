@@ -1,29 +1,75 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="route-bar">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Document</span>
+        <a class="route-icon" routerLink="create">
+            <i class="iconfont icon-plus"></i>
+        </a>
+    </div>
+</div>
 <div class="page-search-bar">
     <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
         <input type="text" class="form-control" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword" [ngModel]="queries.keywords">
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
-    <a class="btn btn-success pull-right" routerLink="create" i18n>Create Document</a>
+    <a class="btn btn-success pull-right tablet-collapse" routerLink="create" i18n>Create Document</a>
 </div>
 
-<div class="project-item" *ngFor="let item of items">
-    <div class="cover">
-        <img [src]="item.cover" alt="">
-    </div>
-    <div class="name">{{ item.name }}</div>
-    <div class="desc">{{ item.description }}</div>
-    <div class="action">
-        <div class="btn-group mr-3">
-            <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]" i18n>Edit</a>
-            <div class="dropdown-bar">
-              <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
-              <div class="dropdown-pane">
-                <a class="btn-info" [routerLink]="['edit', item.id]" i18n>Setting</a>
-                <a class="btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
-              </div>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+
+<div class="tablet-collapse">
+    <div class="project-item" *ngFor="let item of items">
+        <div class="item-cover">
+            <img [src]="item.cover" alt="">
+        </div>
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-desc">{{ item.description }}</div>
+        <div class="item-action">
+            <div class="btn-group mr-3">
+                <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]" i18n>Edit</a>
+                <div class="dropdown-bar">
+                    <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
+                    <div class="dropdown-pane">
+                    <a class="btn-info" [routerLink]="['edit', item.id]" i18n>Setting</a>
+                    <a class="btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
     </div>
 </div>
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+
+<div class="tablet-visible">
+    <app-swipe-list-control>
+        <ng-container *ngFor="let item of items">
+        <app-swipe-control (tapped)="tapItem(item)">
+            <div class="project-item">
+                <div class="item-cover">
+                    <img [src]="item.cover" alt="">
+                </div>
+                <div class="item-name">{{ item.name }}</div>
+                <div class="item-desc">{{ item.description }}</div>
+            </div>
+            <ng-container name="left">
+                <a class="btn-primary" (click)="tapItem(item)">
+                    <i class="iconfont icon-edit"></i>
+                </a>
+                <a class="btn-info" [routerLink]="['edit', item.id]">
+                    <i class="iconfont icon-cog"></i>
+                </a>
+            </ng-container>
+            <ng-container name="right">
+                <a class="btn-danger" (click)="tapRemove(item)">
+                    <i class="iconfont icon-trash"></i>
+                </a>
+            </ng-container>
+        </app-swipe-control>
+        </ng-container>
+    </app-swipe-list-control>
+</div>
+
+
+
 <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>

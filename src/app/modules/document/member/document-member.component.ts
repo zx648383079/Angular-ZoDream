@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { IProject } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { DocumentService } from './document.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-document-member',
-  templateUrl: './document-member.component.html',
-  styleUrls: ['./document-member.component.scss']
+    selector: 'app-document-member',
+    templateUrl: './document-member.component.html',
+    styleUrls: ['./document-member.component.scss']
 })
 export class DocumentMemberComponent implements OnInit {
 
@@ -28,6 +28,7 @@ export class DocumentMemberComponent implements OnInit {
         private service: DocumentService,
         private toastrService: DialogService,
         private route: ActivatedRoute,
+        private router: Router,
         private searchService: SearchService,
     ) { }
 
@@ -36,6 +37,14 @@ export class DocumentMemberComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public tapBack() {
+        history.back();
+    }
+
+    public tapItem(item: IProject) {
+        this.router.navigate([item.type > 0 ? 'api' : 'page', item.id], {relativeTo: this.route});
     }
 
     public tapRefresh() {

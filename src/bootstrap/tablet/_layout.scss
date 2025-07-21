@@ -47,24 +47,25 @@
     }
 }
 
-.tablet-route-header {
-    --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
-    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}primary-text);
-    background-color: var(--#{theme.$prefix}nav);
-    color: var(--#{theme.$prefix}nav-text);
+.route-bar {
+    --#{theme.$prefix}route: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}route-text: var(--#{theme.$prefix}primary-text);
+    background-color: var(--#{theme.$prefix}route);
+    color: var(--#{theme.$prefix}route-text);
     display: flex;
     align-items: center;
     line-height: 3rem;
-
+    position: relative;
     .route-title {
         flex: 1;
         text-align: center;
     }
-    .route-icon {
+    .route-icon,
+    .route-back-icon {
         min-width: 2.5rem;
         text-align: center;
         display: inline-block;
-        color: var(--#{theme.$prefix}nav-text);
+        color: var(--#{theme.$prefix}route-text);
         padding: 0 .4rem;
     }
     .route-pane {
@@ -194,7 +195,7 @@
     }
     .--with-tablet-header {
         margin-top: 3rem;
-        .tablet-route-header,
+        .route-bar,
         .tablet-search-header {
             position: fixed;
             top: 0;

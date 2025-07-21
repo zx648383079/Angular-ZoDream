@@ -68,7 +68,6 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
             }
         }
         this.lazyLoading.emit();
-        
     }
 
     @HostListener('window:scroll', [])

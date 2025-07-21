@@ -9,6 +9,7 @@ import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { DocumentSharedModule } from '../shared';
 import { DesktopModule } from '../../../components/desktop';
+import { TabletModule } from '../../../components/tablet';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { DesktopModule } from '../../../components/desktop';
         DocumentMemberRoutingModule,
         ThemeModule,
         DesktopModule,
+        TabletModule,
         ReactiveFormsModule,
         ZreEditorModule,
         DocumentSharedModule,

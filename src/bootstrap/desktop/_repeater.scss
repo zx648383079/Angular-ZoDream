@@ -1,0 +1,44 @@
+@use 'sass:math';
+@use '../../app/theme/theme';
+@use '../rfs';
+
+// 占位符
+
+$grid-columns:                12 !default;
+
+.repeater {
+    --#{theme.$prefix}repeater-size: .8rem;
+    display: block;
+    background-color: var(--#{theme.$prefix}repeater);
+    height: var(--#{theme.$prefix}repeater-size);
+    margin: .4rem;
+    &.--with-half {
+        width: 50%;
+    }
+    &.--with-quarter {
+        width: 25%;
+    }
+    @for $i from 1 through $grid-columns {
+        &.--with-#{$i} {
+            width: math.percentage(rfs.divide($i, $grid-columns))
+        }
+    }
+    &.--with-circle {
+        width: var(--#{theme.$prefix}repeater-size);
+        height: var(--#{theme.$prefix}repeater-size);
+        border-radius: 50%;
+    }
+}
+
+.--with-animated {
+    .repeater {
+        opacity: 1;
+        animation: repeater-glow 2s ease-in-out infinite;
+    }
+}
+
+@keyframes repeater-glow {
+    50% {
+        opacity: .3;
+    }
+}
