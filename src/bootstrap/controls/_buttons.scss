@@ -302,3 +302,11 @@ $btn-active-border-tint-amount:   10% !default;
         @include mixins.border-start-radius(0);
     }
 }
+
+
+@each $color, $value in $theme-colors {
+    .text-#{$color} {
+        --#{$prefix}table-color: var(--#{$prefix}#{$color});
+        color: var(--#{$prefix}#{$color});
+    }
+}
