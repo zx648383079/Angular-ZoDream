@@ -9,14 +9,14 @@
     background-color: var(--#{theme.$prefix}panel);
     padding: 1.25rem 0.625rem;
     margin-bottom: 1.25rem;
-    color: #555;
+    color: var(--#{theme.$prefix}meta-text);
     .avatar {
         text-align: center;
         img {
             padding: 0.125rem;
             max-width: 7.5rem;
             height: auto;
-            border: 1px solid #eee;
+            border: 1px solid var(--#{theme.$prefix}border);
         }
     }
     .name {
@@ -28,21 +28,21 @@
     .desc {
         line-height: 1.875rem;
         text-align: center;
-        border-top: 1px dotted #ccc;
-        border-bottom: 1px dotted #ccc;
+        border-top: 1px dotted var(--#{theme.$prefix}border);
+        border-bottom: 1px dotted var(--#{theme.$prefix}border);
     }
     .links {
         margin-top: 0.625rem;
         line-height: 1.875rem;
         a {
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
             display: inline-block;
             width: 45%;
             padding: 0 0.625rem;
             text-decoration: none;
             &:hover {
                 border-radius: 0.25rem;
-                background: #eee;
+                background-color: var(--#{theme.$prefix}meta-text);
             }
         }
     }
@@ -53,7 +53,7 @@
     margin-bottom: 3.125rem;
     .heading {
         p {
-            color: rgb(179, 177, 177);
+            color: var(--#{theme.$prefix}meta-text);
             font-size: 0.9375rem;
             margin: 1.2% 0px;
             line-height: 1.6em;
@@ -64,10 +64,10 @@
     textarea {
         width: 100%;
         padding: 0.75rem 0.75rem;
-        border: 1px solid #BDBCBC;
+        border: 1px solid var(--#{theme.$prefix}border);
         font-size: 0.9375rem;
         margin-bottom: 1.5em;
-        color: #808080;
+        color: var(--#{theme.$prefix}meta-text);
         outline: none;
         font-weight: 400;
     }
@@ -77,7 +77,7 @@
     }
     .btn {
         width: 6.25rem;
-        border: 1px solid #a10000;
+        border: 1px solid var(--#{theme.$prefix}primary);
         border-radius: 0;
     }
 }
@@ -122,13 +122,13 @@
     }
     .about-bottom {
         h4 {
-            color: rgb(34, 34, 34);
+            color: var(--#{theme.$prefix}body-text);
             font-size: 1.2em;
             margin: 2.1% 0px 0px;
             line-height: 1.3em;
         }
         p {
-            color: #b3b1b1;
+            color: var(--#{theme.$prefix}meta-text);
             font-size: 0.9375rem;
             margin: 0.3125rem 0rem 0rem;
             line-height: 1.6em;
@@ -136,7 +136,7 @@
     }
     .autograph {
         line-height: 1.875rem;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         text-align: right;
     }
 }

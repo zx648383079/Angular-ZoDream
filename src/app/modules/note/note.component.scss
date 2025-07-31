@@ -1,4 +1,10 @@
-$shadow: rgba(33,33,33,.7);
+@use '../../theme/theme';
+
+
+$note: #ffc;
+$note-text: #686868;
+
+$shadow: rgba(var(--#{theme.$prefix}mask-rgb),.2);
 .container {
     margin: 100px auto;
 }
@@ -6,16 +12,16 @@ $shadow: rgba(33,33,33,.7);
     position: relative;
     box-shadow: 3px 3px 4px $shadow;
     padding: 0.625rem;
-    background: #ffc;
+    background-color: $note;
     margin-bottom: 1.25rem;
     .item-action {
         padding: 0.325rem 0.325rem 0;
         height: 1.25rem;
-        color: #777;
+        color: var(--#{theme.$prefix}meta-text);
         display: flex;
         justify-content: space-between;
         .icon-check {
-            color: green;
+            color: var(--#{theme.$prefix}primary);
         }
     }
     .pull-right {
@@ -37,10 +43,10 @@ $shadow: rgba(33,33,33,.7);
         left: calc(50% - 10px);
         width: 20px;
         height: 20px;
-        background-color: #f00;
+        background-color:  var(--#{theme.$prefix}danger);
         top: 0px;
         display: block;
-        border: 5px solid #767;
+        border: 5px solid var(--#{theme.$prefix}border);
         border-radius: 50%;
         box-shadow: 2px 2px 3px $shadow;
     }
@@ -49,7 +55,7 @@ $shadow: rgba(33,33,33,.7);
     box-sizing: border-box;
     padding: 10px;
     text-decoration: none;
-    background: #ffc;
+    background-color: $note;
     display: block;
     position: relative;
     box-shadow: 3px 3px 4px $shadow;
@@ -59,9 +65,9 @@ $shadow: rgba(33,33,33,.7);
         padding: 10px;
         height: auto;
         font-size: 20px;
-        color: #686868;
+        color: $note-text;
         box-sizing: border-box;
-        border: 1px solid #ccc;
+        border: 1px solid var(--#{theme.$prefix}border);
         word-break: break-all;
     }
     .item-action {
@@ -77,15 +83,15 @@ $shadow: rgba(33,33,33,.7);
             border-radius: 50%;
             width: 20px;
             height: 20px;
-            background-color: #fff;
-            color: #f00;
+            background-color: var(--#{theme.$prefix}danger-text);
+            color: var(--#{theme.$prefix}danger);
             text-decoration: none;
         
         line-height: 15px;
         }
     }
     .item-footer {
-        color: #ccc;
+        color: var(--#{theme.$prefix}meta-text);
         font-size: 12px;
         span {
             &:last-child {
@@ -99,10 +105,10 @@ $shadow: rgba(33,33,33,.7);
         left: calc(50% - 10px);
         width: 20px;
         height: 20px;
-        background-color: #ffc;
+        background-color: $note;
         top: 0px;
         display: block;
-        border: 5px solid #767;
+        border: 5px solid var(--#{theme.$prefix}border);
         border-radius: 50%;
         box-shadow: 2px 2px 3px $shadow;
     }

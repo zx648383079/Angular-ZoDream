@@ -90,6 +90,6 @@ export class DocumentService {
     }
 
     public versionRemove(project: number, version: number) {
-        return this.http.post<IDataOne<true>>('doc/member/project/version_remove', {project, version});
+        return this.http.post<IDataOne<true>>('doc/member/project/version_delete', {project, version});
     }
 }

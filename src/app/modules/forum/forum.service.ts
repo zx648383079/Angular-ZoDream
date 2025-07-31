@@ -71,7 +71,7 @@ export class ForumService {
     }
 
     public postRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('forum/thread/remove_post', {params: {id}});
+        return this.http.delete<IDataOne<boolean>>('forum/thread/delete_post', {params: {id}});
     }
 
     public postChange(data: any) {
@@ -86,6 +86,6 @@ export class ForumService {
     }
 
     public suggestion(params: any) {
-        return this.http.get<IData<IThread>>('forum/home/suggestion', {params}).pipe(map(res => res.data));
+        return this.http.get<IData<IThread>>('forum/home/suggest', {params}).pipe(map(res => res.data));
     }
 }

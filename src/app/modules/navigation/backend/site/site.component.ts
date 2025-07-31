@@ -10,9 +10,9 @@ import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
-  selector: 'app-site',
-  templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+    selector: 'app-site',
+    templateUrl: './site.component.html',
+    styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnInit {
 

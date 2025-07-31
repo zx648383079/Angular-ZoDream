@@ -38,7 +38,7 @@ export class ResourceService {
     }
 
     public resourceSuggest(params: any) {
-        return this.http.get<IData<IResource>>('res/home/suggestion', {params});
+        return this.http.get<IData<IResource>>('res/home/suggest', {params});
     }
 
     public commentList(params: any) {

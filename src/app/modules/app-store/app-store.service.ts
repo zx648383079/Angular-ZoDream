@@ -30,7 +30,7 @@ export class AppStoreService {
     }
 
     public appSuggest(params: any) {
-        return this.http.get<IData<ISoftware>>('app/software/suggestion', {params});
+        return this.http.get<IData<ISoftware>>('app/software/suggest', {params});
     }
 
     public commentList(params: any) {

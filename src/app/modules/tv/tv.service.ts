@@ -34,7 +34,7 @@ export class TvService {
     }
 
     public movieSuggest(params: any) {
-        return this.http.get<IData<IMovie>>('tv/movie/suggestion', {params});
+        return this.http.get<IData<IMovie>>('tv/movie/suggest', {params});
     }
 
     public musicList(params: any) {
@@ -42,7 +42,7 @@ export class TvService {
     }
 
     public musicSuggest(params: any) {
-        return this.http.get<IData<IMusic>>('tv/music/suggestion', {params});
+        return this.http.get<IData<IMusic>>('tv/music/suggest', {params});
     }
 
     public batch(data: {
