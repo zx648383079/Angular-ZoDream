@@ -1,7 +1,7 @@
 <ul class="tree-box">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: item}"></ng-container>
-    </ng-container>
+    }
 </ul>
 
 <ng-template #fileItemTpl let-file>

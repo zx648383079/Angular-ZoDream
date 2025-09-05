@@ -20,7 +20,7 @@
         <i class="iconfont icon-plus"></i>
         添加
     </div>
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="list-book-item">
             <div class="thumb">
                 <img [src]="item.book.cover" alt="">
@@ -44,7 +44,7 @@
                 <textarea class="form-control" [(ngModel)]="item.remark" placeholder="添加理由"></textarea>
             </p>
         </div>
-    </ng-container>
+    }
 </div>
 
 <div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">

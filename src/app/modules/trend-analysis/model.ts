@@ -49,3 +49,18 @@ export interface ITrendStatistics {
     pv: number;
     uv: number;
 }
+
+export interface ITrendLog {
+    id: number;
+    ip: string;
+    method: string;
+    hostname: string;
+    pathname: string;
+    queries?: string;
+    user_agent: string;
+    status_code: number;
+    user_id: number;
+    referrer_hostname?: string;
+    referrer_pathname?: string;
+    created_at: string;
+}

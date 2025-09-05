@@ -7,9 +7,9 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 
 @Component({
     standalone: false,
-  selector: 'app-trend-analysis',
-  templateUrl: './trend-analysis.component.html',
-  styleUrls: ['./trend-analysis.component.scss']
+    selector: 'app-trend-analysis',
+    templateUrl: './trend-analysis.component.html',
+    styleUrls: ['./trend-analysis.component.scss']
 })
 export class TrendAnalysisComponent {
 
@@ -32,6 +32,11 @@ export class TrendAnalysisComponent {
                     name: $localize `Trend analysis`,
                     icon: 'icon-bar-chart',
                     url: './trend/analysis'
+                },
+                {
+                    name: $localize `Page View Logs`,
+                    icon: 'icon-calendar',
+                    url: './trend'
                 }
             ]
         },

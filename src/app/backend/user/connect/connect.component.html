@@ -5,17 +5,21 @@
         </ul>
     </app-page-tip>
     <div class="panel-container">
-        <div class="connect-item" *ngFor="let item of items">
+        @for (item of items; track $index) {
+        <div class="connect-item">
             <div class="item-body">
                 <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
                 {{ item.name }}
-                <ng-container *ngIf="item.id">
+                @if (item.id) {
                     ({{ item.nickname }})
-                </ng-container>
+                }
             </div>
             <div class="item-action">
-                <a data-type="del" *ngIf="item.id">解绑</a>
+                @if (item.id) {
+                    <a data-type="del">解绑</a>
+                }
             </div>
         </div>
+        }
     </div>
 </div>

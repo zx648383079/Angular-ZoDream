@@ -3,7 +3,7 @@
         <span i18n>Feedback and Messages</span>
     </div>
     <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="message-list-item">
                 <div class="item-body">
                     <div class="quote">
@@ -15,6 +15,6 @@
                     <span class="time">{{ item.created_at | ago }}</span>
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

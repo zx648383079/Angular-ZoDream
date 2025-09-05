@@ -28,7 +28,8 @@
     </div>
     <div class="picker-body">
         <ul>
-            <li class="option-item" *ngFor="let item of items" [ngClass]="{active: value && item.id == value.id}" (click)="tapItem(item)">
+            @for (item of items; track $index) {
+            <li class="option-item" [ngClass]="{active: value && item.id == value.id}" (click)="tapItem(item)">
                 <div class="item-avatar">
                     <img [src]="item.avatar|asset" [alt]="item.name">
                 </div>
@@ -41,6 +42,7 @@
                     </div>
                 </div>
             </li>
+            }
         </ul>
     </div>
 </div>

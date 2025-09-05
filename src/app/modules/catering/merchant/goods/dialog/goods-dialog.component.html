@@ -37,7 +37,8 @@
                 <ng-select></ng-select>
             </div>
             <div class="multiple-panel"  [hidden]="tabIndex < 1">
-                <div class="input-flex" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="input-flex">
                     <div class="input-action" [hidden]="!multipleEditable">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(item)"></i>
                         <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
@@ -45,6 +46,7 @@
                     <label>{{ item.name }}<em class="unit">/{{ item.unit }}</em></label>
                     <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
                 </div>
+                }
                 <div class="btn btn-info" (click)="tapEditLine()">
                     <i class="iconfont icon-plus"></i>
                 </div>

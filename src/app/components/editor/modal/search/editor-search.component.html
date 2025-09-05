@@ -4,7 +4,7 @@
         <i class="iconfont icon-search"></i>
     </div>
     <ul class="modal-search-body">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <li [ngClass]="{active: isSelected(item)}" (click)="tapSelect(item)">
                 <div class="item-action btn-primary">
                     <i class="iconfont icon-check"></i>
@@ -13,7 +13,7 @@
                     {{ item.name }}
                 </span>
             </li>
-        </ng-container>
+        }
     </ul>
     <div class="modal-action">
         <div class="btn btn-outline-secondary" (click)="visible = false">取消</div>

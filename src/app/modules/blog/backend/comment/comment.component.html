@@ -27,23 +27,22 @@
                 </tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <tr>
                         <td (click)="item.toggled = !item.toggled">
                             {{ item.id }}
                             <i class="iconfont" [ngClass]="{'icon-angle-double-down': !item.toggled, 'icon-angle-double-up': item.toggled}"></i>
                         </td>
                         <td>
-                            <ng-container *ngIf="item.user_id; else elseTemplate">
+                            @if (item.user_id) {
                                 <a (click)="tapUser(item.user_id)">
                                     {{ item.name }}
                                 </a>
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <a>
                                     {{ item.name }}
                                 </a>
-                            </ng-template>
+                            }
                         </td>
                         <td class="auto-hide">
                             <a>
@@ -52,18 +51,23 @@
                         </td>
                         <td>{{ item.content }}</td>
                         <td class="auto-hide">
-                            <a *ngIf="item.blog" [routerLink]="['/blog', item.blog.id]">
-                                {{ item.blog.title }}
-                            </a>
+                            @if (item.blog) {
+                                <a [routerLink]="['/blog', item.blog.id]">
+                                    {{ item.blog.title }}
+                                </a>
+                            }
                         </td>
                         <td>
                             <div class="btn-group btn-group-xs">
-                                <a class="btn btn-success" *ngIf="item.approved != 1" (click)="tapApproved(item)">审核</a>
+                                @if (item.approved != 1) {
+                                    <a class="btn btn-success" (click)="tapApproved(item)">审核</a>
+                                }
                                 <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                             </div>
                         </td>
                     </tr>
-                    <tr *ngIf="item.toggled">
+                    @if (item.toggled) {
+                    <tr>
                         <td></td>
                         <td colspan="4">
                             <div class="line-row-item">
@@ -88,7 +92,9 @@
                             </div>
                         </td>
                     </tr>
-                </ng-container>
+                    }
+                    
+                }
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

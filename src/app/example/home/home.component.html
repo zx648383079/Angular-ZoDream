@@ -7,9 +7,11 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.user_today || 0 | numberFormat }}/{{ data.user_yesterday || 0 | numberFormat }}/{{ data.user_count || 0 | numberFormat }}</h3>
                     <p>Today/Yesterday/Total Users</p>
@@ -25,9 +27,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
                     <p>Today/Total Views</p>
@@ -43,9 +47,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.feedback_new || 0 | numberFormat }}/{{ data.feedback_count || 0 | numberFormat }}</h3>
                     <p>未处理/总留言</p>
@@ -61,9 +67,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.report_new || 0 | numberFormat }}/{{ data.report_count || 0 | numberFormat }}</h3>
                     <p>未处理/总投诉</p>
@@ -79,9 +87,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.link_today || 0 | numberFormat }}/{{ data.link_count || 0 | numberFormat }}</h3>
                     <p>Today/总友链</p>
@@ -97,9 +107,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.subscribe_today || 0 | numberFormat }}/{{ data.subscribe_count || 0 | numberFormat }}</h3>
                     <p>Today/Total Subscribe</p>

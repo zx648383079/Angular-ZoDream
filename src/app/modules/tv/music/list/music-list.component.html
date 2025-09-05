@@ -36,21 +36,19 @@
 
 
     <div class="search-body" *ngIf="queries.keywords">
-        <ng-container *ngFor="let item of items">
-            <ng-container *ngFor="let item of items">
-                <a class="music-list-item" [routerLink]="['list', item.id]">
-                    <div class="item-cover">
-                        <img [src]="item.cover | asset" [alt]="item.title">
-                        <div class="item-icon">
-                            <i class="iconfont icon-play"></i>
-                        </div>
+        @for (item of items; track $index) {
+            <a class="music-list-item" [routerLink]="['list', item.id]">
+                <div class="item-cover">
+                    <img [src]="item.cover | asset" [alt]="item.title">
+                    <div class="item-icon">
+                        <i class="iconfont icon-play"></i>
                     </div>
-                    <div class="item-body">
-                        <div class="item-name">{{ item.title }}</div>
-                    </div>
-                </a>
-            </ng-container>
-        </ng-container>
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.title }}</div>
+                </div>
+            </a>
+        }
 
         <div class="row">
             <div class="col-md-12">

@@ -48,8 +48,8 @@
                 <div class="term-desc">{{ category.description }}</div>
             </div>
             <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-            <ng-container *ngFor="let item of items">
-            <div class="article-panel-item" [ngClass]="{'--with-cover': listView == 1, '--with-right-cover': listView == 2}">
+            @for (item of items; track $index) {
+                <div class="article-panel-item" [ngClass]="{'--with-cover': listView == 1, '--with-right-cover': listView == 2}">
                 <div class="item-cover">
                     <img [src]="item.thumb">
                 </div>
@@ -84,7 +84,7 @@
                     </dd>
                 </dl>
             </div>
-            </ng-container>
+            }
             
         </div>
         <div class="book-footer mb-30">

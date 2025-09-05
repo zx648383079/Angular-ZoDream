@@ -1,5 +1,6 @@
 <div class="container">
-    <div class="history-item" *ngFor="let item of items">
+    @for (item of items; track $index) {
+        <div class="history-item">
         <div class="item-logo">
             <img [src]="item.software.icon|asset" alt="">
         </div>
@@ -17,6 +18,7 @@
             <app-button-group [items]="buttonItems"></app-button-group>
         </div>
     </div>
+    }
 
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

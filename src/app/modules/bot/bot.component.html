@@ -1,6 +1,7 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-4 col-xl-3" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="col-12 col-sm-4 col-xl-3">
             <a class="card-item" [routerLink]="['emulate', item.id]">
                 <div class="card-img-top">
                     <img [src]="item.avatar" class="card-img-top" [alt]="item.name">
@@ -10,6 +11,7 @@
                 </div>
             </a>
         </div>
+        }
     </div>
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>

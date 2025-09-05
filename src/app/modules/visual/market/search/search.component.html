@@ -44,7 +44,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6" *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="col-md-6">
                         <div class="large-item">
                             <div class="item-cover">
                                 <img [appLazyLoad]="item.thumb | asset" [alt]="item.name">
@@ -58,6 +59,7 @@
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
 
                 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

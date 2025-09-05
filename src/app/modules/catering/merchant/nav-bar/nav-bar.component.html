@@ -14,13 +14,13 @@
         <li class="menu-item" [ngClass]="{active: selected < 1}" [hidden]="isEditable" (click)="tapSelect()">
             <a i18n>All</a>
         </li>
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <li class="menu-item" [ngClass]="{active: selected == item.id}">
                 <a (click)="tapSelect(item)">{{ item.name }}</a>
                 <div class="menu-action btn-danger" [hidden]="!isEditable" (click)="tapRemove(item)">
                     <i class="iconfont icon-close"></i>
                 </div>
             </li>
-        </ng-container>
+        }
     </ul>
 </div>

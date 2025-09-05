@@ -1,25 +1,33 @@
 <nav aria-label="Page navigation" class="justify-content-center">
     <ul class="pagination">
-        <li class="page-item" *ngIf="directionLinks" [ngClass]="{disabled: canPrevious}">
+        @if (directionLinks) {
+        <li class="page-item" [ngClass]="{disabled: canPrevious}">
             <a class="page-link" (click)="previous()" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only" i18n>Previous</span>
             </a>
         </li>
-        <ng-container *ngFor="let item of items">
+        }
+        @for (item of items; track $index) {
             <li class="page-item" [ngClass]="{active: page == item, disabled: item < 1}">
                 <a class="page-link" (click)="tapItem(item)">{{ item > 0 ? item : '...' }}</a>
             </li>
-        </ng-container>
-        <li class="page-item" *ngIf="directionLinks" [ngClass]="{disabled: canNext}">
+        }
+        @if (directionLinks) {
+        <li class="page-item" [ngClass]="{disabled: canNext}">
             <a class="page-link" (click)="next()" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only" i18n>Next</span>
             </a>
         </li>
+        }
+        
     </ul>
-    <div class="go-input" *ngIf="goto">
+    @if (goto) {
+    <div class="go-input">
         GO
         <input type="number" class="form-control" [value]="page" (keydown)="onKeyDown($event)">
     </div>
+    }
+
 </nav>

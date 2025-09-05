@@ -20,9 +20,11 @@
     <div class="row" *ngIf="isInstalled">
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.income_today | numberFormat }}/{{ data.income_count | numberFormat }}</h3>
                     <p>预计今日/总订单</p>
@@ -38,9 +40,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.display_today | numberFormat }}/{{ data.display_count | numberFormat }}</h3>
                     <p>今日/总佣金</p>
@@ -56,9 +60,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.click_today | numberFormat }}/{{ data.click_count | numberFormat }}</h3>
                     <p>今日/总邀请用户</p>

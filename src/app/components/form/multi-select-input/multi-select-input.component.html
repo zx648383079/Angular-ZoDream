@@ -1,4 +1,4 @@
-<ng-container *ngFor="let item of items">
+@for (item of items; track $index) {
     <div class="select--with-search" [ngClass]="{focus: item.focus, 'select-loading': item.isLoading}">
         <div class="select-input" [ngClass]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
             {{ item.label || placeholder }}
@@ -18,4 +18,4 @@
             </ng-container>
         </div>
     </div>
-</ng-container>
+}

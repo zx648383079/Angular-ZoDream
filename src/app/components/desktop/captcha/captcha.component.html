@@ -1,14 +1,19 @@
-<div class="code-input" *ngIf="visible && data && data.type === 'code'">
+@if (visible && data && data.type === 'code') {
+<div class="code-input">
     <input type="text" [(ngModel)]="value">
     <a (click)="tapRefresh()" i18n-title title="Click refresh">
         <img [src]="data.image" i18n-alt alt="Refresh and retry">
         <i class="iconfont icon-refresh code-refresh-btn"></i>
     </a>
 </div>
+}
 
-<div class="dialog-mask" *ngIf="visible && data && data.type !== 'code'"></div>
+@if (visible && data && data.type !== 'code') {
+<div class="dialog-mask"></div>
+}
 
-<div class="code-modal" *ngIf="visible && data && data.type === 'slide'">
+@if (visible && data && data.type === 'slide') {
+<div class="code-modal">
     <div class="modal-body" [style]="{width: data.width + 'px', height: data.height + 'px'}">
         <ng-container *ngFor="let item of data.imageItems">
             <div class="slide-image" [style]="{'background-image': 'url(\'' + data.image+ '\')', 'background-position': item.x + 'px '+ item.y + 'px', width: item.width + 'px', height: item.height + 'px'}"></div>
@@ -22,7 +27,10 @@
         <i (mousedown)="onMoveStart($event)" [style]="{left: x + 'px'}"></i>
     </div>
 </div>
-<div class="code-modal" *ngIf="visible && data && data.type === 'hint'">
+}
+
+@if (visible && data && data.type === 'hint') {
+<div class="code-modal">
     <div class="modal-body" (click)="onHint($event)">
         <img [src]="data.image" alt="">
         <ng-container *ngFor="let item of maskItems">
@@ -37,3 +45,4 @@
         </a>
     </div>
 </div>
+}

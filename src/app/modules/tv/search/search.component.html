@@ -38,7 +38,7 @@
 
 
 <app-pull-to-refresh  (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore" [loading]="isLoading">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <a class="movie-item"  [routerLink]="['../category', item.cat_id, item.id]">
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
@@ -49,7 +49,7 @@
                 <app-star></app-star>
             </div>
         </a>
-    </ng-container>
+    }
 </app-pull-to-refresh>
 
 

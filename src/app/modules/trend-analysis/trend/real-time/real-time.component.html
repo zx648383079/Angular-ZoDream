@@ -40,7 +40,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>{{ item.country }}</td>
                     <td>{{ item.referrer }}</td>
@@ -51,6 +52,7 @@
                     <td>{{ item.stay_time | timestamp }}</td>
                     <td>{{ item.page_count | numberFormat }}</td>
                 </tr>
+                }
                 
             </tbody>
         </table>

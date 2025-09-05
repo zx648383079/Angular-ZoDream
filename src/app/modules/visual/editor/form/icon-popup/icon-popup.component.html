@@ -11,11 +11,11 @@
         <i class="fa fa-search"></i>
     </div>
     <div class="search-body">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="icon-option-item" [ngClass]="{selected: item.checked}" (click)="tapSelect(item)">
                 <i class="iconfont {{ item.value }}"></i>
                 <span>{{ item.name }}</span>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

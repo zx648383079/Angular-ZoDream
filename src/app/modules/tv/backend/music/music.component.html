@@ -28,7 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>
                         <ng-container *ngIf="item.cover">
                             <img class="cover-img" [src]="item.cover" alt="">
@@ -49,6 +50,7 @@
                         </div>
                     </td>
                 </tr>
+                }
     
             </tbody>
         </table>
@@ -97,7 +99,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of editData.files;let i = index">
+            @for (item of editData.files; track $index;let i = $index) {
+            <tr>
                 <td>
                     <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
                         <option *ngFor="let type of fileTypeItems" [value]="type.value">{{ type.name }}</option>
@@ -110,6 +113,8 @@
                     <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
                 </td>
             </tr>
+            }
+            
         </tbody>
         <tfoot>
             <tr>

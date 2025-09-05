@@ -4,9 +4,11 @@
             <img [src]="'assets/images/logo.png' | asset" alt="">
         </div>
         <ul>
-            <li *ngFor="let item of items" [ngClass]="{active: item.active}">
+            @for (item of items; track $index) {
+                <li [ngClass]="{active: item.active}">
                 <a [routerLink]="item.url">{{ item.name }}</a>
             </li>
+            }
         </ul>
     </div>
     <div class="flex-body">

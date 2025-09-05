@@ -11,7 +11,7 @@
         
     </div>
     <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <a class="article-list-item" [routerLink]="['blog', item.id]">
                 <div class="item-body">
                     <a class="item-title">{{ item.title }}</a>
@@ -19,6 +19,6 @@
                 </div>
                 <div class="item-meta">{{ item.description }}</div>
             </a>
-        </ng-container>
+        }
     </div>
 </div>

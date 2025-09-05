@@ -17,7 +17,7 @@
 
 
 <div class="list-table-control">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="image-row-item">
             <div class="item-cover">
                 <img [appLazyLoad]="item.thumb | asset" [alt]="item.name">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-    </ng-container>
+    }
 </div>
 
 

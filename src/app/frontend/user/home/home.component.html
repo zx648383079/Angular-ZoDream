@@ -1,6 +1,6 @@
 <app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>
 
-<ng-container *ngFor="let item of items">
+@for (item of items; track $index) {
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="item-icon">
             <ng-container *ngIf="item.icon; else elseTemplate">
@@ -19,7 +19,7 @@
             </p>
         </div>
     </a>
-</ng-container>
+}
 
 <div class="route-list-bar tablet-visible">
     <a routerLink="../../micro" class="route-item">

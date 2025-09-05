@@ -34,7 +34,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>[{{ item.course?.name }}●{{ item.course_grade_format }}]{{ item.name }}</td>
                     <td>{{ item.question_count }}</td>
@@ -47,6 +48,7 @@
                         </div>
                     </td>
                 </tr>
+                }
                 
             </tbody>
         </table>

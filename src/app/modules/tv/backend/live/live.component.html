@@ -32,7 +32,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>
                         <ng-container *ngIf="item.thumb">
                             <img [src]="item.thumb" alt="">
@@ -53,6 +54,7 @@
                         </div>
                     </td>
                 </tr>
+                }
     
             </tbody>
         </table>

@@ -30,7 +30,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.template_id }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.content }}</td>
@@ -42,6 +43,7 @@
                         </div>
                     </td>
                 </tr>
+                }
                 
             </tbody>
         </table>

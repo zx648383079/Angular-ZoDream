@@ -1,85 +1,105 @@
-<ng-container *ngIf="!loading; else elseTemplate">
+
+@if (!loading) {
     <table class="table table-hover">
         <thead>
             <tr>
-                <th *ngIf="batchable" width="40">
+                @if (batchable) {
+                <th width="40">
                     <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
                 </th>
-                <ng-container *ngFor="let item of nameItems">
+                }
+                @for (item of nameItems; track $index) {
                     <th (click)="tapSort(item.index)">
                         <span>{{ item.label }}</span>
-                        <i class="iconfont" *ngIf="sortKey == item.index" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        @if (sortKey == item.index) {
+                            <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        }
                     </th>
-                </ng-container>
+                }
                 <th>
                     <div class="drop-menu-btn" [ngClass]="{'open-drop': openDrop}">
                         <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
                         <div class="drop-menu-body">
-                            <div class="menu-item" *ngFor="let item of columnItems; let i = index">
+                            @for (item of columnItems; track $index; let i = $index) {
+                            <div class="menu-item">
                                 <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}" (click)="toggleHidden(i)"></i>
                                 {{ item.label || item.name }}
                             </div>
+                            }
+                            
                         </div>
                     </div>
                 </th>
             </tr>
-            <tr *ngIf="searchable">
+            @if (searchable) {
+            <tr>
                 <td></td>
-                <ng-container *ngFor="let item of nameItems">
+                @for (item of nameItems; track item.index) {
                     <td>
-                        <ng-container *ngIf="item.searchable">
-                            <ng-container *ngIf="item.inputType == 'text' || !item.inputType">
-                                <input type="text" class="form-control" [(ngModel)]="item.value" i18n-placeholder placeholder="Please input keywords">
-                            </ng-container>
-                            <ng-container *ngIf="item.inputType == 'switch'">
-                                <app-switch [(ngModel)]="item.value"></app-switch>
-                            </ng-container>
-                            <ng-container *ngIf="item.inputType == 'select'">
-                                <select class="form-control" [(ngModel)]="item.value">
-                                    <option *ngFor="let option of item.optionItems" [value]="option.value">{{ option.name }}</option>
-                                </select>
-                            </ng-container>
-                        </ng-container>
+                        @if (item.searchable) {
+                            @switch (item.inputType) {
+                                @case ('switch') {
+                                    <app-switch [(ngModel)]="item.value"></app-switch>
+                                }
+                                @case ('select') {
+                                    <select class="form-control" [(ngModel)]="item.value">
+                                        @for (option of item.optionItems; track option.value) {
+                                            <option [value]="option.value">{{ option.name }}</option>
+                                        }
+                                    </select>
+                                }
+                                @default {
+                                    <input type="text" class="form-control" [(ngModel)]="item.value" i18n-placeholder placeholder="Please input keywords">
+                                }
+                            }
+                        }
                     </td>
-                </ng-container>
+                }
                 <td></td>
             </tr>
+            }
         </thead>
         <tbody>
-            <tr *ngFor="let item of filterItems">
+            @for (item of filterItems; track $index) {
+            <tr>
                 <td>
                     <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
                 </td>
-                <ng-container *ngFor="let name of nameItems">
+                @for (name of nameItems; track name.index) {
                     <th>
-                        <ng-container *ngIf="name.format === 'img'">
-                            <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
-                        </ng-container>
-                        <ng-container *ngIf="name.format === 'switch'">
-                            <app-switch [(ngModel)]="item[name.name]"></app-switch>
-                        </ng-container>
-                        <ng-container *ngIf="name.format === 'size'">
-                            {{ item[name.name] | size }}
-                        </ng-container>
-                        <ng-container *ngIf="name.format === 'numberFormat'">
-                            {{ item[name.name] | numberFormat }}
-                        </ng-container>
-                        <ng-container *ngIf="name.format === 'ago'">
-                            {{ item[name.name] | ago }}
-                        </ng-container>
-                        <ng-container *ngIf="name.format === 'timestamp'">
-                            {{ item[name.name] | timestamp }}
-                        </ng-container>
+                        @switch (name.format) {
+                            @case ('img') {
+                                <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
+                            }
+                            @case ('switch') {
+                                <app-switch [(ngModel)]="item[name.name]"></app-switch>
+                            }
+                            @case ('size') {
+                                {{ item[name.name] | size }}
+                            }
+                            @case ('numberFormat') {
+                                {{ item[name.name] | numberFormat }}
+                            }
+                            @case ('ago') {
+                                {{ item[name.name] | ago }}
+                            }
+                            @case ('timestamp') {
+                                {{ item[name.name] | timestamp }}
+                            }
+                        }
                         {{ formatValue(item, name) }}
                     </th>
-                </ng-container>
+                }
                 <td>
                     <ng-container *ngTemplateOutlet="action; context:item">
                     </ng-container>
                 </td>
             </tr>
+            }
+            
         </tbody>
-        <tfoot *ngIf="batchable">
+        @if (batchable) {
+        <tfoot>
             <tr>
                 <td>
                     <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
@@ -94,14 +114,15 @@
                 </td>
             </tr>
         </tfoot>
+        }
+        
     </table>
-    <ng-container *ngIf="total >= 0">
+    @if (total >= 0) {
         <app-pagination [page]="page" [total]="total" [perPage]="perPage" (pageChange)="tapPage($event)">
         </app-pagination>
-    </ng-container>
-</ng-container>
-<ng-template #elseTemplate>
+    }
+} @else {
     <div class="loading-box">
         <app-loading-ring></app-loading-ring>
     </div>
-</ng-template>
+}

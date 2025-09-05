@@ -24,7 +24,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td *ngFor="let key of columnItems;let i = index" [ngClass]="{'auto-hide': i > 3}">
                         {{ formatColumn(item, key) }}
                     </td>
@@ -37,6 +38,7 @@
                         </div>
                     </td>
                 </tr>
+                }
                 
             </tbody>
         </table>

@@ -103,7 +103,8 @@
             <div class="search-body">
                 <ng-container *ngIf="viewTable; else elseTemplate">
                     <div class="row">
-                        <div class="col-md-3" *ngFor="let item of items">
+                        @for (item of items; track $index) {
+                            <div class="col-md-3">
                             <div class="app-item item-style-column">
                                 <div class="item-thumb">
                                     <a [routerLink]="['../category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
@@ -131,10 +132,11 @@
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
                 </ng-container>
                 <ng-template #elseTemplate>
-                    <ng-container *ngFor="let item of items">
+                    @for (item of items; track $index) {
                         <div class="app-item">
                             <div class="item-thumb">
                                 <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
@@ -161,7 +163,7 @@
                                 </ng-template>
                             </div>
                         </div>
-                    </ng-container>
+                    }
                 </ng-template>
             </div>
 

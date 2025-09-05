@@ -1,7 +1,7 @@
 <div class="star-box">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <i class="iconfont" [ngClass]="{'icon-star': value >= item, 'icon-star-o': value < item}" (click)="tapChange(item)"></i>
-    </ng-container>
+    }
     <div class="star-label">
         <ng-container *ngIf="labelVisible">{{ value }}</ng-container>
         <ng-content></ng-content>

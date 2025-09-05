@@ -42,7 +42,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td [hidden]="!isMultiple">
                         <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
@@ -66,6 +67,7 @@
                         </div>
                     </td>
                 </tr>
+                }
             </tbody>
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>

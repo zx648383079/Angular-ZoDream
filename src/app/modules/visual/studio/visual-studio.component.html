@@ -1,6 +1,8 @@
 <div class="studio-container">
     <iframe #browser frameborder="0"></iframe>
-    <div class="loading-mask" *ngIf="isLoading">
+    @if (isLoading) {
+    <div class="loading-mask">
         <app-loading-ring></app-loading-ring>
     </div>
+    }
 </div>

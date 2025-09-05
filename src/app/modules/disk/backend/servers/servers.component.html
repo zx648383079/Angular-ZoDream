@@ -26,13 +26,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.ip }}</td>
                     <td>{{ item.file_count }}</td>
                     <td>{{ item.status }}</td>
                     <td>{{ item.updated_at }}</td>
                 </tr>
+                }
             </tbody>
         
         </table>

@@ -27,7 +27,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>
                         【{{ formatType(item.type) }}】
@@ -42,6 +43,7 @@
                         </div>
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

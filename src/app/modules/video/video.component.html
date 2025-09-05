@@ -5,7 +5,8 @@
     
     <app-pull-to-refresh [more]="hasMore" [loading]="isLoading" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
         <div class="row">
-            <div class="col-md-3 col-xs-6" *ngFor="let item of items" >
+            @for (item of items; track $index) {
+                <div class="col-md-3 col-xs-6" >
                 <div class="video-item"(click)="tapPlay(item)">
                     <div class="cover">
                         <img [src]="item.cover">
@@ -18,6 +19,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
     </app-pull-to-refresh>
 </div>

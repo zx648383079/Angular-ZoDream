@@ -8,9 +8,11 @@
     <div class="row mt-10">
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.forum_count || 0 | numberFormat }}</h3>
                     <p>角色</p>
@@ -26,9 +28,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.thread_today || 0 | numberFormat }}/{{ data.thread_count || 0 | numberFormat }}</h3>
                     <p>今日/总流水</p>
@@ -45,9 +49,11 @@
        
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
                     <p>今日/总流量</p>

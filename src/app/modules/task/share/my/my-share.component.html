@@ -27,7 +27,8 @@
         </div>
     </div>
 
-    <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.task.status < 5}">
+    @for (item of items; track $index) {
+        <div class="task-item" [ngClass]="{finished: item.task.status < 5}">
         <div class="name" (click)="tapView(item)">{{ item.task.name }}</div>
         <div class="desc">{{ item.task.description }}</div>
         <div class="time">{{ item.task.time_length | hour }}</div>
@@ -35,6 +36,7 @@
             <i class="iconfont icon-trash" (click)="tapRemove(item)" title="删除分享"></i>
         </div>
     </div>
+    }
 
 
     <div class="panel-container">

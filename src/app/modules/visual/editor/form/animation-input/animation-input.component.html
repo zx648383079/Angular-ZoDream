@@ -3,7 +3,9 @@
     <div class="control-inline-group">
         <label for="">动效</label>
         <select class="form-control" [(ngModel)]="value.name">
-            <option *ngFor="let item of items" [value]="item.value">{{ item.name }}</option>
+            @for (item of items; track $index) {
+                <option [value]="item.value">{{ item.name }}</option>
+            }
         </select>
     </div>
     <div class="control-inline-group">

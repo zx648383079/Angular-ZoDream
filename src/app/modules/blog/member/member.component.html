@@ -33,7 +33,7 @@
 </div>
 
 <div class="list-table-control">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="row-item" [ngClass]="{'colour-row-item': item.is_localization}">
             <div class="item-header">
                 <div class="tag-bar">
@@ -66,8 +66,7 @@
                 </div>
             </div>
         </div>
-    </ng-container>
-    
+    }
 </div>
 
 

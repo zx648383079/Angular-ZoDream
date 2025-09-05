@@ -1,5 +1,8 @@
 <div class="countdown">
-    <p class="label" *ngIf="label">{{ label }}</p>
+    @if (label) {
+        <p class="label">{{ label }}</p>
+    }
+    
     <p class="time">
         <span>{{ hour | twoPad }}</span>
         :

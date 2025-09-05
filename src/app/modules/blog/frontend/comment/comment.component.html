@@ -50,9 +50,9 @@
         </div>
         <div id="comment-box">
             <app-pull-to-refresh [more]="hasMore" [loading]="isLoading" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <app-comment-item [value]="item" [user]="user" [status]="status" [guestUser]="guestUser" (commenting)="onReply($event)"></app-comment-item>
-                </ng-container>
+                }
             </app-pull-to-refresh>
         </div>
     </div>

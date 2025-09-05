@@ -18,7 +18,7 @@
             </ng-container>
         </div>
         <div class="body-container">
-            <ng-container *ngFor="let item of items">
+            @for (item of items; track $index) {
                 <div class="book-item book-thumb" (click)="tapBook(item)">
                   <div class="cover">
                       <img [src]="item.cover">
@@ -35,7 +35,7 @@
                       <div class="desc">{{ item.description }}</div>
                   </div>
                 </div>
-            </ng-container>
+            }
         </div>
     </div>
 </div>

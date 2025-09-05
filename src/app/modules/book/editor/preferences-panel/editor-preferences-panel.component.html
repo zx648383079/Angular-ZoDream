@@ -8,9 +8,11 @@
         <i class="iconfont icon-plus" (click)="tapAdd()"></i>
     </div>
     <div class="panel-body">
-        <div class="role-item" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="role-item">
             <span>{{ item.name }}</span>
         </div>
+        }
 
         <div class="panel-sub" *ngIf="subOpen">
             <div class="panel-header">

@@ -22,7 +22,8 @@
         正在观看
     </div>
     <div class="panel-body">
-        <div class="large-movie-item" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="large-movie-item">
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
             </div>
@@ -30,6 +31,7 @@
                 <div class="item-name">{{ item.title }}</div>
             </div>
         </div>
+        }
     </div>
 </div>
 
@@ -38,14 +40,14 @@
         我的最爱
     </div>
     <div class="panel-body">
-        <ng-container *ngFor="let item of categories">
+        @for (item of categories; track $index) {
             <a class="large-cat-item" [routerLink]="['category', item.id]">
                 <div class="item-image">
                     <img [src]="item.icon | asset" [alt]="item.name">
                 </div>
                 <div class="item-body">{{ item.name }}</div>
             </a>
-        </ng-container>
+        }
     </div>
 </div>
 
@@ -54,14 +56,14 @@
         影片类型
     </div>
     <div class="panel-body">
-        <ng-container *ngFor="let item of categories">
+        @for (item of categories; track $index) {
             <a class="min-cat-item" [routerLink]="['category', item.id]">
                 <div class="item-image">
                     <img [src]="item.icon | asset" [alt]="item.name">
                 </div>
                 <div class="item-body">{{ item.name }}</div>
             </a>
-        </ng-container>
+        }
     </div>
 </div>
 
@@ -70,7 +72,8 @@
         为观看剧集
     </div>
     <div class="panel-body">
-        <div class="min-movie-item"  *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="min-movie-item" >
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
             </div>
@@ -78,6 +81,7 @@
                 <div class="item-name">{{ item.title }}</div>
             </div>
         </div>
+        }
     </div>
 </div>
 
@@ -86,7 +90,8 @@
         热门推荐
     </div>
     <div class="panel-body">
-        <div class="min-movie-item"  *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="min-movie-item">
             <div class="item-image">
                 <img [src]="item.cover | asset" alt="">
             </div>
@@ -94,5 +99,6 @@
                 <div class="item-name">{{ item.title }}</div>
             </div>
         </div>
+        }
     </div>
 </div>

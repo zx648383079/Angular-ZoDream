@@ -1,4 +1,5 @@
-<div class="panel" *ngFor="let item of items">
+@for (item of items; track $index) {
+<div class="panel">
     <div class="panel-header">
         {{ item.name }}
         <div class="panel-icon">
@@ -29,6 +30,7 @@
         </ng-container>
     </div>
 </div>
+}
 
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="panel-container">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="list-book-item">
                 <div class="thumb">
                     <img [src]="item.book?.cover" alt="">
@@ -56,7 +56,7 @@
                     </a>
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
 
 </div>

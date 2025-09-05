@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="book-item" (click)="tapRead(item)" (contextmenu)="tapContextMenu($event, item)">
                 <div class="cover">
                     <img [src]="item.book.cover">
@@ -11,10 +11,10 @@
                     <div class="desc">{{ item.updated_at | ago }}· {{ item.chapter ? item.chapter.title : '未读' }}</div>
                 </div>
             </div>
-        </ng-container>
-        <ng-container *ngIf="!isLoading && total < 1">
+        }
+        @if (!isLoading && total < 1) {
             <div class="page-empty-tip">The bookshelf is empty</div>
-        </ng-container>
+        }
         
     </app-pull-to-refresh>
 </div>

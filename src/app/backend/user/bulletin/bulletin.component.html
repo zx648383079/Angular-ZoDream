@@ -17,7 +17,7 @@
             </form>
         </div>
 
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="bulletin-item" [ngClass]="{min: !item.open}">
                 <div class="title" (click)="tapToggle(item)">
                     {{ item.bulletin.title }}
@@ -29,10 +29,12 @@
                     <span>发送者：{{ item.bulletin.user_name }}</span>
                     <span>发送时间：{{ item.created_at }}</span>
                     <span>状态：{{ item.status > 0 ? '已阅' : '未读' }}</span>
-                    <a *ngIf="item.open && item.status > 0" (click)="tapRemove(item)">[删除]</a>
+                    @if (item.open && item.status > 0) {
+                        <a (click)="tapRemove(item)">[删除]</a>
+                    }
                 </div>
             </div>
-        </ng-container>
+        }
 
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

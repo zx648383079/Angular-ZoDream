@@ -29,13 +29,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.user?.name }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>{{ item.running }}</td>
                     <td>{{ item.type }}</td>
                 </tr>
+                }
             </tbody>
         
         </table>

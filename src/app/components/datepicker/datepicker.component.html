@@ -1,9 +1,13 @@
-<div class="tablet-mask tablet-visible" *ngIf="calendarVisible" (click)="calendarVisible = false"></div>
+@if (calendarVisible) {
+<div class="tablet-mask tablet-visible" (click)="calendarVisible = false"></div>
+}
+
 <div class="datepicker">
     <div (click)="showCalendar()" class="datepicker__input-container">
         <ng-content></ng-content>
     </div>
-    <div class="datepicker__calendar datepicker__calendar_animate_slide-in" *ngIf="calendarVisible" [ngStyle]="calendarStyle">
+    @if (calendarVisible) {
+    <div class="datepicker__calendar datepicker__calendar_animate_slide-in" [ngStyle]="calendarStyle">
         <div class="picker-header">
             <i class="iconfont icon-backward previousYear" (click)="previousYear()"></i>
             <i class="iconfont icon-chevron-left previousMonth" (click)="previousMonth()"></i>
@@ -12,11 +16,15 @@
             <i class="iconfont icon-forward nextYear" (click)="nextYear()"></i>
         </div>
         <div class="picker-body">
-            <div class="picker-month-grid" *ngIf="gridMode == 0">
+            @if (gridMode == 0) {
+            <div class="picker-month-grid">
                 <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
                 <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li></ul>
             </div>
-            <div class="picker-year-grid" *ngIf="gridMode == 1">
+            }
+            
+            @if (gridMode == 1) {
+            <div class="picker-year-grid">
                 <div class="list-group year">
                     <div class="picker-title" i18n>Year</div>
                     <ul>
@@ -31,29 +39,43 @@
                 </div>
                 <i class="iconfont icon-close" (click)="toggleYear()"></i>
             </div>
-            <div class="picker-day-grid" *ngIf="hasTime && gridMode == 2">
+            }
+
+            @if (hasTime && gridMode == 2) {
+            <div class="picker-day-grid">
                 <div class="list-group hour">
                 <div class="title" i18n>Hour</div>
                 <ul>
-                    <li *ngFor="let item of hourItems" [ngClass]="{active: item == currentHour}" (click)="changeHour(item)">{{ twoPad(item) }}</li>
+                    @for (item of hourItems; track $index) {
+                        <li [ngClass]="{active: item == currentHour}" (click)="changeHour(item)">{{ twoPad(item) }}</li>
+                    }
+                    
                 </ul>
                 </div>
                 <div class="list-group minute">
                 <div class="title" i18n>Minute</div>
                 <ul>
-                    <li *ngFor="let item of minuteItems" [ngClass]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
+                    @for (item of minuteItems; track $index) {
+                        <li [ngClass]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
+                    }
+                    
                 </ul>
                 </div>
                 <div class="list-group second">
                 <div class="title" i18n>Second</div>
                     <ul>
-                        <li *ngFor="let item of secondItems" [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ twoPad(item) }}</li>
+                        @for (item of secondItems; track $index) {
+                            <li [ngClass]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ twoPad(item) }}</li>
+                        }
                     </ul>
                 </div>
                 <i class="iconfont icon-close" (click)="toggleTime($event)"></i>
             </div>
+            }
+            
         </div>
-        <div class="picker-footer" *ngIf="hasTime">
+        @if (hasTime) {
+        <div class="picker-footer">
             <div class="picker-time-box" (click)="toggleTime()">
                 <span>{{ twoPad(currentHour) }}</span>:
                 <span>{{ twoPad(currentMinute) }}</span>:
@@ -61,6 +83,9 @@
             </div>
             <button type="button" (click)="enterChange()" i18n>Ok</button>
         </div>
+        }
 
     </div>
+    }
+    
 </div>

@@ -22,14 +22,14 @@
     <div class="search-body">
         <div class="container-fluid">
             <div class="row">
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <div class="col-md-4">
                         <div class="option-item" [ngClass]="{selected: value && value.id == item.id}" (click)="tapSelected(item)">
                             <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
                             <div class="desc">{{ item.description }}</div>
                         </div>
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
     </div>

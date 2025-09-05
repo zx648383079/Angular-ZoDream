@@ -1,5 +1,5 @@
 <div class="play-list-container" [ngStyle]="boxStyle">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">
                 <i class="iconfont icon-play" *ngIf="item.active"></i>
@@ -20,5 +20,5 @@
                 {{ item.duration | duration }}
             </div>
         </div>
-    </ng-container>
+    }
 </div>

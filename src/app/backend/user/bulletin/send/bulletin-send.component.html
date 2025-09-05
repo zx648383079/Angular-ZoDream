@@ -12,21 +12,29 @@
         <div class="tab-content">
             <div class="list-view" [ngClass]="{'active': !isList}">
                 <ul>
-                    <li *ngFor="let user of lastUsers" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    @for (user of lastUsers; track $index) {
+                    <li (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
                         <div class="info">
                             <p><span class="name">{{ user.username }} </span><span class="time">{{ user.create_at }}</span></p>
-                            <p><span class="content">{{ user.content }}</span> <span class="count" *ngIf="user.count">{{ user.count }}</span></p>
+                            <p><span class="content">{{ user.content }}</span> 
+                                @if (user.count) {
+                                    <span class="count">{{ user.count }}</span>
+                                }
+                            </p>
                             
                         </div>
                     </li>
+                    }
+                    
                 </ul>
             </div>
             <div class="list-view" [ngClass]="{'active': isList}">
                 <ul>
-                    <li *ngFor="let user of users" (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    @for (user of users; track $index) {
+                    <li (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
@@ -35,28 +43,46 @@
                             <p>{{ user.sign }}</p>
                         </div>
                     </li>
+                    }
+                    
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-md-8" *ngIf="currentUser">
+    @if (currentUser) {
+    <div class="col-md-8">
         <div class="title">
             {{ currentUser.username }}
         </div>
         <div>
             <div #box class="message-box">
-                <p class="more" *ngIf="hasMore" (click)="getMore()">加载更多</p>
-                <div *ngFor="let message of messages" [ngClass]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
-                    <div *ngIf="message.type >= 0">
-                        <img class="avatar" *ngIf="message.type == 0" [src]="message.avatar" alt="">
+                @if (hasMore) {
+                    <p class="more" (click)="getMore()">加载更多</p>
+                }
+                @for (message of messages; track $index) {
+                <div [ngClass]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
+                    
+                    @if (message.type >= 0) {
+                    <div>
+                        @if (message.type == 0) {
+                            <img class="avatar" [src]="message.avatar" alt="">
+                        }
+                        
                         <div class="content">
                             {{ message.content }}
                         </div>
-                        <img class="avatar" *ngIf="message.type == 1" [src]="message.avatar" alt="">
+                        @if (message.type == 1) {
+                            <img class="avatar" [src]="message.avatar" alt="">
+                        }
                         <div class="clean-both"></div>
                     </div>
-                    <p *ngIf="message.type == -1">{{ message.create_at }}</p>
+                    }
+                    @if (message.type == -1) {
+                        <p>{{ message.create_at }}</p>
+                    }
                 </div>
+                }
+                
             </div>
             <div class="send-box">
                 <textarea [(ngModel)]="content"></textarea>
@@ -64,5 +90,7 @@
             </div>
         </div>
     </div>
+    }
+
 </div>
 </div>

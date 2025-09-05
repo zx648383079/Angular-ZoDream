@@ -7,12 +7,14 @@
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">
-        <div class="task-item" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="task-item">
             <div class="name">{{ item.name }}</div>
             <div class="desc">{{ item.description }}</div>
             <div class="action">
                 <i class="iconfont icon-plus" (click)="tapItem(item)"></i>
             </div>
         </div>
+        }
     </div>
 </div>

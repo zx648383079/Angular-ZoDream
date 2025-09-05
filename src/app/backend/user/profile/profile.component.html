@@ -7,9 +7,11 @@
                     <div class="input-group-control avatar-input">
                         <label for="avatar">头像</label>
                         <div>
-                            <div class="avatar" *ngIf="data">
+                            @if (data) {
+                            <div class="avatar">
                                 <img [src]="data.avatar">
                             </div>
+                            }
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
                             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)"
                                 accept="image/*" />

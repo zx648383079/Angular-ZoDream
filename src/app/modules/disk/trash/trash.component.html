@@ -8,7 +8,7 @@
         <div class="size">大小</div>
         <div class="time">删除日期</div>
     </div>
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="file-item" (click)="tapFile(item)">
             <div class="check-box" [ngClass]="{checked: item.checked}"></div>
             <div class="file-icon">
@@ -20,5 +20,5 @@
                 <div class="file-time">{{ item.deleted_at | timestamp }}</div>
             </div>
         </div>
-    </ng-container>
+    }
 </div>

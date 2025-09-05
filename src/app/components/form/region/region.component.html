@@ -16,10 +16,10 @@
         </ul>
         <div class="selector-body">
             <ul>
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <li (click)="tapCheckedItem(item)" [ngClass]="{selected: isSelected(item)}">
                         {{ item[rangeLabel] }}</li>
-                </ng-container>
+                }
             </ul>
         </div>
         <div class="selector-footer" *ngIf="canYes">

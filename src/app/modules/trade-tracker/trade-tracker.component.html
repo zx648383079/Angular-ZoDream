@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let item of items">
+            @for (item of items; track $index) {
                 <tr>
                     <td (click)="toggleOpen(item)">{{ item.product?.name }}</td>
                     <td [title]="item.order_count" (click)="toggleOpen(item)">{{ item.order_count | numberFormat }}</td>
@@ -22,7 +22,8 @@
                     <td (click)="toggleOpen(item)">{{ item.channel?.name }}</td>
                     <td [title]="item.created_at" (click)="toggleOpen(item)">{{ item.created_at | ago }}</td>
                 </tr>
-                <tr class="row-body" *ngIf="item.open">
+                @if (item.open) {
+                    <tr class="row-body">
                     <td colspan="5">
                         <div class="inner-container">
                             <div class="row">
@@ -36,7 +37,9 @@
                         </div>
                     </td>
                 </tr>
-            </ng-container>
+                }
+                
+            }
         </tbody>
     </table>
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

@@ -8,9 +8,11 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.course_count || 0 | numberFormat }}</h3>
                     <p>科目</p>
@@ -26,9 +28,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.question_today || 0 | numberFormat }}/{{ data.question_count || 0 | numberFormat }}</h3>
                     <p>今日/总题目</p>
@@ -44,9 +48,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.page_today || 0 | numberFormat }}/{{ data.page_count || 0 | numberFormat }}</h3>
                     <p>今日/总试卷</p>
@@ -62,9 +68,11 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                <div class="overlay" *ngIf="isLoading">
+                @if (isLoading) {
+                <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
+                }
                 <div class="inner">
                     <h3>{{ data.evaluate_today || 0 | numberFormat }}/{{ data.evaluate_count || 0 | numberFormat }}</h3>
                     <p>今日/总测验</p>

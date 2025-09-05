@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { IData, IPage } from '../../theme/models/page';
-import { IJumpLog, ITrendStatistics } from './model';
+import { IData, IDataOne, IPage } from '../../theme/models/page';
+import { IJumpLog, ITrendLog, ITrendStatistics } from './model';
 
 @Injectable({
     providedIn: 'root'
@@ -75,6 +75,20 @@ export class TrendService {
         });
     }
 
+    public logList(params: any) {
+        return this.http.get<IPage<ITrendLog>>('counter/trend/log', {
+            params
+        });
+    }
+
+    public logImport(data: any) {
+        return this.http.post<IDataOne<boolean>>('counter/trend/log_import', data);
+    }
+
+    public analysisMask(data: any) {
+        return this.http.post<IDataOne<boolean>>('counter/trend/analysis_mask', data);
+    }
+
     public trendStatistics(type: string, compare: number) {
         return this.http.get<{
             items: ITrendStatistics[];
@@ -83,6 +97,8 @@ export class TrendService {
             params: {type, compare}
         });
     }
+
+ 
 
     public batch(data: {
         today?: any;

@@ -4,7 +4,6 @@ import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { TrendService } from '../../trend.service';
-import { IItem } from '../../../../theme/models/seo';
 import { TimeTabItems } from '../../model';
 
 @Component({

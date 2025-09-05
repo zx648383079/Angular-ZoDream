@@ -7,7 +7,8 @@
     </div>
 </div>
 <div class="container">
-    <div class="connect-item" *ngFor="let item of items">
+    @for (item of items; track $index) {
+        <div class="connect-item">
         <div class="item-body">
             <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
             {{ item.name }}
@@ -25,6 +26,7 @@
             </ng-template>
         </div>
     </div>
+    }
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>
 

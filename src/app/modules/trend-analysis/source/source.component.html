@@ -54,7 +54,8 @@
             </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ getHeaderValue(item) }}</td>
                     <td>{{ item.pv }}</td>
                     <td>{{ item.uv }}</td>
@@ -62,6 +63,7 @@
                     <td>{{ item.jump_scale | numberFormat }}</td>
                     <td>{{ item.stay_time | hour}}</td>
                 </tr>
+                }
                 
             </tbody>
         </table>

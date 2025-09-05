@@ -3,7 +3,7 @@
         <span i18n>Lastest Resources</span>
     </div>
     <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <a class="media-list-item" [routerLink]="['/res/category', item.cat_id, item.id]">
                 <div class="item-cover">
                     <img [src]="item.thumb" [alt]="item.title">
@@ -16,6 +16,6 @@
                     <div class="item-meta">{{ item.description }}</div>
                 </div>
             </a>
-        </ng-container>
+        }
     </div>
 </div>

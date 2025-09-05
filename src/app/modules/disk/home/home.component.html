@@ -1,5 +1,5 @@
 <div class="share-box">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="share-item">
             <div class="avatar">
                 <img [src]="item.user.avatar">
@@ -14,6 +14,5 @@
                 </p>
             </div>
         </div>
-    </ng-container>
-
+    }
 </div>
