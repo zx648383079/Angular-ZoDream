@@ -9,8 +9,9 @@
     <div class="panel-body">
         <p>{{ item.description }}</p>
     </div>
-    <div class="panel-footer" *ngIf="item.files && item.files.length > 0">
-        <ng-container *ngFor="let it of item.files">
+    @if (item.files && item.files.length > 0) {
+    <div class="panel-footer">
+        @for (it of item.files; track $index) {
             <div class="file-item">
                 <div class="item-tag">
                     <a>{{ it.os }}</a>
@@ -22,13 +23,19 @@
                     {{ item.name }}
                 </div>
                 <div class="item-action">
-                    <a class="btn btn-info" *ngIf="it.url_type < 1" i18n>Download</a>
-                    <a class="btn btn-info" *ngIf="it.url_type > 0 && it.url_type < 3" i18n>Open</a>
-                    <a class="btn btn-info" *ngIf="it.url_type == 3" i18n>Copy</a>
+                    @if (it.url_type < 1) {
+                        <a class="btn btn-info" i18n>Download</a>
+                    } @else if (it.url_type > 0 && it.url_type < 3) {
+                        <a class="btn btn-info" i18n>Open</a>
+                    } @else if (it.url_type == 3) {
+                        <a class="btn btn-info" i18n>Copy</a>
+                    }
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
+    }
+    
 </div>
 }
 

@@ -3,10 +3,16 @@
         <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
         <select name="category" [ngModel]="queries.category" class="form-control">
             <option [value]="0" i18n>Select...</option>
-            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            @for (item of categories; track $index) {
+                <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            }
+            
         </select>
         <select name="type" [ngModel]="queries.type" class="form-control">
-            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+            @for (item of typeItems; track $index) {
+                <option [value]="item.value">{{ item.name }}</option>
+            }
+            
         </select>
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
@@ -31,8 +37,11 @@
                 </div>
                 <div class="item-footer">
                     <div class="item-meta-bar">
-                        <a class="category" *ngIf="item.category" ><i
+                        @if (item.category) {
+                            <a class="category" ><i
                             class="iconfont icon-bookmark"></i><b>{{ item.category.name }}</b></a>
+                        }
+                        
                         <span><i class="iconfont icon-eye"></i><b i18n>
                            {item.status > 0, plural, =true {Reviewed} =false {Pending}}</b>
                         </span>

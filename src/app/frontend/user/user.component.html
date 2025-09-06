@@ -1,13 +1,17 @@
 <div class="member-container" [ngClass]="{container: diplayMode < 3, 'container-full': diplayMode >= 3}">
     <div class="row">
         <div class="col-md-3" [hidden]="diplayMode >= 1">
-            <div class="person-box" *ngIf="user">
+            @if (user) {
+                 <div class="person-box" >
                 <div class="control-avatar">
                     <img [src]="user.avatar|asset" [alt]="user.name">
                 </div>
                 <div class="control-name">
                     {{ user.name }}
-                    <i class="iconfont icon-shield" *ngIf="user.is_verified" i18n-title title="This user is verified"></i>
+                    @if (user.is_verified) {
+                        <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
+                    }
+                    
                 </div>
                 <div class="control-meta">uid: {{ user.id }}</div>
                 <div class="control-desc"></div>
@@ -32,37 +36,45 @@
                         <i class="iconfont icon-map-marker"></i>
                         {{ user.country }}
                     </a>
-                    <a *ngIf="user.mobile">
+                    @if (user.mobile) {
+                    <a>
                         <i class="iconfont icon-mobile"></i>
                         {{ user.mobile }}
                     </a>
+                    }
+                    
                     <a>
                         <i class="iconfont icon-mail"></i>
                         {{ user.email }}
                     </a>
                 </div>
             </div>  
+            }
+           
         </div>
         <div class="col-12" [ngClass]="{'col-md-9': diplayMode < 1}">
             <div class="tab-nav-bar" [ngClass]="{'nav-more-open': moreVisible}">
                 <div class="tab-bar" (click)="moreVisible = false">
-                    <ng-container *ngFor="let item of tabItems">
+                    @for (item of tabItems; track $index) {
                         <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">{{ item.name }}</a>
-                    </ng-container>
+                    }
                 </div>
-                <div class="nav-more-bar" *ngIf="moreItems && moreItems.length > 0">
+                @if (moreItems && moreItems.length > 0) {
+                <div class="nav-more-bar">
                     <div class="more-icon" (click)="moreVisible = !moreVisible">
                         <i class="iconfont icon-ellipsis-v"></i>
                     </div>
                     <div class="more-pane" (click)="moreVisible = false">
-                        <ng-container *ngFor="let item of moreItems">
+                        @for (item of moreItems; track $index) {
                             <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">
                                 <i class="iconfont" [ngClass]="item.icon"></i>
                                 <span>{{ item.name }}</span>
                             </a>
-                        </ng-container>
+                        }
                     </div>
                 </div>
+                }
+                
             </div>
             <div class="tab-nav-body">
                 <router-outlet></router-outlet>
@@ -70,5 +82,8 @@
         </div>
     </div>
 </div>
-<div class="tablet-mask tablet-visible" *ngIf="moreVisible" (click)="moreVisible = false"></div>
+@if (moreVisible) {
+    <div class="tablet-mask tablet-visible" (click)="moreVisible = false"></div>
+}
+
 

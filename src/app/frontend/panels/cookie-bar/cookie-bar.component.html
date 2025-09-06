@@ -1,27 +1,32 @@
-<div class="dialog-cookie-bar" *ngIf="tabIndex > 0">
-    <div class="dialog-header" *ngIf="tabIndex > 1" i18n>Cookie Settings</div>
+@if (tabIndex > 0) {
+<div class="dialog-cookie-bar">
+    @if (tabIndex > 1) {
+        <div class="dialog-header" i18n>Cookie Settings</div>
+    }
+    
     <div class="dialog-body">
         <ng-container i18n>Our website uses some cookies and records your IP address for the purposes of accessibility, security, and managing your access to the telecommunication network. You can disable data collection and cookies by changing your browser settings, but it may affect how this website functions.</ng-container>
         <a href="" i18n>Learn more</a>
-        <ng-container *ngIf="tabIndex > 1">
-            <div class="expand-card" *ngFor="let group of items" [ngClass]="{open: group.open}">
+        @if (tabIndex > 1) {
+            @for (group of items; track $index) {
+            <div class="expand-card"[ngClass]="{open: group.open}">
                 <div class="card-header" (click)="group.open = !group.open">
                     <div class="item-icon">
                         <i class="iconfont" [ngClass]="{'icon-chevron-right': !group.open, 'icon-chevron-down': group.open}"></i>
                     </div>
                     <span class="item-body">{{ group.name }}</span>
                     <div class="item-action">
-                        <ng-container *ngIf="group.required; else elseTemplate">
+                        @if (group.required) {
                             <ng-container i18n>Always active</ng-container>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <app-switch [(ngModel)]="group.active" onLabel="Active" offLabel="Disable"></app-switch>
-                        </ng-template>
+                        }
                     </div>
                 </div>
                 <div class="card-body">
                     <p>{{ group.description }}</p>
-                    <table class="table table-hover" *ngIf="group.items && group.items.length > 0">
+                    @if (group.items && group.items.length > 0) {
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th i18n>Cookie</th>
@@ -30,26 +35,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of group.items">
+                            @for (item of group.items; track item.name) {
+                            <tr>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.time }}</td>
                                 <td>{{ item.description }}</td>
                             </tr>
+                            }
+                            
                         </tbody>
                     </table>
+                    }
+                    
                 </div>
             </div>
-        </ng-container>
+            }
+        }
     </div>
     <div class="dialog-footer">
-        <ng-container *ngIf="tabIndex == 1; else elseTemplate">
+        @if (tabIndex == 1) {
             <div class="btn-group">
                 <a class="btn btn-secondary" (click)="tabIndex = 2" i18n>Cookie Settings</a>
                 <a class="btn btn-primary" (click)="tapAccept()" i18n>Accept All</a>
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <a class="btn btn-primary" (click)="tapAccept()" i18n>Save And Accept</a>
-        </ng-template>
+        }
     </div>
 </div>
+}

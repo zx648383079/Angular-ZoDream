@@ -5,11 +5,11 @@
             <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
         </div>
         <div class="work-body" (contextmenu)="onContext($event)">
-            <ng-container *ngFor="let item of widgetItems$ | async">
+            @for (item of widgetItems$ | async; track $index) {
                 <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
                     <app-editor-widget [value]="item"></app-editor-widget>
                 </div>
-            </ng-container>
+            }
         </div>
         <!-- 编辑widget的样式 -->
         <div class="widget-reflection" (contextmenu)="onContext($event, true)">

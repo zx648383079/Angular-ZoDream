@@ -15,7 +15,10 @@
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categories; track $index) {
+                            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
+                        
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

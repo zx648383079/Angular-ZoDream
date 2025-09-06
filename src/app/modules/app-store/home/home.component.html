@@ -25,7 +25,8 @@
         </div>
 
         <div class="row category-floor">
-            <div class="col-md-4" *ngFor="let item of categories">
+            @for (item of categories; track $index) {
+            <div class="col-md-4">
                 <div class="cat-item">
                     <div class="item-name">
                         {{ item.name }}
@@ -33,11 +34,14 @@
                     <div class="item-desc">
                         {{ item.description }}
                     </div>
-                    <div class="item-meta" *ngIf="item.items">
-                        <ng-container *ngFor="let it of item.items">
+                    @if (item.items) {
+                    <div class="item-meta">
+                        @for (it of item.items; track $index) {
                             <a [routerLink]="['category', it.cat_id, it.id]">{{ it.name }}</a>
-                        </ng-container>
+                        }
                     </div>
+                    }
+                    
                     <div class="item-body">
                         <div class="item-icon">
                             <img [src]="item.thumb|asset" alt="">
@@ -48,6 +52,8 @@
                     </div>
                 </div>
             </div>
+            }
+            
             
         </div>
 
@@ -76,7 +82,8 @@
                 <div class="template-lazy" appLazyLoad (lazyLoading)="loadFeature()">
                     <app-loading-tip [loading]="featureLoading" [visible]="featureLoading || featureItems.length == 0"></app-loading-tip>
                     <div class="row">
-                        <div class="col-md-6" *ngFor="let item of featureItems">
+                        @for (item of featureItems; track $index) {
+                        <div class="col-md-6">
                             <div class="app-item">
                                 <div class="item-thumb">
                                     <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
@@ -95,15 +102,16 @@
                                     </div>
                                 </div>
                                 <div class="item-action">
-                                    <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                    @if (item.price > 0) {
                                         <a [routerLink]="['category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
+                                    } @else {
                                         <a [routerLink]="['category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
-                                    </ng-template>
+                                    }
                                 </div>
                             </div>
                         </div>
+                        }
+                        
                     </div>
                 </div>
                 
@@ -122,12 +130,16 @@
         </div>
         <div class="filter-bar">
             <a routerLink="category" i18n>All categories</a>
-            <a *ngFor="let item of categories" routerLink="search" [queryParams]="{category: item.id, sort: 'new'}">{{ item.name }}</a>
+            @for (item of categories; track $index) {
+                <a routerLink="search" [queryParams]="{category: item.id, sort: 'new'}">{{ item.name }}</a>
+            }
+            
         </div>
         <div class="filter-body" appLazyLoad (lazyLoading)="loadNewest()">
             <app-loading-tip [loading]="newLoading" [visible]="newLoading || newItems.length == 0"></app-loading-tip>
             <div class="row">
-                <div class="col-md-3" *ngFor="let item of newItems">
+                @for (item of newItems; track $index) {
+                <div class="col-md-3">
                     <div class="app-item item-style-column">
                         <div class="item-thumb">
                             <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
@@ -146,15 +158,16 @@
                             </div>
                         </div>
                         <div class="item-action">
-                            <ng-container *ngIf="item.price > 0; else elseTemplate">
+                            @if (item.price > 0) {
                                 <a [routerLink]="['category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <a [routerLink]="['category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
-                            </ng-template>
+                            }
                         </div>
                     </div>
                 </div>
+                }
+                
             </div>
         </div>
     </div>

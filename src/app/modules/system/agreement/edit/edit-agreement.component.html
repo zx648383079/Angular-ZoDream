@@ -2,11 +2,14 @@
 
 <div class="container-fluid">
     <div class="form-table-control panel-container">
-        <div class="language-toggle" *ngIf="languageItems.length > 1">
-            <ng-container *ngFor="let item of languageItems">
+        @if (languageItems.length > 1) {
+        <div class="language-toggle">
+            @for (item of languageItems; track $index) {
                 <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
-            </ng-container>
+            }
         </div>
+        }
+        
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>

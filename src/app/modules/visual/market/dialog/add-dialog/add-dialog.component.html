@@ -1,5 +1,6 @@
-<div class="dialog-mask" *ngIf="visible"></div>
-<div class="search-dialog-container" *ngIf="visible">
+@if (visible) {
+<div class="dialog-mask"></div>
+<div class="search-dialog-container">
     <div class="header-container">
         <p i18n>To be added to the site component library</p>
         <div class="source-item">
@@ -22,14 +23,14 @@
         </form>
     </div>
     <div class="body-container">
-        <ng-container *ngFor="let item of formatItems">
+        @for (item of formatItems; track $index) {
             <div class="option-item" [ngClass]="{selected: isSelected(item)}" (click)="tapSelected(item)">
                 <div class="thumb">
                     <img [src]="item.thumb">
                 </div>
                 <div class="name">{{ item.title }}</div>
             </div>
-        </ng-container>
+        }
     </div>
     <div class="footer-container">
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
@@ -39,3 +40,4 @@
         </div>
     </div>
 </div>
+}

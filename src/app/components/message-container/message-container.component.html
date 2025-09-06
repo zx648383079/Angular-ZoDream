@@ -1,52 +1,55 @@
 <div class="message-container">
-    <p class="message-more" *ngIf="hasMore" (click)="tapMore()" i18n>Load more</p>
-    <ng-container *ngFor="let item of formatItems">
-        <ng-container *ngIf="item.type === 99; else elseTemplate">
+    @if (hasMore) {
+        <p class="message-more" (click)="tapMore()" i18n>Load more</p>
+    }
+    @for (item of formatItems; track $index) {
+        @if (item.type === 99) {
             <p class="message-line">{{ item.content }}</p>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
                 <img class="avatar" [src]="formatAsset(item.user.avatar)">
                 <div class="content">
-                    <ng-container *ngIf="item.type == 1">
-                        <img [src]="getMediaSource(item)">
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 2">
-                        <video [src]="getMediaSource(item)"></video>
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 3">
-                        <app-voice-player [src]="getMediaSource(item)"></app-voice-player>
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 4">
-                        <div class="file-block">
-                            {{ item.content }}
-                            <i class="iconfont icon-download" i18n-title title="Download" (click)="tapDownFile(item)"></i>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 66">
-                        <div class="bonus-block" [ngClass]="{'bonus-open': item.is_open, 'bonus-expired': item.is_expired}" (click)="onRuleTap(item)">
-                            <div class="bonus-header"></div>
-                            <div class="bonus-body"></div>
-                            <div class="bonus-icon" i18n>Open</div>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 80">
-                        <div class="news-block">
-                            <ng-container *ngFor="let news of item.items;let j = index">
-                                <div [ngClass]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
-                                    <div class="news-title">{{ news.title }}</div>
-                                    <div class="news-thumb">
-                                        <img [src]="formatAsset(news.thumb)" [alt]="news.title">
+                    @switch (item.type) {
+                        @case (1) {
+                            <img [src]="getMediaSource(item)">
+                        }
+                        @case (2) {
+                            <video [src]="getMediaSource(item)"></video>
+                        }
+                        @case (3) {
+                            <app-voice-player [src]="getMediaSource(item)"></app-voice-player>
+                        }
+                        @case (4) {
+                            <div class="file-block">
+                                {{ item.content }}
+                                <i class="iconfont icon-download" i18n-title title="Download" (click)="tapDownFile(item)"></i>
+                            </div>
+                        }
+                        @case (66) {
+                            <div class="bonus-block" [ngClass]="{'bonus-open': item.is_open, 'bonus-expired': item.is_expired}" (click)="onRuleTap(item)">
+                                <div class="bonus-header"></div>
+                                <div class="bonus-body"></div>
+                                <div class="bonus-icon" i18n>Open</div>
+                            </div>
+                        }
+                        @case (80) {
+                            <div class="news-block">
+                                @for (news of item.items; track $index;let j = $index) {
+                                    <div [ngClass]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
+                                        <div class="news-title">{{ news.title }}</div>
+                                        <div class="news-thumb">
+                                            <img [src]="formatAsset(news.thumb)" [alt]="news.title">
+                                        </div>
                                     </div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="item.type < 1">
-                        <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)"></app-rule-block>
-                    </ng-container>
+                                }
+                            </div>
+                        }
+                        @default {
+                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)"></app-rule-block>
+                        }
+                    }
                 </div>
             </div>
-        </ng-template>
-    </ng-container>
+        }
+    }
 </div>

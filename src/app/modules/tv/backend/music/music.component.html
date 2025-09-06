@@ -103,7 +103,9 @@
             <tr>
                 <td>
                     <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let type of fileTypeItems" [value]="type.value">{{ type.name }}</option>
+                        @for (type of fileTypeItems; track $index) {
+                            <option [value]="type.value">{{ type.name }}</option>
+                        }
                     </select>
                 </td>
                 <td>

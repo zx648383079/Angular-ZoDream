@@ -21,20 +21,24 @@
                 </div>
                 <div class="name">{{ developer.name }}</div>
                 <div class="desc">{{ developer.description }}</div>
-                <div class="links" *ngIf="developer.links">
-                    <ng-container *ngFor="let link of developer.links">
+                @if (developer.links) {
+                <div class="links">
+                    @for (link of developer.links; track $index) {
                         <a [href]="link.url" target="_blank" [title]="link.title">
                             <i class="iconfont" [ngClass]="link.icon  | iconfont"></i>
                             {{ link.title }}
                         </a>
-                    </ng-container>
+                    }
                 </div>
+                }
+                
             </div>        
         </div>
-
-        <div class="col-md-8" *ngIf="developer.skills">
+        @if (developer.skills) {
+        <div class="col-md-8">
             <div class="simple-panel">
-                <div class="skill-progress-bar" *ngFor="let item of developer.skills">
+                @for (item of developer.skills; track item.name) {
+                <div class="skill-progress-bar">
                     <div class="progress-header">
                         <span class="item-name">{{ item.name }}</span>
                         <span class="item-meta">{{ item.formatted_proficiency }}({{ item.duration }})</span>
@@ -42,19 +46,26 @@
                     <div class="progress-inner">
                         <span class="inner-bar" [ngStyle]="{width: item.proficiency + '%'}"></span>
                     </div>
-                    <div class="skill-meta" *ngIf="item.links">
+                    @if (item.links) {
+                    <div class="skill-meta">
                         <label i18n>Program:</label>
-                        <ng-container *ngFor="let link of item.links;let i = index">
-                            <ng-container *ngIf="i > 0">
+                        @for (link of item.links; track $index;let i = $index) {
+                            @if (i > 0) {
                                 、
-                            </ng-container>
+                            }
                             <a [href]="link.url" target="_blank" [title]="link.title"> {{ link.title }}</a>
-                        </ng-container>
+                        }
                     </div>
+                    }
+                    
                 </div>
+                }
+                
                 
             </div>
         </div>
+        }
+        
     </div>
 
     <div class="simple-panel contact-box">

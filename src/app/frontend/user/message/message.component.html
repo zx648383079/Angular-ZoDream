@@ -11,24 +11,23 @@
             </div>
         </div>
         <div class="pane-body">
-            <ng-container *ngFor="let item of navItems; let i = index">
+            @for (item of navItems; track $index; let i = $index) {
                 <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
-                    <ng-container *ngIf="!item.avatar; else elseTemplate">
+                    @if (!item.avatar) {
                         <div class="icon" *ngIf="!item.avatar">
                             <i class="iconfont" [ngClass]="item.icon"></i>
                         </div>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <div class="avatar">
                             <img [src]="item.avatar" >
                         </div>
-                    </ng-template>
+                    }
                     <div class="info">
                         <div class="name">{{ item.name }}</div>
                         <p>{{ item.remark }}</p>
                     </div>
                 </div>
-            </ng-container>
+            }
         </div>
     </div>
     <div class="message-body">
@@ -37,12 +36,11 @@
                 <i class="iconfont icon-chevron-left"></i>
             </a>
             <span class="control-body">
-                <ng-container *ngIf="!currentUser || currentUser.id <= 1; else elseTemplate" i18n>
+                @if (!currentUser || currentUser.id <= 1) {
                     System Messages
-                </ng-container>
-                <ng-template #elseTemplate i18n>
-                    Chat with "{{ currentUser.name }}"
-                </ng-template>
+                } @else {
+                     Chat with "{{ currentUser.name }}"
+                }
             </span>
             <div class="dropdown-box" [ngClass]="{'--with-open': dropdownVisible}">
                 <i class="iconfont icon-ellipsis-v" (click)="openDropdown()"></i>

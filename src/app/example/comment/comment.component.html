@@ -61,8 +61,8 @@
                 <a href="">Newest</a>
             </div>
         </div>
-
-        <div class="comment-item" *ngFor="let item of commentItems">
+        @for (item of commentItems; track $index) {
+        <div class="comment-item">
             <article class="item-body">
                 <div class="item-author">
                     <img [src]="'assets/images/favicon.png'| asset" alt="">
@@ -101,6 +101,8 @@
                 
             </div>
         </div>
+        }
+        
 
     </div>
 

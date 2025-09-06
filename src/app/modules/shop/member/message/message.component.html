@@ -5,25 +5,23 @@
         </div>
         <div class="message-box">
             <div class="message-menu">
-                <ng-container *ngFor="let item of navItems; let i = index">
+                @for (item of navItems; track $index; let i = $index) {
                     <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
-                        <ng-container *ngIf="!item.avatar; else elseTemplate">
+                        @if (!item.avatar) {
                             <div class="icon" *ngIf="!item.avatar">
                                 <i class="iconfont" [ngClass]="item.icon"></i>
                             </div>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <div class="avatar">
                                 <img [src]="item.avatar" >
                             </div>
-                        </ng-template>
+                        }
                         <div class="info">
                             <div class="name">{{ item.name }}</div>
                             <p>{{ item.remark }}</p>
                         </div>
                     </div>
-                </ng-container>
-                
+                }
             </div>
             <div class="message-body">
                 <div class="title-bar">

@@ -10,11 +10,15 @@
 
             <div class="collapse navbar-collapse" [ngClass]="{show: navExpand}" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <ng-container *ngFor="let item of menus">
+                    @for (item of menus; track $index) {
                         <li class="nav-item" [ngClass]="{active: activeUri === item.url}">
-                            <a class="nav-link" [routerLink]="item.url">{{ item.name }}<span class="sr-only" *ngIf="activeUri === item.url" i18n>(current)</span></a>
+                            <a class="nav-link" [routerLink]="item.url">{{ item.name }}
+                                @if (activeUri === item.url) {
+                                    <span class="sr-only" i18n>(current)</span>
+                                }
+                            </a>
                         </li>
-                    </ng-container>
+                    }
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -22,15 +26,13 @@
                             <i class="iconfont icon-search"></i>
                         </a>
                     </li>
-                    <ng-container *ngIf="!user || userLoading; else elseTemplate">
+                    @if (!user || userLoading) {
                         <li class="nav-item">
-                            <a class="nav-link" (click)="tapLogin()">
-                                <ng-container *ngIf="!userLoading" i18n>Sign in</ng-container>
-                                <ng-container *ngIf="userLoading">Signing in...</ng-container>
+                            <a class="nav-link" (click)="tapLogin()" i18n>
+                                {userLoading, plural, =true {Signing in...} =false {Sign in}}
                             </a>
                         </li>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <li class="nav-item">
                             <app-checkin (checkedChange)="onCheckedChange($event)">
                                 <a class="nav-link" [ngClass]="{disabled: todayChecked}" i18n>{todayChecked, plural, =true {Checked in} =false {Check in}}</a>
@@ -39,28 +41,27 @@
                         <li class="nav-item dropdown" [ngClass]="{show: dropDownVisible}">
                             <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
                                 {{ user.name }}
-                                <ng-container *ngIf="user.bulletin_count > 0">
+                                @if (user.bulletin_count > 0) {
                                     <em class="bubble-tip" title="There are unread messages" i18n-title></em>
-                                </ng-container>
+                                }
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisible}">
-                                <ng-container *ngFor="let item of dropNavItems">
-                                    <ng-container *ngIf="item.name; else elseTemplate">
-                                        <li ngbDropdownItem *ngIf="!item.hidden" (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
+                                @for (item of dropNavItems; track $index) {
+                                    @if (item.name && !item.hidden) {
+                                        <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
                                             {{ item.name }}
-                                            <ng-container *ngIf="item.count > 0">
+                                            @if (item.count > 0) {
                                                 <em class="bubble">{{ item.count  > 99 ? '99+' : item.count }}</em>
-                                            </ng-container>
+                                            }
                                         </a></li>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
+                                    } @else if (!item.hidden) {
                                         <li ngbDropdownItem><hr class="dropdown-divider"></li>
-                                    </ng-template>
-                                </ng-container>
+                                    }
+                                }
                                 <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>
-                    </ng-template>
+                    }
                 </ul>
             </div>
         </div>
@@ -87,21 +88,26 @@
         <div class="friend-link">
             <div i18n>Friend Link</div>
             <div>
-                <ng-container *ngFor="let item of friendLinks">
+                @for (item of friendLinks; track $index) {
                     <a [href]="item.url" target="_blank" rel="noopener"
                         [title]="item.description || item.name">{{ item.name }}</a>
-                </ng-container>
+                }
             </div>
         </div>
         <div class="copyright">
             <p>Copyright ©zodream.cn, All Rights Reserved.</p>
-            <a *ngIf="site?.site_icp_beian" href="https://beian.miit.gov.cn/" target="_blank">{{ site.site_icp_beian }}</a>
-            <p *ngIf="site?.site_pns_beian">
+            @if (site?.site_icp_beian) {
+                <a href="https://beian.miit.gov.cn/" target="_blank">{{ site.site_icp_beian }}</a>
+            }
+            @if (site?.site_pns_beian) {
+            <p>
                 <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site.site_pns_beian_no">
                     <img [src]="'assets/images/beian.png' | asset" alt="备案图标">
                     {{ site.site_pns_beian }}
                 </a>
             </p>
+            }
+            
         </div>
     </div>
 </footer>

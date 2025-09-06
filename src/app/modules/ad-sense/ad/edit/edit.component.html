@@ -5,14 +5,20 @@
             <label for="name">广告名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
-                <div class="input-tip" *ngIf="form.get('name').invalid">请输入广告名</div>
+                @if (form.get('name').invalid) {
+                    <div class="input-tip">请输入广告名</div>
+                }
+                
             </div>
         </div>
         <div class="input-group-control">
             <label for="position_id">广告位</label>
             <div>
                 <select id="position_id" formControlName="position_id" class="form-control">
-                    <option *ngFor="let item of positionItems" [value]="item.id">{{ item.name }}</option>
+                    @for (item of positionItems; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                    }
+                    
                 </select>
 
             </div>
@@ -30,24 +36,35 @@
             </div>
         </div>
         <div class="type-group">
-            <div class="input-group-control" *ngIf="uploadType === 0">
-                <label for="content">内容</label>
-                <div>
-                    <textarea id="content" class="form-control" formControlName="content"></textarea>
-                </div>
-            </div>
-            <div class="input-group-control"  *ngIf="uploadType === 1">
-                <label for="content_url">图片</label>
-                <div>
-                    <app-file-input id="content_url" formControlName="content"></app-file-input>
-                </div>
-            </div>
-            <div class="input-group-control"  *ngIf="uploadType === 2">
-                <label for="file_url">视频</label>
-                <div>
-                    <app-file-input id="file_url" formControlName="content" accept="video/*"></app-file-input>
-                </div>
-            </div>
+            @switch (uploadType) {
+                @case (1) {
+                    <div class="input-group-control">
+                        <label for="content_url">图片</label>
+                        <div>
+                            <app-file-input id="content_url" formControlName="content"></app-file-input>
+                        </div>
+                    </div>
+                }
+                @case (2) {
+                    <div class="input-group-control">
+                        <label for="file_url">视频</label>
+                        <div>
+                            <app-file-input id="file_url" formControlName="content" accept="video/*"></app-file-input>
+                        </div>
+                    </div>
+                }
+                @default {
+                    <div class="input-group-control">
+                        <label for="content">内容</label>
+                        <div>
+                            <textarea id="content" class="form-control" formControlName="content"></textarea>
+                        </div>
+                    </div>
+                }
+            }
+            
+            
+            
         </div>
 
         <div class="input-group-control">

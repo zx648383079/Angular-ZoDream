@@ -27,12 +27,15 @@
                     <td colspan="5">
                         <div class="inner-container">
                             <div class="row">
-                                <div class="col-md-4 col-6" *ngFor="let it of item.price_items">
+                                @for (it of item.price_items; track $index) {
+                                <div class="col-md-4 col-6">
                                     <a class="price-item" [routerLink]="['product', it.product_id]" [queryParams]="{channel: it.channel_id}">
                                         <label for="">{{ it.channel?.name }}</label>
                                         <span>{{ it.price | currency: '￥' }}</span>
                                     </a>
                                 </div>
+                                }
+                                
                             </div>
                         </div>
                     </td>

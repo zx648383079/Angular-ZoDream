@@ -1,18 +1,20 @@
 <div class="container">
     <div class="row tablet-collapse">
-        <div class="col-md-4" *ngFor="let item of linkItems">
-            <ng-container *ngIf="!item.description; else elseTemplate">
+        @for (item of linkItems; track $index) {
+        <div class="col-md-4">
+            @if (!item.description) {
                 <a class="metro-item" [routerLink]="item.url">
                     <div class="name">{{ item.name }}</div>
                 </a>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <a class="metro-item metro-desc" [routerLink]="item.url">
                     <div class="name">{{ item.name }}</div>
                     <div class="desc">{{ item.description }}</div>
                 </a>
-            </ng-template>
+            }
         </div>
+        }
+        
     </div>
 
     <div class="row">

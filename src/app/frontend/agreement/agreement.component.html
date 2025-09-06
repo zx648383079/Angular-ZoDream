@@ -1,5 +1,6 @@
 <div class="container">
-    <div class="agreement-box" *ngIf="data">
+    @if (data) {
+    <div class="agreement-box">
         <div class="update-date">
             <ng-container i18n>Published on:</ng-container>
             <span class="date-value">{{ data.created_at }}</span>
@@ -26,20 +27,29 @@
         <div class="row">
             <div class="col-md-3" [hidden]="!navVisible">
                 <ul class="nav-list">
-                    <li *ngFor="let item of data.content">
+                    @for (item of data.content; track $index) {
+                    <li>
                         <a (click)="tapScrollTo(item)">{{ item.title }}</a>
                     </li>
+                    }
+                    
                 </ul>
             </div>
             <div class="col-12" [ngClass]="{'col-md-9': navVisible}">
-                <div class="nav-panel" *ngFor="let group of data.content" [id]="group.name">
+                @for (group of data.content; track group.name) {
+                <div class="nav-panel" [id]="group.name">
                     <div class="nav-header" >
                         {{ group.title }}
                     </div>
                     <div class="nav-desc">
-                        <p *ngFor="let item of group.children" [ngClass]="{b: item.b}">{{ item.content }}</p>
+                        @for (item of group.children; track $index) {
+                            <p [ngClass]="{b: item.b}">{{ item.content }}</p>
+                        }
+                        
                     </div>
                 </div>
+                }
+                
 
                 <a class="goto-top" (click)="tapToTop()" i18n-title title="Back to Top" [hidden]="!navVisible">
                     <i class="iconfont icon-arrow-up"></i>
@@ -48,4 +58,5 @@
             </div>
         </div>
     </div>
+    }
 </div>

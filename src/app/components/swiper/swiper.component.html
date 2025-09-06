@@ -1,16 +1,25 @@
 <div class="swiper-body" [ngStyle]="bodyStyle">
     <ng-content></ng-content>
 </div>
-<div class="swiper-footer swiper-navigation-dot" *ngIf="navigationVisible">
-    <ng-container *ngFor="let item of items;let i = index">
+@if (navigationVisible) {
+<div class="swiper-footer swiper-navigation-dot">
+    @for (item of items; track $index;let i = $index) {
         <span [ngClass]="{active: i == index}" (click)="tapIndex(i)"></span>
-    </ng-container>
+    }
 </div>
+}
+
 <div class="swiper-action">
-    <div class="swiper-action-previous" *ngIf="previousVisible" (click)="tapPrevious()">
+    @if (previousVisible) {
+    <div class="swiper-action-previous" (click)="tapPrevious()">
         <i class="iconfont icon-chevron-left"></i>
     </div>
-    <div class="swiper-action-next" *ngIf="nextVisible" (click)="tapNext()">
+    }
+    
+    @if (nextVisible) {
+    <div class="swiper-action-next" (click)="tapNext()">
         <i class="iconfont icon-chevron-right"></i>
     </div>
+    }
+
 </div>

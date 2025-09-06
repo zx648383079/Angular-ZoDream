@@ -19,9 +19,9 @@
                         <label for="cat_id">分类</label>
                         <div>
                             <select id="cat_id" class="form-control" formControlName="cat_id">
-                                <ng-container *ngFor="let item of categories">
+                                @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                                </ng-container>
+                                }
                             </select>
         
                         </div>
@@ -70,12 +70,15 @@
                             <app-switch formControlName="is_open_source"></app-switch>
                         </div>
                     </div>
-                    <div class="input-group-control" *ngIf="isOpenSource">
-                        <label for="git_url">源码地址</label>
-                        <div>
-                            <input type="text" id="git_url" class="form-control" formControlName="git_url">
+                    @if (isOpenSource) {
+                        <div class="input-group-control">
+                            <label for="git_url">源码地址</label>
+                            <div>
+                                <input type="text" id="git_url" class="form-control" formControlName="git_url">
+                            </div>
                         </div>
-                    </div>
+                    }
+                    
                     <div class="input-group-control">
                         <label for="official_website">官网</label>
                         <div>

@@ -36,10 +36,12 @@
                 </div>
                 <div class="link-body">
                     <div class="row">
-                        <ng-container *ngFor="let item of friendLinks">
+                        @for (item of friendLinks; track $index) {
                             <div class="col-lg-4">
                                 <div class="link-item" [title]="item.name">
-                                    <a class="item-logo"  *ngIf="item.logo" [href]="item.url" target="_blank" rel="noopener"><img [src]="item.logo" [alt]="item.name"></a>
+                                    @if (item.logo) {
+                                        <a class="item-logo" [href]="item.url" target="_blank" rel="noopener"><img [src]="item.logo" [alt]="item.name"></a>
+                                    }
                                     <div class="item-body">
                                         <a [href]="item.url" target="_blank" rel="noopener" >{{ item.name }}</a>
                                         <div class="item-desc">
@@ -48,7 +50,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
+                        }
                     </div>
                 </div>
             </div>

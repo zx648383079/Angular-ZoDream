@@ -16,7 +16,8 @@
     </div>
 </div>
 
-<div class="container-fluid" *ngIf="categories.length > 0">
+@if (categories.length > 0) {
+<div class="container-fluid">
     <div class="panel">
         <div class="panel-header">
             <div class="inner-header">
@@ -25,12 +26,15 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3" *ngFor="let item of categories">
+                @for (item of categories; track $index) {
+                <div class="col-md-3">
                     <a class="link-item" (click)="tapCategory(item)">
                         <span>{{ item.name }}</span>
                         <i class="iconfont icon-chevron-right"></i>
                     </a>
                 </div>
+                }
+                
             </div>
         </div>
         <div class="panel-footer">
@@ -39,6 +43,8 @@
         </div>
     </div>
 </div>
+}
+
 
 <div class="filter-floor">
     <div class="container-fluid">
@@ -64,12 +70,11 @@
                             </div>
                         </div>
                         <div class="item-action">
-                            <ng-container *ngIf="item.price > 0; else elseTemplate">
+                            @if (item.price > 0) {
                                 <a [routerLink]="[item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <a [routerLink]="[item.id]" class="btn btn-primary" i18n>Get it for free</a>
-                            </ng-template>
+                            }
                         </div>
                     </div>
                 </div>
