@@ -28,7 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.service.name }}</td>
                     <td>{{ item.amount }}</td>
@@ -40,6 +41,7 @@
                         </div>
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

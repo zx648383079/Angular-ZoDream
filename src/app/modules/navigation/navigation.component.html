@@ -11,24 +11,30 @@
         <app-navigation-panel></app-navigation-panel>
     </div>
 
-    <div class="open-icon" *ngIf="openType < 2" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()" i18n-title title="More sites">
-    </div>
+    @if (openType < 2) {
+        <div class="open-icon" [ngClass]="{'opened': openType == 1}" (click)="toggleOpen()" i18n-title title="More sites">
+        </div>
+    }
+    
 
     <app-navigation-site [visible]="openType == 1"></app-navigation-site>
-    <ng-container *ngIf="openType == 2">
-        <div class="loading-tip" *ngIf="isLoading" i18n>
-            Loading ...
-        </div>
-        
-        <div class="empty-tip" *ngIf="!isLoading && total < 1" i18n>
-            Search results are empty
-        </div>
+    @if (openType == 2) {
+        @if (isLoading) {
+            <div class="loading-tip" i18n>
+                Loading ...
+            </div>
+        }
+        @if (!isLoading && total < 1) {
+            <div class="empty-tip" i18n>
+                Search results are empty
+            </div>
+        }
 
-        <ng-container *ngFor="let item of items">
-          <app-navigation-page-container [value]="item" (onAction)="tapItem($event)"></app-navigation-page-container>
-        </ng-container>
+        @for (item of items; track $index) {
+             <app-navigation-page-container [value]="item" (onAction)="tapItem($event)"></app-navigation-page-container>
+        }
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
-    </ng-container>
+    }
 </div>
 
 <app-navigation-page-card></app-navigation-page-card>

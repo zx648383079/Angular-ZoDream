@@ -2,76 +2,78 @@
     <div class="nav-menu nav-pane-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="tapToggle()"></i>
         <ul class="bar-top">
-            <ng-container *ngIf="hasSuggest">
+            @if (hasSuggest) {
                 <li class="search-item">
                     <div class="search-input">
                         <input type="text" [(ngModel)]="suggestText" (keydown)="suggestKeyPress($event)">
                         <i class="iconfont icon-search" (click)="tapSuggest()"></i>
                     </div>
-                    <ul class="search-suggestion" *ngIf="suggestItems && suggestItems.length > 0">
-                        <ng-container *ngFor="let item of suggestItems; let i = index;">
+                    @if (suggestItems && suggestItems.length > 0) {
+                    <ul class="search-suggestion">
+                        @for (item of suggestItems; track $index; let i = $index) {
                             <li (click)="tapSuggestion(i)" [ngClass]="{active: i === suggestIndex}" >{{ formatTitle(item) }}</li>
-                        </ng-container>
+                        }
                     </ul>
+                    }
+                    
                 </li>
-            </ng-container>
-            <ng-container *ngFor="let item of menu">
+            }
+            @for (item of menu; track $index) {
                 <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
-                    <ng-container *ngIf="item.url; else elseTemplate">
+                    @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}" [title]="item.name">
                             <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <a [title]="item.name">
                             <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
-                    </ng-template>
-
-                    <ul class="menu-children" *ngIf="item.children && item.children.length > 0">
-                        <ng-container *ngFor="let child of item.children">
+                    }
+                    @if (item.children && item.children.length > 0) {
+                    <ul class="menu-children">
+                        @for (child of item.children; track child.name) {
                             <li class="menu-item" [ngClass]="{'active': child.active, 'open': child.expand}"
                                 (click)="tapItem(child, $event)">
-                                <ng-container *ngIf="child.url; else elseChildTemplate">
+                                @if (child.url) {
                                     <a [routerLink]="child.url" [queryParams]="child.urlQuery || {}"
                                         [title]="child.name">
                                         <i class="iconfont" [ngClass]="child.icon || 'menu-icon'">{{ child.label }}</i>
                                         <span class="menu-name">{{ child.name }}</span>
                                     </a>
-                                </ng-container>
-                                <ng-template #elseChildTemplate>
+                                } @else {
                                     <a [title]="child.name">
                                         <i class="iconfont" [ngClass]="child.icon || 'menu-icon'">{{ child.label }}</i>
                                         <span class="menu-name">{{ child.name }}</span>
                                     </a>
-                                </ng-template>
+                                }
                             </li>
-                        </ng-container>
+                        }
                     </ul>
+                    }
+                    
                 </li>
-            </ng-container>
+            }
         </ul>
         <ul class="bar-bottom">
-            <ng-container *ngFor="let item of bottomMenu">
+            @for (item of bottomMenu; track $index) {
                 <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
-                    <ng-container *ngIf="item.url; else elseTemplate">
+                    @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
                             <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <a>
                             <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
-                    </ng-template>
+                    }
                 </li>
-            </ng-container>
+            }
         </ul>
     </div>
 
@@ -80,16 +82,19 @@
     </div>
 
     <div class="tablet-tab-bar tablet-visible">
-        <ng-container *ngFor="let item of tabletItems">
-        <a class="tab-item" [ngClass]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
+        @for (item of tabletItems; track $index) {
+            <a class="tab-item" [ngClass]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
             <i class="iconfont item-icon" [ngClass]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>
         </a>
-        </ng-container>
+        }
         <a class="tab-item" (click)="tapToggle()">
             <i class="iconfont icon-bars item-icon"></i>
             <span class="item-body" i18n>More</span>
         </a>
     </div>
-    <div class="pane-mask tablet-visible" *ngIf="displayMode == 3" (click)="tapToggle()"></div>
+    @if (displayMode == 3) {
+        <div class="pane-mask tablet-visible" (click)="tapToggle()"></div>
+    }
+    
 </div>

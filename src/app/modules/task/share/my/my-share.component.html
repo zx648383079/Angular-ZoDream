@@ -17,9 +17,9 @@
                     <label>状态</label>
                     <select name="status" [ngModel]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>
-                        <ng-container *ngFor="let item of statusItems">
+                        @for (item of statusItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

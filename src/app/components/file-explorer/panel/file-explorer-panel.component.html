@@ -1,22 +1,30 @@
 <div class="explorer-panel">
     <div class="panel-header">
-        <div class="action-item" (click)="tapAction(0)" *ngIf="editable">
+        @if (editable) {
+        <div class="action-item" (click)="tapAction(0)">
             <i class="iconfont icon-plus"></i>
             <span>New</span>
         </div>
+        }
+        
         <div class="action-group flex-1">
-            <div class="action-item" (click)="tapAction(1)" *ngIf="editable && checkedItems.length > 0">
+            @if (editable && checkedItems.length > 0) {
+            <div class="action-item" (click)="tapAction(1)">
                 <i class="iconfont icon-cut"></i>
             </div>
-            <div class="action-item" (click)="tapAction(2)" *ngIf="editable && checkedItems.length > 0">
+            <div class="action-item" (click)="tapAction(2)">
                 <i class="iconfont icon-paste"></i>
             </div>
-            <div class="action-item" (click)="tapAction(3)" *ngIf="editable && checkedItems.length > 0">
+            <div class="action-item" (click)="tapAction(3)">
                 <i class="iconfont icon-trash"></i>
             </div>
-            <div class="action-item" *ngIf="checkedItems.length > 0">
+            }
+            @if (checkedItems.length > 0) {
+            <div class="action-item">
                 <i class="iconfont icon-exclamation-circle"></i>
             </div>
+            }
+            
         </div>
         <div class="action-group">
             <div class="action-item">
@@ -66,42 +74,48 @@
             </div>
         </div>
         <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="!hasMore" [offset]="5">
-            <ng-container *ngFor="let item of filterItems">
-                <ng-container *ngIf="item.type === 'group'; else elseTemplate">
+            @for (item of filterItems; track $index) {
+                @if (item.type === 'group') {
                     <div class="file-group">
                         {{ item.name }}
                     </div>
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     <div class="file-item" (click)="tapFile(item)" [title]="item.name">
                         <div class="file-check">
                             <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}" ></i>
                         </div>
                         <div class="file-icon">
-                            <ng-container *ngIf="listViewMode && item.thumb; else elseTemplate">
+                            @if (listViewMode && item.thumb) {
                                 <img [src]="item.thumb|asset" [alt]="item.name">
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <i class="iconfont" [ngClass]="item.icon"></i>
-                            </ng-template>
+                            }
                         </div>
                         <div class="file-name">{{ item.name }}</div>
                         <div class="file-size file-row-meta">{{ item.size | size }}</div>
                         <div class="file-time file-row-meta">{{ item.created_at | ago }}</div>
                         <div class="file-item-action">
-                            <i class="iconfont icon-download" (click)="tapAction(4, item)" *ngIf="!item.isFolder"></i>
-                            <i class="iconfont icon-copy" (click)="tapAction(1, item)" *ngIf="editable"></i>
-                            <i class="iconfont icon-edit" (click)="tapAction(5, item)" *ngIf="editable"></i>
-                            <i class="iconfont icon-trash" (click)="tapAction(3, item)" *ngIf="editable"></i>
+                            @if (!item.isFolder) {
+                                <i class="iconfont icon-download" (click)="tapAction(4, item)"></i>
+                            }
+                            @if (editable) {
+                                <i class="iconfont icon-copy" (click)="tapAction(1, item)"></i>
+                                <i class="iconfont icon-edit" (click)="tapAction(5, item)"></i>
+                                <i class="iconfont icon-trash" (click)="tapAction(3, item)"></i>
+                            }
+                            
                         </div>
                     </div>
-                </ng-template>
-            </ng-container>
+                }
+            }
         </div>
     </div>
     <div class="panel-footer">
         <span>{{ items.length | numberFormat }} items</span>
-        <span *ngIf="checkedItems.length > 0">{{ checkedItems.length  | numberFormat }} items selected</span>
+        @if (checkedItems.length > 0) {
+            <span>{{ checkedItems.length  | numberFormat }} items selected</span>
+        }
+        
         <span>{{ subtotal | size }}</span>
     </div>
 </div>

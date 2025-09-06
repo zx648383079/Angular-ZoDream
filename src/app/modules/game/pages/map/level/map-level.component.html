@@ -8,7 +8,8 @@
 </div>
 <div class="map-meta">这里没有什么人</div>
 
-<div class="map-level-bar" *ngFor="let item of items">
+@for (item of items; track $index) {
+    <div class="map-level-bar">
     <div class="level-item">
         <div class="item-map">
             <img [src]="item.cover" [alt]="item.name">
@@ -37,3 +38,4 @@
         </div>
     </div>
 </div>
+}

@@ -44,7 +44,8 @@
     <div class="container-fluid">
         <div class="filter-body">
             <div class="row">
-                <div class="col-md-3" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="col-md-3">
                     <div class="res-item">
                         <div class="item-thumb">
                             <a [routerLink]="[item.id]"><img [src]="item.thumb|asset" alt=""></a>
@@ -81,6 +82,7 @@
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
 

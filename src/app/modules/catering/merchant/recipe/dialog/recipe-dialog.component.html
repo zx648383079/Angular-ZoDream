@@ -14,7 +14,8 @@
                 </div>
             </div>
             <div class="multiple-panel">
-                <div class="input-flex" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="input-flex">
                     <div class="input-action" [hidden]="!multipleEditable">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(item)"></i>
                         <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
@@ -24,6 +25,7 @@
                     </label>
                     <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
                 </div>
+                }
             </div>
             <div class="input-label">制作步骤</div>
             <textarea class="form-control" [(ngModel)]="data.remark"></textarea>

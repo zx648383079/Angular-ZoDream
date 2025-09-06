@@ -23,25 +23,30 @@
                     </tr>
                 </thead>
             <tbody>
-                <tr *ngIf="todayData.today">
-                    <th>今日</th>
-                    <td>{{ todayData.today.pv | numberFormat }}</td>
-                    <td>{{ todayData.today.uv | numberFormat }}</td>
-                    <td>{{ todayData.today.ip_count | numberFormat }}</td>
-                    <td>{{ todayData.today.jump_count | numberFormat }}</td>
-                    <td>{{ todayData.today.stay_time | hour }}</td>
-                    <td>{{ todayData.today.next_count | numberFormat }}</td>
-                </tr>
-                <tr *ngIf="todayData.yesterday">
-                    <th>昨日</th>
-                    <td>{{ todayData.yesterday.pv | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.uv | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.ip_count | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.jump_count | numberFormat }}</td>
-                    <td>{{ todayData.yesterday.stay_time | hour }}</td>
-                    <td>{{ todayData.yesterday.next_count | numberFormat }}</td>
-                </tr>
-                <tr *ngIf="todayData.expectToday">
+                @if (todayData.today) {
+                    <tr>
+                        <th>今日</th>
+                        <td>{{ todayData.today.pv | numberFormat }}</td>
+                        <td>{{ todayData.today.uv | numberFormat }}</td>
+                        <td>{{ todayData.today.ip_count | numberFormat }}</td>
+                        <td>{{ todayData.today.jump_count | numberFormat }}</td>
+                        <td>{{ todayData.today.stay_time | hour }}</td>
+                        <td>{{ todayData.today.next_count | numberFormat }}</td>
+                    </tr>
+                }
+                @if (todayData.yesterday) {
+                    <tr>
+                        <th>昨日</th>
+                        <td>{{ todayData.yesterday.pv | numberFormat }}</td>
+                        <td>{{ todayData.yesterday.uv | numberFormat }}</td>
+                        <td>{{ todayData.yesterday.ip_count | numberFormat }}</td>
+                        <td>{{ todayData.yesterday.jump_count | numberFormat }}</td>
+                        <td>{{ todayData.yesterday.stay_time | hour }}</td>
+                        <td>{{ todayData.yesterday.next_count | numberFormat }}</td>
+                    </tr>
+                }
+                @if (todayData.expectToday) {
+                    <tr>
                     <th>预计今日</th>
                     <td>{{ todayData.expectToday.pv | numberFormat }}</td>
                     <td>{{ todayData.expectToday.uv | numberFormat }}</td>
@@ -50,7 +55,9 @@
                     <td>{{ todayData.expectToday.stay_time | hour }}</td>
                     <td>{{ todayData.expectToday.next_count | numberFormat }}</td>
                 </tr>
-                <tr *ngIf="todayData.yesterdayHour" [hidden]="!trendToggle" class="table-light">
+                }
+                @if (todayData.yesterdayHour) {
+                    <tr [hidden]="!trendToggle" class="table-light">
                     <th>昨日此时</th>
                     <td>{{ todayData.yesterdayHour.pv | numberFormat }}</td>
                     <td>{{ todayData.yesterdayHour.uv | numberFormat }}</td>
@@ -59,7 +66,9 @@
                     <td>{{ todayData.yesterdayHour.stay_time | hour }}</td>
                     <td>{{ todayData.yesterdayHour.next_count | numberFormat }}</td>
                 </tr>
-                <tr *ngIf="todayData.dayAvg" [hidden]="!trendToggle" class="table-light">
+                }
+                @if (todayData.dayAvg) {
+                    <tr [hidden]="!trendToggle" class="table-light">
                     <th>每日平均</th>
                     <td>{{ todayData.dayAvg.pv | numberFormat }}</td>
                     <td>{{ todayData.dayAvg.uv | numberFormat }}</td>
@@ -68,15 +77,18 @@
                     <td>{{ todayData.dayAvg.stay_time | hour }}</td>
                     <td>{{ todayData.dayAvg.next_count | numberFormat }}</td>
                 </tr>
-                <tr *ngIf="todayData.dayMax" [hidden]="!trendToggle" class="table-light">
-                    <th>历史峰值</th>
-                    <td [title]="'峰值日: ' + todayData.dayMax.pv.day ">{{ todayData.dayMax.pv.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.uv.day ">{{ todayData.dayMax.uv.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.ip_count.day ">{{ todayData.dayMax.ip_count.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.jump_count.day ">{{ todayData.dayMax.jump_count.value | numberFormat }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.stay_time.day ">{{ todayData.dayMax.stay.value | hour }}</td>
-                    <td [title]="'峰值日: ' + todayData.dayMax.next_count.day ">{{ todayData.dayMax.next_count.value | numberFormat }}</td>
-                </tr>
+                }
+                @if (todayData.dayMax) {
+                    <tr [hidden]="!trendToggle" class="table-light">
+                        <th>历史峰值</th>
+                        <td [title]="'峰值日: ' + todayData.dayMax.pv.day ">{{ todayData.dayMax.pv.value | numberFormat }}</td>
+                        <td [title]="'峰值日: ' + todayData.dayMax.uv.day ">{{ todayData.dayMax.uv.value | numberFormat }}</td>
+                        <td [title]="'峰值日: ' + todayData.dayMax.ip_count.day ">{{ todayData.dayMax.ip_count.value | numberFormat }}</td>
+                        <td [title]="'峰值日: ' + todayData.dayMax.jump_count.day ">{{ todayData.dayMax.jump_count.value | numberFormat }}</td>
+                        <td [title]="'峰值日: ' + todayData.dayMax.stay_time.day ">{{ todayData.dayMax.stay.value | hour }}</td>
+                        <td [title]="'峰值日: ' + todayData.dayMax.next_count.day ">{{ todayData.dayMax.next_count.value | numberFormat }}</td>
+                    </tr>
+                }
                 <tr [ngClass]="{'table-light': trendToggle}">
                     <td colspan="7" class="align-center">
                         <i class="iconfont" [ngClass]="{'icon-angle-double-down': !trendToggle, 'icon-angle-double-up': trendToggle}" (click)="trendToggle = !trendToggle"></i>
@@ -87,9 +99,9 @@
         </div>
     </div>
     <div class="tab-bar">
-         <ng-container *ngFor="let item of tabItems">
-        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
-        </ng-container>
+        @for (item of tabItems; track $index) {
+            <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+        }
     </div>
 
     <div class="row">
@@ -102,12 +114,14 @@
                             <a class="item" [ngClass]="{active: trendIndex < 1}" (click)="tapTrendIndex(0)">浏览量(PV)</a>
                             <a class="item" [ngClass]="{active: trendIndex == 1}" (click)="tapTrendIndex(1)">访客数(UV)</a>
                         </div>
-                        <div class="radio-group" *ngIf="tabIndex == 'today' || tabIndex == 'yesterday'">
+                        @if (tabIndex == 'today' || tabIndex == 'yesterday') {
+                        <div class="radio-group">
                             <label for="">对比：</label>
                             <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 1, 'icon-square-o': trendCompare != 1}" (click)="tapTrendCompare(1)"></i>
                             前一日
                             <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 2, 'icon-square-o': trendCompare != 2}" (click)="tapTrendCompare(2)"></i>上周同期
                         </div>
+                        }
                     </div>
                     <div  echarts [options]="options" class="chart-lg"></div>
                 </div>
@@ -126,13 +140,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of wordItems">
+                            @for (item of wordItems; track $index) {
+                                <tr>
                                 <td><span class="text-wrap">{{ item.words }}</span></td>
                                 <td>{{ item.pv | numberFormat }}</td>
                                 <td>
                                     <div class="scale-bar" [title]="item.scale" [style]="{width: item.scale}">{{ item.scale }}</div>
                                 </td> 
                             </tr>
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
@@ -151,13 +168,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of sourceItems">
+                            @for (item of sourceItems; track $index) {
+                                <tr>
                                 <td><span class="text-wrap">{{ item.host }}</span></td>
                                 <td>{{ item.pv | numberFormat }}</td>
                                 <td>
                                     <div class="scale-bar" [title]="item.scale" [style]="{width: item.scale}">{{ item.scale }}</div>
                                 </td> 
                             </tr>
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
@@ -176,13 +196,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of enterItems">
+                            @for (item of enterItems; track $index) {
+                                <tr>
                                 <td><span class="text-wrap">{{ item.url }}</span></td>
                                 <td>{{ item.pv | numberFormat }}</td>
                                 <td>
                                     <div class="scale-bar" [title]="item.scale" [style]="{width: item.scale}">{{ item.scale }}</div>
                                 </td> 
                             </tr>
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
@@ -201,13 +224,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                           <tr *ngFor="let item of pageItems">
+                            @for (item of pageItems; track $index) {
+                                <tr>
                                 <td><span class="text-wrap">{{ item.url }}</span></td>
                                 <td>{{ item.pv | numberFormat }}</td>
                                 <td>
                                     <div class="scale-bar" [title]="item.scale" [style]="{width: item.scale}">{{ item.scale }}</div>
                                 </td> 
                             </tr>
+                            }
+                           
                         </tbody>
                     </table>
                 </div>

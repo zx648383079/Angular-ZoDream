@@ -12,7 +12,7 @@
         </form>
     </div>
 </div>
-<ng-container *ngFor="let item of items">
+@for (item of items; track $index) {
     <div class="service-item">
         <div class="avatar">
             <img [src]="item.avatar">
@@ -23,5 +23,5 @@
         <a class="btn btn-danger" *ngIf="item.status < 1" (click)="tapChange(item)" i18n>Agree</a>
         <a class="btn btn-danger" *ngIf="item.status == 1" (click)="tapChange(item, 2)" i18n>Forbid</a>
     </div>
-</ng-container>
+}
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

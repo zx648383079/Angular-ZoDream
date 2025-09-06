@@ -13,7 +13,8 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                     <a class="card-item" [routerLink]="['project', item.id]" routerLinkActive="router-link-active" >
                         <div class="item-cover">
                             <img [src]="item.cover" [alt]="item.name">
@@ -25,13 +26,15 @@
                         </div>
                     </a>
                 </div>
+                }
             </div>
         </div>
     </div>
 
     <div class="search-body" *ngIf="queries.keywords">
         <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                 <a class="card-item" [routerLink]="['project', item.id]" routerLinkActive="router-link-active" >
                     <div class="item-cover">
                         <img [src]="item.cover" [alt]="item.name">
@@ -43,6 +46,7 @@
                     </div>
                 </a>
             </div>
+            }
         </div>
 
         <div class="row">

@@ -10,9 +10,9 @@
     </form>
 
     <div class="panel-container">
-        <ng-container *ngFor="let item of items">
-        <ng-container *ngIf="queries.type < 1; else elseTemplate">
-            <div class="page-item">
+        @for (item of items; track $index) {
+            @if (queries.type < 1) {
+                <div class="page-item">
                 <a class="item-body" [routerLink]="['../pager', item.id]">
                     <span class="name">{{ item.name }}</span>
                     <span class="count">共 {{ formatQuestionCount(item) }} 道{{ item.rule_type < 1 ? '随机' : '固定' }}题</span>
@@ -29,9 +29,8 @@
                     </div>
                 </div>
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
-            <div class="question-item">
+            } @else {
+                <div class="question-item">
                 <a class="item-body" [routerLink]="['../question', item.id]">
                     <span class="name">【{{ formatQuestionType(item.type)}}】{{ item.title }}</span>
                     <span class="count">难度：{{ formatEasiness(item.easiness) }}</span>
@@ -48,11 +47,14 @@
                     </div>
                 </div>
             </div>
-        </ng-template>
-        </ng-container>
-        <div class="page-empty-tip" *ngIf="!isLoading && items.length < 1">
-            搜索结果为空
-        </div>
+            }
+        }
+        @if (!isLoading && items.length < 1) {
+            <div class="page-empty-tip">
+                搜索结果为空
+            </div>
+        }
+        
     </div>
 
     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

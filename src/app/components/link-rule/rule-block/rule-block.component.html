@@ -1,17 +1,13 @@
-<ng-container *ngFor="let block of blcokItems">
-    <ng-container *ngIf="!block.type || block.type < 1">
-        {{ block.content }}
-    </ng-container>
-    <ng-container *ngIf="block.type == 1">
+@for (block of blcokItems; track $index) {
+    @if (block.type == 1) {
         <img [src]="block.image" [alt]="block.content">
-    </ng-container>
-    <ng-container *ngIf="block.type > 1 && block.type < 5">
+    } @else if (block.type > 1 && block.type < 5) {
         <a (click)="tapBlock(block)" [title]="block.content">{{ block.content }}</a>
-    </ng-container>
-    <ng-container *ngIf="block.type == 9">
+    } @else if (block.type == 9) {
         <em>{{ block.content }}</em>
-    </ng-container>
-    <ng-container *ngIf="block.type === 99">
+    } @else if (block.type === 99) {
         <br/>
-    </ng-container>
-</ng-container>
+    } @else {
+        {{ block.content }}
+    }
+}

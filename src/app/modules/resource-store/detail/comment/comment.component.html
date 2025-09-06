@@ -23,7 +23,8 @@
         </div>
         
         
-        <div class="comment-item" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="comment-item">
             <article class="comment">
                 <div class="comment-author">
                     <img [src]="item.user.avatar" alt="">
@@ -62,6 +63,7 @@
                 
             </div>
         </div>
+        }
 
 
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

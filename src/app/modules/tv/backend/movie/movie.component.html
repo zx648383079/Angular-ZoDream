@@ -15,7 +15,10 @@
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categories; track $index) {
+                            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
+                        
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -51,8 +54,13 @@
                     <td>{{ item.updated_at | ago }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info" *ngIf="item.series_count > 1" [routerLink]="[item.id, 'series']">分集</a>
-                            <a class="btn btn-info" *ngIf="item.series_count < 2" [routerLink]="[item.id, 'file']">文件</a>
+                            @if (item.series_count > 1) {
+                                <a class="btn btn-info" [routerLink]="[item.id, 'series']">分集</a>
+                            } @else {
+                                <a class="btn btn-info" [routerLink]="[item.id, 'file']">文件</a>
+                            }
+                            
+                            
                             <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>

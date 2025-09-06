@@ -21,7 +21,8 @@
             </div>
         </div>
     </div>
-    <div class="comment-item" *ngFor="let item of items">
+   @for (item of items; track $index) {
+     <div class="comment-item">
         <div class="avatar">
             <img [src]="item.user.avatar" alt="">
         </div>
@@ -73,6 +74,7 @@
             </div>
         </div>
     </div>
+   }
     <div class="more-btn" [ngClass]="{disabled: !hasMore}" (click)="tapMore()" i18n>
         {hasMore, plural, =true {Read more} =false {No more~}}
     </div>

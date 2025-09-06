@@ -56,7 +56,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>
                         <img [src]="item.thumb" width="50" height="50" align="left">
                         <a href="">{{ item.name }}</a> <br>
@@ -77,6 +78,7 @@
                         未申请售后
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
         <div class="text-right">

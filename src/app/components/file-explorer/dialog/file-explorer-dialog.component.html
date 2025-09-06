@@ -1,5 +1,8 @@
-<div class="dialog-mask" *ngIf="visible && mode > 0"></div>
-<div [ngClass]="{'file-explorer-window': mode < 1, 'file-explorer-dailog': mode > 0}" *ngIf="visible">
+@if (visible && mode > 0) {
+    <div class="dialog-mask"></div>
+}
+@if (visible) {
+<div [ngClass]="{'file-explorer-window': mode < 1, 'file-explorer-dailog': mode > 0}">
     <div class="explorer-header">
         <div class="action-item" (click)="tapBack()" [ngClass]="{disabled: !canBack}">
             <i class="iconfont icon-arrow-left"></i>
@@ -14,25 +17,29 @@
             <i class="iconfont icon-refresh"></i>
         </div>
         <form class="breadcrumb-bar" (ngSubmit)="tapConfirmPath()" (click)="pathIsInputing = true">
-            <ng-container *ngIf="pathIsInputing; else elseTemplate">
+            @if (pathIsInputing) {
                 <input type="text" name="path" [(ngModel)]="path">
-            </ng-container>
-            <ng-template #elseTemplate>
-                <ng-container *ngFor="let item of breadcrumbItems">
+            } @else {
+                @for (item of breadcrumbItems; track $index) {
                     <a class="breadcrumb-item" [ngClass]="{disabled: item.disabled}" (click)="tapBreadcrumb(item, $event)">
-                        <i class="iconfont" *ngIf="item.icon" [ngClass]="item.icon"></i>
+                        @if (item.icon) {
+                            <i class="iconfont" [ngClass]="item.icon"></i>
+                        }
                         <span class="breadcrumb-item-name">{{ item.name }}</span>
                     </a>
-                </ng-container>
-            </ng-template>
+                }
+            }
         </form>
         <form class="search-bar" (ngSubmit)="tapConfirmSearch()">
             <input type="text" name="keywords" [(ngModel)]="keywords" placeholder="Search">
             <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
         </form>
-        <div class="action-item" *ngIf="mode > 0" (click)="visible = false">
+        @if (mode > 0) {
+        <div class="action-item" (click)="visible = false">
             <i class="iconfont icon-close"></i>
         </div>
+        }
+       
     </div>
     <div class="explorer-body">
         <app-file-explorer-catalog (pathChange)="onCatalogTap($event)"></app-file-explorer-catalog>
@@ -42,5 +49,7 @@
 
     </div>
 </div>
+}
+
 
 <ng-container #modalVC></ng-container>

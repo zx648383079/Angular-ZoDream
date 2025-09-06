@@ -9,12 +9,17 @@
         <div class="flex-grid">
             <div class="scroll-column">
                 <ul>
-                    <li *ngFor="let item of hourItems" [ngClass]="{selected: item == currentHour}" (click)="tapHour(item)">{{ twoPad(item) }}</li>
+                    @for (item of hourItems; track $index) {
+                        <li [ngClass]="{selected: item == currentHour}" (click)="tapHour(item)">{{ twoPad(item) }}</li>
+                    }
+                    
                 </ul>
             </div>
             <div class="scroll-column">
                 <ul>
-                    <li *ngFor="let item of minuteItems" [ngClass]="{selected: item == currentMinute}" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
+                    @for (item of minuteItems; track $index) {
+                        <li [ngClass]="{selected: item == currentMinute}" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
+                    }
                 </ul>
             </div>
         </div>

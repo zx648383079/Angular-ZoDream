@@ -5,7 +5,8 @@
 </app-edit-header>
 
 <div class="container" [hidden]="tabIndex > 0">
-    <div class="input-item" *ngFor="let item of tabItems" (click)="tapTab(item)">
+    @for (item of tabItems; track $index) {
+        <div class="input-item" (click)="tapTab(item)">
         <div class="item-icon">
             <i class="iconfont" [ngClass]="'icon-' + item.icon"></i>
         </div>
@@ -17,6 +18,8 @@
             <i class="iconfont icon-chevron-right"></i>
         </div>
     </div>
+    }
+    
 </div>
 
 <div class="container" [hidden]="tabIndex != 1">

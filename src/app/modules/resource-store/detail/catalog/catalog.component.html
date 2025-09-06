@@ -1,11 +1,11 @@
 <ul class="tree-box">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: item}"></ng-container>
-    </ng-container>
+    }
 </ul>
 <ng-template #fileItemTpl let-file>
-    <ng-container *ngIf="file">
-        <ng-container *ngIf="file.type < 1">
+    @if (file) {
+        @if (file.type < 1) {
             <li class="tree-parent" [ngClass]="{open: file.open}"><div class="name" (click)="toggleOpen(file)"> <i class="iconfont" [ngClass]="{'icon-folder-open-o': file.open, 'icon-folder-o': !file.open}"></i>{{ file.name }}</div>
                 <ul *ngIf="file.children">
                     <ng-container *ngFor="let it of file.children">
@@ -13,11 +13,9 @@
                     </ng-container>
                 </ul>
             </li>
-        </ng-container>
-        <ng-container *ngIf="file.type > 0">
+        } @else {
             <li><div class="tree-name"><i class="iconfont icon-file-o"></i>{{ file.name }}</div></li>
-        </ng-container>
-    </ng-container>
-    
+        }
+    }
 </ng-template>
 

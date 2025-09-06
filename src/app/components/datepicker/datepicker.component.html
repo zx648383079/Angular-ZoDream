@@ -19,7 +19,11 @@
             @if (gridMode == 0) {
             <div class="picker-month-grid">
                 <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
-                <ul><li *ngFor="let item of dayItems" [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li></ul>
+                <ul>
+                    @for (item of dayItems; track $index) {
+                        <li [ngClass]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li>
+                    }
+                </ul>
             </div>
             }
             
@@ -28,13 +32,19 @@
                 <div class="list-group year">
                     <div class="picker-title" i18n>Year</div>
                     <ul>
-                        <li *ngFor="let item of yearItems" [ngClass]="{active: item == currentYear}" (click)="changeYear(item)">{{ item }}</li>
+                        @for (item of yearItems; track $index) {
+                            <li [ngClass]="{active: item == currentYear}" (click)="changeYear(item)">{{ item }}</li>
+                        }
+                        
                     </ul>
                 </div>
                 <div class="list-group month">
                 <div class="title" i18n>Month</div>
                 <ul>
-                    <li *ngFor="let item of monthItems" [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
+                    @for (item of monthItems; track $index) {
+                        <li [ngClass]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
+                    }
+                    
                 </ul>
                 </div>
                 <i class="iconfont icon-close" (click)="toggleYear()"></i>

@@ -1,4 +1,5 @@
-<div class="order-item" *ngFor="let item of items">
+@for (item of items; track $index) {
+    <div class="order-item">
     <div class="order-header">
         <span>{{ item.id }}</span>
         <span class="status">{{ item.status_label }}</span>
@@ -25,4 +26,5 @@
         </div>
     </div>
 </div>
+}
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

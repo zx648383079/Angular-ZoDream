@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-lg-4" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="col-md-6 col-lg-4">
             <a class="column-image-item mt-10" [routerLink]="['play', item.id]">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
@@ -11,5 +12,6 @@
                 </div>
             </a>
         </div>
+        }
     </div>
 </div>

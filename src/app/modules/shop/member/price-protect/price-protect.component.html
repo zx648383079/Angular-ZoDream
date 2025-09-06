@@ -32,7 +32,8 @@
                    <th>申请状态</th>
                </thead>
                <tbody>
-                   <tr *ngFor="let item of items">
+                   @for (item of items; track $index) {
+                    <tr>
                        <td>
                            <a [routerLink]="['../../goods', item.goods.id]">
                                 <img [appLazyLoad]="item.goods.thumb" [alt]="item.goods.name">
@@ -50,6 +51,7 @@
                            <a class="btn">查看详情</a>
                        </td>
                    </tr>
+                   }
                </tbody>
            </table>
 

@@ -56,7 +56,7 @@
             </div>
         
             <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <div class="micro-item">
                         <div class="body">
                             <div class="avatar">
@@ -106,7 +106,7 @@
                             <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)"></app-comment-viewer>
                         </div>
                     </div>
-                </ng-container>
+                }
             </app-pull-to-refresh>
         </div>
     </div>

@@ -8,12 +8,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <tr>
             <td>{{ item.user?.name }}</td>
             <td>{{ item.bid | price }}</td>
             <td>{{ item.created_at }}</td>
             <td>{{ item.status > 0 ? '淘汰' : '领先' }}</td>
         </tr>
+        }
     </tbody>
 </table>
 

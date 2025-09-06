@@ -28,7 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.warehouse.name }}</td>
                     <td>
@@ -47,6 +48,7 @@
                         {{ item.created_at }}
                     </td>
                 </tr>
+                }
                 
             </tbody>
         </table>

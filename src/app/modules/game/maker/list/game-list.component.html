@@ -1,6 +1,7 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-lg-4" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="col-md-6 col-lg-4">
             <div class="project-item" [ngClass]="{inactive: item.status < 1}">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
@@ -27,6 +28,7 @@
                 </div>
             </div>
         </div>
+        }
 
         <div class="col-md-6 col-lg-4">
             <a class="add-project-item" (click)="open(modal)">

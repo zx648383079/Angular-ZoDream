@@ -25,7 +25,7 @@
         <a href="">评价时间</a>
     </div>
     <div class="comment-page-box">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="comment-item">
                 <div class="user-box">
                     <div class="avatar">
@@ -49,7 +49,7 @@
                     <div class="time">{{ item.created_at }}</div>
                 </div>
             </div>
-        </ng-container>
+        }
         
     </div>
 

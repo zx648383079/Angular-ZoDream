@@ -3,10 +3,10 @@
         <ng-content></ng-content>
     </div>
     <div class="autocomplete__container">
-        <ng-container *ngFor="let item of optionItems;let i = index">
+        @for (item of optionItems; track $index;let i = $index) {
             <div class="option-item" [ngClass]="{selected: isSelected(i)}" (click)="tapSelected(i)">
                 {{ item }}
             </div>
-        </ng-container>
+        }
     </div>
 </div>

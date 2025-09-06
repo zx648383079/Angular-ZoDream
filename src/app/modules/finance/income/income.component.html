@@ -39,7 +39,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items" [ngClass]="{danger: item.type != 1}">
+                @for (item of items; track $index) {
+                    <tr [ngClass]="{danger: item.type != 1}">
                     <td>{{ item.happened_at }}</td>
                     <td>{{ item.account ? item.account.name : '-' }}</td>
                     <td class="money-td">
@@ -68,6 +69,7 @@
                         </div>
                     </td>
                 </tr>
+                }
                 
             </tbody>
         </table>

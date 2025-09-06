@@ -15,9 +15,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="tab-bar pull-right">
-                    <ng-container *ngFor="let item of tabItems">
-                    <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
-                    </ng-container>
+                    @for (item of tabItems; track $index) {
+                        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                    }
                 </div>
             </form>
         </div>
@@ -25,11 +25,12 @@
 
     <div class="panel-container panel-full">
         <div class="tab-bar">
-            <ng-container *ngFor="let item of typeItems">
-            <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
-            </ng-container>
+            @for (item of typeItems; track $index) {
+                <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
+            }
         </div>
-        <div class="counter-bar" *ngIf="data">
+        @if (data) {
+            <div class="counter-bar">
             <div class="item">
                 <div class="item-label">浏览量(PV)</div>
                 <div class="item-count">{{ data.pv | numberFormat }}</div>
@@ -51,6 +52,8 @@
                 <div class="item-count">{{ data.stay_time | hour }}</div>
             </div>
         </div>
+        }
+        
          <div echarts [options]="options" class="chart-lg"></div>
 
           <table class="table table-hover">

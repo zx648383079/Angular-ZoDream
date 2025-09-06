@@ -59,8 +59,11 @@
 
 <app-dialog-box #modal title="确认注销此账户" confirmText="确定注销" cancelText="暂不注销">
     <p class="tip">账户注销后，您所有的记录将永远消失。 <br />请选择注销原因：</p>
-    <div class="item" *ngFor="let item of reasonItems; index as i" (click)="reasonSelected = i">
-        <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
-        {{ item }}
-    </div>
+    @for (item of reasonItems; track $index;let i = $index) {
+        <div class="item" (click)="reasonSelected = i">
+            <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
+            {{ item }}
+        </div>
+    }
+    
 </app-dialog-box>

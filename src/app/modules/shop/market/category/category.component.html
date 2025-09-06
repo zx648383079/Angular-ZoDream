@@ -48,8 +48,8 @@
               <p class="desc">{{ category.description }}</p>
           </div>
           <div class="row">
-            <ng-container *ngFor="let item of items">
-                <div class="col-lg-3 col-md-4 col-6">
+                @for (item of items; track $index) {
+                    <div class="col-lg-3 col-md-4 col-6">
                     <a class="goods-item item-hover" [routerLink]="'../../goods/' + item.id">
                         <div class="thumb">
                             <img [appLazyLoad]="item.thumb" [alt]="item.name">
@@ -61,7 +61,7 @@
                         </div>
                     </a>
                 </div>
-              </ng-container>
+                }
           </div>
           <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
           <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

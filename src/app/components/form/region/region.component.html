@@ -4,15 +4,16 @@
             {{ pathLabel }}
             <i class="iconfont icon-chevron-down"></i>
         </div>
-    </div> 
-    <div class="selector-panel-container" *ngIf="panelVisible" (click)="$event.stopPropagation()">
+    </div>
+    @if (panelVisible) {
+    <div class="selector-panel-container" (click)="$event.stopPropagation()">
         <ul class="selector-header">
-            <ng-container *ngFor="let item of paths; let i = index;">
+            @for (item of paths; track $index; let i = $index) {
                 <li class="select-header"  [ngClass]="{open: i == activeColumn}" (click)="tapColumn(i)">
                     {{ item[rangeLabel] }}
                     <i class="iconfont icon-chevron-down"></i>
                 </li>
-            </ng-container>
+            }
         </ul>
         <div class="selector-body">
             <ul>
@@ -22,9 +23,14 @@
                 }
             </ul>
         </div>
-        <div class="selector-footer" *ngIf="canYes">
+        @if (canYes) {
+        <div class="selector-footer">
             <button class="selector-yes btn-primary" (click)="tapYes()" i18n>Ok</button>
         </div>
+        }
+        
         <i class="iconfont icon-close" (click)="tapClose()"></i>
     </div>
+    }
+    
 </div>

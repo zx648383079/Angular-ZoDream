@@ -21,8 +21,9 @@
     </div>
 
     <div class="plan-box">
-        <ng-container *ngIf="queries.type < 1">
-            <div class="task-item" *ngFor="let item of items">
+        @if (queries.type < 1) {
+            @for (item of items; track $index) {
+                <div class="task-item">
                 <div class="name">{{ item.task.name }}</div>
                 <div class="desc">{{ item.task.description }}</div>
                 <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
@@ -31,42 +32,50 @@
                     <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
                 </div>
             </div>
-        </ng-container>
-        
-        <ng-container *ngIf="queries.type == 1">
+            }
+        }
+        @if (queries.type == 1) {
             <div class="week-box">
                 <div class="week-header">
-                    <section *ngFor="let item of weekItems">
-                        {{ item.label }}
-                    </section>
+                    @for (item of weekItems; track $index) {
+                        <section>
+                            {{ item.label }}
+                        </section>
+                    }
                 </div>
                 <div class="week-body">
-                    <ng-container *ngFor="let item of weekItems">
-                        <ng-container *ngFor="let it of item.items">
+                    @for (item of weekItems; track item.label) {
+                        @for (it of item.items; track $index) {
                             <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
                                 <div class="name">{{ it.task.name }}</div>
                                 <div class="desc">{{ it.task.description }}</div>
                                 <div class="count" *ngIf="it.amount > 1">{{ it.amount }}</div>
                             </div>
-                        </ng-container>
-                    </ng-container>
+                        }
+                    }
                 </div>
             </div>
-        </ng-container>
-        <ng-container *ngIf="queries.type == 2">
+        }
+        @if (queries.type == 2) {
             <div class="month-box">
-                <div class="day-item" *ngFor="let item of monthItems">
+                @for (item of monthItems; track item.label) {
+                    <div class="day-item">
                     <span class="day-label">{{ item.label }}</span>
                     <ul class="day-box">
-                        <li class="task-item" *ngFor="let it of item.items">
+                        @for (it of item.items; track $index) {
+                            <li class="task-item">
                             <div class="name">{{ it.task.name }}</div>
                             <div class="desc">{{ it.task.description }}</div>
                             <div class="count" *ngIf="it.amount > 1">{{ it.amount }}</div>
                         </li>
+                        }
+                        
                     </ul>
                 </div>
+                }
+                
             </div>
-        </ng-container>
+        }
     </div>
 </div>
 

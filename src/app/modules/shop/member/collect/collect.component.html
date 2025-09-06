@@ -13,7 +13,8 @@
             </div>
             <div class="panel-body">
                 <div class="goods-list">
-                    <div class="goods-item goods-action item-hover" *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="goods-item goods-action item-hover">
                         <i class="iconfont icon-close"></i>
                         <div class="thumb">
                             <a [routerLink]="['../../goods', item.goods.id]">
@@ -27,6 +28,7 @@
                             <a href="" class="btn">加入购物车</a>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </div>

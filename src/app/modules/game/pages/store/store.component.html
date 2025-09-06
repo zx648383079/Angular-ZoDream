@@ -11,7 +11,8 @@
         <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
     </ng-container>
 </div>
-<div class="bag-item" *ngFor="let item of items">
+@for (item of items; track $index) {
+    <div class="bag-item">
     <div class="item-body">
         <span *ngIf="item.quality">[{{ item.quality }}]</span>
         <a href="" class="item-name">{{ item.name }}</a>
@@ -20,6 +21,7 @@
         <a (click)="modalVisible = true">购买</a>
     </div>
 </div>
+}
 <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 
 <div class="dialog-mask" *ngIf="modalVisible"></div>

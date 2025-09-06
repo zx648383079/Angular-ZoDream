@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-4 col-md-3 col-lg-2">
             <div class="nav-menu">
-                <ng-container *ngFor="let item of items">
+                @for (item of items; track $index) {
                     <a class="menu-item" [ngClass]="{active: item.active}" (click)="tapNav(item)">{{ item.name }}</a>
-                </ng-container>
+                }
             </div>
         </div>
         <div class="col-8 col-md-9 col-lg-10 inner-body">

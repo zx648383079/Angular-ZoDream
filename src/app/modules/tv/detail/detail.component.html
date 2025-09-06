@@ -1,6 +1,7 @@
 <div class="detail-floor">
     <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
-    <div *ngIf="data">
+    @if (data) {
+    <div>
         <div class="image-box">
             <img [src]="data.cover|asset" alt="">
         </div>
@@ -54,24 +55,28 @@
             </div>
         </div>
         <div class="more-container container-fluid">
-            <div class="panel play-mini" *ngIf="seriesItems && seriesItems.length > 0">
+            @if (seriesItems && seriesItems.length > 0) {
+            <div class="panel play-mini">
                 <div class="panel-header">选集</div>
                 <div class="panel-body">
-                    <ng-container *ngFor="let item of seriesItems">
+                    @for (item of seriesItems; track $index) {
                         <a class="play-item"  [routerLink]="['play', data.id, item.id]">
                             <span class="item-no">{{ item.episode }}</span>
                             <span class="item-label">{{ item.title }}</span>
                         </a>
-                    </ng-container>
+                    }
                 </div>
             </div>
+            }
+            
     
             <div class="slider-panel">
                 <div class="panel-header">
                     第一季
                 </div>
                 <div class="panel-body">
-                    <div class="large-play-item"  *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="large-play-item" >
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">
                         </div>
@@ -79,6 +84,7 @@
                             <div class="item-name">{{ item.title }}</div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
     
@@ -87,7 +93,8 @@
                     演员及工作人员
                 </div>
                 <div class="panel-body">
-                    <div class="cast-item" *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="cast-item">
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">
                         </div>
@@ -96,6 +103,7 @@
                             <div class="item-meta">{{ item.title }}</div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
     
@@ -104,7 +112,8 @@
                     {{ data.title }}（系列）
                 </div>
                 <div class="panel-body">
-                    <div class="min-movie-item"  *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                    <div class="min-movie-item" >
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">
                         </div>
@@ -112,9 +121,11 @@
                             <div class="item-name">{{ item.title }}</div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
+    }
     
 </div>

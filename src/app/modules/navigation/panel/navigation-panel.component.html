@@ -57,7 +57,9 @@
             <div>
                 <select id="group" class="form-control" [(ngModel)]="editData.group_id">
                     <option [value]="0" i18n>As Group</option>
-                    <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
+                    @for (item of items; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

@@ -58,7 +58,8 @@
             </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <tr>
                     <td>{{ item.id }}</td>
                     <td>
                         <div class="goods-info">
@@ -70,20 +71,18 @@
                         </div>
                     </td>
                     <td class="auto-hide">
-                        <ng-container *ngIf="item.category; else elseTemplate">
-                              {{ item.category.name }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
-                              [未分类]
-                        </ng-template>
+                        @if (item.category) {
+                            {{ item.category.name }}
+                        } @else {
+                            [未分类]
+                        }
                     </td>
                     <td class="auto-hide">
-                          <ng-container *ngIf="item.brand; else elseBrandTemplate">
-                                  {{ item.brand.name }}
-                            </ng-container>
-                            <ng-template #elseBrandTemplate>
-                                  [无]
-                            </ng-template>
+                        @if (item.brand) {
+                            {{ item.brand.name }}
+                        } @else {
+                           [无]
+                        }
                     </td>
                     <td>
                         {{ item.price | currency:'￥' }}
@@ -105,6 +104,7 @@
                         </div>
                     </td>
                 </tr>
+                }
             </tbody>
           </table>
           <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

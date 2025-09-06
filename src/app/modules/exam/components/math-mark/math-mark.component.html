@@ -1,5 +1,5 @@
 <div class="math-mark-bar">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <ng-container [ngSwitch]="item.type">
             <ng-container *ngSwitchCase="'input'">
                 <ng-container *ngIf="editable">
@@ -81,5 +81,5 @@
                 {{ item.content }}
             </ng-container>
         </ng-container>
-    </ng-container>
+    }
 </div>

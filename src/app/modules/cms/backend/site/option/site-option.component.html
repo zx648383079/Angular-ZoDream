@@ -2,7 +2,8 @@
 <div class="container-fluid">
     
     <div class="panel-container form-table-control">
-        <div class="input-group-control" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="input-group-control">
             <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
             <div *ngIf="item.type == 'text'">
                 <input type="text" class="form-control"  [(ngModel)]="item.value">
@@ -37,6 +38,7 @@
                 <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
             </div>
         </div>
+        }
     </div>
     
 

@@ -6,7 +6,8 @@
         </ul>
     </app-page-tip>
 
-    <div class="column-item" *ngFor="let item of items" [ngClass]="{inactive: !item.is_actived}">
+    @for (item of items; track $index) {
+        <div class="column-item" [ngClass]="{inactive: !item.is_actived}">
         <div class="item-icon" (click)="tapToggle(item)" title="点击启用/卸载此插件">
             <i class="iconfont" [ngClass]="item.is_actived ? item.icon : 'icon-close'"></i>
         </div>
@@ -20,4 +21,5 @@
             </a>
         </div>
     </div>
+    }
 </div>

@@ -1,12 +1,12 @@
 <div class="select-input-container" [ngClass]="{'panel-open': panelVisible}">
     <div class="input-container">
         <div class="selected-container">
-            <ng-container *ngFor="let item of selectedItems">
+            @for (item of selectedItems; track $index) {
                 <div class="selected-item">
                     <span class="item-close" (click)="tapUnselect(item)">&times;</span>
                     <div class="item-label">{{ item[rangeLabel] }}</div>
                 </div>
-            </ng-container>
+            }
         </div>
         <input type="text" [(ngModel)]="keywords" [placeholder]="placeholder" (ngModelChange)="onKeywordsChange()" [disabled]="disabled" (focus)="onFocus()" (blur)="onBlur()">
         <div class="input-arrow">
@@ -14,10 +14,10 @@
         </div>
     </div>
     <div class="option-container">
-        <ng-container *ngFor="let item of optionItems">
+        @for (item of optionItems; track $index) {
             <div class="option-item" [ngClass]="{selected: isSelected(item)}" (click)="tapSelected(item)">
                 {{ item[rangeLabel] }}
             </div>
-        </ng-container>
+        }
     </div>
 </div>

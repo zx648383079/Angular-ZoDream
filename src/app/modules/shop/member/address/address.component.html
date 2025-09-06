@@ -18,7 +18,8 @@
                 <div></div>
             </div>
             <div class="address-page-box">
-                <div class="address-row" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="address-row">
                     <div class="name">{{ item.name }}</div>
                     <div class="address">{{ item.region.full_name }} {{ item.address }}</div>
                     <div class="tel">{{ item.tel }}</div>
@@ -35,6 +36,7 @@
                         </ng-template>
                     </div>
                 </div>
+                }
             </div>
         </div>
     </div>

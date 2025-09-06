@@ -14,7 +14,7 @@
 </div>
 
 <div class="list-table-control">
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="row-item">
             <div class="item-header">
                 <span class="no">{{ item.id }}</span>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-    </ng-container>
+    }
 </div>
 
 

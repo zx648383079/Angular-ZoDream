@@ -9,7 +9,8 @@
     <div class="flex-body">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-4 col-xl-2" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="col-4 col-xl-2">
                     <div class="food-item" (click)="goodsModal.open()">
                         <div class="item-thumb">
                             <img [src]="item.image |asset" [alt]="item.name">
@@ -22,6 +23,7 @@
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
     </div>

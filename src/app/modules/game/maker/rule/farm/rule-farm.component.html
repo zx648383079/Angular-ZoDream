@@ -12,7 +12,8 @@
             </div>
         </div>
 
-        <div class="col-md-6" *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <div class="col-md-6">
             <div class="plot-item">
                 <div class="item-header">
                     <div class="item-no">{{ item.index }}</div>
@@ -31,6 +32,7 @@
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>
 

@@ -13,7 +13,8 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="role-group" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="role-group">
                 <div class="group-header">
                     <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     {{ item.name }}
@@ -23,6 +24,7 @@
                     {{ it.name }}
                 </div>
             </div>
+            }
         </div>
     </div>
     <div class="dialog-footer">

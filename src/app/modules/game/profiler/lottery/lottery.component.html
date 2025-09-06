@@ -60,7 +60,8 @@
                     </div>
                 </div>
             </div>
-            <div class="lottery-item" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="lottery-item">
                 <div class="item-icon">
                     <img src="" alt="">
                 </div>
@@ -72,6 +73,7 @@
                     <span class="item-stamp">歪</span>
                 </div>
             </div>
+            }
         </div>
     </div>
 </div>

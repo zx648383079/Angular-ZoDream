@@ -8,7 +8,8 @@
                 <span>帐号安全</span>
             </div>
             <div class="panel-body">
-                <div class="connect-item" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="connect-item">
                     <div class="name">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                         {{ item.name }}
@@ -25,6 +26,7 @@
                         </ng-template>
                     </div>
                 </div>
+                }
             </div>
         </div>
     </div>

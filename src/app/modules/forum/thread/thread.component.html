@@ -47,9 +47,9 @@
             </div>
         </div>
         <div class="post-list">
-            <ng-container *ngFor="let item of items">
-              <ng-container *ngIf="item.grade < 1; else elseTemplate">
-                <div class="post-item">
+            @for (item of items; track $index) {
+                @if (item.grade < 1) {
+                    <div class="post-item">
                     <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
                     </div>
@@ -100,9 +100,8 @@
                         </div>
                     </div>
                 </div>
-              </ng-container>
-              <ng-template #elseTemplate>
-                <div class="post-item">
+                } @else {
+                    <div class="post-item">
                     <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
                     </div>
@@ -130,9 +129,8 @@
                         </div>
                     </div>
                 </div>
-              </ng-template>
-              
-            </ng-container>
+                }
+            }
             
         </div>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

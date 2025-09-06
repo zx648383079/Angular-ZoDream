@@ -18,14 +18,14 @@
     </div>
     
     <div class="prize-panel" *ngIf="lotterying">
-        <ng-container *ngFor="let item of items">
+        @for (item of items; track $index) {
             <div class="prize-item" [ngClass]="{open: item.is_open}" (click)="item.is_open = true">
                 <div class="item-front"></div>
                 <div class="item-body">
                     中奖了
                 </div>
             </div>
-        </ng-container>
+        }
         <div class="panel-action">
             <a class="btn btn-primary" (click)="tapJump()">跳过</a>
         </div>

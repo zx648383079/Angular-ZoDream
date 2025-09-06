@@ -31,25 +31,27 @@
                 <div class="tab-body">
                     <div class="tab-item active">
                         <div class="row">
-                            <div class="col-md-4" *ngFor="let item of items">
+                            @for (item of items; track $index) {
+                                <div class="col-md-4">
                                 <div class="coupon-item" [ngClass]="{open: item.open, expired: item.expired}">
                                     <div class="coupon-info">
                                         <div class="money">
-                                            <ng-container *ngIf="item.type > 0; else elseTemplate">
+                                            @if (item.type > 0) {
                                                 <em>
                                                     {{ item.money }}折
                                                 </em>
-                                            </ng-container>
-                                            <ng-template #elseTemplate>
+                                            } @else {
                                                 <em>
                                                     ￥{{ item.money }}
                                                 </em>
-                                            </ng-template>
+                                            }
                                         </div>
                                         <div>
                                             <div>{{ item.name }}</div>
                                             <div class="time">{{ item.start_at |timestamp }}-{{ item.end_at | timestamp }}</div>
-                                            <a *ngIf="!item.expired">去使用</a>
+                                            @if (!item.expired) {
+                                                <a>去使用</a>
+                                            }
                                         </div>
                                     </div>
                                     <div class="coupon-tip">
@@ -60,11 +62,15 @@
                                     </div>
                                 </div>
                             </div>
+                            }
                         </div>
-                        <div class="empty-box" *ngIf="!isLoading && total < 1">
+                        @if (!isLoading && total < 1) {
+                            <div class="empty-box">
                             <div class="iconfont icon-search"></div>
                             <div class="tip">优惠券列表还是空的</div>
                         </div>
+                        }
+                        
                     </div>
                 </div>
             </div>

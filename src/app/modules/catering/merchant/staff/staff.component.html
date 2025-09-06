@@ -32,7 +32,8 @@
                     <app-catering-nav-bar header="分组" [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
                 </div>
                 <div class="col-md-9">
-                    <div class="person-item" *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="person-item">
                         <div class="item-avatar">
                             <img [src]="'assets/images/avatar/18.png' | asset" alt="">
                         </div>
@@ -48,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+                    }
 
                     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
                     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

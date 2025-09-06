@@ -6,7 +6,8 @@
         </nav>
 
         <div>
-            <div class="coupon-item" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="coupon-item">
                 <div class="thumb">
                     <img [src]="item.thumb" alt="">
                 </div>
@@ -37,6 +38,7 @@
                 </div>
                 
             </div>
+            }
             
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>

@@ -20,7 +20,8 @@
         </div>
     </div>
 
-    <div class="task-item" *ngFor="let item of items" (click)="tapView(item)">
+    @for (item of items; track $index) {
+        <div class="task-item" (click)="tapView(item)">
         <div class="name">{{ item.task.name }}</div>
         <div class="desc">{{ item.task.description }}</div>
         <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
@@ -32,6 +33,7 @@
             <i class="iconfont icon-stop" *ngIf="item.status === 9"></i>
         </div>
     </div>
+    }
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>
 

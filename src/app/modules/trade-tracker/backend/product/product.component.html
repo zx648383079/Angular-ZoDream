@@ -81,7 +81,8 @@
             </a>
         </div>
         <div class="panel-body">
-            <div class="flat-input" *ngFor="let item of editData.items;let i = index">
+            @for (item of editData.items; track $index;let i = $index) {
+            <div class="flat-input">
                 <input type="text" class="form-control" placeholder="渠道" [(ngModel)]="item.channel">
                 <input type="text" class="form-control" placeholder="渠道产品ID" [(ngModel)]="item.platform_no">
                 <input type="text" class="form-control" placeholder="渠道产品Hash Name" [(ngModel)]="item.extra_meta">
@@ -89,6 +90,8 @@
                     <i class="iconfont icon-close"></i>
                 </a>
             </div>
+            }
+            
         </div>
     </div>
 </app-dialog-box>

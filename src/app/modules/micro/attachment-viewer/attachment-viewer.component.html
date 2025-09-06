@@ -1,4 +1,4 @@
-<ng-container *ngIf="attachmentType > 0 && attachmentType < 3">
+@if (attachmentType > 0 && attachmentType < 3) {
     <div class="attachment"  [ngClass]="{'media-slider': open}">
         <i class="iconfont icon-close" (click)="open = false"></i>
         <div class="media-large">
@@ -12,14 +12,14 @@
             </li>
         </ul>
     </div>
-</ng-container>
-<ng-container *ngIf="attachmentType == 3">
-    <ng-container *ngFor="let item of items">
+}
+@if (attachmentType == 3) {
+    @for (item of items; track $index) {
         <app-audio-player [src]="item.file" [cover]="item.thumb"></app-audio-player>
-    </ng-container>
-</ng-container>
-<ng-container *ngIf="attachmentType == 4">
-    <ng-container *ngFor="let item of items">
+    }
+}
+@if (attachmentType == 4) {
+    @for (item of items; track $index) {
         <app-video-player [src]="item.file" [cover]="item.thumb"></app-video-player>
-    </ng-container>
-</ng-container>
+    }
+}

@@ -4,18 +4,23 @@
             {{ item.label || placeholder }}
         </div>
         <div class="select-option-bar">
-            <div class="search-option-item" *ngIf="item.searchable">
+            @if (item.searchable) {
+            <div class="search-option-item">
                 <input type="search" placeholder="Enter搜索" [(ngModel)]="item.keywords" (keydown)="onKeydown($event, item)">
                 <i class="iconfont icon-search"></i>
             </div>
+            }
+            
             <div class="loading-option-item">
                 加载中。。。
             </div>
-            <ng-container *ngIf="item.items && item.items.length > 0">
-                <div class="option-item" *ngFor="let option of item.items" [ngClass]="{selected: option.value === item.value}" (click)="tapSelect(item, option)">
+            @if (item.items && item.items.length > 0) {
+                @for (option of item.items; track $index) {
+                <div class="option-item" [ngClass]="{selected: option.value === item.value}" (click)="tapSelect(item, option)">
                     {{ option.name }}
                 </div>
-            </ng-container>
+                }
+            }
         </div>
     </div>
 }

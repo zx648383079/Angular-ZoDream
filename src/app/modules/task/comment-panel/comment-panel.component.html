@@ -12,7 +12,8 @@
     </div>
     <div class="panel-body">
         <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
-            <div class="comment-item" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="comment-item">
                 <div class="content">
                     <ng-container *ngIf="item.type == 1; else elseTemplate">
                         <img [src]="item.content" alt="">
@@ -24,6 +25,7 @@
                 </div>
                 <div class="time">{{ item.created_at }}</div>
             </div>
+            }
         </app-pull-to-refresh>
     </div>
 </div>

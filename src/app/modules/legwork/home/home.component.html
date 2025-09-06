@@ -13,7 +13,7 @@
     </ng-container>
 </div>
 
-<ng-container *ngFor="let item of items">
+@for (item of items; track $index) {
     <div class="service-item">
         <div class="title">
             <span class="tag" *ngIf="item.category">[{{ item.category?.name }}]</span>
@@ -26,5 +26,5 @@
             <span i18n>Place order</span>
         </a>
     </div>
-</ng-container>
+}
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

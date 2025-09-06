@@ -6,8 +6,8 @@
 
     <div>
         <div class="row">
-            <ng-container *ngFor="let item of items">
-            <div class="col-md-6">
+            @for (item of items; track $index) {
+                <div class="col-md-6">
                 <div class="mix-item">
                     <div class="item-thumb" *ngIf="item.thumb">
                         <img [src]="item.thumb" alt="">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            </ng-container>
+            }
         </div>
 
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

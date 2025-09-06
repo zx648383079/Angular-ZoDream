@@ -4,8 +4,9 @@
     </div>
     <div class="slider-box" [ngStyle]="boxStyle">
         <ul [ngStyle]="scrollStyle">
-            <li #itemView class="goods-item item-hover fixed-item" *ngFor="let item of items">
-                <ng-container *ngIf="itemType < 1; else elseTemplate">
+            @for (item of items; track $index) {
+            <li #itemView class="goods-item item-hover fixed-item">
+                @if (itemType < 1) {
                     <div class="thumb">
                         <a [routerLink]="'goods/' + item.id" [relativeTo]="baseRoute">
                             <img [src]="item.thumb" alt="">
@@ -13,9 +14,8 @@
                     </div>
                     <div class="name">{{ item.name }}</div>
                     <div class="price">{{ item.price | price }}</div>
-                </ng-container>
-                <ng-template #elseTemplate>
-                    <div class="thumb">
+                } @else {
+                     <div class="thumb">
                         <a [routerLink]="'goods/' + item.goods.id" [relativeTo]="baseRoute">
                             <img [src]="item.goods.thumb" alt="">
                         </a>
@@ -33,8 +33,10 @@
                             {{ item.content }}
                         </div>
                     </div>
-                </ng-template>
+                }
             </li>
+            }
+            
         </ul>
     </div>
     <div class="slider-next" (click)="tapNext()">

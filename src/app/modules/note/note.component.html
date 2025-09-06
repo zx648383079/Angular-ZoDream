@@ -16,7 +16,8 @@
                 </div>
             </div>
     
-            <div class="col-md-4" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="col-md-4">
                 <div class="note-item">
                     <div class="item-body" [innerHTML]="item.html"></div>
                     <div class="item-footer">
@@ -28,6 +29,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     </app-pull-to-refresh>

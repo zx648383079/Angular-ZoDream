@@ -2,25 +2,35 @@
     <div class="container side-box">
         <div>
             <div class="menu-box">
-                <div class="menu-group" *ngFor="let item of items">
+                @for (item of items; track $index) {
+                    <div class="menu-group">
                     <div class="menu-name" (click)="tapItem(item)" [ngClass]="{active: item.active}">
                         {{ item.name || item.title }}
                     </div>
-                    <ul *ngIf="item.children">
-                        <li *ngFor="let it of item.children" (click)="tapItem(it)" [ngClass]="{active: it.active}">{{ it.title }}</li>
+                    @if (item.children) {
+                        <ul>
+                        @for (it of item.children; track it.title) {
+                            <li (click)="tapItem(it)" [ngClass]="{active: it.active}">{{ it.title }}</li>
+                        }
                     </ul>
+                    }
+                    
                 </div>
+                }
             </div>
         </div>
         <div class="panel help-panel">
-            <div class="panel-header" *ngIf="data">
-                {{ data.title }}
-            </div>
-            <div class="panel-body" *ngIf="data">
-                <div [innerHTML]="content">
-
+            @if (data) {
+                <div class="panel-header">
+                    {{ data.title }}
                 </div>
-            </div>
+                <div class="panel-body">
+                    <div [innerHTML]="content">
+
+                    </div>
+                </div>
+            }
+            
         </div>
     </div>
 </div>

@@ -6,7 +6,7 @@
     </div>
     </ng-container>
 
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="map-panel" [ngClass]="{'map-selected': item.is_selected}" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}">
             <div class="panel-header" (mousedown)="onMoveStart(item, $event)">
                 <span>{{ item.name }}</span>
@@ -37,7 +37,7 @@
                 <span (mousedown)="onLinkStart(item, $event, 3)"></span>
             </div>
         </div>
-    </ng-container>
+    }
 
     <div class="selection-range" [ngStyle]="selectionStyle"></div>
 </div>

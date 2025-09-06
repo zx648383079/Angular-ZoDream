@@ -15,9 +15,9 @@
 @if (visible && data && data.type === 'slide') {
 <div class="code-modal">
     <div class="modal-body" [style]="{width: data.width + 'px', height: data.height + 'px'}">
-        <ng-container *ngFor="let item of data.imageItems">
+        @for (item of data.imageItems; track $index) {
             <div class="slide-image" [style]="{'background-image': 'url(\'' + data.image+ '\')', 'background-position': item.x + 'px '+ item.y + 'px', width: item.width + 'px', height: item.height + 'px'}"></div>
-        </ng-container>
+        }
         <div class="slide-control" [style]="{'background-image': 'url(\'' + data.control + '\')', width: data.controlWidth + 'px', height: data.controlHeight + 'px', top: data.controlY + 'px', left: value + 'px'}"></div>
         <a class=" code-refresh-btn" (click)="tapRefresh()" i18n-title title="Click refresh">
             <i class="iconfont icon-refresh"></i>
@@ -33,9 +33,9 @@
 <div class="code-modal">
     <div class="modal-body" (click)="onHint($event)">
         <img [src]="data.image" alt="">
-        <ng-container *ngFor="let item of maskItems">
+        @for (item of maskItems; track $index) {
             <i class="hint-item" [style]="{left: item.x + 'px', top: item.y + 'px'}"></i>
-        </ng-container>
+        }
     </div>
     <div class="code-hint-bar">
         <label i18n>Click on</label>

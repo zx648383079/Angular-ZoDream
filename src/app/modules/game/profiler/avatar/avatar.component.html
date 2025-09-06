@@ -39,7 +39,8 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="avatar-item" *ngFor="let item of items" (click)="tapItem(item)">
+            @for (item of items; track $index) {
+                <div class="avatar-item" (click)="tapItem(item)">
                 <div class="item-thumb">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
                 </div>
@@ -53,6 +54,7 @@
                     最近上新
                 </div>
             </div>
+            }
         </div>
     </div>
 </div>
@@ -117,7 +119,8 @@
     </div>
     <div class="modal-items">
         <div class="row">
-            <div class="col-md-4" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <div class="col-md-4">
                 <div class="item-panel">
                     <div class="panel-header">
                         <div class="item-thumb">
@@ -150,6 +153,7 @@
                     </div>
                 </div>
             </div>
+            }
 
         </div>
     </div>

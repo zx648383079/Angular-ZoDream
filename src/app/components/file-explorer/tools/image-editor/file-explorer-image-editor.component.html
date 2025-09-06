@@ -1,5 +1,5 @@
-
-<div class="dialog-box" *ngIf="visible">
+@if (visible) {
+<div class="dialog-box">
     <div class="dialog-header" [hidden]="isEditting">
         <span>查看图片[{{ formatIndex }}]</span>
         <div class="dialog-action-bar">
@@ -17,16 +17,15 @@
     </div>
     <div class="dialog-header" [hidden]="!isEditting">
         <div class="dialog-action-bar left-tool-bar">
-            <ng-container *ngFor="let item of toolItems">
-            <ng-container *ngIf="item; else elseTemplate">
+            @for (item of toolItems; track $index) {
+                @if (item) {
                 <div class="action-item" [title]="item.label" (click)="tapTool(item)">
                     <i class="iconfont" [ngClass]="item.icon"></i>
                 </div>
-            </ng-container>
-            <ng-template #elseTemplate>
-                <div class="action-hr"></div>
-            </ng-template>
-            </ng-container>
+                } @else {
+                    <div class="action-hr"></div>
+                }
+            }
         </div>
         <div class="dialog-action-bar">
             <div class="action-item disabled" title="回滚">
@@ -51,8 +50,8 @@
                 <div class="image-container" #imageBox></div>
             </div>
         </div>
-
-        <div class="attachment-property-panel" *ngIf="data">
+        @if (data) {
+        <div class="attachment-property-panel">
             <div class="line-row-item">
                 <label for="" class="item-label">上传日期：</label>
                 <span class="item-body">{{ data.created_at | timestamp }}</span>
@@ -78,7 +77,7 @@
                 <span class="item-body">{{ formatSize }}</span>
             </div>
 
-            <ng-container *ngIf="!isEditting">
+            @if (!isEditting) {
             <hr>
             <div class="form-table-control">
                 <div class="input-group-control">
@@ -109,8 +108,11 @@
                 <a href="">下载文件</a>
                 <a href="" class="text-danger">永久删除</a>
             </div>
-            </ng-container>
+            }
             
         </div>
+        }
+        
     </div>
 </div>
+}

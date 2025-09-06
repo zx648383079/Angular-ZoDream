@@ -4,7 +4,7 @@
             <li>商城统计</li>
         </ul>
     </app-page-tip>
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <div class="column-item">
             <div class="item-icon">
                 <div class="iconfont icon-file-o"></div>
@@ -14,7 +14,7 @@
                 <p>{{ item.count }}</p>
             </div>
         </div>
-    </ng-container>
+    }
 
     
     <div class="row">

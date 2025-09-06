@@ -1,11 +1,11 @@
 <div class="words-input" [ngClass]="{'input-focus': isFocus}">
     <div class="selected-container">
-        <ng-container *ngFor="let item of selectedItems">
+        @for (item of selectedItems; track $index) {
             <div class="selected-item">
                 <span class="item-close" (click)="tapUnselect(item)">&times;</span>
                 <div class="item-label" (click)="tapEdit(item)">{{ item }}</div>
             </div>
-        </ng-container>
+        }
     </div>
     <input #inputBox type="text" [(ngModel)]="keywords" [placeholder]="placeholder" [disabled]="disabled" (keydown)="onKeydown($event)" (focus)="isFocus = true" (blur)="onBlur()">
 </div>

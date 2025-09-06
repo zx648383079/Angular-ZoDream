@@ -2,18 +2,18 @@
     <div class="editor-tool-bar">
         <div class="tool-bar-top">
             <div class="tool-left">
-                <ng-container *ngFor="let item of topLeftItems">
+                @for (item of topLeftItems; track $index) {
                     <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
-                </ng-container>
+                }
             </div>
             <div class="tool-right">
-                <ng-container *ngFor="let item of topRightItems">
+                @for (item of topRightItems; track $index) {
                     <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
         
@@ -22,9 +22,11 @@
         <div class="editor-area">
             <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disabled"  spellcheck="false" [placeholder]="placeholder"></textarea>
             <div class="editor-footer" i18n>{{ size }} words</div>
-            <div class="editor-preview" *ngIf="isPreview">
+            @if (isPreview) {
+            <div class="editor-preview">
                 <app-markdown-block [value]="previewValue" [isFormated]="false"></app-markdown-block>
             </div>
+            }
         </div>
         <ng-container #modalVC></ng-container>
     </div>

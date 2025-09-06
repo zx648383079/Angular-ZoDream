@@ -7,11 +7,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let item of items">
+        @for (item of items; track $index) {
+            <tr>
             <td>{{ item.user?.name }}</td>
             <td>{{ 0 | price }}</td>
             <td>{{ 0 | price }}</td>
         </tr>
+        }
     </tbody>
 </table>
 

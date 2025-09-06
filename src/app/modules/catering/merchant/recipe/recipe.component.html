@@ -47,7 +47,8 @@
                     <app-catering-nav-bar [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
                 </div>
                 <div class="col-md-9">
-                    <div class="body-row" *ngFor="let item of items">
+                    @for (item of items; track $index) {
+                        <div class="body-row">
                         <div class="td-2 td-center">
                             开水白菜
                         </div>
@@ -65,6 +66,7 @@
                             </div>
                         </div>
                     </div>
+                    }
 
                     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
                     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

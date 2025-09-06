@@ -8,10 +8,12 @@
         <app-action-button class="btn btn-primary" (tapped)="tapMake($event)">生成SiteMap</app-action-button>
 
         <div class="cmd-box" #cmd>
-            <p class="cmd-line" *ngFor="let item of items">
+            @for (item of items; track $index) {
+                <p class="cmd-line">
                 <i class="iconfont" [ngClass]="{'icon-check': true, 'icon-close': false}"></i>
                 {{ item }}
             </p>
+            }
         </div>
     </div>
 </div>

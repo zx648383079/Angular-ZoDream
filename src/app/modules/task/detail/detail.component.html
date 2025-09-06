@@ -11,7 +11,8 @@
             <i class="iconfont icon-chevron-down"></i>
         </div>
         <div class="expand-body">
-            <div class="task-item" *ngFor="let item of items" [ngClass]="{finished: item.status < 5}">
+            @for (item of items; track $index) {
+                <div class="task-item" [ngClass]="{finished: item.status < 5}">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.description }}</div>
                 <div class="time">{{ item.time_length | hour }}</div>
@@ -19,6 +20,7 @@
                     <i class="iconfont icon-play"></i>
                 </div>
             </div>
+            }
         </div>
     </div>
 
