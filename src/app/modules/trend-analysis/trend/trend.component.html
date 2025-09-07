@@ -9,17 +9,28 @@
             <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
-                    <input type="text" class="form-control" [ngModel]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间">
+                    <app-date-input [ngModel]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间"></app-date-input>
                     -
-                    <input type="text" class="form-control" [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间">
+                    <app-date-input [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间"></app-date-input>
                 </div>
-                <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="tab-bar pull-right">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                    <a class="btn btn-info" [ngClass]="{active: moreOpen}" (click)="moreOpen = !moreOpen">
+                        <i class="iconfont icon-cog"></i>
+                    </a>
+                </div>
+                <div class="tab-bar pull-right --with-gray">
                     @for (item of tabItems; track $index) {
-                        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTime(item.value)">{{ item.name }}</a>
                     }
                 </div>
             </form>
+            @if (moreOpen) {
+            <div class="search-more-body">
+
+            </div>
+            }
+            
         </div>
     
         <table class="table table-hover">
@@ -37,24 +48,118 @@
                     <td>
                         访问网址
                     </td>
-                    <td>
-                        状态码
-                    </td>
                 </tr>
             </thead>
             <tbody>
                 @for (item of items; track $index) {
                 <tr>
-                    <td>{{ item.created_at | timestamp:'short'}}</td>
-                    <td>{{ item.ip }}</td>
-                    <td>{{ item.method }}</td>
-                    <td>{{ item.pathname }}
-                        @if (item.queries) {
-                            ?{{item.queries}}
-                        }
+                    <td [title]="item.created_at|timestamp">{{ item.created_at | timestamp:'hh:ii:ss'}}</td>
+                    <td class="--with-tool">
+                        <a (click)="toggleOpen(item)">{{ item.ip }}</a>
+                        <div class="tool-bar">
+                            @if (isMask('ip', item.ip)) {
+                                <a title="取消标记">
+                                    <i class="iconfont icon-clearformat"></i>
+                                </a>
+                            } @else {
+                                <a title="标记">
+                                    <i class="iconfont icon-bookmark"></i>
+                                </a>
+                            }
+                            <a title="搜索">
+                                <i class="iconfont icon-search"></i>
+                            </a>
+                        </div>
                     </td>
-                    <td>{{ item.status_code }}</td>
+                    <td>
+                        <a class="btn" [ngClass]="{'btn-success': item.status_code <= 308, 'btn-danger': item.status_code >= 400}" [title]="item.status_code">
+                            {{ item.method }}
+                        </a>
+                    </td>
+                    <td>
+                        <code class="code-snippet">
+                            @if (item.queries) {
+                                {{ item.pathname }}?{{item.queries}}
+                            } @else {
+                                {{ item.pathname }}
+                            }
+                        </code>
+                    </td>
                 </tr>
+                @if (item.is_open) {
+                    <tr>
+                        <td colspan="4">
+                            <div class="line-row-item">
+                                <span class="item-label">请求时间：</span>
+                                <span class="item-body">{{ item.created_at|timestamp:'yyyy-mm-dd hh:ii:ss' }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">请求方法：</span>
+                                <span class="item-body">{{ item.method }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">请求域名：</span>
+                                <div class="item-body">
+                                    <code class="code-snippet">
+                                        {{ item.hostname }}
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">请求路径：</span>
+                                <div class="item-body">
+                                    <code class="code-snippet">
+                                        {{ item.pathname }}
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">请求参数：</span>
+                                <div class="item-body">
+                                    <code class="code-snippet">
+                                        {{ item.queries }}
+                                    </code>
+                                </div>
+                            </div>
+                            
+                            <div class="line-row-item">
+                                <span class="item-label">Referer：</span>
+                                <div class="item-body">
+                                    <code class="code-snippet">
+                                        {{ item.referrer_hostname }}{{ item.referrer_pathname }}
+                                    </code>
+                                </div>
+                            </div>
+                            @if (item.browser) {
+                            <div class="line-row-item">
+                                <span class="item-label">浏览器：</span>
+                                <span class="item-body">{{ item.browser.join(' ') }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">操作系统：</span>
+                                <span class="item-body">{{ item.os.join(' ') }}</span>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">设备：</span>
+                                <span class="item-body">{{ item.device.join(' ') }}</span>
+                            </div>
+                            }
+                            
+                            <div class="line-row-item">
+                                <span class="item-label">User Agent：</span>
+                                <div class="item-body">
+                                    <code class="code-snippet">
+                                        {{ item.user_agent }}
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="line-row-item">
+                                <span class="item-label">Status Code：</span>
+                                <span class="item-body">{{ item.status_code }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                }
                 }
             </tbody>
         </table>

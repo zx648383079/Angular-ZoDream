@@ -1,78 +1,108 @@
 <div class="container">
     <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
-    <div *ngIf="data">
+    @if (data) {
+    <div>
         <div class="book-title">
             {{ data.title }}
         </div>
         <div class="panel-sort-container">
             <div class="info">
-                <div class="language-toggle" *ngIf="data.languages && data.languages.length > 1">
-                    <ng-container *ngFor="let item of data.languages">
+                @if (data.languages && data.languages.length > 1) {
+                <div class="language-toggle">
+                    @for (item of data.languages; track $index) {
                         <a (click)="loadBlog(item.id)" [ngClass]="{active: item.id === data.id}">{{ item.name }}</a>
-                    </ng-container>
+                    }
                 </div>
-                <a class="author" *ngIf="data.user" routerLink="../" [queryParams]="{user: data.user.id}"><i
+                }
+                @if (data.user) {
+                    <a class="author" routerLink="../" [queryParams]="{user: data.user.id}"><i
                         class="iconfont icon-edit"></i><b>{{ data.user.name }}</b></a>
-                <a class="category" *ngIf="data.term" routerLink="../" [queryParams]="{category: data.term.id}"><i
+                }
+                @if (data.term) {
+                    <a class="category" routerLink="../" [queryParams]="{category: data.term.id}"><i
                         class="iconfont icon-bookmark"></i><b>{{ data.term.name }}</b></a>
-                <a class="language" *ngIf="data.programming_language" routerLink="../"
+                }
+                @if (data.programming_language) {
+                    <a class="language" routerLink="../"
                     [queryParams]="{programming_language: data.programming_language}"><i
                         class="iconfont icon-code"></i><b>{{ data.programming_language }}</b></a>
+                }
+                
                 <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at | ago }}</b></span>
             </div>
             <article id="content" class="content">
-                <ng-container *ngIf="data.audio_url">
+                @if (data.video_url) {
+                     <app-video-player [src]="data.video_url"></app-video-player>
+                } @else if (data.audio_url) {
                     <app-audio-player [src]="data.audio_url"></app-audio-player>
-                </ng-container>
-                <ng-container *ngIf="data.video_url">
-                    <app-video-player [src]="data.video_url"></app-video-player>
-                </ng-container>
+                }
                 <app-markdown-block [value]="content"></app-markdown-block>
 
-                <ng-container *ngIf="!data.can_read">
-                    <div class="rule-box rule-login" *ngIf="data.open_type == 1">
-                        <div class="rule-tip">
-                            <ng-container i18n>Articles must be</ng-container>
-                            <a (click)="tapOpen()" i18n>Sign in</a>
-                            <ng-container i18n>to continue reading</ng-container>
-                        </div>
-                  </div>
-                  <div class="rule-box rule-password" *ngIf="data.open_type == 5">
-                        <div class="rule-header" i18n>
-                            Please enter the reading password
-                        </div>
-                        <div class="flat-input">
-                            <input type="text" name="password" class="form-control" i18n-placeholder placeholder="Please input password" [(ngModel)]="openKey">
-                            <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm</button>
-                        </div>
-                        
-                    </div>
-                    <div class="rule-box rule-buy" *ngIf="data.open_type == 6">
-                        <div class="rule-header">
-                            <ng-container i18n>Articles must be pay</ng-container><b i18n>{{ data.open_rule }} Coins</b><ng-container i18n>to continue reading</ng-container>
-                        </div>
-                        <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm purchase</button>
-                    </div>
-                </ng-container>
+                @if (!data.can_read) {
+                    @switch (data.open_type) {
+                        @case (1) {
+                            <div class="rule-box rule-login">
+                                <div class="rule-tip">
+                                    <ng-container i18n>Articles must be</ng-container>
+                                    <a (click)="tapOpen()" i18n>Sign in</a>
+                                    <ng-container i18n>to continue reading</ng-container>
+                                </div>
+                            </div>
+                        }
+                        @case (5) {
+                            <div class="rule-box rule-password">
+                                <div class="rule-header" i18n>
+                                    Please enter the reading password
+                                </div>
+                                <div class="flat-input">
+                                    <input type="text" name="password" class="form-control" i18n-placeholder placeholder="Please input password" [(ngModel)]="openKey">
+                                    <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm</button>
+                                </div>
+                                
+                            </div>
+                        }
+                        @case (6) {
+                            <div class="rule-box rule-buy">
+                                <div class="rule-header">
+                                    <ng-container i18n>Articles must be pay</ng-container><b i18n>{{ data.open_rule }} Coins</b><ng-container i18n>to continue reading</ng-container>
+                                </div>
+                                <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm purchase</button>
+                            </div>
+                        }
+                    }
+                    
+                  
+                    
+                }
                 
-
-                <p class="book-copyright" *ngIf="data.url">
+                @if (data.url) {
+                <p class="book-copyright">
                     <ng-container i18n>Please keep the original link for reprinting:</ng-container>
                     <a [href]="data.url" [title]="data.title">{{ data.url }}</a>
                 </p>
+                }
+                
             </article>
             <div class="book-bottom">
-                <div class="book-source" *ngIf="data.type == 1">
-                    <span i18n>Reprinted in:</span>
-                    <a [href]="data.source_url" target="_blank" i18n-title title="This article is reprinted, click to view the original page">
-                        {{data.source_url}} </a>
-                </div>
-                <div class="book-tags" *ngIf="data.tags">
-                    <span i18n>Tags:</span>
-                    <ng-container *ngFor="let tag of data.tags">
-                        <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>, 
-                    </ng-container>
-                </div>
+                @if (data.type == 1) {
+                    <div class="book-source">
+                        <span i18n>Reprinted in:</span>
+                        <a [href]="data.source_url" target="_blank" i18n-title title="This article is reprinted, click to view the original page">
+                            {{data.source_url}} </a>
+                    </div>
+                }
+                @if (data.tags) {
+                    <div class="book-tags">
+                        <span i18n>Tags:</span>
+                        @for (tag of data.tags; track $index; let f = $first) {
+                            @if (!f) {
+                                , 
+                            }
+                            <a routerLink="../" [queryParams]="{tag: tag.name}">{{ tag.name }}</a>
+                        }
+                    </div>
+                }
+                
             </div>
             <div class="tools">
                 <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
@@ -83,42 +113,53 @@
         </div>
 
         <div class="book-navigation">
-            <a class="prev" *ngIf="data.previous" (click)="loadBlog(data.previous.id)" i18n-title [title]="'Previous: ' + data.previous.title">
-                <i class="iconfont icon-chevron-left"></i>
-                <div class="prev-text">
-                    <span class="prev-label" i18n>Previous</span>
-                    <span class="prev-title">{{ data.previous.title }}</span>
-                </div>
-            </a>
-            <a class="next" *ngIf="data.next" (click)="loadBlog(data.next.id)" i18n-title [title]="'Next: ' + data.next.title">
-                <div class="next-text">
-                    <span class="next-label" i18n>Next</span>
-                    <span class="next-title">{{ data.next.title }}</span>
-                </div>
-                <i class="iconfont icon-chevron-right"></i>
-            </a>
-        </div>
-        <div class="panel" *ngIf="relationItems && relationItems.length > 0">
-            <div class="panel-header">
-                <a routerLink="../" i18n>Related Articles</a>
-            </div>
-            <div class="panel-body">
-                <ng-container *ngFor="let item of relationItems">
-                    <div class="article-list-item" (click)="loadBlog(item.id)">
-                        <div class="item-body">
-                            <a class="item-title">{{ item.title }}</a>
-                            <div class="item-time">{{ item.created_at | ago }}</div>
-                        </div>
-                        <div class="item-meta">{{ item.description }}</div>
+            @if (data.previous) {
+                <a class="prev" (click)="loadBlog(data.previous.id)" i18n-title [title]="'Previous: ' + data.previous.title">
+                    <i class="iconfont icon-chevron-left"></i>
+                    <div class="prev-text">
+                        <span class="prev-label" i18n>Previous</span>
+                        <span class="prev-title">{{ data.previous.title }}</span>
                     </div>
-                </ng-container>
+                </a>
+            }
+            @if (data.next) {
+                <a class="next" (click)="loadBlog(data.next.id)" i18n-title [title]="'Next: ' + data.next.title">
+                    <div class="next-text">
+                        <span class="next-label" i18n>Next</span>
+                        <span class="next-title">{{ data.next.title }}</span>
+                    </div>
+                    <i class="iconfont icon-chevron-right"></i>
+                </a>
+            }
+            
+        </div>
+        @if (relationItems && relationItems.length > 0) {
+            <div class="panel">
+                <div class="panel-header">
+                    <a routerLink="../" i18n>Related Articles</a>
+                </div>
+                <div class="panel-body">
+                    <ng-container *ngFor="let item of relationItems">
+                        <div class="article-list-item" (click)="loadBlog(item.id)">
+                            <div class="item-body">
+                                <a class="item-title">{{ item.title }}</a>
+                                <div class="item-time">{{ item.created_at | ago }}</div>
+                            </div>
+                            <div class="item-meta">{{ item.description }}</div>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
-        </div>
+        }
+        
 
-
-        <div class="template-lazy" *ngIf="data.comment_status > 0" appLazyLoad (lazyLoading)="commentLoaded = true">
-            <app-comment [itemId]="data.id" [init]="commentLoaded" [status]="data.comment_status"></app-comment>
-        </div>
+        @if (data.comment_status > 0) {
+            <div class="template-lazy" appLazyLoad (lazyLoading)="commentLoaded = true">
+                <app-comment [itemId]="data.id" [init]="commentLoaded" [status]="data.comment_status"></app-comment>
+            </div>
+        }
+        
         
     </div>
+    }
 </div>

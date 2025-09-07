@@ -2,7 +2,9 @@
     <app-page-tip>
         <ul>
             <li>管理帖子列表</li>
-            <li *ngIf="forum">当前板块：{{ forum.name }}</li>
+            @if (forum) {
+                <li>当前板块：{{ forum.name }}</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">

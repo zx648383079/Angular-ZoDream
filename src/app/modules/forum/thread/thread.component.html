@@ -1,51 +1,66 @@
-<div class="container tablet-collapse" *ngIf="thread">
-  <ul  class="breadcrumb">
-      <li class="breadcrumb-item">
-          <a routerLink="/" class="iconfont icon-home"></a>
-      </li><li class="breadcrumb-item">
-          <a routerLink="../../" i18n>Home</a>
-      </li>
-      <li class="breadcrumb-item" *ngFor="let item of thread.path">
-        <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
+@if (thread) {
+<div class="container tablet-collapse">
+    <ul  class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/" class="iconfont icon-home"></a>
+        </li><li class="breadcrumb-item">
+            <a routerLink="../../" i18n>Home</a>
         </li>
-      <li class="breadcrumb-item active">{{ thread.title }}
-      </li>
-  </ul>
+        @for (item of thread.path; track $index) {
+            <li class="breadcrumb-item">
+            <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
+            </li>
+        }
+        
+        <li class="breadcrumb-item active">{{ thread.title }}
+        </li>
+    </ul>
 </div>
+}
+
 
 <div class="container">
     <div class="thread-box">
-        <div class="thread-title-bar" *ngIf="thread"  [ngClass]="{'thread-highlight': thread.is_highlight}">
+        @if (thread) {
+        <div class="thread-title-bar" [ngClass]="{'thread-highlight': thread.is_highlight}">
             <div class="item-count">
                 <span i18n>View: {{ thread.view_count | numberFormat }}</span>
                 <span i18n>Reply: {{ thread.post_count | numberFormat }}</span>
             </div>
             <div class="item-title">
-                <ng-container *ngIf="thread.is_closed">
+                @if (thread.is_closed) {
                     <i class="iconfont icon-lock" i18n-title title="Thread is closed "></i>
-                </ng-container>
-                <ng-container *ngIf="!thread.is_closed">
+                } @else {
                     <i class="iconfont icon-file-o"></i>
-                </ng-container>
-                <em class="tag-item" *ngIf="thread.classify">
+                }
+                @if (thread.classify) {
+                <em class="tag-item">
                     [<a>{{ thread.classify.name }}</a>]
                 </em>
+                }
+                
                 <span class="title-text">{{ thread.title }} </span>
-                <i class="iconfont icon-fire" *ngIf="thread.is_digest"></i>
-                <a class="new-tag" *ngIf="thread.is_new">New</a>
+                @if (thread.is_digest) {
+                    <i class="iconfont icon-fire"></i>
+                }
+                
+                @if (thread.is_new) {
+                    <a class="new-tag">New</a>
+                }
                 <div class="pull-right">
-                    <ng-container *ngIf="queries.order != 'desc'; else elseSortTemplate">
+                    @if (queries.order != 'desc') {
                         <i class="iconfont icon-sort-alpha-desc" i18n-title title="Backwards browse" (click)="tapSortOrder()"></i>
-                    </ng-container>
-                    <ng-template #elseSortTemplate>
+                    } @else {
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
-                    </ng-template>
+                    }
                     <select [(ngModel)]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
                         <option *ngFor="let item of statusData.items; let i = index" [value]="i">{{ item }}</option>
                     </select>
                 </div>
             </div>
         </div>
+        }
+        
         <div class="post-list">
             @for (item of items; track $index) {
                 @if (item.grade < 1) {
@@ -58,8 +73,13 @@
                             <i class="iconfont icon-user"></i>
                             <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
-                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
-                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>
+                            @if (queries.user < 1) {
+                                <a (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
+                            } @else {
+                                <a (click)="tapSeeUser(0)" i18n>Back to all</a>
+                            }
+                            
+                            
                             <div class="action">
                             </div>
                         </div>
@@ -68,34 +88,36 @@
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
                         </div>
                         <div class="item-action-bar">
-                            <ng-container *ngIf="thread.like_type == 1; else elseLikeTemplate">
+                            @if (thread.like_type == 1) {
                                 <div class="action-btn active" i18n-title title="Cancel Like" (click)="toggleLike()">
                                     <i class="iconfont icon-thumbs-o-up"></i>
                                 </div>
-                            </ng-container>
-                            <ng-template #elseLikeTemplate>
+                            } @else {
                                 <div class="action-btn" i18n-title title="Like" (click)="toggleLike()">
                                     <i class="iconfont icon-thumbs-o-up"></i>
                                 </div>
-                            </ng-template>
+                            }
                             <div class="action-btn"  [ngClass]="{active: thread.is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
                                 {thread.is_reward, plural, =true {Rewarded} =false {Reward}}
                             </div>
-                            <ng-container *ngIf="thread.is_collected; else elseCollectTemplate">
+                            @if (thread.is_collected) {
                                 <div class="action-btn active" i18n-title title="Cancel Collect" (click)="toggleCollect()">
                                     <i class="iconfont icon-heart"></i>
                                 </div>
-                            </ng-container>
-                            <ng-template #elseCollectTemplate>
+                            } @else {
                                 <div class="action-btn" i18n-title title="Collect" (click)="toggleCollect()">
                                     <i class="iconfont icon-heart-o"></i>
                                 </div>
-                            </ng-template>
+                            }
                         </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
-                                <app-command-button *ngIf="user" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
-                                <app-command-button *ngIf="thread.digestable || thread.highlightable || thread.closeable || thread.topable" icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)"></app-command-button>
+                                @if (user) {
+                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                }
+                                @if (thread.digestable || thread.highlightable || thread.closeable || thread.topable) {
+                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)"></app-command-button>
+                                }
                             </app-command-bar>
                         </div>
                     </div>
@@ -110,21 +132,32 @@
                             <i class="iconfont icon-user"></i>
                                 <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
-                            <a *ngIf="queries.user < 1" (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
-                            <a *ngIf="queries.user > 0" (click)="tapSeeUser(0)" i18n>Back to all</a>
+                            @if (queries.user < 1) {
+                                <a (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
+                            } @else {
+                                <a (click)="tapSeeUser(0)" i18n>Back to all</a>
+                            }
                             <div class="action" i18n>
                                 {{ item.grade }} floor
                             </div>
                         </div>
                         <div class="item-content">
-                            <div class="stamp" *ngIf="item.status > 0">{{ formatStatus(item) }}</div>
+                            @if (item.status > 0) {
+                                <div class="stamp">{{ formatStatus(item) }}</div>
+                            }
                             <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
                           </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
-                                <app-command-button *ngIf="user && item.is_public_post" icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
-                                <app-command-button *ngIf="thread.editable" icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)"></app-command-button>
-                                <app-command-button *ngIf="item.deleteable" icon="icon-trash" label="Delete" i18n-label (tapped)="tapRemove(item)"></app-command-button>
+                                @if (user && item.is_public_post) {
+                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                }
+                                @if (thread.editable) {
+                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)"></app-command-button>
+                                }
+                                @if (item.deleteable) {
+                                    <app-command-button icon="icon-trash" label="Delete" i18n-label (tapped)="tapRemove(item)"></app-command-button>
+                                }
                             </app-command-bar>
                         </div>
                     </div>
@@ -137,7 +170,8 @@
         <div class="paging-box">
             <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
         </div>
-        <div class="post-item --with-new" *ngIf="user && thread && !thread.is_closed">
+        @if (user && thread && !thread.is_closed) {
+        <div class="post-item --with-new">
             <div class="item-user-header">
                 <div class="control-name">{{ user.name }}</div>
                 <div class="control-avatar">
@@ -153,69 +187,95 @@
                 </form>
             </div>
         </div>
+        }
+        
     </div>
 </div>
 
 <ng-template #userTpl let-user>
     <div class="user-inner-pane">
         <div class="control-name">{{ user.name }}
-            <div class="card-more" *ngIf="user.card_items && user.card_items.length > 0">
-                <a *ngFor="let it of user.card_items">
+            @if (user.card_items && user.card_items.length > 0) {
+            <div class="card-more">
+                @for (it of user.card_items; track $index) {
+                <a>
                     <img [src]="it.icon|asset" [alt]="it.name" i18n-title [title]="it.name + ' Valid until' + it.expired_at">
                 </a>
+                }
             </div>
+            }
         </div>
         <div class="control-avatar">
             <img [src]="user.avatar" alt="">
         </div>
         <div class="user-meta-body">
-            <div class="count-bar" *ngIf="user.count_items && user.count_items.length > 0">
-                <div class="count-item" *ngFor="let it of user.count_items">
+            @if (user.count_items && user.count_items.length > 0) {
+            <div class="count-bar">
+                @for (it of user.count_items; track $index) {
+                <div class="count-item">
                     <div class="count">{{ it.count | numberFormat }}</div>
                     <span>{{ it.name }}</span>
                 </div>
+                }
             </div>
-            <div class="meta-more" *ngIf="user.medal_items && user.medal_items.length > 0">
-                <a *ngFor="let it of user.medal_items">
+            }
+            @if (user.medal_items && user.medal_items.length > 0) {
+            <div class="meta-more">
+                @for (it of user.medal_items; track $index) {
+                <a>
                     <img [src]="it.icon|asset" [alt]="it.name">
                 </a>
+                }
             </div>
+            }
         </div>
     </div>
 </ng-template>
 
 
 <app-dialog-box #modal i18n-title title="Edit">
-    <ng-container *ngIf="thread">
-        <div class="link-item" *ngIf="thread.topable">
+    @if (thread) {
+        @if (thread.topable) {
+        <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.top_type"></app-switch>
             </div>
         </div>
-        <div class="link-item" *ngIf="thread.digestable">
+        }
+        
+        @if (thread.digestable) {
+        <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_digest"></app-switch>
             </div>
         </div>
-        <div class="link-item" *ngIf="thread.highlightable">
+        }
+        
+        @if (thread.highlightable) {
+        <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_highlight"></app-switch>
             </div>
         </div>
-        <div class="link-item" *ngIf="thread.closeable">
+        }
+        
+        @if (thread.closeable) {
+        <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
                 <app-switch [(ngModel)]="editData.is_closed"></app-switch>
             </div>
         </div>
+        }
+        
         <div class="form-group">
           <label for="remark" i18n>Operating Instructions*</label>
           <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>
         </div>
-    </ng-container>
+    }
 </app-dialog-box>
 
 <app-dialog-box #rewardModal [scrollable]="false" i18n-title title="Reward">

@@ -161,3 +161,12 @@
         }
     }
 }
+
+
+.--with-gray {
+    --#{theme.$prefix}tab: var(--#{theme.$prefix}body);
+}
+
+.--with-light {
+    --#{theme.$prefix}tab: var(--#{theme.$prefix}panel);
+}

@@ -98,7 +98,7 @@
         </table>
         </div>
     </div>
-    <div class="tab-bar">
+    <div class="tab-bar --with-light">
         @for (item of tabItems; track $index) {
             <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         }

@@ -8,11 +8,11 @@
                 <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [ngClass]="{active: addToggle}">
                     <i class="iconfont icon-plus"></i>
                 </div>
-                <ng-container *ngFor="let item of toolItems">
+                @for (item of toolItems; track $index) {
                     <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                     </div>
-                </ng-container>
+                }
             </div>
             <div class="tool-right">
                 <app-toggle-bar [items]="localizes" [(ngModel)]="data.language" (ngModelChange)="onLocalizeChange()"></app-toggle-bar>
@@ -40,9 +40,9 @@
         <div class="editor-panel" [hidden]="!propertyToggle">
             <div class="panel-header">
                 <div class="panel-tab-bar">
-                    <ng-container *ngFor="let item of propertyTabItems;let i = index">
+                    @for (item of propertyTabItems; track $index;let i = $index) {
                         <a class="item" [ngClass]="{active: propertyTabIndex == i}" (click)="propertyTabIndex = i">{{ item }}</a>
-                    </ng-container>
+                    }
                 </div>
                 <div class="panel-action-btn" (click)="propertyToggle = false">
                     <i class="iconfont icon-close"></i>
@@ -68,9 +68,9 @@
                         <label for="term_id" i18n>Term</label>
                         <div>
                             <select id="term_id" class="form-control" formControlName="term_id">
-                                <ng-container *ngFor="let item of categories">
+                                @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
-                                </ng-container>
+                                }
                             </select>
                         </div>
                     </div>
@@ -79,9 +79,9 @@
                         <div>
                             <select id="programming_language" class="form-control" formControlName="programming_language">
                                 <option value="" i18n>Select...</option>
-                                <ng-container *ngFor="let item of languages">
+                                @for (item of languages; track $index) {
                                     <option [value]="item">{{ item }}</option>
-                                </ng-container>
+                                }
                             </select>
                         </div>
                     </div>
@@ -133,27 +133,30 @@
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="Additional">
-                    <div class="input-group-control" *ngIf="typeValue > 0">
+                    @if (typeValue > 0) {
+                    <div class="input-group-control">
                         <label for="meta_source_author" i18n>Original's author</label>
                         <div>
                             <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
                     
                         </div>
                     </div>
-                    <div class="input-group-control" *ngIf="typeValue > 0">
+                    <div class="input-group-control">
                         <label for="source_url" i18n>Original's link</label>
                         <div>
                             <input type="text" id="source_url" class="form-control" formControlName="source_url">
                         </div>
                     </div>
+                    }
+                    
                     <div class="input-group-control">
                         <label for="weather" i18n>Weather</label>
                         <div>
                             <select id="weather" class="form-control" formControlName="weather">
                                 <option value="" i18n>Select...</option>
-                                <ng-container *ngFor="let item of weathers">
+                                @for (item of weathers; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
-                                </ng-container>
+                                }
                             </select>
         
                         </div>
@@ -175,9 +178,9 @@
                         <div>
                             <select id="meta_cc_license" class="form-control" formControlName="cc_license">
                                 <option value="" i18n>Select...</option>
-                                <ng-container *ngFor="let item of licenses">
+                                @for (item of licenses; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
-                                </ng-container>
+                                }
                             </select>
                         </div>
                     </div>
@@ -189,12 +192,15 @@
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="SEO Optimization">
-                    <div class="input-group-control" *ngIf="typeValue > 0">
+                    @if (typeValue > 0) {
+                    <div class="input-group-control">
                         <label for="meta_is_hide" i18n>Whether to hide</label>
                         <div>
                             <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
                         </div>
                     </div>
+                    }
+                    
                     <div class="input-group-control">
                         <label for="meta_seo_title" i18n>SEO Title</label>
                         <div>
@@ -235,7 +241,8 @@
         </div>
     </div>
     <div class="modal-body">
-        <div class="option-item" *ngFor="let item of openItems" (click)="changeOpenType(item.value)">
+        @for (item of openItems; track $index) {
+        <div class="option-item" (click)="changeOpenType(item.value)">
             <div class="item-icon">
                 <i class="iconfont" [ngClass]="{'icon-check-square-o': openType == item.value, 'icon-square-o': openType != item.value}"></i>
             </div>
@@ -244,12 +251,16 @@
                 <div class="item-meta">{{ item.meta }}</div>
             </div>
         </div>
-        <div class="input-group-control" *ngIf="openType > 4">
+        }
+        @if (openType > 4) {
+        <div class="input-group-control">
             <label for="open_rule">{{ ruleLabel }}</label>
             <div>
                 <input type="text" id="open_rule" class="form-control" [(ngModel)]="openRule">
             </div>
         </div>
+        }
+        
     </div>
 </div>
 <div class="editor-modal" [ngStyle]="statusStyle">
@@ -265,7 +276,8 @@
         设置文章的是否公开
     </div> -->
     <div class="modal-body">
-        <div class="option-item" *ngFor="let item of statusItems" (click)="changePublishStatus(item.value)">
+        @for (item of statusItems; track $index) {
+        <div class="option-item" (click)="changePublishStatus(item.value)">
             <div class="item-icon">
                 <i class="iconfont" [ngClass]="{'icon-check-square-o': publishStatus == item.value, 'icon-square-o': publishStatus != item.value}"></i>
             </div>
@@ -274,5 +286,7 @@
                 <div class="item-meta">{{ item.meta }}</div>
             </div>
         </div>
+        }
+        
     </div>
 </div>

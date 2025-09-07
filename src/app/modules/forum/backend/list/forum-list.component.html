@@ -2,7 +2,9 @@
     <app-page-tip>
         <ul>
             <li>管理板块列表</li>
-            <li *ngIf="parent">当前父板块：{{ parent.name }}</li>
+            @if (parent) {
+                <li>当前父板块：{{ parent.name }}</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -17,8 +19,12 @@
                 <div class="btn-group pull-right">
                     <a routerLink="../create" [queryParams]="{parent: parent?.id}"
                     class="btn btn-primary">新增板块</a>
-                    <a *ngIf="parent && parent.parent_id > 0" class="btn btn-info" (click)="tapParent()">返回上一级</a>
-                    <a *ngIf="parent" class="btn btn-light" (click)="tapViewChild()">返回顶级</a>
+                    @if (parent && parent.parent_id > 0) {
+                        <a class="btn btn-info" (click)="tapParent()">返回上一级</a>
+                    }
+                    @if (parent) {
+                        <a class="btn btn-light" (click)="tapViewChild()">返回顶级</a>
+                    }
                 </div>
             </form>
         </div>

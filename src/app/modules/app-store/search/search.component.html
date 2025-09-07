@@ -51,7 +51,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="panel" *ngFor="let item of filterItems">
+            @for (item of filterItems; track $index) {
+            <div class="panel">
                 <div class="panel-header">
                     {{ item.label }}
                     <div class="panel-icon">
@@ -59,40 +60,52 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <ul *ngIf="item.items && item.items.length > 0">
-                        <ng-container *ngFor="let it of item.items">
+                    @if (item.items && item.items.length > 0) {
+                    <ul>
+                        @for (it of item.items; track $index) {
                             <li [ngClass]="{active: it.selected}" (click)="tapFilterItem(item, it)">
-                                <div class="check-input" *ngIf="item.multiple">
+                                @if (item.multiple) {
+                                <div class="check-input">
                                     <i class="iconfont icon-check-square-o"></i>
                                 </div>
-                                <div class="radio-input" *ngIf="!item.multiple && item.name != 'category'">
+                                }
+                                @if (!item.multiple && item.name != 'category') {
+                                <div class="radio-input">
                                     <i class="iconfont icon-circle"></i>
                                 </div>
+                                }
+                                
                                 <a >{{ it.label }}</a>
                                 <span class="count">{{ it.count | numberFormat }}</span>
                             </li>
-                        </ng-container>
+                        }
                     </ul>
-                    <div class="price-input" *ngIf="item.name == 'price'">
+                    }
+                    @if (item.name == 'price') {
+                    <div class="price-input">
                         <input type="text" class="form-control" [(ngModel)]="item.min">-
                         <input type="text" class="form-control" [(ngModel)]="item.max">
                         <div class="btn btn-primary" (click)="tapPrice(item)">
                             <i class="iconfont icon-chevron-right"></i>
                         </div>
                     </div>
+                    }
+                    
                 </div>
             </div>
+            }
+            
         </div>
         <div class="col-md-9">
             <div class="filter-wall">
                 <ng-container i18n>{{ total | numberFormat }} items</ng-container>
 
-                <ng-container *ngFor="let item of selectedFilters">
+                @for (item of selectedFilters; track $index) {
                     <div class="filter-item">
                         <span>{{ item.label }}</span>
                         <i class="iconfont icon-close" (click)="tapRemoveFilter(item.name)"></i>
                     </div>
-                </ng-container>
+                }
                 
 
                 <a class="filter-clear" (click)="tapClearFilter()" i18n>
@@ -101,7 +114,7 @@
             </div>
 
             <div class="search-body">
-                <ng-container *ngIf="viewTable; else elseTemplate">
+                @if (viewTable) {
                     <div class="row">
                         @for (item of items; track $index) {
                             <div class="col-md-3">
@@ -123,19 +136,17 @@
                                     </div>
                                 </div>
                                 <div class="item-action">
-                                    <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                    @if (item.price > 0) {
                                         <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
+                                    } @else {
                                         <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
-                                    </ng-template>
+                                    }
                                 </div>
                             </div>
                         </div>
                         }
                     </div>
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     @for (item of items; track $index) {
                         <div class="app-item">
                             <div class="item-thumb">
@@ -155,16 +166,15 @@
                                 </div>
                             </div>
                             <div class="item-action">
-                                <ng-container *ngIf="item.price > 0; else elseTemplate">
+                                @if (item.price > 0) {
                                     <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-danger" i18n>Buy {{ item.price | currency }}</a>
-                                </ng-container>
-                                <ng-template #elseTemplate>
+                                } @else {
                                     <a [routerLink]="['../category', item.cat_id, item.id]" class="btn btn-primary" i18n>Get it for free</a>
-                                </ng-template>
+                                }
                             </div>
                         </div>
                     }
-                </ng-template>
+                }
             </div>
 
 

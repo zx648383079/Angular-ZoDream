@@ -4,7 +4,8 @@ import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
-import { ITrendLog, TimeTabItems } from '../model';
+import { IPageAccessLog, TimeTabItems } from '../model';
+import { getTimeRange } from '../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -14,7 +15,7 @@ import { ITrendLog, TimeTabItems } from '../model';
 })
 export class TrendComponent implements OnInit {
 
-    public items: ITrendLog[] = [];
+    public items: IPageAccessLog[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -25,7 +26,8 @@ export class TrendComponent implements OnInit {
         per_page: 20
     };
     public tabItems = TimeTabItems;
-    public tabIndex = '';
+    public tabIndex = -1;
+    public moreOpen = false;
 
     constructor(
         private service: TrendService,
@@ -41,9 +43,30 @@ export class TrendComponent implements OnInit {
         });
     }
 
-    public tapTab(val: string) {
+    public tapTime(val: number) {
         this.tabIndex = val;
+        const range = getTimeRange(val, 0);
+        this.queries.start_at = range[0];
+        this.queries.end_at = range[1];
         this.tapRefresh();
+    }
+
+    public isMask(key: string, value: string): boolean {
+        return false;
+    }
+
+    public toggleOpen(item: IPageAccessLog) {
+        if (item.is_open) {
+            item.is_open = false;
+            return;
+        }
+        for (const it of this.items) {
+            it.is_open = item === it;
+        }
+    }
+
+    public tapFilter(key: string, value: string) {
+
     }
 
     public tapRefresh() {
@@ -67,13 +90,9 @@ export class TrendComponent implements OnInit {
         }
         this.isLoading = true;
         const queries: any = {...this.queries, page};
-        if (this.tabIndex != '') {
-            queries.start_at = this.tabIndex;
-            queries.end_at = '';
-        }
-        this.service.logList({queries}).subscribe({
+        this.service.logList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items = res.data.reverse();
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.searchService.applyHistory(this.queries = queries);
@@ -87,7 +106,7 @@ export class TrendComponent implements OnInit {
 
     public tapSearch(form: any) {
         this.queries = this.searchService.getQueries(form, this.queries);
-        this.tabIndex = '';
+        this.tabIndex = -1;
         this.tapRefresh();
     }
 

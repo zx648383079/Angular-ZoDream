@@ -77,10 +77,13 @@
                 </div>
                 <div class="item-meta-bar">
                     <div class="item-count">{{ item.money | numberFormat }}</div>
-                    <div class="item-meta" *ngIf="item.frozen_money > 0">
+                    @if (item.frozen_money > 0) {
+                    <div class="item-meta">
                         <i class="iconfont icon-lock"></i>
                         {{ item.frozen_money | numberFormat }}
                     </div>
+                    }
+                    
                 </div>
             </div>
             <ng-container name="left">

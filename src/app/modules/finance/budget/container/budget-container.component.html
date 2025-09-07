@@ -4,8 +4,8 @@
             <li>预算支出曲线图</li>
         </ul>
     </app-page-tip>
-    
-    <div class="row" *ngIf="data">
+    @if (data) {
+    <div class="row">
         <div class="col-md-12">
             <h2 class="title-bar"> 
                 <strong>{{ data.name }}</strong>    
@@ -19,6 +19,8 @@
             </div>
         </div>
     </div>
+    }
+    
 
 </div>
 
@@ -44,9 +46,9 @@
 
     <div class="meta-bar">
         {{ budgetTotal | numberFormat }} - {{ total | numberFormat }} = 
-        <ng-container *ngIf="overTotal > 0">
-            -
-        </ng-container>
+        @if (overTotal > 0) {
+             -
+        }
         {{ overTotal | numberFormat }}
     </div>
 </div>

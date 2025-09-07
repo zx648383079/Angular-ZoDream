@@ -12,11 +12,11 @@
             <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()"></app-date-input>
 
             <div class="tab-bar">
-                <ng-container *ngFor="let item of typeItems;let i = index">
+                @for (item of typeItems; track $index;let i = $index) {
                     <div class="item" [ngClass]="{active: queries.type == i}" (click)="tapType(i)">
                         按{{ item }}
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
     </div>
@@ -103,33 +103,44 @@
             </div>
             <div class="col-6">
                 <div class="tab-bar">
-                    <ng-container *ngFor="let item of logTypeItems;let i = index">
+                    @for (item of logTypeItems; track $index;let i = $index) {
                         <div class="item" [ngClass]="{active: queries.log_type == i}" (click)="tapLogType(i)">
                             {{ item }}
                         </div>
-                    </ng-container>
+                    }
                 </div>
             </div>
         </div>
 
-        <div class="couter-control" *ngIf="queries.log_type == 1">
-            <div class="couter-label">共支出 {{ data.expenditure_count || 0 | numberFormat }} 笔，合计</div>
-            <div class="couter-body">
-                {{ data.expenditure_current || 0 | numberFormat }}
-            </div>
-        </div>
-        <div class="couter-control" *ngIf="queries.log_type == 0">
-            <div class="couter-label">共收入 {{ data.income_count || 0 | numberFormat }} 笔，合计</div>
-            <div class="couter-body">
-                {{ data.income_current || 0 | numberFormat }}
-            </div>
-        </div>
-        <div class="couter-control" *ngIf="queries.log_type == 2">
-            <div class="couter-label">共收入 {{ data.other_count || 0 | numberFormat }} 笔，合计</div>
-            <div class="couter-body">
-                {{ data.other_current || 0 | numberFormat }}
-            </div>
-        </div>
+        @switch (queries.log_type) {
+            @case (1) {
+                <div class="couter-control">
+                    <div class="couter-label">共支出 {{ data.expenditure_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-body">
+                        {{ data.expenditure_current || 0 | numberFormat }}
+                    </div>
+                </div>
+            }
+            @case (0) {
+                <div class="couter-control">
+                    <div class="couter-label">共收入 {{ data.income_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-body">
+                        {{ data.income_current || 0 | numberFormat }}
+                    </div>
+                </div>
+            }
+            @case (2) {
+                <div class="couter-control">
+                    <div class="couter-label">共收入 {{ data.other_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-body">
+                        {{ data.other_current || 0 | numberFormat }}
+                    </div>
+                </div>
+            }
+        }
+        
+        
+        
     </div>
     
 </div>

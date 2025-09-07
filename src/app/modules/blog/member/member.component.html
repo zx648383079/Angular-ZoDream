@@ -15,15 +15,15 @@
         <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
         <select name="term" [ngModel]="queries.term" class="form-control">
             <option [value]="0" i18n>Select...</option>
-            <ng-container *ngFor="let item of categories">
+            @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.name }}</option>
-            </ng-container>
+            }
         </select>
         <select name="term" [ngModel]="queries.status" class="form-control tablet-collapse">
             <option [value]="0" i18n>Select...</option>
-            <ng-container *ngFor="let item of statusItems">
+            @for (item of statusItems; track $index) {
                 <option [value]="item.value + 1">{{ item.name }}</option>
-            </ng-container>
+            }
         </select>
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
@@ -37,9 +37,16 @@
         <div class="row-item" [ngClass]="{'colour-row-item': item.is_localization}">
             <div class="item-header">
                 <div class="tag-bar">
-                    <i class="iconfont icon-lock" *ngIf="item.open_type > 0" i18n-title title="Reading needs to meet the conditions"></i>
-                    <i class="iconfont icon-eye-slash" *ngIf="item.publish_status != 5" i18n-title title="Draft not visible"></i>
-                    <i class="iconfont icon-close" *ngIf="item.publish_status == 9" i18n-title title="Not visible in Recycle Bin"></i>
+                    @if (item.open_type > 0) {
+                        <i class="iconfont icon-lock" i18n-title title="Reading needs to meet the conditions"></i>
+                    }
+                    @if (item.publish_status != 5) {
+                        <i class="iconfont icon-eye-slash" i18n-title title="Draft not visible"></i>
+                    }
+                    @if (item.publish_status == 9) {
+                        <i class="iconfont icon-close" i18n-title title="Not visible in Recycle Bin"></i>
+                    }
+                    
                     <span>{{ item.id }}</span>
                 </div>
                 
@@ -51,8 +58,10 @@
             </div>
             <div class="item-footer">
                 <div class="item-meta-bar">
-                    <a class="category" *ngIf="item.term" ><i
+                    @if (item.term) {
+                        <a class="category"><i
                         class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+                    }
                     <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
                     <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                     <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>

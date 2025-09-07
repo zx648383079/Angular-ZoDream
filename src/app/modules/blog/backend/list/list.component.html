@@ -16,18 +16,18 @@
                     <label>分类</label>
                     <select name="term" [ngModel]="queries.term" class="form-control">
                         <option [value]="0">请选择</option>
-                        <ng-container *ngFor="let item of categories">
+                        @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <div class="input-group-control">
                     <label>状态</label>
                     <select name="term" [ngModel]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>
-                        <ng-container *ngFor="let item of statusItems">
+                        @for (item of statusItems; track $index) {
                             <option [value]="item.value + 1">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -40,9 +40,15 @@
                 <div class="row-item">
                     <div class="item-header">
                         <div class="tag-bar">
-                            <i class="iconfont icon-lock" *ngIf="item.open_type > 0" i18n-title title="Reading needs to meet the conditions"></i>
-                            <i class="iconfont icon-eye-slash" *ngIf="item.publish_status < 5" i18n-title title="Draft not visible"></i>
-                            <i class="iconfont icon-close" *ngIf="item.publish_status == 9" i18n-title title="Not visible in Recycle Bin"></i>
+                            @if (item.open_type > 0) {
+                                <i class="iconfont icon-lock" i18n-title title="Reading needs to meet the conditions"></i>
+                            }
+                            @if (item.publish_status < 5) {
+                                <i class="iconfont icon-eye-slash" i18n-title title="Draft not visible"></i>
+                            }
+                            @if (item.publish_status == 9) {
+                                <i class="iconfont icon-close" i18n-title title="Not visible in Recycle Bin"></i>
+                            }
                             <span>{{ item.id }}</span>
                         </div>
                         

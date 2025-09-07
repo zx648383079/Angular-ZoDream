@@ -1,0 +1,15 @@
+@use '../../app/theme/theme';
+
+.code-snippet {
+    --#{theme.$prefix}code: var(--#{theme.$prefix}body);
+    --#{theme.$prefix}code-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}code-border: var(--#{theme.$prefix}border);
+    color: var(--#{theme.$prefix}code-text, inherit);
+    background-color: var(--#{theme.$prefix}code);
+    border: 1px solid var(--#{theme.$prefix}code-border);
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    display: block;
+    word-break: break-all;
+    // min-height: 2.25rem;
+}

@@ -1,0 +1,12 @@
+@use '../../app/theme/theme';
+.callout-bar {
+    --#{theme.$prefix}callout: var(--#{theme.$prefix}info);
+    --#{theme.$prefix}callout-text: var(--#{theme.$prefix}info-text);
+    --#{theme.$prefix}callout-border: #9eeaf9;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--#{theme.$prefix}callout-text, inherit);
+    background-color: var(--#{theme.$prefix}callout);
+    border-left: .25rem solid var(--#{theme.$prefix}callout-border);
+}

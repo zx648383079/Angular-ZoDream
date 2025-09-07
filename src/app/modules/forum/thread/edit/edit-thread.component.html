@@ -13,12 +13,15 @@
 <div class="container">
     <form class="thread-new-box" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="title">
-            <select formControlName="classify_id" class="form-control" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
+            @if (forum && forum.classifies && forum.classifies.length > 0) {
+            <select formControlName="classify_id" class="form-control">
                 <option [value]="0" i18n>Select classify</option>
-                <ng-container *ngFor="let item of forum.classifies">
+                @for (item of forum.classifies; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
-                </ng-container>
+                }
             </select>
+            }
+            
             <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
         </div>
 

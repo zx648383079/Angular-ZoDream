@@ -4,31 +4,34 @@
             <i class="iconfont icon-chevron-left"></i>
         </a>
         <span class="route-title">
-            <ng-container *ngIf="crumbs.length > 0">
+            @if (crumbs.length > 0) {
                 {{ crumbs[crumbs.length - 1].name }}
-            </ng-container>
-            <ng-container *ngIf="crumbs.length == 0" i18n>
+            } @else {
                 Settings
-            </ng-container>
+            }
         </span>
     </div>
 </div>
 
-<div class="route-bar tablet-collapse" *ngIf="crumbs.length > 0">
+@if (crumbs.length > 0) {
+<div class="route-bar tablet-collapse">
     <div class="route-back-icon" (click)="tapBack()">
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <ng-container *ngFor="let item of crumbs">
+            @for (item of crumbs; track $index) {
                 <li class="breadcrumb-item"><a (click)="tapTab(item)">{{ item.name }}</a></li>
-            </ng-container>
+            }
         </ol>
     </nav>
 </div>
+}
+
 
 <div class="container" [hidden]="tabIndex > 0">
-    <div class="input-item" *ngFor="let item of tabItems" (click)="tapTab(item)">
+    @for (item of tabItems; track $index) {
+    <div class="input-item" (click)="tapTab(item)">
         <div class="item-icon">
             <i class="iconfont" [ngClass]="'icon-' + item.icon"></i>
         </div>
@@ -40,6 +43,8 @@
             <i class="iconfont icon-chevron-right"></i>
         </div>
     </div>
+    }
+    
 </div>
 
 <div class="container" [hidden]="tabIndex != 1">

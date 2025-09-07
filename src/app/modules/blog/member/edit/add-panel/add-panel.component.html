@@ -5,29 +5,33 @@
             <i class="iconfont icon-search"></i>
         </div>
         <div class="panel-tab-bar">
-            <ng-container *ngFor="let item of tabItems;let i = index">
+            @for (item of tabItems; track $index;let i = $index) {
                 <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
-            </ng-container>
+            }
         </div>
     </div>
     <div class="panel-body">
         <div [hidden]="tabIndex > 0">
-            <ng-container *ngFor="let group of toolItems">
+            @for (group of toolItems; track $index) {
                 <div class="group-header">
                     {{ group.header }}
                 </div>
                 <div class="group-body">
-                    <div class="icon-option-item" *ngFor="let item of group.items" (click)="tapTool(item)">
+                    @for (item of group.items; track $index) {
+                    <div class="icon-option-item" (click)="tapTool(item)">
                         <div class="item-icon">
                             <i class="iconfont" [ngClass]="item.icon"></i>
                         </div>
                         <div class="item-name">{{ item.label }}</div>
                     </div>
+                    }
+                    
                 </div>
-            </ng-container>
+            }
         </div>
         <div [hidden]="tabIndex < 1">
-            <div class="line-option-item" *ngFor="let item of mediaGroupItems" (click)="openMedia(item)">
+            @for (item of mediaGroupItems; track $index) {
+            <div class="line-option-item" (click)="openMedia(item)">
                 <div class="item-name">
                     {{ item.name }}
                 </div>
@@ -35,6 +39,8 @@
                     <i class="iconfont icon-chevron-right"></i>
                 </div>
             </div>
+            }
+            
         </div>
     </div>
     <div class="editor-panel-popup" [hidden]="!mediaOpen" appInfiniteScroll (scrollEnd)="tapMore()">
@@ -42,10 +48,10 @@
             <input type="text" [(ngModel)]="mediaQueries.keywords">
             <i class="iconfont icon-search"></i>
         </div>
-        <ng-container *ngFor="let item of mediaItems">
+        @for (item of mediaItems; track $index) {
             <div class="image-option-item" [title]="item.title" (click)="tapMedia(item)">
                 <img [src]="item.url | asset" [alt]="item.title">
             </div>
-        </ng-container>
+        }
     </div>
 </div>

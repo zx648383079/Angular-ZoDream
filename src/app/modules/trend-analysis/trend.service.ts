@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
-import { IJumpLog, ITrendLog, ITrendStatistics } from './model';
+import { IJumpLog, IPageAccessLog, ITrendLog, ITrendStatistics } from './model';
 
 @Injectable({
     providedIn: 'root'
@@ -76,7 +76,7 @@ export class TrendService {
     }
 
     public logList(params: any) {
-        return this.http.get<IPage<ITrendLog>>('counter/trend/log', {
+        return this.http.get<IPage<IPageAccessLog>>('counter/trend/log', {
             params
         });
     }

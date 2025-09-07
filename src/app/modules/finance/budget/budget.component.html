@@ -64,7 +64,7 @@
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     <app-swipe-list-control>
         @for (item of items; track $index) {
-            <app-swipe-control (tapped)="tapItem(item)">
+        <app-swipe-control (tapped)="tapItem(item)">
             <div class="line-row-item --with-icon">
                 <div class="item-icon">
                     {{ formatCycle(item.cycle) }}
@@ -74,12 +74,15 @@
                 </div>
                 <div class="item-meta-bar">
                     <div class="item-count" [ngClass]="{'--with-danger': item.remain < 0}">{{ item.budget | numberFormat }}</div>
-                    <div class="item-meta" *ngIf="item.spent > 0">
+                    @if (item.spent > 0) {
+                    <div class="item-meta">
                         <b>-</b>
                         {{ item.spent | numberFormat }} 
                         <b>=</b> 
                         {{ item.remain | numberFormat }}
                     </div>
+                    }
+                    
                 </div>
             </div>
             <ng-container name="left">
@@ -114,7 +117,9 @@
         <label for="cycle">周期</label>
         <div class="input-group-control">
             <select class="form-control" id="cycle" [(ngModel)]="editData.cycle">
-                <option *ngFor="let item of cycleItems;let i = index" [value]="i">{{ item }}</option>
+                @for (item of cycleItems; track $index;let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                }
             </select>
         </div>
     </div>

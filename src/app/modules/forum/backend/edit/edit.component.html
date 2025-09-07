@@ -6,14 +6,18 @@
                 <label for="name">名称</label>
                 <div>
                     <input type="text" id="name" class="form-control" formControlName="name">
-                    <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
+                    @if (form.get('name').invalid) {
+                        <div class="input-tip">请输入名称</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
                 <label>上级</label>
                 <select id="parent_id" class="form-control" formControlName="parent_id">
                     <option value="0">-- 无上级板块 --</option>
-                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    @for (item of categories; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    }
                 </select>
             </div>
             <div class="input-group-control">
@@ -39,14 +43,14 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="主题分类">
-                    <div class="card-item" *ngFor="let item of classifyItems">
+                    @for (item of classifyItems; track $index) {
+                    <div class="card-item">
                         <div class="thumb">
-                            <ng-container *ngIf="item.icon; else elseTemplate">
+                            @if (item.icon) {
                                 <img [src]="item.icon" alt="">
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <div class="no-image">无图</div>
-                            </ng-template>
+                            }
                         </div>
                         <div class="name">{{ item.name }}</div>
                         <div class="card-action">
@@ -54,6 +58,8 @@
                             <i class="iconfont icon-close" (click)="removeClassify(item)"></i>
                         </div>
                     </div>
+                    }
+                    
                     <div class="add-item" (click)="editClassify(classifyModal)">
                         <i class="iconfont icon-plus"></i>
                     </div>
@@ -61,20 +67,22 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="版主">
-                    <div class="card-item" *ngFor="let item of userItems">
+                    @for (item of userItems; track $index) {
+                    <div class="card-item">
                         <div class="thumb">
-                            <ng-container *ngIf="item.avatar; else elseTemplate">
+                            @if (item.avatar) {
                                 <img [src]="item.avatar" alt="">
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <div class="no-image">无图</div>
-                            </ng-template>
+                            }
                         </div>
                         <div class="name">{{ item.name }}</div>
                         <div class="card-action">
                             <i class="iconfont icon-close" (click)="removeUser(item)"></i>
                         </div>
                     </div>
+                    }
+                    
                     <div class="add-item" (click)="addUser(userModal)">
                         <i class="iconfont icon-plus"></i>
                     </div>
@@ -114,17 +122,16 @@
             <input class="form-control" id="name-input" [(ngModel)]="userKeywords" placeholder="请输入名称" (ngModelChange)="tapSearchUser()">
         </div>
     </div>
-    <ng-container *ngFor="let item of users">
+    @for (item of users; track $index) {
         <div class="card-item" [ngClass]="{active: item.checked}" (click)="item.checked = !item.checked">
             <div class="thumb">
-                <ng-container *ngIf="item.avatar; else elseTemplate">
+                @if (item.avatar) {
                     <img [src]="item.avatar" alt="">
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     <div class="no-image">无图</div>
-                </ng-template>
+                }
             </div>
             <div class="name">{{ item.name }}</div>
         </div>
-    </ng-container>
+    }
 </app-dialog-box>

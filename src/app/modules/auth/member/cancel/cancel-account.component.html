@@ -11,12 +11,12 @@
         Please select the reason for cancellation:
     </div>
     <div class="group-body">
-        <ng-container *ngFor="let item of items;let i = index">
+        @for (item of items; track $index;let i = $index) {
             <div class="item" [ngClass]="{active: selectedIndex == i}" (click)="selectedIndex = i">
                 <i class="iconfont" [ngClass]="{'icon-square-o': selectedIndex != i, 'icon-check-square-o': selectedIndex == i}"></i>
                 <span>{{ item }}</span>
             </div>
-        </ng-container>
+        }
     </div>
     <div class="btn-group">
         <app-action-button class="btn btn-danger" (tapped)="tapSubmit($event)" i18n>Cancel Account</app-action-button>

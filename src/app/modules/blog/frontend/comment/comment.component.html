@@ -1,7 +1,9 @@
 <div id="comments" class="book-footer comment">
-    <div class="book-comment-form" *ngIf="commentData.parent_id < 1">
+    @if (commentData.parent_id < 1) {
+    <div class="book-comment-form">
         <div class="title" i18n>Post a comment</div>
-        <div class="form-table-control" *ngIf="status != 2 && !user">
+        @if (status != 2 && !user) {
+        <div class="form-table-control">
             <div class="form-group">
                 <label i18n>Nickname</label>
                 <input type="text" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
@@ -15,30 +17,35 @@
                 <input type="url" [(ngModel)]="guestUser.url" i18n-placeholder placeholder="Please input your link">
             </div>
         </div>
-        <ng-container *ngIf="status == 2 && !user; else elseCommentTemplate">
-            <div class="comment-mask" *ngIf="status == 2 && !user" i18n>
+        }
+        
+        @if (status == 2 && !user) {
+            <div class="comment-mask" i18n>
                 Please 
                 <a (click)="tapLogin()">login in</a>
                 first.
             </div>
-        </ng-container>
-        <ng-template #elseCommentTemplate>
+        } @else if (user) {
             <textarea [(ngModel)]="commentData.content" i18n-placeholder placeholder="Please input content"></textarea>
-        </ng-template>
-        
+        }
         
         <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Comment</app-action-button>
     </div>
-    <div class="book-comments hot-comments" *ngIf="hotItems.length > 0">
+    }
+    
+    @if (hotItems.length > 0) {
+    <div class="book-comments hot-comments">
         <div class="title" i18n>
             Hot comments
         </div>
         <div id="comment-box">
-            <ng-container *ngFor="let item of hotItems">
+            @for (item of hotItems; track $index) {
                 <app-comment-item [value]="item" [user]="user"></app-comment-item>
-            </ng-container>
+            }
         </div>
     </div>
+    }
+    
     <div class="book-comments">
         <div class="title">
             <ng-container i18n>All comments</ng-container>

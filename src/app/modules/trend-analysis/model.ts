@@ -1,10 +1,10 @@
 import { IItem } from '../../theme/models/seo';
 
 export const TimeTabItems: IItem[] = [
-    {name: '今天', value: 'today'},
-    {name: '昨天', value: 'yesterday'},
-    {name: '最近7天', value: 'week'},
-    {name: '最近30天', value: 'month'},
+    {name: '今天', value: 0},
+    {name: '昨天', value: 1},
+    {name: '最近7天', value: 7},
+    {name: '最近30天', value: 30},
 ];
 
 export interface ITrendAnalysis {
@@ -50,7 +50,7 @@ export interface ITrendStatistics {
     uv: number;
 }
 
-export interface ITrendLog {
+export interface IPageAccessLog extends IUserAgent {
     id: number;
     ip: string;
     method: string;
@@ -63,4 +63,6 @@ export interface ITrendLog {
     referrer_hostname?: string;
     referrer_pathname?: string;
     created_at: string;
+
+    is_open?: boolean;
 }

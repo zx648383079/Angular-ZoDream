@@ -45,7 +45,8 @@
 </div>
 
 <app-dialog-box [title]="dialogData.title">
-    <ng-container *ngIf="dialogData.mode == 1">
+    @switch (dialogData.mode) {
+        @case (1) {
         <div class="form-group">
             <label for="lang" i18n>Code Type</label>
             <input type="text"
@@ -55,9 +56,9 @@
             <label for="content" i18n>Content</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
           </div>
-    </ng-container>
-    <ng-container *ngIf="dialogData.mode == 2">
-        <div class="form-group">
+        }
+        @case (2) {
+            <div class="form-group">
             <label for="price" i18n>Purchase Price</label>
             <input type="number"
               class="form-control" [(ngModel)]="dialogData.price" id="price" i18n-placeholder placeholder="0 means free but login required">
@@ -66,9 +67,9 @@
             <label for="content" i18n>Content</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
           </div>
-    </ng-container>
-    <ng-container *ngIf="dialogData.mode == 3">
-        <div class="form-group">
+        }
+        @case (3) {
+            <div class="form-group">
             <label for="link" i18n>Link</label>
             <input type="text"
               class="form-control" [(ngModel)]="dialogData.link" id="link" i18n-placeholder placeholder="Example:https://zodream.cn">
@@ -82,8 +83,8 @@
             <label for="content" i18n>Switch to card</label>
             <app-switch [(ngModel)]="dialogData.card"></app-switch>
           </div>
-    </ng-container>
-    <ng-container *ngIf="dialogData.mode == 4">
+        }
+        @case (4) {
         <div class="form-group">
             <label for="content" i18n>Description</label>
             <textarea class="form-control" [(ngModel)]="dialogData.content" id="content" rows="3"></textarea>
@@ -94,5 +95,6 @@
             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
         </div>
         <i class="iconfont icon-plus" (click)="tapAddItem()"></i>
-    </ng-container>
+        }
+    }
 </app-dialog-box>

@@ -8,7 +8,10 @@
         @for (item of items; track $index) {
             <div class="cat-item">
             <a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>
-            <span class="count" *ngIf="item.blog_count > 0">({{ item.blog_count }})</span>
+            @if (item.blog_count > 0) {
+                <span class="count">({{ item.blog_count }})</span>
+            }
+            
         </div>
         }
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

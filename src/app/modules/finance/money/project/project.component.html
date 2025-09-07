@@ -129,7 +129,10 @@
         <label for="account">账户</label>
         <div class="input-group-control">
             <select class="form-control" [(ngModel)]="editData.account_id" id="account">
-                <option *ngFor="let item of accountItems" [value]="item.id">{{ item.name }}</option>
+                @for (item of accountItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
+                
             </select>
         </div>
     </div>
@@ -137,7 +140,9 @@
         <label for="product">产品</label>
         <div class="input-group-control">
             <select class="form-control" [(ngModel)]="editData.product_id" id="product">
-                <option *ngFor="let item of productItems" [value]="item.id">{{ item.name }}</option>
+                @for (item of productItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>

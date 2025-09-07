@@ -1,0 +1,26 @@
+@use '../../../theme/theme';
+.--with-tool {
+    position: relative;
+    .tool-bar {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        display: none;
+        font-size: 1rem;
+        background-color: rgba(var(--#{theme.$prefix}mask-rgb), .4);
+        a {
+            display: inline-block;
+            padding: .375rem .75rem;
+            &:hover {
+                background-color: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
+            }
+        }
+    }
+    &:hover {
+        .tool-bar {
+            display: flex;
+        }
+    }
+}

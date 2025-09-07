@@ -44,7 +44,7 @@
                     <td>{{ item.happened_at }}</td>
                     <td>{{ item.account ? item.account.name : '-' }}</td>
                     <td class="money-td">
-                        <ng-container *ngIf="item.type != 1; else elseTemplate">
+                        @if (item.type != 1) {
                             <div class="tool-flex-group">
                                 <span class="tool-tag btn-danger">
                                     {{ item.type | logType }}
@@ -52,19 +52,22 @@
                             
                                 {{ item.money }}
                             </div>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             {{ item.money }}
-                        </ng-template>
+                        }
                     </td>
                     <td>{{ item.remark }}</td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" (click)="tapPreview(previewModal, item)">预览</a>
-                            <a class="btn btn-primary btn-xs">克隆</a>
-                            <a class="btn btn-success btn-xs" *ngIf="item.type == 2 || item.type == 3">还款</a>
-                            <a class="btn btn-info btn-xs" *ngIf="item.type == 2">坏账</a>
-                            <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
+                        <div class="btn-group">
+                            <a class="btn btn-info" (click)="tapPreview(previewModal, item)">预览</a>
+                            <a class="btn btn-primary">克隆</a>
+                            @if (item.type == 2 || item.type == 3) {
+                                <a class="btn btn-success">还款</a>
+                            }
+                            @if (item.type == 2) {
+                                <a class="btn btn-info">坏账</a>
+                            }
+                            <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>
@@ -93,12 +96,12 @@
 
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
     <app-swipe-list-control>
-        <ng-container *ngFor="let group of groupItems">
+        @for (group of groupItems; track $index) {
             <div class="group-header-bar">
                 <div class="item-title">{{ group.name }}</div>
                 <div class="item-meta">支 {{ group.expenditure | numberFormat}} 收 {{ group.income | numberFormat }}</div>
             </div>
-            <ng-container *ngFor="let item of group.items">
+            @for (item of group.items; track $index) {
                 <app-swipe-control>
                     <div class="line-row-item --with-icon">
                         <div class="item-icon">
@@ -111,8 +114,12 @@
                         <div class="item-count" [ngClass]="{'--with-danger': item.type != 1}">{{ item.money | numberFormat }}</div>
                     </div>
                     <ng-container name="left">
-                        <a class="btn-success" *ngIf="item.type == 2 || item.type == 3">还款</a>
-                        <a class="btn-info" *ngIf="item.type == 2">坏账</a>
+                        @if (item.type == 2 || item.type == 3) {
+                            <a class="btn-success">还款</a>
+                        }
+                        @if (item.type == 2) {
+                            <a class="btn-info">坏账</a>
+                        }
                         <a class="btn-light" [routerLink]="['edit', item.id]">编辑</a>
                         <a class="btn-primary">克隆</a>
                     </ng-container>
@@ -122,8 +129,8 @@
                         </a>
                     </ng-container>
                 </app-swipe-control>
-            </ng-container>
-        </ng-container>
+            }
+        }
     </app-swipe-list-control>
 </div>
 
@@ -137,7 +144,9 @@
             <label for="type1">类型</label>
             <div class="input-group-control">
                 <select class="form-control" name="type" [ngModel]="queries.type" id="type1">
-                    <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
+                    @for (item of typeItems; track $index; let i = $index) {
+                        <option [value]="i">{{ item }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -146,7 +155,9 @@
             <div class="input-group-control">
                 <select class="form-control" name="account" [ngModel]="queries.account" id="account">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of accountItems" [value]="item.id" >{{ item.name }}</option>
+                    @for (item of accountItems; track $index) {
+                        <option [value]="item.id" >{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -155,7 +166,9 @@
             <div class="input-group-control">
                 <select class="form-control" id="project" [ngModel]="queries.project" name="project">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
+                    @for (item of projectItems; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -173,7 +186,9 @@
             <div class="input-group-control">
                 <select class="form-control" id="budget" [ngModel]="queries.budget" name="budget">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of budgetItems;" [value]="item.id" >{{ item.name }}</option>
+                    @for (item of budgetItems; track $index) {
+                        <option [value]="item.id" >{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -218,7 +233,9 @@
         <div class="input-group-control">
             <select class="form-control" id="account" [(ngModel)]="editData.account_id">
                 <option [value]="0">请选择</option>
-                <option *ngFor="let item of accountItems;" [value]="item.id">{{ item.name }}</option>
+                @for (item of accountItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>
@@ -227,7 +244,9 @@
         <div class="input-group-control">
             <select class="form-control" id="project" [(ngModel)]="editData.project_id">
                 <option [value]="0">请选择</option>
-                <option *ngFor="let item of projectItems;" [value]="item.id">{{ item.name }}</option>
+                @for (item of projectItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>
@@ -236,7 +255,9 @@
         <div class="input-group-control">
             <select class="form-control" id="channel" [(ngModel)]="editData.channel_id">
                 <option [value]="0">请选择</option>
-                <option *ngFor="let item of channelItems;" [value]="item.id">{{ item.name }}</option>
+                @for (item of channelItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>
@@ -245,7 +266,9 @@
         <div class="input-group-control">
             <select class="form-control" id="budget" [(ngModel)]="editData.budget_id">
                 <option [value]="0">请选择</option>
-                <option *ngFor="let item of budgetItems;" [value]="item.id">{{ item.name }}</option>
+                @for (item of budgetItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>

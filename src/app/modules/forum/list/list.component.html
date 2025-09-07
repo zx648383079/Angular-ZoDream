@@ -1,4 +1,5 @@
-<div class="container tablet-collapse" *ngIf="forum">
+@if (forum) {
+<div class="container tablet-collapse">
     <app-search-bar [keywords]="queries.keywords" [type]="queries.type" (confirm)="tapSearch($event)"></app-search-bar>
     <ul  class="breadcrumb">
         <li class="breadcrumb-item">
@@ -13,29 +14,35 @@
         </li>
     </ul>
 </div>
+}
+
 <div class="container">
-    <div class="catalog-panel" *ngIf="forum">
+    @if (forum) {
+    <div class="catalog-panel">
         <div class="panel-header">
             {{ forum.name }}
         </div>
         <div class="group-content">
-            <p class="moderator-line" *ngIf="forum.moderators && forum.moderators.length > 0">
+            @if (forum.moderators && forum.moderators.length > 0) {
+            <p class="moderator-line">
                 <ng-container i18n>Moderators:</ng-container>
-                
-                <ng-container *ngFor="let item of forum.moderators; let i = index">
-                    <ng-container *ngIf="i > 0">
-                        ,
-                    </ng-container>
+                @for (item of forum.moderators; track $index;let f = $first) {
+                    @if (!f) {
+                         ,
+                    }
                     <a >{{ item.name }}</a>
-                </ng-container>
+                }
             </p>
+            }
+            
             <div>
                 {{ forum.description }}
             </div>
         </div>
-        <div class="panel-body" *ngIf="forum.children && forum.children.length > 0">
+        @if (forum.children && forum.children.length > 0) {
+        <div class="panel-body">
             <div class="row">
-                <ng-container *ngFor="let item of forum.children">
+                @for (item of forum.children; track $index) {
                     <div class="col-md-4 col-sm-12">
                         <div class="catalog-item">
                             <div class="cover">
@@ -44,45 +51,54 @@
                             <div class="item-body">
                                 <div class="name">
                                     <a [routerLink]="['../', item.id]">{{ item.name }}</a>
-                                    <ng-container *ngIf="item.today_count > 0">
+                                    @if (item.today_count > 0) {
                                         ({{ item.today_count | numberFormat }})
-                                    </ng-container>
+                                    }
                                 </div>
                                 <div class="meta">
                                     <div class="count" i18n>Threads:{{ item.thread_count | numberFormat }}, Posts:{{ item.post_count | numberFormat }}</div>
                                 </div>
-                                <div class="last-thread" *ngIf="item.last_thread">
+                                @if (item.last_thread) {
+                                <div class="last-thread">
                                     <a [routerLink]="['../thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
                                     {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }}
                                 </div>
+                                }
+                                
                             </div>
                         </div>
                     </div>
-                </ng-container>
+                }
             </div>
             
         </div>
+        }
+        
     </div>
-
-    <div class="classify-bar" *ngIf="forum && forum.classifies && forum.classifies.length > 0">
+    }
+    
+    @if (forum && forum.classifies && forum.classifies.length > 0) {
+    <div class="classify-bar">
         <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()" i18n>
             All
         </div>
-        <ng-container *ngFor="let item of forum.classifies">
+        @for (item of forum.classifies; track $index) {
             <div class="item" [ngClass]="{active: item.id === queries.classify}" (click)="tapClassify(item)">
                 {{ item.name }}
             </div>
-        </ng-container>
+        }
     </div>
+    }
+    
 
     <div class="thread-list">
         <div class="thread-item-header">
             <div class="item-body">
                 <ng-container i18n>Topic</ng-container>
                 <div class="sort-bar">
-                    <ng-container *ngFor="let item of sortItems">
+                    @for (item of sortItems; track $index) {
                         <a [ngClass]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
-                    </ng-container>
+                    }
                 </div>
             </div>
             <div class="item-count" i18n>
@@ -95,18 +111,21 @@
                 Activity
             </div>
         </div>
-        <ng-container *ngIf="forum && forum.thread_top && forum.thread_top.length > 0">
-            <ng-container *ngFor="let item of forum.thread_top">
+        @if (forum && forum.thread_top && forum.thread_top.length > 0) {
+            @for (item of forum.thread_top; track $index) {
                 <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
-              </ng-container>
+            }
             <div class="split-line"></div>
-        </ng-container>
+        }
 
-        <div class="align-center" *ngIf="unreadCount">
+        @if (unreadCount) {
+        <div class="align-center">
             <a class="new-post-bar">
                 There are {{ unreadCount | numberFormat}} new or updated topics
             </a>
         </div>
+        }
+        
         
         @for (item of items; track $index) {
             <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
@@ -118,7 +137,8 @@
 
 
     </div>
-    <div class="thread-new-box" *ngIf="forum && user">
+    @if (forum && user) {
+    <div class="thread-new-box">
         <div class="header">
             <ng-container i18n>Quickly post</ng-container>
             
@@ -127,12 +147,15 @@
         </div>
         <form [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="title">
-                <select formControlName="classify_id" class="form-control" *ngIf="forum.classifies && forum.classifies.length > 0">
+                @if (forum.classifies && forum.classifies.length > 0) {
+                <select formControlName="classify_id" class="form-control">
                     <option [value]="0" i18n>Select classify</option>
-                    <ng-container *ngFor="let item of forum.classifies">
+                    @for (item of forum.classifies; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
+                }
+                
                 <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
             </div>
 
@@ -143,4 +166,6 @@
             </div>
         </form>
     </div>
+    }
+    
 </div>

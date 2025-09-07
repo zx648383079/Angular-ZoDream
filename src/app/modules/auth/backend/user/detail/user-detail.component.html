@@ -1,4 +1,5 @@
-<div class="user-container" *ngIf="user">
+@if (user) {
+<div class="user-container">
     <div class="user-info">
         <div class="avatar">
             <img [src]="user.avatar" alt="">
@@ -113,45 +114,47 @@
         </div>
     </div>
 </div>
+}
 <div class="container-fluid">
     <div class="tab-bar">
-        <ng-container *ngFor="let item of tabItems;let i = index">
+        @for (item of tabItems; track $index;let i = $index) {
             <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
-        </ng-container>
+        }
     </div>
-    <div class="panel-container" *ngIf="user">
+    @if (user) {
+    <div class="panel-container">
         <div [hidden]="tabIndex > 0">
             <div class="line-group-item">
                 <div class="item-header">角色组：</div>
                 <div class="item-body">
-                    <ng-container *ngFor="let item of user.role_items;let i = index">
-                    <ng-container *ngIf="i > 0">
-                        、
-                    </ng-container>
-                    {{ item }}
-                    </ng-container>
+                    @for (item of user.role_items; track $index;let f = $first) {
+                        @if (!f) {
+                             、
+                        }
+                        {{ item }}
+                    }
                 </div>
             </div>
             <div class="line-group-item">
                 <div class="item-header">权限组：</div>
                 <div class="item-body">
-                    <ng-container *ngFor="let item of user.permission_items;let i = index">
-                        <ng-container *ngIf="i > 0">
-                            、
-                        </ng-container>
-                    {{ item }}
-                    </ng-container>
+                    @for (item of user.permission_items; track $index;let f = $first) {
+                        @if (!f) {
+                             、
+                        }
+                        {{ item }}
+                    }
                 </div>
             </div>
             <div class="line-group-item">
                 <div class="item-header">权益卡：</div>
                 <div class="item-body">
-                    <ng-container *ngFor="let item of user.card_items;let i = index">
-                        <ng-container *ngIf="i > 0">
-                            、
-                        </ng-container>
-                    {{ item.name }}
-                    </ng-container>
+                    @for (item of user.card_items; track $index;let f = $first) {
+                        @if (!f) {
+                             、
+                        }
+                        {{ item.name }}
+                    }
                 </div>
             </div>
         </div>
@@ -168,4 +171,6 @@
             <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex == 4"></app-log-statistics-panel>
         </div>
     </div>
+    }
+    
 </div>

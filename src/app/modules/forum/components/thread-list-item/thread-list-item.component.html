@@ -31,36 +31,53 @@
     </div>
     <div class="item-body">
         <div class="item-title">
-            <ng-container *ngIf="value.top_type > 0">
+            @if (value.top_type > 0) {
                 <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
-            </ng-container>
-            <ng-container *ngIf="value.top_type < 1 && value.is_closed">
+            } @else if (value.is_closed) {
                 <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
-            </ng-container>
-            <ng-container *ngIf="value.top_type < 1 && !value.is_closed">
+            } @else {
                 <i class="iconfont icon-file-o"></i>
-            </ng-container>
-            <em class="tag-item" *ngIf="value.classify">
+            }
+            @if (value.classify) {
+            <em class="tag-item">
                 [<a (click)="classifyChanged.emit(value.classify)">{{ value.classify.name }}</a>]
             </em>
+            }
+            
             <a class="title-text" [routerLink]="['../thread', value.id]">{{ value.title }}</a>
-            <i class="iconfont icon-fire" *ngIf="value.is_digest"></i>
-            <a class="new-tag" *ngIf="value.is_new">New</a>
+            @if (value.is_digest) {
+                <i class="iconfont icon-fire"></i>
+            }
+            @if (value.is_new) {
+                <a class="new-tag">New</a>
+            }
+            
         </div>
-        <div class="item-brief" *ngIf="value.brief">{{ value.brief }}…</div>
-        <div class="item-image-bar" *ngIf="value.image_items?.length > 0">
-            <div class="image-preview-control" *ngFor="let item of value.image_items">
+        @if (value.brief) {
+            <div class="item-brief">{{ value.brief }}…</div>
+        }
+        @if (value.image_items?.length > 0) {
+        <div class="item-image-bar">
+            @for (item of value.image_items; track $index) {
+            <div class="image-preview-control">
                 <img [appLazyLoad]="item.url" [title]="item.title">
             </div>
+            }
+            
         </div>
+        }
+        
     </div>
     <div class="item-participant-bar">
         <div class="item-cute-profile">
             <img [appLazyLoad]="value.user.avatar">
         </div>
-        <div class="item-cute-profile" *ngFor="let item of value.user_items">
+        @for (item of value.user_items; track $index) {
+        <div class="item-cute-profile">
             <img [appLazyLoad]="item.avatar">
         </div>
+        }
+        
     </div>
     <div class="item-footer">
         <div class="item-time-bar">

@@ -8,10 +8,13 @@
         <div class="content">
             <app-rule-block [value]="value.content" [rules]="value.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
         </div>
-        <ng-container *ngIf="value.reply_count && value.reply_count > 0">
-            <span class="expand" *ngIf="!expanded" (click)="toggleExpand()" i18n>Expand({{ value.reply_count }})</span>
-            <span class="expand" *ngIf="expanded" (click)="toggleExpand()" i18n>Fold</span>
-        </ng-container>
+        @if (value.reply_count && value.reply_count > 0) {
+            @if (expanded) {
+                <span class="expand" (click)="toggleExpand()" i18n>Fold</span>
+            } @else {
+                <span class="expand" (click)="toggleExpand()" i18n>Expand({{ value.reply_count }})</span>
+            }
+        }
         
         <span>&nbsp;</span>
         <span class="comment" (click)="tapCommenting(value)"><i class="iconfont icon-commenting"></i></span>
@@ -21,9 +24,10 @@
             <span class="disagree" (click)="tapDisagree(value)"><i class="iconfont icon-thumbs-down"></i><b>{{ value.disagree_count }}</b></span>
         </div>
     </div>
-
-    <div *ngIf="expanded || editData.parent_id > 0" class="comments">
-        <div class="comment-item" *ngFor="let it of value.replies"  [id]="'comment-' + it.id">
+    @if (expanded || editData.parent_id > 0) {
+    <div class="comments">
+        @for (it of value.replies; track $index) {
+        <div class="comment-item" [id]="'comment-' + it.id">
             <div class="info">
                 <span class="user">{{ it.name }}</span>
                 <span class="time">{{ it.created_at }}</span>
@@ -42,13 +46,18 @@
                 </div>
             </div>
         </div>
-        <div class="comment-more" *ngIf="hasMore" >
+        }
+        @if (hasMore) {
+        <div class="comment-more">
             <ng-container i18n>There are {{ moreCount | numberFormat }} more replies,</ng-container>
             <a (click)="tapMore()" i18n>Click to view </a>
         </div>
-        <div class="book-comment-form" *ngIf="editData.parent_id > 0">
+        }
+        @if (editData.parent_id > 0) {
+        <div class="book-comment-form">
             <div class="title" i18n>Reply</div>
-            <div class="form-table-control" *ngIf="status != 2 && !user">
+            @if (status != 2 && !user) {
+            <div class="form-table-control">
                 <div class="form-group">
                     <label i18n>Nickname</label>
                     <input type="text" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
@@ -62,21 +71,25 @@
                     <input type="url" [(ngModel)]="guestUser.url" i18n-placeholder placeholder="Please input your link">
                 </div>
             </div>
-            <ng-container *ngIf="status == 2 && !user; else elseTemplate">
-                <div class="comment-mask" *ngIf="" i18n>
+            }
+            @if (status == 2 && !user) {
+                <div class="comment-mask" i18n>
                     Please 
                     <a (click)="tapComment()">login in</a>
                     first.
                 </div>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <textarea [(ngModel)]="editData.content" i18n-placeholder placeholder="Please input content"></textarea>
-            </ng-template>
+            }
             
             <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Reply</app-action-button>
             <button class="btn btn-secondary" (click)="tapCommenting()" i18n>Cancel</button>
             
         </div>
+        }
+        
     </div>
+    }
+    
     
 </div>

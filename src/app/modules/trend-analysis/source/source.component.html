@@ -14,7 +14,7 @@
                     <input type="text" class="form-control" [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="tab-bar pull-right">
+                <div class="tab-bar pull-right --with-gray">
                     @for (item of tabItems; track $index) {
                         <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
                     }

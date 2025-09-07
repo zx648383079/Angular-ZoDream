@@ -9,20 +9,20 @@
         <div class="filter-box">
             <div class="filter-item">
                 <ul>
-                    <ng-container *ngFor="let item of categories">
+                    @for (item of categories; track $index) {
                         <li [ngClass]="{active: item.id == category}" (click)="tapCategory(item)">
                             {{ item.name }}
                         </li>
-                    </ng-container>
+                    }
                 </ul>
             </div>
             <div class="filter-item">
                 <ul>
-                    <ng-container *ngFor="let item of sortItems">
+                    @for (item of sortItems; track $index) {
                         <li [ngClass]="{active: item.value == sort}" (click)="tapSort(item)">
                             {{ item.name }}
                         </li>
-                    </ng-container>
+                    }
                 </ul>
             </div>
         </div>
@@ -34,11 +34,18 @@
                         <span class="book-time">{{ item.created_at | ago }}</span></dt>
                         <dd>
                             <p>{{ item.description }}</p>
-                            <a class="author" *ngIf="item.user" ><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
-                            <a class="category" *ngIf="item.term" ><i
+                            @if (item.user) {
+                                <a class="author"><i class="iconfont icon-edit"></i><b>{{ item.user.name }}</b></a>
+                            }
+                            @if (item.term) {
+                                <a class="category"><i
                                     class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
-                            <a class="language" *ngIf="item.programming_language"><i
+                            }
+                            @if (item.programming_language) {
+                                <a class="language"><i
                                     class="iconfont icon-code"></i><b>{{ item.programming_language }}</b></a>
+                            }
+                            
                             <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
                             <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                             <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>
@@ -48,50 +55,63 @@
         </app-pull-to-refresh>
     </div>
     <div class="detail-box">
-        <ng-container *ngIf="!blog; else elseTemplate">
+        @if (!blog) {
             <div class="detail-loading">
 
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <div class="title">
                 <i class="iconfont icon-arrow-left" (click)="detailMode = false"></i>
                 <span>{{ blog.title }}</span>
             </div>
             <div class="detail-body">
                 <div class="info">
-                    <a class="author" *ngIf="blog.user" (click)="tapUser(blog.user)"><i class="iconfont icon-edit"></i><b>{{ blog.user.name }}</b></a>
-                    <a class="category" *ngIf="blog.term" (click)="tapCategory(blog.term)"><i class="iconfont icon-bookmark"></i><b>{{ blog.term.name }}</b></a>
-                    <a class="language" *ngIf="blog.programming_language" (click)="tapLanguage(blog.programming_language)"><i
+                    @if (blog.user) {
+                        <a class="author" (click)="tapUser(blog.user)"><i class="iconfont icon-edit"></i><b>{{ blog.user.name }}</b></a>
+                    }
+                    @if (blog.term) {
+                        <a class="category" (click)="tapCategory(blog.term)"><i class="iconfont icon-bookmark"></i><b>{{ blog.term.name }}</b></a>
+                    }
+                    @if (blog.programming_language) {
+                        <a class="language" (click)="tapLanguage(blog.programming_language)"><i
                             class="iconfont icon-code"></i><b>{{ blog.programming_language }}</b></a>
+                    }
+                    
                     <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at | ago }}</b></span>
                 </div>
                 <article id="content" class="content">
-                    <ng-container *ngIf="blog.audio_url">
+                    @if (blog.audio_url) {
                         <app-audio-player [src]="blog.audio_url"></app-audio-player>
-                    </ng-container>
-                    <ng-container *ngIf="blog.video_url">
+                    } @else if (blog.video_url) {
                         <app-video-player [src]="blog.video_url"></app-video-player>
-                    </ng-container>
+                    }
                     <app-markdown-block [value]="content"></app-markdown-block>
-                    <p class="book-copyright" *ngIf="blog.url">
-                        <ng-container i18n>Please keep the original link for reprinting:</ng-container>
-                        <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>
-                    </p>
+                    @if (blog.url) {
+                        <p class="book-copyright">
+                            <ng-container i18n>Please keep the original link for reprinting:</ng-container>
+                            <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>
+                        </p>
+                    }
+                    
                   </article>
                   <div class="book-bottom">
-                        <div class="book-source" *ngIf="blog.type == 1">
+                        @if (blog.type == 1) {
+                        <div class="book-source">
                             <span i18n>Reprinted in:</span>
                             <a [href]="blog.source_url"
                                 target="_blank" i18n-title title="This article is reprinted, click to view the original page">
                                 {{blog.source_url}} </a>
                         </div>
-                        <div class="book-tags" *ngIf="blog.tags">
+                        }
+                        @if (blog.tags) {
+                        <div class="book-tags">
                             <span i18n>Tags:</span>
-                            <ng-container *ngFor="let tag of blog.tags">
-                              <a (click)="tapTag(tag.name)">{{ tag.name }}</a>，
-                            </ng-container>
-                      </div>
+                            @for (tag of blog.tags; track $index) {
+                                <a (click)="tapTag(tag.name)">{{ tag.name }}</a>，
+                            }
+                       </div>
+                        }
+                        
                   </div>
                   <div class="tools">
                       <span class="comment"><i class="iconfont icon-comments"></i><b>{{ blog.comment_count }}</b></span>
@@ -99,7 +119,7 @@
                       <span class="agree recommend-blog" (click)="tapRecommend()"><i class="iconfont icon-thumbs-up"></i><b>{{ blog.recommend_count }}</b></span>
                   </div>
               </div>
-        </ng-template>
+        }
         
         
     </div>

@@ -232,6 +232,23 @@ export function getCurrentTime() {
     return formatTime(new Date());
 }
 
+/**
+ * 
+ * @param beginAgo 开始是几天前
+ * @param endAgo 结束是几天前
+ */
+export function getTimeRange(beginAgo: number, endAgo: number): [string, string] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const base = today.getTime();
+    const dayTime = 86400000;
+    if (beginAgo < endAgo) {
+        beginAgo = endAgo + 1;
+    }
+    return [formatTime(new Date(base - beginAgo * dayTime)), 
+        formatTime(new Date(base - (endAgo - 1) * dayTime))]
+}
+
 export function twoPad(n: number): string {
     const str = n.toString();
     return str[1] ? str : '0' + str;
