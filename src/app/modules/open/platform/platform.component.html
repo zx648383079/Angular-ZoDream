@@ -37,7 +37,7 @@
                   <td>
                     <div class="btn-group">
                       <a class="btn btn-info"
-                                [routerLink]="'./edit/' + item.id">编辑</a>
+                                [routerLink]="['./edit', item.id]">编辑</a>
                         <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                     </div>
                   </td>

@@ -437,6 +437,30 @@ i {
     }
 }
 
+.selected-container {
+    --#{theme.$prefix}selected: var(--#{theme.$prefix}input-selected);
+    --#{theme.$prefix}selected-border: var(--#{theme.$prefix}input-hover-border);
+    .selected-item {
+        font-size: 0.9em;
+        margin-bottom: .3125rem;
+        background-color: var(--#{theme.$prefix}selected);
+        border-radius: .125rem;
+        margin-right: .3125rem;
+        white-space: nowrap;
+        display: inline-block;
+        .item-close {
+            user-select: none;
+            cursor: pointer;
+            border-right: 1px solid var(--#{theme.$prefix}selected-border);
+        }
+        .item-label,
+        .item-close {
+            display: inline-block;
+            padding: .0625rem .3125rem;
+        }
+    }
+}
+
 @media (min-width: 48rem) {
     .form-table-control {
         --#{theme.$prefix}label-width: 30%;

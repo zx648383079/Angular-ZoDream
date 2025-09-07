@@ -2,8 +2,8 @@
     <div class="search-bar">
         <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
     </div>
-
-    <div class="panel" *ngIf="!queries.keywords">
+    @if (!queries.keywords) {
+    <div class="panel">
         <div class="panel-header">
             <ng-container i18n>Recommend</ng-container>
             <div class="pull-right" (click)="tapRefresh()">
@@ -30,8 +30,8 @@
             </div>
         </div>
     </div>
-
-    <div class="search-body" *ngIf="queries.keywords">
+    } @else {
+    <div class="search-body">
         <div class="row">
             @for (item of items; track $index) {
                 <div class="col-lg-2 col-md-3 col-sm-4 col-6">
@@ -56,4 +56,8 @@
             </div>
         </div>
     </div>
+    }
+    
+
+    
 </div>

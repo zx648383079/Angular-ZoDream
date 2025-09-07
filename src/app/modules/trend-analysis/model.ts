@@ -66,3 +66,9 @@ export interface IPageAccessLog extends IUserAgent {
 
     is_open?: boolean;
 }
+
+export interface IAnalysisMark {
+    key: string;
+    value: string;
+    queries?: string;
+}

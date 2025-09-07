@@ -4,7 +4,7 @@
     background-color: var(--#{theme.$prefix}input);
     border-radius: 4px;
     border: 1px solid var(--#{theme.$prefix}input-border);
-    min-height: 36px;
+    min-height: 2.25rem;
     align-items: center;
     position: relative;
     .input-container {
@@ -25,7 +25,7 @@
         }
     }
     .input-arrow {
-        width: 25px;
+        width: 1.5625rem;
         padding-right: 5px;
         cursor: pointer;
         text-align: center;
@@ -47,23 +47,6 @@
     }
     .selected-container {
         max-width: 70%;
-    }
-    .selected-item {
-        font-size: 0.9em;
-        margin-bottom: 5px;
-        background-color: var(--#{theme.$prefix}input-selected);
-        border-radius: 2px;
-        margin-right: 5px;
-        white-space: nowrap;
-        display: inline-block;
-        .item-close {
-            border-right: 1px solid var(--#{theme.$prefix}input-hover-border);
-        }
-        .item-label,
-        .item-close {
-            display: inline-block;
-            padding: 1px 5px;
-        }
     }
     .option-container {
         box-sizing: border-box;
@@ -91,7 +74,7 @@
         text-overflow: ellipsis;
         background-color: var(--#{theme.$prefix}input);
         color: var(--#{theme.$prefix}input-text);
-        padding: 8px 10px;
+        padding: .5rem .625rem;
         &:hover {
             background-color: var(--#{theme.$prefix}input-hovered);
             color: var(--#{theme.$prefix}body-text);

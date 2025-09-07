@@ -1,5 +1,7 @@
-<div class="comment-viewer" *ngIf="open">
-    <div class="comment-publish" *ngIf="user">
+@if (open) {
+<div class="comment-viewer">
+    @if (user) {
+    <div class="comment-publish">
         <div class="avatar">
             <img [src]="user.avatar" alt="">
         </div>
@@ -21,6 +23,7 @@
             </div>
         </div>
     </div>
+    }
    @for (item of items; track $index) {
      <div class="comment-item">
         <div class="avatar">
@@ -36,20 +39,22 @@
                 <div class="tools">
                     <a (click)="tapCommenting(item)">
                         <ng-container i18n>Comment</ng-container>
-                        <ng-container *ngIf="item.reply_count > 0">
+                        @if (item.reply_count > 0) {
                             ({{ item.reply_count | numberFormat }})
-                        </ng-container>
+                        }
                     </a>
                     <a (click)="tapAgreeComment(item)" [ngClass]="{active: item.agree_type == 3}">
                         <ng-container i18n>Like</ng-container>
-                        <ng-container *ngIf="item.agree > 0">
+                        @if (item.agree > 0) {
                             ({{ item.agree | numberFormat }})
-                        </ng-container>
+                        }
                     </a>
                 </div>
             </div>
-            <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
-                <div class="reply-item" *ngFor="let it of item.replies">
+            @if (item.replies && item.replies.length > 0) {
+            <div class="reply-box">
+                @for (it of item.replies; track $index) {
+                <div class="reply-item">
                     <div class="text">
                         <a>{{ it.user.name }}</a>：
                         <app-rule-block [value]="it.content" [rules]="it.extra_rule"></app-rule-block>
@@ -59,19 +64,24 @@
                         <div class="tools">
                             <a (click)="tapCommenting(it)">
                                 <ng-container i18n>Comment</ng-container>
-                                <ng-container *ngIf="it.reply_count > 0">
+                                @if (it.reply_count > 0) {
                                     ({{ it.reply_count | numberFormat }})
-                                </ng-container>
+                                }
                             </a>
                             <a (click)="tapAgreeComment(it)" [ngClass]="{active: it.agree_type == 3}">
                                 <ng-container i18n>Like</ng-container>
-                                <ng-container *ngIf="it.agree > 0">
+                                @if (it.agree > 0) {
                                     ({{ it.agree | numberFormat }})
-                                </ng-container></a>
+                                }
+                            </a>
                         </div>
                     </div>
                 </div>
+                }
+                
             </div>
+            }
+            
         </div>
     </div>
    }
@@ -79,3 +89,4 @@
         {hasMore, plural, =true {Read more} =false {No more~}}
     </div>
 </div>
+}

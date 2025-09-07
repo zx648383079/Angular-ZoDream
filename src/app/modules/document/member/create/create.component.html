@@ -9,7 +9,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="panel-container">
-                <div class="column-item" *ngFor="let item of typeItems" (click)="tapType(item)" [ngClass]="{active: data.type == item.value}">
+                @for (item of typeItems; track $index) {
+                <div class="column-item" (click)="tapType(item)" [ngClass]="{active: data.type == item.value}">
                     <div class="item-icon">
                         <div class="iconfont" [ngClass]="item.icon"></div>
                     </div>
@@ -18,6 +19,7 @@
                         <p>{{ item.desc }}</p>
                     </div>
                 </div>
+                }
             </div>
         </div>
         <div class="col-md-8">
@@ -50,7 +52,8 @@
                       </label>
                     </div>
                 </div>
-                <div class="form-group" *ngIf="data.type > 0">
+                @if (data.type > 0) {
+                <div class="form-group">
                     <label>环境域名</label>
                     <table class="table table-hover">
                         <thead>
@@ -64,7 +67,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of data.environment; let i = index">
+                            @for (item of data.environment; track $index; let i = $index) {
+                            <tr>
                                 <td>
                                     <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}" placeholder="例如：dev">
                                 </td>
@@ -78,6 +82,8 @@
                                     <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
                                 </td>
                             </tr>
+                            }
+                            
                         </tbody>
                         <tfoot>
                             <tr>
@@ -88,6 +94,8 @@
                         </tfoot>
                     </table>
                 </div>
+                }
+                
             </div>
             
         </div>

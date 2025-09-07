@@ -1,4 +1,4 @@
-<ng-container *ngFor="let item of items; let i = index">
+@for (item of items; track $index; let i = $index) {
     <div [ngClass]="{'request-tr': kind == 1, 'response-tr': kind == 2}">
         <div class="line-name" [title]="item.level + '级'">
             {{ item.level | treeLevel }}
@@ -12,23 +12,32 @@
                 <option *ngFor="let t of typeItems" [value]="t.value">{{ t.name }}</option>
             </select>
         </div>
-        <div *ngIf="kind == 1" class="switch-input">
+        @if (kind == 1) {
+        <div class="switch-input">
             <app-switch [(ngModel)]="item.is_required" (ngModelChange)="onValueChange()"></app-switch>
         </div>
-        <div *ngIf="kind == 1">
+        <div>
             <input type="text" class="form-control" [(ngModel)]="item.default_value" (ngModelChange)="onValueChange()">
         </div>
-        <div *ngIf="kind == 2">
+        } @else if (kind == 2) {
+        <div>
             <input type="text" class="form-control" [(ngModel)]="item.mock" (ngModelChange)="onValueChange()">
         </div>
+        }
+        
+        
         <div>
             <input type="text" class="form-control" [(ngModel)]="item.remark" (ngModelChange)="onValueChange()">
         </div>
         <div>
-            <i *ngIf="item.type == 'object' || item.type == 'array'" class="iconfont icon-plus" (click)="tapAddItem(item)"></i>
+            @if (item.type == 'object' || item.type == 'array') {
+                <i class="iconfont icon-plus" (click)="tapAddItem(item)"></i>
+            }
             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
         </div>
     </div>
-    <app-doc-api-field-tr *ngIf="item.type == 'object' || item.type == 'array'" [(items)]="item.children" [kind]="kind" (itemsChange)="onValueChange()"></app-doc-api-field-tr>
-</ng-container>
+    @if (item.type == 'object' || item.type == 'array') {
+        <app-doc-api-field-tr [(items)]="item.children" [kind]="kind" (itemsChange)="onValueChange()"></app-doc-api-field-tr>
+    }
+}
 

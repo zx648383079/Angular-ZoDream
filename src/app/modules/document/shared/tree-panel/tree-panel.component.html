@@ -6,9 +6,12 @@
             {{ item.name }}
         </div>
         <ul class="tree-body">
-            <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: value && it.id == value.id}">
+            @for (it of item.children; track $index) {
+            <li class="tree-item" [ngClass]="{active: value && it.id == value.id}">
                 <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
             </li>
+            }
+            
         </ul>
     </li>
     }

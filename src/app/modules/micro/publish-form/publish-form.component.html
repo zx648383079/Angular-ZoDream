@@ -30,18 +30,23 @@
             </div>
         </div>
         <select class="form-control" [(ngModel)]="openType">
-            <ng-container *ngFor="let item of typeItems;let i = index;">
+            @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
-            </ng-container>
+            }
         </select>
         <app-action-button class="btn btn-primary" (tapped)="tapPublish($event)" i18n>Publish</app-action-button>
     </div>
-    <div class="multi-image-box" *ngIf="fileItems.length > 0">
-        <div class="image-item" *ngFor="let item of fileItems; let i = index">
+    @if (fileItems.length > 0) {
+    <div class="multi-image-box">
+        @for (item of fileItems; track $index; let i = $index) {
+        <div class="image-item">
             <img [src]="item.thumb">
             <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
         </div>
+        }
     </div>
+    }
+    
 </div>
 <app-dialog-box #topicModal i18n-title title="Participate in the topic" [footerVisible]="false">
     <div class="flat-input">
@@ -50,8 +55,11 @@
             <i class="iconfont icon-plus"></i>
         </div>
     </div>
-    <div class="topic-item" *ngFor="let item of topicItems" (click)="topicModal.close(item.name)">
+    @for (item of topicItems; track $index) {
+    <div class="topic-item" (click)="topicModal.close(item.name)">
         <div class="item-title">#{{ item.name }}#</div>
         <div class="item-count" i18n>{{ item.micro_count | numberFormat }}Posts</div>
     </div>
+    }
+    
 </app-dialog-box>

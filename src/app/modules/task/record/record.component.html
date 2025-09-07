@@ -15,9 +15,9 @@
                 <div class="input-group-control">
                     <label>区间</label>
                     <select name="type" [ngModel]="type" class="form-control">
-                        <ng-container *ngFor="let item of typeItems;let i = index">
+                        @for (item of typeItems; track $index;let i = $index) {
                             <option [value]="i" >{{ item }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -26,39 +26,42 @@
     </div>
 
     <div class="review-box">
-        <ng-container *ngIf="type < 1">
+        @if (type < 1) {
             <div class="time-box">
                 <div class="time-header">
-                    <section *ngFor="let item of dayItems">{{ item.label }}</section>
+                    @for (item of dayItems; track $index) {
+                        <section>{{ item.label }}</section>
+                    }
                 </div>
                 <div class="time-body">
-                    <ng-container *ngFor="let item of dayItems">
-                        <ng-container *ngFor="let it of item.items">
+                    @for (item of dayItems; track $index) {
+                        @for (it of item.items; track $index) {
                             <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
                                 {{ it.task.name }}
                             </div>
-                        </ng-container>
-                    </ng-container>
+                        }
+                    }
                 </div>
             </div>
-        </ng-container>
-        <ng-container *ngIf="type == 1">
+        } @else if (type == 1) {
             <div class="week-box">
                 <div class="week-header">
-                    <section *ngFor="let item of weekItems">{{ item.label }}</section>
+                    @for (item of weekItems; track $index) {
+                        <section>{{ item.label }}</section>
+                    }
+                    
                 </div>
                 <div class="week-body">
-                    <ng-container *ngFor="let item of weekItems">
-                        <ng-container *ngFor="let it of item.items">
+                    @for (item of weekItems; track $index) {
+                        @for (it of item.items; track $index) {
                             <div class="task-item" [ngStyle]="it.style" [title]="it.task.name">
                                 {{ it.task.name }}
                             </div>
-                        </ng-container>
-                    </ng-container>
+                        }
+                    }
                 </div>
             </div>
-        </ng-container>
-        <ng-container *ngIf="type == 2">
+        } @else if (type == 2) {
             <div class="month-box">
                 <div class="month-header">
                     <section>周一</section>
@@ -70,16 +73,20 @@
                     <section>周日</section>
                 </div>
                 <div class="month-body">
-                    <div class="day-item" *ngFor="let item of monthItems">
+                    @for (item of monthItems; track $index) {
+                    <div class="day-item">
                         <span class="day-label">{{ item.label }}</span>
                         <ul class="day-box">
-                            <li *ngFor="let it of item.items">
+                            @for (it of item.items; track $index) {
+                            <li>
                                 {{ it.task.name }}
                             </li>
+                            }
                         </ul>
                     </div>
+                    }
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

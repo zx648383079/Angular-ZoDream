@@ -18,16 +18,19 @@
         <textarea class="form-control" rows="3" [(ngModel)]="data.summary"></textarea>
     </div>
     <div class="pic-box">
-        <div class="img-item" *ngFor="let item of data.pics;let i = index">
+        @for (item of data.pics; track $index;let i = $index) {
+        <div class="img-item">
             <img [src]="item" i18n-alt alt="Photo">
             <i class="iconfont icon-close" (click)="tapRemoveImage(i)"></i>
         </div>
+        }
+        
     </div>
     <div class="actions">
         <select class="form-control" [(ngModel)]="data.open_type">
-            <ng-container *ngFor="let item of typeItems;let i = index;">
+            @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
-            </ng-container>
+            }
         </select>
         <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Share</app-action-button>
     </div>

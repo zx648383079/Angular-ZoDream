@@ -15,13 +15,11 @@
             @for (item of items; track $index) {
                 <div class="comment-item">
                 <div class="content">
-                    <ng-container *ngIf="item.type == 1; else elseTemplate">
+                    @if (item.type == 1) {
                         <img [src]="item.content" alt="">
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         {{ item.content }}
-                    </ng-template>
-                    
+                    }
                 </div>
                 <div class="time">{{ item.created_at }}</div>
             </div>

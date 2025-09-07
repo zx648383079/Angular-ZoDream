@@ -16,9 +16,9 @@
                     <label>状态</label>
                     <select name="status" ngModel>
                         <option value="0">请选择</option>
-                        <ng-container *ngFor="let item of statusItems">
+                        @for (item of statusItems; track $index) {
                             <option [value]="item.value" [selected]="queries.status == item.value">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -28,13 +28,15 @@
     </div>
 
     @for (item of items; track $index) {
-        <div class="task-item" [ngClass]="{finished: item.status < 5}" [title]="item.tooltip">
+    <div class="task-item" [ngClass]="{finished: item.status < 5}" [title]="item.tooltip">
         <i class="checkbox" [ngClass]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
         <div class="time">{{ item.formated_time }}</div>
         <div class="action">
-            <i class="iconfont icon-plus" title="添加到今日任务" *ngIf="item.status >= 5" (click)="addToday(item)"></i>
+            @if (item.status >= 5) {
+                <i class="iconfont icon-plus" title="添加到今日任务" (click)="addToday(item)"></i>
+            }
             <a [routerLink]="'../edit/' + item.id" title="编辑"><i class="iconfont icon-edit"></i></a>
             <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
         </div>

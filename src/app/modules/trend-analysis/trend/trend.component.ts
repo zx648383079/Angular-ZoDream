@@ -4,7 +4,7 @@ import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
-import { IPageAccessLog, TimeTabItems } from '../model';
+import { IAnalysisMark, IPageAccessLog, TimeTabItems } from '../model';
 import { getTimeRange } from '../../../theme/utils';
 
 @Component({
@@ -28,6 +28,7 @@ export class TrendComponent implements OnInit {
     public tabItems = TimeTabItems;
     public tabIndex = -1;
     public moreOpen = false;
+    public markItems: IAnalysisMark[] = [];
 
     constructor(
         private service: TrendService,
@@ -51,8 +52,28 @@ export class TrendComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public isMask(key: string, value: string): boolean {
+    public isMark(key: string, value: string): boolean {
+        for (const item of this.markItems) {
+            if (this.isEqual(item, key, value)) {
+                return true;
+            }
+        }
         return false;
+    }
+
+    private isEqual(item: IAnalysisMark, key: string, value: string): boolean {
+        return item.key === key && item.value === value;
+    }
+
+    public tapUnmark(key: string, value: string) {
+        this.markItems = this.markItems.filter(item => !this.isEqual(item, key, value));
+    }
+
+    public tapMark(key: string, value: string) {
+        this.markItems.push({
+            key,
+            value
+        });
     }
 
     public toggleOpen(item: IPageAccessLog) {
@@ -66,7 +87,8 @@ export class TrendComponent implements OnInit {
     }
 
     public tapFilter(key: string, value: string) {
-
+        this.queries[key] = value;
+        this.tapRefresh();
     }
 
     public tapRefresh() {

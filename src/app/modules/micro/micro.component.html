@@ -4,32 +4,41 @@
     <div class="row">
         <div class="col-md-4">
             <div class="sort-tab-bar">
-                <ng-container *ngFor="let item of tabItems">
+                @for (item of tabItems; track $index) {
                     <a class="tab-item" [ngClass]="{active: item.value == queries.sort}" (click)="tapTab(item.value)">{{ item.name }}</a>
-                </ng-container>
+                }
             </div>
         </div>
         <div class="col-md-8">
-            <div class="user-card" *ngIf="!topic && user">
+            @if (!topic && user) {
+            <div class="user-card">
                 <div class="avatar">
                     <img [src]="user.avatar" alt="">
                 </div>
                 <div class="name">
                     {{ user.name }}
-                    <ng-container *ngIf="!authUser || user.id != authUser.id">
-                        <a class="follow-btn" *ngIf="user.follow_status < 1" i18n-title title="Follow user" (click)="tapFollow(user)">
-                            <i class="iconfont icon-star-o"></i>
-                            <ng-container i18n>Follow</ng-container>
-                        </a>
-                        <a class="follow-btn active" *ngIf="user.follow_status == 1" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow(user)">
-                            <i class="iconfont icon-star"></i>
-                            <ng-container i18n>Unfollow</ng-container>
-                        </a>
-                        <a class="follow-btn active" *ngIf="user.follow_status == 2" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow(user)">
-                            <i class="iconfont icon-exchange"></i>
-                            <ng-container i18n>Unfollow</ng-container>
-                        </a>
-                    </ng-container>
+                    @if (!authUser || user.id != authUser.id) {
+                        @switch (user.follow_status) {
+                            @case (1) {
+                                 <a class="follow-btn active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow(user)">
+                                    <i class="iconfont icon-star"></i>
+                                    <ng-container i18n>Unfollow</ng-container>
+                                </a>
+                            }
+                            @case (2) {
+                                <a class="follow-btn active" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow(user)">
+                                    <i class="iconfont icon-exchange"></i>
+                                    <ng-container i18n>Unfollow</ng-container>
+                                </a>
+                            }
+                            @default {
+                                <a class="follow-btn" i18n-title title="Follow user" (click)="tapFollow(user)">
+                                    <i class="iconfont icon-star-o"></i>
+                                    <ng-container i18n>Follow</ng-container>
+                                </a>
+                            }
+                        }
+                    }
                 </div>
                 <div class="remark"></div>
                 <div class="count-bar">
@@ -47,13 +56,17 @@
                     </div>
                 </div>
             </div>
-        
-            <div class="topic-card" *ngIf="topic">
+            }
+            
+            @if (topic) {
+            <div class="topic-card">
                 <div class="name">#{{ topic.name }}#</div>
                 <div class="count-bar" i18n>
                     {{ topic.micro_count | numberFormat }}Posts
                 </div>
             </div>
+            }
+            
         
             <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
                 @for (item of items; track $index) {
@@ -66,8 +79,12 @@
                                 <div class="name" (click)="tapUser(item)">{{ item.user.name }}</div>
                                 <p>
                                     <span class="time">{{ item.created_at | ago }}</span>
-                                    <span class="from" *ngIf="item.source" i18n>From {{ item.source }}</span>
-                                    <a class="remove" *ngIf="item.editable" (click)="tapRemove(item)" i18n>[Delete]</a>
+                                    @if (item.source) {
+                                        <span class="from" i18n>From {{ item.source }}</span>
+                                    }
+                                    @if (item.editable) {
+                                        <a class="remove" (click)="tapRemove(item)" i18n>[Delete]</a>
+                                    }
                                 </p>
                                 <div class="content">
                                     <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
@@ -79,27 +96,27 @@
                         <div class="ations">
                             <a [ngClass]="{active: item.is_collected}" (click)="tapCollect(item)">
                                 <ng-container i18n>{item.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
-                                <ng-container *ngIf="item.collect_count > 0">
+                                @if (item.collect_count > 0) {
                                     ({{ item.collect_count | numberFormat }})
-                                </ng-container>
+                                }
                             </a>
                             <a (click)="tapForward(modal, item)">
                                 <ng-container i18n>Forward</ng-container>
-                                <ng-container *ngIf="item.collect_count > 0">
+                                @if (item.collect_count > 0) {
                                     ({{ item.forward_count | numberFormat }})
-                                </ng-container>
+                                }
                             </a>
                             <a (click)="tapToggleComment(item)" [ngClass]="{open: item.comment_open}">
                                 <ng-container i18n>Comment</ng-container>
-                                <ng-container *ngIf="item.comment_count > 0">
+                                @if (item.comment_count > 0) {
                                     ({{ item.comment_count | numberFormat }})
-                                </ng-container>
+                                }
                             </a>
                             <a [ngClass]="{active: item.is_recommended}" (click)="tapRecommend(item)">
                                 <ng-container i18n>{item.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
-                                <ng-container *ngIf="item.recommend_count > 0">
+                                @if (item.recommend_count > 0) {
                                     ({{ item.recommend_count | numberFormat }})
-                                </ng-container>
+                                }
                             </a>
                         </div>
                         <div class="comment-box">
@@ -114,9 +131,12 @@
 
 <app-dialog-box #modal i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
-        <div class="simple" *ngIf="forwardItem">
+        @if (forwardItem) {
+        <div class="simple">
             &#64;{{ forwardItem.user.name }} ：{{ forwardItem.content }}
         </div>
+        }
+        
         <div class="input">
             <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>

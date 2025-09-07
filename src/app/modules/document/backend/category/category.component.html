@@ -20,7 +20,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of items;let i = index" class="tree-item" [ngClass]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
+                @for (item of items; track $index;let i = $index) {
+                <tr class="tree-item" [ngClass]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
                     <td class="tree-arrow-td" (click)="toggleTree(i)">
                         <i class="tree-item-arrow"></i>
                     </td>
@@ -36,6 +37,7 @@
                         </div>
                     </td>
                 </tr>
+                }
     
             </tbody>
         </table>
@@ -60,7 +62,10 @@
         <label>上级</label>
         <select id="parent_id" class="form-control" [(ngModel)]="editData.parent_id">
             <option [value]="0">-- 无上级分类 --</option>
-            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            @for (item of categories; track $index) {
+                <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            }
+           
         </select>
     </div>
 </app-dialog-box>

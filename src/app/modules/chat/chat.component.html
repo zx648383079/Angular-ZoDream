@@ -1,4 +1,5 @@
-<div class="page-box" [ngClass]="{'room-mode': roomMode}" *ngIf="user">
+@if (user) {
+<div class="page-box" [ngClass]="{'room-mode': roomMode}">
     <div class="chat-box" [ngClass]="{'search-mode': searchMode}">
         <div class="nav-bar">
             <a class="nav-item">
@@ -41,7 +42,7 @@
             </div>
             <div class="tab-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                    <ng-container *ngFor="let item of histories">
+                    @for (item of histories; track $index) {
                         <div class="user-item" (click)="tapHistory(item)">
                             <div class="user-avatar">
                                 <img [src]="item.user.avatar | asset" alt="">
@@ -49,25 +50,32 @@
                             <div class="user-info">
                                 <p>
                                     <span class="name">{{ item.friend ? item.friend.name : item.user.name }}</span>
-                                    <span class="time" *ngIf="item.updated_at">{{ item.updated_at | ago }}</span>
+                                    @if (item.updated_at) {
+                                        <span class="time">{{ item.updated_at | ago }}</span>
+                                    }
+                                    
                                 </p>
-                                <p *ngIf="item.message">
+                                @if (item.message) {
+                                <p>
                                     <span class="content">{{ item.message.content }}</span>
-                                    <span class="count" *ngIf="item.unread_count > 0">{{ item.unread_count }}</span>
+                                    @if (item.unread_count > 0) {
+                                        <span class="count">{{ item.unread_count }}</span>
+                                    }
                                 </p>
+                                }
                             </div>
                         </div>
-                    </ng-container>
+                    }
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (contextmenu)="tapContextMenu($event)">
-                    <ng-container *ngFor="let group of friends">
+                    @for (group of friends; track $index) {
                         <div class="expand-box" [ngClass]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
                                 <i class="expand-icon"></i>
                                 <span>{{ group.name }} ({{ group.online }} / {{ group.count }})</span>
                             </div>
                             <div class="expand-body">
-                                <ng-container *ngFor="let item of group.users">
+                                @for (item of group.users; track $index) {
                                     <div class="user-item" (click)="tapUser(item)">
                                         <div class="user-avatar">
                                             <img [src]="item.user.avatar | asset" alt="">
@@ -81,10 +89,10 @@
                                             </p>
                                         </div>
                                     </div>
-                                </ng-container>
+                                }
                             </div>
                         </div>
-                    </ng-container>
+                    }
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
 
@@ -98,7 +106,7 @@
                 <i class="iconfont icon-close" (click)="tapCloseFilter()"></i>
             </div>
             <div class="search-body">
-                <ng-container *ngFor="let item of searchItems">
+                @for (item of searchItems; track $index) {
                     <div class="user-item">
                         <div class="user-avatar">
                             <img [src]="item.user.avatar | asset" alt="">
@@ -112,17 +120,18 @@
                             </p>
                         </div>
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
     </div>
     <div class="chat-room">
-        <div class="title" *ngIf="chatUser">
+        @if (chatUser) {
+        <div class="title">
             <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
             <span>与 {{ chatUser.name }} 聊天中</span>
         </div>
-        <app-message-container *ngIf="chatUser" class="message-box" [items]="messageItems" [currentId]="user.user.id"></app-message-container>
-        <div class="message-tools" *ngIf="chatUser">
+        <app-message-container class="message-box" [items]="messageItems" [currentId]="user.user.id"></app-message-container>
+        <div class="message-tools">
             <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
             </app-emoji-picker>
@@ -148,14 +157,17 @@
                 <i class="iconfont icon-microphone"></i>
             </label>
         </div>
-        <div class="message-editor" *ngIf="chatUser">
+        <div class="message-editor">
             <textarea class="form-control message-text" [(ngModel)]="messageContent" placeholder="请输入内容"></textarea>
             <div class="message-action">
                 <button (click)="tapSend()">发送</button>
             </div>
         </div>
+        }
+        
     </div>
 </div>
+}
 
 <!-- 右键菜单 -->
 <app-context-menu></app-context-menu>
@@ -174,7 +186,7 @@
         <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
     </div>
     <div class="search-body">
-        <ng-container *ngFor="let item of searchData.items">
+        @for (item of searchData.items; track $index) {
             <div class="user-item" (click)="searchModal.close(item)">
                 <div class="avatar">
                     <img [src]="item.avatar">
@@ -186,7 +198,7 @@
                     </p>
                 </div>
             </div>
-          </ng-container>
+        }
     </div>
 </app-dialog-box>
 
@@ -197,7 +209,8 @@
 
 <!-- 查看用户信息 -->
 <app-dialog-box class="profile-dialog" #profileModal [customHeader]="true" [confirmText]="editProfile.editable ? '确定' : '添加好友'">
-    <div class="user-box" *ngIf="editProfile.user">
+    @if (editProfile.user) {
+    <div class="user-box">
         <div class="avatar">
             <img [src]="editProfile.user.avatar" alt="">
         </div>
@@ -206,14 +219,20 @@
             <p>.....</p>
         </div>
     </div>
-    <div class="form-group" *ngIf="editProfile.editable">
-      <label for="user-name">修改备注</label>
-      <input type="text" class="form-control" id="user-name" [(ngModel)]="editClassify.remark" placeholder="备注名称">
+    }
+    
+    @if (editProfile.editable) {
+    <div class="form-group">
+        <label for="user-name">修改备注</label>
+        <input type="text" class="form-control" id="user-name" [(ngModel)]="editClassify.remark" placeholder="备注名称">
     </div>
-    <div class="form-group" *ngIf="!editProfile.editable">
+    } @else {
+    <div class="form-group">
         <label for="apply-remark">申请理由</label>
         <textarea class="form-control" id="apply-remark" [(ngModel)]="editClassify.remark" placeholder="申请理由"></textarea>
-      </div>
+    </div>
+    }
+    
 </app-dialog-box>
 
 <!-- 选择分组 -->

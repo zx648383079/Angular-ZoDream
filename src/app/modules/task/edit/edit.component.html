@@ -3,9 +3,12 @@
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <div class="share-icon" *ngIf="data && data.id > 0">
+        @if (data && data.id > 0) {
+        <div class="share-icon">
             <i class="iconfont icon-paper-plane" title="分享" (click)="tapShare(shareModal)"></i>
         </div>
+        }
+       
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
@@ -88,7 +91,8 @@
 </app-dialog-box>
 
 <app-dialog-box #shareModal title="分享">
-    <div class="form-group" *ngIf="shareData.id < 1">
+    @if (shareData.id < 1) {
+    <div class="form-group">
         <label for="share-type-input">分享类型</label>
         <div class="input-group-control">
             <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
@@ -96,15 +100,23 @@
                 <option [value]="1">密码分享</option>
             </select>
         </div>
-        <div *ngIf="shareData.share_type == 1">
+        @if (shareData.share_type == 1) {
+        <div>
             <label for="pwd-input">分享密码</label>
             <div class="input-group-control">
                 <input type="text" class="form-control" id="pwd-input" [(ngModel)]="shareData.share_rule">
             </div>
         </div>
+        }
+        
     </div>
-    <div class="code-label" *ngIf="shareData.id > 0">
+    }
+    
+    @if (shareData.id > 0) {
+    <div class="code-label">
         <p>分享链接：</p>
         <code>{{ shareUrl }}</code>
     </div>
+    }
+    
 </app-dialog-box>

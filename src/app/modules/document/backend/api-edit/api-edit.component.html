@@ -5,22 +5,23 @@
                 <div class="bar-version">
                     <label for="version">版本</label>
                     <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
-                        <ng-container *ngFor="let item of versionItems">
+                        @for (item of versionItems; track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                     <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
                 </div>
                 <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
             </div>
             <div class="col-lg-9 col-md-8">
-                <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()" *ngIf="data">
+                @if (data) {
+                <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
                     <div class="title-input">
                         <label for="name">名称*</label>
                         <input type="text" id="name" class="form-control" formControlName="name">
                     </div>
-                    
-                    <div *ngIf="data.type < 1">
+                    @if (data.type < 1) {
+                    <div>
                         <div class="form-group">
                             <label for="method">请求类型*</label>
                             <select class="form-control" formControlName="method" id="method">
@@ -28,13 +29,13 @@
                             </select>
                         </div>
                         <div class="form-group">
-                          <label for="uri">接口路径*</label>
-                          <input type="text"
+                            <label for="uri">接口路径*</label>
+                            <input type="text"
                             class="form-control" formControlName="uri" id="uri" placeholder="请输入接口路径">
                         </div>
                         <div class="form-group">
-                          <label for="description">接口描述</label>
-                          <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+                            <label for="description">接口描述</label>
+                            <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
                         </div>
                         <div class="panel">
                             <div class="panel-header">
@@ -51,7 +52,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of data.header; let i = index">
+                                        @for (item of data.header; track $index; let i = $index) {
+                                        <tr>
                                             <td>
                                                 <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}">
                                             </td>
@@ -65,6 +67,8 @@
                                                 <i class="iconfont icon-close" (click)="tapRemoveItem(i, 3)"></i>
                                             </td>
                                         </tr>
+                                        }
+                                        
                                     
                                     </tbody>
                                     <tfoot>
@@ -124,11 +128,16 @@
                             </div>
                         </div>
                     </div>
+                    }
+                    
                     <div class="btn-group">
                         <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
-                        <a class="btn btn-info" *ngIf="data.type < 1 && data.id > 0" [routerLink]="['../../debug', data.id]" target="_blank">在线调试</a>
+                        @if (data.type < 1 && data.id > 0) {
+                            <a class="btn btn-info" [routerLink]="['../../debug', data.id]" target="_blank">在线调试</a>
+                        }
                     </div>
                 </form>
+                }
             </div>
         </div>
         

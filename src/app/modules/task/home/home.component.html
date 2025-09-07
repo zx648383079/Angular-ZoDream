@@ -22,17 +22,26 @@
 
     @for (item of items; track $index) {
         <div class="task-item" (click)="tapView(item)">
-        <div class="name">{{ item.task.name }}</div>
-        <div class="desc">{{ item.task.description }}</div>
-        <div class="count" *ngIf="item.amount > 1">{{ item.amount }}</div>
-        <div class="tip" *ngIf="item.status === 9">进行中</div>
-        <div class="tip" *ngIf="item.status === 8">暂停中</div>
-        <div class="action">
-            <i class="iconfont icon-play" *ngIf="item.status == 5 || item.status == 8"></i>
-            <i class="iconfont icon-pause" *ngIf="item.status === 9"></i>
-            <i class="iconfont icon-stop" *ngIf="item.status === 9"></i>
+            <div class="name">{{ item.task.name }}</div>
+            <div class="desc">{{ item.task.description }}</div>
+            @if (item.amount > 1) {
+                <div class="count">{{ item.amount }}</div>
+            }
+            @if (item.status === 9) {
+                <div class="tip">进行中</div>
+            } @else if (item.status === 8) {
+                <div class="tip">暂停中</div>
+            }
+            
+            <div class="action">
+                @if (item.status == 5 || item.status == 8) {
+                    <i class="iconfont icon-play"></i>
+                } @else if (item.status === 9) {
+                    <i class="iconfont icon-pause"></i>
+                    <i class="iconfont icon-stop"></i>
+                }
+            </div>
         </div>
-    </div>
     }
     <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
 </div>

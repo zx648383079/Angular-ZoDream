@@ -12,11 +12,15 @@
         a {
             display: inline-block;
             padding: .375rem .75rem;
+            color: var(--#{theme.$prefix}primary-text);
             &:hover {
                 background-color: var(--#{theme.$prefix}primary);
                 color: var(--#{theme.$prefix}primary-text);
             }
         }
+    }
+    &.is-mark {
+        color: var(--#{theme.$prefix}danger);
     }
     &:hover {
         .tool-bar {

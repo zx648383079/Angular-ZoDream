@@ -21,7 +21,7 @@
         </div>
 
         @for (item of items; track $index) {
-            <div class="project-item">
+        <div class="project-item">
             <div class="cover">
                 <img [src]="item.cover" alt="">
             </div>
@@ -31,13 +31,13 @@
                 <div class="btn-group mr-3">
                     <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]">编辑</a>
                     <div class="dropdown-bar">
-                      <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
-                      <div class="dropdown-pane">
-                        <a class="btn-info" [routerLink]="['edit', item.id]">设置</a>
-                        <a class="btn-danger" (click)="tapRemove(item)">删除</a>
-                      </div>
+                        <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
+                        <div class="dropdown-pane">
+                            <a class="btn-info" [routerLink]="['edit', item.id]">设置</a>
+                            <a class="btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
         }

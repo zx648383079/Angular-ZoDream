@@ -2,34 +2,40 @@
     <div class="route-back-icon" (click)="tapBack()">
         <i class="iconfont icon-chevron-left"></i>
     </div>
-    <div class="route-title" *ngIf="project">{{ project.name }}
-    </div>
+    @if (project) {
+        <div class="route-title">{{ project.name }}</div>
+    }
+    
 </div>
 <div class="row">
     <div class="col-md-4 right-hr">
         <div class="bar-version">
             <label for="version">版本</label>
             <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
-                <ng-container *ngFor="let item of versionItems">
+                @for (item of versionItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
-                </ng-container>
+                }
             </select>
             <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
         </div>
         <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
     </div>
     <div class="col-md-8">
-        <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()" *ngIf="data">
+        @if (data) {
+        <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="title-input">
                 <label for="name">名称</label>
                 <input type="text" id="name" class="form-control" formControlName="name">
             </div>
-            
-            <div *ngIf="data.type < 1">
+            @if (data.type < 1) {
+            <div>
                 <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
             </div>
+            }
+            
             <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
         </form>
+        }
     </div>
 </div>
 

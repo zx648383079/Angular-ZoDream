@@ -7,9 +7,11 @@
             <div class="media-next" (click)="tapNext()"></div>
         </div>
         <ul [ngClass]="{'media-min': attachmentType == 2}">
-            <li *ngFor="let it of items;let i = index" (click)="tapAttachment(i)">
+            @for (it of items; track $index;let i = $index) {
+            <li (click)="tapAttachment(i)">
                 <img [src]="it.thumb" alt="">
             </li>
+            }
         </ul>
     </div>
 }

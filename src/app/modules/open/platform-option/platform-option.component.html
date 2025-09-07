@@ -3,12 +3,14 @@
         <label for="platform_id">应用</label>
         <div>
             <select id="platform_id" class="form-control" name="platform_id" [(ngModel)]="platformId" (ngModelChange)="tapPlatformChange()">
-                <option *ngFor="let item of platformItems" [value]="item.id">{{ item.name }}</option>
+                @for (item of platformItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>
     <div class="edit-view">
-        <ng-container *ngFor="let group of items">
+        @for (group of items; track $index) {
             <div class="expand-box" [ngClass]="{min: group.expanded}">
                 <div class="expand-header" (click)="group.expanded = !group.expanded">
                     {{ group.label }}
@@ -19,12 +21,14 @@
                         <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
                         <div>
                             <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [(ngModel)]="item.value">
-                            <div class="tip" *ngIf="item.tip">{{ item.tip }}</div>
+                            @if (item.tip) {
+                                <div class="tip">{{ item.tip }}</div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
     <app-action-button class="btn btn-primary" (tapped)="saveOption($event)">保存</app-action-button>
 </div>

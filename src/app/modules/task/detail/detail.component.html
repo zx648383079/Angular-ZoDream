@@ -1,4 +1,5 @@
-<div class="container-fluid" *ngIf="data" [ngClass]="{'on-running': data && data.status != 5}">
+@if (data) {
+<div class="container-fluid" [ngClass]="{'on-running': data && data.status != 5}">
     
     <div class="detail-box">
         <app-circle-progress class="timer-desc" (finished)="tapCheck()"></app-circle-progress>
@@ -6,7 +7,8 @@
         <div class="timer-desc">{{ current.description }}</div>
     </div>
 
-    <div class="expand-box" *ngIf="items.length > 0" [ngClass]="{'open': expanded}">
+    @if (items.length > 0) {
+    <div class="expand-box" [ngClass]="{'open': expanded}">
         <div class="expand-header" (click)="expanded = !expanded">
             <i class="iconfont icon-chevron-down"></i>
         </div>
@@ -23,24 +25,31 @@
             }
         </div>
     </div>
+    }
+    
 
     <div class="action-box">
-        <div class="timer-play" title="开始计时" *ngIf="data.status == 5 || data.status == 8" (click)="tapPlay()">
+        @if (data.status == 5 || data.status == 8) {
+        <div class="timer-play" title="开始计时" (click)="tapPlay()">
             <i class="iconfont icon-play"></i>
             <div class="label">开始计时</div>
         </div>
-        <div class="timer-pause" title="暂停计时" *ngIf="data.status == 9" (click)="tapPause()">
+        } @else if (data.status == 9) {
+        <div class="timer-pause" title="暂停计时" (click)="tapPause()">
             <i class="iconfont icon-pause"></i>
             <div class="label">暂停计时</div>
         </div>
-        <div class="timer-close" title="停止计时" *ngIf="data.status == 9" (click)="tapStop()">
+        } @else if (data.status == 9) {
+        <div class="timer-close" title="停止计时" (click)="tapStop()">
             <i class="iconfont icon-stop"></i>
             <div class="label">停止计时</div>
         </div>
+        }
     </div>
     <div class="fixed-icon">
         <i class="iconfont icon-comments" (click)="panel.open()"></i>
     </div>
 </div>
+}
 
 <app-comment-panel #panel [itemId]="current?.id"></app-comment-panel>

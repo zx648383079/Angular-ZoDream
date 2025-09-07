@@ -7,7 +7,9 @@
     <div class="panel-container">
         <div class="flat-input">
             <select [(ngModel)]="method" class="form-control">
-                <option *ngFor="let item of methodItems" [value]="item">{{ item }}</option>
+                @for (item of methodItems; track $index) {
+                    <option [value]="item">{{ item }}</option>
+                }
             </select>
             <input type="text" [(ngModel)]="url" class="form-control">
             <app-action-button class="btn btn-primary" (tapped)="tapSend($event)">发送</app-action-button>
@@ -34,7 +36,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of headerItems; let i = index">
+                            @for (item of headerItems; track $index; let i = $index) {
+                            <tr>
                                 <td>
                                     <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
                                 </td>
@@ -48,6 +51,8 @@
                                     <i class="iconfont icon-close" (click)="tapRemoveHeader(i)"></i>
                                 </td>
                             </tr>
+                            }
+                            
                         </tbody>
                         <tfoot>
                             <tr>
@@ -62,16 +67,16 @@
                     <div class="type-bar">
                         <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="bodyType" (ngModelChange)="onTypeChange()"></app-check-input>
                         <select [hidden]="bodyType != 3" [(ngModel)]="rawType" class="form-control">
-                            <option *ngFor="let item of rawItems;let i = index" [value]="i">{{ item }}</option>
+                            @for (item of rawItems; track $index;let i = $index) {
+                                <option [value]="i">{{ item }}</option>
+                            }
                         </select>
                     </div>
-                    <ng-container *ngIf="bodyType == 4">
+                    @if (bodyType == 4) {
                         <input type="file" class="form-control" (change)="uploadFile($event)">
-                    </ng-container>
-                    <ng-container *ngIf="bodyType == 3">
+                    } @else if (bodyType == 3) {
                         <textarea [(ngModel)]="body" class="form-control"></textarea>
-                    </ng-container>
-                    <ng-container *ngIf="bodyType > 0 && bodyType < 3">
+                    } @else if (bodyType > 0 && bodyType < 3) {
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -82,7 +87,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of body; let i = index">
+                                @for (item of body; track $index; let i = $index) {
+                                <tr>
                                     <td>
                                         <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
                                     </td>
@@ -93,17 +99,18 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <ng-container *ngIf="item.type > 0">
+                                        @if (item.type > 0) {
                                             <input type="file" class="form-control" (change)="uploadFile($event, item)">
-                                        </ng-container>
-                                        <ng-container *ngIf="item.type < 1">
+                                        } @else {
                                             <input type="text" class="form-control" [(ngModel)]="item.value">
-                                        </ng-container>
+                                        }
                                     </td>
                                     <td>
                                         <i class="iconfont icon-close" (click)="tapRemoveBody(i)"></i>
                                     </td>
                                 </tr>
+                                }
+                                
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -113,13 +120,13 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </ng-container>
+                    }
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="panel-container" *ngIf="responseStatus">
+    @if (responseStatus) {
+    <div class="panel-container">
         <div class="tab-box">
             <div class="tab-header">
                 <div class="tab-item" [ngClass]="{active: responseIndex < 1}" (click)="responseIndex = 0">
@@ -147,7 +154,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of responseHeader">
+                            @for (item of responseHeader; track $index) {
+                            <tr>
                                 <td>
                                     {{ item.key }}
                                 </td>
@@ -155,6 +163,8 @@
                                     {{ item.value }}
                                 </td>
                             </tr>
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
@@ -167,7 +177,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of responseInfo">
+                            @for (item of responseInfo; track $index) {
+                            <tr>
                                 <td>
                                     {{ item.key }}
                                 </td>
@@ -175,10 +186,13 @@
                                     {{ item.value }}
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    }
+    
 </div>

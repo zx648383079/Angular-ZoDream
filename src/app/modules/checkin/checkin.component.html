@@ -2,20 +2,28 @@
     <div (click)="tapButton()" class="checkin-picker__button">
         <ng-content></ng-content>
     </div>
-    <div class="checkin-picker_container" *ngIf="panelVisible" [ngStyle]="panelStyle">
+    @if (panelVisible) {
+    <div class="checkin-picker_container" [ngStyle]="panelStyle">
         <div class="picker-header">
             <i class="iconfont icon-chevron-left previousMonth" (click)="tapPrevious()"></i>
             <span class="title" i18n>{{ month }} cumulative checked in</span>
-            <i class="iconfont icon-chevron-right nextMonth" *ngIf="canNext" (click)="tapNext()"></i>
+            @if (canNext) {
+                <i class="iconfont icon-chevron-right nextMonth" (click)="tapNext()"></i>
+            }
+            
         </div>
         <div class="picker-body">
             <ol class="gird-header"><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
             <ul class="gird-body">
-                <ng-container *ngFor="let item of dayItems">
+                @for (item of dayItems; track $index) {
                     <li [ngClass]="{disable: item.disable, active: item.active}" [title]="formatDayTitle(item)">{{ item.val }}</li>
-                </ng-container>
+                }
             </ul>
         </div>
-        <app-action-button class="picker-footer" *ngIf="!data" (tapped)="tapCheck($event)" i18n>Check in</app-action-button>
+        @if (!data) {
+            <app-action-button class="picker-footer" (tapped)="tapCheck($event)" i18n>Check in</app-action-button>
+        }
     </div>
+    }
+    
 </div>
