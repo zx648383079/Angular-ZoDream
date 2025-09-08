@@ -1,42 +1,44 @@
 <div class="catalog-header">
-    <ng-container *ngIf="!orderAsc; else elseTemplate">
+    @if (!orderAsc) {
         <a class="right" (click)="tapOrder()">
             <i class="iconfont icon-arrow-up"></i>
             <ng-container i18n>ASC</ng-container>
         </a>
-    </ng-container>
-    <ng-template #elseTemplate>
+    } @else {
         <a class="right" (click)="tapOrder()">
             <i class="iconfont icon-arrow-down"></i>
             <ng-container i18n>DESC</ng-container>
         </a>
-    </ng-template>
+    }
 </div>
 <div class="catalog-box">
     <div class="row">
-        <ng-container *ngFor="let item of filterItems">
-            <ng-container *ngIf="item.type < 1; else elseTemplate">
+        @for (item of filterItems; track $index) {
+            @if (item.type < 1) {
                 <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
                     <div class="title">
-                        <i class="iconfont" *ngIf="item.type == 1" [ngClass]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
+                        @if (item.type == 1) {
+                        <i class="iconfont" [ngClass]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
+                        }
                         {{ item.title }}</div>
                     <div class="time">{{ item.created_at | ago }}</div>
                 </div>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <div class="col-12 group-header">
                     <div class="title">{{ item.title }}</div>
                 </div>
-                <ng-container *ngFor="let it of item.children">
+                @for (it of item.children; track $index) {
                     <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == it.id}">
                         <div class="title">
-                            <i class="iconfont" *ngIf="item.type == 1" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
+                            @if (item.type == 1) {
+                            <i class="iconfont" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
+                            }
                             {{ it.title }}</div>
                         <div class="time">{{ it.created_at | ago }}</div>
                     </div>
-                </ng-container>
-            </ng-template>
-        </ng-container>
+                }
+            }
+        }
     </div>
     
 </div>

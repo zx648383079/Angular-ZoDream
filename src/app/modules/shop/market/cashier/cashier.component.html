@@ -6,7 +6,7 @@
             收货信息
             </div>
             <div class="panel-body">
-                <ng-container *ngIf="addressIsEdit; else elseTemplate">
+                @if (addressIsEdit) {
                     <div class="address-edit">
                         <div class="edit-body">
                             <div>*所在地区:</div>
@@ -34,18 +34,19 @@
                                 设为默认
                             </div>
                             <button type="button" class="btn" (click)="tapEditSave()">保存地址</button>
-                            <button type="button" class="btn btn-cancel" *ngIf="editData.id > 0" (click)="tapEditCancel()">取消</button>
+                            @if (editData.id > 0) {
+                            <button type="button" class="btn btn-cancel" (click)="tapEditCancel()">取消</button>
+                            }
                         </div>
                     </div>
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     <div class="address-view">
                         <div class="address-body">
                             <div>
                                 <i class="iconfont icon-map-marker"></i>
-                                <ng-container *ngIf="address.is_default">
+                                @if (address.is_default) {
                                     默认地址
-                                </ng-container>
+                                }
                                 
                                 <a class="btn btn-primary" (click)="tapEditAddress(address)">修改</a>
                             </div>
@@ -64,7 +65,7 @@
                             <p><a class="btn btn-primary" (click)="tapEditAddress()">新建地址</a></p>
                         </div>
                     </div>
-                </ng-template>
+                }
                 
             </div>
         </div>
@@ -78,13 +79,14 @@
                <div class="auto-hide">实付</div>
             </div>
             <div class="panel-body">
-                <ng-container *ngFor="let group of items">
+                @for (group of items; track $index) {
                     <div class="group-header">
                         <div class="name">
                             {{ group.name }}
                         </div>
                     </div>
-                    <div class="order-goods-item" *ngFor="let item of group.goods_list">
+                    @for (item of group.goods_list; track $index) {
+                    <div class="order-goods-item">
                         <div class="goods-info">
                             <div class="thumb">
                                 <img [src]="item.goods.thumb" alt="">
@@ -99,27 +101,28 @@
                         <div class="auto-hide">{{ item.price * item.amount | price }}</div>
                         <div class="auto-hide">{{ item.price * item.amount | price }}</div>
                     </div>
-                </ng-container>
+                    }
+                }
                 
             </div>
             <div class="panel-footer">
                 <div class="shipping-box">
                     <h4>配送方式：</h4>
-                    <ng-container *ngFor="let item of shippingItems">
+                    @for (item of shippingItems; track $index) {
                         <span class="radio-label" [ngClass]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
                             <i class="iconfont" [ngClass]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
                             {{ item.name }}
                         </span>
-                    </ng-container>
+                    }
                 </div>
                 <div class="payment-box">
                     <h4>支付方式：</h4>
-                    <ng-container *ngFor="let item of paymentItems">
+                    @for (item of paymentItems; track $index) {
                         <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
                             <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
                             {{ item.name }}
                         </span>
-                    </ng-container>
+                    }
                 </div>
                 <div class="invoice-box">
                     <h4>发票信息：</h4>
@@ -137,20 +140,19 @@
                         </div>
                         <div class="tab-body">
                             <div class="tab-item" [ngClass]="{active: couponIndex < 1}">
-                                <ng-container *ngFor="let item of couponItems">
+                                @for (item of couponItems; track $index) {
                                     <div class="coupon-item" [ngClass]="{active: item.id == coupon?.id, expired: item.expired}" (click)="couponChanged(item)">
                                         <div class="item-body">
                                             <div class="money">
-                                                <ng-container *ngIf="item.type > 0; else elseTemplate">
+                                                @if (item.type > 0) {
                                                     <em>
                                                         {{ item.money }}折
                                                     </em>
-                                                </ng-container>
-                                                <ng-template #elseTemplate>
+                                                } @else {
                                                     <em>
                                                         ￥{{ item.money }}
                                                     </em>
-                                                </ng-template>
+                                                }
                                                 <span class="limit">满{{ item.min_money }}元可用</span>
                                             </div>
                                             <div class="time">
@@ -161,7 +163,7 @@
                                             <div class="item-tag">[限品类]</div>
                                         </div>
                                     </div>
-                                </ng-container>
+                                }
                             </div>
                             <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
                                 <div class="flat-input">
@@ -177,7 +179,8 @@
                     <h4>使用礼品卡</h4>
                     <input type="checkbox">可用余额
                 </div>
-                <div class="checkout-footer" *ngIf="order">
+                @if (order) {
+                <div class="checkout-footer">
                     <div class="amount-box">
                         <div>商品合计:
                             <span class="price">{{ order.goods_amount | price }}</span>
@@ -190,11 +193,12 @@
                         </div>
                     </div>
                     <app-action-button class="btn btn-primary" (tapped)="tapCheckout($event)">去付款</app-action-button>
-                    <ng-container *ngIf="order.address">
+                    @if (order.address) {
                         <div>{{ order.address.name }} {{ order.address.tel }}</div>
                         <div>{{ order.address.region_name }} {{ order.address.address }}</div>
-                    </ng-container>
+                    }
                 </div>
+                }
         </div>
     </div>
 </div>
@@ -205,14 +209,16 @@
         <i class="iconfont icon-close dialog-close" (click)="dialogOpen = 0"></i>
     </div>
     <div class="dialog-body">
-        <ng-container *ngFor="let item of addressItems">
+        @for (item of addressItems; track $index) {
             <div class="address-item" [ngClass]="{active: dialogSelected && item.id == dialogSelected.id}" (click)="tapDialogSelect(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
                 <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>
-                <span class="default" *ngIf="item.is_default">默认地址</span>
+                @if (item.is_default) {
+                <span class="default">默认地址</span>
+                }
             </div>
-        </ng-container>
+        }
     </div>
     <div class="dialog-footer">
         <div class="btn-group">

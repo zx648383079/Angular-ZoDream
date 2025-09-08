@@ -4,7 +4,8 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
-                    <div class="input-group-control avatar-input" *ngIf="data">
+                    @if (data) {
+                    <div class="input-group-control avatar-input" >
                         <label for="avatar">头像</label>
                         <div>
                             <div class="avatar">
@@ -14,18 +15,23 @@
                             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>
+                    }
                     <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
                             <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:zodream">
-                            <div class="input-tip" *ngIf="name.invalid">请输入昵称</div>
+                            @if (name.invalid) {
+                            <div class="input-tip" >请输入昵称</div>
+                            }
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
                             <input type="email" id="email" class="form-control" formControlName="email">
-                            <div class="input-tip" *ngIf="email.invalid">请输入邮箱</div>
+                            @if (email.invalid) {
+                            <div class="input-tip" >请输入邮箱</div>
+                            }
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -63,17 +69,21 @@
                         <div>
                             <input type="password" id="confirm_password" class="form-control" formControlName="confirm_password"
                                 placeholder="输入确认密码">
-                            <div class="input-tip" *ngIf="form.getError('confirm')">两次密码不一致</div>
+                            @if (form.getError('confirm')) {
+                            <div class="input-tip" >两次密码不一致</div>
+                            }
                         </div>
                     </div>
                 </app-panel>
             </div>
         </div>
 
-        <div class="btn-group" *ngIf="data">
+        @if (data) {
+        <div class="btn-group" >
             <button type="submit" class="btn btn-success">确认保存</button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
             <a class="btn btn-info" [routerLink]="['../../', data.id]">查看账号明细</a>
         </div>
+        }
     </form>
 </div>

@@ -1,18 +1,17 @@
-<ng-container *ngIf="label; else elseTemplate">
+@if (label) {
     <div class="control-body">
         <label for="">{{ label }}</label>
         <input type="number">
         <span class="extra-control" (click)="visible = !visible">{{ unit }}</span>
     </div>
-</ng-container>
-<ng-template #elseTemplate>
+} @else {
     <div class="control-body">
         <span class="extra-control" (click)="visible = !visible">{{ unit }}</span>
         <input type="number">
     </div>
-</ng-template>
+}
 <div class="select-option-bar">
-    <ng-container *ngFor="let item of unitItems">
+    @for (item of unitItems; track $index) {
         <div class="option-item" [ngClass]="{selected: unit == item}" (click)="tapSelectedUnit(item)">{{ item }}</div>
-    </ng-container>
+    }
 </div>

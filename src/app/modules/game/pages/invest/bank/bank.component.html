@@ -3,9 +3,9 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <ng-container *ngFor="let item of tabItems;let i = index">
+        @for (item of tabItems; track $index; let i = $index) {
             <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item.name }}</a>
-        </ng-container>
+        }
     </div>
 </div>
 

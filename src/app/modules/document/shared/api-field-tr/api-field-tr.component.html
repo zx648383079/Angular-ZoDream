@@ -9,7 +9,9 @@
         </div>
         <div>
             <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onTypeChange(item)">
-                <option *ngFor="let t of typeItems" [value]="t.value">{{ t.name }}</option>
+                @for (t of typeItems; track $index) {
+                <option [value]="t.value">{{ t.name }}</option>
+                }
             </select>
         </div>
         @if (kind == 1) {

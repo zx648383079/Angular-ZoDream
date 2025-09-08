@@ -4,51 +4,100 @@
     <div class="panel-container form-table-control">
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" *ngFor="let item of formItems" [ngClass]="{active: item.active}" (click)="tapTab(item)">
+                @for (item of formItems; track $index) {
+                <div class="tab-item" [ngClass]="{active: item.active}" (click)="tapTab(item)">
                     {{ item.name }}
                 </div>
+                }
+                
             </div>
             <div class="tab-body">
-                <div class="tab-item" *ngFor="let group of formItems" [ngClass]="{active: group.active}">
-                    <div class="input-group-control" *ngFor="let item of group.items">
-                        <label>{{ item.label }}</label>
-                        <div *ngIf="item.type == 'text' || item.type == 'url' || item.type == 'location' || item.type == 'email'">
-                            <input type="text" class="form-control" [(ngModel)]="item.value">
-                        </div>
-                        <div *ngIf="item.type == 'password'">
-                            <input type="password" class="form-control" [(ngModel)]="item.value">
-                        </div>
-                        <div *ngIf="item.type == 'textarea'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-                        </div>
-                        <div *ngIf="item.type == 'select'">
-                            <select class="form-control"  [(ngModel)]="item.value">
-                                <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
-                            </select>
-                        </div>
-                        <div *ngIf="item.type == 'radio'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'checkbox'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'switch'">
-                            <app-switch [(ngModel)]="item.value"></app-switch>
-                        </div>
-                        <div *ngIf="item.type == 'image' || item.type == 'images'">
-                            <app-file-input [(ngModel)]="item.value"></app-file-input>
-                        </div>
-                        <div *ngIf="item.type == 'file' || item.type == 'files'">
-                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
-                        </div>
-                        <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
-                            <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
-                        </div>
-                        <div *ngIf="item.type == 'markdown'">
-                            <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>
-                        </div>
+                @for (group of formItems; track $index) {
+                    <div class="tab-item" [ngClass]="{active: group.active}">
+                        @for (item of group.items; track $index) {
+                            <div class="input-group-control">
+                                <label>{{ item.label }}</label>
+                                @switch (item.type) {
+                                    @case ('password') {
+                                        <div>
+                                            <input type="password" class="form-control" [(ngModel)]="item.value">
+                                        </div>
+                                    }
+                                    @case ('textarea') {
+                                        <div>
+                                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                        </div>
+                                    }
+                                    @case ('select') {
+                                        <div>
+                                            <select class="form-control"  [(ngModel)]="item.value">
+                                                @for (val of item.items; track $index) {
+                                                    <option [value]="val">{{ val }}</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    }
+                                    @case ('radio') {
+                                        <div>
+                                            <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                                        </div>
+                                    }
+                                    @case ('checkbox') {
+                                        <div>
+                                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                                        </div>
+                                    }
+                                    @case ('switch') {
+                                        <div>
+                                            <app-switch [(ngModel)]="item.value"></app-switch>
+                                        </div>
+                                    }
+                                    @case ('image') {
+                                        <div>
+                                            <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                        </div>
+                                    }
+                                    @case ('images') {
+                                        <div>
+                                            <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                        </div>
+                                    }
+                                    @case ('file') {
+                                        <div>
+                                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                        </div>
+                                    }
+                                    @case ('files') {
+                                        <div>
+                                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                        </div>
+                                    }
+                                    @case ('editor') {
+                                        <div>
+                                            <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
+                                        </div>
+                                    } 
+                                    @case ('basic_editor') {
+                                        <div>
+                                            <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
+                                        </div>
+                                    }
+                                    @case ('markdown') {
+                                        <div>
+                                            <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>
+                                        </div>
+                                    }
+                                    @default {
+                                        <div>
+                                            <input type="text" class="form-control" [(ngModel)]="item.value">
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
                     </div>
-                </div>
+                }
+                
             </div>
         </div>
         <div class="btn-group">

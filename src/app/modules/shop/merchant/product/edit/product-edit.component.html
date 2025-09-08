@@ -23,14 +23,18 @@
                     <div class="input-group-control">
                         <label>分类</label>
                         <select formControlName="cat_id" class="form-control">
-                            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                            @for (item of categories; track $index) {
+                            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                            }
                         </select>
                     </div>
                     <div class="input-group-control">
                         <label for="brand_id">品牌</label>
                         <div>
                             <select id="brand_id" formControlName="brand_id" class="form-control">
-                                <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
+                                @for (item of brandItems; track $index) {
+                                <option [value]="item.id">{{ item.name }}</option>
+                                }
                             </select>
         
                         </div>
@@ -65,8 +69,10 @@
                     <div class="input-group-control">
                         <label for="attribute_group_id">类型</label>
                         <div>
-                            <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (ngModelChange)="tapGroupChange()">
-                                <option *ngFor="let item of typeItems" [value]="item.id">{{ item.name }}</option>
+                            <select id="attribute_group_id" formControlName="attribute_group_id" class="form-control" (change)="tapGroupChange()">
+                                @for (item of typeItems; track $index) {
+                                <option [value]="item.id">{{ item.name }}</option>
+                                }
                             </select>
         
                         </div>

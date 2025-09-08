@@ -17,7 +17,8 @@
         </div>
     </div>
     
-    <div class="prize-panel" *ngIf="lotterying">
+    @if (lotterying) {
+    <div class="prize-panel">
         @for (item of items; track $index) {
             <div class="prize-item" [ngClass]="{open: item.is_open}" (click)="item.is_open = true">
                 <div class="item-front"></div>
@@ -30,10 +31,12 @@
             <a class="btn btn-primary" (click)="tapJump()">跳过</a>
         </div>
     </div>
+    }
 </div>
 
-<div class="dialog-mask" *ngIf="modalVisible"></div>
-<div class="rule-dialog" *ngIf="modalVisible">
+@if (modalVisible) {
+<div class="dialog-mask"></div>
+<div class="rule-dialog">
     <div class="dialog-header">
         <span>规则</span>
         <div class="dialog-close">
@@ -45,3 +48,4 @@
         <p>2. 十连抽</p>
     </div>
 </div>
+}

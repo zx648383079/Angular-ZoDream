@@ -1,19 +1,17 @@
 
 <div class="cart-page">
     <div class="container">
-        <ng-container *ngIf="items.length < 1; else elseTemplate">
+        @if (items.length < 1) {
             <div class="empty-cart-box">
-                <ng-container *ngIf="guest; else elseGuestTemplate">
+                @if (guest) {
                     <p i18n>After login, you can synchronize the products in the shopping cart</p>
                     <a class="btn btn-primary" routerLink="../auth" i18n>Sign up now</a>
-                </ng-container>
-                <ng-template #elseGuestTemplate>
+                } @else {
                     <p i18n>Your cart is empty</p>
-                <a class="btn btn-primary" routerLink="../" i18n>Go Shopping</a>
-                </ng-template>
+                    <a class="btn btn-primary" routerLink="../" i18n>Go Shopping</a>
+                }
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <div class="cart-header">
                 <div class="chkbox" (click)="toggleCheckAll()">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}"></i>
@@ -26,7 +24,8 @@
                 <div>操作</div>
             </div>
             
-            <div class="cart-group-item" *ngFor="let group of items">
+            @for (group of items; track $index) {
+            <div class="cart-group-item">
                 <div class="group-header">
                     <div class="chk" (click)="toggleCheckGroup(group)">
                         <i class="iconfont" [ngClass]="{'icon-check-square-o': group.checked, 'icon-square-o': !group.checked}"></i>
@@ -35,7 +34,8 @@
                         {{ group.name }}
                     </div>
                 </div>
-                <div class="cart-item" *ngFor="let item of group.goods_list">
+                @for (item of group.goods_list; track $index) {
+                <div class="cart-item">
                     <div class="chk" (click)="toggleCheck(group, item)">
                         <i class="iconfont" [ngClass]="{'icon-check-square-o': item.is_checked, 'icon-square-o': !item.is_checked}"></i>
                     </div>
@@ -44,7 +44,9 @@
                     </div>
                     <div>
                         <div class="name">{{ item.goods.name }}</div>
-                        <div class="attr" *ngIf="item.attribute_value">{{ item.attribute_value }}</div>
+                        @if (item.attribute_value) {
+                        <div class="attr">{{ item.attribute_value }}</div>
+                        }
                     </div>
                     <div class="price">
                         <span>{{ item.price | price }}</span>
@@ -60,8 +62,9 @@
                         <a (click)="tapRemove(item)">删除</a>
                     </div>
                 </div>
+                }
             </div>
-            
+            }
             <div class="cart-footer">
                 <div class="chkbox">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}" (click)="toggleCheckAll()"></i>
@@ -83,22 +86,26 @@
                 <div class="money">
                     <span>应付总额：</span>
                     <span class="price">{{ total | price }}</span>
-                    <div class="tip" *ngIf="cart.promotion_cell.length > 0">{{ cart.promotion_cell[0].popup_tip }}></div>
+                    @if (cart.promotion_cell.length > 0) {
+                    <div class="tip">{{ cart.promotion_cell[0].popup_tip }}></div>
+                    }
                 </div>
                 <div class="checkout">
                     <a class="btn" (click)="tapCashier()" i18n>CHECKOUT</a>
                 </div>
             </div>
-        </ng-template>
+        }
         
 
         <div class="panel" appLazyLoad (lazyLoading)="loadLike()">
             <div class="panel-header" i18n>
             You like
             </div>
-            <div class="panel-body" *ngIf="likeItems.length > 0">
+            @if (likeItems.length > 0) {
+            <div class="panel-body">
                 <app-goods-slider [items]="likeItems"></app-goods-slider>
             </div>
+            }
         </div>
 
     </div>

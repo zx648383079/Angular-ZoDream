@@ -17,7 +17,9 @@
         <i class="iconfont" [ngClass]="{'icon-plus': !tabVisible, 'icon-minus': tabVisible}"></i>
         {{ tabVisible ? '隐藏' : '显示' }}底部导航
     </div>
-    <div class="tab-bar-box" *ngIf="tabVisible">
+    @if (tabVisible) {
+    <div class="tab-bar-box">
         <app-tab-bar></app-tab-bar>
     </div>
+    }
 </div>

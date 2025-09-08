@@ -15,14 +15,18 @@
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categories; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <div class="input-group-control">
                     <label>品牌</label>
                     <select name="brand" [ngModel]="queries.brand" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
+                        @for (item of brandItems; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -97,7 +101,9 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a *ngIf="item.type == 1" class="btn btn-info" [routerLink]="['../card', item.id]">卡密</a>
+                            @if (item.type == 1) {
+                            <a class="btn btn-info" [routerLink]="['../card', item.id]">卡密</a>
+                            }
                             <a class="btn btn-primary" routerLink="../issue" [queryParams]="{goods: item.id}">问答</a>
                             <a class="btn btn-light" [routerLink]="['../edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
@@ -122,7 +128,9 @@
             <div class="input-group-control">
                 <select id="type1" name="category" [ngModel]="queries.category" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    @for (item of categories; track $index) {
+                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -131,7 +139,9 @@
             <div class="input-group-control">
                 <select id="brand1" name="brand" [ngModel]="queries.brand" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of brandItems" [value]="item.id">{{ item.name }}</option>
+                    @for (item of brandItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

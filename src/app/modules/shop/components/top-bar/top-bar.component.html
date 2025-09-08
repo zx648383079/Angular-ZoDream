@@ -9,23 +9,24 @@
                 <div class="top-notice">
                     <i class="iconfont icon-volume-up"></i>
                     <ul class="notice-list">
-                        <li *ngFor="let item of noticeItems">
+                        @for (item of noticeItems; track $index) {
+                        <li>
                             <a [routerLink]="'/shop/market/article/' + item.id">{{ item.title }}</a>
                         </li>
+                        }
                     </ul>
                 </div>
                 
             </div>
             <div class="top-right">
                 <div class="top-item">
-                    <ng-container *ngIf="user; else elseTemplate">
+                    @if (user) {
                         <a routerLink="/shop/member">{{ user.name }}</a>
                         <a (click)="tapLogout()" i18n>Sign out</a>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <a routerLink="/shop/market/auth" i18n>Sign in</a>
                         <a routerLink="/shop/market/auth" i18n>Sign up</a>
-                    </ng-template>
+                    }
                 </div>
                 <div class="top-item">
                     <a routerLink="/shop/member/order" i18n>My Orders</a>

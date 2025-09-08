@@ -1,8 +1,11 @@
-<div class="goods-page" *ngIf="data">
+@if (data) {
+<div class="goods-page">
   <div class="container">
       <nav class="breadcrumb">
           <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
-          <a class="breadcrumb-item" *ngIf="data.category" [routerLink]="'../../category/' + data.cat_id">{{ data.category.name }}</a>
+          @if (data.category) {
+          <a class="breadcrumb-item" [routerLink]="'../../category/' + data.cat_id">{{ data.category.name }}</a>
+          }
           <span class="breadcrumb-item active">{{ data.name }}</span>
       </nav>
 
@@ -15,10 +18,12 @@
                 <div class="intro">
                     <div class="name">
                         {{ data.name }}
-                        <a class="comment" *ngIf="data.favorable_rate">
+                        @if (data.favorable_rate) {
+                        <a class="comment">
                             <span>{{ data.favorable_rate }}%</span>
                             <span>好评率</span>
                         </a>
+                        }
                     </div>
                     <div class="desc">
                         {{ data.brief }}
@@ -31,10 +36,11 @@
                             <div class="price">{{ data.price | price }}</div>
                         </div>
                     </div>
-                    <div class="flex-group" *ngIf="couponItems.length > 0">
+                    @if (couponItems.length > 0) {
+                    <div class="flex-group">
                         <div class="group-header">领券</div>
                         <div class="group-body">
-                            <ng-container *ngFor="let item of couponItems">
+                            @for (item of couponItems; track $index) {
                               <div class="coupon-item">
                                   <div class="item-body">
                                     {{ item.name }}
@@ -43,22 +49,25 @@
                                       {{ item.can_receive ? '领券' : '已领' }}
                                   </div>
                               </div>
-                            </ng-container>
+                            }
                         </div>
                     </div>
-                    <div class="flex-group" *ngIf="promoteItems.length > 0">
+                    }
+                    @if (promoteItems.length > 0) {
+                    <div class="flex-group">
                         <div class="group-header">促销</div>
                         <div class="group-body">
-                            <ng-container *ngFor="let item of promoteItems">
+                            @for (item of promoteItems; track $index) {
                                 <a class="promote-item">
                                     <div class="item-name">{{ formatPromote(item.type) }}</div>
                                     <div class="item-body">
                                         {{ item.name }}
                                     </div>
                                 </a>
-                              </ng-container>
+                            }
                         </div>
                     </div>
+                    }
                     <!-- <div class="flex-group">
                         <div class="group-header">积分</div>
                         <div class="group-body">购买最高得42积分</div>
@@ -74,22 +83,24 @@
                         <div class="group-header">服务</div>
                         <div class="group-body">
                             <ul class="service-panel">
-                                <li *ngFor="let item of data.services">{{ item }}</li>
+                                @for (item of data.services; track $index) {
+                                <li>{{ item }}</li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="property-box">
-                    <ng-container *ngFor="let item of properties;let i = index">
+                    @for (item of properties; track $index; let i = $index) {
                       <div class="flex-group" [ngClass]="{'multi-group': item.type == 2}">
                           <div class="group-header">{{ item.name }}</div>
                           <div class="group-body">
-                              <ng-container *ngFor="let attr of item.attr_items;let j = index">
+                              @for (attr of item.attr_items; track $index; let j = $index) {
                                   <span [ngClass]="{active: attr.checked, disable: attr.disabled}" (click)="toggleSelected(i, j)">{{ attr.value }}</span>
-                              </ng-container>
+                              }
                           </div>
                       </div>
-                    </ng-container>
+                    }
                     <div class="flex-group">
                         <div class="group-header" i18n>
                           Amount
@@ -100,7 +111,7 @@
                     </div>
                 </div>
                 <div class="page-actions">
-                        <ng-container *ngIf="stock > 0; else elseTemplate">
+                        @if (stock > 0) {
                             <a (click)="tapBuy()" class="btn btn-danger" i18n>
                                 BUY NOW
                             </a>
@@ -108,12 +119,11 @@
                                 <i class="iconfont icon-shopping-cart"></i>
                                 <ng-container i18n>ADD TO CART</ng-container>
                             </a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <a href="javascript:;" class="btn btn-secondary" i18n>
                                 Insufficient inventory cannot be purchased 
                             </a>
-                        </ng-template>
+                        }
                         <a class="btn btn-collect" [ngClass]="{active: data.is_collect}" (click)="tapCollect()">
                             <i class="iconfont" [ngClass]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
                             <ng-container i18n>LIKE</ng-container>
@@ -128,14 +138,16 @@
       </div>
 
       <div class="template-lazy" appLazyLoad (lazyLoading)="loadRecommend()">
-        <div class="panel" *ngIf="recommendItems.length > 0">
-            <div class="panel-header" i18n>
-                People who viewed this also viewed
+            @if (recommendItems.length > 0) {
+            <div class="panel">
+                <div class="panel-header" i18n>
+                    People who viewed this also viewed
+                </div>
+                <div class="panel-body">
+                    <app-goods-slider [items]="recommendItems"></app-goods-slider>
+                </div>
             </div>
-            <div class="panel-body">
-                <app-goods-slider [items]="recommendItems"></app-goods-slider>
-            </div>
-        </div>
+            }
       </div>
 
       <div class="row detail-box">
@@ -161,9 +173,13 @@
                         </div>
                     </div>
                     <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                        <div class="line-group" *ngFor="let group of data.static_properties">
-                            <div class="line-group-header" *ngIf="group.name">{{ group.name }}</div>
-                            <div class="line-item" *ngFor="let item of group.items">
+                        @for (group of data.static_properties; track $index) {
+                        <div class="line-group">
+                            @if (group.name) {
+                            <div class="line-group-header">{{ group.name }}</div>
+                            }
+                            @for (item of group.items; track $index) {
+                            <div class="line-item">
                                 <div class="item-label">
                                     {{ item.name }}
                                 </div>
@@ -171,7 +187,9 @@
                                     {{ item.attr_item.value }}
                                 </div>
                             </div>
+                            }
                         </div>
+                        }
                     </div>
                     <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 2}">
                         <app-comment-page [itemId]="data.id" [init]="tabIndex == 2"></app-comment-page>
@@ -185,12 +203,14 @@
 
           <div class="col-md-4">
             <div class="template-lazy" appLazyLoad (lazyLoading)="loadHot()">
-                <div class="panel" *ngIf="hotItems.length > 0">
+                @if (hotItems.length > 0) {
+                <div class="panel">
                     <div class="panel-header" i18n>
                         TOP/24
                     </div>
                     <div class="panel-body">
-                        <div  class="goods-item" *ngFor="let item of hotItems">
+                        @for (item of hotItems; track $index) {
+                        <div  class="goods-item">
                             <div class="thumb">
                                 <a [routerLink]="'../' + item.id">
                                     <img [src]="item.thumb" alt="">
@@ -199,11 +219,14 @@
                             <div class="name">{{ item.name }}</div>
                             <div class="price">{{ item.price | price }}</div>
                         </div>
+                        }
                     </div>
                 </div>
+                }
               </div>
           </div>
       </div>
   </div>
 </div>
+}
 <app-shop-share-dialog #shareModal></app-shop-share-dialog>

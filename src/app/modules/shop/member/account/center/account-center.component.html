@@ -13,17 +13,16 @@
                     <div class="name">
                         <i class="iconfont" [ngClass]="item.icon"></i>
                         {{ item.name }}
-                        <ng-container *ngIf="item.nickname">
+                        @if (item.nickname) {
                             ({{ item.nickname }})
-                        </ng-container>
+                        }
                     </div>
                     <div class="action">
-                        <ng-container *ngIf="item.id; else elseTemplate">
+                        @if (item.id) {
                             <a >解绑</a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <a >绑定</a>
-                        </ng-template>
+                        }
                     </div>
                 </div>
                 }

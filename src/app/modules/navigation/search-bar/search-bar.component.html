@@ -11,24 +11,31 @@
             <i class="iconfont icon-search"></i>
         </button>
     </form>
-    <div class="suggest-body" *ngIf="openType == 1">
+    @if (openType == 1) {
+    <div class="suggest-body">
         <ul>
-            <li *ngFor="let item of suggestItems; let i=index" [ngClass]="{'active': i == dropIndex}" (click)="tapItem(item)">
+            @for (item of suggestItems; track $index; let i = $index) {
+            <li [ngClass]="{'active': i == dropIndex}" (click)="tapItem(item)">
                 <span class="item-no">{{ i + 1 }}</span>
                 <span class="item-text">{{ formatTitle(item) }}</span>
             </li>
+            }
         </ul>
     </div>
-    <div class="history-body" *ngIf="openType == 2">
+    } @else if (openType == 2) {
+    <div class="history-body">
         <ul>
-            <li *ngFor="let item of histories; let i = index" [ngClass]="{'active': i == dropIndex}" (click)="tapHistory(item)">
+            @for (item of histories; track $index; let i = $index) {
+            <li [ngClass]="{'active': i == dropIndex}" (click)="tapHistory(item)">
                 <i class="iconfont icon-history"></i>
                 <span class="item-text">{{ item }}</span>
                 <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
             </li>
+            }
             <li class="clear-line" (click)="tapClearHistory()" i18n>Clear</li>
         </ul>
     </div>
+    }
     <div class="search-engine" [hidden]="openType != 3">
         <div class="search-engine-header">
             <span class="title" i18n>Select your default search engine:</span>
@@ -38,10 +45,12 @@
             </div>
         </div>
         <ul class="search-engine-body">
-            <li *ngFor="let item of engineItems;let i = index" (click)="tapEngine(i)">
+            @for (item of engineItems; track $index; let i = $index) {
+            <li (click)="tapEngine(i)">
                 <i class="iconfont" [ngClass]="item.icon"></i>
                 <span>{{ item.name }}</span>
             </li>
+            }
         </ul>
     </div>
 </div>

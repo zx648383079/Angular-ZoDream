@@ -47,11 +47,11 @@
 </div>
 
 <div class="menu-bar">
-    <ng-container *ngFor="let item of bottomItems">
+    @for (item of bottomItems; track $index) {
         <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-            <ng-container *ngIf="item.count > 0">
+            @if (item.count > 0) {
                 ({{ item.count }})
-            </ng-container>
+            }
         </a>
-    </ng-container>
+    }
 </div>

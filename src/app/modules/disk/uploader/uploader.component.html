@@ -7,31 +7,45 @@
         </div>
     </div>
     <div class="dialog-body" appFileDrop (fileDrop)="uploadFile($event)">
-        <ng-container *ngFor="let group of formatedItems">
+        @for (group of formatedItems; track $index) {
             <div class="upload-group">
                 {{ group.name }}
             </div>
-            <div class="upload-item" *ngFor="let item of group.items" [ngClass]="{'item-cancel': item.status == 9, 'item-running': item.status == 5, 'item-checked': item.checked}">
+            @for (item of group.items; track $index) {
+            <div class="upload-item" [ngClass]="{'item-cancel': item.status == 9, 'item-running': item.status == 5, 'item-checked': item.checked}">
                 <div class="item-progress" [ngStyle]="item.style"></div>
                 <div class="item-body">
                     <div class="item-info">
                         <div class="item-name">{{ item.name }}</div>
                         <div class="item-meta">
-                            <span *ngIf="item.status == 5">{{ item.speed | size }}/s</span>
-                            <span *ngIf="item.status < 3 || item.status == 5">{{ item.progress | size }}/{{ item.total | size }}</span>
+                            @if (item.status == 5) {
+                            <span>{{ item.speed | size }}/s</span>
+                            }
+                            @if (item.status < 3 || item.status == 5) {
+                            <span>{{ item.progress | size }}/{{ item.total | size }}</span>
+                            }
                             <span>{{ formatStatus(item.status) }}</span>
                         </div>
                     </div>
                     <div class="item-action">
-                        <i class="iconfont icon-folder-open-o" *ngIf="item.status == 6 || item.status == 7"></i>
-                        <i class="iconfont icon-refresh" *ngIf="item.status == 8 || item.status == 9" (click)="tapStart(item)"></i>
-                        <i class="iconfont icon-play" *ngIf="item.status < 3" (click)="tapStart(item)"></i>
-                        <i class="iconfont icon-pause" *ngIf="item.status == 3" (click)="tapPause(item)"></i>
+                        @if (item.status == 6 || item.status == 7) {
+                        <i class="iconfont icon-folder-open-o"></i>
+                        }
+                        @if (item.status == 8 || item.status == 9) {
+                        <i class="iconfont icon-refresh" (click)="tapStart(item)"></i>
+                        }
+                        @if (item.status < 3) {
+                        <i class="iconfont icon-play" (click)="tapStart(item)"></i>
+                        }
+                        @if (item.status == 3) {
+                        <i class="iconfont icon-pause" (click)="tapPause(item)"></i>
+                        }
                         <i class="iconfont icon-trash" (click)="tapRemove(item)"></i>
                     </div>
                 </div>
             </div>
-        </ng-container>
+            }
+        }
         <app-loading-tip [loading]="false" [visible]="formatedItems.length == 0"></app-loading-tip>
     </div>
 </div>

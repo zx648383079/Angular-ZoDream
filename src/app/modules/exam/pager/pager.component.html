@@ -8,41 +8,56 @@
                 Home
             </a>
         </li>
-        <li class="breadcrumb-item active" *ngIf="data">
+        @if (data) {
+        <li class="breadcrumb-item active">
             {{ data.title }}
         </li>
+        }
     </ul>
 </div>
 
-<div class="container" *ngIf="data">
+@if (data) {
+<div class="container">
     <div class="panel-container">
-        <div class="material-panel" *ngIf="current.material">
+        @if (current.material) {
+        <div class="material-panel">
             <h3>
                 <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false"></app-math-mark>
             </h3>
             <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false"></app-math-mark>
-            <ng-container *ngIf="current.material.image">
+            @if (current.material.image) {
                 <img [src]="current.material.image">
-            </ng-container>
+            }
         </div>
+        }
         <div class="question-panel">
-            <ng-container *ngFor="let item of current.items; let i = index">
+            @for (item of current.items; track $index; let i = $index) {
                 <app-question-input [value]="item" [editable]="!finished" (valueChange)="onQuestionChange($event, i)"></app-question-input>
-            </ng-container>
+            }
         </div>
         <div class="tool-bar">
-            <app-countdown *ngIf="!finished" [end]="endTime" [auto]="true" (finished)="onTimeEnd()"></app-countdown>
+            @if (!finished) {
+            <app-countdown [end]="endTime" [auto]="true" (finished)="onTimeEnd()"></app-countdown>
+            }
             <div class="btn-group">
-                <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
-                <app-action-button class="btn btn-danger" *ngIf="!finished" (tapped)="tapFinish($event)">交卷</app-action-button>
-                <a class="btn btn-primary" *ngIf="page < pageItems.length" (click)="tapNext()">下一页</a>
+                @if (page > 1) {
+                <a class="btn btn-primary" (click)="tapPrevious()">上一页</a>
+                }
+                @if (!finished) {
+                <app-action-button class="btn btn-danger" (tapped)="tapFinish($event)">交卷</app-action-button>
+                }
+                @if (page < pageItems.length) {
+                <a class="btn btn-primary" (click)="tapNext()">下一页</a>
+                }
             </div>
             
         </div>
     </div>
     
-    <div class="panel-container" *ngIf="finished">
-        <div class="msg-bar" *ngIf="data.report">
+    @if (finished) {
+    <div class="panel-container">
+        @if (data.report) {
+        <div class="msg-bar">
             <span class="left">
                 <span
                     class="gray">答对：</span><span class="count-right">{{ data.report.right }}&nbsp;题</span>
@@ -56,20 +71,22 @@
                 <span
                     class="gray">正确率：</span>{{ data.report.scale }}%</span>
         </div>
+        }
         <div class="panel sheet-panel">
             <div class="panel-header">
                 答题卡
             </div>
             <div class="panel-body">
                 <ul>
-                    <ng-container *ngFor="let item of cardItems; let i = index">
+                    @for (item of cardItems; track $index; let i = $index) {
                         <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                             <a (click)="tapItem(i)">{{ item.order }}</a>
                         </li>
-                    </ng-container>
+                    }
                 </ul>
             </div>
         </div>
     </div>
-    
+    }
 </div>
+}

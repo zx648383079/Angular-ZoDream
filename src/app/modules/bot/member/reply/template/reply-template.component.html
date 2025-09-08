@@ -139,7 +139,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of sendData.items">
+                    @for (item of sendData.items; track $index) {
+                    <tr>
                         <td>{{ item.name }}</td>
                         <td>
                             <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onFieldChange()"></textarea>
@@ -148,6 +149,7 @@
                             <input type="color" class="form-control" [(ngModel)]="item.color">
                         </td>
                     </tr>
+                    }
                 </tbody>
             </table>
         </div>

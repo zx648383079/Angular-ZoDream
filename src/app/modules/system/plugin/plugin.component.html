@@ -16,7 +16,9 @@
                         <span class="item-name">{{ item.name }}</span>
                         <span class="item-author">{{ item.author }}</span>
                         <div class="item-version">{{ item.version }}
-                            <i class="iconfont icon-arrow-up" title="有更新" *ngIf="item.lastest_version && item.lastest_version != item.version"></i>
+                            @if (item.lastest_version && item.lastest_version != item.version) {
+                            <i class="iconfont icon-arrow-up" title="有更新"></i>
+                            }
                         </div>
                     </div>
                     <div class="item-body">
@@ -24,13 +26,12 @@
                     </div>
                 </div>
                 <div class="swiper-action">
-                    <ng-container *ngIf="item.status == 1; else elseTemplate">
+                    @if (item.status == 1) {
                         <app-action-button class="btn-primary" (tapped)="tapExecute(item, $event)">运行</app-action-button>
                         <a class="btn-danger" (click)="tapUninstall(item)">卸载</a>
-                    </ng-container>
-                    <ng-template #elseTemplate>
+                    } @else {
                         <a class="btn-primary" (click)="tapInstall(item)">安装</a>
-                    </ng-template>
+                    }
                     
                 </div>
             </div>

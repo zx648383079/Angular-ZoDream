@@ -12,11 +12,11 @@
             <div class="dropdowm-pane">
                 <a href="">
                     <i class="iconfont icon-eye-slash"></i>
-                    <ng-container i18n>Diskie author</ng-container>
+                    <ng-container i18n>Dislike author</ng-container>
                 </a>
                 <a href="">
                     <i class="iconfont icon-thumbs-o-down"></i>
-                    <ng-container i18n>Diskie topic</ng-container>
+                    <ng-container i18n>Dislike topic</ng-container>
                 </a>
                 <a href="">
                     <i class="iconfont icon-exclamation-circle"></i>
@@ -81,7 +81,9 @@
     </div>
     <div class="item-footer">
         <div class="item-time-bar">
-            <em class="tag-item tablet-visible" *ngIf="value.forum">{{ value.forum.name }}</em>
+            @if (value.forum) {
+            <em class="tag-item tablet-visible">{{ value.forum.name }}</em>
+            }
             <em>{{ value.updated_at | ago }}</em>
         </div>
         <div class="item-count-bar">

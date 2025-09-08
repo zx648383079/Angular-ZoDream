@@ -3,16 +3,20 @@
         <i class="iconfont icon-shopping-cart"></i>
         <i class="cart-num">{{ cart ? cart.subtotal.count : 0 }}</i>
     </a>
-    <div class="cart-dialog" *ngIf="cart && cartOpen">
+    @if (cart && cartOpen) {
+    <div class="cart-dialog">
         <div class="dialog-body">
-            <ng-container *ngFor="let group of cart.data">
-                <div class="cart-item" *ngFor="let item of group.goods_list">
+            @for (group of cart.data; track $index) {
+                @for (item of group.goods_list; track $index) {
+                <div class="cart-item">
                     <div class="thumb">
                         <img [src]="item.goods.thumb" alt="">
                     </div>
                     <div class="item-body">
                         <div class="name">{{ item.goods.name }}</div>
-                        <span class="attr" *ngIf="item.attribute_value">{{ item.attribute_value }}</span>
+                        @if (item.attribute_value) {
+                        <span class="attr">{{ item.attribute_value }}</span>
+                        }
                         <span class="count">x {{ item.amount }}</span>
                     </div>
                     <div class="price">
@@ -22,7 +26,8 @@
                         <i class="iconfont icon-close" (click)="tapRemoveCart(item)"></i>
                     </div>
                 </div>
-            </ng-container>
+                }
+            }
         </div>
         <div class="dialog-footer">
             <div class="total">
@@ -32,4 +37,5 @@
             <a (click)="tapViewCart()" class="btn" i18n>VIEW CART</a>
         </div>
     </div>
+    }
 </div>

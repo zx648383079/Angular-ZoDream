@@ -31,7 +31,9 @@
                 <div class="form-group">
                     <label for="method">请求类型*</label>
                     <select class="form-control" formControlName="method" id="method">
-                        <option *ngFor="let item of methodItems" [value]="item">{{ item }}</option>
+                        @for (item of methodItems; track $index) {
+                        <option [value]="item">{{ item }}</option>
+                        }
                     </select>
                 </div>
                 <div class="form-group">

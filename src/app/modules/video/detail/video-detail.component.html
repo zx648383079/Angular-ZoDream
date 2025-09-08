@@ -1,17 +1,22 @@
 <div class="container-fluid">
     <div class="player-box">
         <app-movie-player></app-movie-player>
-        <div class="info-box" *ngIf="data">
+        @if (data) {
+        <div class="info-box">
             <div class="title">&#64;{{ data.user.name }}</div>
             <div class="content">{{ data.content }}</div>
-            <div class="music" *ngIf="data.music">
+            @if (data.music) {
+            <div class="music">
                 <i class="iconfont icon-music"></i>
                 <div class="loop-box">
                     {{ data.music.name }}
                 </div>
             </div>
+            }
         </div>
-        <div class="action-bar" *ngIf="data">
+        }
+        @if (data) {
+        <div class="action-bar">
             <div class="avatar" (click)="tapUser()">
                 <img [src]="data.user.avatar" alt="">
                 <div class="follow-icon">
@@ -31,6 +36,7 @@
                 <span class="label" i18n>Share</span>
             </div>
         </div>
+        }
     </div>
 </div>
 
@@ -40,7 +46,8 @@
         <i class="iconfont icon-paper-plane" (click)="tapCommentSubmit()"></i>
     </div>
 
-    <div class="comment-item" *ngFor="let item of commentData.items">
+    @for (item of commentData.items; track $index) {
+    <div class="comment-item">
         <div class="avatar" (click)="tapCommenting(item)">
             <img [src]="item.user.avatar" alt="">
         </div>
@@ -49,14 +56,19 @@
         <div class="action">
             <span class="time">{{ item.created_at }}</span>
         </div>
-        <div class="reply-box" *ngIf="item.replies && item.replies.length > 0">
-            <div class="comment-item" *ngFor="let it of item.replies">
+        @if (item.replies && item.replies.length > 0) {
+        <div class="reply-box">
+            @for (it of item.replies; track $index) {
+            <div class="comment-item">
                 <div class="name" (click)="tapCommenting(it)">{{ it.user.name }}</div>
                 <div class="content" (click)="tapCommenting(it)">{{ it.content }}</div>
                 <div class="action">
                     <span class="time">{{ it.created_at }}</span>
                 </div>
             </div>
+            }
         </div>
+        }
     </div>
+    }
 </div>

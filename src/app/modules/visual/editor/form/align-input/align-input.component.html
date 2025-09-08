@@ -1,5 +1,7 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
+@if (header) {
+<label>{{ header }}</label>
+}
 <div class="control-row">
     <div class="radio-control-item">
         <i class="iconfont icon-zuoduiqi" title="左对齐"></i>

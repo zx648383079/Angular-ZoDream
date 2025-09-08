@@ -39,7 +39,7 @@
         <div class="input-group-control">
             <label for="money">价格阶梯</label>
             <div class="step-box">
-                <ng-container *ngFor="let item of stepItems.controls;let i = index">
+                @for (item of stepItems.controls; track $index; let i = $index) {
                     <p class="step-item" [formGroup]="item">
                         数量达到
                         <input type="text" size="10" class="form-control" formControlName="amount">
@@ -47,7 +47,7 @@
                         <input type="text" size="10" class="form-control" formControlName="price">
                         <i class="iconfont icon-close" (click)="tapRemoveStep(i)"></i>
                     </p>
-                </ng-container>
+                }
                 <a class="btn btn-primary" (click)="tapAddStep()">
                     <i class="iconfont icon-plus"></i>
                 </a>

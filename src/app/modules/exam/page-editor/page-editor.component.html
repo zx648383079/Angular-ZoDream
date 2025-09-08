@@ -22,12 +22,12 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="preview-bar" #scrollBar>
-                <ng-container *ngFor="let item of items; let i = index">
+                @for (item of items; track $index; let i = $index) {
                     <div class="preview-item" [ngClass]="{'active': i === editIndex}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
                         <div class="item-name">{{ item.title }}</div>
                         <div class="item-no">{{ i + 1 }}</div>
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
         <div class="col-sm-9">
@@ -51,14 +51,14 @@
             <div class="flat-group">
                 <select id="course_id" [(ngModel)]="data.course_id" class="form-control" (ngModelChange)="onCourseChange()">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of courseItems">
+                    @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
                 <select [(ngModel)]="data.course_grade" class="form-control">
-                    <ng-container *ngFor="let item of gradeItems">
+                    @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
@@ -95,18 +95,21 @@
                 <label for="course">科目</label>
                 <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
+                    @for (item of courseItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                    }
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">搜索</button>
         </form>
     </div>
     <div class="search-body">
-        <div class="question-option" *ngFor="let item of dialogData.items" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+        @for (item of dialogData.items; track $index) {
+        <div class="question-option" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
             <div class="item-title">【{{ item.course?.name }}●{{ formatQuestionType(item.type) }}】{{ item.title }}</div>
             <div class="item-body">{{ item.content }}</div>
         </div>
-    
+        }
         <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
     </div>
 </app-dialog-box>

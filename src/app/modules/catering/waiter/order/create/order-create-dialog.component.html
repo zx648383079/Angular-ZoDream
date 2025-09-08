@@ -92,10 +92,10 @@
     </app-flip-container>
     <div class="dialog-footer">
         <div class="dialog-action" (click)="flipIndex = flipIndex -1">
-            <ng-container *ngIf="flipIndex > 0">
+            @if (flipIndex > 0) {
                 <i class="iconfont icon-chevron-left"></i>
                 后退
-            </ng-container>
+            }
         </div>
         <app-flip-dot [value]="flipIndex" [max]="2"></app-flip-dot>
         <div class="btn-group">

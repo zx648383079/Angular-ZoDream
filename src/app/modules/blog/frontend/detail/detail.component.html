@@ -139,7 +139,7 @@
                     <a routerLink="../" i18n>Related Articles</a>
                 </div>
                 <div class="panel-body">
-                    <ng-container *ngFor="let item of relationItems">
+                    @for (item of relationItems; track $index) {
                         <div class="article-list-item" (click)="loadBlog(item.id)">
                             <div class="item-body">
                                 <a class="item-title">{{ item.title }}</a>
@@ -147,7 +147,7 @@
                             </div>
                             <div class="item-meta">{{ item.description }}</div>
                         </div>
-                    </ng-container>
+                    }
                 </div>
             </div>
         }

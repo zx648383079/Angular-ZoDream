@@ -62,13 +62,15 @@
 
                 </div>
             </div>
-            <div class="input-group-control" *ngIf="signType > 0">
+            @if (signType > 0) {
+            <div class="input-group-control">
                 <label for="sign_key">签名密钥</label>
                 <div>
                     <textarea id="sign_key" class="form-control" formControlName="sign_key"></textarea>
                     <div class="input-tip">请输入签名密钥或签名组成字段请用“+”链接,例如：appid+timestamp+secret</div>
                 </div>
             </div>
+            }
             <div class="input-group-control">
                 <label for="encrypt_type">加密方式</label>
                 <div>

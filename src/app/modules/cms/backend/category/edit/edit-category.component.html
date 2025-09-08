@@ -24,21 +24,27 @@
                             <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
                         </div>
                     </div>
-                    <div class="input-group-control" *ngIf="typeValue < 1">
+                    @if (typeValue < 1) {
+                    <div class="input-group-control">
                         <label for="model_id">模型</label>
                         <div>
                             <select id="model_id" class="form-control" formControlName="model_id">
                                 <option [value]="0">-- 无 --</option>
-                                <option *ngFor="let item of modelItems" [value]="item.id">{{ item.name }}</option>
+                                @for (item of modelItems; track $index) {
+                                <option [value]="item.id">{{ item.name }}</option>
+                                }
                             </select>
 
                         </div>
                     </div>
+                    }
                     <div class="input-group-control">
                         <label>上级</label>
                         <select class="form-control" formControlName="parent_id">
                             <option [value]="0">-- 无上级分类 --</option>
-                            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
+                            @for (item of categories; track $index) {
+                            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
+                            }
                         </select>
                     </div>
                     <div class="input-group-control">
@@ -113,20 +119,24 @@
                     </div>
                 </app-panel>
             </div>
-            <div class="col-md-12" *ngIf="typeValue > 0">
+            @if (typeValue > 0) {
+            <div class="col-md-12">
                 <app-panel title="详情">
-                    <div class="input-group-control" *ngIf="typeValue > 1">
+                    @if (typeValue > 1) {
+                    <div class="input-group-control">
                         <label for="url">链接</label>
                         <div>
                             <input type="text" id="url" class="form-control" formControlName="url" >
                         </div>
                     </div>
-                    <ng-container *ngIf="typeValue == 1">
+                    }
+                    @if (typeValue == 1) {
                         <app-html-editor formControlName="content"></app-html-editor>
-                    </ng-container>
+                    }
                     
                 </app-panel>
             </div>
+            }
         </div>
 
 

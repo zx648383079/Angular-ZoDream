@@ -15,7 +15,9 @@
                     <label>分区</label>
                     <select name="tag" [ngModel]="queries.tag" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of tagItems" [value]="item.value">{{ item.name }}</option>
+                        @for (item of tagItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

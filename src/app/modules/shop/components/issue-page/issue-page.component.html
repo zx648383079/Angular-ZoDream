@@ -7,8 +7,12 @@
                     <div class="item-content">{{ item.question }}</div>
                 </div>
                 <div class="item-body">
-                    <div class="item-content" *ngIf="item.answer">{{ item.answer }}</div>
-                    <div class="item-content" *ngIf="!item.answer" i18n>[Waiting for answer]</div>
+                    @if (item.answer) {
+                    <div class="item-content">{{ item.answer }}</div>
+                    }
+                    @if (!item.answer) {
+                    <div class="item-content" i18n>[Waiting for answer]</div>
+                    }
                     <div class="item-icon">{{ item.answer ? 'A' : '?' }}</div>
                 </div>
             </div>

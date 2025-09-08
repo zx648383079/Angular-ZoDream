@@ -1,4 +1,5 @@
-<div class="container-fluid header-bg" *ngIf="data">
+@if (data) {
+<div class="container-fluid header-bg">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
@@ -43,10 +44,11 @@
         </div>
     </div>
 </div>
-
+}
 <div class="container-fluid detail-body">
     <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
-    <div class="row" *ngIf="data">
+    @if (data) {
+    <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
@@ -55,12 +57,14 @@
                             <img [src]="data.thumb|asset" alt="">
                             <div class="box-hat"></div>
                         </div>
-                        <div class="group-footer" *ngIf="data.preview_type > 0">
+                        @if (data.preview_type > 0) {
+                        <div class="group-footer">
                             <a class="btn btn-primary" routerLink="preview">
                                 <ng-container i18n>Live Preview</ng-container>
                                 <i class="iconfont icon-th-large"></i>
                             </a>
                         </div>
+                        }
                     </div>
                     <div class="content-body">
                         <app-markdown-block [value]="data.content"></app-markdown-block>
@@ -85,12 +89,18 @@
                 <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
                     <div class="group-box">
                         <ul class="file-panel">
-                            <li *ngFor="let item of data.files">
+                            @for (item of data.files; track $index) {
+                            <li>
                                 <span>{{ formatType(item.file_type) }}</span>
-                                <a class="btn btn-info" *ngIf="item.file_type < 1" i18n>Download</a>
-                                <a class="btn btn-info" *ngIf="item.file_type > 0 && item.file_type < 3" i18n>Open</a>
-                                <a class="btn btn-info" *ngIf="item.file_type == 3" i18n>Copy</a>
+                                @if (item.file_type < 1) {
+                                <a class="btn btn-info" i18n>Download</a>
+                                } @else if (item.file_type > 0 && item.file_type < 3) {
+                                <a class="btn btn-info" i18n>Open</a>
+                                } @else if (item.file_type == 3) {
+                                <a class="btn btn-info" i18n>Copy</a>
+                                }
                             </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -107,12 +117,11 @@
         <div class="col-md-4">
             <div class="group-box">
                 <div class="price">
-                    <ng-container *ngIf="data.price > 0">
+                    @if (data.price > 0) {
                         {{ data.price | currency }}
-                    </ng-container>
-                    <ng-container *ngIf="data.price <= 0" i18n>
-                        Free
-                    </ng-container>
+                    } @else {
+                        <ng-container i18n>Free</ng-container>
+                    }
                 </div>
                 <div class="btn btn-success">
                     {{ data.price > 0 ? 'Buy' : 'Download' }}
@@ -124,14 +133,16 @@
                         <td class="line-label" i18n>Last Update</td>
                         <td class="line-body">{{ data.updated_at|ago }}</td>
                     </tr>
-                    <tr *ngIf="data.tags && data.tags.length > 0">
+                    @if (data.tags && data.tags.length > 0) {
+                    <tr>
                         <td class="line-label" i18n>Tags</td>
                         <td class="line-body">
-                            <ng-container *ngFor="let item of data.tags">
+                            @for (item of data.tags; track $index) {
                                 <a routerLink="../../../search" [queryParams]="{tag: item.name}">{{ item.name }}</a>
-                            </ng-container>
+                            }
                         </td>
                     </tr>
+                    }
                     <tr>
                         <td class="line-label" i18n>Size</td>
                         <td class="line-body">{{ data.size|size }}</td>
@@ -140,4 +151,5 @@
             </div>
         </div>
     </div>
+    }
 </div>

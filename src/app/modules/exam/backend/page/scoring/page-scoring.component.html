@@ -1,33 +1,40 @@
-<ng-container *ngIf="data">
+@if (data) {
     <app-edit-header [title]="data.page?.name" (submited)="tapSubmit($event)">
         <p>答题人：{{ data.user?.name }}</p>
         <p>耗时：{{ formatHour(data.spent_time) }}</p>
         <p>得分：{{ data.score || 0 }}</p>
     </app-edit-header>
-</ng-container>
+}
 
 
-<div class="container-fluid" *ngIf="data">
+@if (data) {
+<div class="container-fluid">
     <div class="panel-container">
-        <div class="material-panel" *ngIf="current.material">
+        @if (current.material) {
+        <div class="material-panel">
             <h3>
                 <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false"></app-math-mark>
             </h3>
             <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false"></app-math-mark>
-            <ng-container *ngIf="current.material.image">
+            @if (current.material.image) {
                 <img [src]="current.material.image">
-            </ng-container>
+            }
         </div>
+        }
         <div class="question-panel">
-            <ng-container *ngFor="let item of current.items; let i = index">
+            @for (item of current.items; track $index; let i = $index) {
                 <app-question-scoring [value]="item" (valueChange)="onScoring(i, $event)"></app-question-scoring>
-            </ng-container>
+            }
         </div>
         <div class="tool-bar">
             <div class="btn-group">
-                <a class="btn btn-primary" *ngIf="page > 1" (click)="tapPrevious()">上一页</a>
+                @if (page > 1) {
+                <a class="btn btn-primary" (click)="tapPrevious()">上一页</a>
+                }
                 <app-action-button class="btn btn-danger" (tapped)="tapSubmit($event)">阅卷完毕</app-action-button>
-                <a class="btn btn-primary" *ngIf="page < pageItems.length" (click)="tapNext()">下一页</a>
+                @if (page < pageItems.length) {
+                <a class="btn btn-primary" (click)="tapNext()">下一页</a>
+                }
             </div>
             
         </div>
@@ -54,18 +61,18 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <ng-container *ngFor="let item of cardItems; let i = index">
+                    @for (item of cardItems; track $index; let i = $index) {
                         <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                             <a (click)="tapItem(i)">{{ item.order }}</a>
                         </li>
-                    </ng-container>
+                    }
                 </ul>
             </div>
         </div>
     </div>
     
 </div>
-
+}
 <app-dialog-box #modal title="总体点评">
     <app-exam-editor [(ngModel)]="editData.remark"></app-exam-editor>
 </app-dialog-box>

@@ -19,9 +19,9 @@
                         <label for="cat_id">分类</label>
                         <div>
                             <select id="cat_id" class="form-control" formControlName="cat_id">
-                                <ng-container *ngFor="let item of categories">
+                                @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                                </ng-container>
+                                }
                             </select>
         
                         </div>
@@ -84,18 +84,20 @@
                         <label>预览类型</label>
                         <div>
                             <select class="form-control" formControlName="preview_type">
-                                <ng-container *ngFor="let item of previewTypeItems;let i = index">
+                                @for (item of previewTypeItems; track $index; let i = $index) {
                                     <option [value]="i">{{ item }}</option>
-                                </ng-container>
+                                }
                             </select>
                         </div>
                     </div>
-                    <div class="input-group-control" *ngIf="previewType > 0">
+                    @if (previewType > 0) {
+                    <div class="input-group-control">
                         <label for="official_website">预览文件</label>
                         <div>
                             <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
                         </div>
                     </div>
+                    }
                 </app-panel>
             </div>
         </div>
@@ -110,24 +112,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of fileItems;let i = index">
+                    @for (item of fileItems; track $index; let i = $index) {
+                    <tr>
                         <td>
                             <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let type of fileTypeItems" [value]="type.value">{{ type.name }}</option>
+                                @for (type of fileTypeItems; track $index) {
+                                <option [value]="type.value">{{ type.name }}</option>
+                                }
                             </select>
                         </td>
                         <td>
-                            <ng-container *ngIf="item.file_type > 0; else elseTemplate">
+                            @if (item.file_type > 0) {
                                 <input type="text" class="form-control" [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}">
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}"></app-file-input>
-                            </ng-template>
+                            }
                         </td>
                         <td>
                             <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
                         </td>
                     </tr>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>

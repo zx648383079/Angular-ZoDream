@@ -12,9 +12,9 @@
         <label for="cat_id" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
             <select class="form-control" formControlName="cat_id" id="cat_id">
-                <ng-container *ngFor="let item of categories">
+                @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
-                </ng-container>
+                }
             </select>
         </div>
     </div>
@@ -53,7 +53,7 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let item of formItems.controls; let i = index">
+            @for (item of formItems.controls; track $index; let i = $index) {
                 <tr [formGroup]="item">
                     <td>
                         <input type="text" formControlName="name" class="form-control">
@@ -71,7 +71,7 @@
                         <i class="iconfont icon-close" (click)="removeForm(i)"></i>
                     </td>
                 </tr>
-            </ng-container>
+            }
         </tbody>
         <tfoot>
             <tr>

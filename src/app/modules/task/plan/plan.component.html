@@ -7,11 +7,11 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <div class="tab-bar">
-                <ng-container *ngFor="let item of typeItems;let i = index">
+                @for (item of typeItems; track $index; let i = $index) {
                     <div class="item" [ngClass]="{active: queries.type == i}" (click)="tapType(i)">
                         按{{ item }}
                     </div>
-                </ng-container>
+                }
             </div>
     
             <div class="btn-group pull-right">

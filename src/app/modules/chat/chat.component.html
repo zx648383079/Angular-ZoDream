@@ -237,7 +237,9 @@
 
 <!-- 选择分组 -->
 <app-dialog-box class="group-dialog" #groupModal [title]="'选择分组'">
-    <div class="line-item" *ngFor="let item of friends" [ngClass]="{active: item.id == editClassify.id}" (click)="editClassify.id = item.id">
+    @for (item of friends; track $index) {
+    <div class="line-item" [ngClass]="{active: item.id == editClassify.id}" (click)="editClassify.id = item.id">
         {{ item.name }}
     </div>
+    }
 </app-dialog-box>

@@ -1,15 +1,21 @@
-<div class="dialog-mask" *ngIf="mode > 0"></div>
-<div class="select-dialog" *ngIf="mode === 1">
-    <ng-container *ngFor="let item of items;let i = index">
+@if (mode > 0) {
+<div class="dialog-mask"></div>
+}
+@if (mode === 1) {
+<div class="select-dialog">
+    @for (item of items; track $index; let i = $index) {
         <a class="option-item" (click)="tapSelected(i)">{{ item }}</a>
-    </ng-container>
+    }
 </div>
-
-<div class="message-dialog message-flex-right" *ngIf="mode === 2">
+}
+@if (mode === 2) {
+<div class="message-dialog message-flex-right">
     <div class="dialog-header">
-        <div class="user-avatar" *ngIf="user && user.avatar">
+        @if (user && user.avatar) {
+        <div class="user-avatar">
             <img [src]="user.avatar | asset" [alt]="user.name">
         </div>
+        }
         <div class="user-name">{{ user?.name }}</div>
     </div>
     <div class="dialog-line"></div>
@@ -20,3 +26,4 @@
         <i class="iconfont icon-chevron-down"></i>
     </div>
 </div>
+}

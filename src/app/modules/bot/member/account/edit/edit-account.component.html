@@ -12,7 +12,9 @@
             <label for="platform_type">平台</label>
             <div>
                 <select class="form-control" id="platform_type" formControlName="platform_type">
-                    <option *ngFor="let item of platformItems;" [value]="item.value">{{ item.name }}</option>
+                    @for (item of platformItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -38,7 +40,9 @@
             <label for="type">Bot类型</label>
             <div>
                 <select class="form-control" id="type" formControlName="type">
-                    <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+                    @for (item of typeItems; track $index; let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                    }
                 </select>
             </div>
         </div>

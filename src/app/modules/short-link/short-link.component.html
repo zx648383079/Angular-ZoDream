@@ -7,7 +7,8 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="result">
+    @if (result) {
+    <div class="row">
         <div class="col-12">
             <div class="result-input">
                 <p i18n>Generate successfull!</p>
@@ -16,4 +17,5 @@
 
         </div>
     </div>
+    }
 </div>

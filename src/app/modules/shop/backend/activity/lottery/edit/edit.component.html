@@ -80,7 +80,7 @@
             <p>最少添加2项，最多添加8项，所有奖项概率之和需为100%</p>
             <table class="table table-hover">
                 <tbody>
-                   <ng-container *ngFor="let item of giftItems;let i = index">
+                   @for (item of giftItems; track $index; let i = $index) {
                     <tr>
                         <td>{{ item.goods_id > 0 ? item.goods.name : '未中奖' }}
                             <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}">
@@ -95,10 +95,12 @@
                         <td>
                             <i class="iconfont icon-arrow-up" (click)="tapUpItem(i)"></i>
                             <i class="iconfont icon-arrow-down"  (click)="tapDownItem(i)"></i>
-                            <i class="iconfont icon-close" *ngIf="item.goods_id > 0" (click)="tapRemoveItem(i)"></i>
+                            @if (item.goods_id > 0) {
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
+                            }
                         </td>
                     </tr>
-                   </ng-container>
+                   }
                 </tbody>
             </table>
         </div>

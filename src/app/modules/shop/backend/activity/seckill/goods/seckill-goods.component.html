@@ -52,12 +52,14 @@
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑商品' : '新增商品'">
-    <div class="form-group" *ngIf="!editData.id || editData.goods_id < 1">
+    @if (!editData.id || editData.goods_id < 1) {
+    <div class="form-group">
         <label for="goods">选择商品</label>
         <div class="input-group-control">
             <app-select-input url="shop/admin/goods/search" [(ngModel)]="editData.goods_id"></app-select-input>
         </div>
     </div>
+    }
     <div class="form-group">
         <label for="price">秒杀价格</label>
         <div class="input-group-control">

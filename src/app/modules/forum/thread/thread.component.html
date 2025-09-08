@@ -54,7 +54,9 @@
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
                     }
                     <select [(ngModel)]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
-                        <option *ngFor="let item of statusData.items; let i = index" [value]="i">{{ item }}</option>
+                        @for (item of statusData.items; track $index; let i = $index) {
+                        <option [value]="i">{{ item }}</option>
+                        }
                     </select>
                 </div>
             </div>

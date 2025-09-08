@@ -1,50 +1,84 @@
 <app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()"></app-edit-header>
 <div class="container-fluid">
     <div class="row">
-            <div class="col-md-6 form-table-control" *ngFor="let group of groups">
+            @for (group of groups; track $index) {
+            <div class="col-md-6 form-table-control">
                 <app-panel [title]="group.name">
-                    <div class="input-group-control" *ngFor="let item of group.children">
+                    @for (item of group.children; track $index) {
+                    <div class="input-group-control">
                         <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
-                        <div *ngIf="item.type == 'text'">
-                            <input type="text" class="form-control"  [(ngModel)]="item.value">
-                        </div>
-                        <div *ngIf="item.type == 'textarea'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-                        </div>
-                        <div *ngIf="item.type == 'select'">
-                            <select class="form-control" [(ngModel)]="item.value">
-                                <ng-container *ngIf="item.itemKey == 1">
-                                    <option *ngFor="let val of item.items;let i = index" [value]="i">{{ val }}</option>
-                                </ng-container>
-                                <ng-container *ngIf="item.itemKey != 1">
-                                    <option *ngFor="let val of item.items" [value]="val.value">{{ val.name }}</option>
-                                </ng-container>
-                            </select>
-                        </div>
-                        <div *ngIf="item.type == 'radio'">
-                            <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'checkbox'">
-                            <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'switch'">
-                            <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off"></app-switch>
-                        </div>
-                        <div *ngIf="item.type == 'image'">
-                            <app-file-input [(ngModel)]="item.value"></app-file-input>
-                        </div>
-                        <div *ngIf="item.type == 'file'">
-                            <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
-                        </div>
-                        <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-                        </div>
-                        <div *ngIf="item.type == 'json'">
-                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-                        </div>
+                        @switch (item.type) {
+                            @case ('text') {
+                                <div>
+                                    <input type="text" class="form-control"  [(ngModel)]="item.value">
+                                </div>
+                            }
+                            @case ('textarea') {
+                                <div>
+                                    <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                </div>
+                            }
+                            @case ('select') {
+                                <div>
+                                    <select class="form-control"  [(ngModel)]="item.value">
+                                        @if (item.itemKey == 1) {
+                                            @for (val of item.items; track $index; let i = $index) {
+                                                <option [value]="i">{{ val }}</option>
+                                            }
+                                        } @else {
+                                            @for (val of item.items; track $index) {
+                                                <option [value]="val.value">{{ val.name }}</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            @case ('radio') {
+                                <div>
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                                </div>
+                            }
+                            @case ('checkbox') {
+                                <div>
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                                </div>
+                            }
+                            @case ('switch') {
+                                <div>
+                                    <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off"></app-switch>
+                                </div>
+                            }
+                            @case ('image') {
+                                <div>
+                                    <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                </div>
+                            }
+                            @case ('file') {
+                                <div>
+                                    <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                </div>
+                            }
+                            @case ('editor') {
+                                <div>
+                                    <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                </div>
+                            }
+                            @case ('basic_editor') {
+                                <div>
+                                    <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                </div>
+                            }
+                            @case ('json') {
+                                <div>
+                                    <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                </div>
+                            }
+                        }
                     </div>
+                    }
                 </app-panel>
             </div>
+            }
     </div>
     
 
@@ -69,17 +103,22 @@
             <div>
                 <select id="field_type" class="form-control" [(ngModel)]="editData.type">
                     
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of typeItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
         
             </div>
         </div>
-        <div class="group-property" *ngIf="editData.type !== 'group'">
+        @if (editData.type !== 'group') {
+        <div class="group-property">
             <div class="input-group-control">
                 <label for="field_parent_id">分组</label>
                 <div>
                     <select id="field_parent_id" class="form-control" [(ngModel)]="editData.parent_id">
-                        <option *ngFor="let item of groups" [value]="item.id">{{ item.name }}</option>
+                        @for (item of groups; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
             </div>
@@ -93,7 +132,9 @@
                 <label for="field_visibility">公开</label>
                 <div>
                     <select class="form-control" [(ngModel)]="editData.visibility">
-                        <option *ngFor="let item of visibleItems;let i = index" [value]="i">{{ item }}</option>
+                        @for (item of visibleItems; track $index; let i = $index) {
+                        <option [value]="i">{{ item }}</option>
+                        }
                     </select>
                 </div>
             </div>
@@ -104,6 +145,7 @@
                 </div>
             </div>
         </div>
+        }
         <div class="input-group-control">
             <label for="field_position">排序</label>
             <div>
@@ -113,6 +155,8 @@
     </div>
     <ng-container name="footer">
         <button type="button" class="btn btn-outline-dark" (click)="optionModal.close('Save click')">确定</button>
-        <button type="button" *ngIf="editData.id > 0" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+        @if (editData.id > 0) {
+            <button type="button" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+        }
     </ng-container>
 </app-dialog-box>

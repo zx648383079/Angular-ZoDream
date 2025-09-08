@@ -13,9 +13,9 @@
                 <label>类型*</label>
                 <div>
                     <select class="form-control" formControlName="type">
-                        <ng-container *ngFor="let item of typeItems">
+                        @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
             </div>
@@ -23,9 +23,9 @@
                 <label for="cat_id">分类</label>
                 <div>
                     <select id="cat_id" class="form-control" formControlName="cat_id">
-                        <ng-container *ngFor="let item of filterCategories">
+                        @for (item of filterCategories; track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
             </div>

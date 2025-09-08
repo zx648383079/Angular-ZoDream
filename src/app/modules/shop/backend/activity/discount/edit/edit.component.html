@@ -25,7 +25,9 @@
             <label for="scope_type">活动范围</label>
             <div>
                 <select id="scope_type" class="form-control" formControlName="scope_type" (change)="onScopeChange()">
-                    <option *ngFor="let item of ruleItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of ruleItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

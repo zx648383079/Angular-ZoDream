@@ -1,43 +1,50 @@
-<div class="category-page" *ngIf="category">
+@if (category) {
+<div class="category-page">
   <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../">Home</a>
             <span class="breadcrumb-item active">{{ category.name }}</span>
         </nav>
 
-      <div class="banner" *ngIf="category.banner">
+      @if (category.banner) {
+      <div class="banner">
           <img [src]="category.banner" alt="">
       </div>
+      }
 
       <div class="goods-area">
           <div class="filter-box">
-              <div class="filter-line" *ngFor="let item of filterItems">
+              @for (item of filterItems; track $index) {
+              <div class="filter-line">
                     <div class="filter-header">
                         {{ item.label }}
                     </div>
                     <div class="filter-body">
-                        <ng-container *ngFor="let it of item.items">
+                        @for (it of item.items; track $index) {
                             <a [ngClass]="{active: it.selected}" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
-                        </ng-container>
-                        <ng-container *ngIf="item.name == 'price'">
+                        }
+                        @if (item.name == 'price') {
                             <div class="price-input">
                                 <input type="number" class="form-control" [(ngModel)]="price.min">
                                 -
                                 <input type="number" class="form-control" [(ngModel)]="price.max">
                             </div>
-                        </ng-container>
+                        }
                     </div>
               </div>
+              }
               <div class="filter-line">
                 <div class="filter-header">
                     排序
                 </div>
                 <div class="filter-body">
-                    <ng-container *ngFor="let item of sortItems">
+                    @for (item of sortItems; track $index) {
                         <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
-                            <i class="iconfont" *ngIf="item.value && sortKey == item.value" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                            @if (item.value && sortKey == item.value) {
+                            <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                            }
                         </a>
-                    </ng-container>
+                    }
                 </div>
               </div>
           </div>
@@ -68,3 +75,4 @@
       </div>
   </div>
 </div>
+}

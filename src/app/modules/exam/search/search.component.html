@@ -2,7 +2,9 @@
     <form class="search-bar" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
         <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" placeholder="请输入搜索内容">
         <select class="form-control" name="type" [ngModel]="queries.type">
-            <option *ngFor="let item of typeItems; let i=index" [value]="i">{{ item }}</option>
+            @for (item of typeItems; track $index; let i = $index) {
+            <option [value]="i">{{ item }}</option>
+            }
         </select>
         <button type="submit" class="btn btn-primary">
             <i class="iconfont icon-search"></i>
@@ -18,12 +20,14 @@
                     <span class="count">共 {{ formatQuestionCount(item) }} 道{{ item.rule_type < 1 ? '随机' : '固定' }}题</span>
                 </a>
                 <div class="item-footer">
-                    <div class="author-bar" *ngIf="item.user_id > 0">
+                    @if (item.user_id > 0) {
+                    <div class="author-bar">
                         <div class="avatar">
                             <img [src]="item.user.avatar">
                         </div>
                         {{ item.user.name }}
                     </div>
+                    }
                     <div class="time-bar">
                         {{ item.created_at | ago }}
                     </div>
@@ -36,12 +40,14 @@
                     <span class="count">难度：{{ formatEasiness(item.easiness) }}</span>
                 </a>
                 <div class="item-footer">
-                    <div class="author-bar" *ngIf="item.user_id > 0">
+                    @if (item.user_id > 0) {
+                    <div class="author-bar">
                         <div class="avatar">
                             <img [src]="item.user.avatar">
                         </div>
                         {{ item.user.name }}
                     </div>
+                    }
                     <div class="time-bar">
                         {{ item.created_at | ago }}
                     </div>

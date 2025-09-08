@@ -1,5 +1,7 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
+@if (header) {
+<label >{{ header }}</label>
+}
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">
         <i class="iconfont icon-edit"></i>

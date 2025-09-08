@@ -8,9 +8,9 @@
             <label >科目</label>
             <select [(ngModel)]="queries.course" class="form-control">
                 <option [value]="0">请选择</option>
-                <ng-container *ngFor="let item of courseItems">
+                @for (item of courseItems; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                </ng-container>
+                }
             </select>
         </div>
         <button type="submit" class="btn btn-primary" (click)="tapRefresh()">搜索</button>

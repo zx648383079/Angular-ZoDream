@@ -1,10 +1,16 @@
-<div class="image-player" *ngIf="data">
+@if (data) {
+<div class="image-player" >
     <div class="player-body">
         <img [src]="formatAsset(data.source)" [alt]="data.name">
     </div>
     <div class="player-action">
         <i class="iconfont icon-close" (click)="stop()"></i>
-        <i class="iconfont icon-chevron-left" *ngIf="canPrevious" (click)="tapPrevious()"></i>
-        <i class="iconfont icon-chevron-right" *ngIf="canNext" (click)="tapNext()"></i>
+        @if (canPrevious) {
+        <i class="iconfont icon-chevron-left"  (click)="tapPrevious()"></i>
+        }
+        @if (canNext) {
+        <i class="iconfont icon-chevron-right"  (click)="tapNext()"></i>
+        }
     </div>
 </div>
+}

@@ -1,8 +1,12 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li *ngIf="siteId < 1">管理模型列表</li>
-            <li *ngIf="siteId > 0">表单列表</li>
+            @if (siteId < 1) {
+            <li>管理模型列表</li>
+            }
+            @if (siteId > 0) {
+            <li>表单列表</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -13,7 +17,9 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" *ngIf="siteId < 1" routerLink="create">新增模型</a>
+                @if (siteId < 1) {
+                <a class="btn btn-success pull-right" routerLink="create">新增模型</a>
+                }
             </form>
         </div>
     
@@ -36,15 +42,16 @@
                     <td>{{ typeItems[item.type] }}</td>
                     <td>
                         <div class="btn-group btn-group-xs">
-                            <ng-container *ngIf="siteId > 0; else elseTemplate">
-                                <a class="btn btn-primary btn-xs" *ngIf="item.type > 0" [routerLink]="[item.id]">查看</a>
+                            @if (siteId > 0) {
+                                @if (item.type > 0) {
+                                <a class="btn btn-primary btn-xs" [routerLink]="[item.id]">查看</a>
+                                }
                                 <a class="btn btn-success" (click)="tapRestart(item)">初始化</a>
-                            </ng-container>
-                            <ng-template #elseTemplate>
+                            } @else {
                                 <a class="btn btn-info btn-xs" [routerLink]="['field', item.id]">字段</a>
                                 <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
                                 <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
-                            </ng-template>
+                            }
                         </div>
                     </td>
                 </tr>

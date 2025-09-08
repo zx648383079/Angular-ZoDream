@@ -7,9 +7,9 @@
     <label for="course_id6">科目</label>
     <select class="form-control" id="course_id6" [(ngModel)]="value.course_id" (ngModelChange)="onValueChange()">
         <option [value]="0">请选择</option>
-        <ng-container *ngFor="let item of courseItems">
+        @for (item of courseItems; track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-        </ng-container>
+        }
     </select>
 </div>
 <div class="form-group">
@@ -20,14 +20,13 @@
 <div class="form-group">
     <label>内容类型</label>
     <select class="form-control" [(ngModel)]="value.type" (ngModelChange)="onValueChange()">
-        <ng-container *ngFor="let item of typeItems;let i = index">
+        @for (item of typeItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
-        </ng-container>
+        }
     </select>
 </div>
-<ng-container *ngIf="value.type < 1">
+@if (value.type < 1) {
     <app-exam-editor [(ngModel)]="value.content" (ngModelChange)="onValueChange()"></app-exam-editor>
-</ng-container>
-<ng-container *ngIf="value.type > 0">
+} @else {
     <app-file-input [(ngModel)]="value.content" (ngModelChange)="onValueChange()" accept="*/*"></app-file-input>
-</ng-container>
+}

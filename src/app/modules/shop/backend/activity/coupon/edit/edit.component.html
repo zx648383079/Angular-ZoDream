@@ -19,7 +19,9 @@
             <label for="type">优惠券类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type">
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of typeItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -27,7 +29,9 @@
             <label for="rule">使用规则</label>
             <div>
                 <select id="rule" class="form-control" formControlName="rule">
-                    <option *ngFor="let item of ruleItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of ruleItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
 
             </div>

@@ -69,17 +69,23 @@
         <span class="item-label">联系地址：</span>
         <span class="item-body">{{ editData.address }}</span>
     </div>
-    <div class="line-row-item" *ngIf="editData.categories">
+    @if (editData.categories) {
+    <div class="line-row-item">
         <span class="item-label">分类：</span>
         <div class="item-body">
-            <div class="line-item" *ngFor="let item of editData.categories">
+            @for (item of editData.categories; track $index) {
+            <div class="line-item">
                 <span class="label">{{ item.name }}</span>
                 <span class="value">
-                    <button type="button" class="btn btn-primary" (click)="tapAllowCategory(item)" *ngIf="item.status < 1">允许</button>
+                    @if (item.status < 1) {
+                    <button type="button" class="btn btn-primary" (click)="tapAllowCategory(item)">允许</button>
+                    }
                 </span>
             </div>
+            }
         </div>
     </div>
+    }
     <ng-container name="footer">
         <button type="button" class="btn btn-primary" (click)="modal.close(1)">同意</button>
         <button type="button" class="btn btn-info" (click)="modal.close(2)">拒绝</button>

@@ -2,7 +2,9 @@
     <app-page-tip>
         <ul>
             <li>库存列表</li>
-            <li *ngIf="data && data.name">仓库：{{ data.name }}({{ data.address }})</li>
+            @if (data && data.name) {
+            <li>仓库：{{ data.name }}({{ data.address }})</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -13,7 +15,9 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a *ngIf="data" class="pull-right btn btn-primary" (click)="open(modal)">新增库存</a>
+                @if (data) {
+                <a class="pull-right btn btn-primary" (click)="open(modal)">新增库存</a>
+                }
             </form>
         </div>
     
@@ -21,7 +25,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th *ngIf="!data">仓库名</th>
+                    @if (!data) {
+                    <th>仓库名</th>
+                    }
                     <th>商品</th>
                     <th>货品</th>
                     <th>数量</th>
@@ -32,15 +38,16 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td *ngIf="!data">{{ item.warehouse.name }}</td>
+                    @if (!data) {
+                    <td>{{ item.warehouse.name }}</td>
+                    }
                     <td>{{ item.goods.name }}</td>
                     <td>
-                        <ng-container *ngIf="item.product; else elseTemplate">
+                        @if (item.product) {
                             {{ item.product.series_number }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             -
-                        </ng-template>
+                        }
                         
                     </td>
                     <td>
@@ -62,12 +69,14 @@
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '修改库存' : '新增库存'">
-    <div class="form-group" *ngIf="!editData.id || editData.id < 1">
+    @if (!editData.id || editData.id < 1) {
+    <div class="form-group">
         <label for="region-input">商品</label>
         <div>
             <app-search-panel (valueChange)="onProductChange($event)"></app-search-panel>
         </div>
     </div>
+    }
     <div class="form-group">
         <label for="region-input">数量</label>
         <div class="input-group-control">

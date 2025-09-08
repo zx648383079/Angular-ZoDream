@@ -31,12 +31,11 @@
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>
-                        <ng-container *ngIf="item.goods; else elseTemplate">
+                        @if (item.goods) {
                             {{ item.goods.name }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             [-]
-                        </ng-template>
+                        }
                     </td>
                     <td class="auto-hide">{{ item.start_at | timestamp }}</td>
                     <td class="auto-hide">{{ item.end_at | timestamp }}</td>

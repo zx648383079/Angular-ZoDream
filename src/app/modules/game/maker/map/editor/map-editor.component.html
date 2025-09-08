@@ -1,10 +1,10 @@
 <div class="map-editor" (mousedown)="onBoxStart($event)">
     <canvas #lineCanvas></canvas>
-    <ng-container *ngFor="let item of areaItems">
+    @for (item of areaItems; track $index) {
     <div class="map-area" [ngStyle]="{left: item.x + 'px', top: item.y + 'px', width: item.width + 'px', height: item.height + 'px'}">
         {{ item.name }}
     </div>
-    </ng-container>
+    }
 
     @for (item of items; track $index) {
         <div class="map-panel" [ngClass]="{'map-selected': item.is_selected}" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}">
@@ -15,8 +15,9 @@
                 </div>
             </div>
             <div class="panel-body">
-                <ng-container *ngIf="item.items">
-                    <div class="child-item" *ngFor="let it of item.items">
+                @if (item.items) {
+                    @for (it of item.items; track $index) {
+                    <div class="child-item">
                         <div class="item-boby">
                             {{ it.name }}
                         </div>
@@ -24,7 +25,8 @@
                             <i class="iconfont icon-minus"></i>
                         </div>
                     </div>
-                </ng-container>
+                    }
+                }
             
                 <div class="add-child-item" (click)="tapAddIndigenous(item)">
                     <i class="iconfont icon-plus"></i>
@@ -83,13 +85,17 @@
         <button class="iconfont icon-search"></button>
     </form>
     <div class="panel-body">
-        <!-- <div class="user-item" *ngFor="let item of userFilterItems">
+        <!-- @for (item of userFilterItems; track $index) { -->
+        <!-- <div class="user-item">
             <div class="avatar">
                 <img [src]="item.avatar" alt="">
             </div>
             <div class="name">{{ item.name }}</div>
             <div class="desc">{{ item.role_name }}</div>
-            <i class="iconfont icon-close" *ngIf="item.editable" (click)="tapRemoveUser(item)"></i>
+            @if (item.editable) {
+            <i class="iconfont icon-close" (click)="tapRemoveUser(item)"></i>
+            }
         </div> -->
+        <!-- } -->
     </div>
 </div>

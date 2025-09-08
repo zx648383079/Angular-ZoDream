@@ -2,7 +2,9 @@
     <app-page-tip>
         <ul>
             <li>管理地区列表</li>
-            <li *ngIf="parent">当前地区：{{ parent.name }}</li>
+            @if (parent) {
+            <li>当前地区：{{ parent.name }}</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -15,8 +17,12 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
 
                 <div class="btn-group pull-right">
-                    <a *ngIf="parent" class="btn btn-success" (click)="tapViewRegion()">返回顶级</a>
-                    <a *ngIf="parent && parent.parent_id > 0" class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
+                    @if (parent) {
+                    <a class="btn btn-success" (click)="tapViewRegion()">返回顶级</a>
+                    }
+                    @if (parent && parent.parent_id > 0) {
+                    <a class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
+                    }
                     <a routerLink="../" class="btn btn-danger">新手村</a>
                     <a routerLink="../editor"  class="btn btn-light">地图编辑器</a>
                     <a (click)="open(modal)" class="btn btn-primary">新增地区</a>

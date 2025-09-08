@@ -15,14 +15,18 @@
                     <label>类型</label>
                     <select name="type" [ngModel]="queries.type" class="form-control">
                         <option [value]="-1">全部</option>
-                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                        @for (item of typeItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">全部</option>
-                        <option *ngFor="let item of categoryItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categoryItems; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -76,7 +80,9 @@
             <label for="type">类型</label>
             <div>
                 <select id="type" [(ngModel)]="editData.type" class="form-control">
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of typeItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -85,7 +91,9 @@
             <div>
                 <select id="category" [(ngModel)]="editData.cat_id" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of categoryItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    @for (item of categoryItems; track $index) {
+                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

@@ -9,10 +9,12 @@
             @for (item of items; track $index) {
                 <div class="col-md-6">
                 <div class="mix-item">
-                    <div class="item-thumb" *ngIf="item.thumb">
+                    @if (item.thumb) {
+                    <div class="item-thumb">
                         <img [src]="item.thumb" alt="">
                         <div class="item-name">{{ item.name }}</div>
                     </div>
+                    }
                     <div class="item-body">
                         <div class="flex-row">
                             <div class="amount">

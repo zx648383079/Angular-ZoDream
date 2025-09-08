@@ -14,7 +14,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-success" *ngIf="queries.goods" (click)="open(modal)">新增问答</a>
+                    @if (queries.goods) {
+                    <a class="btn btn-success" (click)="open(modal)">新增问答</a>
+                    }
                     <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
@@ -92,7 +94,9 @@
         <label>状态</label>
         <div class="input-group-control">
             <select class="form-control" [(ngModel)]="editData.status">
-                <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                @for (item of statusItems; track $index) {
+                <option [value]="item.value">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>

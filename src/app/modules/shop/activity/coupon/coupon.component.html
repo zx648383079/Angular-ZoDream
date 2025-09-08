@@ -13,28 +13,33 @@
                 </div>
                 <div class="info">
                     <div class="price">
-                        <ng-container *ngIf="item.type > 0; else elseTemplate">
+                        @if (item.type > 0) {
                             <em>
                                 {{ item.money }}折
                             </em>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <em>
                                 ￥{{ item.money }}
                             </em>
-                        </ng-template>
+                        }
                         <span class="limit">满{{ item.min_money }}元可用</span>
                     </div>
                     <div class="rang">
                         {{ item.name }}
                     </div>
-                    <div class="got-tip" *ngIf="!item.can_receive">
+                    @if (!item.can_receive) {
+                    <div class="got-tip">
                         已领取
                     </div>
+                    }
                 </div>
                 <div class="action">
-                    <a *ngIf="item.can_receive" (click)="tapReceive(item)">立即领取</a>
-                    <a *ngIf="!item.can_receive">立即使用</a>
+                    @if (item.can_receive) {
+                    <a (click)="tapReceive(item)">立即领取</a>
+                    }
+                    @if (!item.can_receive) {
+                    <a>立即使用</a>
+                    }
                 </div>
                 
             </div>

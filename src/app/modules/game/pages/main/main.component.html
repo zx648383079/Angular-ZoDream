@@ -32,13 +32,13 @@
 </div>
 
 <div class="top-menu-bar">
-    <ng-container *ngFor="let item of topItems">
+    @for (item of topItems; track $index) {
         <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-            <ng-container *ngIf="item.count > 0">
+            @if (item.count > 0) {
                 ({{ item.count }})
-            </ng-container>
+            }
         </a>
-    </ng-container>
+    }
 </div>
 
 <div class="group-box">
@@ -49,7 +49,9 @@
     </div>
     <div class="group-body">
         <p>{{ character.nickname }}</p>
-        <p>等级: {{ character.grade }}级({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }}) <a *ngIf="character.can_upgrade" (click)="tapUpgrade()">升级</a></p>
+        @if (character.can_upgrade) {
+        <p>等级: {{ character.grade }}级({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }}) <a (click)="tapUpgrade()">升级</a></p>
+        }
     </div>
 </div>
 
@@ -59,17 +61,19 @@
     </div>
     <div class="group-body">
         <ul class="mini-message">
-            <li *ngFor="let item of messsageItems">[{{ item.created_at | ago }}]{{ item.user?.name }}: {{ item.content }}</li>
+            @for (item of messsageItems; track $index) {
+            <li>[{{ item.created_at | ago }}]{{ item.user?.name }}: {{ item.content }}</li>
+            }
         </ul>
     </div>
 </div>
 
 <div class="menu-bar">
-    <ng-container *ngFor="let item of bottomItems">
+    @for (item of bottomItems; track $index) {
         <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-            <ng-container *ngIf="item.count > 0">
+            @if (item.count > 0) {
                 ({{ item.count }})
-            </ng-container>
+            }
         </a>
-    </ng-container>
+    }
 </div>

@@ -1,16 +1,18 @@
 <div class="panel">
-    <div class="panel-header" *ngIf="current">
+    @if (current) {
+    <div class="panel-header">
         <i class="iconfont icon-chevron-left" (click)="tapBack()"></i>
         {{ current.name }}
     </div>
+    }
     <div class="panel-body">
-        <ng-container *ngFor="let item of kidItems; let i = index">
+        @for (item of kidItems; track $index; let i = $index) {
             <div class="cat-item" (click)="tapItem(i)">
                 <div class="item-icon">
                     <img [appLazyLoad]="item.icon">
                 </div>
                 <div class="item-name">{{ item.name }}</div>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

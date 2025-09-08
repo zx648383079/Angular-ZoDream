@@ -1,21 +1,25 @@
 <div class="container-fluid">
-    <div class="add-btn" *ngIf="isLogin" (click)="tapAdd()">
+    @if (isLogin) {
+    <div class="add-btn" (click)="tapAdd()">
         <i class="iconfont icon-plus"></i>
         添加
     </div>
+    }
     @for (item of items; track $index) {
         <div class="book-list-item" (click)="tapView(item)">
             <div class="thumb">
-                <ng-container *ngFor="let it of item.items">
+                @for (it of item.items; track $index) {
                     <img [src]="it.book.cover" alt="">
-                </ng-container>
+                }
                 
             </div>
             <div class="info">
                 <a class="title">{{ item.title }}</a>
                 <p class="desc">{{ item.description }}</p>
                 <div class="info-footer">
-                    <a *ngIf="item.user">{{ item.user.name }}</a>
+                    @if (item.user) {
+                    <a>{{ item.user.name }}</a>
+                    }
                     <span class="time">{{ item.created_at }}</span>
 
                     <div class="info-count">

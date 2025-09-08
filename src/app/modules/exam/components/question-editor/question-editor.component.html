@@ -6,41 +6,45 @@
         <div class="tool-item btn-primary" [ngClass]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
             <i class="iconfont icon-plus"></i>
         </div>
-        <div class="tool-item btn-success" *ngIf="canEdit" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
+        @if (canEdit) {
+        <div class="tool-item btn-success" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
             <i class="iconfont icon-key"></i>
         </div>
-        <div class="tool-drop-item" *ngIf="canEdit">
+        <div class="tool-drop-item">
             <div class="drop-icon btn-primary" (click)="typeOpen = !typeOpen">
                 <i class="iconfont icon-exchange"></i>
             </div>
             <ul class="drop-body" [hidden]="!typeOpen">
-                <ng-container *ngFor="let item of typeItems;let i = index">
+                @for (item of typeItems; track $index; let i = $index) {
                     <li [ngClass]="{active: i == value.type}" (click)="tapType(i)">{{ item }}</li>
-                </ng-container>
+                }
             </ul>
         </div>
+        }
     </div>
     <div class="editor-header">
         <div class="title">
             <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="value.title" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
         </div>
         <div class="material">
-            <ng-container *ngIf="materialType < 1 && materialFile">
+            @if (materialType < 1 && materialFile) {
                 <img [src]="materialFile">
-            </ng-container>
-            <ng-container *ngIf="materialType == 1 && materialFile">
+            } @else if (materialType == 1 && materialFile) {
                 <app-audio-player [src]="materialFile"></app-audio-player>
-            </ng-container>
-            <ng-container *ngIf="materialType == 2 && materialFile">
+            } @else if (materialType == 2 && materialFile) {
                 <app-video-player [src]="materialFile"></app-video-player>
-            </ng-container>
-            <label for="upload-input" class="add-btn" title="上传图片/视频/音频" *ngIf="canEdit">
+            }
+            @if (canEdit) {
+            <label for="upload-input" class="add-btn" title="上传图片/视频/音频">
                 <i class="iconfont icon-upload"></i>
                 <input type="file" id="upload-input" accept="image/*,audio/*,video/*" (change)="uploadFile($event)">
             </label>
-            <div class="add-btn btn-danger" *ngIf="materialFile && canEdit" title="删除素材" (click)="tapRemoveMaterial()">
+            }
+            @if (materialFile && canEdit) {
+            <div class="add-btn btn-danger" title="删除素材" (click)="tapRemoveMaterial()">
                 <i class="iconfont icon-trash"></i>
             </div>
+            }
         </div>
         <div class="content" [hidden]="!extendOpen">
             <app-exam-editor label="附加内容："  placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()" [disabled]="!canEdit"></app-exam-editor>
@@ -48,18 +52,15 @@
     </div>
 
     <div class="editor-option">
-       <ng-container *ngIf="value.type == 2">
+       @if (value.type == 2) {
            <app-bool-input [(value)]="value.answer" (valueChange)="onValueChange()" [editable]="canEdit"></app-bool-input>
-       </ng-container>
-       <ng-container *ngIf="!value.type || value.type < 2 || value.type == 4">
+       } @else if (!value.type || value.type < 2 || value.type == 4) {
            <app-option-input [multiple]="value.type > 0" [(value)]="optionItems" (valueChange)="onValueChange()" [editable]="canEdit"></app-option-input>
-       </ng-container>
-       <ng-container *ngIf="value.type == 3">
+       } @else if (value.type == 3) {
             <app-exam-editor label="答案："  placeholder="请输入答案" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></app-exam-editor>
-       </ng-container>
-       <ng-container *ngIf="value.type == 5">
+       } @else if (value.type == 5) {
             <app-question-children [(value)]="kidItems" (valueChange)="onValueChange()"></app-question-children>
-       </ng-container>
+       }
        
     </div>
 </div>
@@ -68,15 +69,14 @@
     <div class="form-group">
         <label>内容类型</label>
         <select class="form-control" [(ngModel)]="analysisData.type">
-            <ng-container *ngFor="let item of analysisTypeItems;let i = index">
+            @for (item of analysisTypeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
-            </ng-container>
+            }
         </select>
     </div>
-    <ng-container *ngIf="analysisData.type < 1">
+    @if (analysisData.type < 1) {
         <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
-    </ng-container>
-    <ng-container *ngIf="analysisData.type > 0">
+    } @else {
         <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
-    </ng-container>
+    }
 </app-dialog-box>

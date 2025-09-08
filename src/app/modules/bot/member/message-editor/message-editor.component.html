@@ -2,20 +2,20 @@
     <label for="type">响应类型</label>
     <div>
         <select id="type" [(ngModel)]="data.type" class="form-control" (ngModelChange)="onTypeChange()">
-            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
-            <option *ngIf="other" [value]="99">{{ other }}</option>
+            @for (item of typeItems; track $index) {
+            <option [value]="item.value">{{ item.name }}</option>
+            }
+            @if (other) {
+            <option [value]="99">{{ other }}</option>
+            }
         </select>
     </div>
 </div>
-<ng-container *ngIf="data.type < 1">
+@if (data.type < 1) {
     <textarea class="form-control" [(ngModel)]="data.text" (ngModelChange)="onContentChange()"></textarea>
-</ng-container>
-
-<ng-container *ngIf="data.type >= 1 && data.type <= 2">
+} @else if (data.type >= 1 && data.type <= 2) {
     <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(ngModel)]="data.media" (ngModelChange)="onContentChange()"></app-select-input>
-</ng-container>
-
-<ng-container *ngIf="data.type == 3">
+} @else if (data.type == 3) {
     <div class="input-group-control">
         <label for="template_id">模板ID</label>
         <input type="text" id="template_id" class="form-control" [(ngModel)]="data.template_id" (ngModelChange)="onTemplateChange()" placeholder="示例：模板ID">
@@ -45,7 +45,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data.parameters">
+            @for (item of data.parameters; track $index) {
+            <tr>
                 <td>{{ item.name }}</td>
                 <td>
                     <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onContentChange()"></textarea>
@@ -54,26 +55,24 @@
                     <input type="color" class="form-control" [(ngModel)]="item.color" (ngModelChange)="onContentChange()">
                 </td>
             </tr>
+            }
         </tbody>
     </table>
-</ng-container>
-<ng-container *ngIf="data.type == 4">
+} @else if (data.type == 4) {
     <div class="input-group-control">
         <label for="content">参数</label>
         <div>
             <input type="text" id="content" class="form-control" placeholder="示例：参数" [(ngModel)]="data.parameter" (ngModelChange)="onContentChange()">
         </div>
     </div>
-</ng-container>
-<ng-container *ngIf="data.type == 5">
+} @else if (data.type == 5) {
     <div class="input-group-control">
         <label for="content">网址</label>
         <div>
             <input type="text" id="content" class="form-control" [(ngModel)]="data.url" (ngModelChange)="onContentChange()" placeholder="示例：网址">
         </div>
     </div>
-</ng-container>
-<ng-container *ngIf="data.type == 6">
+} @else if (data.type == 6) {
     <div class="input-group-control">
         <label for="module1">APPID</label>
         <div>
@@ -95,15 +94,16 @@
             </div>
         </div>
     </div>
-</ng-container>
-<ng-container *ngIf="data.type == 7 || (data.type >= 20 && data.type <= 23)">
+} @else if (data.type == 7 || (data.type >= 20 && data.type <= 23)) {
     <div class="input-group-control">
         <label for="content">场景</label>
         <div class="">
             <select id="content" class="form-control" [(ngModel)]="data.scene" (ngModelChange)="onContentChange()">
                 <option value="">请选择</option>
-                <option *ngFor="let item of sceneItems" [value]="item.value">{{ item.name }}</option>
+                @for (item of sceneItems; track $index) {
+                <option [value]="item.value">{{ item.name }}</option>
+                }
             </select>
         </div>
     </div>
-</ng-container>
+}

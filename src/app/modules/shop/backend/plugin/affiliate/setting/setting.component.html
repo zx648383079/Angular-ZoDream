@@ -24,7 +24,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of data.by_user_grade;let i = index">
+                    @for (item of data.by_user_grade; track $index; let i = $index) {
+                    <tr>
                         <td>
                             {{ i + 1 }} 级
                         </td>
@@ -35,6 +36,7 @@
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
                         </td>
                     </tr>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>

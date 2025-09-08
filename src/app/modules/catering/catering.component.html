@@ -35,7 +35,9 @@
 <app-login-dialog></app-login-dialog>
 <app-catering-cart-dialog></app-catering-cart-dialog>
 <app-authorize-dialog></app-authorize-dialog>
-<div class="dialog-mask" *ngIf="scanOpen" (click)="scanOpen = false"></div>
-<div class="scanner-dialog" *ngIf="scanOpen">
+@if (scanOpen) {
+<div class="dialog-mask" (click)="scanOpen = false"></div>
+<div class="scanner-dialog">
     <app-scanner (completed)="onScanCompleted($event)"></app-scanner>
 </div>
+}

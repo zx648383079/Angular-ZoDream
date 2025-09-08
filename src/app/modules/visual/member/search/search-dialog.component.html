@@ -1,15 +1,22 @@
-<div class="dialog-mask" *ngIf="visible"></div>
-<div class="search-dialog-container" *ngIf="visible">
+@if (visible) {
+<div class="dialog-mask" ></div>
+}
+@if (visible) {
+<div class="search-dialog-container" >
     <div class="search-bar">
         <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="flat-input">
                 <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
                 <select name="category" class="form-control" [ngModel]="queries.category" class="form-control">
                     <option [value]="0" i18n>Select...</option>
-                    <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    @for (item of categories; track $index) {
+                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    }
                 </select>
                 <select name="type" class="form-control" [ngModel]="queries.type" class="form-control">
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of typeItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
                 <button type="submit" class="btn btn-primary" i18n>Search</button>
                 <a class="btn" [ngClass]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()" i18n>Only selected({{ selectedCount }})</a>
@@ -20,7 +27,7 @@
         </form>
     </div>
     <div class="body-container">
-        <ng-container *ngFor="let item of formatItems">
+        @for (item of formatItems; track $index) {
             <div class="option-item" [ngClass]="{selected: isSelected(item)}" (click)="tapSelected(item)">
                 <div class="thumb">
                     <img [src]="item.thumb | asset">
@@ -28,7 +35,7 @@
                 <div class="name">{{ item.name }}</div>
                 <div class="price">{{ item.price }}</div>
             </div>
-        </ng-container>
+        }
     </div>
     <div class="footer-container">
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
@@ -38,3 +45,4 @@
         </div>
     </div>
 </div>
+}

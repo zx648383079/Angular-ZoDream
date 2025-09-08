@@ -52,8 +52,12 @@
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-success" *ngIf="item.status < 1" (click)="tapPass(item, toggleModal)" data-tip="确认审核通过此友情链接？">审核</a>
-                            <a class="btn btn-info"  *ngIf="item.status == 1"  (click)="tapOff(item, toggleModal)">下架</a>
+                            @if (item.status < 1) {
+                            <a class="btn btn-success" (click)="tapPass(item, toggleModal)" data-tip="确认审核通过此友情链接？">审核</a>
+                            }
+                            @if (item.status == 1) {
+                            <a class="btn btn-info"  (click)="tapOff(item, toggleModal)">下架</a>
+                            }
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

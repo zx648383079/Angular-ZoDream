@@ -2,7 +2,9 @@
     <app-page-tip>
         <ul>
             <li>商品属性列表</li>
-            <li *ngIf="group">当前属性分组：{{ group.name }}</li>
+            @if (group) {
+            <li>当前属性分组：{{ group.name }}</li>
+            }
         </ul>
     </app-page-tip>
     <div class="panel-container">

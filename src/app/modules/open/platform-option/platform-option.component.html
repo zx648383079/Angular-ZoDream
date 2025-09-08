@@ -17,7 +17,8 @@
                     <i class="iconfont" [ngClass]="group.expanded ? 'icon-chevron-down' : 'icon-chevron-up'"></i>
                 </div>
                 <div class="expand-body">
-                    <div class="input-group-control" *ngFor="let item of group.children">
+                    @for (item of group.children; track $index) {
+                    <div class="input-group-control">
                         <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
                         <div>
                             <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [(ngModel)]="item.value">
@@ -26,6 +27,7 @@
                             }
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         }

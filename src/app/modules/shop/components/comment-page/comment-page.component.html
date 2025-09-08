@@ -1,4 +1,5 @@
-<div class="comment-box" *ngIf="subtotal">
+@if (subtotal) {
+<div class="comment-box">
     <div class="comment-header">
         <div class="align-center">
         好评率
@@ -14,9 +15,9 @@
         </div>
         <div class="tag-box">
             <span class="active">All({{ subtotal.total }})</span>
-            <ng-container *ngFor="let item of subtotal.tags">
+            @for (item of subtotal.tags; track $index) {
                 <span>{{ item.label }}({{ item.count }})</span>
-            </ng-container>
+            }
         </div>
     </div>
     <div class="comment-filter">
@@ -41,11 +42,15 @@
                     规格: 雾白
                     </div>
                     <div class="content">{{ item.content }}</div>
-                    <ul class="image-box" *ngIf="item.images">
-                        <li *ngFor="let it of item.images">
+                    @if (item.images) {
+                    <ul class="image-box">
+                        @for (it of item.images; track $index) {
+                        <li>
                             <img [src]="it.image" alt="">
                         </li>
+                        }
                     </ul>
+                    }
                     <div class="time">{{ item.created_at }}</div>
                 </div>
             </div>
@@ -55,3 +60,4 @@
 
     <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 </div>
+}

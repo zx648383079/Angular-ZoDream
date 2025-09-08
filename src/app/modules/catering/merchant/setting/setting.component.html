@@ -2,7 +2,8 @@
     <div class="flex-menu">
         <app-merchant-menu currentUrl="setting"></app-merchant-menu>
     </div>
-    <div class="flex-body"  *ngIf="data">
+    @if (data) {
+    <div class="flex-body">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
@@ -44,12 +45,11 @@
                         <div class="notice-panel">
                             <h1 class="item-body">{{ data.open_status > 0 ? '营业中' : '休息中' }}</h1>
                         </div>
-                        <ng-container *ngIf="data.open_status > 0; else elseTemplate">
+                        @if (data.open_status > 0) {
                             <a class="btn btn-danger btn-line" (click)="toggleOpen()">关店休息</a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <a class="btn btn-primary btn-line" (click)="toggleOpen()">开店营业</a>
-                        </ng-template>
+                        }
                         
                     </app-panel>
                 </div>
@@ -79,7 +79,8 @@
                 <app-switch [(ngModel)]="data.is_open_ship" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
-        <div class="input-item" *ngIf="data.is_open_ship">
+        @if (data.is_open_ship) {
+        <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
             </div>
@@ -91,6 +92,7 @@
                 <app-switch [(ngModel)]="data.is_ship_self" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
+        }
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
@@ -103,7 +105,8 @@
                 <app-switch [(ngModel)]="data.is_open_reserve" (ngModelChange)="onValueChange()"></app-switch>
             </div>
         </div>
-        <div class="input-item" *ngIf="data.is_open_reserve">
+        @if (data.is_open_reserve) {
+        <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
             </div>
@@ -115,5 +118,7 @@
                 <app-number-input [(ngModel)]="data.reserve_time" (ngModelChange)="onValueChange()"></app-number-input> 小时
             </div>
         </div>
+        }
     </div>
+    }
 </div>

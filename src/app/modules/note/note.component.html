@@ -1,7 +1,8 @@
 <div class="container">
     <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
         <div class="row">
-            <div class="col-md-4" *ngIf="authUser">
+            @if (authUser) {
+            <div class="col-md-4">
                 <div class="note-form">
                     <div class="item-body">
                         <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入内容"></textarea>
@@ -15,18 +16,23 @@
                     </div>
                 </div>
             </div>
+            }
     
             @for (item of items; track $index) {
                 <div class="col-md-4">
                 <div class="note-item">
                     <div class="item-body" [innerHTML]="item.html"></div>
                     <div class="item-footer">
-                        <span *ngIf="item.user">{{ item.user.name }}</span>
+                        @if (item.user) {
+                        <span>{{ item.user.name }}</span>
+                        }
                         <span>{{ item.created_at | ago }}</span>
                     </div>
-                    <div class="item-action" *ngIf="item.editable">
+                    @if (item.editable) {
+                    <div class="item-action">
                         <i class="iconfont icon-close" (click)="tapRemove(item)"></i>
                     </div>
+                    }
                 </div>
             </div>
             }

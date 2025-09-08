@@ -65,7 +65,9 @@
         <label>文件类型</label>
         <div class="input-group-control">
             <select class="form-control" [(ngModel)]="editData.file_type">
-                <option *ngFor="let item of urlTypeItems;let i = index" [value]="i">{{ item }}</option>
+                @for (item of urlTypeItems; track $index; let i = $index) {
+                <option [value]="i">{{ item }}</option>
+                }
             </select>
         </div>
     </div>
@@ -73,7 +75,9 @@
         <label>清晰度</label>
         <div class="input-group-control">
             <select class="form-control" [(ngModel)]="editData.definition">
-                <option *ngFor="let item of definitionItems;let i = index" [value]="i">{{ item }}</option>
+                @for (item of definitionItems; track $index; let i = $index) {
+                <option [value]="i">{{ item }}</option>
+                }
             </select>
         </div>
     </div>
@@ -83,23 +87,20 @@
             <app-data-size [(ngModel)]="editData.size"></app-data-size>
         </div>
     </div>
-    <ng-container *ngIf="editData.file_type < 1 || editData.file_type == 4; else elseTemplate">
+    @if (editData.file_type < 1 || editData.file_type == 4) {
         <div class="form-group">
             <label>文件</label>
             <div class="input-group-control">
                 <app-file-input [(ngModel)]="editData.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)"></app-file-input>
             </div>
         </div>
-    </ng-container>
-    <ng-template #elseTemplate>
+    } @else {
         <div class="form-group">
             <label>{{ editData.file_type > 2 ? '内容' : '网址' }}</label>
             <div>
                 <app-text-editor [(ngModel)]="editData.file" height="100"></app-text-editor>
             </div>
         </div>
-    </ng-template>
-    
-
+    }
 
 </app-dialog-box>

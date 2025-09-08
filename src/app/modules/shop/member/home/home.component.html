@@ -5,7 +5,8 @@
             <app-user-menu currentUrl="member"></app-user-menu>
         </div>
         <div>
-            <div class="user-box" *ngIf="user">
+            @if (user) {
+            <div class="user-box">
                 <div class="user-info">
                     <div class="avatar">
                         <img [src]="user.avatar" alt="">
@@ -39,37 +40,44 @@
                     <div>¥0.00</div>
                 </div>
             </div>
-
+            }
             <div class="panel un-order-box">
                 <div class="panel-header">
                     <span>未完成订单（{{ orderSutotal.paid_un_ship }}）</span>
                     <a routerLink="order">查看全部订单</a>
                 </div>
                 <div class="panel-body">
-                    <div class="order-item" *ngFor="let item of orderItems">
+                    @for (item of orderItems; track $index) {
+                    <div class="order-item">
                         <div class="goods-img">
-                            <ng-container *ngIf="item.goods && item.goods.length > 0">
+                            @if (item.goods && item.goods.length > 0) {
                                 <img [src]="item.goods[0].thumb" alt="">
-                            </ng-container>
+                            }
                         </div>
                         <div>包裹1</div>
                         <div>{{ item.status_label }}</div>
                         <div>{{ item.order_amount | price }}</div>
                         <div>
-                            <p *ngIf="item.status == 10">
+                            @if (item.status == 10) {
+                            <p>
                                 <a class="btn">付款</a>
                             </p>
-                            <p *ngIf="item.status == 40">
+                            } @else if (item.status == 40) {
+                            <p>
                                 <a class="btn">签收</a>
                             </p>
                             <p>
                                 <a >查看详情</a>
                             </p>
-                            <p *ngIf="item.status == 10">
+                            }
+                            @if (item.status == 10) {
+                            <p>
                                 <a >取消订单</a>
                             </p>
+                            }
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </div>

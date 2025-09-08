@@ -7,7 +7,9 @@
             <i class="iconfont icon-close input-clear" (click)="tapClear()"></i>
         </div>
         <ul class="search-suggestion">
-            <li *ngFor="let item of suggestItems;let i = index" [ngClass]="{active: i === suggestIndex}" (click)="tapItem(item)"><span>{{ i + 1 }}</span>{{ formatTitle(item) }}</li>
+            @for (item of suggestItems; track $index; let i = $index) {
+            <li [ngClass]="{active: i === suggestIndex}" (click)="tapItem(item)"><span>{{ i + 1 }}</span>{{ formatTitle(item) }}</li>
+            }
         </ul>
     </div>        
 </div>

@@ -1,4 +1,6 @@
-<div class="dialog-mask" *ngIf="visible"></div>
+@if (visible) {
+<div class="dialog-mask"></div>
+}
 <div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
     <div class="panel-tool-bar dialog-tool-bar">
         <div class="tool-item btn-danger" title="关闭" (click)="close()">
@@ -18,9 +20,9 @@
                 <i class="iconfont icon-exchange"></i>
             </div>
             <ul class="drop-body" [hidden]="!typeOpen">
-                <ng-container *ngFor="let item of typeItems;let i = index">
+                @for (item of typeItems; track $index; let i = $index) {
                     <li [ngClass]="{active: i == value.type}" (click)="tapType(i)">{{ item }}</li>
-                </ng-container>
+                }
             </ul>
         </div>
         <div class="tool-item btn-success" title="保存" (click)="close(true)">
@@ -36,19 +38,18 @@
                 <app-exam-editor label="附加内容：" placeholder="请输入附加内容" [(ngModel)]="value.content" (ngModelChange)="onExtendChange()"></app-exam-editor>
             </div>
             <div class="editor-option">
-                <ng-container *ngIf="value.type == 2">
+                @if (value.type == 2) {
                     <app-bool-input [(value)]="value.answer"></app-bool-input>
-                </ng-container>
-                <ng-container *ngIf="!value.type || value.type < 2 || value.type == 4">
+                } @else if (!value.type || value.type < 2 || value.type == 4) {
                     <app-option-input  [multiple]="value.type > 0"  [(value)]="optionItems"></app-option-input>
-                </ng-container>
-                <ng-container *ngIf="value.type == 3">
+                
+                } @else if (value.type == 3) {
                     <app-exam-editor label="答案：" placeholder="请输入答案" [(ngModel)]="value.answer"></app-exam-editor>
-                </ng-container>
+                }
              </div>
-             <ng-container *ngIf="analysisOpen">
+             @if (analysisOpen) {
                 <app-exam-editor label="解析：" placeholder="请输入题目解析" [(ngModel)]="analysisData.content"></app-exam-editor>
-             </ng-container>
+             }
         </div>
     </div>
 </div>

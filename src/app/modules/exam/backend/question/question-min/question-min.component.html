@@ -9,26 +9,30 @@
     <label for="type8">类型</label>
     <div>
         <select id="type8" class="form-control" [(ngModel)]="value.type" (ngModelChange)="onTypeChange()">
-            <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+            @for (item of typeItems; track $index; let i = $index) {
+            <option [value]="i">{{ item }}</option>
+            }
         </select>
     </div>
 </div>
 <div class="option-box">
-    <div class="input-group-control" *ngIf="value.type < 2">
+    @if (value.type < 2) {
+    <div class="input-group-control">
         <label for="">选项</label>
         <div>
-            <ng-container *ngFor="let item of value.option_items; let i = index">
+            @for (item of value.option_items; track $index; let i = $index) {
                 <div class="option-item">
                     <div class="option-value">
-                        <ng-container *ngIf="item.type < 1; else elseTemplate">
+                        @if (item.type < 1) {
                             <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()">
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             <app-file-input [(ngModel)]="item.content" (ngModelChange)="onValueChange()"></app-file-input>
-                        </ng-template>
+                        }
                     </div>
                     <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onValueChange()">
-                        <option *ngFor="let item of optionTypeItems;let j = index" [value]="j">{{ item }}</option>
+                        @for (item of optionTypeItems; track $index; let j = $index) {
+                        <option [value]="j">{{ item }}</option>
+                        }
                     </select>
                     <select class="form-control" [(ngModel)]="item.is_right" (ngModelChange)="onValueChange()">
                         <option [value]="0">错</option>
@@ -38,13 +42,14 @@
                         <i class="iconfont icon-close"></i>
                     </a>
                 </div>
-            </ng-container>
+            }
             <a (click)="tapAddItem()" class="add-btn">
                 <i class="iconfont icon-plus"></i>
             </a>
         </div>
     </div>
-    <div class="input-group-control" *ngIf="value.type == 2">
+    } @else if (value.type == 2) {
+    <div class="input-group-control">
         <label for="answer9">答案</label>
         <div>
             <select id="answer9" class="form-control" [(ngModel)]="value.answer" (ngModelChange)="onValueChange()">
@@ -53,17 +58,19 @@
             </select>
         </div>
     </div>
-    <div class="input-group-control" *ngIf="value.type == 3">
+    } @else if (value.type == 3) {
+    <div class="input-group-control">
         <label for="answer0">答案</label>
         <div>
             <textarea id="answer0" class="form-control"  [(ngModel)]="value.answer" (ngModelChange)="onValueChange()"></textarea>
         </div>
     </div>
-    <div class="input-group-control" *ngIf="value.type == 4">
+    } @else if (value.type == 4) {
+    <div class="input-group-control">
         <label for="answer">答案</label>
         <div>
             <div>
-                <ng-container *ngFor="let item of value.option_items; let i = index">
+                @for (item of value.option_items; track $index; let i = $index) {
                     <div class="option-item">
                         <div class="option-value">
                             <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()" placeholder="请输入正确的答案">
@@ -72,14 +79,14 @@
                             <i class="iconfont icon-close"></i>
                         </a>
                     </div>
-                </ng-container>
+                }
                 <a (click)="tapAddItem()" class="add-btn">
                     <i class="iconfont icon-plus"></i>
                 </a>
             </div>
         </div>
     </div>
-    
+    }
     <div class="input-group-control">
         <label for="analysis">解析</label>
         <div>

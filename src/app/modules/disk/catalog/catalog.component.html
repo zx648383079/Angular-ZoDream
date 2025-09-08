@@ -16,12 +16,14 @@
     </div>
 
     <div class="nav-crumbs">
-        <ng-container *ngFor="let item of crumbs">
+        @for (item of crumbs; track $index) {
             <a class="crumb-item" [ngClass]="{disable: item.disable}">
-                <i class="iconfont" *ngIf="item.icon" [ngClass]="item.icon"></i>
+                @if (item.icon) {
+                <i class="iconfont" [ngClass]="item.icon"></i>
+                }
                 <span class="name">{{ item.name }}</span>
             </a>
-        </ng-container>
+        }
     </div>
 
     <div class="nav-right">
@@ -91,7 +93,8 @@
             <div class="size" [ngClass]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
             <div class="time" [ngClass]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
-        <div class="file-edit-header" *ngIf="editMode">
+        @if (editMode) {
+        <div class="file-edit-header">
             <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
             <div class="check-count">
                 已选中 {{ checkCount }} 个文件/文件夹
@@ -105,13 +108,13 @@
                 <i class="iconfont icon-edit"></i>
             </div>
         </div>
-        <ng-container *ngFor="let item of filterItems">
-            <ng-container *ngIf="item.type === 'group'; else elseTemplate">
+        }
+        @for (item of filterItems; track $index) {
+            @if (item.type === 'group') {
                 <div class="file-group">
                     {{ item.name }}
                 </div>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <div class="file-item" (click)="tapFile(item)" [title]="item.name">
                     <div class="check-box" [ngClass]="{checked: item.checked}"></div>
                     <div class="file-icon">
@@ -131,8 +134,8 @@
                         <i class="iconfont icon-trash"></i>
                     </div>
                 </div>
-            </ng-template>
-        </ng-container>
+            }
+        }
     </div>
 </app-pull-to-refresh>
 

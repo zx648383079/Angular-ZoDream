@@ -101,10 +101,12 @@
 </div>
 
 <app-dialog-box title="预览" [fullscreen]="true">
-    <div class="preview-item" *ngFor="let item of previewItems">
+    @for (item of previewItems; track $index) {
+    <div class="preview-item">
         <div class="item-path">{{ item.path }}</div>
         <div class="item-body">
             <pre><code>{{ item.content }}</code></pre>
         </div>
     </div>
+    }
 </app-dialog-box>

@@ -50,7 +50,8 @@
                 <i class="iconfont icon-full-screen full-icon"></i>
             </div>
         </div>
-        <div class="volume-dialog" *ngIf="volumeVisible">
+        @if (volumeVisible) {
+        <div class="volume-dialog">
             <div class="group-item">
                 <span class="item-label">
                     <i class="iconfont icon-sun"></i>
@@ -68,5 +69,6 @@
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>

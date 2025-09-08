@@ -1,5 +1,6 @@
 
-<div class="container-fluid" *ngIf="data">
+@if (data) {
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
@@ -15,15 +16,15 @@
                     <i class="iconfont icon-close"></i>
                     移除其他内容
                 </a>
-                <ng-container *ngFor="let item of resizeItems;let i = index">
+                @for (item of resizeItems; track $index; let i = $index) {
                     <a (click)="resizeIndex = i" [ngClass]="{active: resizeIndex == i}">{{ item.name }}</a>
-                </ng-container>
+                }
             </div>
         </div>
     </div>
 </div>
 
-
-<div class="frame-box" *ngIf="data">
+<div class="frame-box">
     <iframe id="main-frame" [src]="previewSrc" frameborder="0" [ngStyle]="frameStyle"></iframe>
 </div>
+}

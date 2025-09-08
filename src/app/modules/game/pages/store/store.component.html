@@ -7,14 +7,16 @@
     </div>
 </div>
 <div class="tab-bar">
-    <ng-container *ngFor="let item of typeItems">
+    @for (item of typeItems; track $index) {
         <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
-    </ng-container>
+    }
 </div>
 @for (item of items; track $index) {
     <div class="bag-item">
     <div class="item-body">
-        <span *ngIf="item.quality">[{{ item.quality }}]</span>
+        @if (item.quality) {
+        <span>[{{ item.quality }}]</span>
+        }
         <a href="" class="item-name">{{ item.name }}</a>
     </div>
     <div class="item-action">
@@ -24,8 +26,9 @@
 }
 <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
 
-<div class="dialog-mask" *ngIf="modalVisible"></div>
-<div class="cart-dialog" *ngIf="modalVisible">
+@if (modalVisible) {
+<div class="dialog-mask"></div>
+<div class="cart-dialog">
     <div class="item-thumb">
         <img [src]="'assets/images/wap_logo.png' | asset" alt="">
     </div>
@@ -56,3 +59,4 @@
         <div class="btn btn-primary">购买</div>
     </div>
 </div>
+}

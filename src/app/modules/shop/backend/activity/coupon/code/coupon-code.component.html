@@ -37,15 +37,15 @@
                         {{ item.serial_number }}
                     </td>
                     <td>
-                        <ng-container *ngIf="item.user_id > 0">
+                        @if (item.user_id > 0) {
                             已兑换
-                        </ng-container>
+                        }
                     </td>
                     <td>
-                        <ng-container *ngIf="item.order_id > 0">
+                        @if (item.order_id > 0) {
                             已使用
                             [<a [routerLink]="['../../../order', item.order_id]">查看</a>]
-                        </ng-container>
+                        }
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">

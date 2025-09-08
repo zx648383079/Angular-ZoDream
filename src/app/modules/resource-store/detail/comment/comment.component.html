@@ -1,7 +1,9 @@
 <div class="comment-container">
     <div class="title-bar">
         <h3 i18n>Leave a Comment</h3>
-        <p class="bar-text" *ngIf="!user" i18n>Please login in first *</p>
+        @if (!user) {
+        <p class="bar-text" i18n>Please login in first *</p>
+        }
     </div>
     
     <div class="comment-form">
@@ -41,8 +43,10 @@
                     <a href="" i18n>Reply</a>
                 </div>
             </article>
-            <div class="children" *ngIf="item.reply_items">
-                <div class="comment-item" *ngFor="let it of item.reply_items">
+            @if (item.reply_items) {
+            <div class="children">
+                @for (it of item.reply_items; track $index) {
+                <div class="comment-item">
                     <article class="comment">
                         <div class="comment-author">
                             <img [src]="it.user.avatar" alt="">
@@ -60,8 +64,10 @@
                         </div>
                     </article>
                 </div>
+                }
                 
             </div>
+            }
         </div>
         }
 

@@ -1,5 +1,7 @@
-<div class="dialog-mask" *ngIf="visible" (click)="close()">
+@if (visible) {
+<div class="dialog-mask" (click)="close()">
 </div>
+}
 <div class="dialog-box"  [@dialogOpen]="visible ? 'open' : 'closed'">
     <i class="iconfont icon-close" (click)="close()"></i>
     <div class="feedback-box">
@@ -11,17 +13,20 @@
             <em>*</em><ng-container i18n>Report type:</ng-container>
         </div>
         <div class="tab-bar">
-            <div class="item" *ngFor="let item of typeItems; let i=index" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
+            @for (item of typeItems; track $index; let i=$index) {
+                <div class="item" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
+            }
+            
         </div>
         <div class="row form-group">
-            <ng-container *ngFor="let item of typeOptionItems">
+            @for (item of typeOptionItems; track $index) {
             <div class="col-6">
                 <div class="check-input" (click)="item.checked = !item.checked">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}"></i>
                     {{ item.name }}
                 </div>
             </div>
-            </ng-container>
+            }
         </div>
         <div class="line-header">
             <em>*</em><ng-container i18n>Problem Description:</ng-container>

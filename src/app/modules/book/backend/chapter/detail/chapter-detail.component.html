@@ -16,9 +16,9 @@
                 <label for="price">章节类型</label>
                 <div>
                     <select class="form-control" [(ngModel)]="data.type">
-                        <ng-container *ngFor="let item of typeItems">
+                        @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
             </div>

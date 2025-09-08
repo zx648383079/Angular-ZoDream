@@ -1,5 +1,7 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
+@if (header) {
+<label >{{ header }}</label>
+}
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">
         <i class="iconfont icon-edit"></i>
@@ -10,9 +12,9 @@
     <div class="control-inline-group">
         <label for="">Style</label>
         <select>
-            <ng-container *ngFor="let item of styleItems">
+            @for (item of styleItems; track $index) {
               <option [value]="item.value">{{ item.name }}</option>
-            </ng-container>
+            }
         </select>
     </div>
     <app-editor-color-popup header="Color"></app-editor-color-popup>

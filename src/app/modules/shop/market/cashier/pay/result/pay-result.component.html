@@ -1,6 +1,7 @@
-<div class="pay-result-page" *ngIf="log">
+@if (log) {
+<div class="pay-result-page">
     <div class="container">
-        <ng-container *ngIf="log.status == 2; else elseTemplate">
+        @if (log.status == 2) {
             <div class="pay-success">
                 <i class="fa fa-check-circle"></i>
                 <p>您的订单  
@@ -10,8 +11,7 @@
                 <a class="btn btn-primary">继续购买</a>
                 <a class="btn btn-danger">查看订单</a>
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <div class="pay-failure">
                 <h2>
                     <i class="fa fa-times-circle"></i>
@@ -22,6 +22,7 @@
                     继续支付，谢谢！
                 </p>
             </div>
-        </ng-template>
+        }
     </div>
 </div>
+}

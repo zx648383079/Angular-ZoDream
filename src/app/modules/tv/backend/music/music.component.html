@@ -31,9 +31,9 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td>
-                        <ng-container *ngIf="item.cover">
+                        @if (item.cover) {
                             <img class="cover-img" [src]="item.cover" alt="">
-                        </ng-container>
+                        }
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>

@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let item of goodsItems;let i = index">
+                    @for (item of goodsItems; track $index; let i = $index) {
                         <tr>
                             <td>
                                 <span>{{ item.goods.name }}</span>
@@ -53,7 +53,7 @@
                                 <a (click)="tapRemoveItem(i)">删除</a>
                             </td>
                         </tr>
-                    </ng-container>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>

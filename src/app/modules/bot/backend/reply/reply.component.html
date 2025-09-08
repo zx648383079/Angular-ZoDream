@@ -6,9 +6,9 @@
     </app-page-tip>
 
     <div class="tab-bar">
-        <ng-container *ngFor="let item of tabItems">
+        @for (item of tabItems; track $index) {
             <a class="item" [ngClass]="{active: queries.event == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
-        </ng-container>
+        }
     </div>
 
     <div class="panel-container">

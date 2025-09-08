@@ -8,7 +8,7 @@
                 @for (item of navItems; track $index; let i = $index) {
                     <div class="menu-item" [ngClass]="{active: i == navIndex}" (click)="tapNav(i)">
                         @if (!item.avatar) {
-                            <div class="icon" *ngIf="!item.avatar">
+                            <div class="icon">
                                 <i class="iconfont" [ngClass]="item.icon"></i>
                             </div>
                         } @else {

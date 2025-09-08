@@ -3,10 +3,10 @@
         <app-navigation-category-panel [items]="categories" (changed)="tapCategory($event)"></app-navigation-category-panel>
     </div>
     <div class="col-md-8">
-        <ng-container *ngFor="let item of selectedItems">
+        @for (item of selectedItems; track $index) {
             <div class="lazy-panel" appLazyLoad (lazyLoading)="loadItem(item)">
                 <app-navigation-site-group [header]="item.name" [category]="item.id" [items]="item.items" [init]="!!item.lazy_booted"></app-navigation-site-group>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

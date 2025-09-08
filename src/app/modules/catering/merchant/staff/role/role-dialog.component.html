@@ -21,10 +21,12 @@
                     <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     {{ item.name }}
                 </div>
-                <div class="role-item" *ngFor="let it of item.items">
+                @for (it of item.items; track $index) {
+                <div class="role-item">
                     <i class="checkbox" [ngClass]="{checked: it.checked}" (click)="toggleCheck(item, it)"></i>
                     {{ it.name }}
                 </div>
+                }
             </div>
             }
         </div>

@@ -1,26 +1,33 @@
-<div *ngFor="let item of value;let i = index" class="option-item" (click)="tapEditOption(optionModal, i)">
+@for (item of value; track $index; let i = $index) {
+<div class="option-item" (click)="tapEditOption(optionModal, i)">
     <div class="item-action" (click)="tapSelected($event, i)">
         <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}" title="标记当前选项是否正确"></i>
     </div>
     <div class="item-body">
-        <div class="item-text" *ngIf="item.type != 1">
+        @if (item.type != 1) {
+        <div class="item-text">
             {{ item.content }}
         </div>
-        <div class="item-image" *ngIf="item.type == 1">
+        } @else {
+        <div class="item-image">
             <img [src]="item.content">
         </div>
-        <div class="flex-icon" *ngIf="editable">
+        }
+        @if (editable) {
+        <div class="flex-icon">
             <i class="iconfont icon-minus" (click)="tapRemoveOption($event, i)" title="删除此选项"></i>
         </div>
+        }
     </div>
 </div>
-
-<div class="empty-option" *ngIf="editable">
+}
+@if (editable) {
+<div class="empty-option">
     <div class="add-btn" (click)="tapEditOption(optionModal)">
         <i class="iconfont icon-plus"></i>
     </div>
 </div>
-
+}
 <app-dialog-box #optionModal title="编辑选项" [scrollable]="false">
     <div class="row">
         <div class="col-md-6">
@@ -36,12 +43,11 @@
             </div>
         </div>
     </div>
-    <ng-container *ngIf="optionData.type < 1">
+    @if (optionData.type < 1) {
         <app-exam-editor [(ngModel)]="optionData.content"></app-exam-editor>
-    </ng-container>
-    <ng-container *ngIf="optionData.type > 0">
+    } @else {
         <app-file-input [(ngModel)]="optionData.content"></app-file-input>
-    </ng-container>
+    }
     <ng-container name="footer"> 
         <button type="button" class="btn btn-outline-dark" (click)="optionModal.close('next')">保存并下一个</button>
     </ng-container>

@@ -4,43 +4,47 @@
     </div>
     <div class="h-container" (mouseleave)="onLineEnd()">
         <app-editor-rule-bar (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
-        <div class="line-bar" *ngIf="lineVisible">
-            <ng-container *ngFor="let item of hLines; let i = index">
+        @if (lineVisible) {
+        <div class="line-bar">
+            @for (item of hLines; track $index; let i = $index) {
                 <div class="line line-h" [ngStyle]="{left: item.value + 'px'}">
                     <div class="action">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
                         <span>{{ item.label }}</span>
                     </div>
                 </div>
-            </ng-container>
-            <ng-container *ngIf="tempLine && tempLine.horizontal">
+            }
+            @if (tempLine && tempLine.horizontal) {
                 <div class="line line-h" [ngStyle]="{left: tempLine.value + 'px'}">
                     <div class="action">
                         <span>{{ tempLine.label }}</span>
                     </div>
                 </div>
-            </ng-container>
+            }
         </div>
+        }
     </div>
     <div class="v-container" (mouseleave)="onLineEnd()">
         <app-editor-rule-bar [orientation]="false" (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
-        <div class="line-bar" *ngIf="lineVisible">
-            <ng-container *ngFor="let item of vLines; let i = index">
+        @if (lineVisible) {
+        <div class="line-bar">
+            @for (item of vLines; track $index; let i = $index) {
                 <div class="line line-v" [ngStyle]="{top: item.value + 'px'}">
                     <div class="action">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
                         <span>{{ item.label }}</span>
                     </div>
                 </div>
-            </ng-container>
-            <ng-container *ngIf="tempLine && !tempLine.horizontal">
+            }
+            @if (tempLine && !tempLine.horizontal) {
                 <div class="line line-v" [ngStyle]="{top: tempLine.value + 'px'}">
                     <div class="action">
                         <span>{{ tempLine.label }}</span>
                     </div>
                 </div>
-            </ng-container>
+            }
         </div>
+        }
     </div>
 </div>
 

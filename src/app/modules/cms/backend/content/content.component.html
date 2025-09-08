@@ -19,20 +19,28 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th *ngFor="let item of columnItems;let i = index" [ngClass]="{'auto-hide': i > 3}">{{ item.label }}</th>
+                    @for (item of columnItems; track $index; let i = $index) {
+                    <th [ngClass]="{'auto-hide': i > 3}">{{ item.label }}</th>
+                    }
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @for (item of items; track $index) {
                     <tr>
-                    <td *ngFor="let key of columnItems;let i = index" [ngClass]="{'auto-hide': i > 3}">
+                    @for (key of columnItems; track $index; let i = $index) {
+                    <td [ngClass]="{'auto-hide': i > 3}">
                         {{ formatColumn(item, key) }}
                     </td>
+                    }
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info" *ngIf="model && model.child_model" [routerLink]="['../../', model.child_model, item.id]">分集</a>
-                            <a class="btn btn-success" *ngIf="item.comment_count > 0" [routerLink]="['comment', item.id]">评论</a>
+                            @if (model && model.child_model) {
+                            <a class="btn btn-info" [routerLink]="['../../', model.child_model, item.id]">分集</a>
+                            }
+                            @if (item.comment_count > 0) {
+                            <a class="btn btn-success" [routerLink]="['comment', item.id]">评论</a>
+                            }
                             <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>

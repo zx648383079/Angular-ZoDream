@@ -5,16 +5,18 @@
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
-                <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
+                @if (form.get('name').invalid) {
+                <div class="input-tip">请输入名称</div>
+                }
             </div>
         </div>
         <div class="input-group-control">
             <label for="group_id">类型分组</label>
             <div>
-                <select id="group_id" class="form-control" formControlName="group_id" (ngModelChange)="onGroupChange()">
-                    <ng-container *ngFor="let item of groupItems">
+                <select id="group_id" class="form-control" formControlName="group_id" (change)="onGroupChange()">
+                    @for (item of groupItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
@@ -22,9 +24,9 @@
             <label for="property_group">属性分组</label>
             <div>
                 <select id="property_group" class="form-control" formControlName="property_group">
-                    <ng-container *ngFor="let item of propertyGroups">
+                    @for (item of propertyGroups; track $index) {
                         <option [value]="item">{{ item }}</option>
-                    </ng-container>
+                    }
                 </select>
                 <div class="input-tip">
                     当前仅在“唯一属性”下生效
@@ -76,12 +78,14 @@
                 </span>
             </div>
         </div>
-        <div class="input-group-control" *ngIf="isInput">
+        @if (isInput) {
+        <div class="input-group-control">
             <label for="default_value">默认值</label>
             <div>
                 <textarea id="default_value" class="form-control" formControlName="default_value"></textarea>
             </div>
         </div>
+        }
         <div class="input-group-control">
             <label for="position">排序</label>
             <div>

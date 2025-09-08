@@ -1,6 +1,7 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
-
+@if (header) {
+<label >{{ header }}</label>
+}
 <label class="drag-control-container" [for]="fileName">
     拖放文件
     <p>(或点击)</p>

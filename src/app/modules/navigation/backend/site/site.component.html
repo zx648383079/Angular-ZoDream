@@ -15,7 +15,9 @@
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categories; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -45,8 +47,10 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>
-                        <ng-container *ngIf="item.schema">
-                            {{ item.schema }}://</ng-container>{{ item.domain }}</td>
+                        @if (item.schema) {
+                            {{ item.schema }}://
+                        }
+                            {{ item.domain }}</td>
                     <td>{{ item.user?.name }}</td>
                     <td>{{ item.category?.name }}</td>
                     <td title="点击修改评分" (click)="tapScoring(scoringModal, item)">{{ item.score || '--' }}</td>
@@ -107,10 +111,12 @@
         <div class="input-group-control">
             <input class="form-control" id="name-input2" [(ngModel)]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
-        <div class="input-tip" *ngIf="editExistData" title="已存在相同站点">
+        @if (editExistData) {
+        <div class="input-tip" title="已存在相同站点">
             <i class="iconfont icon-close-circle"></i>
             <a [href]="editExistData.schema + '://' + editExistData.domain" target="_blank">{{ editExistData.name }}</a>
         </div>
+        }
     </div>
     <div class="form-group">
         <label for="name-input3">简介</label>
@@ -121,25 +127,33 @@
     <div class="form-group">
         <label>分类</label>
         <select class="form-control" [(ngModel)]="editData.cat_id">
-            <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            @for (item of categories; track $index) {
+            <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            }
         </select>
     </div>
     <div class="form-group">
         <label>推荐</label>
         <select class="form-control" [(ngModel)]="editData.top_type">
-            <option *ngFor="let item of topItems;let i = index" [value]="i">{{ item }}</option>
+            @for (item of topItems; track $index; let i = $index) {
+            <option [value]="i">{{ item }}</option>
+            }
         </select>
     </div>
     <div class="form-group">
         <label>标签</label>
         <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="editData.tags" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
     </div>
-    <div class="form-group" *ngIf="!editData.id">
+    @if (!editData.id) {
+    <div class="form-group">
         <label>同时收录到页面</label>
         <app-switch [(ngModel)]="editData.also_page"></app-switch>
     </div>
-    <div class="form-group" *ngIf="!editData.id && editData.also_page">
+    }
+    @if (!editData.id && editData.also_page) {
+    <div class="form-group">
         <label>关键词</label>
         <app-words-input [(ngModel)]="editData.keywords"></app-words-input>
     </div>
+    }
 </app-dialog-box>

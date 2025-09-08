@@ -16,7 +16,8 @@
     </div>
 </div>
 
-<div class="container-fluid" *ngIf="categories.length > 0">
+@if (categories.length > 0) {
+<div class="container-fluid">
     <div class="panel">
         <div class="panel-header">
             <div class="inner-header">
@@ -25,12 +26,14 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3" *ngFor="let item of categories">
+                @for (item of categories; track $index) {
+                <div class="col-md-3">
                     <a class="link-item" (click)="tapCategory(item)">
                         <span>{{ item.name }}</span>
                         <i class="iconfont icon-chevron-right"></i>
                     </a>
                 </div>
+                }
             </div>
         </div>
         <div class="panel-footer">
@@ -39,6 +42,7 @@
         </div>
     </div>
 </div>
+}
 
 <div class="filter-floor">
     <div class="container-fluid">
@@ -61,12 +65,11 @@
                             <div class="item-action">
                                 <div class="item-price">
                                     <p>
-                                        <ng-container *ngIf="item.price > 0">
+                                        @if (item.price > 0) {
                                             {{ item.price | currency }}
-                                        </ng-container>
-                                        <ng-container *ngIf="item.price <= 0">
-                                            Free
-                                        </ng-container>
+                                        } @else {
+                                            <ng-container i18n>Free</ng-container>
+                                        }
                                     </p>
                                     <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
                                 </div>

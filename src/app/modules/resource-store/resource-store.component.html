@@ -15,8 +15,11 @@
                     <a href="">
                         <i class="iconfont icon-shopping-cart"></i>
                     </a>
-                    <a routerLink="/auth" *ngIf="!user" i18n>Sign In</a>
-                    <a routerLink="/backend" *ngIf="user">{{ user.name }}</a>
+                    @if (!user) {
+                    <a routerLink="/auth" i18n>Sign In</a>
+                    } @else {
+                    <a routerLink="/backend">{{ user.name }}</a>
+                    }
                     <div class="navbar-icon" (click)="toggleNav()">
                         <i class="iconfont icon-bars"></i>
                     </div>
@@ -27,39 +30,42 @@
     <div class="navbar" [ngClass]="{open: navOpen}">
         <div class="container-fluid">
             <ul class="navbar-main">
-                <ng-container *ngFor="let item of navItems;let i = index">
+                @for (item of navItems; track $index; let i = $index) {
                     <li [ngClass]="{active: i == navIndex}" (click)="navIndex = i">
                         <a >{{ item.name }}</a>
                     </li>
-                </ng-container>
+                }
             </ul>
         </div>
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
-                <ng-container *ngFor="let item of subNavItems">
+                @for (item of subNavItems; track $index) {
                     <li [ngClass]="{active: item.active}">
                         <a [routerLink]="['category', item.id]">{{ item.name }}</a>
-                        <div class="nav-sub" *ngIf="item.children">
+                        @if (item.children) {
+                        <div class="nav-sub">
                             <ul>
-                                <ng-container *ngFor="let it of item.children">
-                                    <ng-container *ngIf="it.name; else elseTemplate">
+                                @for (it of item.children; track $index) {
+                                    @if (it.name) {
                                         <li>
                                             <a [routerLink]="['category', it.id]">{{ it.name }}</a></li>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
+                                    } @else {
                                         <li class="divider"></li>
-                                    </ng-template>
-                                </ng-container>
+                                    }
+                                }
                                 
                             </ul>
                         </div>
+                        }
                     </li>
-                </ng-container>
+                }
             </ul>
-            <form class="search-inline" *ngIf="searchVisible" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            @if (searchVisible) {
+            <form class="search-inline" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <i class="iconfont icon-search"></i>
                 <input type="text" class="form-control" placeholder="Search ..." name="keywords" ngModel>
             </form>
+            }
         </div>
         
     </div>

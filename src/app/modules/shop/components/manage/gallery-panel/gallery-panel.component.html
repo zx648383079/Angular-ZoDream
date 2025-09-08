@@ -1,15 +1,23 @@
 <div class="multi-image-box" #imageBox>
-    <div class="image-item" *ngFor="let item of items; let i = index">
+    @for (item of items; track $index; let i = $index) {
+    <div class="image-item">
         <img [src]="item.thumb">
-        <i class="iconfont icon-play play-icon" *ngIf="item.type == 1"></i>
-        <i class="iconfont icon-close action-icon" *ngIf="!disabled" (click)="tapRemoveGallary(i)"></i>
+        @if (item.type == 1) {
+        <i class="iconfont icon-play play-icon"></i>
+        }
+        @if (!disabled) {
+        <i class="iconfont icon-close action-icon" (click)="tapRemoveGallary(i)"></i>
+        }
     </div>
-    <div class="add-item" title="上传图片" *ngIf="canUpload">
+    }
+    @if (canUpload) {
+    <div class="add-item" title="上传图片">
         <label [for]="imageId" class="iconfont icon-plus"></label>
         <input type="file" name="files" [id]="imageId" (change)="uploadImages($event)" accept="image/*" multiple/>
     </div>
-    <div class="add-item" title="上传视频" *ngIf="canUpload">
+    <div class="add-item" title="上传视频">
         <label [for]="videoId" class="iconfont icon-film"></label>
         <input type="file" name="files1" [id]="videoId" (change)="uploadImages($event)" accept="video/*" multiple/>
     </div>
+    }
 </div>

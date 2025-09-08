@@ -3,7 +3,8 @@
         <div>
             <app-user-menu currentUrl="member/order"></app-user-menu>
         </div>
-        <div *ngIf="data">
+        @if (data) {
+        <div>
             <div class="panel">
                <div class="panel-header order-item-header">
                     <span class="time">下单时间：{{ data.created_at }}</span>
@@ -11,7 +12,8 @@
                </div>
                 <div class="panel-body">
                     <div class="order-address">
-                        <div class="address-box" *ngIf="data.address">
+                        @if (data.address) {
+                        <div class="address-box">
                             <div>
                                 <span>收 件 人</span>
                                 <span>{{ data.address.name }}</span>
@@ -26,6 +28,7 @@
                             </div>
                             <div class="tip">* 确认收货得0积分</div>
                         </div>
+                        }
                         <div class="order-total">
                             <div>
                             商品合计：
@@ -68,7 +71,8 @@
                         实付
                         </div>
                     </div>
-                    <div class="order-goods-item" *ngFor="let item of data.goods">
+                    @for (item of data.goods; track $index) {
+                    <div class="order-goods-item">
                         <div class="goods-info">
                             <div class="thumb">
                                 <img [src]="item.thumb" alt="">
@@ -83,9 +87,11 @@
                         <div>{{ item.price * item.amount | price }}</div>
                         <div>{{ data.status > 10 ? item.price * item.amount : 0  | price}}</div>
                     </div>
+                    }
                 </div>
            </div>
         </div>
+        }
     </div>
 </div>
 

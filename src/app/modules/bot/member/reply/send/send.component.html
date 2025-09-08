@@ -10,7 +10,9 @@
             <label for="">接收者</label>
             <div>
                 <select class="form-control" [(ngModel)]="data.to_type">
-                    <option *ngFor="let item of toTypeItems;let i = index" [value]="i">{{ item }}</option>
+                    @for (item of toTypeItems; track $index; let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                    }
                 </select>
                 <div [hidden]="data.to_type < 1">
                     <app-select-input [url]="selectUrl" [(ngModel)]="data.to" [formatFn]="formatUser"></app-select-input>

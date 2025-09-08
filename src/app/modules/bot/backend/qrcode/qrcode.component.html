@@ -39,14 +39,14 @@
                     <td>{{ item.type > 0 ? '永久' : '临时' }}</td>
                     <td>{{ item.scene_id || item.scene_str }}</td>
                     <td>
-                        <ng-container *ngIf="item.qr_url">
+                        @if (item.qr_url) {
                             <a [href]="item.qr_url" target="_blank">
                                 <img [src]="item.qr_url" width="80">
                             </a>
-                        </ng-container>
-                        <ng-container *ngIf="!item.url">
+                        }
+                        @if (!item.url) {
                             [未生成]
-                        </ng-container>
+                        }
                     </td>
                     <td>{{ item.expire_time }}</td>
                     <td>
@@ -87,22 +87,28 @@
                 <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type"></app-check-input>
             </div>
         </div>
-        <div class="input-group-control" *ngIf="editData.scene_type < 1">
+        @if (editData.scene_type < 1) {
+        <div class="input-group-control">
             <label for="">场景值</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.scene_str">
             </div>
         </div>
-        <div class="input-group-control" *ngIf="editData.scene_type == 1">
+        } @else if (editData.scene_type == 1) {
+        <div class="input-group-control">
             <label for="">场景值</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="editData.scene_id">
-                <div class="input-tip" *ngIf="editData.type">
+                @if (editData.type) {
+                <div class="input-tip">
                     区间为1~100000
                 </div>
+                }
             </div>
         </div>
-        <div class="input-group-control" *ngIf="!editData.type">
+        }
+        @if (!editData.type) {
+        <div class="input-group-control">
             <label for="">有效期</label>
             <div>
                 <input type="number" class="form-control" [(ngModel)]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">
@@ -111,5 +117,6 @@
                 </div>
             </div>
         </div>
+        }
     </div>
 </app-dialog-box>

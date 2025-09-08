@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <ng-container *ngIf="canReply; else elseTemplate">
+        @if (canReply) {
             <app-message-container [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
             <div class="message-tools">
                 <i class="iconfont icon-smile-o"></i>
@@ -56,8 +56,7 @@
                     <button class="btn btn-primary">发送</button>
                 </div>
             </div>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <div class="message-container">
                 <div class="time-line">2019-09-10</div>
                 邮件内容
@@ -65,7 +64,7 @@
             <div class="message-action">
                 <div class="btn btn-primary">领取</div>
             </div>
-        </ng-template>
+        }
         
     </div>
 </div>

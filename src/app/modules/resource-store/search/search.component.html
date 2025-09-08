@@ -139,7 +139,7 @@
                                                 @if (item.price > 0) {
                                                     {{ item.price | currency }}
                                                 } @else {
-                                                    Free
+                                                    <ng-container i18n>Free</ng-container>
                                                 }
                                             </p>
                                             <p class="sale" i18n>{{ item.download_count | numberFormat }} Sales</p>
@@ -181,7 +181,7 @@
                                 @if (item.price > 0) {
                                     {{ item.price | currency }}
                                 } @else {
-                                    Free
+                                    <ng-container i18n>Free</ng-container>
                                 }
                             </div>
                             <app-star></app-star>

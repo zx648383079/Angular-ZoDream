@@ -12,19 +12,23 @@
             </span>
             &lt;-
             数据表：
-            <span class="table-item" *ngFor="let item of srcTable;let i = index">
+            @for (item of srcTable; track $index; let i = $index) {
+            <span class="table-item">
                 {{ item.table }}
                 <i class="iconfont icon-close" (click)="tapRemoveTable(i)"></i>
             </span>
+            }
             <span class="iconfont icon-plus" (click)="tapAddTable(tableModal)"></span>
         </div>
         <div class="link-body">
-            <div class="link-item" *ngFor="let item of linkItems;let i = index">
+            @for (item of linkItems; track $index; let i = $index) {
+            <div class="link-item">
                 <span class="dist-column">{{ item.dist.label }}</span>
                 <i>&lt;-</i>
                 <span class="src-column" (click)="tapColumn(columnModal, item)">{{ item.src ? item.src.label : '请设置' }}</span>
                 <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
             </div>
+            }
         </div>
 
         <div class="btn-group">
@@ -53,18 +57,20 @@
                 <ng-select [(ngModel)]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()"></ng-select>
             </div>
         </div>
-        <div class="input-group-control" *ngIf="tableData.type > 1">
+        @if (tableData.type > 1) {
+        <div class="input-group-control">
             <label for="">列</label>
             <div>
                 <ng-select [(ngModel)]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value"></ng-select>
             </div>
         </div>
-        <div class="input-group-control"  *ngIf="tableData.type > 1">
+        <div class="input-group-control">
             <label for="">外接列</label>
             <div>
                 <ng-select [(ngModel)]="tableData.foreign" [items]="srcColumnItems" bindLabel="label"></ng-select>
             </div>
         </div>
+        }
     </div>
 </app-dialog-box>
 
@@ -80,7 +86,9 @@
                     <label for="">类型</label>
                     <div>
                         <select class="form-control" [(ngModel)]="columnData.valueType">
-                            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                            @for (item of typeItems; track $index) {
+                            <option [value]="item.value">{{ item.name }}</option>
+                            }
                         </select>
                     </div>
                 </div>
@@ -102,7 +110,9 @@
                     <label for="">附加类型</label>
                     <div>
                         <select class="form-control" [(ngModel)]="columnData.appendType">
-                            <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                            @for (item of typeItems; track $index) {
+                            <option [value]="item.value">{{ item.name }}</option>
+                            }
                         </select>
                     </div>
                 </div>

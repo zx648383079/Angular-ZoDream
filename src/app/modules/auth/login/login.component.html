@@ -12,13 +12,15 @@
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
-        <div class="input-group-control captcha-input" *ngIf="captchaImage" [class]="{error: captcha.invalid}">
+        @if (captchaImage) {
+        <div class="input-group-control captcha-input" [class]="{error: captcha.invalid}">
             <input type="text" appFocusNext formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
         </div>
+        }
 
         <!-- <div class="input-group-control code-input" [class]="{error: password.invalid}">
             <input type="text" formControlName="code" i18n-placeholder placeholder="lease enter verification code">
@@ -62,7 +64,8 @@
   </div>
 </form>
 
-<div class="form-icon-control auth-panel" *ngIf="mode == 8">
+@if (mode == 8) {
+<div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Two-factor authentication</div>
     <div class="input-group-control">
         <input type="text" i18n-placeholder placeholder="Authentication code" [(ngModel)]="twoFaCode">
@@ -79,8 +82,8 @@
     </div>
 
 </div>
-
-<div class="form-icon-control auth-panel" *ngIf="mode == 9">
+} @else if (mode == 9) {
+<div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Use a Recovery Code</div>
     <div class="input-group-control">
         <input type="text" i18n-placeholder placeholder="Recovery Code" [(ngModel)]="recoveryCode">
@@ -94,12 +97,16 @@
     </div>
 
 </div>
-
-<div class="login-oauth-box" *ngIf="openAuth">
+}
+@if (openAuth) {
+<div class="login-oauth-box">
     <div class="box-title" i18n>Sign in with</div>
     <a (click)="tapOAuth('qq')" i18n-title title="Sign in with QQ"><i class="iconfont icon-qq"></i></a>
     <a (click)="tapOAuth('wechat')" i18n-title title="Sign in with weChat"><i class="iconfont icon-wechat"></i></a>
     <a (click)="tapOAuth('weibo')" i18n-title title="Sign in with Weibo"><i class="iconfont icon-weibo"></i></a>
     <a (click)="tapOAuth('github')" i18n-title title="Sign in with Github"><i class="iconfont icon-github"></i></a>
-    <a (click)="tapWebAuthn()" i18n-title title="Sign in with WebAuthn" *ngIf="openWebAuthn"><i class="iconfont icon-fingerprint"></i></a>
+    @if (openWebAuthn) {
+    <a (click)="tapWebAuthn()" i18n-title title="Sign in with WebAuthn"><i class="iconfont icon-fingerprint"></i></a>
+    }
 </div>
+}

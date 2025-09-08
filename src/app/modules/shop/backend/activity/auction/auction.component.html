@@ -33,24 +33,22 @@
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>
-                        <ng-container *ngIf="item.goods; else elseTemplate">
+                        @if (item.goods) {
                             {{ item.goods.name }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             [-]
-                        </ng-template>
+                        }
                     </td>
                     <td>{{ item.name }}</td>
                     <td class="auto-hide">{{ item.start_at | timestamp }}</td>
                     <td class="auto-hide">{{ item.end_at | timestamp }}</td>
                     <td class="auto-hide">{{ item.configure.begin_price }}</td>
                     <td>
-                        <ng-container *ngIf="item.configure.fixed_price > 0; else elseTemplate">
+                        @if (item.configure.fixed_price > 0) {
                             {{ item.configure.fixed_price }}
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             -
-                        </ng-template>
+                        }
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">

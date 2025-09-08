@@ -59,8 +59,9 @@
     </div>
 </div>
 
-<div class="dialog-mask" *ngIf="modalVisible" (click)="modalClose()"></div>
-<div class="avatar-modal" *ngIf="modalVisible">
+@if (modalVisible) {
+<div class="dialog-mask" (click)="modalClose()"></div>
+<div class="avatar-modal">
     <div class="modal-body">
         <div class="card-image">
             <img src="" alt="">
@@ -158,3 +159,4 @@
         </div>
     </div>
 </div>
+}

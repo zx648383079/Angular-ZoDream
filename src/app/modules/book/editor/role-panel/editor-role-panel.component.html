@@ -8,11 +8,12 @@
         <i class="iconfont icon-search"></i>
     </div>
     <div class="panel-body">
-        <div class="role-item" *ngFor="let item of roleItems; let i = index">
+        @for (item of roleItems; track $index; let i = $index) {
+        <div class="role-item">
             <span>{{ item.name }}
-                <ng-container *ngIf="item.character">
+                @if (item.character) {
                     ({{ item.character }})
-                </ng-container>
+                }
             </span>
             <div class="action">
                 <i class="iconfont icon-edit" title="编辑" (click)="tapEditRole(roleModal, i)"></i>
@@ -20,34 +21,39 @@
                 <i class="iconfont icon-key" title="技能" (click)="openSubPanel(2, i)"></i>
             </div>
         </div>
-        <div class="panel-sub" *ngIf="subOpen == 1">
+        @if (subOpen == 1) {
+        <div class="panel-sub">
             <div class="panel-header">
                 <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
                 物品
                 <i class="iconfont icon-plus" title="添加物品" (click)="tapEditGoods(goodsModal)"></i>
             </div>
             <div class="panel-body">
-                <div class="role-item" *ngFor="let item of goodsItems;let i = index">
+                @for (item of goodsItems; track $index; let i = $index) {
+                <div class="role-item">
                     <span>{{ item.name }}x{{ item.amount }}</span>
                     <div class="action">
                         <i class="iconfont icon-edit" title="修改" (click)="tapEditGoods(goodsModal, i)"></i>
                         <i class="iconfont icon-trash" title="删除"  (click)="tapRemoveGoods(i)"></i>
                     </div>
                 </div>
+                }
             </div>
         </div>
-        <div class="panel-sub" *ngIf="subOpen == 2">
+        } @else if (subOpen == 2) {
+        <div class="panel-sub">
             <div class="panel-header">
                 <i class="iconfont icon-chevron-left" (click)="subOpen = 0"></i>
                 技能
                 <i class="iconfont icon-plus" title="添加技能" (click)="tapEditSkill(skillModal)"></i>
             </div>
             <div class="panel-body">
-                <div class="role-item" *ngFor="let item of skillItems; let i = index">
+                @for (item of skillItems; track $index; let i = $index) {
+                <div class="role-item">
                     <span>{{ item.name }}
-                        <ng-container *ngIf="item.level">
+                        @if (item.level) {
                             ({{ item.level }})
-                        </ng-container>
+                        }
                     </span>
                     <div class="action">
                         <i class="iconfont icon-arrow-up" title="升级" (click)="tapEditSkill(skillModal, i)"></i>
@@ -55,8 +61,11 @@
                         <i class="iconfont icon-trash" title="删除" (click)="tapRemoveSkill(i)"></i>
                     </div>
                 </div>
+                }
             </div>
         </div>
+        }
+        }
     </div>
 </div>
 
@@ -72,7 +81,7 @@
                 <input type="text" class="form-control" [(ngModel)]="roleData.name">
             </div>
         </div>
-        <ng-container *ngIf="roleData.type != 'link'">
+        @if (roleData.type != 'link') {
             <div class="input-group-control">
                 <label for="">头像</label>
                 <div>
@@ -91,7 +100,7 @@
                     <input type="text" class="form-control" [(ngModel)]="roleData.character" placeholder="主角/配角">
                 </div>
             </div>
-        </ng-container>
+        }
         
         <div class="input-group-control" [hidden]="roleData.type == 'new'">
             <label for="">与“{{ roleData.from }}”的关系</label>

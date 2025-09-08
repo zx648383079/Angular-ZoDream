@@ -9,43 +9,44 @@
             <div>
                 <input type="text" id="title" class="form-control title-input" formControlName="title" (change)="onTitleChange()">
                 <i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'title')"></i>
-                <div class="input-tip" *ngIf="sameItems.length > 0">
+                @if (sameItems.length > 0) {
+                <div class="input-tip">
                     存在{{ sameItems.length }}个相似题目
                     <a (click)="sameModal.open()">点击查看</a>
                 </div>
+                }
             </div>
         </div>
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                <select id="course_id" formControlName="course_id" class="form-control" (change)="onCourseChange()">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of courseItems">
+                    @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
                 <select formControlName="course_grade" class="form-control">
-                    <ng-container *ngFor="let item of gradeItems">
+                    @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
         <div class="input-group-control">
             <label for="article">关联素材</label>
             <div>
-                <ng-container *ngIf="material; else elseTemplate">
+                @if (material) {
                     <div class="media-item" (click)="tapMaterial(materialModal)">
                         <div class="title">【{{material.type|materialType}}】{{ material.title }}</div>
                         <div class="desc">{{ material.description }}</div>
                         <i class="iconfont icon-close" (click)="tapRemoveMaterial($event)"></i>
                     </div>
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     <div class="media-btn" (click)="tapMaterial(materialModal)">
                         <i class="iconfont icon-plus"></i>
                     </div>
-                </ng-template>
+                }
                 <div class="input-tip">可以不选，同一素材将合并成同一个大题下面的小题</div>
             </div>
         </div>
@@ -64,7 +65,7 @@
         <div class="input-group-control">
             <label for="content">内容<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'content')"></i></label>
             <div>
-                <app-exam-editor formControlName="content" (ngModelChange)="onTypeChange()"></app-exam-editor>
+                <app-exam-editor formControlName="content" (change)="onTypeChange()"></app-exam-editor>
             </div>
         </div>
         <div class="input-group-control">
@@ -78,26 +79,30 @@
             <label for="type">类型</label>
             <div>
                 <select id="type" class="form-control" formControlName="type" (change)="onTypeChange()">
-                    <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+                    @for (item of typeItems; track $index; let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                    }
                 </select>
             </div>
         </div>
         <div class="option-box">
-            <div class="input-group-control" *ngIf="typeValue < 2">
+            @if (typeValue < 2) {
+            <div class="input-group-control">
                 <label for="">选项</label>
                 <div>
-                    <ng-container *ngFor="let item of optionItems.controls; let i = index">
+                    @for (item of optionItems.controls; track $index; let i = $index) {
                         <div class="option-item" [formGroup]="item">
                             <div class="option-value">
-                                <ng-container *ngIf="item.get('type').value < 1; else elseTemplate">
+                                @if (item.get('type').value < 1) {
                                     <input type="text" class="form-control" formControlName="content">
-                                </ng-container>
-                                <ng-template #elseTemplate>
+                                } @else {
                                     <app-file-input formControlName="content"></app-file-input>
-                                </ng-template>
+                                }
                             </div>
                             <select class="form-control" formControlName="type">
-                                <option *ngFor="let item of optionTypeItems;let j = index" [value]="j">{{ item }}</option>
+                                @for (item of optionTypeItems; track $index; let j = $index) {
+                                <option [value]="j">{{ item }}</option>
+                                }
                             </select>
                             <select class="form-control" formControlName="is_right">
                                 <option [value]="0">错</option>
@@ -107,13 +112,14 @@
                                 <i class="iconfont icon-close"></i>
                             </a>
                         </div>
-                    </ng-container>
+                    }
                     <a (click)="tapAddItem()" class="add-btn">
                         <i class="iconfont icon-plus"></i>
                     </a>
                 </div>
             </div>
-            <div class="input-group-control" *ngIf="typeValue == 2">
+            } @else if (typeValue == 2) {
+            <div class="input-group-control">
                 <label for="answer">答案</label>
                 <div>
                     <select id="answer" class="form-control" formControlName="answer">
@@ -122,18 +128,20 @@
                     </select>
                 </div>
             </div>
-            <div class="input-group-control" *ngIf="typeValue == 3">
+            } @else if (typeValue == 3) {
+            <div class="input-group-control">
                 <label for="answer">答案<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'answer')"></i></label>
                 <div>
                     <textarea id="answer" class="form-control" formControlName="answer"></textarea>
                     <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“&#64;1+&#64;2*3”等公式，填空题为一行一个</div>
                 </div>
             </div>
-            <div class="input-group-control" *ngIf="typeValue == 4">
+            } @else if (typeValue == 4) {
+            <div class="input-group-control">
                 <label for="answer">答案</label>
                 <div>
                     <div>
-                        <ng-container *ngFor="let item of optionItems.controls; let i = index">
+                        @for (item of optionItems.controls; track $index; let i = $index) {
                             <div class="option-item" [formGroup]="item">
                                 <div class="option-value">
                                     <input type="text" class="form-control" formControlName="content" placeholder="请输入正确的答案">
@@ -142,7 +150,7 @@
                                     <i class="iconfont icon-close"></i>
                                 </a>
                             </div>
-                        </ng-container>
+                        }
                         <a (click)="tapAddItem()" class="add-btn">
                             <i class="iconfont icon-plus"></i>
                         </a>
@@ -150,10 +158,10 @@
                     <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“&#64;1+&#64;2*3”等公式</div>
                 </div>
             </div>
-            <ng-container *ngIf="typeValue == 5">
+            } @else if (typeValue == 5) {
                 <div>子题目</div>
                 <app-question-children [(value)]="childrenItems"></app-question-children>
-            </ng-container>
+            }
             
             <div class="input-group-control">
                 <label for="analysis">解析</label>
@@ -184,11 +192,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of sameItems">
+            @for (item of sameItems; track $index) {
+            <tr>
                 <td>{{ item.id }}</td>
                 <td>【{{ item.type | questionType }}】{{ item.title }}</td>
                 <td>{{ item.course?.name }}</td>
             </tr>
+            }
         </tbody>
     </table>
 </app-dialog-box>

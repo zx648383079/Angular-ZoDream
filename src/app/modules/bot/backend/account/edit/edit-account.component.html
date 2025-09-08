@@ -30,7 +30,9 @@
             <label for="type">Bot类型</label>
             <div>
                 <select class="form-control" id="type" formControlName="type">
-                    <option *ngFor="let item of typeItems;let i = index" [value]="i">{{ item }}</option>
+                    @for (item of typeItems; track $index; let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                    }
                 </select>
             </div>
         </div>

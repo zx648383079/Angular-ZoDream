@@ -3,17 +3,20 @@
         <i class="iconfont icon-search"></i>
     </a>
 </div>
-<div class="group-row" *ngFor="let cat of items">
+@for (cat of items; track $index) {
+<div class="group-row">
     <div class="row-header">
         <div class="item-name">{{ cat.name }}</div>
         <ul class="item-more">
-            <li *ngFor="let item of cat.recommend_items">
+            @for (item of cat.recommend_items; track $index) {
+            <li>
                 <a  [routerLink]="[item.id]">{{ item.title }}</a>
             </li>
+            }
         </ul>
     </div>
     <div class="row-body">
-        <ng-container *ngFor="let item of cat.new_items">
+        @for (item of cat.new_items; track $index) {
             <a class="movie-item" [routerLink]="[item.id]">
                 <div class="item-image">
                     <img [src]="item.cover | asset" alt="">
@@ -24,7 +27,7 @@
                     <app-star></app-star>
                 </div>
             </a>
-        </ng-container>
+        }
         
     </div>
     <a class="row-more" routerLink="../../search" [queryParams]="{category: cat.id}" >
@@ -34,3 +37,4 @@
         <div class="more-label">更多</div>
     </a>
 </div>
+}

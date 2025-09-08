@@ -5,38 +5,67 @@
         @for (item of items; track $index) {
             <div class="input-group-control">
             <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
-            <div *ngIf="item.type == 'text'">
-                <input type="text" class="form-control"  [(ngModel)]="item.value">
-            </div>
-            <div *ngIf="item.type == 'textarea'">
-                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-            </div>
-            <div *ngIf="item.type == 'select'">
-                <select class="form-control"  [(ngModel)]="item.value">
-                    <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
-                </select>
-            </div>
-            <div *ngIf="item.type == 'radio'">
-                <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
-            </div>
-            <div *ngIf="item.type == 'checkbox'">
-                <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
-            </div>
-            <div *ngIf="item.type == 'switch'">
-                <app-switch [(ngModel)]="item.value"></app-switch>
-            </div>
-            <div *ngIf="item.type == 'image'">
-                <app-file-input [(ngModel)]="item.value"></app-file-input>
-            </div>
-            <div *ngIf="item.type == 'file'">
-                <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
-            </div>
-            <div *ngIf="item.type == 'editor' || item.type == 'basic_editor'">
-                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-            </div>
-            <div *ngIf="item.type == 'json'">
-                <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
-            </div>
+            @switch (item.type) {
+                @case ('text') {
+                    <div>
+                        <input type="text" class="form-control"  [(ngModel)]="item.value">
+                    </div>
+                }
+                @case ('textarea') {
+                    <div>
+                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                    </div>
+                }
+                @case ('select') {
+                    <div>
+                        <select class="form-control"  [(ngModel)]="item.value">
+                            @for (val of item.items; track $index) {
+                            <option [value]="val">{{ val }}</option>
+                            }
+                        </select>
+                    </div>
+                }
+                @case ('radio') {
+                    <div>
+                        <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                    </div>
+                }
+                @case ('checkbox') {
+                    <div>
+                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                    </div>
+                }
+                @case ('switch') {
+                    <div>
+                        <app-switch [(ngModel)]="item.value"></app-switch>
+                    </div>
+                }
+                @case ('image') {
+                    <div>
+                        <app-file-input [(ngModel)]="item.value"></app-file-input>
+                    </div>
+                }
+                @case ('file') {
+                    <div>
+                        <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                    </div>
+                }
+                @case ('editor') {
+                    <div>
+                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                    </div>
+                }
+                @case ('basic_editor') {
+                    <div>
+                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                    </div>
+                }
+                @case ('json') {
+                    <div>
+                       <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                    </div>
+                }
+            }
         </div>
         }
     </div>
@@ -64,7 +93,9 @@
             <div>
                 <select id="field_type" class="form-control" [(ngModel)]="editData.type">
                     
-                    <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of typeItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
         
             </div>
@@ -93,6 +124,8 @@
     </div>
     <ng-container name="footer">
         <button type="button" class="btn btn-primary" (click)="optionModal.close('Save click')">确定</button>
-        <button type="button" *ngIf="editData.id > 0" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+        @if (editData.id > 0) {
+            <button type="button" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
+        }
     </ng-container>
 </app-dialog-box>

@@ -8,9 +8,9 @@
 </div>
 <div class="tab-bar">
     <a class="item" [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
-    <ng-container *ngFor="let item of categories">
+    @for (item of categories; track $index) {
         <a class="item" [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
-    </ng-container>
+    }
 </div>
 
 @for (item of items; track $index) {
@@ -21,16 +21,15 @@
         <div class="brief">
             {{ item.brief }}
         </div>
-        <ng-container *ngIf="item.status < 0; else elseTemplate">
+        @if (item.status < 0) {
             <a class="btn btn-info" (click)="tapApply(item)">
                 <span i18n>Apply</span>
             </a>
-        </ng-container>
-        <ng-template #elseTemplate>
+        } @else {
             <a class="btn btn-success">
                 <span i18n>Applied</span>
             </a>
-        </ng-template>
+        }
         
         
     </div>

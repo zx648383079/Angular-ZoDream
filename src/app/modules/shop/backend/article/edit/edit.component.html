@@ -6,14 +6,18 @@
                 <label for="title">标题</label>
                 <div>
                     <input type="text" id="title" class="form-control" formControlName="title">
-                    <div class="input-tip" *ngIf="form.get('title').invalid">请输入标题</div>
+                    @if (form.get('title').invalid) {
+                    <div class="input-tip">请输入标题</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="cat_id">分类</label>
                 <div>
                     <select id="cat_id" formControlName="cat_id" class="form-control" >
-                        <option *ngFor="let item of categories" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of categories; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
                     </select>
 
                 </div>

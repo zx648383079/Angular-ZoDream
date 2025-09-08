@@ -11,16 +11,16 @@
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                <select id="course_id" formControlName="course_id" class="form-control" (change)="onCourseChange()">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of courseItems">
+                    @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
                 <select formControlName="course_grade" class="form-control">
-                    <ng-container *ngFor="let item of gradeItems">
+                    @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>

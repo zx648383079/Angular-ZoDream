@@ -48,8 +48,9 @@
 
 <app-action-button class="btn btn-primary">{{ tabIndex < 1 ? '充值' : '提现' }}</app-action-button>
 
-<div class="dialog-mask" *ngIf="modalVisible"></div>
-<div class="rule-dialog" *ngIf="modalVisible">
+@if (modalVisible) {
+<div class="dialog-mask"></div>
+<div class="rule-dialog">
     <div class="dialog-header">
         <span>规则</span>
         <div class="dialog-close">
@@ -65,3 +66,4 @@
         <p>提现，80 = 1 </p>
     </div>
 </div>
+}

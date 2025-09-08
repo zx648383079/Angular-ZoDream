@@ -2,10 +2,11 @@
     <app-top-bar></app-top-bar>
     <div class="header-main" appScrollFixed="top-fixed">
         <div class="container">
-            <div class="header-logo" *ngIf="site">
+            @if (site) {
+            <div class="header-logo">
                 <img [src]="site.logo" alt="">
             </div>
-            
+            }
             <ul class="header-nav">
                 <li>
                     <a routerLink="./" i18n>Home</a>
@@ -19,40 +20,58 @@
                 <li>
                     <a routerLink="./activity/coupon" i18n>Coupon</a>
                 </li>
-                <li *ngFor="let item of categories">
+                @for (item of categories; track $index) {
+                <li>
                     <a [routerLink]="'./category/' + item.id">{{ item.name }}</a>
-                    <div class="nav-dropdown" *ngIf="item.children">
-                        <div class="nav-column" *ngFor="let column of item.children">
+                    @if (item.children) {
+                    <div class="nav-dropdown">
+                        @for (column of item.children; track $index) {
+                        <div class="nav-column">
                             <div class="nav-title">
                                 <a >{{ column.name }}</a>
                             </div>
-                            <div *ngIf="column.children">
-                                <div class="nav-item" *ngFor="let child of column.children">
+                            @if (column.children) {
+                            <div>
+                                @for (child of column.children; track $index) {
+                                <div class="nav-item">
                                     <img [src]="child.icon" alt="">
                                     <span><a >{{ child.name }}</a></span>
                                 </div>
+                                }
                             </div>
+                            }
                         </div>
+                        }
                     </div>
+                    }
                 </li>
+                }
             </ul>
             <div class="header-search">
                 <input type="text" i18n-placeholder placeholder="Search ..." [(ngModel)]="keywords" (ngModelChange)="onKeywordsChange()" (keypress)="onSearchKeyDown($event)">
                 <i class="iconfont icon-search" (click)="tapSearch()"></i>
-                <div class="search-hot" *ngIf="hotItems.length > 0">
+                @if (hotItems.length > 0) {
+                <div class="search-hot">
                     <ul>
-                        <li *ngFor="let item of hotItems" (click)="tapSearch(item)">
+                        @for (item of hotItems; track $index) {
+                        <li (click)="tapSearch(item)">
                             {{ item }}
                         </li>
+                        }
                     </ul>
                 </div>
-                <div class="search-tip" *ngIf="tipItems.length > 0">
+                }
+                @if (tipItems.length > 0) {
+                <div class="search-tip">
                     <ul>
-                        <li *ngFor="let item of tipItems" (click)="tapSearch(item)">
+                        @for (item of tipItems; track $index) {
+                        <li (click)="tapSearch(item)">
                             {{ item }}
                         </li>
+                        }
                     </ul>
                 </div>
+                }
             </div>
             <div class="header-cart">
                 <app-cart-dialog></app-cart-dialog>

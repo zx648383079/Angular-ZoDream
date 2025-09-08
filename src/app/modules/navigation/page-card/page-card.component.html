@@ -1,4 +1,6 @@
-<div class="dialog-mask" *ngIf="visible"></div>
+@if (visible) {
+<div class="dialog-mask"></div>
+}
 <div class="dialog-box card-dialog" [@dialogOpen]="visible ? 'open' : 'closed'">
     <div class="dialog-body">
         <label class="card-cover" for="card-logo-input">

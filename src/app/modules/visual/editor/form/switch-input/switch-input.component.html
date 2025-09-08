@@ -1,3 +1,5 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
+@if (header) {
+<label >{{ header }}</label>
+}
 <app-switch [(ngModel)]="value"></app-switch>

@@ -2,7 +2,8 @@
     <div class="box-header">
         <i class="iconfont icon-arrow-left" (click)="tapBack()"></i>
         {{ account?.name }}
-        <div class="header-right" *ngIf="account">
+        @if (account) {
+        <div class="header-right">
             <i class="iconfont icon-ellipsis-v"></i>
             <div class="sub-box">
                 <div class="qr">
@@ -12,13 +13,16 @@
                 <div class="desc">{{ account.description }}</div>
             </div>
         </div>
+        }
     </div>
     <app-message-container class="scroll-body" [items]="messageItems" [hasMore]="false" [currentId]="user.id" (tapped)="onBlockTap($event)"></app-message-container>
     <div class="box-footer toggle-input" [ngClass]="{'toggle-input': footerIndex > 0, 'toggle-more': footerIndex == 2}">
         <div class="input-box">
-            <div *ngIf="menuItems.length > 0" (click)="footerIndex = 0">
+            @if (menuItems.length > 0) {
+            <div (click)="footerIndex = 0">
                 <i class="iconfont icon-th-list"></i>
             </div>
+            }
             <textarea autocomplete="off" [(ngModel)]="content" (keydown)="onKeydown($event)"></textarea>
             <div (click)="toggleMore()">
                 <i class="iconfont icon-ellipsis-h"></i>
@@ -43,14 +47,18 @@
                 <i class="iconfont icon-keyboard"></i>
             </div>
             <ul class="menu-body">
-                <ng-container *ngFor="let item of menuItems">
+                @for (item of menuItems; track $index) {
                     <li class="menu-item" [ngClass]="{active: item.open}">
                         <span (click)="tapMenu(item)">{{ item.name }}</span>
-                        <ul *ngIf="item.children && item.children.length > 0">
-                            <li *ngFor="let it of item.children"  (click)="tapMenu(it)">{{ it.name }}</li>
+                        @if (item.children && item.children.length > 0) {
+                        <ul>
+                            @for (it of item.children; track $index) {
+                            <li (click)="tapMenu(it)">{{ it.name }}</li>
+                            }
                         </ul>
+                        }
                     </li>
-                </ng-container>
+                }
             </ul>
         </div>
     </div>

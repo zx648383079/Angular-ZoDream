@@ -16,20 +16,20 @@
         </div>
         <div class="item-body">
             <div class="item-name">【{{ item.name }}】
-                <ng-container *ngIf="item.grade">
+                @if (item.grade) {
                     ({{ item.grade }}级)
-                </ng-container>
+                }
             </div>
             <div class="item-meta">
-                <ng-container *ngFor="let it of item.boss_items">
+                @for (it of item.boss_items; track $index) {
                   <span>{{ it }}</span>
-                </ng-container>
+                }
             </div>
             <div class="item-output">
                 <span>产出：</span>
-                <ng-container *ngFor="let it of item.output_items">
+                @for (it of item.output_items; track $index) {
                     <a href="">{{ item.name }}</a>
-                </ng-container>
+                }
             </div>
         </div>
         <div class="item-action">

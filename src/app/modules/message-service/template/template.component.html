@@ -15,9 +15,9 @@
                     <label for="type">类型</label>
                     <select name="type" [ngModel]="queries.type" class="form-control">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of typeItems">
+                    @for (item of typeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

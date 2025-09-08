@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="panel-container book-box" *ngIf="data">
+    @if (data) {
+    <div class="panel-container book-box">
         <div class="row">
             <div class="col-md-3">
                 <div class="cover">
@@ -44,7 +45,7 @@
             </div>
         </div>
     </div>
-
+    }
     <div class="panel-container chapter-box">
         <app-chapter-catalog [items]="chapterItems" (selected)="tapChapter($event)"></app-chapter-catalog>
     </div>

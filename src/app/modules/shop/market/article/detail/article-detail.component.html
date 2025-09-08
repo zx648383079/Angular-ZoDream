@@ -1,8 +1,11 @@
-<div class="article-page" *ngIf="data">
+@if (data) {
+<div class="article-page">
     <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
-            <a class="breadcrumb-item" *ngIf="data.category" [routerLink]="'../' + data.cat_id">{{ data.category.name }}</a>
+            @if (data.category) {
+            <a class="breadcrumb-item" [routerLink]="'../' + data.cat_id">{{ data.category.name }}</a>
+            }
             <span class="breadcrumb-item active">{{ data.title }}</span>
         </nav>
     </div>
@@ -10,9 +13,11 @@
         <div>
             <div class="menu-box">
                 <div class="menu-group">
-                    <div class="menu-name" *ngIf="data.category">
+                    @if (data.category) {
+                    <div class="menu-name">
                         {{ data.category.name }}
                     </div>
+                    }
                     <ul>
                         <li class="active">
                             <a>{{ data.title }}</a>
@@ -30,3 +35,4 @@
         </div>
     </div>
 </div>
+}

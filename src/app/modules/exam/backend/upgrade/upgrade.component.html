@@ -15,7 +15,9 @@
                     <label>科目</label>
                     <select name="course" [ngModel]="queries.course" class="form-control">
                         <option [value]="0">请选择</option>
-                        <option *ngFor="let item of courseItems" [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        @for (item of courseItems; track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

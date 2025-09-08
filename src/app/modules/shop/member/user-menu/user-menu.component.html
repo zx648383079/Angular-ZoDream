@@ -1,14 +1,16 @@
 <div class="menu-box">
-    <div class="menu-group" *ngFor="let group of items">
+    @for (group of items; track $index) {
+    <div class="menu-group">
         <div class="menu-name">
             {{ group.name }}
         </div>
         <ul>
-            <ng-container *ngFor="let item of group.children">
+            @for (item of group.children; track $index) {
                 <li [ngClass]="{active: item.active}" (click)="tapNav(item)">
                     <a [routerLink]="item.url">{{ item.name }}</a>
                 </li>
-            </ng-container>
+            }
         </ul>
     </div>
+    }
 </div>

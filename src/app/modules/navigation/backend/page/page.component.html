@@ -77,10 +77,12 @@
         <div class="input-group-control">
             <input class="form-control" [(ngModel)]="editData.link" placeholder="请输入网址" (blur)="onLinkBlur()">
         </div>
-        <div class="input-tip" *ngIf="editExistData" title="已存在相同网址">
+        @if (editExistData) {
+        <div class="input-tip" title="已存在相同网址">
             <i class="iconfont icon-close-circle"></i>
             <a [href]="editExistData.link" target="_blank">{{ editExistData.title }}</a>
         </div>
+        }
     </div>
     <div class="form-group">
         <label>关键词</label>

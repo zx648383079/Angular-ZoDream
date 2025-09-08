@@ -1,14 +1,25 @@
-<div class="container-fluid" *ngIf="data">
+@if (data) {
+<div class="container-fluid">
     <div class="progress-time-bar">
         <div>
             <span [ngStyle]="timeBarStyle"></span>
         </div>
-        <span [ngClass]="{active: timeIndex > 0}">待付款 <i *ngIf="data.created_at">{{ data.created_at }}</i>
+        @if (data.created_at) {
+        <span [ngClass]="{active: timeIndex > 0}">待付款 <i>{{ data.created_at }}</i>
         </span>
-        <span [ngClass]="{active: timeIndex > 1}">待发货<i *ngIf="data.pay_at">{{ data.pay_at }}</i></span>
-        <span [ngClass]="{active: timeIndex > 2}">待收货<i *ngIf="data.shipping_at">{{ data.shipping_at }}</i></span>
-        <span [ngClass]="{active: timeIndex > 3}">待评价<i *ngIf="data.receive_at">{{ data.receive_at }}</i></span>
-        <span [ngClass]="{active: timeIndex > 4}">已完成<i *ngIf="data.finish_at">{{ data.finish_at }}</i></span>
+        }
+        @if (data.pay_at) {
+        <span [ngClass]="{active: timeIndex > 1}">待发货<i>{{ data.pay_at }}</i></span>
+        }
+        @if (data.shipping_at) {
+        <span [ngClass]="{active: timeIndex > 2}">待收货<i>{{ data.shipping_at }}</i></span>
+        }
+        @if (data.receive_at) {
+        <span [ngClass]="{active: timeIndex > 3}">待评价<i>{{ data.receive_at }}</i></span>
+        }
+        @if (data.finish_at) {
+        <span [ngClass]="{active: timeIndex > 4}">已完成<i>{{ data.finish_at }}</i></span>
+        }
     </div>
 
     <app-panel title="订单信息">
@@ -16,7 +27,9 @@
             <div class="col-md-3">
                 <p>订单号：{{ data.series_number }}</p>
                 <p>订单状态：{{ data.status_label }}</p>
-                <p *ngIf="data.pay_at">付款时间：{{ data.pay_at }}</p>
+                @if (data.pay_at) {
+                <p>付款时间：{{ data.pay_at }}</p>
+                }
                 <p>下单时间：{{ data.created_at }}</p>
             </div>
             <div class="col-md-3">
@@ -34,12 +47,14 @@
                 <p>积分抵扣： 0</p>
             </div>
         </div>
-        <div class="align-center" *ngIf="timeIndex == 2">
+        @if (timeIndex == 2) {
+        <div class="align-center">
             <div class="btn-group">
                 <a class="btn btn-info" (click)="tapShip(shippingModal)">我要发货</a>
                 <a class="btn btn-danger" (click)="tapRefund(refundModal)">退款</a>
             </div>
         </div>
+        }
     </app-panel>
     
     <div class="panel-container">
@@ -98,7 +113,9 @@
                     </div>
                     <div class="btn-group">
                         <app-action-button class="btn btn-primary" (tapped)="tapOperate($event, 'remark')">保存</app-action-button>
-                        <app-action-button class="btn btn-danger" *ngIf="data.status == 10" (tapped)="tapOperate($event, 'pay')">支付</app-action-button>
+                        @if (data.status == 10) {
+                        <app-action-button class="btn btn-danger" (tapped)="tapOperate($event, 'pay')">支付</app-action-button>
+                        }
                         <app-action-button class="btn btn-info"  (tapped)="tapOperate($event, 'cancel')">取消订单</app-action-button>
                     </div>
                 </div>
@@ -182,14 +199,16 @@
         </div>
     </div>
 </div>
-
+}
 <app-dialog-box #refundModal title="订单退款" confirmText="确认提交">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="">退款方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="refundData.refund_type">
-                    <option *ngFor="let item of refundTypeItems; let i=index" [value]="i">{{ item }}</option>
+                    @for (item of refundTypeItems; track $index; let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -213,7 +232,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of shipData.goods">
+            @for (item of shipData.goods; track $index) {
+            <tr>
                 <td>
                     <img [src]="item.thumb" width="50" height="50" align="left">
                     <a href="">{{ item.name }}</a> <br>
@@ -226,6 +246,8 @@
                     <input type="number" class="form-control" [(ngModel)]="item.ship_amount">
                 </td>
             </tr>
+            }
+            
         </tbody>
     </table>
     <div class="form-table-control">
@@ -233,7 +255,10 @@
             <label for="">物流方式</label>
             <div>
                 <select class="form-control" [(ngModel)]="shipData.shipping_id">
-                    <option *ngFor="let item of shippingItems" [value]="item.id">{{ item.name }}</option>
+                    @for (item of shippingItems; track $index) {
+                        <option [value]="item.id">{{ item.name }}</option>
+                    }
+                    
                 </select>
             </div>
         </div>

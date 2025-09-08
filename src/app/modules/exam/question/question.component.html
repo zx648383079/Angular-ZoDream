@@ -8,13 +8,16 @@
                 Home
             </a>
         </li>
-        <li class="breadcrumb-item active" *ngIf="course">
+        @if (course) {
+        <li class="breadcrumb-item active">
             {{ course.name }}
         </li>
+        }
     </ul>
 </div>
 
-<div class="container" *ngIf="data">
+@if (data) {
+<div class="container">
     <div class="panel-container">
         <div class="question-item-box">
             <app-question-input [(value)]="data" [editable]="editable"></app-question-input>
@@ -22,9 +25,13 @@
         <div class="tool-bar">
             <div class="btn-bar">
                 <div class="btn-group">
-                    <a class="btn btn-primary" *ngIf="cardIndex > 0" (click)="tapPrevious()">上一题</a>
+                    @if (cardIndex > 0) {
+                    <a class="btn btn-primary" (click)="tapPrevious()">上一题</a>
+                    }
                     <a class="btn btn-danger" (click)="tapCheck()">验证</a>
-                    <a class="btn btn-primary" *ngIf="cardIndex < cardItems.length - 1" (click)="tapNext()">下一题</a>
+                    @if (cardIndex < cardItems.length - 1) {
+                    <a class="btn btn-primary" (click)="tapNext()">下一题</a>
+                    }
                 </div>
                 <div class="btn-group pull-right">
                     <button class="btn btn-info" (click)="cardVisiable = !cardVisiable">{{ cardVisiable ? '隐藏' : '显示' }}答题卡</button>
@@ -34,7 +41,8 @@
         </div>
     </div>
     
-    <div class="panel analysis-panel" *ngIf="analysisVisiable">
+    @if (analysisVisiable) {
+    <div class="panel analysis-panel">
         <div class="panel-header">
             题目解析
         </div>
@@ -42,18 +50,22 @@
             <app-math-mark [content]="data.analysis || '暂无解析'"></app-math-mark>
         </div>
     </div>
-    <div class="panel sheet-panel" *ngIf="cardVisiable">
+    }
+    @if (cardVisiable) {
+    <div class="panel sheet-panel">
         <div class="panel-header">
             答题卡
         </div>
         <div class="panel-body">
             <ul>
-                <ng-container *ngFor="let item of cardItems; let i = index">
+                @for (item of cardItems; track $index; let i = $index) {
                     <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                         <a (click)="tapCard(i)">{{ item.order }}</a>
                     </li>
-                </ng-container>
+                }
             </ul>
         </div>
     </div>
+    }
 </div>
+}

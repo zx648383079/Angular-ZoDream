@@ -23,41 +23,60 @@
                 <app-switch id="is_main" formControlName="is_main"></app-switch>
             </div>
         </div>
-        <div *ngIf="!data || data.is_system < 1">
+        @if (!data || data.is_system < 1) {
+        <div>
             <div class="input-group-control">
                 <label for="type">类型</label>
                 <div>
-                    <select class="form-control" id="type" formControlName="type" (ngModelChange)="onTypeChange()">
-                        <option *ngFor="let item of typeItems" [value]="item.value">{{ item.name }}</option>
+                    <select class="form-control" id="type" formControlName="type" (change)="onTypeChange()">
+                        @for (item of typeItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
             </div>
             <div class="option-box">
-                <ng-container *ngFor="let item of optionItems">
+                @for (item of optionItems; track $index) {
                     <div class="input-group-control">
                         <label>{{ item.label }}</label>
-                        <div *ngIf="item.type == 'text'">
-                            <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div *ngIf="item.type == 'textarea'">
-                            <textarea class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
-                        </div>
-                        <div *ngIf="item.type == 'select'">
-                            <select class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let val of item.items" [value]="val">{{ val }}</option>
-                            </select>
-                        </div>
-                        <div *ngIf="item.type == 'radio'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'checkbox'">
-                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
-                        </div>
-                        <div *ngIf="item.type == 'switch'">
-                            <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
-                        </div>
+                        @switch (item.type) {
+                            @case ('text') {
+                                <div>
+                                    <input type="text" class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            }
+                            @case ('textarea') {
+                                <div>
+                                    <textarea class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
+                                </div>
+                            }
+                            @case ('select') {
+                                <div>
+                                    <select class="form-control"  [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
+                                        @for (val of item.items; track $index) {
+                                        <option [value]="val">{{ val }}</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            @case ('radio') {
+                                <div>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
+                                </div>
+                            }
+                            @case ('checkbox') {
+                                <div>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
+                                </div>
+                            }
+                            @case ('switch') {
+                                <div>
+                                    <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
+                                </div>
+                            }
+                        }
                     </div>
-                </ng-container>
+                }
             </div>
             <div class="input-group-control">
                 <label for="is_required">是否必填</label>
@@ -117,7 +136,7 @@
                 </div>
             </div>
         </div>
-        
+        }
         <div class="btn-group">
             <button type="submit" class="btn btn-success">确认保存</button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>

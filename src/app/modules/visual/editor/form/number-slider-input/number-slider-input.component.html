@@ -4,10 +4,9 @@
         <label for="">{{ header }}</label>
         <input type="range">
     </div>
-    <ng-container *ngIf="hasUnit; else elseTemplate">
+    @if (hasUnit) {
         <app-editor-number-input></app-editor-number-input>
-    </ng-container>
-    <ng-template #elseTemplate>
+    } @else {
         <input type="number" class="form-control" size="4">
-    </ng-template>
+    }
 </div>

@@ -1,5 +1,8 @@
-<div class="dialog-mask" *ngIf="visible"></div>
-<div class="clone-dialog-container" *ngIf="visible">
+@if (visible) {
+<div class="dialog-mask" ></div>
+}
+@if (visible) {
+<div class="clone-dialog-container" >
     <div class="header-container">
         <p i18n>Soon to be cloned to the new site</p>
         <div class="source-item">
@@ -51,3 +54,4 @@
         </div>
     </div>
 </div>
+}

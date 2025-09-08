@@ -8,7 +8,8 @@
     </div>
     <a class="right-item" (click)="tapExit()">退出</a>
 </div>
-<div class="organize-body" *ngIf="tabIndex < 1">
+@if (tabIndex < 1) {
+<div class="organize-body">
     <h2>名称</h2>
 
     <div class="group-box">
@@ -29,16 +30,17 @@
 
 
     <div class="menu-bar">
-        <ng-container *ngFor="let item of bottomItems">
+        @for (item of bottomItems; track $index) {
             <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-                <ng-container *ngIf="item.count > 0">
+                @if (item.count > 0) {
                     ({{ item.count }})
-                </ng-container>
+                }
             </a>
-        </ng-container>
+        }
     </div>    
 </div>
-<div class="users-body" *ngIf="tabIndex == 1">
+} @else if (tabIndex == 1) {
+<div class="users-body">
     <div class="user-item">
         <div class="item-avatar">
             <img [src]="'assets/images/wap_logo.png' | asset" alt="">
@@ -53,10 +55,11 @@
         </div>
     </div>
 </div>
+}
 
-
-<div class="dialog-mask" *ngIf="modalVisible"></div>
-<div class="user-dialog" *ngIf="modalVisible">
+@if (modalVisible) {
+<div class="dialog-mask"></div>
+<div class="user-dialog">
     <div class="item-avatar">
         <img [src]="'assets/images/wap_logo.png' | asset" alt="">
     </div>
@@ -77,4 +80,4 @@
         <div class="btn btn-danger">剔除</div>
     </div>
 </div>
-
+}

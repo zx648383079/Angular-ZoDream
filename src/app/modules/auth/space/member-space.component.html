@@ -1,5 +1,6 @@
 <div class="container">
-    <div class="space-container" *ngIf="data">
+    @if (data) {
+    <div class="space-container">
         <div class="space-image">
             <img [src]="data.background|asset" alt="">
         </div>
@@ -9,37 +10,47 @@
             </div>
             <div class="user-info">
                 <div class="user-name">{{ data.name }}
-                    <i class="iconfont icon-shield" *ngIf="data.is_verified" i18n-title title="This user is verified"></i>
+                    @if (data.is_verified) {
+                    <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
+                    }
                 </div>
                 <div class="user-meta">uid: {{ data.id }}</div>
             </div>
-            <div class="space-action-bar" *ngIf="!authUser || data.id != authUser.id">
-                <a class="action-item" *ngIf="data.follow_status < 1" i18n-title title="Follow user" (click)="tapFollow()">
+            @if (!authUser || data.id != authUser.id) {
+            <div class="space-action-bar">
+                @if (data.follow_status < 1) {
+                <a class="action-item" i18n-title title="Follow user" (click)="tapFollow()">
                     <i class="iconfont icon-star-o"></i>
                     <ng-container i18n>Follow</ng-container>
                 </a>
-                <a class="action-item active" *ngIf="data.follow_status == 1" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow()">
+                } @else if (data.follow_status == 1) {
+                <a class="action-item active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow()">
                     <i class="iconfont icon-star"></i>
                     <ng-container i18n>Unfollow</ng-container>
                 </a>
-                <a class="action-item active" *ngIf="data.follow_status == 2" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow()">
+                } @else if (data.follow_status == 2) {
+                <a class="action-item active" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow()">
                     <i class="iconfont icon-exchange"></i>
                     <ng-container i18n>Unfollow</ng-container>
                 </a>
+                }
                 <a class="action-item" routerLink="../../user/message" [queryParams]="{user: data.id}">
                     <i class="iconfont icon-commenting"></i>
                 </a>
                 <div class="action-item">
                     <i class="iconfont icon-ellipsis-h"></i>
                     <div class="action-drop-bar">
-                        <a class="action-item" (click)="tapMark()" *ngIf="data.mark_status < 1">
+                        @if (data.mark_status < 1) {
+                        <a class="action-item" (click)="tapMark()">
                             <i class="iconfont icon-eye-slash"></i>
                             <span class="item-label" i18n>Marked user</span>
                         </a>
-                        <a class="action-item" (click)="tapMark()" *ngIf="data.mark_status > 0">
+                        } @else {
+                        <a class="action-item" (click)="tapMark()">
                             <i class="iconfont icon-eye"></i>
                             <span class="item-label" i18n>Unmark user</span>
                         </a>
+                        }
                         <a class="action-item" (click)="tapReport(reportModal)">
                             <i class="iconfont icon-exclamation-triangle"></i>
                             <span class="item-label" i18n>Report user</span>
@@ -47,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
         <div class="space-body">
             <div class="line-icon-item">
@@ -72,6 +84,7 @@
             </div>
         </div>
     </div>
+    }
 </div>
 
 <app-manage-dialog i18n-title title="Confirm to report the user?" i18n-placeholder placeholder="Please enter the reason" #reportModal>

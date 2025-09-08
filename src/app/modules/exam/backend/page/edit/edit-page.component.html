@@ -11,23 +11,23 @@
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" formControlName="course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                <select id="course_id" formControlName="course_id" class="form-control" (change)="onCourseChange()">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of courseItems">
+                    @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
                 <select formControlName="course_grade" class="form-control">
-                    <ng-container *ngFor="let item of gradeItems">
+                    @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
         <div class="input-group-control">
             <label for="rule_type">选题类型</label>
             <div>
-                <select id="rule_type" class="form-control" formControlName="rule_type" (ngModelChange)="onRuleChange()">
+                <select id="rule_type" class="form-control" formControlName="rule_type" (change)="onRuleChange()">
                     <option [value]="0">随机选题</option>
                     <option [value]="1">固定题库</option>
                 </select>
@@ -52,7 +52,8 @@
             </div>
         </div>
         <div class="rule-box">
-            <table class="table table-hover" *ngIf="ruleType < 1">
+            @if (ruleType < 1) {
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>科目</th>
@@ -63,15 +64,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of optionItems; let j = index">
+                    @for (item of optionItems; track $index; let j = $index) {
+                    <tr>
                         <td>
                             <select  class="form-control" [(ngModel)]="item.course" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
+                                @for (item of courseItems; track $index) {
+                                <option [value]="item.id">{{ item.name }}</option>
+                                }
                             </select>
                         </td>
                         <td>
                             <select  class="form-control" [(ngModel)]="item.type" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let item of typeItems; let i = index" [value]="i">{{ item }}</option>
+                                @for (item of typeItems; track $index; let i = $index) {
+                                <option [value]="i">{{ item }}</option>
+                                }
                             </select>
                         </td>
                         <td>
@@ -84,6 +90,7 @@
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
                         </td>
                     </tr>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>
@@ -93,7 +100,8 @@
                     </tr>
                 </tfoot>
             </table>
-            <table class="table table-hover" *ngIf="ruleType == 1">
+            } @else if (ruleType == 1) {
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>题目ID</th>
@@ -103,7 +111,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of optionItems; let j = index">
+                    @for (item of optionItems; track $index; let j = $index) {
+                    <tr>
                         <td>
                             {{ item.id }}
                         </td>
@@ -117,6 +126,7 @@
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
                         </td>
                     </tr>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>
@@ -126,6 +136,7 @@
                     </tr>
                 </tfoot>
             </table>
+            }
         </div>
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
@@ -146,7 +157,9 @@
                 <label for="course">科目</label>
                 <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>
-                    <option *ngFor="let item of courseItems" [value]="item.id">{{ item.name }}</option>
+                    @for (item of courseItems; track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                    }
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">搜索</button>
@@ -162,11 +175,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of dialogData.items" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+                @for (item of dialogData.items; track $index) {
+                <tr [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
                     <td>{{ item.id }}</td>
                     <td>【{{ item.type | questionType }}】{{ item.title }}</td>
                     <td>{{ item.course?.name }}</td>
                 </tr>
+                }
             </tbody>
         </table>
     

@@ -23,12 +23,16 @@
             <ng-container i18n>Service charge</ng-container>: ￥{{ item.order_amount }}
         </span>
     </div>
-    <div class="order-remark" *ngIf="item.remark">
-        <p class="line-item" *ngFor="let line of item.remark" >
+    @if (item.remark) {
+    <div class="order-remark">
+        @for (line of item.remark; track $index) {
+        <p class="line-item" >
             <span>{{ line.label }}</span>
             <span class="val">{{ line.value }}</span>
         </p>
+        }
     </div>
+    }
 </div>
 }
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>

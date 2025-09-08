@@ -14,9 +14,9 @@
             <div>
                 <select id="cat_id" formControlName="cat_id" class="form-control">
                     <option [value]="0">请选择</option>
-                    <ng-container *ngFor="let item of categories">
+                    @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
@@ -30,7 +30,9 @@
             <label for="classify">分级</label>
             <div>
                 <select id="classify" formControlName="classify" class="form-control">
-                    <option *ngFor="let item of classifyItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of classifyItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -56,7 +58,9 @@
             <label for="status">状态</label>
             <div>
                 <select id="status" formControlName="status" class="form-control">
-                    <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of statusItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

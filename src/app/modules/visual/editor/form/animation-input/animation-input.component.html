@@ -11,19 +11,25 @@
     <div class="control-inline-group">
         <label for="">延时</label>
         <select class="form-control" [(ngModel)]="value.delay">
-            <option *ngFor="let item of delayItems" [value]="item.value">{{ item.name }}</option>
+            @for (item of delayItems; track $index) {
+            <option [value]="item.value">{{ item.name }}</option>
+            }
         </select>
     </div>
     <div class="control-inline-group">
         <label for="">时长</label>
         <select class="form-control" [(ngModel)]="value.duration">
-            <option *ngFor="let item of durationItems" [value]="item.value">{{ item.name }}</option>
+            @for (item of durationItems; track $index) {
+            <option [value]="item.value">{{ item.name }}</option>
+            }
         </select>
     </div>
     <div class="control-inline-group">
         <label for="">重复</label>
         <select class="form-control" [(ngModel)]="value.loop">
-            <option *ngFor="let item of loopItems" [value]="item.value">{{ item.name }}</option>
+            @for (item of loopItems; track $index) {
+            <option [value]="item.value">{{ item.name }}</option>
+            }
         </select>
     </div>
 </div>

@@ -1,5 +1,7 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-<label *ngIf="header">{{ header }}</label>
+@if (header) {
+<label >{{ header }}</label>
+}
 <div class="control-row">
     <app-editor-number-input label="上"></app-editor-number-input>
     <app-editor-number-input label="右"></app-editor-number-input>

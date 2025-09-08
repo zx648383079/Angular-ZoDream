@@ -8,15 +8,17 @@
 </div>
 <div class="tab-bar">
     <a class="item" [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
-    <ng-container *ngFor="let item of categories">
+    @for (item of categories; track $index) {
         <a  class="item" [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
-    </ng-container>
+    }
 </div>
 
 @for (item of items; track $index) {
     <div class="service-item">
         <div class="title">
-            <span class="tag" *ngIf="item.category">[{{ item.category?.name }}]</span>
+            @if (item.category) {
+            <span class="tag">[{{ item.category?.name }}]</span>
+            }
             {{ item.name }}
         </div>
         <div class="brief">

@@ -65,7 +65,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of goodsItems;let i = index">
+                    @for (item of goodsItems; track $index; let i = $index) {
+                    <tr>
                         <td>
                             <img [src]="item.goods.thumb" width="50" height="50" align="left">
                             <a href="">{{ item.goods.name }}</a> <br>
@@ -85,6 +86,7 @@
                             <i class="iconfont icon-close" (click)="tapRemoveGoods(i)"></i>
                         </td>
                     </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -105,21 +107,21 @@
     <div class="step-body" [hidden]="stepIndex != 4">
         <div class="shipping-box">
             <h4>配送方式：</h4>
-            <ng-container *ngFor="let item of shippingItems">
+            @for (item of shippingItems; track $index) {
                 <span class="radio-label" [ngClass]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
                     <i class="iconfont" [ngClass]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
                     {{ item.name }}
                 </span>
-            </ng-container>
+            }
         </div>
         <div class="payment-box">
             <h4>支付方式：</h4>
-            <ng-container *ngFor="let item of paymentItems">
+            @for (item of paymentItems; track $index) {
                 <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
                     <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
                     {{ item.name }}
                 </span>
-            </ng-container>
+            }
         </div>
 
         <div class="btn-group">
@@ -127,13 +129,16 @@
             <app-action-button class="btn btn-primary" [disabled]="invalid" (tapped)="tapCheckout($event)">下一步</app-action-button>
         </div>
     </div>
-    <div class="step-body min-body" *ngIf="stepIndex > 4">
+    @if (stepIndex > 4) {
+    <div class="step-body min-body">
         <div class="step-tip">
             <i class="iconfont icon-check"></i>
             下单成功
         </div>
     </div>
-    <div class="amount-box" *ngIf="order">
+    }
+    @if (order) {
+    <div class="amount-box">
         <div>商品合计:
             <span class="price">￥{{ order.goods_amount || 0 }}</span>
         </div>
@@ -144,6 +149,7 @@
             <span class="price">￥{{ order.order_amount || 0 }}</span>
         </div>
     </div>
+    }
 </div>
 
 <app-search-dialog [multiple]="true" [propertyVisible]="true"></app-search-dialog>

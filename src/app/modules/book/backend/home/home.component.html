@@ -15,17 +15,17 @@
                     <label>分类</label>
                     <select name="category" [ngModel]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
-                        <ng-container *ngFor="let item of categories">
+                        @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <div class="input-group-control">
                     <label>分级</label>
                     <select name="classify" [ngModel]="queries.classify" class="form-control">
-                        <ng-container *ngFor="let item of classifyItems">
+                        @for (item of classifyItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
-                        </ng-container>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

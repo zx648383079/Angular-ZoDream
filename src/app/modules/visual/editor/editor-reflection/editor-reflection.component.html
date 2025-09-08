@@ -13,11 +13,13 @@
             <div class="cursor lb" (mousedown)="onMoveLb($event)"></div>
             <div class="cursor l" (mousedown)="onMoveL($event)"></div>
         </div>
-        <div class="event-container" *ngIf="canMerge || canSplit">
+        @if (canMerge || canSplit) {
+        <div class="event-container">
             <div class="event-line"></div>
             <div class="event-icon" (click)="tapToggleGroup()">
                 <i class="iconfont" [ngClass]="{'icon-chain': canMerge, 'chain-broken': canSplit}"></i>
             </div>
         </div>
+        }
     </div>
 </div>

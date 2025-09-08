@@ -4,9 +4,12 @@
             <li>管理联动项列表</li>
             <li>
                 当前路径：
-                <ng-container *ngFor="let item of path">
-                  {{ item.name }} 、
-                </ng-container>
+                @for (item of path; track $index; let f = $first) {
+                    @if (!f) {
+                        、
+                    }
+                  {{ item.name }}
+                }
             </li>
         </ul>
     </app-page-tip>

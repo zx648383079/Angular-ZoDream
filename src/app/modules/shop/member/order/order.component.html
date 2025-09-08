@@ -7,9 +7,9 @@
            <div class="row order-search">
                <div class="col-md-8">
                     <div class="header-tab">
-                        <ng-container *ngFor="let item of tabItems">
+                        @for (item of tabItems; track $index) {
                         <a [ngClass]="{active: queries.status == item.value}" (click)="tapTab(item)">{{ item.name }}</a>
-                        </ng-container>
+                        }
                     </div>
                </div>
                <div class="col-md-4">
@@ -25,12 +25,15 @@
                     <div class="panel-header order-item-header">
                         <span class="time">下单时间：{{ item.created_at }}</span>
                         <span class="number">订单号：{{ item.series_number }}</span>
-                        <a *ngIf="item.status < 10" (click)="tapRemove(item)">
+                        @if (item.status < 10) {
+                        <a (click)="tapRemove(item)">
                             <i class="iconfont icon-trash"></i>
                         </a>
+                        }
                     </div>
                     <div class="panel-body">
-                        <div class="order-item" *ngFor="let goods of item.goods">
+                        @for (goods of item.goods; track $index) {
+                        <div class="order-item">
                             <div class="goods-img">
                                 <img [src]="goods.thumb" alt="">
                             </div>
@@ -44,12 +47,18 @@
                                 <p>（含运费：{{ 0 | price }}）</p>
                             </div>
                             <div class="actions">
-                                <a *ngIf="item.status == 10" class="btn" (click)="tapPay(item)">付款</a>
-                                <a *ngIf="item.status == 40" class="btn">签收</a>
+                                @if (item.status == 10) {
+                                <a class="btn" (click)="tapPay(item)">付款</a>
+                                } @else if (item.status == 40) {
+                                <a class="btn">签收</a>
                                 <a (click)="tapDetail(item)">查看详情</a>
-                                <a *ngIf="item.status == 10"  (click)="tapCancel(item)">取消订单</a>
+                                }
+                                @if (item.status == 10) {
+                                <a  (click)="tapCancel(item)">取消订单</a>
+                                }
                             </div>
                         </div>
+                        }
                     </div>
                 </div>
                 }

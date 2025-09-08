@@ -35,9 +35,9 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td>
-                        <ng-container *ngIf="item.thumb">
+                        @if (item.thumb) {
                             <img [src]="item.thumb" alt="">
-                        </ng-container>
+                        }
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>

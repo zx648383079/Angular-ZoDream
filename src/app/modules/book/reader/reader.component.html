@@ -4,9 +4,11 @@
         <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
     </div>
     
-    <div class="loading-bar" *ngIf="isLoading" i18n>
+    @if (isLoading) {
+    <div class="loading-bar" i18n>
         Loading ...
     </div>
+    }
 
     <footer class="reader-footer" [ngStyle]="footerStyle" (click)="$event.stopPropagation()">
         <div class="pager">
@@ -14,7 +16,8 @@
             <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()"></app-progress-bar>
             <a (click)="tapNext()" i18n>Next</a>
         </div>
-        <div class="setting" *ngIf="mode == 2">
+        @if (mode == 2) {
+        <div class="setting">
             <div class="line-item">
                 <span i18n>Foreground</span>
                 <div class="color-box">
@@ -37,18 +40,18 @@
             <div class="line-item">
                 <span i18n>Effect</span>
                 <div class="font-box">
-                    <ng-container *ngFor="let item of flipItems; let i=index">
+                    @for (item of flipItems; track $index; let i = $index) {
                         <span [ngClass]="{active: configs.flip == i}" (click)="configs.flip = i">{{ item }}</span>
-                    </ng-container>
+                    }
                     
                 </div>
             </div>
             <div class="line-item">
                 <span i18n>Font Family</span>
                 <div class="font-box">
-                    <ng-container *ngFor="let item of fontItems; let i=index">
+                    @for (item of fontItems; track $index; let i = $index) {
                         <span [ngClass]="{active: configs.font == i}" (click)="configs.font = i">{{ item }}</span>
-                    </ng-container>
+                    }
                 </div>
             </div>
             <div class="line-item">
@@ -76,6 +79,7 @@
                 </div>
             </div>
         </div>
+        }
         <div class="tab-bar">
             <a (click)="tapChapter()">
                 <i class="iconfont icon-bars"></i>

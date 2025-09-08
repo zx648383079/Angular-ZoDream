@@ -5,7 +5,9 @@
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name">
-                <div class="input-tip" *ngIf="form.get('name').invalid">请输入名称</div>
+                @if (form.get('name').invalid) {
+                <div class="input-tip">请输入名称</div>
+                }
             </div>
         </div>
         <div class="input-group-control">

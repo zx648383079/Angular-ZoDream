@@ -4,34 +4,34 @@
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()">
     <div class="widget-content">
-        <ng-container [ngSwitch]="value.tag">
-            <ng-container *ngSwitchCase="'button'">
+        @switch (value.tag) {
+            @case ('button') {
                 <app-button-control [value]="value"></app-button-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'carousel'">
+            }
+            @case ('carousel') {
                 <app-carousel-control [value]="value"></app-carousel-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'image'">
+            }
+            @case ('image') {
                 <app-image-control [value]="value"></app-image-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'label'">
+            }
+            @case ('label') {
                 <app-label-control [value]="value"></app-label-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'line'">
+            }
+            @case ('line') {
                 <app-line-control [value]="value"></app-line-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'link'">
+            }
+            @case ('link') {
                 <app-link-control [value]="value"></app-link-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'map'">
+            }
+            @case ('map') {
                 <app-map-control [value]="value"></app-map-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'rectangle'">
+            }
+            @case ('rectangle') {
                 <app-rectangle-control [value]="value"></app-rectangle-control>
-            </ng-container>
-            <ng-container *ngSwitchCase="'rich-text'">
+            }
+            @case ('rich-text') {
                 <app-rich-text-control [value]="value"></app-rich-text-control>
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
 </div>

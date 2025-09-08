@@ -1,20 +1,25 @@
 <div class="title-bar">
     <span i18n>Service detail</span>
 </div>
-<div class="panel-container" *ngIf="data">
+@if (data) {
+<div class="panel-container">
     <div class="line-item">
         <span i18n>Service</span>
         <span class="name">
-            <ng-container *ngIf="data.category">[{{ data.category.name }}]</ng-container>
+            @if (data.category) {
+            [{{ data.category.name }}]
+            }
             {{ data.name }}</span>
     </div>
     <div class="line-tip">
         {{ data.brief }}
     </div>
-    <div class="line-item" *ngFor="let item of remark">
+    @for (item of remark; track $index) {
+    <div class="line-item">
         <label [for]="'form_' + item.name">{{ item.label }}</label>
         <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [(ngModel)]="item.value">
     </div>
+    }
     <div class="line-item">
         <span i18n>Amount</span>
         <app-number-input [(ngModel)]="amount" [min]="1" (ngModelChange)="onAmountChange()"></app-number-input>
@@ -25,3 +30,4 @@
     </div>
     <button class="btn btn-primary" (click)="tapSubmit()" i18n>Place order</button>
 </div>
+}

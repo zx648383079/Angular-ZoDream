@@ -56,7 +56,8 @@
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">
-        <div class="book-item" *ngFor="let item of bookItems">
+        @for (item of bookItems; track $index) {
+        <div class="book-item">
             <div class="cover">
                 <img [src]="item.cover" alt="">
             </div>
@@ -69,5 +70,6 @@
                 <i class="iconfont icon-plus" (click)="tapAddTo(item)"></i>
             </div>
         </div>
+        }
     </div>
 </div>

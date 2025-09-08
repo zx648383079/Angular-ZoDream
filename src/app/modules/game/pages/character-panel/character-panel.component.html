@@ -11,9 +11,12 @@
     <div class="group-header">
         【资料】
     </div>
-    <div class="group-body" *ngIf="data">
+    @if (data) {
+    <div class="group-body">
         <p>{{ data.nickname }}</p>
-        <p>等级: 57级(100/10000) <a *ngIf="data.can_upgrade" (clik)="tapUpgrade()">升级</a></p>
+        @if (data.can_upgrade) {
+        <p>等级: 57级(100/10000) <a (clik)="tapUpgrade()">升级</a></p>
+        }
         <p>攻击: 77</p>
         <p>攻击: 77</p>
         <p>攻击: 77</p>
@@ -21,6 +24,7 @@
         <p>攻击: 77</p>
         <p>攻击: 77</p>
     </div>
+    }
 </div>
 
 <div class="group-box">
@@ -28,20 +32,21 @@
         【装备】
     </div>
     <div class="group-body">
-        <div class="equipment-item" *ngFor="let item of equipItems">
+        @for (item of equipItems; track $index) {
+        <div class="equipment-item">
             <div class="item-icon">[{{ item.type }}]</div>
             <div class="item-body">
-                <ng-container *ngIf="item.item; else elseTemplate">
+                @if (item.item) {
                     {{ item.item.name }}
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     空
-                </ng-template>
+                }
                 
             </div>
             <div class="item-action">
                 <a href="">更换</a>
             </div>
         </div>
+        }
     </div>
 </div>

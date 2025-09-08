@@ -1,4 +1,5 @@
-<div *ngFor="let item of items;let i = index" class="option-item" (click)="tapSelected(item)">
+@for (item of items; track $index; let i = $index) {
+<div class="option-item" (click)="tapSelected(item)">
     <div class="item-action">
         <i class="iconfont" [ngClass]="{'icon-check': item.value == value, 'icon-close': item.value != value}" title="标记当前选项是否正确"></i>
     </div>
@@ -8,3 +9,4 @@
         </div>
     </div>
 </div>
+}

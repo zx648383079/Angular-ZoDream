@@ -7,21 +7,28 @@
     </div>
 </div>
 <div class="tab-bar">
-    <ng-container *ngFor="let item of typeItems">
+    @for (item of typeItems; track $index) {
         <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
-    </ng-container>
+    }
 </div>
 @for (item of items; track $index) {
     <div class="bag-item">
     <div class="item-body">
-        <span *ngIf="item.quality">[{{ item.quality }}]</span>
+        @if (item.quality) {
+        <span>[{{ item.quality }}]</span>
+        }
         <a class="item-name">{{ item.name }}</a>
-        <span class="item-sub" *ngIf="item.level">+{{ item.level }}</span>
+        @if (item.level) {
+        <span class="item-sub">+{{ item.level }}</span>
+        }
     </div>
     <span class="item-amount">x{{ item.amount }}</span>
     <div class="item-action">
-        <a href="" *ngIf="item.type === 3">使用</a>
-        <a href="" *ngIf="item.type === 1">装备</a>
+        @if (item.type === 3) {
+        <a href="">使用</a>
+        } @else if (item.type === 1) {
+        <a href="">装备</a>
+        }
         <a href="">丢弃</a>
     </div>
 </div>

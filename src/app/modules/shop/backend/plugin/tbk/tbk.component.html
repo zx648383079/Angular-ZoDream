@@ -5,7 +5,8 @@
         </ul>
     </app-page-tip>
 
-    <div class="input-item" *ngIf="!isInstalled">
+    @if (!isInstalled) {
+    <div class="input-item">
         <div class="item-icon">
             <i class="iconfont icon-bookmark"></i>
         </div>
@@ -17,7 +18,8 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="isInstalled">
+    } @else {
+    <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
                 @if (isLoading) {
@@ -79,4 +81,5 @@
             </div>
         </div>
     </div>
+    }
 </div>

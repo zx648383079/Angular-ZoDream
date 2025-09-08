@@ -17,12 +17,12 @@
         </div>
         @if (childVisible) {
             <div class="child-body">
-            <ng-container *ngFor="let item of children">
+            @for (item of children; track $index) {
                 <div class="item-option" [ngClass]="{selected: selectedChild && selectedChild.id === item.id}" (click)="tapSelectedChild(item)">
                     <div class="name">{{ item.series_number }}</div>
                     <div class="price">￥{{ item.price }}</div>
                 </div>
-            </ng-container>
+            }
         </div>
         }
         

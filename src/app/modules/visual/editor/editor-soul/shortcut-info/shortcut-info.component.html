@@ -27,20 +27,23 @@
         <div class="shortcut col-md-6">
             <div class="name">重做</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>⌥</kbd>
                     +
                     <kbd>⌘</kbd>
                     +
                     <kbd>Z</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>ctrl</kbd>
                     +
                     <kbd>shift</kbd>
                     +
                     <kbd>Z</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut"></div>
@@ -73,77 +76,89 @@
         <div class="shortcut col-md-6">
             <div class="name">左移/左移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>←</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>←</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>←</kbd>
                     ／
                     <kbd>shift</kbd>
                     +
                     <kbd>←</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">右移/右移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>→</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>→</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>→</kbd>
                     ／
                     <kbd>shift</kbd>
                     +
                     <kbd>→</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">上移/上移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>↑</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>↑</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>↑</kbd>
                     ／
                     <kbd>shift</kbd>
                     +
                     <kbd>↑</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut col-md-6">
             <div class="name">下移/下移十步</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>↓</kbd>
                     ／
                     <kbd>⌥</kbd>
                     +
                     <kbd>↓</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>↓</kbd>
                     ／
                     <kbd>shift</kbd>
                     +
                     <kbd>↓</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut"></div>
@@ -154,16 +169,19 @@
         <div class="shortcut col-md-6">
             <div class="name">加选</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>⇧</kbd>
                     +
                     <span>鼠标单击</span>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>shift</kbd>
                     +
                     <span>鼠标单击</span>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut col-md-6">
@@ -206,20 +224,23 @@
         <div class="shortcut col-md-6">
             <div class="name">隐藏标尺辅助线</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>⌥</kbd>
                     +
                     <kbd>⌘</kbd>
                     +
                     <kbd>H</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>ctrl</kbd>
                     +
                     <kbd>shift</kbd>
                     +
                     <kbd>H</kbd>
                 </div>
+                }
             </div>
         </div>
         <div class="shortcut col-md-6">
@@ -233,20 +254,23 @@
         <div class="shortcut col-md-6">
             <div class="name">打散</div>
             <div class="key">
-                <div class="for-mac" *ngIf="isMac">
+                @if (isMac) {
+                <div class="for-mac">
                     <kbd>⌥</kbd>
                     +
                     <kbd>⌘</kbd>
                     +
                     <kbd>G</kbd>
                 </div>
-                <div class="for-others" *ngIf="!isMac">
+                } @else {
+                <div class="for-others">
                     <kbd>ctrl</kbd>
                     +
                     <kbd>shift</kbd>
                     +
                     <kbd>G</kbd>
                 </div>
+                }
             </div>
         </div>
     </div>

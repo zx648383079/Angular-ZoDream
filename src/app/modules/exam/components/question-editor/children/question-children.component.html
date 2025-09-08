@@ -1,16 +1,22 @@
-<div class="option-item" *ngFor="let item of value;let i = index" (click)="tapEdit(modal, i)">
+@for (item of value; track $index; let i = $index) {
+<div class="option-item" (click)="tapEdit(modal, i)">
     <div class="item-body">
         <div class="item-text" title="点击编辑子题目">
             {{ item.title }}
         </div>
-        <div class="flex-icon" *ngIf="editable">
+        @if (editable) {
+        <div class="flex-icon">
             <i class="iconfont icon-minus" (click)="tapRemove($event, i)" title="删除此题目"></i>
         </div>
+        }
     </div>
 </div>
-<div class="empty-option" *ngIf="editable">
+}
+@if (editable) {
+<div class="empty-option">
     <div class="add-btn" (click)="tapEdit(modal)">
         <i class="iconfont icon-plus"></i>
     </div>
 </div>
+}
 <app-question-dialog #modal></app-question-dialog>

@@ -55,17 +55,17 @@
     <div class="line-row-item">
         <span class="item-label">发送者：</span>
         <span class="item-body">{{ editData.from }}
-            <ng-container *ngIf="editData.from_user">
+            @if (editData.from_user) {
                 ({{ editData.from_user.note_name || editData.from_user.nickname }})
-            </ng-container>
+            }
         </span>
     </div>
     <div class="line-row-item">
         <span class="item-label">接收者：</span>
         <span class="item-body">{{ editData.to }}
-            <ng-container *ngIf="editData.to_user">
+            @if (editData.to_user) {
                 ({{ editData.to_user.note_name || editData.to_user.nickname }})
-            </ng-container>
+            }
         </span>
     </div>
     <div class="line-row-item">

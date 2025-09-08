@@ -2,8 +2,12 @@
     <app-page-tip>
         <ul>
             <li>执行sql语句</li>
-            <li *ngIf="schema">当前数据库：{{ schema }}</li>
-            <li *ngIf="table">当前表：{{ table }}</li>
+            @if (schema) {
+            <li>当前数据库：{{ schema }}</li>
+            }
+            @if (table) {
+            <li>当前表：{{ table }}</li>
+            }
         </ul>
     </app-page-tip>
 

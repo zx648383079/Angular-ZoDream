@@ -7,7 +7,8 @@
         </nav>
 
         <div class="timeline-bar">
-            <div class="time-item" *ngFor="let item of timeItems;let i = index" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">
+            @for (item of timeItems; track $index; let i = $index) {
+            <div class="time-item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">
                 <div class="time-body">
                     <div class="time">
                         {{  item.title }}
@@ -15,11 +16,14 @@
                     <div class="label">
                         {{ formatStatus(item.status) }}
                     </div>
-                    <div class="time-countdown" *ngIf="item.status > 0">
+                    @if (item.status > 0) {
+                    <div class="time-countdown">
                         <app-countdown [label]="item.status == 1 ? '距离结束' : '即将开始'" [end]="item.status == 1 ? item.end_at : item.start_at" (finished)="onTimeEnd(item)"></app-countdown>
                     </div>
+                    }
                 </div>
             </div>
+            }
         </div>
 
         <div class="row">

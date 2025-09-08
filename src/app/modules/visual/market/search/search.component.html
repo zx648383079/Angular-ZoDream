@@ -2,12 +2,13 @@
     <div class="row">
         <div class="col-md-3 col-lg-2">
             <div class="filter-container">
-                <div class="filter-group" *ngFor="let item of filterItems">
+                @for (item of filterItems; track $index) {
+                <div class="filter-group">
                     <div class="group-header">
                         {{ item.label }}
                     </div>
                     <div class="group-body">
-                        <ng-container *ngFor="let it of item.items">
+                        @for (it of item.items; track $index) {
                             <a class="filter-line-item" [ngClass]="{active: it.selected}">
                                 <span class="item-body">
                                     {{ it.label }}
@@ -16,9 +17,10 @@
                                     {{ it.label }}
                                 </span>
                             </a>
-                        </ng-container>
+                        }
                     </div>
-                  </div>
+                </div>
+                }
             </div>
         </div>
         <div class="col-md-9 col-lg-10">
@@ -33,11 +35,13 @@
                                 Sort by
                             </div>
                             <div class="filter-body">
-                                <ng-container *ngFor="let item of sortItems">
+                                @for (item of sortItems; track $index) {
                                     <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
-                                        <i class="iconfont" *ngIf="item.value && sortKey == item.value" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                                        @if (item.value && sortKey == item.value) {
+                                        <i class="iconfont"  [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                                        }
                                     </a>
-                                </ng-container>
+                                }
                             </div>
                       </div>
                     </div>

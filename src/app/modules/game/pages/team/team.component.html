@@ -10,7 +10,8 @@
     </a>
 </div>
 <div class="users-body">
-    <div class="user-item" *ngFor="let item of userItems">
+    @for (item of userItems; track $index) {
+    <div class="user-item">
         <div class="item-avatar">
             <img [src]="item.avatar| asset" alt="">
         </div>
@@ -20,9 +21,12 @@
         </div>
         <div class="item-action">
             <a>查看</a>
-            <a *ngIf="data.editable" (click)="tapExclude(item)">踢出</a>
+            @if (data.editable) {
+            <a (click)="tapExclude(item)">踢出</a>
+            }
         </div>
     </div>
+    }
 </div>
 
 <div class="group-box">

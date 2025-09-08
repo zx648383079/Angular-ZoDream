@@ -1,5 +1,6 @@
 <div class="editor-container" [ngClass]="{'top-open': topVisible}">
-    <div class="top-container"  *ngIf="book">
+    @if (book) {
+    <div class="top-container">
         <div class="form-table-control">
             <div class="input-group-control">
                 <label for="name2" i18n>Name</label>
@@ -22,12 +23,15 @@
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" (click)="tapSaveBook()" i18n>Save</button>
-            <a class="btn btn-danger" *ngIf="book.over_at < 1" (click)="tapOver()" i18n>As over</a>
+            @if (book.over_at < 1) {
+            <a class="btn btn-danger" (click)="tapOver()" i18n>As over</a>
+            }
             <a class="btn btn-light" (click)="topVisible = false" i18n-title title="Pack up">
                 <i class="iconfont icon-chevron-up"></i>
             </a>
         </div>
     </div>
+    }
     <div class="editor-body">
         <div class="catalog-container">
             <div class="tool-bar">
@@ -63,19 +67,23 @@
                 </a>
             </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
-                <li class="tree-item" *ngFor="let item of catalog" [ngClass]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
+                @for (item of catalog; track $index) {
+                <li class="tree-item" [ngClass]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
                         <i class="iconfont" [ngClass]="{'icon-file-text-o': item.type < 9, 'icon-chevron-right': item.type == 9 && item.children && !item.expanded, 'icon-chevron-down': item.type == 9 && item.children && item.expanded}"></i>
                         {{ item.title }}
                     </div>
                     <ul class="tree-body">
-                        <li class="tree-item" *ngFor="let it of item.children"  [ngClass]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
+                        @for (it of item.children; track $index) {
+                        <li class="tree-item"  [ngClass]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
                             <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">
                                 <i class="iconfont icon-file-text-o"></i>
                                 {{ it.title }}</div>
                         </li>
+                        }
                     </ul>
                 </li>
+                }
                 <li class="tip" i18n>
                     Right click to add chapter
                 </li>
@@ -91,16 +99,18 @@
                         <i class="iconfont icon-home"></i>
                     </div>
                 </div>
-                <div class="tool-right" *ngIf="data">
+                @if (data) {
+                <div class="tool-right">
                     <app-action-button class="tool-item btn-primary" (tapped)="tapSaveChapter($event)" title="保存">
                         <i class="iconfont icon-floppy-o"></i>
                     </app-action-button>
                 </div>
+                }
             </div>
             <div class="editor-input-wrapper">
-                <ng-container  *ngIf="data">
+                @if (data) {
                     <input type="text" id="name"  class="title-input" [(ngModel)]="data.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
-                </ng-container>
+                }
                 <div #editorArea class="editor-area" [contentEditable]="true" spellcheck="false"></div>
                 <ng-container #modalVC></ng-container>
             </div>
@@ -115,7 +125,8 @@
 <app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0"></app-editor-map-panel>
 
 <app-dialog-box #publishModal title="发布章节">
-    <div class="form-table-control" *ngIf="data">
+    @if (data) {
+    <div class="form-table-control">
         <div class="input-group-control">
             <label for="">发布章节</label>
             <div>
@@ -132,9 +143,9 @@
             <label for="price">章节类型</label>
             <div>
                 <select class="form-control" [(ngModel)]="data.type">
-                    <ng-container *ngFor="let item of typeItems">
+                    @for (item of typeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
@@ -142,13 +153,16 @@
             <label for="">设置发布时间</label>
             <div>
                 <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1"></app-check-input>
-                <p *ngIf="publishData.publish_type > 0">
+                @if (publishData.publish_type > 0) {
+                <p>
                     <input type="date" class="form-control" [(ngModel)]="publishData.publish_date">
                     <input type="time" class="form-control" [(ngModel)]="publishData.publish_time">
                 </p>
+                }
             </div>
         </div>
     </div>
+    }
 </app-dialog-box>
 
 <app-dialog-box #moveModal [scrollable]="false">
@@ -157,12 +171,12 @@
             <label for="">移动到章节</label>
             <div>
                 <select [(ngModel)]="moveData.target" class="form-control">
-                    <ng-container *ngFor="let item of catalog">
+                    @for (item of catalog; track $index) {
                         <option [value]="item.id">{{ item.title }}</option>
-                        <ng-container *ngFor="let it of item.children">
+                        @for (it of item.children; track $index) {
                             <option [value]="it.id">{{ it.title }}</option>
-                        </ng-container>
-                    </ng-container>
+                        }
+                    }
                 </select>
             </div>
         </div>

@@ -75,7 +75,8 @@
                             <th>续费 (元)</th>
                             <th>免费标准</th>
                         </tr>
-                        <tr *ngFor="let item of groupItems">
+                        @for (item of groupItems; track $index) {
+                        <tr>
                             <td class="am-text-left">
                                 <p class="selected-content am-margin-bottom-xs">{{ item.region_label }}</p>
                                 <p class="operation am-margin-bottom-xs"> <a class="edit" (click)="open(modal, item)">编辑</a> <a
@@ -88,6 +89,7 @@
                             <td> <input type="number" [(ngModel)]="item.additional_fee" class="form-control"></td>
                             <td> <input type="number" [(ngModel)]="item.free_step" class="form-control"></td>
                         </tr>
+                        }
                         <tr>
                             <td colspan="6" class="am-text-left">
                                 <a class="btn btn-info add-region" (click)="open(modal)">
@@ -110,25 +112,36 @@
 
 
 <app-dialog-box #modal title="选择可配送区域">
-    <div class="selected-box" *ngIf="!selectedAll">
+    @if (!selectedAll) {
+    <div class="selected-box">
         <div class="title">已选择地区</div>
-        <div class="item" *ngFor="let item of selectedItems" [title]="item.full_name">
+        @for (item of selectedItems; track $index) {
+        <div class="item" [title]="item.full_name">
             {{ item.name }}
             <i class="iconfont icon-close" (click)="removeRegion(item)"></i>
         </div>
+        }
     </div>
-    <div class="selected-box" *ngIf="selectedAll">
+    } @else {
+    <div class="selected-box">
         <div class="title">已选择全部地区</div>
     </div>
+    }
     <div class="search-box">
-        <input type="text" class="form-control" [(ngModel)]="regionKeywords" *ngIf="!selectedAll">
-        <button class="btn btn-primary" *ngIf="!selectedAll" (click)="tapRegionSearch()">搜索</button>
+        @if (!selectedAll) {
+        <input type="text" class="form-control" [(ngModel)]="regionKeywords">
+        <button class="btn btn-primary" (click)="tapRegionSearch()">搜索</button>
+        }
         <button class="btn btn-info" [ngClass]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>
     </div>
-    <div class="search-result" *ngIf="!selectedAll">
-        <div class="item" *ngFor="let item of regionItems" [title]="item.full_name">
+    @if (!selectedAll) {
+    <div class="search-result">
+        @for (item of regionItems; track $index) {
+        <div class="item" [title]="item.full_name">
             {{ item.name }}
             <i class="iconfont icon-plus" (click)="tapAddRegion(item)"></i>
         </div>
+        }
     </div>
+    }
 </app-dialog-box>

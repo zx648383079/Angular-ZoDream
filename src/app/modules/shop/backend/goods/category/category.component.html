@@ -19,7 +19,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of categories">
+                @for (item of categories; track $index) {
+                <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.level | treeLevel }}{{ item.name }}</td>
                     <td></td>
@@ -33,7 +34,7 @@
                         </div>
                     </td>
                 </tr>
-    
+                }
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || categories.length == 0"></app-loading-tip>

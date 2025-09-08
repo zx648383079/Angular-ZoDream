@@ -1,5 +1,6 @@
-<div class="dialog-mask" *ngIf="visible"></div>
-<div class="search-dialog-container" *ngIf="visible">
+@if (visible) {
+<div class="dialog-mask"></div>
+<div class="search-dialog-container">
     <div class="search-bar">
         <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
             <div class="flat-input">
@@ -16,9 +17,9 @@
             <div class="book-item">
                 <div class="item-body">
                     <p>{{ item.name }}
-                        <ng-container *ngIf="item.author">
+                        @if (item.author) {
                             ({{ item.author }})
-                        </ng-container>
+                        }
                     </p>
                     <p>总字数： {{ item.size | numberFormat }}</p>
                     <p>
@@ -39,3 +40,4 @@
         </div>
     </div>
 </div>
+}

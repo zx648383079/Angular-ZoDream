@@ -8,60 +8,66 @@
                 Home
             </a>
         </li>
-        <li class="breadcrumb-item active" *ngIf="data">
+        @if (data) {
+        <li class="breadcrumb-item active">
             {{ data.name }}
         </li>
+        }
     </ul>
-  </div>
+</div>
   
-    <div class="container" *ngIf="data">
-        <div class="course-header">
-            <h1>{{ data.name }}</h1>
-            <h2>{{ data.description }}</h2>
+@if (data) {
+<div class="container">
+    <div class="course-header">
+        <h1>{{ data.name }}</h1>
+        <h2>{{ data.description }}</h2>
+    </div>
+    @for (group of items; track $index) {
+    <div class="exam-group">
+        <div class="group-header">
+            <a routerLink="{{ group.id }}">{{ group.name }}</a>
         </div>
-        <div class="exam-group" *ngFor="let group of items">
-            <div class="group-header">
-                <a routerLink="{{ group.id }}">{{ group.name }}</a>
-            </div>
-            <div class="group-body">
-                <ng-container *ngFor="let item of group.children">
-                <div class="course-item">
-                    <div class="thumb">
-                        <img [src]="item.thumb" alt="">
-                    </div>
-                    <div class="info">
-                        <div class="name">
-                            <a routerLink="{{ item.id }}">{{ item.name }}</a>
-                        </div>
+        <div class="group-body">
+            @for (item of group.children; track $index) {
+            <div class="course-item">
+                <div class="thumb">
+                    <img [src]="item.thumb" alt="">
+                </div>
+                <div class="info">
+                    <div class="name">
+                        <a routerLink="{{ item.id }}">{{ item.name }}</a>
                     </div>
                 </div>
-                </ng-container>
             </div>
+            }
         </div>
-        <div class="menu-box">
-            <a [routerLink]="['../course', data.id]">
-                <i class="iconfont icon-sort-alpha-asc"></i>
-                <ng-container i18n>Sequential practice</ng-container>
-            </a>
-            <a [routerLink]="['../pager', data.id, 1]">
-                <i class="iconfont icon-random"></i>
-                <ng-container i18n>Random practice</ng-container>
-            </a>
-            <a [routerLink]="['../pager', data.id, 2]">
-                <i class="iconfont icon-question-circle"></i>
-                <ng-container i18n>Puzzle exercise</ng-container>
-            </a>
-            <a [routerLink]="['../pager', data.id, 3]">
-                <i class="iconfont icon-file-text-o"></i>
-                <ng-container i18n>Mock real</ng-container>
-            </a>
-            <a routerLink="../search" [queryParams]="{course: data.id}">
-                <i class="iconfont icon-search"></i>
-                <ng-container i18n>Mock test</ng-container>
-            </a>
-            <a [routerLink]="['../publish', data.id]">
-                <i class="iconfont icon-plus"></i>
-                <ng-container i18n>Create Page</ng-container>
-            </a>
-        </div>
-  </div>
+    </div>
+    }
+    <div class="menu-box">
+        <a [routerLink]="['../course', data.id]">
+            <i class="iconfont icon-sort-alpha-asc"></i>
+            <ng-container i18n>Sequential practice</ng-container>
+        </a>
+        <a [routerLink]="['../pager', data.id, 1]">
+            <i class="iconfont icon-random"></i>
+            <ng-container i18n>Random practice</ng-container>
+        </a>
+        <a [routerLink]="['../pager', data.id, 2]">
+            <i class="iconfont icon-question-circle"></i>
+            <ng-container i18n>Puzzle exercise</ng-container>
+        </a>
+        <a [routerLink]="['../pager', data.id, 3]">
+            <i class="iconfont icon-file-text-o"></i>
+            <ng-container i18n>Mock real</ng-container>
+        </a>
+        <a routerLink="../search" [queryParams]="{course: data.id}">
+            <i class="iconfont icon-search"></i>
+            <ng-container i18n>Mock test</ng-container>
+        </a>
+        <a [routerLink]="['../publish', data.id]">
+            <i class="iconfont icon-plus"></i>
+            <ng-container i18n>Create Page</ng-container>
+        </a>
+    </div>
+</div>
+}

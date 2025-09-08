@@ -15,7 +15,9 @@
                     <label for="status">状态</label>
                     <select name="status" class="form-control" [ngModel]="queries.status" id="status">
                         <option [value]="0">全部</option>
-                        <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                        @for (item of statusItems; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -38,7 +40,8 @@
                 </div>
                 <div class="item-body">
                     <div class="item-goods">
-                        <div class="goods-item" *ngFor="let goods of item.goods">
+                        @for (goods of item.goods; track $index) {
+                        <div class="goods-item">
                             <div class="goods-img">
                                 <img [src]="goods.thumb">
                             </div>
@@ -49,6 +52,7 @@
                                 <span class="amount"> x {{ goods.amount }}</span>
                             </div>
                         </div>
+                        }
                     </div>
                     <div class="item-subtotal">
                         <p>应付：
@@ -85,7 +89,9 @@
             <div class="input-group-control">
                 <select name="status" class="form-control" [ngModel]="queries.status" id="type1">
                     <option [value]="0">全部</option>
-                    <option *ngFor="let item of statusItems" [value]="item.value">{{ item.name }}</option>
+                    @for (item of statusItems; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
                 </select>
             </div>
         </div>

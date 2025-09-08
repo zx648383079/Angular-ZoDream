@@ -7,20 +7,19 @@
         </div>
         <div class="tab-body">
             <div class="tab-item" [ngClass]="{active: couponIndex < 1}">
-                <ng-container *ngFor="let item of couponItems">
+                @for (item of couponItems; track $index) {
                     <div class="coupon-item" [ngClass]="{active: item.id == value?.id, expired: item.expired}" (click)="couponChanged(item)">
                         <div class="item-body">
                             <div class="money">
-                                <ng-container *ngIf="item.type > 0; else elseTemplate">
+                                @if (item.type > 0) {
                                     <em>
                                         {{ item.money }}折
                                     </em>
-                                </ng-container>
-                                <ng-template #elseTemplate>
+                                } @else {
                                     <em>
                                         ￥{{ item.money }}
                                     </em>
-                                </ng-template>
+                                }
                                 <span class="limit">满{{ item.min_money }}元可用</span>
                             </div>
                             <div class="time">
@@ -31,7 +30,7 @@
                             <div class="item-tag">[限品类]</div>
                         </div>
                     </div>
-                </ng-container>
+                }
             </div>
             <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
                 <div class="flat-input">

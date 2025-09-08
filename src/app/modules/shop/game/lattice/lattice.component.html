@@ -1,12 +1,16 @@
 <div class="lattice-box" [ngStyle]="boxStyle">
-    <ng-container *ngFor="let item of formatItems; let i = index">
+    @for (item of formatItems; track $index; let i = $index) {
         <div class="item" [ngClass]="{active: currentIndex == i}" [ngStyle]="item.style">
-            <div class="thumb" *ngIf="item.image">
+            @if (item.image) {
+            <div class="thumb">
                 <img [src]="item.image">
             </div>
-            <div class="text" *ngIf="item.text">{{ item.text }}</div>
+            }
+            @if (item.text) {
+            <div class="text">{{ item.text }}</div>
+            }
         </div>
-    </ng-container>
+    }
     <div class="btn btn-primary" [ngClass]="{disabled: isRunning}" [ngStyle]="buttonStyle" (click)="tapStart()">
         {{ buttonText }}
     </div>

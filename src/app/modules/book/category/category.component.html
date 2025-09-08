@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <ng-container *ngFor="let item of categories">
+        @for (item of categories; track $index) {
             <div class="col-md-4">
                 <div class="cat-item" (click)="tapCategory(item)">
                     <div class="thumb">
@@ -10,6 +10,6 @@
                     <div class="amount" i18n>{{ item.book_count }} books</div>
                 </div>
             </div>
-        </ng-container>
+        }
     </div>
 </div>

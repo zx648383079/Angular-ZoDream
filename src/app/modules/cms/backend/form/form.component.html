@@ -18,16 +18,20 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th *ngFor="let item of columnItems">{{ item.label }}</th>
+                    @for (item of columnItems; track $index) {
+                    <th>{{ item.label }}</th>
+                    }
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @for (item of items; track $index) {
                     <tr>
-                    <td *ngFor="let key of columnItems">
+                    @for (key of columnItems; track $index) {
+                    <td>
                         {{ formatColumn(item, key) }}
                     </td>
+                    }
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-light btn-xs" [routerLink]="[item.id]">查看</a>

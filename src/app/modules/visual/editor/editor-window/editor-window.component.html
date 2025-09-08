@@ -22,9 +22,9 @@
 </div>
 <div class="await-widget-box">
     <!-- 待创建的组件 -->
-    <ng-container *ngIf="tempWidget">
+    @if (tempWidget) {
         <div class="await-widget" [ngStyle]="{left: tempWidget.x + 'px', top: tempWidget.y + 'px'}">
             <app-editor-widget [value]="tempWidget"></app-editor-widget>
         </div>
-    </ng-container>
+    }
 </div>

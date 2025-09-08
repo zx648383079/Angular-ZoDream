@@ -12,7 +12,9 @@
                   <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索应用">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
-              <a routerLink="./create" class="pull-right btn btn-primary" *ngIf="!reviewable">新增应用</a>
+              @if (!reviewable) {
+              <a routerLink="./create" class="pull-right btn btn-primary">新增应用</a>
+              }
           </form>
       </div>
       <table class="table table-hover">

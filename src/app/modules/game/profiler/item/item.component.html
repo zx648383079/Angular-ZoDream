@@ -55,7 +55,8 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="itemMode">
+    @if (itemMode) {
+    <div class="row">
         <div class="col-12">
             @for (item of items; track $index) {
                 <div class="avatar-item">
@@ -75,7 +76,8 @@
             }
         </div>
     </div>
-    <table class="table table-hover" *ngIf="!itemMode">
+    } @else {
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th></th>
@@ -123,4 +125,5 @@
             </tr>
         </tfoot>
     </table>
+    }
 </div>

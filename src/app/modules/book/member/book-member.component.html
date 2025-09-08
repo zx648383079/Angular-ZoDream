@@ -27,7 +27,7 @@
                 New
             </div>
         </div>
-        <ng-container *ngFor="let item of bookItems">
+        @for (item of bookItems; track $index) {
             <div class="col-md-3 col-6">
                 <a class="book-item" [routerLink]="['book', item.id]">
                     <div class="cover">
@@ -46,7 +46,7 @@
                     </div>
                 </a>
             </div>
-        </ng-container>
+        }
         
     </div>
 </div>

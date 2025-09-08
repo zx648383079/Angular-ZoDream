@@ -33,11 +33,11 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>
-                        <ng-container *ngFor="let it of item.configure.goods">
+                        @for (it of item.configure.goods; track $index) {
                         <p>
                             {{ it.goods.name }}[{{ it.price }}]x{{ it.amount }}
                         </p>
-                        </ng-container>
+                        }
                     </td>
                     <td class="auto-hide">{{ item.start_at | timestamp }}</td>
                     <td class="auto-hide">{{ item.end_at | timestamp }}</td>

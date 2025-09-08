@@ -1,85 +1,90 @@
 <div class="math-mark-bar">
     @for (item of items; track $index) {
-        <ng-container [ngSwitch]="item.type">
-            <ng-container *ngSwitchCase="'input'">
-                <ng-container *ngIf="editable">
+        @switch (item.type) {
+            @case ('input') {
+                @if (editable) {
                     <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
-                </ng-container>
-                <ng-container  *ngIf="!editable">
+                } @else {
                     <div class="input-bar">
                         <p class="success-color">正确答案：
                             <app-math-mark [content]="item.rightValue"></app-math-mark>
                         </p>
                         <p>你的回答：<app-math-mark [content]="item.value"></app-math-mark></p>
                     </div>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="'table'">
+                }
+            }
+            @case ('table') {
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th *ngFor="let th of item.header" [ngStyle]="{'text-align': th.align}">
-                                <ng-container *ngFor="let it of th.items">
-                                    <ng-container [ngSwitch]="it.type">
-                                        <ng-container *ngSwitchCase="'math'">
+                            @for (th of item.header; track $index) {
+                            <th [ngStyle]="{'text-align': th.align}">
+                                @for (it of th.items; track $index) {
+                                    @switch (it.type) {
+                                        @case ('math') {
                                             <span [innerHTML]="it.content"></span>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'image'">
+                                        }
+                                        @case ('image') {
                                             <img [src]="it.content">
-                                        </ng-container>
-                                        <ng-container *ngSwitchDefault>
+                                        }
+                                        @default {
                                             {{ it.content }}
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
+                                        }
+                                    }
+                                }
                             </th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let tr of item.content">
-                            <td *ngFor="let td of tr" [ngStyle]="{'text-align': td.align}">
-                                <ng-container *ngFor="let it of td.items">
-                                    <ng-container [ngSwitch]="it.type">
-                                        <ng-container *ngSwitchCase="'math'">
+                        @for (tr of item.content; track $index) {
+                        <tr>
+                            @for (td of tr; track $index) {
+                            <td [ngStyle]="{'text-align': td.align}">
+                                @for (it of td.items; track $index) {
+                                    @switch (it.type) {
+                                        @case ('math') {
                                             <span [innerHTML]="it.content"></span>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'image'">
+                                        }
+                                        @case ('image') {
                                             <img [src]="it.content">
-                                        </ng-container>
-                                        <ng-container *ngSwitchDefault>
+                                        }
+                                        @default {
                                             {{ it.content }}
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
+                                        }
+                                    }
+                                }
                             </td>
+                            }
                         </tr>
+                        }
                     </tbody>
                 </table>
-            </ng-container>
-            <ng-container *ngSwitchCase="'math'">
+            }
+            @case ('math') {
                 <span [innerHTML]="item.content"></span>
-            </ng-container>
-            <ng-container *ngSwitchCase="'image'">
+            }
+            @case ('image') {
                 <img [src]="item.content">
-            </ng-container>
-            <ng-container *ngSwitchCase="'underline'">
+            }
+            @case ('underline') {
                 <span class="underline">{{ item.content }}</span>
-            </ng-container>
-            <ng-container *ngSwitchCase="'wavyline'">
+            }
+            @case ('wavyline') {
                 <span class="wavyline">{{ item.content }}</span>
-            </ng-container>
-            <ng-container *ngSwitchCase="'bold'">
+            }
+            @case ('bold') {
                 <span class="bold">{{ item.content }}</span>
-            </ng-container>
-            <ng-container *ngSwitchCase="'dashed'">
+            }
+            @case ('dashed') {
                 <span class="dashed">{{ item.content }}</span>
-            </ng-container>
-            <ng-container *ngSwitchCase="'line'">
+            }
+            @case ('line') {
                 <br>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-                {{ item.content }}
-            </ng-container>
-        </ng-container>
+            }
+            @default {
+               {{ item.content }} 
+            }
+        }
     }
 </div>

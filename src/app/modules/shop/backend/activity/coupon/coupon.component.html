@@ -38,7 +38,9 @@
                     <td class="auto-hide">{{ item.end_at | timestamp }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            <a *ngIf="item.send_type == 5" class="btn btn-info btn-xs" [routerLink]="'./code/' + item.id">查看</a>
+                            @if (item.send_type == 5) {
+                            <a class="btn btn-info btn-xs" [routerLink]="'./code/' + item.id">查看</a>
+                            }
                             <a class="btn btn-light btn-xs" [routerLink]="'./edit/' + item.id">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>

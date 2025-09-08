@@ -12,7 +12,9 @@
             <label for="theme">主题</label>
             <div>
                 <select id="theme" class="form-control" formControlName="theme">
-                    <option *ngFor="let item of themeItems" [value]="item.name">{{ item.description }}</option>
+                    @for (item of themeItems; track $index) {
+                    <option [value]="item.name">{{ item.description }}</option>
+                    }
                 </select>
             </div>
         </div>
@@ -60,9 +62,9 @@
             <label for="status">状态</label>
             <div>
                 <select id="status" class="form-control" formControlName="status">
-                    <ng-container *ngFor="let item of statusItems">
+                    @for (item of statusItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
-                    </ng-container>
+                    }
                 </select>
             </div>
         </div>
