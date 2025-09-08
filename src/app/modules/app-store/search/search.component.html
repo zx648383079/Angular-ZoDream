@@ -3,7 +3,9 @@
         <div class="col-md-12">
             <form class="search-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <input type="text" class="form-control" name="keywords" [(ngModel)]="keywords">
-                <i class="iconfont icon-close" *ngIf="keywords" (click)="tapClearQuery()"></i>
+                @if (keywords) {
+                    <i class="iconfont icon-close" (click)="tapClearQuery()"></i>
+                }
                 <button class="btn btn-primary" i18n>Search</button>
             </form>
             <div class="search-tip-bar" i18n>

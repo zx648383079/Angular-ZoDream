@@ -30,11 +30,14 @@
             <app-switch name="open_comment" [(ngModel)]="data.open_comment"></app-switch>
         </div>
     </div>
-    <div class="input-group-control" *ngIf="data.open_comment > 0">
+    @if (data.open_comment > 0) {
+    <div class="input-group-control">
         <label for="only_comment">评论人</label>
         <div>
             <app-check-input [items]="onlyItems" [(ngModel)]="data.only_comment"></app-check-input>
         </div>
     </div>
+    }
+    
     <app-template-editor [(ngModel)]="data.content"></app-template-editor>
 </div>

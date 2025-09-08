@@ -3,9 +3,12 @@
         <div class="player-body" [ngStyle]="{height: bodyHeight + 'px'}">
             <video class="player-video" #playerVideo></video>
         </div>
-        <div class="player-catalog" *ngIf="openCatalog">
+        @if (openCatalog) {
+        <div class="player-catalog">
             <app-play-list [min]="true" [height]="bodyHeight" [items]="items" (playing)="play($event)"></app-play-list>
         </div>
+        }
+        
     </div>
     <div class="player-bar" #playerBar>
         <div class="bar-action">
@@ -28,7 +31,8 @@
             </div>
         </div>
         <div class="bar-footer">
-            <select class="speed-btn" *ngIf="speedable">
+            @if (speedable) {
+            <select class="speed-btn">
                 <option>0.5X</option>
                 <option selected>1.0X</option>
                 <option>1.2X</option>
@@ -36,6 +40,8 @@
                 <option>2.0X</option>
                 <option>3.0X</option>
             </select>
+            }
+            
             <i class="iconfont" [hidden]="moreVisible" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
             <i class="iconfont icon-th-list" (click)="openCatalog = !openCatalog"></i>
             <i class="iconfont" [ngClass]="{'icon-full-screen': !isFull, 'icon-exit-full-screen': isFull}" (click)="tapFullScreen()"></i>
@@ -43,7 +49,8 @@
         </div>
     </div>
 </div>
-<div class="more-dialog" *ngIf="morePanelVisible">
+@if (morePanelVisible) {
+<div class="more-dialog">
     <div class="group-item">
         <span class="item-label">
             <i class="iconfont icon-sun"></i>
@@ -61,3 +68,4 @@
         </div>
     </div>
 </div>
+}

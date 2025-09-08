@@ -72,7 +72,8 @@
                 {{ user.oauth_count }}
             </div>
         </div>
-        <a class="meta-item" [routerLink]="['../', user.parent_id]" *ngIf="user.parent_id > 0">
+        @if (user.parent_id > 0) {
+        <a class="meta-item" [routerLink]="['../', user.parent_id]">
             <div class="item-header">
                 邀请人
             </div>
@@ -80,6 +81,8 @@
                 {{ user.parent?.name || '-' }}
             </div>
         </a>
+        }
+        
         <div class="meta-item">
             <div class="item-header">
                 注册时间

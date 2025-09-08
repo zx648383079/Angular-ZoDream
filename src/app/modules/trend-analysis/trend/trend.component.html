@@ -9,12 +9,13 @@
             <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
-                    <app-date-input [ngModel]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间"></app-date-input>
+                    <app-date-input [(ngModel)]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间"></app-date-input>
                     -
                     <app-date-input [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间"></app-date-input>
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">搜索</button>
+                    <a class="btn btn-light" title="跳转到指定时间页面" (click)="tapGoto()">GOTO</a>
                     <a class="btn btn-info" [ngClass]="{active: moreOpen}" (click)="moreOpen = !moreOpen">
                         <i class="iconfont icon-cog"></i>
                     </a>

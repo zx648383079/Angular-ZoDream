@@ -44,6 +44,12 @@ export class TrendComponent implements OnInit {
         });
     }
 
+    public tapGoto() {
+        this.queries.goto = this.queries.start_at;
+        this.queries.start_at = '';
+        this.tapRefresh();
+    }
+
     public tapTime(val: number) {
         this.tabIndex = val;
         const range = getTimeRange(val, 0);
@@ -117,8 +123,14 @@ export class TrendComponent implements OnInit {
                 this.items = res.data.reverse();
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
                 this.isLoading = false;
+                if (queries.goto) {
+                    queries.page = res.paging.offset;
+                    queries.per_page = res.paging.limit;
+                    delete queries['goto'];
+                }
+                this.searchService.applyHistory(this.queries = queries);
+                
             },
             error: () => {
                 this.isLoading = false;

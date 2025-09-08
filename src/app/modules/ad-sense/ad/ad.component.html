@@ -36,12 +36,11 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>
-                        <ng-container *ngIf="item.position; else elseTemplate">
-                            <a (click)="tapSearch({position_id: item.position_id})">{{ item.position.name}}</a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
-                            [-]
-                        </ng-template>
+                        @if (item.position) {
+                             <a (click)="tapSearch({position_id: item.position_id})">{{ item.position.name}}</a>
+                        } @else {
+                             [-]
+                        }
                     </td>
                     <td title="点击数/展示数">0/0</td>
                     <td></td>

@@ -60,8 +60,11 @@
                     </div>
                     <div class="item-footer">
                         <div class="item-meta-bar">
-                            <a class="category" *ngIf="item.term" ><i
+                            @if (item.term) {
+                                <a class="category" ><i
                                 class="iconfont icon-bookmark"></i><b>{{ item.term.name }}</b></a>
+                            }
+                            
                             <span class="comment"><i class="iconfont icon-comments"></i><b>{{ item.comment_count }}</b></span>
                             <span class="agree"><i class="iconfont icon-thumbs-up"></i><b>{{ item.recommend_count }}</b></span>
                             <span class="click"><i class="iconfont icon-eye"></i><b>{{ item.click_count }}</b></span>

@@ -1,29 +1,39 @@
 <div class="user-picker" [ngClass]="{'picker-open': isFocus && items.length > 0, 'picker-focus': isFocus}">
     <div class="picker-input" (click)="tapOpen()">
-        <div class="picker-input-avatar" *ngIf="value">
+        @if (value) {
+        <div class="picker-input-avatar">
             <img [src]="value.avatar|asset" [alt]="value.name">
         </div>
+        }
+        
         <div class="picker-input-body">
             <input #inputor type="text" [(ngModel)]="queries.keywords" (ngModelChange)="tapRefresh()" [disabled]="disabled">
             <div class="input-placeholder">
-                <ng-container *ngIf="value; else elseTemplate">
-                    <div class="placeholder-item" *ngIf="value">
+                @if (value) {
+                    <div class="placeholder-item">
                         <div class="item-name">
                             <span>{{ value.name }}</span>
                             (uid: {{ value.id }})</div>
                         <div class="item-meta">
-                            <p *ngIf="value.mobile">{{ value.mobile }}</p>
-                            <p *ngIf="value.email">{{ value.email }}</p>
+                            @if (value.mobile) {
+                                <p>{{ value.mobile }}</p>
+                            }
+                            @if (value.email) {
+                                <p>{{ value.email }}</p>
+                            }
+                            
                         </div>
                     </div>
-                </ng-container>
-                <ng-template #elseTemplate>
+                } @else {
                     <div class="placeholder-label">{{ placeholder }}</div>
-                </ng-template>
+                }
             </div>
-            <div class="picker-input-clear" *ngIf="value" (click)="tapClear()">
+            @if (value) {
+            <div class="picker-input-clear" (click)="tapClear()">
                 <i class="iconfont icon-close"></i>
             </div>
+            }
+            
         </div>
     </div>
     <div class="picker-body">
@@ -37,8 +47,12 @@
                     <div class="item-name">{{ item.name }}</div>
                     <div class="item-meta">
                         <p>uid: {{ item.id }}</p>
-                        <p *ngIf="item.mobile">{{ item.mobile }}</p>
-                        <p *ngIf="item.email">{{ item.email }}</p>
+                        @if (item.mobile) {
+                            <p>{{ item.mobile }}</p>
+                        }
+                        @if (item.email) {
+                            <p>{{ item.email }}</p>
+                        }
                     </div>
                 </div>
             </li>

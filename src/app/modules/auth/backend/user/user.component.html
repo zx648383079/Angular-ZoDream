@@ -13,8 +13,11 @@
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
               <div class="btn-group pull-right">
-                <a class="btn btn-info" routerLink="create" *ngIf="editable">新增用户</a>
-                <a routerLink="ban" class="btn btn-danger" *ngIf="editable">管理黑名单</a>
+                @if (editable) {
+                    <a class="btn btn-info" routerLink="create">新增用户</a>
+                    <a routerLink="ban" class="btn btn-danger">管理黑名单</a>
+                }
+                
               </div>
              
           </form>
@@ -32,8 +35,11 @@
               <th class="auto-hide">邮箱</th>
               <th class="auto-hide">性别</th>
               <th>余额</th>
-              <th *ngIf="editable">实名认证</th>
-              <th *ngIf="editable">状态</th>
+              @if (editable) {
+                <th>实名认证</th>
+                <th>状态</th>
+              }
+              
               <th class="auto-hide">更新时间</th>
               <th class="auto-hide">注册时间</th>
               <th>操作</th>
@@ -49,10 +55,13 @@
                   </td>
                   <td class="auto-hide">{{ item.sex_label }}</td>
                   <td>{{ item.money }}</td>
-                  <td *ngIf="editable">
+                  @if (editable) {
+                  <td>
                         <app-switch [(ngModel)]="item.is_verified" (ngModelChange)="onVerify(item, modal)"></app-switch>
                   </td>
-                  <td *ngIf="editable">{{ formatStatus(item.status) }}</td>
+                  <td>{{ formatStatus(item.status) }}</td>
+                  }
+                  
                   <td class="auto-hide" [title]="item.updated_at">{{ item.updated_at | ago }}</td>
                   <td class="auto-hide" [title]="item.created_at">{{ item.created_at | ago }}</td>
                   <td>

@@ -10,12 +10,14 @@
             <i class="iconfont icon-folder-open-o"></i>
         </a>
     </div>
-    <label class="drag-input" [for]="fileName" *ngIf="tabIndex < 1">
+    @if (tabIndex < 1) {
+    <label class="drag-input" [for]="fileName">
         拖放文件
         <p>(或点击)</p>
         <input type="file" [id]="fileName" (change)="uploadFile($event)">
     </label>
-    <div *ngIf="tabIndex == 1">
+    } @else if (tabIndex == 1) {
+    <div>
         <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
             <input type="text" [(ngModel)]="url">
             <label for="">链接</label>
@@ -24,5 +26,6 @@
             <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
         </div>
     </div>
+    }
     <app-loading-ring></app-loading-ring>
 </div>

@@ -3,26 +3,28 @@
         <div class="item" [ngClass]="{active: category < 1}" (click)="tapCat()" i18n>
             All
         </div>
-        <ng-container *ngFor="let item of categories">
-          <div class="item" [ngClass]="{active: category === item.id}" (click)="tapCat(item)">
+        @for (item of categories; track $index) {
+            <div class="item" [ngClass]="{active: category === item.id}" (click)="tapCat(item)">
               {{ item.name }}
           </div>
-        </ng-container>
+        }
     </div>
     <div class="bar-panel">
         <div class="bar-container">
-            <ng-container *ngFor="let item of barItems;let i = index">
+            @for (item of barItems; track $index;let i = $index) {
                 <div class="item" [ngClass]="{active: barIndex === i}" (click)="tapBar(i)">
                     {{ item }}
                 </div>
-            </ng-container>
+            }
         </div>
         <div class="body-container">
             @for (item of items; track $index) {
                 <div class="book-item book-thumb" (click)="tapBook(item)">
                   <div class="cover">
                       <img [src]="item.cover">
-                      <div class="tip" *ngIf="item.click_count > 0" i18n>{{ item.click_count | numberFormat }} readings</div>
+                      @if (item.click_count > 0) {
+                        <div class="tip" i18n>{{ item.click_count | numberFormat }} readings</div>
+                      }
                   </div>
                   <div class="info">
                       <div class="name">{{ item.name }}</div>

@@ -1,26 +1,39 @@
-<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
-<div class="dialog-box" *ngIf="!collaspse || visible" [ngClass]="{'dialog-not-header': !title && !customHeader}" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
-    <div class="dialog-header" *ngIf="title || customHeader">
+@if (visible) {
+    <div class="dialog-mask" (click)="close()"></div>
+}
+@if (!collaspse || visible) {
+<div class="dialog-box" [ngClass]="{'dialog-not-header': !title && !customHeader}" [@dialogOpen]="visible ? 'open' : 'closed'" [ngStyle]="boxStyle">
+    @if (title || customHeader) {
+    <div class="dialog-header">
         <div class="dialog-title">{{ title }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>
-        <ng-container *ngIf="buttonVisible">
+        @if (buttonVisible) {
             <div class="btn btn-primary tablet-visible" (click)="close(true)">{{ confirmText }}</div>
-        </ng-container>
+        }
         <ng-content select="[name=header]"></ng-content>
     </div>
+    }
+    
     <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
         <ng-content></ng-content>
-        <div class="dialog-invail-tip" *ngIf="invalidTip">
+        @if (invalidTip) {
+        <div class="dialog-invail-tip">
             {{ invalidTip }}
         </div>
+        }
+        
     </div>
-    <div class="dialog-footer tablet-collapse" *ngIf="footerVisible">
+    @if (footerVisible) {
+    <div class="dialog-footer tablet-collapse">
         <div class="btn-group">
-            <ng-container *ngIf="buttonVisible">
+            @if (buttonVisible) {
                 <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>
                 <div class="btn btn-danger" (click)="close(false)">{{ cancelText }}</div>
-            </ng-container>
+            }
             <ng-content select="[name=footer]"></ng-content>
         </div>
     </div>
+    }
+    
 </div>
+}

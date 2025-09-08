@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="panel-container book-list-info" *ngIf="data">
+    @if (data) {
+    <div class="panel-container book-list-info">
         <div class="info-main">
             <div class="title">{{ data.title }}</div>
             <p class="desc">{{ data.description }}</p>
@@ -20,6 +21,8 @@
             </div>
         </div>
     </div>
+    }
+    
     <div class="panel-container">
         @for (item of items; track $index) {
             <div class="list-book-item">

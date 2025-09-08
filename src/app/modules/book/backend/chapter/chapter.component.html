@@ -2,7 +2,10 @@
     <app-page-tip>
         <ul>
             <li>章节列表</li>
-            <li *ngIf="data">书名：{{ data.name }}</li>
+            @if (data) {
+                <li>书名：{{ data.name }}</li>
+            }
+            
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -13,7 +16,10 @@
                     <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" [ngModel]="keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <a class="btn btn-success pull-right" *ngIf="data" routerLink="0">新增章节</a>
+                @if (data) {
+                    <a class="btn btn-success pull-right" routerLink="0">新增章节</a>
+                }
+                
             </form>
         </div>
     

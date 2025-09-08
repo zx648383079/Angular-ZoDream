@@ -12,18 +12,16 @@
         <div class="item-body">
             <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
             {{ item.name }}
-            <ng-container *ngIf="item.platform || item.nickname">
-                (
-                <span class="item-platform">{{ item.platform }}：</span>{{ item.nickname }})
-            </ng-container>
+            @if (item.platform || item.nickname) {
+                (<span class="item-platform">{{ item.platform }}：</span>{{ item.nickname }})
+            }
         </div>
         <div class="item-action">
-            <ng-container *ngIf="item.id; else elseTemplate">
+            @if (item.id) {
                 <a class="unlink-btn" i18n (click)="tapUnbind(item)">Unbind</a>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <a i18n (click)="tapBind(item)">Binding</a>
-            </ng-template>
+            }
         </div>
     </div>
     }

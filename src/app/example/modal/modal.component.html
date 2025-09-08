@@ -31,7 +31,10 @@
     自定义弹窗
 </app-dialog-box>
 
-<div class="dialog-mask" *ngIf="customModal.visible" (click)="customModal.visible = false"></div>
+@if (customModal.visible) {
+    <div class="dialog-mask" (click)="customModal.visible = false"></div>
+}
+
 <div class="dialog-flip-box" [@dialogOpen]="customModal.visible ? 'open' : 'closed'">
     <div class="dialog-header">
         <div class="dialog-close" (click)="customModal.visible = false">
@@ -132,10 +135,10 @@
     </app-flip-container>
     <div class="dialog-footer">
         <div class="dialog-action" (click)="flipModal.back()">
-            <ng-container *ngIf="customModal.page > 0">
+            @if (customModal.page > 0) {
                 <i class="iconfont icon-chevron-left"></i>
                 后退
-            </ng-container>
+            }
         </div>
         <app-flip-dot [value]="customModal.page" [max]="4"></app-flip-dot>
         <div class="btn-group">

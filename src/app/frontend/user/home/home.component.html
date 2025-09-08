@@ -3,19 +3,20 @@
 @for (item of items; track $index) {
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="item-icon">
-            <ng-container *ngIf="item.icon; else elseTemplate">
+            @if (item.icon) {
                 <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
-            </ng-container>
-            <ng-template #elseTemplate>
+            } @else {
                 <i class="iconfont icon-file-o"></i>
-            </ng-template>
+            }
         </div>
         <div class="item-body">
             <h3>{{ item.name }}</h3>
             <p>
                 {{ item.count }}
                 <span class="item-tag iconfont" [ngClass]="{'icon-arrow-down': item.inc < 0, 'icon-arrow-up': item.inc > 0}"></span>
-                <span class="item-unit" *ngIf="item.unit">{{ item.unit }}</span>
+                @if (item.unit) {
+                    <span class="item-unit">{{ item.unit }}</span>
+                }
             </p>
         </div>
     </a>

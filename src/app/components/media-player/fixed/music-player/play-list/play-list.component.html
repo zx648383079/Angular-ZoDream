@@ -2,7 +2,9 @@
     @for (item of items; track $index) {
         <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">
-                <i class="iconfont icon-play" *ngIf="item.active"></i>
+                @if (item.active) {
+                    <i class="iconfont icon-play"></i>
+                }
             </div>
             <div class="name">
                 <span class="wrap-block">{{ item.name }}</span>
@@ -13,12 +15,18 @@
                     <i class="iconfont icon-trash"></i>
                 </div>
             </div>
-            <div class="artist" *ngIf="!min">
+            @if (!min) {
+            <div class="artist">
                 {{ item.artist }}
             </div>
-            <div class="time" *ngIf="item.duration > 0">
+            }
+            
+            @if (item.duration > 0) {
+            <div class="time">
                 {{ item.duration | duration }}
             </div>
+            }
+            
         </div>
     }
 </div>

@@ -1,9 +1,8 @@
-<ng-container *ngIf="paused; else elseTemplate">
+@if (paused) {
     <div class="voice-block" (click)="tapPlay()">
         <i class="iconfont icon-voice"></i>
     </div>
-</ng-container>
-<ng-template #elseTemplate>
+} @else {
     <div class="player-bar">
         <div class="icon" (click)="tapPlay()">
             <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-stop': !paused}"></i>
@@ -15,4 +14,4 @@
             {{ formatProgress }}/{{ formatDuration }}
         </div>
     </div>
-</ng-template>
+}

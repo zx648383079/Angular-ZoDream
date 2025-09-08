@@ -3,7 +3,7 @@
         <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
-    <ng-container *ngIf="sended">
+    @if (sended) {
         <div class="input-group-control">
             <input type="text" formControlName="code" i18n-placeholder placeholder="Please input the security code" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
@@ -21,7 +21,7 @@
             <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
                 (click)="isObserve = !isObserve"></i>
         </div>
-    </ng-container>
+    }
 
 
     <button type="submit" class="btn btn-full" [disabled]="findForm.invalid">{{ btnLabel }}</button>

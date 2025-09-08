@@ -57,10 +57,13 @@
         <span class="item-label">用户：</span>
         <span class="item-body">{{ editData.user?.name }}</span>
     </div>
-    <div class="line-row-item" *ngIf="editData.user">
+    @if (editData.user) {
+    <div class="line-row-item">
         <span class="item-label">账户余额：</span>
         <span class="item-body">{{ editData.user.money }}</span>
     </div>
+    }
+    
     <div class="line-row-item">
         <span class="item-label">类型：</span>
         <span class="item-body">{{ editData.type }}</span>
@@ -77,8 +80,10 @@
         <span class="item-label">状态：</span>
         <span class="item-body">{{ editData.status }}</span>
     </div>
-    <ng-container name="footer" *ngIf="editData.status < 1">
+    @if (editData.status < 1) {
+    <ng-container name="footer">
         <button type="button" class="btn btn-success" (click)="modal.close(2)">处理申请</button>
         <button type="button" class="btn btn-danger" (click)="modal.close(9)">拒绝申请</button>
     </ng-container>
+    }
 </app-dialog-box>

@@ -1,3 +1,4 @@
+@use '../../../theme/theme';
 .words-input {
     padding-top: 5px;
     padding-left: 7px;
@@ -24,6 +25,6 @@
     &.input-focus {
         border-color: var(--#{theme.$prefix}input-focus-border);
         outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(--#{theme.$prefix}mask-rgb, .075);
+        box-shadow: 0 0 0 0.2rem rgba(var(--#{theme.$prefix}mask-rgb), .075);
     }
 }

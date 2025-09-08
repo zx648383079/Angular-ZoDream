@@ -41,9 +41,9 @@
                     <td>{{ item.openid }}</td>
                     <td>
                         {{ item.nickname }}
-                        <ng-container *ngIf="item.note_name">
+                        @if (item.note_name) {
                             ({{item.note_name}})
-                        </ng-container>
+                        }
                     </td>
                     <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
                     <td>

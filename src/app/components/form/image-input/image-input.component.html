@@ -1,5 +1,5 @@
 <div class="action-btn" [ngClass]="{disabled: disabled, loading: isLoading}">
-    <ng-container *ngIf="value; else elseTemplate">
+    @if (value) {
         <div class="action-body">
             <img [src]="formatAsset(value)" alt="">
             <div class="btn-group">
@@ -9,12 +9,11 @@
                 <span class="btn btn-danger" (click)="tapRemove()" i18n>Remove</span>
             </div>
         </div>
-    </ng-container>
-    <ng-template #elseTemplate>
+    } @else {
         <label [for]="fileName" class="action-body">
             {{ placeholder }}
         </label>
-    </ng-template>
+    }
     
     
     <div class="action-loading">

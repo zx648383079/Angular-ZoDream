@@ -50,12 +50,11 @@
                     <td>{{ item.id }}</td>
                     <td class="auto-hide">[{{ formatTag(item.folder) }}]</td>
                     <td [title]="item.path">
-                        <ng-container *ngIf="item.url; else elseTemplate">
+                        @if (item.url) {
                             <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{ item.name }}</a>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+                        } @else {
                             {{ item.name }}
-                        </ng-template>
+                        }
                     </td>
                     <td>{{ item.size | size }}</td>
                     <td [title]="item.path" class="auto-hide">{{ item.md5 }}</td>

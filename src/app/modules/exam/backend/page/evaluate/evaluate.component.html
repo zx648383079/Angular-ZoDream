@@ -39,8 +39,11 @@
                     <td>{{ item.score }}</td>
                     <td>{{ formatStatus(item.status) }}</td>
                     <td>
-                        <div class="btn-group  btn-group-xs">
-                            <a class="btn btn-info btn-xs" [routerLink]="['../scoring', item.id]" *ngIf="item.status > 0">阅卷</a>
+                        <div class="btn-group">
+                            @if (item.status > 0) {
+                                <a class="btn btn-info" [routerLink]="['../scoring', item.id]">阅卷</a>
+                            }
+                            
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

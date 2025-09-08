@@ -5,7 +5,9 @@
             <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="queries.keywords">
         </div>
         <button type="submit" class="btn btn-primary">搜索</button>
-        <a *ngIf="itemId > 0" class="btn btn-info pull-right" [routerLink]="'../account/change/' + itemId">账户充值</a>
+        @if (itemId > 0) {
+            <a class="btn btn-info pull-right" [routerLink]="'../account/change/' + itemId">账户充值</a>
+        }
     </form>
 </div>
 <table class="table table-bordered well">

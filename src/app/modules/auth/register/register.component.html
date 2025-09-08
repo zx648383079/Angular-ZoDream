@@ -1,4 +1,4 @@
-<ng-container *ngIf="openStatus < 2; else elseTemplate">
+@if (openStatus < 2) {
     <form class="form-icon-control login-form" [formGroup]="registerForm" (ngSubmit)="tapSignUp()">
         <div class="input-group-control">
             <input type="text" formControlName="name" i18n-placeholder placeholder="Please input nickname">
@@ -44,8 +44,7 @@
             <a routerLink="../" i18n>Back</a>
         </div>
     </form>
-</ng-container>
-<ng-template #elseTemplate>
+} @else {
     <div class="close-tip-box">
         <p i18n>Sorry, membership registration is closed, opening hours are undecided!</p>
 
@@ -53,5 +52,5 @@
             <a routerLink="../" i18n>Back</a>
         </div>
     </div>
-</ng-template>
+}
 

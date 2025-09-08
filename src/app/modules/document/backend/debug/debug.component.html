@@ -94,9 +94,15 @@
                                     </td>
                                     <td [ngClass]="{'type-td': bodyType == 1}">
                                         <input type="text" class="form-control" [(ngModel)]="item.key">
-                                        <select *ngIf="bodyType == 1" [(ngModel)]="item.type" class="form-control">
-                                            <option *ngFor="let item of optionItems;let i = index" [value]="i">{{ item }}</option>
+                                        @if (bodyType == 1) {
+                                        <select [(ngModel)]="item.type" class="form-control">
+                                            @for (item of optionItems; track $index;let i = $index) {
+                                                <option [value]="i">{{ item }}</option>
+                                            }
+                                            
                                         </select>
+                                        }
+                                        
                                     </td>
                                     <td>
                                         @if (item.type > 0) {

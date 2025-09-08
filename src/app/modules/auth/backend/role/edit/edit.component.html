@@ -7,7 +7,10 @@
             <label for="name">角色名</label>
             <div>
                 <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:admin">
-                <div class="input-tip" *ngIf="name.invalid">请输入角色名</div>
+                @if (name.invalid) {
+                    <div class="input-tip">请输入角色名</div>
+                }
+                
             </div>
         </div>
         <div class="input-group-control">
@@ -15,7 +18,10 @@
             <div>
                 <input type="text" id="display_name" class="form-control" formControlName="display_name"
                     placeholder="例如: 管理员">
-                <div class="input-tip" *ngIf="displayName.invalid">请输入别名</div>
+                @if (displayName.invalid) {
+                    <div class="input-tip">请输入别名</div>
+                }
+                
 
             </div>
         </div>

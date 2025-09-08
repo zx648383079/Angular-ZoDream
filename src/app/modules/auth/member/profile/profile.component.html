@@ -8,7 +8,8 @@
         </span>
     </div>
 </div>
-<div class="container" *ngIf="user">
+@if (user) {
+<div class="container">
     <form class="form-table-control" [hidden]="tabIndex > 0" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
             <label for="fileUpload" i18n>Avatar</label>
@@ -54,7 +55,11 @@
             <button class="btn btn-primary" i18n>Save</button>
         </div>
     </form>
-    <div class="inner-container" *ngIf="tabIndex == 2">
+    @if (tabIndex == 2) {
+    <div class="inner-container">
         <app-member-bind-step [name]="stepData.name" [user]="user"></app-member-bind-step>
     </div>
+    }
 </div>
+}
+

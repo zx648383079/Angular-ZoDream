@@ -27,7 +27,9 @@
                 <span>
                     <ng-container i18n>Status:</ng-container>
                     <ng-container i18n>{item.status > 0, plural, =true {Readed} =false {UnRead}}</ng-container></span>
-                <a *ngIf="item.open && item.status > 0" (click)="tapRemove(item)" i18n>[Delete]</a>
+                @if (item.open && item.status > 0) {
+                    <a (click)="tapRemove(item)" i18n>[Delete]</a>
+                }
             </div>
         </div>
     }

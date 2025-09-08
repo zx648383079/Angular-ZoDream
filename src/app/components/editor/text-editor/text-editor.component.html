@@ -3,7 +3,9 @@
         <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disabled" [placeholder]="placeholder"></textarea>
         <div class="editor-footer">
             <ng-container i18n>{{ size }} words</ng-container>
-            <ng-container *ngIf="maxLength > 0">/{{ maxLength }}</ng-container>
+            @if (maxLength > 0) {
+                /{{ maxLength }}
+            }
         </div>
     </div>
 </div>

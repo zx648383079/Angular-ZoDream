@@ -15,15 +15,17 @@
                 {{ item.package.category.name }}
             </div>
             <div class="item-time">
-                <ng-container *ngIf="item.status < 1; else elseTemplate">
+                @if (item.status < 1) {
                     {{ item.version.created_at | ago }}
-                </ng-container>
-                <ng-template #elseTemplate>
-                    <div class="item-speed" *ngIf="item.status == 2">{{ item.speed | size }}/s</div>
+                } @else {
+                    @if (item.status == 2) {
+                        <div class="item-speed">{{ item.speed | size }}/s</div>
+                    }
+                    
                     <div class="item-progress">
                         {{ item.progress | size }}/{{ item.length | size }}
                     </div>
-                </ng-template>
+                }
                 
             </div>
             <div class="item-action">

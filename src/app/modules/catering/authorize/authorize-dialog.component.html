@@ -1,4 +1,7 @@
-<div class="dialog-mask" *ngIf="visible" (click)="close()"></div>
+@if (visible) {
+    <div class="dialog-mask" (click)="close()"></div>
+}
+
 <div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
     <div class="user-panel">
         <div class="item-avatar">

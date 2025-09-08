@@ -83,71 +83,74 @@
     </div>
 </app-dialog-box>
 <app-dialog-box #modal [title]="'发送模板消息'">
-<div class="form-table-control" *ngIf="sendData.template">
-    <div class="input-group-control">
-        <label for="">模板名称</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="sendData.template.title">
-            <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status"></app-switch>
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">接收者</label>
-        <div>
-            <div>
-                <app-select-input [url]="selectUrl" [(ngModel)]="sendData.to" [formatFn]="formatUser"></app-select-input>
+    @if (sendData.template) {
+        <div class="form-table-control">
+            <div class="input-group-control">
+                <label for="">模板名称</label>
+                <div>
+                    <input type="text" class="form-control" [(ngModel)]="sendData.template.title">
+                    <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status"></app-switch>
+                </div>
             </div>
+            <div class="input-group-control">
+                <label for="">接收者</label>
+                <div>
+                    <div>
+                        <app-select-input [url]="selectUrl" [(ngModel)]="sendData.to" [formatFn]="formatUser"></app-select-input>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group-control">
+                <label for="">标题</label>
+                <div>
+                    <input type="text" class="form-control" [(ngModel)]="sendData.title">
+                </div>
+            </div>
+            <div class="input-group-control">
+                <label for="">链接</label>
+                <div>
+                    <input type="text" class="form-control" [(ngModel)]="sendData.template_url">
+                </div>
+            </div>
+            <div class="input-group-control">
+                <label for="">小程序appid</label>
+                <div>
+                    <input type="text" class="form-control" [(ngModel)]="sendData.appid">
+                </div>
+            </div>
+            <div class="input-group-control">
+                <label for="">小程序路径</label>
+                <div>
+                    <input type="text" class="form-control" [(ngModel)]="sendData.path">
+                </div>
+            </div>
+            <div class="input-group-control">
+                <label for="">模板内容</label>
+                <div>
+                    <textarea class="form-control" readonly [(ngModel)]="sendData.content"></textarea>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>内容</th>
+                        <th>颜色</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of sendData.items">
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onFieldChange()"></textarea>
+                        </td>
+                        <td>
+                            <input type="color" class="form-control" [(ngModel)]="item.color">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">标题</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="sendData.title">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">链接</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="sendData.template_url">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">小程序appid</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="sendData.appid">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">小程序路径</label>
-        <div>
-            <input type="text" class="form-control" [(ngModel)]="sendData.path">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">模板内容</label>
-        <div>
-            <textarea class="form-control" readonly [(ngModel)]="sendData.content"></textarea>
-        </div>
-    </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>字段</th>
-                <th>内容</th>
-                <th>颜色</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of sendData.items">
-                <td>{{ item.name }}</td>
-                <td>
-                    <textarea class="form-control" [(ngModel)]="item.value" (ngModelChange)="onFieldChange()"></textarea>
-                </td>
-                <td>
-                    <input type="color" class="form-control" [(ngModel)]="item.color">
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    }
+
 </app-dialog-box>

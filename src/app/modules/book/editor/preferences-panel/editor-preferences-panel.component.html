@@ -13,8 +13,8 @@
             <span>{{ item.name }}</span>
         </div>
         }
-
-        <div class="panel-sub" *ngIf="subOpen">
+        @if (subOpen) {
+        <div class="panel-sub">
             <div class="panel-header">
                 <i class="iconfont icon-chevron-left" (click)="subOpen = false"></i>
                 设定
@@ -24,5 +24,7 @@
                 <textarea class="form-control"></textarea>
             </div>
         </div>
+        }
+        
     </div>
 </div>

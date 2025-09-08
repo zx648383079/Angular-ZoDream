@@ -7,7 +7,8 @@
             <span></span>
             <span></span>
         </div>
-        <div class="loading-message" *ngIf="title">{{ title  }}
-        </div>
+        @if (title) {
+            <div class="loading-message">{{ title  }}</div>
+        }
     </div>
 </div>

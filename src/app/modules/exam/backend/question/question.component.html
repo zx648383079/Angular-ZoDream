@@ -40,9 +40,9 @@
                     <tr [title]="item.created_at|ago">
                     <td>{{ item.id }}</td>
                     <td>【
-                        <ng-container *ngIf="item.parent_id > 0">
+                        @if (item.parent_id > 0) {
                             小题●
-                        </ng-container>
+                        }
                         
                         {{ item.type | questionType }}】{{ item.title }}</td>
                     <td>{{ item.course?.name }}●{{ item.course_grade_format }}</td>

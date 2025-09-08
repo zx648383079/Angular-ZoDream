@@ -2,7 +2,10 @@
     <app-page-tip>
         <ul>
             <li>权益卡购买记录列表</li>
-            <li *ngIf="user">会员：{{ user.name }}</li>
+            @if (user) {
+                <li>会员：{{ user.name }}</li>
+            }
+            
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -25,10 +28,12 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td>
-                        <div class="card-line" *ngIf="item.card">
+                        @if (item.card) {
+                        <div class="card-line">
                             <img [src]="item.card.icon" [alt]="item.card.name">
                             {{ item.card.name }}
                         </div>
+                        }
                     </td>
                     <td>
                         {{ item.exp | numberFormat }}

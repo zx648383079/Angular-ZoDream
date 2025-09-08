@@ -6,7 +6,8 @@
     <div class="player-catalog" [hidden]="!catalogVisible">
         <app-play-list [min]="true" [items]="items" (playing)="play($event)"></app-play-list>
     </div>
-    <div class="more-dialog" *ngIf="morePanelVisible">
+    @if (morePanelVisible) {
+    <div class="more-dialog">
         <div class="group-item" title="频谱显示">
             <span class="item-label">
                 <i class="iconfont icon-bar-chart"></i>
@@ -40,6 +41,8 @@
             </div>
         </div>
     </div>
+    }
+    
     <div class="player-bar">
         <div class="bar-action">
             <i class="iconfont icon-step-backward" [ngClass]="{disabled: canPrevious}" (click)="tapPrevious()"></i>
@@ -48,9 +51,12 @@
             <i class="iconfont icon-step-forward" [ngClass]="{disabled: canNext}" (click)="tapNext()"></i>
         </div>
         <div class="bar-body">
-            <div class="bar-cover" *ngIf="data?.cover">
+            @if (data?.cover) {
+            <div class="bar-cover">
                 <img [src]="formatAsset(data?.cover)" alt="">
             </div>
+            }
+            
             <div class="bar-flex-body">
                 <div class="bar-header">
                     <div class="bar-title">

@@ -1,42 +1,67 @@
 <div class="pull-to-refresh-scroll" #pullScroll (touchstart)="touchStart($event)" (touchmove)="touchMove($event)"
     (touchend)="touchEnd($event)">
     <div class="scroll-top" [style]="style">
-        <div *ngIf="state == ESTATE.PULL">
-            <i class="iconfont icon-arrow-down"></i>
-            <ng-container i18n>Pull to refresh</ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.PULLED">
-            <i class="iconfont icon-arrow-up"></i>
-            <ng-container i18n>Release to refresh </ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.REFRESHING">
-            <i class="iconfont icon-refresh"></i>
-            <ng-container i18n>Refresh...</ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.REFRESHED">
-            <i class="iconfont icon-check"></i>
-            <ng-container i18n>Refresh finished</ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.CANCEL">
-            <i class="iconfont icon-arrow-up"></i>
-            <ng-container i18n>Stop refresh</ng-container>
-        </div>
+        @switch (state) {
+            @case (ESTATE.PULL) {
+                <div>
+                    <i class="iconfont icon-arrow-down"></i>
+                    <ng-container i18n>Pull to refresh</ng-container>
+                </div>
+            }
+            @case (ESTATE.PULLED) {
+                <div>
+                    <i class="iconfont icon-arrow-up"></i>
+                    <ng-container i18n>Release to refresh </ng-container>
+                </div>
+            }
+            @case (ESTATE.REFRESHING) {
+                <div>
+                    <i class="iconfont icon-refresh"></i>
+                    <ng-container i18n>Refresh...</ng-container>
+                </div>
+            }
+            @case (ESTATE.REFRESHED) {
+                <div>
+                    <i class="iconfont icon-check"></i>
+                    <ng-container i18n>Refresh finished</ng-container>
+                </div>
+            }
+            @case (ESTATE.CANCEL) {
+                <div>
+                    <i class="iconfont icon-arrow-up"></i>
+                    <ng-container i18n>Stop refresh</ng-container>
+                </div>
+            }
+        }
+        
+        
+        
+        
+        
     </div>
     <div class="scroll-body">
         <ng-content></ng-content>
     </div>
     <div class="scroll-bottom">
-        <div *ngIf="state == ESTATE.MORE">
-            <i class="iconfont icon-refresh"></i>
-            <ng-container i18n>Load More</ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.LOADING">
-            <i class="iconfont icon-check"></i>
-            <ng-container i18n>Loading</ng-container>
-        </div>
-        <div *ngIf="state == ESTATE.LOADED">
-            <i class="iconfont icon-arrow-up"></i>
-            <ng-container i18n>Loaded</ng-container>
-        </div>
+        @switch (state) {
+            @case (ESTATE.MORE) {
+                <div>
+                    <i class="iconfont icon-refresh"></i>
+                    <ng-container i18n>Load More</ng-container>
+                </div>
+            }
+            @case (ESTATE.LOADING) {
+                <div>
+                    <i class="iconfont icon-check"></i>
+                    <ng-container i18n>Loading</ng-container>
+                </div>
+            }
+            @case (ESTATE.LOADED) {
+                <div>
+                    <i class="iconfont icon-arrow-up"></i>
+                    <ng-container i18n>Loaded</ng-container>
+                </div>
+            }
+        }
     </div>
 </div>

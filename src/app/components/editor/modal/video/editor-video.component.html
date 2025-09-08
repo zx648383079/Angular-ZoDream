@@ -10,32 +10,41 @@
             <i class="iconfont icon-upload"></i>
         </a>
     </div>
-    <label class="drag-input" [for]="fileName" *ngIf="tabIndex < 1">
-        拖放文件
-        <p>(或点击)</p>
-        <input type="file" [id]="fileName" (change)="uploadFile($event)">
-    </label>
-    <div *ngIf="tabIndex == 1">
-        <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
-            <input type="text" [(ngModel)]="url">
-            <label for="">链接</label>
-        </div>
-        <div class="input-flex-line">
-            <i class="iconfont" [ngClass]="{'icon-check-square-o': isAutoplay, 'icon-square-o': !isAutoplay}" (click)="isAutoplay = !isAutoplay"></i>
-            自动播放
-        </div>
-        <div class="modal-action">
-            <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
-        </div>
-    </div>
-    <div *ngIf="tabIndex == 2">
-        <div class="input-header-block" [ngClass]="{'input-not-empty': !!code}">
-            <textarea [(ngModel)]="code" rows="4"></textarea>
-            <label for="">代码</label>
-        </div>
-        <div class="modal-action">
-            <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
-        </div>
-    </div>
+    @switch (tabIndex) {
+        @case (1) {
+            <div>
+                <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
+                    <input type="text" [(ngModel)]="url">
+                    <label for="">链接</label>
+                </div>
+                <div class="input-flex-line">
+                    <i class="iconfont" [ngClass]="{'icon-check-square-o': isAutoplay, 'icon-square-o': !isAutoplay}" (click)="isAutoplay = !isAutoplay"></i>
+                    自动播放
+                </div>
+                <div class="modal-action">
+                    <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
+                </div>
+            </div>
+        }
+        @case (2) {
+            <div>
+                <div class="input-header-block" [ngClass]="{'input-not-empty': !!code}">
+                    <textarea [(ngModel)]="code" rows="4"></textarea>
+                    <label for="">代码</label>
+                </div>
+                <div class="modal-action">
+                    <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
+                </div>
+            </div>
+        }
+        @default {
+            <label class="drag-input" [for]="fileName">
+                拖放文件
+                <p>(或点击)</p>
+                <input type="file" [id]="fileName" (change)="uploadFile($event)">
+            </label>
+        }
+    }
+    
     <app-loading-ring></app-loading-ring>
 </div>

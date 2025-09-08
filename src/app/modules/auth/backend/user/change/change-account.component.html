@@ -1,5 +1,6 @@
 <app-edit-header [title]="'账户充值'" (submited)="tapSubmit($event)"></app-edit-header>
-<div class="container-fluid" *ngIf="data">
+@if (data) {
+<div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()" method="POST">
         <div class="input-group-control">
             <label>账号</label>
@@ -34,3 +35,4 @@
         </div>
     </form>
 </div>
+}
