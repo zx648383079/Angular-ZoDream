@@ -110,7 +110,7 @@ export class IncomeComponent implements OnInit {
             last.items.push(item);
         }
         return items;
-    };
+    }
 
     public tapBack() {
         history.back();

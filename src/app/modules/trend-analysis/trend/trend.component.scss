@@ -28,3 +28,25 @@
         }
     }
 }
+
+.tool-icon {
+    font-size: .6rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: .8rem;
+    height: .8rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: rgba(var(--#{theme.$prefix}mask-rgb), .4);
+    color: var(--#{theme.$prefix}primary-text);
+    vertical-align: top;
+    cursor: pointer;
+    transition: all .5s;
+    &:hover {
+        width: 2rem;
+        border-radius: .25rem;
+        background-color: var(--#{theme.$prefix}primary);
+        color: var(--#{theme.$prefix}primary-text);  
+    }
+}

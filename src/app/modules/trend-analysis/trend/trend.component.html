@@ -8,6 +8,10 @@
         <div class="page-search-bar">
             <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
                 <div class="input-group-control">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键字">
+                </div>
+                <div class="input-group-control">
                     <label for="keywords">时间</label>
                     <app-date-input [(ngModel)]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间"></app-date-input>
                     -
@@ -28,6 +32,7 @@
             </form>
             @if (moreOpen) {
             <div class="search-more-body">
+                <a class="btn btn-danger" title="重置搜索条件" (click)="tapReset()">重置搜索条件</a>
                 <h3>标记的数据：</h3>
                 <div class="selected-container">
                     @for (item of markItems; track $index) {
@@ -60,115 +65,125 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
-                <tr>
-                    <td [title]="item.created_at|timestamp">{{ item.created_at | timestamp:'hh:ii:ss'}}</td>
-                    <td class="--with-tool" [ngClass]="{'is-mark': isMark('ip', item.ip)}">
-                        <a (click)="toggleOpen(item)">{{ item.ip }}</a>
-                        <div class="tool-bar">
-                            @if (isMark('ip', item.ip)) {
-                                <a title="取消标记" (click)="tapUnmark('ip', item.ip)">
-                                    <i class="iconfont icon-clearformat"></i>
-                                </a>
-                            } @else {
-                                <a title="标记" (click)="tapMark('ip', item.ip)">
-                                    <i class="iconfont icon-bookmark"></i>
-                                </a>
-                            }
-                            <a title="搜索" (click)="tapFilter('ip', item.ip)">
-                                <i class="iconfont icon-search"></i>
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <a class="btn" [ngClass]="{'btn-success': item.status_code <= 308, 'btn-danger': item.status_code >= 400}" [title]="item.status_code">
-                            {{ item.method }}
-                        </a>
-                    </td>
-                    <td>
-                        <code class="code-snippet">
-                            @if (item.queries) {
-                                {{ item.pathname }}?{{item.queries}}
-                            } @else {
-                                {{ item.pathname }}
-                            }
-                        </code>
-                    </td>
-                </tr>
-                @if (item.is_open) {
+                @for (group of items; track $index) {
                     <tr>
-                        <td colspan="4">
-                            <div class="line-row-item">
-                                <span class="item-label">请求时间：</span>
-                                <span class="item-body">{{ item.created_at|timestamp:'yyyy-mm-dd hh:ii:ss' }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">请求方法：</span>
-                                <span class="item-body">{{ item.method }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">请求域名：</span>
-                                <div class="item-body">
-                                    <code class="code-snippet">
-                                        {{ item.hostname }}
-                                    </code>
-                                </div>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">请求路径：</span>
-                                <div class="item-body">
-                                    <code class="code-snippet">
-                                        {{ item.pathname }}
-                                    </code>
-                                </div>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">请求参数：</span>
-                                <div class="item-body">
-                                    <code class="code-snippet">
-                                        {{ item.queries }}
-                                    </code>
-                                </div>
-                            </div>
-                            
-                            <div class="line-row-item">
-                                <span class="item-label">Referer：</span>
-                                <div class="item-body">
-                                    <code class="code-snippet">
-                                        {{ item.referrer_hostname }}{{ item.referrer_pathname }}
-                                    </code>
-                                </div>
-                            </div>
-                            @if (item.browser) {
-                            <div class="line-row-item">
-                                <span class="item-label">浏览器：</span>
-                                <span class="item-body">{{ item.browser.join(' ') }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">操作系统：</span>
-                                <span class="item-body">{{ item.os.join(' ') }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">设备：</span>
-                                <span class="item-body">{{ item.device.join(' ') }}</span>
-                            </div>
-                            }
-                            
-                            <div class="line-row-item">
-                                <span class="item-label">User Agent：</span>
-                                <div class="item-body">
-                                    <code class="code-snippet">
-                                        {{ item.user_agent }}
-                                    </code>
-                                </div>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">Status Code：</span>
-                                <span class="item-body">{{ item.status_code }}</span>
-                            </div>
-                        </td>
+                        <th colspan="4">
+                            <i class="iconfont icon-calendar"></i>
+                            {{ group.name }}
+                        </th>
                     </tr>
-                }
+                    @for (item of group.items; track $index) {
+                        <tr>
+                            <td [title]="item.created_at|timestamp">{{ item.created_at | timestamp:'hh:ii:ss'}}</td>
+                            <td class="--with-tool" [ngClass]="{'is-mark': isMark('ip', item.ip)}">
+                                <a (click)="toggleOpen(item)">{{ item.ip }}</a>
+                                <div class="tool-bar">
+                                    @if (isMark('ip', item.ip)) {
+                                        <a title="取消标记" (click)="tapUnmark('ip', item.ip)">
+                                            <i class="iconfont icon-clearformat"></i>
+                                        </a>
+                                    } @else {
+                                        <a title="标记" (click)="tapMark('ip', item.ip)">
+                                            <i class="iconfont icon-bookmark"></i>
+                                        </a>
+                                    }
+                                    <a title="搜索" (click)="tapFilter('ip', item.ip)">
+                                        <i class="iconfont icon-search"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn" [ngClass]="{'btn-success': item.status_code <= 308, 'btn-danger': item.status_code >= 400}" [title]="item.status_code">
+                                    {{ item.method }}
+                                </a>
+                            </td>
+                            <td>
+                                <code class="code-snippet">
+                                    @if (item.queries) {
+                                        {{ item.pathname }}?{{item.queries}}
+                                    } @else {
+                                        {{ item.pathname }}
+                                    }
+                                </code>
+                            </td>
+                        </tr>
+                        @if (item.is_open) {
+                            <tr>
+                                <td colspan="4">
+                                    <div class="line-row-item">
+                                        <span class="item-label">请求时间：</span>
+                                        <span class="item-body">{{ item.created_at|timestamp:'yyyy-mm-dd hh:ii:ss' }}
+                                            <a class="tool-icon" (click)="tapGoto(item.created_at)">GOTO</a>
+                                        </span>
+                                    </div>
+                                    <div class="line-row-item">
+                                        <span class="item-label">请求方法：</span>
+                                        <span class="item-body">{{ item.method }}</span>
+                                    </div>
+                                    <div class="line-row-item">
+                                        <span class="item-label">请求域名：</span>
+                                        <div class="item-body">
+                                            <code class="code-snippet">
+                                                {{ item.hostname }}
+                                            </code>
+                                        </div>
+                                    </div>
+                                    <div class="line-row-item">
+                                        <span class="item-label">请求路径：</span>
+                                        <div class="item-body">
+                                            <code class="code-snippet">
+                                                {{ item.pathname }}
+                                            </code>
+                                        </div>
+                                    </div>
+                                    <div class="line-row-item">
+                                        <span class="item-label">请求参数：</span>
+                                        <div class="item-body">
+                                            <code class="code-snippet">
+                                                {{ item.queries }}
+                                            </code>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="line-row-item">
+                                        <span class="item-label">Referer：</span>
+                                        <div class="item-body">
+                                            <code class="code-snippet">
+                                                {{ item.referrer_hostname }}{{ item.referrer_pathname }}
+                                            </code>
+                                        </div>
+                                    </div>
+                                    @if (item.browser) {
+                                        <div class="line-row-item">
+                                            <span class="item-label">浏览器：</span>
+                                            <span class="item-body">{{ item.browser.join(' ') }}</span>
+                                        </div>
+                                        <div class="line-row-item">
+                                            <span class="item-label">操作系统：</span>
+                                            <span class="item-body">{{ item.os.join(' ') }}</span>
+                                        </div>
+                                        <div class="line-row-item">
+                                            <span class="item-label">设备：</span>
+                                            <span class="item-body">{{ item.device.join(' ') }}</span>
+                                        </div>
+                                    }
+                                    
+                                    <div class="line-row-item">
+                                        <span class="item-label">User Agent：</span>
+                                        <div class="item-body">
+                                            <code class="code-snippet">
+                                                {{ item.user_agent }}
+                                            </code>
+                                        </div>
+                                    </div>
+                                    <div class="line-row-item">
+                                        <span class="item-label">Status Code：</span>
+                                        <span class="item-body">{{ item.status_code }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
                 }
             </tbody>
         </table>

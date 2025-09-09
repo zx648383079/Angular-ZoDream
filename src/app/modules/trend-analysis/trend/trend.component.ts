@@ -5,7 +5,12 @@ import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 import { IAnalysisMark, IPageAccessLog, TimeTabItems } from '../model';
-import { getTimeRange } from '../../../theme/utils';
+import { formatDate, getTimeRange } from '../../../theme/utils';
+
+interface ILogGroup {
+    name: string;
+    items: IPageAccessLog[];
+}
 
 @Component({
     standalone: false,
@@ -15,11 +20,12 @@ import { getTimeRange } from '../../../theme/utils';
 })
 export class TrendComponent implements OnInit {
 
-    public items: IPageAccessLog[] = [];
+    public items: ILogGroup[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public queries: IPageQueries = {
+        keywords: '',
         start_at: '',        
         end_at: '',
         page: 1,
@@ -44,9 +50,31 @@ export class TrendComponent implements OnInit {
         });
     }
 
-    public tapGoto() {
-        this.queries.goto = this.queries.start_at;
-        this.queries.start_at = '';
+    public tapGoto(time?: string) {
+        if (time) {
+            this.queries = {
+                keywords: '',
+                start_at: '',        
+                end_at: '',
+                page: 1,
+                per_page: 20,
+                goto: time,
+            };
+        } else {
+            this.queries.goto = this.queries.start_at;
+            this.queries.start_at = '';
+        }
+        this.tapRefresh();
+    }
+
+    public tapReset() {
+        this.queries = {
+            keywords: '',
+            start_at: '',        
+            end_at: '',
+            page: 1,
+            per_page: 20,
+        };
         this.tapRefresh();
     }
 
@@ -87,9 +115,7 @@ export class TrendComponent implements OnInit {
             item.is_open = false;
             return;
         }
-        for (const it of this.items) {
-            it.is_open = item === it;
-        }
+        this.forEach(it => it.is_open = item === it);
     }
 
     public tapFilter(key: string, value: string) {
@@ -120,7 +146,7 @@ export class TrendComponent implements OnInit {
         const queries: any = {...this.queries, page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.items = res.data.reverse();
+                this.items = this.formatGroup(res.data.reverse());
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isLoading = false;
@@ -142,6 +168,32 @@ export class TrendComponent implements OnInit {
         this.queries = this.searchService.getQueries(form, this.queries);
         this.tabIndex = -1;
         this.tapRefresh();
+    }
+
+
+    private formatGroup(items: IPageAccessLog[]): ILogGroup[] {
+        const res: ILogGroup[] = [];
+        let last: ILogGroup = null;
+        for (const item of items) {
+            const current = formatDate(item.created_at, 'yyyy-mm-dd');
+            if (current !== last?.name) 
+            {
+                res.push(last = {
+                    name: current,
+                    items: []
+                });
+            }
+            last.items.push(item);
+        }
+        return res;
+    }
+
+    private forEach(cb: (item: IPageAccessLog) => void) {
+        for (const group of this.items) {
+            for (const item of group.items) {
+                cb(item);
+            }
+        }
     }
 
 }
