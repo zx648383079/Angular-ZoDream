@@ -1,19 +1,15 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { MindPointSource, MindLinkSource, MindConfirmEvent, MindUpdateEvent } from '../../../../components/mind';
 import { emptyValidate } from '../../../../theme/validators';
 import { IBookRole, IBookRoleRelation } from '../../model';
 import { BookService } from '../book.service';
-import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-editor-role-panel',
     templateUrl: './editor-role-panel.component.html',
     styleUrls: ['./editor-role-panel.component.scss'],
-    animations: [
-        PanelAnimation
-    ],
 })
 export class EditorRolePanelComponent {
 

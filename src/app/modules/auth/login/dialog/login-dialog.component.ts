@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../../theme/constants';
 import { IUser } from '../../../../theme/models/user';
 
 @Component({
@@ -7,9 +6,6 @@ import { IUser } from '../../../../theme/models/user';
     selector: 'app-login-dialog',
     templateUrl: './login-dialog.component.html',
     styleUrls: ['./login-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class LoginDialogComponent {
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { PanelAnimation } from '../../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { IOrder } from '../../model';
@@ -13,9 +12,6 @@ import { OrderService } from './order.service';
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class OrderComponent implements OnInit {
 

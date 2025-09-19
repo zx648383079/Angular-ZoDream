@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { cloneObject } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IQuestion, IQuestionAnalysis, QuestionCheckOption, QuestionDefaultOption } from '../../../model';
@@ -11,9 +10,6 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
     selector: 'app-question-dialog',
     templateUrl: './question-dialog.component.html',
     styleUrls: ['./question-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class QuestionDialogComponent implements CustomDialogEvent {
 

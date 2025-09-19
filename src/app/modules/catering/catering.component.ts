@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
 import { IMenuButton, IMenuItem } from '../../components/context-menu';
-import { DialogAnimation } from '../../theme/constants/dialog-animation';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
@@ -17,9 +16,6 @@ import { Subscription } from 'rxjs';
     selector: 'app-catering',
     templateUrl: './catering.component.html',
     styleUrls: ['./catering.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class CateringComponent implements OnDestroy {
 

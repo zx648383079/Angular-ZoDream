@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
-import { PanelAnimation } from '../../../theme/constants';
 import { IPageQueries } from '../../../theme/models/page';
 import { ITaskComment } from '../model';
 import { TaskService } from '../task.service';
@@ -10,9 +9,6 @@ import { TaskService } from '../task.service';
     selector: 'app-comment-panel',
     templateUrl: './comment-panel.component.html',
     styleUrls: ['./comment-panel.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class CommentPanelComponent implements OnChanges {
 

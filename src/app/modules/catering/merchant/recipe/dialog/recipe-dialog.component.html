@@ -1,7 +1,6 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-}
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+<div class="dialog-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <app-flip-container>
         <app-flip-item>
             <div class="input-label">食谱名</div>
@@ -48,3 +47,4 @@
         <div class="btn btn-primary" (click)="close(true)">保存</div>
     </div>
 </div>
+}

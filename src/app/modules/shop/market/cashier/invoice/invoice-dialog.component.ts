@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { IInvoiceTitle } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
 
@@ -8,9 +7,6 @@ import { IUser } from '../../../../../theme/models/user';
     selector: 'app-invoice-dialog',
     templateUrl: './invoice-dialog.component.html',
     styleUrls: ['./invoice-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ]
 })
 export class InvoiceDialogComponent {
 

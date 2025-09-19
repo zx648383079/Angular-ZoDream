@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { emptyValidate } from '../../../../../theme/validators';
 
 type DialogConfirmFn = (value: string) => void;
@@ -9,9 +8,6 @@ type DialogConfirmFn = (value: string) => void;
     selector: 'app-custom-dialog',
     templateUrl: './custom-dialog.component.html',
     styleUrls: ['./custom-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class CustomDialogComponent {
 

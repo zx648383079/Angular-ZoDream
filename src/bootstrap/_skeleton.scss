@@ -54,8 +54,4 @@ $prefix: 'bs-' !default;
     $prefix: $prefix
 );
 
-@use './controls/code' with (
-    $prefix: $prefix
-);
-
 @use './controls/margin';

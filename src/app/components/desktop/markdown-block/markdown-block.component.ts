@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { toggleClass } from '../../../theme/utils/doc';
 import { DialogService } from '../../dialog';
+import { ImagePlayerComponent } from '../../media-player';
 
 @Component({
     standalone: false,
@@ -10,6 +11,7 @@ import { DialogService } from '../../dialog';
     selector: 'app-markdown-block',
     template: `
     <div [innerHTML]="formated"></div>
+    <app-image-player [isFixed]="true"></app-image-player>
     `,
     styleUrls: ['./markdown-block.component.scss'],
     host: {
@@ -18,6 +20,8 @@ import { DialogService } from '../../dialog';
 })
 export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
 
+    @ViewChild(ImagePlayerComponent)
+    private player: ImagePlayerComponent;
     @Input() public value = '';
     @Input() public isFormated = true;
     public formated: SafeHtml;
@@ -42,15 +46,29 @@ export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
             if (!(e.target instanceof HTMLElement)) {
                 return;
             }
+            if (e.target instanceof HTMLImageElement) {
+                this.player.visible = true;
+                this.player.play({
+                    name: e.target.title,
+                    source: e.target.src
+                });
+                return;
+            }
+            
             const isCopy = e.target.classList.contains('icon-copy');
             const isFull = e.target.classList.contains('icon-full-screen');
-            if (isCopy || isFull) {
+            const isMini = e.target.classList.contains('icon-minimize');
+            if (isCopy || isFull || isMini) {
                 const box = this.closest(e.target, 'code-container');
                 if (!box) {
                     return;
                 }
+                if (isMini) {
+                    toggleClass(box, '--with-minimize');
+                    return;
+                }
                 if (isFull) {
-                    toggleClass(box, 'code-full-screen');
+                    toggleClass(box, '--with-full-screen');
                     return;
                 }
                 const items = box.getElementsByTagName('code');

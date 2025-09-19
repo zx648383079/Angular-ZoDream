@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { PanelAnimation } from '../../../../theme/constants/panel-animation';
 import { IShare, ITask, ITaskComment } from '../../model';
 import { formatHour } from '../../../../theme/utils';
 import { TaskService } from '../../task.service';
@@ -11,9 +10,6 @@ import { TaskService } from '../../task.service';
     selector: 'app-share-detail',
     templateUrl: './share-detail.component.html',
     styleUrls: ['./share-detail.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class ShareDetailComponent implements OnInit {
 

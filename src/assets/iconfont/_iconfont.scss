@@ -13,6 +13,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-maximize:before {
+  content: "\e66c";
+}
+
+.icon-unmark:before {
+  content: "\e66d";
+}
+
+.icon-mark1:before {
+  content: "\e603";
+}
+
+.icon-advance-search:before {
+  content: "\e641";
+}
+
+.icon-export:before {
+  content: "\e66f";
+}
+
+.icon-import:before {
+  content: "\e675";
+}
+
+.icon-go-to-search:before {
+  content: "\e811";
+}
+
 .icon-arrows-h:before {
   content: "\e62c";
 }
@@ -808,4 +836,3 @@
 .icon-weibo:before {
   content: "\e75a";
 }
-

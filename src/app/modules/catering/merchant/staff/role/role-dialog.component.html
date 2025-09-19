@@ -1,7 +1,6 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-}
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="input-label">名称</div>
     <div class="item-name">
         <input type="text" class="form-control" [(ngModel)]="data.name">
@@ -36,3 +35,4 @@
         <div class="btn btn-primary" (click)="close(true)">保存</div>
     </div>
 </div>
+}

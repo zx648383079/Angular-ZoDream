@@ -1,4 +1,5 @@
-<div class="dialog-panel" [@panelOpen]="visible ? 'open' : 'closed'">
+@if (visible) {
+<div class="dialog-panel" animate.enter="panel-opened" animate.enter="panel-closed">
     <div class="panel-header">
         <i class="iconfont icon-close" (click)="close()"></i>
     </div>
@@ -28,3 +29,4 @@
         
     </div>
 </div>
+}

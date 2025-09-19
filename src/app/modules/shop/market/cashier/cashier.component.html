@@ -203,7 +203,8 @@
     </div>
 </div>
 
-<div id="address-dialog" class="dialog dialog-box"  [@dialogOpen]="dialogOpen == 1 ? 'open' : 'closed'">
+@if (dialogOpen == 1) {
+<div id="address-dialog" class="dialog dialog-box"   animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">选择地址</div>
         <i class="iconfont icon-close dialog-close" (click)="dialogOpen = 0"></i>
@@ -227,5 +228,7 @@
         </div>
     </div>
 </div>
+}
+
 
 <app-invoice-dialog [user]="user"></app-invoice-dialog>

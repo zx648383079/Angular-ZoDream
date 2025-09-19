@@ -1,15 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
-import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 
 @Component({
     standalone: false,
     selector: 'app-dialog-box',
     templateUrl: './dialog-box.component.html',
     styleUrls: ['./dialog-box.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class DialogBoxComponent implements DialogEvent {
 

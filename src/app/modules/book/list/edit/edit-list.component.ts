@@ -3,7 +3,6 @@ import {
     OnInit
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PanelAnimation } from '../../../../theme/constants/panel-animation';
 import { IBook, IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
 import { DialogService } from '../../../../components/dialog';
@@ -13,9 +12,6 @@ import { DialogService } from '../../../../components/dialog';
     selector: 'app-edit-list',
     templateUrl: './edit-list.component.html',
     styleUrls: ['./edit-list.component.scss'],
-    animations: [
-        PanelAnimation
-    ],
 })
 export class EditListComponent implements OnInit {
 

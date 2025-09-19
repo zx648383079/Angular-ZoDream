@@ -39,7 +39,7 @@
 
 
 
-::ng-deep {
+:host ::ng-deep {
     .dialog-box {
         .dialog-header {
             line-height: 3.125rem;
@@ -55,7 +55,7 @@
     }
 }
 
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 48rem) {
     .chat-box {
         width: 100%;
         display: block;

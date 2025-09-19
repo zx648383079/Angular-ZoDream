@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
 import { Component, HostListener, OnDestroy } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
@@ -18,20 +17,6 @@ interface IThemeGroup {
     selector: 'app-dialog-message',
     templateUrl: './dialog-message.component.html',
     styleUrls: ['./dialog-message.component.scss'],
-    animations: [
-        trigger('dialogOpen', [
-            state('open', style({ opacity: 1 })),
-            state('closed', style({ opacity: 0 })),
-            transition(
-                '* => closed',
-                animate('500ms ease-out')
-            ),
-            transition(
-                '* => open',
-                animate('500ms ease-in')
-            )
-        ])
-    ]
 })
 export class DialogMessageComponent implements OnDestroy {
 
@@ -79,8 +64,8 @@ export class DialogMessageComponent implements OnDestroy {
         }
     }
 
-    public animationDone(event: AnimationEvent) {
-        if (event.toState !== 'closed') {
+    public animationDone() {
+        if (this.visible) {
             return;
         }
         this.service.remove(this.data.dialogId);

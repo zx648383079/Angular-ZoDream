@@ -1,14 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
+import { Component, Input } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-catering-invite-dialog',
     templateUrl: './invite-dialog.component.html',
     styleUrls: ['./invite-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class InviteDialogComponent {
 

@@ -1,6 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
-import { FlipContainerComponent } from '../../../../../components/swiper';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 
@@ -9,9 +7,6 @@ import { emptyValidate } from '../../../../../theme/validators';
     selector: 'app-catering-order-create-dialog',
     templateUrl: './order-create-dialog.component.html',
     styleUrls: ['./order-create-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class OrderCreateDialogComponent {
     /**

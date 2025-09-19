@@ -152,5 +152,5 @@
 <div class="player-box" [ngStyle]="playerStyle">
     <app-movie-player [hidden]="playerMode != 1" [isFixed]="false"></app-movie-player>
     <app-music-player [hidden]="playerMode != 2" [isFixed]="false"></app-music-player>
-    <app-image-player [hidden]="playerMode != 3"></app-image-player>
+    <app-image-player [visible]="playerMode == 3"></app-image-player>
 </div>

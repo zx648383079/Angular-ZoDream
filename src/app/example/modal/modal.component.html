@@ -33,9 +33,7 @@
 
 @if (customModal.visible) {
     <div class="dialog-mask" (click)="customModal.visible = false"></div>
-}
-
-<div class="dialog-flip-box" [@dialogOpen]="customModal.visible ? 'open' : 'closed'">
+    <div class="dialog-flip-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-close" (click)="customModal.visible = false">
             <i class="iconfont icon-close"></i>
@@ -147,3 +145,5 @@
         </div>
     </div>
 </div>
+}
+

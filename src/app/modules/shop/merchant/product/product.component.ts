@@ -5,16 +5,12 @@ import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ShopService } from '../shop.service';
-import { PanelAnimation } from '../../../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class ProductComponent implements OnInit {
 

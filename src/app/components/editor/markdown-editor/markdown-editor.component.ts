@@ -3,7 +3,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IEditor, IEditorBlock, IImageUploadEvent } from '../model';
 import { EditorService } from '../container';
 import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
-import { IPoint } from '../../../theme/utils/canvas';
 
 @Component({
     standalone: false,

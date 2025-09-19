@@ -27,6 +27,7 @@ import {
     FormsModule
 } from '@angular/forms';
 import { EncryptorService } from './services/encryptor.service';
+import { KeepAliveService } from './services/keep-alive.service';
 
 const BASE_MODULES = [
     CommonModule,
@@ -61,6 +62,7 @@ export class ThemeModule {
             providers: [
                 SearchService,
                 ThemeService,
+                KeepAliveService,
                 AuthService,
                 FileUploadService,
                 EncryptorService,

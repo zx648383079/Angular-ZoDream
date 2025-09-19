@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
-import { DialogAnimation } from '../../../theme/constants/dialog-animation';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogConfirmOption } from '../model';
-import { AnimationEvent } from '@angular/animations';
 
 @Component({
     standalone: false,
     selector: 'app-dialog-confirm',
     templateUrl: './dialog-confirm.component.html',
     styleUrls: ['./dialog-confirm.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class DialogConfirmComponent {
 
@@ -45,8 +40,8 @@ export class DialogConfirmComponent {
         }
     }
 
-    public animationDone(event: AnimationEvent) {
-        if (event.toState !== 'closed') {
+    public animationDone() {
+        if (this.visible) {
             return;
         }
         this.service.remove(this.data.dialogId);

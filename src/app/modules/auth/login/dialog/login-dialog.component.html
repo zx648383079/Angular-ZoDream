@@ -1,8 +1,7 @@
 @if (visible) {
-<div class="dialog-mask" (click)="close()">
-</div>
-}
-<div class="dialog-box"  [@dialogOpen]="visible ? 'open' : 'closed'">
+<div class="dialog-mask" (click)="close()"></div>
+<div class="dialog-box" animate.enter="dialog-opened" animate.enter="dialog-closed">
     <app-login-panel (logined)="close($event)"></app-login-panel>
     <i class="iconfont icon-close" (click)="close()"></i>
 </div>
+}

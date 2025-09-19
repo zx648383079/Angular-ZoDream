@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
 import { ITradeLog } from '../model';
-import { DialogAnimation } from '../../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-trade-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class ToolbarComponent {
 

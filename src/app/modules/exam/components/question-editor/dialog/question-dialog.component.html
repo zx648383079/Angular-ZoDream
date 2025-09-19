@@ -1,7 +1,6 @@
 @if (visible) {
 <div class="dialog-mask"></div>
-}
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+<div class="dialog-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="panel-tool-bar dialog-tool-bar">
         <div class="tool-item btn-danger" title="关闭" (click)="close()">
             <i class="iconfont icon-close"></i>
@@ -53,3 +52,4 @@
         </div>
     </div>
 </div>
+}

@@ -445,6 +445,30 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     }
 }
 
+
+.dialog-opened {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    transform: all .5s;
+}
+.dialog-closed {
+    transform: translate3d(0, -62rem, 0);
+    opacity: 0;
+    transform: all .5s;
+}
+
+.panel-opened {
+    right: 0;
+    opacity: 1;
+    transform: all .5s;
+}
+.panel-closed {
+    right: -30rem;
+    opacity: 0;
+    transform: all .5s;
+}
+
+
 @media screen and (max-width: 48rem) {
     .dialog-box,
     .search-dialog-container {

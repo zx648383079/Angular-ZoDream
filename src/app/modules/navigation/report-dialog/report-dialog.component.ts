@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DialogConfirmFn, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
-import { DialogAnimation } from '../../../theme/constants';
 import { IItem } from '../../../theme/models/seo';
 import { emptyValidate } from '../../../theme/validators';
 import { IWebPage } from '../model';
@@ -12,9 +11,6 @@ import { NavigationService } from '../navigation.service';
     selector: 'app-navigation-report-dialog',
     templateUrl: './report-dialog.component.html',
     styleUrls: ['./report-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class ReportDialogComponent {
 

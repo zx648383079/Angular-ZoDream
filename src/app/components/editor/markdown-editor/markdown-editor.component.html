@@ -22,11 +22,6 @@
         <div class="editor-area">
             <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disabled"  spellcheck="false" [placeholder]="placeholder"></textarea>
             <div class="editor-footer" i18n>{{ size }} words</div>
-            @if (isPreview) {
-            <div class="editor-preview">
-                <app-markdown-block [value]="previewValue" [isFormated]="false"></app-markdown-block>
-            </div>
-            }
         </div>
         <ng-container #modalVC></ng-container>
     </div>

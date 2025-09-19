@@ -1,4 +1,5 @@
-<div class="dialog-panel" [@panelOpen]="visible ? 'open' : 'closed'">
+@if (visible) {
+<div class="dialog-panel" animate.enter="panel-opened" animate.enter="panel-closed">
     <div class="panel-header">
         <i class="iconfont text-left" [ngClass]="{'icon-map-marker': !linkOpen, 'icon-chevron-right': linkOpen}" (click)="toggleLink()"></i>
         <i class="iconfont icon-close" (click)="close()"></i>
@@ -68,6 +69,7 @@
         }
     </div>
 </div>
+}
 
 <div class="dialog-link" [hidden]="!linkOpen">
     <app-mind [readonly]="false" [format]="mindFormat" [items]="roleItems" [linkItems]="linkItems" (confirm)="onMindConfirm($event, roleModal)" (update)="onMindUpdate($event)"></app-mind>

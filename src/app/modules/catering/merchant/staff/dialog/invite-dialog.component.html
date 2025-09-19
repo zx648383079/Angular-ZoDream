@@ -1,14 +1,14 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-}
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
-    <div class="dialog-header">
-        <span>{{ title }}</span>
-        <div class="dialog-action" (click)="close()">
-            <i class="iconfont icon-close"></i>
+    <div class="dialog-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
+        <div class="dialog-header">
+            <span>{{ title }}</span>
+            <div class="dialog-action" (click)="close()">
+                <i class="iconfont icon-close"></i>
+            </div>
+        </div>
+        <div class="dialog-body">
+            <img [src]="image | asset" alt="">
         </div>
     </div>
-    <div class="dialog-body">
-        <img [src]="image | asset" alt="">
-    </div>
-</div>
+}

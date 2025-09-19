@@ -16,16 +16,12 @@ import {
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { DialogService } from '../../../../../components/dialog';
-import { PanelAnimation } from '../../../../../theme/constants/panel-animation';
 
 @Component({
     standalone: false,
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class ListComponent implements OnInit {
 

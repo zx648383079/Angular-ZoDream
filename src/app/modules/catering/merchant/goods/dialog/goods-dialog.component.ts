@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 import { ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -9,9 +8,6 @@ import { emptyValidate } from '../../../../../theme/validators';
     selector: 'app-goods-dialog',
     templateUrl: './goods-dialog.component.html',
     styleUrls: ['./goods-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class GoodsDialogComponent {
 

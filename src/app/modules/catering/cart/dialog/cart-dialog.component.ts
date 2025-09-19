@@ -1,14 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DialogAnimation } from '../../../../theme/constants';
+import { Component, Input } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-catering-cart-dialog',
     templateUrl: './cart-dialog.component.html',
     styleUrls: ['./cart-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class CartDialogComponent {
 

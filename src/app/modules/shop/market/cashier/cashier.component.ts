@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { DialogAnimation } from '../../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../model';
 import { IUser } from '../../../../theme/models/user';
@@ -26,9 +25,6 @@ interface ICartData {
     selector: 'app-cashier',
     templateUrl: './cashier.component.html',
     styleUrls: ['./cashier.component.scss'],
-    animations: [
-        DialogAnimation,
-    ]
 })
 export class CashierComponent implements OnInit {
 

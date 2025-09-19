@@ -1,14 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-navigation-page-card',
     templateUrl: './page-card.component.html',
     styleUrls: ['./page-card.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class PageCardComponent {
 

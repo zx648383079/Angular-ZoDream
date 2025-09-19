@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
-import { DialogAnimation } from '../../../../theme/constants/dialog-animation';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress } from '../../model';
 import { ShopService } from '../../shop.service';
@@ -10,9 +9,6 @@ import { ShopService } from '../../shop.service';
     selector: 'app-address',
     templateUrl: './address.component.html',
     styleUrls: ['./address.component.scss'],
-    animations: [
-        DialogAnimation,
-    ]
 })
 export class AddressComponent implements OnInit {
     public title = '地址管理';

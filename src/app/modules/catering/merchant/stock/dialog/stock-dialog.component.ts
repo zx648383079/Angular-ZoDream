@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { ICateringPurchaseOrder, ICateringPurchaseOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
@@ -9,9 +8,6 @@ import { FlipContainerComponent } from '../../../../../components/swiper';
     selector: 'app-stock-dialog',
     templateUrl: './stock-dialog.component.html',
     styleUrls: ['./stock-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class StockDialogComponent {
     @ViewChild(FlipContainerComponent)

@@ -41,8 +41,8 @@
     </div>
 </div>
 
-
-<div class="dialog-box address-dialog" [@dialogOpen]="dialogOpen ? 'open' : 'closed'">
+@if (dialogOpen) {
+<div class="dialog-box address-dialog"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">新建地址</div>
         <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
@@ -80,3 +80,4 @@
         </div>
     </div>
 </div>
+}

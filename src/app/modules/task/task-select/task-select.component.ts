@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PanelAnimation } from '../../../theme/constants';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask } from '../model';
@@ -10,9 +9,6 @@ import { TaskService } from '../task.service';
     selector: 'app-task-select',
     templateUrl: './task-select.component.html',
     styleUrls: ['./task-select.component.scss'],
-    animations: [
-        PanelAnimation
-    ],
 })
 export class TaskSelectComponent {
 

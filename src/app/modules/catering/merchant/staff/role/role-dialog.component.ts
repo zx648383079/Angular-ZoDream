@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICateringStaffRole } from '../../../model';
 
@@ -20,9 +19,6 @@ interface IRoleGroup {
     selector: 'app-catering-role-dialog',
     templateUrl: './role-dialog.component.html',
     styleUrls: ['./role-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class RoleDialogComponent {
 

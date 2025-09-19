@@ -4,7 +4,6 @@ import { ContextMenuComponent, IMenuItem } from '../../../components/context-men
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { EditorService } from '../../../components/editor';
 import { ButtonEvent } from '../../../components/form';
-import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { ThemeService } from '../../../theme/services';
 import { wordLength } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
@@ -18,9 +17,6 @@ import { TextElement } from './text-editor';
     selector: 'app-book-editor',
     templateUrl: './book-editor.component.html',
     styleUrls: ['./book-editor.component.scss'],
-    animations: [
-        PanelAnimation
-    ],
 })
 export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 

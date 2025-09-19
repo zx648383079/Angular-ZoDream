@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
 import { ICateringRecipe, ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
@@ -9,9 +8,6 @@ import { FlipContainerComponent } from '../../../../../components/swiper';
     selector: 'app-recipe-dialog',
     templateUrl: './recipe-dialog.component.html',
     styleUrls: ['./recipe-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class RecipeDialogComponent {
 

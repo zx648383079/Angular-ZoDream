@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DialogAnimation } from '../../../../../theme/constants';
-import { emptyValidate } from '../../../../../theme/validators';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 
 @Component({
@@ -8,9 +6,6 @@ import { ICateringOrder, ICateringOrderGoods } from '../../../model';
     selector: 'app-catering-order-edit-dialog',
     templateUrl: './order-edit-dialog.component.html',
     styleUrls: ['./order-edit-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class OrderEditDialogComponent {
 

@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { PanelAnimation } from '../../../../../theme/constants';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
@@ -16,9 +15,6 @@ const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
     selector: 'app-maker-map-editor',
     templateUrl: './map-editor.component.html',
     styleUrls: ['./map-editor.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class MapEditorComponent implements OnInit, AfterViewInit {
 

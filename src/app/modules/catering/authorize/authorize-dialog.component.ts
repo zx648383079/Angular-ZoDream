@@ -1,14 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DialogAnimation } from '../../../theme/constants';
+import { Component, Input } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-authorize-dialog',
     templateUrl: './authorize-dialog.component.html',
     styleUrls: ['./authorize-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class AuthorizeDialogComponent {
 

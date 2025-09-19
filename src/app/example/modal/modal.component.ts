@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../components/dialog';
-import { DialogAnimation } from '../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-example-modal',
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss'],
-    animations: [
-        DialogAnimation,
-    ]
 })
 export class ExampleModalComponent {
 

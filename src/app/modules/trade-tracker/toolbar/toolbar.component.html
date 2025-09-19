@@ -1,28 +1,28 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-}
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
-    <div class="dialog-header">
-        <div class="dialog-title">{{ title }}</div>
-        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
-    </div>
-    <div class="dialog-body">
-        <div class="input-flex-group">
-            <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.buyPrice}">
-                <input type="number" class="form-control" [(ngModel)]="data.buyPrice" (ngModelChange)="onPriceChange('buyPrice')">
-                <label for="">交易平台价</label>
+    <div class="dialog-box" animate.enter="dialog-opened" animate.enter="dialog-closed">
+        <div class="dialog-header">
+            <div class="dialog-title">{{ title }}</div>
+            <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+        </div>
+        <div class="dialog-body">
+            <div class="input-flex-group">
+                <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.buyPrice}">
+                    <input type="number" class="form-control" [(ngModel)]="data.buyPrice" (ngModelChange)="onPriceChange('buyPrice')">
+                    <label for="">交易平台价</label>
+                </div>
+                <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.discount}">
+                    <input type="number" class="form-control" [(ngModel)]="data.discount" (ngModelChange)="onPriceChange('discount')">
+                    <label for="">折扣</label>
+                </div>
+                <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.sellPrice}">
+                    <input type="number" class="form-control" [(ngModel)]="data.sellPrice" (ngModelChange)="onPriceChange('sellPrice')">
+                    <label for="">Steam价</label>
+                </div>
+                <button class="btn btn-primary" (click)="tapReset()">
+                    <i class="iconfont icon-refresh"></i>
+                </button>
             </div>
-            <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.discount}">
-                <input type="number" class="form-control" [(ngModel)]="data.discount" (ngModelChange)="onPriceChange('discount')">
-                <label for="">折扣</label>
-            </div>
-            <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.sellPrice}">
-                <input type="number" class="form-control" [(ngModel)]="data.sellPrice" (ngModelChange)="onPriceChange('sellPrice')">
-                <label for="">Steam价</label>
-            </div>
-            <button class="btn btn-primary" (click)="tapReset()">
-                <i class="iconfont icon-refresh"></i>
-            </button>
         </div>
     </div>
-</div>
+}

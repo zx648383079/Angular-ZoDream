@@ -117,8 +117,8 @@
           <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>
 </div>
-
-<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+@if (panelOpen) {
+<div class="dialog-panel" animate.enter="panel-opened" animate.enter="panel-closed">
     <div class="panel-header">
         <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
@@ -176,3 +176,5 @@
         </div>
     </form>
 </div>
+}
+

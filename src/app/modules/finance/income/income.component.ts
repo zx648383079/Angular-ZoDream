@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { UploadButtonEvent } from '../../../components/form';
-import { PanelAnimation } from '../../../theme/constants/panel-animation';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
@@ -17,9 +16,6 @@ import { formatDate, mapFormat } from '../../../theme/utils';
     selector: 'app-finance-income',
     templateUrl: './income.component.html',
     styleUrls: ['./income.component.scss'],
-    animations: [
-        PanelAnimation,
-    ]
 })
 export class IncomeComponent implements OnInit {
 

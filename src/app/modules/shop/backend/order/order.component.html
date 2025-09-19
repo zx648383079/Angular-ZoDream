@@ -79,7 +79,8 @@
     </div>
 </div>
 
-<div class="dialog-panel" [@panelOpen]="panelOpen ? 'open' : 'closed'">
+@if (panelOpen) {
+<div class="dialog-panel" animate.enter="panel-opened" animate.enter="panel-closed">
     <div class="panel-header">
         <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
@@ -151,6 +152,8 @@
         </div>
     </form>
 </div>
+}
+
 
 
 <app-dialog-box #shipModal title="修改运费" confirmText="确认修改">

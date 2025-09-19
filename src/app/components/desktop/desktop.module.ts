@@ -38,6 +38,8 @@ import {
 } from './directives';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
+import { MediaPlayerModule } from '../media-player';
 
 
 const COMPONENTS = [
@@ -57,6 +59,7 @@ const COMPONENTS = [
     ToggleBarComponent,
     FileInputComponent,
     FileOnlineComponent,
+    MarkdownBlockComponent
 ];
 
 const PIPES = [
@@ -86,6 +89,7 @@ const DIRECTIVES = [
         CommonModule,
         FormsModule,
         RouterModule,
+        MediaPlayerModule
     ],
     exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
     declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES]

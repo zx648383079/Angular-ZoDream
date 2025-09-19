@@ -48,3 +48,13 @@
         background-color: var(--#{theme.$prefix}info);
     }
 }
+
+.--fade-opened {
+    opacity: 1;
+    transition: all .5s ease-in;
+}
+
+.--fade-closeed {
+    opacity: 0;
+    transition: all .5s ease-in;
+}

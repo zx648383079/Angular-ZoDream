@@ -1,15 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ManageDialogEvent } from '../../../components/dialog';
-import { DialogAnimation } from '../../../theme/constants';
 
 @Component({
     standalone: false,
     selector: 'app-manage-dialog',
     templateUrl: './manage-dialog.component.html',
     styleUrls: ['./manage-dialog.component.scss'],
-    animations: [
-        DialogAnimation,
-    ],
 })
 export class ManageDialogComponent implements ManageDialogEvent {
 

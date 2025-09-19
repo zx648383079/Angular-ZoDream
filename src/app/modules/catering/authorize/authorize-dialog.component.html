@@ -1,8 +1,6 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-}
-
-<div class="dialog-box" [@dialogOpen]="visible ? 'open' : 'closed'">
+    <div class="dialog-box"  animate.enter="dialog-opened" animate.enter="dialog-closed">
     <div class="user-panel">
         <div class="item-avatar">
             <img [src]="'assets/images/avatar/18.png' | asset" alt="">
@@ -14,3 +12,5 @@
         <a href="" class="btn btn-secondary">取消授权</a>
     </div>
 </div>
+}
+
