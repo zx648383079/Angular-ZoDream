@@ -1,0 +1,42 @@
+<div class="tablet-large-header tablet-visible">
+    <div class="route-bar">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+        </a>
+        <span class="route-title" i18n>Zone Selection</span>
+    </div>
+</div>
+<div class="container">
+    <div class="group-box">
+        <div class="group-header" i18n>
+            Selected Zone:
+        </div>
+        <div class="group-body">
+            @for (item of selectedItems; track $index) {
+                <div class="zone-item active">
+                    <span>{{ item.name }}</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="group-box">
+        <div class="group-header" i18n>
+            Zones:
+        </div>
+        <div class="group-body">
+            @for (item of items; track $index) {
+                <div class="zone-item" [ngClass]="{active: isSelected(item)}" (click)="tapSelect(item)">
+                    <span>{{ item.name }}</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="btn-group mt-30">
+        @if (activatedAt > 0) {
+            <app-countdown class="btn btn-danger disabled" [end]="activatedAt" [auto]="true" label="Next Change:" (finished)="activatedAt = 0"></app-countdown>
+        } @else {
+            <app-action-button class="btn btn-danger" [disabled]="selectedItems.length == 0" (tapped)="tapSubmit($event)" i18n>Save Zone</app-action-button>
+        }
+    </div>
+</div>

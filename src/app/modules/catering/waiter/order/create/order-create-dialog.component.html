@@ -1,6 +1,6 @@
 @if (visible) {
     <div class="dialog-mask" (click)="close()"></div>
-    <div class="dialog-flip-box" animate.enter="dialog-opened" animate.enter="dialog-closed">
+    <div class="dialog-flip-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-close" (click)="close()">
             <i class="iconfont icon-close"></i>

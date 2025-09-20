@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user.component';
 import { BulletinComponent } from './bulletin/bulletin.component';
 import { MessageComponent } from './message/message.component';
+import { ZoneComponent } from './zone/zone.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
             {
                 path: 'message',
                 component: MessageComponent,
+            },
+            {
+                path: 'zone',
+                component: ZoneComponent,
             },
             {
                 path: 'account',
@@ -78,5 +83,5 @@ const routes: Routes = [
 export class UserRoutingModule { }
 
 export const userRoutedComponents = [
-    UserComponent, HomeComponent, BulletinComponent, MessageComponent
+    UserComponent, HomeComponent, BulletinComponent, MessageComponent, ZoneComponent
 ];

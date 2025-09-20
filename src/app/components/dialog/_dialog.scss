@@ -43,7 +43,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     margin-left: -21.875rem;
     margin-top: -7.5rem;
     width: 43.75rem;
-    transform: translate3d(0, -62.5rem, 0);
+    // transform: translate3d(0, -62.5rem, 0);
 }
 
 .dialog-box {
@@ -98,8 +98,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 
 .dialog-panel {
     position: fixed;
-    right: -30rem;
-    opacity: 0;
+    right: 0;
     width: 30rem;
     top: 0;
     bottom: 0;
@@ -447,25 +446,17 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 
 
 .dialog-opened {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    transform: all .5s;
+    animation: dialog-fade .5s ease-in;
 }
 .dialog-closed {
-    transform: translate3d(0, -62rem, 0);
-    opacity: 0;
-    transform: all .5s;
+    animation: panel-fade .5s ease-out 0 reverse;
 }
 
 .panel-opened {
-    right: 0;
-    opacity: 1;
-    transform: all .5s;
+    animation: panel-fade .5s ease-in;
 }
 .panel-closed {
-    right: -30rem;
-    opacity: 0;
-    transform: all .5s;
+    animation: panel-fade .5s ease-out 0 reverse;
 }
 
 
@@ -478,5 +469,28 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     }
     .dialog-panel {
         width: 18.75rem;
+    }
+}
+
+
+@keyframes dialog-fade {
+    from {
+        transform: translate3d(0, -62rem, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes panel-fade {
+    from {
+        right: -30rem;
+        opacity: 0;
+    }
+    to {
+        right: 0;
+        opacity: 1;
     }
 }

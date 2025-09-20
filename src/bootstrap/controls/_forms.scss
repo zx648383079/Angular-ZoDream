@@ -289,3 +289,24 @@ textarea {
         }
     }
 }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    >label {
+        margin: .75rem 0 .125rem 0;
+    }
+    &:first-child {
+        >label {
+            margin-top: 0;
+        }
+    }
+}
+
+.form-horizontal-group {
+    display: flex;
+    flex-direction: row;
+    >label {
+        line-height: 2.25rem;
+    }
+}

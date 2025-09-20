@@ -2,7 +2,7 @@
 <div class="dialog-mask" (click)="close()"></div>
 }
 @if (!collaspse || visible) {
-<div class="dialog-box" animate.enter="dialog-opened" animate.enter="dialog-closed">
+<div class="dialog-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">{{ title }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>

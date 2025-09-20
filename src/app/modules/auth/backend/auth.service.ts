@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, ILoginLog, IRole, IUserCard } from '../../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
-import { IUser, IUserStatus } from '../../../theme/models/user';
+import { IUser, IUserStatus, IUserZone } from '../../../theme/models/user';
 
 @Injectable()
 export class AuthService {
@@ -153,16 +153,30 @@ export class AuthService {
         });
     }
 
-    public cardSave(data) {
+    public cardSave(data: any) {
         return this.http.post<IEquityCard>('auth/admin/card/save', data);
     }
 
-    public userCardUpdate(data) {
+    public userCardUpdate(data: any) {
         return this.http.post<IUserCard>('auth/admin/card/user_update', data);
     }
 
     public cardRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('auth/admin/card/delete', {params: {id}});
+    }
+
+    public zoneList(params: any) {
+        return this.http.get<IPage<IUserZone>>('auth/admin/zone', {
+            params,
+        });
+    }
+
+    public zoneSave(data: any) {
+        return this.http.post<IUserZone>('auth/admin/zone/save', data);
+    }
+
+    public zoneRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/admin/zone/delete', {params: {id}});
     }
 
     public statistics() {

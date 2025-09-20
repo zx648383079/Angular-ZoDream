@@ -19,6 +19,7 @@ import { AccountPanelComponent } from './user/detail/account/account-panel.compo
 import { ActionPanelComponent } from './user/detail/action/action-panel.component';
 import { LoginPanelComponent } from './user/detail/login/login-panel.component';
 import { StatisticsPanelComponent } from './user/detail/statistics/statistics-panel.component';
+import { ZoneComponent } from './user/zone/zone.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
     { path: 'users/action/log', component: ActionLogComponent },
     { path: 'users/apply/log', component: ApplyLogComponent },
     { path: 'users/ban', component: BanComponent },
+    
     { path: 'users/account/change/:id', component: ChangeAccountComponent },
     { path: 'users', component: UserComponent },
    
@@ -55,6 +57,7 @@ const routes: Routes = [
         path: 'card',
         component: EquityCardComponent
     },
+    { path: 'zone', component: ZoneComponent },
     {
         path: 'oauth',
         component: OauthComponent,
@@ -74,6 +77,7 @@ export class AuthRoutingModule {}
 
 export const authRoutedComponents = [
     AuthComponent,
+    ZoneComponent,
     EditUserComponent,
     UserComponent,
     OauthComponent,

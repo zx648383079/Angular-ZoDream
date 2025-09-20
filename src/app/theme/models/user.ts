@@ -32,6 +32,14 @@ export interface IUserCard {
     expired_at: string;
 }
 
+export interface IUserZone {
+    id: number;
+    icon: string;
+    name: string;
+    decsription: string;
+    is_open: number;
+    status: number;
+}
 
 export interface IUserStatus extends IUser {
     [key: string]: any;

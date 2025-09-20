@@ -1,0 +1,89 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>分区列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <div class="input-group-control">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索关键字" [ngModel]="queries.keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a (click)="open(modal)" class="btn btn-info">新增分区</a>
+                </div>
+            </form>
+        </div>
+        <table class="table  table-bordered well">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>分区</th>
+                <th>说明</th>
+                <th>分区公开</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (item of items; track $index) {
+                    <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.decsription }}</td>
+                    <td>
+                        <app-switch [(ngModel)]="item.is_open"></app-switch>
+                    </td>
+                    <td>
+                        <app-switch [(ngModel)]="item.status"></app-switch>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                }
+                </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分区' : '新增分区'" [scrollable]="false">
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group-control">
+            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="icon-input">图标</label>
+        <div class="input-group-control">
+            <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="desc-input">说明</label>
+        <div class="input-group-control">
+            <textarea class="form-control" id="desc-input" [(ngModel)]="editData.decsription"></textarea>
+        </div>
+    </div>
+    <div class="form-horizontal-group">
+        <label class="col-2" for="open-input">公开</label>
+        <div class="input-group-control">
+            <app-switch [(ngModel)]="editData.is_open"></app-switch>
+        </div>
+    </div>
+    <div class="form-horizontal-group">
+        <label class="col-2" for="status-input">状态</label>
+        <div class="input-group-control">
+            <app-switch [(ngModel)]="editData.status"></app-switch>
+        </div>
+    </div>
+</app-dialog-box>

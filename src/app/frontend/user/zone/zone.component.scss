@@ -1,0 +1,42 @@
+@use '../../../theme/theme';
+.group-box {
+    .group-header {
+        line-height: 2.25rem;
+        padding: 0 0.625rem;
+    }
+}
+
+.zone-item {
+    --#{theme.$prefix}item: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}item-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}item-border: var(--#{theme.$prefix}primary);
+    margin: .4rem;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    background-color: var(--#{theme.$prefix}item);
+    color: var(--#{theme.$prefix}item-text);
+    border: 2px solid var(--#{theme.$prefix}item-border);
+    width: 7rem;
+    height: 3rem;
+    box-sizing: content-box;
+    border-radius: 1.5rem;
+    .item-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--#{theme.$prefix}border);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+    }
+    &:hover {
+        background-image: linear-gradient(180deg, rgba(var(--#{theme.$prefix}primary-rgb), .15), rgba(var(--#{theme.$prefix}primary-rgb), 0), rgba(var(--#{theme.$prefix}primary-rgb), .15));
+    }
+    &.active {
+        --#{theme.$prefix}item: var(--#{theme.$prefix}primary);
+        --#{theme.$prefix}item-text: var(--#{theme.$prefix}primary-text);
+    }
+}

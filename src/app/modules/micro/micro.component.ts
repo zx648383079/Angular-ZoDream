@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MicroService } from './micro.service';
-import { DialogService } from '../../components/dialog';
+import { DialogEvent, DialogService } from '../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
 import { emptyValidate } from '../../theme/validators';
@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { IUser } from '../../theme/models/user';
-import { DialogBoxComponent } from '../../components/dialog';
 import { IBlockItem } from '../../components/link-rule';
 import { SearchService, ThemeService } from '../../theme/services';
 import { IItem } from '../../theme/models/seo';
@@ -216,7 +215,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         });
     }
 
-    public tapForward(modal: DialogBoxComponent, item: IMicro) {
+    public tapForward(modal: DialogEvent, item: IMicro) {
         this.forwardItem = item;
         this.editData = {
             content: '',

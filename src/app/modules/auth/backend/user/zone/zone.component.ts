@@ -1,23 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { DialogService } from '../../../../../components/dialog';
-import { AppState } from '../../../../../theme/interfaces';
-import { IBanAccount } from '../../../../../theme/models/auth';
+import { Component, OnInit } from '@angular/core';
+import { IUserZone } from '../../../../../theme/models/user';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { selectAuthRole } from '../../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
-import { Subscription } from 'rxjs';
+import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
-    selector: 'app-ban',
-    templateUrl: './ban.component.html',
-    styleUrls: ['./ban.component.scss']
+    selector: 'app-backend-zone',
+    templateUrl: './zone.component.html',
+    styleUrls: ['./zone.component.scss']
 })
-export class BanComponent implements OnInit, OnDestroy {
-    public items: IBanAccount[] = [];
+export class ZoneComponent implements OnInit {
+
+    public items: IUserZone[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -26,21 +24,14 @@ export class BanComponent implements OnInit, OnDestroy {
         keywords: '',
         per_page: 20,
     };
-    public editable = false;
-    private subItems: Subscription[] = [];
-
+    public editData: IUserZone = {} as any;
 
     constructor(
         private service: AuthService,
         private route: ActivatedRoute,
         private toastrService: DialogService,
-        private store: Store<AppState>,
         private searchService: SearchService,
-    ) {
-        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
-            this.editable = roles.indexOf('user_manage') >= 0;
-        }));
-    }
+    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -49,10 +40,28 @@ export class BanComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+    public open(modal: DialogEvent, item?: IUserZone) {
+        this.editData = item ? Object.assign({}, item) : {
+            id: 0,
+            name: '',
+            icon: '',
+            decsription: '',
+            is_open: 1,
+            status: 1,
+        };
+        modal.open(() => {
+            this.service.zoneSave(this.editData).subscribe({
+                next: () => {
+                    this.toastrService.success($localize `Save Successfully`);
+                    this.tapRefresh();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        }, () => {
+            return !emptyValidate(this.editData.name);
+        });
     }
 
     public tapRefresh() {
@@ -73,7 +82,7 @@ export class BanComponent implements OnInit, OnDestroy {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.banList(queries).subscribe({
+        this.service.zoneList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
@@ -92,12 +101,9 @@ export class BanComponent implements OnInit, OnDestroy {
         this.tapRefresh();
     }
 
-    public tapRemove(item: IBanAccount) {
-        if (!this.editable) {
-            return;
-        }
-        this.toastrService.confirm('确定移除“' + item.item_key + '”？', () => {
-            this.service.banRemove(item.id).subscribe(res => {
+    public tapRemove(item: IUserZone) {
+        this.toastrService.confirm('确定移除“' + item.name + '”？', () => {
+            this.service.zoneRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }
@@ -108,5 +114,4 @@ export class BanComponent implements OnInit, OnDestroy {
             });
         });
     }
-
 }

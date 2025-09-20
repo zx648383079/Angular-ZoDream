@@ -18,6 +18,11 @@ export const AuthBackendMenu: MenuReadyFn = function() {
                     url: this.renderUrl('role')
                 },
                 {
+                    name: '分区管理',
+                    label: '区',
+                    url: this.renderUrl('zone')
+                },
+                {
                     name: '第三方管理',
                     label: '三',
                     url: this.renderUrl('oauth')

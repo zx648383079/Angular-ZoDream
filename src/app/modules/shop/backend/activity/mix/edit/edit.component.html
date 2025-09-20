@@ -86,7 +86,7 @@
     </form>
 </div>
 @if (dialogOpen) {
-<div class="dialog-box goods-dialog"  animate.enter="dialog-opened" animate.enter="dialog-closed">
+<div class="dialog-box goods-dialog"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
     <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
 </div>

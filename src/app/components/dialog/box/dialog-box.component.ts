@@ -19,10 +19,6 @@ export class DialogBoxComponent implements DialogEvent {
      */
     @Input() public visible = false;
     /**
-     * 不显示还是动画
-     */
-    @Input() public collaspse = false;
-    /**
      * 整体高度
      */
     @Input() public height = 400;

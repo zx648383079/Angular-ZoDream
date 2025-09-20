@@ -44,6 +44,11 @@ export class MenuService {
                 icon: 'icon-comments',
                 url: 'message'
             },
+            {
+                name: $localize `Zone Selection`,
+                icon: 'icon-tag',
+                url: 'zone'
+            },
         ],
         blog: BlogMemberMenu,
         visual: VisualMemberMenu,

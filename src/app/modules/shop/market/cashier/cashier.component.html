@@ -204,7 +204,7 @@
 </div>
 
 @if (dialogOpen == 1) {
-<div id="address-dialog" class="dialog dialog-box"   animate.enter="dialog-opened" animate.enter="dialog-closed">
+<div id="address-dialog" class="dialog dialog-box"   animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">选择地址</div>
         <i class="iconfont icon-close dialog-close" (click)="dialogOpen = 0"></i>

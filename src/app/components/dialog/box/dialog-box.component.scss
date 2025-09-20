@@ -31,6 +31,7 @@
 @media (min-width: 48rem) {
     .dialog-box {
         top: 50%;
+        bottom: unset;
         .dialog-header{
             .dialog-close {
                 left: auto;

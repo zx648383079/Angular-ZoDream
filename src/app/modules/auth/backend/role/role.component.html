@@ -7,15 +7,15 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                    <div class="input-group-control">
-                        <label for="keywords">角色</label>
-                        <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="角色">
-                    </div>
-                    <button type="submit" class="btn btn-primary">搜索</button>
-                    <div class="btn-group pull-right">
-                        <a routerLink="./create" class="btn btn-primary">新增角色</a>
-                        <a routerLink="./permission" class="btn btn-info">管理权限</a>
-                    </div>
+                <div class="input-group-control">
+                    <label for="keywords">角色</label>
+                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="角色">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a routerLink="./create" class="btn btn-primary">新增角色</a>
+                    <a routerLink="./permission" class="btn btn-info">管理权限</a>
+                </div>
             </form>
         </div>
         <table class="table  table-bordered well">

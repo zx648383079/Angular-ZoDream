@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
-import { IUser } from '../../theme/models/user';
+import { IUser, IUserZone } from '../../theme/models/user';
 import { IStatisticsItem } from '../../theme/models/seo';
 import { IBulletinUser } from '../../theme/models/auth';
 
@@ -44,5 +44,17 @@ export class UserService {
 
     public bulletinRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('auth/bulletin/delete', {params: {id}});
+    }
+
+    public zoneList() {
+        return this.http.get<{
+            selected: IUserZone[];
+            data: IUserZone[];
+            activated_at: number;
+        }>('auth/zone');
+    }
+
+    public zoneSave(data: any) {
+        return this.http.post<IDataOne<boolean>>('auth/zone/save', data);
     }
 }
