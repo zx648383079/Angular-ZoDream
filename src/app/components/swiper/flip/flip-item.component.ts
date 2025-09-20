@@ -5,10 +5,16 @@ import { FlipContainerComponent } from './flip-container.component';
     standalone: false,
     selector: 'app-flip-item',
     encapsulation: ViewEncapsulation.None,
-    template: `<div class="flip-router-bar" *ngIf="header">
-    <i class="iconfont icon-arrow-left" *ngIf="backable" (click)="tapBack()"></i>
-    <span>{{ header }}</span>
-</div>
+    template: `
+    @if (header) {
+        <div class="flip-router-bar">
+            @if (backable) {
+                <i class="iconfont icon-arrow-left" (click)="tapBack()"></i>
+            }
+            <span>{{ header }}</span>
+        </div>
+    }
+    
 <ng-content></ng-content>`,
     styles: [''],
     host: {
@@ -22,9 +28,7 @@ export class FlipItemComponent {
     @HostBinding('style')
     public boxStyle: any = {};
     public parent: FlipContainerComponent;
-
-    constructor() { }
-
+    
     public tapBack() {
         this.parent?.back();
     }

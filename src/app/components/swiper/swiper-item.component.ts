@@ -12,6 +12,4 @@ export class SwiperItemComponent {
     public active = false;
     @HostBinding('style')
     public itemStyle = {};
-
-    constructor() { }
 }

@@ -5,6 +5,30 @@
         </ul>
     </app-page-tip>
 
+    <app-stack-container #control>
+        <app-stack-item>
+            <img [src]="'assets/images/banner.jpg' | asset" alt="">
+            第一页
+
+            <a (click)="control.next()">下一页</a>
+        </app-stack-item>
+        <app-stack-item>
+            <img [src]="'assets/images/app.jpg' | asset" alt="">
+            第二页
+            <a (click)="control.next()">下一页</a>
+        </app-stack-item>
+        <app-stack-item>
+            <img [src]="'assets/images/debug.jpg' | asset" alt="">
+            第三页
+            <a (click)="control.next()">下一页</a>
+        </app-stack-item>
+        <app-stack-item>
+            <img [src]="'assets/images/site.jpg' | asset" alt="">
+            第四页
+            <a (click)="control.next()">下一页</a>
+        </app-stack-item>
+    </app-stack-container>
+
     <app-swiper [autoplay]="true">
         <app-swiper-item>
             <img [src]="'assets/images/banner.jpg' | asset" alt="">

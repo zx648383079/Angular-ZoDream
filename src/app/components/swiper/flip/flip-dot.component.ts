@@ -6,9 +6,9 @@ import { rangeStep } from '../../../theme/utils';
     selector: 'app-flip-dot',
     encapsulation: ViewEncapsulation.None,
     template: `
-    <ng-container *ngFor="let item of items">
+    @for (item of items; track $index) {
         <span [ngClass]="{active: value == item}" (click)="tapDot(item)"></span>
-    </ng-container>
+    }
     `,
    styleUrls: ['./flip-dot.component.scss'],
     host: {
