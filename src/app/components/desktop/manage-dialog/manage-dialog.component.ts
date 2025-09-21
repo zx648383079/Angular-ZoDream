@@ -18,10 +18,6 @@ export class ManageDialogComponent implements ManageDialogEvent {
      * 是否显示
      */
     @Input() public visible = false;
-    /**
-     * 不显示还是动画
-     */
-    @Input() public collaspse = false;
     @Input() public confirmText = $localize `Ok`;
     @Input() public cancelText =  $localize `Cancel`;
     /**

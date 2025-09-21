@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { ZreSwiperModule } from '../../../components/swiper';
+import { ForumCommonModule } from '../forum-common.module';
 
 @NgModule({
     imports: [
@@ -16,6 +18,8 @@ import { DesktopModule } from '../../../components/desktop';
         ReactiveFormsModule,
         ForumRoutingModule,
         DialogModule,
+        ZreSwiperModule,
+        ForumCommonModule,
         ZreFormModule,
     ],
     declarations: [...forumRoutedComponents],

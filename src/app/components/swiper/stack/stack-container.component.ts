@@ -1,6 +1,7 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, Input, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ContentChildren, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, output, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { StackItemComponent } from './stack-item.component';
 import { checkLoopRange } from '../../../theme/utils';
+import { SwiperEvent } from '../model';
 
 @Component({
     standalone: false,
@@ -12,19 +13,20 @@ import { checkLoopRange } from '../../../theme/utils';
     </div>`,
     styleUrls: ['./stack-container.component.scss']
 })
-export class StackContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
+export class StackContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
 
     @ContentChildren(StackItemComponent) 
     private items: QueryList<StackItemComponent>;
     @Input() public index = -1;
-
-    constructor() { }
+    @Output() public indexChange = new EventEmitter<number>();
 
     ngOnInit() {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        
+        if (changes.index) {
+            this.navigateTo(changes.index.currentValue, changes.index.previousValue);
+        }
     }
 
     ngAfterViewInit(): void {
@@ -32,9 +34,23 @@ export class StackContainerComponent implements OnInit, OnChanges, AfterContentI
     }
 
     ngAfterContentInit(): void {
-        setTimeout(() => {
-            this.navigate(Math.max(0, this.index));
-        }, 10);
+        let isUpdated = false;
+        const lazyFn = () => {
+            if (isUpdated) {
+                return;
+            }
+            isUpdated = true;
+            setTimeout(() => {
+                if (isUpdated) {
+                    isUpdated = false;
+                    this.refresh();
+                }
+            }, 10);
+        };
+        this.items.changes.subscribe(() => {
+            lazyFn();
+        });
+        lazyFn();
     }
 
     ngOnDestroy(): void {
@@ -64,19 +80,23 @@ export class StackContainerComponent implements OnInit, OnChanges, AfterContentI
     }
 
     public navigate(index: number) {
-        index = checkLoopRange(index, this.items.length - 1);
-        if (this.index === index) {
-            return;
+        this.navigateTo(index, this.index);
+    }
+
+    private refresh() {
+        this.navigate(Math.max(0, this.index));
+    }
+
+    private navigateTo(to: number, from: number) {
+        const max = this.items.length - 1;
+        to = checkLoopRange(to, max);
+        // if (to === from) {
+        //     return;
+        // }
+        for (let i = 0; i < this.items.length; i++) {
+            this.items.get(i).index = i - to;
         }
-        const lastIndex = this.index;
-        this.index = index;
-        if (lastIndex >= 0) {
-            const last = this.items.get(lastIndex);
-            last.active = false;
-            last.fadeOut = true;
-        }
-        const current = this.items.get(this.index);
-        current.fadeOut = false;
-        current.active = true;
+        this.index = to;
+        this.indexChange.emit(to);
     }
 }

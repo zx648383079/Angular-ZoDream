@@ -14,6 +14,10 @@ export class MicroService {
         return this.http.get<IPage<IMicro>>('micro/admin/micro', {params});
     }
 
+    public postChange(data: any) {
+        return this.http.post<IMicro>('micro/admin/micro/change', data);
+    }
+
     public postRemove(id: any) {
         return this.http.delete<IDataOne<true>>('micro/admin/micro/delete', {
             params: {id}

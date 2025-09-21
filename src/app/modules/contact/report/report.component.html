@@ -12,12 +12,17 @@
                     <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                <div class="pull-right">
-                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                <div class="btn-group pull-right">
+                    @if (!isMultiple) {
+                        <a class="btn" [ngClass]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
+                    }
+                    @if (!isReview) {
+                        <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    }
                 </div>
             </form>
         </div>
-        <table class="table table-bordered well">
+        <table class="table table-bordered" [hidden]="isReview">
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
@@ -70,6 +75,55 @@
                 </tr>
             </tfoot>
         </table>
+        <app-stack-container #stack [hidden]="!isReview">
+            @for (item of items; track $index) {
+                <app-stack-item>
+                    <h3 class="review-header">
+                        {{ item.title }}({{ item.created_at }})
+                    </h3>
+                    <div class="review-body">
+                        {{ item.content }}
+
+                        <div class="review-stamp" [ngClass]="{'btn-success': item.status == 2, 'btn-danger': item.status == 1 || item.status == 3}">
+                            {{ item.status | status }}
+                        </div>
+                    </div>
+                    <div class="review-footer">
+                        <div class="user-label-item">
+                            <div class="item-avatar">
+                                @if (item.user) {
+                                    <img [src]="item.user.avatar | asset" [alt]="item.user.name">
+                                }
+                            </div>
+                            <div class="item-body">
+                                <p>{{ item.user?.name }}({{ item.ip }})</p>
+                                <p class="item-meta">{{ item.email }}</p>
+                            </div>
+                        </div>
+                        <div class="review-action">
+                            <div class="btn-group">
+                                <a class="btn btn-info" (click)="stack.back()">
+                                    <i class="iconfont icon-chevron-left"></i>
+                                </a>
+                                @if (item.status != 1) {
+                                    <a class="btn btn-primary" (click)="tapReview(stack, item, 1)">已阅</a>
+                                }
+                                @if (item.status != 2) {
+                                    <a class="btn btn-warning"  (click)="tapReview(stack, item, 2)">已处理</a>
+                                }
+                                @if (item.status != 3) {
+                                    <a class="btn btn-light"  (click)="tapReview(stack, item, 3)">忽略</a>
+                                }
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                                <a class="btn btn-info" (click)="stack.next()">
+                                    <i class="iconfont icon-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </app-stack-item>
+            }
+        </app-stack-container>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
         <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
     </div>

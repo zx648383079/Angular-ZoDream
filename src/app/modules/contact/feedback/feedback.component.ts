@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
+import { SwiperEvent } from '../../../components/swiper';
 
 @Component({
     standalone: false,
@@ -26,6 +27,7 @@ export class FeedbackComponent implements OnInit {
     public editData: IFeedback = {} as any;
     public isMultiple = false;
     public isChecked = false;
+    public isReview = false;
 
     constructor(
         private service: ContactService,
@@ -89,9 +91,6 @@ export class FeedbackComponent implements OnInit {
     }
 
 
-    /**
-     * tapRefresh
-     */
     public tapRefresh() {
         this.goPage(1);
     }
@@ -104,9 +103,6 @@ export class FeedbackComponent implements OnInit {
         this.goPage(this.queries.page + 1);
     }
 
-    /**
-     * goPage
-     */
     public goPage(page: number) {
         if (this.isLoading) {
             return;
@@ -145,6 +141,15 @@ export class FeedbackComponent implements OnInit {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
+        });
+    }
+
+    public tapReview(ctl: SwiperEvent, item: IFeedback, status: number) {
+        this.service.feedbackChange(item.id, {
+            status,
+        }).subscribe(_ => {
+            item.status = status;
+            ctl.next();
         });
     }
 

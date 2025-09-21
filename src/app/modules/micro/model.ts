@@ -12,6 +12,7 @@ export interface IMicro {
     created_at: string;
     user_id: number;
     source?: string;
+    status?: number;
     is_recommended?: boolean;
     is_collected?: boolean;
     editable?: boolean;
@@ -23,6 +24,7 @@ export interface IMicro {
 
 export interface IAttachment {
     thumb: string;
+    type: number;
     file: string;
 }
 

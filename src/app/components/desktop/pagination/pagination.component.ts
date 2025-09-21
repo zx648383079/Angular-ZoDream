@@ -12,7 +12,7 @@ export class PaginationComponent implements OnChanges {
     @Input() public page = 1;
     @Input() public pageTotal = -1;
     @Input() public total = -1;
-    @Input() public pageCount;
+    @Input() public pageCount = 0;
     @Input() public directionLinks = false;
     @Input() public goto = false;
     @Output() public pageChange = new EventEmitter<number>();

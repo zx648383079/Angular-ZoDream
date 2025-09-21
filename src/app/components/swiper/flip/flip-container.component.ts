@@ -1,5 +1,6 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
+import { SwiperEvent } from '../model';
 
 @Component({
     standalone: false,
@@ -13,7 +14,7 @@ import { FlipItemComponent } from './flip-item.component';
     `,
     styleUrls: ['./flip-container.component.scss'],
 })
-export class FlipContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
+export class FlipContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
 
     @ContentChildren(FlipItemComponent) 
     public items: QueryList<FlipItemComponent>;
@@ -27,6 +28,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
     constructor(
         private elementRef: ElementRef<HTMLDivElement>,
     ) { }
+    
 
     public get flipStyle() {
         if (this.itemWidth <= 0) {
@@ -72,6 +74,14 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
         this.resize$.disconnect();
     }
 
+    public get backable(): boolean {
+        return this.historyItems.length > 1;
+    }
+    public get nextable(): boolean {
+        return this.lastIndex < this.itemCount - 1;
+    }
+    
+
     private get lastIndex() {
         return this.historyItems[this.historyItems.length - 1];
     }
@@ -93,8 +103,15 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
         this.animateFlip(last, index, i >= 0);
     }
 
+    public next(): void {
+        if (!this.nextable) {
+            return;
+        }
+        this.navigate(this.index + 1);
+    }
+
     public back() {
-        if (this.historyItems.length < 2) {
+        if (!this.backable) {
             return;
         }
         const last = this.historyItems.pop();

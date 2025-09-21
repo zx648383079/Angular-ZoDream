@@ -12,9 +12,22 @@ import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 })
 export class StackItemComponent {
 
-    @HostBinding('class.stack-item-active')
-    public active = false;
+    @HostBinding('class')
+    public itemClass = '';
 
-    @HostBinding('class.stack-item-fade-out')
-    public fadeOut = false;
+    public set index(arg: number) {
+        if (arg < 0) {
+            this.itemClass = 'stack-item-fade-out';
+            return;
+        }
+        if (arg === 0) {
+            this.itemClass = 'stack-item-active';
+            return;
+        }
+        if (arg > 3) {
+            this.itemClass = 'stack-item-next';
+            return;
+        }
+        this.itemClass = `stack-item-next${arg}`;
+    }
 }

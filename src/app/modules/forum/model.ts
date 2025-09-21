@@ -1,4 +1,3 @@
-import { IButton } from '../../components/form';
 import { IUser } from '../../theme/models/user';
 
 export interface IForum {
@@ -48,6 +47,7 @@ export interface IThread {
     content?: string;
     is_private_post?: number;
     classify_id?: number;
+    status?: number;
     like_type?: -1|1|2;
     is_collected?: boolean;
     is_reward?: boolean;

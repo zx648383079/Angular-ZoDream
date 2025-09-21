@@ -62,18 +62,12 @@ export class BlogService {
         return this.http.post<IComment>('blog/admin/comment/toggle', data);
     }
 
-    public blog(id: any) {
-        return this.http.get<IBlog>('blog/publish/detail', {
-            params: {id},
-        });
-    }
-
-    public blogSave(data: any) {
-        return this.http.post<IBlog>('blog/publish', data);
+    public blogChange(data: any) {
+        return this.http.post<IBlog>('blog/admin/blog/change', data);
     }
 
     public blogRemove(id: any) {
-        return this.http.delete<IDataOne<true>>('blog/publish/delete', {
+        return this.http.delete<IDataOne<true>>('blog/admin/blog/delete', {
           params: {id}
         });
     }

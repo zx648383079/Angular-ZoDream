@@ -4,22 +4,21 @@
 @if (navigationVisible) {
 <div class="swiper-footer swiper-navigation-dot">
     @for (item of items; track $index;let i = $index) {
-        <span [ngClass]="{active: i == index}" (click)="tapIndex(i)"></span>
+        <span [ngClass]="{active: i == index}" (click)="navigate(i)"></span>
     }
 </div>
 }
 
 <div class="swiper-action">
     @if (previousVisible) {
-    <div class="swiper-action-previous" (click)="tapPrevious()">
+    <div class="swiper-action-previous" (click)="back()">
         <i class="iconfont icon-chevron-left"></i>
     </div>
     }
     
     @if (nextVisible) {
-    <div class="swiper-action-next" (click)="tapNext()">
+    <div class="swiper-action-next" (click)="next()">
         <i class="iconfont icon-chevron-right"></i>
     </div>
     }
-
 </div>

@@ -47,6 +47,10 @@ export class ForumService {
         return this.http.post<IThread>('forum/admin/thread/save', data);
     }
 
+    public threadChange(data: any) {
+        return this.http.post<IThread>('forum/admin/thread/change', data);
+    }
+
     public threadRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('forum/admin/thread/delete', {params: {'id[]': id}});
     }

@@ -5,12 +5,14 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IMicro } from '../../model';
 import { MicroService } from '../micro.service';
+import { mapFormat } from '../../../../theme/utils';
+import { SwiperEvent } from '../../../../components/swiper';
 
 @Component({
     standalone: false,
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
 
@@ -25,6 +27,7 @@ export class PostComponent implements OnInit {
         user: 0,
         topic: 0,
     };
+    public isReview = false;
 
     constructor(
         private service: MicroService,
@@ -38,6 +41,14 @@ export class PostComponent implements OnInit {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatStatus(val: number) {
+        return mapFormat(val, [
+            {name: '待审核', value: 0},
+            {name: '通过', value: 1},
+            {name: '拒绝', value: 9}
+        ]);
     }
 
     public tapRefresh() {
@@ -80,17 +91,26 @@ export class PostComponent implements OnInit {
         this.tapRefresh();
     }
 
+    public tapReview(ctl: SwiperEvent, item: IMicro, status: number) {
+        this.service.postChange({
+            id: item.id,
+            status
+        }).subscribe(_ => {
+            item.status = status;
+            ctl.next();
+        });
+    }
+
     public tapRemove(item: IMicro) {
-        if (!confirm('确定删除“' + item.id + '”博客？')) {
-            return;
-        }
-        this.service.postRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.id + '”博客？', () => {
+            this.service.postRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

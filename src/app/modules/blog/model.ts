@@ -39,6 +39,7 @@ export interface IBlog {
     term_id?: number;
     open_type?: number;
     publish_status?: number;
+    status?: number;
     open_rule?: string;
     edit_type?: number;
     weather?: string;

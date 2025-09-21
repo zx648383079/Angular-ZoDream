@@ -7,6 +7,7 @@ import { ContactService } from './contact.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { ZreSwiperModule } from '../../components/swiper';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DesktopModule } from '../../components/desktop';
         DesktopModule,
         ContactRoutingModule,
         ZreFormModule,
+        ZreSwiperModule,
         DialogModule,
     ],
     providers: [

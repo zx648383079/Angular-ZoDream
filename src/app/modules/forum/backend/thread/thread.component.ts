@@ -5,12 +5,14 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IForum, IThread } from '../../model';
 import { ForumService } from '../forum.service';
+import { SwiperEvent } from '../../../../components/swiper';
+import { mapFormat } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-thread',
-  templateUrl: './thread.component.html',
-  styleUrls: ['./thread.component.scss']
+    selector: 'app-thread',
+    templateUrl: './thread.component.html',
+    styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
     public items: IThread[] = [];
@@ -26,6 +28,7 @@ export class ThreadComponent implements OnInit {
     public forum: IForum;
     public isMultiple = false;
     public isChecked = false;
+    public isReview = false;
 
     constructor(
         private service: ForumService,
@@ -87,9 +90,14 @@ export class ThreadComponent implements OnInit {
         });
     }
 
-    /**
-     * tapRefresh
-     */
+    public formatStatus(val: number) {
+        return mapFormat(val, [
+            {name: '待审核', value: 0},
+            {name: '通过', value: 1},
+            {name: '拒绝', value: 9}
+        ]);
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -129,6 +137,16 @@ export class ThreadComponent implements OnInit {
     public tapSearch(form: any) {
         this.queries = this.searchService.getQueries(form, this.queries);
         this.tapRefresh();
+    }
+
+    public tapReview(ctl: SwiperEvent, item: IThread, status: number) {
+        this.service.threadChange({
+            id: item.id,
+            status
+        }).subscribe(_ => {
+            item.status = status;
+            ctl.next();
+        });
     }
 
     public tapRemove(item: IThread) {

@@ -6,12 +6,14 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
 import { IItem } from '../../../../theme/models/seo';
+import { SwiperEvent } from '../../../../components/swiper';
+import { mapFormat } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
 
@@ -29,6 +31,7 @@ export class ListComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
+    public isReview = false;
 
     constructor(
         private service: BlogService,
@@ -47,6 +50,14 @@ export class ListComponent implements OnInit {
             this.queries = this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
+    }
+
+    public formatStatus(val: number) {
+        return mapFormat(val, [
+            {name: '待审核', value: 0},
+            {name: '通过', value: 1},
+            {name: '拒绝', value: 9}
+        ]);
     }
 
     public tapRefresh() {
@@ -87,6 +98,16 @@ export class ListComponent implements OnInit {
 
     public tapPage() {
         this.goPage(this.queries.page);
+    }
+
+    public tapReview(ctl: SwiperEvent, item: IBlog, status: number) {
+        this.service.blogChange({
+            id: item.id,
+            status
+        }).subscribe(_ => {
+            item.status = status;
+            ctl.next();
+        });
     }
 
     public tapRemove(item: IBlog) {

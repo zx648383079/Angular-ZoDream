@@ -5,9 +5,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 6rem 2rem 4rem;
     overflow: hidden;
+    perspective: 62.5rem;
+    perspective-origin: 50% -50%;
     .stack-item {
+        position: relative;
         background-color: var(--#{theme.$prefix}stack);
         color: var(--#{theme.$prefix}stack-text);
         display: flex;
@@ -16,28 +19,43 @@
         height: 75vh;
         border-radius: .75rem;
         padding: .8rem;
-        box-shadow: var(--#{theme.$prefix}box-shadow);
+        border: 1px solid var(--#{theme.$prefix}border);
+        // box-shadow: 0 -.1rem .4rem rgba(var(--#{theme.$prefix}mask-rgb), .01);
         z-index: 1;
         transition: all .5s;
         &:not(:first-child) {
             margin-top: -75vh;
             z-index: 0;
+            user-select: none;
         }
-        &:nth-child(4n) {
-            transform: rotateZ(1deg);
+        &.stack-item-next1 {
+            border-color: var(--#{theme.$prefix}primary);
+            padding-top: 2rem;
+            z-index: 5;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -50, 1);
         }
-        &:nth-child(4n + 1) {
-            transform: rotateZ(2deg);
+        &.stack-item-next2 {
+            border-color: var(--#{theme.$prefix}success);
+            padding-top: 2rem;
+            z-index: 4;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -100, 1);
         }
-        &:nth-child(4n + 2) {
-            transform: rotateZ(-1deg);
+        &.stack-item-next3 {
+            border-color: var(--#{theme.$prefix}warning);
+            padding-top: 2rem;
+            z-index: 3;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -150, 1);
         }
-        &:nth-child(4n + 3) {
-            transform: rotateZ(-2deg);
+        &.stack-item-next {
+            opacity: 0;
+            z-index: -1; 
+            transform: translate3d(0px, 0px, -9.375rem);
         }
         &.stack-item-active {
-            z-index: 99;
-            transform: rotateZ(0);
+            z-index: 9;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            opacity: 1;
+            user-select: auto;
         }
         &.stack-item-fade-out {
             animation: stackFadeOut .5s;

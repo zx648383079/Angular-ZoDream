@@ -15,7 +15,6 @@ export const BlogBackendMenu: INavLink[] = [
                 name: '分类',
                 label: '类',
                 url: './category',
-                role: 'blog_term_edit',
             },
             {
                 name: '标签',

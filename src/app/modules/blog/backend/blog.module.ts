@@ -8,6 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreEditorModule } from '../../../components/editor';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { ZreSwiperModule } from '../../../components/swiper';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { DesktopModule } from '../../../components/desktop';
         ReactiveFormsModule,
         NgSelectModule,
         ZreEditorModule,
+        ZreSwiperModule,
         ZreFormModule,
     ],
     providers: [

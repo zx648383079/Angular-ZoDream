@@ -1,8 +1,9 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, HostBinding, HostListener, Input, NgZone, OnChanges, OnDestroy, QueryList, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, QueryList, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
 import { AnimationTween } from '../../theme/utils/tween';
+import { SwiperEvent } from './model';
 
 @Component({
     standalone: false,
@@ -15,7 +16,7 @@ import { AnimationTween } from '../../theme/utils/tween';
         'class': 'swiper',
     },
 })
-export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, OnChanges {
+export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, OnChanges, SwiperEvent {
 
     @ContentChildren(SwiperItemComponent) 
     public items: QueryList<SwiperItemComponent>;
@@ -59,9 +60,10 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
             this.updateAction();
         });
         this.tween.finish$.subscribe(() => {
-            this.tapNext();
+            this.next();
         });
     }
+    
 
     @HostListener('document:mouseup', ['$event'])
     private onMouseUp(e: MouseEvent) {
@@ -128,7 +130,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
             this.itemCount$.next(this.items.length);
         });
         setTimeout(() => {
-            this.tapIndex(Math.max(0, this.index));
+            this.navigate(Math.max(0, this.index));
         }, 1);
     }
 
@@ -138,18 +140,23 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         this.tween.close();
     }
 
-    public tapPrevious() {
-        this.tapIndex(this.index - 1);
+    public get backable(): boolean {
+        return true;
+    }
+    public get nextable(): boolean {
+        return true;
+    }
+    public back(): void {
+        this.navigate(this.index - 1);
+    }
+    public next(): void {
+        this.navigate(this.index + 1);
     }
 
-    public tapNext() {
-        this.tapIndex(this.index + 1);
-    }
-
-    public tapIndex(i: number) {
+    public navigate(index: number): void {
         this.tween.stop();
         const lastIndex = this.index;
-        this.index = checkLoopRange(i, this.items.length - 1);
+        this.index = checkLoopRange(index, this.items.length - 1);
         this.updateAction();
         if (this.index === lastIndex) {
             return;

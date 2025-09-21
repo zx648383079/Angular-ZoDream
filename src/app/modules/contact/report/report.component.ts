@@ -5,12 +5,13 @@ import { IPageQueries } from '../../../theme/models/page';
 import { IReport } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
+import { SwiperEvent } from '../../../components/swiper';
 
 @Component({
     standalone: false,
-  selector: 'app-contact-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+    selector: 'app-contact-report',
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
 
@@ -28,6 +29,7 @@ export class ReportComponent implements OnInit {
     };
     public isMultiple = false;
     public isChecked = false;
+    public isReview = false;
     public editData:  IReport = {} as any;
 
     constructor(
@@ -138,6 +140,16 @@ export class ReportComponent implements OnInit {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
+        });
+    }
+
+    public tapReview(ctl: SwiperEvent, item: IReport, status: number) {
+        this.service.reportSave({
+            id: item.id,
+            status,
+        }).subscribe(_ => {
+            item.status = status;
+            ctl.next();
         });
     }
 
