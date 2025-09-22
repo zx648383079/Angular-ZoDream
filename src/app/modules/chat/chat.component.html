@@ -1,6 +1,6 @@
 @if (user) {
 <div class="page-box" [ngClass]="{'room-mode': roomMode}">
-    <div class="chat-box" [ngClass]="{'search-mode': searchMode}">
+    <div class="chat-pane" [ngClass]="{'search-mode': searchMode}">
         <div class="nav-bar">
             <a class="nav-item">
                 <i class="iconfont icon-ellipsis-h"></i>
@@ -23,7 +23,7 @@
         <div class="search-input" (click)="searchMode = true">
             <i class="iconfont icon-search"></i>
             <span>用户、群组和消息</span>
-            <i class="iconfont icon-plus" (click)="tapAdd($event, searchModal)"></i>
+            <i class="iconfont icon-plus" (click)="tapAdd($event)"></i>
         </div>
         <div class="tab-box">
             <div class="tab-header">
@@ -172,74 +172,9 @@
 <!-- 右键菜单 -->
 <app-context-menu></app-context-menu>
 
-<!-- 搜索弹窗 -->
-<app-dialog-box class="search-dialog" #searchModal [customHeader]="true" [footerVisible]="false">
-    <ng-container name="header">
-        <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: searchData.tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>
-            <div class="tab-item" [ngClass]="{active: searchData.tabIndex == 1}" (click)="tapSearchTab(1)">找群</div>
-        </div>
-    </ng-container>
-    <div class="search-input" [ngClass]="{'on-edit': searchData.isInput}">
-        <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="搜索联系人" [(ngModel)]="searchData.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
-        <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
-    </div>
-    <div class="search-body">
-        @for (item of searchData.items; track $index) {
-            <div class="user-item" (click)="searchModal.close(item)">
-                <div class="avatar">
-                    <img [src]="item.avatar">
-                </div>
-                <div class="name">
-                    <h3>{{ item.name }}</h3>
-                    <p>
-                      ...
-                    </p>
-                </div>
-            </div>
-        }
-    </div>
-</app-dialog-box>
+<ng-container #modalVC></ng-container>
 
-<!-- 编辑分组 -->
-<app-dialog-box #classifyModal [title]="editClassify.id > 0 ? '编辑分组' : '新增分组'">
-    <input type="text" class="form-control" [(ngModel)]="editClassify.name">
-</app-dialog-box>
 
-<!-- 查看用户信息 -->
-<app-dialog-box class="profile-dialog" #profileModal [customHeader]="true" [confirmText]="editProfile.editable ? '确定' : '添加好友'">
-    @if (editProfile.user) {
-    <div class="user-box">
-        <div class="avatar">
-            <img [src]="editProfile.user.avatar" alt="">
-        </div>
-        <div class="name">{{ editProfile.user.name }}</div>
-        <div class="brief">
-            <p>.....</p>
-        </div>
-    </div>
-    }
-    
-    @if (editProfile.editable) {
-    <div class="form-group">
-        <label for="user-name">修改备注</label>
-        <input type="text" class="form-control" id="user-name" [(ngModel)]="editClassify.remark" placeholder="备注名称">
-    </div>
-    } @else {
-    <div class="form-group">
-        <label for="apply-remark">申请理由</label>
-        <textarea class="form-control" id="apply-remark" [(ngModel)]="editClassify.remark" placeholder="申请理由"></textarea>
-    </div>
-    }
-    
-</app-dialog-box>
 
-<!-- 选择分组 -->
-<app-dialog-box class="group-dialog" #groupModal [title]="'选择分组'">
-    @for (item of friends; track $index) {
-    <div class="line-item" [ngClass]="{active: item.id == editClassify.id}" (click)="editClassify.id = item.id">
-        {{ item.name }}
-    </div>
-    }
-</app-dialog-box>
+
+

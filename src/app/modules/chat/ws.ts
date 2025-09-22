@@ -193,6 +193,20 @@ export class WsRequest implements IRequest {
         });
         return this;
     }
+
+    public off(event: string|string[]): IRequest {
+        eachObject(event, item => {
+            if (!event) {
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(this.messageListeners, item)) {
+                return;
+            }
+            this.messageListeners[item] = [];
+        });
+        return this;
+    }
+
     public trigger(event: string, message?: any) {
         const listeners = this.messageListeners[event];
         if (!listeners) {

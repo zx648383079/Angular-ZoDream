@@ -1,5 +1,11 @@
 import { IExtraRule } from '../../components/link-rule';
-import { IUser } from "../../theme/models/user";
+import { IMessageBase } from '../../components/message-container';
+import { IUser, IUserItem } from "../../theme/models/user";
+
+export interface IChatWith {
+    type: number;
+    id: number;
+}
 
 export interface IFriendGroup {
     id?: number;
@@ -23,7 +29,7 @@ export interface IFriend {
     last_message?: IMessage;
 }
 
-export interface IMessage {
+export interface IMessage extends IMessageBase {
     id:         number;
     type:       number;
     content:    string;
@@ -36,7 +42,7 @@ export interface IMessage {
     updated_at: string;
     created_at: string;
     extra_rule: IExtraRule[];
-    user:       IFriend;
+    user:       IUserItem;
     receive:    IFriend;
 }
 
@@ -67,4 +73,13 @@ export interface IGroupUser {
     name: string;
     role_id: number;
     user: IUser;
+}
+
+export interface IApplyLog {
+    id: number;
+    item_type?: number;
+    item_id?: number;
+    remark: string;
+    user: IUser;
+    created_at?: string;
 }

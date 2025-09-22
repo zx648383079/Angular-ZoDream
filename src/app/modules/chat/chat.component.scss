@@ -1,8 +1,6 @@
 
 @use './styles/main';
 @use './styles/room';
-@use './styles/search';
-@use './styles/user';
 
 
 .expand-box {
@@ -35,46 +33,32 @@
     }
 }
 
-
-
-
-
-:host ::ng-deep {
-    .dialog-box {
-        .dialog-header {
-            line-height: 3.125rem;
-            height: 3.125rem;
-            border: none;
-            .dialog-close {
-                right: auto;
-                left: 10px;
-                top: 10px;
-                font-size: 2rem;
-            }
-        }
+.room-mode {
+    .chat-pane {
+        display: none;
+    }
+    .chat-room {
+        display: flex;
     }
 }
 
-@media screen and (max-width: 48rem) {
-    .chat-box {
-        width: 100%;
-        display: block;
+@media screen and (min-width: 48rem) {
+    .chat-pane {
+        width: 18.75rem;
+        z-index: 1;
     }
     .chat-room {
-        display: none;
-        margin-left: 0;
+        margin-left: 18.75rem;
+        display: flex;
         .title {
             .iconfont {
-                display: block;
+                display: none;
             }
         }
     }
     .room-mode {
-        .chat-box {
-            display: none;
-        }
-        .chat-room {
-            display: flex;
+        .chat-pane {
+            display: block;
         }
     }
 }

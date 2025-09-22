@@ -1,7 +1,8 @@
+@use '../../../theme/theme';
 @use '../../../../bootstrap/desktop/scrollbar';
 .chat-room {
-    margin-left: 18.75rem;
-    display: flex;
+    display: none;
+    margin-left: 0;
     flex-direction: column;
     height: 100vh;
     .title {
@@ -10,7 +11,7 @@
         line-height: 1.875rem;
         position: relative;
         .iconfont {
-            display: none;
+            display: block;
             position: absolute;
             left: 5px;
             top: 0;
@@ -29,6 +30,7 @@
             display: inline-block;
             width: 1.875rem;
             text-align: center;
+            color: var(--#{theme.$prefix}meta-text);
             cursor: pointer;
             input[type='file'] {
                 width: 0;
@@ -36,10 +38,10 @@
                 overflow: hidden;
             }
             &:hover {
-                color: #333;
+                color: var(--#{theme.$prefix}body-text);
             }
             &.active {
-                color: red;
+                color: var(--#{theme.$prefix}danger);
             }
         }
     }
@@ -54,7 +56,8 @@
         button {
             width: 6.25rem;
             line-height: 2.25rem;
-            background-color: #7676;
+            background-color: var(--#{theme.$prefix}primary);
+            color: var(--#{theme.$prefix}primary-text);
             border: 0;
         }
     }

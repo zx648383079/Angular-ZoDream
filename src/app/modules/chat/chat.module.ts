@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChatRoutingModule } from './chat-routing.module';
-import { ChatComponent } from './chat.component';
+import { ChatRoutingModule, contactRoutedComponents } from './chat-routing.module';
 import { ChatService } from './chat.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { MessageContainerModule } from '../../components/message-container';
@@ -13,7 +12,7 @@ import { DesktopModule } from '../../components/desktop';
 
 @NgModule({
     declarations: [
-        ChatComponent,
+       ...contactRoutedComponents
     ],
     imports: [
         CommonModule,

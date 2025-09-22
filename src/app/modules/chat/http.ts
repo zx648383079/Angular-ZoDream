@@ -5,19 +5,13 @@ import { eachObject } from '../../theme/utils';
 export const COMMAND_AUTH = 'auth';
 export const COMMAND_ERROR = 'error';
 export const COMMAND_PROFILE = 'chat/user';
+export const COMMAND_MESSAGE = 'chat/message';
 export const COMMAND_HISTORY = 'chat/chat';
 export const COMMAND_FRIENDS = 'chat/friend';
-export const COMMAND_FRIEND_SEARCH = 'chat/friend/search';
-export const COMMAND_FRIEND_APPLY = 'chat/friend/apply';
 export const COMMAND_GROUPS = 'chat/group';
-export const COMMAND_MESSAGE = 'chat/message';
+
 export const COMMAND_MESSAGE_PING = 'chat/message/ping';
 export const COMMAND_MESSAGE_SEND = 'chat/message/send';
-export const COMMAND_MESSAGE_SEND_TEXT = 'chat/message/send_text';
-export const COMMAND_MESSAGE_SEND_IMAGE = 'chat/message/send_image';
-export const COMMAND_MESSAGE_SEND_VIDEO = 'chat/message/send_video';
-export const COMMAND_MESSAGE_SEND_AUDIO = 'chat/message/send_audio';
-export const COMMAND_MESSAGE_SEND_FILE = 'chat/message/send_file';
 
 export type RequestCallback = (data?: any) => void;
 
@@ -30,6 +24,7 @@ export interface IRequest {
     }): IRequest;
     trigger(event: string, data?: any): void;
     on(event: string|string[], cb: RequestCallback): IRequest;
+    off(event: string|string[]): IRequest;
     close(): void;
 }
 
@@ -102,6 +97,19 @@ export class HttpRequest implements IRequest {
                 this.listeners[item] = [];
             }
             this.listeners[item].push(cb);
+        });
+        return this;
+    }
+
+    public off(event: string|string[]): IRequest {
+        eachObject(event, item => {
+            if (!event) {
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(this.listeners, item)) {
+                return;
+            }
+            this.listeners[item] = [];
         });
         return this;
     }

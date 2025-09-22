@@ -1,0 +1,12 @@
+.profile-dialog {
+    .user-box {
+        text-align: center;
+        .avatar {
+            display: inline-block;
+            img {
+                width: 3.75rem;
+                border-radius: 50%;
+            }
+        }
+    }
+}

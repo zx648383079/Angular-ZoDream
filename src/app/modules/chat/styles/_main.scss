@@ -1,12 +1,14 @@
+@use '../../../theme/theme';
 @use '../../../../bootstrap/desktop/scrollbar';
-.chat-box {
+.chat-pane {
+    width: 100%;
+    display: block;
     position: fixed;
     left: 0;
-    width: 18.75rem;
     bottom: 0;
     background-color: #eee;
     top: 0;
-    z-index: 99;
+    z-index: 30;
     .nav-bar {
         position: absolute;
         right: 0;

@@ -1,8 +1,10 @@
 import {
     Component,
+    Injector,
     OnDestroy,
     OnInit,
-    ViewChild
+    ViewChild,
+    ViewContainerRef
 } from '@angular/core';
 import {
     ChatService
@@ -12,24 +14,22 @@ import {
     IFriend,
     IFriendGroup,
     IChatHistory,
-    IGroup
+    IGroup,
+    IChatWith
 } from './model';
-import { COMMAND_FRIENDS, COMMAND_FRIEND_SEARCH, COMMAND_GROUPS, COMMAND_PROFILE, COMMAND_MESSAGE, IRequest, COMMAND_FRIEND_APPLY, COMMAND_MESSAGE_SEND, COMMAND_MESSAGE_SEND_TEXT, COMMAND_HISTORY, COMMAND_MESSAGE_SEND_IMAGE, COMMAND_MESSAGE_SEND_VIDEO, COMMAND_MESSAGE_SEND_FILE, COMMAND_MESSAGE_SEND_AUDIO, COMMAND_MESSAGE_PING, COMMAND_ERROR } from './http';
-import { IPage } from '../../theme/models/page';
-import { IUser } from '../../theme/models/user';
+import { COMMAND_MESSAGE, IRequest, COMMAND_MESSAGE_PING, COMMAND_ERROR, COMMAND_HISTORY, COMMAND_PROFILE, COMMAND_FRIENDS, COMMAND_GROUPS } from './http';
 import { emptyValidate } from '../../theme/validators';
 import { IEmoji } from '../../theme/models/seo';
 import { Recorder } from './recorder';
-import { AuthService } from '../../theme/services';
+import { AuthService, ThemeService } from '../../theme/services';
 import { ContextMenuComponent } from '../../components/context-menu';
-import { DialogBoxComponent, DialogService } from '../../components/dialog';
 import { IMessageBase } from '../../components/message-container';
+import { DialogService } from '../../components/dialog';
+import { SearchDialogComponent } from './search/search-dialog.component';
 
 const LOOP_SPACE_TIME = 20;
-interface IChatUser {
+interface IChatUser extends IChatWith {
     name: string;
-    type: number;
-    id: number;
     avatar: string;
 }
 
@@ -54,12 +54,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     @ViewChild(ContextMenuComponent)
     public contextMenu: ContextMenuComponent;
-    @ViewChild('profileModal')
-    public profileModal: DialogBoxComponent;
-    @ViewChild('classifyModal')
-    public classifyModal: DialogBoxComponent;
-    @ViewChild('groupModal')
-    public groupModal: DialogBoxComponent;
+    @ViewChild('modalVC', {read: ViewContainerRef})
+    private modalViewContainer: ViewContainerRef;
 
 
     /**
@@ -99,12 +95,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
     public request: IRequest;
-    public searchData =  {
-        isInput: false,
-        keywords: '',
-        items: [],
-        tabIndex: 0,
-    };
     public editClassify: any = {
         id: 0,
         name: ''
@@ -117,14 +107,27 @@ export class ChatComponent implements OnInit, OnDestroy {
         private service: ChatService,
         private toastrService: DialogService,
         private authService: AuthService,
+        private themeService: ThemeService,
+        private injector: Injector
     ) {
-        this.request = this.service.request;
+        this.themeService.titleChanged.next($localize `Chat`);
+        this.request = this.service.createRequest();
         this.recorder = new Recorder();
     }
 
     ngOnInit(): void {
         this.request.open(() => {
             this.initRequest();
+        });
+        this.service.batch({
+            [COMMAND_HISTORY]: {},
+            [COMMAND_PROFILE]: {},
+            [COMMAND_FRIENDS]: {},
+            [COMMAND_GROUPS]: {},
+        }).subscribe(res => {
+            this.friends = res[COMMAND_FRIENDS].data;
+            this.histories = res[COMMAND_HISTORY].data;
+            this.user = res[COMMAND_PROFILE];
         });
     }
 
@@ -136,23 +139,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.request.auth(this.authService.getUserToken())
         .on(COMMAND_ERROR, res => {
             this.toastrService.warning(typeof res === 'object' ? res.message : res);
-        })
-        .on(COMMAND_PROFILE, res => {
-            this.user = res;
-        }).on(COMMAND_FRIENDS, res => {
-            if (!res.data) {
-                return;
-            }
-            this.friends = res.data;
-            if (this.friends.length > 0) {
-                this.friends[0].expand = true;
-            }
-        }).on(COMMAND_GROUPS, res => {
-
-        }).on(COMMAND_HISTORY, (res: IPage<IChatHistory>) => {
-            this.histories =  !res.paging || res.paging.limit < 1 ? res.data : [].concat(this.histories, res.data);
-        }).on(COMMAND_FRIEND_SEARCH, res => {
-
         }).on(COMMAND_MESSAGE, res => {
             if (!res.data) {
                 return;
@@ -189,30 +175,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.spaceTime = LOOP_SPACE_TIME;
             this.isLoading = false;
             this.startTimer();
-        }).on(COMMAND_FRIEND_SEARCH, (res: IPage<IUser>) => {
-            this.searchData.items = res.data;
-        }).on(COMMAND_FRIEND_APPLY, _ => {
-
-        }).on(COMMAND_MESSAGE_SEND, res => {
-            this.request.trigger(COMMAND_MESSAGE, res);
-        }).on([
-            COMMAND_MESSAGE_SEND_TEXT,
-            COMMAND_MESSAGE_SEND_FILE,
-            COMMAND_MESSAGE_SEND_VIDEO,
-            COMMAND_MESSAGE_SEND_AUDIO,
-            COMMAND_MESSAGE_SEND_IMAGE
-        ], res => {
-            if (!res.data) {
-                return;
-            }
-            this.request.trigger(COMMAND_MESSAGE, res.data instanceof Array ? res : {data: [res.data]});
-        });
-
-        this.request.emitBatch({
-            [COMMAND_PROFILE]: {},
-            [COMMAND_HISTORY]: {},
-            [COMMAND_FRIENDS]: {},
-            [COMMAND_GROUPS]: {}
         });
     }
 
@@ -243,9 +205,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                 icon: 'icon-plus'
             }
         ], item => {
-            this.classifyModal.open(() => {
+            // this.classifyModal.open(() => {
                 
-            }, () => !emptyValidate(this.editClassify.name));
+            // }, () => !emptyValidate(this.editClassify.name));
         });
         return false;
     }
@@ -345,7 +307,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             }
             const form = new FormData();
             form.append('file', blob, 'voice.mp3');
-            this.send(COMMAND_MESSAGE_SEND_AUDIO, form);
+            this.service.sendVoice(this.chatUser, form).subscribe(res => this.addMessage(res.data));
         });
     }
 
@@ -355,59 +317,37 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
-        const form = new FormData();
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < files.length; i++) {
-            form.append('file', files[i], files[i].name);
-        }
-        this.send(COMMAND_MESSAGE_SEND_IMAGE, form);
+        this.service.sendImage(this.chatUser, files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadVideo(event: any) {
         const files = event.target.files as FileList;
-        const form = new FormData();
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < files.length; i++) {
-            form.append('file', files[i], files[i].name);
-        }
-        this.send(COMMAND_MESSAGE_SEND_VIDEO, form);
+        this.service.sendVideo(this.chatUser, files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
-        const form = new FormData();
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < files.length; i++) {
-            form.append('file', files[i], files[i].name);
-        }
-        this.send(COMMAND_MESSAGE_SEND_FILE, form);
+        this.service.sendFile(this.chatUser, files).subscribe(res => this.addMessage(res.data));
     }
 
     public tapSend() {
         if (emptyValidate(this.messageContent)) {
             return;
         }
-        this.send(COMMAND_MESSAGE_SEND_TEXT, {
-            content: this.messageContent,
-        });
+        this.service.sendText(this.chatUser, this.messageContent)
+            .subscribe(res => this.addMessage(res.data));
         this.messageContent = '';
     }
 
-    private send(event: string, data: any) {
-        if (!this.chatUser) {
+    private addMessage(data: IMessage|IMessage[]) {
+        if (!data) {
             return;
         }
-        if (data instanceof FormData) {
-            data.append('type', this.chatUser.type.toString());
-            data.append('id', this.chatUser.id.toString());
-            data.append('start_time', this.nextTime as any);
+        if (data instanceof Array) {
+            this.messageItems = [].concat(this.messageItems, data);
         } else {
-            data.type = this.chatUser.type;
-            data.id = this.chatUser.id;
-            data.start_time = this.nextTime;
+            this.messageItems.push(data);
         }
-        this.isLoading = true;
-        this.request.emit(event, data);
     }
 
     private startTimer() {
@@ -446,47 +386,19 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     /** 消息操作 end */
 
-    /*** 搜索页面 start */
-
-    public tapAdd(event: Event, searchModal: DialogBoxComponent) {
+    public tapAdd(event: Event) {
         event.stopPropagation();
-        searchModal.openCustom(item => {
-            if (!item) {
-                return;
-            }
-            this.editProfile.user = item;
-            this.editProfile.editable = false;
-            this.profileModal.open(() => {
-                this.groupModal.open(() => {
-                    this.request.emit(COMMAND_FRIEND_APPLY, {
-                        user: item.id,
-                        group: this.editClassify.id,
-                        remark: this.editProfile.remark
-                    });
-                });
-            });
+        const modalRef = this.modalViewContainer.createComponent(SearchDialogComponent, {
+            injector: this.injector
+        });
+        modalRef.instance.open(() => {
+            modalRef.destroy();
         });
     }
 
-    public tapSearchTab(i: number) {
-        this.searchData.tabIndex = i;
+    private create<T>(modal: any) {
+        const modalRef = this.modalViewContainer.createComponent<T>(modal, {
+            injector: this.injector
+        });
     }
-
-    public tapSearchInput() {
-        this.searchData.isInput = true;
-    }
-
-    public tapSearchClear() {
-        this.searchData.keywords = '';
-        this.searchData.isInput = false;
-    }
-
-    public onSearchKeyDown(event: KeyboardEvent) {
-        if (event.key !== 'Enter') {
-            return;
-        }
-        this.request.emit(COMMAND_FRIEND_SEARCH, {keywords: this.searchData.keywords});
-    }
-
-    /** 搜索页面 end */
 }

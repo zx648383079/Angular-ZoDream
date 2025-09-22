@@ -1,6 +1,9 @@
+@use '../../theme/theme';
+@use '../../../bootstrap/variables';
 .dialog-menu,
 .drop-menu {
     width: 9.375rem;
+    z-index: #{variables.$zindex-dropdown};
 }
 .dialog-menu {
     position: fixed;
@@ -11,11 +14,11 @@
 .menu-body {
     display: block;
     width: 9.375rem;
-    z-index: 910;
-    box-shadow: 0 2px 0.5rem rgb(0 0 0 / 15%);
+    z-index: #{variables.$zindex-dropdown};
+    box-shadow: 0 2px 0.5rem rgba(var(--#{theme.$prefix}mask-rgb), .15);
     margin: 0;
     padding: 0;
-    background: #fff;
+    background: var(--#{theme.$prefix}panel);
     .menu-body {
         position: absolute;
         top: 0;
@@ -31,7 +34,7 @@
         width: 1.875rem;
         min-width: 100%;
         height: 1px;
-        background: #e8e8e8;
+        background-color: var(--#{theme.$prefix}border);
         cursor: default;
     }
 }
@@ -62,16 +65,16 @@
     }
     &:hover {
         >span {
-            background: rgba(0, 0, 0, 0.1);
+            background-color: var(--#{theme.$prefix}input-hovered);
         }
     }
     &.active {
         >span {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}input-selected);
         }
     }
     &.disabled {
-        color: #ccc;
+        color: var(--#{theme.$prefix}input-disabled);
         cursor: not-allowed;
         >span {
             background-color: transparent;

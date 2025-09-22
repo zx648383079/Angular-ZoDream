@@ -1,0 +1,30 @@
+<div class="dialog-mask"></div>
+<div class="dialog-box">
+    <div class="dialog-header">
+        <div class="tab-header">
+            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>
+            <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapSearchTab(1)">找群</div>
+        </div>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+    </div>
+    <div class="search-input" [ngClass]="{'on-edit': isInput}">
+        <i class="iconfont icon-search"></i>
+        <input type="text" placeholder="搜索联系人" [(ngModel)]="keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
+        <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
+    </div>
+    <div class="search-body">
+        @for (item of items; track $index) {
+            <div class="user-item">
+                <div class="avatar">
+                    <img [src]="item.avatar">
+                </div>
+                <div class="name">
+                    <h3>{{ item.name }}</h3>
+                    <p>
+                      ...
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

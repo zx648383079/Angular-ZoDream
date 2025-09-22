@@ -1,0 +1,31 @@
+<div class="dialog-mask"></div>
+<div class="dialog-box">
+    @if (data) {
+    <div class="user-box">
+        <div class="avatar">
+            <img [src]="data.avatar" alt="">
+        </div>
+        <div class="name">{{ data.name }}</div>
+        <div class="brief">
+            <p>.....</p>
+        </div>
+    </div>
+    }
+    
+    @if (editable) {
+    <div class="form-group">
+        <label for="user-name">修改备注</label>
+        <input type="text" class="form-control" id="user-name" [(ngModel)]="remark" placeholder="备注名称">
+    </div>
+    } @else {
+    <div class="form-group">
+        <label for="apply-remark">申请理由</label>
+        <textarea class="form-control" id="apply-remark" [(ngModel)]="remark" placeholder="申请理由"></textarea>
+    </div>
+    }
+
+    <div class="btn-group">
+        <a class="btn btn-primary">{{ editable ? '确定' : '添加好友' }}</a>
+        <a class="btn btn-secondary">取消</a>
+    </div>
+</div>
