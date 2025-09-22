@@ -6,14 +6,13 @@ import { IBlockItem } from '../../../../../components/link-rule';
 import { openLink } from '../../../../../theme/utils/deeplink';
 import { IComment } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
-import { emptyValidate } from '../../../../../theme/validators';
 import { BlogService } from '../../blog.service';
 
 @Component({
     standalone: false,
-  selector: 'app-comment-item',
-  templateUrl: './comment-item.component.html',
-  styleUrls: ['./comment-item.component.scss']
+    selector: 'app-comment-item',
+    templateUrl: './comment-item.component.html',
+    styleUrls: ['./comment-item.component.scss']
 })
 export class CommentItemComponent implements OnChanges {
 

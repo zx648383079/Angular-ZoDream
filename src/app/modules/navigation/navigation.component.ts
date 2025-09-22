@@ -17,9 +17,9 @@ import { selectSystemConfig } from '../../theme/reducers/system.selectors';
 
 @Component({
     standalone: false,
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
 

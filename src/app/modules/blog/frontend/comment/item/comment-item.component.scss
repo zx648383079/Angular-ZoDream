@@ -1,32 +1,29 @@
+@use '../../../../../theme/theme';
 @use "../form";
 
 :host {
     display: block;
     &:not(:last-of-type) {
-        border-bottom: 1px solid #a10000;
-    }
-}
-
-.book-comment-form {
-    .btn-secondary {
-        margin-left: 10px;
+        border-bottom: 1px solid var(--#{theme.$prefix}primary);
     }
 }
 
 .comment-item {
     padding: 0.5rem 0;
     position: relative;
-    .info {
+    .item-header {
         line-height: 1.875rem;
         border: none;
         .user {
             font-weight: 600;
         }
         .time {
+            font-size: .8rem;
             margin-left: 1.25rem;
-            color: #b3b1b1;
+            color: var(--#{theme.$prefix}meta-text);
         }
         .floor {
+            font-size: .8rem;
             float: right;
         }
     }
@@ -35,27 +32,27 @@
         .content {
             margin: 5px 0;
         }
-        .expand {
+        .expand-icon {
             font-size: 0.75rem;
             cursor: pointer;
-            color: #4d93f2;
+            color: var(--#{theme.$prefix}primary);
         }
-        .comment,
-        .report {
+        .comment-icon,
+        .report-icon {
             float: right;
             margin-left: 1.25rem;
         }
     }
-    .actions {
+    .item-action-bar {
         float: right;
         span {
             padding: 0 3px;
         }
     }
-    .comments {
+    .item-children {
         margin-left: 6.25rem;
         margin-top: 0.5rem;
-        background-color: #fafafa;
+        background-color: var(--#{theme.$prefix}body);
         // border-top: 1px solid #a10000;
         .comment-item {
             padding: 0.5rem;
@@ -66,7 +63,7 @@
         }
     }
     &:not(:last-of-type) {
-        border-bottom: 1px solid #a10000;
+        border-bottom: 1px solid var(--#{theme.$prefix}primary);
     }
 }
 

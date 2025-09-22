@@ -22,6 +22,7 @@
                     <th>ID</th>
                     <th>广告位</th>
                     <th title="点击数/展示数">统计</th>
+                    <th>来源</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -32,6 +33,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td title="点击数/展示数">0/0</td>
+                    <td>{{ item.source_type ? '第三方' : '本地' }}</td>
                     <td [ngClass]="{'text-danger': item.status < 1, 'text-primary': item.status > 0}">
                         {{ item.status > 0 ? '√' : '×' }}
                     </td>

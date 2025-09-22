@@ -107,7 +107,7 @@ export class CommentComponent implements OnChanges {
             data.error();
             return;
         }
-        if (emptyValidate(this.commentData.content)) {
+        if (emptyValidate(data.content)) {
             this.toastrService.warning($localize `Please input content`);
             data.error();
             return;

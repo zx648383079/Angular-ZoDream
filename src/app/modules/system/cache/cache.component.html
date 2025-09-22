@@ -4,7 +4,7 @@
             <li>选择请除全部缓存</li>
         </ul>
     </app-page-tip>
-    <form class="form-table-control panel-container">
+    <div class="form-table-control panel-container">
         <div class="input-group-control">
             <label for="store_">缓存区</label>
             <div>
@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success" (click)="tapSubmit()">清除选中</button>
-            <a (click)="tapClear()" class="btn btn-danger">清除全部缓存</a>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">清除选中</app-action-button>
+            <app-action-button (tapped)="tapClear($event)" class="btn btn-danger">清除全部缓存</app-action-button>
         </div>
-    </form>
+    </div>
 </div>

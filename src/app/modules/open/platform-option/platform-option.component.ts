@@ -37,7 +37,7 @@ export class PlatformOptionComponent implements OnInit {
     public tapPlatformChange() {
         this.http.get<IData<any>>(this.url + '/option', {
             params: {
-                platform_id: this.platformId.toString(),
+                platform: this.platformId.toString(),
             }
         }).subscribe(res => {
             this.items = [];
@@ -74,7 +74,7 @@ export class PlatformOptionComponent implements OnInit {
         }
         e?.enter();
         this.http.post<IDataOne<boolean>>(this.url + '/save_option', {
-            platform_id: this.platformId,
+            platform: this.platformId,
             option,
         }).subscribe({
             next: res => {

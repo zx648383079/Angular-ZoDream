@@ -15,9 +15,11 @@ import { scrollTop } from '../../../theme/utils/doc';
             <i class="iconfont icon-close dialog-close" (click)="close()"></i>
         </div>
         <div class="dialog-body">
-            <div class="message-icon" *ngIf="icon">
+            @if (icon) {
+            <div class="message-icon">
                 <i class="iconfont" [ngClass]="icon"></i>
             </div>
+            }
             <div class="message-body">
                 {{ content }}
             </div>
