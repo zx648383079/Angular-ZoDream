@@ -26,6 +26,11 @@ import { ContextMenuComponent } from '../../components/context-menu';
 import { IMessageBase } from '../../components/message-container';
 import { DialogService } from '../../components/dialog';
 import { SearchDialogComponent } from './search/search-dialog.component';
+import { IUser } from '../../theme/models/user';
+import { ApplyDialogComponent } from './apply/apply-dialog.component';
+import { RenameDialogComponent } from './rename/rename-dialog.component';
+import { ProfileDialogComponent } from './profile/profile-dialog.component';
+import { SelectDialogComponent } from './select/select-dialog.component';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser extends IChatWith {
@@ -62,6 +67,8 @@ export class ChatComponent implements OnInit, OnDestroy {
      * 在小尺寸下进入聊天界面
      */
     public roomMode = false;
+
+    public navOpen = false;
 
     /**
      * 切换分组
@@ -159,6 +166,9 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             this.startTimer();
         }).on(COMMAND_MESSAGE_PING, (res: IMessagePing) => {
+            if (res.apply_count > 0) {
+                this.tapApplyLog();
+            }
             if (res.data && res.data.length > 0 && this.chatUser) {
                 for (const item of res.data) {
                     if (item.type === this.chatUser.type && item.id === this.chatUser.id) {
@@ -198,19 +208,33 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.searchKeywords = '';
     }
 
-    public tapContextMenu(e: MouseEvent) {
-        this.contextMenu.show(e, [
+    public tapContextMenu(e: MouseEvent, user?: IUser) {
+        this.contextMenu.show(e, !user ? [
             {
                 name: '新建分组',
-                icon: 'icon-plus'
-            }
-        ], item => {
-            // this.classifyModal.open(() => {
-                
-            // }, () => !emptyValidate(this.editClassify.name));
-        });
+                icon: 'icon-plus',
+                onTapped: () => this.tapRename()
+            }] : [
+            {
+                name: '修改备注',
+                icon: 'icon-edit',
+                onTapped: () => this.tapRename(user)
+            },
+            {
+                name: '移至分组',
+                icon: 'icon-mark1',
+                onTapped: () => this.tapMoveGroup(user)
+            },
+            {
+                name: '查看资料',
+                icon: 'icon-user',
+                onTapped: () => this.tapProfile(user)
+            },
+        ]);
         return false;
     }
+
+ 
 
     /**
      * 点击消息记录开启聊天
@@ -386,9 +410,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     /** 消息操作 end */
 
-    public tapAdd(event: Event) {
-        event.stopPropagation();
-        const modalRef = this.modalViewContainer.createComponent(SearchDialogComponent, {
+    public tapApplyLog() {
+        this.navOpen = false;
+        const modalRef = this.modalViewContainer.createComponent(ApplyDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -396,9 +420,46 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    private create<T>(modal: any) {
-        const modalRef = this.modalViewContainer.createComponent<T>(modal, {
+    public tapRename(user?: IUser) {
+        this.navOpen = false;
+        const modalRef = this.modalViewContainer.createComponent(RenameDialogComponent, {
             injector: this.injector
+        });
+        modalRef.instance.open(() => {
+            modalRef.destroy();
+        });
+    }
+
+    public tapProfile(user?: IUser) {
+        this.navOpen = false;
+        const modalRef = this.modalViewContainer.createComponent(ProfileDialogComponent, {
+            injector: this.injector
+        });
+        modalRef.instance.open(user ?? this.user.user, () => {
+            modalRef.destroy();
+        });
+    }
+
+    public tapMoveGroup(item: IUser) {
+        this.navOpen = false;
+        const modalRef = this.modalViewContainer.createComponent(SelectDialogComponent, {
+            injector: this.injector
+        });
+        modalRef.instance.open(this.friends, 0, res => {
+            if (res) {
+                this.service.friendMove({user: item.id, group: modalRef.instance.selected}).subscribe(_ => {});
+            }
+            modalRef.destroy();
+        });
+    }
+
+    public tapAdd(event: Event) {
+        event.stopPropagation();
+        const modalRef = this.modalViewContainer.createComponent(SearchDialogComponent, {
+            injector: this.injector
+        });
+        modalRef.instance.open(() => {
+            modalRef.destroy();
         });
     }
 }

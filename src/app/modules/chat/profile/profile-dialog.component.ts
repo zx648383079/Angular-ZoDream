@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IUser } from '../../../theme/models/user';
 
 @Component({
     standalone: false,
@@ -8,20 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileDialogComponent {
 
-    public data: any;
+    public data: IUser = null;
     public remark = '';
-    public editable = false;
+    public mode = 0;
     public visible = false;
 
     private confirmFn: Function;
 
 
-    public open(cb: () => void) {
+    public open(user: IUser, cb: (res: boolean) => void) {
+        this.data = user;
         this.visible = true;
+        this.remark = '';
         this.confirmFn = cb;
     }
 
-    public close() {
+    public close(result = false) {
         this.visible = false;
+        this.confirmFn(result);
     }
 }

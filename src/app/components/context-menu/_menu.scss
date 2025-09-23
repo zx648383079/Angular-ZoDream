@@ -1,17 +1,13 @@
 @use '../../theme/theme';
 @use '../../../bootstrap/variables';
-.dialog-menu,
-.drop-menu {
+
+.menu-flyout {
+    position: absolute;
     width: 9.375rem;
     z-index: #{variables.$zindex-dropdown};
 }
-.dialog-menu {
-    position: fixed;
-}
-.drop-menu {
-    position: absolute;
-}
-.menu-body {
+
+.menu-flyout-body {
     display: block;
     width: 9.375rem;
     z-index: #{variables.$zindex-dropdown};
@@ -19,7 +15,7 @@
     margin: 0;
     padding: 0;
     background: var(--#{theme.$prefix}panel);
-    .menu-body {
+    .menu-flyout-body {
         position: absolute;
         top: 0;
         left: 9.375rem;
@@ -28,7 +24,7 @@
             left: -9.375rem;
         }
     }
-    .menu-h {
+    .menu-divider {
         display: block;
         margin: 0.3125rem 0;
         width: 1.875rem;
@@ -37,46 +33,62 @@
         background-color: var(--#{theme.$prefix}border);
         cursor: default;
     }
+    .menu-item-body {
+        color: var(--#{theme.$prefix}body-text);
+        display: block;
+        padding: 0 0.5rem;
+        &:hover {
+            background-color: var(--#{theme.$prefix}input-hovered);
+        }
+        &.active {
+            background-color: var(--#{theme.$prefix}input-selected);
+        }
+        &.disabled {
+            color: var(--#{theme.$prefix}input-disabled);
+            cursor: not-allowed;
+            background-color: transparent;
+        }
+    }
 }
-.menu-item {
+
+
+
+.menu-flyout-item {
     list-style: none;
     line-height: 1.875rem;
     position: relative;
     width: 9.375rem;
     cursor: pointer;
-    span {
-        display: block;
-        padding: 0 0.5rem;
-        i {
-            &:nth-child(2) {
-                position: absolute;
-                right: 0.625rem;
-                line-height: 1.875rem;
-            }
-        }
+
+    .menu-item-icon,
+    .menu-item-arrow,
+    .menu-item-text {
+        font-style: normal;
+        display: inline-block;
+    }
+    
+    .menu-item-arrow {
+        position: absolute;
+        right: 0.625rem;
+        line-height: 1.875rem;
     }
     
     &:hover,
     &.active {
-        >.menu-body,
-        >app-menu-body >.menu-body {
+        >.menu-flyout-body {
             display: block;
         }
     }
-    &:hover {
-        >span {
-            background-color: var(--#{theme.$prefix}input-hovered);
-        }
-    }
+    
     &.active {
-        >span {
+        >.menu-item-body {
             background-color: var(--#{theme.$prefix}input-selected);
         }
     }
     &.disabled {
         color: var(--#{theme.$prefix}input-disabled);
         cursor: not-allowed;
-        >span {
+        >.menu-item-body {
             background-color: transparent;
         }
     }
@@ -84,8 +96,8 @@
 
 
 .menu-flow-left {
-    .menu-body {
-        .menu-body {
+    .menu-flyout-body {
+        .menu-flyout-body {
             left: -9.375rem;
         }
     }

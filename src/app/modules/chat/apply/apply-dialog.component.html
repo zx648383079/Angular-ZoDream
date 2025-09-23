@@ -1,13 +1,39 @@
+@if (visible) {
 <div class="dialog-mask"></div>
 <div class="dialog-box">
     <div class="dialog-header">
-        编辑
+        <span>申请记录</span>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="dialog-body">
-        
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-primary">确定</a>
-        <a class="btn btn-secondary">取消</a>
+        @for (item of items; track $index) {
+            <div class="user-item">
+                <div class="item-avatar">
+                    <img [src]="item.user.avatar">
+                </div>
+                <div class="item-body">
+                    <h3>{{ item.user.name }}</h3>
+                    <p>
+                      {{ item.remark }}
+                    </p>
+                </div>
+                @if (item.status < 1) {
+                    <div class="item-action">
+                        <div class="btn-group mr-3">
+                            <a class="btn btn-primary" (click)="tapAccept(item)">同意</a>
+                            <div class="dropdown-bar">
+                                <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
+                                <div class="dropdown-pane">
+                                    <a class="btn-danger" (click)="tapReject(item)">拒绝</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                } @else {
+                    <div class="item-stamp">{{ item.status > 1 ? '已拒绝' : '已同意' }}</div>
+                }
+            </div>
+        }
     </div>
 </div>
+}

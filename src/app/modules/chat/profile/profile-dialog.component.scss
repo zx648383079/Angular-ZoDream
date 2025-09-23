@@ -1,12 +1,58 @@
-.profile-dialog {
-    .user-box {
+@use '../../../theme/theme';
+$radius: .375rem;
+.dialog-box {
+    width: 20rem;
+    margin-left: -10rem;
+    border-radius: $radius;
+    .btn-group {
+        display: flex;
+    }
+}
+.user-box {
+    text-align: center;
+    .avatar {
+        margin-top: -2rem;
+        display: inline-block;
         text-align: center;
-        .avatar {
-            display: inline-block;
-            img {
-                width: 3.75rem;
-                border-radius: 50%;
-            }
+        line-height: 0;
+        position: relative;
+        img {
+            width: 5.625rem;
+            height: 5.625rem;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        &::before {
+            content: "";
+            width: 6.25rem;
+            height: 6.25rem;
+            // background-color: var(--#{theme.$prefix}body);
+            // border: 0.125rem solid var(--#{theme.$prefix}primary);
+            border-radius: 100%;
+            position: absolute;
+            left: -0.3125rem;
+            top: -0.3125rem;
+            z-index: 0;
+            opacity: .5;
+            animation: avatarLoop 2s linear infinite;
         }
     }
+}
+
+@keyframes avatarLoop {
+   0%{
+        box-shadow: 0 0 0px var(--#{theme.$prefix}primary);
+   }
+   25% {
+        box-shadow: 0 0 .625rem var(--#{theme.$prefix}primary);
+   }
+   50% {
+        box-shadow: 0 0 1.25rem var(--#{theme.$prefix}primary);
+   }
+   75% {
+        box-shadow: 0 0 .625rem var(--#{theme.$prefix}primary);
+   }
+   100%{
+        box-shadow: 0 0 0rem var(--#{theme.$prefix}primary);
+   }
 }

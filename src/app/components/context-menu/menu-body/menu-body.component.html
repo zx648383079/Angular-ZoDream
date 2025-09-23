@@ -1,20 +1,18 @@
-<ul class="menu-body" [ngClass]="{'menu-flow-left': flowLeft}">
-    @for (item of items; track $index) {
-        @if (item.icon || item.name) {
-            <li class="menu-item" [ngClass]="{disabled: item.disable}">
-                <span (click)="tapMenuItem(item)">
-                    <i class="iconfont" [ngClass]="item.icon"></i>
-                    {{ item.name }}
-                    @if (item.children && item.children.length > 0) {
-                        <i class="iconfont icon-chevron-right"></i>
-                    }
-                </span>
+@for (item of items; track $index) {
+    @if (item.icon || item.name) {
+        <div class="menu-flyout-item" [ngClass]="{disabled: item.disable}">
+            <a class="menu-item-body" (click)="tapMenuItem(item)">
+                <i class="iconfont menu-item-icon" [ngClass]="item.icon"></i>
+                <span class="menu-item-text">{{ item.name }}</span>
                 @if (item.children && item.children.length > 0) {
-                    <app-menu-body [items]="item.children" [flowLeft]="flowLeft" (tapped)="tapMenuItem($event)"></app-menu-body>
+                    <i class="iconfont icon-chevron-right menu-item-arrow"></i>
                 }
-            </li>
-        } @else {
-            <li class="menu-h"></li>
-        }
+            </a>
+            @if (item.children && item.children.length > 0) {
+                <app-menu-body [items]="item.children" [flowLeft]="flowLeft" (tapped)="tapMenuItem($event)"></app-menu-body>
+            }
+        </div>
+    } @else {
+        <div class="menu-divider"></div>
     }
-</ul>
+}

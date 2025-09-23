@@ -1,0 +1,46 @@
+@use '../../../theme/theme';
+.user-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    background-color: var(--#{theme.$prefix}panel);
+    border: 1px solid var(--#{theme.$prefix}border);
+    border-radius: .375rem;
+    padding: 0.5rem;
+    margin: .4rem;
+    .item-avatar {
+        display: inline-block;
+        img {
+            width: 3.75rem;
+            border-radius: 50%;
+        }
+    }
+    p,
+    h3 {
+        margin: 0;
+    }
+    .dropdown-pane {
+        width: 5rem;
+    }
+    .item-body {
+        flex: 1;
+        display: inline-block;
+    }
+    .item-stamp {
+        height: 3rem;
+        width: 3rem;
+        font-size: .8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--#{theme.$prefix}meta-text);
+        user-select: none;
+        border-radius: 50%;
+        margin-left: .8rem;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}

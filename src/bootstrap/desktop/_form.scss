@@ -1,4 +1,5 @@
 @use './mixins';
+@use '../variables';
 @use '../../app/theme/theme';
 
 .checkbox {
@@ -388,6 +389,12 @@ i {
         @include mixins.iconArrow(var(--#{theme.$prefix}panel));
     }
     .dropdown-pane {
+        display: none;
+        position: absolute;
+        z-index: #{variables.$zindex-modal};
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        text-align: left;
         right: 0;
         border-top-right-radius: 0;
         padding: 0;

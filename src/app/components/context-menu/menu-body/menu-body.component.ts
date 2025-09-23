@@ -1,16 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 import { IMenuButton, IMenuItem } from '../model';
 
 @Component({
     standalone: false,
     selector: 'app-menu-body',
     templateUrl: './menu-body.component.html',
-    styleUrls: ['./menu-body.component.scss']
+    styleUrls: ['./menu-body.component.scss'],
+    host: {
+        class: 'menu-flyout-body'
+    }
 })
 export class MenuBodyComponent {
 
     @Input() public items: IMenuItem[] = [];
-    @Input() public flowLeft = false;
+
+    @Input()
+    @HostBinding('class.menu-flow-left')
+    public flowLeft = false;
 
     @Output() public tapped = new EventEmitter<IMenuButton>();
 

@@ -1,14 +1,14 @@
+@if (visible) {
 <div class="dialog-mask"></div>
 <div class="dialog-box">
-    <div class="dialog-body">
-        @for (item of items; track $index) {
-        <div class="line-item" [ngClass]="{active: item.id == selected}" (click)="selected = item.id">
-            {{ item.name }}
-        </div>
-        }
+    @for (item of items; track $index) {
+    <div class="line-item" [ngClass]="{active: item.id == selected}" (click)="selected = item.id">
+        {{ item.name }}
     </div>
+    }
     <div class="btn-group">
-        <a class="btn btn-primary">确定</a>
-        <a class="btn btn-secondary">取消</a>
+        <a class="btn btn-primary" (click)="close(true)">确定</a>
+        <a class="btn btn-secondary" (click)="close()">取消</a>
     </div>
 </div>
+}

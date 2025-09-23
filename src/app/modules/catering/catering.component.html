@@ -18,7 +18,7 @@
                 <div class="avatar" (click)="tapAvatar()">
                     <img [src]="user.avatar | asset">
                 </div>
-                <div class="drop-menu" [hidden]="!authOpen">
+                <div class="menu-flyout" [hidden]="!authOpen">
                     <app-menu-body [items]="menuItems" [flowLeft]="true" (tapped)="onMenuTap($event)"></app-menu-body>
                 </div>
             </div>

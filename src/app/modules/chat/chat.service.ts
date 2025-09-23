@@ -37,12 +37,23 @@ export class ChatService {
         return this.http.get<IPage<IUser>>('chat/friend/search', {params});
     }
 
+    public friendMove(data: {
+        user: number;
+        group: number;
+    }) {
+        return this.http.post<IDataOne<boolean>>('chat/friend/move', data);
+    }
+
     public applies(params: any) {
         return this.http.get<IPage<IApplyLog>>('chat/friend/apply_log', {params});
     }
 
     public apply(data: any) {
         return this.http.post<IDataOne<boolean>>('chat/friend/apply', data);
+    }
+
+    public applyAccept(data: any) {
+        return this.http.post<IDataOne<boolean>>('chat/friend/agree', data);
     }
 
 

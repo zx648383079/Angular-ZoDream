@@ -81,5 +81,6 @@ export interface IApplyLog {
     item_id?: number;
     remark: string;
     user: IUser;
+    status: number;
     created_at?: string;
 }

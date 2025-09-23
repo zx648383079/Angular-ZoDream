@@ -1,4 +1,5 @@
-<div class="dialog-mask"></div>
+@if (visible) {
+<div class="dialog-mask" (click)="close()"></div>
 <div class="dialog-box">
     @if (data) {
     <div class="user-box">
@@ -12,20 +13,23 @@
     </div>
     }
     
-    @if (editable) {
+    @if (mode == 2) {
     <div class="form-group">
         <label for="user-name">修改备注</label>
         <input type="text" class="form-control" id="user-name" [(ngModel)]="remark" placeholder="备注名称">
     </div>
-    } @else {
+    } @else if (mode == 1) {
     <div class="form-group">
         <label for="apply-remark">申请理由</label>
         <textarea class="form-control" id="apply-remark" [(ngModel)]="remark" placeholder="申请理由"></textarea>
     </div>
     }
 
-    <div class="btn-group">
-        <a class="btn btn-primary">{{ editable ? '确定' : '添加好友' }}</a>
-        <a class="btn btn-secondary">取消</a>
-    </div>
+    @if (mode > 0) {
+        <div class="btn-group">
+            <a class="btn btn-primary" (click)="close(true)">{{ mode == 2 ? '确定' : '添加好友' }}</a>
+            <a class="btn btn-secondary" (click)="close()">取消</a>
+        </div>
+    }
 </div>
+}

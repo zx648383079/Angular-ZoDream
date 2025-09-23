@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
+import { IPageQueries } from '../../../theme/models/page';
+import { ProfileDialogComponent } from '../profile/profile-dialog.component';
+import { IUser } from '../../../theme/models/user';
 
 @Component({
     standalone: false,
@@ -9,9 +12,17 @@ import { ChatService } from '../chat.service';
 })
 export class SearchDialogComponent {
 
+    @ViewChild(ProfileDialogComponent)
+    private profileModal: ProfileDialogComponent;
+
     public isInput = false;
-    public keywords = '';
-    public items = [];
+    public queries: IPageQueries = {
+        keywords: '',
+        page: 1,
+        per_page: 10
+    };
+    public hasMore = false;
+    public items: IUser[] = [];
     public tabIndex = 0;
     public visible = false;
 
@@ -33,25 +44,23 @@ export class SearchDialogComponent {
         this.confirmFn();
     }
 
-    // public tapAdd(event: Event) {
-    //     event.stopPropagation();
-    //     searchModal.openCustom(item => {
-    //         if (!item) {
-    //             return;
-    //         }
-    //         this.editProfile.user = item;
-    //         this.editProfile.editable = false;
-    //         this.profileModal.open(() => {
-    //             this.groupModal.open(() => {
-    //                 this.request.emit(COMMAND_FRIEND_APPLY, {
-    //                     user: item.id,
-    //                     group: this.editClassify.id,
-    //                     remark: this.editProfile.remark
-    //                 });
-    //             });
-    //         });
-    //     });
-    // }
+    public tapItem(item: IUser) {
+        this.visible = false;
+        this.profileModal.mode = item.checked ? 0 : 1;
+        this.profileModal.open(item, res => {
+            this.visible = true;
+            if (!res) {
+                return;
+            }
+            if (item.checked) {
+                return;
+            }
+            this.service.apply({
+                [this.tabIndex > 0 ? 'group' : 'user']: item.id,
+                remark: this.profileModal.remark
+            }).subscribe(_ => item.checked = true)
+        });
+    }
 
     public tapSearchTab(i: number) {
         this.tabIndex = i;
@@ -62,7 +71,7 @@ export class SearchDialogComponent {
     }
 
     public tapSearchClear() {
-        this.keywords = '';
+        this.queries.keywords = '';
         this.isInput = false;
     }
 
@@ -70,11 +79,29 @@ export class SearchDialogComponent {
         if (event.key !== 'Enter') {
             return;
         }
-        this.service.search({
-            keywords: this.keywords
-        }).subscribe(res => {
-            this.items = res.data;
-        });
+        this.goPage(1);
     }
 
+    public tapPrevious() {
+        if (this.queries.page < 2) {
+            return;
+        }
+        this.goPage(this.queries.page - 1);
+    }
+
+    public tapNext() {
+        if (!this.hasMore) {
+            return;
+        }
+        this.goPage(this.queries.page + 1);
+    }
+
+    private goPage(page: number) {
+        const queries = {...this.queries, page};
+        this.service.search(queries).subscribe(res => {
+            this.items = res.data;
+            this.queries = queries;
+            this.hasMore = res.paging.more;
+        });
+    }
 }

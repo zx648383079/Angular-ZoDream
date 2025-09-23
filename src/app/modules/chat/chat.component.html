@@ -1,18 +1,31 @@
 @if (user) {
 <div class="page-box" [ngClass]="{'room-mode': roomMode}">
     <div class="chat-pane" [ngClass]="{'search-mode': searchMode}">
-        <div class="nav-bar">
-            <a class="nav-item">
+        <div class="pane-nav-bar">
+            <a class="nav-item" (click)="navOpen = !navOpen">
                 <i class="iconfont icon-ellipsis-h"></i>
-                <div class="nav-children">
-                    <a class="nav-item">
-                      <i class="iconfont icon-sign-out"></i>
-                      <span class="nav-name">退出</span>
+                <div class="menu-flyout menu-flyout-body" [hidden]="!navOpen">
+                    <a class="menu-flyout-item menu-item-body">
+                        <i class="iconfont icon-user"></i>
+                        <span>个人资料</span>
+                    </a>
+                    <a class="menu-flyout-item menu-item-body" (click)="tapApplyLog()">
+                        <i class="iconfont icon-history"></i>
+                        <span>申请记录</span>
+                    </a>
+                    <a class="menu-flyout-item menu-item-body">
+                        <i class="iconfont icon-cog"></i>
+                        <span>设置</span>
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a class="menu-flyout-item menu-item-body">
+                        <i class="iconfont icon-sign-out"></i>
+                        <span>退出</span>
                     </a>
                 </div>
             </a>
         </div>
-        <div class="header">
+        <div class="pane-header">
             <div class="avatar">
                 <img [src]="user.user.avatar | asset">
                 <i class="status-icon"></i>
@@ -43,7 +56,7 @@
             <div class="tab-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                     @for (item of histories; track $index) {
-                        <div class="user-item" (click)="tapHistory(item)">
+                        <div class="user-item" (click)="tapHistory(item)"  (contextmenu)="tapContextMenu($event, item.user)">
                             <div class="user-avatar">
                                 <img [src]="item.user.avatar | asset" alt="">
                             </div>
@@ -76,7 +89,7 @@
                             </div>
                             <div class="expand-body">
                                 @for (item of group.users; track $index) {
-                                    <div class="user-item" (click)="tapUser(item)">
+                                    <div class="user-item" (click)="tapUser(item)" (contextmenu)="tapContextMenu($event, item.user)">
                                         <div class="user-avatar">
                                             <img [src]="item.user.avatar | asset" alt="">
                                         </div>
