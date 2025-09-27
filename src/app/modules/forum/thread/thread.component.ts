@@ -353,7 +353,7 @@ export class ThreadComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data = {...this.form.value, thread_id: this.thread.id};
+        const data = {...this.form.value, thread: this.thread.id};
         e?.enter();
         this.service.postCreate(data).subscribe({
             next: res => {

@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
     };
     public form = this.fb.group({
         title: ['', Validators.required],
-        classify_id: [0],
+        classify: [0],
         content: ['', Validators.required], 
     });
     public user: IUser;
@@ -106,7 +106,7 @@ export class ListComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled in completely`);
             return;
         }
-        const data = {...this.form.value, forum_id: this.forum.id};
+        const data = {...this.form.value, forum: this.forum.id};
         e?.enter();
         this.service.threadSave(data).subscribe({
             next: res => {

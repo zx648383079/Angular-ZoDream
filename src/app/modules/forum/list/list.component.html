@@ -150,7 +150,7 @@
         <form [formGroup]="form" (ngSubmit)="tapSubmit()">
             <div class="title">
                 @if (forum.classifies && forum.classifies.length > 0) {
-                <select formControlName="classify_id" class="form-control">
+                <select formControlName="classify" class="form-control">
                     <option [value]="0" i18n>Select classify</option>
                     @for (item of forum.classifies; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>

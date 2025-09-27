@@ -17,7 +17,7 @@ export class EditThreadComponent implements OnInit {
 
     public form = this.fb.group({
         title: ['', Validators.required],
-        classify_id: [0],
+        classify: [0],
         content: ['', Validators.required], 
         is_private_post: [0],
     });
@@ -44,7 +44,7 @@ export class EditThreadComponent implements OnInit {
                 this.data = res;
                 this.form.patchValue({
                     title: res.title,
-                    classify_id: res.classify_id,
+                    classify: res.classify_id,
                     content: res.content,
                     is_private_post: res.is_private_post,
                 });
@@ -57,7 +57,7 @@ export class EditThreadComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data: any = {...this.form.value, forum_id: this.data.forum_id};
+        const data: any = {...this.form.value, forum: this.data.forum_id};
         if (this.data.id) {
             data.id = this.data.id;
         }
