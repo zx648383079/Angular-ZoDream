@@ -10,10 +10,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileExplorerModule } from '../components/file-explorer';
 import { MediaPlayerModule } from '../components/media-player';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { ZreSwiperModule } from '../components/swiper';
 import { DesktopModule } from '../components/desktop';
 import { TabletModule } from '../components/tablet';
+import { ZreChartModule } from '../components/chart';
 
 @NgModule({
     imports: [
@@ -31,7 +31,7 @@ import { TabletModule } from '../components/tablet';
         AuthSharedModule,
         ExampleRoutingModule,
         ZreSwiperModule,
-        NgxEchartsModule.forChild()
+        ZreChartModule.forChild()
     ],
     declarations: [...ExampleRoutingComponents]
 })

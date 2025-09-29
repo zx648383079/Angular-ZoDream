@@ -8,9 +8,34 @@ import { reducers, metaReducers } from './theme/theme.reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogModule } from './components/dialog';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { provideHttpClient, withInterceptors, withJsonpSupport } from '@angular/common/http';
 import { ResponseInterceptorFn, TokenInterceptorFn, TransferStateInterceptorFn } from './theme/interceptors';
+import { ZreChartModule } from './components/chart';
+import * as echarts from 'echarts/core';
+import { BarChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent,
+  LegendComponent
+} from 'echarts/components';
+import { LabelLayout, UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent,
+  LegendComponent,
+  BarChart,
+  LabelLayout,
+  UniversalTransition,
+  CanvasRenderer
+]);
 
 @NgModule({
     declarations: [
@@ -21,8 +46,8 @@ import { ResponseInterceptorFn, TokenInterceptorFn, TransferStateInterceptorFn }
         AppRoutingModule,
         ThemeModule.forRoot(),
         DialogModule.forRoot(),
-        NgxEchartsModule.forRoot({ 
-            echarts: () => import('echarts/charts')
+        ZreChartModule.forRoot({ 
+            echarts
         }),
         // 加载store
         StoreModule.forRoot(reducers, { metaReducers }),

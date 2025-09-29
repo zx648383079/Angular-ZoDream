@@ -41,7 +41,7 @@ export class LoginPanelComponent implements OnDestroy {
     public twoFaCode = '';
     public recoveryCode = '';
     public qrStatus = 0;
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
     private inputData: any = {};
 
     constructor(
@@ -51,7 +51,7 @@ export class LoginPanelComponent implements OnDestroy {
         private encryptor: EncryptorService,
         private webAuthn: WebAuthn
     ) {
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectAuthUser).subscribe(res => {
                 if (!res) {
                     return;
@@ -59,7 +59,7 @@ export class LoginPanelComponent implements OnDestroy {
                 this.logined.emit(res);
             })
         );
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openAuth = res && res.auth_oauth;
             })
@@ -68,9 +68,7 @@ export class LoginPanelComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapTab(i: number) {

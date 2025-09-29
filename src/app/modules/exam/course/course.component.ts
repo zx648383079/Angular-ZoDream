@@ -15,7 +15,7 @@ export class CourseComponent implements OnInit, OnDestroy {
 
     public data: ICourse;
     public items: ICourse[] = [];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: ExamService,
@@ -25,14 +25,14 @@ export class CourseComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.suggestTextChanged.subscribe(req => {
                 this.service.suggestion({keywords: req.text, course: this.data.id}).subscribe(res => {
                     req.suggest(res);
                 });
             })
         );
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.suggestQuerySubmitted.subscribe(res => {
                 if (typeof res === 'object') {
                     this.router.navigate(['../pager', res.id], {relativeTo: this.route});
@@ -52,9 +52,7 @@ export class CourseComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 }

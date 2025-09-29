@@ -3,16 +3,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IRole } from '../../../../../theme/models/auth';
-import { IUser, SexItems } from '../../../../../theme/models/user';
+import { IUser, IUserZone, SexItems } from '../../../../../theme/models/user';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { AuthService } from '../../auth.service';
 import { confirmValidator } from '../../../../../components/desktop/directives';
 
 @Component({
     standalone: false,
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditUserComponent implements OnInit {
 
@@ -21,6 +21,7 @@ export class EditUserComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         sex: [0],
         birthday: [''],
+        zone_id: [0],
         roles: [[] as number[]],
         password: [''],
         confirm_password: [''],
@@ -30,6 +31,7 @@ export class EditUserComponent implements OnInit {
 
     public data: IUser;
     public roleItems: IRole[] = [];
+    public zoneItems: IUserZone[] = [];
     public sexItems = SexItems;
 
     constructor(
@@ -41,27 +43,32 @@ export class EditUserComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.service.roleAll().subscribe(res => {
-            this.roleItems = res.data;
+        this.service.batch({
+            roles: {},
+            zones: {}
+        }).subscribe(res => {
+            this.roleItems = res.roles;
+            this.zoneItems = res.zones;
         });
         this.route.params.subscribe(params => {
-        if (!params.id) {
-            return;
-        }
-        this.service.userDetail(params.id).subscribe(res => {
-            this.data = res;
-            this.form.patchValue({
-                name: res.name,
-                sex: res.sex,
-                email: res.email,
-                birthday: res.birthday,
-                roles: res.roles.map(i => {
-                        return typeof i === 'string' ? parseInt(i, 10) : i;
-                    }),
-                password: '',
-                confirm_password: '',
+            if (!params.id) {
+                return;
+            }
+            this.service.userDetail(params.id).subscribe(res => {
+                this.data = res;
+                this.form.patchValue({
+                    name: res.name,
+                    sex: res.sex,
+                    email: res.email,
+                    birthday: res.birthday,
+                    zone_id: res.zone_id,
+                    roles: res.roles.map(i => {
+                            return typeof i === 'string' ? parseInt(i, 10) : i;
+                        }),
+                    password: '',
+                    confirm_password: '',
+                });
             });
-        });
         });
     }
 

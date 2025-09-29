@@ -6,9 +6,9 @@ import { ThemeModule } from '../../theme/theme.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
+import { ZreChartModule } from '../../components/chart';
 
 
 @NgModule({
@@ -21,7 +21,7 @@ import { TabletModule } from '../../components/tablet';
         TaskRoutingModule,
         DialogModule,
         ZreFormModule,
-        NgxEchartsModule.forChild()
+        ZreChartModule.forChild()
     ],
     declarations: [...taskRoutingComponents],
     providers: [

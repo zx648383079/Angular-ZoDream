@@ -30,7 +30,7 @@ export class CateringComponent implements OnDestroy {
     public searchOpen = false;
     public scanOpen = false;
     public menuItems: IMenuItem[] = [];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: CateringService,
@@ -40,7 +40,7 @@ export class CateringComponent implements OnDestroy {
         private router: Router,
         private route: ActivatedRoute) {
         this.themeService.titleChanged.next($localize `Catering`);
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectAuthUser).subscribe(user => {
                 const oldUser = this.user;
                 this.user = user ? user : {avatar: 'assets/images/avatar/0.png'} as any;
@@ -71,9 +71,7 @@ export class CateringComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapScan() {

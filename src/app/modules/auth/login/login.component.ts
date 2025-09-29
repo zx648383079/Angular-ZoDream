@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private store: Store<AppState>,
@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private encryptor: EncryptorService,
         private webAuthn: WebAuthn) {
         this.themeService.titleChanged.next($localize `Sign in`);
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openAuth = res && res.auth_oauth;
             })
@@ -114,9 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public toggleRemember() {
@@ -227,7 +225,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     private redirectIfUserLoggedIn() {
-        this.subItems.push(this.store.select(selectAuthStatus).subscribe(
+        this.subItems.add(this.store.select(selectAuthStatus).subscribe(
             data => {
                 if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);

@@ -28,29 +28,27 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public suggestText = '';
 
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private themeService: ThemeService,
     ) { }
 
     ngOnInit() {
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.navigationDisplayRequest.subscribe(res => {
                 this.displayMode = typeof res === 'number' ? res : 0;
             }),
-            this.themeService.tabletChanged.subscribe(isTablet => {
-                this.isPaneOverlay = isTablet;
-                this.displayMode = isTablet ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Inline;
-                this.emitResize();
-            })
         );
+        this.subItems.add(this.themeService.tabletChanged.subscribe(isTablet => {
+            this.isPaneOverlay = isTablet;
+            this.displayMode = isTablet ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Inline;
+            this.emitResize();
+        }));
     }
 
     ngOnDestroy() {
-         for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public get tabletItems(): INavLink[] {

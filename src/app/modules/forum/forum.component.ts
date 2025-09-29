@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class ForumComponent implements OnInit, OnDestroy {
 
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private themeService: ThemeService,
@@ -24,7 +24,7 @@ export class ForumComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.suggestTextChanged.subscribe(req => {
                 this.service.suggestion({keywords: req.text}).subscribe(res => {
                     req.suggest(res);
@@ -43,9 +43,7 @@ export class ForumComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 }

@@ -36,7 +36,6 @@
     "katex": "^0.16.22",
     "marked": "^16.3.0",
     "ngrx-store-freeze": "^0.2.4",
-    "ngx-echarts": "^20.0.2",
     "reselect": "^5.1.1",
     "rxjs": "^7.8.2",
     "ts-md5": "^2.0.1",

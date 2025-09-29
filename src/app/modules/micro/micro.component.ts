@@ -58,7 +58,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             value: 'hot',
         }
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: MicroService,
@@ -76,7 +76,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.suggestTextChanged.subscribe(req => {
                 this.service.suggestion({keywords: req.text}).subscribe(res => {
                     req.suggest(res);
@@ -106,9 +106,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     private loadUser(user: number) {

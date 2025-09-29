@@ -5,8 +5,8 @@ import { ZreFormModule } from '../../components/form';
 import { ThemeModule } from '../../theme/theme.module';
 import { TrendRoutingModule, trendRoutingComponents } from './routing.module';
 import { TrendService } from './trend.service';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { DesktopModule } from '../../components/desktop';
+import { ZreChartModule } from '../../components/chart';
 
 @NgModule({
     imports: [
@@ -16,7 +16,7 @@ import { DesktopModule } from '../../components/desktop';
         TrendRoutingModule,
         ZreFormModule,
         DialogModule,
-        NgxEchartsModule.forChild()
+        ZreChartModule.forChild()
     ],
     declarations: [...trendRoutingComponents],
     providers: [

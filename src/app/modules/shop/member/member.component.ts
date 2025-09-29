@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 export class MemberComponent implements OnDestroy {
     public site: ISite = {} as any;
     public title = '个人中心';
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: ShopService,
@@ -25,21 +25,19 @@ export class MemberComponent implements OnDestroy {
         private router: Router,
         private store: Store<ShopAppState>,
     ) {
-        this.subItems.push(this.store.select(selectAuth).subscribe(res => {
+        this.subItems.add(this.store.select(selectAuth).subscribe(res => {
             if (!res.isLoading && res.guest) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;
             }
         }));
-        this.subItems.push(this.store.select(selectSite).subscribe(site => {
+        this.subItems.add(this.store.select(selectSite).subscribe(site => {
             this.site = site;
         }));
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public onRouterActivate(componentRef: any) {

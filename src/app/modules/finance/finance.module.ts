@@ -6,10 +6,10 @@ import { FinanceService } from './finance.service';
 import { LogTypePipe } from './log-type.pipe';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
 import { DatePickerModule } from '../../components/datepicker';
+import { ZreChartModule } from '../../components/chart';
 
 @NgModule({
     imports: [
@@ -21,7 +21,7 @@ import { DatePickerModule } from '../../components/datepicker';
         DialogModule,
         DatePickerModule,
         ZreFormModule,
-        NgxEchartsModule.forChild()
+        ZreChartModule.forChild()
     ],
     declarations: [...financeRoutedComponents, LogTypePipe],
     providers: [

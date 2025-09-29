@@ -122,7 +122,7 @@ export class MerchantComponent implements OnDestroy {
             url: '/shop',
         }
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
     
 
     constructor(
@@ -130,8 +130,8 @@ export class MerchantComponent implements OnDestroy {
         private themeService: ThemeService,
     ) {
         this.themeService.titleChanged.next('商家中心');
-            this.subItems.push(
-                this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.add(
+            this.store.select(selectAuthUser).subscribe(user => {
                 if (!user) {
                     return;
                 }
@@ -141,9 +141,7 @@ export class MerchantComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 }

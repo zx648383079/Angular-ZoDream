@@ -8,7 +8,7 @@ import { ActivationEnd, NavigationEnd, Router, Scroll } from '@angular/router';
 import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { NavigationDisplayMode } from '../../theme/models/event';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
     public moreVisible = false;
     public diplayMode = NavigationDisplayMode.Inline;
 
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private store: Store<AppState>,
@@ -44,29 +44,26 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subItems.push(
-            this.themeService.navigationChanged.subscribe(res => {
-                setTimeout(() => {
-                    this.diplayMode = res.mode;
-                }, 1);
+        this.subItems.add(
+            this.themeService.navigationChanged.pipe(debounceTime(100)).subscribe(res => {
+                this.diplayMode = res.mode;
+            })
+        );
+        this.subItems.add(this.router.events.subscribe(event => {
+                event = event instanceof Scroll ? event.routerEvent : event;
+                if (event instanceof NavigationEnd && this.themeService.tabletChanged.value) {
+                    this.themeService.navigationDisplayRequest.next(event.url.endsWith('/user/home') || event.url.endsWith('/user') ? NavigationDisplayMode.Inline : NavigationDisplayMode.Collapse);
+                }
+                if (event instanceof ActivationEnd) {// 当导航成功结束时执行
+                    this.menuService.refresh();
+                }
             })
         );
         this.menuService.refresh();
-        this.router.events.subscribe(event => {
-            event = event instanceof Scroll ? event.routerEvent : event;
-            if (event instanceof NavigationEnd && this.themeService.tabletChanged.value) {
-                this.themeService.navigationDisplayRequest.next(event.url.endsWith('/user/home') || event.url.endsWith('/user') ? NavigationDisplayMode.Inline : NavigationDisplayMode.Collapse);
-            }
-            if (event instanceof ActivationEnd) {// 当导航成功结束时执行
-                this.menuService.refresh();
-            }
-        });
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 }

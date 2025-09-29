@@ -27,7 +27,7 @@ export class BanComponent implements OnInit, OnDestroy {
         per_page: 20,
     };
     public editable = false;
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
 
     constructor(
@@ -37,7 +37,7 @@ export class BanComponent implements OnInit, OnDestroy {
         private store: Store<AppState>,
         private searchService: SearchService,
     ) {
-        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
+        this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
         }));
     }
@@ -50,9 +50,7 @@ export class BanComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapRefresh() {

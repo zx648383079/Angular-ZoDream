@@ -30,7 +30,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     public isLoading = false;
     public total = 0;
     public user: IUser;
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: ShopService,
@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
         private store: Store<ShopAppState>,
     ) {
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectAuthUser).subscribe(res => {
                 this.user = res;  
             })
@@ -53,9 +53,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapType(i: number) {

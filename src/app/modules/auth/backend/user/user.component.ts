@@ -62,7 +62,7 @@ export class UserComponent implements OnInit, OnDestroy {
             color: 'btn-danger',
         },
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: AuthService,
@@ -72,7 +72,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private store: Store<AppState>,
         private searchService: SearchService
     ) {
-        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
+        this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
         }));
     }
@@ -85,9 +85,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public formatStatus(val: number) {

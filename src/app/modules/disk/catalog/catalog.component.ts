@@ -73,7 +73,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public orderAsc = true;
     public editData: any = {};
     public playerStyle: any = {};
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: DiskService,
@@ -89,7 +89,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
             this.queries = this.searchService.getQueries(params, this.queries);
             this.tapRefresh();
         });
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.navigationChanged.subscribe(res => {
                 this.playerStyle = {
                     left: res.paneWidth + 'px',
@@ -99,9 +99,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 

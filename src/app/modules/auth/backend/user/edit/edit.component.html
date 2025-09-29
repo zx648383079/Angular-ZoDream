@@ -52,6 +52,12 @@
                             <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色"></ng-select>
                         </div>
                     </div>
+                    <div class="input-group-control">
+                        <label>分区</label>
+                        <div>
+                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" formControlName="zone_id" placeholder="选择分区"></ng-select>
+                        </div>
+                    </div>
                 </app-panel>
             </div>
             <div class="col-md-6">

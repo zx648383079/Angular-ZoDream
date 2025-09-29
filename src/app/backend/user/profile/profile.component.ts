@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public reasonSelected = 0;
     public minDate: Date;
     public maxDate: Date;
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private fb: FormBuilder,
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     ) {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
-        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             this.data = user;
             this.form.patchValue({
                 name: user.name,
@@ -66,9 +66,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapSubmit(e?: ButtonEvent) {

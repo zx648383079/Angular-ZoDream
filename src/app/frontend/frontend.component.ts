@@ -9,7 +9,7 @@ import { IUserStatus } from '../theme/models/user';
 import { AuthService, ThemeService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { selectSystemConfig } from '../theme/reducers/system.selectors';
 import { NavigationDisplayMode } from '../theme/models/event';
 
@@ -67,7 +67,7 @@ export class FrontendComponent implements OnDestroy {
         },
         {}
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: FrontendService,
@@ -77,7 +77,7 @@ export class FrontendComponent implements OnDestroy {
         private toastrService: DialogService,
         private themeService: ThemeService,
     ) {
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectAuth).subscribe(res => {
                 if (this.userLoading === res.isLoading && !this.user === res.guest) {
                     return;
@@ -96,19 +96,20 @@ export class FrontendComponent implements OnDestroy {
                     });
                 }
             }),
-            this.store.select(selectSystemConfig).subscribe(res => {
+        );
+        this.subItems.add(this.store.select(selectSystemConfig).subscribe(res => {
                 this.site = {...res};
                 if (this.site.site_pns_beian) {
                     this.site.site_pns_beian_no = this.site.site_pns_beian.match(/\d+/).toString();
                 }
             }),
-            this.themeService.loginRequest.subscribe(() => {
+        );
+        this.subItems.add(this.themeService.loginRequest.subscribe(() => {
                 this.loginModal.open();
             }),
-            this.themeService.navigationDisplayRequest.subscribe(toggle => {
-                setTimeout(() => {
-                    this.diplayMode = toggle;
-                }, 1);
+        );
+        this.subItems.add(this.themeService.navigationDisplayRequest.pipe(debounceTime(100)).subscribe(toggle => {
+                this.diplayMode = toggle;
                 this.themeService.navigationChanged.next({
                     mode: toggle,
                     paneWidth: 0,
@@ -135,9 +136,7 @@ export class FrontendComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public onCheckedChange(checked: boolean) {

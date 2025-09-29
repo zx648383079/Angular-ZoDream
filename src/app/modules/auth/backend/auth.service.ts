@@ -179,6 +179,16 @@ export class AuthService {
         return this.http.delete<IDataOne<boolean>>('auth/admin/zone/delete', {params: {id}});
     }
 
+    public batch(data: {
+        roles?: any;
+        zones?: any;
+    }) {
+        return this.http.post<{
+            roles: IRole[];
+            zones: IUserZone[];
+        }>('auth/admin/batch', data);
+    }
+
     public statistics() {
         return this.http.get<any>('auth/admin/statistics');
     }

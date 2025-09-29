@@ -11,9 +11,9 @@ import { PaymentService } from './payment.service';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { OpenModule } from '../../open/open.module';
 import { DesktopModule } from '../../../components/desktop';
+import { ZreChartModule } from '../../../components/chart';
 
 @NgModule({
     declarations: [...shopBackendRoutedComponents],
@@ -28,7 +28,7 @@ import { DesktopModule } from '../../../components/desktop';
         OpenModule,
         DialogModule,
         ZreFormModule,
-        NgxEchartsModule.forChild()
+        ZreChartModule.forChild()
     ],
     providers: [
         ShopService,

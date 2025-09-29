@@ -53,12 +53,12 @@ public navItems: INavLink[] = [
             url: '/',
         }
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
         this.themeService.titleChanged.next($localize `Game Profiler`);
-        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }
@@ -67,9 +67,7 @@ public navItems: INavLink[] = [
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
 }

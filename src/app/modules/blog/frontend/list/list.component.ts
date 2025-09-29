@@ -67,7 +67,7 @@ export class ListComponent implements OnInit, OnDestroy {
     };
     public listView = 0;
 
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     private searchFn = res => {
         if (typeof res === 'object') {
@@ -109,7 +109,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subItems.push(
+        this.subItems.add(
             this.themeService.suggestQuerySubmitted.subscribe(this.searchFn)
         );
         this.route.queryParams.subscribe(params => {
@@ -122,9 +122,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public tapRefresh() {

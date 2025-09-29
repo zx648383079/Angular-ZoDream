@@ -38,7 +38,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     };
     public authUser: IUser;
 
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private service: NoteService,
@@ -60,7 +60,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subItems.push(this.themeService.suggestQuerySubmitted.subscribe(res => {
+        this.subItems.add(this.themeService.suggestQuerySubmitted.subscribe(res => {
             this.queries.keywords = res;
             this.tapRefresh();
         }));
@@ -71,9 +71,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     public toggleVisible() {

@@ -110,12 +110,12 @@ export class GameMakerComponent implements OnDestroy {
             url: '/',
         }
     ];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(private store: Store<AppState>,
         private themeService: ThemeService,) {
         this.themeService.titleChanged.next($localize `Game Maker`);
-        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }
@@ -124,8 +124,6 @@ export class GameMakerComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 }

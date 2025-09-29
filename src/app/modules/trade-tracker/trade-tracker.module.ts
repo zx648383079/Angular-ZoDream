@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TrackerRoutedComponents, TrackerRoutingModule } from './routing.module';
 import { TrackerService } from './tracker.service';
 import { ThemeModule } from '../../theme/theme.module';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { ZreChartModule } from '../../components/chart';
 
 @NgModule({
     imports: [
@@ -13,7 +13,7 @@ import { DesktopModule } from '../../components/desktop';
         ThemeModule,
         DesktopModule,
         ZreFormModule,
-        NgxEchartsModule.forChild(),
+        ZreChartModule.forChild(),
         TrackerRoutingModule
     ],
     declarations: [...TrackerRoutedComponents],

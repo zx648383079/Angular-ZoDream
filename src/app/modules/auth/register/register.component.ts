@@ -44,7 +44,7 @@ export class RegisterComponent implements OnDestroy {
     }, {
         validators: confirmValidator()
     });
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private fb: FormBuilder,
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnDestroy {
         private store: Store<AppState>,
     ) {
         this.themeService.titleChanged.next($localize `Sign up`);
-        this.subItems.push(
+        this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {
                 this.openStatus = parseNumber(res.auth_register);
             })
@@ -63,9 +63,7 @@ export class RegisterComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 
     get email() {

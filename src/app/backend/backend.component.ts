@@ -33,7 +33,7 @@ export class BackendComponent implements OnInit, OnDestroy {
 
     public navItems: INavLink[] = [];
     public bottomNavs: INavLink[] = [];
-    private subItems: Subscription[] = [];
+    private subItems = new Subscription();
 
     constructor(
         private store: Store<AppState>,
@@ -48,11 +48,11 @@ export class BackendComponent implements OnInit, OnDestroy {
             this.navItems = res.items;
             this.bottomNavs = res.bottom;
         });
-        this.subItems.push(this.store.select(selectAuthUser).subscribe(user => {
+        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             this.menuService.setUser(user);
         }));
         // 订阅 roles 变化
-        this.subItems.push(this.store.select(selectAuthRole).subscribe(roles => {
+        this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
             this.menuService.setRole(roles);
         }));
         this.service.roles().subscribe(res => {
@@ -67,8 +67,6 @@ export class BackendComponent implements OnInit, OnDestroy {
     ngOnInit(): void {}
 
     ngOnDestroy(): void {
-        for (const item of this.subItems) {
-            item.unsubscribe();
-        }
+        this.subItems.unsubscribe();
     }
 }

@@ -16,6 +16,7 @@ export interface IUser {
     updated_at?: string;
     sex_label?: string;
     roles?: number[];
+    zone_id?: number;
     checked?: boolean;
     is_admin?: boolean;
     is_verified?: boolean;
