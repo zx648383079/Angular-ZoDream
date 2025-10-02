@@ -60,7 +60,7 @@
         } @else if (block.type === 98 && block.tag === 'video') {
             <app-video-player [src]="block.src"></app-video-player>
         } @else if (block.type === 98 && block.tag === 'code') {
-            <app-code-block [value]="block.content" [language]="block.language"></app-code-block>
+            <app-code-block [value]="block.content" [lang]="block.language" [src]="block.src"></app-code-block>
         } @else if (block.type === 98 && block.tag === 'hide') {
             @if (block.name) {
                 <div class="hide-locked-node">

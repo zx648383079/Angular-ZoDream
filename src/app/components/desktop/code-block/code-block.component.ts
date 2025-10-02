@@ -10,8 +10,8 @@ export class CodeBlockComponent implements OnChanges {
 
     @Input() private raw = '';
     @Input() public value = '';
-    @Input() public sourceUrl = '';
-    @Input() public language = '';
+    @Input() public src = '';
+    @Input() public lang = '';
 
     public lineNo: {
         value: number;
@@ -80,7 +80,7 @@ export class CodeBlockComponent implements OnChanges {
         while (info.length > i && info[j] !== ' ') {
             j ++;
         }
-        this.language = info.substring(i, j);
+        this.lang = info.substring(i, j);
         i = info.indexOf('(', j);
         j = info.indexOf('{', j);
         let highlight: number[][] = [];
@@ -92,9 +92,9 @@ export class CodeBlockComponent implements OnChanges {
             if (j > 0) {
                 highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
             }
-            this.sourceUrl = this.subBlock(info, i + 1, ')');
+            this.src = this.subBlock(info, i + 1, ')');
         } else if (i > 0 && j < 0) {
-            this.sourceUrl = this.subBlock(info, i + 1, ')');
+            this.src = this.subBlock(info, i + 1, ')');
         } else if (j > 0) {
             highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
         }
