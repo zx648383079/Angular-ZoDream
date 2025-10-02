@@ -60,10 +60,7 @@
         } @else if (block.type === 98 && block.tag === 'video') {
             <app-video-player [src]="block.src"></app-video-player>
         } @else if (block.type === 98 && block.tag === 'code') {
-            <div class="code-block">
-                <div class="copy-btn" (click)="tapCopy(block, $event)" i18n>Copy</div>
-                <pre><code [class]="'language-' + block.language">{{ block.content }}</code></pre>
-            </div>
+            <app-code-block [value]="block.content" [language]="block.language"></app-code-block>
         } @else if (block.type === 98 && block.tag === 'hide') {
             @if (block.name) {
                 <div class="hide-locked-node">

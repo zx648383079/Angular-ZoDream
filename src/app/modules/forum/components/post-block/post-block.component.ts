@@ -63,17 +63,6 @@ export class PostBlockComponent implements OnChanges {
         this.tapBlock(block);
     }
 
-    public tapCopy(item: any, e: MouseEvent) {
-        navigator.clipboard.writeText(item.content).then(
-            () => {
-                this.toastrService.success($localize `Copy successfully`);
-            },
-            () => {
-                this.toastrService.warning($localize `Copy failed`);
-            }
-        );
-    }
-
     private formatContent(conent: any) {
         if (!this.readable) {
             return [];

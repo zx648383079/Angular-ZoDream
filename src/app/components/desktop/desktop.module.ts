@@ -16,6 +16,7 @@ import { UserPickerComponent } from './user-picker/user-picker.component';
 import { ToggleBarComponent } from './toggle-bar/toggle-bar.component';
 import { FileInputComponent } from './file-input/file-input.component';
 import { FileOnlineComponent } from './file-online/file-online.component';
+
 import {
     AssetPipe,
     SizePipe,
@@ -40,6 +41,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 import { MediaPlayerModule } from '../media-player';
+import { CodeBlockComponent } from './code-block/code-block.component';
 
 
 const COMPONENTS = [
@@ -59,7 +61,8 @@ const COMPONENTS = [
     ToggleBarComponent,
     FileInputComponent,
     FileOnlineComponent,
-    MarkdownBlockComponent
+    MarkdownBlockComponent,
+    CodeBlockComponent,
 ];
 
 const PIPES = [

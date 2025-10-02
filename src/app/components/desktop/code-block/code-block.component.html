@@ -1,0 +1,34 @@
+<div class="code-container" [ngClass]="{'--with-minimize': screenMode == 1, '--with-full-screen': screenMode == 2}">
+    <div class="code-header">
+        @if (copyTip) {
+            <a class="code-tooltip">{{ copyTip }}</a>
+        } @else {
+            <a i18n-title title="copy" (click)="tapCopy()">
+                <i class="icon-copy"></i>
+            </a>
+        }
+        <a i18n-title title="minimize" (click)="toggleScreen(1)">
+            <i class="icon-minimize"></i>
+        </a>
+        <a i18n-title title="full screen" (click)="toggleScreen(2)">
+            <i class="icon-full-screen"></i>
+        </a>
+        @if (sourceUrl) {
+            <a [href]="sourceUrl" target="_blank" rel="noopener" i18n-title title="open url"><i class="icon-cloud"></i></a>
+        }
+        @if (language) {
+            <span>{{ language }}</span>
+        }
+    </div>
+    <div class="highlight-bar">
+        @for (item of lineNo; track $index) {
+            <span [ngClass]="{highlighted: item.checked}">&nbsp;</span>
+        }
+    </div>
+    <pre><code [ngClass]="'language-' + language">{{ value }}</code></pre>
+    <div class="line-number-bar">
+        @for (item of lineNo; track $index) {
+            <span>{{ item.value }}</span>
+        }
+    </div>
+</div>

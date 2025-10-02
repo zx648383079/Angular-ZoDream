@@ -1,0 +1,14 @@
+.code-container {
+    .code-header {
+        .code-tooltip {
+            user-select: none;
+            cursor: pointer;
+            background-color: transparent;
+            width: auto;
+        }
+    }
+    code {
+        line-height: 1.82rem;
+    }
+}
+
