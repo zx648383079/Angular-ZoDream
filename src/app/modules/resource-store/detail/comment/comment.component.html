@@ -7,7 +7,7 @@
     </div>
     
     <div class="comment-form">
-        <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" placeholder="Leave a Comment"></app-text-editor>
+        <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" i18n-placeholder placeholder="Leave a Comment"></app-text-editor>
         <div class="form-group">
             <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>

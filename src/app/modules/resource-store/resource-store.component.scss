@@ -1,9 +1,11 @@
+@use '../../theme/theme';
+
 header,
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--#{theme.$prefix}primary);
+    color:  var(--#{theme.$prefix}primary-text);
     a {
-        color: #fff;
+        color: var(--#{theme.$prefix}primary-text);
         text-decoration: none;
     }
     ul,
@@ -38,7 +40,7 @@ footer {
     }
     .inner-group {
         display: inline-block;
-        background-color: #666;
+        background-color: var(--#{theme.$prefix}primary-hovered);
         padding: 0 .8rem;
         border-radius: 0 0 .25rem .25rem;
     }
@@ -69,14 +71,14 @@ footer {
     }
     .search-inline {
         position: relative;
-        color: #0a0a0a;
+        color: var(--#{theme.$prefix}input-text);
         .form-control {
             padding-left: 2rem;
         }
         .iconfont {
             position: absolute;
             left: .5rem;
-            top: .4rem;
+            top: .6rem;
         }
     }
     .navbar-next-bar {
@@ -89,12 +91,12 @@ footer {
 
 .inner-body ::ng-deep {
     .header-bg {
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
     }
     .title-bar {
         font-size: 2rem;
         font-weight: bold;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         .title-desc {
             font-size: 1rem;
             font-weight: 500;
@@ -113,18 +115,18 @@ footer {
                 display: inline-block;
                 margin: .5rem .8rem;
                 padding: .3rem 1rem;
-                border: 1px solid #ccc;
-                background-color: #bb0b0b;
-                color: #fff;
+                border: 1px solid var(--#{theme.$prefix}input-border);
+                background-color: transparent;
+                color: var(--#{theme.$prefix}input-text);
                 &.active {
-                    border-color: #c43434;
+                    border-color: var(--#{theme.$prefix}input-selected);
                 }
             }
         }
     }
     .res-item {
         border-radius: 0.5rem;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         position: relative;
         margin-bottom: 1rem;
         .item-thumb {
@@ -132,6 +134,7 @@ footer {
             overflow: hidden;
             border-radius: 0.5rem .5rem 0 0;
             img {
+                object-fit: contain;
                 min-width: 100%;
                 height: 100%;
                 border-radius: 0.5rem .5rem 0 0;
@@ -150,7 +153,7 @@ footer {
             font-weight: bold;
         }
         .item-meta {
-            color: #777;
+            color: var(--#{theme.$prefix}meta-text);
         }
         .item-body {
             padding: .8rem;
@@ -166,10 +169,10 @@ footer {
                 align-items: center;
             }
             p {
-                color: red;
+                color: var(--#{theme.$prefix}danger);
             }
             .sale {
-                color: #ccc;
+                color: var(--#{theme.$prefix}meta-text);
                 font-size: .8rem;
             }
         }
@@ -200,7 +203,7 @@ footer {
             display: inline-block;
             position: relative;
             a {
-                color: #ccc;
+                color: var(--#{theme.$prefix}primary-text);
                 padding: .6rem 1rem;
                 display: inline-block;
             }
@@ -211,21 +214,21 @@ footer {
                     left: 50%;
                     margin-left: -.75rem;
                     border: .6rem solid transparent;
-                    border-bottom-color: #fff;
+                    border-bottom-color: var(--#{theme.$prefix}primary-hovered-text);
                     content: " ";
                     display: block;
                 }
                 a {
-                    color: #fff;
+                    color: var(--#{theme.$prefix}primary-hovered-text);
                 }
             }
         }
     }
     .navbar-next-bar {
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         display: flex;
         a {
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
         }
         .navbar-next {
             flex: 1;
@@ -250,9 +253,9 @@ footer {
     .nav-sub {
         position: absolute;
         display: none;
-        background-color: #fff;
-        color: #0a0a0a;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .25);
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        box-shadow: 0 0 20px rgba(var(--#{theme.$prefix}mask-rgb), .25);
         width: 8rem;
         left: 0;
         z-index: 99;
@@ -268,7 +271,7 @@ footer {
             }
             .divider {
                 height: .1rem;
-                background-color: #ccc;
+                background-color: var(--#{theme.$prefix}border);
                 padding: 0;
             }
         }
