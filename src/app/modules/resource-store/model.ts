@@ -9,6 +9,8 @@ export const FileTypeItems: IItem[] = [
     {name: '种子', value: 3},
 ];
 
+export const MediaTypeItems = ['无', '图片', '视频', 'HTML压缩包', '3D模型'];
+
 export interface IResource {
     id: number;
     title: string;

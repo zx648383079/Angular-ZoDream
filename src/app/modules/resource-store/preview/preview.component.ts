@@ -14,7 +14,7 @@ interface ISizeItem {
 
 @Component({
     standalone: false,
-    selector: 'app-preview',
+    selector: 'app-res-preview',
     templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.scss']
 })

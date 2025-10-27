@@ -10,6 +10,12 @@ export const AccountStatusItems: IItem[] = [
     {name: '已实名认证', value: 15},
 ];
 
+export const ReviewStatusItems: IItem[] = [
+    {name: '待审核', value: 0},
+    {name: '正常', value: 1},
+    {name: '未通过', value: 9},
+];
+
 export interface IBulletinUser {
     id: number;
     bulletin_id: number;

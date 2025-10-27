@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { ICategory, IResource } from '../model';
+import { ICategory, IResource, ITag } from '../model';
 import { map } from 'rxjs';
+import { IUploadResult } from '../../../theme/models/open';
 
 @Injectable({
     providedIn: 'root'
@@ -38,5 +39,15 @@ export class ResourceService {
         return this.http.delete<IDataOne<true>>('res/member/resource/delete', {
           params: {id}
         });
+    }
+
+    public upload(file: File) {
+        const data = new FormData();
+        data.append('file', file);
+        return this.http.post<IUploadResult>('res/member/resource/upload', data);
+    }
+
+    public tagList(params: any) {
+        return this.http.get<IPage<ITag>>('res/tag', {params});
     }
 }

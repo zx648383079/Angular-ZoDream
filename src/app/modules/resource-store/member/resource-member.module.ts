@@ -8,6 +8,7 @@ import { DialogModule } from '../../../components/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { ZreEditorModule } from '../../../components/editor';
         ReactiveFormsModule,
         ZreFormModule,
         ZreEditorModule,
+        NgSelectModule,
         ResourceMemberRoutingModule
     ],
     declarations: [...resourceMemberRoutingComponents],

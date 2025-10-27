@@ -23,7 +23,6 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-info" routerLink="../category">管理分类</a>
-                    <a class="btn btn-success" (click)="tapCreate()">新增资源</a>
                 </div>
                 
             </form>
@@ -52,7 +51,11 @@
                     <td>{{ item.updated_at | ago }}</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-info" [routerLink]="['edit', item.id]">编辑</a>
+                            @if (item.status < 1) {
+                               <a class="btn btn-warning" [routerLink]="['edit', item.id]">待审核</a> 
+                            } @else {
+                                <a class="btn btn-info" [routerLink]="['edit', item.id]">查看</a> 
+                            }
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
                     </td>

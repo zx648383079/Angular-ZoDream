@@ -5,7 +5,7 @@ import { ResourceService } from '../resource.service';
 
 @Component({
     standalone: false,
-    selector: 'app-home',
+    selector: 'app-res-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })

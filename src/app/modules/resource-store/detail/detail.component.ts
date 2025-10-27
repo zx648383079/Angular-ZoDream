@@ -8,9 +8,9 @@ import { ResourceService } from '../resource.service';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-res-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
 

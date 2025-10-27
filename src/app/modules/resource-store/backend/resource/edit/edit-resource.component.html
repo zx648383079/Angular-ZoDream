@@ -98,6 +98,17 @@
                         </div>
                     </div>
                     }
+
+                    <div class="input-group-control">
+                        <label for="status">审核状态</label>
+                        <div>
+                            <select class="form-control" formControlName="status">
+                                @for (item of reviewItems; track $index) {
+                                    <option [value]="item.value">{{ item.name }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
                 </app-panel>
             </div>
         </div>

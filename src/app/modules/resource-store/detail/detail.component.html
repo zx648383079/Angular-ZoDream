@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" i18n>Home</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/res" i18n>Home</a></li>
                     <li class="breadcrumb-item"><a routerLink="../">{{ data.category?.name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page" i18n>Details</li>
                 </ol>
@@ -130,8 +130,34 @@
             <div class="group-box">
                 <table class="table">
                     <tr>
+                        <td class="line-label" i18n>Commercial License</td>
+                        @if (data.is_commercial) {
+                            <td class="line-body">
+                                <h3 i18n>Enable</h3>
+                                <ul class="rule-panel">
+                                    <li class="panel-header" i18n>Prohibited Items</li>
+                                    <li i18n>Direct distribution or resale of this product is prohibited.</li>
+                                </ul>
+                            </td>
+                        } @else {
+                            <td class="line-body" i18n>Disable</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td class="line-label" i18n>Reprint</td>
+                        @if (data.is_reprint) {
+                            <td class="line-body" i18n>Enable</td>
+                        } @else {
+                            <td class="line-body" i18n>Disable</td>
+                        }
+                    </tr>
+                    <tr>
                         <td class="line-label" i18n>Last Update</td>
                         <td class="line-body">{{ data.updated_at|ago }}</td>
+                    </tr>
+                    <tr>
+                        <td class="line-label" i18n>Size</td>
+                        <td class="line-body">{{ data.size|size }}</td>
                     </tr>
                     @if (data.tags && data.tags.length > 0) {
                     <tr class="tag-line-bar">
@@ -143,10 +169,7 @@
                         </td>
                     </tr>
                     }
-                    <tr>
-                        <td class="line-label" i18n>Size</td>
-                        <td class="line-body">{{ data.size|size }}</td>
-                    </tr>
+                  
                 </table>
             </div>
         </div>

@@ -13,10 +13,13 @@
                 You found {{ total | numberFormat }} resources.
             </div>
             <div class="sort-bar">
-                <a class="sort-clear">
+                @if (filterOpen) {
+                <a class="sort-clear" (click)="filterOpen = false">
                     <i class="iconfont icon-close"></i>
                     <ng-container i18n>Filter & Refine</ng-container>
                 </a>
+                }
+                
                 <div class="sort-view-bar">
                     <div class="sort-tip" i18n>
                         Price is in CN yuan and excludes tax
@@ -53,7 +56,7 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" [hidden]="!filterOpen">
             @for (item of filterItems; track $index) {
             <div class="panel">
                 <div class="panel-header">
@@ -100,7 +103,7 @@
             }
             
         </div>
-        <div class="col-md-9">
+        <div [ngClass]="{'col-md-9': filterOpen, 'col-md-12': !filterOpen}">
             <div class="filter-wall">
                 <ng-container i18n>{{ total | numberFormat }} items</ng-container>
                 @for (item of selectedFilters; track $index) {

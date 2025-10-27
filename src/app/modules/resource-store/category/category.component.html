@@ -3,8 +3,10 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" i18n>Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ data ? data.name : 'All categories' }}</li>
+                <li class="breadcrumb-item">
+                    <a routerLink="/res" i18n>Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ data.id > 0 ? data.name : 'All categories' }}</li>
               </ol>
             </nav>
         </div>

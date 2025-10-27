@@ -7,14 +7,15 @@ import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../.
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
-import { FileTypeItems, ICategory, IResource, IResourceFile, ITag } from '../../../model';
+import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../../model';
 import { ResourceService } from '../../resource.service';
+import { ReviewStatusItems } from '../../../../../theme/models/auth';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-resource',
-  templateUrl: './edit-resource.component.html',
-  styleUrls: ['./edit-resource.component.scss']
+    selector: 'app-edit-resource',
+    templateUrl: './edit-resource.component.html',
+    styleUrls: ['./edit-resource.component.scss']
 })
 export class EditResourceComponent implements OnInit {
 
@@ -31,6 +32,7 @@ export class EditResourceComponent implements OnInit {
         is_reprint: [0],
         preview_type: [0],
         preview_file: [''],
+        status: [0],
     });
     public data: IResource;
     public fileItems: IResourceFile[] = [];
@@ -39,7 +41,8 @@ export class EditResourceComponent implements OnInit {
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
-    public previewTypeItems = ['无', '图片', '视频', 'HTML压缩包', '3D模型'];
+    public previewTypeItems = MediaTypeItems;
+    public reviewItems = ReviewStatusItems;
     public fileTypeItems = FileTypeItems;
 
     constructor(
@@ -79,7 +82,8 @@ export class EditResourceComponent implements OnInit {
                         is_commercial: res.is_commercial,
                         is_reprint: res.is_reprint,
                         preview_type: res.preview_type,
-                        preview_file: res.preview_file
+                        preview_file: res.preview_file,
+                        status: res.status,
                     });
                 },
                 error: err => {
