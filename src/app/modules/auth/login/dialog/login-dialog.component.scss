@@ -1,3 +1,4 @@
+@use '../../../../theme/theme';
 .dialog-box {
     width: 20rem;
     margin-left: -10rem;
@@ -7,16 +8,16 @@
         font-size: 1.875rem;
         right: 0;
         top: 0;
-        color: #ccc;
+        color: var(--#{theme.$prefix}input-icon);
     }
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 43.75rem) {
     .dialog-box {
         left: 50%;
     }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 20rem) {
     .dialog-box {
         width: 100%;
         left: 0;

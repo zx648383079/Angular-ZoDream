@@ -5,7 +5,7 @@ import { IScoreSubtotal } from '../../theme/models/seo';
 import { ICategory, IComment, IResource, IResourceCatalog } from './model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ResourceService {
 
@@ -39,6 +39,10 @@ export class ResourceService {
 
     public resourceSuggest(params: any) {
         return this.http.get<IData<IResource>>('res/home/suggest', {params});
+    }
+
+     public collect(id: any) {
+        return this.http.post<IResource>('res/home/collect', {id});
     }
 
     public commentList(params: any) {

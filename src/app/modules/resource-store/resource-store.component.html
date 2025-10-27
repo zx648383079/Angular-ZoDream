@@ -16,9 +16,9 @@
                         <i class="iconfont icon-shopping-cart"></i>
                     </a>
                     @if (!user) {
-                    <a routerLink="/auth" i18n>Sign In</a>
+                        <a (click)="loginModal.open()" i18n>Sign In</a>
                     } @else {
-                    <a routerLink="/backend">{{ user.name }}</a>
+                        <a routerLink="/frontend/user/res">{{ user.name }}</a>
                     }
                     <div class="navbar-icon" (click)="toggleNav()">
                         <i class="iconfont icon-bars"></i>
@@ -87,3 +87,5 @@
         </div>
     </div>
 </footer>
+
+<app-login-dialog #loginModal></app-login-dialog>

@@ -1,0 +1,56 @@
+<div class="page-search-bar">
+    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select name="category" [ngModel]="queries.category" class="form-control">
+            <option [value]="0" i18n>Select...</option>
+            @for (item of categories; track $index) {
+                <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+            }
+            
+        </select>
+        <button type="submit" class="btn btn-primary" i18n>Search</button>
+    </form>
+    <div class="btn-group pull-right">
+        <a routerLink="create" class="btn btn-info" i18n>Create</a>
+    </div>
+</div>
+
+
+<div class="list-table-control">
+    @for (item of items; track $index) {
+        <div class="image-row-item">
+            <div class="item-cover">
+                <img [appLazyLoad]="item.thumb | asset" [alt]="item.title">
+            </div>
+            <div class="item-body">
+                <div class="item-title">
+                    <span class="no">{{ item.id }}</span>
+                    {{ item.title }}</div>
+                <div class="item-meta">
+                    <p>{{ item.description }}</p>
+                </div>
+                <div class="item-footer">
+                    <div class="item-meta-bar">
+                        @if (item.category) {
+                            <a class="category" ><i
+                            class="iconfont icon-bookmark"></i><b>{{ item.category.name }}</b></a>
+                        }
+                        
+                        <span><i class="iconfont icon-eye"></i><b i18n>
+                           {item.status > 0, plural, =true {Reviewed} =false {Pending}}</b>
+                        </span>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-info"
+                        [routerLink]="['edit', item.id]" i18n>Edit</a>
+                        <a class="btn btn-danger" (click)="tapRemove(item)" i18n>Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>

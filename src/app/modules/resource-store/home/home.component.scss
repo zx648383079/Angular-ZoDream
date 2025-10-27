@@ -1,3 +1,4 @@
+@use '../../../theme/theme';
 .banner-floor {
     .title-bar {
         margin-top: 5rem;
@@ -27,7 +28,7 @@
 }
 
 .cat-item {
-    background: #fff;
+    background: var(--#{theme.$prefix}panel);
     border-radius: 0.5rem;
     position: relative;
     margin-bottom: 1rem;
@@ -49,7 +50,7 @@
         }
     }
     .item-body {
-        background-color: gray;
+        background-color: var(--#{theme.$prefix}meta-text);
         height: 15rem;
         position: relative;
         border-radius: 0 0 0.5rem 0.5rem;
@@ -73,7 +74,7 @@
         width: 6rem;
         height: 6rem;
         border-radius: 50%;
-        border: .3rem solid rgba($color: #fff, $alpha: .5);
+        border: .3rem solid var(--#{theme.$prefix}border);
         padding: .3rem;
         display: flex;
         align-items: center;
@@ -93,8 +94,8 @@
     align-items: center;
     height: 100%;
     padding: 2rem;
-    background-color: rgba($color: #fff, $alpha: .7);
-    color: #333;
+    background-color: var(--#{theme.$prefix}dialog);
+    color: var(--#{theme.$prefix}body-text);
     border-radius: .8rem;
     position: relative;
     .title-bar {
@@ -102,13 +103,13 @@
     }
     &::after {
         position: absolute;
-        left: .8rem;
+        left: 0;
         top: -.8rem;
         width: 100%;
         height: 100%;
         display: block;
         content: "";
-        border: .2rem dotted #c43434;
+        border: .2rem dotted var(--#{theme.$prefix}danger);
         border-radius: .8rem;
         z-index: -1;
     }
@@ -128,4 +129,13 @@
 .feature-floor,
 .filter-floor {
     padding: 5rem 0;
+}
+
+@media (min-width: 48rem) {
+    .floor-header {
+        &::after {
+            left: .8rem;
+            top: -.8rem;
+        }
+    }
 }

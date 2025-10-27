@@ -69,8 +69,8 @@
                     <div class="content-body">
                         <app-markdown-block [value]="data.content"></app-markdown-block>
                         <div class="body-memu-bar">
-                            <a>
-                                <i class="iconfont icon-heart"></i>
+                            <a (click)="tapCollect()" i18n-title title="Collect this resource">
+                                <i class="iconfont" [ngClass]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
                             </a>
                             <a>
                                 <i class="iconfont icon-qrcode"></i>

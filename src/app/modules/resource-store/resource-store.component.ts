@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ICategory } from './model';
 import { ResourceService } from './resource.service';
+import { Subscription } from 'rxjs';
+import { ThemeService } from '../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-resource-store',
-  templateUrl: './resource-store.component.html',
-  styleUrls: ['./resource-store.component.scss']
+    selector: 'app-resource-store',
+    templateUrl: './resource-store.component.html',
+    styleUrls: ['./resource-store.component.scss']
 })
-export class ResourceStoreComponent implements OnInit {
+export class ResourceStoreComponent implements OnInit, OnDestroy {
 
     public navItems: ICategory[] = [
         {name: '推荐'} as any,
@@ -23,13 +24,22 @@ export class ResourceStoreComponent implements OnInit {
     public user: IUser;
     public searchVisible = false;
     public navOpen = false;
+    private subItems = new Subscription();
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private store: Store<AppState>,
         private service: ResourceService,
-    ) { }
+        private themeService: ThemeService,
+    ) {
+        this.themeService.titleChanged.next($localize `Resource Store`);
+        this.subItems.add(
+            this.store.select(selectAuthUser).subscribe(user => {
+                this.user = user;
+            }),
+        );
+    }
 
     public get subNavItems(): ICategory[] {
         return this.navItems[this.navIndex].children;
@@ -37,14 +47,13 @@ export class ResourceStoreComponent implements OnInit {
 
     ngOnInit() {
         this.searchVisible = window.location.pathname.indexOf('category') > 0;
-        this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
-        });
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                this.searchVisible = event.url.indexOf('category') > 0;
-            }
-        }); 
+        this.subItems.add(
+            this.router.events.subscribe(event => {
+                if (event instanceof NavigationStart) {
+                    this.searchVisible = event.url.indexOf('category') > 0;
+                }
+            })
+        );
         this.service.batch({
             categories: {},
             recommend: {}
@@ -52,6 +61,10 @@ export class ResourceStoreComponent implements OnInit {
             this.navItems = [this.navItems[0]].concat(res.categories);
             this.navItems[0].children = res.recommend;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subItems.unsubscribe();
     }
 
 

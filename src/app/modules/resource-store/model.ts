@@ -27,15 +27,18 @@ export interface IResource {
     created_at: string;
     download_count: number;
     view_count: number;
+    collect_count: number;
     comment_count: number;
     preview_type: number;
     preview_file: string;
+    status: number;
     file_catalog?: IResourceCatalog[];
     tags?: ITag[];
     user?: IUser;
     category?: ICategory;
     files?: IResourceFile[];
     preview_url?: string;
+    is_collected?: boolean;
 }
 
 export interface IResourceCatalog {

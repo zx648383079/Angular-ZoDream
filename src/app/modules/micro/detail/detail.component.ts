@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
-import { IComment, IMicro } from '../model';
+import { IMicro } from '../model';
 import { IErrorResult } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -15,9 +15,9 @@ import { IBlockItem } from '../../../components/link-rule';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
 
@@ -79,11 +79,13 @@ export class DetailComponent implements OnInit {
         if (!this.data) {
             return;
         }
-        this.service.collect(this.data.id).subscribe(res => {
-            this.data.is_collected = res.is_collected;
-            this.data.collect_count = res.collect_count;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.collect(this.data.id).subscribe({
+            next: res => {
+                this.data.is_collected = res.is_collected;
+                this.data.collect_count = res.collect_count;
+            }, error: err => {
+                this.toastrService.warning(err);
+            }
         });
     }
 
@@ -91,11 +93,14 @@ export class DetailComponent implements OnInit {
         if (!this.data) {
             return;
         }
-        this.service.recommend(this.data.id).subscribe(res => {
-            this.data.is_recommended = res.is_recommended;
-            this.data.recommend_count = res.recommend_count;
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
+        this.service.recommend(this.data.id).subscribe({
+            next: res => {
+                this.data.is_recommended = res.is_recommended;
+                this.data.recommend_count = res.recommend_count;
+            }, 
+            error: err => {
+                this.toastrService.warning(err);
+            }
         });
     }
 

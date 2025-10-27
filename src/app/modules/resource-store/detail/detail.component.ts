@@ -60,10 +60,26 @@ export class DetailComponent implements OnInit {
         });
     }
 
+    public tapCollect() {
+        if (!this.data) {
+            return;
+        }
+        this.service.collect(this.data.id).subscribe({
+            next: res => {
+                this.data.is_collected = res.is_collected;
+                this.data.collect_count = res.collect_count;
+            }, error: err => {
+                this.toastrService.warning(err);
+            }
+        });
+    }
+
     private loadCatalog() {
         this.service.resourceCatalog(this.data.id).subscribe(res => {
             this.catalogItems = res.data;
         });
     }
+
+ 
 
 }

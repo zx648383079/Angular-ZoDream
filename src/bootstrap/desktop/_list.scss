@@ -112,6 +112,8 @@
         --#{theme.$prefix}item: var(--#{theme.$prefix}panel);
         --#{theme.$prefix}item-stamp: var(--#{theme.$prefix}body);
         --#{theme.$prefix}item-meta-text: var(--#{theme.$prefix}meta-text);
+        --#{theme.$prefix}item-cover-width: 5rem;
+
         display: flex;
         background-color: var(--#{theme.$prefix}item);
         margin-bottom: 1.25rem;
@@ -132,8 +134,9 @@
             }
         }
         .item-cover {
-            width: 5rem;
+            width: var(--#{theme.$prefix}item-cover-width);
             img {
+                object-fit: contain;
                 width: 100%;
                 height: 100%;
             }
@@ -243,6 +246,14 @@
             &::before {
                 content: "\e649";
             }
+        }
+    }
+}
+
+@media (min-width: 48rem) {
+    .list-table-control {
+        .image-row-item {
+            --#{theme.$prefix}item-cover-width: 12rem;
         }
     }
 }

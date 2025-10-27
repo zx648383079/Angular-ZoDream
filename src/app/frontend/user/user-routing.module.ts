@@ -65,6 +65,10 @@ const routes: Routes = [
                 loadChildren: () => import('../../modules/short-link/member/short-member.module').then(m => m.ShortMemberModule)
             },
             {
+                path: 'res',
+                loadChildren: () => import('../../modules/resource-store/member/resource-member.module').then(m => m.ResourceMemberModule)
+            },
+            {
                 path: 'visual',
                 loadChildren: () => import('../../modules/visual/member/member.module').then(m => m.VisualMemberModule)
             },

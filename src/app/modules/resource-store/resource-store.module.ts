@@ -7,6 +7,7 @@ import { ResourceService } from './resource.service';
 import { LinkRuleModule } from '../../components/link-rule';
 import { ZreEditorModule } from '../../components/editor';
 import { DesktopModule } from '../../components/desktop';
+import { AuthSharedModule } from '../auth/auth-shared.module';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { DesktopModule } from '../../components/desktop';
         ZreFormModule,
         ZreEditorModule,
         LinkRuleModule,
+        AuthSharedModule,
         ResourceStoreRoutingModule
     ],
     declarations: [...resourceStoreRoutedComponents],

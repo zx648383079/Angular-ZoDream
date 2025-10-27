@@ -12,6 +12,7 @@ import { DocumentMemberMenu } from '../../modules/document/member/menu';
 import { BotMemberMenu } from '../../modules/bot/member/menu';
 import { MemberMenu } from '../../modules/auth/member/menu';
 import { TrackerMemberMenu } from '../../modules/trade-tracker/member/menu';
+import { ResourceMemberMenu } from '../../modules/resource-store/member/menu';
 
 interface MenuReadyMap {
     [path: string]: INavLink[];
@@ -60,6 +61,7 @@ export class MenuService {
         short: ShortLinkMemberMenu,
         doc: DocumentMemberMenu,
         bot: BotMemberMenu,
+        res: ResourceMemberMenu,
         tracker: TrackerMemberMenu,
         account: MemberMenu
     };
