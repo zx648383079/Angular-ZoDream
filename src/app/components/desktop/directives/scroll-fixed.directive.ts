@@ -22,7 +22,7 @@ export class ScrollFixedDirective implements OnInit {
     }
 
     @HostListener('window:resize', [])
-    private onResize() {
+    public onResize() {
         const target = this.elementRef.nativeElement;
         if (!target) {
             return;

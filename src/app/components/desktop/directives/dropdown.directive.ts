@@ -12,7 +12,7 @@ export class DropdownDirective {
     ) { }
 
     @HostListener('click', [])
-    private onClick() {
+    public onClick() {
         const element = this.elementRef.nativeElement;
         if (!element) {
             return;

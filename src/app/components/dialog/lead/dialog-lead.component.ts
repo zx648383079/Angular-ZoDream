@@ -54,7 +54,7 @@ export class DialogLeadComponent {
 
     @HostListener('window:resize', [])
     @HostListener('window:scoll', [])
-    private onResize() {
+    public onResize() {
         if (this.index < 0) {
             return;
         }

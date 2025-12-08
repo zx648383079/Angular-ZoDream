@@ -68,7 +68,8 @@ export class EditableTableComponent implements OnChanges {
         });
     }
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.drop-menu-btn') && !hasElementByClass(event.path, 'drop-menu-btn')) {
             this.openDrop = false;
         }

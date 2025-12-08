@@ -42,7 +42,8 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
     onChange: any = () => {};
     onTouch: any = () => {};
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
             this.panelVisible = false;
         }

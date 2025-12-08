@@ -28,7 +28,8 @@ export class TimeInputComponent implements ControlValueAccessor, OnChanges {
     onChange: any = () => {};
     onTouch: any = () => {};
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.time-input-container') && !hasElementByClass(event.path, 'time-input-container')) {
             this.panelVisible = false;
         }

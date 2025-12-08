@@ -24,7 +24,8 @@ export class ColorPickerComponent  {
     onChange: any = () => { };
     onTouch: any = () => { };
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.color-picker') && !this.hasElementByClass(event.path, 'color-picker-calendar')) {
             this.visibility = false;
         }

@@ -27,7 +27,7 @@ export class SwipeControlComponent {
 
 
     @HostListener('document:mouseup')
-    private onMouseUp() {
+    public onMouseUp() {
         if (!this.isMouseDown) {
             return;
         }
@@ -36,7 +36,7 @@ export class SwipeControlComponent {
     }
 
     @HostListener('document:mousemove', ['$event'])
-    private onMouseMove(e: MouseEvent) {
+    public onMouseMove(e: MouseEvent) {
         if (!this.isMouseDown) {
             return;
         }

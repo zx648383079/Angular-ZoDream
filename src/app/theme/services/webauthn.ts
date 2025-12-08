@@ -36,7 +36,7 @@ export class WebAuthn {
                 })
                 .then((credential: any) => {
                     const response = credential.response as AuthenticatorAssertionResponse;
-                    this.http.post('auth/passkey/login', {
+                    this.http.post<IUser>('auth/passkey/login', {
                         credential: {
                             id: credential.id,
                             clientDataJSON: this.encode(response.clientDataJSON),
@@ -75,7 +75,7 @@ export class WebAuthn {
                 })
                 .then((credential: any) => {
                     const response = credential.response as AuthenticatorAttestationResponse;
-                    this.http.post('auth/passkey/register', {credential: {
+                    this.http.post<boolean>('auth/passkey/register', {credential: {
                         id: credential.id,
                         clientDataJSON: this.encode(response.clientDataJSON),
                         attestationObject: this.encode(response.attestationObject),
@@ -109,7 +109,10 @@ export class WebAuthn {
         }
     }
     
-    public encode(arraybuffer: ArrayBuffer): string {
+    public encode(arraybuffer: ArrayBuffer|null): string {
+        if (!arraybuffer) {
+            return '';
+        }
         const bytes = new Uint8Array(arraybuffer);
         const len = bytes.length;
         let base64 = '';
@@ -151,7 +154,7 @@ export class WebAuthn {
         return arraybuffer;
     }
 
-    public toBuffer(val: string): ArrayBuffer {
+    public toBuffer(val: string): Uint8Array<ArrayBuffer> {
         const items: number[] = [];
         for (let i = 0; i < val.length; i++) {
             items.push(val.charCodeAt(i));

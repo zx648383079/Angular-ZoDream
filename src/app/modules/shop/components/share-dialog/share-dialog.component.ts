@@ -19,7 +19,7 @@ export class ShareDialogComponent implements OnChanges, DialogEvent {
     constructor() { }
 
     @HostListener('window:resize', [])
-    private onResize() {
+    public onResize() {
         if (this.resizeFn) {
             this.resizeFn();
         }

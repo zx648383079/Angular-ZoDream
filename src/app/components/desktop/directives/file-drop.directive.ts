@@ -14,7 +14,7 @@ export class FileDropDirective {
     ) { }
 
     @HostListener('dragover', ['$event'])
-    onDragOver(event: MouseEvent) {
+    public onDragOver(event: MouseEvent) {
         const transfer = this.getTransfer(event);
         if (!this.haveFiles(transfer.types)) {
             return;
@@ -26,7 +26,7 @@ export class FileDropDirective {
     }
 
     @HostListener('dragleave', ['$event'])
-    onDragLeave(event: MouseEvent): void {
+    public onDragLeave(event: MouseEvent): void {
         if (this.element) {
             if (event.currentTarget === this.element.nativeElement) {
                 return;
@@ -37,7 +37,7 @@ export class FileDropDirective {
     }
 
     @HostListener('drop', [ '$event' ])
-    onDrop(event: MouseEvent): void {
+    public onDrop(event: MouseEvent): void {
         const transfer = this.getTransfer(event);
         if (!transfer) {
             return;

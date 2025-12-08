@@ -19,8 +19,6 @@ export class EditorResizerComponent {
     };
     private updatedHandler: EditorUpdatedCallback;
 
-    constructor() { }
-
     public get boxStyle() {
         if (this.toolType !== 1) {
             return {
@@ -65,14 +63,14 @@ export class EditorResizerComponent {
     }
 
     @HostListener('document:mousemove', ['$event'])
-    private docMouseMove(e: MouseEvent) {
+    public docMouseMove(e: MouseEvent) {
         if (this.mouseMoveListeners.move) {
             this.mouseMoveListeners.move({x: e.clientX, y: e.clientY});
         }
     }
 
     @HostListener('document:mouseup', ['$event'])
-    private docMouseUp(e: MouseEvent) {
+    public docMouseUp(e: MouseEvent) {
         if (this.mouseMoveListeners.finish) {
             this.mouseMoveListeners.finish({x: e.clientX, y: e.clientY});
         }

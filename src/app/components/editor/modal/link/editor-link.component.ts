@@ -3,9 +3,9 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-link',
-  templateUrl: './editor-link.component.html',
-  styleUrls: ['./editor-link.component.scss']
+    selector: 'app-editor-link',
+    templateUrl: './editor-link.component.html',
+    styleUrls: ['./editor-link.component.scss']
 })
 export class EditorLinkComponent implements IEditorModal {
 
@@ -14,8 +14,6 @@ export class EditorLinkComponent implements IEditorModal {
     public title = '';
     public isBlank = false;
     private confirmFn: EditorModalCallback;
-
-    constructor() { }
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible = true;

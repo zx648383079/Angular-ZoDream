@@ -89,17 +89,14 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     @HostListener('scroll', [
-        '$event.target.scrollTop',
-        '$event.target.scrollHeight',
-        '$event.target.offsetHeight',
+        '$event'
     ])
     public onDivScroll(
-        scrollY: number,
-        scrollheight: number,
-        offsetHeight: number,
+        event: Event
     ): void {
-        const height = scrollheight;
-        const y = scrollY + offsetHeight;
+        const target = event.target as HTMLElement;
+        const height = target.scrollHeight;
+        const y = target.scrollTop + target.offsetHeight;
         if (this.more && y + this.distance > height) {
             this.state = ESTATE.MORE;
             this.moreChange.emit(this.more);

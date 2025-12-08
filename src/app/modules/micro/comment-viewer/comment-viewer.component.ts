@@ -39,20 +39,17 @@ export class CommentViewerComponent implements OnChanges {
     ) { }
 
     @HostListener('scroll', [
-        '$event.target.scrollTop',
-        '$event.target.scrollHeight',
-        '$event.target.offsetHeight',
+        '$event',
     ])
     public onDivScroll(
-        scrollY: number,
-        scrollheight: number,
-        offsetHeight: number,
+        event: Event
     ): void {
         if (!this.auto) {
             return;
         }
-        const height = scrollheight;
-        const y = scrollY + offsetHeight;
+        const target = event.target as HTMLElement;
+        const height = target.scrollHeight;
+        const y = target.scrollTop + target.offsetHeight;
         if (this.hasMore && y + 50 > height) {
             this.tapMore();
         }

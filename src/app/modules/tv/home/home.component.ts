@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     @HostListener('keydown', ['$event'])
-    private onKeyDown(e: KeyboardEvent) {
+    public onKeyDown(e: KeyboardEvent) {
         if (e.key === 'ArrowDown') {
             
         }

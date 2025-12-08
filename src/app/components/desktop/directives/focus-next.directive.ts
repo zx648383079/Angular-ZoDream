@@ -23,7 +23,7 @@ export class FocusNextDirective implements OnInit, OnDestroy {
     ) { }
 
     @HostListener('keydown', ['$event'])
-    onKeydown(e: KeyboardEvent) {
+    public onKeydown(e: KeyboardEvent) {
         if (e.key !== 'Enter') {
             return;
         }

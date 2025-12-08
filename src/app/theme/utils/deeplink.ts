@@ -3,7 +3,7 @@ import { intValidate } from '../validators';
 
 export const DEEPLINK_SCHEMA = 'zodream';
 
-export const openLink = (router: Router, link: string): boolean => {
+export const openLink = (router: Router, link: string): boolean|void => {
     if (!link || link.length < 1 || link.charAt(0) === '#' || link.indexOf('javascript:') === 0) {
         return;
     }

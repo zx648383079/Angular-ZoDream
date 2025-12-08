@@ -46,7 +46,7 @@ export class UserPickerComponent implements ControlValueAccessor {
     ) { }
 
     @HostListener('document:click', ['$event']) 
-    private hideCalendar(event: any) {
+    public hideCalendar(event: any) {
         if (!event.target.closest('.user-picker') && !hasElementByClass(event.path, 'user-picker')) {
             this.isFocus = false;
             this.onTouch();

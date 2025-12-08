@@ -22,14 +22,14 @@ export class CommandBarComponent implements OnChanges, AfterViewInit {
     public dropItems: IButton[] = [];
 
     @HostListener('document:click', ['$event']) 
-    hideDrop(event: any) {
+    public hideDrop(event: any) {
         if (!event.target.closest('.command-control-icon') && !hasElementByClass(event.path, 'command-secondary-bar')) {
             this.dropVisible = false;
         }
     }
 
     @HostListener('window:resize', [])
-    onResize(event: any) {
+    public onResize() {
         this.splitButton();
     } 
 

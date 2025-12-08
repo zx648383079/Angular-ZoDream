@@ -24,7 +24,7 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
     constructor() {}
 
     @HostListener('document:click', ['$event']) 
-    hideSearchBar(event: any) {
+    public hideSearchBar(event: any) {
         if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
             this.openType = 0;
         }

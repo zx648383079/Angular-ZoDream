@@ -29,7 +29,8 @@ export class AutocompleteComponent implements OnChanges, OnInit {
     public optionItems = [];
     public selectedIndex = -1;
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.autocomplete') && !hasElementByClass(event.path, 'autocomplete')) {
             this.panelVisible = false;
         }

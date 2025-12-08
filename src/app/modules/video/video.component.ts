@@ -9,9 +9,9 @@ import { VideoService } from './video.service';
 
 @Component({
     standalone: false,
-  selector: 'app-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss']
+    selector: 'app-video',
+    templateUrl: './video.component.html',
+    styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
 
@@ -38,12 +38,13 @@ export class VideoComponent implements OnInit {
     }
 
     @HostListener('scroll', [
-        '$event.target.scrollTop',
+        '$event',
     ])
     public onDivScroll(
-        scrollY: number,
+        event: Event
     ): void {
-        this.isFixed = scrollY > window.innerHeight / 2;
+        const target = event.target as HTMLElement;
+        this.isFixed = target.scrollTop > window.innerHeight / 2;
     }
 
     ngOnInit() {

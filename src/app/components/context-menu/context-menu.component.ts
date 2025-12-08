@@ -19,14 +19,13 @@ export class ContextMenuComponent {
     private y: number;
     private finished: MenuEvent;
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.dialog-menu') && !hasElementByClass(event.path, 'dialog-menu')) {
             this.isOpen = false;
         }
     }
-
-    constructor() { }
-
+    
     get boxStyle() {
         return {
             left: this.x + 'px',

@@ -30,7 +30,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     private dataIndex = -1;
     
     @HostListener('window:resize', [])
-    private onResize() {
+    public onResize() {
         if (this.resizeFn) {
             this.resizeFn();
         }

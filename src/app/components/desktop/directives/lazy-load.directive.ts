@@ -72,7 +72,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
 
     @HostListener('window:scroll', [])
     @HostListener('window:resize', [])
-    private onScroll() {
+    public onScroll() {
         if (typeof window === 'undefined' || this.isDisabled()) {
             return;
         }

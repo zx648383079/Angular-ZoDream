@@ -63,7 +63,8 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
         return items.map(i => i[this.rangeLabel]).join('/');
     }
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!(event.target as HTMLDivElement).closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
             this.panelVisible = false;
         }

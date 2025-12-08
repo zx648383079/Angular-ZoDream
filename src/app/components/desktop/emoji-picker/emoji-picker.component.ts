@@ -23,7 +23,8 @@ export class EmojiPickerComponent {
     public panelVisible = false;
     private booted = false;
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.emoji-picker') && !hasElementByClass(event.path, 'emoji-picker_container')) {
             this.panelVisible = false;
         }

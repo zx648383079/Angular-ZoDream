@@ -53,7 +53,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     gridMode: DayMode = DayMode.Day;
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
         if (!event.target.closest('.datepicker') && !hasElementByClass(event.path, 'datepicker__calendar')) {
             this.calendarVisible = false;
         }

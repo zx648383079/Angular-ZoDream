@@ -52,7 +52,7 @@ export class ProgressBarComponent {
     }
 
     @HostListener('document:mousemove', ['$event'])
-    onMouseMove(event: any) {
+    public onMouseMove(event: any) {
         if (!this.isMouseMove) {
             return;
         }
@@ -63,7 +63,7 @@ export class ProgressBarComponent {
     }
 
     @HostListener('document:mouseup')
-    onMouseUp() {
+    public onMouseUp() {
         this.isMouseMove = false;
     }
 

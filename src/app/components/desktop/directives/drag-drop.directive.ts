@@ -29,7 +29,7 @@ export class DragDropDirective implements AfterViewInit {
     }
 
     @HostListener('dragstart', ['$event']) 
-    onDragStart(event: DragEvent): boolean {
+    public onDragStart(event: DragEvent): boolean {
         if (!this.draggable) {
             return false;
         }
@@ -41,7 +41,7 @@ export class DragDropDirective implements AfterViewInit {
     }
 
     @HostListener('dragover', ['$event']) 
-    onDragOver(event: DragEvent): boolean {
+    public onDragOver(event: DragEvent): boolean {
         if (!this.draggable) {
             return false;
         }
@@ -52,7 +52,7 @@ export class DragDropDirective implements AfterViewInit {
     }
 
     @HostListener('drop', ['$event']) 
-    onDrop(event: DragEvent): boolean {
+    public onDrop(event: DragEvent): boolean {
         event.stopPropagation();
         const target = JSON.parse(event.dataTransfer.getData(MimeType));
         const before = this.getDirectFromEvent(event);

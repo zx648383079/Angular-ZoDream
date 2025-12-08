@@ -20,14 +20,14 @@ export class ButtonGroupComponent implements ButtonEvent, OnChanges {
     @Output() public tapped = new EventEmitter<ButtonGroupEvent>();
 
     @HostListener('document:click', ['$event']) 
-    hideDrop(event: any) {
+    public hideDrop(event: any) {
         if (!event.target.closest('.btn-group-custom') && !hasElementByClass(event.path, 'dropdown-menu')) {
             this.dropVisible = false;
         }
     }
 
     @HostListener('window:resize', [])
-    onResize(event: any) {
+    public onResize() {
         this.splitButton();
     } 
 

@@ -66,21 +66,21 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     
 
     @HostListener('document:mouseup', ['$event'])
-    private onMouseUp(e: MouseEvent) {
+    public onMouseUp(e: MouseEvent) {
         if (!this.touchable) {
             return;
         }
     }
 
     @HostListener('document:mousemove', ['$event'])
-    private onMouseMove(e: MouseEvent) {
+    public onMouseMove(e: MouseEvent) {
         if (!this.touchable) {
             return;
         }
     }
 
     @HostListener('mouseover', [])
-    private onMouseOver() {
+    public onMouseOver() {
         if (!this.pauseOnOver) {
             return;
         }
@@ -88,7 +88,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     }
 
     @HostListener('mouseleave', [])
-    private onMouseLeave() {
+    public onMouseLeave() {
         if (!this.pauseOnOver || !this.autoplay) {
             return;
         }

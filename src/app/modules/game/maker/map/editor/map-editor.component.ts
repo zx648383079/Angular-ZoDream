@@ -60,7 +60,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     ) { }
 
     @HostListener('window:resize')
-    private onResize() {
+    public onResize() {
         const canvas = this.lineCanvasRef?.nativeElement;
         if (!canvas) {
             return;
@@ -73,14 +73,14 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
         }
     }
     @HostListener('document:mousemove', ['$event'])
-    private onMouseMove(e: MouseEvent) {
+    public onMouseMove(e: MouseEvent) {
         if (this.moveListeners.move) {
             this.moveListeners.move(e);
         }
     }
 
     @HostListener('document:mouseup', ['$event'])
-    private onMouseUp(e: MouseEvent) {
+    public onMouseUp(e: MouseEvent) {
         if (this.moveListeners.finish) {
             this.moveListeners.finish(e);
         }
